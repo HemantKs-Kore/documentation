@@ -63,32 +63,16 @@
                 <li class="nav-item app-dropdown">
                     <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom-center'">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>Banking App</button>
+                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{appName|titlecase}}</button>
                             <ul class="dropdown-menu content-menu" ngbDropdownMenu>
                                 <div class="search-assist-apps">
                                     <div class="main-title">SearchAssist Apps</div>
                                     <div class="apps-block">
                                         <div class="title-secondary">Recent Apps</div>
-                                        <div class="app-name-block">
-                                            <div class="app-name">Banking App</div>
-                                            <div class="shared-name">Shared by Santhosh</div>
-                                        </div>
-                                        <div class="app-name-block">
-                                            <div class="app-name">Banking App</div>
-                                            <div class="shared-name">My App</div>
-                                        </div>
-                                        <div class="app-name-block">
-                                            <div class="app-name">Banking App</div>
-                                            <div class="shared-name">My App</div>
-                                        </div>
-                                        <div class="app-name-block">
-                                            <div class="app-name">Banking App</div>
-                                            <div class="shared-name">My App</div>
-                                        </div>
-                                        <div class="app-name-block">
-                                            <div class="app-name">Banking App</div>
-                                            <div class="shared-name">My App</div>
-                                        </div>                                        
+                                        <div class="app-name-block" *ngFor='let app of recentApps'>
+                                            <div class="app-name">{{app.name|titlecase}}</div>
+                                            <div class="shared-name">{{app.createdBy===userId?'My App':app.userDetails.fullName}}</div>
+                                        </div>                                                       
                                     </div>
                                     <div class="view-app-apps">View all Apps</div>
                                     <div class="create-new-app">Create New App</div>

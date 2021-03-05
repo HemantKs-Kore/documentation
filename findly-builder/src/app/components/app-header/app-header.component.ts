@@ -31,14 +31,16 @@ export class AppHeaderComponent implements OnInit {
   fromCallFlow = '';
   showSwichAccountOption = false;
   searchActive = false;
-  searchImgSrc:any='assets/icons/search_gray.svg';
-  searchFocusIn=false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   searchText: any;
   search: any;
   formatter: any;
   appName = '';
   menuFlag = false;
-  public statusDockerLoading : boolean = false;
+  recentApps: any;
+  userId: any;
+  public statusDockerLoading: boolean = false;
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
   availableRouts = [
@@ -52,12 +54,12 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'FAQs', routeId: '/faqs', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'Content', routeId: '/content', quaryParms: { sourceType: 'faqWeb' } },
   ]
-  public dockersList : Array<any> = [];
-  public pollingSubscriber : any;
+  public dockersList: Array<any> = [];
+  public pollingSubscriber: any;
   public dockServiceSubscriber: any;
-  public isAnyRecordInprogress : boolean = false;
-  public isAnyRecordCompleted : boolean = false;
-  public isAnyRecordFailed : boolean = false;
+  public isAnyRecordInprogress: boolean = false;
+  public isAnyRecordCompleted: boolean = false;
+  public isAnyRecordFailed: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -70,32 +72,70 @@ export class AppHeaderComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dockService: DockStatusService
-  ) { }
-  metricsOption(menu){
-    this.analyticsClick(menu,true)
+  ) {
+    this.userId = this.authService.getUserId();
+  }
+  ngOnInit() {
+    this.toShowAppHeader = this.workflowService.showAppCreationHeader();
+    this.getAllApps();
+    this.headerService.change.subscribe(data => {
+      if (this.workflowService.selectedApp() && this.workflowService.selectedApp().name) {
+        this.appName = this.workflowService.selectedApp().name
+      }
+      this.pagetitle = data.title;
+      this.toShowAppHeader = data.toShowWidgetNavigation;
+      this.fromCallFlow = '';
+      this.ref.detectChanges();
+      this.poling();
+      // this.dockServiceSubscriber = this.dockService.change.subscribe(data => {
+      //   this.poling();
+      // });
+    });
+
+    this.headerService.fromCallFlowExpand.subscribe(data => {
+      this.fromCallFlow = data.title;
+      this.toShowAppHeader = false;
+      this.pagetitle = '';
+      this.ref.detectChanges();
+    });
+
+    this.showSwichAccountOption = this.localStoreService.getAssociatedAccounts().length > 1;
+    this.search = (text$: Observable<string>) =>
+      text$.pipe(
+        debounceTime(200),
+        map(term => term === '' ? []
+          : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+      )
+    this.formatter = (x: { displayName: string }) => (x.displayName || '');
+    if (localStorage.krPreviousState) {
+      this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
+    }
+  }
+  metricsOption(menu) {
+    this.analyticsClick(menu, true)
     this.router.navigate([menu], { skipLocationChange: true });
   }
-  analyticsClick(menu,skipRouterLink?){
+  analyticsClick(menu, skipRouterLink?) {
     this.mainMenu = menu;
-    if(menu == '/metrics' || 
-      menu == '/dashboard' || 
-      menu == '/userEngagement' || 
-      menu == '/searchInsights'  || 
-      menu == '/experiments'  || 
+    if (menu == '/metrics' ||
+      menu == '/dashboard' ||
+      menu == '/userEngagement' ||
+      menu == '/searchInsights' ||
+      menu == '/experiments' ||
       menu == '/resultInsights' ||
       menu == '/summary' ||
       menu == '/experiments') {
       this.showMainMenu = false;
-    }else{
+    } else {
       this.showMainMenu = true;
-      if (menu == '/settings' || menu=='/credentials-list' || menu == '/searchInterface') {
+      if (menu == '/settings' || menu == '/credentials-list' || menu == '/searchInterface') {
         this.menuFlag = true;
       }
       else {
         this.menuFlag = false;
       }
     }
-    if(!skipRouterLink){
+    if (!skipRouterLink) {
       this.router.navigate([menu], { skipLocationChange: true });
     }
     this.showMenu.emit(this.showMainMenu)
@@ -128,42 +168,6 @@ export class AppHeaderComponent implements OnInit {
       this.router.navigate([routObj.routeId], { skipLocationChange: true, queryParams });
     }
   }
-  ngOnInit() {
-    this.toShowAppHeader = this.workflowService.showAppCreationHeader();
-    this.headerService.change.subscribe(data => {
-      if (this.workflowService.selectedApp() && this.workflowService.selectedApp().name) {
-        this.appName = this.workflowService.selectedApp().name
-      }
-      this.pagetitle = data.title;
-      this.toShowAppHeader = data.toShowWidgetNavigation;
-      this.fromCallFlow = '';
-      this.ref.detectChanges();
-      this.poling();
-      this.dockServiceSubscriber = this.dockService.change.subscribe(data=>{
-        this.poling();
-      });
-    });
-
-    this.headerService.fromCallFlowExpand.subscribe(data => {
-      this.fromCallFlow = data.title;
-      this.toShowAppHeader = false;
-      this.pagetitle = '';
-      this.ref.detectChanges();
-    });
-
-    this.showSwichAccountOption = this.localStoreService.getAssociatedAccounts().length > 1;
-    this.search = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      map(term => term === '' ? []
-        : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-    )
-    this.formatter = (x: {displayName: string}) => (x.displayName || '');
-    if(localStorage.krPreviousState){
-      this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
-    }
-  }
-
   removeCallFlowExpand() {
     const toogleObj = {
       title: 'Dashboard',
@@ -175,25 +179,25 @@ export class AppHeaderComponent implements OnInit {
     this.fromCallFlow = '';
     this.ref.detectChanges();
   }
-  train(){
+  train() {
     this.training = true;
     const self = this;
     const selectedApp = this.workflowService.selectedApp();
     if (selectedApp && selectedApp.searchIndexes && selectedApp.searchIndexes.length) {
       const payload = {
-        indexPipelineId : this.workflowService.selectedIndexPipeline()
+        indexPipelineId: this.workflowService.selectedIndexPipeline()
       }
       const quaryparms = {
         searchIndexId: selectedApp.searchIndexes[0]._id
       }
-      this.service.invoke('train.app', quaryparms,payload).subscribe(res => {
-        setTimeout(()=>{
+      this.service.invoke('train.app', quaryparms, payload).subscribe(res => {
+        setTimeout(() => {
           self.training = false;
-          self.notificationService.notify('Training has been initated','success');
-        },5000)
+          self.notificationService.notify('Training has been initated', 'success');
+        }, 5000)
       }, errRes => {
         self.training = false;
-        this.notificationService.notify('Failed to train the app','error');
+        this.notificationService.notify('Failed to train the app', 'error');
       });
     }
   }
@@ -209,7 +213,7 @@ export class AppHeaderComponent implements OnInit {
     window.location.href = this.appUrlsService.marketURL();
   }
 
-   // Controlling the Status Docker Opening
+  // Controlling the Status Docker Opening
   //  openStatusDocker(){
   //   this.dockService.showStatusDocker = !this.dockService.showStatusDocker
   //   if(this.dockService.showStatusDocker){
@@ -225,25 +229,25 @@ export class AppHeaderComponent implements OnInit {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
-    const queryParms ={
-      searchIndexId:this.workflowService.selectedSearchIndexId
+    const queryParms = {
+      searchIndexId: this.workflowService.selectedSearchIndexId
     }
     this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
         this.statusDockerLoading = false;
         this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
-        this.dockersList.forEach((record : any) => {
+        this.dockersList.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
-          if(record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen){
-            if(record.action === 'EXPORT'){
-              this.downloadDockFile(record.fileId, record.store.urlParams,record.streamId,record._id);
+          if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
+            if (record.action === 'EXPORT') {
+              this.downloadDockFile(record.fileId, record.store.urlParams, record.streamId, record._id);
             }
           }
         })
         const queuedJobs = _.filter(res.dockStatuses, (source) => {
           return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED') || (source.status === 'validation'));
         });
-       
+
         if (queuedJobs && queuedJobs.length) {
           console.log(queuedJobs);
           this.isAnyRecordInprogress = true;
@@ -265,29 +269,29 @@ export class AppHeaderComponent implements OnInit {
     )
   }
 
-  getStatusView(status, other?){
-    if(other){
-      if(status === 'HALTED'){
+  getStatusView(status, other?) {
+    if (other) {
+      if (status === 'HALTED') {
         return 'Stopped';
       }
-      else if(status === 'QUEUED'){
+      else if (status === 'QUEUED') {
         return 'In-queue';
       }
-      else if(status === 'IN_PROGRESS' || status === 'validation' ){
+      else if (status === 'IN_PROGRESS' || status === 'validation') {
         return 'In-progress';
       }
     }
-    else{
-      if(status === 'SUCCESS' || status === 'FAILURE'){
+    else {
+      if (status === 'SUCCESS' || status === 'FAILURE') {
         return true;
       }
-      else{
+      else {
         return false;
       }
     }
   }
 
-  navigateTo(task){
+  navigateTo(task) {
     if (task.jobType === 'faq') {
       this.router.navigate(['/faqs'], { skipLocationChange: true })
     } else {
@@ -295,13 +299,13 @@ export class AppHeaderComponent implements OnInit {
     }
   }
 
-  removeRecord(task, index){
-    if(task._id){
+  removeRecord(task, index) {
+    if (task._id) {
       // this.statusDockerLoading = true;
-      const queryParms ={
-        searchIndexId:this.workflowService.selectedSearchIndexId,
-        id : task._id,
-        statusType : task.statusType
+      const queryParms = {
+        searchIndexId: this.workflowService.selectedSearchIndexId,
+        id: task._id,
+        statusType: task.statusType
       }
       this.service.invoke('delete.dockById', queryParms).subscribe(
         res => {
@@ -312,18 +316,18 @@ export class AppHeaderComponent implements OnInit {
         },
         errRes => {
           this.statusDockerLoading = false;
-          this.errorToaster(errRes,'Failed to get Status of Docker.');
+          this.errorToaster(errRes, 'Failed to get Status of Docker.');
         }
       );
-    }    
-    else{
+    }
+    else {
       this.notificationService.notify('Failed to remove this Job.', 'error');
     }
   }
 
-  clearAllRecords(){
-    const queryParms ={
-      searchIndexId:this.workflowService.selectedSearchIndexId,
+  clearAllRecords() {
+    const queryParms = {
+      searchIndexId: this.workflowService.selectedSearchIndexId,
     }
     this.service.invoke('delete.clearAllDocs', queryParms).subscribe(
       res => {
@@ -334,33 +338,33 @@ export class AppHeaderComponent implements OnInit {
       },
       errRes => {
         this.statusDockerLoading = false;
-        this.errorToaster(errRes,'Failed to get Status of Docker.');
+        this.errorToaster(errRes, 'Failed to get Status of Docker.');
       }
     );
   }
 
-  recrawl(record){
-     const quaryparms : any = {
+  recrawl(record) {
+    const quaryparms: any = {
       searchIndexId: this.workflowService.selectedSearchIndexId,
       sourceId: record.extractionSourceId,
       sourceType: record.statusType,
     };
     this.service.invoke('recrwal', quaryparms).subscribe(res => {
       this.poling();
-      this.notificationService.notify('Recrwaled with status : '+ res.recentStatus, 'success');
-     }, errRes => {
-       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-       } else {
-         this.notificationService.notify('Failed ', 'error');
-       }
-     });
-   }
+      this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
+  }
 
-  errorToaster(errRes,message) {
-    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-    } else if (message){
+    } else if (message) {
       this.notificationService.notify(message, 'error');
     } else {
       this.notificationService.notify('Somthing went worng', 'error');
@@ -388,22 +392,35 @@ export class AppHeaderComponent implements OnInit {
     }, err => { console.log(err) });
   }
 
-  resetNotificationBadge(){
+  resetNotificationBadge() {
     this.isAnyRecordInprogress = false;
     this.isAnyRecordCompleted = false;
     this.isAnyRecordFailed = false;
   }
 
   ngOnDestroy() {
-    if(this.pollingSubscriber){
-      this.pollingSubscriber.unsubscribe(); 
+    if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
     }
-    if(this.dockServiceSubscriber){
+    if (this.dockServiceSubscriber) {
       this.dockServiceSubscriber.unsubscribe();
     }
   }
-  openOrCloseSearchSDK(){
+  //get all apps
+  getAllApps() {
+    console.log("apps res")
+    this.service.invoke('get.apps').subscribe(res => {
+      console.log("apps res", res)
+      this.prepareApps(res);
+    }, errRes => {
+      console.log(errRes);
+    });
+  }
+  //sort apps
+  prepareApps(apps) {
+    this.recentApps = apps.slice(0, 4);
+  }
+  openOrCloseSearchSDK() {
     this.headerService.openSearchSDK(true);
   }
-
 }
