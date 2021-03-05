@@ -74,6 +74,7 @@ import { PaginationComponent } from './helpers/components/pagination/pagination.
 import { SortPipe } from './helpers/sortPipe/sort-pipe';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NouisliderModule } from 'ng2-nouislider';
+import { ColorPickerModule } from 'ngx-color-picker';
 import * as echarts from 'echarts';
 import { StopWordsComponent } from './components/stop-words/stop-words.component';
 import { WeightsComponent } from './components/weights/weights.component';
@@ -88,6 +89,7 @@ import { SearchInsightsComponent } from './components/search-insights/search-ins
 import { ResultInsightsComponent } from './components/result-insights/result-insights.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { Ng5SliderModule } from 'ng5-slider';
+import { JoyrideModule } from 'ngx-joyride'
 import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
 import { DateRangePickerComponent } from './helpers/components/date-range-picker/date-range-picker.component';
 import { RecordPaginationComponent } from './helpers/components/record-pagination/record-pagination.component';
@@ -103,6 +105,7 @@ import { DockStatusService } from './services/dock.status.service';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
 import { TeamManagementComponent } from './components/team-management/team-management.component';
+import { SearchExperienceComponent } from './components/search-experience/search-experience.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -175,7 +178,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StructuredDataComponent,
     AddStructuredDataComponent,
     StructuredDataStatusModalComponent,
-    StatusDockerComponent
+    StatusDockerComponent,
+    SearchExperienceComponent
   ],
   imports: [
     BrowserModule,
@@ -200,6 +204,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AnnotoolModule,
     Ng5SliderModule,
     NouisliderModule,
+    ColorPickerModule,
+    JoyrideModule.forRoot(),
     NgxEchartsModule.forRoot({
       echarts: { init: echarts.init }
     }),
