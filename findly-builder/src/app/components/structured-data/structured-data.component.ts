@@ -99,6 +99,7 @@ export class StructuredDataComponent implements OnInit {
   searchFocusIn=false;
   search : any;
   formatter: any;
+  enableSearchBlock : boolean = false;
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
@@ -174,6 +175,10 @@ export class StructuredDataComponent implements OnInit {
       this.designDefaultData(this.structuredDataItemsList);
       if(this.structuredDataItemsList.length == 0){
         this.noItems = true;
+        this.enableSearchBlock = false;
+      }
+      else{
+        this.enableSearchBlock = true;
       }
     }, errRes => {
       console.log("error", errRes);
