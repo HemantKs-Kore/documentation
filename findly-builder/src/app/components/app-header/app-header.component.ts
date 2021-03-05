@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Output, EventEmitter, ViewChild } from '@angular/core';
 import { AuthService } from '@kore.services/auth.service';
 import { SideBarService } from '../../services/header.service';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { Router } from '@angular/router';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppUrlsService } from '@kore.services/app.urls.service';
@@ -9,6 +10,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { from, interval, Subject, Subscription } from 'rxjs';
 import { startWith, elementAt, filter } from 'rxjs/operators';
@@ -40,9 +42,17 @@ export class AppHeaderComponent implements OnInit {
   menuFlag = false;
   recentApps: any;
   userId: any;
+  showSearch: boolean = false;
   public statusDockerLoading: boolean = false;
+  newApp: any = {
+    name: '',
+    description: ''
+  };
+  createAppPopRef: any;
+  creatingInProgress: boolean = false;
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
+  @ViewChild('createAppPop') createAppPop: KRModalComponent;
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
     { displayName: 'Add Sources', routeId: '/source', quaryParms: {} },
@@ -71,7 +81,8 @@ export class AppHeaderComponent implements OnInit {
     private localStoreService: LocalStoreService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    public dockService: DockStatusService
+    public dockService: DockStatusService,
+    private appSelectionService: AppSelectionService,
   ) {
     this.userId = this.authService.getUserId();
   }
@@ -419,6 +430,51 @@ export class AppHeaderComponent implements OnInit {
   //sort apps
   prepareApps(apps) {
     this.recentApps = apps.slice(0, 4);
+  }
+  //open app
+  openApp(app) {
+    this.appSelectionService.openApp(app);
+  }
+  //create new app
+  openCreateApp() {
+    this.createAppPopRef = this.createAppPop.open();
+  }
+  //close app
+  closeCreateApp() {
+    this.createAppPopRef.close();
+  }
+  //create app
+  createFindlyApp() {
+    const self = this;
+    self.creatingInProgress = true;
+    const payload: any = {
+      name: this.newApp.name,
+      icon: '',
+      type: 'searchbot',
+      description: this.newApp.description,
+      skipMakeEditLinks: false,
+      purpose: 'customer',
+      errorCodes: {
+        pollError: []
+      },
+      visibility: {
+        namespace: [],
+        namespaceIds: []
+      },
+      defaultLanguage: 'en',
+    };
+    this.service.invoke('create.app', {}, payload).subscribe(
+      res => {
+        this.notificationService.notify('App created successfully', 'success');
+        this.closeCreateApp();
+        this.router.navigate(['/apps'], { skipLocationChange: true });
+        this.analyticsClick('apps', true)
+      },
+      errRes => {
+        this.errorToaster(errRes, 'Error in creating app');
+        self.creatingInProgress = false;
+      }
+    );
   }
   openOrCloseSearchSDK() {
     this.headerService.openSearchSDK(true);
