@@ -576,14 +576,16 @@ export class AppHeaderComponent implements OnInit {
     const payload = {
       ids : this.unReadDocs.map((doc) => {return doc._id})
     }
-    this.service.invoke('read.dockStatus', queryParms, payload).subscribe(
-      res => {
-      
-      },
-      errRes => {
-        this.statusDockerLoading = false;
-        this.errorToaster(errRes, 'Failed to update read Status of Docker.');
-      }
-    );
+    if(payload.ids.length){
+      this.service.invoke('read.dockStatus', queryParms, payload).subscribe(
+        res => {
+        
+        },
+        errRes => {
+          this.statusDockerLoading = false;
+          this.errorToaster(errRes, 'Failed to update read Status of Docker.');
+        }
+      );
+    }
   }
 }
