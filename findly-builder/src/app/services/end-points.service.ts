@@ -800,6 +800,11 @@ export class EndPointsService {
       method: 'delete'
     }
 
+    this.serviceList['read.dockStatus'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus/read',
+      method: 'put'
+    }
+
     this.serviceList['export.faq'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faqs/export',
       method: 'post'

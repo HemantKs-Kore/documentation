@@ -556,10 +556,11 @@
         cursor: pointer;
     }
     .docker-list{
-        padding: 0 17px;
+        // padding: 0 17px;
         padding-bottom: 10px;
         .row-content{
-            margin-bottom: 12px;
+            // margin-bottom: 12px;
+            padding: 10px;
             .heading{
                 color: #202124;
                 font-weight: normal;
@@ -643,4 +644,10 @@
     position: absolute;
     top: 16px;
     left: 16px;
+}
+
+.statusDockerBody{
+    .docUnRead{
+        background: #F3F8FF;
+    }
 }

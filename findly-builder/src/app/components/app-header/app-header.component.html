@@ -97,13 +97,13 @@
                 <li class="nav-item notification-block">                                      
                     <div class="kr-sg-dropdowns" ngbDropdown>
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
+                            <button class="dropdown-toggle dropdown-input notification" id="dropdownBasic1" ngbDropdownToggle (mouseup)="notificationIconClick()">
                                 <img src="assets/icons/sidemenu/notification.svg">
                                 <sup *ngIf="isAnyRecordFailed" class="red-notification"></sup>
                                 <sup *ngIf="isAnyRecordCompleted" class="completed-notification"></sup>
                                 <img src="assets/icons/notification-ring.svg" class="inProgress notification-icon" *ngIf="isAnyRecordInprogress" placement="top" container='body'>
                             </button>
-                            <ul class="dropdown-menu content-menu notification-dropdown" ngbDropdownMenu>
+                            <ul class="dropdown-menu content-menu notification-dropdown" ngbDropdownMenu id="notification-dropdown">
                                 <div class="notification-dropdown-status">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item">
@@ -119,7 +119,7 @@
                                                 <div class="statusDockerBody">
                                                     <perfect-scrollbar class="perfect-scroll-modal-body docker">
                                                         <div class="docker-list" *ngIf="!statusDockerLoading">
-                                                            <div class="row ml-0 mr-0 col-12 p-0 row-content" *ngFor="let task of dockersList; let index = index">
+                                                            <div class="row ml-0 mr-0 col-12 row-content" *ngFor="let task of dockersList; let index = index" [class.docUnRead]="checkRecordInDocs('unread', task)">
                                                                 <div class="col-9 pl-0 task_content">
                                                                     <div class="heading">{{task.message}}</div>
                                                                     <div class="desc" *ngIf="getStatusView(task.status)">{{task.status | titlecase}} <span class="tooltip-data" ngbTooltip='{{task.createdOn}}' tooltipClass="date-tooltip" placement="right-center" [container]="'body'"><img src="assets/icons/docker/clock.svg"></span></div>
@@ -131,7 +131,7 @@
                                                                         <img src="assets/icons/docker/return.svg" *ngIf="task.status === 'HALTED'" (click)="recrawl(task)">
                                                                         <!-- <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')"> -->
                                                                         <img src="assets/icons/docker/check.svg" *ngIf="(task.status === 'SUCCESS')">
-                                                                        <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.status == 'IN_PROGRESS' || task.status == 'validation') && (task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq'))">                        
+                                                                        <img src="assets/icons/docker/external-link.svg" class="ml-2 mb-2px" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq'))">                        
                                                                     </div>
                                                                     <div class="status-blcok">                        
                                                                         <img src="assets/icons/ringLoading.svg" class="inProgress" *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation'" placement="top" container='body'>
