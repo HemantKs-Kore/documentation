@@ -253,7 +253,7 @@
                   <!-- Tab panes -->
                 <div class="tab-content">
                   <div id="fromfile" class="tab-pane browsebyfile active">
-                    <div class="col-12 row mb-3 top-sec p-0 ml-0 mr-0"  *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.id==='faqDoc')">
+                    <div class="col-12 row mb-3 top-sec p-0 ml-0 mr-0"  *ngIf="(selectedSourceType.id==='faqDoc')">
                       <div class="title-data col-6 p-0">Browse File</div>
                     <div class="actions-data col-6 p-0 d-flex align-items-center justify-content-end">
                         <span class="sample-text pr-2" style="padding-right:10px" (click)='downloadSampleData("json")'><img  class="image mr-2"src="assets/icons/docker/download.svg">Sample JSON</span>
@@ -266,7 +266,7 @@
                         <div class="drag-drop-sec">
                           <ng-container *ngIf="!fileObj.fileName">
                             <input type="file" id="sourceFileUploader" class="custom-file-input "
-                                (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf">
+                                (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json">
                             <div class="imageDiv">
                               <img class="ng-tns-c11-2" src="assets/images/source-icos/drog_frop.svg">
                             </div>
@@ -305,7 +305,7 @@
                         </div>
                       </div>
                       <!-- Annotation Start Here -->
-                      <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId">
+                      <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId && selectedSourceType.resourceType != 'importfaq'" >
                         <div class="kr-sg-checkbox">
                           <input id="checkbox-1" class="checkbox-custom" type="checkbox" (change)="annotateChange($event)">
                           <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract</label>
@@ -322,7 +322,7 @@
                         <div class="kr-sg-input-text">
                           <div class="label-text">Enter URL</div>
                           <input type="text"  placeholder="https://" class="input-text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Domain URL"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="https://"
                   [(ngModel)]="newSourceObj.url" class="input-text">
                           <!-- <input type="text" placeholder="https://" class="input-text"> -->
                           <!-- <div class="error-msg">Error message here</div> -->
@@ -382,7 +382,7 @@
               </div>
             </div>
             <!-- Annotation Start Here -->
-            <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId">
+            <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId && selectedSourceType.resourceType!='importfaq'">
               <div class="kr-sg-checkbox">
                 <input id="checkbox-1" class="checkbox-custom" type="checkbox" (change)="annotateChange($event)">
                 <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract</label>

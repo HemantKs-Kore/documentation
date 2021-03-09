@@ -1257,7 +1257,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       exportType: ext,
     }
     this.service.invoke('export.faq', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Export to JSON is in progress. You can check the status in the Status Docker', 'success');
+      if(ext === 'json'){
+        this.notificationService.notify('Export to JSON is in progress. You can check the status in the Status Docker', 'success');
+      }
+      else{
+        this.notificationService.notify('Export to CSV is in progress. You can check the status in the Status Docker', 'success');
+      }
+    
       this.checkExportFaq();
     },
       errRes => {
