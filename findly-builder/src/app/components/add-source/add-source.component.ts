@@ -456,6 +456,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   openImageLink(url) {
     window.open(url, '_blank');
   }
+  extension;
   fileChangeListener(event) {
     this.newSourceObj.url = '';
     let fileName = '';
@@ -464,16 +465,21 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       return;
     }
+ 
     const _ext = fileName.substring(fileName.lastIndexOf('.'));
-    if (_ext !== '.pdf' && _ext !== '.csv') {
+    this.extension = _ext
+    if (this.selectedSourceType.sourceType != "faq") {
+    if (this.extension !== '.pdf' && this.extension !== '.csv') {
       $('#sourceFileUploader').val(null);
       this.notificationService.notify('Please select a valid csv or pdf file', 'error');
       return;
-    } else {
+    } 
+  }
+  else {
       let showProg: boolean = false;
       if (this.selectedSourceType.sourceType == "faq") {
         if (this.selectedSourceType.resourceType == '') {
-          if (_ext === '.pdf') {
+          if (this.extension === '.pdf') {
             showProg = true;
           }
           else {
@@ -481,11 +487,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
         else {
-          if (_ext === '.csv') {
+          if (this.extension != '.pdf') {
             showProg = true;
           }
           else {
-            this.notificationService.notify('Please select a valid csv file', 'error');
+            this.notificationService.notify('Please select a valid csv and json file', 'error');
           }
         }
       }
@@ -493,10 +499,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         showProg = true;
       }
       if (showProg) {
-        this.onFileSelect(event.target, _ext);
+        this.onFileSelect(event.target,this.extension);
         this.fileObj.fileUploadInProgress = true;
         this.fileObj.fileName = fileName;
-        this.fileObj.file_ext = _ext.replace(".", "");
+        this.fileObj.file_ext = this.extension.replace(".", "");
       }
     }
   }
