@@ -322,6 +322,7 @@ export class AppExperimentsComponent implements OnInit {
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       offset: 0,
       limit: 100
     };

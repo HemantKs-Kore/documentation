@@ -1,9 +1,11 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
+import { Subscription } from 'rxjs';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 
 // import * as PureJSCarousel from 'src/assets/web-kore-sdk/libs/purejscarousel.js';
@@ -51,13 +53,16 @@ export class SearchInterfaceComponent implements OnInit {
   selectedTemplatedId : any;
   selectedSettingResultsObj :selectedSettingResults = new selectedSettingResults();
   allSettings : any;
-  settingList : any =[{
-    id:"searchUi",
-    text : "Search UI"
-  },{
-    id:"searchExperience",
-    text : "Search Experience"
-  },{
+  subscription: Subscription;
+  settingList : any =[
+  //   {
+  //   id:"searchUi",
+  //   text : "Search UI"
+  // },{
+  //   id:"searchExperience",
+  //   text : "Search Experience"
+  // },
+  {
     id:"liveSearch",
     text : "Live Search"
   },{
@@ -101,12 +106,14 @@ export class SearchInterfaceComponent implements OnInit {
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService,
+    private appSelectionService:AppSelectionService
+    ) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     // Template Response 
     // this.customizeTemplate.type = "list"
     // this.customizeTemplate.layout.layoutType = 'titleWithText'
@@ -116,7 +123,12 @@ export class SearchInterfaceComponent implements OnInit {
     this.defaultTemplate();
     this.getSettings('search')
     this.getAllSettings();
-    this.getFieldAutoComplete();
+    //this.filedSelect(type,field)
+
+    this.loadFiledsData();
+    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res=>{
+      this.loadFiledsData();
+    })
 
     console.log(this.customizeTemplateObj);
     console.log(this.selectedSettingResultsObj);
@@ -129,6 +141,12 @@ export class SearchInterfaceComponent implements OnInit {
     //   this.errorToaster(errRes, 'Failed to save result settings');
     // });
   }
+  loadFiledsData(){
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      if(this.indexPipelineId){
+        this.getFieldAutoComplete();
+      }
+  }
   defaultTemplate(){
     this.customizeTemplateObj.template.type = "List Template 1";
     this.customizeTemplateObj.template.typeId = "listTemplate1"
@@ -136,8 +154,12 @@ export class SearchInterfaceComponent implements OnInit {
     this.customizeTemplateObj.template.searchResultlayout.clickable = true;
     this.customizeTemplateObj.template.searchResultlayout.behaviour ="webpage";
     this.clickableDisabled = false;
+    this.customizeTemplateObj.template.searchResultlayout.textAlignment = "left";
     this.preview_title = "Field Mapped for heading will appear here"
     this.preview_desc ="Field mapped for Description will appear here";
+  }
+  copyConfiguration(interfaceType){
+    this.selectedSettingResultsObj.referInterface = interfaceType;
   }
   getSettings(interfaceType){
     const quaryparms: any = {
@@ -170,6 +192,35 @@ export class SearchInterfaceComponent implements OnInit {
       this.errorToaster(errRes, 'Failed to fetch all Setting Informations');
     });
   }
+  selectByDefaultValBindToTemplatae(mapping){
+    if(mapping.heading){
+      this.heading_fieldData.forEach(element => {
+        var obj = {
+          fieldDataType : element.fieldDataType,
+          fieldName : element.fieldName,
+          _id : element._id
+        }
+        if(element._id == mapping.heading){
+          this.preview_title = element.fieldName
+        }
+        //this.filedSelect(type,obj)
+      });
+    }
+     if(mapping.description){
+      this.desc_fieldData.forEach(element => {
+        var obj = {
+          fieldDataType : element.fieldDataType,
+          fieldName : element.fieldName,
+          _id : element._id
+        }
+        if(element._id == mapping.description){
+          this.preview_desc = element.fieldName
+        }
+        
+        //this.filedSelect(type,obj)
+      });
+    }
+  }
   getTemplate(templateId){
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -177,6 +228,7 @@ export class SearchInterfaceComponent implements OnInit {
     };
     this.service.invoke('get.SI_searchResultTemplate', quaryparms).subscribe(res => {
       this.templateBind(res)
+      this.selectByDefaultValBindToTemplatae(res.mapping)
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch Template');
     });
@@ -251,7 +303,13 @@ export class SearchInterfaceComponent implements OnInit {
           id : element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
-      }   
+      }else if(element.type == 'document'){
+        let obj ={
+          type  : "Document",
+          id : element.templateId ? element.templateId : ""
+        }
+        this.list.push(obj)
+      }
     });
   }
   template(id,type){
@@ -261,10 +319,11 @@ export class SearchInterfaceComponent implements OnInit {
     if(id == 'grid' || id == 'carousel'){
       this.clickableDisabled = true;
       this.customizeTemplateObj.template.searchResultlayout.clickable = true;
-      this.customizeTemplateObj.template.searchResultlayout.behaviour = '';
+      this.customizeTemplateObj.template.searchResultlayout.behaviour = 'webpage';  // ADDING xan be reoved later
     }else{
       this.clickableDisabled = false;
       this.customizeTemplateObj.template.searchResultlayout.behaviour = 'webpage';
+      this.customizeTemplateObj.template.searchResultlayout.textAlignment = "left"
     }
     
     //this.
@@ -273,28 +332,30 @@ export class SearchInterfaceComponent implements OnInit {
     //this.customizeTemplate.
 
     this.customizeTemplateObj.template.searchResultlayout = new searchResultlayout();
-    this.customizeTemplateObj.template.resultMapping = new resultMapping();
+    //this.customizeTemplateObj.template.resultMapping = new resultMapping();
     this.customizeTemplateObj.template.searchResultlayout.layout = layout;
     if(layout == 'titleWithHeader'){
       this.showDescription = false;
     }else{
       this.showDescription = true;
     }
-    if(layout == 'tileWithHeader' || layout == 'titleWithText'){
+    if(layout == 'tileWithHeader' || layout == 'tileWithText'){
       this.showImage = false;
-      if(this.customizeTemplateObj.template.type === 'Carousel'){
-        setTimeout(() => {
-          this.carousel = new PureJSCarousel({
-            carousel: '.carousel',
-            slide: '.slide',
-            oneByOne: true,
-            jq: $,
-          });
-        }, 100);
-        console.log("PureJSCarousel", this.carousel);
-      }
     }else{
       this.showImage = true;
+    }
+    if(layout == 'tileWithHeader' || layout == 'tileWithText' || layout == 'tileWithImage'){
+      if(this.customizeTemplateObj.template.type === 'Carousel'){
+        // setTimeout(() => {
+        //   this.carousel = new PureJSCarousel({
+        //     carousel: '.carousel',
+        //     slide: '.slide',
+        //     oneByOne: true,
+        //     jq: $,
+        //   });
+        // }, 100);
+        //console.log("PureJSCarousel", this.carousel);
+      }
     }
   }
   resultLayoutclickBehavior(type){
@@ -305,7 +366,7 @@ export class SearchInterfaceComponent implements OnInit {
       this.customizeTemplateObj.template.searchResultlayout.clickable = event.target.checked; 
       this.switchActive= event.target.checked;
       if(event.target.checked){
-        this.customizeTemplateObj.template.searchResultlayout.behaviour ="";
+        this.customizeTemplateObj.template.searchResultlayout.behaviour ="webpage"; // ADDING xan be reoved later
         this.customizeTemplateObj.template.searchResultlayout.url = "";
       }
     }
@@ -435,11 +496,12 @@ export class SearchInterfaceComponent implements OnInit {
           //       }
           //   ],  
    }
-   if(this.selectedSettingResultsObj.referInterface == 'search'){
-    payload['referInterface'] = 'search';
-   }else{
-     delete payload['referInterface']; 
-   }
+   payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
+  //  if(this.selectedSettingResultsObj.referInterface == 'search'){
+  //   payload['referInterface'] = 'search';
+  //  }else{
+  //    delete payload['referInterface']; 
+  //  }
     this.service.invoke('put.SI_saveResultSettings', queryparams , payload).subscribe(res => {
       this.notificationService.notify('Result setting saved successfully', 'success');
       this.selectedTemplatedId = "";
@@ -469,7 +531,7 @@ export class SearchInterfaceComponent implements OnInit {
       "layoutType":this.customizeTemplateObj.template.searchResultlayout.layout,
       "isClickable":this.customizeTemplateObj.template.searchResultlayout.clickable,
       "behaviour":this.customizeTemplateObj.template.searchResultlayout.behaviour,
-      'textAlignment' : "left"
+      'textAlignment' : this.customizeTemplateObj.template.searchResultlayout.textAlignment
           },
         "mapping": {
         "heading":this.customizeTemplateObj.template.resultMapping.headingId,
@@ -485,16 +547,17 @@ export class SearchInterfaceComponent implements OnInit {
         searchIndexId : this.serachIndexId,
         templateId  : this.selectedTemplatedId
       }
-      delete payload['appearanceType'];
+     // delete payload['appearanceType'];
       message = "Template Updated Successfully"
-    }else{
-      url = "post.SI_saveTemplate";
-      queryparams = {
-        searchIndexId : this.serachIndexId,
-        interface  : this.selectedSetting
-      }
-      message = "Template Added Successfully"
-    }
+     }
+     //else{
+    //   url = "post.SI_saveTemplate";
+    //   queryparams = {
+    //     searchIndexId : this.serachIndexId,
+    //     interface  : this.selectedSetting
+    //   }
+    //   message = "Template Added Successfully"
+    // }
     this.service.invoke(url, queryparams , payload).subscribe(res => {
       this.notificationService.notify(message, 'success');
       this.selectedTemplatedId = "";
@@ -530,6 +593,13 @@ export class SearchInterfaceComponent implements OnInit {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+
+  ngOnDestroy(){
+    if(this.subscription){
+      this.subscription.unsubscribe();
+    }
+   }
+
 }
 
 /** Setting Class **/
@@ -589,7 +659,7 @@ class searchResultlayout{
     clickable : boolean = true;
     behaviour : string = 'webpage';          // 'webpage' or 'postback'
     url : string = '';
-    textAlignment : string ='';
+    textAlignment : string ='left';
 }
 class resultMapping{
   heading : string = '';

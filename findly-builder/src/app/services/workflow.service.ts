@@ -33,7 +33,7 @@ export class WorkflowService {
     }
     return this.findlyAppsData;
   }
-  selectedIndexPipeline(id){
+  selectedIndexPipeline(id?){
     if (id) {
       this.selectedIndexPipelineId = id;
       return;

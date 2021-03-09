@@ -97,7 +97,7 @@
                                                                     <div class="col-3 pr-0 default-value text-truncate" title="{{ childObject.value }}">{{ childObject.value }}</div>
                                                                 </ng-container>
                                                                 <ng-container *ngIf="childObject.nested">
-                                                                    <img class="pointer mr-2" (click)="childObject.expanded = !childObject.expanded;$event.stopPropagation();" *ngIf="childObject.nested && !childObject.expanded" src="assets/icons/accordian-collapse.svg">
+                                                                    <img class="pointer mr-2" *ngIf="childObject.nested && !childObject.expanded" src="assets/icons/accordian-collapse.svg">
                                                                     <img class="pointer mr-2" *ngIf="childObject.nested && childObject.expanded" (click)="childObject.expanded = !childObject.expanded;$event.stopPropagation();" src="assets/icons/accordian-expand.svg">
                                                                     <div class="col-11 p-0 default-key" title="{{ childObject.key }}">{{ childObject.key }} ({{childObject.valuesLength}} {{'structuredData.fields' | translate}})</div>
                                                                     <ng-container *ngIf="childObject.expanded">
