@@ -38,6 +38,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   sampleJsonPath: any = '/home/assets/sample-data/sample.json';
   sampleCsvPath: any = '/home/assets/sample-data/sample.csv';
   filePath;
+  extension;
   receivedQuaryparms: any;
   searchIndexId;
   selectedSourceType: any = null;
@@ -456,7 +457,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   openImageLink(url) {
     window.open(url, '_blank');
   }
-  extension;
+
   fileChangeListener(event) {
     this.newSourceObj.url = '';
     let fileName = '';
