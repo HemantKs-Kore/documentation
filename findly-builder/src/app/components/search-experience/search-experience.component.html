@@ -3,13 +3,13 @@
     <div class="tabs-sec">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{'active':selectedTab==='experience'}" data-toggle="tab"><span class="active-steps">1</span><span class="name">Experience</span></a>
+              <a class="nav-link" [ngClass]="{'active':selectedTab==='experience'}" data-toggle="tab"><span class="active-steps" [ngStyle]="show_tab_color?{'background':'#0D6EFD','color':'white'}:{}">1</span><span class="name">Experience</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{'active':selectedTab==='searchwidget'}" data-toggle="tab"><span class="active-steps">2</span><span class="name">Search Widget</span></a>
+              <a class="nav-link" [ngClass]="{'active':selectedTab==='searchwidget'}" data-toggle="tab"><span class="active-steps" [ngStyle]="show_tab_color1?{'background':'#0D6EFD','color':'white'}:{}">2</span><span class="name">Search Widget</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{'active':selectedTab==='interactions'}" data-toggle="tab" ><span class="active-steps">3</span><span class="name">Interactions</span></a>
+              <a class="nav-link" [ngClass]="{'active':selectedTab==='interactions'}" data-toggle="tab" ><span class="active-steps" [ngStyle]="show_tab_color2?{'background':'#0D6EFD','color':'white'}:{}">3</span><span class="name">Interactions</span></a>
             </li>
         </ul>
         <perfect-scrollbar class="scroll-data">
@@ -18,13 +18,13 @@
                 <div class="experience-tab">
                     <div class="left-sec">
                         <div class="kr-sg-radiobutton d-block plr-0 mb-4">
-                            <input id="radio-2" name="topdown" value='top' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition">
-                            <label for="radio-2" class="radio-custom-label">Top Down {{searchObject.searchExperienceConfig.searchBarPosition}}</label>
+                            <input id="radio-2" name="topdown" value='top' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition" (click)="changeSlider('top-down')">
+                            <label for="radio-2" class="radio-custom-label">Top Down</label>
                             <div class="desc-tect">Search Bar at the top</div>
                         </div>   
                         <div class="kr-sg-radiobutton d-block plr-0 mb-4">
-                            <input id="radio-22" name="bottomup" value='bottom' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition">
-                            <label for="radio-22" class="radio-custom-label">Bottom Up {{searchObject.searchExperienceConfig.searchBarPosition}}</label>
+                            <input id="radio-22" name="bottomup" value='bottom' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition" (click)="changeSlider('bottom-up')">
+                            <label for="radio-22" class="radio-custom-label">Bottom Up</label>
                             <div class="desc-tect">Search Bar at the bottom</div>
                         </div>   
                     </div>
@@ -45,72 +45,72 @@
                     <div class="label-text">Search Box Customization</div>
                     <div class="d-flex search-customization-input">
                         <div class="kr-sg-input-search">                               
-                            <input type="text" class="input-search" [ngClass]="{'activeBox':selectSearch=='inputBox'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" #data (click)="selectSearchBox('inputBox');$event.stopPropagation();"  joyrideStep="firstStep" [counterTemplate]="counter" [stepContent]="searchBox" [prevTemplate]="prevButton" [nextTemplate]="nextButton" [doneTemplate]="doneButton">
-                            <img [src]="searchIcon" class="search-icon" [ngClass]="{'activeBox':selectSearch=='inputIcon'}" (click)="selectSearchBox('inputIcon');$event.stopPropagation();" height="15" width="15" joyrideStep="secondStep" [stepContent]="searchIconChange">
-                             <span (click)="selectSearchBox('placeholderText');$event.stopPropagation()" class="placeholder-text" [ngClass]="{'activeBox':selectSearch=='placeholderText'}"  [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}" joyrideStep="thirdStep" [stepContent]="placeholderText">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
-                        </div>
-                        <button class="btn-customize kr-sg-button-primary read-mode btn_lg"  (click)="selectSearchBox('button')" [ngClass]="{'activeBox':selectSearch=='button'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled" joyrideStep="fourthStep" [stepContent]="searchButton">
+                            <input type="text" class="input-search" [ngClass]="{'activeBox':selectSearch=='inputBox'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" (click)="selectSearchBox('inputBox');$event.stopPropagation();" readonly>
+                            <img [src]="searchIcon" class="search-icon" [ngClass]="{'activeBox':selectSearch=='inputIcon'}" (click)="selectSearchBox('inputIcon');$event.stopPropagation();" height="15" width="15">
+                            <input class="placeholder-custom-search" value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}" placeholder="search" (click)="selectSearchBox('placeholderText');$event.stopPropagation()" [ngClass]="{'activeBox':selectSearch=='placeholderText'}" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}" #data (change)="onEventLog('placeholderText',data.value)"> 
+                            <!-- <span class="placeholder-text" [ngClass]="{'activeBox':selectSearch=='placeholderText'}"  [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}" joyrideStep="thirdStep" [stepContent]="placeholderText">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span> -->
+                        </div>                        
+                        <button class="btn-customize kr-sg-button-primary read-mode btn_lg"  (click)="selectSearchBox('button')" [ngClass]="{'activeBox':selectSearch=='button'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled">
                             <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
                             <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled"><img src="assets/icons/search-experience/edit.svg"></div>
                         </button>
-
-                        <div class="tour-guide-data">
-                            <div class="close-guide">
-                                <img src="assets/icons/search-experience/close-tour.svg">
-                            </div>
-                            <div class="title-info">Click on search box to customize border and fill color</div>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="tour-length">1 of 4</div>
-                                <div class="bt-sec">
-                                    <button class="kr-sg-button-primary btn_lg mr-2">Next</button>
-                                    <button class="kr-sg-button-secondary btn_lg">Previous</button>
+                        <div [ngSwitch]="tourGuide">
+                            <div class="tour-guide-data" *ngSwitchCase="'step1'">
+                                <div class="close-guide" (click)="tourGuide=''">
+                                    <img src="assets/icons/search-experience/close-tour.svg">
                                 </div>
-                            </div>
-                        </div>  
-                        
-                        <div class="tour-guide-data search-tour-icon">
-                            <div class="close-guide">
-                                <img src="assets/icons/search-experience/close-tour.svg">
-                            </div>
-                            <div class="title-info">Click on search icon to change the icon as per your choice</div>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="tour-length">2 of 4</div>
-                                <div class="bt-sec">
-                                    <button class="kr-sg-button-primary btn_lg mr-2">Next</button>
-                                    <button class="kr-sg-button-secondary btn_lg">Previous</button>
+                                <div class="title-info">Click on search box to customize border and fill color</div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="tour-length">1 of 4</div>
+                                    <div class="bt-sec">
+                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step2'">Next</button>
+                                        <button class="kr-sg-button-secondary btn_lg">Previous</button>
+                                    </div>
                                 </div>
-                            </div>
-                        </div> 
-
-                        <div class="tour-guide-data place-holder-text-tour">
-                            <div class="close-guide">
-                                <img src="assets/icons/search-experience/close-tour.svg">
-                            </div>
-                            <div class="title-info">Click on the text to customize text content and color</div>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="tour-length">3 of 4</div>
-                                <div class="bt-sec">
-                                    <button class="kr-sg-button-primary btn_lg mr-2">Next</button>
-                                    <button class="kr-sg-button-secondary btn_lg">Previous</button>
+                            </div>  
+                            
+                            <div class="tour-guide-data search-tour-icon added-tour" *ngSwitchCase="'step2'">
+                                <div class="close-guide" (click)="tourGuide=''">
+                                    <img src="assets/icons/search-experience/close-tour.svg">
                                 </div>
-                            </div>
-                        </div> 
-
-                        <div class="tour-guide-data button-tour d-none">
-                            <div class="close-guide">
-                                <img src="assets/icons/search-experience/close-tour.svg">
-                            </div>
-                            <div class="title-info">Click on the button to customize button text, fill color and border color</div>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="tour-length">4 of 4</div>
-                                <div class="bt-sec">
-                                    <button class="kr-sg-button-primary btn_lg mr-2">Got it</button>
-                                    <button class="kr-sg-button-secondary btn_lg">Previous</button>
+                                <div class="title-info">Click on search icon to change the icon as per your choice</div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="tour-length">2 of 4</div>
+                                    <div class="bt-sec">
+                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step3'">Next</button>
+                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step2'">Previous</button>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>   
-                        
-                        
+                            </div> 
+    
+                            <div class="tour-guide-data place-holder-text-tour added-tour" *ngSwitchCase="'step3'">
+                                <div class="close-guide" (click)="tourGuide=''">
+                                    <img src="assets/icons/search-experience/close-tour.svg">
+                                </div>
+                                <div class="title-info">Click on the text to customize text content and color</div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="tour-length">3 of 4</div>
+                                    <div class="bt-sec">
+                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step4'">Next</button>
+                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step3'">Previous</button>
+                                    </div>
+                                </div>
+                            </div> 
+    
+                            <div class="tour-guide-data button-tour added-tour" *ngSwitchCase="'step4'">
+                                <div class="close-guide" (click)="tourGuide=''">
+                                    <img src="assets/icons/search-experience/close-tour.svg">
+                                </div>
+                                <div class="title-info">Click on the button to customize button text, fill color and border color</div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="tour-length">4 of 4</div>
+                                    <div class="bt-sec">
+                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide=''">Got it</button>
+                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step3'">Previous</button>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>                                                  
                     </div>
                     <div [ngSwitch]="selectSearch">                        
                         <div class="fill-colors-block" *ngSwitchCase="'inputBox'">
@@ -167,7 +167,7 @@
                             <div class="img-block"><img src="assets/icons/search-experience/dummy-image.svg"></div>
                             <div class="input-file">
                                 <div class="title">Drag and drop or <span class="browse">browse</span></div>
-                                <input type="file" name="avatar" (change)="selectIcon($event,'searchIcon')"/>
+                                <input type="file" name="avatar"  (change)="selectIcon($event,'searchIcon','auto')"/>
                             </div>
                         </div>
                         <div class="fill-colors-block" *ngSwitchCase="'placeholderText'">
@@ -294,11 +294,11 @@
                         <div class="greeting-message border-with-padding">
                             <div class="kr-sg-input-text-area">
                                 <div class="label-text">Customize Launch Greeting Message</div>
-                                <textarea class="input-text" maxlength="40" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgMsgColor}"></textarea>                                
+                                <textarea class="input-text" maxlength="40" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}"></textarea>                                
                             </div>
                             <div class="emojis-block">
-                                <div class="emoji-img"><label  for="myFileInput"><img src="assets/icons/search-experience/emoji.svg">
-                                <input type="file" style="display: none;" id="myFileInput" (change)="selectIcon($event,'emoji')" /></label>
+                                <div class="emoji-img"><label for="myFileInput"><img [src]="emojiIcon" width="18" height="18">
+                                <input type="file" style="display: none;" id="myFileInput" (change)="selectIcon($event,'emoji','auto')" /></label>
                                 </div>                                
                                 <div class="fill-colors-block">
                                     <div class="fill-color">
@@ -331,11 +331,11 @@
                         <div class="group-radiobutton border-with-padding">
                             <div class="heading-title">Show Searches</div>
                             <div class="kr-sg-radiobutton">
-                                <input id="radio-22" name="radio" class="radio-custom" type="radio" value="frequent" [checked]="searchObject.searchInteractionsConfig.showSearches=='Frequent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches" (click)="changeSlider('frequent')">
+                                <input id="radio-22" name="radio" class="radio-custom" type="radio" value="frequent" [checked]="searchObject.searchInteractionsConfig.showSearches=='Frequent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches">
                                 <label for="radio-22" class="radio-custom-label">Frequent</label>
                             </div>
                             <div class="kr-sg-radiobutton">
-                                <input id="radio-23" name="radio" class="radio-custom" type="radio" value="recent" [checked]="searchObject.searchInteractionsConfig.showSearches=='recent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches" (click)="changeSlider('recent')">
+                                <input id="radio-23" name="radio" class="radio-custom" type="radio" value="recent" [checked]="searchObject.searchInteractionsConfig.showSearches=='recent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches">
                                 <label for="radio-23" class="radio-custom-label">Recent</label>
                             </div>
                         </div>
@@ -401,8 +401,8 @@
             <div class="main-title">Search Widget</div>
             <div class="d-flex search-customization-input">
                 <div class="kr-sg-input-search">                               
-                    <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" #data (change)="onEventLog('placeholderText',data.value)" readonly>
-                    <img [src]="searchIcon" class="search-icon" (click)="selectSearchBox('inputIcon');$event.stopPropagation();" height="15" width="15">
+                    <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
+                    <img [src]="searchIcon" class="search-icon" height="15" width="15">
                      <span class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
                 </div>
                 <button class="btn-customize kr-sg-button-primary read-mode btn_lg" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}">

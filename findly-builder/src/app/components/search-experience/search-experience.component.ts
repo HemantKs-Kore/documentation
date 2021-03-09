@@ -5,7 +5,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { AuthService } from '@kore.services/auth.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '../../services/notification.service';
-import { JoyrideService } from "ngx-joyride";
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-search-experience',
   templateUrl: './search-experience.component.html',
@@ -36,7 +36,7 @@ export class SearchExperienceComponent implements OnInit {
     "searchInteractionsConfig": {
       "feedbackExperience": { resultLevel: true, queryLevel: false },
       "welcomeMsg": "Hi, How can I help you",
-      "welcomeMsgMsgColor": "#000080",
+      "welcomeMsgColor": "#000080",
       "showSearchesEnabled": false,
       "showSearches": "frequent",
       "autocompleteOpt": false,
@@ -52,14 +52,19 @@ export class SearchExperienceComponent implements OnInit {
   buttonBorder: boolean = false;
   buttonTextColor: boolean = false;
   msgColor: boolean = false;
-  searchIcon: any = 'assets/icons/search_gray.svg';
+  searchIcon: any = 'assets/images/search_gray.png';
+  emojiIcon: any = 'assets/icons/search-experience/emoji.png';
   //search button disabled
   buttonDisabled: boolean = true;
   public color: string = '#2889e9';
   statusModalPopRef: any = [];
   userInfo: any = {};
+  tourGuide: string = 'step11';
+  show_tab_color: boolean = false;
+  show_tab_color1: boolean = false;
+  show_tab_color2: boolean = false;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
-  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private joyride: JoyrideService) { }
+  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -67,32 +72,59 @@ export class SearchExperienceComponent implements OnInit {
     this.userInfo = this.authService.getUserInfo() || {};
     this.getSearchExperience();
   }
-  //guide tour in searchwidget
-  tour() {
-    console.log("tour dtarted")
-    this.joyride.startTour({
-      steps: ["firstStep", "secondStep", 'thirdStep', 'fourthStep'],
-      showPrevButton: true,
-      themeColor: "blue"
-    });
+  //upload search icon image manually from asset folder
+  searchIconUpload() {
+    let blob = null;
+    let file;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", this.searchIcon);
+    xhr.responseType = "blob";//force the HTTP response, response-type header to be blob
+    xhr.onload = () => {
+      blob = xhr.response;//xhr.response is now a blob object
+      file = new File([blob], 'searchIcon.png', { type: 'image/png', lastModified: Date.now() });
+      this.searchIcon = file;
+      this.selectIcon(file, 'searchIcon', 'manual')
+    }
+    xhr.send();
+  }
+  //upload emoji icon image manually from asset folder
+  emojiIconUpload() {
+    let blob = null;
+    let file;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", this.emojiIcon);
+    xhr.responseType = "blob";//force the HTTP response, response-type header to be blob
+    xhr.onload = () => {
+      blob = xhr.response;//xhr.response is now a blob object
+      file = new File([blob], 'emoji.png', { type: 'image/png', lastModified: Date.now() });
+      this.searchIcon = file;
+      this.selectIcon(file, 'emoji', 'manual')
+    }
+    xhr.send();
   }
   //sequential tabs method
   nextTab(type) {
     if (type === 'pre') {
       if (this.selectedTab === 'searchwidget') {
+        this.show_tab_color = false;
+        this.show_tab_color1 = true;
         this.selectedTab = 'experience';
       }
       else if (this.selectedTab === 'interactions') {
-        //this.tour();
+        this.show_tab_color1 = false;
+        this.show_tab_color2 = true;
         this.selectedTab = 'searchwidget';
       }
     }
     else {
       if (this.selectedTab === 'experience') {
-        // this.tour();
+        this.show_tab_color = true;
+        this.show_tab_color1 = false;
         this.selectedTab = 'searchwidget';
       }
       else if (this.selectedTab === 'searchwidget') {
+        this.show_tab_color1 = true;
+        this.show_tab_color2 = false;
         this.selectedTab = 'interactions';
       }
     }
@@ -102,7 +134,7 @@ export class SearchExperienceComponent implements OnInit {
     this.suggestions = [];
     let queryValue = data === undefined ? 0 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
     let recentValue = data === undefined ? 0 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
-    if (type == 'frequent') {
+    if (type == 'bottom-up') {
       // let queryNumber = this.sliderNumber(3);
       // let liveNumber = this.sliderNumber(5);
       this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 3, 1, queryValue, 'suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 5, 1, recentValue, 'live') });
@@ -132,23 +164,30 @@ export class SearchExperienceComponent implements OnInit {
     }
   }
   //select search Icon
-  selectIcon(event, type) {
-    const file = event.target.files[0];
+  selectIcon(event, type, icon) {
+    const file = icon === 'manual' ? event : event.target.files[0];
     const _ext = file.name.substring(file.name.lastIndexOf('.'));
     const formData = new FormData();
     formData.set('file', file);
     formData.set('fileContext', 'findly');
     formData.set('Content-Type', file.type);
     formData.set('fileExtension', _ext.replace('.', ''));
-    this.fileupload(formData, type);
-    if (event.target.files && event.target.files[0]) {
+    this.fileupload(formData, type, icon);
+    if (file) {
       const reader = new FileReader();
-      reader.onload = e => this.searchIcon = reader.result;
+      reader.onload = e => {
+        if (type == "searchIcon") {
+          this.searchIcon = reader.result;
+        }
+        else {
+          this.emojiIcon = reader.result;
+        }
+      }
       reader.readAsDataURL(file);
     }
   }
   //fileupload method
-  fileupload(data, type) {
+  fileupload(data, type, icon) {
     const quaryparms: any = {
       userId: this.userInfo.id
     };
@@ -156,9 +195,20 @@ export class SearchExperienceComponent implements OnInit {
       res => {
         if (type == 'searchIcon') {
           this.searchObject.searchWidgetConfig.searchBarIcon = res.fileId;
+          if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '' && icon === 'manual') {
+            this.emojiIconUpload();
+          }
         }
         else if (type == 'emoji') {
           this.searchObject.searchInteractionsConfig.welcomeMsgEmoji = res.fileId;
+          if (this.searchObject.searchWidgetConfig.searchBarIcon === '' && icon === 'manual') {
+            this.searchIconUpload();
+          }
+        }
+        if (icon === 'manual') {
+          if (this.searchObject.searchWidgetConfig.searchBarIcon !== '' && this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
+            this.addSearchExperience();
+          }
         }
         this.notificationService.notify('File uploaded successfully', 'success');
       },
@@ -205,7 +255,7 @@ export class SearchExperienceComponent implements OnInit {
     }
     else if (type == 'msgColor') {
       this.msgColor = !this.msgColor;
-      this.searchObject.searchInteractionsConfig.welcomeMsgMsgColor = event;
+      this.searchObject.searchInteractionsConfig.welcomeMsgColor = event;
     }
   }
 
@@ -223,6 +273,12 @@ export class SearchExperienceComponent implements OnInit {
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
       console.log("search experience data", res);
       this.searchObject = { searchExperienceConfig: res.experienceConfig, searchWidgetConfig: res.widgetConfig, searchInteractionsConfig: res.interactionsConfig }
+      if (this.searchObject.searchWidgetConfig.searchBarIcon !== '') {
+        this.searchIcon = this.searchObject.searchWidgetConfig.searchBarIcon;
+      }
+      if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
+        this.emojiIcon = this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
+      }
       this.changeSlider(this.searchObject.searchInteractionsConfig.showSearches, this.searchObject.searchInteractionsConfig);
     }, errRes => {
       console.log(errRes);
@@ -230,6 +286,21 @@ export class SearchExperienceComponent implements OnInit {
   }
   //submit search page form
   saveSearchExperience() {
+    if (this.searchObject.searchWidgetConfig.searchBarIcon === '') {
+      this.searchIconUpload();
+    }
+    if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '') {
+      this.emojiIconUpload();
+    }
+    if (this.searchObject.searchWidgetConfig.searchBarIcon !== '' && this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
+      delete this.searchObject.searchWidgetConfig.searchBarIcon;
+      delete this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
+      this.addSearchExperience()
+    }
+  }
+  //based on searchicon and emoji send data method
+  addSearchExperience() {
+    this.show_tab_color2 = true;
     let obj = { "experienceConfig": this.searchObject.searchExperienceConfig, "widgetConfig": this.searchObject.searchWidgetConfig, "interactionsConfig": this.searchObject.searchInteractionsConfig };
     console.log("obj", obj);
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
@@ -237,7 +308,6 @@ export class SearchExperienceComponent implements OnInit {
       searchIndexId: searchIndex
     };
     this.service.invoke('put.searchexperience', quaryparms, obj).subscribe(res => {
-      console.log("search experience saved data", res);
       this.notificationService.notify('Updated successfully', 'success');
       this.statusModalPopRef = this.statusModalPop.open();
     }, errRes => {
