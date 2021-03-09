@@ -62,7 +62,7 @@
                             <div class="card_link collapsed">      
                                 <div class="d-flex align-items-center">
                                     <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
-                                        <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
+                                        <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
                                         <label [attr.for]="i" class="checkbox-custom-label"></label>
                                     </div>
                                     <div class="title-desc-sec" *ngIf="searchType == 'faq'">
@@ -77,7 +77,7 @@
                             <div class="card_link collapsed">      
                                 <div class="d-flex align-items-center">
                                     <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
-                                        <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
+                                        <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
                                         <label [attr.for]="i" class="checkbox-custom-label"></label>
                                     </div>
                                     <div class="title-desc-sec">
@@ -92,7 +92,7 @@
                             <div class="card_link collapsed">      
                                 <div class="d-flex align-items-center">
                                     <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
-                                        <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
+                                        <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
                                         <label [attr.for]="i" class="checkbox-custom-label"></label>
                                     </div>
                                     <div class="title-desc-sec" *ngIf="result.__contentType == 'page'">
@@ -117,7 +117,7 @@
                                     <div class="card_link collapsed">      
                                         <div class="d-flex align-items-center">
                                             <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
-                                                <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
+                                                <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
                                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
                                             </div>
                                             <div class="title-desc-sec">
@@ -212,7 +212,7 @@
                     <ng-container *ngFor="let result of extractedResults;let i = index">
                         <div class="row-with-checkbox selected" *ngIf="searchType == 'faq'">                                                                
                             <div class="kr-sg-checkbox d-block p-0 m-0" (click)="$event.stopImmediatePropagation();" >
-                                <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
+                                <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
                             </div>
                             <div class="tiltles-sec">
@@ -222,7 +222,7 @@
                         </div>
                         <div class="row-with-checkbox selected" *ngIf="searchType == 'task'">                                                                                            
                             <div class="kr-sg-checkbox d-block p-0 m-0" (click)="$event.stopImmediatePropagation();" >
-                                <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
+                                <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
                             </div>
                             <div class="tiltles-sec">
@@ -232,7 +232,7 @@
                         </div>
                         <div class="row-with-checkbox selected" *ngIf="searchType == 'all'">                                                                
                             <div class="kr-sg-checkbox d-block p-0 m-0" >
-                                <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
+                                <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
                             </div>                                                          
                             <div class="tiltles-sec" *ngIf="result.__contentType == 'page'">
@@ -250,7 +250,7 @@
                         </div>
                         <div class="row-with-checkbox selected" *ngIf="searchType == 'content'">                                                                
                             <div class="kr-sg-checkbox d-block p-0 m-0" (click)="$event.stopImmediatePropagation();" >
-                                <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
+                                <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
                             </div>
                             <div class="tiltles-sec">
@@ -290,8 +290,8 @@
         <div class="footer-info">
             <div class="selected-length">{{ recordArray.length }} results selected</div>
             <div class="btns-sec">
-                <button class="kr-sg-button-primary btn_lg" disabled>Add</button>
-                <button class="kr-sg-button-secondary btn_lg">Cancel</button>
+                <button class="kr-sg-button-primary btn_lg" [ngClass] = "{'add' : recordArray.length > 0}" (click) = "pushRecord()" [disabled] = "!recordArray.length">Add</button>
+                <button class="kr-sg-button-secondary btn_lg" (click) = "cancelRecord()">Cancel</button>
             </div>
         </div>
     </div>

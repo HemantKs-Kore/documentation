@@ -294,16 +294,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   }
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
-    this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.subscription = this.appSelectionService.queryConfigs.subscribe(res =>{
-      this.queryConfigs = res;
-      res.forEach(element => {
-        this.configObj[element._id] = element;
-      });
-      this.selectedConfig = this.workflowService.selectedQueryPipeline()._id;
-    })
-    // Multiple INdex hardcoded
-     this.appSelectionService.appSelectedConfigs.subscribe(res =>{
+    this.appSelectionService.appSelectedConfigs.subscribe(res =>{
       this.indexConfigs = res;
        this.indexConfigs.forEach(element => {
         this.indexConfigObj[element._id] = element;
@@ -311,6 +302,20 @@ export class AppMenuComponent implements OnInit , OnDestroy{
       if(res.length > 0)
       this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
     })
+    this.subscription = this.appSelectionService.queryConfigs.subscribe(res =>{
+      this.queryConfigs = res;
+      res.forEach(element => {
+        this.configObj[element._id] = element;
+      });
+      this.selectedConfig = this.workflowService.selectedQueryPipeline()._id;
+      if(this.selectedApp.searchIndexes){
+        this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+      }
+    })
+    if(this.selectedApp.searchIndexes){
+      this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    }
+    
     // this.indexConfigs.forEach(element => {
     //   this.indexConfigObj[element._id] = element;
     // });

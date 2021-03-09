@@ -126,7 +126,7 @@ lineStyle: {
   getAppDetails(){
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;;
   }
   analyticGraph(responseData){
     let search_x_axis_data = [];
