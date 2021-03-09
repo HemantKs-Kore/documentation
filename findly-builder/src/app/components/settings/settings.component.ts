@@ -453,5 +453,16 @@ export class SettingsComponent implements OnInit {
     this.showSearch = !this.showSearch
   };
 
+  showPasword(){
+    var show :any = document.getElementById("password");;
+    if (show.type === "password") {
+      show.type = "text";
+     
+    } else {
+      show.type = "password";
+    }
+  }
+
 
 }
+

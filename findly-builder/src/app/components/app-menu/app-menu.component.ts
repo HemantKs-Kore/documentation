@@ -309,12 +309,16 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       res.forEach(element => {
         this.configObj[element._id] = element;
       });
-      if (this.selectedApp.searchIndexes) {
-        this.searchIndexId = this.selectedApp.searchIndexes[0]._id
-      }
       this.selectedConfig = this.workflowService.selectedQueryPipeline()._id;
+      setTimeout(()=>{
+        this.selectedApp = this.workflowService.selectedApp();
+        if (this.selectedApp.searchIndexes.length) {
+          this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+          console.log('SI - ',this.selectedApp.searchIndexes[0]._id);
+        }
+      },1000)
     })
-    if (this.selectedApp.searchIndexes) {
+    if (this.selectedApp.searchIndexes.length) {
       this.searchIndexId = this.selectedApp.searchIndexes[0]._id
     }
     // this.indexConfigs.forEach(element => {

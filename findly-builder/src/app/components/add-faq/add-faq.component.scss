@@ -275,7 +275,15 @@
             padding: 0;
             padding-right: 15px;
             .content-data{
-                
+                .multi-select{
+                    .kr-sg-toggle {
+                        .slider {
+                            span{
+                                top: 0 !important;
+                            }
+                        }
+                    }
+                }
             }
             .bot_rsponse_advance_mode{
                 display: flex;
@@ -310,13 +318,15 @@
                 align-items: center;
                 justify-content: center;
                 display: flex;
-                .responsePreviewBlock{
-                    background: #ffffff;
+                flex-wrap: wrap;
+                .responsePreviewBlock{                    
                     padding: 20px 0 20px 20px;
                     margin:  0 !important;
-                    height: 231px;
+                    height: 327px;
                     width: 100%;
-                    word-break: break-word;
+                    word-break: break-word;                    
+                    background: #FFFFFF;
+                    box-shadow: 0px 0px 80px rgba(0, 0, 0, 0.07), 0px 0px 10.0172px rgba(0, 0, 0, 0.035);
                     border-radius: 8px;
                     perfect-scrollbar{
                         padding-right: 20px;
@@ -337,11 +347,58 @@
                         }
                     }
                 }
+                .info-bubble-faq{
+                    background: #F3F8FF;
+                    border: 1px solid #85B7FE;
+                    box-sizing: border-box;
+                    border-radius: 4px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    padding: 10px;
+                    margin: 20px 0;
+                    .info_img{
+
+                    }
+                    .bubnle-info{
+                        color: #07377F;
+                        font-weight: normal;
+                        font-size: 12px;
+                        line-height: 15px;
+                        margin-left: 10px;
+                    }
+                    .know-more-data{
+                        color: #0D6EFD;
+                        font-weight: normal;
+                        font-size: 12px;
+                        line-height: 14px;              
+                        text-align: right;
+                        width: 100%;
+                        cursor: pointer;                        
+                        margin-top: 16px;
+                    }
+                }
             }
         }                
         .bottom_sec{
             .left_sec{
-                
+               .kr-sg-input-text{
+                input{
+                    &.readonly{
+                        background: #EFF0F1;
+                        border-radius: 4px;
+                        border: 0 !important;
+                        &::placeholder{
+                            color: #BDC1C6;
+                        }
+                    }
+                }
+               }
+               .upload-image-size-info{
+                color: #9AA0A6;
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 15px;
+               }
             }
         }
     } 
