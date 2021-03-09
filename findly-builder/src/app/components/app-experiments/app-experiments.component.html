@@ -285,7 +285,7 @@
         <span class="title">{{ exp_status | titlecase }} Experiment cannot be edited</span>
       </div>
       <div class="row ml-0 mr-0 mb-3 col-12 p-0 pr-30">
-        <div class="kr-sg-input-text col-6 pl-pr-5">
+        <div class="kr-sg-input-text col-8 pl-pr-5">
           <div class="label-text">Name of Experiment</div>
           <input type="text" autocomplete="off" placeholder="Enter Experiment Name" class="input-text"
             [(ngModel)]="experimentObj.name" [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{
@@ -295,7 +295,7 @@
       </div>
 
       <div class="row ml-0 mr-0 mb-3 col-12 p-0 pr-30" *ngFor="let vari of variantsArray; let varIndex = index">
-        <div class="kr-sg-input-text col-6 pl-pr-5 ifvariant"> 
+        <div class="kr-sg-input-text col-4 pl-pr-5 ifvariant"> 
           <div class="label-text">Variant Name</div>
           <input type="text" autocomplete="off" #varName placeholder="Enter Variant Name" class="input-text"
             [(ngModel)]="vari.name" (blur)="fetchVariant(varIndex, varName.value, 'name')"
@@ -306,7 +306,28 @@
             vari.code
             }}</span>
         </div>
-        <div class="kr-sg-dropdowns col-6 pl-pr-5">
+        <div class="kr-sg-dropdowns col-4 pl-pr-5">
+          <div class="label-text">Index Configuration</div>
+          <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
+              [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{
+                disable_edit:
+                  exp_status !== 'configured' || form_type === 'edit'
+              }">
+              {{
+              vari.indexPipelineName === undefined
+              ? "Select Configuration"
+              : vari.indexPipelineName
+              }}
+            </button>
+            <ul class="dropdown-menu content-menu" >
+              <li *ngFor="let index of indexConfig" (click)="fetchVariant(varIndex, index, 'indexid');getQueryPipeline(index._id)">
+                {{ index.name }}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="kr-sg-dropdowns col-4 pl-pr-5">
           <div class="label-text">Search Configuration</div>
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
@@ -320,7 +341,7 @@
               : vari.queryPipelineName
               }}
             </button>
-            <ul class="dropdown-menu content-menu">
+            <ul class="dropdown-menu content-menu"  *ngIf="vari.indexPipelineName!==undefined">
               <li *ngFor="let query of queryPipeline" (click)="fetchVariant(varIndex, query, 'queryid')">
                 {{ query.name }}
               </li>
