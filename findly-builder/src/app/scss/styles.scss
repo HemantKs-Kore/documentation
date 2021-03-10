@@ -2926,3 +2926,111 @@ nouislider{
         max-height: 300px !important;
     }
 }
+
+
+.queryPipelineConfig{   	
+    &.content-menu{
+        max-height: 250px;
+        width: 279px;
+        overflow: auto;
+        padding: 0;
+        background: #FFFFFF;
+        box-shadow: 0px 10px 30px rgba(32, 33, 36, 0.3);
+        border-radius: 4px;
+        margin: -24px 0px 0 25px;
+        border: 0;
+        perfect-scrollbar{
+            max-height: 200px;
+            .ps-content{
+                max-height: 200px;
+            }
+        }
+        .list-name{					
+            padding: 10px 30px 10px 33px !important;
+            position: relative;
+            color: #202124;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 16px;
+            border-radius: 2px;
+            transition: 0.2s all ease;
+            height: 36px;
+            display: flex;
+            align-items: center;            
+            &.nostars{
+                .config_name{
+                    width: 135px;
+                }
+                &:hover{
+                    background: #EFF0F1;
+                    img{
+                        &.star{
+                            display: none;
+                        }  
+                        &.star-black{
+                            display: block;
+                        }                      
+                    }
+                    .action-icons-data{
+                        display: flex;
+                    } 
+                }
+            }
+            &:hover{
+                background: #EFF0F1;                              
+            }
+            img{
+                cursor: pointer;
+                &.star{
+                    position: absolute;
+                    left: 12px;
+                    top: 10px;
+                }   
+                &.star-black{
+                    position: absolute;
+                    left: 12px;
+                    top: 10px;
+                    display: none;
+                }             
+            }
+            .action-icons-data{
+                position: absolute;
+                right: 0;
+                display: none;
+                align-items: center;
+                .edit-black{
+                    width: 36px;
+                    text-align: center;
+                    cursor: pointer;
+                }
+                .clone{
+                    width: 36px;
+                    text-align: center;
+                    cursor: pointer;
+                }
+                .delete{
+                    width: 36px;
+                    text-align: center;
+                    cursor: pointer;
+                }
+            }
+        }
+        .create-new{
+            background: #FFFFFF;
+            border-radius: 2px;
+            margin-top: 2px;
+            padding: 9px 10px;
+            color: #0D6EFD;
+            cursor: pointer;
+            border-top: 1px solid #EFF0F1;
+            padding-left: 30px;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 17px;
+        }
+        .edit-name{
+            width: 100%;
+        }
+    }
+    				
+}
