@@ -1372,7 +1372,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
     crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
     crawler.advanceOpts.allowedURLs.length > 0 || crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.crawlEverything = false : crawler.advanceOpts.crawlEverything = true;
-    crawler.resourceType = resourceType;
+    if( resourceType != 'webdomain'){
+      crawler.resourceType = resourceType;
+    }    
+    else{
+      delete crawler.resourceType;
+    }
     payload = crawler;
     //console.log(payload);
     if (crawler.advanceOpts.scheduleOpt) {
