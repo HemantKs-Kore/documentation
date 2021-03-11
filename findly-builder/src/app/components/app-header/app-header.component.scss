@@ -253,7 +253,7 @@
                             height: 16px;
                             background: #FFFFFF;
                             transform: rotate(-45deg);
-                            left: 146px;
+                            left: 90px;
                             top: -7px;
                         }
                         .search-assist-apps{
@@ -345,7 +345,7 @@
                 justify-content: center;
                 border-radius: 4px;
                 margin: 0 10px;
-                transition: 0.2s all ease;                
+                transition: 0.2s all ease;                                
                 .search_icon{
                     width: 34px;
                     height: 34px;
@@ -355,6 +355,9 @@
                     justify-content: center;
                     border-radius: 4px;                    
                     transition: 0.2s all ease;
+                    &.active-search-top{
+                        background: #F8F9FA;
+                    }
                     &:hover{
                         background: #F8F9FA;
                     }
@@ -448,6 +451,21 @@
                                         padding: 8px 0;
                                         position: relative;
                                         border: 0 !important;
+                                        sup{
+                                            position: absolute;
+                                            width: 4px;
+                                            height: 4px;
+                                            background: #0D6EFD;
+                                            border-radius: 100%;
+                                            right: -8px;
+                                            top: 6px;
+                                            &.red-notification{
+                                                background: #DD3646;
+                                            }
+                                            &.completed-notification{
+                                                background: #0D6EFD;
+                                            }
+                                        }
                                         &.active{
                                             background-color: #fff !important;
                                             &::before{
@@ -464,7 +482,7 @@
                                 }
                             }
                             .tab-content{
-                                padding: 10px;
+                                padding: 0px;
                                 .tab-pane{
                                     &.active{
                                         background-color: #fff !important;
@@ -546,27 +564,28 @@
 
 .statusDockerBody{
     .clear_icon{
-        // padding: 15px 17px;
         padding: 10px 17px;
         color: #9AA0A6;
         font-weight: normal;
         font-size: 12px;
         line-height: 15px;
-        // margin-bottom: 10px;
         cursor: pointer;
+        width: 100px;
+        margin: 10px 0 auto auto;
     }
     .docker-list{
-        // padding: 0 17px;
-        padding-bottom: 10px;
+       padding: 10px;
         .row-content{
             // margin-bottom: 12px;
-            padding: 10px;
+            padding: 0px 10px;
+            min-height: 45px;
+            align-items: center;
             .heading{
                 color: #202124;
                 font-weight: normal;
                 font-size: 12px;
                 line-height: 15px;
-                margin-bottom: 6px;
+                margin-bottom: 4px;
             }
             .desc{
                 color: #9AA0A6;
@@ -592,9 +611,10 @@
                 }
             }
             .img-block{
-                margin-right: 24px;
+                margin-right: 7px;
                 img{
                     cursor: pointer;
+                    margin: 0 5px;
                 }
             }
             .status-blcok{
@@ -604,12 +624,6 @@
             }
         }
     }    
-    .perfect-scroll-modal-body{
-        &.docker{
-            // height: 215px;
-            height: 428px;
-        }        
-    }
     .inProgress{
         width: 20px;
         height: 20px;

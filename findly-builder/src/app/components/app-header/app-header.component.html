@@ -84,7 +84,7 @@
                     <button class="kr-sg-button-secondary btn_lg" (click)="openOrCloseSearchSDK()">Test</button>
                 </li>
                 <li class="nav-item search-block">
-                    <div class="search_icon">
+                    <div class="search_icon" [ngClass]="{'active-search-top' : showSearch}">
                         <img src="assets/icons/sidemenu/search.svg" (click)="showSearch=!showSearch;searchText=''">
                     </div>
                     <div class="global-searc-container" *ngIf='showSearch'>
@@ -107,7 +107,10 @@
                                 <div class="notification-dropdown-status">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item">
-                                          <a class="nav-link active" data-toggle="tab" href="#statusupdates">Status Updates</a>
+                                          <a class="nav-link active" data-toggle="tab" href="#statusupdates">Status Updates 
+                                            <sup *ngIf="isAnyRecordFailed" class="red-notification"></sup>
+                                            <sup *ngIf="isAnyRecordCompleted" class="completed-notification"></sup>
+                                          </a>
                                         </li>
                                         <li class="nav-item">
                                           <a class="nav-link disabled" data-toggle="tab" href="#activities">Activities</a>
@@ -126,12 +129,12 @@
                                                                     <div class="desc" *ngIf="!getStatusView(task.status)">{{getStatusView(task.status, 'other')}} <span class="tooltip-data" ngbTooltip='{{task.createdOn}}' tooltipClass="date-tooltip" placement="right-center" [container]="'body'"><img src="assets/icons/docker/clock.svg"></span></div>
                                                                 </div>
                                                                 <div class="col-3 d-flex p-0 align-items-center justify-content-end">
-                                                                    <div class="img-block" [class.mr-3]="(task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq' )) || (task.jobType == 'STRUCTURED_DATA_INGESTION')">
+                                                                    <div class="img-block">
                                                                         <img src="assets/icons/docker/info.svg" *ngIf="task.status === 'FAILURE'">
                                                                         <img src="assets/icons/docker/return.svg" *ngIf="task.status === 'HALTED'" (click)="recrawl(task)">
                                                                         <!-- <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')"> -->
                                                                         <img src="assets/icons/docker/check.svg" *ngIf="(task.status === 'SUCCESS')">
-                                                                        <img src="assets/icons/docker/external-link.svg" class="ml-2 mb-2px" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq')) || (task.jobType == 'STRUCTURED_DATA_INGESTION')">                        
+                                                                        <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq')) || (task.jobType == 'STRUCTURED_DATA_INGESTION')">                        
                                                                     </div>
                                                                     <div class="status-blcok">                        
                                                                         <img src="assets/icons/ringLoading.svg" class="inProgress" *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation'" placement="top" container='body'>

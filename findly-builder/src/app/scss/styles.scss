@@ -2897,3 +2897,12 @@ nouislider{
 .mb-2px{
     margin-bottom : 2px !important;
 }
+
+.perfect-scroll-modal-body{
+        &.docker{
+            max-height: 428px;
+            .ps-content{
+                max-height: 428px;
+            }
+        }        
+}

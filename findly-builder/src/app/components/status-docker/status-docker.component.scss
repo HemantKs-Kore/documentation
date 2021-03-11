@@ -58,7 +58,10 @@
     }    
     .perfect-scroll-modal-body{
         &.docker{
-            height: 215px;
+            max-height: 428px;
+            .ps-content{
+                max-height: 428px;
+            }
         }        
     }
     .inProgress{
