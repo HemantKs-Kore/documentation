@@ -325,10 +325,10 @@ export class AppExperimentsComponent implements OnInit {
     this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
       console.log("get.indexPipeline", res)
       this.indexConfig = res;
-      let data = { _id: res[0]._id, name: res[0].name };
-      console.log("variantsArray123", this.variantsArray)
+      // let data = { _id: res[0]._id, name: res[0].name };
+      // console.log("variantsArray123", this.variantsArray)
       // this.fetchVariant(1, data, 'indexid');
-      // this.getQueryPipeline(data._id);
+      this.getQueryPipeline(res[0]._id);
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -420,6 +420,9 @@ export class AppExperimentsComponent implements OnInit {
   }
   // add new experiment method
   async createExperiment() {
+    if (this.variantsArray[0].indexPipelineId === undefined) {
+      this.variantsArray[0] = { ...this.variantsArray[0], indexPipelineId: this.indexConfig[0]._id, queryPipelineId: this.queryPipeline[0]._id };
+    }
     if (this.someRange !== undefined) {
       await this.sliderPercentage();
     }

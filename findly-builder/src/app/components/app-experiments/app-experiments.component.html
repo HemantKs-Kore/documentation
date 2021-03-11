@@ -316,7 +316,7 @@
               }">
               {{
               vari.indexPipelineName === undefined
-              ? "Select Configuration"
+              ? varIndex===0? "Default Index Configuration":"Select Configuration"
               : vari.indexPipelineName
               }}
             </button>
@@ -337,7 +337,7 @@
               }">
               {{
               vari.queryPipelineName === undefined
-              ? "Select Configuration"
+              ? varIndex===0? "Default Search Configuration":"Select Configuration"
               : vari.queryPipelineName
               }}
             </button>
