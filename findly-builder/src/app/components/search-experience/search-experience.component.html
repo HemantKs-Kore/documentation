@@ -44,13 +44,13 @@
                 <div class="search-widget">
                     <div class="label-text">Search Box Customization</div>
                     <div class="d-flex search-customization-input">
-                        <div class="kr-sg-input-search">                               
+                        <div class="kr-sg-input-search" [ngClass]="{'added-tour':tourGuide==='step1'||tourGuide==='step2'||tourGuide==='step3'}">                               
                             <input type="text" class="input-search" [ngClass]="{'activeBox':selectSearch=='inputBox'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" (click)="selectSearchBox('inputBox');$event.stopPropagation();" readonly>
                             <img [src]="searchIcon" class="search-icon" [ngClass]="{'activeBox':selectSearch=='inputIcon'}" (click)="selectSearchBox('inputIcon');$event.stopPropagation();" height="15" width="15">
-                            <input class="placeholder-custom-search" value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}" placeholder="search" (click)="selectSearchBox('placeholderText');$event.stopPropagation()" [ngClass]="{'activeBox':selectSearch=='placeholderText'}" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}" #data (change)="onEventLog('placeholderText',data.value)"> 
-                            <!-- <span class="placeholder-text" [ngClass]="{'activeBox':selectSearch=='placeholderText'}"  [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}" joyrideStep="thirdStep" [stepContent]="placeholderText">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span> -->
+                            <input #elasticInput class="placeholder-custom-search" value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}" placeholder="search" (click)="selectSearchBox('placeholderText');$event.stopPropagation()" [ngClass]="{'activeBox':selectSearch=='placeholderText'}" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor,'width.px': width}" #data (change)="onEventLog('placeholderText',data.value);" (input)="resize()"> 
+                            <span #hiddenText style="visibility: hidden; white-space: pre;">{{elasticInput.value}}</span>
                         </div>                        
-                        <button class="btn-customize kr-sg-button-primary read-mode btn_lg"  (click)="selectSearchBox('button')" [ngClass]="{'activeBox':selectSearch=='button'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled">
+                        <button class="btn-customize kr-sg-button-primary read-mode btn_lg"  (click)="selectSearchBox('button')" [ngClass]="{'activeBox':selectSearch=='button','added-tour':tourGuide==='step4'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled">
                             <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
                             <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled"><img src="assets/icons/search-experience/edit.svg"></div>
                         </button>
@@ -64,12 +64,12 @@
                                     <div class="tour-length">1 of 4</div>
                                     <div class="bt-sec">
                                         <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step2'">Next</button>
-                                        <button class="kr-sg-button-secondary btn_lg">Previous</button>
+                                        <!-- <button class="kr-sg-button-secondary btn_lg">Previous</button> -->
                                     </div>
                                 </div>
                             </div>  
                             
-                            <div class="tour-guide-data search-tour-icon added-tour" *ngSwitchCase="'step2'">
+                            <div class="tour-guide-data search-tour-icon" *ngSwitchCase="'step2'">
                                 <div class="close-guide" (click)="tourGuide=''">
                                     <img src="assets/icons/search-experience/close-tour.svg">
                                 </div>
@@ -78,12 +78,12 @@
                                     <div class="tour-length">2 of 4</div>
                                     <div class="bt-sec">
                                         <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step3'">Next</button>
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step2'">Previous</button>
+                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step1'">Previous</button>
                                     </div>
                                 </div>
                             </div> 
     
-                            <div class="tour-guide-data place-holder-text-tour added-tour" *ngSwitchCase="'step3'">
+                            <div class="tour-guide-data place-holder-text-tour" *ngSwitchCase="'step3'">
                                 <div class="close-guide" (click)="tourGuide=''">
                                     <img src="assets/icons/search-experience/close-tour.svg">
                                 </div>
@@ -92,12 +92,12 @@
                                     <div class="tour-length">3 of 4</div>
                                     <div class="bt-sec">
                                         <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step4'">Next</button>
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step3'">Previous</button>
+                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step2'">Previous</button>
                                     </div>
                                 </div>
                             </div> 
     
-                            <div class="tour-guide-data button-tour added-tour" *ngSwitchCase="'step4'">
+                            <div class="tour-guide-data button-tour" *ngSwitchCase="'step4'">
                                 <div class="close-guide" (click)="tourGuide=''">
                                     <img src="assets/icons/search-experience/close-tour.svg">
                                 </div>
@@ -105,7 +105,7 @@
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class="tour-length">4 of 4</div>
                                     <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide=''">Got it</button>
+                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="updateTourConfig()">Got it</button>
                                         <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step3'">Previous</button>
                                     </div>
                                 </div>
@@ -116,16 +116,14 @@
                         <div class="fill-colors-block" *ngSwitchCase="'inputBox'">
                             <div class="fill-color">
                                 <div class="label-color">Fill Color</div>                            
-                                <div class="box-color"  [ngClass]="{'color-pallet-container': inputBox1}">
+                                <div class="box-color" [ngClass]="{'color-pallet-container': inputBox1}">
                                     <input
-                                        [style.background]="color"                                        
+                                        [style.background]="color"                                      
                                         [(colorPicker)]="color"
                                         [cpOutputFormat]="'hex'"
-                                        (colorPickerOpen)="onEventLog('inputbox1', $event)"
-                                        (colorPickerClose)="onEventLog('inputbox1', $event)"
+                                        (colorPickerClose)="onEventLog('inputbox1', $event)"    
                                         readonly
                                     />
-
                                     <div class="box-color-content" *ngIf="inputBox1">
                                         <div class="selected-previous-colors">
                                            <div class="bg-color-selected"></div>
@@ -136,11 +134,30 @@
                                         </div>
                                         <div class="save-switch">Save Swatch</div>
                                      </div>
+                                     <!-- <input
+                                        [style.background]="color"                                      
+                                        [(colorPicker)]="color"
+                                        [cpOutputFormat]="'hex'"
+                                        [cpAlphaChannel]="'always'"
+                                        (colorPickerClose)="onEventLog('inputbox1', $event)"
+                                        [cpCloseClickOutside]="false"
+                                        [(cpToggle)]='toggle'
+                                        readonly
+                                    /> -->
+                                    <!-- <div class="box-color-content" *ngIf="inputBox1">
+                                        <div class="selected-previous-colors">
+                                            <div *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
+                                                <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('inputbox1', col);color=col;"></div>
+                                            </div>                                           
+                                        </div>
+                                        <div class="save-switch" (click)="toggle=!toggle;inputBox1=false">Save Swatch</div>
+                                     </div> -->
                                 </div>
                             </div>
                             <div class="fill-color">
                                 <div class="label-color">Border Color</div>
-                                <div class="box-color border-color-pallet" [ngClass]="{'color-pallet-container': inputBox2}">
+                                <!--border-color-pallet-->
+                                <div class="box-color" [ngClass]="{'color-pallet-container': inputBox2}">
                                     <input
                                         [style.background]="color1"
                                         [(colorPicker)]="color1"

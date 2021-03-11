@@ -181,7 +181,7 @@
                         }
                         &.button-tour{
                             left: auto;
-                            right: 165px;
+                            right: 75px;
                         }
                         &::before{
                             content: "";
@@ -299,10 +299,10 @@
                         }
                         &:hover{
                             border: 0.5px solid #0D6EFD;
-                            span{
-                                color: #ed6666;
-                                opacity: 0.2;
-                            }
+                            // span{
+                            //     color: #ed6666;
+                            //     opacity: 0.2;
+                            // }
                             .hover-overlay-btn-img{
                                 display: block;
                             }
@@ -326,7 +326,7 @@
                         // }
                         &.read-mode{
                             background: #EFF0F1;
-                            color: #BDC1C6;
+                            //color: #BDC1C6;
                             border-radius: 4px;
                             font-weight: normal;
                             font-size: 14px;
@@ -611,7 +611,6 @@
                                         display: flex;
                                         width: 270px;
                                         .bg-color-selected{
-                                            background: #0D6EFD;
                                             border: 1px solid rgba(0, 0, 0, 0.1);
                                             box-sizing: border-box;
                                             border-radius: 4px;

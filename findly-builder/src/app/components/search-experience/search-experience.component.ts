@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { RangeSlider } from '../../helpers/models/range-slider.model';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -31,7 +31,8 @@ export class SearchExperienceComponent implements OnInit {
       "buttonTextColor": "#BDC1C6",
       "buttonFillColor": "#EFF0F1",
       "buttonBorderColor": "#EFF0F1",
-      "searchBarIcon": "6038e58234b5352faa7773b0"
+      "searchBarIcon": "6038e58234b5352faa7773b0",
+      "serSelectedColors": []
     },
     "searchInteractionsConfig": {
       "feedbackExperience": { resultLevel: true, queryLevel: false },
@@ -59,10 +60,14 @@ export class SearchExperienceComponent implements OnInit {
   public color: string = '#2889e9';
   statusModalPopRef: any = [];
   userInfo: any = {};
-  tourGuide: string = 'step11';
+  tourGuide: string;
   show_tab_color: boolean = false;
   show_tab_color1: boolean = false;
   show_tab_color2: boolean = false;
+  toggle: boolean = false;
+  minWidth: number = 200;
+  width: number = this.minWidth;
+  @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService) { }
 
@@ -71,6 +76,11 @@ export class SearchExperienceComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
     this.getSearchExperience();
+    this.getTourConfig();
+  }
+  //dynamically increse input text 
+  resize() {
+    setTimeout(() => this.width = Math.max(this.minWidth, this.textEl.nativeElement.offsetWidth));
   }
   //upload search icon image manually from asset folder
   searchIconUpload() {
@@ -264,6 +274,36 @@ export class SearchExperienceComponent implements OnInit {
   selectSearchBox(type) {
     this.selectSearch = type;
   }
+  //get tour congfig data
+  getTourConfig() {
+    const quaryparms: any = {
+      userId: this.userInfo.id
+    };
+    this.service.invoke('get.tourConfig', quaryparms).subscribe(res => {
+      console.log("get tour config data", res);
+      this.tourGuide = res.configurations.searchExperienceVisited ? '' : 'step1';
+    }, errRes => {
+      console.log(errRes);
+    });
+  }
+  //put tour config data
+  updateTourConfig() {
+    const quaryparms: any = {
+      userId: this.userInfo.id
+    };
+    const payload = {
+      "configurations": {
+        "searchExperienceVisited": true
+      }
+    }
+    this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
+      console.log("put tour config data", res);
+      this.notificationService.notify('Updated successfully', 'success');
+      this.tourGuide = '';
+    }, errRes => {
+      console.log(errRes);
+    });
+  }
   //get default data
   getSearchExperience() {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
@@ -289,12 +329,12 @@ export class SearchExperienceComponent implements OnInit {
     if (this.searchObject.searchWidgetConfig.searchBarIcon === '') {
       this.searchIconUpload();
     }
-    if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '') {
-      this.emojiIconUpload();
-    }
+    // if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '') {
+    //   this.emojiIconUpload();
+    // }
     if (this.searchObject.searchWidgetConfig.searchBarIcon !== '' && this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
-      delete this.searchObject.searchWidgetConfig.searchBarIcon;
-      delete this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
+      // delete this.searchObject.searchWidgetConfig.searchBarIcon;
+      // delete this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
       this.addSearchExperience()
     }
   }
@@ -308,6 +348,9 @@ export class SearchExperienceComponent implements OnInit {
       searchIndexId: searchIndex
     };
     this.service.invoke('put.searchexperience', quaryparms, obj).subscribe(res => {
+      console.log("test res", res);
+      this.searchIcon = res.widgetConfig.searchBarIcon;
+      console.log("this.searchIcon", this.searchIcon)
       this.notificationService.notify('Updated successfully', 'success');
       this.statusModalPopRef = this.statusModalPop.open();
     }, errRes => {
