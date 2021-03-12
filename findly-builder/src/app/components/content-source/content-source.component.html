@@ -1,4 +1,4 @@
-<div class="contentContainer pr-0">
+<div class="contentContainer p-0">
   <div class="mainLoadingSpinner" *ngIf="loadingContent" [@fadeInOutAnimation]>
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">Please Wait!</span>
@@ -11,6 +11,7 @@
     </div>
   </div> -->
   <ng-container *ngIf="!(resources && resources.length) && loadingContent1">
+    <div class="title-content">Content</div>
     <perfect-scrollbar class="scoll-empty-screen">
       <div class="empty-landing-screen">
         <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/contentmanag-empty.svg"></div>   
@@ -62,6 +63,9 @@
   <div class="table-list-content" *ngIf="resources && resources.length && !loadingContent">
     <div class="kr-sg-data-table with-checkbox">
       <div class="table-action-header">
+        <div class="title-main">
+          Content Management
+        </div>
         <div>
           <div class="kr-sg-input-search m-0">
             <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search"
@@ -70,8 +74,12 @@
             <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
             <img *ngIf="!searchSources" class="search-icon" src="assets/images/search_gray.svg">
           </div>
-        </div>
-        <div>
+
+          <div class="search-block">
+              <img src="assets/icons/search.svg" />           
+              {{ "search" | translate }}
+          </div>
+
           <div class="kr-sg-dropdowns">
             <div class="dropdown dropdown-open">
               <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img

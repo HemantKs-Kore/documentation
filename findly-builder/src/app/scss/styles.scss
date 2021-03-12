@@ -647,7 +647,8 @@ div.divBlockEmptylastChild:first-child {
         justify-content: space-between;
         height: auto;
         background: #F8F9FA;
-        padding: 13px 30px;
+        height: 53px;
+        padding: 9px 30px;
         border-radius: 4px;
         margin: 0;
         width: 100%;
@@ -2735,56 +2736,15 @@ nouislider{
     }
 }
 
-.empty-landing-screen{
-    width: 606px;
-    margin: 0 auto;
-    padding: 42px 0 40px 0;
-    text-align: center;
-    .img-block{
-
-    }
-    .empty-title{
-        color: #202124;
-        font-weight: 600;
-        font-size: 18px;
-        line-height: 20px;
-        margin: 10px 0;
-    }
-    .desc-text{
-        color: #5F6368;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 20px;
-    }    
-    .kr-sg-dropdowns{
-        width: 128px;
-        margin: 20px auto;
-        .dropdown-open {
-            .dropdown-input{
-                background: #0D6EFD;
-                border-radius: 4px;
-                border: 0;
-                font-weight: normal;
-                font-size: 14px;
-                line-height: 20px;
-                color: #FFFFFF;
-                text-align: center;
-                &::before{
-                    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABgSURBVHgBfY7RDYAgDETbxH8dgRFwBDdwAxzBDR1BN9ANHKHcJeWHAE0eNHcvBDGzG+zSGXZ0uETwg9SQknexBJRfcPakiYeqPgg2rBfu2d0DrOi+1n+Cv0yCjMblpc4zGr9VeEmH2SQAAAAASUVORK5CYII=');
-                    background-size: auto;
-                }
-            }
-        }
-    }
-}
-
 .mat-form-field-appearance-fill {
     .mat-form-field-flex{
         padding: 0 !important;
     }
 }
+
+
 .empty-landing-screen{
-    width: 606px;
+    width: 660px;
     margin: 0 auto;
     padding: 42px 0 40px 0;
     text-align: center;
@@ -2965,4 +2925,112 @@ nouislider{
     .ps-content{
         max-height: 300px !important;
     }
+}
+
+
+.queryPipelineConfig{   	
+    &.content-menu{
+        max-height: 250px;
+        width: 279px;
+        overflow: auto;
+        padding: 0;
+        background: #FFFFFF;
+        box-shadow: 0px 10px 30px rgba(32, 33, 36, 0.3);
+        border-radius: 4px;
+        margin: -24px 0px 0 25px;
+        border: 0;
+        perfect-scrollbar{
+            max-height: 200px;
+            .ps-content{
+                max-height: 200px;
+            }
+        }
+        .list-name{					
+            padding: 10px 30px 10px 33px !important;
+            position: relative;
+            color: #202124;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 16px;
+            border-radius: 2px;
+            transition: 0.2s all ease;
+            height: 36px;
+            display: flex;
+            align-items: center;            
+            &.nostars{
+                .config_name{
+                    width: 135px;
+                }
+                &:hover{
+                    background: #EFF0F1;
+                    img{
+                        &.star{
+                            display: none;
+                        }  
+                        &.star-black{
+                            display: block;
+                        }                      
+                    }
+                    .action-icons-data{
+                        display: flex;
+                    } 
+                }
+            }
+            &:hover{
+                background: #EFF0F1;                              
+            }
+            img{
+                cursor: pointer;
+                &.star{
+                    position: absolute;
+                    left: 12px;
+                    top: 10px;
+                }   
+                &.star-black{
+                    position: absolute;
+                    left: 12px;
+                    top: 10px;
+                    display: none;
+                }             
+            }
+            .action-icons-data{
+                position: absolute;
+                right: 0;
+                display: none;
+                align-items: center;
+                .edit-black{
+                    width: 36px;
+                    text-align: center;
+                    cursor: pointer;
+                }
+                .clone{
+                    width: 36px;
+                    text-align: center;
+                    cursor: pointer;
+                }
+                .delete{
+                    width: 36px;
+                    text-align: center;
+                    cursor: pointer;
+                }
+            }
+        }
+        .create-new{
+            background: #FFFFFF;
+            border-radius: 2px;
+            margin-top: 2px;
+            padding: 9px 10px;
+            color: #0D6EFD;
+            cursor: pointer;
+            border-top: 1px solid #EFF0F1;
+            padding-left: 30px;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 17px;
+        }
+        .edit-name{
+            width: 100%;
+        }
+    }
+    				
 }

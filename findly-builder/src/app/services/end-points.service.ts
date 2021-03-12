@@ -533,8 +533,8 @@ export class EndPointsService {
       method: 'delete'
     }
     this.serviceList['get.extractedResult_RR'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/resultSearch?extractionType=:type&search=:search&skip=:skip&limit=:limit',
-      method: 'get'
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/resultSearch?skip=:skip&limit=:limit',
+      method: 'post'
     }
     this.serviceList['get.QueryLevelAnalytics'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/search/analytics?startDate=:startDate&endDate=:endDate',
