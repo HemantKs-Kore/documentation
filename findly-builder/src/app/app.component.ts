@@ -39,6 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
   showInsightFull = false;
   queryText;
   subscription: Subscription;
+  searchSDKSubscription : Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -72,6 +73,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.userInfo = this.authService.getUserInfo() || {};
     this.subscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.resetFindlySearchSDK(this.workflowService.selectedApp());
+    })
+    this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe( (res : any) => {
+      if (!$('.search-background-div:visible').length) {
+        $('.start-search-icon-div').addClass('active');
+        this.showHideSearch(true);
+      } else {
+        this.showHideSearch(false);
+      }
     })
   }
   showMenu(event) {
@@ -154,7 +163,8 @@ export class AppComponent implements OnInit, OnDestroy {
       if (appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id) {
         const searchData = {
           _id: appData.searchIndexes[0]._id,
-          pipelineId: this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
+          pipelineId: this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
+          indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
         }
         window.selectedFindlyApp = searchData;
         this.searchInstance.setAPIDetails();
@@ -228,6 +238,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.authService.findlyApps.unsubscribe();
     this.subscription.unsubscribe();
+    this.searchSDKSubscription.unsubscribe();
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
@@ -350,10 +361,10 @@ export class AppComponent implements OnInit, OnDestroy {
   // click event on whole body. For now, using for Status Docker
   globalHandler(event) {
     // console.log("evnt", event);
-    if (!$(event.target).closest('.statusDockerBody').length && !$(event.target).closest('.status-docker').length && !$(event.target).is('.status-docker')) {
-      if (this.dockService.showStatusDocker) {
-        this.dockService.showStatusDocker = false;
-      }
-    }
+    // if (!$(event.target).closest('.statusDockerBody').length && !$(event.target).closest('.status-docker').length && !$(event.target).is('.status-docker')) {
+    //   if (this.dockService.showStatusDocker) {
+    //     this.dockService.showStatusDocker = false;
+    //   }
+    // }
   }
 }

@@ -9,12 +9,13 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
-import { of, interval, Subject } from 'rxjs';
+import { of, interval, Subject, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AuthService } from '@kore.services/auth.service';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { JsonPipe } from '@angular/common';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 declare const $: any;
 @Component({
   selector: 'app-index',
@@ -46,6 +47,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   currentEditIndex: any = -1;
   pollingSubscriber: any = null;
   showNewStageType: boolean = false;
+  subscription: Subscription;
   @ViewChild('tleft') public tooltip: NgbTooltip;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
@@ -157,20 +159,38 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    public authService: AuthService
+    public authService: AuthService,
+    private appSelectionService:AppSelectionService
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
+    console.log("this.selectedApp", this.selectedApp)
     if ((this.selectedApp || {}).searchIndexes && (this.selectedApp || {}).searchIndexes.length) {
       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-      this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
+      //this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
+      this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     }
-    this.getSystemStages();
-    this.getIndexPipline();
-    this.getFileds();
-    this.setResetNewMappingsObj();
-    this.addcode({});
-    this.getTraitGroups()
+    this.loadIndexAll()
+    // this.getSystemStages();
+    // this.getIndexPipline();
+    // this.getFileds();
+    // this.setResetNewMappingsObj();
+    // this.addcode({});
+    // this.getTraitGroups()
+    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res=>{
+      this.loadIndexAll()
+    })
+  }
+  loadIndexAll(){
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      if(this.indexPipelineId){
+        this.getSystemStages();
+        this.getIndexPipline();
+        this.getFileds();
+        this.setResetNewMappingsObj();
+        this.addcode({});
+        this.getTraitGroups()
+      }
   }
   ngAfterViewInit() {
     const self = this;
@@ -499,7 +519,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       data: {
         newTitle: 'Stage configuration is successfully saved',
         body: 'You have added ' + this.newfieldsData.length + ' new fields in your configuration. Do you wish to define properties for them?',
-        buttons: [{ key: 'yes', label: 'Delete' }, { key: 'no', label: 'Cancel', secondaryBtn: true }],
+        buttons: [{ key: 'yes', label: 'Proceed' }, { key: 'no', label: 'Cancel', secondaryBtn: true }],
         confirmationPopUp: true
       }
     });
@@ -881,6 +901,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId
     };
+    console.log("index queryparams", quaryparms);
     this.service.invoke('get.indexpipelineStages', quaryparms).subscribe(res => {
       this.pipeline = res.stages || [];
       this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));

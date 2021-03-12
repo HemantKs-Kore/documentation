@@ -31,7 +31,7 @@ export class SearchInsightsComponent implements OnInit {
   QWR_skipPage:number = 0;
 
   QWNR_totalRecord : number;
-  QWNR_limitPage : number = 10;
+  QWNR_limitPage : number = 4;
   QWNR_skipPage:number = 0;
 
   SQR_totalRecord : number;
@@ -120,8 +120,8 @@ export class SearchInsightsComponent implements OnInit {
     if(type == 'QueriesWithNoResults'){
       queryparams = {
         ...queryparams,
-        offset: this.QWNR_skipPage,
-        limit:this.QWNR_limitPage
+        offset: this.QWNR_skipPage || 0,
+        limit:this.QWNR_limitPage || 4
       };
     }
     else if(type == 'QueriesWithResults'){

@@ -499,3 +499,6 @@ perfect-scrollbar .ps--active-y{
 ::ng-deep .trailts .ps-content{
     padding-bottom: 120px;
 }
+.empty-scroll{
+    height: calc(100vh - 62px);
+}

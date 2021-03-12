@@ -36,6 +36,21 @@
     .myappname{
         visibility: hidden;
     }
+    .no-landing-screen{
+        visibility: hidden;
+    }
+    .app-dropdown{
+        visibility: hidden;
+    }
+    .test-button{
+        visibility: hidden;
+    }
+    .notification-dropdown{
+        visibility: hidden;
+    }
+    .dropdown-toggle.dropdown-input.notification{
+        pointer-events: none;
+    }
     &.appSelected{
         .trainBlock{
             display: block !important;
@@ -57,6 +72,24 @@
         }
         .autoSearchTools{
             display: list-item;
+        }
+        .landing-screen{
+            display: none;
+        }
+        .no-landing-screen{
+            visibility: visible !important;
+        }
+        .app-dropdown{
+            visibility: visible !important;
+        }
+        .test-button{
+            visibility: visible !important;
+        }
+        .notification-dropdown{
+            visibility: visible !important;
+        }
+        .dropdown-toggle.dropdown-input.notification{
+            pointer-events: unset;
         }
     }
 }

@@ -28,12 +28,22 @@
     height: calc(100vh - 62px);
     overflow: hidden;    
     background: #fff;
+    .title-content{
+        background: #F8F9FA;
+        padding: 9px 30px;
+        height: 53px;
+        display: flex;
+        align-items: center;
+        color: #000000;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 22px;
+    }
     .scoll-empty-screen{
-        height: calc(100vh - 115px);
-        padding-right: 65px;
+        height: calc(100vh - 115px);       
     }
     .table-list-content{
-        padding-right: 65px;
+        padding-right: 0px;
         .kr-sg-data-table{
             // margin: 0 0 10px 0;
             .header-sec {
@@ -93,12 +103,31 @@
     .table-list-content{
         .kr-sg-data-table{
             .table-action-header{
-                justify-content: space-between;
-                height: auto;
-                background: #F8F9FA;
-                padding: 5px 20px 5px 5px;
-                border-radius: 4px; 
-                margin: 0 15px 0 10px;               
+                margin: 0;
+                height: 53px;
+                padding: 0 30px;
+                justify-content: space-between;                
+                background: #F8F9FA;                
+                border-radius: 4px;    
+                .title-main{
+                    color: #000000;
+                    font-weight: 500;
+                    font-size: 18px;
+                    line-height: 22px;
+                }
+                .search-block {
+                    color: #202124;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 12px;
+                    margin-right: 30px;
+                    img {
+                        margin-right: 7px;
+                        cursor: pointer;
+                        position: relative;
+                        top: -1px;
+                    }
+                }                    
                 .kr-sg-input-search{
                     width: 300px;
                     input{
@@ -163,8 +192,8 @@
                 }
             }  
             .table-content{
-                margin-top: 25px;      
-                padding: 0 15px 0 10px;          
+                margin-top: 0px;      
+                padding: 0 30px;          
                 .table-header{
                     background: #fff;
                     border-bottom: 1px solid #E4E5E7;
@@ -240,9 +269,9 @@
             }                     
         }
         .table-scroll-perfect{
-            height: calc(100vh - 220px);
+            height: calc(100vh - 185px);
             &.list{
-                height: calc(100vh - 136px);
+                height: calc(100vh - 125px);
             }
         }
     }  
@@ -1131,7 +1160,8 @@
     
 
     .grid-data-sec{ 
-        margin: 10px 0;      
+        margin: 10px 0;    
+        padding: 0 20px !important;  
         .grid-card{
             padding: 10px;
             .card_sec{

@@ -38,6 +38,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   sampleJsonPath: any = '/home/assets/sample-data/sample.json';
   sampleCsvPath: any = '/home/assets/sample-data/sample.csv';
   filePath;
+  extension;
   receivedQuaryparms: any;
   searchIndexId;
   selectedSourceType: any = null;
@@ -376,6 +377,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.redirectTo();
     this.cancleSourceAddition();
+    this.closeCrawlModalPop();
   }
   closeCrawlModal() {
     this.saveEvent.emit();
@@ -402,6 +404,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.closeStatusModal();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to Stop Cwraling');
+
     });
   }
   errorToaster(errRes, message) {
@@ -409,6 +412,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
     } else if (message) {
       this.notificationService.notify(message, 'error');
+      this.closeStatusModal();
     } else {
       this.notificationService.notify('Somthing went worng', 'error');
     }
@@ -453,6 +457,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   openImageLink(url) {
     window.open(url, '_blank');
   }
+
   fileChangeListener(event) {
     this.newSourceObj.url = '';
     let fileName = '';
@@ -461,43 +466,46 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       return;
     }
+ 
     const _ext = fileName.substring(fileName.lastIndexOf('.'));
-    if (_ext !== '.pdf' ) {
+    this.extension = _ext
+    if (this.selectedSourceType.sourceType != "faq") {
+    if (this.extension !== '.pdf' && this.extension !== '.csv') {
       $('#sourceFileUploader').val(null);
-      this.notificationService.notify('Please select a valid  pdf file', 'error');
+      this.notificationService.notify('Please select a valid csv or pdf file', 'error');
       return;
-    }
-     else {
-      this.fileObj.fileUploadInProgress = true;
-      this.fileObj.fileName = fileName;
-      this.fileObj.file_ext = _ext.replace(".", "");
-
-    }
-
-    this.onFileSelect(event.target, _ext);
+    } 
   }
-  fileChangeListenerImport(event) {
-    this.newSourceObj.url = '';
-    let fileName = '';
-    if (event && event.target && event.target.files && event.target.files.length && event.target.files[0].name) {
-      fileName = event.target.files[0].name;
-    } else {
-      return;
+  else {
+      let showProg: boolean = false;
+      if (this.selectedSourceType.sourceType == "faq") {
+        if (this.selectedSourceType.resourceType == '') {
+          if (this.extension === '.pdf') {
+            showProg = true;
+          }
+          else {
+            this.notificationService.notify('Please select a valid pdf file', 'error');
+          }
+        }
+        else {
+          if (this.extension != '.pdf') {
+            showProg = true;
+          }
+          else {
+            this.notificationService.notify('Please select a valid csv and json file', 'error');
+          }
+        }
+      }
+      else {
+        showProg = true;
+      }
+      if (showProg) {
+        this.onFileSelect(event.target,this.extension);
+        this.fileObj.fileUploadInProgress = true;
+        this.fileObj.fileName = fileName;
+        this.fileObj.file_ext = this.extension.replace(".", "");
+      }
     }
-    const _ext = fileName.substring(fileName.lastIndexOf('.'));
-    if (_ext !== '.csv' && _ext !== '.json' ) {
-      $('#sourceFileUploaderImport').val(null);
-      this.notificationService.notify('Please select a valid csv or json file', 'error');
-      return;
-    }
-     else {
-      this.fileObj.fileUploadInProgress = true;
-      this.fileObj.fileName = fileName;
-      this.fileObj.file_ext = _ext.replace(".", "");
-
-    }
-
-    this.onFileSelect(event.target, _ext);
   }
   onFileSelect(input: HTMLInputElement, ext) {
     const files = input.files;
@@ -614,7 +622,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let resourceType_import = resourceType;
 
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
-      payload.extractionType = "basic"
+      payload.extractionType = "basic";
       this.importFaq();
     }
     if (this.selectedSourceType.annotate && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
@@ -736,10 +744,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       // this.callWebCraller(this.crwalObject,searchIndex)
     }
-    // if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
-    //   payload.extractionType = "basic"
-    //   this.importFaq();
-    // }
 
   }
   callWebCraller(crawler, searchIndex) {
@@ -935,6 +939,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
+    this.closeStatusModal()
   }
   /* Annotation Modal end */
 

@@ -158,6 +158,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   useCookies = false;
   respectRobotTxtDirectives = false;
   crawlBeyondSitemaps = false;
+  loadingContent1: boolean;
   isJavaScriptRendered = false;
   blockHttpsMsgs = false;
   crawlDepth: number;
@@ -188,6 +189,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   scroll = (event): void => {
     //console.log(event)
   };
+  loadImageText: boolean = false;
+  imageLoad() {
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
+  }
   hoverExecutionLog() {
     this.executionLogStatus = true;
   }
@@ -312,6 +319,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         $('#searchContentSources').focus();
       }, 100);
       this.filterTable(this.filterTableSource, this.filterTableheaderOption)
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
     }, errRes => {
       console.log(errRes);
       this.loadingContent = false;
@@ -543,6 +557,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
   }
   openStatusSlider(source) {
+    console.log("sourec opned", source)
     // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
     //   this.notificationService.notify('Source extraction is still in progress', 'error');
     //   return;
@@ -1357,7 +1372,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
     crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
     crawler.advanceOpts.allowedURLs.length > 0 || crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.crawlEverything = false : crawler.advanceOpts.crawlEverything = true;
-    crawler.resourceType = resourceType;
+    if( resourceType != 'webdomain'){
+      crawler.resourceType = resourceType;
+    }    
+    else{
+      delete crawler.resourceType;
+    }
     payload = crawler;
     //console.log(payload);
     if (crawler.advanceOpts.scheduleOpt) {

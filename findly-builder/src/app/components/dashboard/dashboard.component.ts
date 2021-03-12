@@ -237,10 +237,10 @@ export class DashboardComponent implements OnInit {
       }else if(type == 'TopSearchResults'){
         this.topSearchResults = res.result;
       }else if(type == "MostClickedPositions"){
-        this.mostClickedPositions = res.result;
+        this.mostClickedPositions = res.results;
         this.mostClick();
       }else if(type == "FeedbackStats"){
-        this.feedbackStats = res.result;
+            this.feedbackStats = res ||{};
         this.feedback();
       }else if(type == "TotalUsersStats"){
         this.totalUsersStats = res;
@@ -576,10 +576,10 @@ export class DashboardComponent implements OnInit {
       let yAxisData = [];
       if(this.mostClickedPositions){
         this.mostClickedPositions.forEach(element => {
-          if(element.position == 1 ) yAxisData.push(element.position + " st")
-          if(element.position == 2 ) yAxisData.push(element.position + " nd")
-          if(element.position == 3 ) yAxisData.push(element.position + " rd")
-          if(element.position > 3 )yAxisData.push(element.position + " th");
+          if(element.position == 0 ) yAxisData.push(Number(element.position+1) + " st")
+          if(element.position == 1 ) yAxisData.push(Number(element.position+1) + " nd")
+          if(element.position == 2 ) yAxisData.push(Number(element.position+1) + " rd")
+          if(element.position > 2 )yAxisData.push(Number(element.position+1) + " th");
           xAxisData.push(element.clicks)
         });
       }else{
@@ -652,7 +652,7 @@ export class DashboardComponent implements OnInit {
             color: colorPaletteSearch,
             hoverAnimation: false,
             center: ['50%', '50%'],
-            data: [30,70],//[this.feedbackStats.thumbsDownCount + this.feedbackStats.thumbsUpCount,this.feedbackStats.totalSearches],//[30,70],
+            data: [this.feedbackStats.thumbsDownCount + this.feedbackStats.thumbsUpCount,this.feedbackStats.totalSearches],//[30,70],
             label: {
                 show: true,
                 position: 'inner',
@@ -672,7 +672,7 @@ export class DashboardComponent implements OnInit {
                 color: colorPaletteResult,
                 hoverAnimation: false,
                 center: ['50%', '50%'],
-                data: [30,70],//[this.feedbackStats.feedBackReceived,this.feedbackStats.notUsefulResult], //[30,70]
+                data: [this.feedbackStats.feedBackReceived,this.feedbackStats.notUsefulResult], //[30,70]
                 label: {
                     show: true,
                     position: 'inner',

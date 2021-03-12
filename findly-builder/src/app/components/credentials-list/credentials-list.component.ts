@@ -63,6 +63,14 @@ export class CredentialsListComponent implements OnInit {
   jwtAuth(awt) {
     this.credntial.awt = awt;
   }
+  loadImageText: boolean = false;
+  loadingContent1: boolean
+  loadingContent: boolean
+  imageLoad(){
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
+  }
   manageCredential() {
     const queryParams = {
       userId: this.authService.getUserId(),
@@ -198,6 +206,13 @@ getCredential() {
       //   this.existingCredential = true;
       // }
       console.log(res)
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
     },
     errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
