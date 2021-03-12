@@ -952,14 +952,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     const payload: any = {};
     let custerrMsg = 'Failed to update faqs'
     let custSucessMsg = 'Selected faqs updated successfully';
-    if (action === 'update' && state) {
+    if (action === 'update' && state) { 
       payload.state = state
     } else if (action === 'delete') {
       payload.action = 'delete'
       custSucessMsg = 'Selected Faqs deleted successfully'
       custerrMsg = 'Failed to delete faqs'
     }
-    if (this.faqSelectionObj && this.faqSelectionObj.selectAll) {
+    if (this.faqSelectionObj && this.faqSelectionObj.selectAll && (!this.selectedResource && !this.manualFilterSelected)) {
       payload.allFaqs = true;
       payload.currentState = this.selectedtab;
     } else {
