@@ -597,6 +597,7 @@
                 font-size: 14px;
                 line-height: 24px;
                 background: transparent;
+                resize: none;
                 &::-webkit-resizer {                    
                     border-color: 0;
                     background-image: url("^assets/icons/editor/bg-resize.svg");
