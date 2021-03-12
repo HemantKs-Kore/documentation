@@ -30,7 +30,13 @@
         
         var fSdk = new FindlySDK(findlyConfig);
 
-        fSdk.showSearch();
+        if(findlyConfig.botOptions.interface === 'top-down'){
+            fSdk.initializeTopDown();
+        }
+        else{
+            fSdk.initialize(findlyConfig);
+            fSdk.showSearch();
+        }
         // getJWT(findlyConfig.botOptions).then(function (res) {
         //     //fSdk.setJWT(res.jwt);
         //     fSdk.showSearch();

@@ -1205,7 +1205,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 </div>\
           {{/if}}\
           {{if faqs && faqs.length && !customSearchResult}}\
-              <div class="matched-faq-containers">\
+              <div class="matched-faq-containers display-none">\
                 <div class="search-heads">${taskPrefix} FAQS</div>\
                 <div class="tasks-wrp">\
                 {{each(key, faq) faqs}}\
@@ -1302,7 +1302,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               </div>\
               {{/if}}\
               {{if pages && pages.length && !customSearchResult}}\
-              <div class="matched-faq-containers matched-pages-container">\
+              <div class="matched-faq-containers matched-pages-container display-none">\
               <div class="search-heads">${taskPrefix} PAGES</div>\
               <div class="faqs-shadow tasks-wrp">\
               {{each(key, pageInfo) pages}}\
@@ -2550,15 +2550,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $(document).off('click', '.accordion').on('click', '.accordion', function (evet) {
         $(evet.target).toggleClass('acc-active');
         var panel = $(evet.target).next();
-        if($(evet.target).next().length){
+        //if($(evet.target).next().length){
           if (panel[0].style.maxHeight) {
             panel[0].style.maxHeight = null;
             panel[0].style.overflow = "hidden";
           } else {
             panel[0].style.maxHeight = panel[0].scrollHeight + "px";
-            panel[0].style.overflow = "initial";
+            if(!panel[0].classList.contains('carousel')){
+              panel[0].style.overflow = "initial";
+            }
           }
-        }
+        //}
         if ($(evet.target).hasClass('acc-active')) {
           $(evet.target).next().parent().next().hide();
           if (_self.vars.showingMatchedResults == true) {
@@ -6710,7 +6712,6 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       }
       
       window.koreWidgetSDKInstance = _self;
-      
     }
     FindlySDK.prototype.enableRecent = function() {
       var _self = this;
@@ -6966,13 +6967,17 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       if (structuredDataContainer) {
         _self.pubSub.subscribe('sa-register-template', (msg, data) => {
           console.log("register-template", msg, data);
-          _self.registerTemplateConfig(mockData.settings, _self.customConfig);
+          _self.registerTemplateConfig(data, _self.customConfig);
         });
       }
-      // For now calling direct SearchResults.
-      setTimeout(function () {
-        _self.getSearchResultsConfig(_self.API.searchResultsConfigURL, 'GET');   
-      }, 2000);
+      var handle = setInterval(function (){
+        if(_self.bot.options.accessToken){
+          _self.getSearchResultsConfig(_self.API.searchResultsConfigURL, 'GET');
+          _self.saveCustomizationConfig();
+          clearInterval(handle);
+          handle = 0;
+        }
+      }, 1000);
   }
   FindlySDK.prototype.addConversationBox = function(config) {
     var _self = this;
@@ -6999,7 +7004,15 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
   }
     FindlySDK.prototype.addSearchText = function(config) {
       var _self = this;
-      $('body').addClass('top-down');
+      if($('body').hasClass('demo')){
+        $('body').removeClass('demo');
+        $('body').addClass('top-down');
+        $('body').addClass('sdk-top-down-interface');
+      }
+      else{
+        $('body').addClass('top-down');
+        $('body').addClass('sdk-top-down-interface');
+      }
       _self.customSearchResult = true;
       window.koreWidgetSDKInstance = _self;
       
@@ -7050,7 +7063,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               $('#frequently-searched-box').hide();
             }
           }
-         
+
         });
       }
 
@@ -7109,12 +7122,16 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       _self.setAPIDetails();
       _self.pubSub.subscribe('sa-register-template', (msg, data) => {
         console.log("register-template", msg, data);
-        _self.registerTemplateConfig(mockData.settings, _self.customConfig);
+        _self.registerTemplateConfig(data, _self.customConfig);
       });
-      // For now calling direct SearchResults.
-      setTimeout(function () {
-        _self.getSearchResultsConfig(_self.API.searchResultsConfigURL, 'GET');   
-      }, 2000);
+      var handle = setInterval(function (){
+        if(_self.bot.options.accessToken){
+          _self.getSearchResultsConfig(_self.API.searchResultsConfigURL, 'GET');
+          _self.saveCustomizationConfig();
+          clearInterval(handle);
+          handle = 0;
+        }
+      }, 1000);
       window.koreWidgetSDKInstance = _self;
       if (!_self.customSearchResult) {
         _self.addSourceType({
@@ -12980,7 +12997,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               "template": {
                 "_id": "fsrt-4bad8f4a-d9e5-5382-96f0-895636dbf405",
                 "layout": {
-                  "layoutType": "tileWithCenter",
+                  "layoutType": "tileWithCenteredContent",
                   "isClickable": true,
                   "behaviour": "webpage"
                 },
@@ -13004,7 +13021,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               "template": {
                 "_id": "fsrt-4bad8f4a-d9e5-5382-96f0-895636dbf405",
                 "layout": {
-                  "layoutType": "tileWithCenter",
+                  "layoutType": "tileWithCenteredContent",
                   "isClickable": true,
                   "behaviour": "webpage"
                 },
@@ -13105,19 +13122,38 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         headers: headers,
         success: function (data) {
           console.log(data);
-          _self.vars.searchInterfaceConfig = data;
-          _self.pubSub.publish('sa-register-template', data);
+          _self.vars.searchInterfaceConfig = data.settings;
+          _self.pubSub.publish('sa-register-template', data.settings);
+          _self.pubSub.publish('sa-save-search-customization-config', data.settings);
         },
         error: function (err) {
           console.log(err);
-          // getting 401 Hence continuing process with mockData
-          // _self.registerTemplateConfig(mockData.settings, _self.customConfig);
           //_self.vars.searchInterfaceConfig = mockData.settings;
-          _self.pubSub.publish('sa-register-template', mockData.settings);
+          // _self.pubSub.publish('sa-register-template', mockData.settings);
         }
       });
     };
 
+    FindlySDK.prototype.saveCustomizationConfig = function(){
+      var _self = this;
+      // for saving the Search Customizatios
+      _self.pubSub.subscribe('sa-save-search-customization-config', (msg, data) => {
+        console.log("_self.pubSub.subscribe('", data);
+        if(data && data.length){
+          data.forEach((interface) => {
+            console.log("interface", interface);
+            if(interface.interface === 'fullSearch'){
+              if(interface.facets){
+                _self.vars.filterConfiguration = interface.facets;
+              }
+              else{
+                _self.vars.filterConfiguration = {aligned: "left",isEnabled: false};
+              }
+            }
+          });
+        }
+      });
+    }
     
     FindlySDK.prototype.addCustomTemplateConfig = function(customConfig){
       var _self = this;
@@ -13130,24 +13166,48 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
     FindlySDK.prototype.registerTemplateConfig = function(data, customConfig) {
       var _self = this;
       _self.structuredDataConfig = structuredDataConfig = {
-        liveSearchInterface : {},
-        searchInterface : {},
-        fullSearchInterface : {}
+        liveSearchInterface : {
+          layout : {}
+        },
+        searchInterface : {
+          layout : {}
+        },
+        fullSearchInterface : {
+          layout : {}
+        }
       };
       _self.faqConfig = faqConfig = {
-        liveSearchInterface : {},
-        searchInterface : {},
-        fullSearchInterface : {}
+        liveSearchInterface : {
+          layout : {}
+        },
+        searchInterface : {
+          layout : {}
+        },
+        fullSearchInterface : {
+          layout : {}
+        }
       };
       _self.pageConfig = pageConfig = {
-        liveSearchInterface : {},
-        searchInterface : {},
-        fullSearchInterface : {}
+        liveSearchInterface : {
+          layout : {}
+        },
+        searchInterface : {
+          layout : {}
+        },
+        fullSearchInterface : {
+          layout : {}
+        }
       };
       _self.documentConfig = documentConfig = {
-        liveSearchInterface : {},
-        searchInterface : {},
-        fullSearchInterface : {}
+        liveSearchInterface : {
+          layout : {}
+        },
+        searchInterface : {
+          layout : {}
+        },
+        fullSearchInterface : {
+          layout : {}
+        }
       };
       console.log("data", data);
       if(data && data.length){
@@ -13202,7 +13262,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           }
         });
       }
-      if(config.interface === 'fullsearch'){
+      if(config.interface === 'fullSearch'){
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
           if(appearance.type === 'structuredData'){
@@ -13227,7 +13287,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           }
         });
       }
-      if(config.interface === 'livesearch'){
+      if(config.interface === 'liveSearch'){
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
           if(appearance.type === 'structuredData'){
@@ -13290,7 +13350,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                     </div>\
                   </div>\
                 </div>\
-                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
                   {{/if}}\
@@ -13306,7 +13366,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}} {{if isFullResults == true}}results-wrap{{/if}}">\
+                  <div class="tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}} {{if isFullResults == true}}results-wrap{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                       <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
@@ -13434,7 +13494,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Image</h1> -->\
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
-                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
                   {{/if}}\
@@ -13450,7 +13510,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}">\
+                  <div class="tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                       <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
@@ -13503,7 +13563,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Center</h1> -->\
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
-                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
                   {{/if}}\
@@ -13519,7 +13579,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile-with-centered-content-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}">\
+                  <div class="tile-with-centered-content-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                       <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
@@ -13566,7 +13626,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             </div>\
           </div>\
         </script>',
-          "layoutType": "tileWithCenter",
+          "layoutType": "tileWithCenteredContent",
           "templateType": "listTemplate1"
         },
         {
@@ -13587,7 +13647,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Text</h1> -->\
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
-                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
                   {{/if}}\
@@ -13603,7 +13663,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile_with_header tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}">\
+                  <div class="tile_with_header tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                       <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
@@ -13649,7 +13709,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Text</h1> -->\
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
-                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
                   {{/if}}\
@@ -13665,7 +13725,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile-with-text-parent template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}">\
+                  <div class="tile-with-text-parent template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                       <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
@@ -13712,7 +13772,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Image</h1> -->\
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
-                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
                   {{/if}}\
@@ -13728,7 +13788,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile-with-image-parent template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}">\
+                  <div class="tile-with-image-parent template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                       <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
@@ -13781,7 +13841,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Center</h1> -->\
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
-                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
                   {{/if}}\
@@ -13797,7 +13857,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile-with-centered-content-parent template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}">\
+                  <div class="tile-with-centered-content-parent template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                       <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
@@ -13844,7 +13904,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             </div>\
           </div>\
         </script>',
-          "layoutType": "tileWithCenter",
+          "layoutType": "tileWithCenteredContent",
           "templateType": "listTemplate2"
         },
         {
@@ -13854,7 +13914,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Text</h1> -->\
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
-                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
                   {{/if}}\
@@ -13870,7 +13930,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile_with_header template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}">\
+                  <div class="tile_with_header template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                       <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
@@ -13916,7 +13976,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Text</h1> -->\
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
-                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
                   {{/if}}\
@@ -13932,7 +13992,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile-with-text-parent template-3 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}">\
+                  <div class="tile-with-text-parent template-3 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                       <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
@@ -13979,7 +14039,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Image</h1> -->\
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
-                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
                   {{/if}}\
@@ -13995,7 +14055,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile-with-image-parent template-3 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}">\
+                  <div class="tile-with-image-parent template-3 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                       <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
@@ -14048,7 +14108,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Center</h1> -->\
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
-                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
                   {{/if}}\
@@ -14064,7 +14124,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile-with-centered-content-parent template-e tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}">\
+                  <div class="tile-with-centered-content-parent template-e tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                       <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
@@ -14111,7 +14171,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             </div>\
           </div>\
         </script>',
-          "layoutType": "tileWithCenter",
+          "layoutType": "tileWithCenteredContent",
           "templateType": "listTemplate3"
         },
         {
@@ -14121,7 +14181,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Header</h1> -->\
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
-                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
                   {{/if}}\
@@ -14137,7 +14197,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile_with_header template-3 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}">\
+                  <div class="tile_with_header template-3 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                       <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
@@ -14183,7 +14243,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               <!-- <h1>Tile with Text</h1> -->\
               <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
-                  <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                  <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                     {{if appearanceType == "object"}}\
                       DATA\
                     {{/if}}\
@@ -14199,7 +14259,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                     <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                    <div class="tile-with-text-parent grid_view_template tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}">\
+                    <div class="tile-with-text-parent grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial  mb-15 {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                       {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                           <a href="${data.url}" target="_blank" class="tile-with-text faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             <div class="tile-heading">${data.heading}</div>\
@@ -14223,7 +14283,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Image</h1> -->\
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
-                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
                   {{/if}}\
@@ -14239,7 +14299,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile-with-image-parent grid_view_template tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}">\
+                  <div class="tile-with-image-parent grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial  mb-15 {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                         <a href="${data.url}" target="_blank" class="tile-with-image faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             <div class="img-with-content">\
@@ -14268,7 +14328,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Image</h1> -->\
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
-                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
                   {{/if}}\
@@ -14284,7 +14344,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile-with-centered-content-parent grid_view_template tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}">\
+                  <div class="tile-with-centered-content-parent grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial  mb-15  {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                         <a class="tile-with-centered-content faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}" href="${data.url}" target="_blank">\
                           <div class="img-block">\
@@ -14303,7 +14363,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             </div>\
           </div>\
         </script>',
-          "layoutType": "tileWithCenter",
+          "layoutType": "tileWithCenteredContent",
           "templateType": "grid"
         },
         {
@@ -14313,7 +14373,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Image</h1> -->\
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
-                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
                   {{/if}}\
@@ -14329,7 +14389,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile_with_header grid_view_template tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}">\
+                  <div class="tile_with_header grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial mb-15 {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                         <a class="tile-title faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}" href="${data.url}" target="_blank">${data.heading}</a>\
                     {{/each}}\
@@ -14350,7 +14410,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               <!-- <h1>Tile with Text</h1> -->\
               <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
-                  <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                  <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                     {{if appearanceType == "object"}}\
                       DATA\
                     {{/if}}\
@@ -14366,7 +14426,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                     <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                    <div class="carousel tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" id="carousel-default">\
+                    <div class="carousel tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
                       {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                         <div class="slide tile-with-text-parent slide-parent-tile-with-text">\
                           <a href="${data.url}" target="_blank" class="tile-with-text faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
@@ -14392,7 +14452,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               <!-- <h1>Tile with Text</h1> -->\
               <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
-                  <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                  <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                     {{if appearanceType == "object"}}\
                       DATA\
                     {{/if}}\
@@ -14408,7 +14468,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                     <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                    <div class="carousel tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default">\
+                    <div class="carousel tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
                       {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                         <div class="slide tile-with-image-parent grid_view_template grid-view-carousel-tile-with-image">\
                           <a href="${data.url}" target="_blank" class="tile-with-image faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
@@ -14439,7 +14499,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               <!-- <h1>Tile with Text</h1> -->\
               <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
-                  <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                  <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                     {{if appearanceType == "object"}}\
                       DATA\
                     {{/if}}\
@@ -14455,7 +14515,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                     <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                    <div class="carousel tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default">\
+                    <div class="carousel tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
                       {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                         <div class="slide tile-with-centered-content-parent grid_view_template gride-view-carousel-with-centered-content-parent">\
                           <a href="${data.url}" target="_blank" class="tile-with-centered-content faqs-shadow  structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
@@ -14476,7 +14536,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               </div>\
             </div>\
           </script>',
-          "layoutType": "tileWithCenter",
+          "layoutType": "tileWithCenteredContent",
           "templateType": "carousel"
         },
         {
@@ -14486,7 +14546,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               <!-- <h1>Tile with Text</h1> -->\
               <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
-                  <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion{{/if}}" id="1">\
+                  <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                     {{if appearanceType == "object"}}\
                       DATA\
                     {{/if}}\
@@ -14502,7 +14562,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                     <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                    <div class="carousel tile-with-image-parent structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default">\
+                    <div class="carousel tile-with-image-parent structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
                       {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                         <div class="slide tile_with_header grid_view_template grid-view-carousel-tile-with-header">\
                           <a  href="${data.url}" target="_blank" class="tile-title faqs-shadow structured-data-wrp-content" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}" title="${data.heading}">${data.heading}</a>\
@@ -15034,6 +15094,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       //   }
       // })
       $('.sdk-show-classification').off('click').on('click', function (e) {
+        e.stopPropagation()
+        e.stopImmediatePropagation()
         var appearanceType = $(e.target).closest('.total-structured-data-wrap').attr('appearanceType');
         var selectedFacet = "";
         if(appearanceType){
@@ -15083,7 +15145,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           }
         });
       }
-      if(config.interface === 'fullsearch'){
+      if(config.interface === 'fullSearch'){
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
           if(appearance.type === 'faq'){
@@ -15108,7 +15170,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           }
         });
       }
-      if(config.interface === 'livesearch'){
+      if(config.interface === 'liveSearch'){
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
           if(appearance.type === 'faq'){
@@ -15497,7 +15559,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           }
         });
       }
-      if(config.interface === 'fullsearch'){
+      if(config.interface === 'fullSearch'){
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
           if(appearance.type === 'page'){
@@ -15522,7 +15584,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           }
         });
       }
-      if(config.interface === 'livesearch'){
+      if(config.interface === 'liveSearch'){
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
           if(appearance.type === 'page'){
@@ -15839,16 +15901,16 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         _self.bindCarouselActions();
         _self.bindStructuredDataTriggeringOptions();
         _self.bindAllResultRankingOperations();
-        if(data.isLiveSearch || data.isSearch){
-          setTimeout(() => {
-            var elements = $('.structured-data-header');
-            if(elements && elements.length){
-              for(let i = 0; i < elements.length; i++ ){
-                $(elements[i]).trigger('click');
-              }
-            }
-          }, 300);
-        }
+        // if(data.isLiveSearch || data.isSearch){
+        //   setTimeout(() => {
+        //     var elements = $('.structured-data-header');
+        //     if(elements && elements.length){
+        //       for(let i = 0; i < elements.length; i++ ){
+        //         $(elements[i]).trigger('click');
+        //       }
+        //     }
+        //   }, 300);
+        // }
       });
 
       _self.vars.customizeTemplates = templates;
@@ -15927,7 +15989,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           }
         });
       }
-      if(config.interface === 'fullsearch'){
+      if(config.interface === 'fullSearch'){
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
           if(appearance.type === 'document'){
@@ -15952,7 +16014,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           }
         });
       }
-      if(config.interface === 'livesearch'){
+      if(config.interface === 'liveSearch'){
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
           if(appearance.type === 'document'){
@@ -16460,6 +16522,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         if(facetObj['position'] == "top"){
           facetObj['show'] = true;
         }
+        _self.vars['facetObjectGlobal'] = facetObj
         _self.facetReset(facetObj,facetData);
 
         var devMode = _self.isDev ? true : false;
@@ -16566,6 +16629,29 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           facetObj['show'] = true;
         }
         //facetObj['show'] = true;
+        // if(facetData.length){
+        //   var arr = [];
+        //   var mainArr = [];
+        //   if(_self.vars.selectedFiltersArr){
+        //     _self.vars.selectedFiltersArr.forEach((element,index) => {
+        //       arr.push(element.split('-')[1].split('')[0]) 
+        //     });
+        //     arr = new Set(arr);
+        //   }
+        //   if(_self.vars.selectedFiltersArr.length && arr.length){
+        //     for(let i=0;i<arr.length;i++){
+        //       var mulArr = [];
+        //       var obj = {}
+        //       _self.vars.selectedFiltersArr.forEach((element,index) => {
+        //         if(i == element.split('-')[1].split('')[0]){
+        //           mulArr.push(element.split('-')[1].split('')[0])
+        //         }
+        //       });
+        //       mainArr.push({i: mulArr})
+        //     }
+        //     console.log(mainArr);
+        //   }
+        // }
         _self.facetReset(facetObj,facetData);
         _self.bindShowAllResultsTrigger(showAllHTML,facetData);
       });
@@ -16710,11 +16796,13 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           $(event.target).siblings('#myDropdown').hide();
           $(event.target).find('.down-arrow').show();
           $(event.target).find('.up-arrow').hide();
+          //countFunc()
         }else {
           $(event.target).find('.down-arrow').hide();
           $(event.target).find('.up-arrow').show();
           $('.dropdown-content').hide();
-          $(event.target).siblings('#myDropdown').show();  
+          $(event.target).siblings('#myDropdown').show();
+          //countFunc()  
         }
         console.log(_self.vars.filterObject);
        });
@@ -16722,13 +16810,45 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         $('.filter-data').hide()
         $('#loaderDIV').show();
         _self.searchByFacetFilters(_self.vars.filterObject);
+        countFunc()
         //_self.facetFilter(facetObj);
       });
        $('.sdk-top-facet-drop').off('change').on('change', function (event) {
         var optionId = $(e.target).closest('.sdk-top-facet-option').attr('id');
 
       });
-        
+        countFunc = function(){
+          if(facetData.length){
+            var arr = [];
+            var mainArr = [];
+            if(_self.vars.selectedFiltersArr){
+              _self.vars.selectedFiltersArr.forEach((element,index) => {
+                arr.push(element.split('-')[1].split('')[0]) 
+              });
+              arr = new Set(arr);
+              arr = [...arr];
+            }
+            if(_self.vars.selectedFiltersArr.length){
+              for(let i=0;i<=arr.length;i++){
+                var mulArr = [];
+                var obj = {}
+                _self.vars.selectedFiltersArr.forEach((element,index) => {
+                  if(i == element.split('-')[1].split('')[0]){
+                    mulArr.push(element.split('-')[1].split('')[0])
+                  }
+                });
+                mainArr.push(mulArr)
+              }
+              console.log(mainArr);
+            }
+          }
+          for(let i =0;i<facetData.length;i++){
+            facetData[i]['countPerGroup'] = mainArr
+          }
+          //facetData['countPerGroup'] = mainArr
+          //_self.vars['facetObjectGlobal']
+          _self.facetReset(_self.vars['facetObjectGlobal'],facetData);
+        }
        //SDK Top Facet
     }
 
@@ -16857,7 +16977,14 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         <div class="horizantal-filter-sec filter-data">\
           {{each(i, searchFacet) searchFacets}}\
               <div class="dropdown_custom_filter">\
-                <div class="dropbtn  sdk-top-facet-drop">${searchFacet.facetName}{{if searchFacet.selectedFieldsCount && searchFacet.selectedFieldsCount>0}}<span class="count">${searchFacet.selectedFieldsCount}</span> {{/if}}\ <img class="down-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBbY6xDYMwEEX/yQuc5QUOmfRZIRskEyQjZJyU6VJmBGoqREcHJVT2AsiAhQRGvO7+vdM/JVleMevBe9fgBBF7Z21+itmUIPzZ6N47VyeStU+APgj0WK8uV8lsK5K/99Lc5pbdMtNWIQJSBYi+MQjhhTDeuplETOQobhLOn4/wMZ8As5kn7D+3/a0AAAAASUVORK5CYII=">\<img class="up-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACQSURBVHgBhY7BDYJQDIb/ggM8wgI14llXYBJ1A48e3YAVvHpyBHUC4gCYTmDeAGrpAw48LnxJk+bv16aEEczskKRV6OXdHMazJJJocccfFIqXRd1lAxRJqi+RZt9nqwuINtBvKSKeTGKTbiY9TTrGrxRnkO6gvzJ1WV5D6WrSCRO8/zycyzO7XNnWeosZgtMCupEtrTPwmiYAAAAASUVORK5CYII=">\</div>\
+                <div class="dropbtn  sdk-top-facet-drop">\
+                  ${searchFacet.facetName}{{if searchFacet.countPerGroup}}\
+                  {{if searchFacet.countPerGroup.length >i}}\
+                  <span class="count">${searchFacet.countPerGroup[i].length}</span> {{/if}}\
+                  {{/if}}\
+                  <img class="down-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBbY6xDYMwEEX/yQuc5QUOmfRZIRskEyQjZJyU6VJmBGoqREcHJVT2AsiAhQRGvO7+vdM/JVleMevBe9fgBBF7Z21+itmUIPzZ6N47VyeStU+APgj0WK8uV8lsK5K/99Lc5pbdMtNWIQJSBYi+MQjhhTDeuplETOQobhLOn4/wMZ8As5kn7D+3/a0AAAAASUVORK5CYII=">\
+                  <img class="up-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACQSURBVHgBhY7BDYJQDIb/ggM8wgI14llXYBJ1A48e3YAVvHpyBHUC4gCYTmDeAGrpAw48LnxJk+bv16aEEczskKRV6OXdHMazJJJocccfFIqXRd1lAxRJqi+RZt9nqwuINtBvKSKeTGKTbiY9TTrGrxRnkO6gvzJ1WV5D6WrSCRO8/zycyzO7XNnWeosZgtMCupEtrTPwmiYAAAAASUVORK5CYII=">\
+                </div>\
                   <div id="myDropdown" class="dropdown-content filters-content sdk-top-facet-option myDropdown-${i}" id="sdk-top-facet-option-${i}" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
                   {{each(j, bucket) searchFacet.buckets}}\
                         {{if searchFacet.isMultiSelect}}\
@@ -17996,6 +18123,174 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       }
     }
     // top-search-template --end///
+
+    // Top -down Template //
+    FindlySDK.prototype.getTopDownTemplate = function(){
+      var topDownTemplate = `<div>
+      <div class="topdown-search-main-container">
+          <div class="logo_img">
+              <img src="data:image/png;base64,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">
+          </div>
+          <div id="heading" class="search-input-box">      
+              <div id="search-box-container" class="search-box-container-data">
+                  <div class="search-icon">
+                      <img src="images/search-icon.png"/>
+                  </div>
+                  <div class="cancel-search">
+                      <img src="images/cancel.png"/>
+                  </div>
+              </div>   
+              <div id="frequently-searched-box" class="frequently_searched_box"> </div>          
+              <div id="live-search-result-box" class="live_search_result_box">
+                  <div id="auto-query-box" class="auto_query_box">
+                      <!-- suggestion query result-->
+                  </div>
+                  <div class="data-container">
+                      <!-- <div id="faq-query-container"> -->
+                          <!-- faq query result-->
+                      <!-- </div> -->
+                      <div class="faqs-data-container">
+                      </div>
+                      <div class="pages-data-container">
+                      </div>
+                      <div class="structured-data-container">
+                      </div>
+                      
+                  </div>
+              </div>    
+              
+              <div id="conversation-container" class="conversation-container">
+                  <div class="conversation-title">                
+                      <div class="close-conv">
+                          <img class="close-conv-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBbZHRDcIwDERju+zTSizSCWgl8sFM+Ug26AwsUDIGO9A05AChprV/osjPd2eZLtfbg2gZg3PRKDUMts3SeAaUV5kGa1sVYpkoLaPEeX525+4OGC/+FbSmPgQX6T9dFAETp968jNlC6FNl9YNNLo0NhOIqVFEC9Bk/1Xn5ELwowX6/oGjBtQVpD2mZ4cBZ2GsQCkf4xmj8GzsLeh0gnVcbAAAAAElFTkSuQmCC" />
+                      </div>
+                  </div>            
+                  <div id="conversations" class="conversations">
+                      <!-- <div id="action-title"></div> -->
+                      <div id="conversation-body">
+                          <!-- all conversations happen here -->
+                      </div>
+                  </div>
+                  <div id="conversation-box-container" class="conv">
+                      <!-- conversation text box here-->
+                  </div>
+              </div>
+          </div>
+              
+
+          <div class="all-result-container">
+              <div id="loaderDIV" class="loader-container">Loading...</div>
+              <div class="full-results-data-container">
+                  <div id="filters-left-sec"></div>
+                <div class="all-product-details ">
+                      <div id="top-down-tab-sec"></div>
+                      <div id="filters-center-sec" > </div>
+                      <div class="filters-added-data" id="show-filters-added-data">
+                        </div>
+                      <div class="content-data-sec">
+                          <div class="faqs-search-data-container">
+                          </div>
+                          <div class="pages-search-data-container">
+                          </div>
+                          <div class="structured-search-data-container">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    <div>`
+      return topDownTemplate;
+    }
+
+    FindlySDK.prototype.initializeTopDown = function () {
+      var dataHTML = $(FindlySDK.prototype.getTopDownTemplate()).tmplProxy({});
+
+      var container = $('body');
+      $(container).empty().append(dataHTML);
+      var findlyConfig = window["KoreSDK"].findlyConfig;
+      findlyConfig.baseAPIServer = 'http://localhost:4200';
+      var findlySdk = new FindlySDK(findlyConfig);
+      $('#conversation-container').hide();
+      $('.show-result').hide();
+      findlyConfig.autoConnect = true;
+      findlySdk.initialize(findlyConfig);
+      findlySdk.initializeTopSearchTemplate();
+      findlySdk.addSearchText({
+        container: "search-box-container",
+        classes: 'search-input',
+        placeholder: "Search here",
+        showGreeting: false,
+        microphone: true,
+        defaultMicrophone: false,
+        hideSearchIcon: true,
+        autoSuggest: true,
+        showButton: false,
+        focusHandler: focusHandler
+      });
+
+      findlySdk.addSearchResult({
+        pageContainer: 'pages-container',
+        pageTemplateId: 'page-template',
+        faqContainer: 'mostly-asked-container',
+        faqTemplateId: 'faq-template',
+        actionContainer: 'actions-container',
+        actionTemplateId: 'actions-template',
+        structuredDataContainer: '.structured-data-container',
+        actionHandler: actionHandler,
+        searchHandler: searchHandler
+      })
+
+      findlySdk.addSourceType({
+        container: 'top-down-tab-sec',
+        templateId: 'top-down-tabs-template',
+        selectedClass: 'active-tab',
+        unSelectedClass: 'un-selected-type'
+      })
+      findlySdk.addConversationBox({
+        container: "conversation-box-container",
+        classes: 'conv-input',
+      });
+      findlySdk.addConversationContainer({
+        container: "conversation-body"
+      });
+      findlySdk.addFrequentlyUsedControl({
+        container: "frequently-searched-box",
+        templateId: "frequently-searched-template"
+      });
+      findlySdk.addCustomTemplateConfig();
+      var searchText = "";
+      function searchHandler(data) {
+        var size = data.documents.length + data.pages.length + data.faqs.length + data.tasks.length;
+        if (data.originalQuery) {
+          searchText = data.originalQuery;
+        }
+        var text = 'Showing ' + size + ' results for "' + searchText + '"';
+        $("#show-result").empty().append(text).show();
+      }
+
+      function actionHandler(e) {
+        // findlySdk.addConversationContainer({
+        //     container: "conversation-body"
+        // });
+        $('#conversation-container').show();
+        $('#action-title').empty();
+        findlySdk.setActionTitle(e.target.getAttribute('title'), 'action-title');
+      }
+
+      $(".close-conv-icon").off('click').on('click', function (e) {
+        closeConversation();
+      });
+      function closeConversation() {
+        $('#conversation-container').hide();
+        $('#action-title').empty();
+        $("#searchChatContainer").empty();
+      }
+      function focusHandler() {
+        closeConversation();
+      }
+    }
+
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
 });
