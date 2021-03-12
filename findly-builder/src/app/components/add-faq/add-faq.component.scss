@@ -285,6 +285,7 @@
                     }
                 }
             }
+            }
             .bot_rsponse_advance_mode{
                 display: flex;
                 align-items: center;
@@ -319,12 +320,13 @@
                 justify-content: center;
                 display: flex;
                 flex-wrap: wrap;
-                .responsePreviewBlock{                    
+                .responsePreviewBlock{
+                    // background: #ffffff;
                     padding: 20px 0 20px 20px;
                     margin:  0 !important;
                     height: 327px;
                     width: 100%;
-                    word-break: break-word;                    
+                    word-break: break-word;
                     background: #FFFFFF;
                     box-shadow: 0px 0px 80px rgba(0, 0, 0, 0.07), 0px 0px 10.0172px rgba(0, 0, 0, 0.035);
                     border-radius: 8px;
@@ -381,24 +383,25 @@
         }                
         .bottom_sec{
             .left_sec{
-               .kr-sg-input-text{
-                input{
-                    &.readonly{
-                        background: #EFF0F1;
-                        border-radius: 4px;
-                        border: 0 !important;
-                        &::placeholder{
-                            color: #BDC1C6;
+                .kr-sg-input-text{
+                    input{
+                        &.readonly{
+                            background: #EFF0F1;
+                            border-radius: 4px;
+                            border: 0 !important;
+                            &::placeholder{
+                                color: #BDC1C6;
+                            }
                         }
                     }
-                }
-               }
-               .upload-image-size-info{
-                color: #9AA0A6;
-                font-weight: 500;
-                font-size: 12px;
-                line-height: 15px;
-               }
+                   }
+                   .upload-image-size-info{
+                    color: #9AA0A6;
+                    font-weight: 500;
+                    font-size: 12px;
+                    line-height: 15px;
+                   }
+                
             }
         }
     } 
@@ -613,7 +616,7 @@
             font-size: 14px;
         }
     }      
-}
+
 
 .deleteResponseDiv{
     position: relative;
@@ -770,6 +773,8 @@
                         border: solid 1px #BDC1C6;       
                         margin: 0;
                         font-family: Inter !important;
+                        background-color: white;
+                        min-height: 34px;
                         .mat-input-element{
                             margin: 0;
                             border: 0;
@@ -815,6 +820,8 @@
             }
         }                        
     }
+ 
+    
     .mat-form-field-label-wrapper{
         padding: 0;
         height: 32px;                            
@@ -1000,4 +1007,41 @@
     img{
         margin-right: 6px;
     }
+}
+.conditional-sec-new{
+    .date-chip {
+        .mat-form-field-wrapper {
+            .mat-form-field-flex {
+                .mat-form-field-infix {
+                    .mat-chip-list {
+                        .mat-chip-list-wrapper {
+                            min-height: 34px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.select_data_placeholder {
+    padding-left: 10px;
+    color: #BDC1C6;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAOCAYAAAAbvf3sAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACfSURBVHgB3ZDBDcIwEATXTvinBErgiSBIC6EASoBKKCUlpAIkPyiADqADUoDBXGTuB07yzVjy7eP2tFrgC8kCf1iSc9VWhUfWrLg7/jLkyOpSLnbabFgdAtBgEOaWA0GiGOfxOqVWZ7CUcdZIBXqP22eMF1lIzntqP4QAAzzU4K7usk0ZSu4pttpiJFMwaEtcs0rXKk9oTffHyvp5w7cfn3EjP1+jAAsAAAAASUVORK5CYII=');
+    background-repeat: no-repeat;
+    background-position: right;
+    width: 108px;
+    &.w-120 {
+        width: 120px;
+    }
+}
+.info-number-placeholder {
+    color: #9AA0A6;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 12px;
+    margin: 4px 0;
 }

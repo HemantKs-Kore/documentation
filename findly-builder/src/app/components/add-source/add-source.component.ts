@@ -952,6 +952,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log('Associated Bots', res);
 
         this.associatedBots = JSON.parse(JSON.stringify(res));
+        this.associatedBots.filter(element => {
+          if(element.type == 'default' || element.type == 'universalbot'){
+          return element ;
+          }
+        });
         console.log(this.associatedBots);
         /*this.associatedBotArr = [];
         if (this.associatedBots.length > 0) {
