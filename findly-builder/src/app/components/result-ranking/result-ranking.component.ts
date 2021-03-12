@@ -254,13 +254,30 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   launch() {
     if (this.selectedRecord && this.selectedRecord.searchQuery) {
-      let ball = document.getElementsByClassName('start-search-icon-div')[0] as HTMLBaseElement;
-      ball.click()
-      let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
-      texBox.value = this.selectedRecord.searchQuery;
+      // let ball = document.getElementsByClassName('start-search-icon-div')[0] as HTMLBaseElement;
+      // ball.click()
+      let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
+      testButtun.click()
       setTimeout(() => {
+      // let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
+      // texBox.value = this.selectedRecord.searchQuery;
+      var link = document.getElementById('search') as HTMLDataElement;
+      link.value =this.selectedRecord.searchQuery;
+      link.focus();
+        document.getElementsByClassName('search-button')[0].removeAttribute('disabled')
         let go = document.getElementsByClassName('search-button')[0] as HTMLBaseElement;
         go.click();
+        //link.click();
+        var box = document.getElementById('searchBox') as HTMLDataElement;
+        box.style.display ="block"
+        var container = document.getElementById('searchChatContainer') as HTMLDataElement;
+        container.click();
+        //   texBox.value = this.selectedRecord.searchQuery;
+        // $('#search').keyup(function (this) {
+        //   let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
+        //   texBox.value = this.selectedRecord.searchQuery;
+        // });
+        // $('#search').keyup(this);
         setTimeout(() => {
           let customTag = document.getElementsByClassName('faqs-wrp-content')[0] as HTMLBaseElement;
           customTag.click();
