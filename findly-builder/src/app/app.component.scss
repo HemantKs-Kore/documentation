@@ -48,6 +48,9 @@
     .notification-dropdown{
         visibility: hidden;
     }
+    .dropdown-toggle.dropdown-input.notification{
+        pointer-events: none;
+    }
     &.appSelected{
         .trainBlock{
             display: block !important;
@@ -84,6 +87,9 @@
         }
         .notification-dropdown{
             visibility: visible !important;
+        }
+        .dropdown-toggle.dropdown-input.notification{
+            pointer-events: unset;
         }
     }
 }

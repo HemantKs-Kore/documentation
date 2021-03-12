@@ -70,6 +70,8 @@ export class AppHeaderComponent implements OnInit {
   public isAnyRecordInprogress: boolean = false;
   public isAnyRecordCompleted: boolean = false;
   public isAnyRecordFailed: boolean = false;
+  public readDocs : any = [];
+  public unReadDocs : any = [];
 
   constructor(
     private authService: AuthService,
@@ -97,10 +99,10 @@ export class AppHeaderComponent implements OnInit {
       this.toShowAppHeader = data.toShowWidgetNavigation;
       this.fromCallFlow = '';
       this.ref.detectChanges();
-      this.poling();
-      // this.dockServiceSubscriber = this.dockService.change.subscribe(data => {
-      //   this.poling();
-      // });
+      this.poling(true);
+      this.dockServiceSubscriber = this.dockService.change.subscribe(data => {
+        this.poling(true);
+      });
     });
 
     this.headerService.fromCallFlowExpand.subscribe(data => {
@@ -144,6 +146,10 @@ export class AppHeaderComponent implements OnInit {
       }
       else {
         this.menuFlag = false;
+        this.resetNotificationBadge();
+        if(this.pollingSubscriber){
+          this.pollingSubscriber.unsubscribe();
+        }
       }
     }
     if (!skipRouterLink) {
@@ -151,8 +157,6 @@ export class AppHeaderComponent implements OnInit {
     }
     this.showMenu.emit(this.showMainMenu)
     this.settingMenu.emit(this.menuFlag)
-    this.resetNotificationBadge();
-    this.pollingSubscriber.unsubscribe();
   }
   logoutClick() {
     this.authService.logout();
@@ -236,7 +240,7 @@ export class AppHeaderComponent implements OnInit {
   //   }
   // }
 
-  poling() {
+  poling(recordStatistics?, updateRecordsWithRead?) {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
@@ -259,15 +263,61 @@ export class AppHeaderComponent implements OnInit {
           return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED') || (source.status === 'validation'));
         });
 
+        if(recordStatistics){
+          this.readDocs = _.filter(res.dockStatuses, (source) => {
+            return ( source.read && (source.read === true));
+          });
+          this.unReadDocs = _.filter(res.dockStatuses, (source) => {
+            return ( source.read === false);
+          });
+          recordStatistics = false;
+        }
+
+        if(updateRecordsWithRead){
+          setTimeout(() => {
+            this.makeNotificationsRead();
+          }, 500);
+          updateRecordsWithRead = false;
+        }
+
+        if(this.unReadDocs && this.unReadDocs.length){
+          let successElements = this.unReadDocs.filter(element => {
+            if(element && element.status === 'SUCCESS'){
+              return element;
+            }
+          });
+          let failureElements = this.unReadDocs.filter(element => { 
+            if(element && element.status === 'FAILURE'){
+              return element;
+            }
+          });
+          if(failureElements && failureElements.length){
+            this.isAnyRecordFailed = true;
+            this.isAnyRecordCompleted = false;
+            this.isAnyRecordInprogress = false;
+          }
+          else if(successElements && successElements.length){
+            this.isAnyRecordFailed = false;
+            this.isAnyRecordCompleted = true;
+            this.isAnyRecordInprogress = false;
+          }
+        }
+        else{
+          this.isAnyRecordCompleted = false;
+          this.isAnyRecordFailed = false;
+        }
+
         if (queuedJobs && queuedJobs.length) {
           console.log(queuedJobs);
           this.isAnyRecordInprogress = true;
           this.isAnyRecordCompleted = false;
           this.isAnyRecordFailed = false;
         } else {
-          this.resetNotificationBadge();
+          // this.resetNotificationBadge();
+          this.isAnyRecordInprogress = false;
           this.pollingSubscriber.unsubscribe();
         }
+
       }, errRes => {
         this.pollingSubscriber.unsubscribe();
         if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -305,8 +355,11 @@ export class AppHeaderComponent implements OnInit {
   navigateTo(task) {
     if (task.jobType === 'faq') {
       this.router.navigate(['/faqs'], { skipLocationChange: true })
-    } else {
+    } else if(task.jobType === 'webdomain') {
       this.router.navigate(['/content'], { skipLocationChange: true });
+    }
+    else if(task.jobType == 'STRUCTURED_DATA_INGESTION'){
+      this.router.navigate(['/structuredData'], { skipLocationChange: true });
     }
   }
 
@@ -478,5 +531,64 @@ export class AppHeaderComponent implements OnInit {
   }
   openOrCloseSearchSDK() {
     this.headerService.openSearchSDK(true);
+  }
+
+  notificationIconClick(){
+    setTimeout(()=> {
+      let notificationDropdown = $('#notification-dropdown');
+      if((notificationDropdown.css('display') == 'block') && notificationDropdown.hasClass('show')){
+        this.poling(true, true);
+      }
+    }, 50);
+  }
+
+  checkRecordInDocs(key, record){
+    let matched : boolean = false;
+    if(key === 'read'){
+      let matched = this.readDocs.find( res => {
+        if(res._id === record._id){
+          return res;
+        }
+      });
+      if(matched) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    else if (key === 'unread'){
+      let matched = this.unReadDocs.find( res => {
+        if(res._id === record._id){
+          return res;
+        }
+      });
+      if(matched) {
+        return true;
+      }
+      else {
+        return false;
+      }    
+    }
+  }
+
+  makeNotificationsRead(){
+    const queryParms = {
+      searchIndexId: this.workflowService.selectedSearchIndexId,
+    }
+    const payload = {
+      ids : this.unReadDocs.map((doc) => {return doc._id})
+    }
+    if(payload.ids.length){
+      this.service.invoke('read.dockStatus', queryParms, payload).subscribe(
+        res => {
+        
+        },
+        errRes => {
+          this.statusDockerLoading = false;
+          this.errorToaster(errRes, 'Failed to update read Status of Docker.');
+        }
+      );
+    }
   }
 }
