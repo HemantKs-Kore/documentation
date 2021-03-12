@@ -116,8 +116,8 @@
                         <div class="fill-colors-block" *ngSwitchCase="'inputBox'">
                             <div class="fill-color">
                                 <div class="label-color">Fill Color</div>                            
-                                <div class="box-color" [ngClass]="{'color-pallet-container': inputBox1}">
-                                    <input
+                                <div class="box-color" [ngClass]="{'color-pallet-container': inputBox1}" (mouseover)="toggle=true;inputBox1=true;">
+                                    <!-- <input
                                         [style.background]="color"                                      
                                         [(colorPicker)]="color"
                                         [cpOutputFormat]="'hex'"
@@ -133,8 +133,8 @@
                                            <div class="bg-color-selected"></div>
                                         </div>
                                         <div class="save-switch">Save Swatch</div>
-                                     </div>
-                                     <!-- <input
+                                     </div> -->
+                                     <input
                                         [style.background]="color"                                      
                                         [(colorPicker)]="color"
                                         [cpOutputFormat]="'hex'"
@@ -143,15 +143,15 @@
                                         [cpCloseClickOutside]="false"
                                         [(cpToggle)]='toggle'
                                         readonly
-                                    /> -->
-                                    <!-- <div class="box-color-content" *ngIf="inputBox1">
-                                        <div class="selected-previous-colors">
-                                            <div *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
+                                    />
+                                    <div class="box-color-content" *ngIf="inputBox1">
+                                        <div class="selected-previous-colors flex-wrap">
+                                            <ng-container *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
                                                 <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('inputbox1', col);color=col;"></div>
-                                            </div>                                           
+                                            </ng-container>                                           
                                         </div>
                                         <div class="save-switch" (click)="toggle=!toggle;inputBox1=false">Save Swatch</div>
-                                     </div> -->
+                                     </div>
                                 </div>
                             </div>
                             <div class="fill-color">
