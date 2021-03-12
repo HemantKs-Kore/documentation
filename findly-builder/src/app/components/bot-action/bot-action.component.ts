@@ -413,11 +413,11 @@ export class BotActionComponent implements OnInit {
   }
   linkBot(botID: any) {
     if(this.botToBeUnlinked && this.islinked){
-    //   this.unlinkBotWhithPublish(botID);
-    // }else{
-    //   this.linkAfterUnlink(botID);
-    //   this.botToBeUnlinked = botID;
-    //   this.islinked = true;
+      this.unlinkBotWhithPublish(botID);
+    }else{
+      this.linkAfterUnlink(botID);
+      this.botToBeUnlinked = botID;
+      this.islinked = true;
     }
 
     // OLD LOGIC
