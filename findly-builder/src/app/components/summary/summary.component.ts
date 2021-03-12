@@ -1,4 +1,4 @@
-import { Component, ModuleWithComponentFactories, OnInit } from '@angular/core';
+import { Component, ModuleWithComponentFactories, OnInit, ViewChild } from '@angular/core';
 import { SideBarService } from '@kore.services/header.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -6,6 +6,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import * as moment from 'moment';
 declare const $: any;
 @Component({
@@ -31,6 +32,7 @@ export class SummaryComponent implements OnInit {
   summary: any;
   showError = false;
   btLogs: any[] = [];
+  onBoardingModalPopRef: any;
   summaryObj: any = {
     contentDocuments: [],
     contentWebDomains: [],
@@ -86,7 +88,7 @@ export class SummaryComponent implements OnInit {
     'Handed-off to Agents': 'Number of conversation sessions that are handed-off Virtual Agents.',
     'Drop offs': 'Number of conversation sessions where the users have dropped-off from the conversation.'
   };
-
+  @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
   constructor(
     public workflowService: WorkflowService,
     private headerService: SideBarService,
@@ -297,5 +299,13 @@ export class SummaryComponent implements OnInit {
   }
   openSource() {
     $('#sourceTab').trigger('click')
+  }
+  openOnBoardingModal() {
+    this.onBoardingModalPopRef = this.onBoardingModalPop.open();
+  }
+  closeOnBoardingModal() {
+    if (this.onBoardingModalPopRef && this.onBoardingModalPopRef.close) {
+      this.onBoardingModalPopRef.close();
+    }
   }
 }

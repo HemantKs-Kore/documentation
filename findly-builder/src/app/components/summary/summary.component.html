@@ -1,3 +1,4 @@
+<button (click)="openOnBoardingModal()">tour guide</button>
 <div class="overview-container">  
   <perfect-scrollbar class="scroll_content">
     <div class="g-analytics" (click)="openDashboard()"><span>Go to Analytics</span></div>
@@ -316,3 +317,29 @@
     </div> -->
   </perfect-scrollbar>  
 </div>
+
+
+
+<!--tour guide popup-->
+<kr-modal modalType="center" modalClass="modal_popups_" #onBoardingModalPop>
+  <ng-container>
+    <div class="modal-header">
+      <div class="title">Link Bots</div>
+      <div class="close_icon"><img (click)="closeOnBoardingModal()" src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+      <div class="modal-body bots-modal-modal-body">
+        <ng-container>
+          <p class="bots-modal-list-text">Choose any one bot from the list below to link into your Findly app. You can
+            only link bots
+            that you have the rights to access.</p>          
+          <ng-container>
+            <div class="bots-modal-list-container">
+
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </perfect-scrollbar>
+  </ng-container>
+</kr-modal>
