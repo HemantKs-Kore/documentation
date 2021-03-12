@@ -248,6 +248,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       })
 
   }
+  lauchTest(){
+    let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
+    testButtun.click()
+  }
   launch() {
     if (this.selectedRecord && this.selectedRecord.searchQuery) {
       let ball = document.getElementsByClassName('start-search-icon-div')[0] as HTMLBaseElement;
