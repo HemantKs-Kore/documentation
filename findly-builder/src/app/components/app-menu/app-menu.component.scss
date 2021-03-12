@@ -19,93 +19,138 @@ app-mainmenu{
 			z-index: 2;
 			.perfect-scroll{
 				.list-group{
-					padding: 15px 15px 42px 15px;	
-				}
-				.kr-sg-dropdowns{
-					width: auto;
-					// margin-left: 10px;
-			
-					.faq-filter-add{
-						max-height: 200px;
-						overflow: hidden;
-						width: 100%;
-						padding: 0;
+					padding: 10px 20px;
+					.sources-block-nav-items{
+						padding: 12px 0 10px 0;
+    					border-bottom: 2px solid #E4E5E7;
+						margin-bottom: 10px;
+						.link-side-menu{
+							display: flex;
+							align-items: center;
+							justify-content: space-between;
+							padding: 0 15px;
+							height: 32px;
+							background: #EFF0F1;
+							border-radius: 4px;
+							margin-bottom: 5px;
+							.source_title{
+								color: #9AA0A6;
+								letter-spacing: 1px;
+								text-transform: uppercase;
+								font-weight: bold;
+								font-size: 10px;
+								line-height: 14px;
+							}
+							.add-sources{
+								width: 24px;
+								height: 24px;
+								text-align: center;
+								line-height: 22px;								
+								border-radius: 4px;
+								cursor: pointer;
+								outline: 0 !important;
+								&:hover{
+									background: #F8F9FA;
+								}
+								&.active{
+									background: #F8F9FA;
+								}
+							}
+						}
 					}
+					.default-index-title{
+						background: #E4E5E7;
+						border-radius: 4px;
+						padding: 9px 15px;
+						min-height: 42px;
+						margin: 10px 0;
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+						.title{
+							color: #202124;
+							font-weight: normal;
+							font-size: 14px;
+							line-height: 17px;
+							padding-right: 10px;
+						}
+						&.search-config-elipse-block{
+							margin: 0;
+							padding: 0 15px;
+							height: 32px;
+							min-height: auto;	
+							background: transparent;						
+						}
+
+					}
+					.index-config-nav-block{
+						margin: 0 0 8px 0;
+						.index-title{
+							color: #9AA0A6;
+							letter-spacing: 1px;
+							text-transform: uppercase;
+							font-weight: 600;
+							font-size: 10px;
+							line-height: 12px;
+							margin-bottom: 5px;
+							padding: 0 15px;
+						}						
+					}
+					.search-config-nav-block{
+						.search-config-title{
+							color: #9AA0A6;
+							letter-spacing: 1px;
+							text-transform: uppercase;
+							font-weight: 600;
+							font-size: 10px;
+							line-height: 12px;
+							margin-bottom: 5px;
+							padding: 0 15px;
+						}
+
+					}
+				}
+				.kr-sg-dropdowns{	
+					width: auto;																	
 					&.show {
 						.dropdown-open{
 							.dropdown-input{
-								background: #E4E5E7;
+								background: #F8F9FA;
 							}
 						}
 					}
-					.dropdown-open{
-						margin-bottom: 15px;
+					.dropdown-open {
 						.dropdown-input{
-							border: 1px solid #E4E5E7;
-							box-sizing: border-box;
-							border-radius: 4px;
-							padding: 0 15px;
-							font-size: 14px;
-							color: #3C4043;
-							img{
-								margin-left: 6px;
+							padding: 0;
+							width: 24px;
+							height: 24px;
+							border: 0;							
+							border-radius: 2px;
+							text-align: center;
+							line-height: 0;
+							background: transparent;
+							&::before{
+								display: none !important;
 							}
-							// &::before{
-							// 	display: none;
-							// }
+							&:hover{
+								background: #F8F9FA;
+							}
 						}
 					}
-					.dropdown-menu {
-						li{
-							cursor: pointer;
-							padding: 10px 10px 4px 10px;
-							&.create{
-								color: #0D6EFD;
-								background-color: rgb(13 110 253 / .3);
-							}
-							.plus{
-								float: right;
-								font-size: 22px;
-							}
-						} 
-					}
 				}
-			}
-			.sub-title{
-				padding: 0 13px;
-				color: #5F6368;
-				font-weight: 600;
-				font-size: 10px;
-				margin: 10px 0 7px 0;
-				text-transform: uppercase;
-				&.marginTop15{
-					margin-top: 15px;
-				}
-				img{
-					float: right;
-					cursor: pointer;
-					position: relative;
-					// top: 5px;
-					outline: 0;					
-					border-radius: 100px;
-					padding: 3px;
-					&.active{
-						background: #fff;
-					}
-					&:hover{
-						background: #fff;
-					}
-				}
-			}
+			}			
 	   }		
 		.mat-button{
 			text-align: left;
-			color: #3C4043;
-			padding: 1px 13px;
+			color: #202124;
+			padding: 0 15px;
 			border-radius: 4px;		
 			font-family: Inter !important;
 			margin-bottom: 5px;
-			line-height: 34px;
+			display: flex;
+			align-items: center;
+			height: 32px;
+			position: relative;
 			.defaultIcon{
 				display: inline-block;
 			}
@@ -125,21 +170,34 @@ app-mainmenu{
 			}
 			.inlineIconBox{
 				display: inline-block;
-				width: 30px;
+				width: 28px;
 				outline: none;   
 				img{
 					position: relative;
-					top: -1px;
+					// top: -1px;
 				}            
 			}
 			.linkTitle{
 				font-size: 14px;
 				font-weight: normal;
-				color: #3C4043;
+				color: #202124;
 				outline: 0 !important;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 			}			
 			&.active{				
-				background-color: $whiteColor;	
+				color: #202124;
+				background: #F8F9FA;
+				border-radius: 4px;	
+				&::before{
+					content: "";					
+					position: absolute;
+					height: 100%;
+					width: 2px;
+					background: #3C4043;
+					left: 0;
+				}
 				.defaultIcon{
 					display: none;
 				}
@@ -148,8 +206,9 @@ app-mainmenu{
 				}			
 			}			
 			&:hover{
-				color: #3C4043;
-				background-color: $whiteColor;		
+				color: #202124;
+				background: #F8F9FA;
+				border-radius: 4px;	
 				.defaultIcon{
 					display: none;
 				}
@@ -157,127 +216,7 @@ app-mainmenu{
 					display: inline-block;
 				}		
 			}			
-		}
-		.sub-menu {
-			padding-left: 10px;
-		}
-		.queryPipelineConfig{
-			.dropdown-open{
-				margin-bottom: 0px !important;
-				.dropdown-input{
-					border: none !important;					
-					border-radius: 0 !important;
-					padding: 0 13px !important;
-					font-weight: bold;
-					font-size: 10px !important;
-					line-height: 14px;
-					color: #0D6EFD !important;
-					background: none !important;
-					font-weight: 700;
-					letter-spacing: 1px;
-					text-transform: uppercase;
-					&::before{
-						display: none;
-					}
-				}
-			}		
-			.content-menu{
-				max-height: 200px;
-				overflow: auto;
-				width: 100%;
-				padding: 0;
-				background: #FFFFFF;
-				box-shadow: 0px 10px 30px rgba(32, 33, 36, 0.3);
-				border-radius: 4px;
-				margin: 0 0 0 12px;
-				.list-name{					
-					padding: 10px 30px 10px 33px !important;
-					position: relative;
-					color: #202124;
-					font-weight: 500;
-					font-size: 14px;
-					line-height: 16px;
-					border-radius: 2px;
-					transition: 0.2s all ease;
-					&.nostars{
-						&:hover{
-							background: #EFF0F1;
-							img{
-								&.star{
-									display: none;
-								}
-								&.star-black{
-									display: block;
-								}
-								&.filter{
-									display: none;
-								}
-								&.edit-black{
-									display: block;
-								}
-							}
-						}
-					}
-					&:hover{
-						background: #EFF0F1;
-						// img{
-						// 	&.star{
-						// 		display: none;
-						// 	}
-						// 	&.star-black{
-						// 		display: block;
-						// 	}
-						// 	&.filter{
-						// 		display: none;
-						// 	}
-						// 	&.edit-black{
-						// 		display: block;
-						// 	}
-						// }
-					}
-					img{
-						cursor: pointer;
-						&.star{
-							position: absolute;
-							left: 12px;
-							top: 10px;
-						}
-						&.star-black{
-							position: absolute;
-							left: 12px;
-							top: 10px;
-							display: none;
-						}
-						&.filter{
-							position: absolute;
-							right: 10px;
-							top: 10px;
-						}
-						&.edit-black{
-							position: absolute;
-							right: 10px;
-							top: 10px;
-							display: none;
-						}
-					}
-				}
-				.create-new{
-					background: #FFFFFF;
-					border-radius: 2px;
-					margin-top: 2px;
-					padding: 10px;
-					color: #0D6EFD;
-					font-weight: normal;
-					font-size: 12px;
-					line-height: 16px;
-					cursor: pointer;
-					border-top: 1px solid #EFF0F1;
-				}
-			}
-			.edit-name{
-				width: 100%;
-			}				
-		}
+		}		
 		.status-docker{
 			position: absolute;
 			background: #F8F9FA;
@@ -313,6 +252,21 @@ app-mainmenu{
 				line-height: 17px;
 				margin-left: 10px;
 			}					
+		}
+		.inside-config-tab-left-menus{
+			padding: 15px 20px !important;
+			.inside-menu-title{
+				color: #9AA0A6;
+				letter-spacing: 1px;
+				text-transform: uppercase;
+				font-weight: bold;
+				font-size: 10px;
+				line-height: 14px;
+				padding: 9px 15px;
+				margin-bottom: 5px;
+				border-radius: 4px;
+			}
+
 		}
 	}
 }

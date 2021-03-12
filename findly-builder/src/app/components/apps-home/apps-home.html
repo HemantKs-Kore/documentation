@@ -114,7 +114,8 @@
                       </ul>
                   </div>
                 </div>
-                <div class="filter-up-down" (click)="sortApp('Icon filter')"><img src="assets/icons/dashboard/filter.svg"></div>
+                <div class="filter-up-down" (click)="sortApp('Icon filter', 'down')" *ngIf ="!minToMax"><img   src="assets/icons/dashboard/filter.svg"></div>
+                <div class="filter-up-down" (click)="sortApp('Icon filter', 'up')" *ngIf ="minToMax"><img  src="assets/icons/dashboard/maxFilter.svg"></div>
               </div>                   
           </div>
           

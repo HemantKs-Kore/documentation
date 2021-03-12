@@ -182,6 +182,7 @@ export class AppsListingComponent implements OnInit {
   }
   //sort app
   sort_type: string;
+  minToMax: boolean = false;
   order: boolean = false;
   sortApp(type) {
     if (type !== 'Icon filter') {
@@ -200,7 +201,15 @@ export class AppsListingComponent implements OnInit {
     }
     else if (type == 'Icon filter') {
       this.filteredApps = this.filteredApps.sort((a, b) => {
-        return (this.order) ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+        if (this.order) {
+          this.minToMax = false;
+          return a.name.localeCompare(b.name)
+        }
+        else {
+          this.minToMax = true;
+          return b.name.localeCompare(a.name);
+        }
+        // return (this.order) ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
       });
     }
   }
