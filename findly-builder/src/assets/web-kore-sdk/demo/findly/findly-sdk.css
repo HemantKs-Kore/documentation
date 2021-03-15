@@ -9897,6 +9897,7 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     margin: 0;
     right: 0;
     top: 24px;
+    z-index: 99999 !important;
 }
 .custom-header-nav {
     list-style-type: none;

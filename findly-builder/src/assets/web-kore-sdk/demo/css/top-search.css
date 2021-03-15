@@ -1173,6 +1173,9 @@ input:focus{
     position: relative;
   }
 
+  .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details{
+    position: relative;
+  }
   .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .tab-sec{
     padding: 20px 10px;
   }
@@ -1788,4 +1791,20 @@ body.top-down .top-down-search-background-div .top-down-wrapper{
 
 .top-down-search-background-div .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .content-data-sec{
   max-height: calc(100vh - 302px);
+}
+
+.close-top-down-search{
+  position: fixed;
+  right: 60px;
+  top: 104px;
+  z-index: 99999;
+  cursor: pointer;
+}
+
+.top-down-search-background-div .topdown-search-main-container .search-input-box .search-box-container-data .search-icon{
+  top: -26px;
+}
+
+.top-down-search-background-div .topdown-search-main-container .search-input-box .search-box-container-data .cancel-search{
+  top: -26px;
 }

@@ -394,12 +394,17 @@ export class AppComponent implements OnInit, OnDestroy {
     if (show) {
       $('app-body').append('<div class="top-down-search-background-div"><div class="bgDullOpacity"></div></div>');
       $('.top-down-search-background-div').show();
+      $('app-body').append('<img class="close-top-down-search" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB0SURBVHgBjZHBDYAgDEURjRcjs7iKI3D1gNu4hqPgBk7hRVuiNdEUoqE9ld/3adoqMwbfDHunfoJqxgWv8QCrq3L+gkmjGgLYV2gdrhxOtSJ1B8Ce3k++TfUSgRymnEO3UQlD3Fo+DP8pcqddaJnZhV9HOQHmYl73b8488gAAAABJRU5ErkJggg==">');
+      $('.close-top-down-search').off('click').on('click', () => {
+        this.showHideTopDownSearch(false);
+      });
       $('.start-search-icon-div').addClass('active');
       $('.search-container').addClass('search-container-adv');
       $('.search-container').addClass('add-new-result');
       this.initTopDownSearch();
     } else {
       $('.top-down-search-background-div').remove();
+      $('.close-top-down-search').remove();
       $('.start-search-icon-div').removeClass('active');
       this.bridgeDataInsights = true;
       this.addNewResult = true;
