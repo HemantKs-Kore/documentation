@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { SideBarService } from '@kore.services/header.service';
 declare const $: any;
 
 @Component({
@@ -47,7 +48,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     private service: ServiceInvokerService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
-    private appSelectionService: AppSelectionService) { }
+    private appSelectionService: AppSelectionService,
+    private headerService :SideBarService,) { }
   sdk_evenBind() {
     $(document).off('click', '.start-search-icon-div').on('click', '.start-search-icon-div', () => {
       this.getcustomizeList(20, 0);
@@ -251,6 +253,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   lauchTest(){
     let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
     testButtun.click()
+    this.headerService.fromResultRank(true);
   }
   launch() {
     if (this.selectedRecord && this.selectedRecord.searchQuery) {
@@ -283,6 +286,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           customTag.click();
           let custom = document.getElementsByClassName('custom-header-nav-link-item')[1] as HTMLBaseElement;
           custom.click();
+          let seeAll = document.getElementsByClassName('show-all-results')[0] as HTMLBaseElement;
+          seeAll.click()
         }, 3000)
         //document.getElementById('viewTypeCustomize').click(); //viewTypeCustomize
       }, 3000);
@@ -594,9 +599,13 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
       this.loadingContent = false;
       this.customizeList = res;
-      if (res.length > 0) { this.nextPage = true; this.loadingContent = false; }
+      if (res.length > 0) {
+         this.nextPage = true; this.loadingContent = false; 
+         this.headerService.fromResultRank(false);
+        }
       else {
         this.nextPage = false; this.loadingContent = false;
+        this.headerService.fromResultRank(true);
       }
       this.customizeListBack = [...res];
       this.totalRecord = res.length

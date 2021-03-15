@@ -40,6 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
   queryText;
   subscription: Subscription;
   searchSDKSubscription : Subscription;
+  resultRankDataSubscription :Subscription
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -81,6 +82,15 @@ export class AppComponent implements OnInit, OnDestroy {
       } else {
         this.showHideSearch(false);
       }
+    })
+    this.resultRankDataSubscription = this.headerService.resultRankData.subscribe( (res : any) => {
+      // if (!$('.search-background-div:visible').length) {
+      //   $('.start-search-icon-div').addClass('active');
+      //   //this.showHideSearch(true);
+      // } else {
+      //   //this.showHideSearch(false);
+      // }
+      this.searchInstance.customTourResultRank(true);
     })
   }
   showMenu(event) {
@@ -239,6 +249,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.findlyApps.unsubscribe();
     this.subscription.unsubscribe();
     this.searchSDKSubscription.unsubscribe();
+    this.resultRankDataSubscription.unsubscribe();
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {

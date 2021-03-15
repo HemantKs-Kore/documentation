@@ -79,7 +79,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     /*FindlySDK.prototype.assignCallbacksToParent = function () {
       this.config.findlyBusinessConfig.initVariables = this.initVariables();
     }*/
-
+  FindlySDK.prototype.customTourResultRank = function (val) {
+      //this.config.findlyBusinessConfig.initVariables = this.initVariables();
+      _self = this;
+      _self.vars.customTourResultRank = val || true;
+    }
     FindlySDK.prototype.addPolyFils = function () {
       var _self = this;
       if (!Array.from) {
@@ -265,6 +269,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       vars.countOfSelectedFilters = 0;
       vars.resultRankingActionPerformed = false;
+      vars.customTourResultRank = false;
     }; //********************original widget.js start */
 
 
