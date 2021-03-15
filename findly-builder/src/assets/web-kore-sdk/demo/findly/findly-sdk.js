@@ -82,7 +82,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   FindlySDK.prototype.customTourResultRank = function (val) {
       //this.config.findlyBusinessConfig.initVariables = this.initVariables();
       _self = this;
-      _self.vars.customTourResultRank = val || true;
+      _self.vars.customTourResultRank = val;
     }
     FindlySDK.prototype.addPolyFils = function () {
       var _self = this;
