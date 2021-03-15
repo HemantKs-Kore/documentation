@@ -9853,7 +9853,8 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     padding: 0 20px;
 }
 .custom-header-container-left {
-    visibility: hidden;
+    /* visibility: hidden; */
+    display: none;
     position: relative;
     /* display: inline-block; */
     width: fit-content;
@@ -9862,6 +9863,9 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     float: left;
     cursor: pointer;
     /* margin: -8px 0px 0px 0px; */
+}
+.custom-header-container-left.searchAssist{
+    display: block;
 }
 .custom-chevron-icon {
     width: 7px;
@@ -9884,7 +9888,8 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     height: fit-content;
     top: 35%;
     /* margin: 0px 0px 0px 25px; */
-    margin: 0px 0px 0px 60px;
+    /* margin: 0px 0px 0px 60px; */
+    margin: 0px 0px 0px 180px;
     text-align: center;
 }
 .custom-header-nav {
@@ -9930,6 +9935,9 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     top: 35%;
     float: right;
     /* margin: -8px 0px 0px 0px;  */
+}
+.custom-header-container-right .close-icon{
+    cursor: pointer;
 }
 .custom-refresh-icon {
     width: 12px;
