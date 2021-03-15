@@ -352,6 +352,15 @@ export class AppComponent implements OnInit, OnDestroy {
     if (parms.query) {
       _self.queryText = parms.query;
     }
+
+    if (parms.type === 'closeSearchContainer' && parms.data === false){
+      if(parms.bottomUp){
+        this.showHideSearch(false);
+      }
+      else {
+        this.showHideTopDownSearch(false);
+      }
+    }
   }
   closeResultBody(event) {
     const bridgeObj = { type: 'addNew', data: false, query: null }
