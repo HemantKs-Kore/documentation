@@ -37,10 +37,10 @@
                                 <div class="col-1" *ngIf="collectedRecord.length != customizeList.length">
                                     <img (click) = "selectAll()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
                                 </div>  
-                                <div class="col-3 mt-8">
+                                <div class="col-4 mt-8">
                                     {{collectedRecord.length}} Selected
                                 </div> 
-                                <div class="col-8" [ngClass] = "{'disableDiv' : permisionView }">
+                                <div class="col-7" [ngClass] = "{'disableDiv' : permisionView }">
                                     <button class="reset-but" (click)="resetCustomization()">Reset</button>
                                 </div> 
                             </div>

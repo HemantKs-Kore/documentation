@@ -13243,7 +13243,7 @@ padding-right: 0;
     right: 187px;
     top: 60px;
     padding: 20px 24px;
-    display: none;
+    /* display: none; */
 }
 .tours-information.tour-customization-info {
     left: 55px;

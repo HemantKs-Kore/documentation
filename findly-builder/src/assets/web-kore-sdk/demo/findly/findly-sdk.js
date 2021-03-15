@@ -3222,7 +3222,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.structured-data-wrp-content').removeClass('custom-faqs-wrp-content');
         $('.moreStructredData').addClass('display-none');
       })
+      $('.sdk-tours-info-nxt').off('click').on('click', function (e) {
+        
+      })
+      $('.sdk-tours-info-close').off('click').on('click', function (e) {
 
+      })
+      $('#viewTypeCustomize').off('click').on('click', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        _self.invokeSearch();
+        _self.vars.customizeView = true;
+      })
       $('.show-all-results').off('click').on('click', function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -13329,6 +13340,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Text</h1> -->\
             <div class="total-structured-data-wrap {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customization{{/if}}{{/if}}{{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}} display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
+              {{if tour}}\
                 <div class="tours-information">\
                   <div class="tourtitle">Customize</div>\
                   <div class="tour-info">Start Customizing your search results by hovering on the matched content and performing below actions:</div>\
@@ -13339,12 +13351,12 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <div class="footer-tour">\
                     <div class="tour-length">1 of 2</div>\
                     <div class="tour-btns">\
-                        <button class="next-btn">Next</button>\
-                        <button class="close-btn">Close</button>\
+                        <button class="next-btn sdk-tours-info-nxt">Next</button>\
+                        <button class="close-btn sdk-tours-info-close">Close</button>\
                     </div>\
                   </div>\
                 </div>\
-                <div class="tours-information tour-customization-info">\
+                <div class="tours-information tour-customization-info hide">\
                   <div class="tourtitle">Customize</div>\
                   <div class="tour-info mb-2 pb-1">You can order the results by clicking on this icon and dragging up and down.</div>\
                   <div class="footer-tour">\
@@ -13355,6 +13367,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                     </div>\
                   </div>\
                 </div>\
+                {{/if}}\
                 <div class="structured-data-header {{if isDropdownEnabled == true && isFullResults == false}}accordion acc-active{{/if}}" id="1">\
                   {{if appearanceType == "object"}}\
                     DATA\
@@ -14931,7 +14944,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           'isLiveSearch' : data.isLiveSearch,
           'appearanceType' : 'object',
           'maxSearchResultsAllowed' : maxSearchResultsAllowed,
-          'isDropdownEnabled' : isDropdownEnabled
+          'isDropdownEnabled' : isDropdownEnabled,
+          'tour' : _self.vars.customTourResultRank
         });
         // _self.vars.customizeView = true;
         setTimeout(() => {
@@ -15442,7 +15456,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           'isLiveSearch' : data.isLiveSearch,
           'appearanceType' : 'faq',
           'maxSearchResultsAllowed' : maxSearchResultsAllowed,
-          'isDropdownEnabled' : isDropdownEnabled
+          'isDropdownEnabled' : isDropdownEnabled,
+          'tour' : _self.vars.customTourResultRank
         });
         // _self.vars.customizeView = true;
         setTimeout(() => {
@@ -15862,7 +15877,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           'isLiveSearch' : data.isLiveSearch,
           'appearanceType' : 'page',
           'maxSearchResultsAllowed' : maxSearchResultsAllowed,
-          'isDropdownEnabled' : isDropdownEnabled
+          'isDropdownEnabled' : isDropdownEnabled,
+          'tour' : _self.vars.customTourResultRank
         });
         // _self.vars.customizeView = true;
         setTimeout(() => {
@@ -16286,7 +16302,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           'isLiveSearch' : data.isLiveSearch,
           'appearanceType' : 'document',
           'maxSearchResultsAllowed' : maxSearchResultsAllowed,
-          'isDropdownEnabled' : isDropdownEnabled
+          'isDropdownEnabled' : isDropdownEnabled,
+          'tour' : _self.vars.customTourResultRank
         });
         // _self.vars.customizeView = true;
         setTimeout(() => {

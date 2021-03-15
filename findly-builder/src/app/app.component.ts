@@ -79,19 +79,14 @@ export class AppComponent implements OnInit, OnDestroy {
       if (!$('.search-background-div:visible').length) {
         $('.start-search-icon-div').addClass('active');
         this.showHideSearch(true);
+        this.resultRankDataSubscription = this.headerService.resultRankData.subscribe( (res : any) => {
+          this.searchInstance.customTourResultRank(res);
+        })
       } else {
         this.showHideSearch(false);
       }
     })
-    this.resultRankDataSubscription = this.headerService.resultRankData.subscribe( (res : any) => {
-      // if (!$('.search-background-div:visible').length) {
-      //   $('.start-search-icon-div').addClass('active');
-      //   //this.showHideSearch(true);
-      // } else {
-      //   //this.showHideSearch(false);
-      // }
-      this.searchInstance.customTourResultRank(true);
-    })
+    
   }
   showMenu(event) {
     this.showMainMenu = event
