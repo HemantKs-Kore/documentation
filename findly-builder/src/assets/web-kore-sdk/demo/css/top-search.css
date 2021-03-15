@@ -1170,6 +1170,7 @@ input:focus{
 
   .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details{
     width: 100%;
+    position: relative;
   }
 
   .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .tab-sec{

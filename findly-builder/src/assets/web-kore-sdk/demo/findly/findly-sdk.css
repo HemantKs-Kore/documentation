@@ -9892,6 +9892,12 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     margin: 0px 0px 0px 180px;
     text-align: center;
 }
+.top-down-customize-btns.custom-header-container-center{
+    position: absolute;
+    margin: 0;
+    right: 0;
+    top: 24px;
+}
 .custom-header-nav {
     list-style-type: none;
     /* margin: 0px 35px; */
