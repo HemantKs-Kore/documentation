@@ -46,7 +46,8 @@ export class AppComponent implements OnInit, OnDestroy {
     '/content': 'Contnet',
     '/source': 'Source',
     '/botActions': 'Bot Actions'
-  }
+  };
+  topDownSearchInstance : any;
   constructor(private router: Router,
     private authService: AuthService,
     public localstore: LocalStoreService,
@@ -71,19 +72,31 @@ export class AppComponent implements OnInit, OnDestroy {
     this.onResize();
     this.previousState = this.appSelectionService.getPreviousState();
     this.showHideSearch(false);
+    this.showHideTopDownSearch(false);
     this.userInfo = this.authService.getUserInfo() || {};
     this.subscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.resetFindlySearchSDK(this.workflowService.selectedApp());
     })
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe( (res : any) => {
-      if (!$('.search-background-div:visible').length) {
-        $('.start-search-icon-div').addClass('active');
-        this.showHideSearch(true);
-        this.resultRankDataSubscription = this.headerService.resultRankData.subscribe( (res : any) => {
-          this.searchInstance.customTourResultRank(res);
-        })
-      } else {
-        this.showHideSearch(false);
+      let searchInterface = 'bottom-up';
+      if(searchInterface === 'bottom-up'){
+        if (!$('.search-background-div:visible').length) {
+          $('.start-search-icon-div').addClass('active');
+          this.showHideSearch(true);
+          this.resultRankDataSubscription = this.headerService.resultRankData.subscribe( (res : any) => {
+            this.searchInstance.customTourResultRank(res);
+          });
+        } else {
+          this.showHideSearch(false);
+        }
+      }
+      else{
+        if (!$('.top-down-search-background-div:visible').length) {
+          $('.top-down-search-background-div').addClass('active');
+          this.showHideTopDownSearch(true);
+        } else {
+          this.showHideTopDownSearch(false);
+        }
       }
     })
     
@@ -188,6 +201,7 @@ export class AppComponent implements OnInit, OnDestroy {
   navigationInterceptor(event: RouterEvent): void {
     if (event instanceof NavigationStart) {
       this.showHideSearch(false);
+      this.showHideTopDownSearch(false);
       this.authService.findlyApps.subscribe((res) => {
         self.loading = true;
         this.appsData = res;
@@ -197,11 +211,13 @@ export class AppComponent implements OnInit, OnDestroy {
     if (event instanceof NavigationEnd) {
       if (event && event.url === '/apps') {
         this.showHideSearch(false);
+        this.showHideTopDownSearch(false);
       }
       if (event && event.url === '/apps') {
         this.appSelectionService.setPreviousState();
         this.resetFindlySearchSDK(this.workflowService.selectedApp());
         this.showHideSearch(false);
+        this.showHideTopDownSearch(false);
         this.selectApp(false);
         console.log('navigated to apps throught navigator and closed preview ball');
       } else {
@@ -216,6 +232,7 @@ export class AppComponent implements OnInit, OnDestroy {
           console.log('navigated to path throught navigator and shown preview ball');
         } else {
           this.showHideSearch(false);
+          this.showHideTopDownSearch(false);
           this.selectApp(false);
           console.log('failed to detect path throught navigator and closed preview ball');
         }
@@ -362,6 +379,76 @@ export class AppComponent implements OnInit, OnDestroy {
         $('.search-container').addClass('advanced-mode');
       }
     });
+  }
+
+  showHideTopDownSearch(show){
+    if (show) {
+      $('app-body').append('<div class="top-down-search-background-div"><div class="bgDullOpacity"></div></div>');
+      $('.top-down-search-background-div').show();
+      $('.start-search-icon-div').addClass('active');
+      $('.search-container').addClass('search-container-adv');
+      $('.search-container').addClass('add-new-result');
+      this.initTopDownSearch();
+    } else {
+      $('.top-down-search-background-div').remove();
+      $('.start-search-icon-div').removeClass('active');
+      this.bridgeDataInsights = true;
+      this.addNewResult = true;
+      this.showInsightFull = false;
+      this.distroyTopDownSearch();
+    }
+  }
+
+  initTopDownSearch() {
+    const botOptionsFindly: any = {};
+    botOptionsFindly.logLevel = 'debug';
+    botOptionsFindly.userIdentity = this.userInfo.emailId;// Provide users email id here
+    botOptionsFindly.client = 'botbuilder';
+    botOptionsFindly.botInfo = { chatBot: this.workflowService.selectedApp().name, taskBotId: this.workflowService.selectedApp()._id };  // bot name is case sensitive
+    botOptionsFindly.assertionFn = this.assertion;
+    botOptionsFindly.koreAPIUrl = this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint;
+    // To modify the web socket url use the following option
+    botOptionsFindly.reWriteSocketURL = {
+      protocol: 'wss',
+      hostname: window.appConfig.API_SERVER_URL.replace('https://', '')
+    };
+    // useful for connecting to non-secure urls like localhost during development (not to be used in environments)
+    if (window.appConfig.API_SERVER_URL.indexOf('http://') !== -1) {
+          botOptionsFindly.reWriteSocketURL = {
+            protocol: 'ws',
+            hostname:  window.appConfig.API_SERVER_URL.replace('http://','')
+        };
+    }
+    const findlyConfig: any = {
+      botOptions: botOptionsFindly,
+      viaSocket: true
+    };
+    this.findlyBusinessConfig = this;
+    findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
+    this.distroyTopDownSearch();
+    this.topDownSearchInstance = new FindlySDK(findlyConfig);
+    this.resetFindlyTopDownSearchSDK(this.workflowService.selectedApp());
+    this.topDownSearchInstance.initializeTopDown(findlyConfig, 'top-down-search-background-div');
+  }
+
+  distroyTopDownSearch(){
+    if (this.topDownSearchInstance && this.topDownSearchInstance.destroy) {
+      this.topDownSearchInstance.destroy();
+    }
+  }
+
+  resetFindlyTopDownSearchSDK(appData) {
+    if (this.topDownSearchInstance && this.topDownSearchInstance.setAPIDetails) {
+      if (appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id) {
+        const searchData = {
+          _id: appData.searchIndexes[0]._id,
+          pipelineId: this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
+          indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
+        }
+        window.selectedFindlyApp = searchData;
+        this.topDownSearchInstance.setAPIDetails();
+      }
+    }
   }
 
   // click event on whole body. For now, using for Status Docker
