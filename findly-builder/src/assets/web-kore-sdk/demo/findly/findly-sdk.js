@@ -82,7 +82,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   FindlySDK.prototype.customTourResultRank = function (val) {
       //this.config.findlyBusinessConfig.initVariables = this.initVariables();
       _self = this;
-      _self.vars.customTourResultRank = val;
+      _self.vars.customTourResultRank = val || true;
     }
     FindlySDK.prototype.addPolyFils = function () {
       var _self = this;
@@ -3233,7 +3233,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.structured-data-wrp-content').removeClass('custom-faqs-wrp-content');
         $('.moreStructredData').addClass('display-none');
       })
-     
+      $('.sdk-tours-info-nxt').off('click').on('click', function (e) {
+        
+      })
+      $('.sdk-tours-info-close').off('click').on('click', function (e) {
+
+      })
       // $('#viewTypeCustomize').off('click').on('click', function (e) {
       //   e.preventDefault();
       //   e.stopImmediatePropagation();
@@ -4623,13 +4628,24 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           success: function (data) {
             console.log(data);
             _self.vars.searchObject.recents = data.recentSearches;
-            var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
-              // searchResults: searchResults,
-              recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
-              recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-              popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
-            });
-            $('.search-body').html(freqData);
+            if($('body').hasClass('top-down')){
+              var freqDataTop = {
+                // searchResults: searchResults,
+                recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+                recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+                popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
+              };
+              _self.pubSub.publish('sa-freq-data', freqDataTop);
+            }else{
+              var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
+                // searchResults: searchResults,
+                recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+                recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+                popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
+              });
+              $('.search-body').html(freqData);
+            }
+            
           },
           error: function (err) {
             console.log(err);
@@ -4974,6 +4990,10 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                         _self.bindAllResultsView();
                         // res.autoComplete['querySuggestions']=['How to make online bill payment?', 'Citi - Online Bill Payment'];
                         _self.appendSuggestions();
+
+                         //top-down-search-live-search-suggestion box showing//
+                         _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
+
                         // _self.pubSub.publish('sa-auto-suggest', res.autoComplete.keywords);
                         // tmplData['suggestions'] = res.autoComplete.keywords;
                         //to sort rendering results based on score
@@ -6773,8 +6793,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       _self.pubSub.subscribe('sa-freq-data', (msg, data) => {
         if (config.container) {
           if (config.templateId) {
-            var dataHTML = $('#' + config.templateId).tmplProxy(data);
-            $('#' + config.container).empty().append(dataHTML);
+            if(!$('body').hasClass('top-down')){
+              var dataHTML = $('#' + config.templateId).tmplProxy(data);
+            }else{
+              var dataHTML = $(_self.getFrequentlySearchTemplate()).tmplProxy(data);
+            }
           } else if (config.template) {
             var dataHTML = $(config.template).tmplProxy(data);
             $('#' + config.container).empty().append(dataHTML);
@@ -6909,7 +6932,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
     }
     FindlySDK.prototype.addSearchResult = function(config) {
       var _self = this;
-      _self.customSearchResult = true;
+      _self.customSearchResult = false;
       var structuredDataContainer = '';
       if(!$('body').hasClass('top-down')){
         var actionsPosition ='bottom';
@@ -7066,7 +7089,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         $('body').addClass('top-down');
         $('body').addClass('sdk-top-down-interface');
       }
-      _self.customSearchResult = true;
+      _self.customSearchResult = false;
       window.koreWidgetSDKInstance = _self;
       
       if (config && config.autoSuggest === true) {
@@ -13221,7 +13244,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                 _self.vars.filterConfiguration = interface.facets;
               }
               else{
-                _self.vars.filterConfiguration = {aligned: "left",isEnabled: false};
+                _self.vars.filterConfiguration = {aligned: "left",isEnabled: true};
               }
             }
           });
@@ -13399,7 +13422,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <div class="total-structured-data-wrap {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customization{{/if}}{{/if}}{{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}} display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
               {{if tour && isFullResults == true}}\
-                <div class="tours-information sdk-tours-info-start">\
+                <div class="tours-information">\
                   <div class="tourtitle">Customize</div>\
                   <div class="tour-info">Start Customizing your search results by hovering on the matched content and performing below actions:</div>\
                   <div class="tour-action-info"><b>HIDE</b> - Hide the search result</div>\
@@ -13414,14 +13437,14 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                     </div>\
                   </div>\
                 </div>\
-                <div class="tours-information tour-customization-info sdk-tours-info-end hide">\
+                <div class="tours-information tour-customization-info hide">\
                   <div class="tourtitle">Customize</div>\
                   <div class="tour-info mb-2 pb-1">You can order the results by clicking on this icon and dragging up and down.</div>\
                   <div class="footer-tour">\
                     <div class="tour-length">2 of 2</div>\
                     <div class="tour-btns">\
-                        <button class="next-btn sdk-tours-info-close">Got it</button>\
-                        <button class="close-btn sdk-tours-info-pre">Previous</button>\
+                        <button class="next-btn">Got it</button>\
+                        <button class="close-btn">Previous</button>\
                     </div>\
                   </div>\
                 </div>\
@@ -16597,7 +16620,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         $('.search-body').addClass('hide');
 
         var facetObj = {};
-        facetObj['position'] = "top"// "left";
+        facetObj['position'] = _self.vars.filterConfiguration.aligned// "left";
         facetObj['show'] = false;
         if(facetObj['position'] == "top"){
           facetObj['show'] = true;
@@ -16696,7 +16719,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         event.stopPropagation();
         event.stopImmediatePropagation();
         var facetObj = {};
-        facetObj['position'] = "left";
+        facetObj['position'] = _self.vars.filterConfiguration.aligned;
         if(facetObj['show']){
           facetObj['show'] = false;
         }else{
@@ -16736,9 +16759,13 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         _self.bindShowAllResultsTrigger(showAllHTML,facetData);
       });
       
-      $('#show-all-results-container').off('click').on('click', function(){
-        
+      $('.sdk-clear-all-facet-top').off('click').on('click', function(event){
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        cancelAllRecord()
       });
+      
+      
       $('.sdk-clear-all-facet').off('click').on('click', function(event){
         event.stopPropagation();
         event.stopImmediatePropagation();
@@ -16761,8 +16788,23 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         setTimeout(hide, 1000);
         //$('#checkbox-01').prop( "checked", false );
       });
+      cancelAllRecord = function(){
+        if(_self.vars.countOfSelectedFilters > 0){
+          $('#loaderDIV').show();
+        }
+        //$('#loaderDIV').show();
+        if (_self.vars.selectedFiltersArr.length > 0) {
+          _self.vars.selectedFiltersArr.forEach(function (filter) {
+            $("#" + filter).prop('checked', false)
+            console.log(filter);
+          })
+          _self.vars.filterObject = [];
+          _self.searchByFacetFilters(_self.vars.filterObject);
+        }
+      }
       $('.clsoe-filter').off('click').on('click', function(){
         $('.filter-updated-count').hide()
+        cancelAllRecord()
       });
       $('.apply-btn').off('click').on('click', function(){
         $('.filter-data').hide()
@@ -16930,7 +16972,6 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           _self.facetReset(_self.vars['facetObjectGlobal'],facetData);
         }
        //SDK Top Facet
-      
     }
 
     FindlySDK.prototype.facetFilter = function(){
@@ -17060,7 +17101,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               <div class="dropdown_custom_filter">\
                 <div class="dropbtn  sdk-top-facet-drop">\
                   ${searchFacet.facetName}{{if searchFacet.countPerGroup}}\
-                  {{if searchFacet.countPerGroup.length >i}}\
+                  {{if searchFacet.countPerGroup.length >i && searchFacet.countPerGroup[i].length >0}}\
                   <span class="count">${searchFacet.countPerGroup[i].length}</span> {{/if}}\
                   {{/if}}\
                   <img class="down-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBbY6xDYMwEEX/yQuc5QUOmfRZIRskEyQjZJyU6VJmBGoqREcHJVT2AsiAhQRGvO7+vdM/JVleMevBe9fgBBF7Z21+itmUIPzZ6N47VyeStU+APgj0WK8uV8lsK5K/99Lc5pbdMtNWIQJSBYi+MQjhhTDeuplETOQobhLOn4/wMZ8As5kn7D+3/a0AAAAASUVORK5CYII=">\
@@ -17097,7 +17138,12 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                         {{/if}}\
                       {{/if}}\
                   {{/each}}\
-                    <div class="apply-btn">Apply</div>\
+                  {{if searchFacet.isMultiSelect}}\
+                  <div class="apply-btn">Apply</div>\
+                  {{/if}}\
+                    {{if !searchFacet.isMultiSelect}}\
+                    <div class="clear-all sdk-clear-all-facet-top">Clear</div>\
+                    {{/if}}\
                   </div>\
               </div>\
             {{/each}}\
@@ -17396,7 +17442,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           _self.parentEvent(responseObject);
         }
       });
-       //Tour RR
+      //Tour RR
        $('.sdk-tours-info-nxt').off('click').on('click', function (e) {
         $('.sdk-tours-info-start').hide();
         $(".sdk-tours-info-end").removeClass("hide");
@@ -17812,6 +17858,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           }, 600);
         });
       }
+      _self.pubSub.subscribe('sa-show-live-search-suggestion',(msg,data)=>{
+        if((data.faqs||[]).length || (data.pages||[]).length || (data.document||[]).length){
+          $('#live-search-result-box').show();
+        }
+      });
     }     
     FindlySDK.prototype.getSuggestionTemplate = function () {
       if ($("#auto-query-box").find(".suggestion-box").length) {
@@ -18260,12 +18311,12 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             </div>
             <div id="heading" class="search-input-box">      
                 <div id="search-box-container" class="search-box-container-data">
-                    <div class="search-icon">
-                        <img src="images/search-icon.png"/>
-                    </div>
-                    <div class="cancel-search">
-                        <img src="images/cancel.png"/>
-                    </div>
+                  <div class="search-icon">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBlVJLTgJBEK2q8RNXwg2GGzBbiEIHNHEl3ABOMHICvQFHQE8grEwU0wgBt9xAjjAkLkSnq+xB6JAwwfAWXV3pev1eVxdCCp70u38Asf8J8bSuVJRWg5uJHk1CZrlbJoKRPfURcbAwX80rpWabteRIw3HHMDSYuV4pFbOVciFHfJI1ht+O6Pijrye1LcVXPW4A4a0tDJQKtqy96FGZyHskXuTUyvqfoiUxm2YaKcGFOhuA0CCGoxtnVdtG2JhZHu6CmB4C5h3xBzhjYwT/gIFngHjqiIfwPbPR11pndlOtmsjcEZPHJi3f9J8GIgoRpOvyZIkNt4gwfNbjfBpJDydtsc+pqOK9019v+npYQ/I6gNQVIz0BE5G1h553bYcig3YYDIu6VMWpU0xQVeddYgosaU6IIeHykpIYfqiWCwGwtDxCvXaFsAdWg9ImxgD2xerf4RflG5JZZafRoQAAAABJRU5ErkJggg=="/>
+                  </div>
+                  <div class="cancel-search">
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADeSURBVHgBnZI/C8IwEMUviRUHkdKp0KWgBccu/QAOgrj1k2arbtLZJXtFOpVOpXtoYyKk+CeJ4BtCEt7vuHscwJ8i6timh3gZbvy+vfUuc5Ie01W4XigfVh+Dh/25hy9Jtk9dECKC6vcTrK4FEwA5Ao+aYA2JAeU1O9dTq0pdU7VBlJQICA2iuOyae/sJVaxg2o++qmfSCEAF8By4BybICL7CMAowQUozEwhcDSGnxhLH3GjB4AjCFRixQao9W2BvoC09GzxtjrydbEGY4GlGG6SllgTzccc5ca7lTz0A2yqRYknu6twAAAAASUVORK5CYII="/>
+                  </div>
                 </div>   
                 <div id="frequently-searched-box" class="frequently_searched_box"> </div>          
                 <div id="live-search-result-box" class="live_search_result_box">
@@ -18429,6 +18480,24 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                               </script>'
       return topDownFacetsTabs;
     }
+    FindlySDK.prototype.getFrequentlySearchTemplate = function () {
+      var frequentlySearchTemplate = '<script id="frequently-searched-template" type="text/x-jqury-tmpl">\
+                                        {{if recents && recents.length}}\
+                                        <div class="templates-data">\
+                                            <div class="main-title">FREQUENTLY SEARCHED</div>\
+                                            <div class="tile_with_header">\
+                                                {{each(key, recent) recents }}\
+                                                {{if recent}}\
+                                                <a class="tile-title recentText" id="${recent}">${recent}</a>\
+                                                {{/if}}\
+                                                {{/each}}\
+                                              </div>\
+                                        </div>\
+                                        {{/if}}\
+                                      </script>'
+      return frequentlySearchTemplate;
+    }
+
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
 });
