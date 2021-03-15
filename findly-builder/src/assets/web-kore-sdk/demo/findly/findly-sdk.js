@@ -18283,7 +18283,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       console.log('config', searchExperienceAPIUrl);
       var type = 'GET';
 
-      $.ajax({
+      return $.ajax({
         url: searchExperienceAPIUrl,
         type: type,
         headers: {
@@ -18382,7 +18382,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       return topDownTemplate;
     }
 
-    FindlySDK.prototype.initializeTopDown = function (findlyConfig, search_container) {
+    FindlySDK.prototype.initializeTopDown = function (findlyConfig, search_container, searchExperienceConfig) {
       var _self = this;
       var dataHTML = $(FindlySDK.prototype.getTopDownTemplate()).tmplProxy({});
 
