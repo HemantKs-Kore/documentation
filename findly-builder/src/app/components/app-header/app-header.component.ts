@@ -70,8 +70,8 @@ export class AppHeaderComponent implements OnInit {
   public isAnyRecordInprogress: boolean = false;
   public isAnyRecordCompleted: boolean = false;
   public isAnyRecordFailed: boolean = false;
-  public readDocs : any = [];
-  public unReadDocs : any = [];
+  public readDocs: any = [];
+  public unReadDocs: any = [];
 
   constructor(
     private authService: AuthService,
@@ -141,13 +141,13 @@ export class AppHeaderComponent implements OnInit {
       this.showMainMenu = false;
     } else {
       this.showMainMenu = true;
-      if (menu == '/settings' || menu == '/credentials-list' || menu == '/searchInterface') {
+      if (menu == '/settings' || menu == '/credentials-list' || menu == '/searchInterface' || menu == '/team-management' || menu == '/search-experience') {
         this.menuFlag = true;
       }
       else {
         this.menuFlag = false;
         this.resetNotificationBadge();
-        if(this.pollingSubscriber){
+        if (this.pollingSubscriber) {
           this.pollingSubscriber.unsubscribe();
         }
       }
@@ -263,46 +263,46 @@ export class AppHeaderComponent implements OnInit {
           return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED') || (source.status === 'validation'));
         });
 
-        if(recordStatistics){
+        if (recordStatistics) {
           this.readDocs = _.filter(res.dockStatuses, (source) => {
-            return ( source.read && (source.read === true));
+            return (source.read && (source.read === true));
           });
           this.unReadDocs = _.filter(res.dockStatuses, (source) => {
-            return ( source.read === false);
+            return (source.read === false);
           });
           recordStatistics = false;
         }
 
-        if(updateRecordsWithRead){
+        if (updateRecordsWithRead) {
           setTimeout(() => {
             this.makeNotificationsRead();
           }, 500);
           updateRecordsWithRead = false;
         }
 
-        if(this.unReadDocs && this.unReadDocs.length){
+        if (this.unReadDocs && this.unReadDocs.length) {
           let successElements = this.unReadDocs.filter(element => {
-            if(element && element.status === 'SUCCESS'){
+            if (element && element.status === 'SUCCESS') {
               return element;
             }
           });
-          let failureElements = this.unReadDocs.filter(element => { 
-            if(element && element.status === 'FAILURE'){
+          let failureElements = this.unReadDocs.filter(element => {
+            if (element && element.status === 'FAILURE') {
               return element;
             }
           });
-          if(failureElements && failureElements.length){
+          if (failureElements && failureElements.length) {
             this.isAnyRecordFailed = true;
             this.isAnyRecordCompleted = false;
             this.isAnyRecordInprogress = false;
           }
-          else if(successElements && successElements.length){
+          else if (successElements && successElements.length) {
             this.isAnyRecordFailed = false;
             this.isAnyRecordCompleted = true;
             this.isAnyRecordInprogress = false;
           }
         }
-        else{
+        else {
           this.isAnyRecordCompleted = false;
           this.isAnyRecordFailed = false;
         }
@@ -355,10 +355,10 @@ export class AppHeaderComponent implements OnInit {
   navigateTo(task) {
     if (task.jobType === 'faq') {
       this.router.navigate(['/faqs'], { skipLocationChange: true })
-    } else if(task.jobType === 'webdomain') {
+    } else if (task.jobType === 'webdomain') {
       this.router.navigate(['/content'], { skipLocationChange: true });
     }
-    else if(task.jobType == 'STRUCTURED_DATA_INGESTION'){
+    else if (task.jobType == 'STRUCTURED_DATA_INGESTION') {
       this.router.navigate(['/structuredData'], { skipLocationChange: true });
     }
   }
@@ -533,56 +533,56 @@ export class AppHeaderComponent implements OnInit {
     this.headerService.openSearchSDK(true);
   }
 
-  notificationIconClick(){
-    setTimeout(()=> {
+  notificationIconClick() {
+    setTimeout(() => {
       let notificationDropdown = $('#notification-dropdown');
-      if((notificationDropdown.css('display') == 'block') && notificationDropdown.hasClass('show')){
+      if ((notificationDropdown.css('display') == 'block') && notificationDropdown.hasClass('show')) {
         this.poling(true, true);
       }
     }, 50);
   }
 
-  checkRecordInDocs(key, record){
-    let matched : boolean = false;
-    if(key === 'read'){
-      let matched = this.readDocs.find( res => {
-        if(res._id === record._id){
+  checkRecordInDocs(key, record) {
+    let matched: boolean = false;
+    if (key === 'read') {
+      let matched = this.readDocs.find(res => {
+        if (res._id === record._id) {
           return res;
         }
       });
-      if(matched) {
+      if (matched) {
         return true;
       }
       else {
         return false;
       }
     }
-    else if (key === 'unread'){
-      let matched = this.unReadDocs.find( res => {
-        if(res._id === record._id){
+    else if (key === 'unread') {
+      let matched = this.unReadDocs.find(res => {
+        if (res._id === record._id) {
           return res;
         }
       });
-      if(matched) {
+      if (matched) {
         return true;
       }
       else {
         return false;
-      }    
+      }
     }
   }
 
-  makeNotificationsRead(){
+  makeNotificationsRead() {
     const queryParms = {
       searchIndexId: this.workflowService.selectedSearchIndexId,
     }
     const payload = {
-      ids : this.unReadDocs.map((doc) => {return doc._id})
+      ids: this.unReadDocs.map((doc) => { return doc._id })
     }
-    if(payload.ids.length){
+    if (payload.ids.length) {
       this.service.invoke('read.dockStatus', queryParms, payload).subscribe(
         res => {
-        
+
         },
         errRes => {
           this.statusDockerLoading = false;
