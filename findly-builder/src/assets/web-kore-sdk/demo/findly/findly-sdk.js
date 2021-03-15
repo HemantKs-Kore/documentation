@@ -1126,6 +1126,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <img class="custom-chevron-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABgSURBVHgBvY5JDYBAEASLQwASkIAEUAIScABOwAkaUAAOsEBvwv525sFjO6nHpCuZroBNNOLESCceMeIkSkseqRVXlOqEcItBHOEo8VNg7AgvVpyR/8s5VfZfOWFk98oXwWkULEZAstIAAAAASUVORK5CYII=">\
                 &nbsp;<span class="custom-header-text">HIDE INSIGHTS</span>\
               </div>\
+              <div class="custom-header-container-left searchAssist">\
+                <span>Search Assist</span>\
+              </div>\
               <div class="custom-header-container-center">\
                 <ul class="custom-header-nav">\
                   <li id="viewTypePreview" class="custom-header-nav-link-item nav-link-item-active"><a class="custom-header-nav-link">Preview</a></li>\
@@ -1135,6 +1138,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="custom-header-container-right">\
                 <img class="custom-refresh-icon display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAMCAYAAABr5z2BAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBxZLBDYAgDEW/TsIobgabOIJxAnQC3ahWJbFok/YkL3kXKJ8GCjwENrNkuJXai14ETOzKdoYzO0KB4Ie0Dn4hoX6PJDcH+Eja4VgWoy+jviy+2vKGfGjzCzJgga/9s2bXNgLuMbVGOUOM8gGN7ylbkPg3iwAAAABJRU5ErkJggg==">\
                 <img class="custom-expand-icon display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABVSURBVHgBvZLLDQAhCEQfHdHZ2vGWwm6MGiVq1IOTcOAzZPgIYLQQ5/t8DLy/KWNoqrFM0AmpzhUCA5KPWa9bqPzAXOoFeEkPHUnbQx+tdflwwuZrfGu+IKjlYgIIAAAAAElFTkSuQmCC">\
+                <img class="close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
               </div>\
             </div>\
               <div class="contest_variables_dropdown hide">\
@@ -3221,6 +3225,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.customizeView = false;
           }
         }
+        _self.pubSub.publish('sa-update-search-customozation');
         $('.structured-data-bottom-actions').css('display', 'none');
         $('.structured-data-wrp-content').removeClass('custom-faqs-wrp-content');
         $('.moreStructredData').addClass('display-none');
@@ -3231,12 +3236,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.sdk-tours-info-close').off('click').on('click', function (e) {
 
       })
-      $('#viewTypeCustomize').off('click').on('click', function (e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        _self.invokeSearch();
-        _self.vars.customizeView = true;
-      })
+      // $('#viewTypeCustomize').off('click').on('click', function (e) {
+      //   e.preventDefault();
+      //   e.stopImmediatePropagation();
+      //   _self.invokeSearch();
+      //   _self.vars.customizeView = true;
+      // })
       $('.show-all-results').off('click').on('click', function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -5797,11 +5802,16 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
 
             $('.custom-header-container-center').css('visibility', 'visible');
           };
+        } 
+        else if ($(event.target).closest('.heading').length){
+          event.stopPropagation();
+          $('#searchChatContainer').removeClass('bgfocus');
+          $('.search-body').addClass('hide');
         } else {
           if(!$(event.target).closest('.show-all-results-outer-wrap').length){
             $('.search-body').removeClass('hide');
             $('#searchChatContainer').addClass('bgfocus');
-          }          
+          }
         }
         console.log($(event.target).closest('#search').length,$(event.target).closest('#search-box-container').length,$(event.target).closest('#frequently-searched-box').length,$(event.target).closest('#live-search-result-box').length);
         if (!($(event.target).closest('#search-box-container').length || $(event.target).closest('#frequently-searched-box').length || $(event.target).closest('#live-search-result-box').length)) {
@@ -12818,6 +12828,10 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         for(let i = 0; i < goBtn.length; i++){
           goBtn[i].disabled = isGoButtonDisabled;
         }
+      });
+
+      _self.pubSub.subscribe('sa-update-search-customozation', (msg, data) => {
+        _self.invokeSearch();
       });
     }
 
