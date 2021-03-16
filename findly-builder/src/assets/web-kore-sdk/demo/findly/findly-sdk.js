@@ -404,7 +404,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         jstBarrer: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM",
         //jstBarrer: "bearer " + _self.bot.options.accessToken,
         searchResultsConfigURL : searchResultsConfigAPIURL + SearchIndexID + "/getresultviewsettings",
-        recentSearchUrl : baseAPIServer + "api/1.1/findly/" + SearchIndexID + "/recentSearches",
+        recentSearchUrl : baseAPIServer + "/api/1.1/findly/" + SearchIndexID + "/recentSearches",
         indexpipelineId : indexpipelineId,
         pipelineId : pipelineId,
         autoSuggestionsURL : baseAPIServer + "/api/1.1/searchAssist/" + SearchIndexID + "/autoSuggestions"
