@@ -48,6 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
     '/botActions': 'Bot Actions'
   };
   topDownSearchInstance : any;
+  searchExperienceConfig : any;
   constructor(private router: Router,
     private authService: AuthService,
     public localstore: LocalStoreService,
@@ -76,26 +77,27 @@ export class AppComponent implements OnInit, OnDestroy {
     this.userInfo = this.authService.getUserInfo() || {};
     this.subscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.resetFindlySearchSDK(this.workflowService.selectedApp());
-    })
+    });
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe( (res : any) => {
-      let searchInterface = 'bottom-up';
-      if(searchInterface === 'bottom-up'){
-        if (!$('.search-background-div:visible').length) {
-          $('.start-search-icon-div').addClass('active');
-          this.showHideSearch(true);
-          this.resultRankDataSubscription = this.headerService.resultRankData.subscribe( (res : any) => {
-            this.searchInstance.customTourResultRank(res);
-          });
-        } else {
-          this.showHideSearch(false);
+      if(this.searchExperienceConfig){
+        if(this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')){
+          if (!$('.search-background-div:visible').length) {
+            $('.start-search-icon-div').addClass('active');
+            this.showHideSearch(true);
+            this.resultRankDataSubscription = this.headerService.resultRankData.subscribe( (res : any) => {
+              this.searchInstance.customTourResultRank(res);
+            });
+          } else {
+            this.showHideSearch(false);
+          }
         }
-      }
-      else{
-        if (!$('.top-down-search-background-div:visible').length) {
-          $('.top-down-search-background-div').addClass('active');
-          this.showHideTopDownSearch(true);
-        } else {
-          this.showHideTopDownSearch(false);
+        else{
+          if (!$('.top-down-search-background-div:visible').length) {
+            $('.top-down-search-background-div').addClass('active');
+            this.showHideTopDownSearch(true);
+          } else {
+            this.showHideTopDownSearch(false);
+          }
         }
       }
     })
@@ -229,6 +231,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.appSelectionService.setPreviousState(path);
           this.resetFindlySearchSDK(this.workflowService.selectedApp());
           this.selectApp(true);
+          this.getSearchExperience();
           console.log('navigated to path throught navigator and shown preview ball');
         } else {
           this.showHideSearch(false);
@@ -296,7 +299,7 @@ export class AppComponent implements OnInit, OnDestroy {
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
     this.distroySearch();
     this.searchInstance = new FindlySDK(findlyConfig);
-    this.searchInstance.showSearch(findlyConfig.botOptions);
+    this.searchInstance.showSearch(findlyConfig.botOptions, this.searchExperienceConfig);
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
 
   }
@@ -442,7 +445,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.distroyTopDownSearch();
     this.topDownSearchInstance = new FindlySDK(findlyConfig);
     this.resetFindlyTopDownSearchSDK(this.workflowService.selectedApp());
-    this.topDownSearchInstance.initializeTopDown(findlyConfig, 'top-down-search-background-div');
+    this.topDownSearchInstance.initializeTopDown(findlyConfig, 'top-down-search-background-div', this.searchExperienceConfig);
   }
 
   distroyTopDownSearch(){
@@ -463,6 +466,23 @@ export class AppComponent implements OnInit, OnDestroy {
         this.topDownSearchInstance.setAPIDetails();
       }
     }
+  }
+
+  getSearchExperience(){
+    console.log("getSearchExperience");
+    console.log(this.workflowService.selectedApp());
+    let selectedApp : any;
+    selectedApp = this.workflowService.selectedApp();
+    const searchIndex = selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex
+    };
+    this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
+      console.log("search experience data", res);
+      this.searchExperienceConfig = res;
+    }, errRes => {
+      console.log(errRes);
+    });
   }
 
   // click event on whole body. For now, using for Status Docker

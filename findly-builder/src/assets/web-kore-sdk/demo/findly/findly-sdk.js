@@ -270,6 +270,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.countOfSelectedFilters = 0;
       vars.resultRankingActionPerformed = false;
       vars.customTourResultRank = false;
+      vars.scrollPageNumber = 1;
     }; //********************original widget.js start */
 
 
@@ -1158,11 +1159,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div class="greetingMsg">\
           </div>\
           <div class="search-bar">\
-            <div class="widget-icon"><img src="${searchConfig.widgetIcon}"> </div>\
-            {{if searchConfig.autoComplete == true}}\
+            <div class="widget-icon"><img src="${searchConfig.searchBarIcon}"> </div>\
+            {{if searchConfig.autocompleteOpt == true}}\
               <input id="suggestion"style="position: absolute; bottom: 0px;" name="search" class="search" disabled="disabled">\
             {{/if}}\
-            <input autocomplete="off" style="position: absolute; bottom: 0px;" id="search" name="search" class="search" placeholder="${searchConfig.placeholder}">\
+            <input autocomplete="off" style="position: absolute; bottom: 0px; border : solid 1px ${searchConfig.searchBarBorderColor} !important; background : ${searchConfig.searchBarFillColor}; color : ${searchConfig.searchBarPlaceholderTextColor};" id="search" name="search" class="search" placeholder="${searchConfig.searchBarPlaceholderText}">\
             <div class="ksa-SpeakIcon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAETSURBVHgBxVPbSsNAEN2d3XRVSvqQBwNNQwmpgn3xC/x7/0ETEpG2oGAeTKVJ3HXH3Qch1KQiKfTAsJc5c/YyM4QMBO1zhGEYAYwWdg6gn/I8T7p4rGtzPr/xOWcLKat7rdUzIXw5Hl+W2+1btc+FLgGA2kWUa4PKGmO4FuLT6+SSgTi9AG8voii6OkT+8bczctwnNA3stGYXTTMqzOVmQRCcW1OKzBDx3VBcANj1Cvj+5BWAepR+GBKsOD+7s0apk0spSzO6dV0X7ZhflTidxoEQcG2q79Gc/mL30jSdMCZuHYcmWZatDgpYxHHsSkmWjFFPa5SIpFSKJ5vNQ0H+A/vrf2WG9gWaNtkL/Er6GmoQvgHqBWZkE0i8BAAAAABJRU5ErkJggg=="></div>\
             <div class="sdkFooterIcon microphoneBtn"> \
                 <button class="notRecordingMicrophone" title="Microphone On"> \
@@ -1174,7 +1175,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 </button> \
                 <div id="textFromServer"></div> \
             </div> \
-            <button class="search-button" disabled>Go</button>\
+            {{if searchConfig.searchButtonEnabled}}\
+              <button class="search-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}"{{/if}} disabled>${searchConfig.buttonText}</button>\
+            {{/if}}\
           </div>\
         </div>\
         </script>';
@@ -6351,6 +6354,10 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         }
       }
 
+      if (url != this.API.livesearchUrl) {
+        payload['maxNumOfResults'] = 16;
+        payload['pageNumber'] = _self.vars.scrollPageNumber
+      }
       if (this.bot.options) {
         console.log("Client in Bot", this.bot.options, payload.messagePayload);
         payload.messagePayload["client"] = this.bot.options.client || "sdk";
@@ -7196,7 +7203,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       _self.searchEventBinding(dataHTML, 'search-container',{}, config);
     }
     // FindlySDK.prototype.showSearch = function () {
-    FindlySDK.prototype.showSearch = function (config) {
+    FindlySDK.prototype.showSearch = function (config, searchConfig) {
       var _self = this;
       _self.isDev = false;
       if (!$('body').hasClass('demo')) {
@@ -7230,11 +7237,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       }
       var windowWidth = window.innerWidth;
       var left = ((windowWidth / 2) - 250) + 'px';
-      var searchConfig = {
-        widgetIcon : 'data:image/png;base64,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',
-        placeholder : 'Ask anything',
-        autoComplete : true
-      };
+      var searchConfiguration = _self.mapSearchConfiguration(searchConfig);
+
       var searchConfigTopDown = {
         searchIcon : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBlVJLTgJBEK2q8RNXwg2GGzBbiEIHNHEl3ABOMHICvQFHQE8grEwU0wgBt9xAjjAkLkSnq+xB6JAwwfAWXV3pev1eVxdCCp70u38Asf8J8bSuVJRWg5uJHk1CZrlbJoKRPfURcbAwX80rpWabteRIw3HHMDSYuV4pFbOVciFHfJI1ht+O6Pijrye1LcVXPW4A4a0tDJQKtqy96FGZyHskXuTUyvqfoiUxm2YaKcGFOhuA0CCGoxtnVdtG2JhZHu6CmB4C5h3xBzhjYwT/gIFngHjqiIfwPbPR11pndlOtmsjcEZPHJi3f9J8GIgoRpOvyZIkNt4gwfNbjfBpJDydtsc+pqOK9019v+npYQ/I6gNQVIz0BE5G1h553bYcig3YYDIu6VMWpU0xQVeddYgosaU6IIeHykpIYfqiWCwGwtDxCvXaFsAdWg9ImxgD2xerf4RflG5JZZafRoQAAAABJRU5ErkJggg==',
         placeholder : 'Search here',
@@ -7248,7 +7252,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         btnBorderColor:'gray',
         btnText:'Go'
       };
-      var dataHTML = $(_self.getSearchTemplate('searchContainer')).tmplProxy({ 'searchConfig' : searchConfig });
+      var dataHTML = $(_self.getSearchTemplate('searchContainer')).tmplProxy({ 'searchConfig' : searchConfiguration });
       // $(dataHTML).off('click', '.search-logo').on('click', '.search-logo', function (event) {
       //   $('.search-container').toggleClass('conversation');
       // });
@@ -7310,14 +7314,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       });
       _self.showGreetingMsg = true;
       _self.vars.searchObject.clearGreetingTimeOut = setTimeout(function () {
-        var greetingMessageConfig = {
-          greetingIcon : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJmSURBVHgBtVJLS5RhFH7O+10cZ2jmM5sgUfg0BAkq3VqhRrhx0biQ2ql7w7atnF2rsD8Q02XZQluGhhVBdIHGS4Q7JSOi0hk/57t/7+l1umCouzqr9+Wc5znP83CA/10rKyvmzcfexcFbbttBfdr78V7adiqFs+r5DHpjCazfm88sLTx4sd2ba9TFBaTnRvLt6VrgT2uJX2wcqqyLvQSGoXWzSM/CtCYhMjbM/MyluK/QdST7+sqZ9POeEVCU0Qp6Sh9L0FDYxYi925UeizTzNoy2IvT8GkR2DfqJuzdOD02c7yKnkyjQTbqspXTWGrTuvwh2twsjVQI0C5BPYeQLysYayNwCZYu8OjhV96wJW+gCrInufRnw8qkijJYpkFGGblnQsrYiK3Pw2SYEOSTeIyTfCzIMOHCiarr/Y9MfAn57chSGfh3G0UXox0chjAq0TC5xqyRMDYh3QOyoQY9l4FNY3Wa4sr1ugZlFJJPFenAk+iCrs+DISpwNEoYaSDzI0FV61T49T2Q0MyeC/DDsEfMfuPn+E6dpYvXNF8T+ACQssCxId2NLaDFIOpDepiKpMWSkWgTJJslEpcXIiaXlDXduHeeqntn68Nj71ST8Oo54Uw37yl9NAatKlKfk7yj8jhLmIXbVW+WQEK3XM7h6p9bS20HiWn/jJyJiftc5xoJKP0/NrEvn0EfkBsqvjsjxkYR+2Rre7CEcUtGrjqIimyLzKJga1PYAcVW5dF2WsVxUEgeahiuVQwl2y11onSQ2pmHmiJXn2PmGJHLL+AXedwcH1daMZZNmlCDJrt8Ex+O/wf+kfgAhFxenJ2BlUQAAAABJRU5ErkJggg==',
-          greetingMessage : 'Hello! How can I help you today?'
-        };
-        var greetingMsg = $(_self.getGreetingMsgTemplate()).tmplProxy({
-          greetingMsg : greetingMessageConfig.greetingMessage,
-          greetingIcon : greetingMessageConfig.greetingIcon
-        });
+        var greetingMsg = $(_self.getGreetingMsgTemplate()).tmplProxy({'searchConfig' : searchConfiguration});
         $('.greetingMsg').removeClass('hide');
         $('.greetingMsg').html(greetingMsg);
         if ($(".search-container").find(".greetingMsg").length) {
@@ -7333,13 +7330,98 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       _self.searchEventBinding(dataHTML, 'search-container', {}, {});
 
     };
+
+    FindlySDK.prototype.mapSearchConfiguration = function(searchConfig) {
+      var searchConfiguration = {};
+      if(searchConfig && Object.values(searchConfig).length){
+        if(searchConfig.widgetConfig){
+          searchConfiguration.buttonBorderColor = searchConfig.widgetConfig.buttonBorderColor;
+          searchConfiguration.buttonFillColor = searchConfig.widgetConfig.buttonFillColor;
+          searchConfiguration.buttonText = searchConfig.widgetConfig.buttonText;
+          searchConfiguration.buttonTextColor = searchConfig.widgetConfig.buttonTextColor;
+          searchConfiguration.searchBarBorderColor = searchConfig.widgetConfig.searchBarBorderColor;
+          searchConfiguration.searchBarFillColor = searchConfig.widgetConfig.searchBarFillColor;
+          searchConfiguration.searchBarPlaceholderText = searchConfig.widgetConfig.searchBarPlaceholderText;
+          searchConfiguration.searchBarPlaceholderTextColor = searchConfig.widgetConfig.searchBarPlaceholderTextColor;
+          searchConfiguration.searchButtonEnabled = searchConfig.widgetConfig.searchButtonEnabled;
+        }
+        else{
+          searchConfiguration.buttonBorderColor = '#e5e8ec';
+          searchConfiguration.buttonFillColor = '#0D6EFD';
+          searchConfiguration.buttonText = 'Go';
+          searchConfiguration.buttonTextColor = '#fff';
+          searchConfiguration.searchBarBorderColor = '#e5e8ec';
+          searchConfiguration.searchBarFillColor = '#00ffff00';
+          searchConfiguration.searchBarPlaceholderText = 'Ask anything';
+          searchConfiguration.searchBarPlaceholderTextColor = '#21202447';
+          searchConfiguration.searchButtonEnabled = true;
+        }
+        if(searchConfig.widgetConfig.searchBarIcon && searchConfig.widgetConfig.searchBarIcon.length){
+          searchConfiguration.searchBarIcon = searchConfig.widgetConfig.searchBarIcon;
+        }
+        else{
+          searchConfiguration.searchBarIcon = 'data:image/png;base64,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';
+        }
+
+        if(searchConfig.interactionsConfig){
+          searchConfiguration.welcomeMsg = searchConfig.interactionsConfig.welcomeMsg;
+          searchConfiguration.welcomeMsgMsgColor = searchConfig.interactionsConfig.welcomeMsgMsgColor;
+          searchConfiguration.showSearchesEnabled = searchConfig.interactionsConfig.showSearchesEnabled;
+          searchConfiguration.showSearches = searchConfig.interactionsConfig.showSearches;
+          searchConfiguration.autocompleteOpt = searchConfig.interactionsConfig.autocompleteOpt;
+          searchConfiguration.querySuggestionsLimit = searchConfig.interactionsConfig.querySuggestionsLimit;
+          searchConfiguration.liveSearchResultsLimit = searchConfig.interactionsConfig.liveSearchResultsLimit;
+          searchConfiguration.feedbackExperience = searchConfig.interactionsConfig.feedbackExperience;
+        }
+        else{
+          searchConfiguration.welcomeMsg = 'Hello! How can I help you today?';
+          searchConfiguration.showSearchesEnabled = '#161928';
+          searchConfiguration.showSearches = 'frequent';
+          searchConfiguration.autocompleteOpt = true;
+          searchConfiguration.querySuggestionsLimit = 2;
+          searchConfiguration.liveSearchResultsLimit = 2;
+          searchConfiguration.feedbackExperience = {resultLevel: true, queryLevel: false};
+        }
+
+        if(searchConfig.welcomeMsgEmoji && searchConfig.welcomeMsgEmoji.length){
+          searchConfiguration.welcomeMsgEmoji = searchConfig.welcomeMsgEmoji;
+        }
+        else{
+          searchConfiguration.welcomeMsgEmoji = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJmSURBVHgBtVJLS5RhFH7O+10cZ2jmM5sgUfg0BAkq3VqhRrhx0biQ2ql7w7atnF2rsD8Q02XZQluGhhVBdIHGS4Q7JSOi0hk/57t/7+l1umCouzqr9+Wc5znP83CA/10rKyvmzcfexcFbbttBfdr78V7adiqFs+r5DHpjCazfm88sLTx4sd2ba9TFBaTnRvLt6VrgT2uJX2wcqqyLvQSGoXWzSM/CtCYhMjbM/MyluK/QdST7+sqZ9POeEVCU0Qp6Sh9L0FDYxYi925UeizTzNoy2IvT8GkR2DfqJuzdOD02c7yKnkyjQTbqspXTWGrTuvwh2twsjVQI0C5BPYeQLysYayNwCZYu8OjhV96wJW+gCrInufRnw8qkijJYpkFGGblnQsrYiK3Pw2SYEOSTeIyTfCzIMOHCiarr/Y9MfAn57chSGfh3G0UXox0chjAq0TC5xqyRMDYh3QOyoQY9l4FNY3Wa4sr1ugZlFJJPFenAk+iCrs+DISpwNEoYaSDzI0FV61T49T2Q0MyeC/DDsEfMfuPn+E6dpYvXNF8T+ACQssCxId2NLaDFIOpDepiKpMWSkWgTJJslEpcXIiaXlDXduHeeqntn68Nj71ST8Oo54Uw37yl9NAatKlKfk7yj8jhLmIXbVW+WQEK3XM7h6p9bS20HiWn/jJyJiftc5xoJKP0/NrEvn0EfkBsqvjsjxkYR+2Rre7CEcUtGrjqIimyLzKJga1PYAcVW5dF2WsVxUEgeahiuVQwl2y11onSQ2pmHmiJXn2PmGJHLL+AXedwcH1daMZZNmlCDJrt8Ex+O/wf+kfgAhFxenJ2BlUQAAAABJRU5ErkJggg==';
+        }
+      }
+      else{
+        searchConfiguration = {
+          searchBarIcon : 'data:image/png;base64,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',
+          buttonBorderColor:'#e5e8ec',
+          buttonFillColor:'#0D6EFD',
+          buttonText:'Go',
+          buttonTextColor:'#fff',
+          searchBarBorderColor:'#e5e8ec',
+          searchBarFillColor:'#00ffff00',
+          searchBarPlaceholderText:'Ask anything',
+          searchBarPlaceholderTextColor:'#21202447',
+          searchButtonEnabled:true,
+          welcomeMsg:'Hello! How can I help you today?',
+          welcomeMsgEmoji : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJmSURBVHgBtVJLS5RhFH7O+10cZ2jmM5sgUfg0BAkq3VqhRrhx0biQ2ql7w7atnF2rsD8Q02XZQluGhhVBdIHGS4Q7JSOi0hk/57t/7+l1umCouzqr9+Wc5znP83CA/10rKyvmzcfexcFbbttBfdr78V7adiqFs+r5DHpjCazfm88sLTx4sd2ba9TFBaTnRvLt6VrgT2uJX2wcqqyLvQSGoXWzSM/CtCYhMjbM/MyluK/QdST7+sqZ9POeEVCU0Qp6Sh9L0FDYxYi925UeizTzNoy2IvT8GkR2DfqJuzdOD02c7yKnkyjQTbqspXTWGrTuvwh2twsjVQI0C5BPYeQLysYayNwCZYu8OjhV96wJW+gCrInufRnw8qkijJYpkFGGblnQsrYiK3Pw2SYEOSTeIyTfCzIMOHCiarr/Y9MfAn57chSGfh3G0UXox0chjAq0TC5xqyRMDYh3QOyoQY9l4FNY3Wa4sr1ugZlFJJPFenAk+iCrs+DISpwNEoYaSDzI0FV61T49T2Q0MyeC/DDsEfMfuPn+E6dpYvXNF8T+ACQssCxId2NLaDFIOpDepiKpMWSkWgTJJslEpcXIiaXlDXduHeeqntn68Nj71ST8Oo54Uw37yl9NAatKlKfk7yj8jhLmIXbVW+WQEK3XM7h6p9bS20HiWn/jJyJiftc5xoJKP0/NrEvn0EfkBsqvjsjxkYR+2Rre7CEcUtGrjqIimyLzKJga1PYAcVW5dF2WsVxUEgeahiuVQwl2y11onSQ2pmHmiJXn2PmGJHLL+AXedwcH1daMZZNmlCDJrt8Ex+O/wf+kfgAhFxenJ2BlUQAAAABJRU5ErkJggg==',
+          showSearchesEnabled:'#161928',
+          showSearches:'frequent',
+          autocompleteOpt:true,
+          querySuggestionsLimit:2,
+          liveSearchResultsLimit:2,
+          feedbackExperience:{resultLevel: true, queryLevel: false}
+        };
+      }
+      return searchConfiguration;
+    }
+
     FindlySDK.prototype.getGreetingMsgTemplate = function() {
       var greetingMsg = '<script type="text/x-jqury-tmpl">\
         <div class="search-greeting-box">\
-          <span class="greeting-img"><img src="${greetingIcon}"></span>\
-          <span class="search-greeting-text">\
-          {{if greetingMsg}}\
-            ${greetingMsg}\
+          <span class="greeting-img"><img src="${searchConfig.welcomeMsgEmoji}"></span>\
+          <span class="search-greeting-text" style="color : ${searchConfig.welcomeMsgMsgColor}">\
+          {{if searchConfig.welcomeMsg}}\
+            ${searchConfig.welcomeMsg}\
           {{else}}\
             Hello! How can I help you today?\
           {{/if}}\
@@ -16630,7 +16712,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       </div>\
       </script>';
       
-      
+      _self.pubSub.unsubscribe('sa-search-full-results');
       _self.pubSub.subscribe('sa-search-full-results', (msg, data) => {
         console.log(data)
         _self.vars['selectedFiltersRadio'] = [];
@@ -16664,6 +16746,16 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             let data_body_sec_element = document.querySelector('.data-body-sec');
             data_body_sec_element.addEventListener('ps-y-reach-end', () => {
               console.log("ps-y-reach-end");
+              if(_self.vars.scrollPageNumber >= 1){
+                _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
+              }
+              _self.seeAllResultsInifiteScroll();
+            });
+            data_body_sec_element.addEventListener('ps-y-reach-start', () => {
+              console.log("ps-y-reach-start");
+              if(_self.vars.scrollPageNumber > 1){
+                _self.vars.scrollPageNumber = _self.vars.scrollPageNumber - 1;
+              }
               _self.seeAllResultsInifiteScroll();
             });
           }, 100);
@@ -16702,6 +16794,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
 
     FindlySDK.prototype.seeAllResultsInifiteScroll = function() {
       // call the required API
+      this.invokeSearch();
     }
 
     FindlySDK.prototype.facetReset =function(facetObj,facetData){
@@ -16995,29 +17088,35 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           //   _self.vars['selectedFiltersRadio'].push($(this).attr("id"));
           // }
           // New Logic here
-          // var latest = $(this).attr("id");
-          // _self.vars['selectedFiltersRadio'].push($(this).attr("id")); //radio-non-multi-
-          // var arr = [];
-          // if(_self.vars.selectedFiltersRadio){
-          //   _self.vars.selectedFiltersRadio.forEach((element,index) => {
-          //     if(index != _self.vars.selectedFiltersRadio.length-1){
-          //       if(element.split('-')[1].split('')[0] == latest.split('-')[1].split('')[0]){
-          //         _self.vars.selectedFiltersRadio.splice(index,0)
-          //       }
-          //     }
-          //   });
-          // }
-
-          // if(_self.vars['selectedFiltersRadio'].length){
-          //   _self.vars['selectedFiltersRadio'].forEach(element => {
-          //     _self.vars.selectedFiltersArr.push(element);
-          //   });
-          // }
+          var latest = $(this).attr("id");
+          _self.vars['selectedFiltersRadio'].push($(this).attr("id")); //radio-non-multi-
+          var arr = [];
+          if(_self.vars.selectedFiltersRadio){
+            _self.vars.selectedFiltersRadio.forEach((element,index) => {
+              if(index != _self.vars.selectedFiltersRadio.length-1){
+                if(element.split('-')[1].split('')[0] == latest.split('-')[1].split('')[0]){
+                  _self.vars.selectedFiltersRadio.splice(index,1)
+                }
+              }
+            });
+          }
+          _self.vars.selectedFiltersArr.forEach((element ,index)=> {
+            if($('#'+ element).attr('name').split('-')[0] == 'radio'){
+              if(element.split('-')[1].split('')[0] == latest.split('-')[1].split('')[0]){
+                _self.vars.selectedFiltersArr.splice(index,1)
+              }
+            }
+          });
+          if(_self.vars['selectedFiltersRadio'].length){
+            _self.vars['selectedFiltersRadio'].forEach(element => {
+              _self.vars.selectedFiltersArr.push(element);
+            });
+          }
           // New Logic here
-          _self.vars.selectedFiltersArr = [];
-          _self.vars.selectedFiltersArr.push($(this).attr("id"));
+          //_self.vars.selectedFiltersArr = [];
+         // _self.vars.selectedFiltersArr.push($(this).attr("id"));
 
-          _self.vars.countOfSelectedFilters = _self.vars.countOfSelectedFilters + _self.vars.selectedFiltersArr.length;
+          _self.vars.countOfSelectedFilters = _self.vars.selectedFiltersArr.length;
 
           _self.filterResults(event, true);
         }
@@ -17120,13 +17219,13 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   {{if !searchFacet.isMultiSelect}}\
                     {{if searchFacet.facetType == "value"}}\
                       <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                          <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-non-multi-${i}" value="true">\
+                          <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true">\
                           <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                       </div>\
                     {{/if}}\
                     {{if searchFacet.facetType == "range"}}\
                         <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                          <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-non-multi-${i}" value="true">\
+                          <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true">\
                           <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                         </div>\
                     {{/if}}\
@@ -17240,13 +17339,13 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                       {{if !searchFacet.isMultiSelect}}\
                         {{if searchFacet.facetType == "value"}}\
                           <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                              <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-non-multi" value="true">\
+                              <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true">\
                               <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                           </div>\
                         {{/if}}\
                         {{if searchFacet.facetType == "range"}}\
                             <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                              <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-non-multi" value="true">\
+                              <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true">\
                               <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                             </div>\
                         {{/if}}\
