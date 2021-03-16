@@ -4990,12 +4990,14 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                           $('.search-body').scrollTop(2);
                         }, 100);
                         _self.bindAllResultsView();
+                        if ($('body').hasClass('top-down')) {
+                          //top-down-search-live-search-suggestion box showing//
+                          _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
+                        }
                         // res.autoComplete['querySuggestions']=['How to make online bill payment?', 'Citi - Online Bill Payment'];
                         _self.appendSuggestions();
 
-                         //top-down-search-live-search-suggestion box showing//
-                         _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
-
+                        
                         // _self.pubSub.publish('sa-auto-suggest', res.autoComplete.keywords);
                         // tmplData['suggestions'] = res.autoComplete.keywords;
                         //to sort rendering results based on score
@@ -7187,7 +7189,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         if ($('.topdown-search-main-container').length) {
         $('.cancel-search').hide();
         $('#live-search-result-box').hide();
-            $('#frequently-searched-box').show();
+            //$('#frequently-searched-box').show();
+            $('#search').trigger('click');
         }
       });
       _self.searchEventBinding(dataHTML, 'search-container',{}, config);
@@ -17931,11 +17934,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
     }
     FindlySDK.prototype.showSuggestionbox = function (suggestions) {
       var _self = this;
-      _self.pubSub.subscribe('sa-show-live-search-suggestion',(msg,data)=>{
-        if((data.faqs||[]).length || (data.pages||[]).length || (data.document||[]).length){
-          $('#live-search-result-box').show();
-        }
-      });
+  
       if (suggestions.length) {
         var template = $(_self.getSuggestionTemplate('suggestionTemplate')).tmplProxy({
           suggestions: suggestions,
@@ -18591,6 +18590,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       else{
         _self.isDev = false;
       }
+      _self.pubSub.subscribe('sa-show-live-search-suggestion',(msg,data)=>{
+        if((data.faqs||[]).length || (data.pages||[]).length || (data.document||[]).length){
+          $('#live-search-result-box').show();
+        }
+      });
     }
     FindlySDK.prototype.getTopDownFacetsTabs = function () {
       var topDownFacetsTabs = '<script id="top-down-tabs-template" type="text/x-jqury-tmpl">\
