@@ -82,7 +82,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   FindlySDK.prototype.customTourResultRank = function (val) {
       //this.config.findlyBusinessConfig.initVariables = this.initVariables();
       _self = this;
-      _self.vars.customTourResultRank = val || true;
+      _self.vars.customTourResultRank = val;
     }
     FindlySDK.prototype.addPolyFils = function () {
       var _self = this;
@@ -271,6 +271,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.resultRankingActionPerformed = false;
       vars.customTourResultRank = false;
       vars.scrollPageNumber = 1;
+      vars.totalNumOfResults=0;
     }; //********************original widget.js start */
 
 
@@ -1448,14 +1449,26 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   </div>\
               </div>\
               {{/if}}\
-              <div class="faqs-data-container">\
-              </div>\
-              <div class="pages-data-container">\
-              </div>\
-              <div class="documents-data-container">\
-              </div>\
-              <div class="structured-data-container">\
-              </div>\
+              {{if taskPrefix !== "SUGGESTED"}}\
+                <div class="faqs-data-container">\
+                </div>\
+                <div class="pages-data-container">\
+                </div>\
+                <div class="documents-data-container">\
+                </div>\
+                <div class="structured-data-container">\
+                </div>\
+              {{/if}}\
+              {{if taskPrefix === "SUGGESTED"}}\
+                <div class="faqs-live-data-container">\
+                </div>\
+                <div class="pages-live-data-container">\
+                </div>\
+                <div class="documents-live-data-container">\
+                </div>\
+                <div class="structured-live-data-container">\
+                </div>\
+              {{/if}}\
               {{if noResults}} <span class="text-center">No results found</span> {{/if}}\
               {{if showAllResults && !customSearchResult}}\
                 <div>\
@@ -3038,7 +3051,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             $(".custom-insights-control-container").hide();
             var faqs = [], pages = [], tasks = [], documents = [], facets = {}, object = {};
-
+            
             console.log(response.template);
 
             if (response.template) {
@@ -3072,6 +3085,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
               var dataObj = _self.vars.searchObject.liveData;
               var facetdata = _self.vars.searchFacetFilters;
+              _self.vars.totalNumOfResults = response.template.totalNumOfResults
               _self.showAllResults();
               _self.pubSub.publish('sa-search-full-results', {container : container ,isFullResults : true, selectedFacet : 'all', isLiveSearch : false, isSearch : false, facetData : facetdata ,dataObj});
             }else{
@@ -4455,6 +4469,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
       console.log(_self.vars.filterObject, isChecked);
+      var slectionType = "";
+      if(key.split('-').length == 2){
+        if(key.split('-')[0] =="radio"){
+          slectionType = "radio"
+        }
+      }
+      if(_self.vars.filterConfiguration.aligned == "top" && slectionType == "radio"){
+        _self.searchByFacetFilters(_self.vars.filterObject)
+      }
       //_self.searchByFacetFilters(_self.vars.filterObject);
     };
     /** filter New Functions start*/
@@ -5000,11 +5023,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                         
                         searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
                         _self.pubSub.publish('sa-st-data-search', {
-                          container : '.structured-data-container', /*  start with '.' if class or '#' if id of the element*/ isFullResults : false, selectedFacet : 'all results', isSearch : false, isLiveSearch : true, dataObj
+                          container : '.structured-live-data-container', /*  start with '.' if class or '#' if id of the element*/ isFullResults : false, selectedFacet : 'all results', isSearch : false, isLiveSearch : true, dataObj
                         });
-                        _self.pubSub.publish('sa-faq-search', {container : '.faqs-data-container', isFullResults : false, selectedFacet : 'all results', isLiveSearch : true, isSearch : false, dataObj});
-                        _self.pubSub.publish('sa-page-search', {container : '.pages-data-container', isFullResults : false, selectedFacet : 'all results', isLiveSearch : true, isSearch : false, dataObj});
-                        _self.pubSub.publish('sa-document-search', {container : '.documents-data-container', isFullResults : false, selectedFacet : 'all results', isLiveSearch : true, isSearch : false, dataObj});
+                        _self.pubSub.publish('sa-faq-search', {container : '.faqs-live-data-container', isFullResults : false, selectedFacet : 'all results', isLiveSearch : true, isSearch : false, dataObj});
+                        _self.pubSub.publish('sa-page-search', {container : '.pages-live-data-container', isFullResults : false, selectedFacet : 'all results', isLiveSearch : true, isSearch : false, dataObj});
+                        _self.pubSub.publish('sa-document-search', {container : '.documents-live-data-container', isFullResults : false, selectedFacet : 'all results', isLiveSearch : true, isSearch : false, dataObj});
                         $(searchData).data(dataObj);
                         $('.search-body').html(searchData);
                         setTimeout(function () {
@@ -15357,6 +15380,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           }
           _self.vars['selectedFacetFromSearch'] = selectedFacet
           _self.showAllResults();
+          $('.show-all-results').trigger("click");
         }
       })
     }
@@ -16741,8 +16765,12 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         var view = "preview"//"customization"
         if(data && data.dataObj && data.dataObj.facets){
           if(data.dataObj.facets['all results']){
-            data.dataObj.facets['all'] = data.dataObj.facets['all results']
+            data.dataObj.facets['all'] = data.dataObj.facets['all results'];
+            if(_self.vars.totalNumOfResults){
+              data.dataObj.facets['all'] = _self.vars.totalNumOfResults;
+            }
           }
+          
           facetCount = data.dataObj.facets;
         }
         if(data && data.facetData){
@@ -16823,6 +16851,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       //     facetData = data;
       //   }
       // });
+      //facetObj.position = "top";
       var facetTemplate = $(_self.facetFilter()).tmpl({
         'position': facetObj.position,
         'show' : facetObj.show,
@@ -16938,6 +16967,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         event.stopPropagation();
         event.stopImmediatePropagation();
         cancelAllRecord()
+        if(_self.vars.filterConfiguration.aligned == "top"){
+          countFunc()
+        }
       });
       
       
@@ -16982,6 +17014,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       $('.clsoe-filter').off('click').on('click', function(){
         $('.filter-updated-count').hide()
         cancelAllRecord()
+        if(_self.vars.filterConfiguration.aligned == "top"){
+          countFunc()
+        }
       });
       $('.apply-btn').off('click').on('click', function(){
         $('.filter-data').hide()
@@ -17066,6 +17101,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         $('#show-all-results-container').css('display', 'none');
         $('#searchChatContainer').removeClass('bgfocus');
         $('.search-body').addClass('hide');
+        _self.vars.selectedFacetFromSearch = "all results"
         //$('#search').focus();
       });
       // SDK checkbox
@@ -17138,6 +17174,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           _self.vars.countOfSelectedFilters = _self.vars.selectedFiltersArr.length;
 
           _self.filterResults(event, true);
+          //_self.pubSub.subscribe('sa-search-full-results');
+          if(_self.vars.filterConfiguration.aligned == "top"){
+            countFunc()
+          }
+          
         }
       });
        // SDK checkbox
@@ -17161,7 +17202,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         $('.filter-data').hide()
         $('#loaderDIV').show();
         _self.searchByFacetFilters(_self.vars.filterObject);
-        countFunc()
+        if(_self.vars.filterConfiguration.aligned == "top"){
+          countFunc()
+        }
         //_self.facetFilter(facetObj);
       });
        $('.sdk-top-facet-drop').off('change').on('change', function (event) {
@@ -17324,7 +17367,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       var facet =
       '<script type="text/x-jqury-tmpl">\
         <div>\
-        <!-- <div id="facetRightIconId" class="fliter-right-btn left-filter">\
+        <!--<div id="facetRightIconId" class="fliter-right-btn left-filter">\
         <img  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAKCAYAAACE2W/HAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA/SURBVHgB1c+hEQAgDATBfyqJwVMKpaYUPCadwCAyGATgcursUiQXYFQ8RU0IE33urFSz3tZFNHpn67Z538YJjc8On2EvoL4AAAAASUVORK5CYII=">\
         -->\
         {{if searchFacets.length }}\

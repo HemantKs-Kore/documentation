@@ -12998,7 +12998,9 @@ padding-right: 0;
 .show-all-results-outer-wrap .horizantal-filter-sec .dropdown-content .kr-sg-checkbox:hover{
     background: #EFF0F1;
 }
-
+.show-all-results-outer-wrap .horizantal-filter-sec .dropdown-content .kr-sg-radiobutton:hover{
+    background: #EFF0F1;
+}
 .show-all-results-outer-wrap .horizantal-filter-sec .dropdown-content .kr-sg-checkbox .associated-filter-count{
     position: relative;
     top: -1px;
@@ -13441,7 +13443,13 @@ button.search-button:disabled {
     right: 20px;
     cursor: pointer;
 }
-
+.sdk-clear-all-facet-top{
+    color: #0D6EFD;
+    padding: 5px 0px 30px 136px;
+    width: 35px;
+    height: 20px;
+    cursor: pointer;
+}
 .suggestions-close-icon{
     position: absolute;
     right: 10px;
