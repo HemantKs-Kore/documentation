@@ -4683,6 +4683,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         $('#search').val('');
         $('#suggestion').val('');
         $('.search-container').removeClass('active');
+        $('#show-all-results-container').hide();
+        _self.vars.selectedFacetFromSearch = "all results"
       })
       //_self.bindSearchActionEvents();
 
@@ -15240,6 +15242,15 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           if(appearanceType == 'page'){
             selectedFacet = 'page';
           }
+          if(appearanceType == 'all results'){
+            selectedFacet = 'all results';
+          }
+          if(appearanceType == 'task'){
+            selectedFacet = 'task';
+          }
+          if(appearanceType == 'document'){
+            selectedFacet = 'document';
+          }
           _self.vars['selectedFacetFromSearch'] = selectedFacet
           _self.showAllResults();
         }
@@ -15967,7 +15978,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         }
         /** Sunil - resultRanking test */
         var resultRanking = $(_self.fullResultRanking()).tmpl({
-          'data' : data.dataObj
+          'data' : data.dataObj,
+          'facetPosition' : _self.vars.filterConfiguration.aligned
         });
         $('#resultRankingId').empty().append(resultRanking);
         _self.checkBoostAndLowerTimes();
@@ -16517,12 +16529,12 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                       <!-- Facet left-->\
                       <div id="leftFacetFilterId"> </div>\
                       <!-- Facet left-->\
-                      <div class="tab-name see-all-result-nav active-tab" classification="all results">All <span class="count">(${facet.all})</span></div>\
-                      <div class="tab-name see-all-result-nav " classification="faq">FAQs <span class="count">(${facet.faq})</span></div>\
-                      <div class="tab-name see-all-result-nav " classification="page">Pages<span class="count">(${facet.page})</span></div>\
-                      <div class="tab-name see-all-result-nav " classification="task">Actions <span class="count">(${facet.task})</span></div>\
-                      <div class="tab-name see-all-result-nav " classification="object">Data <span class="count">(${facet.object})</span></div>\
-                      <div class="tab-name see-all-result-nav " classification="document"> Documentation <span class="count">(${facet.document})</span></div>\
+                      <div class="tab-name see-all-result-nav active-tab" classification="all results">All <span class="count sdk-facet-count">(${facet.all})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="faq">FAQs <span class="count sdk-facet-count">(${facet.faq})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="page">Pages<span class="count sdk-facet-count">(${facet.page})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="task">Actions <span class="count sdk-facet-count">(${facet.task})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="object">Data <span class="count sdk-facet-count">(${facet.object})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="document"> Documentation <span class="count sdk-facet-count">(${facet.document})</span></div>\
                       <!-- Facet right-->\
                       <div  id="rightFacetFilterId"> </div>\
                       <!-- Facet right-->\
@@ -16663,11 +16675,13 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         var devMode = _self.isDev ? true : false;
 
         var fullResultAllType = $(_self.fullResultAllType()).tmpl({
-          'devMode' : devMode
+          'devMode' : devMode,
+          'facetPosition' : _self.vars.filterConfiguration.aligned
         });
         $('#fullResultAllTypeId').append(fullResultAllType);
         var resultRanking = $(_self.fullResultRanking()).tmpl({
-          'data' : data.dataObj
+          'data' : data.dataObj,
+          'facetPosition' : _self.vars.filterConfiguration.aligned
         });
         $('#resultRankingId').append(resultRanking);
         _self.checkBoostAndLowerTimes();
@@ -16706,7 +16720,10 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       var _self = this;
       //_self.pubSub.publish('sa-full-data-search')
      var selectedFacet = $('.active-tab').attr('classification') ? $('.active-tab').attr('classification') :'all results';
-     selectedFacet = _self.vars.selectedFacetFromSearch;
+     if(_self.vars.selectedFacetFromSearch){
+      selectedFacet = _self.vars.selectedFacetFromSearch;
+     }
+
      slecetFacetFunc = function(selectedFacet){
       var selectedFacet_temp = selectedFacet ? selectedFacet : "all results";
             var dataObj = data ? data.dataObj : _self.vars.searchObject.liveData;
@@ -16810,6 +16827,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             $("#" + filter).prop('checked', false)
             console.log(filter);
           })
+          _self.vars.selectedFiltersArr = [];
           _self.vars.filterObject = [];
           _self.searchByFacetFilters(_self.vars.filterObject);
         }
@@ -16830,6 +16848,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             $("#" + filter).prop('checked', false)
             console.log(filter);
           })
+          _self.vars.selectedFiltersArr = [];
           _self.vars.filterObject = [];
           _self.searchByFacetFilters(_self.vars.filterObject);
         }
@@ -16844,8 +16863,16 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         _self.searchByFacetFilters(_self.vars.filterObject);
         //_self.facetFilter(facetObj);
       });
+      $('.sdk-facet-count').off('click').on('click', function(event){
+        selectClass(event,'child')
+      })
       $('.see-all-result-nav').off('click').on('click', function(event){
         console.log(event)
+        selectClass(event,'target')
+      });
+      selectClass =function(event,related){
+        event.stopPropagation();
+        event.stopImmediatePropagation();
         var classificationselected = $(event.target).closest('.see-all-result-nav').attr('classification');
         _self.vars.selectedFacetFromSearch = classificationselected;
         if (classificationselected == "all results") {
@@ -16854,34 +16881,52 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           selectedFacet = 'all results'
           slecetFacetFunc(selectedFacet)
           $(event.target).addClass('active-tab')
+          if(related == 'child'){
+            $(event.target.parentNode).addClass('active-tab')
+          }
           //_self.performRankActions(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
         }else if(classificationselected == "page"){
           removeActive(selectedFacet)
           selectedFacet = 'page'
           slecetFacetFunc(selectedFacet)
           $(event.target).addClass('active-tab')
+          if(related == 'child'){
+            $(event.target.parentNode).addClass('active-tab')
+          }
         }else if(classificationselected == "faq"){
           removeActive(selectedFacet)
           selectedFacet = 'faq'
           slecetFacetFunc(selectedFacet)
           $(event.target).addClass('active-tab')
+          if(related == 'child'){
+            $(event.target.parentNode).addClass('active-tab')
+          }
         }else if(classificationselected == "task"){
           removeActive(selectedFacet)
           selectedFacet = 'task'
           slecetFacetFunc(selectedFacet)
           $(event.target).addClass('active-tab')
+          if(related == 'child'){
+            $(event.target.parentNode).addClass('active-tab')
+          }
         }else if(classificationselected == "document"){
           removeActive(selectedFacet)
           selectedFacet = 'document'
           slecetFacetFunc(selectedFacet)
           $(event.target).addClass('active-tab')
+          if(related == 'child'){
+            $(event.target.parentNode).addClass('active-tab')
+          }
         }else if(classificationselected == "object"){
           removeActive(selectedFacet)
           selectedFacet = 'object'
           slecetFacetFunc(selectedFacet)
           $(event.target).addClass('active-tab')
+          if(related == 'child'){
+            $(event.target.parentNode).addClass('active-tab')
+          }
         }
-      });
+      }
       removeActive = function(selectedFacet){
         $('.see-all-result-nav').each(function( index ,element) {
           if($(element).attr('classification') == selectedFacet){
@@ -16935,6 +16980,26 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           // if(_self.vars['selectedFiltersRadio']){
           //   _self.vars['selectedFiltersRadio'].push($(this).attr("id"));
           // }
+          // New Logic here
+          // var latest = $(this).attr("id");
+          // _self.vars['selectedFiltersRadio'].push($(this).attr("id")); //radio-non-multi-
+          // var arr = [];
+          // if(_self.vars.selectedFiltersRadio){
+          //   _self.vars.selectedFiltersRadio.forEach((element,index) => {
+          //     if(index != _self.vars.selectedFiltersRadio.length-1){
+          //       if(element.split('-')[1].split('')[0] == latest.split('-')[1].split('')[0]){
+          //         _self.vars.selectedFiltersRadio.splice(index,0)
+          //       }
+          //     }
+          //   });
+          // }
+
+          // if(_self.vars['selectedFiltersRadio'].length){
+          //   _self.vars['selectedFiltersRadio'].forEach(element => {
+          //     _self.vars.selectedFiltersArr.push(element);
+          //   });
+          // }
+          // New Logic here
           _self.vars.selectedFiltersArr = [];
           _self.vars.selectedFiltersArr.push($(this).attr("id"));
 
@@ -17041,13 +17106,13 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   {{if !searchFacet.isMultiSelect}}\
                     {{if searchFacet.facetType == "value"}}\
                       <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                          <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-non-multi" value="true">\
+                          <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-non-multi-${i}" value="true">\
                           <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                       </div>\
                     {{/if}}\
                     {{if searchFacet.facetType == "range"}}\
                         <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                          <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-non-multi" value="true">\
+                          <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-non-multi-${i}" value="true">\
                           <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                         </div>\
                     {{/if}}\
@@ -17127,7 +17192,10 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       var facet =
       '<script type="text/x-jqury-tmpl">\
         <div>\
-        {{if searchFacets.length}}\
+        <!-- <div id="facetRightIconId" class="fliter-right-btn left-filter">\
+        <img  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAKCAYAAACE2W/HAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA/SURBVHgB1c+hEQAgDATBfyqJwVMKpaYUPCadwCAyGATgcursUiQXYFQ8RU0IE33urFSz3tZFNHpn67Z538YJjc8On2EvoL4AAAAASUVORK5CYII=">\
+        -->\
+        {{if searchFacets.length }}\
         <div class="horizantal-filter-sec filter-data">\
           {{each(i, searchFacet) searchFacets}}\
               <div class="dropdown_custom_filter">\
@@ -17179,6 +17247,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   </div>\
               </div>\
             {{/each}}\
+          </div>\
           </div>\
         {{/if}}\
         </div>\
@@ -17255,7 +17324,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
     FindlySDK.prototype.fullResultAllType = function(){
       var template = '<script type="text/x-jqury-tmpl">\
       <div>\
-        <div class="data-body-sec">\
+        <div class="data-body-sec {{if facetPosition == `top`}}iffilteristop{{/if}}">\
         <div class="faqs-full-search-container matched-structured-data-contaniers">\
         </div>\
         <div class="pages-full-search-container matched-structured-data-contaniers">\
@@ -17326,7 +17395,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       var template = 
       '<script type="text/x-jqury-tmpl">\
       <div>\
-          <div class="data-body-sec customization">\
+          <div class="data-body-sec customization {{if facetPosition == `top`}}iffilteristop{{/if}}">\
           {{if !data}} <p>test</p>{{/if}}\
           <div class="results-wrap">\
             {{each(i, record) data.pages}}\
