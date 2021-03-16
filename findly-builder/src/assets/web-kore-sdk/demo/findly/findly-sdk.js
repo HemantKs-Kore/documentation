@@ -3572,6 +3572,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         event.stopPropagation();
         event.stopImmediatePropagation();
       });
+
+      $('.suggestions-close-icon').off('click').on('click', function (e) {
+        $('#autoSuggestionContainer').empty();
+        $('.suggestion-search-data-parent').css('visibility', 'hidden');
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      });
     }
     FindlySDK.prototype.getTopDownFacetsAddedList= function (isRadioBtn=false){
       var _self = this;
@@ -4892,6 +4899,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           _self.pubSub.unsubscribe('sa-input-keyup');
           _self.pubSub.publish('sa-handel-go-button');
           _self.pubSub.subscribe('sa-input-keyup', (msg, data) => {
+            _self.appendSuggestions();
             if (!$('#search').val()) {
               if ($("#auto-query-box").find(".suggestion-box").length) {
                 $('.suggestion-box').remove();
@@ -5008,8 +5016,6 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                           _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
                         }
                         // res.autoComplete['querySuggestions']=['How to make online bill payment?', 'Citi - Online Bill Payment'];
-                        _self.appendSuggestions();
-
                         
                         // _self.pubSub.publish('sa-auto-suggest', res.autoComplete.keywords);
                         // tmplData['suggestions'] = res.autoComplete.keywords;
@@ -5844,6 +5850,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           event.stopPropagation();
           $('.search-body').removeClass('hide');
           $('#searchChatContainer').addClass('bgfocus');
+          $('.suggestion-search-data-parent').css('visibility', 'visible');
         }
         if ($(event.target).closest('#searchChatContainer').length) {
           event.stopPropagation();
@@ -5853,6 +5860,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             $('.search-body').removeClass('h-100');
 
             $('.custom-header-container-center').css('visibility', 'visible');
+            $('.suggestion-search-data-parent').css('visibility', 'hidden');
           };
         } 
         else if ($(event.target).closest('.heading').length){
@@ -5863,6 +5871,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           if(!$(event.target).closest('.show-all-results-outer-wrap').length){
             $('.search-body').removeClass('hide');
             $('#searchChatContainer').addClass('bgfocus');
+            $('.suggestion-search-data-parent').css('visibility', 'visible');
           }
         }
         console.log($(event.target).closest('#search').length,$(event.target).closest('#search-box-container').length,$(event.target).closest('#frequently-searched-box').length,$(event.target).closest('#live-search-result-box').length);
@@ -17913,6 +17922,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       <div>\
         {{if suggestions && suggestions.length > 0}}\
           <div class="suggestion-search-data-parent">\
+            <img class="suggestions-close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
             {{each(i, suggestion) suggestions}}\
               <div class="search-suggested-title" suggestion="${suggestion}" id="${i}"><div title="${suggestion}" class="suggestion-list-item text-truncate">${suggestion}</div><div class="text-truncate type-select-suggestion" title="${suggestion}">${suggestion}</div></div>\
             {{/each}}\

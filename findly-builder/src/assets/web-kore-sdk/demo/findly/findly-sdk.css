@@ -12930,6 +12930,19 @@ padding-right: 0;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+.show-all-results-outer-wrap .horizantal-filter-sec .dropdown_custom_filter .dropbtn .down-arrow{
+    position: absolute;
+    right: 14px;
+    bottom: 13px;
+    width: 10px !important;
+    display: none;
+}
+.show-all-results-outer-wrap .horizantal-filter-sec .dropdown_custom_filter .dropbtn .up-arrow{
+    position: absolute;
+    right: 14px;
+    bottom: 13px;
+    width: 10px !important;
+}
 .show-all-results-outer-wrap .horizantal-filter-sec .dropdown_custom_filter .dropbtn .count {
     position: absolute;
     width: 20px;
@@ -12938,7 +12951,7 @@ padding-right: 0;
     border-radius: 100%;
     text-align: center;
     line-height: 20px;
-    right: 20px;
+    right: 27px;
     top: 7px;
 }
 .show-all-results-outer-wrap .horizantal-filter-sec .dropdown-content {
@@ -13426,5 +13439,12 @@ button.search-button:disabled {
     top: 12px;
     position: absolute;
     right: 20px;
+    cursor: pointer;
+}
+
+.suggestions-close-icon{
+    position: absolute;
+    right: 10px;
+    height: 8px;
     cursor: pointer;
 }
