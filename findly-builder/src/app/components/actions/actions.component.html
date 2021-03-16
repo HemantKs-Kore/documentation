@@ -1,0 +1,43 @@
+<div class="actions-container-comp">
+    <div class="header-title">Actions</div>
+
+    <perfect-scrollbar class="action-body-scroll">
+        <div class="actions-body-data"> 
+            <div class="group-radiobutton" [ngClass]="{'no-linked' : !botLinked }"> 
+                <!-- If it is no linked add this class "no-linked" or remove class -->
+                <div class="heading-title">Choose the Position of Bot Action Results</div>
+                <div class="kr-sg-radiobutton d-block">
+                    <input id="radio-32" name="radio" class="radio-custom" type="radio" checked> 
+                    <label for="radio-32" class="radio-custom-label">Show Actions at the Top</label>
+                    <div class="info-desc">The Bot results will be positioned at the top in the chat and Full page result view</div>
+                </div> 
+                <div class="kr-sg-radiobutton d-block">
+                    <input id="radio-33" name="radio" class="radio-custom" type="radio">
+                    <label for="radio-33" class="radio-custom-label">Show Actions at the Bottom</label>
+                    <div class="info-desc">The Bot results will be positioned at the bottom in the chat and Full page result view</div>
+                </div> 
+            </div> 
+            <div class="info-link-bot-notification" *ngIf="!botLinked">
+                <img src="assets/icons/actions/info.svg">
+                <div class="title-text">You need to Link Bot to Customize Actions</div>
+                <div class="link-bot-link" (click)="openActions()">Link a Bot</div>
+            </div>
+
+            <div class="preview-bolock" *ngIf="botLinked" >
+                <div class="preview-heading">Preview</div>
+                <div class="display-preview-img">
+                    <img src="assets/icons/actions/bottom-up-preview.svg">
+                </div>
+                <div class="display-preview-img">
+                    <img src="assets/icons/actions/actions-top.svg">
+                </div>
+                <div class="display-preview-img">
+                    <img src="assets/icons/actions/actions-bottom.svg">
+                </div>
+                <div class="display-preview-img">
+                    <img src="assets/icons/actions/actions-top-1.svg">
+                </div>
+            </div>
+        </div>
+    </perfect-scrollbar>
+</div>

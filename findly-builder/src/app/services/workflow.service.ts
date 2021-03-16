@@ -17,9 +17,16 @@ export class WorkflowService {
   appQueryPipelineIds: any = [];
   seedData$: BehaviorSubject<any> = new BehaviorSubject(null);
   disablePerfectScroll: boolean;
+  linkedBot='';
   constructor(
   ) { }
-
+  linkBot(linkedBot?){
+    if (linkedBot) {
+      this.linkedBot =  linkedBot;
+    }
+    return  this.linkedBot;
+  
+  }
   showAppCreationHeader(value?) {
     if (value === true || value === false) {
       this.appCreationFlow = value;
