@@ -8,6 +8,8 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { Subscription } from 'rxjs';
 import { NotificationService } from '@kore.services/notification.service';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',
@@ -71,6 +73,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     private notify: NotificationService,
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
+    public dialog: MatDialog
   ) { }
   goHome() {
     this.workflowService.selectedApp(null);
@@ -130,7 +133,12 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('put.newIndexPipeline', queryParms, payload).subscribe(
       res => {
-        this.notify.notify('Set to default Index successfully', 'success');
+        if (action === 'edit') {
+          this.notify.notify('Index congfiguration updated successfully', 'success');
+        }
+        else {
+          this.notify.notify('Set to default Index successfully', 'success');
+        }
         this.appSelectionService.getIndexPipelineIds(config);
         if (config && config._id && action !== 'edit') {
           this.selectQueryPipelineId(config);
@@ -161,7 +169,12 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('put.queryPipeline', queryParms, payload).subscribe(
       res => {
-        this.notify.notify('Set to default successfully', 'success');
+        if (action == 'edit') {
+          this.notify.notify('Search congfiguration updated successfully', 'success');
+        }
+        else {
+          this.notify.notify('Set to default successfully', 'success');
+        }
         this.appSelectionService.getQureryPipelineIds(config);
         if (config && config._id && action !== 'edit') {
           this.selectQueryPipelineId(config);
@@ -182,12 +195,12 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     }
   }
   createIndexConfig() {
-    const payload: any = {
+    let payload: any = {
       method: this.newIndexConfigObj.method,
       name: this.newIndexConfigObj.name,
     }
     if (this.newIndexConfigObj.method === 'clone') {
-      payload.sourceIndexPipelineId = this.newIndexConfigObj._id
+      payload = { ...payload, sourceIndexPipelineId: this.newIndexConfigObj.index_config_id }
     }
     const queryParms = {
       searchIndexId: this.searchIndexId
@@ -195,7 +208,11 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.service.invoke('post.newIndexPipeline', queryParms, payload).subscribe(
       res => {
         if (res && res._id) {
-          this.notify.notify('New Index created successfully', 'success');
+          if (this.newIndexConfigObj.method === 'clone') {
+            this.notify.notify('New Index config cloned successfully', 'success');
+          } else {
+            this.notify.notify('New Index config created successfully', 'success');
+          }
           this.selectIndexPipelineId(res);
         }
         this.closeIndexModalPopup();
@@ -206,26 +223,36 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     );
   }
   createConfig() {
+    console.log("this.newConfigObj", this.newConfigObj)
     const payload: any = {
       method: this.newConfigObj.method,
       name: this.newConfigObj.name,
     }
     if (this.newConfigObj.method === 'clone') {
-      payload.sourceQueryPipelineId = this.newConfigObj._id
+      payload.sourceQueryPipelineId = this.newConfigObj.config_id
     }
+    console.log("payload", payload)
     const queryParms = {
       searchIndexId: this.searchIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     }
     this.service.invoke('create.queryPipeline', queryParms, payload).subscribe(
       res => {
+        console.log("res", res)
         this.appSelectionService.getQureryPipelineIds();
         if (res && res._id) {
           this.selectQueryPipelineId(res);
         }
         this.closeModalPopup();
+        if (this.newConfigObj.method === 'clone') {
+          this.notify.notify('New Search config cloned successfully', 'success');
+        }
+        else {
+          this.notify.notify('New Search config created successfully', 'success');
+        }
       },
       errRes => {
+        this.errorToaster(errRes, 'Failed to Create searchconfig');
       }
     );
   }
@@ -243,15 +270,15 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.selectedConfig = queryConfigs._id;
     this.reloadCurrentRoute()
   }
-  deleteIndexPipeLine(indexConfigs, event?) {
-    if (event) {
-      event.close();
-    }
+  deleteIndexPipeLine(indexConfigs, dialogRef) {
+    console.log("index query", indexConfigs)
     const queryParms = {
+      searchIndexId: this.searchIndexId,
       indexPipelineId: indexConfigs._id
     }
     this.service.invoke('delete.indexPipeline', queryParms).subscribe(
       res => {
+        dialogRef.close();
         this.notify.notify('deleted successfully', 'success');
       },
       errRes => {
@@ -310,13 +337,13 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         this.configObj[element._id] = element;
       });
       this.selectedConfig = this.workflowService.selectedQueryPipeline()._id;
-      setTimeout(()=>{
+      setTimeout(() => {
         this.selectedApp = this.workflowService.selectedApp();
         if (this.selectedApp.searchIndexes.length) {
           this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-          console.log('SI - ',this.selectedApp.searchIndexes[0]._id);
+          console.log('SI - ', this.selectedApp.searchIndexes[0]._id);
         }
-      },1000)
+      }, 1000)
     })
     if (this.selectedApp.searchIndexes.length) {
       this.searchIndexId = this.selectedApp.searchIndexes[0]._id
@@ -337,27 +364,35 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.addFieldModalPopRef.close();
     this.newConfigObj = {
       method: 'default',
-      name: ''
+      name: '',
+      config_name: '',
+      config_id: ''
     };
   }
   closeIndexModalPopup() {
     this.addIndexFieldModalPopRef.close();
     this.newIndexConfigObj = {
       method: 'default',
-      name: ''
+      name: '',
+      index_config_name: '',
+      index_config_id: ''
     };
   }
-  openModalPopup() {
+  openModalPopup(type, config) {
     this.newConfigObj = {
-      method: 'default',
-      name: ''
+      method: type,
+      name: '',
+      config_name: config !== undefined ? config.name : '',
+      config_id: config !== undefined ? config._id : ''
     };
     this.addFieldModalPopRef = this.addFieldModalPop.open();
   }
-  openIndexModalPopup() {
+  openIndexModalPopup(type, config) {
     this.newIndexConfigObj = {
-      method: 'default',
-      name: ''
+      method: type,
+      name: '',
+      index_config_name: config !== undefined ? config.name : '',
+      index_config_id: config !== undefined ? config._id : ''
     };
     this.addIndexFieldModalPopRef = this.addIndexFieldModalPop.open();
   }
@@ -384,7 +419,36 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       }
     );
   }
+  deleteIndexConfig(config) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        newTitle: 'Are you sure you want to delete ?',
+        body: 'Selected Index Configuration will be deleted from the app.',
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
+      }
+    });
 
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.deleteIndexPipeLine(config, dialogRef)
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+  }
+  selectIndexConfig(config) {
+    this.newIndexConfigObj.index_config_name = config.name;
+    this.newIndexConfigObj.index_config_id = config._id;
+  }
+  selectConfig(config) {
+    this.newConfigObj.config_name = config.name;
+    this.newConfigObj.config_id = config._id;
+  }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
     this.indexSub ? this.indexSub.unsubscribe() : false;

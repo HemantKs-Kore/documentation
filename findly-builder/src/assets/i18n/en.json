@@ -83,6 +83,7 @@
     "clear_all": "Clear all",
     "array": "Array",
     "object": "Object",
+    "test" : "Test",
     "businessRules": {
         "rules_selected": "Rules Selected",
         "all_rules_selected": "All Rules Selected",

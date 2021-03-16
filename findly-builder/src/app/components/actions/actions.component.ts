@@ -43,13 +43,14 @@ export class ActionsComponent implements OnInit {
 } 
   botLinkedOrUnlinked() {
     // this.LinkABot = this.workflowService.linkBot()
-    if (this.LinkABot) {
-      this.botLinked = true; 
-    }
-    else if (!this.LinkABot){
-      this.botLinked = false;
+    this.botLinked  = this.LinkABot?true:false;
+    // if (this.LinkABot) {
+    //   this.botLinked = true; 
+    // }
+    // else if (!this.LinkABot){
+    //   this.botLinked = false;
 
-    }
+    // }
 }
 
 

@@ -39,6 +39,7 @@
     </div>
   </perfect-scrollbar>
 </div>
+<!--old model code-->
 <!-- <kr-modal modalType="default" #statusModalPop>
   <div class="status-modal-popup">
     <div class="modal_content" *ngIf="selectedSourceType">
@@ -119,7 +120,7 @@
 </kr-modal> -->
 
 <!--Status popup-->
-<kr-modal modalType="default" #statusModalPop>
+<kr-modal modalType="default"  #statusModalPop>
   <div class="status-modal-popup">
     <div class="modal_content" *ngIf="selectedSourceType">
       <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
@@ -867,7 +868,7 @@
         <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
           (click)="stopCrwaling($event)" [ngClass]="{'d-none': statusObject.status==='success'}">Abort</button>
           <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
-          (click)="closeStatusModal()">Ok</button>
+          (click)="closeStatusModal()">OK</button>
          </div>
     </div>
   </div>

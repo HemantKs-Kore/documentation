@@ -89,7 +89,6 @@ import { SearchInsightsComponent } from './components/search-insights/search-ins
 import { ResultInsightsComponent } from './components/result-insights/result-insights.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { Ng5SliderModule } from 'ng5-slider';
-import { JoyrideModule } from 'ngx-joyride'
 import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
 import { DateRangePickerComponent } from './helpers/components/date-range-picker/date-range-picker.component';
 import { RecordPaginationComponent } from './helpers/components/record-pagination/record-pagination.component';
@@ -209,7 +208,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     Ng5SliderModule,
     NouisliderModule,
     ColorPickerModule,
-    JoyrideModule.forRoot(),
     NgxEchartsModule.forRoot({
       echarts: { init: echarts.init }
     }),

@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { RangeSlider } from '../../helpers/models/range-slider.model';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AuthService } from '@kore.services/auth.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '../../services/notification.service';
-import { JoyrideService } from "ngx-joyride";
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-search-experience',
   templateUrl: './search-experience.component.html',
@@ -31,12 +31,13 @@ export class SearchExperienceComponent implements OnInit {
       "buttonTextColor": "#BDC1C6",
       "buttonFillColor": "#EFF0F1",
       "buttonBorderColor": "#EFF0F1",
-      "searchBarIcon": "6038e58234b5352faa7773b0"
+      "searchBarIcon": "6038e58234b5352faa7773b0",
+      "userSelectedColors": []
     },
     "searchInteractionsConfig": {
       "feedbackExperience": { resultLevel: true, queryLevel: false },
       "welcomeMsg": "Hi, How can I help you",
-      "welcomeMsgMsgColor": "#000080",
+      "welcomeMsgColor": "#000080",
       "showSearchesEnabled": false,
       "showSearches": "frequent",
       "autocompleteOpt": false,
@@ -45,54 +46,101 @@ export class SearchExperienceComponent implements OnInit {
       "liveSearchResultsLimit": 4
     }
   };
-  inputBox1: boolean = false;
+  inputBox1: boolean;
   inputBox2: boolean = false;
   placeholBox: boolean = false;
   buttonFill: boolean = false;
   buttonBorder: boolean = false;
   buttonTextColor: boolean = false;
   msgColor: boolean = false;
-  searchIcon: any = 'assets/icons/search_gray.svg';
+  searchIcon: any = 'assets/images/search_gray.png';
+  emojiIcon: any = 'assets/icons/search-experience/emoji.png';
   //search button disabled
   buttonDisabled: boolean = true;
-  public color: string = '#2889e9';
+  public color: string = '';
+  public color1: string = '';
+  public color2: string = '';
+  public color3: string = '';
+  public color4: string = '';
+  public color5: string = '';
+  public color6: string = '';
   statusModalPopRef: any = [];
   userInfo: any = {};
+  tourGuide: string;
+  show_tab_color: boolean = false;
+  show_tab_color1: boolean = false;
+  show_tab_color2: boolean = false;
+  toggle: boolean = false;
+  minWidth: number = 200;
+  width: number = this.minWidth;
+  @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
-  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private joyride: JoyrideService) { }
+  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
     this.getSearchExperience();
+    this.getTourConfig();
   }
-  //guide tour in searchwidget
-  tour() {
-    console.log("tour dtarted")
-    this.joyride.startTour({
-      steps: ["firstStep", "secondStep", 'thirdStep', 'fourthStep'],
-      showPrevButton: true,
-      themeColor: "blue"
-    });
+  //dynamically increse input text 
+  resize() {
+    setTimeout(() => this.width = Math.max(this.minWidth, this.textEl.nativeElement.offsetWidth));
+  }
+  //upload search icon image manually from asset folder
+  searchIconUpload() {
+    let blob = null;
+    let file;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", this.searchIcon);
+    xhr.responseType = "blob";//force the HTTP response, response-type header to be blob
+    xhr.onload = () => {
+      blob = xhr.response;//xhr.response is now a blob object
+      file = new File([blob], 'searchIcon.png', { type: 'image/png', lastModified: Date.now() });
+      this.searchIcon = file;
+      this.selectIcon(file, 'searchIcon', 'manual')
+    }
+    xhr.send();
+  }
+  //upload emoji icon image manually from asset folder
+  emojiIconUpload() {
+    let blob = null;
+    let file;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", this.emojiIcon);
+    xhr.responseType = "blob";//force the HTTP response, response-type header to be blob
+    xhr.onload = () => {
+      blob = xhr.response;//xhr.response is now a blob object
+      file = new File([blob], 'emoji.png', { type: 'image/png', lastModified: Date.now() });
+      this.searchIcon = file;
+      this.selectIcon(file, 'emoji', 'manual')
+    }
+    xhr.send();
   }
   //sequential tabs method
   nextTab(type) {
     if (type === 'pre') {
       if (this.selectedTab === 'searchwidget') {
+        this.show_tab_color = false;
+        this.show_tab_color1 = true;
         this.selectedTab = 'experience';
       }
       else if (this.selectedTab === 'interactions') {
-        //this.tour();
+        this.show_tab_color1 = false;
+        this.show_tab_color2 = true;
         this.selectedTab = 'searchwidget';
       }
     }
     else {
       if (this.selectedTab === 'experience') {
-        // this.tour();
+        this.show_tab_color = true;
+        this.show_tab_color1 = false;
         this.selectedTab = 'searchwidget';
       }
       else if (this.selectedTab === 'searchwidget') {
+        this.show_tab_color1 = true;
+        this.show_tab_color2 = false;
         this.selectedTab = 'interactions';
       }
     }
@@ -102,7 +150,7 @@ export class SearchExperienceComponent implements OnInit {
     this.suggestions = [];
     let queryValue = data === undefined ? 0 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
     let recentValue = data === undefined ? 0 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
-    if (type == 'frequent') {
+    if (type == 'bottom-up') {
       // let queryNumber = this.sliderNumber(3);
       // let liveNumber = this.sliderNumber(5);
       this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 3, 1, queryValue, 'suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 5, 1, recentValue, 'live') });
@@ -132,23 +180,30 @@ export class SearchExperienceComponent implements OnInit {
     }
   }
   //select search Icon
-  selectIcon(event, type) {
-    const file = event.target.files[0];
+  selectIcon(event, type, icon) {
+    const file = icon === 'manual' ? event : event.target.files[0];
     const _ext = file.name.substring(file.name.lastIndexOf('.'));
     const formData = new FormData();
     formData.set('file', file);
     formData.set('fileContext', 'findly');
     formData.set('Content-Type', file.type);
     formData.set('fileExtension', _ext.replace('.', ''));
-    this.fileupload(formData, type);
-    if (event.target.files && event.target.files[0]) {
+    this.fileupload(formData, type, icon);
+    if (file) {
       const reader = new FileReader();
-      reader.onload = e => this.searchIcon = reader.result;
+      reader.onload = e => {
+        if (type == "searchIcon") {
+          this.searchIcon = reader.result;
+        }
+        else {
+          this.emojiIcon = reader.result;
+        }
+      }
       reader.readAsDataURL(file);
     }
   }
   //fileupload method
-  fileupload(data, type) {
+  fileupload(data, type, icon) {
     const quaryparms: any = {
       userId: this.userInfo.id
     };
@@ -156,9 +211,20 @@ export class SearchExperienceComponent implements OnInit {
       res => {
         if (type == 'searchIcon') {
           this.searchObject.searchWidgetConfig.searchBarIcon = res.fileId;
+          if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '' && icon === 'manual') {
+            this.emojiIconUpload();
+          }
         }
         else if (type == 'emoji') {
           this.searchObject.searchInteractionsConfig.welcomeMsgEmoji = res.fileId;
+          if (this.searchObject.searchWidgetConfig.searchBarIcon === '' && icon === 'manual') {
+            this.searchIconUpload();
+          }
+        }
+        if (icon === 'manual') {
+          if (this.searchObject.searchWidgetConfig.searchBarIcon !== '' && this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
+            this.addSearchExperience();
+          }
         }
         this.notificationService.notify('File uploaded successfully', 'success');
       },
@@ -174,45 +240,66 @@ export class SearchExperienceComponent implements OnInit {
   //on mouse hover in color pallete button
   onEventLog(type, event) {
     if (type == 'inputbox1') {
-      this.inputBox1 = !this.inputBox1;
       this.searchObject.searchWidgetConfig.searchBarFillColor = event;
     }
     else if (type == 'inputbox2') {
-      this.inputBox2 = !this.inputBox2;
       this.searchObject.searchWidgetConfig.searchBarBorderColor = event;
     }
     else if (type == 'placeholder') {
-      this.placeholBox = !this.placeholBox;
       this.searchObject.searchWidgetConfig.searchBarPlaceholderTextColor = event;
     }
     else if (type == 'placeholderText') {
       this.searchObject.searchWidgetConfig.searchBarPlaceholderText = event;
     }
     else if (type == 'buttonFill') {
-      this.buttonFill = !this.buttonFill;
       this.searchObject.searchWidgetConfig.buttonFillColor = event;
     }
     else if (type == 'buttonBorder') {
-      this.buttonBorder = !this.buttonBorder;
       this.searchObject.searchWidgetConfig.buttonBorderColor = event;
     }
     else if (type == "buttonEnable") {
       this.searchObject.searchWidgetConfig.searchButtonEnabled = event;
     }
     else if (type == 'buttonTextColor') {
-      this.buttonTextColor = !this.buttonTextColor;
       this.searchObject.searchWidgetConfig.buttonTextColor = event;
     }
     else if (type == 'msgColor') {
-      this.msgColor = !this.msgColor;
-      this.searchObject.searchInteractionsConfig.welcomeMsgMsgColor = event;
+      this.searchObject.searchInteractionsConfig.welcomeMsgColor = event;
     }
   }
-
   //select search box widget
-  testcolor;
   selectSearchBox(type) {
     this.selectSearch = type;
+  }
+  //get tour congfig data
+  getTourConfig() {
+    const quaryparms: any = {
+      userId: this.userInfo.id
+    };
+    this.service.invoke('get.tourConfig', quaryparms).subscribe(res => {
+      console.log("get tour config data", res);
+      this.tourGuide = res.configurations.searchExperienceVisited ? '' : 'step1';
+    }, errRes => {
+      console.log(errRes);
+    });
+  }
+  //put tour config data
+  updateTourConfig() {
+    const quaryparms: any = {
+      userId: this.userInfo.id
+    };
+    const payload = {
+      "configurations": {
+        "searchExperienceVisited": true
+      }
+    }
+    this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
+      console.log("put tour config data", res);
+      this.notificationService.notify('Updated successfully', 'success');
+      this.tourGuide = '';
+    }, errRes => {
+      console.log(errRes);
+    });
   }
   //get default data
   getSearchExperience() {
@@ -223,6 +310,12 @@ export class SearchExperienceComponent implements OnInit {
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
       console.log("search experience data", res);
       this.searchObject = { searchExperienceConfig: res.experienceConfig, searchWidgetConfig: res.widgetConfig, searchInteractionsConfig: res.interactionsConfig }
+      if (this.searchObject.searchWidgetConfig.searchBarIcon !== '') {
+        this.searchIcon = this.searchObject.searchWidgetConfig.searchBarIcon;
+      }
+      if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
+        this.emojiIcon = this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
+      }
       this.changeSlider(this.searchObject.searchInteractionsConfig.showSearches, this.searchObject.searchInteractionsConfig);
     }, errRes => {
       console.log(errRes);
@@ -230,6 +323,21 @@ export class SearchExperienceComponent implements OnInit {
   }
   //submit search page form
   saveSearchExperience() {
+    if (this.searchObject.searchWidgetConfig.searchBarIcon === '') {
+      this.searchIconUpload();
+    }
+    // if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '') {
+    //   this.emojiIconUpload();
+    // }
+    if (this.searchObject.searchWidgetConfig.searchBarIcon !== '' && this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
+      // delete this.searchObject.searchWidgetConfig.searchBarIcon;
+      // delete this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
+      this.addSearchExperience()
+    }
+  }
+  //based on searchicon and emoji send data method
+  addSearchExperience() {
+    this.show_tab_color2 = true;
     let obj = { "experienceConfig": this.searchObject.searchExperienceConfig, "widgetConfig": this.searchObject.searchWidgetConfig, "interactionsConfig": this.searchObject.searchInteractionsConfig };
     console.log("obj", obj);
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
@@ -237,7 +345,9 @@ export class SearchExperienceComponent implements OnInit {
       searchIndexId: searchIndex
     };
     this.service.invoke('put.searchexperience', quaryparms, obj).subscribe(res => {
-      console.log("search experience saved data", res);
+      console.log("test res", res);
+      this.searchIcon = res.widgetConfig.searchBarIcon;
+      console.log("this.searchIcon", this.searchIcon)
       this.notificationService.notify('Updated successfully', 'success');
       this.statusModalPopRef = this.statusModalPop.open();
     }, errRes => {
