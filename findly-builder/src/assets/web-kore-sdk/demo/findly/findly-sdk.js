@@ -16657,6 +16657,12 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           // _self.vars.seeAllResultsOSObj = new KRPerfectScrollbar(data.container);
           setTimeout(() => {
             _self.bindPerfectScroll(showAllHTML, '.data-body-sec', null, 'y', 'see-all-results');
+            console.log(_self.vars['see-all-results']);
+            let data_body_sec_element = document.querySelector('.data-body-sec');
+            data_body_sec_element.addEventListener('ps-y-reach-end', () => {
+              console.log("ps-y-reach-end");
+              _self.seeAllResultsInifiteScroll();
+            });
           }, 100);
         };
         $('#show-all-results-container').css('display', 'block');
@@ -16690,6 +16696,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       });
       
     }
+
+    FindlySDK.prototype.seeAllResultsInifiteScroll = function() {
+      // call the required API
+    }
+
     FindlySDK.prototype.facetReset =function(facetObj,facetData){
       var _self = this;
       // _self.pubSub.subscribe('sa-search-facets', (msg, data) => {
