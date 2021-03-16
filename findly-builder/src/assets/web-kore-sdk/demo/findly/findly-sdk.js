@@ -5673,6 +5673,10 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           _self.pubSub.publish('sa-page-search', {container : '.pages-search-data-container', isFullResults : true, selectedFacet : 'all results', isLiveSearch : false, isSearch : false, dataObj});
           _self.pubSub.publish('sa-document-search', {container : '.documents-search-data-container', isFullResults : true, selectedFacet : 'all results', isLiveSearch : false, isSearch : false, dataObj});
           _self.pubSub.publish('sa-st-data-search', {container : '.structured-search-data-container', isFullResults : true, selectedFacet : 'all results', isLiveSearch : false, isSearch : false, dataObj});
+          if(_self.isDev){
+            $('.custom-header-container-center').removeClass('display-none');
+            $('.custom-add-result-container').removeClass('display-none');
+          }
         }
 
         // if(!_self.isDev){
@@ -17325,28 +17329,28 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       {{if searchFacet.facetType == "value"&& !searchFacet.isMultiselect }}\
       <div class="kr-sg-checkbox d-block">\
       <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-      <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key}</label>\
+      <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
           <span class="count">\(${bucket.doc_count})</span>\
         </div>\
         {{/if}}\
         {{if searchFacet.facetType == "range" && !searchFacet.isMultiselect}}\
         <div class="kr-sg-checkbox d-block">\
         <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-        <label  id="checkbox-${i}${j}" class="checkbox-custom-label">\${bucket.key}</label>\
+        <label  id="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">\${bucket.key}</label>\
             <span class="count">\(${bucket.doc_count})</span>\
           </div>\
           {{/if}}\
           {{if searchFacet.facetType == "value" && searchFacet.isMultiselect}}\
           <div class="kr-sg-checkbox d-block">\
             <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-              <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key}</label>\
+              <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
             {{if searchFacet.facetType == "range" && searchFacet.isMultiselect }}\
             <div class="kr-sg-checkbox d-block">\
               <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-                <label  id="checkbox-${i}${j}" class="radio-custom-label">\${bucket.key}</label>\
+                <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                 <span class="count">\(${bucket.doc_count})</span>\
               </div>\
               {{/if}}\
@@ -18188,28 +18192,28 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           {{if searchFacet.facetType == "value"&& searchFacet.isMultiselect }}\
           <div class="kr-sg-checkbox d-block">\
           <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-					<label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key}</label>\
+					<label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
             {{if searchFacet.facetType == "range" && searchFacet.isMultiselect}}\
             <div class="kr-sg-checkbox d-block">\
             <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-						<label  id="checkbox-${i}${j}" class="checkbox-custom-label">\${bucket.key}</label>\
+						<label  id="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                 <span class="count">\(${bucket.doc_count})</span>\
               </div>\
               {{/if}}\
               {{if searchFacet.facetType == "value" && !searchFacet.isMultiselect}}\
               <div class="kr-sg-checkbox d-block">\
                 <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-                  <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key}</label>\
+                  <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
                   <span class="count">\(${bucket.doc_count})</span>\
                 </div>\
                 {{/if}}\
                 {{if searchFacet.facetType == "range" && !searchFacet.isMultiselect }}\
                 <div class="kr-sg-checkbox d-block">\
                   <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-                    <label  id="checkbox-${i}${j}" class="radio-custom-label">\${bucket.key}</label>\
+                    <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                     <span class="count">\(${bucket.doc_count})</span>\
                   </div>\
                   {{/if}}\
@@ -18236,28 +18240,28 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       {{if searchFacet.facetType == "value"&& !searchFacet.isMultiselect }}\
       <div class="kr-sg-checkbox d-block">\
       <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-      <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key}</label>\
+      <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
           <span class="count">\(${bucket.doc_count})</span>\
         </div>\
         {{/if}}\
         {{if searchFacet.facetType == "range" && !searchFacet.isMultiselect}}\
         <div class="kr-sg-checkbox d-block">\
         <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-        <label  id="checkbox-${i}${j}" class="checkbox-custom-label">\${bucket.key}</label>\
+        <label  id="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">\${bucket.key}</label>\
             <span class="count">\(${bucket.doc_count})</span>\
           </div>\
           {{/if}}\
           {{if searchFacet.facetType == "value" && searchFacet.isMultiselect}}\
           <div class="kr-sg-checkbox d-block">\
             <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-              <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key}</label>\
+              <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
             {{if searchFacet.facetType == "range" && searchFacet.isMultiselect }}\
             <div class="kr-sg-checkbox d-block">\
               <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-                <label  id="checkbox-${i}${j}" class="radio-custom-label">\${bucket.key}</label>\
+                <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                 <span class="count">\(${bucket.doc_count})</span>\
               </div>\
               {{/if}}\
@@ -18499,8 +18503,10 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       $('#show-filters-added-data').empty().append(dataHTML);
       if((selectedFacetsList ||[]).length){
         $('#show-filters-added-data').show()
+        $('#show-filters-added-data').removeClass('display-none');
       }else{
         $('#show-filters-added-data').hide();
+        $('#show-filters-added-data').addClass('display-none');
       }
     }
     FindlySDK.prototype.sdkFiltersCheckboxClick = function () {
@@ -18665,7 +18671,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                 <div class="full-results-data-container">
                     <div id="filters-left-sec"></div>
                   <div class="all-product-details ">
-                    <div class="custom-header-container-center top-down-customize-btns {{if devMode== false}} display-none{{/if}}">\
+                    <div class="custom-header-container-center top-down-customize-btns display-none">\
                       <ul class="custom-header-nav">\
                         <li id="viewTypePreview" class="custom-header-nav-link-item nav-link-item-active"><a class="custom-header-nav-link">Preview</a></li>\
                         <li id="viewTypeCustomize" class="custom-header-nav-link-item"><a class="custom-header-nav-link">Customize</a></li>\
@@ -18682,7 +18688,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                             </div>
                             <div class="structured-search-data-container">
                             </div>
-                            <div class="custom-add-result-container {{if devMode== false}} display-none{{/if}}">\
+                            <div class="custom-add-result-container display-none">\
                               <div class="custom-add-new-result-content">\
                                 <div class="bold-text">Not finding the result?</div>\
                                 <div class="link-text"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABrSURBVHgBzVHBCYAwEMuV/lRwBDdykoojuIoTiBs5Qt8KjVZfLdeHD8FAyJEQOO4ABZXbx0gts5opIi0KMHiJ7wvSuLBcmu4s7G6lbHnBgmGGZAWa/hnCmvrw0FAPxxSpZT+8kvppkr5UOAH/GRicle7qIwAAAABJRU5ErkJggg==">Add from repository</div>\

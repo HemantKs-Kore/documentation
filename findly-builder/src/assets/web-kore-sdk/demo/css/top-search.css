@@ -1095,7 +1095,8 @@ input:focus{
   width: 100%;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .filters-added-data .filter-tag-content{
-  float: left;
+  /* float: left; */
+  display: inline-block;
   background: #EFF0F1;
   border-radius: 2.5px;
   padding: 4px 10px;
