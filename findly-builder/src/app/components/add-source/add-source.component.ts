@@ -390,7 +390,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     //this.cancleSourceAddition();
   }
   stopCrwaling(event) {
-    console.log("this.crwal_jobId", this.crwal_jobId)
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
@@ -466,17 +465,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       return;
     }
- 
+
     const _ext = fileName.substring(fileName.lastIndexOf('.'));
     this.extension = _ext
     if (this.selectedSourceType.sourceType != "faq") {
-    if (this.extension !== '.pdf' && this.extension !== '.csv') {
-      $('#sourceFileUploader').val(null);
-      this.notificationService.notify('Please select a valid csv or pdf file', 'error');
-      return;
-    } 
-  }
-  else {
+      if (this.extension !== '.pdf' && this.extension !== '.csv') {
+        $('#sourceFileUploader').val(null);
+        this.notificationService.notify('Please select a valid csv or pdf file', 'error');
+        return;
+      }
+    }
+    else {
       let showProg: boolean = false;
       if (this.selectedSourceType.sourceType == "faq") {
         if (this.selectedSourceType.resourceType == '') {
@@ -500,7 +499,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         showProg = true;
       }
       if (showProg) {
-        this.onFileSelect(event.target,this.extension);
+        this.onFileSelect(event.target, this.extension);
         this.fileObj.fileUploadInProgress = true;
         this.fileObj.fileName = fileName;
         this.fileObj.file_ext = this.extension.replace(".", "");
@@ -730,7 +729,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.poling(res._id, 'scheduler');
           }
           this.extract_sourceId = res._id;
-          this.crwal_jobId = res.jobId
+          //this.crwal_jobId = res.jobId
           console.log("this.statusObject", this.statusObject)
         }, errRes => {
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -953,8 +952,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.associatedBots = JSON.parse(JSON.stringify(res));
         this.associatedBots.filter(element => {
-          if(element.type == 'default' || element.type == 'universalbot'){
-          return element ;
+          if (element.type == 'default' || element.type == 'universalbot') {
+            return element;
           }
         });
         console.log(this.associatedBots);
@@ -1202,8 +1201,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       sourceId: this.extract_sourceId
     };
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
-      console.log(res);
-
+      this.crwal_jobId = res._id;
       //this.openStatusModal();
       //this.notificationService.notify('Bot linked, successfully', 'success');
     },
