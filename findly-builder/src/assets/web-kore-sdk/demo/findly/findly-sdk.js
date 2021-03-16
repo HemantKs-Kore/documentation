@@ -18599,9 +18599,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                         <!-- <div id="faq-query-container"> -->
                             <!-- faq query result-->
                         <!-- </div> -->
-                        <div class="faqs-data-container">
+                        <div class="faqs-live-data-container">
                         </div>
-                        <div class="pages-data-container">
+                        <div class="pages-live-data-container">
+                        </div>
+                        <div class="documents-live-data-container">
                         </div>
                         <div class="structured-data-container">
                         </div>
