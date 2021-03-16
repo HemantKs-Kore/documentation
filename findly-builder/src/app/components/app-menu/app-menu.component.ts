@@ -133,7 +133,12 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('put.newIndexPipeline', queryParms, payload).subscribe(
       res => {
-        this.notify.notify('Set to default Index successfully', 'success');
+        if (action === 'edit') {
+          this.notify.notify('Index congfiguration updated successfully', 'success');
+        }
+        else {
+          this.notify.notify('Set to default Index successfully', 'success');
+        }
         this.appSelectionService.getIndexPipelineIds(config);
         if (config && config._id && action !== 'edit') {
           this.selectQueryPipelineId(config);
@@ -164,7 +169,12 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('put.queryPipeline', queryParms, payload).subscribe(
       res => {
-        this.notify.notify('Set to default successfully', 'success');
+        if (action == 'edit') {
+          this.notify.notify('Search congfiguration updated successfully', 'success');
+        }
+        else {
+          this.notify.notify('Set to default successfully', 'success');
+        }
         this.appSelectionService.getQureryPipelineIds(config);
         if (config && config._id && action !== 'edit') {
           this.selectQueryPipelineId(config);
@@ -198,7 +208,11 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.service.invoke('post.newIndexPipeline', queryParms, payload).subscribe(
       res => {
         if (res && res._id) {
-          this.notify.notify('New Index config created successfully', 'success');
+          if (this.newIndexConfigObj.method === 'clone') {
+            this.notify.notify('New Index config cloned successfully', 'success');
+          } else {
+            this.notify.notify('New Index config created successfully', 'success');
+          }
           this.selectIndexPipelineId(res);
         }
         this.closeIndexModalPopup();
@@ -224,12 +238,18 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('create.queryPipeline', queryParms, payload).subscribe(
       res => {
+        console.log("res", res)
         this.appSelectionService.getQureryPipelineIds();
         if (res && res._id) {
           this.selectQueryPipelineId(res);
         }
         this.closeModalPopup();
-        this.notify.notify('New Search config created successfully', 'success');
+        if (this.newConfigObj.method === 'clone') {
+          this.notify.notify('New Search config cloned successfully', 'success');
+        }
+        else {
+          this.notify.notify('New Search config created successfully', 'success');
+        }
       },
       errRes => {
         this.errorToaster(errRes, 'Failed to Create searchconfig');
