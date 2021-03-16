@@ -3336,8 +3336,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $('.custom-add-new-result-container').off('click').on('click', function (event) {
         console.log(event);
+        var structure = 'bottom';
+        if ($('body').hasClass('top-down')) {
+          structure = 'top';
+        } else {
+          structure = 'bottom';
+        }
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
-          var responseObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText }
+          var responseObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText, structure: structure }
           console.log(responseObject);
           _self.parentEvent(responseObject);
         }
@@ -17712,8 +17718,14 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
 
       $('.custom-add-result-container').off('click').on('click', function (event) {
         console.log(event);
+        var structure = 'bottom';
+        if ($('body').hasClass('top-down')) {
+          structure = 'top';
+        } else {
+          structure = 'bottom';
+        }
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
-          var responseObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText }
+          var responseObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText, structure: structure }
           console.log(responseObject);
           _self.parentEvent(responseObject);
         }
@@ -18091,6 +18103,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
   
       var resultsContainerHtml = $('.all-product-details');
       _self.bindPerfectScroll(resultsContainerHtml,'.content-data-sec',null,'resultsContainer')
+      
     }
     
     }
@@ -18284,8 +18297,12 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                 f['maxCount'] = 5
               }
             });
-          }
+            $('#filters-left-sec').show();
           _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
+          }else{
+            $('#filters-left-sec').hide();
+            _self.facetsAlignTopdownClass('top');
+          }
           var topDownDataHTML = $(_self.getSearchFacetsTopDownTemplate(_self.vars.filterConfiguration.aligned)).tmplProxy({
             searchFacets: _self.vars.searchFacetFilters,
             position: 'left'
@@ -18307,6 +18324,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
 
 
               })
+              $('#filters-left-sec').show();
             _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
               var topDownDataHTML = $(_self.getSearchFacetsTopDownTemplate(_self.vars.filterConfiguration.aligned)).tmplProxy({
                 searchFacets: _self.vars.searchFacetFilters,
@@ -18320,6 +18338,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               }, 500);
               _self.markSelectedFilters();
               _self.sdkFiltersCheckboxClick();
+            }else{
+              $('#filters-left-sec').hide();
+              _self.facetsAlignTopdownClass('top');
             }
           });
 
@@ -18337,6 +18358,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   f['maxCount'] = 5
                 }
               })
+              $('#filters-left-sec').show();
               _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
               var topDownDataHTML = $(_self.getSearchFacetsTopDownTemplate(_self.vars.filterConfiguration.aligned)).tmplProxy({
                 searchFacets: _self.vars.searchFacetFilters,
@@ -18379,6 +18401,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   $('#' + id + '-close').hide()
                 }
               });
+            }else{
+              $('#filters-left-sec').hide();
+              _self.facetsAlignTopdownClass('top');
             }
           });
 
@@ -18472,6 +18497,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         selectedFacets: selectedFacetsList
       });
       $('#show-filters-added-data').empty().append(dataHTML);
+      if((selectedFacetsList ||[]).length){
+        $('#show-filters-added-data').show()
+      }else{
+        $('#show-filters-added-data').hide();
+      }
     }
     FindlySDK.prototype.sdkFiltersCheckboxClick = function () {
       var _self = this;
@@ -18635,7 +18665,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                 <div class="full-results-data-container">
                     <div id="filters-left-sec"></div>
                   <div class="all-product-details ">
-                    <div class="custom-header-container-center top-down-customize-btns">\
+                    <div class="custom-header-container-center top-down-customize-btns {{if devMode== false}} display-none{{/if}}">\
                       <ul class="custom-header-nav">\
                         <li id="viewTypePreview" class="custom-header-nav-link-item nav-link-item-active"><a class="custom-header-nav-link">Preview</a></li>\
                         <li id="viewTypeCustomize" class="custom-header-nav-link-item"><a class="custom-header-nav-link">Customize</a></li>\
@@ -18643,7 +18673,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                     </div>\
                         <div id="top-down-tab-sec"></div>
                         <div id="filters-center-sec" > </div>
-                        <div class="filters-added-data" id="show-filters-added-data">
+                        <div class="filters-added-data display-none" id="show-filters-added-data">
                           </div>
                         <div class="content-data-sec">
                             <div class="faqs-search-data-container">
@@ -18652,6 +18682,12 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                             </div>
                             <div class="structured-search-data-container">
                             </div>
+                            <div class="custom-add-result-container {{if devMode== false}} display-none{{/if}}">\
+                              <div class="custom-add-new-result-content">\
+                                <div class="bold-text">Not finding the result?</div>\
+                                <div class="link-text"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABrSURBVHgBzVHBCYAwEMuV/lRwBDdykoojuIoTiBs5Qt8KjVZfLdeHD8FAyJEQOO4ABZXbx0gts5opIi0KMHiJ7wvSuLBcmu4s7G6lbHnBgmGGZAWa/hnCmvrw0FAPxxSpZT+8kvppkr5UOAH/GRicle7qIwAAAABJRU5ErkJggg==">Add from repository</div>\
+                              </div>\
+                            </div>\
                         </div>
                     </div>
                 </div>
@@ -18664,7 +18700,16 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
 
     FindlySDK.prototype.initializeTopDown = function (findlyConfig, search_container, searchExperienceConfig) {
       var _self = this;
-      var dataHTML = $(FindlySDK.prototype.getTopDownTemplate(searchExperienceConfig)).tmplProxy({});
+      if (search_container && search_container.length) {
+        _self.isDev = true;
+      }
+      else{
+        _self.isDev = false;
+      }
+      var devMode = _self.isDev ? true : false;
+      var dataHTML = $(FindlySDK.prototype.getTopDownTemplate(searchExperienceConfig)).tmplProxy({
+          'devMode' : devMode,
+      });
       var container = search_container ? $('.' + search_container) : $('body');
       $(container).empty().append(dataHTML);
       var findlyConfig = findlyConfig ? findlyConfig : window["KoreSDK"].findlyConfig;
