@@ -173,7 +173,7 @@
 
 
 <!-- New HTML Layout -->
-<div class="add-new-result-container" *ngIf="!addNew">
+<div class="add-new-result-container " *ngIf="!addNew"  [ngClass]="{'top-down-add-new-result' : structure == 'top'}">
     <div class="result-container">
         <div class="header-sec">
             <div class="title">ADD NEW RESULT</div>

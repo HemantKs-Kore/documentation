@@ -36,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
   findlyBusinessConfig: any = {};
   bridgeDataInsights = true;
   addNewResult = true;
+  structure = 'bottom';
   showInsightFull = false;
   queryText;
   subscription: Subscription;
@@ -349,7 +350,9 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     if (parms.type === 'addNew' && parms.data === true) {
       _self.addNewResult = false;
+      _self.structure = parms.structure;
     } else {
+      _self.structure = parms.structure;
       _self.addNewResult = true;
     }
     if (parms.query) {

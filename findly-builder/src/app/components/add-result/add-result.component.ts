@@ -27,6 +27,7 @@ export class AddResultComponent implements OnInit {
   subscription: Subscription;
   @Input() query : any;
   @Input() addNew;
+  @Input() structure;
   @Output() closeResult = new EventEmitter();
   constructor(public workflowService: WorkflowService,
     public notificationService: NotificationService,
