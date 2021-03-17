@@ -13020,6 +13020,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       });
 
       $('.kore-search-container-close-icon').off('click').on('click', function (e) {
+        $('#show-all-results-container').hide();
+        _self.vars.selectedFacetFromSearch = "all results"
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
           var responseObject = { 'type': 'closeSearchContainer', data: false, query: _self.vars.searchObject.searchText , bottomUp : true}
           _self.parentEvent(responseObject);
@@ -13583,7 +13585,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <div class="total-structured-data-wrap {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customization{{/if}}{{/if}}{{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}} display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
               {{if tour && isFullResults == true}}\
-                <div class="tours-information">\
+                <div class="tours-information sdk-tours-info-start">\
                   <div class="tourtitle">Customize</div>\
                   <div class="tour-info">Start Customizing your search results by hovering on the matched content and performing below actions:</div>\
                   <div class="tour-action-info"><b>HIDE</b> - Hide the search result</div>\
@@ -13598,14 +13600,14 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                     </div>\
                   </div>\
                 </div>\
-                <div class="tours-information tour-customization-info hide">\
+                <div class="tours-information tour-customization-info sdk-tours-info-end hide">\
                   <div class="tourtitle">Customize</div>\
                   <div class="tour-info mb-2 pb-1">You can order the results by clicking on this icon and dragging up and down.</div>\
                   <div class="footer-tour">\
                     <div class="tour-length">2 of 2</div>\
                     <div class="tour-btns">\
-                        <button class="next-btn">Got it</button>\
-                        <button class="close-btn">Previous</button>\
+                        <button class="next-btn sdk-tours-info-close">Got it</button>\
+                        <button class="close-btn sdk-tours-info-pre">Previous</button>\
                     </div>\
                   </div>\
                 </div>\
@@ -17250,6 +17252,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       var facet =
       '<script type="text/x-jqury-tmpl">\
       <div>\
+      {{if searchFacets.length}}\
       <div id="loaderDIV" class="loader-container">Loading...</div>\
       <div id="facetRightIconId" class="fliter-right-btn {{if position === `left`}} left-filter {{/if}}">\
         <img  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAKCAYAAACE2W/HAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA/SURBVHgB1c+hEQAgDATBfyqJwVMKpaYUPCadwCAyGATgcursUiQXYFQ8RU0IE33urFSz3tZFNHpn67Z538YJjc8On2EvoL4AAAAASUVORK5CYII=">\
@@ -17302,6 +17305,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       </div>\
       {{/if}}\
     </div>\
+    {{/if}}\
   </div>\
 </script>'
       return facet
@@ -17732,6 +17736,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       
       $('.sdk-tours-info-close').off('click').on('click', function (e) {
         $('.tours-information').hide();
+        _self.vars.customTourResultRank = false;
       })
    //Tour RR
     }
