@@ -7383,6 +7383,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
 
     };
 
+    var searchConfigurationCopy = {};
+
     FindlySDK.prototype.mapSearchConfiguration = function(searchConfig) {
       var searchConfiguration = {};
       if(searchConfig && Object.values(searchConfig).length){
@@ -7464,6 +7466,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           feedbackExperience:{resultLevel: true, queryLevel: false}
         };
       }
+      searchConfigurationCopy = searchConfiguration;
       return searchConfiguration;
     }
 
@@ -17996,7 +17999,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         {{if suggestions && suggestions.length > 0}}\
           <div class="suggestion-search-data-parent">\
             <img class="suggestions-close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
-            {{each(i, suggestion) suggestions}}\
+            {{each(i, suggestion) suggestions.slice(0, querySuggestionsLimit)}}\
               <div class="search-suggested-title" suggestion="${suggestion}" id="${i}"><div title="${suggestion}" class="suggestion-list-item text-truncate">${suggestion}</div><div class="text-truncate type-select-suggestion" title="${suggestion}">${suggestion}</div></div>\
             {{/each}}\
           </div>\
@@ -18046,7 +18049,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         data: payload,
         success: function (data) {
           var autoSuggestionHTML = $(_self.getAutoSuggestionTemplate()).tmplProxy({
-            suggestions : data.autoComplete.querySuggestions
+            suggestions : data.autoComplete.querySuggestions,
+            querySuggestionsLimit : searchConfigurationCopy.querySuggestionsLimit ? searchConfigurationCopy.querySuggestionsLimit : 2
           });
           $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
           _self.pubSub.publish('sa-auto-suggest', data.autoComplete.typeAheads);
@@ -18066,6 +18070,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
     FindlySDK.prototype.bindAutoSuggestionTriggerOptions = function(autoSuggestionHTML){
       var _self = this;
       $('.search-suggested-title').off('click').on('click', function (e) {
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        $('.search-body').addClass('hide');
         var autoSuggest = $(this).attr('suggestion');
         _self.hideAutoSuggestion();
         $('#search').val(autoSuggest);
