@@ -1013,9 +1013,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.getSearchControl = function() {
       var searchControl = '<script type="text/x-jqury-tmpl">\
             <div class="search-bar">\
-            {{if showSearchIcon}}\
-              <div class="widget-icon"><img style="vertical-align:middle" src="data:image/png;base64,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"> </div>\
-            {{/if}}\
+              <div class="widget-icon"><img style="vertical-align:middle" \
+              {{if searchConfig.searchBarIcon}}\
+              src="${searchConfig.searchBarIcon}"> </div>\
+              {{/if}}\
+              {{if searchConfig.autocompleteOpt}}\
             <input id="suggestion" name="search"  disabled="disabled" class="search \
             {{if classes}}\
               ${classes}"\
@@ -1023,13 +1025,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{if hideSearchIcon}}\
               style="position: absolute; bottom: 0px; color:#8a959f;">\
             {{else}}\
-              style="position: absolute; bottom: 0px; color:#8a959f; padding-left:46px!important;"> \
+              style="position: absolute; bottom: 0px; color:#8a959f; padding-left:36px!important;"> \
+            {{/if}}\
             {{/if}}\
             <input autocomplete="off" id="search" name="search"\
-            {{if placeholder}}\
-              placeholder="${placeholder}" \
+            {{if searchConfig.searchBarPlaceholderText}}\
+            placeholder="${searchConfig.searchBarPlaceholderText}" \
             {{else}}\
-              placeholder="Ask anything"\
+              placeholder="Search here"\
             {{/if}}\
             class="search \
             {{if classes}}\
@@ -1038,7 +1041,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{if hideSearchIcon}}\
               style="position: absolute; bottom: 0px;  \
             {{else}}\
-              style="position: absolute; bottom: 0px; padding-left:46px!important; \
+              style="position: absolute; bottom: 0px; padding-left:36px!important; border : solid 1px ${searchConfig.searchBarBorderColor} !important; background : ${searchConfig.searchBarFillColor} !important; color : ${searchConfig.searchBarPlaceholderTextColor}; \
             {{/if}}\
                background:transparent;">\
             {{if microphone && defaultMicrophone}}\
@@ -1054,13 +1057,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               </div> \
             {{/if}}\
             {{if showButton}}\
-            <button class="search-button">\
-            {{if buttonText}}\
-              ${buttonText}\
-            {{else}}\
-              Go\
+            {{if searchConfig.searchButtonEnabled}}\
+              <button class="search-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}"{{/if}} disabled>${searchConfig.buttonText}</button>\
             {{/if}}\
-            </button>\
             {{/if}}\
           </div>\
         </script>';
@@ -7003,7 +7002,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       var _self = this;
       _self.customSearchResult = false;
       var structuredDataContainer = '';
-      if(!$('body').hasClass('top-down')){
+      if($('body').hasClass('top-down')){
         var actionsPosition ='bottom';
         let actionParentContainer = `<div id="actions-container" class="quick-actions-container"></div>`;
         if(actionsPosition == 'top'){
@@ -7078,9 +7077,16 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           if (actionContainer) {
             if (data.tasks && data.tasks.length  > 0) {
               if (config.actionTemplateId) {
-                var dataHTML = $('#' + config.actionTemplateId).tmplProxy(data);
+                if(config.templateId === 'actions-template'){
+                  var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy(data);
+                  if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
+                    $('#' + actionContainer).empty();
+                  }
+                } else{
+                  var dataHTML = $('#' + config.actionTemplateId).tmplProxy(data);
                 if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
                   $('#' + actionContainer).empty();
+                }
                 }
                 $('#' + actionContainer).append(dataHTML);
               } else if (config.actionTemplate) {
@@ -7414,7 +7420,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           searchConfiguration.searchBarIcon = searchConfig.widgetConfig.searchBarIcon;
         }
         else{
-          searchConfiguration.searchBarIcon = 'data:image/png;base64,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';
+          searchConfiguration.searchBarIcon = (searchConfig.experienceConfig.searchBarPosition =='top') ?'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBlVJLTgJBEK2q8RNXwg2GGzBbiEIHNHEl3ABOMHICvQFHQE8grEwU0wgBt9xAjjAkLkSnq+xB6JAwwfAWXV3pev1eVxdCCp70u38Asf8J8bSuVJRWg5uJHk1CZrlbJoKRPfURcbAwX80rpWabteRIw3HHMDSYuV4pFbOVciFHfJI1ht+O6Pijrye1LcVXPW4A4a0tDJQKtqy96FGZyHskXuTUyvqfoiUxm2YaKcGFOhuA0CCGoxtnVdtG2JhZHu6CmB4C5h3xBzhjYwT/gIFngHjqiIfwPbPR11pndlOtmsjcEZPHJi3f9J8GIgoRpOvyZIkNt4gwfNbjfBpJDydtsc+pqOK9019v+npYQ/I6gNQVIz0BE5G1h553bYcig3YYDIu6VMWpU0xQVeddYgosaU6IIeHykpIYfqiWCwGwtDxCvXaFsAdWg9ImxgD2xerf4RflG5JZZafRoQAAAABJRU5ErkJggg==' :'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAbCAYAAABiFp9rAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAW0SURBVHgBrVY7bxxVFD73MbOzu36skzgRDVoLISUFitPQQkoqNl3KICQKGuAXJP4FpESisJEQosNUlCy/gICQCAXyFkgkIDvr7HrncV9858zaROSBkJjR1c7MnTnf+b7znXtX0b8cBx8+GmgXb0VqrpJS22RoYIymGOIkEU1Dnb42ROOtT16avCiOet7Ezzd/HxpFu42fvxlcRREnpUhJedLaku11qeivkjEZ+QVmXdqLgXaufPlswGcC3R89+MAFd7epKgqxIc9A/Bs9qZQoUcBQZHRO1ha0fmmTut0uuYWjPLN3tr7Y3Hkh0MHoYBBpdfdkVo6cc9RglG5GIdSQqkZ4MGJmpHEqKGlJKw3Agnpgd+Glc6SjBnPa18G8s7W/MT2NbZ8EMn6wW5XlqJo1VNYlNdFRHUqw8eRTQyHFNjsFkAQwpGl0B79Iqn5MzczRhQvnqNfrjpROA7x6/SlGv7z+8Ha2Zu8cHR3TvCmpChXVkKuJbX1YQmaTkqIkwikAWMoUAylGx3VOPdOh86sDWl3pU57buy9/s/HRGdD3lw+GxVr3IKRAhydTKhG8Dg1VqUbgBDYQDYNP3AoQCRTAYEOrNUDs8l7RuXydNjrrtLayQtqa61vjjbFIZ6zdtdHQ4WIKJg6jJpc82LTBA+L6xBYgAEaplBdTtMw6KaOeSlTAHE1yNId5MpyFKqhj9W18NlbMJs86Bx5h/qyPqEQtHrNsAHIylozYawLCVgCgZA8xMZ/B7myPFZ2JYdZ1ly5ma3TerlMBKXOdX7PaZCOmP/czSBXomBmBQRMTsiP50KVWrIDgHmD61ElsCrgOpm8lZbMkfk4Si991UAXtPbIdnb/dgMUMDpvi4RwvLiLWAbzEUnHx+VW/dJzHPcvn5Wlr88IouXIxSu005h8j1iUkwiqkFN6wVunhoWeQREcYFV4QIPySvAg20N/jmV5+6ERC5tdWqQqoE+asMq2VIxfV0TBPhByY5NAih+EfCPooMAuFGhmqkO8iJXGaGDO1NYkxSmCWkpRuq4Rrh0Qa9FpHG5FVpTYhLgFDd0kNrcPDYwSYYaLERzw5B3BFrd7sNa5Da2sGYatzVyQwlIfiymbpSGYVpTYksbipV7meRtnpSUyDCh/XCBQQFK+L4+Kpt1KShgtLi6fTrCX/tOyoJPVywp5kaSo5CdwMjJraQptJrrPt2pcinZcAFuIZsTSJoxK13QP5lsFp2bIkdeElqTUPioOaGupilZhhmbL4di3Gexbl/G5gettJleI0z82ILmdmtWisBCBRuyIwHCun0pIJKyDXWlLQkmCO5x0wklQ4zg+68rSfIYMCKzB2GsjX9gUho4CPGMxh3glLK2zF7qq9r5OW7yQ5BlEZ9qsCbuvA4knkc1Ht6ys/rY7XTGesEZhfCFg6OChnFakjQaRRkXkAIEvqBRR9w614ep94Hous7sMQBVhndAiToSyTt+5vjqXJN222s6KZbg4mWEbOBkvITDMxCCeRZJlBYIA23ENSFdQOSeZ6RQbHmQHEyeaoZRMUoNfudceX8/7YChAkw2iWMjmuFT5okDlL6NFnYSklJxORTAKIxvqmVA/PDS0Qs+RtQxd7792/uHcGxMelrH/jWmdj0jfdVj7FIJmwaXDNmZ/ALHOYYQHdK7aygPUwupCqkPouMF8DLFe9SRHynac2Pj6+ulwOHxJ9+2MzH07CHEVsELSW36XRKZ7uRKrdfTTYWcWbAvyG6x5M0Edd8pSu703+/qPy1J+TOwDTSX38m29GD7CNzwUI2wVOn/xZeypZgqjd+hQzyGAfTX1lxvDajf3J1vTJuM/9u/X+q/Nbx0HdnpIfltyMGA3AgmyG0k2yEvAKwADndT65qMPOp7+2Nfnn8Vyg0+PdV05GD2IawRBXsZFvu+WqAP+BRZp0yYxXYvrs88nqmP7P49awHN7EoP94/AUUr0KuNdomKAAAAABJRU5ErkJggg==';
         }
 
         if(searchConfig.interactionsConfig){
@@ -18127,8 +18133,26 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
        });
   
       var resultsContainerHtml = $('.all-product-details');
-      _self.bindPerfectScroll(resultsContainerHtml,'.content-data-sec',null,'resultsContainer')
-      
+      _self.bindPerfectScroll(resultsContainerHtml,'.content-data-sec',null, 'y', 'resultsContainer')
+      setTimeout(() => {
+      //  _self.bindPerfectScroll(showAllHTML, '.data-body-sec', null, 'y', 'see-all-results');
+        console.log(_self.vars['resultsContainer']);
+        let data_body_sec_element = document.querySelector('.content-data-sec');
+        data_body_sec_element.addEventListener('ps-y-reach-end', () => {
+          console.log("ps-y-reach-end");
+          if(_self.vars.scrollPageNumber >= 1){
+            _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
+            _self.seeAllResultsInifiteScroll();
+          }
+        });
+        data_body_sec_element.addEventListener('ps-y-reach-start', () => {
+          console.log("ps-y-reach-start");
+          if(_self.vars.scrollPageNumber > 1){
+            _self.vars.scrollPageNumber = _self.vars.scrollPageNumber - 1;
+            _self.seeAllResultsInifiteScroll();
+          }
+        });
+      }, 100);
     }
     
     }
@@ -18639,11 +18663,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                 <img src="data:image/png;base64,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">
             </div>
             <div id="heading" class="search-input-box">      
-                <div id="search-box-container" class="search-box-container-data">
-                  <div class="search-icon">
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBlVJLTgJBEK2q8RNXwg2GGzBbiEIHNHEl3ABOMHICvQFHQE8grEwU0wgBt9xAjjAkLkSnq+xB6JAwwfAWXV3pev1eVxdCCp70u38Asf8J8bSuVJRWg5uJHk1CZrlbJoKRPfURcbAwX80rpWabteRIw3HHMDSYuV4pFbOVciFHfJI1ht+O6Pijrye1LcVXPW4A4a0tDJQKtqy96FGZyHskXuTUyvqfoiUxm2YaKcGFOhuA0CCGoxtnVdtG2JhZHu6CmB4C5h3xBzhjYwT/gIFngHjqiIfwPbPR11pndlOtmsjcEZPHJi3f9J8GIgoRpOvyZIkNt4gwfNbjfBpJDydtsc+pqOK9019v+npYQ/I6gNQVIz0BE5G1h553bYcig3YYDIu6VMWpU0xQVeddYgosaU6IIeHykpIYfqiWCwGwtDxCvXaFsAdWg9ImxgD2xerf4RflG5JZZafRoQAAAABJRU5ErkJggg=="/>
-                  </div>
-                  <div class="cancel-search">
+                <div id="search-box-container" class="search-box-container-data">                 
+                <!-- <div class="search-icon"> -->
+                <!-- <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBlVJLTgJBEK2q8RNXwg2GGzBbiEIHNHEl3ABOMHICvQFHQE8grEwU0wgBt9xAjjAkLkSnq+xB6JAwwfAWXV3pev1eVxdCCp70u38Asf8J8bSuVJRWg5uJHk1CZrlbJoKRPfURcbAwX80rpWabteRIw3HHMDSYuV4pFbOVciFHfJI1ht+O6Pijrye1LcVXPW4A4a0tDJQKtqy96FGZyHskXuTUyvqfoiUxm2YaKcGFOhuA0CCGoxtnVdtG2JhZHu6CmB4C5h3xBzhjYwT/gIFngHjqiIfwPbPR11pndlOtmsjcEZPHJi3f9J8GIgoRpOvyZIkNt4gwfNbjfBpJDydtsc+pqOK9019v+npYQ/I6gNQVIz0BE5G1h553bYcig3YYDIu6VMWpU0xQVeddYgosaU6IIeHykpIYfqiWCwGwtDxCvXaFsAdWg9ImxgD2xerf4RflG5JZZafRoQAAAABJRU5ErkJggg=="/> -->
+                <!--</div> -->
+                <div class="cancel-search">
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADeSURBVHgBnZI/C8IwEMUviRUHkdKp0KWgBccu/QAOgrj1k2arbtLZJXtFOpVOpXtoYyKk+CeJ4BtCEt7vuHscwJ8i6timh3gZbvy+vfUuc5Ie01W4XigfVh+Dh/25hy9Jtk9dECKC6vcTrK4FEwA5Ao+aYA2JAeU1O9dTq0pdU7VBlJQICA2iuOyae/sJVaxg2o++qmfSCEAF8By4BybICL7CMAowQUozEwhcDSGnxhLH3GjB4AjCFRixQao9W2BvoC09GzxtjrydbEGY4GlGG6SllgTzccc5ca7lTz0A2yqRYknu6twAAAAASUVORK5CYII="/>
                   </div>
                 </div>   
@@ -18734,8 +18758,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         _self.isDev = false;
       }
       var devMode = _self.isDev ? true : false;
-      var dataHTML = $(FindlySDK.prototype.getTopDownTemplate(searchExperienceConfig)).tmplProxy({
+      console.log(searchExperienceConfig);
+      var searchConfiguration = _self.mapSearchConfiguration(searchExperienceConfig);
+      var dataHTML = $(FindlySDK.prototype.getTopDownTemplate()).tmplProxy({
           'devMode' : devMode,
+          'searchConfig': searchConfiguration
       });
       var container = search_container ? $('.' + search_container) : $('body');
       $(container).empty().append(dataHTML);
@@ -18754,9 +18781,10 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         showGreeting: false,
         microphone: true,
         defaultMicrophone: false,
-        hideSearchIcon: true,
+        hideSearchIcon: false,
         autoSuggest: true,
         showButton: false,
+        searchConfig: searchConfiguration,
         focusHandler: focusHandler
       });
 
@@ -18861,6 +18889,31 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                                   </div>\
                               </script>'
       return topDownFacetsTabs;
+    }
+    FindlySDK.prototype.getTopDownActionTemplate = function () {
+      var topDownActionTemplate = '<script id="actions-template" type="text/x-jqury-tmpl">\
+                                    {{if tasks.length > 0 }}\
+                                    <div class="type-section quick-actions"> Quick Actions</div>\
+                                    <div class="actions">\
+                                        {{each(key, task) tasks}}\
+                                        <div class="actions-container">\
+                                            <div class="action-icon">\
+                                                <img src="images/action-icon.png"/>\
+                                            </div>\
+                                            <div class="action">\
+                                                <div class="action-text creditCardDetails search-task bot-action" title="${task.taskName}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" id="${key}" payload="${task.payload}">\
+                                                    ${task.titleText}\
+                                                </div>\
+                                                <div class="task-text">\
+                                                    ${task.text}\
+                                                </div>\
+                                            </div>\
+                                        </div>\
+                                      {{/each}}\
+                                    </div>\
+                                {{/if}}\
+                              </script>'
+      return topDownActionTemplate;
     }
     FindlySDK.prototype.getFrequentlySearchTemplate = function () {
       var frequentlySearchTemplate = '<script id="frequently-searched-template" type="text/x-jqury-tmpl">\

@@ -1309,6 +1309,7 @@ float: right;
 .category-wise-container .group-checkbox.filters-content-top-down input{
   border: none !important;
   margin-bottom: 5px;
+  height: 12px;
 }
 .category-wise-container .group-checkbox.filters-content-top-down .input-div{
   border-bottom: 1px solid #BDC1C6 !important;
@@ -1993,4 +1994,8 @@ background:none !important;
 }
 .sdk-top-down-interface .custom-add-result-container{
   margin-bottom:60px !important;
+}
+
+.sdk-top-down-interface .search-bar .widget-icon{
+  bottom: 8px;
 }
