@@ -1095,7 +1095,8 @@ input:focus{
   width: 100%;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .filters-added-data .filter-tag-content{
-  float: left;
+  /* float: left; */
+  display: inline-block;
   background: #EFF0F1;
   border-radius: 2.5px;
   padding: 4px 10px;
@@ -1797,7 +1798,7 @@ body.top-down .top-down-search-background-div .top-down-wrapper{
   position: fixed;
   right: 60px;
   top: 104px;
-  z-index: 99999;
+  z-index: 99998;
   cursor: pointer;
 }
 
@@ -1974,4 +1975,22 @@ body.top-down .top-down-search-background-div .top-down-wrapper{
   line-height: 12px;
   padding: 1px 6px;
   margin-top: 5px;
+}
+.sdk-top-down-interface .top-down-add-new-result{
+  top: 61px;
+  z-index: 99999;
+  height: calc(100% - 62px);
+  right: 0px !important;
+  left: auto;
+}
+
+.sdk-top-down-interface .top-down-add-new-result::before {
+background:none !important;
+}
+
+.sdk-top-down-interface .custom-add-new-result-content{
+  padding-left:0px !important;
+}
+.sdk-top-down-interface .custom-add-result-container{
+  margin-bottom:60px !important;
 }

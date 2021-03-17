@@ -404,7 +404,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         jstBarrer: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM",
         //jstBarrer: "bearer " + _self.bot.options.accessToken,
         searchResultsConfigURL : searchResultsConfigAPIURL + SearchIndexID + "/getresultviewsettings",
-        recentSearchUrl : baseAPIServer + "api/1.1/findly/" + SearchIndexID + "/recentSearches",
+        recentSearchUrl : baseAPIServer + "/api/1.1/findly/" + SearchIndexID + "/recentSearches",
         indexpipelineId : indexpipelineId,
         pipelineId : pipelineId,
         autoSuggestionsURL : baseAPIServer + "/api/1.1/searchAssist/" + SearchIndexID + "/autoSuggestions"
@@ -1110,7 +1110,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="heading {{if koreWidgetSDKInstance.isDev==true}}display-none{{/if}}">\
               <div class="logo-sec-title">\
                 <img class="show-in-findly logo-img" src="data:image/png;base64,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">\
-                <img class="search-logo" src="data:image/png;base64,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">\
+                <img class="search-logo" src="data:image/png;base64,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">\
                 <span class="head">Kore Search Assistant</span>\
               </div>\
               <div class="right-side-icons">\
@@ -1129,7 +1129,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 &nbsp;<span class="custom-header-text">HIDE INSIGHTS</span>\
               </div>\
               <div class="custom-header-container-left searchAssist">\
-                <span>Search Assist</span>\
+                <img class="searchAssistIcon" src="data:image/png;base64,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">\
               </div>\
               <div class="custom-header-container-center">\
                 <ul class="custom-header-nav">\
@@ -3336,8 +3336,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $('.custom-add-new-result-container').off('click').on('click', function (event) {
         console.log(event);
+        var structure = 'bottom';
+        if ($('body').hasClass('top-down')) {
+          structure = 'top';
+        } else {
+          structure = 'bottom';
+        }
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
-          var responseObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText }
+          var responseObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText, structure: structure }
           console.log(responseObject);
           _self.parentEvent(responseObject);
         }
@@ -5667,6 +5673,10 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           _self.pubSub.publish('sa-page-search', {container : '.pages-search-data-container', isFullResults : true, selectedFacet : 'all results', isLiveSearch : false, isSearch : false, dataObj});
           _self.pubSub.publish('sa-document-search', {container : '.documents-search-data-container', isFullResults : true, selectedFacet : 'all results', isLiveSearch : false, isSearch : false, dataObj});
           _self.pubSub.publish('sa-st-data-search', {container : '.structured-search-data-container', isFullResults : true, selectedFacet : 'all results', isLiveSearch : false, isSearch : false, dataObj});
+          if(_self.isDev){
+            $('.custom-header-container-center').removeClass('display-none');
+            $('.custom-add-result-container').removeClass('display-none');
+          }
         }
 
         // if(!_self.isDev){
@@ -16797,15 +16807,15 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               console.log("ps-y-reach-end");
               if(_self.vars.scrollPageNumber >= 1){
                 _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
+                _self.seeAllResultsInifiteScroll();
               }
-              _self.seeAllResultsInifiteScroll();
             });
             data_body_sec_element.addEventListener('ps-y-reach-start', () => {
               console.log("ps-y-reach-start");
               if(_self.vars.scrollPageNumber > 1){
                 _self.vars.scrollPageNumber = _self.vars.scrollPageNumber - 1;
+                _self.seeAllResultsInifiteScroll();
               }
-              _self.seeAllResultsInifiteScroll();
             });
           }, 100);
         };
@@ -17323,28 +17333,28 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       {{if searchFacet.facetType == "value"&& !searchFacet.isMultiselect }}\
       <div class="kr-sg-checkbox d-block">\
       <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-      <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key}</label>\
+      <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
           <span class="count">\(${bucket.doc_count})</span>\
         </div>\
         {{/if}}\
         {{if searchFacet.facetType == "range" && !searchFacet.isMultiselect}}\
         <div class="kr-sg-checkbox d-block">\
         <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-        <label  id="checkbox-${i}${j}" class="checkbox-custom-label">\${bucket.key}</label>\
+        <label  id="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">\${bucket.key}</label>\
             <span class="count">\(${bucket.doc_count})</span>\
           </div>\
           {{/if}}\
           {{if searchFacet.facetType == "value" && searchFacet.isMultiselect}}\
           <div class="kr-sg-checkbox d-block">\
             <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-              <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key}</label>\
+              <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
             {{if searchFacet.facetType == "range" && searchFacet.isMultiselect }}\
             <div class="kr-sg-checkbox d-block">\
               <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-                <label  id="checkbox-${i}${j}" class="radio-custom-label">\${bucket.key}</label>\
+                <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                 <span class="count">\(${bucket.doc_count})</span>\
               </div>\
               {{/if}}\
@@ -17716,8 +17726,14 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
 
       $('.custom-add-result-container').off('click').on('click', function (event) {
         console.log(event);
+        var structure = 'bottom';
+        if ($('body').hasClass('top-down')) {
+          structure = 'top';
+        } else {
+          structure = 'bottom';
+        }
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
-          var responseObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText }
+          var responseObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText, structure: structure }
           console.log(responseObject);
           _self.parentEvent(responseObject);
         }
@@ -18096,6 +18112,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
   
       var resultsContainerHtml = $('.all-product-details');
       _self.bindPerfectScroll(resultsContainerHtml,'.content-data-sec',null,'resultsContainer')
+      
     }
     
     }
@@ -18180,28 +18197,28 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           {{if searchFacet.facetType == "value"&& searchFacet.isMultiselect }}\
           <div class="kr-sg-checkbox d-block">\
           <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-					<label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key}</label>\
+					<label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
             {{if searchFacet.facetType == "range" && searchFacet.isMultiselect}}\
             <div class="kr-sg-checkbox d-block">\
             <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-						<label  id="checkbox-${i}${j}" class="checkbox-custom-label">\${bucket.key}</label>\
+						<label  id="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                 <span class="count">\(${bucket.doc_count})</span>\
               </div>\
               {{/if}}\
               {{if searchFacet.facetType == "value" && !searchFacet.isMultiselect}}\
               <div class="kr-sg-checkbox d-block">\
                 <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-                  <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key}</label>\
+                  <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
                   <span class="count">\(${bucket.doc_count})</span>\
                 </div>\
                 {{/if}}\
                 {{if searchFacet.facetType == "range" && !searchFacet.isMultiselect }}\
                 <div class="kr-sg-checkbox d-block">\
                   <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-                    <label  id="checkbox-${i}${j}" class="radio-custom-label">\${bucket.key}</label>\
+                    <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                     <span class="count">\(${bucket.doc_count})</span>\
                   </div>\
                   {{/if}}\
@@ -18228,28 +18245,28 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       {{if searchFacet.facetType == "value"&& !searchFacet.isMultiselect }}\
       <div class="kr-sg-checkbox d-block">\
       <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-      <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key}</label>\
+      <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
           <span class="count">\(${bucket.doc_count})</span>\
         </div>\
         {{/if}}\
         {{if searchFacet.facetType == "range" && !searchFacet.isMultiselect}}\
         <div class="kr-sg-checkbox d-block">\
         <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-        <label  id="checkbox-${i}${j}" class="checkbox-custom-label">\${bucket.key}</label>\
+        <label  id="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">\${bucket.key}</label>\
             <span class="count">\(${bucket.doc_count})</span>\
           </div>\
           {{/if}}\
           {{if searchFacet.facetType == "value" && searchFacet.isMultiselect}}\
           <div class="kr-sg-checkbox d-block">\
             <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-              <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key}</label>\
+              <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
             {{if searchFacet.facetType == "range" && searchFacet.isMultiselect }}\
             <div class="kr-sg-checkbox d-block">\
               <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-                <label  id="checkbox-${i}${j}" class="radio-custom-label">\${bucket.key}</label>\
+                <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                 <span class="count">\(${bucket.doc_count})</span>\
               </div>\
               {{/if}}\
@@ -18289,8 +18306,12 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                 f['maxCount'] = 5
               }
             });
-          }
+            $('#filters-left-sec').show();
           _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
+          }else{
+            $('#filters-left-sec').hide();
+            _self.facetsAlignTopdownClass('top');
+          }
           var topDownDataHTML = $(_self.getSearchFacetsTopDownTemplate(_self.vars.filterConfiguration.aligned)).tmplProxy({
             searchFacets: _self.vars.searchFacetFilters,
             position: 'left'
@@ -18312,6 +18333,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
 
 
               })
+              $('#filters-left-sec').show();
             _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
               var topDownDataHTML = $(_self.getSearchFacetsTopDownTemplate(_self.vars.filterConfiguration.aligned)).tmplProxy({
                 searchFacets: _self.vars.searchFacetFilters,
@@ -18325,6 +18347,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               }, 500);
               _self.markSelectedFilters();
               _self.sdkFiltersCheckboxClick();
+            }else{
+              $('#filters-left-sec').hide();
+              _self.facetsAlignTopdownClass('top');
             }
           });
 
@@ -18342,6 +18367,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   f['maxCount'] = 5
                 }
               })
+              $('#filters-left-sec').show();
               _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
               var topDownDataHTML = $(_self.getSearchFacetsTopDownTemplate(_self.vars.filterConfiguration.aligned)).tmplProxy({
                 searchFacets: _self.vars.searchFacetFilters,
@@ -18384,6 +18410,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   $('#' + id + '-close').hide()
                 }
               });
+            }else{
+              $('#filters-left-sec').hide();
+              _self.facetsAlignTopdownClass('top');
             }
           });
 
@@ -18477,6 +18506,13 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         selectedFacets: selectedFacetsList
       });
       $('#show-filters-added-data').empty().append(dataHTML);
+      if((selectedFacetsList ||[]).length){
+        $('#show-filters-added-data').show()
+        $('#show-filters-added-data').removeClass('display-none');
+      }else{
+        $('#show-filters-added-data').hide();
+        $('#show-filters-added-data').addClass('display-none');
+      }
     }
     FindlySDK.prototype.sdkFiltersCheckboxClick = function () {
       var _self = this;
@@ -18604,9 +18640,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                         <!-- <div id="faq-query-container"> -->
                             <!-- faq query result-->
                         <!-- </div> -->
-                        <div class="faqs-data-container">
+                        <div class="faqs-live-data-container">
                         </div>
-                        <div class="pages-data-container">
+                        <div class="pages-live-data-container">
+                        </div>
+                        <div class="documents-live-data-container">
                         </div>
                         <div class="structured-data-container">
                         </div>
@@ -18638,7 +18676,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                 <div class="full-results-data-container">
                     <div id="filters-left-sec"></div>
                   <div class="all-product-details ">
-                    <div class="custom-header-container-center top-down-customize-btns">\
+                    <div class="custom-header-container-center top-down-customize-btns display-none">\
                       <ul class="custom-header-nav">\
                         <li id="viewTypePreview" class="custom-header-nav-link-item nav-link-item-active"><a class="custom-header-nav-link">Preview</a></li>\
                         <li id="viewTypeCustomize" class="custom-header-nav-link-item"><a class="custom-header-nav-link">Customize</a></li>\
@@ -18646,7 +18684,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                     </div>\
                         <div id="top-down-tab-sec"></div>
                         <div id="filters-center-sec" > </div>
-                        <div class="filters-added-data" id="show-filters-added-data">
+                        <div class="filters-added-data display-none" id="show-filters-added-data">
                           </div>
                         <div class="content-data-sec">
                             <div class="faqs-search-data-container">
@@ -18655,6 +18693,12 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                             </div>
                             <div class="structured-search-data-container">
                             </div>
+                            <div class="custom-add-result-container display-none">\
+                              <div class="custom-add-new-result-content">\
+                                <div class="bold-text">Not finding the result?</div>\
+                                <div class="link-text"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABrSURBVHgBzVHBCYAwEMuV/lRwBDdykoojuIoTiBs5Qt8KjVZfLdeHD8FAyJEQOO4ABZXbx0gts5opIi0KMHiJ7wvSuLBcmu4s7G6lbHnBgmGGZAWa/hnCmvrw0FAPxxSpZT+8kvppkr5UOAH/GRicle7qIwAAAABJRU5ErkJggg==">Add from repository</div>\
+                              </div>\
+                            </div>\
                         </div>
                     </div>
                 </div>
@@ -18667,7 +18711,16 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
 
     FindlySDK.prototype.initializeTopDown = function (findlyConfig, search_container, searchExperienceConfig) {
       var _self = this;
-      var dataHTML = $(FindlySDK.prototype.getTopDownTemplate(searchExperienceConfig)).tmplProxy({});
+      if (search_container && search_container.length) {
+        _self.isDev = true;
+      }
+      else{
+        _self.isDev = false;
+      }
+      var devMode = _self.isDev ? true : false;
+      var dataHTML = $(FindlySDK.prototype.getTopDownTemplate(searchExperienceConfig)).tmplProxy({
+          'devMode' : devMode,
+      });
       var container = search_container ? $('.' + search_container) : $('body');
       $(container).empty().append(dataHTML);
       var findlyConfig = findlyConfig ? findlyConfig : window["KoreSDK"].findlyConfig;
