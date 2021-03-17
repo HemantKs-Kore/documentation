@@ -16199,7 +16199,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         $(container).empty().append(dataHTML);
         if($('body').hasClass('top-down')){
           var resultsContainerHtml = $('.all-product-details');
-          _self.bindPerfectScroll(resultsContainerHtml,'.content-data-sec','resultsContainer')
+          _self.bindPerfectScroll(resultsContainerHtml,'.content-data-sec', null, null, 'resultsContainer');
         }
        
         _self.bindCarouselActions();
