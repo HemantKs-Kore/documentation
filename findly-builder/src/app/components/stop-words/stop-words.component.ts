@@ -102,13 +102,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     }
     this.validation.duplicate = duplicate;
    }
-//    var input = document.getElementById("myInput");
-// input.addEventListener("keyup", function(event) {
-//     if (event.keyCode === 13) {
-//         event.preventDefault();
-//         document.getElementById("myBtn").click();
-//     }
-// });
    if(event.keyCode === 13){
      this.addStopWord(event);
    }
