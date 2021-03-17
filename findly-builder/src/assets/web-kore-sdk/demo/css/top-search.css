@@ -1994,7 +1994,13 @@ background:none !important;
   padding-left:0px !important;
 }
 .sdk-top-down-interface .custom-add-result-container{
-  margin-bottom:60px !important;
+  /* margin-bottom:60px !important; */
+  background: #FFFFFF;
+    box-sizing: border-box;
+    padding: 14px 12px;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
 }
 
 .sdk-top-down-interface .search-bar .widget-icon{
