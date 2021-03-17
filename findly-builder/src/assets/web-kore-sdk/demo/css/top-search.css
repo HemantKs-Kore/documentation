@@ -79,6 +79,7 @@ body::-webkit-scrollbar {
   font-weight: normal;
   font-size: 12px;
   line-height: 16px;
+  cursor: default;
 }
 .sdk-top-down-interface .tile-with-text-parent.with-accordion .tile-with-text {
   padding: 13px 20px 13px 30px;
@@ -1095,7 +1096,8 @@ input:focus{
   width: 100%;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .filters-added-data .filter-tag-content{
-  float: left;
+  /* float: left; */
+  display: inline-block;
   background: #EFF0F1;
   border-radius: 2.5px;
   padding: 4px 10px;
@@ -1308,6 +1310,7 @@ float: right;
 .category-wise-container .group-checkbox.filters-content-top-down input{
   border: none !important;
   margin-bottom: 5px;
+  height: 12px;
 }
 .category-wise-container .group-checkbox.filters-content-top-down .input-div{
   border-bottom: 1px solid #BDC1C6 !important;
@@ -1405,7 +1408,7 @@ float: right;
   overflow-x: hidden !important;
 }
 
-.sdk-top-down-interface .search-container.conversation .search-body {
+.top-down .sdk-top-down-interface .search-container.conversation .search-body {
   z-index:-1 !important;
 }
 
@@ -1992,4 +1995,8 @@ background:none !important;
 }
 .sdk-top-down-interface .custom-add-result-container{
   margin-bottom:60px !important;
+}
+
+.sdk-top-down-interface .search-bar .widget-icon{
+  bottom: 8px;
 }

@@ -8024,9 +8024,14 @@ html , body{
 
   .widget-icon {
     position: absolute;
-    bottom: 6px;
-    left: 10px;
+    bottom: 10px;
+    left: 16px;
     z-index: 1;
+  }
+
+  .widget-icon img{
+      width: 16px;
+      height: 16px;
   }
 
  .panel {
@@ -9852,6 +9857,11 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     border-bottom: 1px solid rgb(190 193 198 /23%);
     padding: 0 20px;
 }
+
+.search-container.conversation.no-history .custom-header {
+    display: none;
+}
+
 .custom-header-container-left {
     /* visibility: hidden; */
     display: none;
@@ -11609,6 +11619,7 @@ padding-right: 0;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
+    cursor: default;
 }
 
 .tile-with-text-parent.slide-parent-tile-with-text .tile-with-text .tile-heading{

@@ -267,3 +267,9 @@ img.logo-img{
   z-index: 1;
   position: relative;
 }
+
+.search-container .sdkFooterIcon.microphoneBtn {
+  position: absolute;
+  right: 45px;
+  bottom: 6px;
+}

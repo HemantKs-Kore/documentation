@@ -51,7 +51,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     private headerService :SideBarService,) { }
   sdk_evenBind() {
-    $(document).off('click', '.start-search-icon-div').on('click', '.start-search-icon-div', () => {
+    $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
       this.getcustomizeList(20, 0);
     })
     // $(document).on('click','.start-search-icon-div.active',() =>{
@@ -257,6 +257,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   launch() {
     if (this.selectedRecord && this.selectedRecord.searchQuery) {
+      this.headerService.fromResultRank(false);
       // let ball = document.getElementsByClassName('start-search-icon-div')[0] as HTMLBaseElement;
       // ball.click()
       let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
