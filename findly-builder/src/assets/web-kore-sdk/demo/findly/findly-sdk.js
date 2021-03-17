@@ -18846,7 +18846,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         $("#searchChatContainer").empty();
       }
       function focusHandler() {
-        closeConversation();
+        if($('body').hasClass('top-down')){
+          closeConversation();
+        }
       }
       if (search_container && search_container.length) {
         _self.isDev = true;

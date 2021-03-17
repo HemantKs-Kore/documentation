@@ -315,6 +315,7 @@ export class AppComponent implements OnInit, OnDestroy {
       $('.search-container').addClass('search-container-adv')
       $('.search-container').addClass('add-new-result')
       this.initSearch();
+      $('#test-btn-launch-sdk').addClass('active');
     } else {
       $('.search-background-div').remove();
       $('.advancemode-checkbox').remove();
@@ -323,6 +324,7 @@ export class AppComponent implements OnInit, OnDestroy {
       _self.addNewResult = true;
       _self.showInsightFull = false;
       this.distroySearch();
+      $('#test-btn-launch-sdk').removeClass('active');
     }
   }
   sdkBridge(parms) {  // can be converted as service for common Use
@@ -408,6 +410,7 @@ export class AppComponent implements OnInit, OnDestroy {
       $('.search-container').addClass('search-container-adv');
       $('.search-container').addClass('add-new-result');
       this.initTopDownSearch();
+      $('#test-btn-launch-sdk').addClass('active');
     } else {
       $('.top-down-search-background-div').remove();
       $('.close-top-down-search').remove();
@@ -416,6 +419,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.addNewResult = true;
       this.showInsightFull = false;
       this.distroyTopDownSearch();
+      $('#test-btn-launch-sdk').removeClass('active');
     }
   }
 

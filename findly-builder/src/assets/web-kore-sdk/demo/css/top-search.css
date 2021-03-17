@@ -1408,7 +1408,7 @@ float: right;
   overflow-x: hidden !important;
 }
 
-.sdk-top-down-interface .search-container.conversation .search-body {
+.top-down .sdk-top-down-interface .search-container.conversation .search-body {
   z-index:-1 !important;
 }
 
