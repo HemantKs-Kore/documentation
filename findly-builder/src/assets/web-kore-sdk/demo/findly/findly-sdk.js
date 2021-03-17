@@ -15366,9 +15366,18 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       //     _self.prepAllSearchData(selectedFacet);
       //   }
       // })
+      $('.custom-show-more-container').off('click').on('click', function (e) {
+        e.stopPropagation()
+        e.stopImmediatePropagation();
+        showMore(e);
+      })
+      
       $('.sdk-show-classification').off('click').on('click', function (e) {
         e.stopPropagation()
         e.stopImmediatePropagation()
+        showMore(e);
+      })
+      showMore = function(e){
         var appearanceType = $(e.target).closest('.total-structured-data-wrap').attr('appearanceType');
         var selectedFacet = "";
         if(appearanceType){
@@ -15394,7 +15403,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           _self.showAllResults();
           $('.show-all-results').trigger("click");
         }
-      })
+      }
     }
 
     // FAQ New Approach
