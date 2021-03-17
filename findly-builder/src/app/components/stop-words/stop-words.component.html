@@ -20,9 +20,9 @@
             <div class="error-msg" *ngIf="validation.duplicate"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords.stop_word_already_added'| translate}}</div>
             <div class="error-msg" *ngIf="validation.spaceFound"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords.stop_word_should_not_have_space_in_between'| translate}}</div>
         </div>
-        <div class="addStopWordsButton">
+        <!-- <div class="addStopWordsButton">
             <button class="kr-sg-button-primary btn_lg" (click)="addStopWord()" [disabled]="validation.duplicate || validation.spaceFound || !newStopWord">{{'stopWords.add'| translate}}</button>
-        </div>
+        </div> -->
      </div> 
 
      <div class="empty-stopwords" *ngIf="showAddStopWordsContainer && !(stopwords && stopwords.length) && !loadingContent && !createFromScratch">

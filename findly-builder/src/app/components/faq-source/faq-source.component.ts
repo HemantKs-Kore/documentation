@@ -21,6 +21,7 @@ import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pd
 
 declare const $: any;
 import * as moment from 'moment';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Component({
   selector: 'app-faq-source',
@@ -293,7 +294,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   checkUncheckfaqs(faq) {
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
     const allElements = $('.selectEachfaqInput');
-    if (selectedElements.length === allElements.length) {
+    if (selectedElements.length > 1) {
       $('#selectAllFaqs')[0].checked = true;
     } else {
       $('#selectAllFaqs')[0].checked = false;
@@ -835,6 +836,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     )
   }
   faqUpdateEvent() {
+    this.faqCancle();
     this.faqUpdate.next();
     this.selectTab('draft');
 

@@ -231,7 +231,7 @@
               <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Title"
                 [(ngModel)]="newSourceObj.name" class="input-text" required>
             </div>
-            <div class="kr-sg-input-text-area mb-3">
+            <div class="kr-sg-input-text-area mb-3"  *ngIf="!(selectedSourceType.sourceType==='faq')">
               <div class="label-text">Description</div>
               <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc"
                 placeholder="Enter Description" class="input-text"></textarea>
@@ -321,7 +321,7 @@
                       <div class="input-url-block">
                         <div class="kr-sg-input-text">
                           <div class="label-text">Enter URL</div>
-                          <input type="text"  placeholder="https://" class="input-text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
+                          <input type="text"  placeholder="http(s)://" class="input-text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
                   [disabled]="fileObj.fileId || fileObj.fileName" placeholder="https://"
                   [(ngModel)]="newSourceObj.url" class="input-text">
                           <!-- <input type="text" placeholder="https://" class="input-text"> -->
