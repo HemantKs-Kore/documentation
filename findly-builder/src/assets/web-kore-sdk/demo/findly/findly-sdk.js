@@ -16692,7 +16692,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                       <div class="tab-name see-all-result-nav " classification="page">Pages<span class="count sdk-facet-count">(${facet.page})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="task">Actions <span class="count sdk-facet-count">(${facet.task})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="object">Data <span class="count sdk-facet-count">(${facet.object})</span></div>\
-                      <div class="tab-name see-all-result-nav " classification="document"> Documentation <span class="count sdk-facet-count">(${facet.document})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="document"> Files <span class="count sdk-facet-count">(${facet.document})</span></div>\
                       <!-- Facet right-->\
                       <div  id="rightFacetFilterId"> </div>\
                       <!-- Facet right-->\
