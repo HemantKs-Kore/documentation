@@ -11609,6 +11609,7 @@ padding-right: 0;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
+    cursor: default;
 }
 
 .tile-with-text-parent.slide-parent-tile-with-text .tile-with-text .tile-heading{
