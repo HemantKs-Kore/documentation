@@ -55,6 +55,7 @@ export class TeamManagementComponent implements OnInit {
   visible = true;
   selectable = true;
   removable = true;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl();
   filteredFruits: Observable<string[]>;
   members: any[] = [];
@@ -89,17 +90,18 @@ export class TeamManagementComponent implements OnInit {
   loadfacets() {
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
   }
-  checkUncheckfacets(facet) {
+  checkUncheckTeam(team) {
     const selectedElements = $('.selectEachfacetInput:checkbox:checked');
     const allElements = $('.selectEachfacetInput');
+    console.log("selectedElements", selectedElements, allElements)
     if (selectedElements.length === allElements.length - 1) {
       $('#selectAllFacets')[0].checked = true;
     } else {
       $('#selectAllFacets')[0].checked = false;
     }
-    const element = $('#' + facet._id);
+    const element = $('#' + team._id);
     const addition = element[0].checked
-    this.addRemovefacetFromSelection(facet._id, addition);
+    this.addRemovefacetFromSelection(team._id, addition);
   }
   selectAll(unselectAll?) {
     const allfacets = $('.selectEachfacetInput');
