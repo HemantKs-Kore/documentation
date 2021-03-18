@@ -36,16 +36,20 @@ export class AppComponent implements OnInit, OnDestroy {
   findlyBusinessConfig: any = {};
   bridgeDataInsights = true;
   addNewResult = true;
+  structure = 'bottom';
   showInsightFull = false;
   queryText;
   subscription: Subscription;
   searchSDKSubscription : Subscription;
+  resultRankDataSubscription :Subscription
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
     '/source': 'Source',
     '/botActions': 'Bot Actions'
-  }
+  };
+  topDownSearchInstance : any;
+  searchExperienceConfig : any;
   constructor(private router: Router,
     private authService: AuthService,
     public localstore: LocalStoreService,
@@ -70,18 +74,35 @@ export class AppComponent implements OnInit, OnDestroy {
     this.onResize();
     this.previousState = this.appSelectionService.getPreviousState();
     this.showHideSearch(false);
+    this.showHideTopDownSearch(false);
     this.userInfo = this.authService.getUserInfo() || {};
     this.subscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.resetFindlySearchSDK(this.workflowService.selectedApp());
-    })
+    });
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe( (res : any) => {
-      if (!$('.search-background-div:visible').length) {
-        $('.start-search-icon-div').addClass('active');
-        this.showHideSearch(true);
-      } else {
-        this.showHideSearch(false);
+      if(this.searchExperienceConfig){
+        if(this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')){
+          if (!$('.search-background-div:visible').length) {
+            $('.start-search-icon-div').addClass('active');
+            this.showHideSearch(true);
+            this.resultRankDataSubscription = this.headerService.resultRankData.subscribe( (res : any) => {
+              this.searchInstance.customTourResultRank(res);
+            });
+          } else {
+            this.showHideSearch(false);
+          }
+        }
+        else{
+          if (!$('.top-down-search-background-div:visible').length) {
+            $('.top-down-search-background-div').addClass('active');
+            this.showHideTopDownSearch(true);
+          } else {
+            this.showHideTopDownSearch(false);
+          }
+        }
       }
     })
+    
   }
   showMenu(event) {
     this.showMainMenu = event
@@ -183,6 +204,7 @@ export class AppComponent implements OnInit, OnDestroy {
   navigationInterceptor(event: RouterEvent): void {
     if (event instanceof NavigationStart) {
       this.showHideSearch(false);
+      this.showHideTopDownSearch(false);
       this.authService.findlyApps.subscribe((res) => {
         self.loading = true;
         this.appsData = res;
@@ -192,11 +214,13 @@ export class AppComponent implements OnInit, OnDestroy {
     if (event instanceof NavigationEnd) {
       if (event && event.url === '/apps') {
         this.showHideSearch(false);
+        this.showHideTopDownSearch(false);
       }
       if (event && event.url === '/apps') {
         this.appSelectionService.setPreviousState();
         this.resetFindlySearchSDK(this.workflowService.selectedApp());
         this.showHideSearch(false);
+        this.showHideTopDownSearch(false);
         this.selectApp(false);
         console.log('navigated to apps throught navigator and closed preview ball');
       } else {
@@ -208,9 +232,11 @@ export class AppComponent implements OnInit, OnDestroy {
           this.appSelectionService.setPreviousState(path);
           this.resetFindlySearchSDK(this.workflowService.selectedApp());
           this.selectApp(true);
+          this.getSearchExperience();
           console.log('navigated to path throught navigator and shown preview ball');
         } else {
           this.showHideSearch(false);
+          this.showHideTopDownSearch(false);
           this.selectApp(false);
           console.log('failed to detect path throught navigator and closed preview ball');
         }
@@ -239,6 +265,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.findlyApps.unsubscribe();
     this.subscription.unsubscribe();
     this.searchSDKSubscription.unsubscribe();
+    this.resultRankDataSubscription.unsubscribe();
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
@@ -273,7 +300,7 @@ export class AppComponent implements OnInit, OnDestroy {
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
     this.distroySearch();
     this.searchInstance = new FindlySDK(findlyConfig);
-    this.searchInstance.showSearch(findlyConfig.botOptions);
+    this.searchInstance.showSearch(findlyConfig.botOptions, this.searchExperienceConfig);
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
 
   }
@@ -288,6 +315,7 @@ export class AppComponent implements OnInit, OnDestroy {
       $('.search-container').addClass('search-container-adv')
       $('.search-container').addClass('add-new-result')
       this.initSearch();
+      $('#test-btn-launch-sdk').addClass('active');
     } else {
       $('.search-background-div').remove();
       $('.advancemode-checkbox').remove();
@@ -296,6 +324,7 @@ export class AppComponent implements OnInit, OnDestroy {
       _self.addNewResult = true;
       _self.showInsightFull = false;
       this.distroySearch();
+      $('#test-btn-launch-sdk').removeClass('active');
     }
   }
   sdkBridge(parms) {  // can be converted as service for common Use
@@ -323,11 +352,22 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     if (parms.type === 'addNew' && parms.data === true) {
       _self.addNewResult = false;
+      _self.structure = parms.structure;
     } else {
+      _self.structure = parms.structure;
       _self.addNewResult = true;
     }
     if (parms.query) {
       _self.queryText = parms.query;
+    }
+
+    if (parms.type === 'closeSearchContainer' && parms.data === false){
+      if(parms.bottomUp){
+        this.showHideSearch(false);
+      }
+      else {
+        this.showHideTopDownSearch(false);
+      }
     }
   }
   closeResultBody(event) {
@@ -355,6 +395,100 @@ export class AppComponent implements OnInit, OnDestroy {
       } else {
         $('.search-container').addClass('advanced-mode');
       }
+    });
+  }
+
+  showHideTopDownSearch(show){
+    if (show) {
+      $('app-body').append('<div class="top-down-search-background-div"><div class="bgDullOpacity"></div></div>');
+      $('.top-down-search-background-div').show();
+      $('app-body').append('<img class="close-top-down-search" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB0SURBVHgBjZHBDYAgDEURjRcjs7iKI3D1gNu4hqPgBk7hRVuiNdEUoqE9ld/3adoqMwbfDHunfoJqxgWv8QCrq3L+gkmjGgLYV2gdrhxOtSJ1B8Ce3k++TfUSgRymnEO3UQlD3Fo+DP8pcqddaJnZhV9HOQHmYl73b8488gAAAABJRU5ErkJggg==">');
+      $('.close-top-down-search').off('click').on('click', () => {
+        this.showHideTopDownSearch(false);
+      });
+      $('.start-search-icon-div').addClass('active');
+      $('.search-container').addClass('search-container-adv');
+      $('.search-container').addClass('add-new-result');
+      this.initTopDownSearch();
+      $('#test-btn-launch-sdk').addClass('active');
+    } else {
+      $('.top-down-search-background-div').remove();
+      $('.close-top-down-search').remove();
+      $('.start-search-icon-div').removeClass('active');
+      this.bridgeDataInsights = true;
+      this.addNewResult = true;
+      this.showInsightFull = false;
+      this.distroyTopDownSearch();
+      $('#test-btn-launch-sdk').removeClass('active');
+    }
+  }
+
+  initTopDownSearch() {
+    const botOptionsFindly: any = {};
+    botOptionsFindly.logLevel = 'debug';
+    botOptionsFindly.userIdentity = this.userInfo.emailId;// Provide users email id here
+    botOptionsFindly.client = 'botbuilder';
+    botOptionsFindly.botInfo = { chatBot: this.workflowService.selectedApp().name, taskBotId: this.workflowService.selectedApp()._id };  // bot name is case sensitive
+    botOptionsFindly.assertionFn = this.assertion;
+    botOptionsFindly.koreAPIUrl = this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint;
+    // To modify the web socket url use the following option
+    botOptionsFindly.reWriteSocketURL = {
+      protocol: 'wss',
+      hostname: window.appConfig.API_SERVER_URL.replace('https://', '')
+    };
+    // useful for connecting to non-secure urls like localhost during development (not to be used in environments)
+    if (window.appConfig.API_SERVER_URL.indexOf('http://') !== -1) {
+          botOptionsFindly.reWriteSocketURL = {
+            protocol: 'ws',
+            hostname:  window.appConfig.API_SERVER_URL.replace('http://','')
+        };
+    }
+    const findlyConfig: any = {
+      botOptions: botOptionsFindly,
+      viaSocket: true
+    };
+    this.findlyBusinessConfig = this;
+    findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
+    this.distroyTopDownSearch();
+    this.topDownSearchInstance = new FindlySDK(findlyConfig);
+    this.resetFindlyTopDownSearchSDK(this.workflowService.selectedApp());
+    this.topDownSearchInstance.initializeTopDown(findlyConfig, 'top-down-search-background-div', this.searchExperienceConfig);
+  }
+
+  distroyTopDownSearch(){
+    if (this.topDownSearchInstance && this.topDownSearchInstance.destroy) {
+      this.topDownSearchInstance.destroy();
+    }
+  }
+
+  resetFindlyTopDownSearchSDK(appData) {
+    if (this.topDownSearchInstance && this.topDownSearchInstance.setAPIDetails) {
+      if (appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id) {
+        const searchData = {
+          _id: appData.searchIndexes[0]._id,
+          pipelineId: this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
+          indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
+        }
+        window.selectedFindlyApp = searchData;
+        this.topDownSearchInstance.setAPIDetails();
+      }
+    }
+  }
+
+  getSearchExperience(){
+    console.log("getSearchExperience");
+    console.log(this.workflowService.selectedApp());
+    let selectedApp : any;
+    selectedApp = this.workflowService.selectedApp();
+    const searchIndex = selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex
+    };
+    this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
+      console.log("search experience data", res);
+      this.searchExperienceConfig = res;
+    }, errRes => {
+      console.log(errRes);
     });
   }
 

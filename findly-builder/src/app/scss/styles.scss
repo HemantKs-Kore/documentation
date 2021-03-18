@@ -2584,6 +2584,7 @@ nouislider{
                             }
                             .content-sec{
                                 max-width: 332px;
+                                word-break: break-word;
                             }
                         }
                     }
@@ -3052,4 +3053,8 @@ nouislider{
                 max-height: 428px;
             }
         }        
+}
+
+#test-btn-launch-sdk.active{
+    background: #BDC1C6;
 }
