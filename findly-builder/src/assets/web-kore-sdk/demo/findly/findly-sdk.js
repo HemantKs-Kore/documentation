@@ -3085,6 +3085,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 if(!_self.vars.filterObject.length){
                   _self.vars.searchFacetFilters = searchFacets;
                 _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
+                _self.markSelectedFilters();
                 setTimeout(function () {
                   _self.bindStructuredDataTriggeringOptions();
                 }, 100);
@@ -6949,15 +6950,18 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
     FindlySDK.prototype.addSourceType = function(config) {
       var _self = this;
       _self.pubSub.subscribe('facet-selected', (topic, data) => {
-        var facets = _self.getFacetsAsArray(_self.vars.searchObject.liveData.facets);
-        facets.forEach(function(facet) {
-          $('#' + facet.key).removeClass(config.selectedClass).addClass(config.unSelectedClass);
-        })
-        $('#' + data.selectedFacet).removeClass(config.unSelectedClass).addClass(config.selectedClass);
-        if (!data.selectedFacet || data.selectedFacet === "all results") {
-          $('.facet:first').removeClass(config.unSelectedClass);
-          $('.facet:first').addClass(config.selectedClass);
+        if((((_self.vars||{}).searchObject ||{}).liveData||{}).facets){
+          var facets = _self.getFacetsAsArray(_self.vars.searchObject.liveData.facets);
+          facets.forEach(function(facet) {
+            $('#' + facet.key).removeClass(config.selectedClass).addClass(config.unSelectedClass);
+          })
+          $('#' + data.selectedFacet).removeClass(config.unSelectedClass).addClass(config.selectedClass);
+          if (!data.selectedFacet || data.selectedFacet === "all results") {
+            $('.facet:first').removeClass(config.unSelectedClass);
+            $('.facet:first').addClass(config.selectedClass);
+          }
         }
+       
       });
 
       _self.pubSub.subscribe('sa-source-type', (msg, data) => {
@@ -15400,7 +15404,13 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       // })
       $('.custom-show-more-container').off('click').on('click', function (e) {
         if($('body').hasClass('top-down')){
-          _self.showAllClickEventTopDown(e);
+          //_self.showAllClickEventTopDown(e);
+          var showAllContainer = $(event.target).closest('.custom-show-more-container');
+          var selectedFacet = showAllContainer.parent().attr('appearancetype');
+
+          _self.prepAllSearchData(selectedFacet);
+          _self.pubSub.publish('facet-selected', {selectedFacet : selectedFacet});
+          //$('.facet').trigger('click');
         }
         e.stopPropagation()
         e.stopImmediatePropagation();
@@ -18622,6 +18632,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         $('#show-filters-added-data').show()
         $('#show-filters-added-data').removeClass('display-none');
       }else{
+        _self.vars.selectedFiltersArr = [];
+        _self.vars.filterObject = [];
         $('#show-filters-added-data').hide();
         $('#show-filters-added-data').addClass('display-none');
       }
