@@ -3085,6 +3085,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               var dataObj = _self.vars.searchObject.liveData;
               var facetdata = _self.vars.searchFacetFilters;
               _self.vars.totalNumOfResults = response.template.totalNumOfResults
+              $('#loaderDIV').show();
               _self.showAllResults();
               _self.pubSub.publish('sa-search-full-results', {container : container ,isFullResults : true, selectedFacet : 'all', isLiveSearch : false, isSearch : false, facetData : facetdata ,dataObj});
             }else{
@@ -4587,6 +4588,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             _self.pubSub.publish('sa-document-search', {container : '.documents-full-search-container', isFullResults : true, selectedFacet : 'all results', isLiveSearch : false, isSearch : true, dataObj});
             _self.pubSub.publish('sa-st-data-search', {container: 'structured-data-full-search-container', isFullResults : true, selectedFacet : 'all results', isSearch : false, dataObj});
             // Sea all Results 
+            $('#loaderDIV').show();
             var container = $('#show-all-results-container');
             var dataObj = _self.vars.searchObject.liveData;
             var facetdata = _self.vars.searchFacetFilters;
@@ -15387,8 +15389,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             selectedFacet = 'document';
           }
           _self.vars['selectedFacetFromSearch'] = selectedFacet
-          _self.showAllResults();
-          $('.show-all-results').trigger("click");
+          // _self.showAllResults();
+          _self.invokeSearch();
+          // $('.show-all-results').trigger("click");
         }
       }
     }
@@ -17509,6 +17512,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
     FindlySDK.prototype.fullResultAllType = function(){
       var template = '<script type="text/x-jqury-tmpl">\
       <div>\
+      <div id="loaderDIV" class="loader-container">Loading...</div>\
         <div class="data-body-sec {{if facetPosition == `top`}}iffilteristop{{/if}}">\
         <div class="faqs-full-search-container matched-structured-data-contaniers">\
         </div>\
