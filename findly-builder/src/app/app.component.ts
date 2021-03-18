@@ -376,6 +376,9 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.searchInstance && this.searchInstance.applicationToSDK && event) {
       this.searchInstance.applicationToSDK(event);
     }
+    if(this.topDownSearchInstance  && this.topDownSearchInstance.applicationToSDK && event){
+      this.topDownSearchInstance.applicationToSDK(event);
+    }
   }
   initSearchSDK() {
     const _self = this;

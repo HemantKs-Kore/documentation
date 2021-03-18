@@ -2997,10 +2997,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }, 100);
     }
     FindlySDK.prototype.invokeSearch = function() {
+      if($('body').hasClass('top-down')){
+        $('#loaderDIV').show();
+      }
       var _self = this;
         var url = _self.API.searchUrl;
         var currentDate = new Date();
-
         var dateTime = currentDate.getDate() + "/"
           + (currentDate.getMonth() + 1) + "/"
           + currentDate.getFullYear() + ", "
@@ -3070,6 +3072,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               facets = response.template.facets;
               object = response.template.results.object;
               searchFacets = response.template.searchFacets;
+
+              facets['all results'] = response.template.totalNumOfResults;
+
               _self.vars.searchObject.liveData = {
                 faqs: faqs,
                 pages: pages,
@@ -3196,8 +3201,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           var scrollHeight = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').prop("scrollHeight");
           $('#searchChatContainer').animate({ scrollTop: scrollHeight }, 500);
-
-          _self.sendMessage(_self.vars.searchObject.searchText);
+          if(!$('body').hasClass('top-down')){
+            _self.sendMessage(_self.vars.searchObject.searchText);
+          }
         }
         /*var url = _self.API.searchUrl;
         var payload = {
@@ -3213,6 +3219,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           navLinks[i].className = navLinks[i].className.replace(" nav-link-item-active", "");
         }
         event.currentTarget.className += " nav-link-item-active";
+        if($('body').hasClass('top-down')){
+          var searchData;
+        }
         if($(searchData).find('.tasks-wrp .faqs-shadow')){
           $(searchData).find('.tasks-wrp .faqs-shadow').find(".accordion.acc-active").trigger('click');
         }
@@ -3278,7 +3287,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           }
         }
+        if(!$('body').hasClass('top-down')){
         _self.pubSub.publish('sa-update-search-customozation');
+        }
         $('.structured-data-bottom-actions').css('display', 'none');
         $('.structured-data-wrp-content').removeClass('custom-faqs-wrp-content');
         $('.moreStructredData').addClass('display-none');
@@ -4590,6 +4601,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           tasks = response.template.results.task;
           documents = response.template.results.document;
           facets = response.template.facets;
+          facets["all results"] = response.template.totalNumOfResults;
 
           _self.vars.searchObject.liveData = {
             faqs: faqs,
@@ -15449,8 +15461,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           }
           _self.vars['selectedFacetFromSearch'] = selectedFacet
           // _self.showAllResults();
+          if(!$('body').hasClass('top-down')){
           _self.invokeSearch();
           $('#loaderDIV').show()
+          }
+         
           // $('.show-all-results').trigger("click");
         }
       }
@@ -18158,12 +18173,21 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               $('.top-down-search-background-div').addClass('if-full-results');
             }
           }
+          _self.vars.searchObject.searchText=$('#search').val();
+       _self.vars.showingMatchedResults=true;
+       _self.searchFacetsList([]);
+       $('#loaderDIV').show();
+        _self.invokeSearch();
+        //$('#loaderDIV').hide();
+        _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
            $('.all-result-container').show();
            setTimeout(function () {
             $('#frequently-searched-box').hide();
             $('#live-search-result-box').hide();
+        //top-down-searc-facets active -start//
+      _self.pubSub.publish('facet-selected', {selectedFacet :'all results'});
+      //top-down-search-facets active -end//
           }, 500);
-           $('#frequently-searched-box').hide();
          }
          if($('#search').val()){
           $('.cancel-search').show();
@@ -18182,19 +18206,25 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
        });
        $('#frequently-searched-box').off('click', '.recentText').on('click', '.recentText', function (e) {
         var recentText = $(this).attr('id');
-        $("#search").val(recentText).focus();
+        $("#search").val(recentText);
         $("#suggestion").val(recentText);
         $('#frequently-searched-box').hide();
+        if(_self.isDev){
+          if($('.top-down-search-background-div')){
+            $('.top-down-search-background-div').addClass('if-full-results');
+          }
+        }
    //     e.preventDefault();
        // e.stopImmediatePropagation();
        _self.vars.searchObject.searchText=recentText;
        _self.vars.showingMatchedResults=true;
        _self.searchFacetsList([]);
         _self.invokeSearch();
+        _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
         //$('#search').trigger("keyup");
         setTimeout(function () {
-          var e = $.Event( "keydown", { which: 13 } );
-        $('#search').trigger(e);
+        //   var e = $.Event( "keydown", { which: 13 } );
+        // $('#search').trigger(e);
         $('#loaderDIV').show();
         $('.all-result-container').show();
         //top-down-searc-facets active -start//
@@ -18218,6 +18248,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             if(_self.vars.totalNumOfResults > (_self.vars.scrollPageNumber * 16)){
             _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
             _self.seeAllResultsInifiteScroll();
+            $(".content-data-sec").scrollTop(10);
           }
           }
         });
@@ -18247,9 +18278,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         $('#live-search-result-box').show();
         $('#live-search-result-box').off('click', '.sugg-query-box').on('click', '.sugg-query-box', function (e) {
           var queryText = $(this).attr('id');
-          $("#search").val(queryText).focus();
+          $("#search").val(queryText);
           $("#suggestion").val(queryText);
-          $('#search').trigger("keyup");
+          //$('#search').trigger("keyup");
           $('#live-search-result-box').hide();
           $('#loaderDIV').show();
           $('.all-result-container').show();
@@ -18262,8 +18293,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           _self.vars.showingMatchedResults = true;
           _self.searchFacetsList([]);
           _self.invokeSearch();
-          var e = $.Event("keydown", { which: 13 });
-          $('#search').trigger(e);
+          //var e = $.Event("keydown", { which: 13 });
+         // $('#search').trigger(e);
           setTimeout(function () {
             $('#live-search-result-box').hide();
             $('#frequently-searched-box').hide();
@@ -18330,14 +18361,14 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               </div>\
               {{/if}}\
               {{if searchFacet.facetType == "value" && !searchFacet.isMultiselect}}\
-              <div class="kr-sg-checkbox d-block">\
+              <div class="kr-sg-radiobutton d-block">\
                 <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
                   <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
                   <span class="count">\(${bucket.doc_count})</span>\
                 </div>\
                 {{/if}}\
                 {{if searchFacet.facetType == "range" && !searchFacet.isMultiselect }}\
-                <div class="kr-sg-checkbox d-block">\
+                <div class="kr-sg-radiobutton d-block">\
                   <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
                     <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                     <span class="count">\(${bucket.doc_count})</span>\
@@ -19027,8 +19058,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                 _self.invokeSearch();
                 //$('#search').trigger("keyup");
                 setTimeout(function () {
-                  var e = $.Event( "keydown", { which: 13 } );
-                $('#search').trigger(e);
+                //   var e = $.Event( "keydown", { which: 13 } );
+                // $('#search').trigger(e);
                 $('#loaderDIV').show();
                 $('.all-result-container').show();
                 //top-down-searc-facets active -start//
