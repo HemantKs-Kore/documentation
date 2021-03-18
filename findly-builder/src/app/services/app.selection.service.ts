@@ -30,7 +30,7 @@ export class AppSelectionService {
     };
     const appObserver = this.service.invoke('get.indexPipeline', payload);
     const subject = new ReplaySubject(1);
-    subject.subscribe(res  => {
+    subject.subscribe(res => {
       this.indexList = res || [];
       if (this.indexList) {
         //this.workflowService.appQueryPipelines(res);
@@ -43,7 +43,8 @@ export class AppSelectionService {
         if (indexPipeline && indexPipeline.length) {
           this.selectIndexConfig(setindex);
         } else if (this.indexList.length) {
-          this.selectIndexConfig(res[0]);
+          const data = this.indexList.filter(ele => ele.default === true);
+          this.selectIndexConfig(data[0]);
         } else {
           this.selectIndexConfig({});
         }
@@ -51,7 +52,7 @@ export class AppSelectionService {
         this.getQureryPipelineIds()
       }
     }, errRes => {
-      this.indexList  = null;
+      this.indexList = null;
     });
     appObserver.subscribe(subject);
     return subject;
@@ -59,7 +60,7 @@ export class AppSelectionService {
   public getQureryPipelineIds(setPipline?): ReplaySubject<any> {
     const payload = {
       searchIndexId: this.workflowService.selectedSearchIndex(),
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     const appObserver = this.service.invoke('get.queryPipelines', payload);
     const subject = new ReplaySubject(1);
@@ -76,7 +77,8 @@ export class AppSelectionService {
         if (queryPipeline && queryPipeline.length) {
           this.selectQueryConfig(setPipline);
         } else if (this.queryList.length) {
-          this.selectQueryConfig(res[0]);
+          const data = this.queryList.filter(ele => ele.default === true);
+          this.selectQueryConfig(data[0]);
         } else {
           this.selectQueryConfig({});
         }
@@ -116,7 +118,7 @@ export class AppSelectionService {
       window.localStorage.removeItem('krPreviousState');
     }
   }
-  selectIndexConfig(config){
+  selectIndexConfig(config) {
     this.workflowService.selectedIndexPipeline(config._id)
     console.log(config._id)
   }
