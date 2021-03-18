@@ -254,7 +254,8 @@ export class StructuredDataComponent implements OnInit {
     }
     const quaryparms: any = {
       searchIndexID:this.selectedApp.searchIndexes[0]._id,
-      query
+      query,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
       this.fields = res || [];
