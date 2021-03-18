@@ -15452,6 +15452,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           _self.vars['selectedFacetFromSearch'] = selectedFacet
           // _self.showAllResults();
           _self.invokeSearch();
+          $('#loaderDIV').show()
           // $('.show-all-results').trigger("click");
         }
       }
@@ -16871,6 +16872,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             data_body_sec_element.addEventListener('ps-y-reach-end', () => {
               console.log("ps-y-reach-end");
               if(_self.vars.scrollPageNumber >= 1){
+                $('#loaderDIV').show()
                 _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
                 _self.seeAllResultsInifiteScroll();
               }
@@ -16878,6 +16880,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             data_body_sec_element.addEventListener('ps-y-reach-start', () => {
               console.log("ps-y-reach-start");
               if(_self.vars.scrollPageNumber > 1){
+                $('#loaderDIV').show()
                 _self.vars.scrollPageNumber = _self.vars.scrollPageNumber - 1;
                 _self.seeAllResultsInifiteScroll();
               }
