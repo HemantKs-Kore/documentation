@@ -36,13 +36,13 @@
                         </div>
                     </div>
                     <!-- <div class="headerMenuTab" [routerLink]="['/dashboard']" skipLocationChange routerLinkActive="active" (click)="analyticsClick('metrics')">Analytics</div> -->
-                    <div class="headerMenuTab" id='channelsTab' [ngClass]="{'active' : mainMenu == '/settings'}" (click)="analyticsClick('/settings')">CONFIGS </div>
+                    <div class="headerMenuTab" id='channelsTab' [ngClass]="{'active' : mainMenu == '/settings'}" (click)="analyticsClick('/settings')">MANAGE</div>
                 </div>
             </div>
             <ul class="navbar-nav nav-flex-icons align-items-center right-menu-content flex-row justify-content-end">
                 <ng-template #rt let-r="result" let-t="term">
                     <ngb-highlight (click)="triggerRoute(null,r)" [result]="r.displayName" [term]="t"></ngb-highlight>
-                </ng-template>
+                </ng-template> 
                 <li class="nav-item autoSearchTools d-none">
                     <img src="assets/icons/sidemenu/search.svg" (click)="toggleSearch(true)" [ngClass]="{'d-none': searchActive}">
                     <!-- <div class="kr-sg-input-search" [ngClass]="{'d-none': !searchActive}" >                               

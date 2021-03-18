@@ -223,7 +223,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     );
   }
   createConfig() {
-    console.log("this.newConfigObj", this.newConfigObj)
     const payload: any = {
       method: this.newConfigObj.method,
       name: this.newConfigObj.name,
@@ -231,14 +230,12 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     if (this.newConfigObj.method === 'clone') {
       payload.sourceQueryPipelineId = this.newConfigObj.config_id
     }
-    console.log("payload", payload)
     const queryParms = {
       searchIndexId: this.searchIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     }
     this.service.invoke('create.queryPipeline', queryParms, payload).subscribe(
       res => {
-        console.log("res", res)
         this.appSelectionService.getQureryPipelineIds();
         if (res && res._id) {
           this.selectQueryPipelineId(res);
@@ -257,6 +254,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     );
   }
   selectQueryPipelineId(queryConfigs, event?, type?) {
+    console.log("queryConfigs", queryConfigs)
     if (event && !this.editName) {
       event.close();
     }
