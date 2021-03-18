@@ -199,8 +199,10 @@ export class FacetsComponent implements OnInit , OnDestroy{
   }
 
   drop(event: CdkDragDrop<string[]>,list) {
-    moveItemInArray(list, event.previousIndex, event.currentIndex);
-    this.saveSortedList();
+    if(event.previousIndex !== event.currentIndex){
+      moveItemInArray(list, event.previousIndex, event.currentIndex);
+      this.saveSortedList();
+    }
   }
   saveSortedList(){
     const payload :any = [];
