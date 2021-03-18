@@ -81,7 +81,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe( (res : any) => {
       if(this.searchExperienceConfig){
-        if(this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')){
+        if(this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'bottom')){
           if (!$('.search-background-div:visible').length) {
             $('.start-search-icon-div').addClass('active');
             this.showHideSearch(true);

@@ -700,7 +700,7 @@ input:focus{
 .category-wise-container .group-checkbox.filters-content-top-down{
   border-bottom: none;
    padding: 0px;
-   max-height: 218px;
+   /* max-height: 218px; */
    overflow: auto;
    position: relative;
 }

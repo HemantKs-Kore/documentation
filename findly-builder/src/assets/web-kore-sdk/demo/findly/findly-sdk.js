@@ -1041,7 +1041,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{if hideSearchIcon}}\
               style="position: absolute; bottom: 0px;  \
             {{else}}\
-              style="position: absolute; bottom: 0px; padding-left:36px!important; border : solid 1px ${searchConfig.searchBarBorderColor} !important; background : ${searchConfig.searchBarFillColor} !important; color : #FFFFFF !important;}; \
+              style="position: absolute; bottom: 0px; padding-left:36px!important; border : solid 1px ${searchConfig.searchBarBorderColor} !important; background : ${searchConfig.searchBarFillColor} !important; color :  ${searchConfig.searchBarPlaceholderTextColor} !important; \
             {{/if}}\
                background:transparent;">\
             {{if microphone && defaultMicrophone}}\
@@ -3087,7 +3087,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
               console.log(_self.vars.searchObject.liveData);
               if ($('body').hasClass('top-down')) {
-                if(!_self.vars.filterObject.length){
+                if(!_self.vars.filterObject.length && _self.vars.scrollPageNumber == 1){
                   _self.vars.searchFacetFilters = searchFacets;
                 _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
                 _self.markSelectedFilters();
@@ -18409,14 +18409,14 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           </div>\
           {{/if}}\
           {{if searchFacet.facetType == "value" && searchFacet.isMultiselect}}\
-          <div class="kr-sg-checkbox d-block">\
+          <div class="kr-sg-radiobutton d-block">\
             <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
               <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
             {{if searchFacet.facetType == "range" && searchFacet.isMultiselect }}\
-            <div class="kr-sg-checkbox d-block">\
+            <div class="kr-sg-radiobutton d-block">\
               <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
                 <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                 <span class="count">\(${bucket.doc_count})</span>\
@@ -18471,9 +18471,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           $('#' + config.container).empty().append(topDownDataHTML);
           setTimeout(function () {
             var facetsDataHTML = $('#filters-left-sec');
-            if($('.filters-sec').find('.group-checkbox').length){
-              _self.bindPerfectScroll($('.filters-sec'), '.group-checkbox');
-            }
+            // if($('.filters-sec').find('.group-checkbox').length){
+            //   _self.bindPerfectScroll($('.filters-sec'), '.group-checkbox');
+            // }
           _self.bindPerfectScroll(facetsDataHTML, '.filters-sec');
           }, 500);
           $('#live-search-result-box').hide();
@@ -18498,7 +18498,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               $('#' + config.container).empty().append(topDownDataHTML);
               setTimeout(function () {
                 var facetsDataHTML = $('#filters-left-sec');
-                _self.bindPerfectScroll($('.filters-sec'), '.group-checkbox');
+                // _self.bindPerfectScroll($('.filters-sec'), '.group-checkbox');
               _self.bindPerfectScroll(facetsDataHTML, '.filters-sec');
               }, 500);
               _self.markSelectedFilters();
@@ -18532,7 +18532,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               $('#' + config.container).empty().append(topDownDataHTML);
               setTimeout(function () {
                 var facetsDataHTML = $('#filters-left-sec');
-                _self.bindPerfectScroll($('.filters-sec'), '.group-checkbox');
+                // _self.bindPerfectScroll($('.filters-sec'), '.group-checkbox');
               _self.bindPerfectScroll(facetsDataHTML, '.filters-sec');
               }, 500);
               _self.markSelectedFilters();
@@ -18665,11 +18665,13 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       if((selectedFacetsList ||[]).length){
         $('#show-filters-added-data').show()
         $('#show-filters-added-data').removeClass('display-none');
+        $('.content-data-sec').addClass('filter-added');
       }else{
         _self.vars.selectedFiltersArr = [];
         _self.vars.filterObject = [];
         $('#show-filters-added-data').hide();
         $('#show-filters-added-data').addClass('display-none');
+        $('.content-data-sec').removeClass('filter-added');
       }
     }
     FindlySDK.prototype.sdkFiltersCheckboxClick = function () {
@@ -19048,7 +19050,6 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       _self.pubSub.subscribe('sa-show-live-search-suggestion',(msg,data)=>{
         if((data.faqs||[]).length || (data.pages||[]).length || (data.document||[]).length){
           $('#live-search-result-box').show();
-      
         }
       });
 
@@ -19129,6 +19130,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       if ($('.topdown-search-main-container').length) {
         _self.vars.searchObject.searchText= $('#search').val();
         $("#suggestion").val($('#search').val());
+        _self.vars.scrollPageNumber=1;
         _self.vars.showingMatchedResults=true;
         _self.searchFacetsList([]);
           _self.invokeSearch();
