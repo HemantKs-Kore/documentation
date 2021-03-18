@@ -733,6 +733,21 @@ input:focus{
   margin-top: 0;
 }
 
+.category-wise-container .kr-sg-radiobutton .radio-custom + .radio-custom-label{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-right: 0;
+  max-width: 86%;
+}
+
+.kr-sg-radiobutton .count{
+  color: #979797;
+  position: absolute;
+  margin-left: 2px;
+  top: 0;
+}
+
 
 
 
@@ -962,6 +977,7 @@ input:focus{
   margin-top: 80px;
   max-height: calc(100vh - 248px);
   overflow: auto;
+  position: relative;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .filters-sec.float-right {
   float: right;
@@ -1049,6 +1065,7 @@ input:focus{
   padding: 0 0 0 20px;
   max-height: calc(100vh - 235px);
   overflow: scroll;
+  position: relative;
 }
 .sdk-top-down-interface .templates-data{
   padding: 5px 0 15px 0;
@@ -2005,4 +2022,9 @@ background:none !important;
 
 .sdk-top-down-interface .search-bar .widget-icon{
   bottom: 8px;
+}
+
+
+a{
+  text-decoration: none !important;
 }

@@ -3058,3 +3058,26 @@ nouislider{
 #test-btn-launch-sdk.active{
     background: #BDC1C6;
 }
+
+.test-icon-tooltip{
+    opacity: 1 !important;
+    .arrow{
+        &::before{
+            border-bottom-color: #202124;
+        }
+    }
+    .tooltip-inner{
+        font-weight: 600;
+        font-size: 10px;
+        line-height: 14px;
+        color: #FFFFFF;
+        background: #202124;        
+        border-radius: 4px;
+        font-weight: normal;
+        padding: 10px;
+        text-align: center;
+        border: 0;
+        width: 220px;
+        max-width: 220px;
+    }
+}

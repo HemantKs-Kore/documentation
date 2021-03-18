@@ -18359,14 +18359,14 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               </div>\
               {{/if}}\
               {{if searchFacet.facetType == "value" && !searchFacet.isMultiselect}}\
-              <div class="kr-sg-checkbox d-block">\
+              <div class="kr-sg-radiobutton d-block">\
                 <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
                   <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
                   <span class="count">\(${bucket.doc_count})</span>\
                 </div>\
                 {{/if}}\
                 {{if searchFacet.facetType == "range" && !searchFacet.isMultiselect }}\
-                <div class="kr-sg-checkbox d-block">\
+                <div class="kr-sg-radiobutton d-block">\
                   <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
                     <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                     <span class="count">\(${bucket.doc_count})</span>\
