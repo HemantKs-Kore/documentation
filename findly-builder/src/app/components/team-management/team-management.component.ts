@@ -49,10 +49,7 @@ export class TeamManagementComponent implements OnInit {
     selectAll: false,
     selectedItems: [],
   };
-<<<<<<< HEAD
-=======
   dummyCount = 0;
->>>>>>> 45968a2626f4712632b08295f74cae4bd63bfdd3
   selectedField;
   queryPipelineId;
   subscription: Subscription;
@@ -180,10 +177,6 @@ export class TeamManagementComponent implements OnInit {
   }
   //delete multiple members
   deleteBulkFacet(dialogRef) {
-<<<<<<< HEAD
-    console.log("this", this.membersList)
-=======
->>>>>>> 45968a2626f4712632b08295f74cae4bd63bfdd3
     const facets = Object.keys(this.selcectionObj.selectedItems);
     console.log("facetst", facets);
     let users = [];

@@ -79,10 +79,6 @@ export class AppSelectionService {
         if (queryPipeline && queryPipeline.length) {
           this.selectQueryConfig(setPipline);
         } else if (this.queryList.length) {
-<<<<<<< HEAD
-          const data = this.queryList.filter(ele => ele.default === true);
-          this.selectQueryConfig(data[0]);
-=======
           if (this.res_length == 0) {
             const data = this.queryList.filter(ele => ele.default === true);
             this.selectQueryConfig(data[0]);
@@ -90,7 +86,6 @@ export class AppSelectionService {
           else {
             this.selectQueryConfig(res[length - 1]);
           }
->>>>>>> 45968a2626f4712632b08295f74cae4bd63bfdd3
         } else {
           this.selectQueryConfig({});
         }
