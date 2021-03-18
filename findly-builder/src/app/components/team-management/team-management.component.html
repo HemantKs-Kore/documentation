@@ -30,7 +30,7 @@
             </div>
             <ng-container *ngIf="(membersList && membersList.length)">
                 <perfect-scrollbar class="scroll-table-data">
-                    <div class="table-body row" *ngFor="let member of membersList" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[member._id])}">
+                    <div class="table-body row" *ngFor="let member of membersList" [ngClass]="{'selected': member.roleInfo[0].role==='Owner'?'':(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[member._id])}">
                         <div class="col-4 withcheckbox title">
                             <div class="kr-sg-checkbox p-0 m-0" [hidden]="member.roleInfo[0].role==='Owner'">
                                 <input id="{{member._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(member)" type="checkbox">
@@ -76,7 +76,7 @@
                         <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                       </mat-chip>
                       <input
-                        placeholder="Type and enter to add"
+                        placeholder="Type and Enter To Add"
                         #fruitInput
                         [formControl]="fruitCtrl"
                         

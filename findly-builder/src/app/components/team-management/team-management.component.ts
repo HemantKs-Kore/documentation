@@ -1,11 +1,10 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -16,7 +15,6 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ThemePalette } from '@angular/material/core';
 declare const $: any;
 @Component({
   selector: 'app-team-management',
@@ -45,26 +43,12 @@ export class TeamManagementComponent implements OnInit {
       isMultiSelect: false,
       isFacetActive: true,
       facetValue: {},
-    },
-    range: {
-      rangeName: '',
-      from: '',
-      to: ''
-    },
-    value: {
-      size: 0,
-      orderKey: 'count',
-      asc: true
     }
   }
   selcectionObj: any = {
     selectAll: false,
     selectedItems: [],
   };
-  fieldWarnings: any = {
-    NOT_INDEXED: 'Associated field is not indexed',
-    NOT_EXISTS: 'Associated field has been deleted'
-  }
   dummyCount = 0;
   selectedField;
   queryPipelineId;
@@ -192,7 +176,6 @@ export class TeamManagementComponent implements OnInit {
   }
   //delete multiple members
   deleteBulkFacet(dialogRef) {
-    console.log("this.membersList", this.membersList);
     const facets = Object.keys(this.selcectionObj.selectedItems);
     let users = [];
     for (let i = 0; i < this.membersList.length; i++) {
@@ -379,6 +362,11 @@ export class TeamManagementComponent implements OnInit {
       }
       this.getRoleMembers();
     }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed', 'error');
+      }
     });
   }
   //validate email in mat-chip
