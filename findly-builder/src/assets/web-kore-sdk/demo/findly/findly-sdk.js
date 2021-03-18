@@ -3213,6 +3213,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           navLinks[i].className = navLinks[i].className.replace(" nav-link-item-active", "");
         }
         event.currentTarget.className += " nav-link-item-active";
+        if($('body').hasClass('top-down')){
+          var searchData;
+        }
         if($(searchData).find('.tasks-wrp .faqs-shadow')){
           $(searchData).find('.tasks-wrp .faqs-shadow').find(".accordion.acc-active").trigger('click');
         }
@@ -18187,16 +18190,22 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         $("#search").val(recentText).focus();
         $("#suggestion").val(recentText);
         $('#frequently-searched-box').hide();
+        if(_self.isDev){
+          if($('.top-down-search-background-div')){
+            $('.top-down-search-background-div').addClass('if-full-results');
+          }
+        }
    //     e.preventDefault();
        // e.stopImmediatePropagation();
        _self.vars.searchObject.searchText=recentText;
        _self.vars.showingMatchedResults=true;
        _self.searchFacetsList([]);
         _self.invokeSearch();
+        _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
         //$('#search').trigger("keyup");
         setTimeout(function () {
-          var e = $.Event( "keydown", { which: 13 } );
-        $('#search').trigger(e);
+        //   var e = $.Event( "keydown", { which: 13 } );
+        // $('#search').trigger(e);
         $('#loaderDIV').show();
         $('.all-result-container').show();
         //top-down-searc-facets active -start//
@@ -18249,9 +18258,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         $('#live-search-result-box').show();
         $('#live-search-result-box').off('click', '.sugg-query-box').on('click', '.sugg-query-box', function (e) {
           var queryText = $(this).attr('id');
-          $("#search").val(queryText).focus();
+          $("#search").val(queryText);
           $("#suggestion").val(queryText);
-          $('#search').trigger("keyup");
+          //$('#search').trigger("keyup");
           $('#live-search-result-box').hide();
           $('#loaderDIV').show();
           $('.all-result-container').show();
@@ -18264,8 +18273,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           _self.vars.showingMatchedResults = true;
           _self.searchFacetsList([]);
           _self.invokeSearch();
-          var e = $.Event("keydown", { which: 13 });
-          $('#search').trigger(e);
+          //var e = $.Event("keydown", { which: 13 });
+         // $('#search').trigger(e);
           setTimeout(function () {
             $('#live-search-result-box').hide();
             $('#frequently-searched-box').hide();
