@@ -154,6 +154,7 @@ export class SummaryComponent implements OnInit {
 
 
     this.service.invoke('get.queries', quaryparms, payload, header).subscribe(res => {
+      console.log("summary result rate", res)
       if (type == "TotalUsersStats") {
         this.totalUsersStats = res;
       } else if (type == "TotalSearchesStats") {
