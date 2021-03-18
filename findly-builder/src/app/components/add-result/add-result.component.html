@@ -151,7 +151,7 @@
                 <label for="radio-last" class="radio-custom-label">Add to the top</label>
             </div>
             <div class="kr-sg-radiobutton">
-                <input id="radio-top" name="radio" class="radio-custom" type="radio" [checked] = "positionRecord == 'top'" (click)="positionRecord = 'last'">
+                <input id="radio-top" name="radio" class="radio-custom" type="radio" [checked] = "positionRecord == 'top'" (click)="positionRecord = 'bottom'">
                 <label for="radio-top" class="radio-custom-label">Add to the last</label>
             </div>
         </div> 
@@ -282,7 +282,7 @@
                 <label for="radio-last" class="radio-custom-label">Add to the top</label>
             </div>
             <div class="kr-sg-radiobutton">
-                <input id="radio-top" name="radio" class="radio-custom" type="radio"  [checked] = "positionRecord == 'last'" (change)="positionRecord = 'last'">
+                <input id="radio-top" name="radio" class="radio-custom" type="radio"  [checked] = "positionRecord == 'last'" (change)="positionRecord = 'bottom'">
                 <label for="radio-top" class="radio-custom-label">Add to the last</label>
             </div>
         </div> 

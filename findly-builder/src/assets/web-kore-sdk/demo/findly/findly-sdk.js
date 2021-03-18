@@ -3296,13 +3296,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //   _self.vars.customizeView = true;
       // })
       $('.show-all-results').off('click').on('click', function (e) {
+        _self.vars.selectedFacetFromSearch = "all results"
         e.preventDefault();
         e.stopImmediatePropagation();
-       
         _self.invokeSearch();
-       
-       
-        
+        $('#loaderDIV').show()
       })
       // $('.full-search-close').off('click').on('click', function (e)
       $('.custom-chevron-right-icon').off('click').on('click', function (e) {
