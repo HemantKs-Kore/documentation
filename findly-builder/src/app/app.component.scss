@@ -32,18 +32,19 @@
     }
     .headerTabsContainer{
         visibility: hidden;
+        display: none;
     }
     .myappname{
-        visibility: hidden;
+        display: none;
     }
     .no-landing-screen{
-        visibility: hidden;
+        display: none;
     }
     .app-dropdown{
-        visibility: hidden;
+        display: none;
     }
     .test-button{
-        visibility: hidden;
+        display: none;
     }
     .notification-dropdown{
         visibility: hidden;
@@ -57,9 +58,10 @@
         }
         .headerTabsContainer{
             visibility: visible !important;
+            display: block !important;
         }
         .myappname{
-            visibility: visible !important;
+            display: block !important;
         }
         .toShowAppHeader{
             display: block !important;
@@ -77,13 +79,13 @@
             display: none;
         }
         .no-landing-screen{
-            visibility: visible !important;
+            display: block !important;
         }
         .app-dropdown{
-            visibility: visible !important;
+            display: block !important;
         }
         .test-button{
-            visibility: visible !important;
+            display: block !important;
         }
         .notification-dropdown{
             visibility: visible !important;

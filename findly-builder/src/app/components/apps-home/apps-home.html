@@ -2,7 +2,7 @@
   <perfect-scrollbar class="dashboard-perfect-scroll">
   <div class="scrollContainer">
     <!-- <div *ngIf="!(apps && apps.length)"> -->
-    <div *ngIf="emptyApp">
+    <!-- <div *ngIf="emptyApp" class="d-none">
       <div class="empty-state-wrap">
         <div aria-hidden="true" class="col-6 empty-image">
           <img src="assets/images/noBotsPlaceholder.svg">
@@ -19,7 +19,21 @@
           <button class="seeHowBtn d-none">See how</button>
         </div>
       </div>
+    </div> -->
+
+
+    <div *ngIf="emptyApp">
+      <div class="onboarding-welcome-screen">
+          <div class="img-block">
+            <img src="assets/icons/onboarding-welcome.svg">
+          </div>
+          <div class="welocme-user-name">{{'Hi'| translate}}{{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}},</div>
+          <div class="welocme-user-name">Let’s start by Creating an App</div>
+          <button class="kr-sg-button-primary btn_lg" [disabled]="saveInProgress" (click)="openCreateApp()"><i *ngIf="saveInProgress" class="fa fa-spinner fa-spin"></i>{{saveInProgress? 'Creating App' :'Let’s Get started'}}</button>
+      </div>
     </div>
+
+
     <div class="findly-dashboard" *ngIf="!emptyApp">
       <div class="main-heading d-none" role="doc-introduction">{{'WelcometoFindly' | translate}}</div>
       <div class="header-sec">
@@ -147,40 +161,45 @@
 </perfect-scrollbar>
 </div>
 
-<kr-modal modalType="default" #createAppPop>
+<kr-modal modalType="default" #createAppPop modalClass="creating-new-app-modal">
   <div class="modal-header">
-        <h4 class="modal-title">Create App</h4>
-      </div>
-      <div class="modal-body textAlignLeft">
-        <div class="kr-sg-input-text mb-3">
-          <div class="label-text">Name</div>
-          <input maxlength="128" type="text" autocomplete="off" placeholder="App name" class="input-text" [(ngModel)]="newApp.name" name="appName">
-        </div>
-        <div class="kr-sg-input-text-area mb-2">
-          <div class="label-text">Description</div>
-          <textarea maxlength="512" placeholder="App description " autocomplete="off" class="input-text" [(ngModel)]="newApp.description" name="appDesc"></textarea>
-        </div>
-        <div class="kr-sg-dropdowns w-100 mt-1">
-          <div class="label-text">Language</div>
-          <div class="dropdown dropdown-open">
-              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>English</button>                                            
-              <ul class="dropdown-menu content-menu">
-              <li class="search-box">
-                  <input maxlength="128" type="text" placeholder="Search" class="seach-input">
-              </li>                                                
-                <li><a>English</a></li>
-                <li><a>German</a></li>
-                <li><a>French</a></li>
-              </ul>
-           </div>
-      </div>
-      </div>
-      <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
-         <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeCreateApp()">Close</button>
-         <button [disabled]="!newApp.name"  type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='createFindlyApp()'>{{creatingInProgress?'Creating...':'Proceed'}}</button>
-     
-        </div>
+      <div class="modal-title">Create App</div>
+      <div class="close_modal" (click)="closeCreateApp()"><img src="assets/icons/close.svg"></div>
+  </div>
+  <div class="modal-body">
+    <div class="kr-sg-input-text mb-3">
+      <div class="label-text">Name Your App</div>
+      <input maxlength="128" type="text" autocomplete="off" placeholder="App name" class="input-text" [(ngModel)]="newApp.name" name="appName">
+    </div>
+    <!-- <div class="kr-sg-input-text-area mb-2">
+      <div class="label-text">Description</div>
+      <textarea maxlength="512" placeholder="App description " autocomplete="off" class="input-text" [(ngModel)]="newApp.description" name="appDesc"></textarea>
+    </div> -->
+    <div class="kr-sg-input-text">
+      <div class="label-text">Description</div>
+      <input class="input-text" maxlength="512" placeholder="App description" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
+    </div>
 
-
+    
+    <div class="kr-sg-dropdowns w-100">
+      <div class="label-text">Language</div>
+      <div class="dropdown dropdown-open">
+          <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>English</button>                                            
+          <ul class="dropdown-menu content-menu">
+          <li class="search-box">
+              <input maxlength="128" type="text" placeholder="Search" class="seach-input">
+          </li>                                                
+            <li><a>English</a></li>
+            <li><a>German</a></li>
+            <li><a>French</a></li>
+          </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
+      <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closeCreateApp()">Cancel</button>
+      <button [disabled]="!newApp.name"  type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='createFindlyApp()'>{{creatingInProgress?'Creating...':'Create'}}</button>
+  
+  </div>
 </kr-modal>
 

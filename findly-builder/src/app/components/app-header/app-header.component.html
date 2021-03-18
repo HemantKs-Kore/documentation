@@ -83,8 +83,8 @@
                 <li class="nav-item test-button">
                     <button class="kr-sg-button-secondary btn_lg" (click)="openOrCloseSearchSDK()">Test</button>
                 </li>
-                <li class="nav-item test-button">
-                    <img src="assets/icons/sidemenu/new-icons/actions.svg" class="defaultIcon" (click)="train()">
+                <li class="nav-item train-btn" ngbTooltip="Train your App" container='body' tooltipClass="train-icon-tooltip">
+                    <img src="assets/icons/train.svg" class="defaultIcon" (click)="train()">
                 </li>
                 <li class="nav-item search-block">
                     <div class="search_icon" [ngClass]="{'active-search-top' : showSearch}">
