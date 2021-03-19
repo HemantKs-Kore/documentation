@@ -1,3 +1,32 @@
+<div class="kr-sg-dropdowns configured-dropdown" ngbDropdown>
+  <div class="dropdown dropdown-open">
+    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">       
+        <div class="not-configured-title">
+          <div class="title">You haven’t configured your app yet!</div>
+          <div class="start-now">Start Now</div>
+        </div>
+        <div class="check-list-steps d-none">
+          <div class="left-sec">
+            <img src="assets/icons/check-config.svg">
+            <span class="steps-info"><b>3</b> out of 7 Steps Completed</span>
+          </div>
+          <div class="right-sec">
+            <div class="checklist-btn">Checklist</div>
+            <div class="close-img"><img src="assets/icons/close-checklist.svg"></div>
+          </div>
+        </div>
+    </button>
+    <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+     <div class="configured-dropdown-content">
+      <span class="title-info">Search Result Optimization</span>
+      <span class="state-type">Completed</span>
+    </div>
+      <button class="kr-sg-button-primary btn_lg mt-3">Design Search Experience Now</button>
+    </ul>
+  </div>
+</div>
+
+
 <div class="over-view-config-tour">
   <div class="tour-header">
     <div class="title">Overview</div>
@@ -326,6 +355,18 @@
   </perfect-scrollbar>  
 </div>
 
+
+<div class="kr-sg-dropdowns">
+  <div class="label-text">Label</div>
+  <div class="dropdown dropdown-open">
+      <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+      <ul class="dropdown-menu content-menu">                                                   
+        <li><a>Option 1</a></li>
+        <li><a>Option 2</a></li>
+        <li><a>Option 3</a></li>
+      </ul>
+    </div>
+</div>
 
 
 <!--tour guide popup-->
