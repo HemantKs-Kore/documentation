@@ -871,6 +871,7 @@
     margin-top: 25px;
     .input-conditions{           
         padding: 0;
+        
         .input-bg-sec{
             width: 100%;
             background: #F1F1F1;
@@ -1045,4 +1046,8 @@
     font-size: 10px;
     line-height: 12px;
     margin: 4px 0;
+}
+.dropdown-menu.content-menu li.active {
+    font-weight: 800;
+    background-color: transparent !important;
 }
