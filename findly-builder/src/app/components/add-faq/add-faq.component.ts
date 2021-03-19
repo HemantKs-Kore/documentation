@@ -50,7 +50,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   anwerPayloadObj:any = {};
   ruleOptions = {
     searchContext:['recentSearches','currentSearch', 'traits', 'entity','keywords'],
-    pageContext:['device', 'browser', 'currentPage' , 'recentPages','signed','timeDateDay','session','timeSpentOnThePageSession'],
+    pageContext:['device', 'browser', 'currentPage' , 'recentPages','signed'],
     userContext:['userType', 'userProfile', 'age', 'sex'],
     contextTypes:['searchContext','pageContext','userContext'],
     dataTypes: ['string', 'date', 'number', 'trait', 'entity', 'keyword'],
@@ -60,9 +60,11 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     contextType:'searchContext',
     operator:'contains',
     contextCategory:'recentSearches',
+    dataType: 'string',
     value:[]
   }
   conditions ={
+    string: ['contains', 'doesNotContain', 'equals', 'notEquals'],
     date: ['equals', 'between', 'greaterThan', 'lessThan'],
     number: ['equals', 'between', 'greaterThan', 'lessThan'],
     trait: ['contains', 'doesNotContain', 'equals', 'notEquals'],
