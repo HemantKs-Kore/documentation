@@ -1313,6 +1313,8 @@ float: right;
   right: 10px;
   top: -24px;
   z-index: 1;
+  padding: 3px 5px;
+  cursor: pointer;
 }
 
 .d-none{
@@ -2028,3 +2030,4 @@ background:none !important;
 a{
   text-decoration: none !important;
 }
+/*style="color :searchConfig.searchBarPlaceholderTextColor !important;"*/
