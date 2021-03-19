@@ -292,6 +292,8 @@ export class UserEngagementComponent implements OnInit {
       console.log(days);
       if(days > 28){
         this.group = "week";
+      }else if(days == 1){
+        this.group = "hour";
       }else{
         this.group = "date";
       }
