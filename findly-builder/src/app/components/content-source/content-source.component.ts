@@ -235,28 +235,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       let milisec = duration.split(":")[3];
 
       if (hr > 0) {
-        if (min > 0 && sec > 0 && milisec > 0) return duration = hr + "h " + min + "m " + sec + "s " + milisec + 'ms';
-        if (min > 0 && sec > 0 && milisec <= 0) return duration = hr + "h " + min + "m " + sec + "s";
-        if (min > 0 && sec <= 0 && milisec <= 0) return duration = hr + "h " + min + "m";
-        if (min <= 0 && sec <= 0 && milisec <= 0) return duration = hr + "h ";
-
+        if (min >= 0 && sec > 0) return duration = hr + "h " + min + "m " + sec + "s";
+        if (min > 0 && sec <= 0) return duration = hr + "h " + min + "m";
+        if (min <= 0 && sec <= 0) return duration = hr + "h ";
       } else if (min > 0) {
-        if (sec > 0 && milisec > 0) return duration = min + "m " + sec + "s " + milisec + 'ms';
-        if (sec > 0 && milisec <= 0) return duration = min + "m " + sec + "s";
-        if (sec <= 0) return duration = min + "m ";
+        if (sec > 0) return duration = min + "m " + sec + "s" ;
+        if (sec <= 0) return duration = min + "m";
       } else if (sec > 0) {
-        if (milisec > 0) {
-          return duration = sec + "s " + milisec + 'ms';
-        }
-        if (sec > 0 && milisec <= 0) {
-          return duration = sec + "s";
-        }
-      }
-      else if (milisec > 0) {
+         return duration = sec + "s";
+      } else if (milisec > 0) {
         return duration = milisec + 'ms';
-      }
-      else {
-        return duration = '0' + "s";
+      } else {
+        return duration = '0' + "ms";
       }
     }
   }
