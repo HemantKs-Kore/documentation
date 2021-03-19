@@ -126,7 +126,7 @@
 							</button>
 							<ul class="dropdown-menu content-menu queryPipelineConfig" ngbDropdownMenu>
 								<perfect-scrollbar>
-									<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectQueryPipelineId(config,selectConfigDrop)" *ngFor="let config of queryConfigs">
+									<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectQueryPipelineId(config,selectSearchConfigDrop)" *ngFor="let config of queryConfigs">
 										<img src="assets/icons/star.svg" *ngIf="config.default" class="star" [container]="'body'" ngbTooltip='Default' placement="top-center">
 										<img src="assets/icons/start-black.svg" [container]="'body'" (click)="$event.stopPropagation();markAsDefault(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-center" [container]="'body'">
 										<span *ngIf="selectedConfig == config._id && editName; else name">
