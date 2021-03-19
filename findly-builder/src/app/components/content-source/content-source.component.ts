@@ -236,7 +236,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
       if (hr > 0) {
         if (min >= 0 && sec > 0) return duration = hr + "h " + min + "m " + sec + "s";
-        if (min >= 0 && sec <= 0) return duration = hr + "h " + min + "m";
+        if (min > 0 && sec <= 0) return duration = hr + "h " + min + "m";
         if (min <= 0 && sec <= 0) return duration = hr + "h ";
       } else if (min > 0) {
         if (sec > 0) return duration = min + "m " + sec + "s" ;
