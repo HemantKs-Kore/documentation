@@ -30,7 +30,7 @@ export class AppSelectionService {
     };
     const appObserver = this.service.invoke('get.indexPipeline', payload);
     const subject = new ReplaySubject(1);
-    subject.subscribe(res  => {
+    subject.subscribe(res => {
       this.indexList = res || [];
       if (this.indexList) {
         //this.workflowService.appQueryPipelines(res);
@@ -51,7 +51,7 @@ export class AppSelectionService {
         this.getQureryPipelineIds()
       }
     }, errRes => {
-      this.indexList  = null;
+      this.indexList = null;
     });
     appObserver.subscribe(subject);
     return subject;
@@ -59,7 +59,7 @@ export class AppSelectionService {
   public getQureryPipelineIds(setPipline?): ReplaySubject<any> {
     const payload = {
       searchIndexId: this.workflowService.selectedSearchIndex(),
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     const appObserver = this.service.invoke('get.queryPipelines', payload);
     const subject = new ReplaySubject(1);
@@ -116,7 +116,7 @@ export class AppSelectionService {
       window.localStorage.removeItem('krPreviousState');
     }
   }
-  selectIndexConfig(config){
+  selectIndexConfig(config) {
     this.workflowService.selectedIndexPipeline(config._id)
     console.log(config._id)
   }
@@ -142,7 +142,7 @@ export class AppSelectionService {
     this.workflowService.appQueryPipelines({});
     this.setAppWorkFlowData(app);
     this.appSelected.next(app);
-    this.router.navigate(['/source'], { skipLocationChange: true });
+    this.router.navigate(['/summary'], { skipLocationChange: true });
     const toogleObj = {
       title: '',
     };
@@ -162,7 +162,6 @@ export class AppSelectionService {
     };
     const appObserver = this.service.invoke('get.streamData', queryParams);
     appObserver.subscribe(res => {
-      console.log("api called", res)
       this.workflowService.selectedApp(res);
     }, errRes => {
       this.queryList = null;
