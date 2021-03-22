@@ -143,7 +143,9 @@ export class AppHeaderComponent implements OnInit {
     if(this.indexPipelineId){
       this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
       if(this.queryPipelineId){
-        this.getcustomizeList(20,0);
+        // this.getcustomizeList(20,0);
+        this.selectedApp = this.workflowService.selectedApp();
+        this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
       }
     }
   }
