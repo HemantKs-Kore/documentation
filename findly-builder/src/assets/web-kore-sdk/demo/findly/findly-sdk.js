@@ -18245,6 +18245,40 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
          
        }, 600);
       });
+      $('#search-box-container').off('click', '#search').on('click', '#search',function (e) {
+        if($("#search").hasClass('from-result-ranking')){
+          $("#search").removeClass('from-result-ranking');
+          $("#viewTypePreview").removeClass('nav-link-item-active');
+          $("#viewTypeCustomize").addClass('nav-link-item-active');
+          _self.vars.customizeView = true;
+          if(_self.isDev){
+            if($('.top-down-search-background-div')){
+              $('.top-down-search-background-div').addClass('if-full-results');
+            }
+          }
+          _self.vars.searchObject.searchText=$('#search').val();
+       _self.vars.showingMatchedResults=true;
+       _self.searchFacetsList([]);
+       $('#loaderDIV').show();
+        _self.invokeSearch();
+        //$('#loaderDIV').hide();
+        _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
+           $('.all-result-container').show();
+           setTimeout(function () {
+            $('#frequently-searched-box').hide();
+            $('#live-search-result-box').hide();
+        //top-down-searc-facets active -start//
+      _self.pubSub.publish('facet-selected', {selectedFacet :'all results'});
+      //top-down-search-facets active -end//
+          }, 500);
+         }
+         if($('#search').val()){
+          $('.cancel-search').show();
+        }else{
+         $('.cancel-search').hide();
+         $('#live-search-result-box').hide();
+        }
+       });
       var resultsContainerHtml = $('.all-product-details');
       _self.bindPerfectScroll(resultsContainerHtml,'.content-data-sec',null, 'y', 'resultsContainer');
       var headingDataHTML = $('#heading');
@@ -18304,8 +18338,6 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           _self.vars.showingMatchedResults = true;
           _self.searchFacetsList([]);
           _self.invokeSearch();
-          //var e = $.Event("keydown", { which: 13 });
-         // $('#search').trigger(e);
           setTimeout(function () {
             $('#live-search-result-box').hide();
             $('#frequently-searched-box').hide();

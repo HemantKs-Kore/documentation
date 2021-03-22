@@ -40,6 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
   showInsightFull = false;
   queryText;
   subscription: Subscription;
+  SearchConfigurationSubscription : Subscription;
   searchSDKSubscription : Subscription;
   resultRankDataSubscription :Subscription
   pathsObj: any = {
@@ -79,13 +80,20 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.resetFindlySearchSDK(this.workflowService.selectedApp());
     });
+    this.SearchConfigurationSubscription = this.headerService.resetSearchConfiguration.subscribe(res => {
+      this.getSearchExperience();
+    });
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe( (res : any) => {
       if(this.searchExperienceConfig){
+<<<<<<< HEAD
 <<<<<<< HEAD
         if(this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top ')){
 =======
         if(this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'bottom')){
 >>>>>>> d92e5d7f33e1c6bef56dac5ed023cff6405396db
+=======
+        if(this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')){
+>>>>>>> 5ef725abe76c8e1f19e88cc3fb54336ab8530bd3
           if (!$('.search-background-div:visible').length) {
             $('.start-search-icon-div').addClass('active');
             this.showHideSearch(true);
@@ -270,6 +278,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
     this.searchSDKSubscription.unsubscribe();
     this.resultRankDataSubscription.unsubscribe();
+    this.SearchConfigurationSubscription ? this.SearchConfigurationSubscription.unsubscribe() : false;
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
