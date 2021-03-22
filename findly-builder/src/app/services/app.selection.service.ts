@@ -167,4 +167,12 @@ export class AppSelectionService {
       this.queryList = null;
     });
   }
+  //get tour congfig data
+  getTourConfig() {
+    const userInfo: any = this.authService.getUserInfo();
+    const quaryparms: any = {
+      userId: userInfo.id
+    };
+    return this.service.invoke('get.tourConfig', quaryparms)
+  }
 }

@@ -1,4 +1,4 @@
-<div class="kr-sg-dropdowns configured-dropdown" ngbDropdown>
+<!-- <div class="kr-sg-dropdowns configured-dropdown" ngbDropdown>
   <div class="dropdown dropdown-open">
     <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">       
         <div class="not-configured-title">
@@ -24,18 +24,16 @@
       <button class="kr-sg-button-primary btn_lg mt-3">Design Search Experience Now</button>
     </ul>
   </div>
-</div>
-
-
-<div class="over-view-config-tour">
+</div> -->
+  <app-useronboarding-journey #onboard [showChecklist]='showChecklist' [componentType]='componentType' *ngIf="showOverview"></app-useronboarding-journey>
+<div class="over-view-config-tour" *ngIf="!showOverview">
   <div class="tour-header">
     <div class="title">Overview</div>
-    <div class="close-tour"><img src="assets/icons/close-white.svg"></div>
+    <div class="close-tour"><img src="assets/icons/close-white.svg" (click)="showOverview=false"></div>
   </div>
   <div class="tour-info">Shows the Birds eye view of configurations in your App</div>
   <button class="kr-sg-button-primary btn_lg" (click)="openOnBoardingModal()">Got It</button>
 </div>
-
 <div class="overview-container">  
   <perfect-scrollbar class="scroll_content">
     <div class="g-analytics" (click)="openDashboard()"><span>Go to Analytics</span></div>
@@ -370,7 +368,7 @@
 
 
 <!--tour guide popup-->
-<kr-modal modalType="nodrop" modalClass="modal_popups_ onboarding-journey-modal" #onBoardingModalPop>
+<!-- <kr-modal modalType="nodrop" modalClass="modal_popups_ onboarding-journey-modal" #onBoardingModalPop>
   <div class="modal-header">
     <div class="title">Your Quick Start Guide</div>
     <div class="close-icon"><img (click)="closeOnBoardingModal()" src="assets/icons/modal-close.svg"></div>
@@ -484,4 +482,4 @@
   <div class="modal-footer">
     I want to Explore by Myself
   </div>
-</kr-modal>
+</kr-modal> -->

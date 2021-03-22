@@ -7,6 +7,7 @@ import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
+import { UseronboardingJourneyComponent } from '../../helpers/components/useronboarding-journey/useronboarding-journey.component';
 import * as moment from 'moment';
 declare const $: any;
 @Component({
@@ -33,6 +34,7 @@ export class SummaryComponent implements OnInit {
   showError = false;
   btLogs: any[] = [];
   onBoardingModalPopRef: any;
+  showOverview: boolean = true;
   summaryObj: any = {
     contentDocuments: [],
     contentWebDomains: [],
@@ -44,6 +46,8 @@ export class SummaryComponent implements OnInit {
     'active': 2,
     'configured': 3
   };
+  componentType: string;
+  showChecklist: string;
   listMonths = ['January', 'February', 'March',
     'April', 'May', 'June', 'July',
     'August', 'September', 'October', 'November', 'December'];
@@ -89,6 +93,7 @@ export class SummaryComponent implements OnInit {
     'Drop offs': 'Number of conversation sessions where the users have dropped-off from the conversation.'
   };
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
+  @ViewChild('onboard') onboard: UseronboardingJourneyComponent;
   constructor(
     public workflowService: WorkflowService,
     private headerService: SideBarService,
@@ -114,7 +119,7 @@ export class SummaryComponent implements OnInit {
     // this.getChannel();
     this.getLinkedBot();
     this.getAllOverview();
-
+    this.showChecklist = 'summary';
   }
   getSummary() {
     this.loading = false;
@@ -301,11 +306,13 @@ export class SummaryComponent implements OnInit {
     $('#sourceTab').trigger('click')
   }
   openOnBoardingModal() {
-    this.onBoardingModalPopRef = this.onBoardingModalPop.open();
+    this.showOverview = false;
+    setTimeout(() => {
+      this.componentType = 'overview';
+      this.onboard.openOnBoardingModal();
+    }, 1000)
   }
   closeOnBoardingModal() {
-    if (this.onBoardingModalPopRef && this.onBoardingModalPopRef.close) {
-      this.onBoardingModalPopRef.close();
-    }
+    this.onboard.closeOnBoardingModal();
   }
 }
