@@ -25,7 +25,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   serachIndexId;
   queryPipelineId;
   indexPipelineId;
-  customizeLog: any = {};
+  customizeLog: any = [];
   selectedRecord: any = {};
   resultLogs: boolean = false;
   customizeList: any;
@@ -265,26 +265,26 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       console.log(this.headerService.searchConfiguration);
       if(this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top'){
         setTimeout(()=>{
+          if(this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top'){
           var link = document.getElementById('search') as HTMLDataElement;
           link.value =this.selectedRecord.searchQuery;
-          link.focus();
-          link.click();
-          $('#search').focusin()
-          var e = $.Event( "keypress", { which: 13 } );
-          $('#search').trigger(e);
+         // link.focus();
+         $('#search').addClass('from-result-ranking');
+          link.click()
           setTimeout(()=>{
+            if(this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top'){
             let containerClass = document.getElementsByClassName('top-down-search-background-div')[0] as HTMLBaseElement;
             containerClass.classList.add('if-full-results')  
             let container = document.getElementsByClassName('all-result-container')[0] as HTMLBaseElement;
             container.style.display ="block";
-            var e = $.Event( "keypress", { which: 13 } );
-            $('#search').trigger(e);
+            }
           },3000)
+        }
         },3000)
         
       } else {
-        let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
-        testButtun.click()
+       // let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
+        //testButtun.click()
         setTimeout(() => {
         // let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
         // texBox.value = this.selectedRecord.searchQuery;
