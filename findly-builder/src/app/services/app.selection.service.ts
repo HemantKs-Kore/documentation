@@ -149,6 +149,7 @@ export class AppSelectionService {
       title: '',
     };
     this.headerService.toggle(toogleObj);
+    this.headerService.updateSearchConfiguration();
   }
   setAppWorkFlowData(app, queryPipeline?) {
     // this.getStreamData(app);
