@@ -272,21 +272,11 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
          $('#search').addClass('from-result-ranking');
           link.click()
           setTimeout(()=>{
-<<<<<<< HEAD
-            if(this.headerService.searchConfiguration.experienceConfig.searchBarPosition != 'top'){
-              let containerClass = document.getElementsByClassName('top-down-search-background-div')[0] as HTMLBaseElement;
-              containerClass.classList.add('if-full-results')  
-              let container = document.getElementsByClassName('all-result-container')[0] as HTMLBaseElement;
-              container.style.display ="block";
-              var e = $.Event( "keypress", { which: 13 } );
-              $('#search').trigger(e);
-=======
             if(this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top'){
             let containerClass = document.getElementsByClassName('top-down-search-background-div')[0] as HTMLBaseElement;
             containerClass.classList.add('if-full-results')  
             let container = document.getElementsByClassName('all-result-container')[0] as HTMLBaseElement;
             container.style.display ="block";
->>>>>>> 5ef725abe76c8e1f19e88cc3fb54336ab8530bd3
             }
           },3000)
         }
