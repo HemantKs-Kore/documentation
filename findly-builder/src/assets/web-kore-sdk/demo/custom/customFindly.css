@@ -278,3 +278,14 @@ img.logo-img{
   max-height: calc(100vh - 311px) !important;
   /* /* max-height: calc(100vh - 380px) !important; if added filter */
 }
+.top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec.filter-added{
+   max-height: calc(100vh - 380px) !important; 
+}
+
+.show-all-results-outer-wrap .data-body-sec{
+  height: calc(100vh - 260px);
+}
+.custom-add-new-result-content{
+  position: fixed;
+  bottom: 30px;
+}

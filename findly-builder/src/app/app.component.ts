@@ -81,7 +81,11 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe( (res : any) => {
       if(this.searchExperienceConfig){
+<<<<<<< HEAD
         if(this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top ')){
+=======
+        if(this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'bottom')){
+>>>>>>> d92e5d7f33e1c6bef56dac5ed023cff6405396db
           if (!$('.search-background-div:visible').length) {
             $('.start-search-icon-div').addClass('active');
             this.showHideSearch(true);
