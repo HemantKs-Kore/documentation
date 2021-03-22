@@ -7819,7 +7819,8 @@ html , body{
     line-height: 19px;  
     font-weight: 500;     
     display: inline-block;
-    float: right;
+    /* float: right; */
+    float: left;
 }
 .show-all-results img{
     margin-left: 8px;    
@@ -13470,4 +13471,9 @@ button.search-button:disabled {
     right: 10px;
     height: 8px;
     cursor: pointer;
+}
+.pointer.show-all-results .search-results-count {
+    color: #9AA0A6;
+    font-weight: 600;
+    font-size: 12px;
 }

@@ -1470,9 +1470,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{/if}}\
               {{if noResults}} <span class="text-center">No results found</span> {{/if}}\
               {{if showAllResults && !customSearchResult}}\
-                <div>\
-                  <span class="pointer show-all-results" >See all results<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBlZDBDYUwDEOdin/+sEGkMhBMACOwCSuwASMwAwMglQ3YICTAAQ6lwpdUkV9lB4iImXPmsrd537sYEELYAClA2XiHosAJLS1EVrhfjy9i9gN739ibNGenM09SJA3E1RqJNqT1t7+1U0Up51GYskm7zNaJvpht595zP83JKNdBHtoBNXcrtgi1OOQAAAAASUVORK5CYII="></span>\
-                </div>\
+                {{if taskPrefix !== "SUGGESTED"}}\
+                  <div>\
+                    <span class="pointer show-all-results" >See all <span class="search-results-count">(${totalSearchResults} results)</span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBlZDBDYUwDEOdin/+sEGkMhBMACOwCSuwASMwAwMglQ3YICTAAQ6lwpdUkV9lB4iImXPmsrd537sYEELYAClA2XiHosAJLS1EVrhfjy9i9gN739ibNGenM09SJA3E1RqJNqT1t7+1U0Up51GYskm7zNaJvpht595zP83JKNdBHtoBNXcrtgi1OOQAAAAASUVORK5CYII="></span>\
+                  </div>\
+                {{/if}}\
               {{/if}}\
           </div>\
       </div>\
@@ -5513,7 +5515,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       } catch (err) {
 
       }
-      var faqs = [], pages = [], tasks = [], documents = [], facets, searchFacets = []; object = [];
+      var faqs = [], pages = [], tasks = [], documents = [], facets, searchFacets = []; object = []; totalSearchResults = 0;
 
       var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
 
@@ -5640,6 +5642,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         pages = res.results.page;
         tasks = res.results.task;
         facets = res.facets;
+        totalSearchResults = res.totalNumOfResults ? res.totalNumOfResults  : 0;
         if (res.results.task !== undefined) {
           facets['task'] = res.results.task.length;
         }
@@ -5781,7 +5784,8 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
               noResults: false,
               taskPrefix: 'MATCHED',
               viewType: viewType,
-              customSearchResult : _self.customSearchResult
+              customSearchResult : _self.customSearchResult,
+              totalSearchResults : totalSearchResults
             });
             // _self.pubSub.publish('sa-st-data-search', {
             //   container : '.structured-data-container', /*  start with '.' if class or '#' if id of the element*/ isFullResults : false, selectedFacet : 'all results', isSearch : true, dataObj
@@ -15189,12 +15193,12 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
         var devMode = _self.isDev ? true : false;
 
-        if(viewType === 'Customize' && devMode){
+        if(viewType === 'Customize' && devMode && data.isFullResults){
           finalTemplate = searchTemplates.structuredData[0].template;
           data.isClickable = true;
         }
         if(!data.selectedFacet){
-          viewType = Preview;
+          viewType = 'Preview';
         }
 
         if(!structuredData || !structuredData.length){
@@ -15740,12 +15744,12 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
         var devMode = _self.isDev ? true : false;
 
-        if(viewType === 'Customize' && devMode){
+        if(viewType === 'Customize' && devMode && data.isFullResults){
           finalTemplate = searchTemplates.structuredData[0].template;
           data.isClickable = true;
         }
         if(!data.selectedFacet){
-          viewType = Preview;
+          viewType = 'Preview';
         }
         if(!faqs ||  !faqs.length){
           faqs = [];
@@ -16156,12 +16160,12 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
         var devMode = _self.isDev ? true : false;
 
-        if(viewType === 'Customize' && devMode){
+        if(viewType === 'Customize' && devMode && data.isFullResults){
           finalTemplate = searchTemplates.structuredData[0].template;
           data.isClickable = true;
         }
         if(!data.selectedFacet){
-          viewType = Preview;
+          viewType = 'Preview';
         }
         if(!pages ||  !pages.length){
           pages = [];
@@ -16587,15 +16591,16 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         // this should only be applied for 'search' interface
         data['structuredData'] = [];
         data['structuredData'] = documents;
-        var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
+        // for documents no Customize option
+        var viewType = 'Preview';
         var devMode = _self.isDev ? true : false;
 
-        if(viewType === 'Customize' && devMode){
+        if(viewType === 'Customize' && devMode && data.isFullResults){
           finalTemplate = searchTemplates.structuredData[0].template;
           data.isClickable = true;
         }
         if(!data.selectedFacet){
-          viewType = Preview;
+          viewType = 'Preview';
         }
         if(!documents ||  !documents.length){
           documents = [];
