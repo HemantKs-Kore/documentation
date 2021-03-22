@@ -270,7 +270,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.countOfSelectedFilters = 0;
       vars.resultRankingActionPerformed = false;
       vars.customTourResultRank = false;
-      vars.scrollPageNumber = 1;
+      vars.scrollPageNumber = 0;
       vars.totalNumOfResults=0;
     }; //********************original widget.js start */
 
@@ -16893,7 +16893,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             let data_body_sec_element = document.querySelector('.data-body-sec');
             data_body_sec_element.addEventListener('ps-y-reach-end', () => {
               console.log("ps-y-reach-end");
-              if(_self.vars.scrollPageNumber >= 1){
+              if(_self.vars.scrollPageNumber >= 0){
                 $('#loaderDIV').show()
                 _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
                 _self.seeAllResultsInifiteScroll();
@@ -16901,7 +16901,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             });
             data_body_sec_element.addEventListener('ps-y-reach-start', () => {
               console.log("ps-y-reach-start");
-              if(_self.vars.scrollPageNumber > 1){
+              if(_self.vars.scrollPageNumber > 0){
                 $('#loaderDIV').show()
                 _self.vars.scrollPageNumber = _self.vars.scrollPageNumber - 1;
                 _self.seeAllResultsInifiteScroll();
