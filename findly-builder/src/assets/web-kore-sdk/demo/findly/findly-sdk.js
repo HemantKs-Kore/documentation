@@ -17817,6 +17817,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         var structure = 'bottom';
         if ($('body').hasClass('top-down')) {
           structure = 'top';
+          if($('#search').val()){
+            _self.vars.searchObject.searchText = $('#search').val();
+          }
         } else {
           structure = 'bottom';
         }
@@ -18243,7 +18246,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
        }, 600);
       });
       var resultsContainerHtml = $('.all-product-details');
-      _self.bindPerfectScroll(resultsContainerHtml,'.content-data-sec',null, 'y', 'resultsContainer')
+      _self.bindPerfectScroll(resultsContainerHtml,'.content-data-sec',null, 'y', 'resultsContainer');
+      var headingDataHTML = $('#heading');
+      _self.bindPerfectScroll(headingDataHTML,'#frequently-searched-box',null, 'y', 'frequentlySearchedBox');
       setTimeout(() => {
       //  _self.bindPerfectScroll(showAllHTML, '.data-body-sec', null, 'y', 'see-all-results');
         console.log(_self.vars['resultsContainer']);
