@@ -382,7 +382,7 @@ export class BotActionComponent implements OnInit {
         else {
           selectedApp.publishedBots[0] = {};
           selectedApp.publishedBots[0]._id = res.publishedBots[0]._id;
-          this.linkedBotID = res.publishedBots[0]._id
+          this.linkedBotID = res.publishedBots[0]._id 
           this.linkedBotName = res.publishedBots[0].botName;
         }
 
@@ -398,6 +398,8 @@ export class BotActionComponent implements OnInit {
         }
         this.getAssociatedTasks(this.streamId)
         this.getAssociatedBots();
+        this.workflowService.linkBot(botID);
+        this.workflowService.smallTalkEnable(res.stEnabled);
         this.notificationService.notify("Bot linked, successfully", 'success')
       },
         (err) => {
@@ -410,10 +412,11 @@ export class BotActionComponent implements OnInit {
     else {
       this.notificationService.notify('Failed', 'Error in linking bot');
     }
-  }
+  } 
   linkBot(botID: any) {
     if(this.botToBeUnlinked && this.islinked){
       this.unlinkBotWhithPublish(botID);
+      this.workflowService.linkBot(botID);
     }else{
       this.linkAfterUnlink(botID);
       this.botToBeUnlinked = botID;
@@ -638,6 +641,7 @@ export class BotActionComponent implements OnInit {
         console.log(res);
        // Universal Bot Publish here.
        this.allBotArray =[];
+    
        res.configuredBots.forEach(element => {
         let obj = {
           "_id": element._id,
@@ -672,6 +676,8 @@ export class BotActionComponent implements OnInit {
 
         this.getAssociatedBots();
         this.getAssociatedTasks(this.streamId);
+        this.workflowService.linkBot('');
+        this.syncLinkedBot();
 
         this.notificationService.notify("Bot unlinked, successfully. Please publish to reflect", 'success');
         
