@@ -143,9 +143,13 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         this.filterAllSynonym=false;
       }
    
-    this.synonymData.push(obj);
+    this.synonymData.push(obj); 
     this.addOrUpddate(this.synonymData);
   }
+  synonymChanged(){
+    this.newSynonymObj.values = [];
+    this.synonymObj.values = [];
+    }
   cancleAddEdit() {
     this.currentEditIndex = -1;
     this.newSynonymObj = {

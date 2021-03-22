@@ -232,19 +232,21 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       let hr = duration.split(":")[0];
       let min = duration.split(":")[1];
       let sec = duration.split(":")[2];
-
+      let milisec = duration.split(":")[3];
 
       if (hr > 0) {
-        if (min > 0 && sec > 0) return duration = hr + "h " + min + "m " + sec + "s";
-        if (min > 0 && sec <= 0) return duration = hr + "h " + min + "m " + sec + "s";
+        if (min >= 0 && sec > 0) return duration = hr + "h " + min + "m " + sec + "s";
+        if (min > 0 && sec <= 0) return duration = hr + "h " + min + "m";
         if (min <= 0 && sec <= 0) return duration = hr + "h ";
       } else if (min > 0) {
-        if (sec > 0) return duration = min + "m " + sec + "s";
-        if (sec <= 0) return duration = min + "m ";
+        if (sec > 0) return duration = min + "m " + sec + "s" ;
+        if (sec <= 0) return duration = min + "m";
       } else if (sec > 0) {
-        return duration = sec + "s";
+         return duration = sec + "s";
+      } else if (milisec > 0) {
+        return duration = milisec + 'ms';
       } else {
-        return duration = '0' + "s";
+        return duration = '0' + "ms";
       }
     }
   }
@@ -1257,7 +1259,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('recrwal', quaryparms).subscribe(res => {
       this.getSourceList();
-      this.notificationService.notify('Recrwaled successfully', 'success');
+      this.notificationService.notify('Re-Crawling', 'success');
       this.closeStatusModal();
       //this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
     }, errRes => {
@@ -1372,10 +1374,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
     crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
     crawler.advanceOpts.allowedURLs.length > 0 || crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.crawlEverything = false : crawler.advanceOpts.crawlEverything = true;
-    if( resourceType != 'webdomain'){
+    if (resourceType != 'webdomain') {
       crawler.resourceType = resourceType;
-    }    
-    else{
+    }
+    else {
       delete crawler.resourceType;
     }
     payload = crawler;

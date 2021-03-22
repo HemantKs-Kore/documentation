@@ -50,6 +50,12 @@ export class AppHeaderComponent implements OnInit {
   };
   createAppPopRef: any;
   creatingInProgress: boolean = false;
+  selectedApp;
+  serachIndexId;
+  queryPipelineId;
+  indexPipelineId;
+  indexSubscription : Subscription;
+  subscription : Subscription;
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
@@ -122,6 +128,23 @@ export class AppHeaderComponent implements OnInit {
     this.formatter = (x: { displayName: string }) => (x.displayName || '');
     if (localStorage.krPreviousState) {
       this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
+    }
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.loadHeader();
+    this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res=>{
+      this.subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
+        this.loadHeader();
+      })
+    })
+  }
+  loadHeader(){
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if(this.indexPipelineId){
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+      if(this.queryPipelineId){
+        this.getcustomizeList(20,0);
+      }
     }
   }
   metricsOption(menu) {
@@ -531,6 +554,32 @@ export class AppHeaderComponent implements OnInit {
   }
   openOrCloseSearchSDK() {
     this.headerService.openSearchSDK(true);
+    this.getcustomizeList(20,0)
+  }
+  getcustomizeList(limit?, skip?) {
+    limit ? limit : 20;
+    skip ? skip : 0;
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      queryPipelineId : this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      limit : limit,
+      skip : skip
+    };
+    this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
+      if (res.length > 0) {
+        this.headerService.fromResultRank(false);
+       }
+     else {
+       this.headerService.fromResultRank(true);
+     }
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
   }
 
   notificationIconClick() {

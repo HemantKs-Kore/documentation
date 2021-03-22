@@ -75,7 +75,8 @@ export class SearchExperienceComponent implements OnInit {
   width: number = this.minWidth;
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
-  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService) { }
+  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService) {
+  }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -148,17 +149,19 @@ export class SearchExperienceComponent implements OnInit {
   //based on show searches show slider
   changeSlider(type, data?) {
     this.suggestions = [];
-    let queryValue = data === undefined ? 0 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
-    let recentValue = data === undefined ? 0 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
+    let queryValue = data === undefined ? type == 'bottom-up' ? 3 : 5 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
+    let recentValue = data === undefined ? type == 'bottom-up' ? 5 : 10 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
     if (type == 'bottom-up') {
-      // let queryNumber = this.sliderNumber(3);
-      // let liveNumber = this.sliderNumber(5);
       this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 3, 1, queryValue, 'suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 5, 1, recentValue, 'live') });
+      this.searchObject.searchInteractionsConfig.querySuggestionsLimit = data === undefined ? 3 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
+      this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = data === undefined ? 5 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
+
     }
     else {
-      this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 5, 1, queryValue, 'suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 10, 1, recentValue, 'live') })
+      this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 5, 1, queryValue, 'suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 10, 1, recentValue, 'live') });
+      this.searchObject.searchInteractionsConfig.querySuggestionsLimit = data === undefined ? 5 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
+      this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = data === undefined ? 10 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
     }
-    console.log("suggestions", this.suggestions)
   }
   //slider number method
   sliderNumber(number) {
@@ -277,7 +280,6 @@ export class SearchExperienceComponent implements OnInit {
       userId: this.userInfo.id
     };
     this.service.invoke('get.tourConfig', quaryparms).subscribe(res => {
-      console.log("get tour config data", res);
       this.tourGuide = res.configurations.searchExperienceVisited ? '' : 'step1';
     }, errRes => {
       console.log(errRes);
