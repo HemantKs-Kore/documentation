@@ -399,6 +399,7 @@ export class BotActionComponent implements OnInit {
         this.getAssociatedTasks(this.streamId)
         this.getAssociatedBots();
         this.workflowService.linkBot(botID);
+        this.workflowService.smallTalkEnable(res.stEnabled);
         this.notificationService.notify("Bot linked, successfully", 'success')
       },
         (err) => {
@@ -640,7 +641,7 @@ export class BotActionComponent implements OnInit {
         console.log(res);
        // Universal Bot Publish here.
        this.allBotArray =[];
-       this.workflowService.linkBot('')
+    
        res.configuredBots.forEach(element => {
         let obj = {
           "_id": element._id,

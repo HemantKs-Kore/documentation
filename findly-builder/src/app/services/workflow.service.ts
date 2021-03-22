@@ -18,15 +18,36 @@ export class WorkflowService {
   seedData$: BehaviorSubject<any> = new BehaviorSubject(null);
   disablePerfectScroll: boolean;
   linkedBot='';
+  topDownOrBottomUp='';
+  enableDisableSt;
   constructor(
   ) { }
   linkBot(linkedBot?){
     if (linkedBot) {
       this.linkedBot =  linkedBot;
     }
+    else {
+      this.linkedBot = '';
+    }
     return  this.linkedBot;
   
   }
+  checkTopOrBottom(topDownOrBottomUp?) {
+    if (topDownOrBottomUp) {
+      this.topDownOrBottomUp = topDownOrBottomUp;
+    }
+
+    return this.topDownOrBottomUp;
+
+  }
+  smallTalkEnable(enableDisableSt?) {
+    if (enableDisableSt || (enableDisableSt == false)) {
+      this.enableDisableSt = enableDisableSt;
+    }
+    return this.enableDisableSt;
+
+  }
+
   showAppCreationHeader(value?) {
     if (value === true || value === false) {
       this.appCreationFlow = value;

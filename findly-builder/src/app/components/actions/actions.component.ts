@@ -21,6 +21,18 @@ export class ActionsComponent implements OnInit {
   selectedApp: any;
   LinkABot:any;
   botLinked=false;
+  checkTopBottom=false;
+  checkBottomTop=false;
+  showTop = false;
+  showBottom = false
+  topActionsTop = false;
+  topActionsBottom : boolean;
+  bottomActionsTop = false;
+  bottomActionsBottom = false;
+  previewTopBottom:any;
+  searchObject: any = {
+   
+  };
   constructor( 
     public workflowService: WorkflowService,
     private headerService: SideBarService,
@@ -33,8 +45,12 @@ export class ActionsComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.LinkABot = this.workflowService.linkBot();
+    this.LinkABot = this.workflowService.linkedBot;
+    console.log(this.LinkABot)
+    this.previewTopBottom = this.workflowService.checkTopOrBottom();
     this. botLinkedOrUnlinked();
+    // this. topDownOrBottomUp(type);
+    console.log(this.previewTopBottom)
     console.log(this.LinkABot)
   }
 
@@ -50,11 +66,47 @@ export class ActionsComponent implements OnInit {
     // else if (!this.LinkABot){
     //   this.botLinked = false;
 
+    }
+  
+    // topDownOrBottomUp(){
+    //   if(this.previewTopBottom == "top" ){
+    //     this.checkTopBottom = true;
+    //   }
+    //   else{
+    //     this.checkBottomTop = true;
+    //   }
+
     // }
+    topDownOrBottomUp(type) {
+    if (this.previewTopBottom == "top") {
+      this.bottomActionsTop = false;
+      this.bottomActionsBottom = false;
+      if (type === 'showTop') {
+        this.topActionsTop = true;
+        this.topActionsBottom = false;
+
+      }
+      else if (type === 'showBottom') {
+        this.topActionsBottom = true;
+        this.topActionsTop = false;
+      }
+    }
+    else if(this.previewTopBottom == "bottom"){
+      this.topActionsTop = false;
+      this.topActionsBottom = false;
+      if(type == 'showTop'){
+        this.bottomActionsTop = true;
+        this.bottomActionsBottom = false;
+      }
+      if(type == 'showBottom'){
+        this.bottomActionsBottom = true;
+        this.bottomActionsTop = false;
+      }
+
+    }
+
+  }
 }
 
 
-
-
-
-}
+// }

@@ -350,6 +350,7 @@ export class SearchExperienceComponent implements OnInit {
       console.log("this.searchIcon", this.searchIcon)
       this.notificationService.notify('Updated successfully', 'success');
       this.statusModalPopRef = this.statusModalPop.open();
+      this.workflowService.checkTopOrBottom(this.searchObject.searchExperienceConfig.searchBarPosition);
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
