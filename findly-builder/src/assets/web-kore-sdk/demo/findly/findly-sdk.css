@@ -13242,7 +13242,8 @@ padding-right: 0;
     border-radius: 20px;
     margin: 4px 0;
     display: inline-block;
-    color: #9AA0A6;
+    /* color: #9AA0A6; */
+    color: #3C4043;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
@@ -13477,10 +13478,6 @@ button.search-button:disabled {
     font-weight: 600;
     font-size: 12px;
 }
-
-
-
-
 .kr-sg-input-search {
     width: 100%;
     position: relative;
@@ -13526,4 +13523,10 @@ button.search-button:disabled {
     width: auto;
     height: auto;
     cursor: pointer;
+}
+
+.kr-sg-radiobutton{
+    margin: 0;
+    padding: 8px 10px;
+    border-radius: 2px;
 }
