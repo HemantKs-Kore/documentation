@@ -6,6 +6,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '../../services/notification.service';
 import { HttpClient } from '@angular/common/http';
+import { SideBarService } from './../../services/header.service';
 @Component({
   selector: 'app-search-experience',
   templateUrl: './search-experience.component.html',
@@ -75,7 +76,7 @@ export class SearchExperienceComponent implements OnInit {
   width: number = this.minWidth;
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
-  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService) {
+  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, public headerService : SideBarService) {
   }
 
   ngOnInit(): void {
@@ -349,6 +350,7 @@ export class SearchExperienceComponent implements OnInit {
     this.service.invoke('put.searchexperience', quaryparms, obj).subscribe(res => {
       console.log("test res", res);
       this.searchIcon = res.widgetConfig.searchBarIcon;
+      this.headerService.updateSearchConfiguration();
       console.log("this.searchIcon", this.searchIcon)
       this.notificationService.notify('Updated successfully', 'success');
       this.statusModalPopRef = this.statusModalPop.open();

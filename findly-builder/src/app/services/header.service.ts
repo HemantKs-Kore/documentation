@@ -7,7 +7,9 @@ export class SideBarService {
   @Output() fromCallFlowExpand: EventEmitter<boolean> = new EventEmitter();
   @Output() openSearchSDKFromHeader : EventEmitter<any> = new EventEmitter();
   @Output() resultRankData : EventEmitter<any> = new EventEmitter();
+  @Output() resetSearchConfiguration : EventEmitter<any> = new EventEmitter();
   isOnboardingPage = false;
+  searchConfiguration :any;
   toggle(data) {
     this.change.next(data);
   }
@@ -22,5 +24,9 @@ export class SideBarService {
 
   fromResultRank(data){
     this.resultRankData.next(data);
+  }
+
+  updateSearchConfiguration(){
+    this.resetSearchConfiguration.next();
   }
 }

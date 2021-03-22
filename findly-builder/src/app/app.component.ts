@@ -40,6 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
   showInsightFull = false;
   queryText;
   subscription: Subscription;
+  SearchConfigurationSubscription : Subscription;
   searchSDKSubscription : Subscription;
   resultRankDataSubscription :Subscription
   pathsObj: any = {
@@ -78,6 +79,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.userInfo = this.authService.getUserInfo() || {};
     this.subscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.resetFindlySearchSDK(this.workflowService.selectedApp());
+    });
+    this.SearchConfigurationSubscription = this.headerService.resetSearchConfiguration.subscribe(res => {
+      this.getSearchExperience();
     });
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe( (res : any) => {
       if(this.searchExperienceConfig){
@@ -266,6 +270,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
     this.searchSDKSubscription.unsubscribe();
     this.resultRankDataSubscription.unsubscribe();
+    this.SearchConfigurationSubscription ? this.SearchConfigurationSubscription.unsubscribe() : false;
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
@@ -375,6 +380,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.sdkBridge(bridgeObj);
     if (this.searchInstance && this.searchInstance.applicationToSDK && event) {
       this.searchInstance.applicationToSDK(event);
+    }
+    if(this.topDownSearchInstance  && this.topDownSearchInstance.applicationToSDK && event){
+      this.topDownSearchInstance.applicationToSDK(event);
     }
   }
   initSearchSDK() {
@@ -487,6 +495,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
       console.log("search experience data", res);
       this.searchExperienceConfig = res;
+      this.headerService.searchConfiguration =res;
     }, errRes => {
       console.log(errRes);
     });

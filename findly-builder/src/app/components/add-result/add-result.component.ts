@@ -88,6 +88,8 @@ export class AddResultComponent implements OnInit {
         if(element.contentId == record.contentId){
           this.recordArray.splice(index,1);
           duplicate = true;
+          var id = element.contentId
+          $("[custumId="+id+"]").prop('checked', false);
         }
       });
     }

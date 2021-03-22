@@ -700,7 +700,7 @@ input:focus{
 .category-wise-container .group-checkbox.filters-content-top-down{
   border-bottom: none;
    padding: 0px;
-   max-height: 218px;
+   /* max-height: 218px; */
    overflow: auto;
    position: relative;
 }
@@ -731,6 +731,21 @@ input:focus{
 
 .category-wise-container .kr-sg-checkbox .checkbox-custom + .checkbox-custom-label::before{
   margin-top: 0;
+}
+
+.category-wise-container .kr-sg-radiobutton .radio-custom + .radio-custom-label{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-right: 0;
+  max-width: 86%;
+}
+
+.kr-sg-radiobutton .count{
+  color: #979797;
+  position: absolute;
+  margin-left: 2px;
+  top: 0;
 }
 
 
@@ -962,6 +977,7 @@ input:focus{
   margin-top: 80px;
   max-height: calc(100vh - 248px);
   overflow: auto;
+  position: relative;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .filters-sec.float-right {
   float: right;
@@ -1049,6 +1065,7 @@ input:focus{
   padding: 0 0 0 20px;
   max-height: calc(100vh - 235px);
   overflow: scroll;
+  position: relative;
 }
 .sdk-top-down-interface .templates-data{
   padding: 5px 0 15px 0;
@@ -1296,6 +1313,8 @@ float: right;
   right: 10px;
   top: -24px;
   z-index: 1;
+  padding: 3px 5px;
+  cursor: pointer;
 }
 
 .d-none{
@@ -1994,9 +2013,21 @@ background:none !important;
   padding-left:0px !important;
 }
 .sdk-top-down-interface .custom-add-result-container{
-  margin-bottom:60px !important;
+  /* margin-bottom:60px !important; */
+  background: #FFFFFF;
+    box-sizing: border-box;
+    padding: 14px 12px;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
 }
 
 .sdk-top-down-interface .search-bar .widget-icon{
   bottom: 8px;
 }
+
+
+a{
+  text-decoration: none !important;
+}
+/*style="color :searchConfig.searchBarPlaceholderTextColor !important;"*/
