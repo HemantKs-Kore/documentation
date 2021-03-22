@@ -16763,6 +16763,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                       <!-- Facet right-->\
                       <div  id="rightFacetFilterId"> </div>\
                       <!-- Facet right-->\
+                      <!-- Facet top-->\
+                      <div  id="topFacetIcon"> </div>\
+                      <!-- Facet top Icon-->\
                       {{if count > 0 }}\
                       <div class="filter-updated-count">\
                         <span class="length-count">${count}</span>\
@@ -16913,9 +16916,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         var facetObj = {};
         facetObj['position'] = _self.vars.filterConfiguration.aligned// "left";
         facetObj['show'] = false;
-        if(facetObj['position'] == "top"){
-          facetObj['show'] = true;
-        }
+        // if(facetObj['position'] == "top"){
+        //   facetObj['show'] = true;
+        // }
         _self.vars['facetObjectGlobal'] = facetObj
         _self.facetReset(facetObj,facetData);
 
@@ -16961,12 +16964,18 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         'show' : facetObj.show,
         'searchFacets': facetData
       });
+      var facetTemplateTopIcon = $(_self.facetTemplateTopIcon()).tmpl({
+        'position': facetObj.position,
+        'show' : facetObj.show,
+        'searchFacets': facetData
+      });
       if(facetObj.position == 'right'){
         $('#rightFacetFilterId').empty().append(facetTemplate);
       }else if(facetObj.position == 'left'){
         $('#leftFacetFilterId').empty().append(facetTemplate);
       }else{
         $('#topFacetFilterId').empty().append(facetTemplateTop);
+        $('#topFacetIcon').empty().append(facetTemplateTopIcon);
       }
       _self.markSelectedFilters();
     }
@@ -17344,7 +17353,19 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         }
        //SDK Top Facet
     }
-
+    FindlySDK.prototype.facetTemplateTopIcon = function(){
+      var facet =
+      '<script type="text/x-jqury-tmpl">\
+        <div>\
+        {{if searchFacets.length}}\
+        <div id="facetRightIconId" class="fliter-right-btn">\
+        <img  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAKCAYAAACE2W/HAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA/SURBVHgB1c+hEQAgDATBfyqJwVMKpaYUPCadwCAyGATgcursUiQXYFQ8RU0IE33urFSz3tZFNHpn67Z538YJjc8On2EvoL4AAAAASUVORK5CYII=">\
+        </div>\
+        {{/if}}\
+        </div>\
+      </script>'
+      return facet
+    }
     FindlySDK.prototype.facetFilter = function(){
       var facet =
       '<script type="text/x-jqury-tmpl">\
@@ -17471,7 +17492,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         <!--<div id="facetRightIconId" class="fliter-right-btn left-filter">\
         <img  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAKCAYAAACE2W/HAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA/SURBVHgB1c+hEQAgDATBfyqJwVMKpaYUPCadwCAyGATgcursUiQXYFQ8RU0IE33urFSz3tZFNHpn67Z538YJjc8On2EvoL4AAAAASUVORK5CYII=">\
         -->\
-        {{if searchFacets.length }}\
+        {{if searchFacets.length && show}}\
         <div class="horizantal-filter-sec filter-data">\
           {{each(i, searchFacet) searchFacets}}\
               <div class="dropdown_custom_filter">\
@@ -17484,6 +17505,10 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
                   <img class="up-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACQSURBVHgBhY7BDYJQDIb/ggM8wgI14llXYBJ1A48e3YAVvHpyBHUC4gCYTmDeAGrpAw48LnxJk+bv16aEEczskKRV6OXdHMazJJJocccfFIqXRd1lAxRJqi+RZt9nqwuINtBvKSKeTGKTbiY9TTrGrxRnkO6gvzJ1WV5D6WrSCRO8/zycyzO7XNnWeosZgtMCupEtrTPwmiYAAAAASUVORK5CYII=">\
                 </div>\
                   <div id="myDropdown" class="dropdown-content filters-content sdk-top-facet-option myDropdown-${i}" id="sdk-top-facet-option-${i}" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+                  <!--<div class="kr-sg-input-search">\
+                  <input type="text" placeholder="Search" class="input-search sdk-bottomup-search-facet" id="sdk-bottomup-search-facet-${i}" data-bucket="${searchFacet[i]}" >\
+                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAulBMVEUAAAAAAAAAAIAAVVUrK1UkN0kiM0QgMFAtLUskMUkiM00pMUopNEsoM0olNUomNUglNEokM0koMksnNUomNEkmNEglM0skNUkmNkwnM0snNUomNEklM0onNUolNUslNEonNEkmNUomNUsmNEolM0snNUomNEomNEomNEslNUkmNUomNEomNUomNEolNEomNEsmNEomNEomNEomM0omNEomNEomNEomNEomNEomNEomNEomNEomNEr///9hPe5QAAAAPXRSTlMAAQIDBg4PEBEVHh8sLTBDRUZHSElKS01RVVZeaG90dXZ5fqGkpaittbi9xMfL09TW2d7f4uPq7e/x8vf4F8v60AAAAAFiS0dEPdBtUVkAAACASURBVBgZBcGLIoNQAADQ05WWipZ5brGH0JDXZu7w/9/lHAAAgPJ4BICk3fx8/fUVQHL3Vgf5MtaA9vUQXO5y4LMGPC5AsQ+AWQ+qLcDFM8h+M8BtB6znQPpxBZzEU0i7lwA4+76fNjfvQxwDHK2ehofrcB4bAMAkFgCA8gAAgH/ZSQkFmhv26gAAAABJRU5ErkJggg==" class="search-icon">\
+                  </div>-->\
                   {{each(j, bucket) searchFacet.buckets}}\
                         {{if searchFacet.isMultiSelect}}\
                         {{if searchFacet.facetType == "value"}}\
