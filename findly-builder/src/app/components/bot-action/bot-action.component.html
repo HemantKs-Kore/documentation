@@ -46,13 +46,12 @@
             <a class="nav-link" data-toggle="tab" href="#linkedBotSmallTalk">Small Talk</a>
           </li> -->
         </ul>
-        <!-- <div class="search-container">
-
+        <div class="enable-container">
           <label class="kr-sg-toggle large">                                       
             <input type="checkbox" checked>
             <div class="slider"><span class="enabled">Enabled</span><span class="disabled">Disabled</span></div>
         </label>
-        </div> -->
+        </div>
         <div class="tab-content">
           <div id="linkedBotTasks" class="tab-pane active">
             <div class="linked-bot-tasks-content-container">
@@ -65,8 +64,12 @@
                           <!-- <div class="linked-bot-task-checkbox-container">
                       </div> -->
                           <div class="col-6 linked-bot-task-details-container">
-                            <p class="bold-text">{{task.name}}</p>
-                            <p class="normal-text">Bot-related Task</p>
+                            <div class="kr-sg-checkbox p-0 m-0 d-inline-block">
+                              <input id="{{task._id}}" class="checkbox-custom selectEachTaskInput" (change)="checkUncheckTasks(task)" type="checkbox">
+                              <label for="{{task._id}}" class="checkbox-custom-label"></label>
+                          </div>
+                            <div><p class="bold-text" [ngClass]="{'kg-gray-text': (task.taskStatus =='Disabled')}">{{task.name}}</p>
+                              <p class="normal-text">Bot-related Task</p></div>
                           </div>
                           <div class="col-6 linked-bot-task-views-clicks-container">
                             <span class="linked-bot-task-type">{{task.type}}</span>

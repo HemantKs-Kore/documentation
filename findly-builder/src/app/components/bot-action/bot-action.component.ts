@@ -52,7 +52,9 @@ export class BotActionComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
   ) { }
-
+  checkUncheckTasks(task){
+console.log(task);
+  }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     console.log(this.selectedApp);
