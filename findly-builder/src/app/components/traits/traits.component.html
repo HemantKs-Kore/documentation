@@ -127,13 +127,20 @@
                 <perfect-scrollbar class="trailts">
                     <div class="content-body" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">
                         <div class="col_ col-2" title="{{traitGroup.groupName || '---'}}">{{traitGroup.groupName || '---'}}</div>
-                        <div class="col_ col-9" >
-                            <span *ngFor="let trait of traitGroup.traits" class="utteranceTag">
-                                <div class="kr-sg-tags small grey"><span class="tag-name">{{trait.traitName || '---'}}</span></div>
+                        <div class="col_ col-8" >
+                             <span *ngFor="let trait of traitGroup.traits; let i=index;" >
+                                <span class="">{{i!==0 ?', ':''}}{{trait.traitName || '---'}}</span>
                             </span>
+                            <!-- <span *ngFor="let trait of traitGroup.traits" class="utteranceTag">
+                                <div class="kr-sg-tags small grey"><span class="tag-name">{{trait.traitName || '---'}}</span></div>
+                            </span> -->
                         </div>
-                          <div class="col_ col-1 text-right">
-                            <div class="kr-sg-dropdowns" #traitEdit="ngbDropdown" ngbDropdown [container]="'body'"
+                          <div class="col_ col-2 text-right">
+                            <div class="action-links">
+                                <img src="assets/icons/edit-pencil.svg" (click)="editTraitFroup(traitGroup)" id="btn_edit_traits" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                                <img src="assets/icons/delete-table.svg"(click)="deleteTraitsGroup(index,traitGroup,$event)"  id="btn_delete_traits" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            </div>
+                            <!-- <div class="kr-sg-dropdowns" #traitEdit="ngbDropdown" ngbDropdown [container]="'body'"
                                 [placement]="'bottom-right'">
                                 <div class="dropdown dropdown-open">
                                 <img class="cursor-pointer" ngbDropdownToggle src="assets/icons/elipse.svg">
@@ -142,7 +149,7 @@
                                      <li (click)="deleteTraitsGroup(index,traitGroup,$event)"><span class="list-name">Delete</span></li>
                                 </ul>
                                 </div> 
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="divBlockEmptylastChild text-center">         
