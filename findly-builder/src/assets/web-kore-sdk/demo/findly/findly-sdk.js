@@ -5964,11 +5964,12 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           event.stopPropagation();
           $('#searchChatContainer').removeClass('bgfocus');
           $('.search-body').addClass('hide');
+          $('.suggestion-search-data-parent').css('visibility', 'hidden');
         } else {
           if(!$(event.target).closest('.show-all-results-outer-wrap').length){
             $('.search-body').removeClass('hide');
             $('#searchChatContainer').addClass('bgfocus');
-            $('.suggestion-search-data-parent').css('visibility', 'visible');
+            $('.suggestion-search-data-parent').css('visibility', 'hidden');
           }
         }
         console.log($(event.target).closest('#search').length,$(event.target).closest('#search-box-container').length,$(event.target).closest('#frequently-searched-box').length,$(event.target).closest('#live-search-result-box').length);
