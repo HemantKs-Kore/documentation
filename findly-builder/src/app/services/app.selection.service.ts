@@ -16,6 +16,7 @@ export class AppSelectionService {
   public queryConfigSelected = new Subject<any>();
   public appSelected = new Subject<any>();
   public resumingApp = false;
+  res_length: number = 0;
   constructor(
     private workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -66,6 +67,7 @@ export class AppSelectionService {
     const subject = new ReplaySubject(1);
     subject.subscribe(res => {
       this.queryList = res || [];
+      let length = this.queryList.length;
       if (this.queryList) {
         this.workflowService.appQueryPipelines(res);
         let queryPipeline: any = [];
@@ -77,8 +79,13 @@ export class AppSelectionService {
         if (queryPipeline && queryPipeline.length) {
           this.selectQueryConfig(setPipline);
         } else if (this.queryList.length) {
-          const data = this.queryList.filter(ele => ele.default === true);
-          this.selectQueryConfig(data[0]);
+          if (this.res_length == 0) {
+            const data = this.queryList.filter(ele => ele.default === true);
+            this.selectQueryConfig(data[0]);
+          }
+          else {
+            this.selectQueryConfig(res[length - 1]);
+          }
         } else {
           this.selectQueryConfig({});
         }
@@ -123,6 +130,7 @@ export class AppSelectionService {
     console.log(config._id)
   }
   selectQueryConfig(config) {
+    this.res_length = this.queryList.length;
     this.workflowService.selectedQueryPipeline(config);
     const previousState = this.getPreviousState();
     this.setPreviousState(previousState.route);

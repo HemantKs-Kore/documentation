@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -49,6 +49,7 @@ export class TeamManagementComponent implements OnInit {
     selectAll: false,
     selectedItems: [],
   };
+  dummyCount = 0;
   selectedField;
   queryPipelineId;
   subscription: Subscription;
@@ -176,7 +177,6 @@ export class TeamManagementComponent implements OnInit {
   }
   //delete multiple members
   deleteBulkFacet(dialogRef) {
-    console.log("this", this.membersList)
     const facets = Object.keys(this.selcectionObj.selectedItems);
     console.log("facetst", facets);
     let users = [];

@@ -236,6 +236,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('create.queryPipeline', queryParms, payload).subscribe(
       res => {
+        console.log("search config", res)
         this.appSelectionService.getQureryPipelineIds();
         if (res && res._id) {
           this.selectQueryPipelineId(res);

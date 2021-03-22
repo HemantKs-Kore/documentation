@@ -142,7 +142,7 @@ export class AddStructuredDataComponent implements OnInit {
       }
       this.structuredData.payload = this.selectedJsonForEdit.parsedData;
       setTimeout( () => {
-        this.indentObj();
+        // this.indentObj();
       },200)
     }
     else{
@@ -153,7 +153,7 @@ export class AddStructuredDataComponent implements OnInit {
       if(this.codemirror && this.codemirror.codeMirror){
         this.codemirror.codeMirror.refresh();
       }
-    }, 200);
+    }, 500);
   }
 
   navigateToRecord(key){

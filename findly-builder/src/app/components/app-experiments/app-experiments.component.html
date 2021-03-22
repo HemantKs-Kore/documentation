@@ -341,7 +341,15 @@
               }}
             </button>
             <ul class="dropdown-menu content-menu"  *ngIf="vari.indexPipelineName!==undefined">
+<<<<<<< HEAD
               <li *ngFor="let query of queryPipeline" (click)="fetchVariant(varIndex, query, 'queryid')"  [ngStyle]="{'font-weight':vari.queryPipelineId===query._id?'bold':''}">
+=======
+<<<<<<< HEAD
+              <li *ngFor="let query of queryPipeline" (click)="fetchVariant(varIndex, query, 'queryid')">
+=======
+              <li *ngFor="let query of queryPipeline" (click)="fetchVariant(varIndex, query, 'queryid')"  [ngStyle]="{'font-weight':vari.queryPipelineId===query._id?'bold':''}">
+>>>>>>> Search_UI/devworkingcopy
+>>>>>>> 45968a2626f4712632b08295f74cae4bd63bfdd3
                 {{ query.name }}
               </li>
             </ul>
