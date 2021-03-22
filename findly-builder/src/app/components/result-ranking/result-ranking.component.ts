@@ -273,12 +273,14 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           var e = $.Event( "keypress", { which: 13 } );
           $('#search').trigger(e);
           setTimeout(()=>{
-            let containerClass = document.getElementsByClassName('top-down-search-background-div')[0] as HTMLBaseElement;
-            containerClass.classList.add('if-full-results')  
-            let container = document.getElementsByClassName('all-result-container')[0] as HTMLBaseElement;
-            container.style.display ="block";
-            var e = $.Event( "keypress", { which: 13 } );
-            $('#search').trigger(e);
+            if(this.headerService.searchConfiguration.experienceConfig.searchBarPosition != 'top'){
+              let containerClass = document.getElementsByClassName('top-down-search-background-div')[0] as HTMLBaseElement;
+              containerClass.classList.add('if-full-results')  
+              let container = document.getElementsByClassName('all-result-container')[0] as HTMLBaseElement;
+              container.style.display ="block";
+              var e = $.Event( "keypress", { which: 13 } );
+              $('#search').trigger(e);
+            }
           },3000)
         },3000)
         
@@ -306,12 +308,14 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           // });
           // $('#search').keyup(this);
           setTimeout(() => {
+            if(this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top'){
             let customTag = document.getElementsByClassName('faqs-wrp-content')[0] as HTMLBaseElement;
             customTag.click();
             let custom = document.getElementsByClassName('custom-header-nav-link-item')[1] as HTMLBaseElement;
             custom.click();
             let seeAll = document.getElementsByClassName('show-all-results')[0] as HTMLBaseElement;
             seeAll.click()
+            }
           }, 3000)
           //document.getElementById('viewTypeCustomize').click(); //viewTypeCustomize
         }, 3000);
