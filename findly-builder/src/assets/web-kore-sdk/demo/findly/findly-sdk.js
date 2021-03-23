@@ -3115,6 +3115,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('#loaderDIV').show();
               _self.showAllResults();
               _self.pubSub.publish('sa-search-full-results', {container : container ,isFullResults : true, selectedFacet : 'all', isLiveSearch : false, isSearch : false, facetData : facetdata ,dataObj});
+              setTimeout(() => {
+                _self.pubSub.publish('sa-action-full-search', {container : '#actions-full-search-container', isFullResults : true, selectedFacet : 'all results', isLiveSearch : false, isSearch : false, dataObj});
+              }, 500);
             }else{
               _self.vars.totalNumOfResults = response.template.totalNumOfResults
                _self.prepAllSearchData();
@@ -16322,6 +16325,14 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
 
       _self.vars.customizeTemplates = templates;
       console.log("self", _self.vars);
+
+      _self.pubSub.subscribe('sa-action-full-search', (msg, data) => {
+        if(data.isFullResults && data.tasks.length){
+          var actionContainer = '#actions-full-search-container';
+          var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy(data);
+          $(actionContainer).empty().append(dataHTML);
+        }
+      });
     }
 
     FindlySDK.prototype.designPageWithMappings = function (pages, mapping){
@@ -16977,6 +16988,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           'facetPosition' : _self.vars.filterConfiguration.aligned
         });
         $('#fullResultAllTypeId').append(fullResultAllType);
+        _self.appendActionsContainerForBottomUp();
         var resultRanking = $(_self.fullResultRanking()).tmpl({
           'data' : data.dataObj,
           'facetPosition' : _self.vars.filterConfiguration.aligned
@@ -19294,6 +19306,17 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
     FindlySDK.prototype.bindPlaceholderStyle = function(config){
       $("body").append("<style>#search::placeholder,  .cancel-search .cross {color:" +  config.searchConfig.searchBarPlaceholderTextColor + "!important;}</style>")
     }
+
+    FindlySDK.prototype.appendActionsContainerForBottomUp = function(){
+      var actionsPosition ='top';
+      let actionParentContainer = `<div id="actions-full-search-container" class="quick-actions-full-search-container"></div>`;
+      if(actionsPosition === 'top'){
+        $('.data-body-sec').prepend(actionParentContainer);
+      }else{
+        $('.custom-add-result-container').after(actionParentContainer);
+      }
+    }
+
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
 });
