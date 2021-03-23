@@ -1615,3 +1615,42 @@
     .empty-scroll{
         height: calc(100vh - 162px);
     }   
+//Search Input styles//
+
+.pl-33 {
+    padding-left: 33px;
+}
+
+.pr-28 {
+    padding-right: 28px;
+}
+.kr-sg-toggle.large .slider span.w-163 {
+    width: 163px;
+}
+.enable-container {
+    position: absolute;
+    right: 0px;
+    top: 6px;
+}
+.m-r-92{
+    margin-right: 92px;
+}
+.bb-gray{
+    border-bottom: 1px solid #D8D8D8;
+}
+.kr-sg-input-search {
+    display: inline-block;
+    width: 0px;
+    width: 215px;            
+    position: relative;            
+    &.active {
+        display: block;
+        width: 300px;
+    }
+    .close-icon {
+        position: absolute;
+        right: 11px;
+        top: 12px;
+        cursor: pointer;
+    }
+}
