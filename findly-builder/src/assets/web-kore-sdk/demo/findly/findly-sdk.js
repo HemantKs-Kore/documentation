@@ -16327,7 +16327,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       console.log("self", _self.vars);
 
       _self.pubSub.subscribe('sa-action-full-search', (msg, data) => {
-        if(data.isFullResults && data.tasks.length){
+        if(data.isFullResults && data.tasks && data.tasks.length){
           var actionContainer = '#actions-full-search-container';
           var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy(data);
           $(actionContainer).empty().append(dataHTML);

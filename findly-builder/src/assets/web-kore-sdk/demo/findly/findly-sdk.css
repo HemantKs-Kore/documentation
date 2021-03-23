@@ -11599,10 +11599,10 @@ padding-right: 0;
 /* Tile with text styles */
 .tile-with-text-parent .tile-with-text {
     background: #FFFFFF;
-    box-shadow: 0px 0px 11px rgba(0,0,0,0.1);
-    border-radius: 8px;
+    box-shadow: 0px 0px 11px rgba(0,0,0,0.1) !important;
+    border-radius: 8px !important;
     padding: 13px 20px;
-    margin-bottom: 8px;
+    margin-bottom: 8px !important;
     width: 100%;
     display: block !important;
     text-decoration: none;
@@ -11703,12 +11703,12 @@ padding-right: 0;
 }
 .tile-with-text-parent.grid_view_template .tile-with-text {
     width: 48%;
-    margin: 4px;
+    margin: 4px !important;
     background: #FFFFFF;
     border: 1px solid #E7F1FF;
     box-sizing: border-box;
-    box-shadow: 0px 0px 11px rgb(0 0 0 / 10%);
-    border-radius: 4px;
+    box-shadow: 0px 0px 11px rgb(0 0 0 / 10%) !important;
+    border-radius: 4px !important;
     padding: 14px 12px;
 }
 .tile-with-text-parent.grid_view_template .tile-with-text .tile-heading {

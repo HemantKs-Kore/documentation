@@ -81,6 +81,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.resetFindlySearchSDK(this.workflowService.selectedApp());
     });
     this.SearchConfigurationSubscription = this.headerService.resetSearchConfiguration.subscribe(res => {
+      this.distroySearch();
       this.getSearchExperience();
     });
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe( (res : any) => {
@@ -304,6 +305,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.findlyBusinessConfig = this;
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
     this.distroySearch();
+    this.clearBodyClasses();
     this.searchInstance = new FindlySDK(findlyConfig);
     this.searchInstance.showSearch(findlyConfig.botOptions, this.searchExperienceConfig);
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
@@ -499,6 +501,14 @@ export class AppComponent implements OnInit, OnDestroy {
     }, errRes => {
       console.log(errRes);
     });
+  }
+
+  clearBodyClasses(){
+    // have to clear the classes set for Top-down
+    if($('body').hasClass('top-down')){
+      $('body').removeClass('top-down');
+      $('body').removeClass('sdk-top-down-interface');
+    }
   }
 
   // click event on whole body. For now, using for Status Docker
