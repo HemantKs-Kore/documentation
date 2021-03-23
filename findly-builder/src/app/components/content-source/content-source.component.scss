@@ -1262,10 +1262,12 @@
     .execution-table-data{
         .content-body{
             position: relative;
+            cursor: default;
             .col_{
                 position: relative;
             }
             .eye-img{
+                cursor: pointer;
                 position: absolute;
                 left: calc(25% - 27px);
                 z-index: 1;

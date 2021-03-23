@@ -464,18 +464,23 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       return;
     }
-
+    let showProg: boolean = false;
     const _ext = fileName.substring(fileName.lastIndexOf('.'));
     this.extension = _ext
     if (this.selectedSourceType.sourceType != "faq") {
-      if (this.extension !== '.pdf' && this.extension !== '.csv') {
-        $('#sourceFileUploader').val(null);
-        this.notificationService.notify('Please select a valid csv or pdf file', 'error');
-        return;
+      if (this.extension === '.pdf') {
+        
+        showProg = true;
       }
+        else{
+          $('#sourceFileUploader').val(null);
+          this.notificationService.notify('Please select a valid  pdf file', 'error');
+          // return;
+        }
+    
     }
     else {
-      let showProg: boolean = false;
+    
       if (this.selectedSourceType.sourceType == "faq") {
         if (this.selectedSourceType.resourceType == '') {
           if (this.extension === '.pdf') {
@@ -497,12 +502,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       else {
         showProg = true;
       }
-      if (showProg) {
-        this.onFileSelect(event.target, this.extension);
-        this.fileObj.fileUploadInProgress = true;
-        this.fileObj.fileName = fileName;
-        this.fileObj.file_ext = this.extension.replace(".", "");
-      }
+      
+    }
+    if (showProg) {
+      this.onFileSelect(event.target, this.extension);
+      this.fileObj.fileUploadInProgress = true;
+      this.fileObj.fileName = fileName;
+      this.fileObj.file_ext = this.extension.replace(".", "");
     }
   }
   onFileSelect(input: HTMLInputElement, ext) {
