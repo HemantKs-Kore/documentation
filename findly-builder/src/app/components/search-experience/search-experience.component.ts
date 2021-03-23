@@ -6,6 +6,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '../../services/notification.service';
 import { HttpClient } from '@angular/common/http';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 @Component({
   selector: 'app-search-experience',
   templateUrl: './search-experience.component.html',
@@ -67,9 +68,10 @@ export class SearchExperienceComponent implements OnInit {
   toggle: boolean = false;
   minWidth: number = 200;
   width: number = this.minWidth;
+  componentType: string = 'designing';
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
-  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService) { }
+  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -297,7 +299,7 @@ export class SearchExperienceComponent implements OnInit {
       }
     }
     this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
-      console.log("put tour config data", res);
+      this.appSelectionService.updateTourConfig(this.componentType);
       this.notificationService.notify('Updated successfully', 'success');
       this.tourGuide = '';
     }, errRes => {

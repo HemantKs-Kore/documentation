@@ -4,6 +4,7 @@
     <span class="please-wait-message">{{'please_wait' | translate}}</span>
 </div>
 <div class="faqmain-container" *ngIf="loadingFaqs1">
+    <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="faqsListContainer">       
         <div class="faq-header-sec row m-0">
             <div class="col-6 left-sec p-0 faq-title" >FAQs</div>

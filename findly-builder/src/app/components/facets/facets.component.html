@@ -4,6 +4,7 @@
         <span class="please-wait-message">{{'please_wait'| translate}}</span>
     </div>
     <div *ngIf="loadingContent1">
+        <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <div class="header-sec col-12 row m-0" [ngClass]="{ 'd-none' : !selcectionObj.selectedCount}">
             <div class="col-4 lef-sec p-0">
                 <div class="kr-sg-checkbox p-0 ml-1 mb-0 select-all-checkbox adjust-checkbox-padding">

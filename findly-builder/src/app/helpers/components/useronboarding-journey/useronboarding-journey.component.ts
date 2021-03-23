@@ -2,7 +2,9 @@ import { Component, OnInit, ViewChild, Input, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { AppSelectionService } from '@kore.services/app.selection.service'
+import { AppSelectionService } from '@kore.services/app.selection.service';
+import { NotificationService } from '@kore.services/notification.service';
+import { AuthService } from '@kore.services/auth.service';
 @Component({
   selector: 'app-useronboarding-journey',
   templateUrl: './useronboarding-journey.component.html',
@@ -11,24 +13,28 @@ import { AppSelectionService } from '@kore.services/app.selection.service'
 export class UseronboardingJourneyComponent implements OnInit, OnChanges {
   onBoardingModalPopRef: any;
   @Input() componentType;
-  @Input() showChecklist;
   tourData: any;
+  tourConfigData: any = [];
   checklistCount: number;
+  userInfo: any = {};
+  showSteps: boolean;
+  showStatusIcon: boolean = true;
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
-  constructor(private router: Router, private appSelectionService: AppSelectionService, private service: ServiceInvokerService) { }
+  constructor(private router: Router, private appSelectionService: AppSelectionService, private service: ServiceInvokerService, private notificationService: NotificationService, private authService: AuthService) { }
   ngOnInit(): void {
+    this.userInfo = this.authService.getUserInfo() || {};
     this.appSelectionService.getTourConfig().subscribe(res => {
+      this.checklistCount = res.configurations.findlyOverViewVisted ? 1 : 0;
+      this.tourConfigData = res.configurations;
       this.tourData = res.configurations.onBoardingChecklist;
-      console.log(" this.tourData", this.tourData);
       this.trackChecklist();
     })
   }
   ngOnChanges() {
-    if (this.componentType != '' && this.componentType != undefined) {
-      this.updateChecklist();
-    }
-    if (this.showChecklist != '' && this.showChecklist != undefined) {
-      console.log("showChecklist", this.showChecklist)
+    if (this.componentType != '' && this.componentType != undefined && this.tourConfigData && this.componentType != 'summary') {
+      if (this.componentType == 'overview') {
+        this.appSelectionService.updateTourConfig('overview');
+      }
     }
   }
   //open useronboard popup
@@ -46,10 +52,6 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges {
     this.closeOnBoardingModal();
     this.router.navigate([step], { skipLocationChange: true });
   }
-  //update onboarding checklist
-  updateChecklist() {
-    console.log("checklist type", this.componentType);
-  }
   //track checklist count and show count number
   trackChecklist() {
     let count = 0;
@@ -59,6 +61,27 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges {
     count = this.tourData[3].designSearchExperienceVisited ? count + 1 : count;
     count = this.tourData[4].testAppVisited ? count + 1 : count;
     count = this.tourData[5].fineTuneRelevanceVisited ? count + 1 : count;
-    this.checklistCount = count;
+    this.checklistCount = this.checklistCount + count;
+    this.showSteps = this.checklistCount === 7 ? false : true;
+    if (this.componentType != 'summary') {
+      if (this.componentType == 'addData') {
+        this.showStatusIcon = this.tourData[0].addDataVisited ? true : false;
+      }
+      else if (this.componentType == 'indexing') {
+        this.showStatusIcon = this.tourData[1].indexDataVisited ? true : false;
+      }
+      else if (this.componentType == 'configure') {
+        this.showStatusIcon = this.tourData[2].optimiseSearchResultsVisited ? true : false;
+      }
+      else if (this.componentType == 'designing') {
+        this.showStatusIcon = this.tourData[3].designSearchExperienceVisited ? true : false;
+      }
+      else if (this.componentType == 'test') {
+        this.showStatusIcon = this.tourData[4].testAppVisited ? true : false;
+      }
+      else if (this.componentType == 'optimize') {
+        this.showStatusIcon = this.tourData[5].fineTuneRelevanceVisited ? true : false;
+      }
+    }
   }
 }

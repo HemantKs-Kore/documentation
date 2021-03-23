@@ -39,7 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
   showInsightFull = false;
   queryText;
   subscription: Subscription;
-  searchSDKSubscription : Subscription;
+  searchSDKSubscription: Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -74,7 +74,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.resetFindlySearchSDK(this.workflowService.selectedApp());
     })
-    this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe( (res : any) => {
+    this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       if (!$('.search-background-div:visible').length) {
         $('.start-search-icon-div').addClass('active');
         this.showHideSearch(true);
@@ -101,7 +101,7 @@ export class AppComponent implements OnInit, OnDestroy {
         if (selectedApp && selectedApp.length) {
           this.appSelectionService.setAppWorkFlowData(selectedApp[0], this.previousState.selectedQueryPipeline);
           this.resetFindlySearchSDK(this.workflowService.selectedApp());
-          route = '/source';
+          route = '/summary';
           if (this.previousState.route) {
             route = this.previousState.route
           }
@@ -260,10 +260,10 @@ export class AppComponent implements OnInit, OnDestroy {
     };
     // useful for connecting to non-secure urls like localhost during development (not to be used in environments)
     if (window.appConfig.API_SERVER_URL.indexOf('http://') !== -1) {
-          botOptionsFindly.reWriteSocketURL = {
-            protocol: 'ws',
-            hostname:  window.appConfig.API_SERVER_URL.replace('http://','')
-        };
+      botOptionsFindly.reWriteSocketURL = {
+        protocol: 'ws',
+        hostname: window.appConfig.API_SERVER_URL.replace('http://', '')
+      };
     }
     const findlyConfig: any = {
       botOptions: botOptionsFindly,

@@ -62,6 +62,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   docTypeArr = [];
   selectedFilter: any = ''
   executionLogStatus = false;
+  componentType: string = 'addData';
   contentTypes = {
     webdomain: 'Web',
     document: 'Doc'
@@ -1372,10 +1373,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
     crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
     crawler.advanceOpts.allowedURLs.length > 0 || crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.crawlEverything = false : crawler.advanceOpts.crawlEverything = true;
-    if( resourceType != 'webdomain'){
+    if (resourceType != 'webdomain') {
       crawler.resourceType = resourceType;
-    }    
-    else{
+    }
+    else {
       delete crawler.resourceType;
     }
     payload = crawler;

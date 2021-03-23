@@ -175,4 +175,51 @@ export class AppSelectionService {
     };
     return this.service.invoke('get.tourConfig', quaryparms)
   }
+  //put tour config
+  public updateTourConfig(component) {
+    let callApi: boolean;
+    const userInfo: any = this.authService.getUserInfo();
+    this.getTourConfig().subscribe(res => {
+      let resData = res.configurations;
+      if (component == 'overview' && !resData.findlyOverViewVisted) {
+        resData.findlyOverViewVisted = true;
+        callApi = true;
+      }
+      else if (component == 'addData' && !resData.onBoardingChecklist[0].addDataVisited) {
+        resData.onBoardingChecklist[0].addDataVisited = true;
+        callApi = true;
+      }
+      else if (component == 'indexing' && !resData.onBoardingChecklist[1].indexDataVisited) {
+        resData.onBoardingChecklist[1].indexDataVisited = true;
+        callApi = true;
+      }
+      else if (component == 'configure' && !resData.onBoardingChecklist[2].optimiseSearchResultsVisited) {
+        resData.onBoardingChecklist[2].optimiseSearchResultsVisited = true;
+        callApi = true;
+      }
+      else if (component == 'designing' && !resData.onBoardingChecklist[3].designSearchExperienceVisited) {
+        resData.onBoardingChecklist[3].designSearchExperienceVisited = true;
+        callApi = true;
+      }
+      else if (component == 'test' && !resData.onBoardingChecklist[4].testAppVisited) {
+        resData.onBoardingChecklist[4].testAppVisited = true;
+        callApi = true;
+      }
+      else if (component == 'optimize' && !resData.onBoardingChecklist[5].fineTuneRelevanceVisited) {
+        resData.onBoardingChecklist[5].fineTuneRelevanceVisited = true;
+        callApi = true;
+      }
+      if (callApi) {
+        const quaryparms: any = {
+          userId: userInfo.id
+        };
+        const payload = { "configurations": resData };
+        this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
+          console.log("put tour config service done", res)
+        }, errRes => {
+          console.log(errRes);
+        });
+      }
+    })
+  }
 }

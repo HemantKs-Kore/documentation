@@ -4,6 +4,7 @@
         <span class="please-wait-message">{{'please_wait'| translate}}</span>
     </div>
     <ng-container *ngIf="!loadingContent">
+        <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <div class="header-sec-stopwords">
             <div class="title">{{'weights.Weights'| translate}}</div>
             <div class="restore_text" *ngIf="weights.length">

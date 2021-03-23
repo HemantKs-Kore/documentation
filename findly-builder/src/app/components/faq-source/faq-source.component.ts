@@ -119,6 +119,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   altCancelSub: Subscription;
   followAddSub: Subscription;
   followCancelSub: Subscription;
+  componentType: string = 'addData';
   @ViewChild('editQaScrollContainer', { static: true }) editQaScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('fqasScrollContainer', { static: true }) fqasScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('addfaqSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -174,7 +175,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   loadingFaqs1: boolean;
   loadImageText: boolean = false;
-  imageLoad(){
+  imageLoad() {
     console.log("image loaded now")
     this.loadingFaqs = false;
     this.loadingFaqs1 = true;
@@ -1257,13 +1258,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       exportType: ext,
     }
     this.service.invoke('export.faq', quaryparms, payload).subscribe(res => {
-      if(ext === 'json'){
+      if (ext === 'json') {
         this.notificationService.notify('Export to JSON is in progress. You can check the status in the Status Docker', 'success');
       }
-      else{
+      else {
         this.notificationService.notify('Export to CSV is in progress. You can check the status in the Status Docker', 'success');
       }
-    
+
       this.checkExportFaq();
     },
       errRes => {
@@ -1347,6 +1348,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showSearch = !this.showSearch
   };
 
-  
-  
+
+
 }

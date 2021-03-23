@@ -25,11 +25,11 @@
     </ul>
   </div>
 </div> -->
-  <app-useronboarding-journey #onboard [showChecklist]='showChecklist' [componentType]='componentType' *ngIf="showOverview"></app-useronboarding-journey>
+  <app-useronboarding-journey #onboard [componentType]='componentType' *ngIf="showOverview"></app-useronboarding-journey>
 <div class="over-view-config-tour" *ngIf="!showOverview">
   <div class="tour-header">
     <div class="title">Overview</div>
-    <div class="close-tour"><img src="assets/icons/close-white.svg" (click)="showOverview=false"></div>
+    <div class="close-tour"><img src="assets/icons/close-white.svg" (click)="showOverview=true"></div>
   </div>
   <div class="tour-info">Shows the Birds eye view of configurations in your App</div>
   <button class="kr-sg-button-primary btn_lg" (click)="openOnBoardingModal()">Got It</button>

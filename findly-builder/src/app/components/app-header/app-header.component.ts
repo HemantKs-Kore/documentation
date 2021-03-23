@@ -209,6 +209,7 @@ export class AppHeaderComponent implements OnInit {
         setTimeout(() => {
           self.training = false;
           self.notificationService.notify('Training has been initated', 'success');
+          this.appSelectionService.updateTourConfig('indexing');
         }, 5000)
       }, errRes => {
         self.training = false;

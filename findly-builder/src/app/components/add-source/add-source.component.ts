@@ -21,7 +21,7 @@ import { ThrowStmt } from '@angular/compiler';
 import { RangySelectionService } from '../annotool/services/rangy-selection.service';
 import { DockStatusService } from '../../services/dock.status.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-
+import { AppSelectionService } from '@kore.services/app.selection.service';
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -203,7 +203,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private dock: DockStatusService,
     public dialog: MatDialog,
-    private rangyService: RangySelectionService
+    private rangyService: RangySelectionService,
+    private appSelectionService: AppSelectionService
   ) { }
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -466,17 +467,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       return;
     }
- 
+
     const _ext = fileName.substring(fileName.lastIndexOf('.'));
     this.extension = _ext
     if (this.selectedSourceType.sourceType != "faq") {
-    if (this.extension !== '.pdf' && this.extension !== '.csv') {
-      $('#sourceFileUploader').val(null);
-      this.notificationService.notify('Please select a valid csv or pdf file', 'error');
-      return;
-    } 
-  }
-  else {
+      if (this.extension !== '.pdf' && this.extension !== '.csv') {
+        $('#sourceFileUploader').val(null);
+        this.notificationService.notify('Please select a valid csv or pdf file', 'error');
+        return;
+      }
+    }
+    else {
       let showProg: boolean = false;
       if (this.selectedSourceType.sourceType == "faq") {
         if (this.selectedSourceType.resourceType == '') {
@@ -500,7 +501,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         showProg = true;
       }
       if (showProg) {
-        this.onFileSelect(event.target,this.extension);
+        this.onFileSelect(event.target, this.extension);
         this.fileObj.fileUploadInProgress = true;
         this.fileObj.fileName = fileName;
         this.fileObj.file_ext = this.extension.replace(".", "");
@@ -720,7 +721,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       if (schdVal) {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-          console.log("proceedfor both pages", res)
           this.openStatusModal();
           this.addSourceModalPopRef.close();
           if (this.selectedSourceType.sourceType === 'content') {
@@ -731,7 +731,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
           this.extract_sourceId = res._id;
           this.crwal_jobId = res.jobId
-          console.log("this.statusObject", this.statusObject)
+          this.appSelectionService.updateTourConfig('addData');
         }, errRes => {
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
             this.notificationService.notify(errRes.error.errors[0].msg, 'error');

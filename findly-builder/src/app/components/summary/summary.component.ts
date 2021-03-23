@@ -6,6 +6,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { UseronboardingJourneyComponent } from '../../helpers/components/useronboarding-journey/useronboarding-journey.component';
 import * as moment from 'moment';
@@ -47,7 +48,6 @@ export class SummaryComponent implements OnInit {
     'configured': 3
   };
   componentType: string;
-  showChecklist: string;
   listMonths = ['January', 'February', 'March',
     'April', 'May', 'June', 'July',
     'August', 'September', 'October', 'November', 'December'];
@@ -101,6 +101,7 @@ export class SummaryComponent implements OnInit {
     private notificationService: NotificationService,
     private authService: AuthService,
     private router: Router,
+    private appSelectionService: AppSelectionService
   ) { }
 
 
@@ -113,13 +114,16 @@ export class SummaryComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
+    this.appSelectionService.getTourConfig().subscribe(res => {
+      this.showOverview = res.configurations.findlyOverViewVisted;
+    })
     this.getSummary();
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
     // this.getChannel();
     this.getLinkedBot();
     this.getAllOverview();
-    this.showChecklist = 'summary';
+    this.componentType = 'summary';
   }
   getSummary() {
     this.loading = false;
@@ -306,7 +310,7 @@ export class SummaryComponent implements OnInit {
     $('#sourceTab').trigger('click')
   }
   openOnBoardingModal() {
-    this.showOverview = false;
+    this.showOverview = true;
     setTimeout(() => {
       this.componentType = 'overview';
       this.onboard.openOnBoardingModal();
