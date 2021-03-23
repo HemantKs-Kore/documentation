@@ -13654,7 +13654,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             <!-- <h1>Tile with Text</h1> -->\
             <div class="total-structured-data-wrap {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customization{{/if}}{{/if}}{{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}} display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
-              {{if tour && isFullResults == true}}\
+              {{if tour && isFullResults == true && viewType=="Customize"&&devMode==true}}\
                 <div class="tours-information sdk-tours-info-start">\
                   <div class="tourtitle">Customize</div>\
                   <div class="tour-info">Start Customizing your search results by hovering on the matched content and performing below actions:</div>\
@@ -16916,6 +16916,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       
       _self.pubSub.unsubscribe('sa-search-full-results');
       _self.pubSub.subscribe('sa-search-full-results', (msg, data) => {
+        _self.vars.scrollPageNumber = 0;
         console.log(data)
         _self.vars['selectedFiltersRadio'] = [];
         var facetCount = {};
