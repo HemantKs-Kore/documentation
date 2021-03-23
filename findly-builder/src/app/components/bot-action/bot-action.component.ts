@@ -51,6 +51,7 @@ export class BotActionComponent implements OnInit {
     selectAll: false,
     selectedItems:[],
   };
+  isEnabledAll = "disable"
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -922,10 +923,20 @@ export class BotActionComponent implements OnInit {
         (err) => { this.notificationService.notify("Task Enabling Failed", 'error') });
     }
   }
-  enableSeletedTasks() {
+  
+  enableDisableTask(isEnabledAll){
+    isEnabledAll = (isEnabledAll === 'disable')?'enabled':'disabled';
+    if(isEnabledAll === 'enable'){
+      this.enableSeletedTasks(true);
+    }else{
+      this.disableSeletedTasks(true);
+    }
+  }
+
+  enableSeletedTasks(isEnabledAll) {
     event.preventDefault();
 
-    const tasks = Object.keys(this.selcectionObj.selectedItems);
+    const tasks = isEnabledAll?this.linkedBotTasks:Object.keys(this.selcectionObj.selectedItems);
 
     let requestBody = {};
     requestBody['tasks'] = [];
@@ -936,11 +947,21 @@ export class BotActionComponent implements OnInit {
         searchIndexID: this.searchIndexId
       };
       tasks.forEach((e:any) => {
-        let taskObject:any = {};
-        taskObject['_id'] = e;
-      taskObject['streamId'] = this.streamId;
-      taskObject['isHidden'] = false;
-      requestBody['tasks'].push(taskObject);
+        if (isEnabledAll) {
+          if (e.isHidden == true) {
+            let taskObject: any = {};
+            taskObject['_id'] = e._id;
+            taskObject['streamId'] = this.streamId;
+            taskObject['isHidden'] = false;
+            requestBody['tasks'].push(taskObject);
+          }
+        } else {
+          let taskObject: any = {};
+          taskObject['_id'] = e;
+          taskObject['streamId'] = this.streamId;
+          taskObject['isHidden'] = false;
+          requestBody['tasks'].push(taskObject);
+        }
       });
       
       console.log(requestBody)
@@ -1020,9 +1041,9 @@ export class BotActionComponent implements OnInit {
       }, (err) => { this.notificationService.notify("Task Disabling Failed", 'error') })
     }
   }
-  disableSeletedTasks() {
+  disableSeletedTasks(isDisabledAll) {
     event.preventDefault();
-    const tasks = Object.keys(this.selcectionObj.selectedItems);
+    const tasks = isDisabledAll?this.linkedBotTasks:Object.keys(this.selcectionObj.selectedItems);
     let requestBody = {};
     requestBody['tasks'] = [];
     let taskObject = {};
@@ -1032,11 +1053,25 @@ export class BotActionComponent implements OnInit {
         searchIndexID: this.searchIndexId
       };
       tasks.forEach((e:any) => {
-        let taskObject:any = {};
+        if (isDisabledAll) {
+          if (e.isHidden == false) {
+            let taskObject:any = {};
+            taskObject['_id'] = e._id;
+          taskObject['streamId'] = this.streamId;
+          taskObject['isHidden'] = true;
+          requestBody['tasks'].push(taskObject);
+          }
+        } else {
+          let taskObject:any = {};
         taskObject['_id'] = e;
       taskObject['streamId'] = this.streamId;
       taskObject['isHidden'] = true;
       requestBody['tasks'].push(taskObject);
+        }
+
+
+
+        
       });
 
       this.service.invoke('put.disableTask', queryParams, requestBody, { "state": "published" }).subscribe(res => {
