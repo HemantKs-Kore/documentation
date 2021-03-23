@@ -5,6 +5,8 @@ import { Injectable, Output, EventEmitter } from '@angular/core'
 export class SideBarService {
   @Output() change: EventEmitter<boolean> = new EventEmitter();
   @Output() fromCallFlowExpand: EventEmitter<boolean> = new EventEmitter();
+  @Output() openSearchSDKFromHeader : EventEmitter<any> = new EventEmitter();
+  @Output() openFaqExtractsFromDocker : EventEmitter<any> = new EventEmitter();
   isOnboardingPage = false;
   toggle(data) {
     this.change.next(data);
@@ -14,4 +16,11 @@ export class SideBarService {
     this.fromCallFlowExpand.next(data);
   }
 
+  openSearchSDK(data){
+    this.openSearchSDKFromHeader.next(data);
+  }
+
+  openFaqExtracts(){
+    this.openFaqExtractsFromDocker.next();
+  }
 }

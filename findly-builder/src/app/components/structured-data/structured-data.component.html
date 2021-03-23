@@ -1,7 +1,7 @@
 <div class="structured-data-container-web" [ngClass]="{'disableContainer' : disableContainer}">
     <div class="header-sec">
         <div class="title">{{'structuredData.structuredData' | translate}}</div>
-        <div class="d-flex align-items-center" *ngIf="!noItems || emptySearchResults">
+        <div class="d-flex align-items-center" *ngIf="enableSearchBlock">
             <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !searchActive}">                               
                 <!-- <input type="text" id="direct-search" [(ngModel)]="searchText" (keyup.enter)="searchItems()" placeholder="Search" autocomplete="off" class="input-search pl-2" placeholder="Search">            -->
                 <input type="text" placeholder="Search" class="input-search" (keyup.enter)="searchItems()" [ngClass]="{'pl-33':!searchText}" autocomplete="off" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
@@ -97,7 +97,7 @@
                                                                     <div class="col-3 pr-0 default-value text-truncate" title="{{ childObject.value }}">{{ childObject.value }}</div>
                                                                 </ng-container>
                                                                 <ng-container *ngIf="childObject.nested">
-                                                                    <img class="pointer mr-2" (click)="childObject.expanded = !childObject.expanded;$event.stopPropagation();" *ngIf="childObject.nested && !childObject.expanded" src="assets/icons/accordian-collapse.svg">
+                                                                    <img class="pointer mr-2" *ngIf="childObject.nested && !childObject.expanded" src="assets/icons/accordian-collapse.svg">
                                                                     <img class="pointer mr-2" *ngIf="childObject.nested && childObject.expanded" (click)="childObject.expanded = !childObject.expanded;$event.stopPropagation();" src="assets/icons/accordian-expand.svg">
                                                                     <div class="col-11 p-0 default-key" title="{{ childObject.key }}">{{ childObject.key }} ({{childObject.valuesLength}} {{'structuredData.fields' | translate}})</div>
                                                                     <ng-container *ngIf="childObject.expanded">

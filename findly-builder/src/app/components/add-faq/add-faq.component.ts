@@ -17,6 +17,8 @@ import { Observable, Subscription } from 'rxjs';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import * as moment from 'moment';
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 declare const $: any;
 // import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
 
@@ -48,18 +50,28 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   anwerPayloadObj:any = {};
   ruleOptions = {
     searchContext:['recentSearches','currentSearch', 'traits', 'entity','keywords'],
-    pageContext:['device', 'browser', 'currentPage' , 'recentPages','signed','timeDateDay','session','timeSpentOnThePageSession'],
+    pageContext:['device', 'browser', 'currentPage' , 'recentPages','signed'],
     userContext:['userType', 'userProfile', 'age', 'sex'],
     contextTypes:['searchContext','pageContext','userContext'],
+    dataTypes: ['string', 'date', 'number', 'trait', 'entity', 'keyword'],
     actions:['boost','lower','hide','filter']
   }
   defaultValuesObj: any = {
     contextType:'searchContext',
     operator:'contains',
     contextCategory:'recentSearches',
+    dataType: 'string',
     value:[]
   }
-  conditions =['contains','doesNotContain','equals','notEquals']
+  conditions ={
+    string: ['contains', 'doesNotContain', 'equals', 'notEquals'],
+    date: ['equals', 'between', 'greaterThan', 'lessThan'],
+    number: ['equals', 'between', 'greaterThan', 'lessThan'],
+    trait: ['contains', 'doesNotContain', 'equals', 'notEquals'],
+    entity: ['contains', 'doesNotContain', 'equals', 'notEquals'],
+    keyword: ['contains', 'doesNotContain', 'equals', 'notEquals']
+  }
+ 
   codeMirrorOptions: any = {
     theme: 'neo',
     mode: 'javascript',
@@ -77,6 +89,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     defaultAnswers:[]
   }
   form: FormGroup;
+  currentSugg: any = [];
   tags: any[] = [];
   text = '';
   image:any = {
@@ -185,6 +198,89 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     }
     this.groupAddSub =  this.faqService.groupAdded.subscribe(res=>{ this.groupsAdded = res; });
   }
+  // buildCurrentContextSuggetions(ruleObj) {
+  //   const _ruleOptions = JSON.parse(JSON.stringify(this.ruleOptions))
+  //   const mainContext = _ruleOptions.contextTypes;
+  //   if ($('.mat_autofocus_dropdown').length) {
+  //     if (ruleObj.outcomeValueType == 'static' || (ruleObj.outcomeValueType == 'dynamic' && ruleObj.newValue && (ruleObj.newValue.search(/\./) !== -1))) {
+  //       if ($('.mat_autofocus_dropdown')[0]) {
+  //         $('.mat_autofocus_dropdown')[0].style.display = 'none';
+  //       }
+  //     } else {
+  //       if ($('.mat_autofocus_dropdown')[0]) {
+  //         $('.mat_autofocus_dropdown')[0].style.display = 'block';
+  //       }
+  //     }
+  //   }
+  //   this.currentSugg = [];
+  //   if (ruleObj && ruleObj.newValue) {
+  //     const selectedContextSelections = ruleObj.newValue.split('.');
+  //     if (selectedContextSelections && selectedContextSelections.length) {
+  //       const selectedContext = selectedContextSelections[0];
+  //       if (selectedContext && _ruleOptions[selectedContext]) {
+  //         if (selectedContextSelections.length === 3) {
+  //           this.currentSugg = [];
+  //         } else if (selectedContextSelections.length === 2) {
+  //           let filteredValues = _ruleOptions[selectedContextSelections[0]] || [];
+  //           filteredValues = _ruleOptions[selectedContextSelections[0]].filter(it => {
+  //             if (selectedContextSelections[1]) {
+  //               return it.toLowerCase().includes(selectedContextSelections[1].toLowerCase());
+  //             } else {
+  //               return true;
+  //             }
+  //           });
+  //           this.currentSugg = filteredValues;
+  //         } else if (selectedContextSelections.length === 1 && _ruleOptions[selectedContextSelections[0]]) {
+  //           this.currentSugg = _ruleOptions[selectedContextSelections[0]];
+  //         } else {
+  //           this.currentSugg = [];
+  //         }
+  //       } else {
+  //         const filteredValues = mainContext.filter(it => {
+  //           return it.toLowerCase().includes(ruleObj.newValue.toLowerCase());
+  //         });
+  //         this.currentSugg = filteredValues;
+  //       }
+  //     } else {
+  //       this.currentSugg = mainContext;
+  //     }
+  //   } else {
+  //     this.currentSugg = mainContext;
+  //   }
+  // }
+  // removeTag(tags, index) {
+  //   tags.splice(index, 1);
+  // }
+  openDateTimePicker(ruleObj, index) {
+    setTimeout(() => {
+      if (ruleObj && ruleObj.operator === 'between') {
+        $('#rangePicker_' + index).click();
+      } else {
+        $('#datePicker_' + index).click();
+      }
+    })
+  }
+  onDatesUpdated(event, ruleObj) {
+    if (!ruleObj.value) {
+      ruleObj.value = [];
+    }
+    if (ruleObj && ruleObj.operator === 'between') {
+      if (event.startDate && event.endDate) {
+        moment.utc();
+        const date = [];
+        const startDate = moment.utc(event.startDate).format();
+        const endDate = moment.utc(event.endDate).format();
+        date.push(startDate);
+        date.push(endDate)
+        ruleObj.value.push(date)
+      }
+    } else {
+      if (event.startDate) {
+        const date = moment.utc(event.startDate).format();
+        ruleObj.value.push(date)
+      }
+    }
+  }
   ruleSelection(ruleObj,value,key){
     if( key === 'contextCategory' ){
       ruleObj.contextCategory = value;
@@ -195,6 +291,13 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     }
     if( key === 'operator' ){
       ruleObj.operator = value;
+    }
+    if (key === 'dataType') {
+      if (ruleObj.dataType !== value) {
+        ruleObj.operator = this.conditions[value][0];
+        ruleObj.value = [];
+      }
+      ruleObj.dataType = value;
     }
   }
   addNewRule(index,faq){

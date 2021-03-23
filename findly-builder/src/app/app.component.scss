@@ -31,20 +31,35 @@
         display: none;
     }
     .headerTabsContainer{
-        visibility: hidden;
+        display: none;
     }
     .myappname{
+        display: none;
+    }
+    .no-landing-screen{
+        display: none;
+    }
+    .app-dropdown{
+        display: none;
+    }
+    .test-button{
+        display: none;
+    }
+    .notification-dropdown{
         visibility: hidden;
+    }
+    .dropdown-toggle.dropdown-input.notification{
+        pointer-events: none;
     }
     &.appSelected{
         .trainBlock{
             display: block !important;
         }
         .headerTabsContainer{
-            visibility: visible !important;
+            display: block !important;
         }
         .myappname{
-            visibility: visible !important;
+            display: block !important;
         }
         .toShowAppHeader{
             display: block !important;
@@ -57,6 +72,24 @@
         }
         .autoSearchTools{
             display: list-item;
+        }
+        .landing-screen{
+            display: none;
+        }
+        .no-landing-screen{
+            display: block !important;
+        }
+        .app-dropdown{
+            display: block !important;
+        }
+        .test-button{
+            display: block !important;
+        }
+        .notification-dropdown{
+            visibility: visible !important;
+        }
+        .dropdown-toggle.dropdown-input.notification{
+            pointer-events: unset;
         }
     }
 }

@@ -31,10 +31,11 @@
     .faqsListContainer{
         .faq-header-sec{
             background: #F8F9FA;
-            box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.07);
-            padding: 16px 21px;            
+            // box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.07);
+            padding: 9px 21px;         
             align-items: center;     
             position: relative;
+            height: 53px;
             .export-success-notification{
                 position: absolute;
                 right: 2px;
@@ -124,6 +125,7 @@
             height: 100vh;
             background: #E4E5E7;
             display: flex;
+            border-top: 1px solid rgba(0, 0, 0, 0.07);
             .content{                
                 &.left-content{
                     width: 45%;
@@ -247,7 +249,7 @@
                         }
                         button{
                             font-size: 14px;
-                            margin-left: 17px;
+                            margin-left: 7px;
                             color: #FFFFFF;
                             &.kr-sg-button-primary{
                                 background: #0D6EFD;
@@ -761,7 +763,7 @@
                             }
                         }
                         .appearences-info{
-                            background: #F8F9FA;
+                            // background: #F8F9FA;
                             border-radius: 4px;
                             padding: 10px 20px;
                             margin: 20px 30px 40px 30px;
@@ -1006,7 +1008,7 @@
                 margin-top: 0 !important;
                 padding: 0 !important;
                 .faqScurceListScroll{
-                    height: calc(100vh - 132px);
+                    height: calc(100vh - 210px);
                     .ps-content{
                         .empty{
                             display: none;
@@ -1097,7 +1099,7 @@
             .kr-sg-data-table{
                 section{
                     .faqScurceListScroll{
-                        height: calc(100vh - 135px);
+                        height: calc(100vh - 210px);
                         .ps-content{
                             .empty{
                                 display: none;
@@ -1467,7 +1469,7 @@
     
 }
 .empty-scroll{
-    height: calc(100vh - 162px);
+    height: calc(100vh - 120px);
 }
 .blur-content{
     opacity: 0.01;

@@ -21,6 +21,8 @@ import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pd
 
 declare const $: any;
 import * as moment from 'moment';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { SideBarService } from './../../services/header.service';
 
 @Component({
   selector: 'app-faq-source',
@@ -119,6 +121,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   altCancelSub: Subscription;
   followAddSub: Subscription;
   followCancelSub: Subscription;
+  openExtractsSubs : Subscription;
   @ViewChild('editQaScrollContainer', { static: true }) editQaScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('fqasScrollContainer', { static: true }) fqasScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('addfaqSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -136,6 +139,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     // private dock: DockStatusService,
     private convertMDtoHTML: ConvertMDtoHTML,
     // public dockService: DockStatusService,
+    private headerService: SideBarService,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
   ) {
@@ -159,6 +163,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.followCancelSub = this.faqServiceFollow.cancel.subscribe(data => { this.selectedFaq.isAddFollow = false; });
     this.altCancelSub = this.faqServiceAlt.cancel.subscribe(data => { this.selectedFaq.isAlt = false; });
+    this.openExtractsSubs = this.headerService.openFaqExtractsFromDocker.subscribe((res) => {
+      this.openStatusModal()
+    });
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -293,7 +300,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   checkUncheckfaqs(faq) {
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
     const allElements = $('.selectEachfaqInput');
-    if (selectedElements.length === allElements.length) {
+    if (selectedElements.length > 1) {
       $('#selectAllFaqs')[0].checked = true;
     } else {
       $('#selectAllFaqs')[0].checked = false;
@@ -835,6 +842,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     )
   }
   faqUpdateEvent() {
+    this.faqCancle();
     this.faqUpdate.next();
     this.selectTab('draft');
 
@@ -952,14 +960,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     const payload: any = {};
     let custerrMsg = 'Failed to update faqs'
     let custSucessMsg = 'Selected faqs updated successfully';
-    if (action === 'update' && state) {
+    if (action === 'update' && state) { 
       payload.state = state
     } else if (action === 'delete') {
       payload.action = 'delete'
       custSucessMsg = 'Selected Faqs deleted successfully'
       custerrMsg = 'Failed to delete faqs'
     }
-    if (this.faqSelectionObj && this.faqSelectionObj.selectAll) {
+    if (this.faqSelectionObj && this.faqSelectionObj.selectAll && (!this.selectedResource && !this.manualFilterSelected)) {
       payload.allFaqs = true;
       payload.currentState = this.selectedtab;
     } else {
@@ -1022,7 +1030,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   deleteIndFAQ(faq, dialogRef) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      sourceId: faq._id
+      sourceId: faq._id,
     }
     this.service.invoke('delete.faq', quaryparms).subscribe(res => {
       dialogRef.close();
@@ -1248,6 +1256,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.altCancelSub ? this.altCancelSub.unsubscribe() : false;
     this.followAddSub ? this.followAddSub.unsubscribe() : false;
     this.followCancelSub ? this.followCancelSub.unsubscribe() : false;
+    this.openExtractsSubs ? this.openExtractsSubs.unsubscribe() : false;
   }
   exportFaq(ext) {
     const quaryparms: any = {
@@ -1257,7 +1266,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       exportType: ext,
     }
     this.service.invoke('export.faq', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Export to JSON is in progress. You can check the status in the Status Docker', 'success');
+      if(ext === 'json'){
+        this.notificationService.notify('Export to JSON is in progress. You can check the status in the Status Docker', 'success');
+      }
+      else{
+        this.notificationService.notify('Export to CSV is in progress. You can check the status in the Status Docker', 'success');
+      }
+    
       this.checkExportFaq();
     },
       errRes => {

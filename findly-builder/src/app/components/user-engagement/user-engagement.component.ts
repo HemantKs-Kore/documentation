@@ -7,7 +7,6 @@ import { Options } from 'ng5-slider';
 import { Moment } from 'moment';
 import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
-
 import { NGB_DATEPICKER_18N_FACTORY } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n';
 import { style } from '@angular/animations';
 declare const $: any;
@@ -143,6 +142,11 @@ export class UserEngagementComponent implements OnInit {
     // this.getQueries("SearchHistogram");
     
   }
+  toCapitalize(str) {
+    if(str !=='ie'){
+      return str.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
+    }else {return str.toUpperCase();}
+  }
   //SLider
   onUserChangeEnd(rangeType: string, $event, parentClass) {
     //console.log(rangeType,$event,parentClass)
@@ -268,6 +272,7 @@ export class UserEngagementComponent implements OnInit {
     this.getuserCharts("MostUsedGeoLocations");
     this.getuserCharts("MostUsersSentiments");
   }
+
   getuserCharts(type){
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
@@ -282,7 +287,17 @@ export class UserEngagementComponent implements OnInit {
       this.group = "date";
     }else if(this.dateType == 'custom'){
       from = custom;
-      this.group = "week";
+      var duration = moment.duration(Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()), 'milliseconds');
+      var days = duration.asDays();
+      console.log(days);
+      if(days > 28){
+        this.group = "week";
+      }else if(days == 1){
+        this.group = "hour";
+      }else{
+        this.group = "date";
+      }
+      
     }
     const header : any= {
       'x-timezone-offset': '-330'
@@ -762,20 +777,29 @@ var valueList2 = totaldata.map(function (item) {
     }
     mostUsedBrowser(){
       let graphData = [];
-      let y_axis = ['Chrome','IE','Safari'];
+      let y_axis = [];
+      y_axis = this.mostUsedDev_bro_geo_sen.filter(function (e) { 
+        return e.name; 
+    }).map(function (g) { 
+      if( g.name !=='ie'){
+        return  g.name.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
+      }else {return  g.name.toUpperCase();}
+    })
+      //let y_axis = ['Chrome','IE','Safari'];
       //this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData)
       //console.log(this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData))
-      // this.mostUsedDev_bro_geo_sen.forEach(element => {
-      //   y_axis.forEach(y => {
-      //     if(y == element.name){
-      //       y = element.name;
-      //       graphData.push(element.percentOfUsers);
-      //     }else{
-      //       graphData.push('')
-      //     }
-      //   });
+      this.mostUsedDev_bro_geo_sen.forEach(element => {
+        y_axis.forEach(y => {
+          let name = this.toCapitalize(element.name) ||'';
+          if(y == name){
+            y = name ||'';
+            graphData.push(element.percentOfUsers);
+          }else{
+            graphData.push('')
+          }
+        });
         
-      // });
+      });
     //   <div class="metrics-tooltips-hover agent_drop_tolltip">
     //   <div class="split-sec">
     //     <div class="main-title">{c0} Users are using {b0} to search</div>
@@ -844,7 +868,23 @@ var valueList2 = totaldata.map(function (item) {
                     image : 'assets/icons/ie_logo.svg'
                     //image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAAZCAYAAACo79dmAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAM5SURBVHgB7ZddUtpQFMfPCWjwoyPdQZx2OtSXpjvAx+q0wgrEFVRXoK4AXIG4AmA66KO4AnlSWtshroDMVEUjuafnBiMhCQglTmc6/maA+5V7/5x7zrk3AC88DwgRkvr2Ow2KkkagJAGaiKTZHSz/+DJXhgiIRKwrEoCMW2uubGTRfOyrXu/cWlbByL42YULiow5MldoaqnaGMPYBCTQWpgFBVwBCkkjsgnVf8wqV2EDlmenkAhcnFvukZZeqLZ0wkWdxaRgB3vriza215VpyqXqln63O1yEClGGdqaP2OqF66golgBr/DPU/IszNqOppqtTSZF1YsYkt6jLQsu8OrzMxwNJD1eDt3IojrEkxMAoE9bZ1txyFr7qE+mzqqKUhYf6hWkb2xxgo+2xZnSPdFAR7MpiQfRUI13nv9cAkCPqcqm5zaQsGoGlaEjBeQrBzzWbzUlt8exwYRHRgGL+KA8WCmErzYiyYdoVi8UBVTqI5XXfKx0Z2xvCMLrw/vJE7kAlMA7CplVq7Q6yb5E/aU+d1scgPnvSa8NHfQ8Ui4Fcp9IZTjvQ/Vyj31OS3zAx948muECqZsLkS01OyvQijIsSJa0k/AbF6qZW0ACpnq3M7bLF8T6iE0qhC0/8MDYlTDgodIiLUslJoqnqV4+ImTAgpsYWxHkDMa4tvtj0TZA3jwnGFgNg6+1c3wJTt4MpQJ6AKjIHo0Hg5lgOKFXvS473hlgacYIl154Tyg2g2VmZ3/M3yzzlBGYJl39dgPOqG8bMW1hEPW5iDKwehUFreAxqfX9W8rQpN5wkxLMCMBCTk2DFyrbLAKU3zNJiGYZihYt20NWgqjMVKS0fXZSHoxMmzEFujwUfxni/NPQ1SgWUVenVOZQAbTtE/NnXYPkZnccHJXMnDXyMOzlfmcxAhfTnHcQFHKNZ4oYIYcvoMJ3qhkv4E2Ylr3UI34r+vzBbYFxfp4TB4CnkU81Vx4zmESvp81lbQ9Dtx45Pjc8t8A+OIFzn2mzU+rUzsZYs63xUuUdjlc1/gRU3AZ/nUaspLdQfExgXfQ/lsTybicd19E2iszhfhHxEMMGlBgn2v5XhrK/7XlRf+J/4AZ2hd+H+2OEcAAAAASUVORK5CYII='
                   }
+              },
+              'Opera': {
+                height: 40,
+                align: 'center',
+                backgroundColor: {
+                  image : 'assets/icons/opera_logo.svg'
+                  //image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAAZCAYAAACo79dmAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAM5SURBVHgB7ZddUtpQFMfPCWjwoyPdQZx2OtSXpjvAx+q0wgrEFVRXoK4AXIG4AmA66KO4AnlSWtshroDMVEUjuafnBiMhCQglTmc6/maA+5V7/5x7zrk3AC88DwgRkvr2Ow2KkkagJAGaiKTZHSz/+DJXhgiIRKwrEoCMW2uubGTRfOyrXu/cWlbByL42YULiow5MldoaqnaGMPYBCTQWpgFBVwBCkkjsgnVf8wqV2EDlmenkAhcnFvukZZeqLZ0wkWdxaRgB3vriza215VpyqXqln63O1yEClGGdqaP2OqF66golgBr/DPU/IszNqOppqtTSZF1YsYkt6jLQsu8OrzMxwNJD1eDt3IojrEkxMAoE9bZ1txyFr7qE+mzqqKUhYf6hWkb2xxgo+2xZnSPdFAR7MpiQfRUI13nv9cAkCPqcqm5zaQsGoGlaEjBeQrBzzWbzUlt8exwYRHRgGL+KA8WCmErzYiyYdoVi8UBVTqI5XXfKx0Z2xvCMLrw/vJE7kAlMA7CplVq7Q6yb5E/aU+d1scgPnvSa8NHfQ8Ui4Fcp9IZTjvQ/Vyj31OS3zAx948muECqZsLkS01OyvQijIsSJa0k/AbF6qZW0ACpnq3M7bLF8T6iE0qhC0/8MDYlTDgodIiLUslJoqnqV4+ImTAgpsYWxHkDMa4tvtj0TZA3jwnGFgNg6+1c3wJTt4MpQJ6AKjIHo0Hg5lgOKFXvS473hlgacYIl154Tyg2g2VmZ3/M3yzzlBGYJl39dgPOqG8bMW1hEPW5iDKwehUFreAxqfX9W8rQpN5wkxLMCMBCTk2DFyrbLAKU3zNJiGYZihYt20NWgqjMVKS0fXZSHoxMmzEFujwUfxni/NPQ1SgWUVenVOZQAbTtE/NnXYPkZnccHJXMnDXyMOzlfmcxAhfTnHcQFHKNZ4oYIYcvoMJ3qhkv4E2Ylr3UI34r+vzBbYFxfp4TB4CnkU81Vx4zmESvp81lbQ9Dtx45Pjc8t8A+OIFzn2mzU+rUzsZYs63xUuUdjlc1/gRU3AZ/nUaspLdQfExgXfQ/lsTybicd19E2iszhfhHxEMMGlBgn2v5XhrK/7XlRf+J/4AZ2hd+H+2OEcAAAAASUVORK5CYII='
+                }
+            },
+            'Firefox': {
+              height: 40,
+              align: 'center',
+              backgroundColor: {
+                image : 'assets/icons/firefox_logo.svg'
+                //image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAAZCAYAAACo79dmAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAM5SURBVHgB7ZddUtpQFMfPCWjwoyPdQZx2OtSXpjvAx+q0wgrEFVRXoK4AXIG4AmA66KO4AnlSWtshroDMVEUjuafnBiMhCQglTmc6/maA+5V7/5x7zrk3AC88DwgRkvr2Ow2KkkagJAGaiKTZHSz/+DJXhgiIRKwrEoCMW2uubGTRfOyrXu/cWlbByL42YULiow5MldoaqnaGMPYBCTQWpgFBVwBCkkjsgnVf8wqV2EDlmenkAhcnFvukZZeqLZ0wkWdxaRgB3vriza215VpyqXqln63O1yEClGGdqaP2OqF66golgBr/DPU/IszNqOppqtTSZF1YsYkt6jLQsu8OrzMxwNJD1eDt3IojrEkxMAoE9bZ1txyFr7qE+mzqqKUhYf6hWkb2xxgo+2xZnSPdFAR7MpiQfRUI13nv9cAkCPqcqm5zaQsGoGlaEjBeQrBzzWbzUlt8exwYRHRgGL+KA8WCmErzYiyYdoVi8UBVTqI5XXfKx0Z2xvCMLrw/vJE7kAlMA7CplVq7Q6yb5E/aU+d1scgPnvSa8NHfQ8Ui4Fcp9IZTjvQ/Vyj31OS3zAx948muECqZsLkS01OyvQijIsSJa0k/AbF6qZW0ACpnq3M7bLF8T6iE0qhC0/8MDYlTDgodIiLUslJoqnqV4+ImTAgpsYWxHkDMa4tvtj0TZA3jwnGFgNg6+1c3wJTt4MpQJ6AKjIHo0Hg5lgOKFXvS473hlgacYIl154Tyg2g2VmZ3/M3yzzlBGYJl39dgPOqG8bMW1hEPW5iDKwehUFreAxqfX9W8rQpN5wkxLMCMBCTk2DFyrbLAKU3zNJiGYZihYt20NWgqjMVKS0fXZSHoxMmzEFujwUfxni/NPQ1SgWUVenVOZQAbTtE/NnXYPkZnccHJXMnDXyMOzlfmcxAhfTnHcQFHKNZ4oYIYcvoMJ3qhkv4E2Ylr3UI34r+vzBbYFxfp4TB4CnkU81Vx4zmESvp81lbQ9Dtx45Pjc8t8A+OIFzn2mzU+rUzsZYs63xUuUdjlc1/gRU3AZ/nUaspLdQfExgXfQ/lsTybicd19E2iszhfhHxEMMGlBgn2v5XhrK/7XlRf+J/4AZ2hd+H+2OEcAAAAASUVORK5CYII='
               }
+          }
             }
           }
         },
@@ -864,14 +904,19 @@ var valueList2 = totaldata.map(function (item) {
               color: '#FF784B',
             },
           },
-            data: [100,35,0],//graphData,//[120, 200, 150],
+            data: graphData,//[120, 200, 150],
             type: 'bar'
         }]
     };
     }
     geo(){
       let graphData = [];
-      let y_axis = ['US','India','UK','Japan'];
+      let y_axis = [];//['US','India','UK','Japan'];
+      y_axis = this.mostUsedDev_bro_geo_sen.filter(function (e) { 
+        return e.name; 
+    }).map(function (g) { 
+        return g.name; 
+    })
       //this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData)
       this.mostUsedDev_bro_geo_sen.forEach(element => {
         y_axis.forEach(y => {
@@ -931,7 +976,7 @@ var valueList2 = totaldata.map(function (item) {
               color: '#93D3A2',
             },
           },
-            data: [55,85,0,15],//graphData,//[120, 200, 150],
+            data: graphData,//[120, 200, 150],
             type: 'bar'
         }]
     };
@@ -1283,4 +1328,6 @@ var valueList2 = totaldata.map(function (item) {
         `
         return dataDIV;
     }
+
+   
 }
