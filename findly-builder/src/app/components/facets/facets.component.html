@@ -377,7 +377,7 @@
     <div class="modal-footer" *ngIf="addEditFacetObj" [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldId === selectedField.fieldId)'>
         <button type="button" class="kr-sg-button-primary btn_lg float-right" [disabled]='(!addEditFacetObj._id && !selectedField) || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldId !== selectedField.fieldId))' (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button>
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModal()">{{'facets.cancel'| translate}}</button>
-        <button type="button" class="kr-sg-button-danger btn_lg float-left" *ngIf="addEditFacetObj._id" (click)="deleteFacets(addEditFacetObj)">{{'facets.delete'| translate}}</button>
+        <!-- <button type="button" class="kr-sg-button-danger btn_lg float-left" *ngIf="addEditFacetObj._id" (click)="deleteFacets(addEditFacetObj)">{{'facets.delete'| translate}}</button> -->
 
     </div>
 </kr-modal>

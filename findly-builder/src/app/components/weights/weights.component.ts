@@ -203,6 +203,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
       isField: true,
       sliderObj: new RangeSlider(0, 10, 1, 2, 'editSlider')
     };
+    this. getFieldAutoComplete(''); 
     this.openAddEditWeight();
   }
   closeAddEditWeight() {

@@ -103,6 +103,9 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       }
       this.validation.duplicate = duplicate;
     }
+    if (event.keyCode === 13) {
+      this.addStopWord(event);
+    }
   }
   getStopWords() {
     const quaryparms: any = {
@@ -363,7 +366,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-  addStopWord() {
+  addStopWord(event) {
     const stopwords = (this.newStopWord || '').split(',');
     this.stopwords = _.uniq(this.stopwords.concat(stopwords)).sort();
     this.stopwords = _.filter(this.stopwords, (stopword) => {

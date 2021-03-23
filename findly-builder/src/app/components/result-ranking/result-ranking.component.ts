@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { SideBarService } from '@kore.services/header.service';
 declare const $: any;
 
 @Component({
@@ -24,7 +25,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   serachIndexId;
   queryPipelineId;
   indexPipelineId;
-  customizeLog: any = {};
+  customizeLog: any = [];
   selectedRecord: any = {};
   resultLogs: boolean = false;
   customizeList: any;
@@ -48,9 +49,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     private service: ServiceInvokerService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
-    private appSelectionService: AppSelectionService) { }
+    private appSelectionService: AppSelectionService,
+    private headerService :SideBarService,) { }
   sdk_evenBind() {
-    $(document).off('click', '.start-search-icon-div').on('click', '.start-search-icon-div', () => {
+    $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
       this.getcustomizeList(20, 0);
     })
     // $(document).on('click','.start-search-icon-div.active',() =>{
@@ -249,23 +251,75 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       })
 
   }
+  lauchTest(){
+    let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
+    testButtun.click()
+    this.headerService.fromResultRank(true);
+  }
   launch() {
     if (this.selectedRecord && this.selectedRecord.searchQuery) {
-      let ball = document.getElementsByClassName('start-search-icon-div')[0] as HTMLBaseElement;
-      ball.click()
-      let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
-      texBox.value = this.selectedRecord.searchQuery;
-      setTimeout(() => {
-        let go = document.getElementsByClassName('search-button')[0] as HTMLBaseElement;
-        go.click();
+      this.headerService.fromResultRank(false);
+      // let ball = document.getElementsByClassName('start-search-icon-div')[0] as HTMLBaseElement;
+      // ball.click()
+      let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
+      testButtun.click()
+      console.log(this.headerService.searchConfiguration);
+      if(this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top'){
+        setTimeout(()=>{
+          if(this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top'){
+          var link = document.getElementById('search') as HTMLDataElement;
+          link.value =this.selectedRecord.searchQuery;
+         // link.focus();
+         $('#search').addClass('from-result-ranking');
+          link.click()
+          setTimeout(()=>{
+            if(this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top'){
+            let containerClass = document.getElementsByClassName('top-down-search-background-div')[0] as HTMLBaseElement;
+            containerClass.classList.add('if-full-results')  
+            let container = document.getElementsByClassName('all-result-container')[0] as HTMLBaseElement;
+            container.style.display ="block";
+            }
+          },3000)
+        }
+        },3000)
+        
+      } else {
+       // let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
+        //testButtun.click()
         setTimeout(() => {
-          let customTag = document.getElementsByClassName('faqs-wrp-content')[0] as HTMLBaseElement;
-          customTag.click();
-          let custom = document.getElementsByClassName('custom-header-nav-link-item')[1] as HTMLBaseElement;
-          custom.click();
-        }, 3000)
-        //document.getElementById('viewTypeCustomize').click(); //viewTypeCustomize
-      }, 3000);
+        // let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
+        // texBox.value = this.selectedRecord.searchQuery;
+        var link = document.getElementById('search') as HTMLDataElement;
+        link.value =this.selectedRecord.searchQuery;
+        link.focus();
+          document.getElementsByClassName('search-button')[0].removeAttribute('disabled')
+          let go = document.getElementsByClassName('search-button')[0] as HTMLBaseElement;
+          go.click();
+          //link.click();
+          var box = document.getElementById('searchBox') as HTMLDataElement;
+          box.style.display ="block"
+          var container = document.getElementById('searchChatContainer') as HTMLDataElement;
+          container.click();
+          //   texBox.value = this.selectedRecord.searchQuery;
+          // $('#search').keyup(function (this) {
+          //   let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
+          //   texBox.value = this.selectedRecord.searchQuery;
+          // });
+          // $('#search').keyup(this);
+          setTimeout(() => {
+            if(this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top'){
+            let customTag = document.getElementsByClassName('faqs-wrp-content')[0] as HTMLBaseElement;
+            customTag.click();
+            let custom = document.getElementsByClassName('custom-header-nav-link-item')[1] as HTMLBaseElement;
+            custom.click();
+            let seeAll = document.getElementsByClassName('show-all-results')[0] as HTMLBaseElement;
+            seeAll.click()
+            }
+          }, 3000)
+          //document.getElementById('viewTypeCustomize').click(); //viewTypeCustomize
+        }, 3000);
+      }
+    
     }
   }
   resetSelected() {
@@ -574,9 +628,13 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
       this.loadingContent = false;
       this.customizeList = res;
-      if (res.length > 0) { this.nextPage = true; this.loadingContent = false; }
+      if (res.length > 0) {
+         this.nextPage = true; this.loadingContent = false; 
+         this.headerService.fromResultRank(false);
+        }
       else {
         this.nextPage = false; this.loadingContent = false;
+        this.headerService.fromResultRank(true);
       }
       this.customizeListBack = [...res];
       this.totalRecord = res.length

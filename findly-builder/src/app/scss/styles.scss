@@ -2584,6 +2584,7 @@ nouislider{
                             }
                             .content-sec{
                                 max-width: 332px;
+                                word-break: break-word;
                             }
                         }
                     }
@@ -2814,7 +2815,7 @@ nouislider{
                     .box-color{
                         &.interaction-color{
                             .color-picker{
-                                top: 55px !important;
+                                top: 84px !important;
                                 left: -66px !important;
                                 box-sizing: border-box;
                                 border-radius: 8px;
@@ -2824,7 +2825,7 @@ nouislider{
                             }
                         }
                         .color-picker{
-                            top: -58px !important;
+                            top: -31px !important;
                             left: 68px !important;
                             box-sizing: border-box;
                             border-radius: 8px;
@@ -3054,8 +3055,11 @@ nouislider{
         }        
 }
 
+#test-btn-launch-sdk.active{
+    background: #BDC1C6;
+}
 
-.train-icon-tooltip{
+.test-icon-tooltip{
     opacity: 1 !important;
     .arrow{
         &::before{
@@ -3073,7 +3077,7 @@ nouislider{
         padding: 10px;
         text-align: center;
         border: 0;
-        width: auto;
+        width: 220px;
         max-width: 220px;
     }
 }

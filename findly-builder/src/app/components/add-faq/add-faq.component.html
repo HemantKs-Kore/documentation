@@ -168,7 +168,7 @@
                                 <div class="col-2 p-0 title">
                                     Select Context
                                 </div>
-                                <div class="col-10 pr-0">
+                                <div class="col-4 pr-0">
                                     <div class="kr-sg-dropdowns w-auto">                           
                                         <div class="dropdown dropdown-open">
                                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{'businessRules.' +  ruleObj.contextType | translate}}</button>                                            
@@ -179,11 +179,51 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row m-0 setparameetres-sec">
+                            <div class="row m-0 search-content-sec">
                                 <div class="col-2 p-0 title">
-                                  Set Criteria
+                                  Select Parameters
                                 </div>
-                                <div class="tags row m-0 col-10">
+                                <div class="col-4 pr-0">
+                                  <div class="kr-sg-dropdowns w-auto" ngbDropdown (click)="currentEditInex = index" *ngIf="ruleObj.contextType !=='userContext'">
+                                      <div class="dropdown dropdown-open">
+                                          <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
+                   {{"businessRules." + ruleObj.contextCategory | translate}}
+                  </button>
+                                          <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                              <li ngbDropdownItem *ngFor=" let contextCategory of ruleOptions[ruleObj.contextType]" (click)="ruleSelection(ruleObj,contextCategory,'contextCategory')" [ngClass]="{'active':ruleObj.contextCategory===contextCategory}">
+                                                  {{"businessRules." + contextCategory | translate}}
+                                              </li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                                  <div class="kr-sg-input-text" *ngIf="ruleObj.contextType ==='userContext'">                               
+                                    <input type="text" id="userType" [(ngModel)]="ruleObj.contextCategory" class="input-text">
+                                </div>
+                                
+                              </div>
+                              <div class="col-3 pr-0">
+                                <div class="kr-sg-dropdowns d-inline-block" ngbDropdown (click)="currentEditInex = index">
+                                    <div class="dropdown dropdown-open">
+                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{((ruleObj.dataType)?("businessRules." + ruleObj.dataType): 'choose_an_option')  | translate}}</button>
+                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                            <li ngbDropdownItem *ngFor="let dataType of ruleOptions.dataTypes" (click)="ruleSelection(ruleObj,dataType,'dataType')" [ngClass]="{'active':ruleObj.dataType===dataType}">{{"businessRules." + dataType | translate}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3 pr-0">
+                              <div class="kr-sg-dropdowns d-inline-block" ngbDropdown (click)="currentEditInex = index">
+                                  <div class="dropdown dropdown-open">
+                                      <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{((ruleObj.operator)?("businessRules." + ruleObj.operator):'choose_an_option')  | translate}}</button>
+                                      <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                          <ng-container *ngIf="ruleObj.dataType && conditions[ruleObj.dataType]">
+                                              <li ngbDropdownItem *ngFor="let operator of conditions[ruleObj.dataType]" (click)="ruleSelection(ruleObj,operator,'operator')" [ngClass]="{'active':ruleObj.operator===operator}">{{"businessRules." + operator | translate}} </li>
+                                          </ng-container>
+                                      </ul>
+                                  </div>
+                              </div>
+                                <!-- <div class="tags row m-0 col-10">
                                     <div class="chip-sys-data">                      
                                     <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
                                         <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
@@ -223,13 +263,96 @@
                                         </mat-chip-list>
                                     </mat-form-field>
                                     </div>
-                                </div>                    
+                                </div>                     -->
                             </div>
                         </div>
-                        <div class="delete-rule" (click)='removeRule(ruleIndex,faqObj.conditions)'>
-                            <img src="assets/icons/modal-close.svg">
-                        </div> 
-                    </div>                                
+                        <div class="row m-0 setparameetres-sec">
+                          <div class="col-2 p-0 title"></div>
+                          <div class="tags row m-0 col-10">
+                              <div class="chip-sys-data ">
+                                  <mat-form-field class="example-chip-list" [ngClass]="{'date-chip': ruleObj.dataType == 'date'}">
+                                      <mat-chip-list #chipList [attr.aria-label]="'tag selection'" class="date-range-picker-right-d-none">
+
+                                          <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType !== 'date') && (ruleObj.dataType !== 'number')">
+                                              <ng-container *ngFor="let value of ruleObj.value; let index = index">
+                                                  <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
+                                                      <span class="mat-val" *ngIf="value">{{value}}</span>
+                                                      <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
+                                                  </mat-chip>
+                                                  <span>OR</span>
+                                              </ng-container>
+                                          </ng-container>
+                                          <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'number')">
+                                              <ng-container *ngFor="let value of ruleObj.value; let index = index">
+                                                  <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
+                                                      <span class="mat-val" *ngIf="value && value.length && ruleObj.operator == 'between'">
+                        <span *ngFor="let num of value; let numIndex = index">{{num}}<span *ngIf="!numIndex"> - </span></span>
+                                                      </span>
+                                                      <span class="mat-val" *ngIf="value && ruleObj.operator !== 'between'">
+                        <span >{{value}}</span>
+                                                      </span>
+                                                      <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
+                                                  </mat-chip>
+                                                  <span>OR</span>
+                                              </ng-container>
+                                          </ng-container>
+                                          <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator !== 'between')">
+                                              <ng-container *ngFor="let value of ruleObj.value; let index = index">
+                                                  <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
+                                                      <span class="mat-val" *ngIf="value">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
+                                                      <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
+                                                  </mat-chip>
+                                                  <span>OR</span>
+                                              </ng-container>
+                                          </ng-container>
+
+                                          <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator === 'between')">
+                                              <ng-container *ngFor="let value of ruleObj.value; let index = index">
+                                                  <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
+                                                      <span class="mat-val" *ngIf="value && value.length">
+                      <span *ngFor="let date of value; let dateIndex = index">
+                        {{date | dateFormatPipe: 'DD MMM YYYY'}} <span *ngIf="!dateIndex"> - </span>
+                                                      </span>
+                                                      </span>
+                                                      <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
+                                                  </mat-chip>
+                                                  <span>OR</span>
+                                              </ng-container>
+                                          </ng-container>
+
+                                          <ng-container *ngIf="(ruleObj.dataType != 'date') && (ruleObj.dataType != 'number')">
+                                              <input placeholder="Type Keyword" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" suggestedInput/>
+                                          </ng-container>
+
+                                          <ng-container *ngIf="ruleObj.dataType == 'date'">
+                                              <ng-container *ngIf="ruleObj.operator === 'between'">
+                                                  <span class="select_data_placeholder w-120 py-1" (click)="openDateTimePicker(ruleObj,conditionIndex)">Select Range </span>
+                                                  <input class="dateRangePicker d-none" id="rangePicker_{{conditionIndex}}" ngxDaterangepickerMd #dateRangePicker placeholder="Select range" showCancel="true" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'DD MMM YYYY'}" 
+                                                      (datesUpdated)="onDatesUpdated($event,ruleObj)" />
+                                              </ng-container>
+                                              <ng-container *ngIf="ruleObj.operator !== 'between'">
+                                                  <span (click)="openDateTimePicker(ruleObj,conditionIndex)" class="select_data_placeholder py-1">Select Date</span>
+                                                  <input class="singleDatePicker d-none" id="datePicker_{{conditionIndex}}" [singleDatePicker]="true" ngxDaterangepickerMd #datePicker *ngIf="ruleObj.operator !== 'between'" placeholder="Select Date" showCancel="false" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'DD MMM YYYY'}"
+                                                     (datesUpdated)="onDatesUpdated($event,ruleObj)" />
+                                              </ng-container>
+                                          </ng-container>
+
+                                          <ng-container *ngIf="ruleObj.dataType == 'number'">
+                                              <input [placeholder]="ruleObj.operator == 'between' ? 'Type Range' : 'Type Keyword'" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" />
+                                          </ng-container>
+                                      </mat-chip-list>
+                                  </mat-form-field>
+                                  <ng-container *ngIf="ruleObj.dataType == 'number'  && ruleObj.operator == 'between'">
+                                      <div class="info-number-placeholder"><img src="assets/icons/business-rules/info.svg" class="mr-1">Range separated by ‘ - ‘</div>
+                                  </ng-container>
+                              </div>
+                          </div>
+                      </div>
+                    </div>   
+                    <div class="delete-rule" (click)='removeRule(ruleIndex,faqObj.conditions)'>
+                      <img src="assets/icons/modal-close.svg">
+                    </div>
+                    </div>                             
                 </ng-container>               
               </div> 
            </div>
@@ -290,14 +413,38 @@
                 <span class="disabled">No</span>
               </div>
             </label>
-
           </div>
-
           <div class="kr-sg-input-text mb-2"> 
             <div class="label-text">URL</div>
             <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName" [ngClass]="{'readonly': !uploadImage.slide}">         
           </div>
           <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div>
+          <!-- <div class="multi-select mb-2">
+            <{{uploadImage.slide | json}} -->
+            <!-- <div class="row ml-1">
+                <label class="kr-sg-toggle">                                           
+                    <input type="checkbox" [(ngModel)]="uploadImage.slide">
+                    <div class="slider"></div>
+                </label>  
+                <div class="response ml-1">
+                    <span *ngIf="!uploadImage.slide">No</span>
+                    <span *ngIf="uploadImage.slide">Yes</span>
+                </div>
+            </div>
+        </div> -->
+        <!-- <div class="kr-sg-input-text mb-3">
+        <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName" readonly>
+        <div class="label-text">URL</div>
+      </div> -->
+        <!-- <div class="kr-sg-input-text mb-3"> 
+          <div class="label-text">URL</div>
+          <div *ngIf="!uploadImage.slide">
+          <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName" readonly>
+        </div>
+          <div *ngIf="uploadImage.slide">
+          <input maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName">
+        </div>
+        </div>  -->
         </div>
        
         <div class="col-6 right_sec">        
@@ -307,18 +454,17 @@
                 <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
               </perfect-scrollbar>
             </div>
-
-            <div class="info-bubble-faq">
-                <div class="w-100 d-flex">
-                  <div class="info_img">
-                    <img src="assets/icons/faq/Info.svg">
-                  </div>
-                  <div class="bubnle-info">
-                    Response layout will be based on the template you select in Search Interface Customization
-                  </div>
+                           <div class="info-bubble-faq">
+              <div class="w-100 d-flex">
+                <div class="info_img">
+                  <img src="assets/icons/faq/Info.svg">
                 </div>
-                <div class="know-more-data">Know more</div>
-            </div>
+                <div class="bubnle-info">
+                  Response layout will be based on the template you select in Search Interface Customization
+                </div>
+              </div>
+              <div class="know-more-data">Know more</div>
+          </div>
           </div>
         </div>
       </div>      

@@ -11,6 +11,7 @@ export class AppBodyComponent implements OnInit , AfterViewInit {
   @Input() bridgeData; 
   @Input() showInsightFull;
   @Input() addNewResult;
+  @Input() structure;
   @Input() query; 
   insights = true;
   constructor() { }

@@ -6,7 +6,11 @@ export class SideBarService {
   @Output() change: EventEmitter<boolean> = new EventEmitter();
   @Output() fromCallFlowExpand: EventEmitter<boolean> = new EventEmitter();
   @Output() openSearchSDKFromHeader : EventEmitter<any> = new EventEmitter();
+  @Output() resultRankData : EventEmitter<any> = new EventEmitter();
+  @Output() resetSearchConfiguration : EventEmitter<any> = new EventEmitter();
+  @Output() openFaqExtractsFromDocker : EventEmitter<any> = new EventEmitter();
   isOnboardingPage = false;
+  searchConfiguration :any;
   toggle(data) {
     this.change.next(data);
   }
@@ -17,5 +21,17 @@ export class SideBarService {
 
   openSearchSDK(data){
     this.openSearchSDKFromHeader.next(data);
+  }
+
+  fromResultRank(data){
+    this.resultRankData.next(data);
+  }
+
+  updateSearchConfiguration(){
+    this.resetSearchConfiguration.next();
+  }
+  
+  openFaqExtracts(){
+    this.openFaqExtractsFromDocker.next();
   }
 }

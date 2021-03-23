@@ -7,6 +7,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '../../services/notification.service';
 import { HttpClient } from '@angular/common/http';
 import { AppSelectionService } from '@kore.services/app.selection.service'
+import { SideBarService } from './../../services/header.service';
 @Component({
   selector: 'app-search-experience',
   templateUrl: './search-experience.component.html',
@@ -33,7 +34,7 @@ export class SearchExperienceComponent implements OnInit {
       "buttonFillColor": "#EFF0F1",
       "buttonBorderColor": "#EFF0F1",
       "searchBarIcon": "6038e58234b5352faa7773b0",
-      "serSelectedColors": []
+      "userSelectedColors": []
     },
     "searchInteractionsConfig": {
       "feedbackExperience": { resultLevel: true, queryLevel: false },
@@ -47,7 +48,7 @@ export class SearchExperienceComponent implements OnInit {
       "liveSearchResultsLimit": 4
     }
   };
-  inputBox1: boolean = false;
+  inputBox1: boolean;
   inputBox2: boolean = false;
   placeholBox: boolean = false;
   buttonFill: boolean = false;
@@ -58,7 +59,13 @@ export class SearchExperienceComponent implements OnInit {
   emojiIcon: any = 'assets/icons/search-experience/emoji.png';
   //search button disabled
   buttonDisabled: boolean = true;
-  public color: string = '#2889e9';
+  public color: string = '';
+  public color1: string = '';
+  public color2: string = '';
+  public color3: string = '';
+  public color4: string = '';
+  public color5: string = '';
+  public color6: string = '';
   statusModalPopRef: any = [];
   userInfo: any = {};
   tourGuide: string;
@@ -71,7 +78,8 @@ export class SearchExperienceComponent implements OnInit {
   componentType: string = 'designing';
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
-  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService) { }
+  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService, public headerService: SideBarService) {
+  }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -144,17 +152,19 @@ export class SearchExperienceComponent implements OnInit {
   //based on show searches show slider
   changeSlider(type, data?) {
     this.suggestions = [];
-    let queryValue = data === undefined ? 0 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
-    let recentValue = data === undefined ? 0 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
+    let queryValue = data === undefined ? type == 'bottom-up' ? 3 : 5 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
+    let recentValue = data === undefined ? type == 'bottom-up' ? 5 : 10 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
     if (type == 'bottom-up') {
-      // let queryNumber = this.sliderNumber(3);
-      // let liveNumber = this.sliderNumber(5);
       this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 3, 1, queryValue, 'suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 5, 1, recentValue, 'live') });
+      this.searchObject.searchInteractionsConfig.querySuggestionsLimit = data === undefined ? 3 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
+      this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = data === undefined ? 5 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
+
     }
     else {
-      this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 5, 1, queryValue, 'suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 10, 1, recentValue, 'live') })
+      this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 5, 1, queryValue, 'suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 10, 1, recentValue, 'live') });
+      this.searchObject.searchInteractionsConfig.querySuggestionsLimit = data === undefined ? 5 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
+      this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = data === undefined ? 10 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
     }
-    console.log("suggestions", this.suggestions)
   }
   //slider number method
   sliderNumber(number) {
@@ -236,43 +246,34 @@ export class SearchExperienceComponent implements OnInit {
   //on mouse hover in color pallete button
   onEventLog(type, event) {
     if (type == 'inputbox1') {
-      this.inputBox1 = !this.inputBox1;
       this.searchObject.searchWidgetConfig.searchBarFillColor = event;
     }
     else if (type == 'inputbox2') {
-      this.inputBox2 = !this.inputBox2;
       this.searchObject.searchWidgetConfig.searchBarBorderColor = event;
     }
     else if (type == 'placeholder') {
-      this.placeholBox = !this.placeholBox;
       this.searchObject.searchWidgetConfig.searchBarPlaceholderTextColor = event;
     }
     else if (type == 'placeholderText') {
       this.searchObject.searchWidgetConfig.searchBarPlaceholderText = event;
     }
     else if (type == 'buttonFill') {
-      this.buttonFill = !this.buttonFill;
       this.searchObject.searchWidgetConfig.buttonFillColor = event;
     }
     else if (type == 'buttonBorder') {
-      this.buttonBorder = !this.buttonBorder;
       this.searchObject.searchWidgetConfig.buttonBorderColor = event;
     }
     else if (type == "buttonEnable") {
       this.searchObject.searchWidgetConfig.searchButtonEnabled = event;
     }
     else if (type == 'buttonTextColor') {
-      this.buttonTextColor = !this.buttonTextColor;
       this.searchObject.searchWidgetConfig.buttonTextColor = event;
     }
     else if (type == 'msgColor') {
-      this.msgColor = !this.msgColor;
       this.searchObject.searchInteractionsConfig.welcomeMsgColor = event;
     }
   }
-
   //select search box widget
-  testcolor;
   selectSearchBox(type) {
     this.selectSearch = type;
   }
@@ -282,7 +283,6 @@ export class SearchExperienceComponent implements OnInit {
       userId: this.userInfo.id
     };
     this.service.invoke('get.tourConfig', quaryparms).subscribe(res => {
-      console.log("get tour config data", res);
       this.tourGuide = res.configurations.searchExperienceVisited ? '' : 'step1';
     }, errRes => {
       console.log(errRes);
@@ -352,9 +352,11 @@ export class SearchExperienceComponent implements OnInit {
     this.service.invoke('put.searchexperience', quaryparms, obj).subscribe(res => {
       console.log("test res", res);
       this.searchIcon = res.widgetConfig.searchBarIcon;
+      this.headerService.updateSearchConfiguration();
       console.log("this.searchIcon", this.searchIcon)
       this.notificationService.notify('Updated successfully', 'success');
       this.statusModalPopRef = this.statusModalPop.open();
+      this.workflowService.checkTopOrBottom(this.searchObject.searchExperienceConfig.searchBarPosition);
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');

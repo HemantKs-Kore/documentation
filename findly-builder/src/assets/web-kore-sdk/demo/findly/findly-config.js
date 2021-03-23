@@ -109,6 +109,7 @@
             $('body').addClass('futureBank');
         }, 200);
     }
+    botOptionsFindly.interface = 'top-down';
     var findlyConfig = {
         botOptions: botOptionsFindly,
         viaSocket: true,

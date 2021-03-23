@@ -28,7 +28,7 @@
 				</div>
 
 
-				<div mat-button class="mat-button" [routerLink]="['/botActions']" skipLocationChange routerLinkActive="active" (click)="preview('Bot Actions')" mat-button>
+				<div mat-button class="mat-button" id="botActionsTab" [routerLink]="['/botActions']" skipLocationChange routerLinkActive="active" (click)="preview('Bot Actions')" mat-button>
 					<span class="inlineIconBox">
 						<img src="assets/icons/sidemenu/new-icons/actions.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/actions.svg" class="activeIcon">
@@ -126,7 +126,7 @@
 							</button>
 							<ul class="dropdown-menu content-menu queryPipelineConfig" ngbDropdownMenu>
 								<perfect-scrollbar>
-									<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectQueryPipelineId(config,selectConfigDrop)" *ngFor="let config of queryConfigs">
+									<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectQueryPipelineId(config,selectSearchConfigDrop)" *ngFor="let config of queryConfigs">
 										<img src="assets/icons/star.svg" *ngIf="config.default" class="star" [container]="'body'" ngbTooltip='Default' placement="top-center">
 										<img src="assets/icons/start-black.svg" [container]="'body'" (click)="$event.stopPropagation();markAsDefault(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-center" [container]="'body'">
 										<span *ngIf="selectedConfig == config._id && editName; else name">
@@ -224,7 +224,13 @@
 				</span>
 				<span class="linkTitle">Credentials</span>
 			</div>
-
+			<div mat-button class="mat-button" [routerLink]="['/team-management']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Team Management</span>
+			</div>
 			<div class="inside-menu-title">SEARCH EXPERIENCE</div>
 
 			<div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
@@ -234,13 +240,7 @@
 				</span>
 				<span class="linkTitle">Search Interface</span>
 			</div>
-			<div mat-button class="mat-button" [routerLink]="['/team-management']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Team Management</span>
-			</div>
+
 			<div mat-button class="mat-button" [routerLink]="['/search-experience']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
@@ -248,6 +248,26 @@
 				</span>
 				<span class="linkTitle">Search Experience</span>
 			</div>
+
+			<div mat-button class="mat-button" [routerLink]="['/actions']" skipLocationChange routerLinkActive="active"
+				(click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/actions-config.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/actions-config.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Actions</span>
+			</div>
+
+			<div mat-button class="mat-button" [routerLink]="['/smallTalk']" skipLocationChange routerLinkActive="active"
+				(click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/smalltalk.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/smalltalk.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Small Talk</span>
+			</div>
+
+			
 		</div>
 
 		<!-- <div class="status-docker" (click)="(dockService.showStatusDocker = !dockService.showStatusDocker); openStatusDocker()">

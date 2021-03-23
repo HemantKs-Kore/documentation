@@ -15,7 +15,7 @@
               <div class="desc-text">Results Ranking is an interactive and visual way to tune results. SearchAssist allows you to preview and customize the search results as per the business needs 
               </div>
               <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
-                <button class="kr-sg-button-primary btn_lg px-2" (click)="nextPage=true">Let's Start</button>                                                
+                <button class="kr-sg-button-primary btn_lg px-2" (click)="lauchTest()">Let's Start</button>                                                
               </div>
           </ng-container>
           </div>
@@ -38,10 +38,10 @@
                                 <div class="col-1" *ngIf="collectedRecord.length != customizeList.length">
                                     <img (click) = "selectAll()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
                                 </div>  
-                                <div class="col-3 mt-8">
+                                <div class="col-4 mt-8">
                                     {{collectedRecord.length}} Selected
                                 </div> 
-                                <div class="col-8" [ngClass] = "{'disableDiv' : permisionView }">
+                                <div class="col-7" [ngClass] = "{'disableDiv' : permisionView }">
                                     <button class="reset-but" (click)="resetCustomization()">Reset</button>
                                 </div> 
                             </div>
@@ -272,7 +272,7 @@
                 <div class="accordion_sec" *ngIf="customizeLog">
                     <div id="accordion">
                         <div class="card-acc">
-                          <div class="card-header-acc" *ngIf="log.action != 'restored'">
+                          <div class="card-header-acc" *ngIf="log.action != 'restored' && log.target">
                             <a class="card-link-acc link-block" data-toggle="collapse" href="#collapse_log_{{i}}" *ngIf="log.target.contentInfo._source"> {{log.displayMessage }} - {{ log.target.contentInfo._source.contentType}}</a>
                             <a class="card-link-acc link-block" data-toggle="collapse" href="#collapse_log_{{i}}" *ngIf="log.target.contentType && log.target.contentType == 'task'"> {{log.displayMessage }} - {{ log.target.contentType}}</a>
                           </div>
@@ -280,7 +280,7 @@
                             <a class="card-link-acc link-block" data-toggle="collapse" href="#collapse_log_{{i}}" > {{log.displayMessage }} - {{ log.action }}</a>
                           </div>
                           <div id="collapse_log_{{i}}" class="collapse" data-parent="#accordion" *ngIf="log.action != 'restored'">
-                            <div class="card-body-acc">
+                            <div class="card-body-acc" *ngIf ="log.target">
                               <div class="question-text" *ngIf ="log.target.contentInfo._source"> {{log.target.contentInfo._source.pageTitle}}</div>
                               <div class="question-text" *ngIf ="log.target.contentType && log.target.contentType == 'task'"> {{log.target.contentInfo.lname}}</div>
 

@@ -141,8 +141,7 @@
                     *ngIf="exp.state === 'configured'">
                     <div class="left-sec border-0 before-none pl-0" [class.col-9]="status_active">
                       <div class="info-data" *ngIf="status_active">
-                        <img src="assets/icons/experiment/Info.svg" />You cannot
-                        run multiple experiements
+                        <img src="assets/icons/experiment/Info.svg" />You cannot run multiple experiments
                       </div>
                     </div>
                     <div class="right-sec">
@@ -321,7 +320,7 @@
               }}
             </button>
             <ul class="dropdown-menu content-menu" >
-              <li *ngFor="let index of indexConfig" (click)="fetchVariant(varIndex, index, 'indexid');getQueryPipeline(index._id)">
+              <li *ngFor="let index of indexConfig" (click)="fetchVariant(varIndex, index, 'indexid');getQueryPipeline(index._id)" [ngStyle]="{'font-weight':vari.indexPipelineId===index._id?'bold':''}">
                 {{ index.name }}
               </li>
             </ul>
@@ -342,7 +341,7 @@
               }}
             </button>
             <ul class="dropdown-menu content-menu"  *ngIf="vari.indexPipelineName!==undefined">
-              <li *ngFor="let query of queryPipeline" (click)="fetchVariant(varIndex, query, 'queryid')">
+              <li *ngFor="let query of queryPipeline" (click)="fetchVariant(varIndex, query, 'queryid')"  [ngStyle]="{'font-weight':vari.queryPipelineId===query._id?'bold':''}">
                 {{ query.name }}
               </li>
             </ul>

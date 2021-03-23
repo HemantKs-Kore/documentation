@@ -92,7 +92,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
       this.loadfacets();
     })
-    this.getFieldAutoComplete('');
+    // this.getFieldAutoComplete('');
   }
   loadImageText: boolean = false;
   loadingContent1: boolean
@@ -108,6 +108,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       if (this.queryPipelineId) {
         this.getFacts();
+        this.getFieldAutoComplete('');
       }
     }
   }
@@ -199,14 +200,17 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
 
   drop(event: CdkDragDrop<string[]>, list) {
-    moveItemInArray(list, event.previousIndex, event.currentIndex);
-    this.saveSortedList();
+    if (event.previousIndex !== event.currentIndex) {
+      moveItemInArray(list, event.previousIndex, event.currentIndex);
+      this.saveSortedList();
+    }
   }
   saveSortedList() {
     const payload: any = [];
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
-      queryPipelineId: this.queryPipelineId
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.facets.forEach(face => {
       payload.push(face._id);
