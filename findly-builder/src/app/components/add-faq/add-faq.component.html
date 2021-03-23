@@ -196,9 +196,10 @@
                                           </ul>
                                       </div>
                                   </div>
-                                  <div cl *ngIf="ruleObj.contextType ==='userContext'">
-                                      <input type="text" id="userType" [(ngModel)]="ruleObj.contextCategory" />
-                                  </div>
+                                  <div class="kr-sg-input-text" *ngIf="ruleObj.contextType ==='userContext'">                               
+                                    <input type="text" id="userType" [(ngModel)]="ruleObj.contextCategory" class="input-text">
+                                </div>
+                                
                               </div>
                               <div class="col-3 pr-0">
                                 <div class="kr-sg-dropdowns d-inline-block" ngbDropdown (click)="currentEditInex = index">

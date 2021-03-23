@@ -13530,3 +13530,30 @@ button.search-button:disabled {
     padding: 8px 10px;
     border-radius: 2px;
 }
+
+/* qa csss patch */
+.structured-data-outer-wrap{
+    margin-bottom: 23px;
+}
+.faqs-full-search-container{
+    margin-bottom: 0px;
+}
+.pages-full-search-container{
+    margin-bottom: 0px;
+}
+.documents-full-search-container{
+    margin-bottom: 0px;
+}
+.faqs-data-container{
+    margin-bottom: 0px;
+}
+.pages-data-container{
+    margin-bottom: 0px;
+}
+.documents-data-container{
+    margin-bottom: 0px;
+}
+.structured-data-container{
+    margin-bottom: 0px;
+}
+/* qa csss patch */

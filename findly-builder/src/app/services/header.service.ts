@@ -8,6 +8,7 @@ export class SideBarService {
   @Output() openSearchSDKFromHeader : EventEmitter<any> = new EventEmitter();
   @Output() resultRankData : EventEmitter<any> = new EventEmitter();
   @Output() resetSearchConfiguration : EventEmitter<any> = new EventEmitter();
+  @Output() openFaqExtractsFromDocker : EventEmitter<any> = new EventEmitter();
   isOnboardingPage = false;
   searchConfiguration :any;
   toggle(data) {
@@ -28,5 +29,9 @@ export class SideBarService {
 
   updateSearchConfiguration(){
     this.resetSearchConfiguration.next();
+  }
+  
+  openFaqExtracts(){
+    this.openFaqExtractsFromDocker.next();
   }
 }
