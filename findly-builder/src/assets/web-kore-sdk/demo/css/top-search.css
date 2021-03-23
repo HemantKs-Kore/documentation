@@ -2011,17 +2011,22 @@ background:none !important;
 
 .sdk-top-down-interface .custom-add-new-result-content{
   padding-left:0px !important;
+  bottom: 21px;
 }
 .sdk-top-down-interface .custom-add-result-container{
   /* margin-bottom:60px !important; */
   background: #FFFFFF;
     box-sizing: border-box;
-    padding: 14px 12px;
+    padding: 44px 12px;
     width: 100%;
     position: fixed;
     bottom: 0px;
 }
 
+.sdk-top-down-interface .top-down-wrapper {
+  width: 100%;
+  height: 100%;
+  }
 .sdk-top-down-interface .search-bar .widget-icon{
   bottom: 8px;
 }
@@ -2031,3 +2036,7 @@ a{
   text-decoration: none !important;
 }
 /*style="color :searchConfig.searchBarPlaceholderTextColor !important;"*/
+
+.sdk-top-down-interface .top-down-search-background-div .topdown-search-main-container .search-input-box .search-box-container-data .cancel-search {
+  top: -30px;
+}

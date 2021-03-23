@@ -3089,7 +3089,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
               console.log(_self.vars.searchObject.liveData);
               if ($('body').hasClass('top-down')) {
-                if(!_self.vars.filterObject.length && _self.vars.scrollPageNumber == 1){
+                if(!_self.vars.filterObject.length && _self.vars.scrollPageNumber == 0){
                   _self.vars.searchFacetFilters = searchFacets;
                 _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
                 _self.markSelectedFilters();
@@ -3672,6 +3672,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         _self.prepAllSearchData(selectedFacet);
         _self.pubSub.publish('facet-selected', {selectedFacet : selectedFacet});
+        $(".content-data-sec").scrollTop(0);
       })
     }
     FindlySDK.prototype.recentClick = function () {
@@ -5646,6 +5647,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         tasks = res.results.task;
         facets = res.facets;
         totalSearchResults = res.totalNumOfResults ? res.totalNumOfResults  : 0;
+        if ($('body').hasClass('top-down')) {
+          facets["all results"] = res.totalNumOfResults ? res.totalNumOfResults : 0;
+        }
         if (res.results.task !== undefined) {
           facets['task'] = res.results.task.length;
         }
@@ -15303,7 +15307,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           container = '.structured-data-full-search-container';
         }
 
-        $(container).last().empty().append(dataHTML);
+        if (data.isLiveSearch) {
+          $(container).empty().append(dataHTML);
+        } else {
+          $(container).last().empty().append(dataHTML);
+        }
         if(data.isSearch && selectedSearchTemplateType === 'carousel'){
           _self.bindCarouselActions();
         }
@@ -15861,7 +15869,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           container = '.faqs-full-search-container';
         }
 
-        $(container).last().empty().append(dataHTML);
+        if (data.isLiveSearch) {
+          $(container).empty().append(dataHTML);
+        } else {
+          $(container).last().empty().append(dataHTML);
+        }
         if(data.isSearch && selectedSearchTemplateType === 'carousel'){
           _self.bindCarouselActions();
         }
@@ -16292,8 +16304,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         else if(!container && data.isFullResults){
           container = '.pages-full-search-container';
         }
-
-        $(container).last().empty().append(dataHTML);
+        if (data.isLiveSearch) {
+          $(container).empty().append(dataHTML);
+        } else {
+          $(container).last().empty().append(dataHTML);
+        }
         // if($('body').hasClass('top-down')){
         //   var resultsContainerHtml = $('.all-product-details');
         //   _self.bindPerfectScroll(resultsContainerHtml,'.content-data-sec', null, null, 'resultsContainer');
@@ -16737,7 +16752,11 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           container = '.documents-full-search-container';
         }
 
-        $(container).last().empty().append(dataHTML);
+        if (data.isLiveSearch) {
+          $(container).empty().append(dataHTML);
+        } else {
+          $(container).last().empty().append(dataHTML);
+        }
         if(data.isSearch && selectedSearchTemplateType === 'carousel'){
           _self.bindCarouselActions();
         }
@@ -18387,17 +18406,17 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         let data_body_sec_element = document.querySelector('.content-data-sec');
         data_body_sec_element.addEventListener('ps-y-reach-end', () => {
           console.log("ps-y-reach-end");
-          if(_self.vars.scrollPageNumber >= 1){
-            if(_self.vars.totalNumOfResults > (_self.vars.scrollPageNumber * 16)){
+          if(_self.vars.scrollPageNumber >= 0){
+            if(_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber+1) * 16)){
             _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
             _self.seeAllResultsInifiteScroll();
-            $(".content-data-sec").scrollTop(10);
+            $(".content-data-sec").scrollTop(0);
           }
           }
         });
         data_body_sec_element.addEventListener('ps-y-reach-start', () => {
           console.log("ps-y-reach-start");
-          if(_self.vars.scrollPageNumber > 1){
+          if(_self.vars.scrollPageNumber > 0){
             _self.vars.scrollPageNumber = _self.vars.scrollPageNumber - 1;
             _self.seeAllResultsInifiteScroll();
           }
