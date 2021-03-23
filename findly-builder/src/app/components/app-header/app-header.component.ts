@@ -354,7 +354,10 @@ export class AppHeaderComponent implements OnInit {
 
   navigateTo(task) {
     if (task.jobType === 'faq') {
-      this.router.navigate(['/faqs'], { skipLocationChange: true })
+      this.router.navigate(['/faqs'], { skipLocationChange: true });
+      setTimeout(()=> {
+        this.headerService.openFaqExtracts();
+      }, 300);
     } else if (task.jobType === 'webdomain') {
       this.router.navigate(['/content'], { skipLocationChange: true });
     }

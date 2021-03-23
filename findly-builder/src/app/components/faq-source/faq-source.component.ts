@@ -22,6 +22,7 @@ import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pd
 declare const $: any;
 import * as moment from 'moment';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { SideBarService } from './../../services/header.service';
 
 @Component({
   selector: 'app-faq-source',
@@ -120,6 +121,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   altCancelSub: Subscription;
   followAddSub: Subscription;
   followCancelSub: Subscription;
+  openExtractsSubs : Subscription;
   @ViewChild('editQaScrollContainer', { static: true }) editQaScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('fqasScrollContainer', { static: true }) fqasScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('addfaqSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -137,6 +139,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     // private dock: DockStatusService,
     private convertMDtoHTML: ConvertMDtoHTML,
     // public dockService: DockStatusService,
+    private headerService: SideBarService,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
   ) {
@@ -160,6 +163,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.followCancelSub = this.faqServiceFollow.cancel.subscribe(data => { this.selectedFaq.isAddFollow = false; });
     this.altCancelSub = this.faqServiceAlt.cancel.subscribe(data => { this.selectedFaq.isAlt = false; });
+    this.openExtractsSubs = this.headerService.openFaqExtractsFromDocker.subscribe((res) => {
+      this.openStatusModal()
+    });
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -1250,6 +1256,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.altCancelSub ? this.altCancelSub.unsubscribe() : false;
     this.followAddSub ? this.followAddSub.unsubscribe() : false;
     this.followCancelSub ? this.followCancelSub.unsubscribe() : false;
+    this.openExtractsSubs ? this.openExtractsSubs.unsubscribe() : false;
   }
   exportFaq(ext) {
     const quaryparms: any = {
