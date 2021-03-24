@@ -924,9 +924,9 @@ export class BotActionComponent implements OnInit {
     }
   }
   
-  enableDisableTask(isEnabledAll){
-    isEnabledAll = (isEnabledAll === 'disable')?'enabled':'disabled';
-    if(isEnabledAll === 'enable'){
+  enableDisableTask(){
+    this.isEnabledAll = (this.isEnabledAll === 'disable')?'enable':'disable';
+    if(this.isEnabledAll === 'enable'){
       this.enableSeletedTasks(true);
     }else{
       this.disableSeletedTasks(true);

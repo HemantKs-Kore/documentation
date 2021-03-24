@@ -79,7 +79,7 @@
                <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
            </div>
              <label class="kr-sg-toggle large">                                       
-               <input type="checkbox"  [checked]='(isEnabledAll !== "disabled")' (click)="enableDisableTask(isEnabledAll)">
+               <input type="checkbox"  (change)="enableDisableTask()">
                <div class="slider"><span class="enabled w-163">Tasks Enabled</span><span class="disabled w-163">Tasks Disabled</span></div>
            </label>
             </div>
