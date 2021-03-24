@@ -104,6 +104,9 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges {
         this.filterSteps(5, 5);
       }
     }
+    else {
+      this.showStatusIcon = true;
+    }
   }
   //filter prev and next step
   filterSteps(prev, next) {

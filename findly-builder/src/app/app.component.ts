@@ -107,7 +107,6 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
     })
-
   }
   showMenu(event) {
     this.showMainMenu = event
