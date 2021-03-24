@@ -4870,11 +4870,13 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             // debugger;
             var searchText = $('#search').val() || (_self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : "") || null;
             _self.closeGreetingMsg();
-            _self.sendMessageToSearch('user');
-            if (_self.config.viaSocket) {
-              _self.sendMessage(_self.vars.searchObject.searchText);
-            } else {
-              _self.bindLiveDataToChat();
+            if(!$('body').hasClass('top-down')){
+              _self.sendMessageToSearch('user');
+              if (_self.config.viaSocket) {
+                _self.sendMessage(_self.vars.searchObject.searchText);
+              } else {
+                _self.bindLiveDataToChat();
+              }
             }
             if ($('.search-body:visible').length) {
               // if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
