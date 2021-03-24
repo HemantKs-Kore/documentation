@@ -128,16 +128,16 @@
                     <div class="content-body" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">
                         <div class="col_ col-2" title="{{traitGroup.groupName || '---'}}">{{traitGroup.groupName || '---'}}</div>
                         <div class="col_ col-8" >
-                             <span *ngFor="let trait of traitGroup.traits| slice:0:3; let i=index;" >
+                             <span *ngFor="let trait of traitGroup.traits| slice:0:5; let i=index;" >
                                 <span class="">{{i!==0 ?', ':''}}{{trait.traitName || '---'}}</span>
                             </span>
-                            <span class="trait-count-container" *ngIf="traitGroup.traits.length>3" >
-                                <span class="trait-count ml-3" (mouseover)="traitsCount = true"  >+{{traitGroup.traits.length-3}}</span>
+                            <span class="trait-count-container" *ngIf="traitGroup.traits.length>5" >
+                                <span class="trait-count ml-3" (mouseover)="traitsCount = true" (mouseout)="traitsCount = false" >+{{traitGroup.traits.length-5}}</span>
                                 <div class="execute-log" *ngIf="traitsCount">
                                     <div class="header-title">
                                   <div class="close-log"><img src="assets/images/close.svg" (click)="traitsCount = false"></div>
                                     </div>
-                                    <ng-container *ngFor="let trait of traitGroup.traits| slice:3:(traitGroup.traits.length);">
+                                    <ng-container *ngFor="let trait of traitGroup.traits| slice:5:(traitGroup.traits.length);">
                                       <div class="log-details">
                                         {{trait.traitName || '---'}}
                                       </div>
