@@ -566,6 +566,8 @@ export class AppHeaderComponent implements OnInit {
   getcustomizeList(limit?, skip?) {
     limit ? limit : 20;
     skip ? skip : 0;
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId : this.queryPipelineId,
