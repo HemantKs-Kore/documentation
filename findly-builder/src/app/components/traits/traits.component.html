@@ -1,182 +1,124 @@
-<div class="traits-container row">
+<div class="traits-container p-0">
     <div class="mainLoadingSpinner" *ngIf="loadingTraits" >
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
-      </div>
-<ng-container *ngIf="loadingTraits1">  
-  <!-- NO DATA FOUND -->
-  <ng-container *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)">
-    <perfect-scrollbar class="empty-scroll">
-    <div  class="empty-landing-screen" >
-      <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/traits-empty.svg"></div>
-      <ng-container *ngIf="loadImageText">
-          <div class="empty-title">You haven’t added any Traits yet!</div>
-          <div class="desc-text"> Traits are specific entities, attributes or details that the users express in their conversations.  Traits present in the utterance can be used in driving the intent detection and bot conversation flows. SearchAssist allows you to define Traits and train the utterances.
-          </div>
-          <div class="kr-sg-dropdowns" #selectSourceDrop='ngbDropdown' ngbDropdown [container]="'body'">                                         
-            <div class="dropdown dropdown-open">
-                <button class='kr-sg-button-primary btn_lg px-3' (click)='createNewTraits()'>Add Traits</button>
-              
-          </div>                                    
-          </div>
-      </ng-container>
-      <ng-container *ngIf="noItems && emptySearchResults">
-          <div class="desc-text">Your Search Query doesn't match with any record.</div>
-      </ng-container>
-  </div>
-</perfect-scrollbar>
-</ng-container>
-  <!-- <div *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)" class="noTraits">
-    <img src="assets/images/empty-illustration.png">
-    <div class='noTraitsInfo'><span class='infoHeader'> {{'No traits created yet!'}}</span>
-        <p class='infoP'> {{'Looks like there are no traits created yet Create and manage bot traits'}}<br>
-            {{'Create and manage bot traits'}}
-        </p>
-        <button class='kr-sg-button-primary' (click)='createNewTraits()'>{{'Create New'}}</button>
     </div>
-    <div class="emptyNote">
-        <p class="emptyTitle"> {{'What are Traits?'}}</p>
-        <p class="emptyDesc">
-            {{'Traits are entities or attributes that can be extracted from user input, before intent recognition. You can train the bot to identify traits specific to your business domain and use them for intent and entity detection.'}}
-        </p>
-        <p class="emptyTitle">{{'How to create Traits?'}}</p>
-        <p class="emptyDesc marginBottom10">
-            {{'Identify all possible traits that your users are like to express in their conversations, group traits that are mutually exclusive and provide adequate training.'}}
-        </p>
-        <ul class="emptyListDesc">
-            <li>{{'Traits can be identified based on keywords/phrases and their synonyms. Examples:'}}
-                <ul class="emptyListDesc">
-                    <li> {{"Trait-Color: Blue – 'Blue', 'Sapphire', 'Teal' , Trait-Color-Red – Red, Maroon, Crimson."}}
-                    </li>
-                    <li> {{"Trait-Status: NotWorking: 'doesn’t work', 'switched off', Trait-Status:Working: 'working', 'turned on'"}}
-                    </li>
-                </ul>
-            </li>
-            <li> {{"Traits can also be inferred from a keyword or specific phrase in the sentence. There may not be any obvious association between certain words in the sentence and the value of the trait, but rather the sentence as a whole is needed to determine the value. Example:"}}
-                <ul class="emptyListDesc">
-                    <li> {{"Trait-Greeting-Emotion: Positive – 'Good Morning', 'How are you'"}}</li>
-                </ul>
-            </li>
-
-        </ul>
-        <p class="emptyTitle"> {{'Where to use Traits'}}</p>
-        <p class="emptyDesc">
-            {{'Traits can be used to define intent detection rules, path qualification criteria in Knowledge Graph, entity detection or for any defining conversation flows.'}}
-        </p>
-    </div>
-</div> -->
-<!-- TABLE CONTENT -->
-<div class="traits" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
-    <div class="kr-sg-multi-line-notification p-3">
-        <div class="bulb-icon"><img src="assets/images/24x29-bulbicon.png"></div>
-        <div class="tost-text">Please click on 'Train' button to update your traits model with the latest
-            changes.
-            Your bot will identify the traits using latest changes only after the training is completed.</div>
-        <button class="kr-sg-button-primary ml-2 trainTraits" (click)="trainBot()">Train Traits</button>
-    </div>
-    <div class="defineTraitsContainer d-none">
-        <div class="col-5 leftDiv">
-            <div class="defineTitle">
-                Define traits
-            </div>
-            <div class="defineDesc">
-                Define traits and train using phrases or utterances
-            </div>
-            <a class="defineLink" >
-                Add New Trait
-            </a>
-        </div>
-        <div class="col-2 backArrowDiv">
-            <img src="assets/images/arrow.svg" class="ml-1">
-        </div>
-        <div class="col-5 rightDiv">
-            <div class="defineTitle">
-                Train intents with traits
-            </div>
-            <div class="defineDesc">
-                Configure intent identification rules using traits
-            </div>
-            <a class="defineLink" >
-                Add New Rule
-            </a>
-        </div>
-    </div>
-    <div class="table-list-content">
-        <div class="kr-sg-data-table" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
-        
-            <section class="table-content mt-0">
-                <div class="seach_add_feild">
-                    <div class="kr-sg-input-text m-0" [ngClass]="{'active': showSearch}">                               
-                        <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="serachTraits">           
-                      </div> 
-                      <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
-                    <div class="add_feild" (click)="createNewTraits()"><img src="assets/icons/add_plus.svg"> Create New Trait</div>
-                </div>
-                <header class="table-header">
-                    <div class="col-2" >TRAIT GROUP<img src="assets/icons/caretDown.svg"
-                            class="ml-1 hide"></div>
-                    <div class="col-9" >TRAITS <img src="assets/icons/caretDown.svg"
-                            class="ml-1 hide">
-                            <!-- <div class="kr-sg-input-inline-search">                               
-                                <input type="text" placeholder="Search" class="input-search" [(ngModel)]="serachTraits">
-                                <img src="assets/icons/search.svg" class="search-icon">
-                            </div>
-                            <div class="action" (click)='createNewTraits()'>+ Create New Trait</div> --> 
+    <ng-container *ngIf="loadingTraits1">  
+    <!-- NO DATA FOUND -->
+        <ng-container *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)">
+            <perfect-scrollbar class="empty-scroll">
+                <div  class="empty-landing-screen" >
+                <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/traits-empty.svg"></div>
+                <ng-container *ngIf="loadImageText">
+                    <div class="empty-title">You haven’t added any Traits yet!</div>
+                    <div class="desc-text"> Traits are specific entities, attributes or details that the users express in their conversations.  Traits present in the utterance can be used in driving the intent detection and bot conversation flows. SearchAssist allows you to define Traits and train the utterances.
                     </div>
-                </header>
-                <perfect-scrollbar class="trailts">
-                    <div class="content-body" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">
-                        <div class="col_ col-2" title="{{traitGroup.groupName || '---'}}">{{traitGroup.groupName || '---'}}</div>
-                        <div class="col_ col-8" >
-                             <span *ngFor="let trait of traitGroup.traits| slice:0:5; let i=index;" >
-                                <span class="">{{i!==0 ?', ':''}}{{trait.traitName || '---'}}</span>
-                            </span>
-                            <span class="trait-count-container" *ngIf="traitGroup.traits.length>5" >
-                                <span class="trait-count ml-3" (mouseover)="traitsCount = true" (mouseout)="traitsCount = false" >+{{traitGroup.traits.length-5}}</span>
-                                <div class="execute-log" *ngIf="traitsCount">
+                    <div class="kr-sg-dropdowns" #selectSourceDrop='ngbDropdown' ngbDropdown [container]="'body'">                                         
+                        <div class="dropdown dropdown-open">
+                            <button class='kr-sg-button-primary btn_lg px-3' (click)='createNewTraits()'>Add Traits</button>
+                        
+                    </div>                                    
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="noItems && emptySearchResults">
+                    <div class="desc-text">Your Search Query doesn't match with any record.</div>
+                </ng-container>
+                </div>
+            </perfect-scrollbar>
+        </ng-container>
+
+
+   
+
+
+    <!-- TABLE CONTENT -->
+    <div class="traits" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
+        <div class="kr-sg-multi-line-notification d-none">
+            <div class="bulb-icon"><img src="assets/images/24x29-bulbicon.png"></div>
+            <div class="tost-text">Please click on 'Train' button to update your traits model with the latest
+                changes.
+                Your bot will identify the traits using latest changes only after the training is completed.</div>
+            <button class="kr-sg-button-primary ml-2" (click)="trainBot()">Train Traits</button>
+        </div> 
+        
+        
+        <div class="table-list-content" *ngIf="traits.traitGroups &&  traits.traitGroups.length">                         
+            <div class="seach_add_feild">
+                <div class="title">Traits</div>
+                <div class="d-flex align-items-center">
+                    <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
+                        <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="serachTraits">           
+                    </div> 
+                    <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
+                    <div class="add_feild" (click)="createNewTraits()"><img src="assets/icons/add_plus.svg"> Add Traits</div>
+                    <button class="kr-sg-button-primary btn_lg">Train Index</button>
+                </div>
+            </div>  
+            <div class="trailts-table-header row">
+                <div class="col-2 title">TRAIT GROUP</div>
+                <div class="col-9 title">TRAITS</div>
+            </div>                 
+            <perfect-scrollbar class="traits-scroll-data">
+                <div class="traits-body-sec">
+                    <div class="content-body row col-12 m-0" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">
+                        <div class="col-2 traitGroup-name" title="{{traitGroup.groupName || '---'}}">{{traitGroup.groupName || '---'}}</div>
+                        <div class="col-8 traits-groups row m-0 align-items-center">
+                            <span *ngFor="let trait of traitGroup.traits| slice:0:3; let i=index;" class="trait-more">
+                                {{i!==0 ?', ':''}}{{trait.traitName || '---'}}
+                            </span>   
+                            
+                                      <!-- <span class="trait-count-container" *ngIf="traitGroup.traits.length>5" >
+                                <span class="trait-count ml-3">+{{traitGroup.traits.length-5}}</span>
+                                <div class="execute-log">
                                     <div class="header-title">
-                                  <div class="close-log"><img src="assets/images/close.svg" (click)="traitsCount = false"></div>
+                                        <div class="close-log"><img src="assets/images/close.svg" (click)="traitsCount = false"></div>
                                     </div>
                                     <ng-container *ngFor="let trait of traitGroup.traits| slice:5:(traitGroup.traits.length);">
                                       <div class="log-details">
                                         {{trait.traitName || '---'}}
                                       </div>
                                     </ng-container>
-                                    </div>
-                            </span>
-                            <!-- <span *ngFor="let trait of traitGroup.traits" class="utteranceTag">
-                                <div class="kr-sg-tags small grey"><span class="tag-name">{{trait.traitName || '---'}}</span></div>
-                            </span> -->
-                        </div>
-                          <div class="col_ col-2 text-right">
-                            <div class="action-links">
-                                <img src="assets/icons/edit-pencil.svg" class="mr-4" (click)="editTraitFroup(traitGroup)" id="btn_edit_traits" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                                <img src="assets/icons/delete-table.svg"(click)="deleteTraitsGroup(index,traitGroup,$event)"  id="btn_delete_traits" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                            </div>
-                            <!-- <div class="kr-sg-dropdowns" #traitEdit="ngbDropdown" ngbDropdown [container]="'body'"
-                                [placement]="'bottom-right'">
+                                </div>
+
+
+                            </span>   -->
+
+                            <div class="kr-sg-dropdowns traits-more-data-container" ngbDropdown [placement]="'right-top'" *ngIf="traitGroup.traits.length>5">
                                 <div class="dropdown dropdown-open">
-                                <img class="cursor-pointer" ngbDropdownToggle src="assets/icons/elipse.svg">
-                                <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                     <li (click)="traitEdit.close();editTraitFroup(traitGroup)" ><span class="list-name">Edit</span></li>
-                                     <li (click)="deleteTraitsGroup(index,traitGroup,$event)"><span class="list-name">Delete</span></li>
-                                </ul>
-                                </div> 
-                            </div> -->
+                                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()"> +{{traitGroup.traits.length-5}}</button>
+                                    <ul class="dropdown-menu content-menu traits-more-data-container-dropdown" ngbDropdownMenu>
+                                       <div class="inner-content">
+                                            <div class="close-dropdown">
+                                                <img src="assets/icons/close-dropdown.svg">
+                                            </div>
+                                            <perfect-scrollbar class="more-traits-scroll">
+                                                <li *ngFor="let trait of traitGroup.traits| slice:5:(traitGroup.traits.length);" title="{{trait.traitName || '---'}}" class="text-truncate">
+                                                    {{trait.traitName || '---'}}
+                                                </li>
+                                            </perfect-scrollbar>
+                                       </div>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
+                        <div class="col-2 action-links">
+                            <img src="assets/icons/edit-pencil.svg" class="mr-4" (click)="editTraitFroup(traitGroup)" id="btn_edit_traits" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            <img src="assets/icons/delete-table.svg"(click)="deleteTraitsGroup(index,traitGroup,$event)"  id="btn_delete_traits" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                        </div> 
                     </div>
                     <div class="divBlockEmptylastChild text-center">         
                         <div class="desc">No search results found</div>
                     </div>
-                </perfect-scrollbar>
-
-            </section>
+                </div>
+            </perfect-scrollbar>
         </div>
     </div>
+    <!-- CREATE NEW TRAIT MODAL-->
+    </ng-container>
 </div>
-<!-- CREATE NEW TRAIT MODAL-->
-</ng-container>
-</div>
+
+
+
 <kr-modal modalType="center" modalClass="addTraitModalComponent" #statusModalPop>
     <div class="modal-header">
         <div class="header-title" (click)='closeStatusModal()'><img src="assets/images/closeCross.png"
