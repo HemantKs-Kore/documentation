@@ -1,9 +1,13 @@
 <div class="kr-sg-dropdowns configured-dropdown" ngbDropdown *ngIf="showSteps">
     <div class="dropdown dropdown-open">
       <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">       
-          <div class="not-configured-title" *ngIf="checklistCount===7">
+          <div class="not-configured-title" *ngIf="checklistCount===0">
             <div class="title">You haven’t configured your app yet!</div>
             <div class="start-now" (click)="openOnBoardingModal()">Start Now</div>
+          </div>
+          <div class="dropdown-input" *ngIf="checklistCount===7">
+            <div class="title">App is ready for Deployment</div>
+            <div class="start-now">Deploy</div>
           </div>
           <div class="check-list-steps" *ngIf="checklistCount!=7">
             <div class="left-sec">
@@ -13,16 +17,16 @@
             </div>
             <div class="right-sec">
               <div class="checklist-btn" (click)="openOnBoardingModal()">Checklist</div>
-              <div class="close-img" *ngIf="componentType!=='summary'" (click)="showSteps=false"><img src="assets/icons/close-checklist.svg"></div>
+              <div class="close-img" *ngIf="componentType!=='summary'" (click)="closeChecklist()"><img src="assets/icons/close-checklist.svg"></div>
             </div>
           </div>
       </button>
       <ul class="dropdown-menu content-menu" ngbDropdownMenu>
-       <div class="configured-dropdown-content">
-        <span class="title-info">Search Result Optimization</span>
+       <div class="configured-dropdown-content" *ngIf="prevStep!='undefined'">
+        <span class="title-info">{{prevStep.name}}</span>
         <span class="state-type">Completed</span>
       </div>
-        <button class="kr-sg-button-primary btn_lg mt-3">Design Search Experience Now</button>
+        <button class="kr-sg-button-primary btn_lg mt-3" [routerLink]="[nextStep.path]" routerLinkActive="active" skipLocationChange>{{nextStep.name}} Now</button>
       </ul>
     </div>
   </div>
@@ -33,7 +37,7 @@
       <div class="close-icon"><img (click)="closeOnBoardingModal()" src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
-      <div id="accordion" class="accodion-content">
+      <div id="accordion" class="accodion-content" *ngIf="tourData">
         <div class="card_">
           <div class="card_header">
             <div data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="card_link" aria-expanded="true">

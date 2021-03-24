@@ -19,16 +19,27 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges {
   userInfo: any = {};
   showSteps: boolean;
   showStatusIcon: boolean = true;
+  prevStep;
+  nextStep;
+  subscribedShow: any;
+  steps: any = [{ name: 'Start by Adding Data', path: '/source' }, { name: 'Index Data', path: '/FieldManagementComponent' }, { name: 'Optimize Search Results', path: '/weights' }, { name: 'Design Search Experience', path: '/searchInterface' }, { name: 'Test the Application', path: '/resultranking' }, { name: 'Fine-Tune Relevance', path: '/resultranking' }];
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
   constructor(private router: Router, private appSelectionService: AppSelectionService, private service: ServiceInvokerService, private notificationService: NotificationService, private authService: AuthService) { }
   ngOnInit(): void {
     this.userInfo = this.authService.getUserInfo() || {};
     this.appSelectionService.getTourConfig().subscribe(res => {
+      console.log("res now", res)
       this.checklistCount = res.configurations.findlyOverViewVisted ? 1 : 0;
       this.tourConfigData = res.configurations;
       this.tourData = res.configurations.onBoardingChecklist;
       this.trackChecklist();
     })
+    // this.appSelectionService.tourConfigCancel.subscribe(res => {
+    //    this.subscribedShow = res;
+    //   if (res != undefined) {
+    //     this.showSteps = res;
+    //   }
+    // })
   }
   ngOnChanges() {
     if (this.componentType != '' && this.componentType != undefined && this.tourConfigData && this.componentType != 'summary') {
@@ -46,6 +57,10 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges {
     if (this.onBoardingModalPopRef && this.onBoardingModalPopRef.close) {
       this.onBoardingModalPopRef.close();
     }
+  }
+  //close checklist button
+  closeChecklist() {
+    this.appSelectionService.tourConfigCancel.next(false);
   }
   //goto Routes
   gotoRoutes(step) {
@@ -66,22 +81,52 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges {
     if (this.componentType != 'summary') {
       if (this.componentType == 'addData') {
         this.showStatusIcon = this.tourData[0].addDataVisited ? true : false;
+        this.filterSteps(0, 0);
       }
       else if (this.componentType == 'indexing') {
         this.showStatusIcon = this.tourData[1].indexDataVisited ? true : false;
+        this.filterSteps(1, 1);
       }
       else if (this.componentType == 'configure') {
         this.showStatusIcon = this.tourData[2].optimiseSearchResultsVisited ? true : false;
+        this.filterSteps(2, 2);
       }
       else if (this.componentType == 'designing') {
         this.showStatusIcon = this.tourData[3].designSearchExperienceVisited ? true : false;
+        this.filterSteps(3, 3);
       }
       else if (this.componentType == 'test') {
         this.showStatusIcon = this.tourData[4].testAppVisited ? true : false;
+        this.filterSteps(4, 4);
       }
       else if (this.componentType == 'optimize') {
         this.showStatusIcon = this.tourData[5].fineTuneRelevanceVisited ? true : false;
+        this.filterSteps(5, 5);
       }
     }
+  }
+  //filter prev and next step
+  filterSteps(prev, next) {
+    let data = [];
+    let pre, nex;
+    for (let key in this.tourData) {
+      if (key < prev) {
+        for (let key1 in this.tourData[key]) {
+          if (this.tourData[key][key1]) {
+            pre = key;
+          }
+        }
+      }
+      if (key > next) {
+        for (let key1 in this.tourData[key]) {
+          if (!this.tourData[key][key1]) {
+            data.push(key);
+            nex = data[0];
+          }
+        }
+      }
+    }
+    this.prevStep = pre == undefined ? 'undefined' : this.steps[pre];
+    this.nextStep = nex == undefined ? 'undefined' : this.steps[parseInt(nex)];
   }
 }

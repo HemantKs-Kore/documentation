@@ -7,6 +7,7 @@
         <div class="col-4 p-0">Result Ranking</div>     
         </div>
     <ng-container *ngIf="!nextPage&& loadingContent1">
+        <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
           <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/resultRanking-empty.svg"></div>
@@ -22,7 +23,6 @@
     </perfect-scrollbar>  
   </ng-container>
   <div *ngIf="nextPage">
-    <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <div class="faqsListContainer">
             <div class="faq-content-boxes">
                 <div class="content left-content">

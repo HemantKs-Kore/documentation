@@ -1,7 +1,7 @@
 import { Injectable, Output, EventEmitter } from '@angular/core'
 import { WorkflowService } from './workflow.service';
 import { ServiceInvokerService } from './service-invoker.service';
-import { pipe, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, pipe, ReplaySubject, Subject } from 'rxjs';
 import * as _ from 'underscore';
 import { Router } from '@angular/router';
 import { SideBarService } from './header.service';
@@ -15,6 +15,7 @@ export class AppSelectionService {
   public appSelectedConfigs = new Subject<any>();
   public queryConfigSelected = new Subject<any>();
   public appSelected = new Subject<any>();
+  public tourConfigCancel = new BehaviorSubject<boolean>(undefined);
   public resumingApp = false;
   res_length: number = 0;
   constructor(

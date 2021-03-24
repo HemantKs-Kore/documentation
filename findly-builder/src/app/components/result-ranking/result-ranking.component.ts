@@ -50,7 +50,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
-    private headerService :SideBarService,) { }
+    private headerService: SideBarService,) { }
   sdk_evenBind() {
     $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
       this.getcustomizeList(20, 0);
@@ -251,7 +251,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       })
 
   }
-  lauchTest(){
+  lauchTest() {
     let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
     testButtun.click()
     this.headerService.fromResultRank(true);
@@ -264,40 +264,40 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
       testButtun.click()
       console.log(this.headerService.searchConfiguration);
-      if(this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top'){
-        setTimeout(()=>{
-          if(this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top'){
-          var link = document.getElementById('search') as HTMLDataElement;
-          link.value =this.selectedRecord.searchQuery;
-         // link.focus();
-         $('#search').addClass('from-result-ranking');
-          link.click()
-          setTimeout(()=>{
-            if(this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top'){
-            let containerClass = document.getElementsByClassName('top-down-search-background-div')[0] as HTMLBaseElement;
-            containerClass.classList.add('if-full-results')  
-            let container = document.getElementsByClassName('all-result-container')[0] as HTMLBaseElement;
-            container.style.display ="block";
-            }
-          },3000)
-        }
-        },3000)
-        
+      if (this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top') {
+        setTimeout(() => {
+          if (this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top') {
+            var link = document.getElementById('search') as HTMLDataElement;
+            link.value = this.selectedRecord.searchQuery;
+            // link.focus();
+            $('#search').addClass('from-result-ranking');
+            link.click()
+            setTimeout(() => {
+              if (this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top') {
+                let containerClass = document.getElementsByClassName('top-down-search-background-div')[0] as HTMLBaseElement;
+                containerClass.classList.add('if-full-results')
+                let container = document.getElementsByClassName('all-result-container')[0] as HTMLBaseElement;
+                container.style.display = "block";
+              }
+            }, 3000)
+          }
+        }, 3000)
+
       } else {
-       // let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
+        // let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
         //testButtun.click()
         setTimeout(() => {
-        // let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
-        // texBox.value = this.selectedRecord.searchQuery;
-        var link = document.getElementById('search') as HTMLDataElement;
-        link.value =this.selectedRecord.searchQuery;
-        link.focus();
+          // let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
+          // texBox.value = this.selectedRecord.searchQuery;
+          var link = document.getElementById('search') as HTMLDataElement;
+          link.value = this.selectedRecord.searchQuery;
+          link.focus();
           document.getElementsByClassName('search-button')[0].removeAttribute('disabled')
           let go = document.getElementsByClassName('search-button')[0] as HTMLBaseElement;
           go.click();
           //link.click();
           var box = document.getElementById('searchBox') as HTMLDataElement;
-          box.style.display ="block"
+          box.style.display = "block"
           var container = document.getElementById('searchChatContainer') as HTMLDataElement;
           container.click();
           //   texBox.value = this.selectedRecord.searchQuery;
@@ -307,19 +307,19 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           // });
           // $('#search').keyup(this);
           setTimeout(() => {
-            if(this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top'){
-            let customTag = document.getElementsByClassName('faqs-wrp-content')[0] as HTMLBaseElement;
-            customTag.click();
-            let custom = document.getElementsByClassName('custom-header-nav-link-item')[1] as HTMLBaseElement;
-            custom.click();
-            let seeAll = document.getElementsByClassName('show-all-results')[0] as HTMLBaseElement;
-            seeAll.click()
+            if (this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top') {
+              let customTag = document.getElementsByClassName('faqs-wrp-content')[0] as HTMLBaseElement;
+              customTag.click();
+              let custom = document.getElementsByClassName('custom-header-nav-link-item')[1] as HTMLBaseElement;
+              custom.click();
+              let seeAll = document.getElementsByClassName('show-all-results')[0] as HTMLBaseElement;
+              seeAll.click()
             }
           }, 3000)
           //document.getElementById('viewTypeCustomize').click(); //viewTypeCustomize
         }, 3000);
       }
-    
+
     }
   }
   resetSelected() {
@@ -629,9 +629,9 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       this.loadingContent = false;
       this.customizeList = res;
       if (res.length > 0) {
-         this.nextPage = true; this.loadingContent = false; 
-         this.headerService.fromResultRank(false);
-        }
+        this.nextPage = true; this.loadingContent = false;
+        this.headerService.fromResultRank(false);
+      }
       else {
         this.nextPage = false; this.loadingContent = false;
         this.headerService.fromResultRank(true);
