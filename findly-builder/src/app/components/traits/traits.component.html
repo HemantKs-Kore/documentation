@@ -128,8 +128,21 @@
                     <div class="content-body" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">
                         <div class="col_ col-2" title="{{traitGroup.groupName || '---'}}">{{traitGroup.groupName || '---'}}</div>
                         <div class="col_ col-8" >
-                             <span *ngFor="let trait of traitGroup.traits; let i=index;" >
+                             <span *ngFor="let trait of traitGroup.traits| slice:0:3; let i=index;" >
                                 <span class="">{{i!==0 ?', ':''}}{{trait.traitName || '---'}}</span>
+                            </span>
+                            <span class="trait-count-container" *ngIf="traitGroup.traits.length>3" >
+                                <span class="trait-count ml-3" (mouseover)="traitsCount = true"  >+{{traitGroup.traits.length-3}}</span>
+                                <div class="execute-log" *ngIf="traitsCount">
+                                    <div class="header-title">
+                                  <div class="close-log"><img src="assets/images/close.svg" (click)="traitsCount = false"></div>
+                                    </div>
+                                    <ng-container *ngFor="let trait of traitGroup.traits| slice:3:(traitGroup.traits.length);">
+                                      <div class="log-details">
+                                        {{trait.traitName || '---'}}
+                                      </div>
+                                    </ng-container>
+                                    </div>
                             </span>
                             <!-- <span *ngFor="let trait of traitGroup.traits" class="utteranceTag">
                                 <div class="kr-sg-tags small grey"><span class="tag-name">{{trait.traitName || '---'}}</span></div>
@@ -137,7 +150,7 @@
                         </div>
                           <div class="col_ col-2 text-right">
                             <div class="action-links">
-                                <img src="assets/icons/edit-pencil.svg" (click)="editTraitFroup(traitGroup)" id="btn_edit_traits" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                                <img src="assets/icons/edit-pencil.svg" class="mr-4" (click)="editTraitFroup(traitGroup)" id="btn_edit_traits" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
                                 <img src="assets/icons/delete-table.svg"(click)="deleteTraitsGroup(index,traitGroup,$event)"  id="btn_delete_traits" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
                             </div>
                             <!-- <div class="kr-sg-dropdowns" #traitEdit="ngbDropdown" ngbDropdown [container]="'body'"

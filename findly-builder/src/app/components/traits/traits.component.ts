@@ -60,6 +60,7 @@ export class TraitsComponent implements OnInit {
   };
   currentTraitEditIndex;
   editedContent;
+  traitsCount = false;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
