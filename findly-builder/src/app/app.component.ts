@@ -40,6 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
   queryText;
   subscription: Subscription;
   searchSDKSubscription : Subscription;
+  showHideMainMenuSubscription :Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -81,6 +82,9 @@ export class AppComponent implements OnInit, OnDestroy {
       } else {
         this.showHideSearch(false);
       }
+    });
+    this.showHideMainMenuSubscription = this.headerService.showHideMainMenu.subscribe( (res) => {
+      this.showMainMenu = res;
     })
   }
   showMenu(event) {
@@ -239,6 +243,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.findlyApps.unsubscribe();
     this.subscription.unsubscribe();
     this.searchSDKSubscription.unsubscribe();
+    this.showHideMainMenuSubscription ? this.showHideMainMenuSubscription.unsubscribe : false;
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {

@@ -7,6 +7,7 @@ export class SideBarService {
   @Output() fromCallFlowExpand: EventEmitter<boolean> = new EventEmitter();
   @Output() openSearchSDKFromHeader : EventEmitter<any> = new EventEmitter();
   @Output() openFaqExtractsFromDocker : EventEmitter<any> = new EventEmitter();
+  @Output() showHideMainMenu : EventEmitter<any> = new EventEmitter();
   isOnboardingPage = false;
   toggle(data) {
     this.change.next(data);
@@ -22,5 +23,9 @@ export class SideBarService {
 
   openFaqExtracts(){
     this.openFaqExtractsFromDocker.next();
+  }
+
+  updateShowHideMainMenu(data){
+    this.showHideMainMenu.next(data);
   }
 }
