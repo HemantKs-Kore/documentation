@@ -8,6 +8,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { SideBarService } from '@kore.services/header.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AuthService } from '@kore.services/auth.service';
+import { NONE_TYPE } from '@angular/compiler';
 declare const $: any;
 @Component({
   // tslint:disable-next-line:component-selector

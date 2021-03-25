@@ -54,8 +54,8 @@ export class AppHeaderComponent implements OnInit {
   serachIndexId;
   queryPipelineId;
   indexPipelineId;
-  indexSubscription : Subscription;
-  subscription : Subscription;
+  indexSubscription: Subscription;
+  subscription: Subscription;
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
@@ -132,17 +132,17 @@ export class AppHeaderComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.loadHeader();
-    this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res=>{
-      this.subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
+    this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+      this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
         this.loadHeader();
       })
     })
   }
-  loadHeader(){
+  loadHeader() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if(this.indexPipelineId){
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
-      if(this.queryPipelineId){
+    if (this.indexPipelineId) {
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
+      if (this.queryPipelineId) {
         // this.getcustomizeList(20,0);
         this.selectedApp = this.workflowService.selectedApp();
         this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -234,6 +234,7 @@ export class AppHeaderComponent implements OnInit {
         setTimeout(() => {
           self.training = false;
           self.notificationService.notify('Training has been initated', 'success');
+          this.appSelectionService.updateTourConfig('indexing');
         }, 5000)
       }, errRes => {
         self.training = false;
@@ -380,7 +381,7 @@ export class AppHeaderComponent implements OnInit {
   navigateTo(task) {
     if (task.jobType === 'faq') {
       this.router.navigate(['/faqs'], { skipLocationChange: true });
-      setTimeout(()=> {
+      setTimeout(() => {
         this.headerService.openFaqExtracts();
       }, 300);
     } else if (task.jobType === 'webdomain') {
@@ -559,25 +560,25 @@ export class AppHeaderComponent implements OnInit {
   }
   openOrCloseSearchSDK() {
     this.headerService.openSearchSDK(true);
-    this.getcustomizeList(20,0)
+    this.getcustomizeList(20, 0)
   }
   getcustomizeList(limit?, skip?) {
     limit ? limit : 20;
     skip ? skip : 0;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      queryPipelineId : this.queryPipelineId,
+      queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      limit : limit,
-      skip : skip
+      limit: limit,
+      skip: skip
     };
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
       if (res.length > 0) {
         this.headerService.fromResultRank(false);
-       }
-     else {
-       this.headerService.fromResultRank(true);
-     }
+      }
+      else {
+        this.headerService.fromResultRank(true);
+      }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');

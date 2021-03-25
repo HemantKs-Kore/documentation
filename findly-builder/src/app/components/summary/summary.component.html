@@ -1,3 +1,39 @@
+<!-- <div class="kr-sg-dropdowns configured-dropdown" ngbDropdown>
+  <div class="dropdown dropdown-open">
+    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">       
+        <div class="not-configured-title">
+          <div class="title">You haven’t configured your app yet!</div>
+          <div class="start-now">Start Now</div>
+        </div>
+        <div class="check-list-steps d-none">
+          <div class="left-sec">
+            <img src="assets/icons/check-config.svg">
+            <span class="steps-info"><b>3</b> out of 7 Steps Completed</span>
+          </div>
+          <div class="right-sec">
+            <div class="checklist-btn">Checklist</div>
+            <div class="close-img"><img src="assets/icons/close-checklist.svg"></div>
+          </div>
+        </div>
+    </button>
+    <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+     <div class="configured-dropdown-content">
+      <span class="title-info">Search Result Optimization</span>
+      <span class="state-type">Completed</span>
+    </div>
+      <button class="kr-sg-button-primary btn_lg mt-3">Design Search Experience Now</button>
+    </ul>
+  </div>
+</div> -->
+  <app-useronboarding-journey #onboard [componentType]='componentType' *ngIf="showOverview"></app-useronboarding-journey>
+<div class="over-view-config-tour" *ngIf="!showOverview">
+  <div class="tour-header">
+    <div class="title">Overview</div>
+    <div class="close-tour"><img src="assets/icons/close-white.svg" (click)="closeOverview()"></div>
+  </div>
+  <div class="tour-info">Shows the Birds eye view of configurations in your App</div>
+  <button class="kr-sg-button-primary btn_lg" (click)="openOnBoardingModal()">Got It</button>
+</div>
 <div class="overview-container">  
   <perfect-scrollbar class="scroll_content">
     <div class="g-analytics"></div>
@@ -103,7 +139,7 @@
       <div class="table-data-content col-6">
         <div class="content-sec">
           <div class="title-sec d-flex justify-content-between">
-            <div class="title">Sources | <span style="color:#85B7FE">5 Indices</span></div> 
+            <div class="title">Sources | <span style="color:#85B7FE">{{indexPipeLineCount}} Indices</span></div> 
             <!-- <div class="create_new_link">+ Create New</div> -->
           </div>
           <div class="header-data row m-0">
@@ -116,7 +152,7 @@
             <div class="col-3 title">{{indice.approvedfaqs}}</div>
             <div class="col-3 title">{{indice.contentPages}} Pages</div>
             <div class="col-3 title">{{indice.botActions}}</div>
-            <div class="col-3 title">{{indice.botActions}}</div>
+            <div class="col-3 title">{{indice.structuredDataCount}}</div>
           </div> 
           <!-- <div class="create_new_link" (click)="openSource()">View all</div> -->
           </div>       
@@ -324,3 +360,134 @@
     </div> -->
   </perfect-scrollbar>  
 </div>
+
+
+<div class="kr-sg-dropdowns">
+  <div class="label-text">Label</div>
+  <div class="dropdown dropdown-open">
+      <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+      <ul class="dropdown-menu content-menu">                                                   
+        <li><a>Option 1</a></li>
+        <li><a>Option 2</a></li>
+        <li><a>Option 3</a></li>
+      </ul>
+    </div>
+</div>
+
+
+<!--tour guide popup-->
+<!-- <kr-modal modalType="nodrop" modalClass="modal_popups_ onboarding-journey-modal" #onBoardingModalPop>
+  <div class="modal-header">
+    <div class="title">Your Quick Start Guide</div>
+    <div class="close-icon"><img (click)="closeOnBoardingModal()" src="assets/icons/modal-close.svg"></div>
+  </div>
+  <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div id="accordion" class="accodion-content">
+      <div class="card_">
+        <div class="card_header">
+          <div data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="card_link" aria-expanded="true">
+              <div class="instruction-number">1</div>
+              <div class="guide-name">Start by Adding Data</div>              
+          </div>
+        </div>
+  
+        <div id="collapseOne" class="collapse">
+          <div class="card-body">
+              <div class="guide-inner-info">SearchAssist allows you to add different types of data such as FAQs, Actions, Content, Structured Data from various sources. </div>
+              <button class="kr-sg-button-primary btn_lg mr-3">Add Data</button>
+              <button class="kr-sg-button-secondary btn_lg ml-1">Learn More</button>
+          </div>
+        </div>
+      </div>  
+      
+      <div class="card_">
+        <div class="card_header">
+          <div data-toggle="collapse" data-parent="#accordion" href="#collapse2" class="card_link" aria-expanded="true">
+              <div class="instruction-number">2</div>
+              <div class="guide-name">Index Data</div>              
+          </div>
+        </div>
+  
+        <div id="collapse2" class="collapse">
+          <div class="card-body">
+              <div class="guide-inner-info">SearchAssist allows you to Index the data that you want to make searchable.</div>
+              <button class="kr-sg-button-primary btn_lg mr-3">Start Indexing</button>
+              <button class="kr-sg-button-secondary btn_lg ml-1">Learn More</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card_">
+        <div class="card_header">
+          <div data-toggle="collapse" data-parent="#accordion" href="#collapse3" class="card_link" aria-expanded="true">
+              <div class="instruction-number">3</div>
+              <div class="guide-name">Optimize Search Results</div>              
+          </div>
+        </div>
+  
+        <div id="collapse3" class="collapse">
+          <div class="card-body">
+              <div class="guide-inner-info">SearchAssist allows to optimize the search results through Synonyms, Weights, Stop Words, Rules, Facets.</div>
+              <button class="kr-sg-button-primary btn_lg mr-3">Configure</button>
+              <button class="kr-sg-button-secondary btn_lg ml-1">Learn More</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card_">
+        <div class="card_header">
+          <div data-toggle="collapse" data-parent="#accordion" href="#collapse4" class="card_link" aria-expanded="true">
+              <div class="instruction-number">4</div>
+              <div class="guide-name">Design Search Experience</div>              
+          </div>
+        </div>
+  
+        <div id="collapse4" class="collapse">
+          <div class="card-body">
+              <div class="guide-inner-info">SearchAssist allows you to customize the search experience and design the search interface based on the business context. </div>
+              <button class="kr-sg-button-primary btn_lg mr-3">Start Designing</button>
+              <button class="kr-sg-button-secondary btn_lg ml-1">Learn More</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card_">
+        <div class="card_header">
+          <div data-toggle="collapse" data-parent="#accordion" href="#collapse5" class="card_link" aria-expanded="true">
+              <div class="instruction-number">5</div>
+              <div class="guide-name">Test the Application</div>              
+          </div>
+        </div>
+  
+        <div id="collapse5" class="collapse">
+          <div class="card-body">
+              <div class="guide-inner-info">SearchAssist allows you to validate the configuration and search experience before deploying the app by just clicking on the Test button. </div>
+              <button class="kr-sg-button-primary btn_lg mr-3">Test</button>
+              <button class="kr-sg-button-secondary btn_lg ml-1">Learn More</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card_">
+        <div class="card_header">
+          <div data-toggle="collapse" data-parent="#accordion" href="#collapse6" class="card_link" aria-expanded="true">
+              <div class="instruction-number">6</div>
+              <div class="guide-name">Fine-Tune Relevance</div>              
+          </div>
+        </div>
+  
+        <div id="collapse6" class="collapse">
+          <div class="card-body">
+              <div class="guide-inner-info">SearchAssist Allows you to fine-tune search results further with the result ranking actions such as pinning, boosting, lowering and hiding.</div>
+              <button class="kr-sg-button-primary btn_lg mr-3">Optimize</button>
+              <button class="kr-sg-button-secondary btn_lg ml-1">Learn More</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer">
+    I want to Explore by Myself
+  </div>
+</kr-modal> -->

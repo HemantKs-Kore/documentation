@@ -6,7 +6,9 @@ import { AuthService } from '@kore.services/auth.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '../../services/notification.service';
 import { HttpClient } from '@angular/common/http';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import { SideBarService } from './../../services/header.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-search-experience',
   templateUrl: './search-experience.component.html',
@@ -74,9 +76,12 @@ export class SearchExperienceComponent implements OnInit {
   toggle: boolean = false;
   minWidth: number = 200;
   width: number = this.minWidth;
+  componentType: string = 'designing';
+  subscription: Subscription;
+  tourData: any = [];
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
-  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, public headerService : SideBarService) {
+  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService, public headerService: SideBarService) {
   }
 
   ngOnInit(): void {
@@ -84,7 +89,11 @@ export class SearchExperienceComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
     this.getSearchExperience();
-    this.getTourConfig();
+    // this.getTourConfig();
+    this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
+      this.tourData = res;
+      this.tourGuide = res.searchExperienceVisited ? '' : 'step1';
+    })
   }
   //dynamically increse input text 
   resize() {
@@ -276,28 +285,25 @@ export class SearchExperienceComponent implements OnInit {
     this.selectSearch = type;
   }
   //get tour congfig data
-  getTourConfig() {
-    const quaryparms: any = {
-      userId: this.userInfo.id
-    };
-    this.service.invoke('get.tourConfig', quaryparms).subscribe(res => {
-      this.tourGuide = res.configurations.searchExperienceVisited ? '' : 'step1';
-    }, errRes => {
-      console.log(errRes);
-    });
-  }
+  // getTourConfig() {
+  //   const quaryparms: any = {
+  //     userId: this.userInfo.id
+  //   };
+  //   this.service.invoke('get.tourConfig', quaryparms).subscribe(res => {
+  //     this.tourGuide = res.configurations.searchExperienceVisited ? '' : 'step1';
+  //   }, errRes => {
+  //     console.log(errRes);
+  //   });
+  // }
   //put tour config data
   updateTourConfig() {
     const quaryparms: any = {
       userId: this.userInfo.id
     };
-    const payload = {
-      "configurations": {
-        "searchExperienceVisited": true
-      }
-    }
+    this.tourData.searchExperienceVisited = true;
+    const payload = { "configurations": this.tourData };
     this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
-      console.log("put tour config data", res);
+      this.appSelectionService.updateTourConfig(this.componentType);
       this.notificationService.notify('Updated successfully', 'success');
       this.tourGuide = '';
     }, errRes => {
