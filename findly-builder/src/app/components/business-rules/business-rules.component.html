@@ -67,10 +67,10 @@
     <div class="table_section" *ngIf="!loadingContent && rules && rules.length">
         <div class="header_sec row m-0">
             <div class="col-3 content withcheckbox ">
-                <div class="kr-sg-checkbox p-0 m-0">
+                <!-- <div class="kr-sg-checkbox p-0 m-0">
                     <input id="selectAllRules" class="checkbox-custom" type="checkbox" (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll" />
                     <label for="selectAllRules" class="checkbox-custom-label"></label>
-                </div>
+                </div> -->
                 <div class="title cursor-pointer" (click)="sortBy('ruleName')">
                     <img *ngIf="!(selectedSort && selectedSort === 'ruleName')" src="assets/icons/sort_up_down.svg" class="pr-1" />
                     <img *ngIf="selectedSort && selectedSort === 'ruleName'" [ngClass]="{ upArrow: !isAsc }" src="assets/icons/caretDown.svg" class="pr-1" /> {{ "name_caps" | translate }}

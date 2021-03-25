@@ -196,7 +196,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (ruleObj && ruleObj.rules && ruleObj.rules.length) {
       this.rulesArrayforAddEdit = JSON.parse(JSON.stringify(ruleObj.rules));
     } else {
-      this.addNewRule();
+      //this.addNewRule();
     }
     if (ruleObj && ruleObj.outcomes && ruleObj.outcomes.length) {
       const _outcoms = []
