@@ -51,12 +51,12 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     private headerService :SideBarService,) { }
   sdk_evenBind() {
-    $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
+    // $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
+    //   this.getcustomizeList(20, 0);
+    // })
+    $(document).on('click','.kore-search-container-close-icon',() =>{
       this.getcustomizeList(20, 0);
     })
-    // $(document).on('click','.start-search-icon-div.active',() =>{
-    //   this.getcustomizeList();
-    // })
   }
   ngOnInit(): void {
     this.sdk_evenBind();
@@ -419,7 +419,6 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     }
     //opt == 'default' ?  this.resultSelected = false : this.resultSelected = true;
     //this.multiSelect(record,opt)
-
     this.selectedRecord = record;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -596,6 +595,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         if (result === 'yes') {
           this.service.invoke('put.restoreQueryCustomize', quaryparms).subscribe(res => {
             //this.customizeList = res;
+            this.selectedRecord = {};
             this.getcustomizeList(20, 0);
             this.actionLogData = [];
             this.customizeList = [];
@@ -637,16 +637,21 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       }
       this.customizeListBack = [...res];
       this.totalRecord = res.length
-      this.customizeList.forEach((element, index) => {
-
-        if (index == 0) {
+      if(this.selectedRecord._id){
+        this.customizeList.forEach((element, index) => {
+          if(this.selectedRecord._id == element._id){
+            element['check'] = false;
+            this.clickCustomizeRecord(element)
+          }
+        });
+      }else{
+        this.customizeList.forEach((element, index) => {
           element['check'] = false;
-          this.clickCustomizeRecord(element)
-        } else {
-          element['check'] = false;
-        }
-
-      });
+          if (index == 0) {
+            this.clickCustomizeRecord(element)
+          }
+        });
+      }
       if (!this.customizeList.length) {
         this.selectedRecord = {};
         this.customizeLog = [];
