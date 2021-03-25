@@ -2758,13 +2758,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //top-down-search-end
       }
 
-      $('.search-container').addClass('full-page');
       if ($('.start-search-icon-div').hasClass('active')) {
         $('.start-search-icon-div').addClass('hide');
       }
       console.log('---- full search hides preview ball icon ----------')
       $('.search-body-full').removeClass('hide');
       if (!$('.topdown-search-main-container').length) {
+      $('.search-container').addClass('full-page');
      $('.search-body-full').html(searchFullData);
       }
       $('.search-container').removeClass('active');
@@ -3761,7 +3761,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.captureClickAnalytics(e, $(e.currentTarget).attr('contentType'), 'click', $(e.currentTarget).attr('contentId'), $(e.currentTarget).attr('id'), $(e.currentTarget).attr('title'));
         }
         window.localStorage.setItem("recentTasks", JSON.stringify(_self.vars.searchObject.recentTasks));
+       if(!$('body').hasClass('top-down')){
         _self.bindFrequentData();
+       }
         //_self.saveOrGetDataInStorage(); 
 
         // if (_self.vars.loggedInUser) {
@@ -4694,7 +4696,9 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         payload.childBotName = $(event.currentTarget).attr('childBotName');
         payload.taskId = resultID;
       }
-      payload.searchResultId = _self.vars.previousSearchObj.requestId;
+      if((_self.vars.previousSearchObj ||{}).requestId){
+          payload.searchResultId = _self.vars.previousSearchObj.requestId;
+       }
 
 
       console.log(payload.event);
@@ -5283,7 +5287,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
             $('#searchChatContainer').removeClass('bgfocus');
             var searchText = $('#search').val() || _self.vars.searchObject.searchText;
             if (!($('.topdown-search-main-container').length)) {
-                  $('#search').val('');
+              $('#search').val('');
             }else{
               _self.invokeSearch();
             }
@@ -7155,18 +7159,19 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
           if (actionContainer) {
             if (data.tasks && data.tasks.length  > 0) {
               if (config.actionTemplateId) {
-                if(config.templateId === 'actions-template'){
+                if(config.actionTemplateId === 'actions-template'){
                   var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy(data);
                   if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
                     $('#' + actionContainer).empty();
                   }
+                $('#' + actionContainer).append(dataHTML);
                 } else{
                   var dataHTML = $('#' + config.actionTemplateId).tmplProxy(data);
                 if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
                   $('#' + actionContainer).empty();
                 }
-                }
                 $('#' + actionContainer).append(dataHTML);
+                }
               } else if (config.actionTemplate) {
                 var dataHTML = $(config.actionTemplate).tmplProxy(data);
                 if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
@@ -19251,23 +19256,16 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
       var topDownActionTemplate = '<script id="actions-template" type="text/x-jqury-tmpl">\
                                     {{if tasks.length > 0 }}\
                                     <div class="type-section quick-actions"> Quick Actions</div>\
-                                    <div class="actions">\
-                                        {{each(key, task) tasks}}\
-                                        <div class="actions-container">\
-                                            <div class="action-icon">\
-                                                <img src="images/action-icon.png"/>\
-                                            </div>\
-                                            <div class="action">\
-                                                <div class="action-text creditCardDetails search-task bot-action" title="${task.taskName}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" id="${key}" payload="${task.payload}">\
-                                                    ${task.titleText}\
-                                                </div>\
-                                                <div class="task-text">\
-                                                    ${task.text}\
-                                                </div>\
-                                            </div>\
-                                        </div>\
-                                      {{/each}}\
-                                    </div>\
+                                      <div class="action-results-container btn_block_actions">\
+                                          {{each(key, task) tasks}}\
+                                              <div class="action-content">\
+                                                 <button id="${key}" class="action-btns search-task" title="${task.taskName}"  contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                                                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card">\
+                                                  ${task.titleText}\
+                                                  </button>\
+                                              </div>\
+                                        {{/each}}\
+                                      </div>\
                                 {{/if}}\
                               </script>'
       return topDownActionTemplate;
