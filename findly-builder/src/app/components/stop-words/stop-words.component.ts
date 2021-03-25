@@ -28,6 +28,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   selectedApp: any = {};
   serachIndexId;
   queryPipelineId;
+  indexPipelineId;
   pipeline;
   stopWordsIntiType = 'default'
   createFromScratch;
@@ -48,10 +49,20 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.loadStopwords();
     })
   }
+  loadImageText: boolean = false;
+  loadingContent1: boolean
+  imageLoad(){
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
+  }
   loadStopwords(){
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
-    if(this.queryPipelineId){
-      this.getStopWords();
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if(this.indexPipelineId){
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+      if(this.queryPipelineId){
+        this.getStopWords();
+      }
     }
   }
   toggleSearch(){
@@ -91,11 +102,15 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     }
     this.validation.duplicate = duplicate;
    }
+   if(event.keyCode === 13){
+     this.addStopWord(event);
+   }
   }
   getStopWords(){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
      this.pipeline=  res.pipeline || {};
@@ -111,6 +126,13 @@ export class StopWordsComponent implements OnInit, OnDestroy {
             }
           }
         });
+      }
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
       }
       this.loadingContent = false;
     }, errRes => {
@@ -155,6 +177,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('post.restoreStopWord', quaryparms).subscribe(res => {
       this.newStopWord = '';
@@ -286,8 +309,9 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   }
   updateStopWords(dialogRef?,enableOrDisable?,deleteAll?) {
     const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
+      searchIndexId:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
     };
     let msg = 'Stop words updated successfully';
     if(!enableOrDisable){
@@ -337,7 +361,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
   }
  }
-  addStopWord(){
+  addStopWord(event){
     const stopwords = (this.newStopWord || '').split(',');
     this.stopwords = _.uniq(this.stopwords.concat(stopwords)).sort();
     this.stopwords = _.filter(this.stopwords,(stopword)=>{

@@ -201,9 +201,8 @@ and open the template in the editor.
         border: solid 1px #0D6EFD;
     }
     &:disabled{
-        background: #0D6EFD;
-        color: #ffff;
-        opacity: 0.5;
+        background: #EFF0F1;
+        color: #BDC1C6;
     }
     &.btn_md{
         height: 30px;
@@ -856,7 +855,7 @@ and open the template in the editor.
                 }
             }
         }
-        &:disabled{
+        &:disabled{           
             + .checkbox-custom-label{
                 &::before{
                     border: solid 1px $borderColor;
@@ -1194,6 +1193,29 @@ and open the template in the editor.
 
 .kr-sg-dropdowns{    
     width: 100%;
+    &.show{
+        .dropdown-open{
+            .dropdown-input{
+                &::before{
+                    content: "";                  
+                    position: absolute;
+                    line-height: 34px;
+                    font-size: 18px;
+                    height: 100%;
+                    top: 0;
+                    right: 10px;
+                    color: $primaryColor;
+                    transition: all 0.3s ease-in;
+                    z-index: 99;   
+                    background-image: url('^assets/icons/carrot-up-comp.svg') !important;                
+                    background-size: 14px;
+                    background-repeat: no-repeat; 
+                    background-position: center;
+                    width: 14px;                     
+                }
+            }
+        }               
+    }
     &.w-100{
         width: 100%;
     }

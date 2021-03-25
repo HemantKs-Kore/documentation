@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Observable, interval } from 'rxjs';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -11,6 +11,8 @@ export class DockStatusService {
 
     selectedApp: any;
     showStatusDocker : boolean = false;
+
+    @Output() change: EventEmitter<boolean> = new EventEmitter();
 
     constructor(
         private service: ServiceInvokerService,
@@ -61,4 +63,7 @@ export class DockStatusService {
         }, err=>{ console.log(err) });
     }
 
+    trigger(data?) {
+        this.change.next(data);
+    }
 }

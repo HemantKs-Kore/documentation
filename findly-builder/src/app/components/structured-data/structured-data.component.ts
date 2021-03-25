@@ -99,6 +99,7 @@ export class StructuredDataComponent implements OnInit {
   searchFocusIn=false;
   search : any;
   formatter: any;
+  enableSearchBlock : boolean = false;
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
@@ -119,11 +120,17 @@ export class StructuredDataComponent implements OnInit {
     this.search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
-      map(term => term === '' ? []
-        : this.searchItems())
+      map(term => this.searchItems())
     )
   }
-
+  isLoading1: boolean;
+  loadImageText: boolean = false;
+  imageLoad(){
+    console.log("image loaded now")
+    this.isLoading=false;
+    this.isLoading1 = true;
+    this.loadImageText = true;
+  }
   getStructuredDataList(skip?){
     this.isLoading = true;
     this.noItems = false;
@@ -149,6 +156,13 @@ export class StructuredDataComponent implements OnInit {
       else{
       this.structuredDataItemsList = [];
       }
+      if (res.length > 0) {
+        this.isLoading = false;
+        this.isLoading1 = true;
+      }
+      else {
+        this.isLoading1 = true;
+      }
       this.structuredDataItemsList.forEach(data => {
         data.objectLength =  Object.keys(data._source).length;
         if(data._source){
@@ -161,6 +175,10 @@ export class StructuredDataComponent implements OnInit {
       this.designDefaultData(this.structuredDataItemsList);
       if(this.structuredDataItemsList.length == 0){
         this.noItems = true;
+        this.enableSearchBlock = false;
+      }
+      else{
+        this.enableSearchBlock = true;
       }
     }, errRes => {
       console.log("error", errRes);
@@ -236,7 +254,8 @@ export class StructuredDataComponent implements OnInit {
     }
     const quaryparms: any = {
       searchIndexID:this.selectedApp.searchIndexes[0]._id,
-      query
+      query,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
       this.fields = res || [];

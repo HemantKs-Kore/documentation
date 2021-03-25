@@ -12,7 +12,7 @@
         </label>
       </div>     
     </div>    
-    <div *ngIf="!loadingContent" class="stop-words-wrapper">
+    <div *ngIf="loadingContent1" class="stop-words-wrapper">
       <div class="m-0 row addStopWordsBlock" *ngIf="((stopwords && stopwords.length) && !loadingContent) || createFromScratch">
         <div class="label_text col-12 p-0">{{'stopWords.add_stop_word'| translate}}</div>
         <div class="kr-sg-input-text">
@@ -56,7 +56,8 @@
         <div class="empty_screen_data">
           <perfect-scrollbar class="scoll-empty-screen" *ngIf="!showAddStopWordsContainer">
             <div class="empty-landing-screen">
-              <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/stopwords-empty.svg"></div>   
+              <div class="img-block"*ngIf="!emptyItems"><img class="action_icon"  (load)="imageLoad()" src="assets/images/stopwords-empty.svg"></div>
+              <ng-container *ngIf="loadImageText">
               <div class="empty-title">You haven’t added any Stop words yet!</div>
               <div class="desc-text"> Stop words are a set of common words (such as the, a, to, all) that dilutes the importance of keywords in a search query. SearchAssist allows you to use either the default set of stop words or add a custom set as per your need.</div>
               <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                          
@@ -64,6 +65,7 @@
                   <button class="kr-sg-button-primary btn_lg px-2"  (click)="showAddStopWordsContainer=true">Add Stop Words</button>                                            
                 </div>                                    
               </div>
+            </ng-container>   
               <ng-container *ngIf="noItems && emptySearchResults">
                   <div class="desc-text">Your Search Query doesn't match with any record.</div>
               </ng-container>

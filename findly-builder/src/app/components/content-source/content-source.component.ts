@@ -158,6 +158,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   useCookies = false;
   respectRobotTxtDirectives = false;
   crawlBeyondSitemaps = false;
+  loadingContent1: boolean;
   isJavaScriptRendered = false;
   blockHttpsMsgs = false;
   crawlDepth: number;
@@ -188,6 +189,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   scroll = (event): void => {
     //console.log(event)
   };
+  loadImageText: boolean = false;
+  imageLoad() {
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
+  }
   hoverExecutionLog() {
     this.executionLogStatus = true;
   }
@@ -225,19 +232,21 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       let hr = duration.split(":")[0];
       let min = duration.split(":")[1];
       let sec = duration.split(":")[2];
-
+      let milisec = duration.split(":")[3];
 
       if (hr > 0) {
-        if (min > 0 && sec > 0) return duration = hr + "h " + min + "m " + sec + "s";
-        if (min > 0 && sec <= 0) return duration = hr + "h " + min + "m " + sec + "s";
+        if (min >= 0 && sec > 0) return duration = hr + "h " + min + "m " + sec + "s";
+        if (min > 0 && sec <= 0) return duration = hr + "h " + min + "m";
         if (min <= 0 && sec <= 0) return duration = hr + "h ";
       } else if (min > 0) {
-        if (sec > 0) return duration = min + "m " + sec + "s";
-        if (sec <= 0) return duration = min + "m ";
+        if (sec > 0) return duration = min + "m " + sec + "s" ;
+        if (sec <= 0) return duration = min + "m";
       } else if (sec > 0) {
-        return duration = sec + "s";
+         return duration = sec + "s";
+      } else if (milisec > 0) {
+        return duration = milisec + 'ms';
       } else {
-        return duration = '0' + "s";
+        return duration = '0' + "ms";
       }
     }
   }
@@ -312,6 +321,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         $('#searchContentSources').focus();
       }, 100);
       this.filterTable(this.filterTableSource, this.filterTableheaderOption)
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
     }, errRes => {
       console.log(errRes);
       this.loadingContent = false;
@@ -543,6 +559,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
   }
   openStatusSlider(source) {
+    console.log("sourec opned", source)
     // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
     //   this.notificationService.notify('Source extraction is still in progress', 'error');
     //   return;
@@ -1242,7 +1259,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('recrwal', quaryparms).subscribe(res => {
       this.getSourceList();
-      this.notificationService.notify('Recrwaled successfully', 'success');
+      this.notificationService.notify('Re-Crawling', 'success');
       this.closeStatusModal();
       //this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
     }, errRes => {
@@ -1357,7 +1374,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
     crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
     crawler.advanceOpts.allowedURLs.length > 0 || crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.crawlEverything = false : crawler.advanceOpts.crawlEverything = true;
-    crawler.resourceType = resourceType;
+    if (resourceType != 'webdomain') {
+      crawler.resourceType = resourceType;
+    }
+    else {
+      delete crawler.resourceType;
+    }
     payload = crawler;
     //console.log(payload);
     if (crawler.advanceOpts.scheduleOpt) {

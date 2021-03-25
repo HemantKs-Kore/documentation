@@ -13,6 +13,7 @@ declare const $: any;
 })
 export class AddResultComponent implements OnInit {
   searchType = '';
+  positionRecord = 'top'
   searchRadioType = 'faq';
   searchRadioTypeTxt = "FAQ's"
   selectedApp :any = {};
@@ -26,6 +27,7 @@ export class AddResultComponent implements OnInit {
   subscription: Subscription;
   @Input() query : any;
   @Input() addNew;
+  @Input() structure;
   @Output() closeResult = new EventEmitter();
   constructor(public workflowService: WorkflowService,
     public notificationService: NotificationService,
@@ -76,17 +78,30 @@ export class AddResultComponent implements OnInit {
   keyFunc(txt){
     this.searchResults(txt)
   }
-  addRecord(record,i){
+  addRecord(record,i,event){
     let duplicate = false;
+    if(!this.positionRecord){
+      this.positionRecord = "top"
+    }
     if(this.recordArray){
       this.recordArray.forEach((element , index) => {
         if(element.contentId == record.contentId){
           this.recordArray.splice(index,1);
           duplicate = true;
+          var id = element.contentId
+          $("[custumId="+id+"]").prop('checked', false);
         }
       });
     }
     if(!duplicate) this.recordArray.push(record);
+    if(this.recordArray.length){
+      this.recordArray.forEach(element => {
+        var id = element.contentId
+        $("[custumId="+id+"]").prop('checked', true);
+      });
+      
+     // $('#viewTypeCheckboxControl').prop('checked', false);
+    }
     // if(this.searchType == "all" || this.searchRadioType == "all"){
     //   this.checkForContentType(record,i)
     // }
@@ -105,14 +120,16 @@ export class AddResultComponent implements OnInit {
     const searchIndex = this.serachIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      queryPipelineId : this.queryPipelineId
+      queryPipelineId : this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     let result :any = [];
     this.recordArray.forEach((element,index) => {
       var obj :any = {};
-      obj.contentType = contentTaskFlag ? contentType : element.contentType ;
+      obj.contentType = contentTaskFlag ? contentType : element.__contentType;
       //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
       obj.contentId = element.contentId;
+      obj.position = this.positionRecord;
       // obj.config = {
       //   pinIndex : -1,
       //   //boost: 1.0,
@@ -135,6 +152,7 @@ export class AddResultComponent implements OnInit {
           $('.checkbox-custom')[i].checked =  false;
         }
       }
+      this.positionRecord = "top"
       this.notificationService.notify('Record Added', 'success');
       //console.log(res);
     }, errRes =>  {
@@ -174,7 +192,12 @@ export class AddResultComponent implements OnInit {
       limit: 50,
       skip: 0
     };
-    this.service.invoke('get.extractedResult_RR', quaryparms).subscribe(res => {
+    const payload = {
+      extractionType: this.searchType ||  this.searchRadioType,
+      search:search,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
+    }
+    this.service.invoke('get.extractedResult_RR', quaryparms,payload).subscribe(res => {
       if(this.searchType == "all"){
         this.extractedResults =[];
         res.content.document.forEach(element => {

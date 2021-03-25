@@ -1,4 +1,4 @@
-<div class="contentContainer pr-0">
+<div class="contentContainer p-0">
   <div class="mainLoadingSpinner" *ngIf="loadingContent" [@fadeInOutAnimation]>
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">Please Wait!</span>
@@ -10,10 +10,12 @@
       </div>
     </div>
   </div> -->
-  <ng-container *ngIf="!(resources && resources.length) && !loadingContent">
+  <ng-container *ngIf="!(resources && resources.length) && loadingContent1">
+    <div class="title-content">Content</div>
     <perfect-scrollbar class="scoll-empty-screen">
       <div class="empty-landing-screen">
-        <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/contentmanag-empty.svg"></div>   
+        <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/contentmanag-empty.svg"></div>   
+        <ng-container *ngIf="loadImageText">
         <div class="empty-title">You haven’t added any content data yet!</div>
         <div class="desc-text"> The Content is the data ingested into SearchAssist that are indexed to answer search user queries. SearchAssist allows you to add content by crawling web domain and uploading documents.</div>
         <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
@@ -25,6 +27,7 @@
             </ul>
           </div>                                    
         </div>
+      </ng-container>
         <ng-container *ngIf="noItems && emptySearchResults">
             <div class="desc-text">Your Search Query doesn't match with any record.</div>
         </ng-container>
@@ -60,6 +63,9 @@
   <div class="table-list-content" *ngIf="resources && resources.length && !loadingContent">
     <div class="kr-sg-data-table with-checkbox">
       <div class="table-action-header">
+        <div class="title-main">
+          Content Management
+        </div>
         <div>
           <div class="kr-sg-input-search m-0">
             <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search"
@@ -68,8 +74,12 @@
             <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
             <img *ngIf="!searchSources" class="search-icon" src="assets/images/search_gray.svg">
           </div>
-        </div>
-        <div>
+
+          <div class="search-block">
+              <img src="assets/icons/search.svg" />           
+              {{ "search" | translate }}
+          </div>
+
           <div class="kr-sg-dropdowns">
             <div class="dropdown dropdown-open">
               <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img
@@ -292,7 +302,9 @@
                   </div>
                 </div>
                 <div class="delete-refresh">
-                  <img src="assets/icons/content/return.svg"  *ngIf="source.extractionType == 'webdomain'"  (click)="recrwal('source',source,$event)" ngbTooltip='Recrawl'>
+                  <img src="assets/icons/refresh-table.svg" *ngIf="source.extractionType == 'webdomain' && statusObj[source.recentStatus].name != 'In Progress' && source.recentStatus !== 'configured'&&source.recentStatus !== 'failed'" ngbTooltip='Recrawl' container="body" (click)="recrwal('source',source,$event)">
+                  <img src="assets/icons/refresh-table.svg" *ngIf="source.extractionType == 'webdomain' && source.recentStatus == 'configured'||source.recentStatus == 'failed'" [ngbTooltip]='source.recentStatus==="failed"?"Validate":"Crawl"' container="body" (click)="jobOndemand(source,$event)">
+                  <img src="assets/icons/content/stop.svg" *ngIf="statusObj[source.recentStatus].name == 'In Progress'" ngbTooltip='Stop' container="body" (click)="stopCrwaling(source,$event)"> 
                   <img src="assets/icons/content/delete.svg" (click)="deletePages('source',source,$event)" ngbTooltip='Delete'>
                 </div>
               </div>
@@ -417,37 +429,40 @@
                   <div class="kr-sg-data-table with-checkbox"  >
                     <section class="table-content">
                       <header class="table-header">
-                        <div class="col_ col-2">Title</div>
-                        <div class="col_ col-3">Url</div>
-                        <div class="col_ col-2">Description</div>
-                        <div class="col_ col-2">Crawled</div>
-                        <div class="col_ col-1">Status</div>
-                        <div class="col_ col-1">Pages</div>
+                        <div class="col_ col-1">TITLE</div>
+                        <div class="col_ col-3">URL</div>
+                        <div class="col_ col-2">DESCRIPTION</div>
+                        <div class="col_ col-2">CREATED BY</div>
+                        <div class="col_ col-2">LAST UPDATED</div>
                       </header>
                       <ng-container>
                         <div class="content-body">
-                          <div class="col_ col-2" *ngIf="!editTitleFlag">{{selectedSource.name}}</div>
+                          <div class="col_ col-1" *ngIf="!editTitleFlag" title="{{selectedSource.name}}">{{selectedSource.name}}</div>
                           <div class="col_ col-2" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.title"></div>
                           <div class="col_ col-3" title="{{selectedSource.url}}">{{selectedSource.url}}</div>
                           <!-- <div class="col_ col-3" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.url"></div> -->
-                          <div class="col_ col-2" *ngIf="!editTitleFlag">{{selectedSource.desc}}</div>
+                          <div class="col_ col-2" *ngIf="!editTitleFlag" title="{{selectedSource.desc}}">{{selectedSource.desc}}</div>
                           <div class="col_ col-2" *ngIf="editTitleFlag">
                             <div class="kr-sg-input-text-area min-ht">
                               <textarea class="wid min-ht" [(ngModel)] = "editConfObj.desc"></textarea>
                             </div>
                           </div>
-                          <div class="col_ col-2" >{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}
+                          <div class="col_ col-2" >{{selectedSource.userDetails.firstName}}
+                          </div>
+                          <div class="col_ col-2" >{{selectedSource.lMod | date:'mediumDate'}}
+                          </div>
+                          <!--<div class="col_ col-2" >{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}
                           </div>
                           <div class="col_ col-1"
                             *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
                             [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
                             {{statusObj[selectedSource.recentStatus].name}}</div>
-                          <div class="col_ col-1">
+                           <div class="col_ col-1">
                             <a class="ViewPages"
                               *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length"
                               (click)="swapSlider()">{{selectedSource.numPages}}</a>
-                          </div>
-                          <div class="col_ col-1 p-0 text-right actions-images">
+                          </div> -->
+                          <div class="col_ col-2 p-0 text-right actions-images">
                             <img src="assets/icons/return.svg" *ngIf="selectedSource.extractionType == 'webdomain'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl">
                             <img src="assets/icons/content/edit_black.svg" (click)="editTitle($event)" title="Edit">
                             <img src="assets/icons/content/delete.svg" (click)="deletePages('source',page ,$event)" title="Delete">
@@ -929,7 +944,7 @@
                                   <img *ngIf="statlog.stageName != 'failed' && statlog.stageStatus == 'failed'" src="assets/icons/content/ex-stopped.svg">
                                   <img *ngIf="statlog.stageStatus != 'failed'" src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}" [ngStyle]="{'height':statlog.stageStatus === 'halted' ? '15px' : '15px' }">
                                   <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}
-                                    <span class="time" *ngIf="statlog.stageName != 'failed' && statlog.stageName != 'successful' && statlog.stageName != 'stopped' && statlog.stageName != 'crawling'">( {{ statlog.timeTaken }} )</span>
+                                    <span class="time" *ngIf="statlog.stageName != 'failed' && statlog.stageName != 'successful' && statlog.stageName != 'stopped'">( {{ statlog.timeTaken }} )</span>
                                     <span class="time" *ngIf="statlog.stageName == 'stopped'"> by {{ history.executionStats.triggeredBy }} </span>
                                   </span>
                                 </div>
@@ -968,7 +983,7 @@
                           <div class="col_ col-3 d-flex">
                             <span class="execute-success mr-2" ngbTooltip='{{ history.executionStats.tooltip || ""}}' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
                               <img src="{{executionObj[history.executionStats.executionStatusMessage].icon}}">
-                              <span *ngIf="history.executionStats.executionStatusMessage =='Execution In Progress'"style="position: absolute;left: 4px;top: 4px;font-size: 10px;font-weight: 600">{{history.executionStats.percentageDone || 99}}%</span>
+                              <span *ngIf="history.executionStats.executionStatusMessage =='Execution In Progress'"style="position: absolute;left: 4px;top: 4px;font-size: 10px;font-weight: 600">{{history.executionStats.percentageDone || 0}}%</span>
                             </span>
                             <!-- <span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
                               <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Successful'" src="assets/icons/content/success.svg">

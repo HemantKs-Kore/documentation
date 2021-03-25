@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,7 +15,7 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
   styleUrls: ['./app-experiments.component.scss']
 })
 export class AppExperimentsComponent implements OnInit {
-  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog,) { }
+  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog, private appSelectionService: AppSelectionService) { }
   addExperimentsRef: any;
   selectedApp: any;
   serachIndexId: any;
@@ -40,11 +41,9 @@ export class AppExperimentsComponent implements OnInit {
   form_type;
   exp_id;
   exp_status: string;
-  // add variant dynamically
   trafficData: any = [];
-  // get list of querypipelines method
   queryPipeline: any = [];
-  // get list of experiments method
+  indexConfig: any = [];
   listOfExperiments: any = [];
   filterExperiments: any = [];
   allExp: number;
@@ -61,12 +60,19 @@ export class AppExperimentsComponent implements OnInit {
   exp_limitPage: number = 10;
   exp_skipPage: number = 0;
   test = 33.33;
+  loadingContent1: boolean;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getExperiments();
-    this.getQueryPipeline();
     this.setSliderDefaults();
+    this.getIndexPipeline();
+  }
+  loadImageText: boolean = false;
+  imageLoaded() {
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
   }
   setSliderDefaults(starts?) {
     starts = starts || [...this.star];
@@ -95,6 +101,7 @@ export class AppExperimentsComponent implements OnInit {
     };
     this.updateSliderConfig();
   }
+
   // close model popup method
   closeModalPopup() {
     this.exp_status = '';
@@ -130,10 +137,6 @@ export class AppExperimentsComponent implements OnInit {
   }
   updateSlderModel() {
     this.someRange = this.someRangeconfig.start;
-    console.log('this.variantsArray = ' + this.variantsArray);
-    console.log('start = ' + this.someRange + ' || ' + this.someRangeconfig.start);
-    console.log('connect = ' + this.someRangeconfig.connect);
-    console.log('tooltips = ' + this.someRangeconfig.tooltips);
   }
   updateAllSliderConfigs() {
     this.updateSliderConnects();
@@ -248,6 +251,9 @@ export class AppExperimentsComponent implements OnInit {
     else if (type === 'queryid') {
       this.variantsArray[index] = { ...this.variantsArray[index], queryPipelineId: data._id, queryPipelineName: data.name };
     }
+    else if (type === 'indexid') {
+      this.variantsArray[index] = { ...this.variantsArray[index], indexPipelineId: data._id, indexPipelineName: data.name };
+    }
   }
   // remove variant
   removeVariant(index) {
@@ -306,9 +312,8 @@ export class AppExperimentsComponent implements OnInit {
         }
       }
     }, 50);
-
   }
-  getQueryPipeline() {
+  getIndexPipeline() {
     const header: any = {
       'x-timezone-offset': '-330'
     };
@@ -317,8 +322,35 @@ export class AppExperimentsComponent implements OnInit {
       offset: 0,
       limit: 100
     };
+    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
+      console.log("get.indexPipeline", res)
+      this.indexConfig = res;
+      // let data = { _id: res[0]._id, name: res[0].name };
+      // console.log("variantsArray123", this.variantsArray)
+      // this.fetchVariant(1, data, 'indexid');
+      this.getQueryPipeline(res[0]._id);
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
+  }
+  getQueryPipeline(id) {
+    const header: any = {
+      'x-timezone-offset': '-330'
+    };
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: id,
+      offset: 0,
+      limit: 100
+    };
     this.service.invoke('get.queryPipelines', quaryparms, header).subscribe(res => {
       this.queryPipeline = res;
+      // let data = { _id: res[0]._id, name: res[0].name }
+      // this.fetchVariant(1, data, 'queryid')
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -345,9 +377,7 @@ export class AppExperimentsComponent implements OnInit {
       const result = res.experiments.map(data => {
         let hours = moment().diff(moment(data.end), 'hours');
         let days = moment().diff(moment(data.end), 'days');
-        console.log("hours", hours, "days", days)
         let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
-
         let res_obj = data.variants.reduce((p, c) => p.ctr > c.ctr ? p : c);
         return { ...data, total_days: days_result, time_result: Math.abs(hours), top_leader: res_obj.code };
       });
@@ -355,7 +385,13 @@ export class AppExperimentsComponent implements OnInit {
       this.filterExperiments = result;
       this.statusList(result);
       this.countExperiment(result);
-      this.loadingContent = false;
+      if (result.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -367,13 +403,11 @@ export class AppExperimentsComponent implements OnInit {
   //dynamically show status
   dynamicStatus: any = [];
   statusList(result) {
-    console.log("result", result);
     this.dynamicStatus = new Set();
     this.dynamicStatus.add("all");
     for (let i in result) {
       this.dynamicStatus.add(result[i].state)
     }
-    console.log("dynamicStatus", this.dynamicStatus)
   }
   // filter count of list of experiments
   countExperiment(res) {
@@ -386,6 +420,9 @@ export class AppExperimentsComponent implements OnInit {
   }
   // add new experiment method
   async createExperiment() {
+    if (this.variantsArray[0].indexPipelineId === undefined) {
+      this.variantsArray[0] = { ...this.variantsArray[0], indexPipelineId: this.indexConfig[0]._id, queryPipelineId: this.queryPipeline[0]._id };
+    }
     if (this.someRange !== undefined) {
       await this.sliderPercentage();
     }

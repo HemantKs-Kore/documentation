@@ -4,13 +4,14 @@
             <div class="bread-name">{{'metrics.analytics'| translate}}</div>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
             <div class="bread-name active-name">{{'metrics.user_engagement.User_Engagement'| translate}}</div>
-        </div> 
+        </div>
         <div class="d-flex justify-content-end align-items-center col-9 p-0">
             <div class="custom_date_picker_sec">
-                <input type="text" class="d-none"readonly ngxDaterangepickerMd style="width: 320px" [timePicker]="true"   [min]="minDate" [max]="maxDate"showCancel="true" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'MM/DD/YYYY hh:mm A'}"[(ngModel)]="selected" (datesUpdated)="onDatesUpdated($event)"/>
+                <input type="text" class="d-none" readonly ngxDaterangepickerMd style="width: 320px" [timePicker]="true" [min]="minDate" [max]="maxDate" showCancel="true" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'MM/DD/YYYY hh:mm A'}" [(ngModel)]="selected"
+                    (datesUpdated)="onDatesUpdated($event)" />
                 <button type="button" class="ngx-daterangepicker-action invisible custom_date_picker" style="position: absolute; width: 0; height: 0;" (click)="openDateTimePicker($event)" #datetimeTrigger></button>
-              </div>
-              <div class="date-select">
+            </div>
+            <div class="date-select">
                 <span class="day time" (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">24 Hrs
                 </span>
                 <span class="week time" (click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">7 Days
@@ -25,29 +26,31 @@
                 <span class="custom time" [ngClass] = "{'active'  : dateType == 'custom'}" (click)="dateLimt('custom')">Custom</span>
             </div> -->
             <!-- <div class="export"><img src="assets/icons/share.svg"></div> -->
-        </div> 
-       
-       
-    </div> 
+        </div>
+
+
+    </div>
 
     <!-- <div class="data-percentage failed">
         <img src="assets/icons/arrow-decrease.svg">
         <span class="percentage">3%</span>
     </div> -->
-    <perfect-scrollbar class="scroll_content">              
+    <perfect-scrollbar class="scroll_content">
         <div *ngIf="slider === 1" class="main-dashbord-metrics">
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-12 box-content">
                     <div class="full-card">
                         <div class="legends-info">
                             <div class="content no-bg">
-                                <div class="title">{{'metrics.user_engagement.Total_User'| translate}} <span class="toatlsearches"></span></div>
+                                <div class="title">{{'metrics.user_engagement.Total_User'| translate}}
+                                    <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="Number of unique users performed search during the selected period" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"> <span class="toatlsearches"></span>
+                                </div>
                                 <div class="count-data">
                                     <span class="count">{{totalUser}}
                                         <img style=" background: #DD3646;" *ngIf ="totalUserProgress < 0" src="assets/icons/arrow-decrease.svg">
                                         <img *ngIf ="totalUserProgress > 0"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAYAAADwMZRfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABeSURBVHgB7c7BCcAgDAXQZIOOYDfoxh2hI3QER3AFN4j/4CGICElOgh8+YgKPEJ2M4dVSRH48SY0utDLzTZ4AfNCMFvJEAcmFaKD/bcgImJEZ0OdvCAhfYEW+ELB/Ghq8YlSvj06DAAAAAElFTkSuQmCC"></span>
-                                    <span class="percentage" *ngIf ="totalUserProgress > 0">+ {{totalUserProgress}}%</span>
-                                    <span class="percentage" style=" color: #DD3646;" *ngIf ="totalUserProgress < 0">{{totalUserProgress}}%</span>
+                                    <span class="percentage" *ngIf="totalUserProgress > 0">+ {{totalUserProgress}}%</span>
+                                    <span class="percentage" style=" color: #DD3646;" *ngIf="totalUserProgress < 0">{{totalUserProgress}}%</span>
                                 </div>
                             </div>
                             <div class="content">
@@ -57,8 +60,8 @@
                                     <span class="count">{{newUser}}
                                         <img style=" background: #DD3646;" *ngIf ="newUserProgress < 0" src="assets/icons/arrow-decrease.svg">
                                         <img *ngIf ="newUserProgress > 0"src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAYAAADwMZRfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABeSURBVHgB7c7BCcAgDAXQZIOOYDfoxh2hI3QER3AFN4j/4CGICElOgh8+YgKPEJ2M4dVSRH48SY0utDLzTZ4AfNCMFvJEAcmFaKD/bcgImJEZ0OdvCAhfYEW+ELB/Ghq8YlSvj06DAAAAAElFTkSuQmCC"></span>
-                                    <span class="percentage" *ngIf ="newUserProgress > 0">+{{newUserProgress}}%</span>
-                                    <span class="percentage"  style=" color: #DD3646;" *ngIf ="newUserProgress < 0">{{newUserProgress}}%</span>
+                                    <span class="percentage" *ngIf="newUserProgress > 0">+{{newUserProgress}}%</span>
+                                    <span class="percentage" style=" color: #DD3646;" *ngIf="newUserProgress < 0">{{newUserProgress}}%</span>
                                 </div>
                             </div>
                             <div class="content">
@@ -70,8 +73,8 @@
                                     <span class="count">{{repeatUser}}
                                         <img style=" background: #DD3646;" *ngIf ="repeatUserProgress < 0" src="assets/icons/arrow-decrease.svg">
                                         <img *ngIf ="repeatUserProgress > 0" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAYAAADwMZRfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABeSURBVHgB7c7BCcAgDAXQZIOOYDfoxh2hI3QER3AFN4j/4CGICElOgh8+YgKPEJ2M4dVSRH48SY0utDLzTZ4AfNCMFvJEAcmFaKD/bcgImJEZ0OdvCAhfYEW+ELB/Ghq8YlSvj06DAAAAAElFTkSuQmCC"></span>
-                                    <span class="percentage"  *ngIf ="repeatUserProgress > 0"><span>+</span>{{repeatUserProgress}}%</span>
-                                    <span class="percentage" style=" color: #DD3646;" *ngIf ="repeatUserProgress < 0">{{repeatUserProgress}}%</span>
+                                    <span class="percentage" *ngIf="repeatUserProgress > 0"><span>+</span>{{repeatUserProgress}}%</span>
+                                    <span class="percentage" style=" color: #DD3646;" *ngIf="repeatUserProgress < 0">{{repeatUserProgress}}%</span>
                                 </div>
                             </div>
                         </div>
@@ -109,8 +112,10 @@
                             <!-- <ng5-slider [(value)]="durationRange1" [(highValue)]="durationRange2" [options]="durationOptions" class="double_slider slider1" (userChangeEnd)="onUserChangeEnd('duration', $event, 'slider1')" (userChange)="onUserChange($event, 'slider1', true)"></ng5-slider> -->
                             <div class="row m-0 bottom-row col-12 ">
                                 <div class="slider-sec col-6 p-0">
+                                    <div class="label-hours">{{'metrics.user_engagement.Hours'| translate}}</div>
                                     <span class="span00">00</span>
-                                    <ng5-slider class = "col-3" [(value)]="durationRange1" [(highValue)]="durationRange2" [options]="durationOptions" class="double_slider slider1" (userChangeEnd)="onUserChangeEnd('duration', $event, 'slider1')" (userChange)="onUserChange($event, 'slider1', true)"></ng5-slider>
+                                    <ng5-slider class="col-3" [(value)]="durationRange1" [(highValue)]="durationRange2" [options]="durationOptions" class="double_slider slider1" (userChangeEnd)="onUserChangeEnd('duration', $event, 'slider1')" (userChange)="onUserChange($event, 'slider1', true)"
+                                        placement="top-center" container='body' ngbTooltip="{{highValue - lowValue}} hrs"></ng5-slider>
                                     <span class="span24">24</span>
                                 </div>
                                 <div class="legend-sec col-6 p-0">
@@ -145,8 +150,8 @@
                 <div class="col-12 row m-0 p-0">
                     <div class="col-6 box-content">
                         <div class="full-card">
-                            <div class="title-card">{{'metrics.user_engagement.Most_Used_Devices'| translate}}</div>
-                            <div echarts [options]="mostUsedDeviceBar" class="demo-chart-graphMode"></div>
+                            <div class="title-card">{{'metrics.user_engagement.GEO'| translate}}</div>
+                            <div echarts [options]="geoBar" class="demo-chart-graphMode"></div>
                         </div>
                     </div>
                     <div class="col-6 box-content">
@@ -158,10 +163,11 @@
                 </div>
                 <div class="col-12 row m-0 p-0">
                     <div class="col-6 box-content">
-                        <div class="full-card">
-                            <div class="title-card">{{'metrics.user_engagement.GEO'| translate}}</div>
-                            <div echarts [options]="geoBar" class="demo-chart-graphMode"></div>
-                        </div>
+                        <!-- <div class="full-card">
+                            <div class="title-card">{{'metrics.user_engagement.Most_Used_Devices'| translate}}</div>
+                            <div echarts [options]="mostUsedDeviceBar" class="demo-chart-graphMode"></div>
+                        </div> -->
+
                     </div>
                     <!-- <div class="col-6 box-content">
                         <div class="full-card">
@@ -171,6 +177,6 @@
                     </div> -->
                 </div>
             </div>
-        </div>       
+        </div>
     </perfect-scrollbar>
 </div>

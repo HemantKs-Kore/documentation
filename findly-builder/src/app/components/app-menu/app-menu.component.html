@@ -1,261 +1,283 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
 	<perfect-scrollbar class="perfect-scroll">
-		<div class="list-group list-group-flush" *ngIf="!settingMainMenu">
-			<!-- <div [routerLink]="['/summary']" (click)="preview('Summary')" skipLocationChange routerLinkActive="active" mat-button class="mat-button">
-			<span class="inlineIconBox">
-				<img src="assets/icons/sidemenu/summery.svg" class="dashboard">			
-			</span>
-			<span class="linkTitle">Summary</span>
-		</div> -->
-			<!-- <div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [placement]="'bottom-right'">
-				<div class="dropdown dropdown-open">
-					<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>Default</button>
-					<ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-						<li><span class="list-name">Default</span></li>
-						<li class="create"><span class="list-name ">Create new</span><span class="plus">+</span></li>
+		<div class="list-group list-group-flush" *ngIf="!settingMainMenu">					
 
-					</ul>
+			<div class="sources-block-nav-items">
+				<div class="link-side-menu">
+					<div class="source_title">Sources</div>
+					<div class="add-sources" [routerLink]="['/source']" skipLocationChange routerLinkActive="active" (click)="preview('Source')">
+						<img src="assets/icons/sidemenu/source-add.svg">
+					</div>
 				</div>
-			</div> -->
-			<div class="sub-title">Sources <img src="assets/icons/sidemenu/plus.svg" [routerLink]="['/source']"
-					skipLocationChange routerLinkActive="active" (click)="preview('Source')"></div>
-			<div [routerLink]="['/faqs']" mat-button class="mat-button" skipLocationChange routerLinkActive="active"
-				(click)="preview('Faqs')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/faq.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/faq.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">FAQs</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/content']" skipLocationChange routerLinkActive="active"
-				(click)="preview('Content')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/page.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/page.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Content</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/botActions']" skipLocationChange
-				routerLinkActive="active" (click)="preview('Bot Actions')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/actions.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/actions.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Actions</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/structuredData']" skipLocationChange
-				routerLinkActive="active" (click)="preview('Structured Data')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/structured_data.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/structured_data.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">{{'structuredData.structured_data' | translate}}</span>
-			</div>
 
-			<!-- <button mat-button>
-			<span class="inlineIconBox leftAdjust">
-				<img src="assets/images/left-menu-icons/newIcons/Summery.svg">				
-			</span>
-			<span class="linkTitle">Preview</span>
-		</button> -->
-
-			<div class="sub-title marginTop15">Index Configuration</div>
-			<!-- <div class="kr-sg-dropdowns queryPipelineConfig" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom-right'">
-				<div class="dropdown dropdown-open">
-					<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name:'Loading..'}} <img src="assets/icons/caretDown.svg"></button>
-					<ul class="dropdown-menu content-menu" ngbDropdownMenu>
-						<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectIndexPipelineId(config,selectIndexConfigDrop)" *ngFor="let config of indexConfigs">
-							<img src="assets/icons/star.svg" *ngIf="config.default" class="star" ngbTooltip='Default' placement="top-center" [container]="'body'">
-							<img src="assets/icons/start-black.svg" (click)="$event.stopPropagation();markAsDefaultIndex(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">
-							<span *ngIf="selectedIndexConfig == config._id && editIndexName; else indexName">
-								<input type ="text" class="edit-name" name="editIndexName" [(ngModel)]="editIndexNameVal" id="editIndexNameID" (click)="$event.stopPropagation()" (keypress)="onKeypressIndexEvent($event,config)">
-							</span>
-							<ng-template #indexName>
-								<span >{{config.name}}</span>
-							</ng-template>
-							<img src="assets/icons/edit-pencil.svg" *ngIf="!editIndexName" (click)="$event.stopPropagation();editIndexConfig(config,'edit')" class="edit-black">
-						</li>
-						<div class="create-new" (click)="openIndexModalPopup();selectIndexConfigDrop.close();">+ Create New</div>
-					</ul>
+				<div [routerLink]="['/faqs']" mat-button class="mat-button" skipLocationChange routerLinkActive="active" (click)="preview('Faqs')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/faq.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/faq.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">FAQs</span>
 				</div>
-			</div> -->
-			<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange routerLinkActive="active"
-				(click)="preview('traits')" mat-button>
-				<span class="inlineIconBox leftAdjust">
-					<img src="assets/icons/sidemenu/new-icons/traits.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/traits.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Traits</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/index']" skipLocationChange routerLinkActive="active"
-				(click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/index.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Workbench</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/FieldManagementComponent']" skipLocationChange routerLinkActive="active"
-				(click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/index.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Fields</span>
-			</div>
-			<div class="sub-title marginTop15">Search Configuration</div>
-			<div class="kr-sg-dropdowns queryPipelineConfig" #selectConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom-right'">
-				<div class="dropdown dropdown-open">
-					<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{configObj[selectedConfig]?configObj[selectedConfig].name:'Loading..'}} <img src="assets/icons/caretDown.svg"></button>
-					<ul class="dropdown-menu content-menu" ngbDropdownMenu>
-						<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectQueryPipelineId(config,selectConfigDrop)" *ngFor="let config of queryConfigs">
-							<img src="assets/icons/star.svg" *ngIf="config.default" class="star" ngbTooltip='Default' placement="top-center" [container]="'body'">
-							<img src="assets/icons/start-black.svg" (click)="$event.stopPropagation();markAsDefault(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">
-							<span *ngIf="selectedConfig == config._id && editName; else name">
-								<input type ="text" class="edit-name" name="editName" [(ngModel)]="editNameVal" id="editNameID" (click)="$event.stopPropagation()" (keypress)="onKeypressEvent($event,config)">
-							</span>
-							<ng-template #name>
-								<span >{{config.name}}</span>
-							</ng-template>
-							<!-- <img src="assets/icons/filter_cup.svg" class="filter"> -->
-							<img src="assets/icons/edit-pencil.svg" *ngIf="!editName" (click)="$event.stopPropagation();editConfig(config,'edit')" class="edit-black">
-						</li>
-						<div class="create-new" (click)="openModalPopup();selectConfigDrop.close();">+ Create New</div>
-					</ul>
+
+				<div mat-button class="mat-button" [routerLink]="['/content']" skipLocationChange routerLinkActive="active" (click)="preview('Content')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/page.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/page.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Content</span>
 				</div>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/weights']" skipLocationChange routerLinkActive="active"
-				(click)="preview('weights')" mat-button>
-				<span class="inlineIconBox leftAdjust">
-					<img src="assets/icons/sidemenu/new-icons/weights.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/weights.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Weights</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/synonyms']" skipLocationChange routerLinkActive="active"
-				(click)="preview('synonyms')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/synonyms.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/synonyms.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Synonyms</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/stopWords']" skipLocationChange
-				routerLinkActive="active" (click)="preview('stopWords')" mat-button>
-				<span class="inlineIconBox leftAdjust">
-					<img src="assets/icons/sidemenu/new-icons/stop-words.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/stop-words.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Stop Words</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/resultranking']" skipLocationChange
-				routerLinkActive="active" (click)="preview('resultranking')" mat-button>
-				<span class="inlineIconBox leftAdjust">
-					<img src="assets/icons/sidemenu/new-icons/results.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/results.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Results Ranking</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/facets']" skipLocationChange routerLinkActive="active"
-				(click)="preview('synonyms')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/facets.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/facets.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Facets</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/rules']" skipLocationChange routerLinkActive="active"
-				(click)="preview('synonyms')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/rules.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/rules.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Rules</span>
-			</div>
 
 
-			<!-- <div mat-button class="mat-button" [routerLink]="['/query']" skipLocationChange routerLinkActive="active" (click)="preview('query')" mat-button>			
-				<span class="inlineIconBox">	
-					<img src="assets/icons/sidemenu/new-icons/query.svg" class="defaultIcon">	
-					<img src="assets/icons/sidemenu/new-icons/query-active.svg" class="activeIcon">			
-				</span>
-				<span class="linkTitle">Query Pipeline</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/ml-threshold']" skipLocationChange routerLinkActive="active" (click)="preview('ml')" mat-button>
-				<span class="inlineIconBox leftAdjust">	
-					<img src="assets/icons/sidemenu/new-icons/ml.svg" class="defaultIcon">	
-					<img src="assets/icons/sidemenu/new-icons/ml-active.svg" class="activeIcon">			
-				</span>
-				<span class="linkTitle">NLP & Machine Learning</span>
-			</div>
-			
-			<div mat-button class="mat-button">
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/demo.svg" class="defaultIcon">	
-					<img src="assets/icons/sidemenu/new-icons/demo-active.svg" class="activeIcon">				
-				</span>
-				<span class="linkTitle">Demo</span>
-			</div>
-			<div mat-button class="mat-button">
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/general-settings.svg" class="defaultIcon">	
-					<img src="assets/icons/sidemenu/new-icons/general-settings-active.svg" class="activeIcon">				
-				</span>
-				<span class="linkTitle">General Settings</span>
-			</div> -->
+				<div mat-button class="mat-button" id="botActionsTab" [routerLink]="['/botActions']" skipLocationChange routerLinkActive="active" (click)="preview('Bot Actions')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/actions.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/actions.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Actions</span>
+				</div>
 
-			<!-- <div mat-button class="mat-button settings-menu">
-			<span class="inlineIconBox">
-				<img src="assets/icons/sidemenu/settings.svg" class="publish">				
-			</span>
-			<span class="linkTitle">Settings</span>
-		</div> -->
+
+				<div mat-button class="mat-button" [routerLink]="['/structuredData']" skipLocationChange routerLinkActive="active" (click)="preview('Structured Data')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/structured_data.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/structured_data.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">{{'structuredData.structured_data' | translate}}</span>
+				</div>
+
+			</div>			
+
+			<div class="default-index-title">
+				<div class="title text-truncate" title="{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name:'Loading..'}}">{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name:'Loading..'}} </div>		
+				<div class="kr-sg-dropdowns" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-left'">
+					<div class="dropdown dropdown-open">
+						<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>
+							<img src="assets/icons/sidemenu/overflow.svg">
+						</button>
+						<ul class="dropdown-menu content-menu queryPipelineConfig" ngbDropdownMenu>
+							<perfect-scrollbar>
+								<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectIndexPipelineId(config,selectIndexConfigDrop)" *ngFor="let config of indexConfigs">
+									<img src="assets/icons/star.svg" *ngIf="config.default" class="star" [container]="'body'" ngbTooltip='Default' placement="top-center">
+									<img src="assets/icons/start-black.svg" [container]="'body'" (click)="$event.stopPropagation();markAsDefaultIndex(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-center">
+									<span *ngIf="selectedIndexConfig == config._id && editIndexName; else indexName">
+										<input type ="text" class="edit-name" name="editIndexName" [(ngModel)]="editIndexNameVal" id="editIndexNameID" (click)="$event.stopPropagation()" (keypress)="onKeypressIndexEvent($event,config)">
+									</span>
+									<ng-template #indexName>
+										<span class="config_name text-truncate" title="{{config.name}}">{{config.name}}</span>
+									</ng-template>
+									<div class="action-icons-data">
+										<div class="clone" *ngIf="!editIndexName" (click)="$event.stopPropagation();openIndexModalPopup('clone',config);selectIndexConfigDrop.close();" ngbTooltip='Clone' placement="top-center" [container]="'body'">
+											<img src="assets/icons/clone.svg">
+										</div>
+										<div class="edit-black" *ngIf="!editIndexName" (click)="$event.stopPropagation();editIndexConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
+											<img src="assets/icons/edit-pencil.svg">
+										</div>																
+										<div class="delete" *ngIf="!editIndexName" ngbTooltip='Delete' placement="top-center" [container]="'body'" (click)="$event.stopPropagation();deleteIndexConfig(config)">
+											<img src="assets/icons/delete.svg">
+										</div>											
+									</div>
+								</li>
+							</perfect-scrollbar>
+							<div class="create-new" (click)="openIndexModalPopup('default');selectIndexConfigDrop.close();">+ Create New</div>
+						</ul>
+					</div>
+				</div>				
+			</div>
+
+			<div class="index-config-nav-block">
+				<div class="index-title">Index Configuration</div>				
+
+				<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
+					<span class="inlineIconBox leftAdjust">
+						<img src="assets/icons/sidemenu/new-icons/traits.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/traits.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Traits</span>
+				</div>
+
+				<div mat-button class="mat-button" [routerLink]="['/index']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/index.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Workbench</span>
+				</div>
+
+				<div mat-button class="mat-button" [routerLink]="['/FieldManagementComponent']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/index.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Fields</span>
+				</div>				
+
+			</div>
+
+			<div class="search-config-nav-block">									
+
+				<div class="search-config-title">Search Configuration</div>
+
+				<div class="search-config-elipse-block default-index-title">
+					<div class="title text-truncate" title="{{configObj[selectedConfig]?configObj[selectedConfig].name:'Loading..'}}">{{configObj[selectedConfig]?configObj[selectedConfig].name:'Loading..'}} </div>
+					<div class="kr-sg-dropdowns" #selectSearchConfigDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-left'">
+						<div class="dropdown dropdown-open">
+							<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>
+								<img src="assets/icons/sidemenu/overflow.svg">
+							</button>
+							<ul class="dropdown-menu content-menu queryPipelineConfig" ngbDropdownMenu>
+								<perfect-scrollbar>
+									<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectQueryPipelineId(config,selectSearchConfigDrop)" *ngFor="let config of queryConfigs">
+										<img src="assets/icons/star.svg" *ngIf="config.default" class="star" [container]="'body'" ngbTooltip='Default' placement="top-center">
+										<img src="assets/icons/start-black.svg" [container]="'body'" (click)="$event.stopPropagation();markAsDefault(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-center" [container]="'body'">
+										<span *ngIf="selectedConfig == config._id && editName; else name">
+											<input type ="text" class="edit-name" name="editName" [(ngModel)]="editNameVal" id="editNameID" (click)="$event.stopPropagation()" (keypress)="onKeypressEvent($event,config)">
+										</span>
+										<ng-template #name>
+											<span class="config_name text-truncate" title="{{config.name}}">{{config.name}}</span>
+										</ng-template>
+										<div class="action-icons-data">
+											<div class="clone" *ngIf="!editName" (click)="$event.stopPropagation();openModalPopup('clone',config);selectSearchConfigDrop.close();" ngbTooltip='Clone' placement="top-center" [container]="'body'">
+												<img src="assets/icons/clone.svg">
+											</div>
+											<div class="edit-black" *ngIf="!editName" (click)="$event.stopPropagation();editConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
+												<img src="assets/icons/edit-pencil.svg">
+											</div>																
+											<!-- <div class="delete" *ngIf="!editName">
+												<img src="assets/icons/delete.svg">
+											</div>											 -->
+										</div>
+									</li>
+								</perfect-scrollbar>
+								<div class="create-new" (click)="openModalPopup('default');selectSearchConfigDrop.close();">+ Create New</div>
+							</ul>
+						</div>
+					</div>				
+				</div>
+				
+				<div mat-button class="mat-button" [routerLink]="['/weights']" skipLocationChange routerLinkActive="active" (click)="preview('weights')" mat-button>
+					<span class="inlineIconBox leftAdjust">
+						<img src="assets/icons/sidemenu/new-icons/weights.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/weights.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Weights</span>
+				</div>
+
+				<div mat-button class="mat-button" [routerLink]="['/synonyms']" skipLocationChange routerLinkActive="active" (click)="preview('synonyms')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/synonyms.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/synonyms.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Synonyms</span>
+				</div>
+
+				<div mat-button class="mat-button" [routerLink]="['/stopWords']" skipLocationChange routerLinkActive="active" (click)="preview('stopWords')" mat-button>
+					<span class="inlineIconBox leftAdjust">
+						<img src="assets/icons/sidemenu/new-icons/stop-words.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/stop-words.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Stop Words</span>
+				</div>
+
+				<div mat-button class="mat-button" [routerLink]="['/resultranking']" skipLocationChange routerLinkActive="active" (click)="preview('resultranking')" mat-button>
+					<span class="inlineIconBox leftAdjust">
+						<img src="assets/icons/sidemenu/new-icons/results.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/results.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Results Ranking</span>
+				</div>
+
+				<div mat-button class="mat-button" [routerLink]="['/facets']" skipLocationChange routerLinkActive="active" (click)="preview('synonyms')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/facets.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/facets.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Facets</span>
+				</div>
+
+				<div mat-button class="mat-button" [routerLink]="['/rules']" skipLocationChange routerLinkActive="active" (click)="preview('synonyms')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/rules.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/rules.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Rules</span>
+				</div>
+
+			</div>
+
 		</div>
-		<div class="list-group list-group-flush" *ngIf="settingMainMenu">
-			<div class="sub-title marginTop15">SETTINGS</div>
-			<div mat-button class="mat-button" [routerLink]="['/settings']" skipLocationChange routerLinkActive="active"
-				(click)="preview('traits')" mat-button>
+
+
+		<!-- Inside config tab menus -->
+		<div class="list-group list-group-flush inside-config-tab-left-menus" *ngIf="settingMainMenu">
+			<div class="inside-menu-title">SETTINGS</div>
+			<div mat-button class="mat-button" [routerLink]="['/settings']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
 				<span class="inlineIconBox leftAdjust">
 					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Channels</span>
 			</div>
-			<div mat-button class="mat-button" [routerLink]="['/credentials-list']" skipLocationChange routerLinkActive="active"
-				(click)="preview('index')" mat-button>
+			<div mat-button class="mat-button" [routerLink]="['/credentials-list']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Credentials</span>
 			</div>
-			<!-- <div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active"
-				(click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Search Interface</span>
-			</div> -->
-			<div mat-button class="mat-button" [routerLink]="['/team-management']" skipLocationChange routerLinkActive="active"
-				(click)="preview('index')" mat-button>
+			<div mat-button class="mat-button" [routerLink]="['/team-management']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Team Management</span>
 			</div>
+			<div class="inside-menu-title">SEARCH EXPERIENCE</div>
+
+			<div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Search Interface</span>
+			</div>
+
+			<div mat-button class="mat-button" [routerLink]="['/search-experience']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Search Experience</span>
+			</div>
+
+			<div mat-button class="mat-button" [routerLink]="['/actions']" skipLocationChange routerLinkActive="active"
+				(click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/actions-config.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/actions-config.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Actions</span>
+			</div>
+
+			<div mat-button class="mat-button" [routerLink]="['/smallTalk']" skipLocationChange routerLinkActive="active"
+				(click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/smalltalk.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/smalltalk.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Small Talk</span>
+			</div>
+
+			
 		</div>
 
-		<div class="status-docker" (click)="(dockService.showStatusDocker = !dockService.showStatusDocker); openStatusDocker()">
+		<!-- <div class="status-docker" (click)="(dockService.showStatusDocker = !dockService.showStatusDocker); openStatusDocker()">
 			<div class="circles">
 				<div class="inner-clrcle"></div>
 			</div>
 			<div class="docker-title">
 				 {{ 'status_docker' | translate}}
 			</div>
-		</div>
+		</div> -->
 		<!-- <div class="sidebar-fixed position-fixed activeMenu">
 
 		<div mat-button class="mat-button" [routerLink]="['/settings']"  skipLocationChange routerLinkActive="active" (click)="preview('weights')" mat-button>
@@ -269,6 +291,7 @@
 	 -->
 
 
+		
 	</perfect-scrollbar>
 
 </div>
@@ -277,7 +300,7 @@
 
 <kr-modal modalType="center" modalClass="modal_popups_ add-experment-popup smallModal"  #addFieldModalPop>   
     <div class="modal-header">
-        <div class="title">New Search Configuration</div>
+        <div class="title">{{newConfigObj.method==='default'?'New':'Clone'}} Search Configuration</div>
         <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
@@ -291,48 +314,33 @@
 				<input id="cloneQueryConfig" [(ngModel)]="newConfigObj.method" (change)='selectDefault()' name="creationType" value='clone' class="radio-custom" type="radio">
 				<label for="cloneQueryConfig" class="radio-custom-label">Clone Configuration</label>
 			</div>
-			<div class="kr-sg-input-text pt-4">
-				<div class="label-text" >Name of Configuration</div>
-				<input type="text" placeholder="Enter Name" [(ngModel)]="newConfigObj.name" class="input-text">
-			</div>
 		</div>
 		<ng-container *ngIf="newConfigObj.method === 'clone'">
 			<div class="kr-sg-dropdowns mb-2 pb-1 pt-4">
-				<div class="label-text">Select the configuration you would like to clone</div>                            
-				<div class="kr-sg-input-inline-search dropdown dropdown-open">
-					<button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-					<input type="text" placeholder="Search" class="input-search dropdown-toggle dropdown-input" [(ngModel)]="searchPipeline" data-toggle="dropdown">
-					<img src="assets/icons/search_gray.svg" class="search-icon">                                                           
-					<!-- <ul class="dropdown-menu content-menu">
-						<perfect-scrollbar class="state-code-perfect-scroll" [disabled]="workflowService.disablePerfectScroll">
-							<li><a>Option1</a></li>
-							<li><a>Option1</a></li>
-							<li><a>Option1</a></li>
-							<li><a>Option1</a></li>
-						</perfect-scrollbar>
-					</ul> -->
-				</div>                        
-			</div>
-	
-			<div class="group-radiobutton in-clone">			
-				<div class="kr-sg-radiobutton d-block m-0" *ngFor="let config of queryConfigs | filter: [ searchPipeline, 'name']; let i = index">
-					<input id="{{config._id}}" [(ngModel)]="newConfigObj._id" value="{{config._id}}" name="cloneConfig" class="radio-custom" type="radio">
-					<label for="{{config._id}}" class="radio-custom-label">{{config.name}}</label>
-				</div> 
-				<div class="divBlockEmptylastChild">{{!(queryConfigs && queryConfigs.length)?'No Data Found': 'No search results'}}</div>
-			</div>
-		</ng-container> 	
+				<div class="label-text">Search Configuration</div>
+				<div class="dropdown dropdown-open">
+					<button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{newConfigObj.config_name===''?'Select Search Configuration to be cloned':newConfigObj.config_name}}</button>                                            
+					<ul class="dropdown-menu content-menu">
+					  <li *ngFor="let config of queryConfigs" (click)="selectConfig(config)"><a>{{config.name}}</a></li>                                              
+					</ul>
+				  </div>                   
+			</div> 
+		</ng-container> 
+		<div class="kr-sg-input-text pt-3">
+			<div class="label-text">{{newConfigObj.method==='clone'?'Search Configuration Name':'Configuration Name'}}</div>
+			<input type="text" placeholder="{{newConfigObj.method==='clone'?'Name the New Search Configuration':'Enter Name'}}" [(ngModel)]="newConfigObj.name" class="input-text">
+		</div>	
     </div>
     </perfect-scrollbar> 
     <div class="modal-footer text-left">
-        <button type="button" [disabled]="!newConfigObj.name" class="kr-sg-button-primary btn_lg float-right" (click)="createConfig()">Add</button>                   
+        <button type="button" [disabled]="!newConfigObj.name" class="kr-sg-button-primary btn_lg float-right" (click)="createConfig()">{{newConfigObj.method==='clone'?'Clone':'Add'}}</button>                   
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
     </div>    
 </kr-modal>
-
+<!--index config popup-->
 <kr-modal modalType="center" modalClass="modal_popups_ add-experment-popup smallModal"  #addIndexFieldModalPop>   
     <div class="modal-header">
-        <div class="title">New Index Configuration</div>
+        <div class="title">{{newIndexConfigObj.method==='default'?'New':'Clone'}} Index Configuration</div>
         <div class="close_icon" (click)="closeIndexModalPopup()"><img src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
@@ -346,45 +354,30 @@
 				<input id="cloneQueryConfig" [(ngModel)]="newIndexConfigObj.method" (change)='selectDefault()' name="creationType" value='clone' class="radio-custom" type="radio">
 				<label for="cloneQueryConfig" class="radio-custom-label">Clone Configuration</label>
 			</div>
-			<div class="kr-sg-input-text pt-4">
-				<div class="label-text" >Name of Configuration</div>
-				<input type="text" placeholder="Enter Name" [(ngModel)]="newIndexConfigObj.name" class="input-text">
-			</div>
 		</div>
 		<ng-container *ngIf="newIndexConfigObj.method === 'clone'">
 			<div class="kr-sg-dropdowns mb-2 pb-1 pt-4">
-				<div class="label-text">Select the configuration you would like to clone</div>                            
-				<div class="kr-sg-input-inline-search dropdown dropdown-open">
-					<button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-					<input type="text" placeholder="Search" class="input-search dropdown-toggle dropdown-input" [(ngModel)]="searchPipeline" data-toggle="dropdown">
-					<img src="assets/icons/search_gray.svg" class="search-icon">                                                           
-					<!-- <ul class="dropdown-menu content-menu">
-						<perfect-scrollbar class="state-code-perfect-scroll" [disabled]="workflowService.disablePerfectScroll">
-							<li><a>Option1</a></li>
-							<li><a>Option1</a></li>
-							<li><a>Option1</a></li>
-							<li><a>Option1</a></li>
-						</perfect-scrollbar>
-					</ul> -->
-				</div>                        
+				<div class="label-text">Index Configuration</div>                            
+				<div class="dropdown dropdown-open">
+					<button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{newIndexConfigObj.index_config_name===''?'Select Index Configuration to be cloned':newIndexConfigObj.index_config_name}}</button>                                            
+					<ul class="dropdown-menu content-menu">
+					  <li *ngFor="let config of indexConfigs" (click)="selectIndexConfig(config)"><a>{{config.name}}</a></li>                                              
+					</ul>
+				  </div>                               
 			</div>
-	
-			<div class="group-radiobutton in-clone">			
-				<div class="kr-sg-radiobutton d-block m-0" *ngFor="let config of queryConfigs | filter: [ searchPipeline, 'name']; let i = index">
-					<input id="{{config._id}}" [(ngModel)]="newIndexConfigObj._id" value="{{config._id}}" name="cloneConfig" class="radio-custom" type="radio">
-					<label for="{{config._id}}" class="radio-custom-label">{{config.name}}</label>
-				</div> 
-				<div class="divBlockEmptylastChild">{{!(queryConfigs && queryConfigs.length)?'No Data Found': 'No search results'}}</div>
-			</div>
-		</ng-container> 	
+		</ng-container> 
+		<div class="kr-sg-input-text pt-4">
+			<div class="label-text">{{newIndexConfigObj.method==='clone'?'Index Configuration Name':'Name of Index Configuration'}}</div>
+			<input type="text" placeholder="{{newIndexConfigObj.method==='clone'?'Name the New Index Configuration':'Enter Name'}}" [(ngModel)]="newIndexConfigObj.name" class="input-text">
+		</div>	
     </div>
     </perfect-scrollbar> 
     <div class="modal-footer text-left">
-        <button type="button" [disabled]="!newIndexConfigObj.name" class="kr-sg-button-primary btn_lg float-right" (click)="createIndexConfig()">Add</button>                   
+        <button type="button" [disabled]="!newIndexConfigObj.name" class="kr-sg-button-primary btn_lg float-right" (click)="createIndexConfig()">{{newIndexConfigObj.method==='clone'?'Clone':'Add'}}</button>                   
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeIndexModalPopup()">Cancel</button>
     </div>    
 </kr-modal>
 
-<div class="statusDockerContent" *ngIf="dockService.showStatusDocker">
+<!-- <div class="statusDockerContent" *ngIf="dockService.showStatusDocker">
 	<app-status-docker [statusDockerLoading]="statusDockerLoading"></app-status-docker>
-</div>
+</div> -->
