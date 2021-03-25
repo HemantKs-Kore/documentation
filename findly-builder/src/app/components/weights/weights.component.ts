@@ -32,6 +32,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
   searchField;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
+  componentType: string = 'configure';
   fieldWarnings: any = {
     NOT_INDEXED: 'Indexed property has been set to False for this field',
     NOT_EXISTS: 'Associated field has been deleted'
@@ -124,8 +125,8 @@ export class WeightsComponent implements OnInit, OnDestroy {
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('post.restoreWeights', quaryparms).subscribe(res => {
-      this.notificationService.notify('Weights reset successfully','success');
-      this.pipeline=  res.pipeline || {};
+      this.notificationService.notify('Weights reset successfully', 'success');
+      this.pipeline = res.pipeline || {};
       this.prepereWeights();
       if (dialogRef && dialogRef.close) {
         dialogRef.close();
@@ -269,7 +270,8 @@ export class WeightsComponent implements OnInit, OnDestroy {
         this.notificationService.notify('Weight added successfully', 'success')
       }
       else if (type == 'edit') {
-        this.notificationService.notify('Weight updated successfully', 'success')
+        this.notificationService.notify('Weight updated successfully', 'success');
+        this.appSelectionService.updateTourConfig(this.componentType);
       }
       else if (type == 'delete') {
         this.notificationService.notify('Weight deleted successfully', 'success')
