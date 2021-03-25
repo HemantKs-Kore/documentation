@@ -266,7 +266,29 @@
 				</span>
 				<span class="linkTitle">Small Talk</span>
 			</div>
-
+            
+			<div class="inside-menu-title">BILLING & USAGE</div>
+			<div mat-button class="mat-button" [routerLink]="['/pricing']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+				<span class="inlineIconBox leftAdjust">
+					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Plan Details</span>
+			</div>
+			<div mat-button class="mat-button" [routerLink]="['/usageLog']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Usage LOg</span>
+			</div>
+			<div mat-button class="mat-button" [routerLink]="['/invoices']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Invoices</span>
+			</div>
 			
 		</div>
 

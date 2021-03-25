@@ -1,0 +1,55 @@
+<p>pricing works!</p>
+<button (click)="openPopup1()">popup1</button>
+<button (click)="openPopup2()">popup2</button>
+<button (click)="openPopup3()">popup3</button>
+<!--popup1-->
+<kr-modal modalType="center" modalClass="modal_popups_" #addPricingModel1>
+        <div class="modal-header">
+          <div class="title">Pricing1</div>
+          <div class="close_icon"><img class="ng-tns-c11-2" (click)="closePopup1()"
+              src="assets/icons/modal-close.svg"></div>
+        </div>
+        <perfect-scrollbar class="addSourceModalBody addNewSource">
+          <div class="modal-body">
+            popup1 opned
+          </div>
+        </perfect-scrollbar>
+        <div class="modal-footer">
+          <button class="kr-sg-button-primary btn_lg mr-3">Proceed</button>
+          <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePopup1()">Cancel</button>
+        </div>
+</kr-modal>
+<!--popup2-->
+<kr-modal modalType="center" modalClass="modal_popups_" #addPricingModel2>
+    <div class="modal-header">
+      <div class="title">Pricing2</div>
+      <div class="close_icon"><img class="ng-tns-c11-2" (click)="closePopup2()"
+          src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar class="addSourceModalBody addNewSource">
+      <div class="modal-body">
+        popup2 opned
+      </div>
+    </perfect-scrollbar>
+    <div class="modal-footer">
+      <button class="kr-sg-button-primary btn_lg mr-3">Proceed</button>
+      <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePopup2()">Cancel</button>
+    </div>
+</kr-modal>
+<!--popup3-->
+<kr-modal modalType="center" modalClass="modal_popups_" #addPricingModel3>
+    <div class="modal-header">
+      <div class="title">Pricing3</div>
+      <div class="close_icon"><img class="ng-tns-c11-2" (click)="closePopup3()"
+          src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar class="addSourceModalBody addNewSource">
+      <div class="modal-body">
+        popup3 opned
+      </div>
+    </perfect-scrollbar>
+    <div class="modal-footer">
+      <button class="kr-sg-button-primary btn_lg mr-3">Proceed</button>
+      <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePopup3()">Cancel</button>
+    </div>
+</kr-modal>

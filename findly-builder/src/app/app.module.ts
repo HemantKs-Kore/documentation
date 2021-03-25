@@ -108,6 +108,9 @@ import { SearchExperienceComponent } from './components/search-experience/search
 import { UseronboardingJourneyComponent } from './helpers/components/useronboarding-journey/useronboarding-journey.component';
 import { ActionsComponent } from './components/actions/actions.component';
 import { SmallTalkComponent } from './components/small-talk/small-talk.component';
+import { PricingComponent } from './components/pricing/pricing.component';
+import { InvoicesComponent } from './components/invoices/invoices.component';
+import { UsageLogComponent } from './components/usage-log/usage-log.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -184,7 +187,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SearchExperienceComponent,
     UseronboardingJourneyComponent,
     ActionsComponent,
-    SmallTalkComponent
+    SmallTalkComponent,
+    PricingComponent,
+    InvoicesComponent,
+    UsageLogComponent
   ],
   imports: [
     BrowserModule,
