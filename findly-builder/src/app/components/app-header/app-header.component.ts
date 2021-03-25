@@ -59,6 +59,7 @@ export class AppHeaderComponent implements OnInit {
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
+  @ViewChild('testButtonTooltip') testButtonTooltip: any;
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
     { displayName: 'Add Sources', routeId: '/source', quaryParms: {} },
@@ -560,11 +561,14 @@ export class AppHeaderComponent implements OnInit {
   }
   openOrCloseSearchSDK() {
     this.headerService.openSearchSDK(true);
-    this.getcustomizeList(20, 0)
+    this.getcustomizeList(20, 0);
+    this.displayToolTip();
   }
   getcustomizeList(limit?, skip?) {
     limit ? limit : 20;
     skip ? skip : 0;
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
@@ -645,5 +649,21 @@ export class AppHeaderComponent implements OnInit {
         }
       );
     }
+  }
+
+  displayToolTip() {
+    setTimeout(() => {
+      // console.log("isSDKOpen", this.headerService.isSDKOpen);
+      if (this.headerService.isSDKOpen) {
+        this.testButtonTooltip.tooltipClass = 'test-close-tooltip';
+        this.testButtonTooltip._ngbTooltip = 'Close Test mode by clicking on this button again.';
+        this.testButtonTooltip.open();
+        setTimeout(() => {
+          this.testButtonTooltip.close();
+          this.testButtonTooltip.tooltipClass = 'test-icon-tooltip';
+          this.testButtonTooltip._ngbTooltip = 'Preview & Customize search results.';
+        }, 2000);
+      }
+    }, 1000);
   }
 }

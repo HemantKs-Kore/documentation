@@ -87,14 +87,24 @@ export class AppComponent implements OnInit, OnDestroy {
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       if (this.searchExperienceConfig) {
         if (this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')) {
-          if (!$('.search-background-div:visible').length) {
-            $('.start-search-icon-div').addClass('active');
-            this.showHideSearch(true);
-            this.resultRankDataSubscription = this.headerService.resultRankData.subscribe((res: any) => {
-              this.searchInstance.customTourResultRank(res);
-            });
-          } else {
-            this.showHideSearch(false);
+          if (!this.headerService.isSDKCached) {
+            if (!$('.search-background-div:visible').length) {
+              this.showHideSearch(true);
+              this.resultRankDataSubscription = this.headerService.resultRankData.subscribe((res: any) => {
+                this.searchInstance.customTourResultRank(res);
+              });
+            } else {
+              // this.showHideSearch(false);
+              this.cacheBottomUpSDK(false);
+            }
+          }
+          else {
+            if ($('.search-background-div').css('display') == 'block') {
+              this.cacheBottomUpSDK(false);
+            }
+            else {
+              this.cacheBottomUpSDK(true);
+            }
           }
         }
         else {
@@ -207,7 +217,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   navigationInterceptor(event: RouterEvent): void {
     if (event instanceof NavigationStart) {
-      this.showHideSearch(false);
+      // this.showHideSearch(false);
       this.showHideTopDownSearch(false);
       this.authService.findlyApps.subscribe((res) => {
         self.loading = true;
@@ -221,14 +231,14 @@ export class AppComponent implements OnInit, OnDestroy {
         this.showMainMenu = false;
       }
       if (event && event.url === '/apps') {
-        this.showHideSearch(false);
-        this.showHideTopDownSearch(false);
+        // this.showHideSearch(false);
+        // this.showHideTopDownSearch(false);
       }
       if (event && event.url === '/apps') {
         this.appSelectionService.setPreviousState();
         this.resetFindlySearchSDK(this.workflowService.selectedApp());
-        this.showHideSearch(false);
-        this.showHideTopDownSearch(false);
+        // this.showHideSearch(false);
+        // this.showHideTopDownSearch(false);
         this.selectApp(false);
         console.log('navigated to apps throught navigator and closed preview ball');
       } else {
@@ -243,8 +253,8 @@ export class AppComponent implements OnInit, OnDestroy {
           this.getSearchExperience();
           console.log('navigated to path throught navigator and shown preview ball');
         } else {
-          this.showHideSearch(false);
-          this.showHideTopDownSearch(false);
+          // this.showHideSearch(false);
+          // this.showHideTopDownSearch(false);
           this.selectApp(false);
           console.log('failed to detect path throught navigator and closed preview ball');
         }
@@ -320,12 +330,19 @@ export class AppComponent implements OnInit, OnDestroy {
       $('app-body').append('<div class="search-background-div"><div class="bgDullOpacity"></div></div>');
       $('app-body').append('<label class="kr-sg-toggle advancemode-checkbox" style="display:none;"><input type="checkbox" id="advanceModeSdk" checked><div class="slider"></div></label>');
       $('.search-background-div').show();
-      $('.start-search-icon-div').addClass('active');
+      // $('.start-search-icon-div').addClass('active');
+      $('.search-background-div').off('click').on('click', (event) => {
+        if (event.target.classList.contains('bgDullOpacity')) {
+          console.log("event bgDullOpacity", event);
+          this.cacheBottomUpSDK(false);
+        }
+      });
       $('.advancemode-checkbox').css({ display: 'block' });
       $('.search-container').addClass('search-container-adv')
       $('.search-container').addClass('add-new-result')
       this.initSearch();
       $('#test-btn-launch-sdk').addClass('active');
+      this.headerService.isSDKOpen = true;
     } else {
       $('.search-background-div').remove();
       $('.advancemode-checkbox').remove();
@@ -335,6 +352,8 @@ export class AppComponent implements OnInit, OnDestroy {
       _self.showInsightFull = false;
       this.distroySearch();
       $('#test-btn-launch-sdk').removeClass('active');
+      this.headerService.isSDKCached = false;
+      this.headerService.isSDKOpen = false;
     }
   }
   sdkBridge(parms) {  // can be converted as service for common Use
@@ -418,7 +437,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (show) {
       $('app-body').append('<div class="top-down-search-background-div"><div class="bgDullOpacity"></div></div>');
       $('.top-down-search-background-div').show();
-      $('app-body').append('<img class="close-top-down-search" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB0SURBVHgBjZHBDYAgDEURjRcjs7iKI3D1gNu4hqPgBk7hRVuiNdEUoqE9ld/3adoqMwbfDHunfoJqxgWv8QCrq3L+gkmjGgLYV2gdrhxOtSJ1B8Ce3k++TfUSgRymnEO3UQlD3Fo+DP8pcqddaJnZhV9HOQHmYl73b8488gAAAABJRU5ErkJggg==">');
+      // $('app-body').append('<img class="close-top-down-search" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB0SURBVHgBjZHBDYAgDEURjRcjs7iKI3D1gNu4hqPgBk7hRVuiNdEUoqE9ld/3adoqMwbfDHunfoJqxgWv8QCrq3L+gkmjGgLYV2gdrhxOtSJ1B8Ce3k++TfUSgRymnEO3UQlD3Fo+DP8pcqddaJnZhV9HOQHmYl73b8488gAAAABJRU5ErkJggg==">');
       $('.close-top-down-search').off('click').on('click', () => {
         this.showHideTopDownSearch(false);
       });
@@ -427,6 +446,7 @@ export class AppComponent implements OnInit, OnDestroy {
       $('.search-container').addClass('add-new-result');
       this.initTopDownSearch();
       $('#test-btn-launch-sdk').addClass('active');
+      this.headerService.isSDKOpen = true;
     } else {
       $('.top-down-search-background-div').remove();
       $('.close-top-down-search').remove();
@@ -436,6 +456,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.showInsightFull = false;
       this.distroyTopDownSearch();
       $('#test-btn-launch-sdk').removeClass('active');
+      this.headerService.isSDKOpen = false;
     }
   }
 
@@ -514,6 +535,34 @@ export class AppComponent implements OnInit, OnDestroy {
     if ($('body').hasClass('top-down')) {
       $('body').removeClass('top-down');
       $('body').removeClass('sdk-top-down-interface');
+    }
+  }
+
+  cacheBottomUpSDK(key) {
+    if (key) {
+      $('.search-background-div').css('display', 'block');
+      if ($('#show-all-results-container').length && ($('#show-all-results-container').attr('isCached') == 'true')) {
+        $('#show-all-results-container').css('display', 'block');
+      }
+      $('#test-btn-launch-sdk').addClass('active');
+      this.headerService.isSDKOpen = true;
+    }
+    else {
+      $('.search-background-div').css('display', 'none');
+      if ($('#show-all-results-container').length) {
+        if (!$('#show-all-results-container').attr('isCached') || ($('#show-all-results-container').attr('isCached') == 'false')) {
+          if ($('#show-all-results-container').attr('isCached') == 'false') {
+            $('#show-all-results-container').attr('isCached', 'false');
+          }
+          else {
+            $('#show-all-results-container').attr('isCached', 'true');
+          }
+          $('#show-all-results-container').css('display', 'none');
+        }
+      }
+      $('#test-btn-launch-sdk').removeClass('active');
+      this.headerService.isSDKCached = true;
+      this.headerService.isSDKOpen = false;
     }
   }
 
