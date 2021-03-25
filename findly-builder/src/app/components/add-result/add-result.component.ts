@@ -27,6 +27,7 @@ export class AddResultComponent implements OnInit {
   subscription: Subscription;
   @Input() query : any;
   @Input() addNew;
+  @Input() structure;
   @Output() closeResult = new EventEmitter();
   constructor(public workflowService: WorkflowService,
     public notificationService: NotificationService,
@@ -77,17 +78,30 @@ export class AddResultComponent implements OnInit {
   keyFunc(txt){
     this.searchResults(txt)
   }
-  addRecord(record,i){
+  addRecord(record,i,event){
     let duplicate = false;
+    if(!this.positionRecord){
+      this.positionRecord = "top"
+    }
     if(this.recordArray){
       this.recordArray.forEach((element , index) => {
         if(element.contentId == record.contentId){
           this.recordArray.splice(index,1);
           duplicate = true;
+          var id = element.contentId
+          $("[custumId="+id+"]").prop('checked', false);
         }
       });
     }
     if(!duplicate) this.recordArray.push(record);
+    if(this.recordArray.length){
+      this.recordArray.forEach(element => {
+        var id = element.contentId
+        $("[custumId="+id+"]").prop('checked', true);
+      });
+      
+     // $('#viewTypeCheckboxControl').prop('checked', false);
+    }
     // if(this.searchType == "all" || this.searchRadioType == "all"){
     //   this.checkForContentType(record,i)
     // }

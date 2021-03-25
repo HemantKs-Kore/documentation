@@ -337,6 +337,20 @@
                     }
                 }
             }
+            &.train-btn{
+                width: 34px;
+                height: 34px;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 4px;
+                margin: 0 10px;
+                transition: 0.2s all ease;   
+                &:hover{
+                    background: #E7F1FF;
+                }
+            }
             &.search-block{
                 width: 34px;
                 height: 34px;

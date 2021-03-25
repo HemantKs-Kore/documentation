@@ -13,6 +13,7 @@
       </div>     
     </div>    
     <div *ngIf="loadingContent1" class="stop-words-wrapper">
+      <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
       <div class="m-0 row addStopWordsBlock" *ngIf="((stopwords && stopwords.length) && !loadingContent) || createFromScratch">
         <div class="label_text col-12 p-0">{{'stopWords.add_stop_word'| translate}}</div>
         <div class="kr-sg-input-text">

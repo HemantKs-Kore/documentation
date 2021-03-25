@@ -15,10 +15,6 @@
     }
     .body-overview{
         padding: 15px 15px 15px 15px;    
-        .left-sec{
-            
-            
-        }
         .right-sec{
             .activities-table-data{
                 background: #FFFFFF;
@@ -249,7 +245,7 @@
                 box-shadow: 0px -4px 80px rgba(0, 0, 0, 0.07), 0px -1.48494px 6.91958px rgba(0, 0, 0, 0.0186561);
                 border-radius: 6px;
                 padding: 15px;
-                height: 100%;
+                // height: 100%;
                 &.config_channels{
                     padding: 15px 4px;  
                     .title-sec{
@@ -262,6 +258,7 @@
                 &.active_experments{
                     .body-data{
                         padding: 12px 0;
+                        height: 73px;
                     }
                 }
                 .cards_sec_main{
@@ -455,4 +452,289 @@
         } 
     }
     
+}
+
+.over-view-config-tour{
+    background: #202124;
+    border-radius: 4px;
+    padding: 20px 24px;
+    width: 364px;
+    height: 168px;
+    color: #fff;
+    position: absolute;
+    top: 77px;
+    z-index: 1;
+    left: 40px;
+    &::before{
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        background: #202124;
+        transform: rotate(-45deg);
+        top: -8px;
+        left: 60px;
+    }
+    .tour-header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .title{
+            color: #FFFFFF;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 22px;
+        }
+        .close-tour{
+            cursor: pointer;
+        }
+    }
+    .tour-info{
+        color: #FFFFFF;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 20px;
+        margin: 15px 0px;
+    }
+}
+
+
+::ng-deep .no-back-drop{
+    background: #fff;
+    opacity: 0.8 !important;
+    z-index: 1 !important;
+}
+
+::ng-deep .onboarding-journey-modal{    
+    padding-top: 72px !important;
+    .modal-dialog{
+        width: 743px;        
+        .modal-content{
+            box-shadow: 0px 20px 40px rgb(32 33 36 / 20%);
+            .modal-header{
+                height: auto;
+                margin: 0;
+                padding: 20px 20px 15px 20px;
+                border: 0;
+                box-shadow: none;
+                .title{
+                    color: #202124;
+                    font-weight: 600;
+                    font-size: 16px;
+                    line-height: 19px;
+                }
+                .close-icon{
+                    height: auto;
+                    float: right;
+                    cursor: pointer;
+                }
+            }
+            .modal-footer{
+                height: auto;
+                box-shadow: none;
+                color: #0D6EFD;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 20px;
+                float: right;
+                cursor: pointer;
+            }
+        }
+        .accodion-content{
+            padding: 0px 20px;
+            .card_{
+                padding: 0 7px;
+                margin: 1px 0;
+                background: #FFFFFF;
+                box-shadow: 0px 1px 0px rgb(0 0 0 / 10%);
+                .card_header{
+                    padding: 11px 0px;
+                    .card_link{
+                        display: flex;
+                        align-items: center;
+                        cursor: pointer;
+                        position: relative;
+                        &::before{
+                            content: "";
+                            background-repeat: no-repeat;
+                            width: 11px;
+                            height: 7px;
+                            background-position: right;
+                            right: 0;
+                            position: absolute;
+                            background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAHCAYAAADebrddAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACZSURBVHgBlc2xDcIwEAXQ7/MaIFuwACUiIJ1kBmADxAYZgRFYgY6OmoY4EqIFJsBSmoxAY4JTWCKRm1x5/919YMDIJZvHWE8+lXu/UmDOrJWeBqNK+sLvBJpDxmabghKyCPnxbu1TVs7VI60uBHEKDXVs+Ic3e923OxG/LJhnBCoaiNzDl33YwfFAgM7tug+Ts2KzyXidp7IfuiQ4KQHD4xkAAAAASUVORK5CYII=');
+
+                        }
+                        &.collapsed{
+                            &::before{
+                                content: "";
+                                background-repeat: no-repeat;
+                                width: 7px;
+                                height: 11px;
+                                background-position: right;
+                                right: 0;
+                                position: absolute;
+                                background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAALCAYAAACzkJeoAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACtSURBVHgBbZDBDcIwDEV/Qrh3hDIB4oYESK7KADBB2YAVGIENYAO4owojRK90BTbgTpPgIgW1Vf/J8tO3v60WlK48sDWwa2Z+oyF95/ws8FXBXIkoakIVihmlRwU1NqiSMEEH+OB8A/jbB4PnlChuOYPmtNx5+MzCJroLFXwpjlhjGLWg7M3EdXCwk4IvZTNQJq69g0sK5vK/sw/8oAQgwJ26oJaRu+rGqPudWl8rXElx7SKjdAAAAABJRU5ErkJggg==');
+                            }
+                        }
+                        .instruction-number{
+                            border: 0.75px solid #9AA0A6;
+                            box-sizing: border-box;
+                            width: 19px;
+                            height: 19px;
+                            border-radius: 100%;
+                            text-align: center;
+                            color: #9AA0A6;
+                            font-weight: normal;
+                            font-size: 10px;
+                            line-height: 12px;
+                            padding: 2px 0;
+                            margin-right: 15px;
+                        }
+                        .guide-name{
+                            color: #3C4043;
+                            font-weight: 600;
+                            font-size: 14px;
+                            line-height: 17px;
+                        }
+                    }
+                }
+                .card-body{
+                    padding: 0 0px 11px 34px;
+                    .guide-inner-info{
+                        color: #5F6368;
+                        font-weight: normal;
+                        font-size: 12px;
+                        line-height: 20px;
+                        margin-bottom: 10px;
+                        width: 540px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.configured-dropdown{
+    width: 393px;
+    position: fixed;
+    top: 70px;
+    z-index: 999;
+    left: 0;
+    bottom: 0;
+    margin: 0 auto;
+    right: 0;
+    &.all-steps-done{        
+        .dropdown-open {
+            .dropdown-input{
+                border: 1px solid #93D3A2;
+                background: #EAF6EC;
+            }
+        }
+    }
+    &.show {
+      .dropdown-open {
+        .dropdown-input{
+            border-radius: 4px 4px 0px 0px;
+            box-shadow: 0px 20px 40px rgb(32 33 36 / 20%);
+        }
+      }
+    }
+    .dropdown-open {
+        .dropdown-input{
+            padding: 0 12px 0 17px;
+            &:hover{
+                border: solid 1px #1372ff;
+            }
+            &::before{
+                display: none;
+            }
+            .not-configured-title{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .title{
+                    color: #202124;
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 20px;
+                }
+                .start-now{
+                    color: #0D6EFD;
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 20px;
+                    cursor: pointer;
+                }
+            }
+            .check-list-steps{
+                display: flex;
+                justify-content: space-between;
+                .left-sec{
+                    display: flex;
+                    align-items: center;
+                    img{
+                        margin-right: 10px;
+                    }
+                    .steps-info{
+                        color: #202124;
+                        font-weight: normal;
+                        font-size: 14px;
+                        line-height: 20px;                    
+                    }
+                }
+                .right-sec{
+                    display: flex;
+                    align-items: center;
+                    .checklist-btn{
+                        color: #0D6EFD;
+                        font-weight: normal;
+                        font-size: 14px;
+                        line-height: 20px;
+                    }
+                    .close-img{
+                        height: 20px;                     
+                        text-align: center;
+                        padding-left: 10px;
+                        margin-left: 7px;
+                        border-left: 1px solid #BDC1C6;
+                        cursor: pointer;
+                        img{
+                            vertical-align: top;
+                            position: relative;
+                            top: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .content-menu{
+        border: 1px solid #BDC1C6;
+        box-sizing: border-box;
+        box-shadow: 0px 20px 40px rgb(32 33 36 / 20%);
+        border-radius: 0px 0px 4px 4px;
+        width: 100%;
+        border-top: 0;
+        margin: 0px 0 0 0;
+        padding: 16px 17px;
+        .configured-dropdown-content{
+            .title-info{
+                font-weight: 600;
+                font-size: 14px;
+                line-height: 17px;
+                color: #3C4043;
+            }
+            .state-type{
+                color: #9AA0A6;
+                font-weight: 600;
+                font-size: 14px;
+                line-height: 17px;
+                padding-left: 5px;
+                margin-left: 5px;
+                border-left: 1px solid #9AA0A6;
+            }
+        }
+
+    }
 }

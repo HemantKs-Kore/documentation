@@ -30,14 +30,20 @@
         
         var fSdk = new FindlySDK(findlyConfig);
 
-        fSdk.showSearch();
-        // getJWT(findlyConfig.botOptions).then(function (res) {
-        //     //fSdk.setJWT(res.jwt);
-        //     fSdk.showSearch();
-        // }, function (errRes) {
-        //     console.error("Failed getting JWT " + errRes)
-        // });
-
+        getJWT(findlyConfig.botOptions).then(function (res) {
+            fSdk.configureSearchInterface(findlyConfig.botOptions, res).then( (response) => {
+                console.log("res", response);
+                if(response.experienceConfig.searchBarPosition === 'top'){
+                    fSdk.initializeTopDown(null, null, response);
+                }
+                else{
+                    fSdk.initialize(findlyConfig);
+                    fSdk.showSearch();
+                }
+            })
+        }, function (errRes) {
+            console.error("Failed getting JWT " + errRes)
+        });
     });
 
 })(jQuery || (window.KoreSDK && window.KoreSDK.dependencies && window.KoreSDK.dependencies.jQuery));
