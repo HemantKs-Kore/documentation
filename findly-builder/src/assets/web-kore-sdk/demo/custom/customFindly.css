@@ -61,6 +61,7 @@
   opacity: 0.8;
   height: calc(100% - 44px);
   top: 0;
+  left: -245px;
 }
 /*---- SEARCH RESULTS ----*/
 .search-body-full.searchInSideApp .custom-nav-panel-container{

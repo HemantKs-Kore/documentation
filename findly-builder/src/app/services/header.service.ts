@@ -11,6 +11,8 @@ export class SideBarService {
   @Output() openFaqExtractsFromDocker : EventEmitter<any> = new EventEmitter();
   isOnboardingPage = false;
   searchConfiguration :any;
+  isSDKCached : boolean = false;
+  isSDKOpen : boolean = false;
   toggle(data) {
     this.change.next(data);
   }

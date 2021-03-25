@@ -17296,6 +17296,7 @@ FindlySDK.prototype.searchByFacetFilters = function (filterObject,selectedFilter
         $('#show-all-results-container').css('display', 'none');
         $('#searchChatContainer').removeClass('bgfocus');
         $('.search-body').addClass('hide');
+        $('#show-all-results-container').attr('isCached', 'false');
         _self.vars.selectedFacetFromSearch = "all results"
         //$('#search').focus();
       });

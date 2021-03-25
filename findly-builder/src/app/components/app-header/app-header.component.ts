@@ -652,14 +652,17 @@ export class AppHeaderComponent implements OnInit {
 
   displayToolTip(){
     setTimeout(() => {
-      this.testButtonTooltip.tooltipClass = 'test-close-tooltip';
-      this.testButtonTooltip._ngbTooltip = 'Close Test mode by clicking on this button again.';
-      this.testButtonTooltip.open();
-      setTimeout(() => {
-        this.testButtonTooltip.close();
-        this.testButtonTooltip.tooltipClass = 'test-icon-tooltip';
-        this.testButtonTooltip._ngbTooltip = 'Preview & Customize search results.';
-      }, 2000);
+      // console.log("isSDKOpen", this.headerService.isSDKOpen);
+      if(this.headerService.isSDKOpen){
+        this.testButtonTooltip.tooltipClass = 'test-close-tooltip';
+        this.testButtonTooltip._ngbTooltip = 'Close Test mode by clicking on this button again.';
+        this.testButtonTooltip.open();
+        setTimeout(() => {
+          this.testButtonTooltip.close();
+          this.testButtonTooltip.tooltipClass = 'test-icon-tooltip';
+          this.testButtonTooltip._ngbTooltip = 'Preview & Customize search results.';
+        }, 2000);
+      }
     }, 1000);
   }
 }
