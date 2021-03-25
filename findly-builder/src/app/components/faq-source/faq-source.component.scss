@@ -723,15 +723,122 @@
                                 .keys{
                                     padding: 0 0 0 8px;
                                 }
-                            }                            
-                            .bot-response-title{
-                                color: #9AA0A6;
-                                font-weight: 500;
-                                font-size: 12px;
-                                text-transform: uppercase;
-                                margin-bottom: 2px;
-                                margin-top: 15px;
+                            }     
+                            .response-title-bg                       {
+                                background: #F8F9FA;
+                                margin: 0 -30px;
+                                padding: 15px 30px;
+                                align-items: center;
+                                .bot-response-title{
+                                    margin: 0;
+                                    padding: 0;
+                                    color: #5F6368;
+                                    text-transform: uppercase;
+                                    font-weight: 600;
+                                    font-size: 12px;
+                                    line-height: 15px;
+                                }
+                                .response-likes-views-sec{
+                                    padding: 0;
+                                    align-items: center;
+                                    justify-content: flex-end;
+                                    .count-sec{
+                                        color: #202124;
+                                        font-weight: 600;
+                                        font-size: 14px;
+                                        line-height: 14px;
+                                        margin-left: 15px;
+                                        display: flex;
+                                        align-items: center;
+                                        img{
+                                            margin-right: 9px;
+                                        }
+                                    }
+                                }
+                                .conditions-response-block{
+                                    padding: 0;
+                                    margin: 25px 0 0 0;
+                                    .title{
+                                        color: #5F6368;
+                                        font-weight: normal;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                        width: auto;
+                                    }
+                                    .right-content{
+                                        .added-conditions{
+                                            display: flex;
+                                            align-items: center;
+                                            padding-left: 10px;
+                                            margin-bottom: 10px;
+                                            &:last-child{
+                                                margin: 0;
+                                            }
+                                            .rule-title{
+                                                color: #9AA0A6;
+                                                font-weight: 500;
+                                                font-size: 12px;
+                                                line-height: 14px;
+                                            }
+                                            .rule-dropdown-data{
+                                                border: 1px solid #BDC1C6;
+                                                box-sizing: border-box;
+                                                border-radius: 4px;
+                                                padding: 2px 6px;
+                                                height: 16px;
+                                                display: flex;
+                                                align-items: center;
+                                                margin: 0 12px 0 9px;
+                                                .rule-dropdown-key{
+                                                    color: #BDC1C6;
+                                                    font-weight: 500;
+                                                    font-size: 10px;
+                                                    line-height: 12px;
+                                                }
+                                                .rule-dropdown-value{
+                                                    color: #5F6368;
+                                                    font-weight: 500;
+                                                    font-size: 10px;
+                                                    line-height: 12px;
+                                                }
+                                            }
+                                            .rule-contains{
+                                                color: #9AA0A6;
+                                                font-weight: 500;
+                                                font-size: 12px;
+                                                line-height: 14px;
+                                            }
+                                            .rule-value{
+                                                color: #5F6368;
+                                                font-weight: 500;
+                                                font-size: 10px;
+                                                line-height: 12px;
+                                                border: 1px solid #BDC1C6;
+                                                box-sizing: border-box;
+                                                border-radius: 4px;
+                                                height: 16px;
+                                                padding: 1px 6px;
+                                                margin: 0 4px;
+                                            }
+                                            .or-rule{
+                                                color: #9AA0A6;
+                                                font-weight: 500;
+                                                font-size: 10px;
+                                                line-height: 12px;
+                                                text-transform: uppercase;
+                                            }
+                                        }
+                                    }                                    
+                                }
                             }
+                            // .bot-response-title{
+                            //     color: #9AA0A6;
+                            //     font-weight: 500;
+                            //     font-size: 12px;
+                            //     text-transform: uppercase;
+                            //     margin-bottom: 2px;
+                            //     margin-top: 15px;
+                            // }
                             .condition-tags{
                                 color: #9AA0A6;
                                 font-weight: normal;

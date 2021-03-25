@@ -452,7 +452,27 @@
                                         <div class="bot-response-view-mode">
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.defaultAnswers && selectedFaq._source.defaultAnswers.length">
                                                 <ng-container *ngFor="let answer of selectedFaq._source.defaultAnswers ;let i = index;">
-                                                    <div class="bot-response-title">Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div> 
+                                                    
+
+                                                    <div class="response-title-bg row">
+                                                        <div class="bot-response-title col-6">Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div>
+                                                        <div class="response-likes-views-sec d-flex col-6">
+                                                            <div class="count-sec">
+                                                                <img src="assets/icons/faq/views.svg">872
+                                                            </div>
+                                                            <div class="count-sec">
+                                                                <img src="assets/icons/faq/hand.svg">764
+                                                            </div>
+                                                            <div class="count-sec">
+                                                                <img src="assets/icons/faq/likes.svg">2
+                                                            </div>
+                                                            <div class="count-sec">
+                                                                <img src="assets/icons/faq/dislikes.svg">0
+                                                            </div>                                                           
+                                                        </div>
+                                                    </div>
+
+
                                                     <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
                                                         <img src="{{answer.multimedia.url}}">
                                                     </div>
@@ -464,7 +484,56 @@
                                         <div class="conditionalBlock bot-response-view-mode" >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length">
                                             <ng-container *ngFor="let consitionalAnswer of selectedFaq._source.conditionalAnswers; let i = index;">
-                                                <div class="bot-response-title">Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.defaultAnswers?selectedFaq._source.defaultAnswers.length:0))}}</span></div> 
+
+                                                
+                                                <div class="response-title-bg row">
+                                                    <div class="bot-response-title col-6">Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.defaultAnswers?selectedFaq._source.defaultAnswers.length:0))}}</span></div>
+                                                    <div class="response-likes-views-sec d-flex col-6">
+                                                        <div class="count-sec">
+                                                            <img src="assets/icons/faq/views.svg">872
+                                                        </div>
+                                                        <div class="count-sec">
+                                                            <img src="assets/icons/faq/hand.svg">764
+                                                        </div>
+                                                        <div class="count-sec">
+                                                            <img src="assets/icons/faq/likes.svg">2
+                                                        </div>
+                                                        <div class="count-sec">
+                                                            <img src="assets/icons/faq/dislikes.svg">0
+                                                        </div>                                                           
+                                                    </div>
+                                                    <div class="d-flex col-12 conditions-response-block">
+                                                        <div class="title">Conditions :</div>
+                                                        <div class="right-content">
+                                                            <div class="added-conditions">
+                                                                <div class="rule-title">WHEN</div>
+                                                                <div class="rule-dropdown-data">
+                                                                    <span class="rule-dropdown-key">SearchContext :</span>
+                                                                    <span class="rule-dropdown-value">RecentSearches</span>
+                                                                </div>
+                                                                <div class="rule-contains">Contains</div>
+                                                                <div class="rule-value">Credit</div>
+                                                                <div class="or-rule">OR</div>
+                                                                <div class="rule-value">Loan</div>                                                                    
+
+                                                            </div>
+                                                            <div class="added-conditions">
+                                                                <div class="rule-title">AND</div>
+                                                                <div class="rule-dropdown-data">
+                                                                    <span class="rule-dropdown-key">UserContext :</span>
+                                                                    <span class="rule-dropdown-value">CustomerType</span>
+                                                                </div>
+    
+                                                                <div class="rule-contains">Contains</div>
+                                                                <div class="rule-value">Gold</div>
+                                                                <div class="or-rule">OR</div>
+                                                                <div class="rule-value">Premium</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                
                                                 <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div>
                                                 <div *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.answers.length">
                                                     <div *ngFor="let ans of consitionalAnswer.answers">
