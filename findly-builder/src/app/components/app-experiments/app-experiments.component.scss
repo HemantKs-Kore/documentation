@@ -74,6 +74,9 @@
   }
   .p-scroll-data {
     height: calc(100vh - 150px);
+    &.scroll-empty-screen{
+      height: calc(100vh - 62px);
+    }
   }
   .table-data-content {
     padding: 0 30px 20px 30px;
