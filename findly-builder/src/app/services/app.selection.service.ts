@@ -16,9 +16,10 @@ export class AppSelectionService {
   public queryConfigSelected = new Subject<any>();
   public appSelected = new Subject<any>();
   public getTourConfigData = new Subject<any>();
-  public tourConfigCancel = new BehaviorSubject<boolean>(undefined);
+  public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
   public resumingApp = false;
   res_length: number = 0;
+  getTourArray: any = [];
   constructor(
     private workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -182,14 +183,15 @@ export class AppSelectionService {
   }
   //get tour congfig data
   getTourConfig() {
+    this.getTourArray = [];
     const userInfo: any = this.authService.getUserInfo();
     const quaryparms: any = {
       userId: userInfo.id
     };
     const appObserver = this.service.invoke('get.tourConfig', quaryparms);
     appObserver.subscribe(res => {
-      console.log("gettourconfigda", res)
-      this.getTourConfigData.next(res);
+      this.getTourArray = res.configurations;
+      this.getTourConfigData.next(res.configurations);
     }, errRes => {
       console.log(errRes)
     });
@@ -198,47 +200,58 @@ export class AppSelectionService {
   public updateTourConfig(component) {
     let callApi: boolean;
     const userInfo: any = this.authService.getUserInfo();
-    this.getTourConfigData.subscribe(res => {
-      let resData = res.configurations;
-      if (component == 'overview' && !resData.findlyOverViewVisted) {
-        resData.findlyOverViewVisted = true;
-        callApi = true;
-      }
-      else if (component == 'addData' && !resData.onBoardingChecklist[0].addDataVisited) {
-        resData.onBoardingChecklist[0].addDataVisited = true;
-        callApi = true;
-      }
-      else if (component == 'indexing' && !resData.onBoardingChecklist[1].indexDataVisited) {
-        resData.onBoardingChecklist[1].indexDataVisited = true;
-        callApi = true;
-      }
-      else if (component == 'configure' && !resData.onBoardingChecklist[2].optimiseSearchResultsVisited) {
-        resData.onBoardingChecklist[2].optimiseSearchResultsVisited = true;
-        callApi = true;
-      }
-      else if (component == 'designing' && !resData.onBoardingChecklist[3].designSearchExperienceVisited) {
-        resData.onBoardingChecklist[3].designSearchExperienceVisited = true;
-        callApi = true;
-      }
-      else if (component == 'test' && !resData.onBoardingChecklist[4].testAppVisited) {
-        resData.onBoardingChecklist[4].testAppVisited = true;
-        callApi = true;
-      }
-      else if (component == 'optimize' && !resData.onBoardingChecklist[5].fineTuneRelevanceVisited) {
-        resData.onBoardingChecklist[5].fineTuneRelevanceVisited = true;
-        callApi = true;
-      }
-      if (callApi) {
-        const quaryparms: any = {
-          userId: userInfo.id
-        };
-        const payload = { "configurations": resData };
-        this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
-          //this.getTourConfig();
-        }, errRes => {
-          console.log(errRes);
-        });
-      }
-    })
+    if (component == 'overview' && !this.getTourArray.findlyOverViewVisted) {
+      this.getTourArray.findlyOverViewVisted = true;
+      callApi = true;
+    }
+    else if (component == 'addData' && !this.getTourArray.onBoardingChecklist[0].addDataVisited) {
+      this.getTourArray.onBoardingChecklist[0].addDataVisited = true;
+      callApi = true;
+    }
+    else if (component == 'indexing' && !this.getTourArray.onBoardingChecklist[1].indexDataVisited) {
+      this.getTourArray.onBoardingChecklist[1].indexDataVisited = true;
+      callApi = true;
+    }
+    else if (component == 'configure' && !this.getTourArray.onBoardingChecklist[2].optimiseSearchResultsVisited) {
+      this.getTourArray.onBoardingChecklist[2].optimiseSearchResultsVisited = true;
+      callApi = true;
+    }
+    else if (component == 'designing' && !this.getTourArray.onBoardingChecklist[3].designSearchExperienceVisited) {
+      this.getTourArray.onBoardingChecklist[3].designSearchExperienceVisited = true;
+      callApi = true;
+    }
+    else if (component == 'test' && !this.getTourArray.onBoardingChecklist[4].testAppVisited) {
+      this.getTourArray.onBoardingChecklist[4].testAppVisited = true;
+      callApi = true;
+    }
+    else if (component == 'optimize' && !this.getTourArray.onBoardingChecklist[5].fineTuneRelevanceVisited) {
+      this.getTourArray.onBoardingChecklist[5].fineTuneRelevanceVisited = true;
+      callApi = true;
+    }
+
+    if (callApi) {
+      const quaryparms: any = {
+        userId: userInfo.id
+      };
+      const payload = { "configurations": this.getTourArray };
+      this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
+        this.getTourConfigData.next(this.getTourArray);
+        let count = 0;
+        count = this.getTourArray.findlyOverViewVisted ? 1 + count : 0;
+        const stepsData = this.getTourArray.onBoardingChecklist;
+        for (let key in stepsData) {
+          for (let key1 in stepsData[key]) {
+            if (stepsData[key][key1]) {
+              count = count + 1;
+            }
+          }
+        }
+        if (count == 7) {
+          this.tourConfigCancel.next({ name: undefined, status: 'completed' });
+        }
+      }, errRes => {
+        console.log(errRes);
+      });
+    }
   }
 }

@@ -1,15 +1,23 @@
-<div class="kr-sg-dropdowns configured-dropdown" ngbDropdown *ngIf="showSteps">
+<div class="kr-sg-dropdowns configured-dropdown" ngbDropdown *ngIf="showSteps"  [ngClass]='{"all-steps-done":checklistCount===7&&status=="completed"}'>
     <div class="dropdown dropdown-open">
       <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">       
           <div class="not-configured-title" *ngIf="checklistCount===0">
             <div class="title">You haven’t configured your app yet!</div>
             <div class="start-now" (click)="openOnBoardingModal()">Start Now</div>
           </div>
-          <!-- <div class="dropdown-input" *ngIf="checklistCount===7">
-            <div class="title">App is ready for Deployment</div>
-            <div class="start-now">Deploy</div>
-          </div> -->
-          <div class="check-list-steps" *ngIf="checklistCount>0">
+          <div class="check-list-steps" *ngIf="checklistCount==7&&status=='completed'">
+            <!-- <div class="title">App is ready for Deployment</div>
+            <div class="start-now">Deploy</div> -->
+            <div class="left-sec">
+              <img src="assets/icons/check-config.svg">                          
+              <span class="steps-info">App is ready for Deployment</span>
+            </div>
+            <div class="right-sec">
+              <div class="checklist-btn" [routerLink]="['/settings']" routerLinkActive="active" skipLocationChange>Deploy</div>
+              <div class="close-img" (click)="closeChecklist()"><img src="assets/icons/close-checklist.svg"></div>
+            </div>
+          </div>
+          <div class="check-list-steps" *ngIf="checklistCount>0&&status=='pending'">
             <div class="left-sec">
               <img [src]="showStatusIcon?'assets/icons/check-config.svg':'assets/icons/time.svg'">                          
               <span class="steps-info" *ngIf="componentType=='summary'"><b>  {{checklistCount}}</b> out of 7 Steps Completed</span>
@@ -147,7 +155,7 @@
         </div>
       </div>
     </perfect-scrollbar>
-    <div class="modal-footer" (click)="closeChecklist()">
+    <div class="modal-footer" (click)="closeChecklist('self')">
       I want to Explore by Myself
     </div>
   </kr-modal>

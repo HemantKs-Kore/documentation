@@ -10,6 +10,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { UseronboardingJourneyComponent } from '../../helpers/components/useronboarding-journey/useronboarding-journey.component';
 import * as moment from 'moment';
+import { Subscription } from 'rxjs';
 declare const $: any;
 @Component({
   selector: 'app-summary',
@@ -93,7 +94,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     'Handed-off to Agents': 'Number of conversation sessions that are handed-off Virtual Agents.',
     'Drop offs': 'Number of conversation sessions where the users have dropped-off from the conversation.'
   };
-  subscription;
+  subscription: Subscription;
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
   @ViewChild('onboard') onboard: UseronboardingJourneyComponent;
   constructor(
@@ -118,7 +119,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.headerService.toggle(toogleObj);
     this.appSelectionService.getTourConfig()
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
-      this.showOverview = res.configurations.findlyOverViewVisted;
+      this.showOverview = res.findlyOverViewVisted;
     })
     this.getSummary();
     this.getQueries("TotalUsersStats");

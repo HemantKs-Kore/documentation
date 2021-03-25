@@ -5,6 +5,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { AuthService } from '@kore.services/auth.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-useronboarding-journey',
   templateUrl: './useronboarding-journey.component.html',
@@ -22,7 +23,8 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
   prevStep;
   nextStep;
   subscribedShow: any;
-  subscription;
+  subscription: Subscription;
+  status: string;
   steps: any = [{ name: 'Start by Adding Data', path: '/source' }, { name: 'Index Data', path: '/FieldManagementComponent' }, { name: 'Optimize Search Results', path: '/weights' }, { name: 'Design Search Experience', path: '/searchInterface' }, { name: 'Test the Application', path: '/resultranking' }, { name: 'Fine-Tune Relevance', path: '/resultranking' }];
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
   constructor(private router: Router, private appSelectionService: AppSelectionService, private service: ServiceInvokerService, private notificationService: NotificationService, private authService: AuthService) { }
@@ -30,16 +32,16 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
     this.userInfo = this.authService.getUserInfo() || {};
     this.appSelectionService.getTourConfig();
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
-      console.log("subscription happen now")
-      this.checklistCount = res.configurations.findlyOverViewVisted ? 1 : 0;
-      this.tourConfigData = res.configurations;
-      this.tourData = res.configurations.onBoardingChecklist;
+      this.checklistCount = res.findlyOverViewVisted ? 1 : 0;
+      this.tourConfigData = res;
+      this.tourData = res.onBoardingChecklist;
       this.trackChecklist();
     })
     this.appSelectionService.tourConfigCancel.subscribe(res => {
-      this.subscribedShow = res;
-      if (res != undefined) {
-        this.showSteps = res;
+      this.subscribedShow = res.name;
+      this.status = res.status;
+      if (res.name != undefined) {
+        this.showSteps = res.name;
       }
     })
   }
@@ -61,8 +63,11 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
     }
   }
   //close checklist button
-  closeChecklist() {
-    this.appSelectionService.tourConfigCancel.next(false);
+  closeChecklist(type?) {
+    this.appSelectionService.tourConfigCancel.next({ name: false, status: 'pending' });
+    if (type == 'self') {
+      this.closeOnBoardingModal()
+    }
   }
   //goto Routes
   gotoRoutes(step) {
@@ -71,16 +76,26 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
   }
   //track checklist count and show count number
   trackChecklist() {
-    console.log("trackchecklist called")
     let count = 0;
-    count = this.tourData[0].addDataVisited ? count + 1 : count;
-    count = this.tourData[1].indexDataVisited ? count + 1 : count;
-    count = this.tourData[2].optimiseSearchResultsVisited ? count + 1 : count;
-    count = this.tourData[3].designSearchExperienceVisited ? count + 1 : count;
-    count = this.tourData[4].testAppVisited ? count + 1 : count;
-    count = this.tourData[5].fineTuneRelevanceVisited ? count + 1 : count;
-    this.checklistCount = this.checklistCount + count;
-    this.showSteps = this.checklistCount === 7 ? true : this.subscribedShow == undefined ? true : this.subscribedShow;
+    for (let key in this.tourData) {
+      for (let key1 in this.tourData[key]) {
+        if (this.tourData[key][key1]) {
+          count = count + 1;
+        }
+      }
+    }
+    this.checklistCount = count + this.checklistCount;
+    // let count = 0;
+    // count = this.tourData[0].addDataVisited ? count + 1 : count;
+    // count = this.tourData[1].indexDataVisited ? count + 1 : count;
+    // count = this.tourData[2].optimiseSearchResultsVisited ? count + 1 : count;
+    // count = this.tourData[3].designSearchExperienceVisited ? count + 1 : count;
+    // count = this.tourData[4].testAppVisited ? count + 1 : count;
+    // count = this.tourData[5].fineTuneRelevanceVisited ? count + 1 : count;
+    // this.checklistCount = this.checklistCount + count;
+    if (this.status == 'pending') {
+      this.showSteps = this.checklistCount === 7 ? false : this.subscribedShow == undefined ? true : this.subscribedShow;
+    }
     if (this.componentType != 'summary') {
       if (this.componentType == 'addData') {
         this.showStatusIcon = this.tourData[0].addDataVisited ? true : false;
