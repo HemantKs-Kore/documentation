@@ -74,6 +74,7 @@ import { PaginationComponent } from './helpers/components/pagination/pagination.
 import { SortPipe } from './helpers/sortPipe/sort-pipe';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NouisliderModule } from 'ng2-nouislider';
+import { ColorPickerModule } from 'ngx-color-picker';
 import * as echarts from 'echarts';
 import { StopWordsComponent } from './components/stop-words/stop-words.component';
 import { WeightsComponent } from './components/weights/weights.component';
@@ -103,6 +104,9 @@ import { DockStatusService } from './services/dock.status.service';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
 import { TeamManagementComponent } from './components/team-management/team-management.component';
+import { SearchExperienceComponent } from './components/search-experience/search-experience.component';
+import { ActionsComponent } from './components/actions/actions.component';
+import { SmallTalkComponent } from './components/small-talk/small-talk.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -175,7 +179,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StructuredDataComponent,
     AddStructuredDataComponent,
     StructuredDataStatusModalComponent,
-    StatusDockerComponent
+    StatusDockerComponent,
+    SearchExperienceComponent,
+    ActionsComponent,
+    SmallTalkComponent
   ],
   imports: [
     BrowserModule,
@@ -200,6 +207,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AnnotoolModule,
     Ng5SliderModule,
     NouisliderModule,
+    ColorPickerModule,
     NgxEchartsModule.forRoot({
       echarts: { init: echarts.init }
     }),

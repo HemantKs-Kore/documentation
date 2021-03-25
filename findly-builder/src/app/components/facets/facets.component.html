@@ -3,7 +3,7 @@
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait'| translate}}</span>
     </div>
-    <div *ngIf="!loadingContent">
+    <div *ngIf="loadingContent1">
         <div class="header-sec col-12 row m-0" [ngClass]="{ 'd-none' : !selcectionObj.selectedCount}">
             <div class="col-4 lef-sec p-0">
                 <div class="kr-sg-checkbox p-0 ml-1 mb-0 select-all-checkbox adjust-checkbox-padding">
@@ -18,8 +18,8 @@
             </div>
             <div class="actions text-right col-8 right-sec p-0">
                 <!-- <span class="selected_count mr-4" *ngIf="selcectionObj && selcectionObj.selectedCount">{{selcectionObj.selectedCount}} {{'facets.selected' | translate}}</span> -->
-                <button id='btn_cancleFacet' ng class="kr-sg-button-secondary btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="addRemovefacetFromSelection(null,null,true)">{{'facets.deselect'| translate}}</button>
-                <button id='btn_delete' class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">{{'facets.delete_facets'| translate}}</button>
+                <!-- <button id='btn_cancleFacet' ng class="kr-sg-button-secondary btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="addRemovefacetFromSelection(null,null,true)">{{'facets.deselect'| translate}}</button> -->
+                <button id='btn_delete' class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">{{'facets.delete'| translate}}</button>
             </div>
         </div>
         <div class="header-sec m-0" [ngClass]="{ 'd-none' : selcectionObj.selectedCount}">
@@ -36,10 +36,10 @@
                     <input type="text" id="direct-search" [(ngModel)]="searchfacet" (keyup.enter)="searchItems()" placeholder="Search" autocomplete="off" class="input-search pl-2" placeholder="Search">
                 </div>-->
                 <div class="seach-block" *ngIf="(facets && facets.length)">
-                    <span [ngClass]="{'d-none': showSearch}" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                    <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                     <!-- <img [ngClass]="{'d-none': !showSearch}" id="btn_close_search_structured_data" src="assets/images/close.svg" (click)="toggleSearch(false)"> -->
                 </div>
-                <button id='btn_addFacet' *ngIf="(facets && facets.length)" class="kr-sg-button-primary btn_lg mr-3" (click)="createNewFacet()"><img src="assets/icons/add_plus.svg">{{'facets.add_facet'| translate}}</button>
+                <button id='btn_addFacet' *ngIf="(facets && facets.length)" class="kr-sg-button-primary btn_lg" (click)="createNewFacet()"><img src="assets/icons/add_plus.svg">{{'facets.add_facet'| translate}}</button>
                 <!-- <img class="mr-3" src="assets/icons/clock.svg"> -->
             </div>
         </div>
@@ -54,13 +54,13 @@
         <ng-container *ngIf="!(facets && facets.length) && !loadingContent">
             <perfect-scrollbar class="empty-scroll">
                 <div class="empty-landing-screen">
-                    <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" src="assets/images/facets-empty.svg"></div>
-                    <ng-container>
+                    <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/facets-empty.svg"></div>
+                    <ng-container *ngIf="loadImageText">
                         <div class="empty-title">You haven’t added any Facets yet!</div>
                         <div class="desc-text">Facets allow search users to refine their search results by selecting appropriate filters. SearchAssist allows you to add value and range facets, and you can configure any indexed fields as facets.
                         </div>
                         <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">
-                            <button class="kr-sg-button-primary" (click)="createNewFacet()">Add Facets</button>
+                            <button class="kr-sg-button-primary btn_lg px-3" (click)="createNewFacet()">Add Facets</button>
                         </div>
                     </ng-container>
                     <ng-container *ngIf="noItems && emptySearchResults">
@@ -376,7 +376,7 @@
     <div class="modal-footer" *ngIf="addEditFacetObj" [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldId === selectedField.fieldId)'>
         <button type="button" class="kr-sg-button-primary btn_lg float-right" [disabled]='(!addEditFacetObj._id && !selectedField) || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldId !== selectedField.fieldId))' (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button>
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModal()">{{'facets.cancel'| translate}}</button>
-        <button type="button" class="kr-sg-button-danger btn_lg float-left" (click)="deleteFacets(addEditFacetObj)">{{'facets.delete'| translate}}</button>
+        <!-- <button type="button" class="kr-sg-button-danger btn_lg float-left" *ngIf="addEditFacetObj._id" (click)="deleteFacets(addEditFacetObj)">{{'facets.delete'| translate}}</button> -->
 
     </div>
 </kr-modal>

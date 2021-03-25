@@ -2,14 +2,13 @@ import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { NotificationService } from '@kore.services/notification.service';
 import { SideBarService } from '@kore.services/header.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AuthService } from '@kore.services/auth.service';
 declare const $: any;
-
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'apps-home',
@@ -43,7 +42,8 @@ export class AppsListingComponent implements OnInit {
     private notificationService: NotificationService,
     private headerService: SideBarService,
     private appSelectionService: AppSelectionService,
-    public authService: AuthService
+    public authService: AuthService,
+    private route: ActivatedRoute
   ) {
     this.authInfo = localstore.getAuthInfo();
     this.userId = this.authService.getUserId();
@@ -182,6 +182,7 @@ export class AppsListingComponent implements OnInit {
   }
   //sort app
   sort_type: string;
+  minToMax: boolean = false;
   order: boolean = false;
   sortApp(type) {
     if (type !== 'Icon filter') {
@@ -200,7 +201,15 @@ export class AppsListingComponent implements OnInit {
     }
     else if (type == 'Icon filter') {
       this.filteredApps = this.filteredApps.sort((a, b) => {
-        return (this.order) ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+        if (this.order) {
+          this.minToMax = false;
+          return a.name.localeCompare(b.name)
+        }
+        else {
+          this.minToMax = true;
+          return b.name.localeCompare(a.name);
+        }
+        // return (this.order) ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
       });
     }
   }

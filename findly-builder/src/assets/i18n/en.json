@@ -83,6 +83,7 @@
     "clear_all": "Clear all",
     "array": "Array",
     "object": "Object",
+    "test" : "Test",
     "businessRules": {
         "rules_selected": "Rules Selected",
         "all_rules_selected": "All Rules Selected",
@@ -151,7 +152,6 @@
     "synonyms": {
         "please_wait": "Please Wait!",
         "adding_a_synonym": "Add Synonym",
-        "synonyms": "Synonyms",
         "one_way_synonym": "One-Way Synonym",
         "cancel_it": "Cancel",
         "save": "Save",
@@ -291,6 +291,7 @@
             "New_Users": "New Users",
             "Repeat_Users": "Repeat Users",
             "Busy_Hours": "Busy Hours",
+            "Hours": "Hours",
             "Volume_Of_Users": "Volume Of Users",
             "Most_Used_Devices": "Most Used Devices",
             "Most_Used_Browsers": "Most Used Browsers",

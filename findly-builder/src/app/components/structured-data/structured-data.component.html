@@ -1,9 +1,10 @@
 <div class="structured-data-container-web" [ngClass]="{'disableContainer' : disableContainer}">
     <div class="header-sec">
         <div class="title">{{'structuredData.structuredData' | translate}}</div>
-        <div class="d-flex align-items-center" *ngIf="!noItems || emptySearchResults">
+        <div class="d-flex align-items-center" *ngIf="enableSearchBlock">
             <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !searchActive}">                               
-                <input type="text" id="direct-search" [(ngModel)]="searchText" (keyup.enter)="searchItems()" placeholder="Search" autocomplete="off" class="input-search pl-2" placeholder="Search">           
+                <!-- <input type="text" id="direct-search" [(ngModel)]="searchText" (keyup.enter)="searchItems()" placeholder="Search" autocomplete="off" class="input-search pl-2" placeholder="Search">            -->
+                <input type="text" placeholder="Search" class="input-search" (keyup.enter)="searchItems()" [ngClass]="{'pl-33':!searchText}" autocomplete="off" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
             </div> 
             <div class="seach-block">
                 <span [ngClass]="{'d-none': searchActive}" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': searchActive}">{{'search' | translate}}</span>
@@ -22,7 +23,7 @@
         </div>
     </div> 
     <perfect-scrollbar class="structured-data-scroll" [ngClass]="{'adjust-height': noItems}">
-        <div *ngIf="!isLoading">
+        <div *ngIf="isLoading1">
                 <div class="structured-data-table-sec">
                     <!-- Commented for now -->
                     <!-- <div class="toast-block-blue row m-0 align-items-center">
@@ -96,7 +97,7 @@
                                                                     <div class="col-3 pr-0 default-value text-truncate" title="{{ childObject.value }}">{{ childObject.value }}</div>
                                                                 </ng-container>
                                                                 <ng-container *ngIf="childObject.nested">
-                                                                    <img class="pointer mr-2" (click)="childObject.expanded = !childObject.expanded;$event.stopPropagation();" *ngIf="childObject.nested && !childObject.expanded" src="assets/icons/accordian-collapse.svg">
+                                                                    <img class="pointer mr-2" *ngIf="childObject.nested && !childObject.expanded" src="assets/icons/accordian-collapse.svg">
                                                                     <img class="pointer mr-2" *ngIf="childObject.nested && childObject.expanded" (click)="childObject.expanded = !childObject.expanded;$event.stopPropagation();" src="assets/icons/accordian-expand.svg">
                                                                     <div class="col-11 p-0 default-key" title="{{ childObject.key }}">{{ childObject.key }} ({{childObject.valuesLength}} {{'structuredData.fields' | translate}})</div>
                                                                     <ng-container *ngIf="childObject.expanded">
@@ -193,8 +194,8 @@
                 </div>
             </div> -->
             <div class="empty-landing-screen" *ngIf="noItems">
-                <div class="img-block"><img class="action_icon" src="assets/images/structured-data-empty.svg"></div>
-                <ng-container *ngIf="noItems && !emptySearchResults">
+                <div class="img-block"><img class="action_icon"  (load)="imageLoad()" src="assets/images/structured-data-empty.svg"></div>
+                <ng-container *ngIf="noItems && !emptySearchResults && loadImageText">
                     <div class="empty-title">{{'structuredData.no_structuer_data' | translate}}</div>
                     <div class="desc-text">{{'structuredData.help_text' | translate}}</div>
                     <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                        
@@ -218,7 +219,7 @@
             <span class="please-wait-message">{{'synonyms.please_wait' | translate}}</span>
         </div>
     </perfect-scrollbar>
-    <div class="footer-info" *ngIf="!isResultTemplate">
+    <div class="footer-info" *ngIf="!isResultTemplate && !isLoading">
         <img class="info-icon" src="assets/icons/structured-data/Info.svg">
         <div class="info-text">{{'structuredData.noResultTemplate' | translate}} <span class="interface-link" (click)="navigateToSearchInterface()"><b>{{'structuredData.searchInterfacePath' | translate}}</b></span> {{'structuredData.toDefine' | translate}}<a href="#">{{'structuredData.learnMore' | translate}}</a></div>
         <img src="assets/icons/close.svg" class="close-info" (click)="isResultTemplate = !isResultTemplate">
@@ -239,18 +240,22 @@
         <div class="modal-body advance-search-modal">
             <ng-container *ngFor="let rule of advancedSearch.rules; let index = index">
                 <div class="d-flex align-items-center">
-                    <div class="kr-sg-dropdowns dopdown-with-search mr-10">                   
+                    <div class="kr-sg-dropdowns dopdown-with-search mr-10" ngbDropdown [placement]="'bottom-center'">
                         <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
-                            <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                            <input type="text" (keyup)="getFieldAutoComplete(rule.fieldName)" [(ngModel)]="rule.fieldName" placeholder="{{'structuredData.enter_field' | translate}}" class="input-search dropdown-toggle dropdown-input pr-2" data-toggle="dropdown" autocomplete="off">                                                                        
-                            <ul class="dropdown-menu content-menu">
+                            <button class="dropdown-toggle dropdown-input search-with-dropdown" ngbDropdownToggle
+                                data-toggle="dropdown"></button>
+                            <input type="text" (keyup)="getFieldAutoComplete(rule.fieldName)" [(ngModel)]="rule.fieldName"
+                                placeholder="{{'structuredData.enter_field' | translate}}"
+                                class="input-search dropdown-toggle dropdown-input pr-2" data-toggle="dropdown" autocomplete="off">
+                            <ul class="dropdown-menu content-menu" ngbDropdownMenu>
                                 <ng-container *ngIf="fields.length">
-                                    <perfect-scrollbar class="scroll-search-field">
-                                        <li *ngFor="let suggesition of fields" (click)="selectedField(suggesition, index)"><a>{{suggesition.fieldName}}</a></li>
+                                    <perfect-scrollbar class="scroll-search-field h-200">
+                                        <li *ngFor="let suggesition of fields" (click)="selectedField(suggesition, index)">
+                                            <a>{{suggesition.fieldName}}</a></li>
                                     </perfect-scrollbar>
                                 </ng-container>
                             </ul>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="kr-sg-dropdowns mr-10">                    
                         <div class="dropdown dropdown-open">

@@ -3,10 +3,10 @@
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">{{'please_wait' | translate}}</span>
 </div>
-<div class="faqmain-container" *ngIf="!loadingFaqs">
+<div class="faqmain-container" *ngIf="loadingFaqs1">
     <div class="faqsListContainer">       
         <div class="faq-header-sec row m-0">
-            <div class="col-6 left-sec p-0 faq-title">FAQ Management</div>
+            <div class="col-6 left-sec p-0 faq-title" >FAQs</div>
             <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
                 <div class="kr-sg-dropdowns add w-auto"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved)">                                        
                     <div class="dropdown dropdown-open">
@@ -39,8 +39,8 @@
         <ng-container *ngIf="(!(faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) && !faqSelectionObj.loadingStats) && !(faqs && faqs.length)">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
-          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/faq-empty.svg"></div>
-          <ng-container >
+          <div class="img-block" id ="imageLoad"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/faq-empty.svg"></div>
+          <ng-container *ngIf="loadImageText">
               <div class="empty-title">You haven’t added any FAQ's yet!</div>
               <div class="desc-text"> FAQs is  a form of source documents that contain solutions for the frequently asked questions. SearchAssist allows you to add FAQs in multiple ways to assist search users with their queries.
               </div>
@@ -112,9 +112,10 @@
                         </div>
                         <div class="col-8 p-0 d-flex align-items-center justify-content-end">
                             <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
+                            <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
                             <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
                             <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
-                            <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
+                            
                         </div>
                     </div>
                     <div class="body-content">
@@ -179,7 +180,7 @@
                     </div>
                 </div>
             </div>            
-            <div class="content right-content">
+            <div class="content right-content" [ngClass]="{'blur-content': faqSelectionObj.selectedCount >=2}">
                 <div class="content-boxes train_your_questions">
                     <ng-container *ngIf="!selectedFaq">
                         <div class="empty-questions-selected">
@@ -302,7 +303,8 @@
                                             </ul>
                                         </div>
                                     </div>                             
-                                    <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <div class="kr-sg-dropdowns comments_header_dropdown" 
+                                    #commentBox='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                         <div class="dropdown dropdown-open">                                        
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                                                                      
                                             <ul class="dropdown-menu content-menu comments_header_dropdown_content" ngbDropdownMenu>
@@ -321,14 +323,14 @@
                                                                 </div>
                                                             </div>
                                                             <div class="kr-sg-input-text-area">                                                           
-                                                                <textarea placeholder="reply" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
+                                                                <textarea id="changePlaceholder" placeholder="Add a comment" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
                                                             </div>
                                                         </div>
                                                     </perfect-scrollbar>                                                   
                                                     <div class="footer-data">
                                                         <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
                                                         <div class="btn_sec">
-                                                            <button class="kr-sg-button-secondary btn_lg" (click)="clearContent()">Cancel</button>
+                                                            <button class="kr-sg-button-secondary btn_lg" (click)="commentBox.close()">Cancel</button>
                                                             <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button>                                                            
                                                         </div>
                                                     </div>
@@ -462,7 +464,7 @@
                                         <div class="conditionalBlock bot-response-view-mode" >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length">
                                             <ng-container *ngFor="let consitionalAnswer of selectedFaq._source.conditionalAnswers; let i = index;">
-                                                <div class="bot-response-title">Bot Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.defaultAnswers?selectedFaq._source.defaultAnswers.length:0))}}</span></div> 
+                                                <div class="bot-response-title">Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.defaultAnswers?selectedFaq._source.defaultAnswers.length:0))}}</span></div> 
                                                 <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div>
                                                 <div *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.answers.length">
                                                     <div *ngFor="let ans of consitionalAnswer.answers">
@@ -591,7 +593,7 @@
         </div>      
     </div>
    
-    <div *ngIf="!(resources && resources.length)" class="empty-source-modal">
+    <div *ngIf="!(resources && resources.length)"  class="empty-source-modal">
         <div class="empty-sources">
             <img src="assets/images/icons/empty_ill.svg">
             <div class="heading">No FAQ sources are available</div>

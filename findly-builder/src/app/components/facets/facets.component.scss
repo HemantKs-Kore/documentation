@@ -48,14 +48,17 @@
         .kr-sg-input-search {
             display: inline-block;
             width: 0px;
-            width: 215px;
-            height: 20px;
-            position: relative;
-            bottom: 6px;
-            right: 10px;
+            width: 215px;            
+            position: relative;            
             &.active {
                 display: block;
                 width: 300px;
+            }
+            .close-icon {
+                position: absolute;
+                right: 11px;
+                top: 12px;
+                cursor: pointer;
             }
         }
         .seach-block {
@@ -63,7 +66,6 @@
             font-style: normal;
             font-weight: 500;
             font-size: 12px;
-            margin-right: 30px;
             img {
                 margin-right: 7px;
                 cursor: pointer;
@@ -172,9 +174,11 @@
 
 .table_section {
     padding: 0 30px;
+    margin-top: 27px;
     .header_sec {
         align-items: center;
-        padding: 15px 0;
+        padding: 16px 0;
+        height: 50px;
         border-bottom: 1px solid #e4e5e7;
         .content {
             color: #9aa0a6;
@@ -205,11 +209,12 @@
         }
     }
     .scroll_table {
-        height: calc(100vh - 265px);
+        height: calc(100vh - 198px);
     }
     .body_sec {
         align-items: center;
-        padding: 16px 0px;
+        padding: 13px 0px;
+        min-height: 50px;
         // border-bottom: 1px solid #E4E5E7;
         cursor: pointer;
         transition: 0.3s all ease;
@@ -483,8 +488,7 @@
         .search_block {
             padding-bottom: 25px;
             border-bottom: 1px solid #f5f5f5;
-            .scroll-search-field {
-                height: 300px;
+            .scroll-search-field {                
                 max-height: 300px;
             }
             .title {
@@ -688,50 +692,15 @@
 }
 
 //Search Input styles//
-::ng-deep .kr-sg-input-search input.input-search::-webkit-input-placeholder {
-    color: #BDC1C6;
-    opacity: 1;
-}
 
-::ng-deep .kr-sg-input-search input.input-search {
-    background: #FFFFFF;
-    border: 1px solid #E4E5E7;
-    box-sizing: border-box;
-    border-radius: 4px;
-}
-
-::ng-deep .kr-sg-input-search input.input-search:hover::-webkit-input-placeholder {
-    color: #5F6368;
-    opacity: 1;
-}
-
-::ng-deep .kr-sg-input-search input.input-search:focus::-webkit-input-placeholder {
-    color: #BDC1C6;
-    opacity: 1;
-}
-
-::ng-deep .kr-sg-input-search input.input-search:hover {
-    border: 1px solid #BDC1C6;
-}
-
-::ng-deep .kr-sg-input-search input.input-search:focus {
-    border: 1px solid #0D6EFD;
-}
-
-.kr-sg-input-search .pl-33 {
+.pl-33 {
     padding-left: 33px;
 }
 
-.kr-sg-input-search .pr-28 {
+.pr-28 {
     padding-right: 28px;
 }
 
-.kr-sg-input-search .close-icon {
-    position: absolute;
-    right: 11px;
-    top: 12px;
-    cursor: pointer;
-}
 .right-sec{
     button{
         margin-right: 10px;

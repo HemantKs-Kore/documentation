@@ -54,6 +54,15 @@
     display: none;
     z-index: 999;
 }
+.search-background-div .bgDullOpacity{
+  position: absolute;
+  width: 100%;
+  background: #fff;
+  opacity: 0.8;
+  height: calc(100% - 44px);
+  top: 0;
+  left: -245px;
+}
 /*---- SEARCH RESULTS ----*/
 .search-body-full.searchInSideApp .custom-nav-panel-container{
   width: 50%;
@@ -236,4 +245,48 @@ img.logo-img{
 .matched-faq-containers .faqs-shadow .faqs-wrp-content.custom-faqs-wrp-content-border .title{
   white-space: normal !important;
   max-width: 65% !important;
+}
+
+.show-all-results-outer-wrap{
+  position: absolute;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+  border-radius: 6px;
+  width: calc(100% - 615px);
+  left: 40px;
+  top: 67px;
+  height: calc(100% - 84px);
+  z-index: 999;
+}
+.show-all-results-outer-wrap .filter-sec-tab .fliter-right-btn{
+  padding: 3px 0px;
+}
+.show-all-results-outer-wrap .data-body-sec{
+  padding: 10px 20px;
+  overflow: auto;
+  height: calc(100vh - 200px);
+  z-index: 1;
+  position: relative;
+}
+
+.search-container .sdkFooterIcon.microphoneBtn {
+  position: absolute;
+  right: 45px;
+  bottom: 6px;
+}
+
+.top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec{
+  max-height: calc(100vh - 311px) !important;
+  /* /* max-height: calc(100vh - 380px) !important; if added filter */
+}
+.top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec.filter-added{
+   max-height: calc(100vh - 380px) !important; 
+}
+
+.show-all-results-outer-wrap .data-body-sec{
+  height: calc(100vh - 260px);
+}
+.custom-add-new-result-content{
+  position: fixed;
+  bottom: 30px;
 }

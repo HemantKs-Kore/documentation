@@ -190,10 +190,10 @@
                     <div class="input-data">
                         <div class="label-text">Client Secret ID</div>
                         <div class="input-box mb-4">
-                            <div class="kr-sg-input-text">
-                                <input type="password"  class="input-text"
+                            <div class="kr-sg-input-text" >
+                                <input type="password" id="password"  class="input-text"
                                     [value]="listData.clientSecret" readonly>
-                                <img src="assets/images/icons/eye.svg" class="eye" type="eye" (click)="showPasword()">
+                                <img  (click)="showPasword()" src="assets/images/icons/eye.svg" class="eye" type="eye" >
                             </div>
                             <div class="copy-btn" (click)="copy(listData.clientSecret,clipclientSecret)"><img
                                     src="assets/images/icons/copy.svg">Copy</div>

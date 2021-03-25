@@ -1,28 +1,27 @@
 <div class="faqmain-container">
-    <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+    <div class="mainLoadingSpinner" *ngIf="loadingContent">
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait' | translate}}</span>
     </div>
-    <div class="header-sec col-12 row m-0" *ngIf="collectedRecord.length===0 && !nextPage">
+    <div class="header-sec col-12 row m-0" *ngIf="!nextPage&& loadingContent1">
         <div class="col-4 p-0">Result Ranking</div>     
         </div>
-    <ng-container *ngIf="collectedRecord.length===0 && !nextPage">
+    <ng-container *ngIf="!nextPage&& loadingContent1">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
-          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/resultRanking-empty.svg"></div>
-          <ng-container>
+          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/resultRanking-empty.svg"></div>
+          <ng-container *ngIf="loadImageText">
               <div class="empty-title">You haven’t added any queries yet!</div>
               <div class="desc-text">Results Ranking is an interactive and visual way to tune results. SearchAssist allows you to preview and customize the search results as per the business needs 
               </div>
               <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
-                <button class="kr-sg-button-primary btn_lg px-2" (click)="nextPage=true">Let's Start</button>                                                
+                <button class="kr-sg-button-primary btn_lg px-2" (click)="lauchTest()">Let's Start</button>                                                
               </div>
           </ng-container>
           </div>
     </perfect-scrollbar>  
   </ng-container>
   <div *ngIf="nextPage">
-    <div *ngIf="!loadingContent">
         <div class="faqsListContainer">
             <div class="faq-content-boxes">
                 <div class="content left-content">
@@ -38,10 +37,10 @@
                                 <div class="col-1" *ngIf="collectedRecord.length != customizeList.length">
                                     <img (click) = "selectAll()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
                                 </div>  
-                                <div class="col-3 mt-8">
+                                <div class="col-4 mt-8">
                                     {{collectedRecord.length}} Selected
                                 </div> 
-                                <div class="col-8" [ngClass] = "{'disableDiv' : permisionView }">
+                                <div class="col-7" [ngClass] = "{'disableDiv' : permisionView }">
                                     <button class="reset-but" (click)="resetCustomization()">Reset</button>
                                 </div> 
                             </div>
@@ -198,7 +197,8 @@
                                           </div>
                                           <div id="collapse{{i}}" class="collapse" data-parent="#accordion">
                                             <div class="row card-body">
-                                                <div class="col-9 info-card" *ngIf ="actLog.target.contentInfo._source"> {{actLog.target.contentInfo._source.pageSearchResultPreview}} </div>
+                                                <div class="col-9 info-card" *ngIf ="actLog.target.contentInfo._source"> {{actLog.target.contentInfo._source.pageSearchResultPreview}}</div>
+                                                <div class="col-9 info-card" *ngIf ="actLog.target.contentInfo.contentType == 'faq'"> {{faqDesc}} </div>
                                                 <div class="col-9 info-card" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'"> {{actLog.target.contentInfo.shortDesc}} </div>
                                                 <div class="col-3 text-right mt-3" [ngClass] = "{'disableDiv' : permisionView }">
                                                   <button class="kr-sg-button-secondary btn_lg" (click)="removeRecord(actLog)">Remove</button>
@@ -245,7 +245,7 @@
                     </div>
                 </div>
             </div>        
-        </div>
+
         <!-- <div class="log_section " [ngClass] ="{'d-none' : !resultLogs}">
             <div class="header-log">
                 <div class="title">Log ({{customizeLog.length || 0}})</div>
@@ -271,7 +271,7 @@
                 <div class="accordion_sec" *ngIf="customizeLog">
                     <div id="accordion">
                         <div class="card-acc">
-                          <div class="card-header-acc" *ngIf="log.action != 'restored'">
+                          <div class="card-header-acc" *ngIf="log.action != 'restored' && log.target">
                             <a class="card-link-acc link-block" data-toggle="collapse" href="#collapse_log_{{i}}" *ngIf="log.target.contentInfo._source"> {{log.displayMessage }} - {{ log.target.contentInfo._source.contentType}}</a>
                             <a class="card-link-acc link-block" data-toggle="collapse" href="#collapse_log_{{i}}" *ngIf="log.target.contentType && log.target.contentType == 'task'"> {{log.displayMessage }} - {{ log.target.contentType}}</a>
                           </div>
@@ -279,7 +279,7 @@
                             <a class="card-link-acc link-block" data-toggle="collapse" href="#collapse_log_{{i}}" > {{log.displayMessage }} - {{ log.action }}</a>
                           </div>
                           <div id="collapse_log_{{i}}" class="collapse" data-parent="#accordion" *ngIf="log.action != 'restored'">
-                            <div class="card-body-acc">
+                            <div class="card-body-acc" *ngIf ="log.target">
                               <div class="question-text" *ngIf ="log.target.contentInfo._source"> {{log.target.contentInfo._source.pageTitle}}</div>
                               <div class="question-text" *ngIf ="log.target.contentType && log.target.contentType == 'task'"> {{log.target.contentInfo.lname}}</div>
 

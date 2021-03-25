@@ -8,8 +8,9 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationComponent } from 'src/app/components/annotool/components/confirmation/confirmation.component';
-import { retryWhen } from 'rxjs/operators';
+import { debounceTime, map, retryWhen } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-structured-data',
@@ -95,6 +96,10 @@ export class StructuredDataComponent implements OnInit {
   disableContainer : any = false;
   isResultTemplate : boolean = false;
   serachIndexId : any;
+  searchFocusIn=false;
+  search : any;
+  formatter: any;
+  enableSearchBlock : boolean = false;
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
@@ -112,8 +117,20 @@ export class StructuredDataComponent implements OnInit {
     this.getStructuredDataList();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     // this.getAllSettings();
+    this.search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => this.searchItems())
+    )
   }
-
+  isLoading1: boolean;
+  loadImageText: boolean = false;
+  imageLoad(){
+    console.log("image loaded now")
+    this.isLoading=false;
+    this.isLoading1 = true;
+    this.loadImageText = true;
+  }
   getStructuredDataList(skip?){
     this.isLoading = true;
     this.noItems = false;
@@ -139,6 +156,13 @@ export class StructuredDataComponent implements OnInit {
       else{
       this.structuredDataItemsList = [];
       }
+      if (res.length > 0) {
+        this.isLoading = false;
+        this.isLoading1 = true;
+      }
+      else {
+        this.isLoading1 = true;
+      }
       this.structuredDataItemsList.forEach(data => {
         data.objectLength =  Object.keys(data._source).length;
         if(data._source){
@@ -151,6 +175,10 @@ export class StructuredDataComponent implements OnInit {
       this.designDefaultData(this.structuredDataItemsList);
       if(this.structuredDataItemsList.length == 0){
         this.noItems = true;
+        this.enableSearchBlock = false;
+      }
+      else{
+        this.enableSearchBlock = true;
       }
     }, errRes => {
       console.log("error", errRes);
@@ -226,7 +254,8 @@ export class StructuredDataComponent implements OnInit {
     }
     const quaryparms: any = {
       searchIndexID:this.selectedApp.searchIndexes[0]._id,
-      query
+      query,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
       this.fields = res || [];
@@ -332,6 +361,7 @@ export class StructuredDataComponent implements OnInit {
       type : ''
     });
     console.log(this.advancedSearch);
+    this.getFieldAutoComplete('');
   }
 
   removeRule(index){
@@ -658,7 +688,7 @@ export class StructuredDataComponent implements OnInit {
         data: {
           newTitle: 'Are you sure you want to delete?',
           body: 'Selected data will be permanently deleted.',
-          buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+          buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
           confirmationPopUp: true,
         }
       });
@@ -693,8 +723,15 @@ export class StructuredDataComponent implements OnInit {
         if(res){
           this.selectedStructuredData = [];
           this.allSelected = false;
-          this.getStructuredDataList();
-          this.notificationService.notify('Deleted Successfully', 'success');
+          if(this.searchText.length){
+            this.searchItems();
+          }
+          else if(Object.keys(this.appliedAdvancedSearch).length){
+            this.applyAdvancedSearchCall();
+          }
+          else{
+            this.getStructuredDataList();
+          }          this.notificationService.notify('Deleted Successfully', 'success');
         }
       }, errRes => {
         console.log("error", errRes);
@@ -716,7 +753,15 @@ export class StructuredDataComponent implements OnInit {
         if(res){
           this.selectedStructuredData = [];
           this.allSelected = false;
-          this.getStructuredDataList();
+          if(this.searchText.length){
+            this.searchItems();
+          }
+          else if(Object.keys(this.appliedAdvancedSearch).length){
+            this.applyAdvancedSearchCall();
+          }
+          else{
+            this.getStructuredDataList();
+          }
           this.notificationService.notify('Deleted Successfully', 'success');
         }
       }, errRes => {
@@ -767,4 +812,5 @@ export class StructuredDataComponent implements OnInit {
   navigateToSearchInterface(){
     // this.router.navigate(['/searchInterface'], { skipLocationChange: true });
   }
+  
 }
