@@ -21,7 +21,7 @@ import { ThrowStmt } from '@angular/compiler';
 import { RangySelectionService } from '../annotool/services/rangy-selection.service';
 import { DockStatusService } from '../../services/dock.status.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-
+import { AppSelectionService } from '@kore.services/app.selection.service';
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -203,7 +203,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private dock: DockStatusService,
     public dialog: MatDialog,
-    private rangyService: RangySelectionService
+    private rangyService: RangySelectionService,
+    private appSelectionService: AppSelectionService
   ) { }
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -469,18 +470,18 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.extension = _ext
     if (this.selectedSourceType.sourceType != "faq") {
       if (this.extension === '.pdf') {
-        
+
         showProg = true;
       }
-        else{
-          $('#sourceFileUploader').val(null);
-          this.notificationService.notify('Please select a valid  pdf file', 'error');
-          // return;
-        }
-    
+      else {
+        $('#sourceFileUploader').val(null);
+        this.notificationService.notify('Please select a valid  pdf file', 'error');
+        // return;
+      }
+
     }
     else {
-    
+
       if (this.selectedSourceType.sourceType == "faq") {
         if (this.selectedSourceType.resourceType == '') {
           if (this.extension === '.pdf') {
@@ -502,7 +503,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       else {
         showProg = true;
       }
-      
+
     }
     if (showProg) {
       this.onFileSelect(event.target, this.extension);
@@ -724,8 +725,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       if (schdVal) {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-          console.log("proceedfor both pages", res)
           this.openStatusModal();
+          this.appSelectionService.updateTourConfig('addData');
           this.addSourceModalPopRef.close();
           if (this.selectedSourceType.sourceType === 'content') {
             this.statusObject = { ...this.statusObject, validation: { validated: true } };
