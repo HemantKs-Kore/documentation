@@ -182,7 +182,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.outcomeArrayforAddEdit.push(ruleObj)
   }
   editRule(rule) {
-    this.addEditRuleObj = rule;
+    this.addEditRuleObj = {...rule};
     this.setDataForEdit(this.addEditRuleObj);
     this.openModalPopup();
     this.getFieldAutoComplete(null, null);
@@ -200,7 +200,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     if (ruleObj && ruleObj.outcomes && ruleObj.outcomes.length) {
       const _outcoms = []
-      ruleObj.outcomes.forEach((outcome, i) => {
+      let ruleObjOutcomes = JSON.parse(JSON.stringify(ruleObj.outcomes));
+      ruleObjOutcomes.forEach((outcome, i) => {
         const tempObj: any = outcome
         tempObj.sliderObj = this.prepereSliderObj(i);
         _outcoms.push(tempObj);
@@ -251,8 +252,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   removeOutcome(index) {
     this.outcomeArrayforAddEdit.splice(index, 1);
   }
-  removeTag(tags, index) {
-    tags.splice(index, 1);
+  removeTag(value,tags, index) {
+    value.splice(index, 1);
   }
   openDateTimePicker(ruleObj, index) {
     setTimeout(() => {
@@ -441,6 +442,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (key === 'contextType') {
       ruleObj.contextType = value;
       ruleObj.contextCategory = this.ruleOptions[value][0];
+      if(ruleObj.contextType ==='userContext'){
+      ruleObj.contextCategory = '';
+      }
     }
     if (key === 'operator') {
       ruleObj.operator = value;
