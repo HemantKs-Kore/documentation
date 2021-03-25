@@ -391,6 +391,8 @@ export class AppHeaderComponent implements OnInit {
     else if (task.jobType == 'STRUCTURED_DATA_INGESTION') {
       this.router.navigate(['/structuredData'], { skipLocationChange: true });
     }
+
+    this.headerService.updateShowHideMainMenu(true);
   }
 
   removeRecord(task, index) {

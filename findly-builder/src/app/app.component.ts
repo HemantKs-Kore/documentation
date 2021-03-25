@@ -43,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
   SearchConfigurationSubscription: Subscription;
   searchSDKSubscription: Subscription;
   resultRankDataSubscription: Subscription
+  showHideMainMenuSubscription :Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -116,6 +117,9 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         }
       }
+    });
+    this.showHideMainMenuSubscription = this.headerService.showHideMainMenu.subscribe( (res) => {
+      this.showMainMenu = res;
     })
   }
   showMenu(event) {
@@ -285,6 +289,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.searchSDKSubscription.unsubscribe();
     this.resultRankDataSubscription.unsubscribe();
     this.SearchConfigurationSubscription ? this.SearchConfigurationSubscription.unsubscribe() : false;
+    this.showHideMainMenuSubscription ? this.showHideMainMenuSubscription.unsubscribe : false;
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {

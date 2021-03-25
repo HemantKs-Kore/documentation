@@ -128,7 +128,7 @@
                                                         <div class="docker-list" *ngIf="!statusDockerLoading">
                                                             <div class="row ml-0 mr-0 col-12 row-content" *ngFor="let task of dockersList; let index = index" [class.docUnRead]="checkRecordInDocs('unread', task)">
                                                                 <div class="col-9 pl-0 task_content">
-                                                                    <div class="heading text-truncate" [title]="task.message">{{task.message}}</div>
+                                                                    <div class="heading text-truncate" [title]="task.message">{{task.name}}</div>
                                                                     <div class="desc" *ngIf="getStatusView(task.status)">{{task.status | titlecase}} <span class="tooltip-data" ngbTooltip='{{task.createdOn}}' tooltipClass="date-tooltip" placement="right-center" [container]="'body'"><img src="assets/icons/docker/clock.svg"></span></div>
                                                                     <div class="desc" *ngIf="!getStatusView(task.status)">{{getStatusView(task.status, 'other')}} <span class="tooltip-data" ngbTooltip='{{task.createdOn}}' tooltipClass="date-tooltip" placement="right-center" [container]="'body'"><img src="assets/icons/docker/clock.svg"></span></div>
                                                                 </div>
@@ -141,9 +141,9 @@
                                                                         <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq')) || (task.jobType == 'STRUCTURED_DATA_INGESTION')">                        
                                                                     </div>
                                                                     <div class="status-blcok">                        
-                                                                        <img src="assets/icons/ringLoading.svg" class="inProgress" *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation'" placement="top" container='body'>
-                                                                        <span *ngIf="(task.status == 'IN_PROGRESS') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}%</span>
-                                                                        <img src="assets/icons/docker/close.svg" (click)="removeRecord(task, index)" *ngIf="(task.status !== 'IN_PROGRESS')">
+                                                                        <img src="assets/icons/ringLoading.svg" class="inProgress" *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED'" placement="top" container='body'>
+                                                                        <span *ngIf="(task.status == 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}%</span>
+                                                                        <img src="assets/icons/docker/close.svg" (click)="removeRecord(task, index)" *ngIf="(task.status !== 'IN_PROGRESS' && task.status !== 'validation' && task.status !== 'QUEUED')">
                                                                     </div>
                                                                 </div>
                                                             </div>         
