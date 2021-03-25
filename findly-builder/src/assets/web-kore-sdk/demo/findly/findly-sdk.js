@@ -5785,6 +5785,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (dataObj.faqs.length ||
           dataObj.pages.length ||
           dataObj.tasks.length || dataObj.smallTalk || dataObj.object.length) {
+          if (_self.isDev) {
+            var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true }
+            _self.parentEvent(responseObject);
+          }
           if (dataObj.smallTalk) {
             _self.sendMessageToSearch('bot', dataObj.smallTalk);
           } else {
@@ -18002,6 +18006,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var url = _self.API.queryConfig;
       _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
         console.log(res);
+        if (_self.isDev) {
+          var responseObject = { 'type': 'onboardingjourney', data: 'optimize', query: _self.vars.searchObject.searchText, bottomUp: true }
+          _self.parentEvent(responseObject);
+        }
         if (actionType === "pinning") {
           res.results.forEach((result) => {
             if (result.contentId === payload.result.contentId) {

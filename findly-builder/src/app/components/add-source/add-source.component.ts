@@ -726,6 +726,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (schdVal) {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
           this.openStatusModal();
+          this.appSelectionService.updateTourConfig('addData');
           this.addSourceModalPopRef.close();
           if (this.selectedSourceType.sourceType === 'content') {
             this.statusObject = { ...this.statusObject, validation: { validated: true } };

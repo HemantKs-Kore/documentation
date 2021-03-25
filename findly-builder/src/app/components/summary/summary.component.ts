@@ -1,4 +1,4 @@
-import { Component, ModuleWithComponentFactories, OnInit, ViewChild } from '@angular/core';
+import { Component, ModuleWithComponentFactories, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { SideBarService } from '@kore.services/header.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -17,7 +17,7 @@ declare const $: any;
   styleUrls: ['./summary.component.scss'],
   animations: [fadeInOutAnimation]
 })
-export class SummaryComponent implements OnInit {
+export class SummaryComponent implements OnInit, OnDestroy {
   serachIndexId;
   indices: any = [];
   experiments: any = [];
@@ -36,6 +36,7 @@ export class SummaryComponent implements OnInit {
   btLogs: any[] = [];
   onBoardingModalPopRef: any;
   showOverview: boolean = true;
+  indexPipeLineCount: number;
   summaryObj: any = {
     contentDocuments: [],
     contentWebDomains: [],
@@ -92,6 +93,7 @@ export class SummaryComponent implements OnInit {
     'Handed-off to Agents': 'Number of conversation sessions that are handed-off Virtual Agents.',
     'Drop offs': 'Number of conversation sessions where the users have dropped-off from the conversation.'
   };
+  subscription;
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
   @ViewChild('onboard') onboard: UseronboardingJourneyComponent;
   constructor(
@@ -114,7 +116,8 @@ export class SummaryComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
-    this.appSelectionService.getTourConfig().subscribe(res => {
+    this.appSelectionService.getTourConfig()
+    this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.showOverview = res.configurations.findlyOverViewVisted;
     })
     this.getSummary();
@@ -124,6 +127,10 @@ export class SummaryComponent implements OnInit {
     this.getLinkedBot();
     this.getAllOverview();
     this.componentType = 'summary';
+  }
+  closeOverview() {
+    this.subscription.unsubscribe();
+    this.showOverview = true
   }
   getSummary() {
     this.loading = false;
@@ -235,6 +242,7 @@ export class SummaryComponent implements OnInit {
         this.experiments = res.experiments
         this.activities = res.activities;
         this.indices = res.indices;
+        this.indexPipeLineCount = this.indices[0].indexPipeLineCount;
         // this.experiments.forEach(element => {
         //   if (element.variants) {
         //     element.variants.forEach(res => {
@@ -312,6 +320,7 @@ export class SummaryComponent implements OnInit {
   }
   openOnBoardingModal() {
     this.showOverview = true;
+    this.subscription.unsubscribe();
     setTimeout(() => {
       this.componentType = 'overview';
       this.onboard.openOnBoardingModal();
@@ -319,5 +328,8 @@ export class SummaryComponent implements OnInit {
   }
   closeOnBoardingModal() {
     this.onboard.closeOnBoardingModal();
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

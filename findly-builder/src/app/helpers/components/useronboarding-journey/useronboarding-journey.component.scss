@@ -123,6 +123,13 @@
     bottom: 0;
     margin: 0 auto;
     right: 0;
+    height:180px;
+    &:hover{
+        .content-menu{
+            display: block;
+           
+        }
+    }
     &.all-steps-done{        
         .dropdown-open {
             .dropdown-input{
@@ -217,6 +224,8 @@
         border-top: 0;
         margin: 0px 0 0 0;
         padding: 16px 17px;
+        top:0;
+        transform: translate(0px, 34px) !important;
         .configured-dropdown-content{
             .title-info{
                 font-weight: 600;

@@ -5,11 +5,11 @@
             <div class="title">You haven’t configured your app yet!</div>
             <div class="start-now" (click)="openOnBoardingModal()">Start Now</div>
           </div>
-          <div class="dropdown-input" *ngIf="checklistCount===7">
+          <!-- <div class="dropdown-input" *ngIf="checklistCount===7">
             <div class="title">App is ready for Deployment</div>
             <div class="start-now">Deploy</div>
-          </div>
-          <div class="check-list-steps" *ngIf="checklistCount!=7">
+          </div> -->
+          <div class="check-list-steps" *ngIf="checklistCount>0">
             <div class="left-sec">
               <img [src]="showStatusIcon?'assets/icons/check-config.svg':'assets/icons/time.svg'">                          
               <span class="steps-info" *ngIf="componentType=='summary'"><b>  {{checklistCount}}</b> out of 7 Steps Completed</span>
@@ -21,7 +21,7 @@
             </div>
           </div>
       </button>
-      <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+      <ul class="dropdown-menu content-menu" ngbDropdownMenu *ngIf="componentType!=='summary'&&checklistCount>0&&checklistCount!=7">
        <div class="configured-dropdown-content" *ngIf="prevStep!='undefined'">
         <span class="title-info">{{prevStep.name}}</span>
         <span class="state-type">Completed</span>
@@ -145,10 +145,9 @@
             </div>
           </div>
         </div>
-  
       </div>
     </perfect-scrollbar>
-    <div class="modal-footer" (click)="closeOnBoardingModal()">
+    <div class="modal-footer" (click)="closeChecklist()">
       I want to Explore by Myself
     </div>
   </kr-modal>

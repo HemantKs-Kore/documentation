@@ -15,6 +15,7 @@ export class AppSelectionService {
   public appSelectedConfigs = new Subject<any>();
   public queryConfigSelected = new Subject<any>();
   public appSelected = new Subject<any>();
+  public getTourConfigData = new Subject<any>();
   public tourConfigCancel = new BehaviorSubject<boolean>(undefined);
   public resumingApp = false;
   res_length: number = 0;
@@ -185,13 +186,19 @@ export class AppSelectionService {
     const quaryparms: any = {
       userId: userInfo.id
     };
-    return this.service.invoke('get.tourConfig', quaryparms)
+    const appObserver = this.service.invoke('get.tourConfig', quaryparms);
+    appObserver.subscribe(res => {
+      console.log("gettourconfigda", res)
+      this.getTourConfigData.next(res);
+    }, errRes => {
+      console.log(errRes)
+    });
   }
   //put tour config
   public updateTourConfig(component) {
     let callApi: boolean;
     const userInfo: any = this.authService.getUserInfo();
-    this.getTourConfig().subscribe(res => {
+    this.getTourConfigData.subscribe(res => {
       let resData = res.configurations;
       if (component == 'overview' && !resData.findlyOverViewVisted) {
         resData.findlyOverViewVisted = true;
@@ -227,7 +234,7 @@ export class AppSelectionService {
         };
         const payload = { "configurations": resData };
         this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
-          console.log("put tour config service done", res)
+          //this.getTourConfig();
         }, errRes => {
           console.log(errRes);
         });

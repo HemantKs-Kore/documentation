@@ -216,6 +216,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     }
     if (event instanceof NavigationEnd) {
+      console.log("event.url", event.url)
+      if (event.url == '/summary') {
+        this.showMainMenu = false;
+      }
       if (event && event.url === '/apps') {
         this.showHideSearch(false);
         this.showHideTopDownSearch(false);
@@ -338,6 +342,9 @@ export class AppComponent implements OnInit, OnDestroy {
     console.log(parms);
     // this.bridgeDataInsights = !parms.data;
     let call = false;
+    if (parms.type == 'onboardingjourney') {
+      this.appSelectionService.updateTourConfig(parms.data);
+    }
     if (parms.type === 'show' && parms.data === true && _self.bridgeDataInsights) {
       _self.bridgeDataInsights = false;
       call = true;

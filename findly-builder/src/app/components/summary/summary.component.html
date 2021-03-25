@@ -29,7 +29,7 @@
 <div class="over-view-config-tour" *ngIf="!showOverview">
   <div class="tour-header">
     <div class="title">Overview</div>
-    <div class="close-tour"><img src="assets/icons/close-white.svg" (click)="showOverview=true"></div>
+    <div class="close-tour"><img src="assets/icons/close-white.svg" (click)="closeOverview()"></div>
   </div>
   <div class="tour-info">Shows the Birds eye view of configurations in your App</div>
   <button class="kr-sg-button-primary btn_lg" (click)="openOnBoardingModal()">Got It</button>
@@ -139,7 +139,7 @@
       <div class="table-data-content col-6">
         <div class="content-sec">
           <div class="title-sec d-flex justify-content-between">
-            <div class="title">Sources | <span style="color:#85B7FE">5 Indices</span></div> 
+            <div class="title">Sources | <span style="color:#85B7FE">{{indexPipeLineCount}} Indices</span></div> 
             <!-- <div class="create_new_link">+ Create New</div> -->
           </div>
           <div class="header-data row m-0">
