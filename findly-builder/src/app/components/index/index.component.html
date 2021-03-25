@@ -1,3 +1,5 @@
+<app-useronboarding-journey #onboard [componentType]='componentType'></app-useronboarding-journey>
+
 <div class="workbench_main_container">
   <div class="mainLoadingSpinner" *ngIf="loadingContent">
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
@@ -752,18 +754,18 @@
           <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
             {{
             (simulteObj.sourceType
-            ? simulteObj.sourceType
+            ? (simulteObj.sourceType == 'faq'? 'FAQs': (simulteObj.sourceType =='object'?'Structure Data':simulteObj.sourceType))
             : "choose_an_option"
             ) | translate
             }}
           </button>
           <ul class="dropdown-menu content-menu">
-            <li (click)="changeSimulate('page', 'source')"><a>Page</a></li>
+            <!-- <li (click)="changeSimulate('page', 'source')"><a>Page</a></li> -->
             <li (click)="changeSimulate('faq', 'source')"><a>FAQs</a></li>
             <li (click)="changeSimulate('content', 'source')">
               <a>Content</a>
             </li>
-            <li (click)="changeSimulate('object', 'source')"><a>Object</a></li>
+            <li (click)="changeSimulate('object', 'source')"><a>Structure Data</a></li>
           </ul>
         </div>
       </div>

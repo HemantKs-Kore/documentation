@@ -153,6 +153,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     readOnly: true,
   };
   simulateJson;
+  componentType: string = 'addData';
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     public workflowService: WorkflowService,
@@ -160,7 +161,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     private notificationService: NotificationService,
     public dialog: MatDialog,
     public authService: AuthService,
-    private appSelectionService:AppSelectionService
+    private appSelectionService: AppSelectionService
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -177,20 +178,20 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     // this.setResetNewMappingsObj();
     // this.addcode({});
     // this.getTraitGroups()
-    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res=>{
+    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadIndexAll()
     })
   }
-  loadIndexAll(){
+  loadIndexAll() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-      if(this.indexPipelineId){
-        this.getSystemStages();
-        this.getIndexPipline();
-        this.getFileds();
-        this.setResetNewMappingsObj();
-        this.addcode({});
-        this.getTraitGroups()
-      }
+    if (this.indexPipelineId) {
+      this.getSystemStages();
+      this.getIndexPipline();
+      this.getFileds();
+      this.setResetNewMappingsObj();
+      this.addcode({});
+      this.getTraitGroups()
+    }
   }
   ngAfterViewInit() {
     const self = this;
@@ -605,6 +606,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.service.invoke('put.indexPipeline', quaryparms, { stages: this.preparepayload() }).subscribe(res => {
         this.pipeline = res.stages || [];
         this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
+        // this.appSelectionService.updateTourConfig('addData');
         this.notificationService.notify('Configurations saved successfully', 'success');
         this.savingConfig = false;
         if (dialogRef && dialogRef.close) {
@@ -1204,6 +1206,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    
   }
 }
 class StageClass {
