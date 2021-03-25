@@ -99,7 +99,6 @@ export class AddResultComponent implements OnInit {
         var id = element.contentId
         $("[custumId="+id+"]").prop('checked', true);
       });
-      
      // $('#viewTypeCheckboxControl').prop('checked', false);
     }
     // if(this.searchType == "all" || this.searchRadioType == "all"){
