@@ -218,7 +218,7 @@ export class AppComponent implements OnInit, OnDestroy {
   navigationInterceptor(event: RouterEvent): void {
     if (event instanceof NavigationStart) {
       // this.showHideSearch(false);
-      this.showHideTopDownSearch(false);
+      // this.showHideTopDownSearch(false);
       this.authService.findlyApps.subscribe((res) => {
         self.loading = true;
         this.appsData = res;
@@ -237,8 +237,8 @@ export class AppComponent implements OnInit, OnDestroy {
       if (event && event.url === '/apps') {
         this.appSelectionService.setPreviousState();
         this.resetFindlySearchSDK(this.workflowService.selectedApp());
-        // this.showHideSearch(false);
-        // this.showHideTopDownSearch(false);
+        this.showHideSearch(false);
+        this.showHideTopDownSearch(false);
         this.selectApp(false);
         console.log('navigated to apps throught navigator and closed preview ball');
       } else {
@@ -554,9 +554,9 @@ export class AppComponent implements OnInit, OnDestroy {
           if ($('#show-all-results-container').attr('isCached') == 'false') {
             $('#show-all-results-container').attr('isCached', 'false');
           }
-          else {
-            $('#show-all-results-container').attr('isCached', 'true');
-          }
+          // else {
+          //   $('#show-all-results-container').attr('isCached', 'true');
+          // }
           $('#show-all-results-container').css('display', 'none');
         }
       }
