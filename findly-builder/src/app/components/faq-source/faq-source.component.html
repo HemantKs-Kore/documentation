@@ -458,17 +458,17 @@
                                                         <div class="bot-response-title col-6">Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div>
                                                         <div class="response-likes-views-sec d-flex col-6">
                                                             <div class="count-sec">
-                                                                <img src="assets/icons/faq/views.svg">872
+                                                                <img src="assets/icons/faq/views.svg">{{selectedFaq.stats.appearances ||0}}
                                                             </div>
                                                             <div class="count-sec">
-                                                                <img src="assets/icons/faq/hand.svg">764
+                                                                <img src="assets/icons/faq/hand.svg">{{selectedFaq.stats.clicks ||0}}
                                                             </div>
                                                             <div class="count-sec">
-                                                                <img src="assets/icons/faq/likes.svg">2
+                                                                <img src="assets/icons/faq/likes.svg">{{selectedFaq.stats.thumbsup ||0}}
                                                             </div>
                                                             <div class="count-sec">
-                                                                <img src="assets/icons/faq/dislikes.svg">0
-                                                            </div>                                                           
+                                                                <img src="assets/icons/faq/dislikes.svg">{{selectedFaq.stats.thumbsdown ||0}}
+                                                            </div>                                                        
                                                         </div>
                                                     </div>
 
@@ -490,34 +490,42 @@
                                                     <div class="bot-response-title col-6">Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.defaultAnswers?selectedFaq._source.defaultAnswers.length:0))}}</span></div>
                                                     <div class="response-likes-views-sec d-flex col-6">
                                                         <div class="count-sec">
-                                                            <img src="assets/icons/faq/views.svg">872
+                                                            <img src="assets/icons/faq/views.svg">{{selectedFaq.stats.appearances ||0}}
                                                         </div>
                                                         <div class="count-sec">
-                                                            <img src="assets/icons/faq/hand.svg">764
+                                                            <img src="assets/icons/faq/hand.svg">{{selectedFaq.stats.clicks ||0}}
                                                         </div>
                                                         <div class="count-sec">
-                                                            <img src="assets/icons/faq/likes.svg">2
+                                                            <img src="assets/icons/faq/likes.svg">{{selectedFaq.stats.thumbsup ||0}}
                                                         </div>
                                                         <div class="count-sec">
-                                                            <img src="assets/icons/faq/dislikes.svg">0
+                                                            <img src="assets/icons/faq/dislikes.svg">{{selectedFaq.stats.thumbsdown ||0}}
                                                         </div>                                                           
                                                     </div>
                                                     <div class="d-flex col-12 conditions-response-block">
                                                         <div class="title">Conditions :</div>
-                                                        <div class="right-content">
-                                                            <div class="added-conditions">
-                                                                <div class="rule-title">WHEN</div>
+                                                        <div class="right-content condition-content" >
+                                                            <div class="added-conditions text-truncate" *ngFor="let rule of consitionalAnswer.conditions; let ruleIndex = index">
+                                                                <div class="rule-title" *ngIf="ruleIndex == 0">WHEN</div>
+                                                                <div class="rule-title" *ngIf="ruleIndex > 0">AND</div>
                                                                 <div class="rule-dropdown-data">
-                                                                    <span class="rule-dropdown-key">SearchContext :</span>
-                                                                    <span class="rule-dropdown-value">RecentSearches</span>
+                                                                    <span class="rule-dropdown-key">{{ "businessRules." + rule.contextType | translate
+                                                                    }} :</span>
+                                                                    <span class="rule-dropdown-value">{{ "businessRules." + rule.contextCategory | translate }}</span>
                                                                 </div>
-                                                                <div class="rule-contains">Contains</div>
-                                                                <div class="rule-value">Credit</div>
-                                                                <div class="or-rule">OR</div>
-                                                                <div class="rule-value">Loan</div>                                                                    
-
+                                                                <div class="rule-contains">{{ rule.operator | titlecase}}</div>
+                                                                <ng-container *ngFor="let value of rule.value | slice : 0 : getSliceValue(rule.value,rule.dataType); let valueIndex = index">
+                                                                    <div class="rule-value" *ngIf="rule.dataType=== 'date'">{{value | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                                                                    <div class="rule-value" *ngIf="rule.dataType!== 'date'">{{value}}</div>
+                                                                    <div class="or-rule" *ngIf="valueIndex < getSliceValue(rule.value,rule.dataType)-1">{{ "or_caps" | translate}}</div>
+                                                                    <!-- <div class="rule-value">Loan</div>                                                                     -->
+                                                                </ng-container>
+                                                                <ng-container *ngIf="rule.value.length>getSliceValue(rule.value,rule.dataType)">
+                                                                    <div class="">....</div>
+                                                                    <!-- <div class="rule-value">Loan</div>                                                                     -->
+                                                                </ng-container>
                                                             </div>
-                                                            <div class="added-conditions">
+                                                            <!-- <div class="added-conditions" >
                                                                 <div class="rule-title">AND</div>
                                                                 <div class="rule-dropdown-data">
                                                                     <span class="rule-dropdown-key">UserContext :</span>
@@ -528,7 +536,7 @@
                                                                 <div class="rule-value">Gold</div>
                                                                 <div class="or-rule">OR</div>
                                                                 <div class="rule-value">Premium</div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                     </div>
                                                 </div>

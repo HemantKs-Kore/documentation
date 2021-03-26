@@ -1283,7 +1283,34 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
   }
-
+  getSliceValue(ruleValue,dataType){
+    // let sliceValue = 0;
+    // if(ruleValue.length){
+    // let columnWidth =200;
+    // // let columnWidth =document.getElementsByClassName('condition-content')[0].clientWidth*(3/4);
+    //   let traitsLength = 0;
+    //     ruleValue.forEach(t => {
+    //       var canvas = document.createElement('canvas');
+    //       var ctx = canvas.getContext("2d");
+    //       ctx.font = "400 10px Roboto";              
+    //       if(dataType !== 'date'){
+    //         var width = ctx.measureText(t.value).width + 36;
+    //       }else{
+    //         var width = ctx.measureText(t.value).width + 95;
+    //       }
+    //     traitsLength = width+ traitsLength;
+    //     if(columnWidth<traitsLength){
+    //       console.log(traitsLength,283);
+    //       return sliceValue;
+    //     }else{
+    //       sliceValue = sliceValue +1;
+    //     }
+    //   })
+    // }
+  
+    // return sliceValue;
+    return 2;
+  }
   checkExportFaq() {
     const queryParms = {
       searchIndexId: this.workflowService.selectedSearchIndexId
