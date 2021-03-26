@@ -627,8 +627,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
       this.loadingContent = false;
-      this.customizeList = res;
-      if (res.length > 0) {
+      this.customizeList = res.data;
+      if (res.data.length > 0) {
         this.nextPage = true; this.loadingContent = false;
         this.headerService.fromResultRank(false);
       }
@@ -636,8 +636,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         this.nextPage = false; this.loadingContent = false;
         this.headerService.fromResultRank(true);
       }
-      this.customizeListBack = [...res];
-      this.totalRecord = res.length
+      this.customizeListBack = [...res.data];
+      this.totalRecord = res.total || res.data.length
       if(this.selectedRecord._id){
         this.customizeList.forEach((element, index) => {
           if(this.selectedRecord._id == element._id){
@@ -658,7 +658,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         this.customizeLog = [];
         this.actionLogData = [];
       }
-      if (res.length > 0) {
+      if (res.data.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
       }
