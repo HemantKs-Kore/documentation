@@ -1206,6 +1206,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    
   }
 }
 class StageClass {

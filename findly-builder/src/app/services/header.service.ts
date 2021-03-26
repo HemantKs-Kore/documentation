@@ -9,8 +9,11 @@ export class SideBarService {
   @Output() resultRankData: EventEmitter<any> = new EventEmitter();
   @Output() resetSearchConfiguration: EventEmitter<any> = new EventEmitter();
   @Output() openFaqExtractsFromDocker: EventEmitter<any> = new EventEmitter();
+  @Output() showHideMainMenu : EventEmitter<any> = new EventEmitter();
   isOnboardingPage = false;
   searchConfiguration: any;
+  isSDKCached: boolean = false;
+  isSDKOpen: boolean = false;
   toggle(data) {
     this.change.next(data);
   }
@@ -33,5 +36,9 @@ export class SideBarService {
 
   openFaqExtracts() {
     this.openFaqExtractsFromDocker.next();
+  }
+
+  updateShowHideMainMenu(data){
+    this.showHideMainMenu.next(data);
   }
 }

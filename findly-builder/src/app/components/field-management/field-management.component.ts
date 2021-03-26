@@ -484,6 +484,13 @@ export class FieldManagementComponent implements OnInit {
       }
     });
 
-    this.filelds = JSON.parse(JSON.stringify(tempFields));
+  this.filelds = JSON.parse(JSON.stringify(tempFields));
+}
+  ngOnDestroy() {
+    const self = this;
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    
   }
 }
