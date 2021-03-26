@@ -29,9 +29,14 @@
         findlyConfig.botOptions.assertionFn=getJWT;
         
         var fSdk = new FindlySDK(findlyConfig);
-
-        fSdk.showSearch();
-        // getJWT(findlyConfig.botOptions).then(function (res) {
+        fSdk.initialize(findlyConfig);
+        if (window.location && window.location.href && window.location.href.includes('#futurebankhome')){
+            fSdk.showSearch(null, true);
+            fSdk.configureSearchAvatar({avatarURL : 'libs/images/avatar.png'});
+        }
+        else{
+            fSdk.showSearch();
+        }        // getJWT(findlyConfig.botOptions).then(function (res) {
         //     //fSdk.setJWT(res.jwt);
         //     fSdk.showSearch();
         // }, function (errRes) {
