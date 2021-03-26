@@ -10467,8 +10467,8 @@ input:checked + .custom-slider:before {
     position: relative;
     /* height: 100%; */
     height: fit-content;
-    /* max-height: 300px; */
-    /* overflow: auto; */
+    max-height: 300px;
+    overflow: auto;
     width: 100%;
     background: #f8f9fa;
     padding: 0;
