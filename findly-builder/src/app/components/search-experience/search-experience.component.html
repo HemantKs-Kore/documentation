@@ -4,13 +4,13 @@
     <div class="tabs-sec">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{'active':selectedTab==='experience'}" data-toggle="tab"><span class="active-steps" [ngStyle]="show_tab_color?{'background':'#0D6EFD','color':'white'}:{}">1</span><span class="name">Experience</span></a>
+              <a class="nav-link" [ngClass]="{'active':selectedTab==='experience'}" data-toggle="tab"><span class="active-steps" [ngStyle]="show_tab_color?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">1</span><span class="name">Experience</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{'active':selectedTab==='searchwidget'}" data-toggle="tab"><span class="active-steps" [ngStyle]="show_tab_color1?{'background':'#0D6EFD','color':'white'}:{}">2</span><span class="name">Search Widget</span></a>
+              <a class="nav-link" [ngClass]="{'active':selectedTab==='searchwidget'}" data-toggle="tab"><span class="active-steps" [ngStyle]="show_tab_color1?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">2</span><span class="name">Search Widget</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{'active':selectedTab==='interactions'}" data-toggle="tab" ><span class="active-steps" [ngStyle]="show_tab_color2?{'background':'#0D6EFD','color':'white'}:{}">3</span><span class="name">Interactions</span></a>
+              <a class="nav-link" [ngClass]="{'active':selectedTab==='interactions'}" data-toggle="tab" ><span class="active-steps" [ngStyle]="show_tab_color2?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">3</span><span class="name">Interactions</span></a>
             </li>
         </ul>
         <perfect-scrollbar class="scroll-data">
@@ -50,7 +50,11 @@
                             <img [src]="searchIcon" class="search-icon" [ngClass]="{'activeBox':selectSearch=='inputIcon'}" (click)="selectSearchBox('inputIcon');$event.stopPropagation();" height="15" width="15">
                             <input #elasticInput class="placeholder-custom-search" value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}" placeholder="search" (click)="selectSearchBox('placeholderText');$event.stopPropagation()" [ngClass]="{'activeBox':selectSearch=='placeholderText'}" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor,'width.px': width}" #data (change)="onEventLog('placeholderText',data.value);" (input)="resize()"> 
                             <span #hiddenText style="visibility: hidden; white-space: pre;">{{elasticInput.value}}</span>
-                        </div>                        
+                            <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn"  (click)="selectSearchBox('button')" [ngClass]="{'activeBox':selectSearch=='button','added-tour':tourGuide==='step4'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled">
+                                <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
+                                <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled"><img src="assets/icons/search-experience/edit.svg"></div>
+                            </button>  
+                        </div>                                             
                         <button class="btn-customize kr-sg-button-primary read-mode btn_lg"  (click)="selectSearchBox('button')" [ngClass]="{'activeBox':selectSearch=='button','added-tour':tourGuide==='step4'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled">
                             <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
                             <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled"><img src="assets/icons/search-experience/edit.svg"></div>
@@ -222,9 +226,24 @@
                                 <input type="checkbox" [(ngModel)]="searchObject.searchWidgetConfig.searchButtonEnabled">
                                 <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                             </label>
+
+                            <div class="group-radiobutton mt-3 pt-1">
+                                <div class="label_text">Button Placement</div>
+                                <div class="kr-sg-radiobutton">
+                                    <input id="radio-221" name="radio" class="radio-custom" type="radio">
+                                    <label for="radio-221" class="radio-custom-label">Outside Search box</label>
+                                </div>
+                                <div class="kr-sg-radiobutton">
+                                    <input id="radio-232" name="radio" class="radio-custom" type="radio">
+                                    <label for="radio-232" class="radio-custom-label">Inside Search box</label>
+                                </div>
+                            </div> 
+
+                            
                             <div class="kr-sg-input-text">
                                 <div class="label-text">Button Text</div>
                                 <input type="text" placeholder="Enter Name" class="input-text" [(ngModel)]="searchObject.searchWidgetConfig.buttonText" [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)">                            
+                                <div class="button-text-count">0/6</div>
                             </div>
                             <div class="fill-colors-block">
                                 <div class="fill-color">
@@ -372,21 +391,23 @@
                                 <div class="count-length">{{box.value.length}} / 40</div>
                             </div>
                         </div>
-                        <div class="group-radiobutton border-with-padding">
+                        <div class="border-with-padding">
                             <div class="heading-title">Show Searches</div>
                             <label class="kr-sg-toggle">                                       
                                 <input type="checkbox" [(ngModel)]="searchObject.searchInteractionsConfig.showSearchesEnabled">
                                 <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                             </label>
-                            <br/>
-                            <div class="kr-sg-radiobutton" style="padding-top: 10px;">
-                                <input id="radio-22" name="radio" class="radio-custom" type="radio" value="frequent" [checked]="searchObject.searchInteractionsConfig.showSearches=='Frequent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches" [disabled]="!searchObject.searchInteractionsConfig.showSearchesEnabled">
-                                <label for="radio-22" class="radio-custom-label">Frequent</label>
-                            </div>
-                            <div class="kr-sg-radiobutton">
-                                <input id="radio-23" name="radio" class="radio-custom" type="radio" value="recent" [checked]="searchObject.searchInteractionsConfig.showSearches=='recent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches" [disabled]="!searchObject.searchInteractionsConfig.showSearchesEnabled">
-                                <label for="radio-23" class="radio-custom-label">Recent</label>
-                            </div>
+                       
+                            <div class="group-radiobutton mt-3">
+                                <div class="kr-sg-radiobutton">
+                                    <input id="radio-22" name="radio" class="radio-custom" type="radio" value="frequent" [checked]="searchObject.searchInteractionsConfig.showSearches=='Frequent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches" [disabled]="!searchObject.searchInteractionsConfig.showSearchesEnabled">
+                                    <label for="radio-22" class="radio-custom-label">Frequent</label>
+                                </div>
+                                <div class="kr-sg-radiobutton">
+                                    <input id="radio-23" name="radio" class="radio-custom" type="radio" value="recent" [checked]="searchObject.searchInteractionsConfig.showSearches=='recent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches" [disabled]="!searchObject.searchInteractionsConfig.showSearchesEnabled">
+                                    <label for="radio-23" class="radio-custom-label">Recent</label>
+                                </div>
+                            </div>                            
                         </div>
                         <div class="border-with-padding">                                                                     
                             <div class="label_text">Autocomplete</div>
