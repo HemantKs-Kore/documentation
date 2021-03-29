@@ -16716,7 +16716,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         data['structuredData'] = [];
         data['structuredData'] = documents;
         // for documents no Customize option
-        var viewType = 'Preview';
+        var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
         var devMode = _self.isDev ? true : false;
 
         if (viewType === 'Customize' && devMode && data.isFullResults) {
