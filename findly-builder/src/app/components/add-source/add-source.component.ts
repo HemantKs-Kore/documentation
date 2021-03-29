@@ -629,6 +629,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic";
       this.importFaq();
+      schdVal = false;
     }
     if (this.selectedSourceType.annotate && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
       quaryparms.faqType = 'document';
@@ -1149,6 +1150,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       // streamId: this.streamId,
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
+      console.log("imp faq res", res)
       this.dock.trigger()
     },
       errRes => {

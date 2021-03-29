@@ -404,6 +404,13 @@
                         text-align: center;
                         right: 0;
                         top: 0;
+                        .icon-text{
+                            font-size: 12px;
+                            line-height: 18px;
+                            color:#07377F;
+                            margin-left: -8px;
+                            margin-right: -10px;
+                        }
                         .title{
                             position: absolute;
                             bottom: 28px;
@@ -430,6 +437,7 @@
                             cursor: pointer;
                             padding: 0;
                             border: 0;
+                            margin-bottom: 10px;
                         }
                     }
                 }

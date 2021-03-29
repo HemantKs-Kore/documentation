@@ -50,12 +50,12 @@
                             <img [src]="searchIcon" class="search-icon" [ngClass]="{'activeBox':selectSearch=='inputIcon'}" (click)="selectSearchBox('inputIcon');$event.stopPropagation();" height="15" width="15">
                             <input #elasticInput class="placeholder-custom-search" value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}" placeholder="search" (click)="selectSearchBox('placeholderText');$event.stopPropagation()" [ngClass]="{'activeBox':selectSearch=='placeholderText'}" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor,'width.px': width}" #data (change)="onEventLog('placeholderText',data.value);" (input)="resize()"> 
                             <span #hiddenText style="visibility: hidden; white-space: pre;">{{elasticInput.value}}</span>
-                            <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn"  (click)="selectSearchBox('button')" [ngClass]="{'activeBox':selectSearch=='button','added-tour':tourGuide==='step4'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled">
+                            <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn"  (click)="selectSearchBox('button')" [ngClass]="{'activeBox':selectSearch=='button','added-tour':tourGuide==='step4'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled" *ngIf="(searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='inside')||searchObject.searchExperienceConfig.searchBarPosition==='bottom'">
                                 <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
                                 <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled"><img src="assets/icons/search-experience/edit.svg"></div>
                             </button>  
                         </div>                                             
-                        <button class="btn-customize kr-sg-button-primary read-mode btn_lg"  (click)="selectSearchBox('button')" [ngClass]="{'activeBox':selectSearch=='button','added-tour':tourGuide==='step4'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled">
+                        <button class="btn-customize kr-sg-button-primary read-mode btn_lg"  (click)="selectSearchBox('button')" [ngClass]="{'activeBox':selectSearch=='button','added-tour':tourGuide==='step4'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled" *ngIf="searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='outside'">
                             <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
                             <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled"><img src="assets/icons/search-experience/edit.svg"></div>
                         </button>
@@ -186,6 +186,7 @@
                             <div class="input-file">
                                 <div class="title">Drag and drop or <span class="browse">browse</span></div>
                                 <input type="file" name="avatar"  (change)="selectIcon($event,'searchIcon','auto')"/>
+                                <span class="icon-text"><img src="assets/icons/info.svg"> Recommended icon size : 26X26 pixels</span>
                             </div>
                         </div>
                         <div class="fill-colors-block" *ngSwitchCase="'placeholderText'">
@@ -227,14 +228,14 @@
                                 <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                             </label>
 
-                            <div class="group-radiobutton mt-3 pt-1">
+                            <div class="group-radiobutton mt-3 pt-1" *ngIf="searchObject.searchExperienceConfig.searchBarPosition==='top'">
                                 <div class="label_text">Button Placement</div>
                                 <div class="kr-sg-radiobutton">
-                                    <input id="radio-221" name="radio" class="radio-custom" type="radio">
+                                    <input id="radio-221" name="radio" class="radio-custom" type="radio" value='outside' [checked]="searchObject.searchWidgetConfig.buttonPlacementPosition=='outside'" [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)" [(ngModel)]="searchObject.searchWidgetConfig.buttonPlacementPosition">
                                     <label for="radio-221" class="radio-custom-label">Outside Search box</label>
                                 </div>
                                 <div class="kr-sg-radiobutton">
-                                    <input id="radio-232" name="radio" class="radio-custom" type="radio">
+                                    <input id="radio-232" name="radio" class="radio-custom" type="radio" value='inside' [checked]="searchObject.searchWidgetConfig.buttonPlacementPosition=='inside'" [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)" [(ngModel)]="searchObject.searchWidgetConfig.buttonPlacementPosition">
                                     <label for="radio-232" class="radio-custom-label">Inside Search box</label>
                                 </div>
                             </div> 
@@ -242,8 +243,8 @@
                             
                             <div class="kr-sg-input-text">
                                 <div class="label-text">Button Text</div>
-                                <input type="text" placeholder="Enter Name" class="input-text" [(ngModel)]="searchObject.searchWidgetConfig.buttonText" [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)">                            
-                                <div class="button-text-count">0/6</div>
+                                <input type="text" maxlength="6" #butttonText (keyup)="0" placeholder="Enter Name" class="input-text" [(ngModel)]="searchObject.searchWidgetConfig.buttonText" [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)">                            
+                                <div class="button-text-count">{{butttonText.value.length}}/6</div>
                             </div>
                             <div class="fill-colors-block">
                                 <div class="fill-color">
@@ -474,8 +475,11 @@
                     <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
                     <img [src]="searchIcon" class="search-icon" height="15" width="15">
                      <span class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
+                     <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="(searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='inside')||searchObject.searchExperienceConfig.searchBarPosition==='bottom'">
+                        <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
+                    </button>  
                 </div>
-                <button class="btn-customize kr-sg-button-primary read-mode btn_lg" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}">
+                <button class="btn-customize kr-sg-button-primary read-mode btn_lg" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='outside'">
                     <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
                     <!-- <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled">
                         <img src="assets/icons/search-experience/edit.svg">

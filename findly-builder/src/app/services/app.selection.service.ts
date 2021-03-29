@@ -200,8 +200,8 @@ export class AppSelectionService {
   public updateTourConfig(component) {
     let callApi: boolean;
     const userInfo: any = this.authService.getUserInfo();
-    if (component == 'overview' && !this.getTourArray.findlyOverViewVisted) {
-      this.getTourArray.findlyOverViewVisted = true;
+    if (component == 'overview' && !this.getTourArray.findlyOverviewVisted) {
+      this.getTourArray.findlyOverviewVisted = true;
       callApi = true;
     }
     else if (component == 'addData' && !this.getTourArray.onBoardingChecklist[0].addDataVisited) {
@@ -237,7 +237,6 @@ export class AppSelectionService {
       this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
         this.getTourConfigData.next(this.getTourArray);
         let count = 0;
-        count = this.getTourArray.findlyOverViewVisted ? 1 + count : 0;
         const stepsData = this.getTourArray.onBoardingChecklist;
         for (let key in stepsData) {
           for (let key1 in stepsData[key]) {
@@ -246,7 +245,7 @@ export class AppSelectionService {
             }
           }
         }
-        if (count == 7) {
+        if (count == 6) {
           this.tourConfigCancel.next({ name: undefined, status: 'completed' });
         }
       }, errRes => {
