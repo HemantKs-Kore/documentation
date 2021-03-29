@@ -13617,3 +13617,8 @@ button.search-button:disabled {
     float: right;
     margin-right: 30px;
 }
+
+.custom-header-container-right .refresh-sdk{
+    margin-right: 24px;
+    cursor: pointer;
+}

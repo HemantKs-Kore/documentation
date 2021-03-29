@@ -1139,6 +1139,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="custom-header-container-right">\
                 <img class="custom-refresh-icon display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAMCAYAAABr5z2BAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBxZLBDYAgDEW/TsIobgabOIJxAnQC3ahWJbFok/YkL3kXKJ8GCjwENrNkuJXai14ETOzKdoYzO0KB4Ie0Dn4hoX6PJDcH+Eja4VgWoy+jviy+2vKGfGjzCzJgga/9s2bXNgLuMbVGOUOM8gGN7ylbkPg3iwAAAABJRU5ErkJggg==">\
                 <img class="custom-expand-icon display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABVSURBVHgBvZLLDQAhCEQfHdHZ2vGWwm6MGiVq1IOTcOAzZPgIYLQQ5/t8DLy/KWNoqrFM0AmpzhUCA5KPWa9bqPzAXOoFeEkPHUnbQx+tdflwwuZrfGu+IKjlYgIIAAAAAElFTkSuQmCC">\
+                <img class="refresh-sdk" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAExSURBVHgBpVPtVYNAEJyTK8ASLoH8xwrEDrADO0gJiR1oBSYVhA5CKhB/q48rwQIk6xxcgCToS8y+d49luZnZL4ALTQ0FjTHXQJDwc9xEpACq3Fr7dXj36gg8nkyhdEnwtJOhr4JXM45mXoAWps7X++DwBVsxwPcN1exBVozrFUliiPCoJcOZ7sBk38JY+3GHAXOE5LgnSdmvXLc1izywzkFwZwGV8ehf8l56YWpMtMY/zDex7vbmVJAxk9gd5/seqAxnmaTeKWoCa98LnGMKt+zZc5sB60/4SDw7+/25+A3bjNONuspbghqsMGvw1Qh/qusVJ7HcbWVvE8WSJHMXGpVjZTPipETeuCvzXdxnwF2XamFLtyzRnGu75mVLpU1bM1DvAMt72ksIw3We/DNdbD/vVnBY9mClrAAAAABJRU5ErkJggg==">\
                 <img class="kore-search-container-close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
               </div>\
             </div>\
@@ -13140,13 +13141,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         });
       });
 
+      $('.refresh-sdk').off('click').on('click', function (e) {
+        $('#show-all-results-container').hide();
+        _self.vars.selectedFacetFromSearch = "all results"
+        var responseObject = { 'type': 'refreshSearchContainer', data: false, query: _self.vars.searchObject.searchText, bottomUp: true }
+        _self.parentEvent(responseObject);
+      });
       $('.kore-search-container-close-icon').off('click').on('click', function (e) {
         $('#show-all-results-container').hide();
         _self.vars.selectedFacetFromSearch = "all results"
-        if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
-          var responseObject = { 'type': 'closeSearchContainer', data: false, query: _self.vars.searchObject.searchText, bottomUp: true }
-          _self.parentEvent(responseObject);
-        }
+        var responseObject = { 'type': 'closeSearchContainer', data: false, query: _self.vars.searchObject.searchText, bottomUp: true }
+        _self.parentEvent(responseObject);
       });
       if (!$('body').hasClass('top-down')) {
         if (searchConfigurationCopy.searchBarPlaceholderTextColor && searchConfigurationCopy.searchBarPlaceholderTextColor.length) {

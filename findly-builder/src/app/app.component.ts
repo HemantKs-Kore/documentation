@@ -406,6 +406,12 @@ export class AppComponent implements OnInit, OnDestroy {
         this.showHideTopDownSearch(false);
       }
     }
+    
+    if (parms.type === 'refreshSearchContainer' && parms.data === false) {
+      if (parms.bottomUp) {
+        this.refreshSDK();
+      }
+    }
   }
   closeResultBody(event) {
     const bridgeObj = { type: 'addNew', data: false, query: null }
@@ -569,6 +575,13 @@ export class AppComponent implements OnInit, OnDestroy {
       this.headerService.isSDKCached = true;
       this.headerService.isSDKOpen = false;
     }
+  }
+
+  refreshSDK(){
+    this.showHideSearch(false);
+    setTimeout(() =>{
+      this.showHideSearch(true);
+    }, 200);
   }
 
   // click event on whole body. For now, using for Status Docker
