@@ -263,10 +263,10 @@
                                                     <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'number')">
                                                         <ng-container *ngFor="let value of ruleObj.value; let index = index">
                                                             <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
-                                                                <span class="mat-val" *ngIf="value && value.length && ruleObj.operator == 'between'">
+                                                                <span class="mat-val" *ngIf="value && value.length && checkIsArray(value)">
                                   <span *ngFor="let num of value; let numIndex = index">{{num}}<span *ngIf="!numIndex"> - </span></span>
                                                                 </span>
-                                                                <span class="mat-val" *ngIf="value && ruleObj.operator !== 'between'">
+                                                                <span class="mat-val" *ngIf="value && !checkIsArray(value)">
                                   <span >{{value}}</span>
                                                                 </span>
                                                                 <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
@@ -274,7 +274,7 @@
                                                             <span>OR</span>
                                                         </ng-container>
                                                     </ng-container>
-                                                    <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator !== 'between')">
+                                                    <!-- <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator !== 'between')">
                                                         <ng-container *ngFor="let value of ruleObj.value; let index = index">
                                                             <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
                                                                 <span class="mat-val" *ngIf="value">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
@@ -296,8 +296,22 @@
                                                             </mat-chip>
                                                             <span>OR</span>
                                                         </ng-container>
+                                                    </ng-container> -->
+                                                    <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date')">
+                                                        <ng-container *ngFor="let value of ruleObj.value; let index = index">
+                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
+                                                                <span class="mat-val" *ngIf="value && value.length && checkIsArray(value)">
+                                                                    <span *ngFor="let date of value; let dateIndex = index">
+                                                                        {{date | dateFormatPipe: 'DD MMM YYYY'}} <span *ngIf="!dateIndex"> - </span>
+                                                                    </span>
+                                                                </span>
+                                                                <span class="mat-val" *ngIf="value  && !checkIsArray(value)">{{value | dateFormatPipe: 'DD MMM
+                                                                    YYYY'}}</span>
+                                                                <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
+                                                            </mat-chip>
+                                                            <span>OR</span>
+                                                        </ng-container>
                                                     </ng-container>
-
                                                     <ng-container *ngIf="(ruleObj.dataType != 'date') && (ruleObj.dataType != 'number')">
                                                         <input placeholder="Type Keyword" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" suggestedInput/>
                                                     </ng-container>
