@@ -194,7 +194,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   structuredData: any = {};
   structuredDataStatusModalRef: any;
   structuredDataDocPayload: any;
-
+  selectExtractType: string = 'file';
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -553,6 +553,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.notificationService.notify('File uploaded successfully', 'success');
         this.selectedSourceType.resourceAdded = true;
         //  this.selectedSourceType.resourceType = 'webdomain';
+        $(".drag-drop-sec").css("border-color", "#BDC1C6");
       },
       errRes => {
         this.fileObj.fileUploadInProgress = false;
@@ -611,6 +612,57 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.notificationService.notify('Duplicate name, try again!', 'error');
       }
     });
+  }
+  //change extract type
+  selectExtract(type) {
+    this.selectExtractType = type;
+    if (type == 'file') {
+      $("#extractUrl").css("border-color", "#BDC1C6");
+      $("#infoWarning1").hide();
+    }
+    else if (type == 'url') {
+      $(".drag-drop-sec").css("border-color", "#BDC1C6");
+    }
+  }
+  //form validation
+  validateSource() {
+    if (this.newSourceObj.name) {
+      if (this.selectExtractType == 'file') {
+        if (this.fileObj.fileId) {
+          this.proceedSource()
+        }
+        else {
+          $(".drag-drop-sec").css("border-color", "#DD3646");
+          this.notificationService.notify('Please upload the file to continue', 'error');
+        }
+      }
+      else if (this.selectExtractType == 'url') {
+        if (this.newSourceObj.url) {
+          this.proceedSource()
+        }
+        else {
+          $("#extractUrl").css("border-color", "#DD3646");
+          $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+          this.notificationService.notify('Enter the required fields to proceed', 'error');
+        }
+      }
+    }
+    else {
+      $("#addSourceTitleInput").css("border-color", "#DD3646");
+      $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
+  }
+  //track changing of input
+  inputChanged(type) {
+    if (type == 'title') {
+      this.newSourceObj.name != '' ? $("#infoWarning").hide() : $("#infoWarning").show();
+      $("#addSourceTitleInput").css("border-color", this.newSourceObj.name != '' ? "#BDC1C6" : "#DD3646");
+    }
+    else if (type == 'extractURL') {
+      this.newSourceObj.url != '' ? $("#infoWarning1").hide() : $("#infoWarning1").show();
+      $("#extractUrl").css("border-color", this.newSourceObj.url != '' ? "#BDC1C6" : "#DD3646");
+    }
   }
   proceedSource() {
     let payload: any = {};
