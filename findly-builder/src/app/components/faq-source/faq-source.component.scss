@@ -766,11 +766,21 @@
                                         width: auto;
                                     }
                                     .right-content{
+                                        max-width: 80%;
+                                        position: relative;
+                                        &.if-lenthfour{
+                                            &::before{
+                                                content: "...";
+                                                position: absolute;
+                                                right: -15px;
+                                            }
+                                        }                                        
                                         .added-conditions{
                                             display: flex;
                                             align-items: center;
                                             padding-left: 10px;
                                             margin-bottom: 10px;
+                                            position: relative;                                            
                                             &:last-child{
                                                 margin: 0;
                                             }
@@ -789,6 +799,11 @@
                                                 display: flex;
                                                 align-items: center;
                                                 margin: 0 12px 0 9px;
+                                                overflow: hidden;
+                                                text-overflow: ellipsis;
+                                                white-space: nowrap;
+                                                max-width: 140px;
+                                                flex-shrink: 0;
                                                 .rule-dropdown-key{
                                                     color: #BDC1C6;
                                                     font-weight: 500;
@@ -800,6 +815,9 @@
                                                     font-weight: 500;
                                                     font-size: 10px;
                                                     line-height: 12px;
+                                                    overflow: hidden;
+                                                    text-overflow: ellipsis;
+                                                    white-space: nowrap;
                                                 }
                                             }
                                             .rule-contains{
@@ -819,6 +837,8 @@
                                                 height: 16px;
                                                 padding: 1px 6px;
                                                 margin: 0 4px;
+                                                max-width: 90px;
+                                                flex-shrink: 0;
                                             }
                                             .or-rule{
                                                 color: #9AA0A6;
@@ -1580,7 +1600,4 @@
 }
 .blur-content{
     opacity: 0.01;
-}
-.condition-content{
-    width: 86%;
 }

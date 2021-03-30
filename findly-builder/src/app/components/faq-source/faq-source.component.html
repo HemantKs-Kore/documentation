@@ -504,26 +504,22 @@
                                                     </div>
                                                     <div class="d-flex col-12 conditions-response-block">
                                                         <div class="title">Conditions :</div>
-                                                        <div class="right-content condition-content" >
+                                                        <div class="right-content condition-content">
+                                                            <!-- if-lenthfour -->
                                                             <div class="added-conditions text-truncate" *ngFor="let rule of consitionalAnswer.conditions; let ruleIndex = index">
                                                                 <div class="rule-title" *ngIf="ruleIndex == 0">WHEN</div>
                                                                 <div class="rule-title" *ngIf="ruleIndex > 0">AND</div>
                                                                 <div class="rule-dropdown-data">
-                                                                    <span class="rule-dropdown-key">{{ "businessRules." + rule.contextType | translate
-                                                                    }} :</span>
-                                                                    <span class="rule-dropdown-value">{{ "businessRules." + rule.contextCategory | translate }}</span>
+                                                                    <span class="rule-dropdown-key">{{ "businessRules." + rule.contextType | translate}} :</span>
+                                                                    <span class="rule-dropdown-value" title='{{ "businessRules." + rule.contextCategory | translate }}'>{{ "businessRules." + rule.contextCategory | translate }}</span>
                                                                 </div>
                                                                 <div class="rule-contains">{{ rule.operator | titlecase}}</div>
-                                                                <ng-container *ngFor="let value of rule.value | slice : 0 : getSliceValue(rule.value,rule.dataType); let valueIndex = index">
-                                                                    <div class="rule-value" *ngIf="rule.dataType=== 'date'">{{value | dateFormatPipe: 'DD MMM YYYY'}}</div>
-                                                                    <div class="rule-value" *ngIf="rule.dataType!== 'date'">{{value}}</div>
-                                                                    <div class="or-rule" *ngIf="valueIndex < getSliceValue(rule.value,rule.dataType)-1">{{ "or_caps" | translate}}</div>
+                                                                <ng-container *ngFor="let value of rule.value; let valueIndex = index">
+                                                                    <div class="rule-value text-truncate" *ngIf="rule.dataType=== 'date'" title="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                                                                    <div class="rule-value text-truncate" *ngIf="rule.dataType!== 'date'" title="{{value}}">{{value}}</div>
+                                                                    <div class="or-rule" *ngIf="valueIndex < rule.value.length -1">{{ "or_caps" | translate}}</div>
                                                                     <!-- <div class="rule-value">Loan</div>                                                                     -->
-                                                                </ng-container>
-                                                                <ng-container *ngIf="rule.value.length>getSliceValue(rule.value,rule.dataType)">
-                                                                    <div class="">....</div>
-                                                                    <!-- <div class="rule-value">Loan</div>                                                                     -->
-                                                                </ng-container>
+                                                                </ng-container>                                                              
                                                             </div>
                                                             <!-- <div class="added-conditions" >
                                                                 <div class="rule-title">AND</div>
