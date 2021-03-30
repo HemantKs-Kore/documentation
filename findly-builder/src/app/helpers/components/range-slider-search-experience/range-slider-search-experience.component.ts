@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ViewEncapsulation, AfterViewInit, Output, EventEmitter } from '@angular/core';
 declare const $: any;
-
 @Component({
   selector: 'app-range-slider-search-experience',
   templateUrl: './range-slider-search-experience.component.html',
@@ -13,13 +12,10 @@ export class RangeSliderSearchExperienceComponent implements OnInit {
   @Output() valueEvent = new EventEmitter();
   sliderUpdatedVal: number;
   sliderRet: any;
-  data: any = []
-  constructor() {
-  }
+  constructor() { }
 
   ngAfterViewInit() {
-
-    this.sliderRet = this.registerSlider('#' + this.allData.id, { tooltip: 'always', tooltip_position: 'top' })
+    this.sliderRet = this.registerSlider('#' + this.allData.id, { tooltip: 'always', tooltip_position: 'bottom' })
     this.sliderRet.bootstrapSlider('setValue', this.allData.default);
     this.formatTooltip(this.allData.default);
   }
