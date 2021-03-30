@@ -55,7 +55,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   useCookies = true;
   respectRobotTxtDirectives = true;
   crawlBeyondSitemaps = false;
-  isJavaScriptRendered = false;
+  isJavaScriptRendered = true;
   blockHttpsMsgs = false;
   crwalOptionLabel = "Crawl Everything";
   crawlDepth: number;

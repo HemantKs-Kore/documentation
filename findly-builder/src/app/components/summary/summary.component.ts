@@ -119,7 +119,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.headerService.toggle(toogleObj);
     //this.appSelectionService.getTourConfig()
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
-      this.showOverview = res.findlyOverviewVisted;
+      this.showOverview = res.findlyOverviewVisited;
     })
     this.getSummary();
     this.getQueries("TotalUsersStats");
