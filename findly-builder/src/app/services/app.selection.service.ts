@@ -200,8 +200,8 @@ export class AppSelectionService {
   public updateTourConfig(component) {
     let callApi: boolean;
     const userInfo: any = this.authService.getUserInfo();
-    if (component == 'overview' && !this.getTourArray.findlyOverviewVisted) {
-      this.getTourArray.findlyOverviewVisted = true;
+    if (component == 'overview' && !this.getTourArray.findlyOverviewVisited) {
+      this.getTourArray.findlyOverviewVisited = true;
       callApi = true;
     }
     else if (component == 'addData' && !this.getTourArray.onBoardingChecklist[0].addDataVisited) {

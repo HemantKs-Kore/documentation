@@ -108,6 +108,7 @@ import { SearchExperienceComponent } from './components/search-experience/search
 import { UseronboardingJourneyComponent } from './helpers/components/useronboarding-journey/useronboarding-journey.component';
 import { ActionsComponent } from './components/actions/actions.component';
 import { SmallTalkComponent } from './components/small-talk/small-talk.component';
+import { RangeSliderSearchExperienceComponent } from './helpers/components/range-slider-search-experience/range-slider-search-experience.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -184,7 +185,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SearchExperienceComponent,
     UseronboardingJourneyComponent,
     ActionsComponent,
-    SmallTalkComponent
+    SmallTalkComponent,
+    RangeSliderSearchExperienceComponent
   ],
   imports: [
     BrowserModule,

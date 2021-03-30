@@ -793,4 +793,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
+  checkIsArray(value){
+    if(Array.isArray(value)){
+      return true;
+    }else{
+      return false;
+    }
+  }
 }
