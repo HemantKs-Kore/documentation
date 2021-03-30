@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-4 sliderContainer">
                             <div class="range-slider">
-                                <app-range-slider [customClass]='"weightsSlider"' [allData]='weightModal.sliderObj' (valueEvent)="valueEvent($event,weightModal)"></app-range-slider>
+                                <app-range-slider [customClass]='"weightsSlider"'  placement="top-center" container='body' ngbTooltip="{{weightModal.sliderObj.default}}" [allData]='weightModal.sliderObj' (valueEvent)="valueEvent($event,weightModal)"></app-range-slider>
                             </div>
                             <div class="sliderVal">{{weightModal.sliderObj.default}}</div>
                             <div class="action_links" *ngIf="weightModal.isField  && (currentEditIndex !== i)">
@@ -104,7 +104,7 @@
                 <div class="label-text">{{'weights.set_weight'| translate}}</div>
                 <div class="d-flex m-0 slider_sec">
                     <div class="range_slider">
-                        <app-range-slider [customClass]='"weightsSlider"' [allData]='addEditWeighObj.sliderObj' (valueEvent)="valueEvent($event,addEditWeighObj)"></app-range-slider>
+                        <app-range-slider [customClass]='"weightsSlider"'  placement="top-center" container='body' ngbTooltip="{{addEditWeighObj.sliderObj.default}}" [allData]='addEditWeighObj.sliderObj' (valueEvent)="valueEvent($event,addEditWeighObj)"></app-range-slider>
                     </div>
                     <div class="sliderVal" >{{addEditWeighObj.sliderObj.default}}</div>
                 </div>

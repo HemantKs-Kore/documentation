@@ -84,6 +84,11 @@
     "array": "Array",
     "object": "Object",
     "test" : "Test",
+    "botAction":{
+        "disable":"Disable",
+        "enable":"Enable",
+        "tasksSelected":"Tasks Selected"
+    },
     "businessRules": {
         "rules_selected": "Rules Selected",
         "all_rules_selected": "All Rules Selected",

@@ -714,3 +714,7 @@
     top: 12px;
     cursor: pointer;
 }
+.kr-sg-dropdowns.disabled .dropdown-open .dropdown-input {
+    background-color: #EFF0F1 !important;
+    border: 1px solid #EFF0F1 !important;
+}
