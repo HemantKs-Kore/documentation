@@ -1025,7 +1025,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{if hideSearchIcon}}\
               style="position: absolute; bottom: 0px; color:#8a959f;">\
             {{else}}\
-              style="position: absolute; bottom: 0px; color:#8a959f; padding-left:36px!important;"> \
+              style="position: absolute; bottom: 0px; color:#8a959f; padding-left:37px!important; background : ${searchConfig.searchBarFillColor} !important; color :  ${searchConfig.searchBarPlaceholderTextColor} !important;"> \
             {{/if}}\
             {{/if}}\
             <input autocomplete="off" id="search" name="search"\
@@ -1042,7 +1042,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               style="position: absolute; bottom: 0px;  \
             {{else}}\
               style="position: absolute; bottom: 0px; padding-left:36px!important; border : solid 1px ${searchConfig.searchBarBorderColor} !important; background : ${searchConfig.searchBarFillColor} !important; color :  ${searchConfig.searchBarPlaceholderTextColor} !important; \
-            {{/if}}\
+              {{if searchConfig.autocompleteOpt == true}}\
+              background : transparent !important; \
+              {{else}}\
+              background : ${searchConfig.searchBarFillColor} !important; \
+              {{/if}}\
+              {{/if}}\
                background:transparent;">\
             {{if microphone && defaultMicrophone}}\
               <div class="sdkFooterIcon microphoneBtn"> \
@@ -3692,7 +3697,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         _self.prepAllSearchData(selectedFacet);
         _self.pubSub.publish('facet-selected', { selectedFacet: selectedFacet });
-        $(".content-data-sec").scrollTop(0);
+        if($('body').hasClass('top-down')){
+            $(".content-data-sec").scrollTop(0);
+          }
+          if(selectedFacet == 'all results' || selectedFacet == 'task'){
+            $('#actions-container').show();
+          }else{
+            $('#actions-container').hide();
+          }
       })
     }
     FindlySDK.prototype.recentClick = function () {
@@ -18671,7 +18683,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var template = $(_self.getSuggestionTemplate('suggestionTemplate')).tmplProxy({
           suggestions: suggestions,
           queryText: $('#search').val(),
-          maxCount: 4
+          maxCount: searchConfigurationCopy.querySuggestionsLimit ? searchConfigurationCopy.querySuggestionsLimit : 4
         });
         $('#auto-query-box').append(template);
         $('#live-search-result-box').show();
@@ -18707,6 +18719,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             //top-down-suggestion box perfect scroll -end//
           }, 600);
         });
+      }else{
+        $('#auto-query-box').empty();
+        $('#live-search-result-box').hide();
       }
 
     }

@@ -932,7 +932,7 @@ input:focus{
   cursor: pointer;
 }
 .topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box .sugg-query-box {
-  color: #BDC1C6;
+  color: #202124;
   font-weight: normal;
   font-size: 12px;
   line-height: 22px;
