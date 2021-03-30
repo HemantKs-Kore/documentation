@@ -1,29 +1,174 @@
-<p>pricing works!</p>
+<!-- <p>pricing works!</p>
 <button (click)="openPopup1()">popup1</button>
 <button (click)="openPopup2()">popup2</button>
-<button (click)="openPopup3()">popup3</button>
-<!--popup1-->
-<kr-modal modalType="center" modalClass="modal_popups_" #addPricingModel1>
-        <div class="modal-header">
-          <div class="title">Pricing1</div>
-          <div class="close_icon"><img class="ng-tns-c11-2" (click)="closePopup1()"
-              src="assets/icons/modal-close.svg"></div>
+<button (click)="openPopup3()">popup3</button> -->
+
+<div class="pricing-container-wrapper">
+  <div class="title-header">Plan Details</div>
+  <perfect-scrollbar class="pricing-scroll">
+    <div class="pricing-details-main-sec">
+        <div class="row col-12 card-plans">
+            <div class="col-6 current-plan">
+              <div class="inner-content">
+                <div class="title">Current Subscription Plan</div>
+                <div class="kr-sg-dropdowns">                
+                  <div class="dropdown dropdown-open">
+                      <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/pricing/overflow.svg"></button>                                            
+                      <ul class="dropdown-menu content-menu">                                                                    
+                        <li><a>Add Overage</a></li>
+                        <li><a>Change Plan</a></li>
+                        <li><a>Cancel Subscription</a></li>
+                      </ul>
+                    </div>
+                </div>
+                <div class="plan-details">
+                  <div class="type-plan-sec">
+                    <div class="type-plan">Free</div>
+                    <div class="amount">$399 <span>/ month</span></div>
+                  </div>
+                  <div class="plan-time">
+                    <div class="started-title">Started On</div>
+                    <div class="started-date">18 April 2021</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6 current-plan usage-plan">
+              <div class="inner-content">
+                <div class="title">Usage</div>
+                <div class="queries">
+                  <div class="queries-title">Queries</div>
+                  <div class="queries-count"><span class="">0</span> / 10K</div>
+                </div>
+                <div class="bg_queries"></div>
+                <div class="queries">
+                  <div class="queries-title">Documents</div>
+                  <div class="queries-count"><span class="">0</span> / 10K</div>
+                </div>
+                <div class="bg_queries"></div>
+              </div>
+            </div>
         </div>
-        <perfect-scrollbar class="addSourceModalBody addNewSource">
-          <div class="modal-body">
-            popup1 opned
+
+        <div class="upgrade-details-prices row col-12">
+          <div class="row col-12 upgrade-header-sec">
+            <div class="title col-5 p-0">Upgrade to</div>
+            <div class="upgrader-btn-sec col-7 p-0">
+              <div class="btn-monthly active-btn">Monthly</div>
+              <div class="btn-monthly">Annually</div>
+              <div class="compare-plan">Compare Plans</div>
+            </div>
           </div>
-        </perfect-scrollbar>
-        <div class="modal-footer">
-          <button class="kr-sg-button-primary btn_lg mr-3">Proceed</button>
-          <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePopup1()">Cancel</button>
+          <div class="col-4 upgrade-price-card">
+            <div class="inner-content">
+              <img src="assets/icons/pricing/standard.svg" class="standard-img">
+                <div class="title-sec">
+                  <div class="title">Standard</div>
+                  <div class="price">$99 <span>/ month</span></div>
+                </div>
+                <div class="card-desc">10k Documents </div>
+                <div class="card-desc">50k Queries per month</div>
+                <div class="card-desc">Scheduled Crawling</div>
+                <div class="card-desc">Experiments</div>
+                <div class="card-desc">Community Support</div>
+                <button class="kr-sg-button-secondary btn_lg" (click)="openPopup1()">Choose Plan</button>
+            </div>
+          </div>
+
+          <div class="col-4 upgrade-price-card">
+            <div class="inner-content">
+              <img src="assets/icons/pricing/pro.svg" class="pro-img">
+                <div class="title-sec">
+                  <div class="title">Pro</div>
+                  <div class="price">$399 <span>/ month</span></div>
+                </div>
+                <div class="card-desc">50k Documents  </div>
+                <div class="card-desc">100k Queries per month</div>
+                <div class="card-desc">Connectors & Unstructured content</div>
+                <div class="card-desc">Multiple indices</div>
+                <div class="card-desc">E-mail Support</div>
+                <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
+            </div>
+          </div>
+
+          <div class="col-4 upgrade-price-card custom_">
+            <div class="inner-content">
+              <img src="assets/icons/pricing/enterprise.svg" class="enterprise-img">
+              <div class="title-sec">
+                <div class="title">Enterprise</div>
+                <div class="custom-title">Custom</div>
+              </div>
+              <div class="card-desc">Any no. of documents </div>
+              <div class="card-desc">Any no. of documents</div>
+              <div class="card-desc">Custom SLAs</div>
+              <div class="custom-desc-text">Fully Customizable & Tailored Solution for your business needs</div>
+              <button class="kr-sg-button-secondary btn_lg">Contact US</button>
+            </div>
+          </div>
         </div>
+
+        <div class="usage-metrics-sec row col-12 m-0">
+          <div class="col-12 main-title">Usage Metrics</div>
+          <div class="row col-12 m-0 p-0 cards-usage-metrics">
+              <div class="col-6 metrics-data">
+                <div class="inner-content">
+                    <div class="title">Document Ingestion Analytics <span>| Jan - June (Last 6 Months)</span></div>
+                </div>
+              </div>
+              <div class="col-6 metrics-data">
+                <div class="inner-content">
+                    <div class="title">Query Usage Analytics <span>| Jan - June (Last 6 Months)</span></div>
+                </div>
+              </div>
+          </div>
+        </div>
+    </div>
+  </perfect-scrollbar>
+</div>
+
+
+
+
+<!--popup1-->
+<kr-modal modalType="center" modalClass="modal_popups_ order-confirmation" #addPricingModel1>
+      <div class="modal-header">
+        <div class="title">Order Confirmation</div>
+        <div class="close_icon"><img (click)="closePopup1()" src="assets/icons/modal-close.svg"></div>
+      </div>
+      <perfect-scrollbar>
+        <div class="modal-body">
+          <div class="plan-desc">You are Subscribing to <span>Standard Plan</span>. Please find the order summary below.</div>
+          <div class="order-confirmation-table">
+            <div class="order-confirmation-table-header row col-12 m-0">
+              <div class="title col-9">PLAN</div>
+              <div class="title col-3">AMOUNT</div>
+            </div>
+            <div class="order-confirmation-table-body row col-12 m-0">
+              <div class="col-9 plan_details">
+                <div class="plan-type">Standard Subscription</div>
+                <div class="btn-monthly active-btn">Monthly</div>
+                <div class="btn-monthly">Annually</div>
+              </div>
+              <div class="amount col-3">$ 99</div>
+            </div>
+            <div class="order-confirmation-table-body row col-12 m-0">
+              <div class="col-9 total-amount text-right">Total Amount</div>
+              <div class="amount col-3">$ 99</div>
+            </div>
+          </div>
+        </div>
+      </perfect-scrollbar>
+      <div class="modal-footer text-right">
+        <button class="kr-sg-button-primary btn_lg" (click)="openPopup2()">Pay</button>
+        <button class="kr-sg-button-secondary backbtn btn_md" (click)="closePopup1()">Cancel</button>
+      </div>
 </kr-modal>
 <!--popup2-->
 <kr-modal modalType="center" modalClass="modal_popups_" #addPricingModel2>
     <div class="modal-header">
       <div class="title">Pricing2</div>
-      <div class="close_icon"><img class="ng-tns-c11-2" (click)="closePopup2()"
+      <div class="close_icon"><img  (click)="closePopup2()"
           src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="addSourceModalBody addNewSource">
@@ -40,7 +185,7 @@
 <kr-modal modalType="center" modalClass="modal_popups_" #addPricingModel3>
     <div class="modal-header">
       <div class="title">Pricing3</div>
-      <div class="close_icon"><img class="ng-tns-c11-2" (click)="closePopup3()"
+      <div class="close_icon"><img  (click)="closePopup3()"
           src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="addSourceModalBody addNewSource">

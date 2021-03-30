@@ -192,7 +192,7 @@
   <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'manual'">
     <div class="modal-header">
       <div class="title">Add FAQs</div>
-      <div class="close_icon"><img class="ng-tns-c11-2" (click)="cancleSourceAddition()"
+      <div class="close_icon"><img  (click)="cancleSourceAddition()"
           src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
@@ -212,7 +212,7 @@
     <form #sourceCreation="ngForm">
       <div class="modal-header">
         <div class="title">{{selectedSourceType.name}}</div>
-        <div class="close_icon"><img class="ng-tns-c11-2" (click)="cancleSourceAddition()"
+        <div class="close_icon"><img  (click)="cancleSourceAddition()"
             src="assets/icons/modal-close.svg"></div>
       </div>
       <perfect-scrollbar class="addSourceModalBody addNewSource">
@@ -269,7 +269,7 @@
                             <input type="file" id="sourceFileUploader" class="custom-file-input "
                                 (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json">
                             <div class="imageDiv">
-                              <img class="ng-tns-c11-2" src="assets/images/source-icos/drog_frop.svg">
+                              <img  src="assets/images/source-icos/drog_frop.svg">
                             </div>
                             <div class="info_text">Drag and drop file anywhere on this screen</div>
                             <div class="or-divider">- or -</div>
@@ -340,7 +340,7 @@
                   <input type="file" id="sourceFileUploader" class="custom-file-input"
                       (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json">
                   <div _ngcontent-gpv-c11="" class="imageDiv">
-                    <img _ngcontent-gpv-c11="" class="ng-tns-c11-2" src="assets/images/source-icos/drog_frop.svg">
+                    <img _ngcontent-gpv-c11=""  src="assets/images/source-icos/drog_frop.svg">
                   </div>
                   <div class="custom-file">
                     <!-- <input type="file" id="sourceFileUploader" class="custom-file-input "
