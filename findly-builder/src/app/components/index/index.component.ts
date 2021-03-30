@@ -607,7 +607,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         this.pipeline = res.stages || [];
         this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
         // this.appSelectionService.updateTourConfig('addData');
-        this.notificationService.notify('Configurations saved successfully', 'success');
+        this.notificationService.notify('Configurations Saved Successfully', 'success');
         this.savingConfig = false;
         if (dialogRef && dialogRef.close) {
           dialogRef.close();
@@ -752,7 +752,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.service.invoke('post.simulate', quaryparms, payload).subscribe(res => {
         this.simulteObj.simulating = false;
         this.addcode(res);
-        this.notificationService.notify('Simulated successfully', 'success')
+        this.notificationService.notify('Simulated Successfully', 'success')
         this.simulating = false;
         if (this.pollingSubscriber) {
           this.pollingSubscriber.unsubscribe();

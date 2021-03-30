@@ -175,7 +175,7 @@ createCredential() {
       //   this.slider = 3
       // }
 
-      this.notificationService.notify('Credential Created Successfully', 'success');
+      this.notificationService.notify('Created Successfully', 'success');
       this.closeModalPopup();
       this. getCredential();
 
@@ -281,7 +281,7 @@ deleteCredential(data){
         this.service.invoke('delete.credential', quaryparms).subscribe(res => {
           this.getCredential();
           dialogRef.close();
-            this.notificationService.notify('Credential deleted successfully', 'success');
+            this.notificationService.notify('Deleted Successfully', 'success');
           
         }, (errors) => {
           if (errors && errors.error && errors.error.errors.length && errors.error.errors[0] && errors.error.errors[0].code && errors.error.errors[0].code == 409) {
@@ -289,7 +289,7 @@ deleteCredential(data){
             dialogRef.close();
           }
           else {
-            this.notificationService.notify('Credential deleted successfully', 'error');
+            this.notificationService.notify('Deleted Successfully', 'error');
           }
         });
       } else if (result === 'no') {

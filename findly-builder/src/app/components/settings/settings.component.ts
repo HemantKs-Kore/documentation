@@ -183,7 +183,7 @@ export class SettingsComponent implements OnInit {
           this.slider = 3
         }
 
-        this.notificationService.notify('Credential Created successfully', 'success');
+        this.notificationService.notify('Created successfully', 'success');
         this.closeModalPopup();
         this.getCredential();
 
