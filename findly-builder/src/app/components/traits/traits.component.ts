@@ -60,6 +60,7 @@ export class TraitsComponent implements OnInit {
   };
   currentTraitEditIndex;
   editedContent;
+  traitsCount = false;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -83,7 +84,27 @@ export class TraitsComponent implements OnInit {
     this.loadingTraits1 = true;
     this.loadImageText = true;
   }
+getTraitsSliceValue(traits){
+  let sliceValue = 0;
+  if(traits.length){
+  let columnWidth =document.getElementsByClassName('traits-groups')[0].clientWidth-65;
+    let traitsLength = 0;
+    traits.forEach((t)=>{
+      var canvas = document.createElement('canvas');
+var ctx = canvas.getContext("2d");
+ctx.font = "400 14px Roboto";        
+var width = ctx.measureText(t.traitName).width;
+      traitsLength = width+ traitsLength;
+      if(columnWidth<traitsLength){
+        return sliceValue;
+      }else{
+        sliceValue = sliceValue +1;
+      }
+    })
+  }
 
+  return sliceValue;
+}
   getTraitsGroupsApi(initial?) {
     if (initial) {
       this.loadingTraits = true;
