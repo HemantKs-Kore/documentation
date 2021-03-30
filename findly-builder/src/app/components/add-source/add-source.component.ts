@@ -224,11 +224,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
-    console.log(this.userInfo);
-
     this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
-    console.log('StreamID', this.streamID)
-    console.log(this.workflowService.selectedApp())
     this.getAssociatedBots();
 
     if (this.route && this.route.snapshot && this.route.snapshot.queryParams) {
@@ -354,7 +350,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   openStatusModal() {
-    console.log("status popup opened");
     this.closeAddManualFAQModal();
     this.closeAddSourceModal();
     if (this.resourceIDToOpen) {
@@ -626,17 +621,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //form validation
   validateSource() {
-    if (this.newSourceObj.name) {
-      if (this.selectExtractType == 'file') {
-        if (this.fileObj.fileId) {
-          this.proceedSource()
-        }
-        else {
-          $(".drag-drop-sec").css("border-color", "#DD3646");
-          this.notificationService.notify('Please upload the file to continue', 'error');
-        }
-      }
-      else if (this.selectExtractType == 'url') {
+    if (this.selectedSourceType.resourceType == "webdomain") {
+      if (this.newSourceObj.name) {
         if (this.newSourceObj.url) {
           this.proceedSource()
         }
@@ -646,11 +632,39 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.notificationService.notify('Enter the required fields to proceed', 'error');
         }
       }
+      else {
+        $("#addSourceTitleInput").css("border-color", "#DD3646");
+        $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+      }
     }
-    else {
-      $("#addSourceTitleInput").css("border-color", "#DD3646");
-      $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    else if (this.selectedSourceType.resourceType == "document") {
+      if (this.newSourceObj.name) {
+        if (this.selectExtractType == 'file') {
+          if (this.fileObj.fileId) {
+            this.proceedSource()
+          }
+          else {
+            $(".drag-drop-sec").css("border-color", "#DD3646");
+            this.notificationService.notify('Please upload the file to continue', 'error');
+          }
+        }
+        else if (this.selectExtractType == 'url') {
+          if (this.newSourceObj.url) {
+            this.proceedSource()
+          }
+          else {
+            $("#extractUrl").css("border-color", "#DD3646");
+            $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+            this.notificationService.notify('Enter the required fields to proceed', 'error');
+          }
+        }
+      }
+      else {
+        $("#addSourceTitleInput").css("border-color", "#DD3646");
+        $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+      }
     }
   }
   //track changing of input
