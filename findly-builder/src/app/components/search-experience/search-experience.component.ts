@@ -22,7 +22,7 @@ export class SearchExperienceComponent implements OnInit {
   suggestions: any = [];
   searchObject: any = {
     "searchExperienceConfig": {
-      "searchBarPosition": "bottom"
+      "searchBarPosition": "top"
     },
     "searchWidgetConfig": {
       "searchBarFillColor": "#FFFFFF",
@@ -35,7 +35,8 @@ export class SearchExperienceComponent implements OnInit {
       "buttonFillColor": "#EFF0F1",
       "buttonBorderColor": "#EFF0F1",
       "searchBarIcon": "6038e58234b5352faa7773b0",
-      "userSelectedColors": []
+      "userSelectedColors": [],
+      "buttonPlacementPosition": 'inside'
     },
     "searchInteractionsConfig": {
       "feedbackExperience": { resultLevel: true, queryLevel: false },
@@ -156,6 +157,10 @@ export class SearchExperienceComponent implements OnInit {
       }
     }
   }
+  // //change button placement
+  // changeButtonPlacement(type) {
+  //   this.searchObject.searchWidgetConfig.SearchBox = type;
+  // }
   //based on show searches show slider
   changeSlider(type, data?) {
     this.suggestions = [];

@@ -32,7 +32,6 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
     this.userInfo = this.authService.getUserInfo() || {};
     this.appSelectionService.getTourConfig();
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
-      this.checklistCount = res.findlyOverViewVisted ? 1 : 0;
       this.tourConfigData = res;
       this.tourData = res.onBoardingChecklist;
       this.trackChecklist();
@@ -40,8 +39,11 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
     this.appSelectionService.tourConfigCancel.subscribe(res => {
       this.subscribedShow = res.name;
       this.status = res.status;
-      if (res.name != undefined) {
+      if (res.name != undefined && this.componentType != 'summary') {
         this.showSteps = res.name;
+      }
+      else {
+        this.showSteps = true;
       }
     })
   }
@@ -84,7 +86,7 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
         }
       }
     }
-    this.checklistCount = count + this.checklistCount;
+    this.checklistCount = count;
     // let count = 0;
     // count = this.tourData[0].addDataVisited ? count + 1 : count;
     // count = this.tourData[1].indexDataVisited ? count + 1 : count;
@@ -94,9 +96,15 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
     // count = this.tourData[5].fineTuneRelevanceVisited ? count + 1 : count;
     // this.checklistCount = this.checklistCount + count;
     if (this.status == 'pending') {
-      this.showSteps = this.checklistCount === 7 ? false : this.subscribedShow == undefined ? true : this.subscribedShow;
+      this.showSteps = this.checklistCount === 6 ? false : this.subscribedShow == undefined ? true : this.subscribedShow;
+      if (this.checklistCount != 6 && this.componentType == 'summary') {
+        this.showSteps = true;
+      }
     }
-    if (this.componentType != 'summary') {
+    else {
+      this.showSteps = true;
+    }
+    if (this.componentType != 'summary' && this.checklistCount != 6) {
       if (this.componentType == 'addData') {
         this.showStatusIcon = this.tourData[0].addDataVisited ? true : false;
         this.filterSteps(0, 0);
