@@ -621,7 +621,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //form validation
   validateSource() {
-    if (this.selectedSourceType.resourceType == "webdomain") {
+    if (this.selectedSourceType.resourceType == "webdomain" || this.selectedSourceType.resourceType == "faq") {
       if (this.newSourceObj.name) {
         if (this.newSourceObj.url) {
           this.proceedSource()
@@ -638,7 +638,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.notificationService.notify('Enter the required fields to proceed', 'error');
       }
     }
-    else if (this.selectedSourceType.resourceType == "document") {
+    else if (this.selectedSourceType.resourceType == "document" || this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
       if (this.newSourceObj.name) {
         if (this.selectExtractType == 'file') {
           if (this.fileObj.fileId) {
