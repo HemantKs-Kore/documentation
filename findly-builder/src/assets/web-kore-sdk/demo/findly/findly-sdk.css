@@ -10467,8 +10467,8 @@ input:checked + .custom-slider:before {
     position: relative;
     /* height: 100%; */
     height: fit-content;
-    /* max-height: 300px; */
-    /* overflow: auto; */
+    max-height: 300px;
+    overflow: auto;
     width: 100%;
     background: #f8f9fa;
     padding: 0;
@@ -12534,7 +12534,7 @@ padding-right: 0;
 .show-all-results-outer-wrap .s-r-header .close-btn {
     float: right;
     position: relative;
-    top: 5px;
+    top: 0px;
     cursor: pointer;
 }
 
@@ -13604,29 +13604,16 @@ button.search-button:disabled {
     line-height: 23px;
     /* color: #161928; */
 }
-/* qa csss patch */
-.structured-data-outer-wrap{
-    margin-bottom: 23px;
+
+.sdk-results-customize-icon{
+    position: absolute;
+    right: 0;
+    bottom: 48px;
+    cursor: pointer;
+    display: none;
 }
-.faqs-full-search-container{
-    margin-bottom: 0px;
+
+.show-all-results-outer-wrap .custom-header-container-center{
+    float: right;
+    margin-right: 30px;
 }
-.pages-full-search-container{
-    margin-bottom: 0px;
-}
-.documents-full-search-container{
-    margin-bottom: 0px;
-}
-.faqs-data-container{
-    margin-bottom: 0px;
-}
-.pages-data-container{
-    margin-bottom: 0px;
-}
-.documents-data-container{
-    margin-bottom: 0px;
-}
-.structured-data-container{
-    margin-bottom: 0px;
-}
-/* qa csss patch */

@@ -579,7 +579,7 @@ export class AppHeaderComponent implements OnInit {
       skip: skip
     };
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
-      if (res.length > 0) {
+      if (res.data.length > 0) {
         this.headerService.fromResultRank(false);
       }
       else {
