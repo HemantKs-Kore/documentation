@@ -59,6 +59,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedMapping: any = {};
   actionItmes: any = [{ type: 'set' }, { type: 'rename' }, { type: 'copy' }, { type: 'Delete' }];
   newMappingObj: any = {}
+  sourceType =  'faq';
   defaultStageTypesObj: any = {
     field_mapping: {
       name: 'Field Mapping',
@@ -125,7 +126,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     // {"title": "City", "value": "city"},
   ];
   simulteObj: any = {
-    sourceType: 'faq',
+    sourceType: this.sourceType,
     docCount: 5,
     showSimulation: false,
     simulate: this.defaultStageTypesObj
@@ -250,7 +251,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   setResetNewMappingsObj(ignoreSimulate?, saveConfig?) {
     if (!ignoreSimulate) {
       this.simulteObj = {
-        sourceType: 'faq',
+        sourceType: this.sourceType,
         docCount: 5,
         showSimulation: false,
       }
@@ -696,7 +697,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   changeSimulate(value, type) {
     if (type === 'source') {
-      this.simulteObj.sourceType = value;
+      this.sourceType = value
+      this.simulteObj.sourceType = this.sourceType;
     } else {
       this.simulteObj.docCount = value
     }
@@ -704,7 +706,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   closeSimulator() {
     this.simulteObj = {
-      sourceType: 'faq',
+      sourceType: this.sourceType,
       docCount: 5,
       showSimulation: false,
     }
@@ -762,6 +764,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       }, errRes => {
         this.simulating = false;
         this.simulteObj.simulating = false;
+        this.addcode({});
         if (this.pollingSubscriber) {
           this.pollingSubscriber.unsubscribe();
         }

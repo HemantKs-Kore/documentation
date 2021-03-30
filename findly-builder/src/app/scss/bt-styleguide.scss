@@ -1731,11 +1731,11 @@ and open the template in the editor.
 /*---- RADIO BUTTON STYLES START HERE---*/
 .kr-sg-radiobutton{
     display: inline-flex;
-    padding-right: 32px;    
+    padding:0 32px 0 0 !important;    
     position: relative;
     &.d-block{
         display: block;
-        margin-bottom: 8px;
+        margin-bottom: 8px !important;
     }
     .radio-custom{
         opacity: 0;

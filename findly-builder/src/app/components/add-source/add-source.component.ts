@@ -681,6 +681,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic";
       this.importFaq();
+      schdVal = false;
     }
     if (this.selectedSourceType.annotate && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
       quaryparms.faqType = 'document';
@@ -754,12 +755,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (resourceType === 'document') {
         payload.fileId = this.fileObj.fileId;
         if (this.selectedSourceType.sourceType === 'faq') {
-          payload.extractionType = "basic"
+          payload.extractionType = "basic";
+          if (payload.hasOwnProperty('url')) delete payload.url;
         }
         //payload.extractionType = resourceType;
         quaryparms.resourceType = resourceType;
         payload.isNew = true;
-        if (payload.hasOwnProperty('url')) delete payload.url;
+        payload.resourceType = payload.fileId ? 'file' : 'url';
       }
       if (crawler.advanceOpts.scheduleOpt) {
         if (crawler.advanceOpts.scheduleOpts) {
@@ -1200,6 +1202,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       // streamId: this.streamId,
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
+      console.log("imp faq res", res)
       this.dock.trigger()
     },
       errRes => {
