@@ -369,7 +369,7 @@
                                         </div>
                                         <ng-container *ngIf="outcomeObj.outcomeType === 'boost' || outcomeObj.outcomeType === 'lower'">
                                             <div class="col-4 pr-0">
-                                                <app-range-slider [customClass]="'weightsSlider'" [allData]="outcomeObj.sliderObj" (valueEvent)="valueEvent($event, outcomeObj)"></app-range-slider>
+                                                <app-range-slider [customClass]="'weightsSlider'" [allData]="outcomeObj.sliderObj" (valueEvent)="valueEvent($event, outcomeObj)" placement="top-center" container='body' ngbTooltip="{{ outcomeObj.scale }}X"></app-range-slider>
                                             </div>
                                             <div class="col-4 pr-0 text-right">
                                                 <span class="result-slider-title" *ngIf="outcomeObj.outcomeType === 'boost'">{{"businessRules.boostResults" | translate }}</span>
@@ -400,7 +400,7 @@
                                         <div class="kr-sg-dropdowns col-4 pl-0 disabled" ngbDropdown (click)="currentEditInex = index">
                                             <div class="dropdown dropdown-open">
                                                 <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle [disabled]="true">
-                          {{outcomeObj.fieldDataType? outcomeObj.fieldDataType: "String"}}
+                          {{outcomeObj.fieldDataType? (("businessRules."+outcomeObj.fieldDataType) | translate): "String"}}
                         </button>
                                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                                 </ul>
