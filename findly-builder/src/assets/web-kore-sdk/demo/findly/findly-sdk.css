@@ -13622,3 +13622,16 @@ button.search-button:disabled {
     margin-right: 24px;
     cursor: pointer;
 }
+
+.sdk-query-retry-icon{
+    position: absolute;
+    right: 5px;
+    z-index: 99 !important;
+    cursor: pointer;
+    top: 14px;
+    /* display: none; */
+}
+
+.userMessage:hover .sdk-query-retry-icon{
+    display: block;
+}

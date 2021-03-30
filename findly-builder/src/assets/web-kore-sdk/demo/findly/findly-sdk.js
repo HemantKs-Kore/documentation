@@ -2134,7 +2134,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var messageBubbles = '<script>\
         <div class="messageBubble">\
           {{if msgData && msgData.from==="user"}}\
-            <div class="userMessage"><span>${msgData.text}</span>';
+            <div class="userMessage">\
+              {{if msgData && msgData.isSearchResultsMessage===true}}\
+                <div class="sdk-query-retry-icon" searchQuery="${msgData.text}"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD3SURBVHgBjZLdEYIwDICTWN/UYwQ30Q10BAdQdAMZwb8BdAPdgBEcwRG80ycpiSln76SCkBeOtl+TfA2CRn9hZ4IyhBaBgrfH3hzRQUi0ZMkvbUCCzkSEt8ZlEoWeu27SBuzFmaaFIVVtRiuJmi74AQexrC3bVRNoQkiAE5ROqiUlft0Lqc3IYLHqdkRaOom1GZ2gT/PwLcsLqQU9HMoxZI7ZK4v+gi7uG7wH/7fwjHGNaxProhwXDOnz0E1782ysBsYhQKgDwLwtZPiRU5sjIbmSEjodUzV8CkFkvD4O5lxadE/Qj3PR76ZpCEo9ipUzEBelQkO8AfkjdXwmlyhkAAAAAElFTkSuQmCC"></div>\
+              {{/if}}\
+              <span>${msgData.text}</span>';
       if (!this.customSearchResult) {
         messageBubbles += '{{if devMode=="true"}}\
               <div class="query-analytics-control-container {{if viewType=="Customize"}}display-block{{/if}} hide">\
@@ -4891,7 +4895,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var searchText = $('#search').val() || (_self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : "") || null;
             _self.closeGreetingMsg();
             // if (!$('body').hasClass('top-down')) {
-              _self.sendMessageToSearch('user');
+              _self.sendMessageToSearch('user', null, null, (_self.isDev == true) ? true : false);
+              if(_self.isDev){
+                setTimeout(() => {
+                  _self.pubSub.publish('sa-handle-retry-qery-view');
+                }, 500);
+              }
               if (_self.config.viaSocket) {
                 _self.sendMessage(_self.vars.searchObject.searchText);
               } else {
@@ -6052,6 +6061,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (type === 'user' && ($('#search').val() !== null) && ($('#search').val() !== undefined)) {
         messageData.text = $('#search').val();
         if (messageData.text && messageData.text.trim() && !_self.customSearchResult) {
+          if(isSearchResultsMessage){
+            messageData.isSearchResultsMessage = true;
+          }
           var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
             msgData: messageData,
             devMode: devMode,
@@ -13154,6 +13166,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           console.log("test", e);
           _self.vars.customizeView = true;
           $('.show-all-results').click();
+        });
+      });
+
+      _self.pubSub.subscribe('sa-handle-retry-qery-view', (msg, data) => {
+        var _self = this;
+        $('.sdk-query-retry-icon').off('click').on('click', function(e) {
+          let searchQuery = $(e.target).closest('.sdk-query-retry-icon').attr('searchQuery');
+          if(searchQuery && searchQuery.length){
+            var scrollHeight = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').prop("scrollHeight");
+            $('#searchChatContainer').animate({ scrollTop: scrollHeight }, 500);
+            _self.sendMessage(searchQuery);
+          }
+          else{
+            var scrollHeight = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').prop("scrollHeight");
+            $('#searchChatContainer').animate({ scrollTop: scrollHeight }, 500);
+            _self.sendMessage(_self.vars.searchObject.searchText);
+          }
         });
       });
 
