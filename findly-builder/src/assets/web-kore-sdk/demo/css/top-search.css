@@ -1498,11 +1498,7 @@ float: right;
   border-radius: 4px;
 }
 .sdk-top-down-interface .action-icon {
-  position: absolute;
-  width: 19.17px;
-  height: 15.33px;
-  left: 6%;
-  top: calc(50% - 19px/2 - 14.5px);
+  position: absolute;  
   z-index : 1
 }
 .sdk-top-down-interface .action-text {
