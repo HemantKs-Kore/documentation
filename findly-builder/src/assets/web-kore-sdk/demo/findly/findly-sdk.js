@@ -13550,10 +13550,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   _self.addSearchFacets({
                     container: 'filters-center-sec'
                   });
+                  _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
                 } else {
                   _self.addSearchFacets({
                     container: 'filters-left-sec'
                   });
+                  _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
                 }
               }
             }
@@ -19503,9 +19505,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.vars.scrollPageNumber = 1;
         _self.vars.showingMatchedResults = true;
         _self.searchFacetsList([]);
-        _self.invokeSearch();
-        // var event = $.Event( "keydown", { which: 13 } );
-            // $('#search').trigger(event);
+        // _self.invokeSearch();
+        var event = $.Event( "keydown", { which: 13 } );
+            $('#search').trigger(event);
         if (_self.isDev) {
           if ($('.top-down-search-background-div')) {
             $('.top-down-search-background-div').addClass('if-full-results');
@@ -19541,10 +19543,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               selectedFacet = 'document';
             }
             _self.vars['selectedFacetFromSearch'] = selectedFacet;
+            _self.prepAllSearchData(selectedFacet);
             _self.pubSub.publish('facet-selected', { selectedFacet: selectedFacet});
 
         }
-      }, 1000);
+      }, 3000);
     }
 
     FindlySDK.prototype.bindPlaceholderStyle = function (config) {
