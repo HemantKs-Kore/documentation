@@ -10387,8 +10387,8 @@ input:checked + .custom-slider:before {
     position: relative;
     /* height: 100%; */
     height: fit-content;
-    /* max-height: 300px; */
-    /* overflow: auto; */
+    max-height: 300px;
+    overflow: auto;
     width: 100%;
     background: #f8f9fa;
     padding: 0;
@@ -12434,6 +12434,29 @@ padding-right: 0;
     top : 33%;
 }
 
+/* qa csss patch */
 .structured-data-outer-wrap{
     margin-bottom: 23px;
 }
+.faqs-full-search-container{
+    margin-bottom: 0px;
+}
+.pages-full-search-container{
+    margin-bottom: 0px;
+}
+.documents-full-search-container{
+    margin-bottom: 0px;
+}
+.faqs-data-container{
+    margin-bottom: 0px;
+}
+.pages-data-container{
+    margin-bottom: 0px;
+}
+.documents-data-container{
+    margin-bottom: 0px;
+}
+.structured-data-container{
+    margin-bottom: 0px;
+}
+/* qa csss patch */

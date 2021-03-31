@@ -50,7 +50,9 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService) { }
   sdk_evenBind() {
     $(document).off('click', '.start-search-icon-div').on('click', '.start-search-icon-div', () => {
-      this.getcustomizeList(20, 0);
+      this.selectedApp = this.workflowService.selectedApp();
+      this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+      this.loadCustomRankingList();
     })
     // $(document).on('click','.start-search-icon-div.active',() =>{
     //   this.getcustomizeList();

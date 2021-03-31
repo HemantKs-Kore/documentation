@@ -2978,6 +2978,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         if (_self.vars.showingMatchedResults == true) {
           _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
+            if($('body').hasClass('demo')){
+              $('.search-container').css("top", 50);
+            }
             if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
               var responseObject = { 'type': 'fullResult', data: true, query: _self.vars.searchObject.searchText }
               console.log(responseObject);
@@ -3162,6 +3165,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
       // $('.full-search-close').off('click').on('click', function (e)
       $('.custom-chevron-right-icon').off('click').on('click', function (e) {
+        if (_self.overrideDefaultPoisition) {
+          var pos = _self.calculateContainerPosition(_self.getAvatarTopLeft())
+          $('.search-container').css('top', pos.y);
+          //$('.search-container').css('left', pos.x);
+        }
+        if(!$('body').hasClass('demo')){
+          $('.search-container').css('top', 'unset');
+        }
         if (($('.external-link-show').css('display') == 'none')) {
           $('.external-link-show').css('display', 'block');
           $('.desc-info').css('max-width', '100%');
@@ -4207,11 +4218,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
       $('.close-icon').off('click').on('click', function (e) {
-        $('.search-body').html('');
-        $('.search-body').removeClass('h-100');
-        $('#search').val('');
-        $('#suggestion').val('');
-        $('.search-container').removeClass('active');
+        if(!_self.overrideDefaultPoisition){
+          $('.search-body').html('');
+          $('.search-body').removeClass('h-100');
+          $('#search').val('');
+          $('#suggestion').val('');
+          $('.search-container').removeClass('active');
+        }
+        else{
+          $('.search-container').css('display', 'none');
+          var pos = _self.getAvatarTopLeft();
+          $('.start-search-icon-div').css('display', 'block');
+          $('.start-search-icon-div').animate({'left': pos.x, 'top':pos.y}, function() {
+            $('#introText').css('display','none');
+          });
+        }
       })
       //_self.bindSearchActionEvents();
 
@@ -6580,8 +6601,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       _self.searchEventBinding(dataHTML, 'search-container',{}, config);
     }
+    var overrideDefaultPoisition = false;
     // FindlySDK.prototype.showSearch = function () {
-    FindlySDK.prototype.showSearch = function (config) {
+    FindlySDK.prototype.showSearch = function (config, overrideDefaultPoisition) {
       var _self = this;
       _self.isDev = false;
       if (!$('body').hasClass('demo')) {
@@ -6635,7 +6657,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.bindContextVariable();
       _self.bindSearchAccordion();
       _self.bindFeedbackEvent();
-      $(dataHTML).css('left', left);
+      if(!overrideDefaultPoisition){
+        _self.overrideDefaultPoisition = false;
+        $(dataHTML).css('left', left);
+      }
+      else{
+        _self.overrideDefaultPoisition = true;
+      }
       // debugger;
       var container = $('.search-background-div');
       if (!container.length && !_self.customSearchResult) {
@@ -6648,7 +6676,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $(window).off('resize').on('resize', function () {
         windowWidth = window.innerWidth;
         left = ((windowWidth / 2) - 250) + 'px';
-        $(dataHTML).css('left', left);
+        if(!overrideDefaultPoisition){
+          $(dataHTML).css('left', left);
+        }
 
         var quickReplyDivs = document.querySelectorAll('.quickReplies');
         for (var i = 0; i < quickReplyDivs.length; i++) {
@@ -12218,6 +12248,187 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         };
       }
     };
+
+    FindlySDK.prototype.getAvatarTopLeft = function(){
+      var _self = this;
+      var position= {};
+      if(window.localStorage.getItem('avatarPosition')){
+          // override existing positions
+          position = JSON.parse(window.localStorage.getItem('avatarPosition'));
+      }
+      else{
+          // give default values and set to localStorage
+          position['x'] = document.documentElement.clientWidth - 100;
+          position['y'] = document.documentElement.clientHeight - 100;
+      }
+      _self.position = position;
+      return position;
+  }
+
+  FindlySDK.prototype.positionAvatar = function(position){
+      console.log("position", position);
+      $('.start-search-icon-div').css("left", position.x);
+      $('.start-search-icon-div').css("top", position.y);
+      if (!avatarDisplayedOnce) {
+        this.positionAvatarIntro(position);
+      }
+}
+
+  FindlySDK.prototype.positionAvatarIntro = function(position) {
+    let x = position.x - 80;
+    if (x < 0) {
+      x = 20;
+    }
+    if (x > document.documentElement.clientWidth - 150) {
+      x = x - 60;
+    }
+    $('#introText').css('left',x);
+    $('#introText').css('top',position.y - 50);
+    $('#introText').css('display','block');
+  }
+
+  FindlySDK.prototype.positionContainer = function(position){
+      var _self = this;
+      if(position && Object.values(position).length){
+          // set x and y to container
+          console.log("position", position);
+          var containerPosition = _self.calculateContainerPosition(position);
+          $('.search-container').css("left", containerPosition.x);
+          $('.search-container').css("top", containerPosition.y);
+          $('.start-search-icon-div').animate({'top' : containerPosition.y, 'left': containerPosition.x}, 'fast');
+          setTimeout(() => {
+            $('.search-container').css('display', 'block');
+            $('.search-container').css('height', '0');
+            $('.search-container').animate({'height': containerHeight});
+            $( "#search" ).focus();
+            $('.start-search-icon-div').css('top' , position.y)
+            $('.start-search-icon-div').css('left', position.x);
+            $('.start-search-icon-div').css('display', 'none');
+          }, 200);
+
+      }
+  }
+
+  FindlySDK.prototype.calculateContainerPosition = function(position){
+      var containerPosition = {x:position.x, y:position.y};
+      var cWidth = $('.search-container').outerWidth();
+      var cHeight = containerHeight;
+      var widthFactor = 20;
+      var heightFactor = 10;
+      if((position.x + cWidth) > window.outerWidth){
+          if((position.x - (cWidth + widthFactor)) > 10){
+              containerPosition.x = position.x - (cWidth + widthFactor);
+          }
+          else{
+              containerPosition.x = containerPosition.x - widthFactor;
+          }
+      }
+      else{
+          containerPosition.x = position.x + widthFactor;
+      }
+
+      if((position.y + cHeight) > document.documentElement.clientHeight){
+          if((position.y - (cHeight + heightFactor)) > 10){
+              containerPosition.y = position.y - (cHeight + heightFactor);
+          }
+          else{
+              containerPosition.y = (position.y - cHeight) > 0 ? (position.y - cHeight) : heightFactor;
+          }
+      }
+      else{
+          containerPosition.y =  position.y + heightFactor;
+      }
+
+      return containerPosition;
+  }
+
+  var isDragging = false;
+  var position = {};
+  var containerHeight = 550;
+  var avatarDisplayedOnce = false;
+
+    FindlySDK.prototype.configureSearchAvatar = function(config){
+      var introHtml = '<div class="botMessage" id="introText"><span>Hello! How can I help you today?</span></div>';
+      $('body').append(introHtml);
+      $('#introText').css('position','absolute');
+      $('#introText').css('display','none');
+
+      $('.search-container').css('display', 'none');
+      $('body').append(`<div class="start-search-icon-div draggable" id="start-search-icon-div"><img src="${config.avatarURL}"></div>`);
+      var _self = this;
+      $('#introText').css('position','absolute');
+      
+      var avPosition = _self.getAvatarTopLeft();
+      _self.positionAvatar(avPosition); // set position to avatar
+      _
+      // $('#introText').css('display','block');
+      // $('#introText').css('left',avPosition.x - 80);
+      // $('#introText').css('top',avPosition.y - 40);
+      $('#introText').css('width',160);
+      $('.start-search-icon-div').off('click').on('click', function () {
+        
+        $('#introText').css('display','none');
+          if (_self.vars.searchObject && _self.vars.searchObject.recents && _self.vars.searchObject.recents.length === 0) {
+            _self.vars.searchObject.recents.push('');
+            window.localStorage.setItem('recents', JSON.stringify(_self.vars.searchObject.recents));
+            $('.search-body').hide();
+            $('#searchChatContainer').css('opacity', 1);
+          } else if (_self.vars.searchObject && _self.vars.searchObject.recents && _self.vars.searchObject.recents.length === 1 && _self.vars.searchObject.recents[0] === '') {
+            $('.search-body').hide();
+            $('#searchChatContainer').addClass('bgfocus');
+            $('#searchChatContainer').css('opacity', 1);
+          }
+          if(!_self.isDragging){
+              setTimeout( function(){
+                  _self.positionContainer(_self.getAvatarTopLeft()); // set position to container
+                  if($('.start-search-icon-div').css('display') == 'none'){
+                      // // anyway this will not execute
+                  }
+                  else{
+                  }
+                  $('.conversation').css('height',  containerHeight);
+                  $('#searchChatContainer').css('height', (containerHeight - 100) );
+                  avatarDisplayedOnce = true;
+              }, 100);
+          }
+      })
+
+      if($( ".start-search-icon-div" )){
+          let element;
+          element = $( ".start-search-icon-div" )[0];
+          $(element).draggable({
+              drag : (event) => {
+                  _self.isDragging = true;
+                  $('#introText').css('display','none');
+                  if( event.clientX > window.outerWidth){
+                      console.log("greater");
+                  }
+              },
+              stop : (event, ui) => {
+                  console.log("drag stop event", event);
+                  // set ClientX and ClientY
+                  var position= {};
+                  if(event.clientX){
+                      position['x'] = event.clientX - 25;
+                  }
+                  if(event.clientY){                            
+                      position['y'] = event.clientY - 23;
+                  }
+                  if(position.y < 50){
+                    position.y = 50;
+                  }
+                  _self.position = position;
+                  setTimeout(function (){
+                      _self.isDragging = false;
+                      window.localStorage.setItem('avatarPosition', JSON.stringify(position));
+                      _self.positionAvatar(position); // set position to avatar
+                        
+                  }, 100);
+              },
+              containment: 'body'
+          });
+      }
+  }
     
     var mockData = {
       "settings": [
