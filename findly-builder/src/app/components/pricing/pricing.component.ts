@@ -11,11 +11,13 @@ export class PricingComponent implements OnInit {
   addPricing2ModalPopRef: any;
   addPricing3ModalPopRef: any;
   addPricing4ModalPopRef: any;
+  addPricing5ModalPopRef: any;
   constructor(public dialog: MatDialog) { }
   @ViewChild('addPricingModel1') addPricingModel1: KRModalComponent;
   @ViewChild('addPricingModel2') addPricingModel2: KRModalComponent;
   @ViewChild('addPricingModel3') addPricingModel3: KRModalComponent;
   @ViewChild('addPricingModel4') addPricingModel4: KRModalComponent;
+  @ViewChild('addPricingModel5') addPricingModel5: KRModalComponent;
   ngOnInit(): void {
   }
   //open popup1
@@ -59,6 +61,17 @@ export class PricingComponent implements OnInit {
   closePopup4() {
     if (this.addPricing4ModalPopRef && this.addPricing4ModalPopRef.close) {
       this.addPricing4ModalPopRef.close();
+    }
+  }
+
+   //open popup1
+   openPopup5() {
+    this.addPricing5ModalPopRef = this.addPricingModel5.open();
+  }
+  //close popup1
+  closePopup5() {
+    if (this.addPricing5ModalPopRef && this.addPricing5ModalPopRef.close) {
+      this.addPricing5ModalPopRef.close();
     }
   }
 

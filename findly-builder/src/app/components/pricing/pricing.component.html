@@ -17,7 +17,7 @@
                       <ul class="dropdown-menu content-menu">                                                                    
                         <li (click)="openPopup4()"><a>Add Overage</a></li>
                         <li (click)="openPopup3()"><a>Change Plan</a></li>
-                        <li><a>Cancel Subscription</a></li>
+                        <li (click)="openPopup5()"><a>Cancel Subscription</a></li>
                       </ul>
                     </div>
                 </div>
@@ -186,9 +186,15 @@
         <img (click)="closePopup2()"src="assets/icons/modal-close.svg">
       </div>
     </div>
-    <perfect-scrollbar class="addSourceModalBody addNewSource">
+    <perfect-scrollbar>
       <div class="modal-body">
-        
+          <div class="payment-confiramtion-data">
+            <div class="img-block"><img src="assets/icons/pricing/payment-success.svg"></div>
+            <div class="payment-success-message">
+              <div class="title">Yay! Payment Successfull...</div>
+              <button class="kr-sg-buttonicon-secondary btn_lg"><img src="assets/icons/pricing/download.svg">Download Invoice</button>
+            </div>
+          </div>
       </div>
     </perfect-scrollbar>
     <div class="modal-footer text-right">
@@ -208,8 +214,9 @@
         </div>
       </div>      
     </div>
-    <perfect-scrollbar class="addSourceModalBody addNewSource">
+    <perfect-scrollbar>
       <div class="modal-body">
+        <div class="mian-title-desc">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div>
         <div class="upgrade-details-prices row col-12 p-0">          
           <div class="col-4 upgrade-price-card current-plan">
             <div class="inner-content">
@@ -319,5 +326,51 @@
   <div class="modal-footer text-right">
     <button class="kr-sg-button-primary btn_lg mr-3">Proceed</button>
     <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePopup4()">Cancel</button>
+  </div>
+</kr-modal>
+
+<kr-modal modalType="center" modalClass="modal_popups_ cancel_subscription" #addPricingModel5>
+  <div class="modal-header">
+    <div class="title">Cancel Subscription</div>
+    <div class="close_icon">
+      <img (click)="closePopup5()"src="assets/icons/modal-close.svg">
+    </div>
+  </div>
+  <perfect-scrollbar>
+    <div class="modal-body">
+      <div class="mian-title-desc">Your request for cancellation has been successfully submitted. Subscription is valid till the end of billing cycle i.e. s <span>24 Nov 2021</span></div>
+        <div class="cancel-subscription-data row m-0">
+          <div class="img-block col-8"><img src="assets/icons/pricing/cancel_subscription.svg"></div>
+          <div class="cancel-subscription-reasons col-4 p-0">
+            <div class="group-checkbox">
+              <div class="heading-title">What is the Reason you want to Cancel?</div>
+              <div class="kr-sg-checkbox d-block">
+                  <input id="checkbox_grp3" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox_grp3" class="checkbox-custom-label">It’s too costly</label>
+              </div>
+              <div class="kr-sg-checkbox d-block">
+                  <input id="checkbox_grp4" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox_grp4" class="checkbox-custom-label">I don’t use it enough</label>
+              </div>
+              <div class="kr-sg-checkbox d-block">
+                  <input id="checkbox_grp5" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox_grp5" class="checkbox-custom-label">I don’t need it now</label>
+              </div>
+              <div class="kr-sg-checkbox d-block">
+                <input id="checkbox_grp15" class="checkbox-custom" type="checkbox">
+                <label for="checkbox_grp15" class="checkbox-custom-label">Other</label>
+              </div>              
+            </div>
+            <div class="kr-sg-input-text-area">
+              <div class="label-text">Comments</div>
+              <textarea placeholder="Optional" class="input-text"></textarea>                                
+            </div>
+          </div>
+        </div>
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer text-right">    
+    <button class="kr-sg-button-primary btn_lg">Proceed</button>     
+    <button class="kr-sg-button-secondary btn_lg" (click)="closePopup5()">Cancel</button>
   </div>
 </kr-modal>

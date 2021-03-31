@@ -1,5 +1,11 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
+
+	<div class="upgrade_your_plan_price d-none">
+		<div class="upgrade-plan-btn">Upgrade Your Plan<img src="assets/icons/pricing/carrotright.svg"></div>
+		<div class="document-limit">22%  document limit reached</div>
+		<div class="document-limit">10%  query limit reached</div>
+	</div>
 	<perfect-scrollbar class="perfect-scroll">
 		<div class="list-group list-group-flush" *ngIf="!settingMainMenu">					
 
@@ -270,50 +276,28 @@
 			<div class="inside-menu-title">BILLING & USAGE</div>
 			<div mat-button class="mat-button" [routerLink]="['/pricing']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox leftAdjust">
-					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
+					<img src="assets/icons/sidemenu/new-icons/plandetails.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/plandetails.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Plan Details</span>
 			</div>
 			<div mat-button class="mat-button" [routerLink]="['/usageLog']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
+					<img src="assets/icons/sidemenu/new-icons/usagelog.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/usagelog.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Usage LOg</span>
 			</div>
 			<div mat-button class="mat-button" [routerLink]="['/invoices']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
+					<img src="assets/icons/sidemenu/new-icons/invoice.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/invoice.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Invoices</span>
 			</div>
 			
 		</div>
 
-		<!-- <div class="status-docker" (click)="(dockService.showStatusDocker = !dockService.showStatusDocker); openStatusDocker()">
-			<div class="circles">
-				<div class="inner-clrcle"></div>
-			</div>
-			<div class="docker-title">
-				 {{ 'status_docker' | translate}}
-			</div>
-		</div> -->
-		<!-- <div class="sidebar-fixed position-fixed activeMenu">
-
-		<div mat-button class="mat-button" [routerLink]="['/settings']"  skipLocationChange routerLinkActive="active" (click)="preview('weights')" mat-button>
-			<span class="inlineIconBox leftAdjust">
-				<img src="assets/icons/sidemenu/new-icons/weights.svg" class="defaultIcon">	
-				<img src="assets/icons/sidemenu/new-icons/weights.svg" class="activeIcon">				
-			</span>
-			<span class="linkTitle">Channels</span>
-		</div>
-	 </div> 
-	 -->
-
-
-		
 	</perfect-scrollbar>
 
 </div>

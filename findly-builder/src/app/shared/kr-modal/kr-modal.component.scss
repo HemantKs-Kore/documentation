@@ -18,6 +18,11 @@
     &.kr-center{
         animation-name: example;
         animation-duration: 0.3s;
+        &.payment-confirmation-price{
+            .modal-dialog{
+                max-width: 100% !important;
+            }
+        }
         &.chooseplan-price{
             .modal-dialog{
                 max-width: 100% !important;
@@ -29,6 +34,11 @@
             }
         }
         &.payment-confirmation-price{
+            .modal-dialog{
+                max-width: 100% !important;
+            }
+        }
+        &.cancel_subscription{
             .modal-dialog{
                 max-width: 100% !important;
             }
