@@ -74,7 +74,8 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
   //goto Routes
   gotoRoutes(step) {
     this.closeOnBoardingModal();
-    this.router.navigate([step], { skipLocationChange: true });
+    //this.router.navigate([step], { skipLocationChange: true });
+    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: step });
   }
   //track checklist count and show count number
   trackChecklist() {
