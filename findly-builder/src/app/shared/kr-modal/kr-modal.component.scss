@@ -7,7 +7,7 @@
     /*--Full Modal Basic Styles Starts Here--*/
     text-align: center;
     padding: 0!important;
-    z-index: 10500;
+    z-index: 10500;    
     &:before {
         content: '';
         display: inline-block;
@@ -18,6 +18,21 @@
     &.kr-center{
         animation-name: example;
         animation-duration: 0.3s;
+        &.chooseplan-price{
+            .modal-dialog{
+                max-width: 100% !important;
+            }
+        }
+        &.overage_plan{
+            .modal-dialog{
+                max-width: 100% !important;
+            }
+        }
+        &.payment-confirmation-price{
+            .modal-dialog{
+                max-width: 100% !important;
+            }
+        }
         &.smallModal{
             .modal-dialog{
                 max-width: 67% !important;
@@ -344,6 +359,7 @@
                 padding: 6px;
                 z-index: 1;
                 position: relative;
+                margin-top: 2px;
                 .kr-btn-primary{
                     width: 114px;
                     background-color:#0D6EFD;
