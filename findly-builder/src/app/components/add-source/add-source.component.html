@@ -271,7 +271,7 @@
                             <div class="imageDiv">
                               <img class="ng-tns-c11-2" src="assets/images/source-icos/drog_frop.svg">
                             </div>
-                            <div class="info_text">Drag and drop file anywhere on this screen</div>
+                            <div class="info_text">Drag and drop a <b>pdf file</b> anywhere on this screen</div>
                             <div class="or-divider">- or -</div>
                             <div class="custom-file">
                               
@@ -284,7 +284,7 @@
                           </ng-container>
 
                           <ng-container *ngIf="fileObj.fileName">
-                            <div class="kr-sg-file-drag-drop">
+                            <div class="kr-sg-file-drag-drop w-100">
                               <div class="uploaded-file-name" [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
                                 <div class="file-close-text">
                                   <div class="d-flex align-items-center">
@@ -309,7 +309,14 @@
                       <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId && selectedSourceType.resourceType != 'importfaq'" >
                         <div class="kr-sg-checkbox">
                           <input id="checkbox-1" class="checkbox-custom" type="checkbox" (change)="annotateChange($event)">
-                          <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract</label>
+                          <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract
+                            <span class="tooltip-text"><img src="assets/icons/help-annotation.svg">
+                              <span class="tooltiptext">
+                                <div class="t-text">Use the annotate option to extract only the desired FAQs by marking question & answer pairs</div>
+                                <div class="learn_more">Learn More</div>
+                              </span>
+                            </span>
+                          </label>
                         </div>
                       </div>
                       <!-- Annotation End Here -->
@@ -328,6 +335,7 @@
                           <!-- <input type="text" placeholder="https://" class="input-text"> -->
                           <!-- <div class="error-msg">Error message here</div> -->
                         </div>
+                        <div class="info-upload-pdf"><img src="assets/icons/Info-pdf.svg">Upload Pdf files only</div>
                       </div>
                   </div>
                 </div>
@@ -366,7 +374,7 @@
                     </span> -->
                 </label>
               </div>
-              <div class="kr-sg-file-drag-drop" *ngIf="fileObj.fileName">
+              <div class="kr-sg-file-drag-drop w-100" *ngIf="fileObj.fileName">
                 <div class="uploaded-file-name"
                   [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
                   <div class="file-close-text">
@@ -386,7 +394,11 @@
             <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId && selectedSourceType.resourceType!='importfaq'">
               <div class="kr-sg-checkbox">
                 <input id="checkbox-1" class="checkbox-custom" type="checkbox" (change)="annotateChange($event)">
-                <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract</label>
+                <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract
+                  <span class="tooltip"><img src="assets/icons/help-annotation.svg">
+                    <span class="tooltiptext">Tooltip text</span>
+                  </span>
+                </label>
               </div>
             </div>
             <!-- Annotation End Here -->
