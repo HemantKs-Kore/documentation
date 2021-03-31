@@ -155,9 +155,9 @@ export class TeamManagementComponent implements OnInit {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Do you really want to remove?',
+        title: 'Are you sure you want to remove?',
         body: 'Selected member will be removed from this app',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Remove', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });

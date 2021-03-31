@@ -22,6 +22,7 @@ import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pd
 declare const $: any;
 import * as moment from 'moment';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { D, F } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-faq-source',
@@ -493,7 +494,18 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       type: 'faq'
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => { //get.job.status
-      if (res && res.length) {
+      this.resources = [...res];
+        if(res &&res.length){
+          res.forEach((d:any)=>{
+          if(d.extractedFaqsCount === 0){
+          let index = this.resources.findIndex((f)=>f._id == d._id);
+          if(index>-1){
+          this.resources.splice(index,1);
+          }
+          }
+        });
+      res = [...this.resources] ;
+      this.resources = res.reverse();
         res.forEach(element => {
           this.resourcesStatusObj[element.resourceId] = element;
         });
@@ -609,7 +621,18 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       skip: 0
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
-      this.resources = res;
+      this.resources = [...res];
+      if(res &&res.length){
+        res.forEach((d:any)=>{
+        if(d.extractedFaqsCount === 0){
+        let index = this.resources.findIndex((f)=>f._id == d._id);
+        if(index>-1){
+        this.resources.splice(index,1);
+        }
+        }
+      });
+    }
+    res = [...this.resources];
       this.resources.forEach(element => {
         if (element.advanceSettings && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time) {
           element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' at ' +
@@ -816,6 +839,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.pollingSubscriber = interval(5000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.job.status', quaryparms).subscribe(res => {
         this.updateSourceStatus(res);
+        this.getJobStatusForMessages();
         const queuedJobs = _.filter(res, (source) => {
           return ((source.status === 'running') || (source.status === 'queued'));
         });
@@ -1024,7 +1048,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   deleteIndFAQ(faq, dialogRef) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      sourceId: faq._id,
+      sourceId: faq._id
     }
     this.service.invoke('delete.faq', quaryparms).subscribe(res => {
       dialogRef.close();
@@ -1089,7 +1113,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         title: 'Delete Resource',
         text: 'Are you sure you want to delete ?',
         newTitle: 'Are you sure you want to delete ?',
-        body: 'Selected resource will be deleted.',
+        body: 'All the FAQs associated with this source will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -1153,6 +1177,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           console.log('deleted')
         }
       })
+       
   }
   addFollowUp(faq, event) {
     this.editfaq = false;

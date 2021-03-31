@@ -174,7 +174,7 @@
         </div>
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
-        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0 d-none" data-dismiss="modal"
         (click)="cancelExtraction()" *ngIf="selectedSourceType.sourceType==='faq'&&statusObject.status!=='success'||statusObject.status=='failed'">Cancel Extraction</button>
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='faq'">Ok</button>
@@ -219,14 +219,6 @@
         <div class="modal-body">
           <div *ngIf="selectedSourceType" class="crerateWebCrawl" [ngClass]="{'pr-0': resourceIDToOpen}">
             <div class="crawl-form-title" *ngIf="!resourceIDToOpen"></div>
-            <div *ngIf= "(selectedSourceType.resourceType === 'webdomain')">
-              <div class="kr-sg-input-text mb-4">
-                <div class="label-text">Source URL</div>
-                <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Domain URL"
-                  [(ngModel)]="newSourceObj.url" class="input-text">
-              </div>
-            </div>
             <div class="kr-sg-input-text mb-4">
               <div class="label-text">Source Title</div>
               <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Title"
@@ -236,6 +228,14 @@
               <div class="label-text">Description</div>
               <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc"
                 placeholder="Enter Description" class="input-text"></textarea>
+            </div>
+            <div *ngIf= "(selectedSourceType.resourceType === 'webdomain')">
+              <div class="kr-sg-input-text mb-4">
+                <div class="label-text">Source URL</div>
+                <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Domain URL"
+                  [(ngModel)]="newSourceObj.url" class="input-text">
+              </div>
             </div>
             <div class="container-import"  *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.id=== 'faqDoc')">
             <div class="import">IMPORT FROM FILE</div>
@@ -323,7 +323,7 @@
                         <div class="kr-sg-input-text">
                           <div class="label-text">Enter URL</div>
                           <input type="text"  placeholder="http(s)://" class="input-text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="https://"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="http(s)://"
                   [(ngModel)]="newSourceObj.url" class="input-text">
                           <!-- <input type="text" placeholder="https://" class="input-text"> -->
                           <!-- <div class="error-msg">Error message here</div> -->
