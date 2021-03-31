@@ -458,7 +458,7 @@
                                                         <div class="bot-response-title col-6">Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div>
                                                         <div class="response-likes-views-sec d-flex col-6">
                                                             <div class="count-sec">
-                                                                <img src="assets/icons/faq/views.svg">{{selectedFaq.stats.appearances ||0}}
+                                                                <img src="assets/icons/faq/views.svg">{{selectedFaq.stats.appearances?selectedFaq.stats.appearances[0][0]: 0}}
                                                             </div>
                                                             <div class="count-sec">
                                                                 <img src="assets/icons/faq/hand.svg">{{selectedFaq.stats.clicks ||0}}
@@ -490,7 +490,7 @@
                                                     <div class="bot-response-title col-6">Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.defaultAnswers?selectedFaq._source.defaultAnswers.length:0))}}</span></div>
                                                     <div class="response-likes-views-sec d-flex col-6">
                                                         <div class="count-sec">
-                                                            <img src="assets/icons/faq/views.svg">{{selectedFaq.stats.appearances ||0}}
+                                                            <img src="assets/icons/faq/views.svg">{{selectedFaq.stats.appearances?selectedFaq.stats.appearances[0][0]: 0}}
                                                         </div>
                                                         <div class="count-sec">
                                                             <img src="assets/icons/faq/hand.svg">{{selectedFaq.stats.clicks ||0}}
