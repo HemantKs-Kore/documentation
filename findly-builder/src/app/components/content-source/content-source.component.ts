@@ -62,6 +62,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   docTypeArr = [];
   selectedFilter: any = ''
   executionLogStatus = false;
+  componentType: string = 'addData';
   contentTypes = {
     webdomain: 'Web',
     document: 'Doc'
@@ -159,7 +160,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   respectRobotTxtDirectives = false;
   crawlBeyondSitemaps = false;
   loadingContent1: boolean;
-  isJavaScriptRendered = false;
+  isJavaScriptRendered = true;
   blockHttpsMsgs = false;
   crawlDepth: number;
   maxUrlLimit: number;

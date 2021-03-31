@@ -59,6 +59,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedMapping: any = {};
   actionItmes: any = [{ type: 'set' }, { type: 'rename' }, { type: 'copy' }, { type: 'Delete' }];
   newMappingObj: any = {}
+  sourceType =  'faq';
   defaultStageTypesObj: any = {
     field_mapping: {
       name: 'Field Mapping',
@@ -125,7 +126,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     // {"title": "City", "value": "city"},
   ];
   simulteObj: any = {
-    sourceType: 'faq',
+    sourceType: this.sourceType,
     docCount: 5,
     showSimulation: false,
     simulate: this.defaultStageTypesObj
@@ -153,6 +154,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     readOnly: true,
   };
   simulateJson;
+  componentType: string = 'addData';
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     public workflowService: WorkflowService,
@@ -160,7 +162,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     private notificationService: NotificationService,
     public dialog: MatDialog,
     public authService: AuthService,
-    private appSelectionService:AppSelectionService
+    private appSelectionService: AppSelectionService
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -177,20 +179,20 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     // this.setResetNewMappingsObj();
     // this.addcode({});
     // this.getTraitGroups()
-    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res=>{
+    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadIndexAll()
     })
   }
-  loadIndexAll(){
+  loadIndexAll() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-      if(this.indexPipelineId){
-        this.getSystemStages();
-        this.getIndexPipline();
-        this.getFileds();
-        this.setResetNewMappingsObj();
-        this.addcode({});
-        this.getTraitGroups()
-      }
+    if (this.indexPipelineId) {
+      this.getSystemStages();
+      this.getIndexPipline();
+      this.getFileds();
+      this.setResetNewMappingsObj();
+      this.addcode({});
+      this.getTraitGroups()
+    }
   }
   ngAfterViewInit() {
     const self = this;
@@ -249,7 +251,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   setResetNewMappingsObj(ignoreSimulate?, saveConfig?) {
     if (!ignoreSimulate) {
       this.simulteObj = {
-        sourceType: 'faq',
+        sourceType: this.sourceType,
         docCount: 5,
         showSimulation: false,
       }
@@ -605,6 +607,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.service.invoke('put.indexPipeline', quaryparms, { stages: this.preparepayload() }).subscribe(res => {
         this.pipeline = res.stages || [];
         this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
+        // this.appSelectionService.updateTourConfig('addData');
         this.notificationService.notify('Configurations saved successfully', 'success');
         this.savingConfig = false;
         if (dialogRef && dialogRef.close) {
@@ -694,7 +697,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   changeSimulate(value, type) {
     if (type === 'source') {
-      this.simulteObj.sourceType = value;
+      this.sourceType = value
+      this.simulteObj.sourceType = this.sourceType;
     } else {
       this.simulteObj.docCount = value
     }
@@ -702,7 +706,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   closeSimulator() {
     this.simulteObj = {
-      sourceType: 'faq',
+      sourceType: this.sourceType,
       docCount: 5,
       showSimulation: false,
     }
@@ -760,6 +764,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       }, errRes => {
         this.simulating = false;
         this.simulteObj.simulating = false;
+        this.addcode({});
         if (this.pollingSubscriber) {
           this.pollingSubscriber.unsubscribe();
         }

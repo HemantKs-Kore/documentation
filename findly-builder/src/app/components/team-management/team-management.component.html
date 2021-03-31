@@ -33,7 +33,7 @@
                     <div class="table-body row" *ngFor="let member of membersList" [ngClass]="{'selected': member.roleInfo[0].role==='Owner'?'':(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[member._id])}">
                         <div class="col-4 withcheckbox title">
                             <div class="kr-sg-checkbox p-0 m-0" [hidden]="member.roleInfo[0].role==='Owner'">
-                                <input id="{{member._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(member)" type="checkbox">
+                                <input id="{{member._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckTeam(member)" type="checkbox">
                                 <label for="{{member._id}}" class="checkbox-custom-label"></label>
                             </div>
                             <div class="title p-0 text-truncate" title="{{member.emailId}}">{{member.emailId}}</div>
@@ -78,8 +78,7 @@
                       <input
                         placeholder="Type and Enter To Add"
                         #fruitInput
-                        [formControl]="fruitCtrl"
-                        
+                        [formControl]="fruitCtrl"                        
                         [matChipInputFor]="chipList"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                         (matChipInputTokenEnd)="add($event)">

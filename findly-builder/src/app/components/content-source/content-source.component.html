@@ -11,6 +11,7 @@
     </div>
   </div> -->
   <ng-container *ngIf="!(resources && resources.length) && loadingContent1">
+    <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="title-content">Content</div>
     <perfect-scrollbar class="scoll-empty-screen">
       <div class="empty-landing-screen">
@@ -429,37 +430,40 @@
                   <div class="kr-sg-data-table with-checkbox"  >
                     <section class="table-content">
                       <header class="table-header">
-                        <div class="col_ col-2">Title</div>
-                        <div class="col_ col-3">Url</div>
-                        <div class="col_ col-2">Description</div>
-                        <div class="col_ col-2">Crawled</div>
-                        <div class="col_ col-1">Status</div>
-                        <div class="col_ col-1">Pages</div>
+                        <div class="col_ col-1">TITLE</div>
+                        <div class="col_ col-3">URL</div>
+                        <div class="col_ col-2">DESCRIPTION</div>
+                        <div class="col_ col-2">CREATED BY</div>
+                        <div class="col_ col-2">LAST UPDATED</div>
                       </header>
                       <ng-container>
                         <div class="content-body">
-                          <div class="col_ col-2" *ngIf="!editTitleFlag">{{selectedSource.name}}</div>
+                          <div class="col_ col-1" *ngIf="!editTitleFlag" title="{{selectedSource.name}}">{{selectedSource.name}}</div>
                           <div class="col_ col-2" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.title"></div>
                           <div class="col_ col-3" title="{{selectedSource.url}}">{{selectedSource.url}}</div>
                           <!-- <div class="col_ col-3" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.url"></div> -->
-                          <div class="col_ col-2" *ngIf="!editTitleFlag">{{selectedSource.desc}}</div>
+                          <div class="col_ col-2" *ngIf="!editTitleFlag" title="{{selectedSource.desc}}">{{selectedSource.desc}}</div>
                           <div class="col_ col-2" *ngIf="editTitleFlag">
                             <div class="kr-sg-input-text-area min-ht">
                               <textarea class="wid min-ht" [(ngModel)] = "editConfObj.desc"></textarea>
                             </div>
                           </div>
-                          <div class="col_ col-2" >{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}
+                          <div class="col_ col-2" >{{selectedSource.userDetails.firstName}}
+                          </div>
+                          <div class="col_ col-2" >{{selectedSource.lMod | date:'mediumDate'}}
+                          </div>
+                          <!--<div class="col_ col-2" >{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}
                           </div>
                           <div class="col_ col-1"
                             *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
                             [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
                             {{statusObj[selectedSource.recentStatus].name}}</div>
-                          <div class="col_ col-1">
+                           <div class="col_ col-1">
                             <a class="ViewPages"
                               *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length"
                               (click)="swapSlider()">{{selectedSource.numPages}}</a>
-                          </div>
-                          <div class="col_ col-1 p-0 text-right actions-images">
+                          </div> -->
+                          <div class="col_ col-2 p-0 text-right actions-images">
                             <img src="assets/icons/return.svg" *ngIf="selectedSource.extractionType == 'webdomain'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl">
                             <img src="assets/icons/content/edit_black.svg" (click)="editTitle($event)" title="Edit">
                             <img src="assets/icons/content/delete.svg" (click)="deletePages('source',page ,$event)" title="Delete">

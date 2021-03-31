@@ -86,7 +86,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.headerService.toggle(toogleObj);
   }
   reloadCurrentRoute() {
-    let route = '/source';
+    let route = '/summary';
     const previousState = this.appSelectionService.getPreviousState();
     if (previousState.route) {
       route = previousState.route
@@ -223,7 +223,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     );
   }
   createConfig() {
-    console.log("this.newConfigObj", this.newConfigObj)
     const payload: any = {
       method: this.newConfigObj.method,
       name: this.newConfigObj.name,
@@ -231,7 +230,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     if (this.newConfigObj.method === 'clone') {
       payload.sourceQueryPipelineId = this.newConfigObj.config_id
     }
-    console.log("payload", payload)
     const queryParms = {
       searchIndexId: this.searchIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
@@ -257,6 +255,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     );
   }
   selectQueryPipelineId(queryConfigs, event?, type?) {
+    console.log("queryConfigs", queryConfigs)
     if (event && !this.editName) {
       event.close();
     }

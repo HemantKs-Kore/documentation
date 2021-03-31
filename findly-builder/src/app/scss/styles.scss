@@ -2584,6 +2584,7 @@ nouislider{
                             }
                             .content-sec{
                                 max-width: 332px;
+                                word-break: break-word;
                             }
                         }
                     }
@@ -3052,4 +3053,92 @@ nouislider{
                 max-height: 428px;
             }
         }        
+}
+
+#test-btn-launch-sdk.active{
+    background: #BDC1C6;
+}
+
+.test-icon-tooltip{
+    opacity: 1 !important;
+    .arrow{
+        &::before{
+            border-bottom-color: #202124;
+        }
+    }
+    .tooltip-inner{
+        font-weight: 600;
+        font-size: 10px;
+        line-height: 14px;
+        color: #FFFFFF;
+        background: #202124;        
+        border-radius: 4px;
+        font-weight: normal;
+        padding: 10px 20px;
+        text-align: center;
+        border: 0;
+        width: 160px;
+        max-width: 160px;
+    }
+}
+
+.test-close-tooltip{
+    .tooltip-inner{
+        font-weight: 600;
+        font-size: 10px;
+        line-height: 14px;
+        color: #FFFFFF;
+        background: #202124;        
+        border-radius: 4px;
+        font-weight: normal;
+        padding: 10px 15px;
+        text-align: center;
+        border: 0;
+        width: 200px;
+        max-width: 200px;
+    }
+}
+
+.train-icon-tooltip{
+    opacity: 1 !important;
+    .arrow{
+        &::before{
+            border-bottom-color: #202124;
+        }
+    }
+    .tooltip-inner{
+        font-weight: 600;
+        font-size: 10px;
+        line-height: 14px;
+        color: #FFFFFF;
+        background: #202124;        
+        border-radius: 4px;
+        font-weight: normal;
+        padding: 10px;
+        text-align: center;
+        border: 0;
+        width: auto;
+        max-width: auto;
+    }
+}
+
+app-useronboarding-journey{
+    position: fixed;
+    width: 100%;
+    top: 70px;
+    display: inline-block;
+    z-index: 9;
+    left: 0;
+}
+.more-traits-scroll{
+    max-height: 250px;
+    .ps{
+        max-height: 250px;
+    }
+}
+.scroll-search-fiels-weights{
+    max-height: 350px;
+    .ps{
+        max-height: 350px;
+    }
 }

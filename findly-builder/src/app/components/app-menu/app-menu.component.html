@@ -28,7 +28,7 @@
 				</div>
 
 
-				<div mat-button class="mat-button" [routerLink]="['/botActions']" skipLocationChange routerLinkActive="active" (click)="preview('Bot Actions')" mat-button>
+				<div mat-button class="mat-button" id="botActionsTab" [routerLink]="['/botActions']" skipLocationChange routerLinkActive="active" (click)="preview('Bot Actions')" mat-button>
 					<span class="inlineIconBox">
 						<img src="assets/icons/sidemenu/new-icons/actions.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/actions.svg" class="activeIcon">
@@ -231,7 +231,7 @@
 				</span>
 				<span class="linkTitle">Team Management</span>
 			</div>
-			<!-- <div class="inside-menu-title">SEARCH EXPERIENCE</div>
+			<div class="inside-menu-title">SEARCH EXPERIENCE</div>
 
 			<div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
@@ -247,7 +247,25 @@
 					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Search Experience</span>
-			</div> -->
+			</div>
+
+			<div mat-button class="mat-button" [routerLink]="['/actions']" skipLocationChange routerLinkActive="active"
+				(click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/actions-config.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/actions-config.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Actions</span>
+			</div>
+
+			<div mat-button class="mat-button" [routerLink]="['/smallTalk']" skipLocationChange routerLinkActive="active"
+				(click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/smalltalk.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/smalltalk.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Small Talk</span>
+			</div>			
 		</div>
 
 		<!-- <div class="status-docker" (click)="(dockService.showStatusDocker = !dockService.showStatusDocker); openStatusDocker()">

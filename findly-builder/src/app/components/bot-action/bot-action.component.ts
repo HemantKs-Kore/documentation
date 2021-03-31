@@ -9,7 +9,7 @@ import * as _ from 'underscore';
 
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-
+declare const $: any;
 @Component({
   selector: 'app-bot-action',
   templateUrl: './bot-action.component.html',
@@ -43,7 +43,15 @@ export class BotActionComponent implements OnInit {
 
   linkedBotTasks: any = [];
   linkedBotFAQs: any = [];
-
+  showSearch;
+  searchImgSrc:any='assets/icons/search_gray.svg';
+  searchFocusIn=false;
+  searchTasks = '';
+  selcectionObj: any = {
+    selectAll: false,
+    selectedItems:[],
+  };
+  isEnabledAll = "disable"
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -52,7 +60,108 @@ export class BotActionComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
   ) { }
+  checkUncheckTasks(task){
+    const selectedElements = $('.selectEachTaskInput:checkbox:checked');
+    const allElements = $('.selectEachTaskInput');
+    if(selectedElements.length === allElements.length){
+      let partialElement : any = document.getElementsByClassName("partial-select-checkbox");
+      if(partialElement.length){
+        partialElement[0].classList.add('d-none');
+      }
+      let selectAllElement : any = document.getElementsByClassName("select-all-checkbox");
+      if(selectAllElement.length){
+        selectAllElement[0].classList.remove('d-none');
+      }
+      $('#selectAllTasks')[0].checked = true;
+    } else {
+      let partialElement : any = document.getElementsByClassName("partial-select-checkbox");
+      let selectAllElement : any = document.getElementsByClassName("select-all-checkbox");
 
+      if(partialElement && (selectedElements.length != 0)){
+        partialElement[0].classList.remove('d-none');
+        if(selectAllElement.length){
+          selectAllElement[0].classList.add('d-none');
+        }
+      }
+      else{
+        partialElement[0].classList.add('d-none');
+        if(selectAllElement.length){
+          selectAllElement[0].classList.remove('d-none');
+        }
+      }
+      $('#selectAllTasks')[0].checked = false;
+    }
+    const element = $('#' + task._id);
+    const addition =  element[0].checked
+    this.addRemoveTasksFromSelection(task._id,addition);
+  }
+  selectAllFromPartial(){
+    this.selcectionObj.selectAll = true;
+    $('#selectAllTasks')[0].checked = true;
+    this.selectAll();
+  }
+  selectAll(unselectAll?) {
+    const allTasks = $('.selectEachTaskInput');
+    if (allTasks && allTasks.length){
+      $.each(allTasks, (index,element) => {
+        if($(element) && $(element).length){
+          $(element)[0].checked = unselectAll?false: this.selcectionObj.selectAll;
+          const facetId = $(element)[0].id
+          this.addRemoveTasksFromSelection(facetId,$(element)[0].checked);
+        }
+      });
+    };
+    let partialElement : any = document.getElementsByClassName("partial-select-checkbox");
+    if(partialElement.length){
+      partialElement[0].classList.add('d-none');
+    }
+    let selectAllElement : any = document.getElementsByClassName("select-all-checkbox");
+    if(selectAllElement.length){
+      selectAllElement[0].classList.remove('d-none');
+    }
+    if(unselectAll){
+      $('#selectallTasks')[0].checked = false;
+    }
+  }
+  addRemoveTasksFromSelection(facetId?,addtion?,clear?){
+    if(clear){
+      this.resetPartial();
+      const allTasks = $('.selectEachfacetInput');
+      $.each(allTasks, (index,element) => {
+        if($(element) && $(element).length){
+          $(element)[0].checked =false;
+        }
+      });
+     this.selcectionObj.selectedItems = {};
+     this.selcectionObj.selectedCount = 0;
+     this.selcectionObj.selectAll = false;
+    } else {
+     if(facetId){
+       if(addtion){
+         this.selcectionObj.selectedItems[facetId] = {};
+       } else {
+         if(this.selcectionObj.selectedItems[facetId]){
+           delete this.selcectionObj.selectedItems[facetId]
+         }
+       }
+     }
+     this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
+    }
+  }
+  resetPartial(){
+    this.selcectionObj.selectAll = false;
+    if($('#selectAllTasks').length){
+      $('#selectAllTasks')[0].checked = false;
+    }
+    let partialElement : any = document.getElementsByClassName("partial-select-checkbox");
+    if(partialElement.length){
+      partialElement[0].classList.add('d-none');
+    }
+    let selectAllElement : any = document.getElementsByClassName("select-all-checkbox");
+    if(selectAllElement.length){
+      selectAllElement[0].classList.remove('d-none');
+    }
+  }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     console.log(this.selectedApp);
@@ -139,6 +248,12 @@ export class BotActionComponent implements OnInit {
       }
     );
   }
+  toggleSearch() {
+    if (this.showSearch && this.searchTasks) {
+      this.searchTasks = '';
+    }
+    this.showSearch = !this.showSearch
+  };
   getBots() {
     if (this.streamId) {
       const quaryparms: any = {
@@ -382,7 +497,7 @@ export class BotActionComponent implements OnInit {
         else {
           selectedApp.publishedBots[0] = {};
           selectedApp.publishedBots[0]._id = res.publishedBots[0]._id;
-          this.linkedBotID = res.publishedBots[0]._id
+          this.linkedBotID = res.publishedBots[0]._id 
           this.linkedBotName = res.publishedBots[0].botName;
         }
 
@@ -398,6 +513,8 @@ export class BotActionComponent implements OnInit {
         }
         this.getAssociatedTasks(this.streamId)
         this.getAssociatedBots();
+        this.workflowService.linkBot(botID);
+        this.workflowService.smallTalkEnable(res.stEnabled);
         this.notificationService.notify("Bot linked, successfully", 'success')
       },
         (err) => {
@@ -410,10 +527,11 @@ export class BotActionComponent implements OnInit {
     else {
       this.notificationService.notify('Failed', 'Error in linking bot');
     }
-  }
+  } 
   linkBot(botID: any) {
     if(this.botToBeUnlinked && this.islinked){
       this.unlinkBotWhithPublish(botID);
+      this.workflowService.linkBot(botID);
     }else{
       this.linkAfterUnlink(botID);
       this.botToBeUnlinked = botID;
@@ -638,6 +756,7 @@ export class BotActionComponent implements OnInit {
         console.log(res);
        // Universal Bot Publish here.
        this.allBotArray =[];
+    
        res.configuredBots.forEach(element => {
         let obj = {
           "_id": element._id,
@@ -672,6 +791,8 @@ export class BotActionComponent implements OnInit {
 
         this.getAssociatedBots();
         this.getAssociatedTasks(this.streamId);
+        this.workflowService.linkBot('');
+        this.syncLinkedBot();
 
         this.notificationService.notify("Bot unlinked, successfully. Please publish to reflect", 'success');
         
@@ -808,7 +929,77 @@ export class BotActionComponent implements OnInit {
         (err) => { this.notificationService.notify("Task Enabling Failed", 'error') });
     }
   }
+  
+  enableDisableTask(){
+    this.isEnabledAll = (this.isEnabledAll === 'disable')?'enable':'disable';
+    if(this.isEnabledAll === 'enable'){
+      this.enableSeletedTasks(true);
+    }else{
+      this.disableSeletedTasks(true);
+    }
+  }
 
+  enableSeletedTasks(isEnabledAll) {
+    event.preventDefault();
+
+    const tasks = isEnabledAll?this.linkedBotTasks:Object.keys(this.selcectionObj.selectedItems);
+
+    let requestBody = {};
+    requestBody['tasks'] = [];
+    
+
+    if (this.searchIndexId) {
+      const queryParams: any = {
+        searchIndexID: this.searchIndexId
+      };
+      tasks.forEach((e:any) => {
+        if (isEnabledAll) {
+          if (e.isHidden == true) {
+            let taskObject: any = {};
+            taskObject['_id'] = e._id;
+            taskObject['streamId'] = this.streamId;
+            taskObject['isHidden'] = false;
+            requestBody['tasks'].push(taskObject);
+          }
+        } else {
+          let taskObject: any = {};
+          taskObject['_id'] = e;
+          taskObject['streamId'] = this.streamId;
+          taskObject['isHidden'] = false;
+          requestBody['tasks'].push(taskObject);
+        }
+      });
+      
+      console.log(requestBody)
+
+      this.service.invoke('put.enableTask', queryParams, requestBody, { "state": "published" }).subscribe(res => {
+        console.log(res);
+
+        if (res.tasks.length > 0) {
+          this.linkedBotTasks = [];
+          res.tasks.forEach(element => {
+            if (element.state == "published") {
+              if (element.isHidden == false) {
+                element.taskStatus = "Enabled";
+              }
+              else {
+                element.taskStatus = "Disabled";
+              }
+              element.type = element.type ?? "Dialog";
+              this.linkedBotTasks.push(element);
+            }
+          });
+          console.log("Linked Bot, Tasks", this.linkedBotTasks);
+          this.notificationService.notify("Task Enabled, Successfully", 'success');
+          this.selcectionObj = {
+            selectAll: false,
+            selectedItems:[]
+          };
+        }
+      },
+        (err) => { this.notificationService.notify("Task Enabling Failed", 'error') });
+    }
+  }
   disableTask(taskID) {
     event.preventDefault();
     let requestBody = {};
@@ -856,7 +1047,72 @@ export class BotActionComponent implements OnInit {
       }, (err) => { this.notificationService.notify("Task Disabling Failed", 'error') })
     }
   }
+  disableSeletedTasks(isDisabledAll) {
+    event.preventDefault();
+    const tasks = isDisabledAll?this.linkedBotTasks:Object.keys(this.selcectionObj.selectedItems);
+    let requestBody = {};
+    requestBody['tasks'] = [];
+    let taskObject = {};
 
+    if (this.searchIndexId) {
+      const queryParams: any = {
+        searchIndexID: this.searchIndexId
+      };
+      tasks.forEach((e:any) => {
+        if (isDisabledAll) {
+          if (e.isHidden == false) {
+            let taskObject:any = {};
+            taskObject['_id'] = e._id;
+          taskObject['streamId'] = this.streamId;
+          taskObject['isHidden'] = true;
+          requestBody['tasks'].push(taskObject);
+          }
+        } else {
+          let taskObject:any = {};
+        taskObject['_id'] = e;
+      taskObject['streamId'] = this.streamId;
+      taskObject['isHidden'] = true;
+      requestBody['tasks'].push(taskObject);
+        }
+
+
+
+        
+      });
+
+      this.service.invoke('put.disableTask', queryParams, requestBody, { "state": "published" }).subscribe(res => {
+        console.log(res);
+        /*this.linkedBotTasks.map(element => {
+          if (res._id === element._id) {
+            element = res;
+            console.log(element);
+            this.notificationService.notify("Task Disabled, Successfully", 'success');
+          }
+        })*/
+        if (res.tasks.length > 0) {
+          this.linkedBotTasks = [];
+          res.tasks.forEach(element => {
+            if (element.state == "published") {
+              if (element.isHidden == false) {
+                element.taskStatus = "Enabled";
+              }
+              else {
+                element.taskStatus = "Disabled";
+              }
+              element.type = element.type ?? "Dialog";
+              this.linkedBotTasks.push(element);
+            }
+          });
+          console.log("Linked Bot, Tasks", this.linkedBotTasks);
+          this.notificationService.notify("Task Disabled, Successfuly", 'success')
+          this.selcectionObj = {
+            selectAll: false,
+            selectedItems:[]
+          };
+        }
+      }, (err) => { this.notificationService.notify("Task Disabling Failed", 'error') })
+    }
+  }
   syncLinkedBot() {
     if (this.searchIndexId) {
       const queryParams: any = {
