@@ -33,7 +33,7 @@ export class SettingsComponent implements OnInit {
     name: "",
     anonymus: true,
     register: true,
-    awt: 'HS256',
+    awt: 'Select Signing Algorithm',
     enabled: false
   };
   channels = [
@@ -429,6 +429,7 @@ export class SettingsComponent implements OnInit {
         this.prepareChannelData();
         this.standardPublish();
         this.configFlag = true;
+  
         console.log(res);
       },
       errRes => {
@@ -445,6 +446,8 @@ export class SettingsComponent implements OnInit {
   }
   closeModalPopup() {
     this.addCredentialRef.close();
+    this.credntial.name=[];
+    this.credntial.awt = 'Select Signing Algorithm'; 
   }
   toggleSearch() {
     if (this.showSearch && this.searchchannel) {
