@@ -68,7 +68,7 @@
                     <div class="tab-sec d-flex" *ngIf="faqSelectionObj.selectedCount == 0">
                         <div class="tab_title" (click)="selectTab('draft')" [ngClass]="{'active': (selectedtab === 'draft')}">Drafts<span class="">({{faqSelectionObj.stats.draft || 0}})</span></div>
                         <div class="tab_title" (click)="selectTab('in_review')" [ngClass]="{'active': (selectedtab === 'in_review')}">In-review<span class="">({{faqSelectionObj.stats.in_review || 0}})</span></div>
-                        <div class="tab_title" (click)="selectTab('approved')" [ngClass]="{'active': (selectedtab === 'approved')}">Approved<span class="">({{faqSelectionObj.stats.approved || 0}})</span></div>
+                        <div class="tab_title" (click)="selectTab('approved')"  [ngClass]="{'active': (selectedtab === 'approved')}">Approved<span class="">({{faqSelectionObj.stats.approved || 0}})</span></div>
                     </div>
                     <div class="header-sec" *ngIf="faqSelectionObj.selectedCount == 0">
                         <div class="kr-sg-checkbox">
@@ -112,10 +112,11 @@
                             <div class="title">{{(faqSelectionObj.selectAll)?'All':faqSelectionObj.selectedCount}} Selected</div>
                         </div>
                         <div class="col-8 p-0 d-flex align-items-center justify-content-end">
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
                             <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
                             <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
                             <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
+                         
                             
                         </div>
                     </div>
@@ -127,7 +128,7 @@
                         </div>
                         <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer': faqSelectionObj.selectedCount}" (psYReachEnd)="onScrolledEnd($event)" *ngIf="faqSelectionObj.stats[selectedtab]">
                             <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab" >
-                            <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div>
+                            <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll" id="selectAllFaqs" (click)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div>
                             <div id="accordion" class="accordion-content">
                                 <div *ngFor="let faq of faqs">
                                     <div class="card-content" *ngIf="faq.action!=='delete'">
@@ -198,7 +199,7 @@
                                     <div class="approved_date" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.lMod | dateFormatPipe:'hh:mm:ss A'}}</span></div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
-                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" >                                        
                                         <div class="dropdown dropdown-open">                                        
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
                                             <ul class="dropdown-menu content-menu info_header_dropdown_content" ngbDropdownMenu>
@@ -223,7 +224,7 @@
                                             </ul>
                                         </div>
                                     </div>                             
-                                    <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <div class="kr-sg-dropdowns comments_header_dropdown"  #commentBox='ngbDropdown' ngbDropdown  [container]="'body'" [placement]="'bottom-right'" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved') || (selectedtab === 'in_review')">                                        
                                         <div class="dropdown dropdown-open">                                        
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                                                                      
                                             <ul class="dropdown-menu content-menu comments_header_dropdown_content" ngbDropdownMenu>
@@ -242,15 +243,15 @@
                                                                 </div>
                                                             </div>
                                                             <div class="kr-sg-input-text-area">                                                           
-                                                                <textarea placeholder="reply" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
+                                                                <textarea id="changePlaceholder" placeholder="Add a comment" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
                                                             </div>
                                                         </div>
                                                     </perfect-scrollbar>                                                   
                                                     <div class="footer-data">
                                                         <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
                                                         <div class="btn_sec">
-                                                            <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button> 
-                                                            <button class="kr-sg-button-secondary btn_lg" (click)="clearContent()">Cancel</button>                                               
+                                                            <button class="kr-sg-button-secondary btn_lg" (click)="commentBox.close()">Cancel</button>
+                                                            <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button>                                           
                                                         </div>
                                                     </div>
                                                 </div>  
@@ -264,7 +265,7 @@
                                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
                                                 <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
                                                     <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>
-                                                    <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                        
+                                                    <!-- <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                         -->
                                                 </ul>
                                             </div>
                                         </div>                                    
@@ -385,7 +386,7 @@
                                         </ul>
                                     </div>
                                 </div>                             
-                                <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                <div class="kr-sg-dropdowns comments_header_dropdown"  #commentBox='ngbDropdown' ngbDropdown   [container]="'body'" [placement]="'bottom-right'">                                        
                                     <div class="dropdown dropdown-open">                                        
                                         <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                                                                      
                                         <ul class="dropdown-menu content-menu comments_header_dropdown_content" ngbDropdownMenu>
@@ -404,15 +405,15 @@
                                                             </div>
                                                         </div>
                                                         <div class="kr-sg-input-text-area">                                                           
-                                                            <textarea placeholder="reply" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
+                                                            <textarea id="changePlaceholder" placeholder="Add a comment" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
                                                         </div>
                                                     </div>
                                                 </perfect-scrollbar>                                                   
                                                 <div class="footer-data">
                                                     <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
                                                     <div class="btn_sec">
-                                                        <button class="kr-sg-button-secondary btn_lg" (click)="clearContent()">Cancel</button>
-                                                        <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button>                                                            
+                                                        <button class="kr-sg-button-secondary btn_lg" (click)="commentBox.close()">Cancel</button>
+                                                        <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button>                                                           
                                                     </div>
                                                 </div>
                                             </div>  
@@ -425,8 +426,8 @@
                                         <div class="dropdown dropdown-open">
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
                                             <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
-                                                <li (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</li>
-                                                <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Needs Rework</li>
+                                                <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>
+                                                <li (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>
                                             </ul>
                                         </div>
                                     </div>                                    

@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <perfect-scrollbar class="p-scroll-data">
+    <perfect-scrollbar class="p-scroll-data" [ngClass]="{'scroll-empty-screen': filterExperiments.length===0}">
       <div class="table-data-content">
         <div class="row m-0 header-data col-12"  *ngIf='filterExperiments.length>0'>
           <div class="col-3 h-title d-flex align-items-center">
@@ -239,8 +239,7 @@
           experiments
         </div>
       </div> --> 
-      <ng-container *ngIf="filterExperiments.length===0">
-        <perfect-scrollbar class="empty-scroll">
+      <ng-container *ngIf="filterExperiments.length===0">        
         <div  class="empty-landing-screen" >
           <div class="img-block"><img class="action_icon" src="assets/images/experiments-empty.svg" (load)="imageLoaded()"></div>
           <ng-container *ngIf="loadImageText">
@@ -251,9 +250,8 @@
                 <button class="kr-sg-button-primary btn_lg px-3" (click)="addExperiment('add')">Add Experiments</button>                                            
               <!-- </div> -->
           </ng-container>
-          </div>
-    </perfect-scrollbar>  
-  </ng-container>
+        </div>    
+    </ng-container>
 <div class="no-experiments" *ngIf="filterExperiments.length!=0&&listOfExperiments.length===0">
         <div>No results found</div>
       </div>
