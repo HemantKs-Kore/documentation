@@ -602,5 +602,27 @@ input::placeholder{
 		}
 	}
 }
+.tooltip_custom{
+	opacity: 1 !important;
+	&.margin-10{
+		margin-left: 10px;
+	}
+	.arrow{
+		&::before{
+			border-bottom-color: #202124;
+		}
+	}
+	.tooltip-inner{
+		background: #202124;
+		box-shadow: 0px 4px 4px rgb(32 33 36 / 20%);
+		border-radius: 4px;
+		font-weight: 600;
+		font-size: 10px;
+		line-height: 14px;
+		color: #FFFFFF;
+		padding: 10px 15px;
+	}
+
+}
 
 @import './../../../app/scss/themes.scss';
