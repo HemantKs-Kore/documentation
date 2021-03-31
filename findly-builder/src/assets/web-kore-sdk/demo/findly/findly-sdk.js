@@ -2790,7 +2790,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (!$('body').hasClass('top-down')) {
         _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
       }
-      _self.pubSub.publish('sa-search-result', tmplData);
+      if($('body').hasClass('top-down')){
+        _self.pubSub.publish('sa-search-result', {...tmplData,...{isLiveSearch:false,isFullResults: true,selectedFacet: selectedFacet_temp}});
+      }else{
+        _self.pubSub.publish('sa-search-result', tmplData);
+      }
       _self.pubSub.publish('sa-source-type', facets);
 
       if (!selectedFacet || selectedFacet === "all results") {
@@ -3122,10 +3126,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   _self.bindStructuredDataTriggeringOptions();
                 }, 100);
               }
+              _self.pubSub.publish('sa-search-result', {..._self.vars.searchObject.liveData,...{isLiveSearch:false,isFullResults: true,selectedFacet: _self.vars.selectedFacetFromSearch||'all results'}});
+
             } else {
               _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
+              _self.pubSub.publish('sa-search-result', _self.vars.searchObject.liveData);
+
             }
-            _self.pubSub.publish('sa-search-result', _self.vars.searchObject.liveData);
+           
             _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
             if (!$('body').hasClass('top-down')) {
               // Sea all Results 
@@ -3700,17 +3708,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.facet').off('click').on('click', function (e) {
         var facetThis = this;
         var selectedFacet = $(this).attr('id');
-
+        _self.vars.selectedFacetFromSearch= selectedFacet;
         _self.prepAllSearchData(selectedFacet);
         _self.pubSub.publish('facet-selected', { selectedFacet: selectedFacet });
         if($('body').hasClass('top-down')){
             $(".content-data-sec").scrollTop(0);
+            if(selectedFacet == 'all results' || selectedFacet == 'task'){
+              $('#actions-container').show();
+            }else{
+              $('#actions-container').hide();
+            }
           }
-          if(selectedFacet == 'all results' || selectedFacet == 'task'){
-            $('#actions-container').show();
-          }else{
-            $('#actions-container').hide();
-          }
+          
       })
     }
     FindlySDK.prototype.recentClick = function () {
@@ -4660,7 +4669,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             // searchFacets: searchFacets,
           }
           console.log(_self.vars.searchObject.liveData);
-          _self.pubSub.publish('sa-search-result', _self.vars.searchObject.liveData);
+          if($('body').hasClass('top-down')){
+            _self.pubSub.publish('sa-search-result', {..._self.vars.searchObject.liveData,...{isLiveSearch:false,isFullResults: true,selectedFacet: _self.vars.selectedFacetFromSearch||'all results'}});
+          }else{
+            _self.pubSub.publish('sa-search-result', _self.vars.searchObject.liveData);
+          }
           _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
           var dataObj = _self.vars.searchObject.liveData;
           if (!$('body').hasClass('top-down')) {
@@ -5179,7 +5192,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         scoreArray.forEach((obj, index) => {
                           $('.' + obj.name).css("order", index + 1);
                         })
-                        _self.pubSub.publish('sa-search-result', dataObj);
+                        if($('body').hasClass('top-down')){
+                          _self.pubSub.publish('sa-search-result', {...dataObj,...{isLiveSearch:true,isFullResults: true,selectedFacet: _self.vars.selectedFacetFromSearch|'all results'}});
+                        }else{
+                          _self.pubSub.publish('sa-search-result', dataObj);
+                        }
                         if (!$('body').hasClass('top-down')) {
                           _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
                         }
@@ -5212,8 +5229,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           setTimeout(function () {
                             $('.search-body').scrollTop(2);
                           }, 100);
-
-                          _self.pubSub.publish('sa-search-result', dataObj);
+                          if($('body').hasClass('top-down')){
+                            _self.pubSub.publish('sa-search-result', {...dataObj,...{isLiveSearch:false,isFullResults: true,selectedFacet: _self.vars.selectedFacetFromSearch|'all results'}});
+                          }else{
+                            _self.pubSub.publish('sa-search-result', dataObj);
+                          }
                           _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
                         }
                       }
@@ -5785,7 +5805,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           customSearchResult: _self.customSearchResult,
           object: object
         }
-        _self.pubSub.publish('sa-search-result', dataObj);
+        if($('body').hasClass('top-down')){
+          _self.pubSub.publish('sa-search-result', {...dataObj,...{isLiveSearch:false,isFullResults: true,selectedFacet: 'all results'}});
+        }else{
+          _self.pubSub.publish('sa-search-result', dataObj);
+        }
         _self.pubSub.publish('sa-search-facets', dataObj.searchFacets);
         _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
         if (!$('body').hasClass('top-down')) {
@@ -7158,10 +7182,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (actionsPosition == 'top') {
           $('.content-data-sec').prepend(actionParentContainer);
         } else {
-          $('.structured-search-data-container').after(actionParentContainer);
+          $('.documents-search-data-container').after(actionParentContainer);
         }
       }
-
+      _self.pubSub.unsubscribe('sa-search-result');
       _self.pubSub.subscribe('sa-search-result', (msg, data) => {
         if (!data.selectedFacet) {
           _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
@@ -7224,16 +7248,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
 
           if (actionContainer) {
-            if (data.tasks && data.tasks.length > 0) {
-              if (config.actionTemplateId) {
-                if (config.actionTemplateId === 'actions-template') {
-                  var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy(data);
-                  if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
-                    $('#' + actionContainer).empty();
-                  }
-                  $('#' + actionContainer).append(dataHTML);
-                } else {
-                  var dataHTML = $('#' + config.actionTemplateId).tmplProxy(data);
+            if (!$('body').hasClass('top-down')) {
+              if (data.tasks && data.tasks.length > 0) {
+                if (config.actionTemplateId) {
+                  // if (config.actionTemplateId === 'actions-template') {
+                  //   data = { ...data, ...{ appearanceType: 'task' } };
+                  //   var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy(data);
+                  //   if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
+                  //     $('#' + actionContainer).empty();
+                  //   }
+                  //   $('#' + actionContainer).append(dataHTML);
+                  // } else {
+                    var dataHTML = $('#' + config.actionTemplateId).tmplProxy(data);
+                    if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
+                      $('#' + actionContainer).empty();
+                    }
+                    $('#' + actionContainer).append(dataHTML);
+                  // }
+                } else if (config.actionTemplate) {
+                  var dataHTML = $(config.actionTemplate).tmplProxy(data);
                   if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
                     $('#' + actionContainer).empty();
                   }
@@ -7244,15 +7277,35 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
                   $('#' + actionContainer).empty();
                 }
+                $('#' + actionContainer).append(dataHTML);
               }
-              $('#' + actionContainer).append(dataHTML);
-            } else if (config.actionTemplate) {
-              var dataHTML = $(config.actionTemplate).tmplProxy(data);
-              if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
-                $('#' + actionContainer).empty();
+            } else {
+              if ((!data.isLiveSearch && $('body').hasClass('top-down'))) {
+                if (config.actionTemplateId) {
+                  if (config.actionTemplateId === 'actions-template') {
+                    data = { ...data, ...{ appearanceType: 'task' } };
+                    var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy(data);
+                    if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
+                      $('#' + actionContainer).empty();
+                    }
+                    $('#' + actionContainer).append(dataHTML);
+                  } else {
+                    var dataHTML = $('#' + config.actionTemplateId).tmplProxy(data);
+                    if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
+                      $('#' + actionContainer).empty();
+                    }
+                    $('#' + actionContainer).append(dataHTML);
+                  }
+                } else if (config.actionTemplate) {
+                  var dataHTML = $(config.actionTemplate).tmplProxy(data);
+                  if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
+                    $('#' + actionContainer).empty();
+                  }
+                  $('#' + actionContainer).append(dataHTML);
+                }
               }
-              $('#' + actionContainer).append(dataHTML);
             }
+           
             if (config.actionHandler) {
               _self.pubSub.subscribe('sa-action-clicked', (topic, data) => {
                 config.actionHandler(data);
@@ -7467,7 +7520,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       _self.bindContextVariable();
       _self.bindSearchAccordion();
-      _self.bindFeedbackEvent();
+      _self.bindFeedbackEvent();  
       $(dataHTML).css('left', left);
       // debugger;
       var container = $('.search-background-div');
@@ -16734,7 +16787,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.pubSub.subscribe('sa-action-full-search', (msg, data) => {
         if (data.isFullResults && data.dataObj && data.dataObj.tasks && (data.dataObj.tasks.length ||data.dataObj.tasks.length == 0)) {
           var actionContainer = '#actions-full-search-container';
-          var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy({'selectedFacet' : _self.vars.selectedFacetFromSearch, 'tasks' : data.dataObj.tasks, 'isFullResults' : data.isFullResults, appearanceType : 'task' });
+          var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy({'selectedFacet' : _self.vars.selectedFacetFromSearch||'all results', 'tasks' : data.dataObj.tasks, 'isFullResults' : data.isFullResults, appearanceType : 'task' });
           $(actionContainer).empty().append(dataHTML);
         }
       });
@@ -17780,6 +17833,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (related == 'child') {
             $(event.target.parentNode).addClass('active-tab')
           }
+        }
+        if(classificationselected == 'all results' || classificationselected == 'task'){
+          $('#actions-full-search-container').show();
+        }else{
+          $('#actions-full-search-container').hide();
         }
       }
       removeActive = function (selectedFacet) {
@@ -19662,6 +19720,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       findlyConfig.autoConnect = true;
       _self.initialize(findlyConfig);
       _self.initializeTopSearchTemplate();
+      if($('.search-background-div').length){
+        $('.search-background-div').remove();
+      }
       _self.addSearchText({
         container: "search-box-container",
         classes: 'search-input',
@@ -19801,7 +19862,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         {{/each}}\
                                       </div>\
                                     {{/if}}\
-                                    <!-- {{if !tasks || tasks.length === 0 }}\
+                                     {{if !tasks || tasks.length === 0 }}\
                                       {{if selectedFacet != "all results"}}\
                                         {{if selectedFacet == appearanceType}}\
                                           {{if isFullResults == true}}\
@@ -19813,7 +19874,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                           {{/if}}\
                                         {{/if}}\
                                       {{/if}}\
-                                    {{/if}} -->\
+                                    {{/if}}\
                               </script>'
       return topDownActionTemplate;
     }

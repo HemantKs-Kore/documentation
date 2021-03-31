@@ -88,7 +88,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       if (this.searchExperienceConfig) {
         if (this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')) {
-          if (!this.headerService.isSDKCached) {
+          if (!this.headerService.isSDKCached || !$('.search-background-div').length) {
             if (!$('.search-background-div:visible').length) {
               this.showHideSearch(true);
               this.resultRankDataSubscription = this.headerService.resultRankData.subscribe((res: any) => {
