@@ -5,17 +5,19 @@ import { environment } from '@kore.environment';
 })
 export class EndPointsService {
 
-  private API_URL_PREFIX = '/api';
+  private API_URL_PREFIX = '/searchassist_api';
   private API_VERSION_PREFIX = '/1.1';
   private SERVER_URL: string;
   private API_SERVER_URL: string;
-
+  private API_URL_PREFIX_PLATFORM = '/api';
+  private API_SERVER_URL_PLATFORM: string;
   private serviceList: object = {};
 
   constructor() {
     if (environment.production) {
       this.SERVER_URL = window.location.protocol + '//' + window.location.host;
       this.API_SERVER_URL = this.SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
+      this.API_SERVER_URL_PLATFORM = this.SERVER_URL + this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
       window.appConfig.API_SERVER_URL = this.SERVER_URL;
     } else {
       this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
@@ -29,12 +31,12 @@ export class EndPointsService {
   }
   public init() {
     this.serviceList['sales.signout'] = {
-      endpoint: this.API_SERVER_URL + '/oAuth/signout',
+      endpoint: this.API_SERVER_URL_PLATFORM + '/oAuth/signout',
       method: 'delete'
     };
 
     this.serviceList['app.controls'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userId/AppControlList',
+      endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/AppControlList',
       method: 'get'
     };
 
@@ -103,7 +105,7 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['findly.seed.data'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userId/builder/seed_data',
+      endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/builder/seed_data',
       method: 'get'
     };
     this.serviceList['get.token'] = {
@@ -815,15 +817,15 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['get.userinfo'] = {
-      endpoint: this.API_SERVER_URL + '/_resolve/user?id=:id',
+      endpoint: this.API_SERVER_URL_PLATFORM + '/_resolve/user?id=:id',
       method: 'get'
     }
     this.serviceList['get.members'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/getcodevelopers',
+      endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/builder/streams/:streamId/getcodevelopers',
       method: 'get'
     }
     this.serviceList['get.roles'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/sharebot/getorgroles/organizations/:orgId',
+      endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/builder/streams/:streamId/sharebot/getorgroles/organizations/:orgId',
       method: 'get'
     }
     this.serviceList['put.members'] = {
