@@ -94,7 +94,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     { title: 'Company Name or Organization Name', value: 'company_name', isDepricated: false },
     // {"title": "City", "value": "city"},
     { title: 'Color', value: 'color', isDepricated: false },
-    { title: 'Currency(Deprecated)', value: 'currency', isDepricated: true },
+    // { title: 'Currency(Deprecated)', value: 'currency', isDepricated: true },
     { title: 'Currency', value: 'currencyv2', isDepricated: false },
     { title: 'Custom', value: 'regex', isDepricated: false },
     { title: 'Composite', value: 'composite', isDepricated: false },
@@ -120,9 +120,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     { title: 'URL', value: 'url', isDepricated: false },
     { title: 'Zip Code', value: 'zipcode', isDepricated: false },
 
-    { title: 'From - number(minimum of a range)(Deprecated)', value: 'from_number', isDepricated: true },
-    { title: 'To - number(maximum of a range, limit)(Deprecated)', value: 'to_number', isDepricated: true },
-    { title: 'Quantity(Deprecated)', value: 'quantity', isDepricated: true }
+    // { title: 'From - number(minimum of a range)(Deprecated)', value: 'from_number', isDepricated: true },
+    // { title: 'To - number(maximum of a range, limit)(Deprecated)', value: 'to_number', isDepricated: true },
+    // { title: 'Quantity(Deprecated)', value: 'quantity', isDepricated: true }
     // {"title": "City", "value": "city"},
   ];
   simulteObj: any = {
