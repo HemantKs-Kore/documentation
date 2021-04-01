@@ -812,7 +812,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.notificationService.notify('Failed to add sources ', 'error');
           }
         });
-      } else {
+      } else if(resourceType == 'webdomain') {
         this.notificationService.notify('Please fill Date and Time fields', 'error');
       }
       // this.callWebCraller(this.crwalObject,searchIndex)
@@ -1217,6 +1217,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
       console.log("imp faq res", res)
+      this.openStatusModal();
+      this.addSourceModalPopRef.close();
       this.dock.trigger()
     },
       errRes => {

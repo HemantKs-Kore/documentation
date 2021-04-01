@@ -17,6 +17,7 @@ declare const $: any;
 })
 export class CredentialsListComponent implements OnInit {
   slider = 0;
+  showError : boolean = false;
   selectedApp: any;
   serachIndexId: any;
   firstlistData:any;
@@ -139,6 +140,34 @@ saveEditCredential(){
     }
   }
 }
+validateSource() {
+  if (this.credntial.awt != 'Select Signing Algorithm') {
+    this.createCredential()
+  }
+  else if (this.credntial.awt == 'Select Signing Algorithm') {
+    $(".dropdown-input").css("border-color", "#DD3646");
+    this.notificationService.notify('Enter the required fields to proceed', 'error');
+  }
+
+  if (this.credntial.name) {
+    this.createCredential()
+  }
+  else {
+
+    $("#addSourceTitleInput").css("border-color", "#DD3646");
+    $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+    this.notificationService.notify('Enter the required fields to proceed', 'error');
+  }
+  
+}
+//track changing of input
+inputChanged(type) {
+  if (type == 'title') {
+    this.credntial.name != '' ? $("#infoWarning").hide() : $("#infoWarning").show();
+    $("#addSourceTitleInput").css("border-color", this.credntial.name != '' ? "#BDC1C6" : "#DD3646");
+  }
+}
+
 createCredential() {
   const queryParams = {
     userId: this.authService.getUserId(),
@@ -182,7 +211,7 @@ createCredential() {
     },
     errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        // this.notificationService.notify(errRes.error.errors[0].msg, 'error');
       } else {
         this.notificationService.notify('Failed ', 'error');
       }

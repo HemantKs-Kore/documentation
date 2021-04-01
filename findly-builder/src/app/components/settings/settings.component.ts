@@ -25,6 +25,7 @@ export class SettingsComponent implements OnInit {
   showSearch;
   searchchannel: any = '';
   isAlertsEnabled: boolean;
+  showError : boolean = false;
   channelEnabled: true;
   existingCredential: boolean = false;
   configFlag: boolean = false;
@@ -33,7 +34,7 @@ export class SettingsComponent implements OnInit {
     name: "",
     anonymus: true,
     register: true,
-    awt: 'HS256',
+    awt: 'Signing algorithm',
     enabled: false
   };
   channels = [
@@ -117,6 +118,7 @@ export class SettingsComponent implements OnInit {
   jwtAuth(awt) {
     this.credntial.awt = awt;
   }
+
   selctedChannel(channel) {
     this.listData = channel;
     this.botID = channel.bots[0]._id;
@@ -142,6 +144,35 @@ export class SettingsComponent implements OnInit {
       this.slider = this.slider - 1;
     if (this.existingCredential = true) {
       this.slider = 0
+    }
+  }
+
+  validateSource() {
+    if (this.credntial.awt != 'Signing algorithm') {
+      this.createCredential()
+    }
+    else if (this.credntial.awt == 'Signing algorithm') {
+      this.showError = true;
+      $(".dropdown-input").css("border-color", "#DD3646");
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
+
+    if (this.credntial.name) {
+      this.createCredential()
+    }
+    else {
+
+      $("#addSourceTitleInput").css("border-color", "#DD3646");
+      $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
+    
+  }
+  //track changing of input
+  inputChanged(type) {
+    if (type == 'title') {
+      this.credntial.name != '' ? $("#infoWarning").hide() : $("#infoWarning").show();
+      $("#addSourceTitleInput").css("border-color", this.credntial.name != '' ? "#BDC1C6" : "#DD3646");
     }
   }
 
@@ -190,13 +221,14 @@ export class SettingsComponent implements OnInit {
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+          // this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed ', 'error');
         }
       }
     );
   }
+
   getCredential() {
     const queryParams = {
       userId: this.authService.getUserId(),
