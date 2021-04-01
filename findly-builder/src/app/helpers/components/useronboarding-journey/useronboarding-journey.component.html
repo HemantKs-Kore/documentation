@@ -13,7 +13,8 @@
               <span class="steps-info">App is ready for Deployment</span>
             </div>
             <div class="right-sec">
-              <div class="checklist-btn" [routerLink]="['/settings']" routerLinkActive="active" skipLocationChange>Deploy</div>
+              <!-- <div class="checklist-btn" [routerLink]="['/settings']" routerLinkActive="active" skipLocationChange>Deploy</div> -->
+              <div class="checklist-btn" (click)="gotoRoutes('/settings')">Deploy</div>
               <div class="close-img" (click)="closeChecklist()"><img src="assets/icons/close-checklist.svg"></div>
             </div>
           </div>
