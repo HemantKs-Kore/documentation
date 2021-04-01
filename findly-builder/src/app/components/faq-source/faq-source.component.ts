@@ -1285,33 +1285,27 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
   }
-  getSliceValue(ruleValue,dataType){
-    // let sliceValue = 0;
-    // if(ruleValue.length){
-    // let columnWidth =200;
-    // // let columnWidth =document.getElementsByClassName('condition-content')[0].clientWidth*(3/4);
-    //   let traitsLength = 0;
-    //     ruleValue.forEach(t => {
-    //       var canvas = document.createElement('canvas');
-    //       var ctx = canvas.getContext("2d");
-    //       ctx.font = "400 10px Roboto";              
-    //       if(dataType !== 'date'){
-    //         var width = ctx.measureText(t.value).width + 36;
-    //       }else{
-    //         var width = ctx.measureText(t.value).width + 95;
-    //       }
-    //     traitsLength = width+ traitsLength;
-    //     if(columnWidth<traitsLength){
-    //       console.log(traitsLength,283);
-    //       return sliceValue;
-    //     }else{
-    //       sliceValue = sliceValue +1;
-    //     }
-    //   })
-    // }
-  
-    // return sliceValue;
-    return 2;
+  showSeeAll(conditions) {
+    if ((conditions || []).length) {
+      if (conditions.length > 2) {
+        return true;
+      } else {
+        for(let i=0;i<conditions.length;i++) {
+           if((conditions[0].value.length>4 && i==0) || (conditions.length ==2 && conditions[1].value.length>2 && i==1)|| (conditions[0].value.length==2 && i==0 && (conditions[0].value[0].length + (conditions[0].value.length==2?(conditions[0].value[1].length):0))>14 && conditions.length !==1 )||(conditions[0].value.length>2 && i==0 && conditions[0].operator=='between')){
+             return true
+           }
+        }
+      }
+    }
+    return false;
+  }
+  showConditions(conditions, ruleIndex){
+    if((conditions[0].value.length<3 && ruleIndex==1 &&  (conditions[0].value[0].length + (conditions[0].value.length==2?(conditions[0].value[1].length):0)<14)) ||ruleIndex==0 ){
+      return true;
+    }else{
+      return false;
+    }
+    return true;
   }
   checkExportFaq() {
     const queryParms = {

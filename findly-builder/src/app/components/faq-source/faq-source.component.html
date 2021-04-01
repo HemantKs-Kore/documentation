@@ -503,42 +503,39 @@
                                                         </div>                                                           
                                                     </div>
                                                     <div class="d-flex col-12 conditions-response-block">
-                                                        <div class="title">Conditions :</div>
-                                                        <div class="right-content condition-content">
+                                                        <div class="title col-2 px-0">Conditions :</div>
+                                                        <div class="right-content col-10 px-0 condition-content">
                                                             <!-- if-lenthfour -->
-                                                            <div class="added-conditions text-truncate" *ngFor="let rule of consitionalAnswer.conditions; let ruleIndex = index">
-                                                                <div class="rule-title" *ngIf="ruleIndex == 0">WHEN</div>
-                                                                <div class="rule-title" *ngIf="ruleIndex > 0">AND</div>
-                                                                <div class="rule-dropdown-data">
-                                                                    <span class="rule-dropdown-key">{{ "businessRules." + rule.contextType | translate}} :</span>
-                                                                    <span class="rule-dropdown-value" title='{{ "businessRules." + rule.contextCategory | translate }}'>{{ "businessRules." + rule.contextCategory | translate }}</span>
+                                                            <div class="row added-conditions" *ngFor="let rule of consitionalAnswer.conditions | slice:0:2; let ruleIndex = index" >
+                                                                <ng-container *ngIf="showConditions(consitionalAnswer.conditions,ruleIndex)">
+                                                                   <div class="col-2  d-inline px-0 vertical-align-top">
+                                                                    <div class="rule-title pr-10" *ngIf="ruleIndex == 0">WHEN</div>
+                                                                    <div class="rule-title pr-20" *ngIf="ruleIndex > 0">AND</div>
+                                                                   </div>
+                                                                <div class="col-10 d-inline-block px-0"[ngStyle]="{'margin-bottom':(showSeeAll(consitionalAnswer.conditions) && ruleIndex==0)?'10px':'0px'}" >
+                                                                    <div class="rule-dropdown-data">
+                                                                        <span class="rule-dropdown-key">{{ "businessRules." + rule.contextType | translate}} :</span>
+                                                                        <span class="rule-dropdown-value" title='{{ "businessRules." + rule.contextCategory | translate }}'>{{ "businessRules." + rule.contextCategory | translate }}</span>
+                                                                    </div>
+                                                                    <div class="rule-contains">{{ rule.operator | titlecase}}</div>
+                                                                    <ng-container  *ngFor="let value of rule.value | slice:0:(ruleIndex==0?(rule.operator !=='between'?4:2):2); let valueIndex = index">
+                                                                        <div class="rule-value" *ngIf="rule.dataType=== 'date' && rule.operator !=='between'" title="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                                                                        <div class="rule-value" *ngIf="rule.dataType=== 'date'  && rule.operator =='between'" title="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value[0] | dateFormatPipe: 'DD MMM YYYY'}} - {{value[1] | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                                                                        <div class="rule-value" *ngIf="rule.dataType!== 'date'" title="{{value}}">{{value}}</div>
+                                                                        <div class="or-rule" *ngIf="(valueIndex < 3 && valueIndex!== (rule.value.length>3?3:(rule.value.length-1)) && ruleIndex==0 && rule.operator !=='between')||(valueIndex < 1 && ruleIndex==1 && valueIndex!== 1) || (valueIndex < 1 && valueIndex!== (rule.value.length>2?2:(rule.value.length-1)) && ruleIndex==0 && rule.operator =='between') ">{{ "or_caps" | translate}}</div>
+                                                                    </ng-container> 
+                                                                    <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div>
                                                                 </div>
-                                                                <div class="rule-contains">{{ rule.operator | titlecase}}</div>
-                                                                <ng-container *ngFor="let value of rule.value; let valueIndex = index">
-                                                                    <div class="rule-value text-truncate" *ngIf="rule.dataType=== 'date'" title="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value | dateFormatPipe: 'DD MMM YYYY'}}</div>
-                                                                    <div class="rule-value text-truncate" *ngIf="rule.dataType!== 'date'" title="{{value}}">{{value}}</div>
-                                                                    <div class="or-rule" *ngIf="valueIndex < rule.value.length -1">{{ "or_caps" | translate}}</div>
-                                                                    <!-- <div class="rule-value">Loan</div>                                                                     -->
-                                                                </ng-container>                                                              
+                                                                </ng-container>                                                             
                                                             </div>
-                                                            <!-- <div class="added-conditions" >
-                                                                <div class="rule-title">AND</div>
-                                                                <div class="rule-dropdown-data">
-                                                                    <span class="rule-dropdown-key">UserContext :</span>
-                                                                    <span class="rule-dropdown-value">CustomerType</span>
-                                                                </div>
-    
-                                                                <div class="rule-contains">Contains</div>
-                                                                <div class="rule-value">Gold</div>
-                                                                <div class="or-rule">OR</div>
-                                                                <div class="rule-value">Premium</div>
-                                                            </div> -->
+                                                            <div class="d-block"><a (click)="editThisQa()" class="see-all-anchor" *ngIf="showSeeAll(consitionalAnswer.conditions)">See All</a></div>
+                                                           
                                                         </div>
                                                     </div>
                                                 </div>
                                                 
                                                 
-                                                <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div>
+                                                <!-- <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div> -->
                                                 <div *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.answers.length">
                                                     <div *ngFor="let ans of consitionalAnswer.answers">
                                                         <div class="img-view-mode" *ngIf="ans.multimedia && ans.multimedia.url">
