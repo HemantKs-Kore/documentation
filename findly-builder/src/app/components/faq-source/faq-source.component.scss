@@ -725,15 +725,158 @@
                                 .keys{
                                     padding: 0 0 0 8px;
                                 }
-                            }                            
-                            .bot-response-title{
-                                color: #9AA0A6;
-                                font-weight: 500;
-                                font-size: 12px;
-                                text-transform: uppercase;
-                                margin-bottom: 2px;
-                                margin-top: 15px;
+                            }     
+                            .response-title-bg                       {
+                                background: #F8F9FA;
+                                margin: 0 -30px;
+                                padding: 15px 30px;
+                                align-items: center;
+                                .bot-response-title{
+                                    margin: 0;
+                                    padding: 0;
+                                    color: #5F6368;
+                                    text-transform: uppercase;
+                                    font-weight: 600;
+                                    font-size: 12px;
+                                    line-height: 15px;
+                                }
+                                .response-likes-views-sec{
+                                    padding: 0;
+                                    align-items: center;
+                                    justify-content: flex-end;
+                                    .count-sec{
+                                        color: #202124;
+                                        font-weight: 600;
+                                        font-size: 14px;
+                                        line-height: 14px;
+                                        margin-left: 15px;
+                                        display: flex;
+                                        align-items: center;
+                                        img{
+                                            margin-right: 9px;
+                                        }
+                                    }
+                                }
+                                .conditions-response-block{
+                                    padding: 0;
+                                    margin: 25px 0 0 0;
+                                    .title{
+                                        color: #5F6368;
+                                        font-weight: normal;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                        width: auto;
+                                    }
+                                    .right-content{
+                                        // max-width: 86%;
+                                        position: relative;
+                                        &.if-lenthfour{
+                                            &::before{
+                                                content: "...";
+                                                position: absolute;
+                                                right: -15px;
+                                            }
+                                        }                                        
+                                        .added-conditions{
+                                            display: block;
+                                            align-items: center;
+                                            padding-left: 10px;
+                                            // margin-bottom: 10px;
+                                            position: relative;                                            
+                                            &:last-child{
+                                                margin: 0;
+                                            }
+                                            .vertical-align-top{
+                                                vertical-align: top;
+                                            }
+                                            .pr-10{
+                                                padding-right: 10px;
+                                            }
+                                            .pr-20{
+                                                padding-right: 20px;
+                                            }
+                                            .rule-title{
+                                                color: #9AA0A6;
+                                                font-weight: 500;
+                                                font-size: 12px;
+                                                line-height: 14px;
+                                                display: inline;
+                                            }
+                                            .rule-dropdown-data{
+                                                border: 1px solid #BDC1C6;
+                                                box-sizing: border-box;
+                                                border-radius: 4px;
+                                                padding: 1px 6px;
+                                                height: 16px;
+                                                display: inline-block;
+                                                align-items: center;
+                                                margin: 0 12px 0 4px;
+                                                line-height: 4px;
+                                                // overflow: hidden;
+                                                // text-overflow: ellipsis;
+                                                // white-space: nowrap;
+                                                // max-width: 140px;
+                                                // flex-shrink: 0;
+                                                .rule-dropdown-key{
+                                                    color: #BDC1C6;
+                                                    font-weight: 500;
+                                                    font-size: 10px;
+                                                    line-height: 12px;
+                                                }
+                                                .rule-dropdown-value{
+                                                    color: #5F6368;
+                                                    font-weight: 500;
+                                                    font-size: 10px;
+                                                    line-height: 12px;
+                                                    overflow: hidden;
+                                                    text-overflow: ellipsis;
+                                                    white-space: nowrap;
+                                                }
+                                            }
+                                            .rule-contains{
+                                                color: #9AA0A6;
+                                                font-weight: 500;
+                                                font-size: 12px;
+                                                line-height: 14px;
+                                                display: inline-block;
+                                                margin-bottom: 10px;
+                                            }
+                                            .rule-value{
+                                                color: #5F6368;
+                                                font-weight: 500;
+                                                font-size: 10px;
+                                                line-height: 12px;
+                                                border: 1px solid #BDC1C6;
+                                                box-sizing: border-box;
+                                                border-radius: 4px;
+                                                height: 16px;
+                                                padding: 1px 6px;
+                                                margin: 0 4px;
+                                                // max-width: 90px;
+                                                // flex-shrink: 0;
+                                                display: inline-block;
+                                                vertical-align: middle;
+                                            }
+                                            .or-rule{
+                                                color: #9AA0A6;
+                                                font-weight: 500;
+                                                font-size: 10px;
+                                                line-height: 12px;
+                                                text-transform: uppercase;
+                                                display: inline;
+                                            }
+                                        }
+                                    }                                    
+                                }
                             }
+                            // .bot-response-title{
+                            //     color: #9AA0A6;
+                            //     font-weight: 500;
+                            //     font-size: 12px;
+                            //     text-transform: uppercase;
+                            //     margin-bottom: 2px;
+                            //     margin-top: 15px;
+                            // }
                             .condition-tags{
                                 color: #9AA0A6;
                                 font-weight: normal;
@@ -1472,4 +1615,13 @@
 }
 .empty-scroll{
     height: calc(100vh - 120px);
+}
+.blur-content{
+    opacity: 0.01;
+}
+.see-all-anchor{
+    font-size: 12px; 
+    line-height: 14.52px;
+    margin-left: 45px;
+
 }

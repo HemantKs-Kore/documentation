@@ -139,7 +139,7 @@
             <div class="kr-sg-dropdowns mb-20 pr-4 pl-0">
               <div class="label-text">
                 Stage Type
-                <span tooltipClass="tooltip_custom" ngbTooltip="Select an appropriate stage to create and transform pipeline document objects" tooltipClass="workbench_tolltips m-0" placement="right-center" container="body" class="pl-1"><img src="assets/icons/help_gray.svg"/></span>
+                <!-- <span tooltipClass="tooltip_custom" ngbTooltip="Select an appropriate stage to create and transform pipeline document objects" tooltipClass="workbench_tolltips m-0" placement="right-center" container="body" class="pl-1"><img src="assets/icons/help_gray.svg"/></span> -->
               </div>
               <div class="dropdown dropdown-open" [ngClass]="{ disabled: selectedStage._id }">
                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
@@ -191,7 +191,7 @@
                 </span>
               </span>
             </div>
-            <input type="text" placeholder="Define Painless Rule" (keyup)="changesDetected = true" autocomplete="off"
+            <input type="text" placeholder="Define Condition" (keyup)="changesDetected = true" autocomplete="off"
               class="input-text" [(ngModel)]="selectedStage.condition" />
               <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div>
           </div>
