@@ -96,7 +96,7 @@ getTraitsSliceValue(traits){
       var canvas = document.createElement('canvas');
 var ctx = canvas.getContext("2d");
 ctx.font = "400 14px Roboto";        
-var width = ctx.measureText(t.traitName).width;
+var width = ctx.measureText(t.traitName +', ').width;
       traitsLength = width+ traitsLength;
       if(columnWidth<traitsLength){
         return sliceValue;
