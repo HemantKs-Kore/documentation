@@ -95,6 +95,8 @@ newCredential() {
   this.addCredentialRef = this.addCredential.open();
 }
 closeModalPopup() {
+  this.credntial.name=[];
+  this.credntial.awt = 'Select Signing Algorithm';
   this.addCredentialRef.close();
 }
 editnewCredential(event,data){

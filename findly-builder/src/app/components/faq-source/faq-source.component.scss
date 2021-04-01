@@ -22,7 +22,7 @@
 
 .faqmain-container{
     .blur-content{
-        opacity: 0.6;
+        opacity: 0.3;
         pointer-events: none;
     }
     .cursor-pointer {
@@ -135,6 +135,7 @@
                 }
                 &.right-content{
                     width: 55%;
+                   
                 }
             }
             .content-boxes{                                                
@@ -277,6 +278,7 @@
                             text-align: center;
                             margin: 5px;
                             padding: 10px;
+                            pointer-events: none;
                         }
                         .accordion-content{   
                             .card-content{

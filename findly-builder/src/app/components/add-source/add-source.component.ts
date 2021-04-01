@@ -21,7 +21,7 @@ import { ThrowStmt } from '@angular/compiler';
 import { RangySelectionService } from '../annotool/services/rangy-selection.service';
 import { DockStatusService } from '../../services/dock.status.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-
+import { AppSelectionService } from '@kore.services/app.selection.service';
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -55,7 +55,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   useCookies = true;
   respectRobotTxtDirectives = true;
   crawlBeyondSitemaps = false;
-  isJavaScriptRendered = false;
+  isJavaScriptRendered = true;
   blockHttpsMsgs = false;
   crwalOptionLabel = "Crawl Everything";
   crawlDepth: number;
@@ -203,7 +203,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private dock: DockStatusService,
     public dialog: MatDialog,
-    private rangyService: RangySelectionService
+    private rangyService: RangySelectionService,
+    private appSelectionService: AppSelectionService
   ) { }
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -431,7 +432,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.closeStructuredDataModal(event);
   }
   selectSource(selectedCrawlMethod) {
-    console.log(selectedCrawlMethod);
     if (selectedCrawlMethod && selectedCrawlMethod.id === 'manual') {
       this.selectedSourceType = selectedCrawlMethod;
       this.openAddManualFAQModal();
@@ -629,6 +629,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic";
       this.importFaq();
+      schdVal = false;
     }
     if (this.selectedSourceType.annotate && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
       quaryparms.faqType = 'document';
@@ -726,8 +727,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       if (schdVal) {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-          console.log("proceedfor both pages", res)
           this.openStatusModal();
+          this.appSelectionService.updateTourConfig('addData');
           this.addSourceModalPopRef.close();
           if (this.selectedSourceType.sourceType === 'content') {
             this.statusObject = { ...this.statusObject, validation: { validated: true } };
@@ -811,6 +812,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.resourceIDToOpen) {
         const eve: any = {}
         this.saveEvent.emit(eve);
+        this.appSelectionService.updateTourConfig('addData');
       }
       this.router.navigate(['/faqs'], { skipLocationChange: true });
     }, errRes => {
@@ -1149,6 +1151,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       // streamId: this.streamId,
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
+      console.log("imp faq res", res)
       this.dock.trigger()
     },
       errRes => {

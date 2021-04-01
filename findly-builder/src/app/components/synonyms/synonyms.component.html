@@ -6,6 +6,7 @@
   </div>
   <div class="table-list-content">
     <div class="kr-sg-data-table" *ngIf="loadingContent1">
+      <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
       <div class="header-sec col-12 row m-0">
         <div class="col-4 p-0">Synonyms</div>
 
@@ -54,7 +55,7 @@
       </div>
       <div class="keyword row m-0" *ngIf="newSynonymObj.type==='oneWaySynonym'">
         <div class="kr-sg-input-text">
-          <input type="text" id="synonymName" name="synonymName" autocomplete="off" [(ngModel)]="newSynonymObj.keyword"
+          <input type="text" id="synonymName" name="synonymName" autocomplete="off"  (click)="synonymChanged()" [(ngModel)]="newSynonymObj.keyword"
             [ngModelOptions]="{standalone: true}" placeholder="Search Term" required class="input-text">
         </div>
       </div>
@@ -165,11 +166,11 @@
                   <img src="assets/icons/synonyms_sort_dropdown.svg" ngbDropdownToggle>
                   <ul class="dropdown-menu content-menu synonyms_sort_dropdown" ngbDropdownMenu>
                     <li (click)="selectFilter(null);t.close();">{{'synonyms.All' | translate}}<img
-                        *ngIf="!(selectedFilter)" class="pl-2" src="assets/icons/check-blue.svg"></li>
-                    <li (click)="selectFilter('oneWaySynonym');t.close();" *ngIf="filterAllSynonym">
+                        *ngIf="!(selectedFilter)"  class="pl-2" src="assets/icons/check-blue.svg"></li>
+                    <li (click)="selectFilter('oneWaySynonym');t.close();" *ngIf="showoneWaySynonym">
                       {{'synonyms.one_way_synonym' | translate}}<img class="pl-2"
                         *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg"></li>
-                    <li (click)="selectFilter('synonym');t.close();">{{'synonyms.synonym'| translate}}<img class="pl-2"
+                    <li *ngIf="showSynonym" (click)="selectFilter('synonym');t.close();">{{'synonyms.synonym'| translate}}<img class="pl-2"
                         *ngIf="(selectedFilter === 'synonym')" src="assets/icons/check-blue.svg"></li>
                   </ul>
                 </div>

@@ -84,6 +84,9 @@ export class TraitsComponent implements OnInit {
     this.loadingTraits1 = true;
     this.loadImageText = true;
   }
+  trainIndex(){
+    $('#trainId').click();
+  }
 getTraitsSliceValue(traits){
   let sliceValue = 0;
   if(traits.length){

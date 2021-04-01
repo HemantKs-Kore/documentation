@@ -4,6 +4,7 @@
         <span class="please-wait-message">{{'please_wait'| translate}}</span>
     </div>
     <ng-container *ngIf="!loadingContent">
+        <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <div class="header-sec-stopwords">
             <div class="title">{{'weights.Weights'| translate}}</div>
             <div class="restore_text" *ngIf="weights.length">
@@ -85,7 +86,9 @@
                             <!-- <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName">
                         <img src="assets/images/search_gray.svg" class="search-icon">                                                          -->
                             <ul class="dropdown-menu content-menu">
-                                <li *ngFor="let suggesition of fields" id="btn_selectWeightsField" (click)="selectedField(suggesition)"><a>{{suggesition.fieldName}}</a></li>
+                                <perfect-scrollbar class="scroll-search-fiels-weights">                             
+                                    <li *ngFor="let suggesition of fields" id="btn_selectWeightsField" (click)="selectedField(suggesition)"><a>{{suggesition.fieldName}}</a></li>
+                                </perfect-scrollbar>
                             </ul>
                         </div>
                     </div>
