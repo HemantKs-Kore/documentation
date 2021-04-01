@@ -325,9 +325,6 @@ export class AppExperimentsComponent implements OnInit {
     this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
       console.log("get.indexPipeline", res)
       this.indexConfig = res;
-      // let data = { _id: res[0]._id, name: res[0].name };
-      // console.log("variantsArray123", this.variantsArray)
-      // this.fetchVariant(1, data, 'indexid');
       this.getQueryPipeline(res[0]._id);
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -349,8 +346,6 @@ export class AppExperimentsComponent implements OnInit {
     };
     this.service.invoke('get.queryPipelines', quaryparms, header).subscribe(res => {
       this.queryPipeline = res;
-      // let data = { _id: res[0]._id, name: res[0].name }
-      // this.fetchVariant(1, data, 'queryid')
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');

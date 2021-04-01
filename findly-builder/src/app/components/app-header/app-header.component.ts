@@ -56,6 +56,7 @@ export class AppHeaderComponent implements OnInit {
   indexPipelineId;
   indexSubscription: Subscription;
   subscription: Subscription;
+  routeChanged: Subscription;
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
@@ -137,6 +138,11 @@ export class AppHeaderComponent implements OnInit {
       this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
         this.loadHeader();
       })
+    })
+    this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
+      if (res.name != undefined) {
+        this.analyticsClick(res.path, false);
+      }
     })
   }
   loadHeader() {
@@ -500,6 +506,9 @@ export class AppHeaderComponent implements OnInit {
     }
     if (this.dockServiceSubscriber) {
       this.dockServiceSubscriber.unsubscribe();
+    }
+    if (this.routeChanged) {
+      this.routeChanged.unsubscribe();
     }
   }
   //get all apps

@@ -16,6 +16,7 @@ export class AppSelectionService {
   public queryConfigSelected = new Subject<any>();
   public appSelected = new Subject<any>();
   public getTourConfigData = new Subject<any>();
+  public routeChanged = new BehaviorSubject<any>({ name: undefined, path: '' });
   public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
   public resumingApp = false;
   res_length: number = 0;

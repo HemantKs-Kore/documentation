@@ -878,6 +878,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.resourceIDToOpen) {
         const eve: any = {}
         this.saveEvent.emit(eve);
+        this.appSelectionService.updateTourConfig('addData');
       }
       this.router.navigate(['/faqs'], { skipLocationChange: true });
     }, errRes => {
