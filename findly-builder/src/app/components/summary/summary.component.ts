@@ -119,7 +119,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.headerService.toggle(toogleObj);
     //this.appSelectionService.getTourConfig()
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
-      this.showOverview = res.findlyOverviewVisted;
+      this.showOverview = res.findlyOverviewVisited;
     })
     this.getSummary();
     this.getQueries("TotalUsersStats");
@@ -322,10 +322,10 @@ export class SummaryComponent implements OnInit, OnDestroy {
   openOnBoardingModal() {
     this.showOverview = true;
     this.subscription.unsubscribe();
-    setTimeout(() => {
-      this.componentType = 'overview';
-      this.onboard.openOnBoardingModal();
-    }, 1000)
+    // setTimeout(() => {
+    //   this.componentType = 'overview';
+    //   this.onboard.openOnBoardingModal();
+    // }, 1000)
   }
   closeOnBoardingModal() {
     this.onboard.closeOnBoardingModal();

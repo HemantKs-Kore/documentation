@@ -16,6 +16,7 @@ export class AppSelectionService {
   public queryConfigSelected = new Subject<any>();
   public appSelected = new Subject<any>();
   public getTourConfigData = new Subject<any>();
+  public routeChanged = new BehaviorSubject<any>({ name: undefined, path: '' });
   public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
   public resumingApp = false;
   res_length: number = 0;
@@ -200,8 +201,8 @@ export class AppSelectionService {
   public updateTourConfig(component) {
     let callApi: boolean;
     const userInfo: any = this.authService.getUserInfo();
-    if (component == 'overview' && !this.getTourArray.findlyOverviewVisted) {
-      this.getTourArray.findlyOverviewVisted = true;
+    if (component == 'overview' && !this.getTourArray.findlyOverviewVisited) {
+      this.getTourArray.findlyOverviewVisited = true;
       callApi = true;
     }
     else if (component == 'addData' && !this.getTourArray.onBoardingChecklist[0].addDataVisited) {

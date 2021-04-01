@@ -24,6 +24,7 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
   nextStep;
   subscribedShow: any;
   subscription: Subscription;
+  subscription1: Subscription;
   status: string;
   steps: any = [{ name: 'Start by Adding Data', path: '/source' }, { name: 'Index Data', path: '/FieldManagementComponent' }, { name: 'Optimize Search Results', path: '/weights' }, { name: 'Design Search Experience', path: '/searchInterface' }, { name: 'Test the Application', path: '/resultranking' }, { name: 'Fine-Tune Relevance', path: '/resultranking' }];
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
@@ -36,7 +37,7 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
       this.tourData = res.onBoardingChecklist;
       this.trackChecklist();
     })
-    this.appSelectionService.tourConfigCancel.subscribe(res => {
+    this.subscription1 = this.appSelectionService.tourConfigCancel.subscribe(res => {
       this.subscribedShow = res.name;
       this.status = res.status;
       if (res.name != undefined && this.componentType != 'summary') {
@@ -73,8 +74,14 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
   }
   //goto Routes
   gotoRoutes(step) {
-    this.closeOnBoardingModal();
-    this.router.navigate([step], { skipLocationChange: true });
+    if (step !== '/settings') {
+      this.closeOnBoardingModal();
+    }
+    if (step == '/settings') {
+      this.appSelectionService.tourConfigCancel.next({ name: false, status: 'pending' });
+    }
+    //this.router.navigate([step], { skipLocationChange: true });
+    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: step });
   }
   //track checklist count and show count number
   trackChecklist() {
@@ -160,5 +167,6 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.subscription1.unsubscribe();
   }
 }

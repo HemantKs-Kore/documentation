@@ -55,8 +55,15 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     // $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
     //   this.getcustomizeList(20, 0);
     // })
-    $(document).on('click','.kore-search-container-close-icon',() =>{
-      this.getcustomizeList(20, 0);
+    $(document).on('click', '.kore-search-container-close-icon', () => {
+      this.selectedApp = this.workflowService.selectedApp();
+      this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+      this.loadCustomRankingList();
+    })
+    $(document).off('click', '.start-search-icon-div').on('click', '.start-search-icon-div', () => {
+      this.selectedApp = this.workflowService.selectedApp();
+      this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+      this.loadCustomRankingList();
     })
   }
   ngOnInit(): void {
@@ -638,14 +645,14 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       }
       this.customizeListBack = [...res.data];
       this.totalRecord = res.total || res.data.length
-      if(this.selectedRecord._id){
+      if (this.selectedRecord._id) {
         this.customizeList.forEach((element, index) => {
-          if(this.selectedRecord._id == element._id){
+          if (this.selectedRecord._id == element._id) {
             element['check'] = false;
             this.clickCustomizeRecord(element)
           }
         });
-      }else{
+      } else {
         this.customizeList.forEach((element, index) => {
           element['check'] = false;
           if (index == 0) {

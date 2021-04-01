@@ -362,7 +362,7 @@ export class SearchExperienceComponent implements OnInit {
       console.log("test res", res);
       this.searchIcon = res.widgetConfig.searchBarIcon;
       this.headerService.updateSearchConfiguration();
-      console.log("this.searchIcon", this.searchIcon)
+      this.appSelectionService.updateTourConfig(this.componentType);
       this.notificationService.notify('Updated successfully', 'success');
       this.statusModalPopRef = this.statusModalPop.open();
       this.workflowService.checkTopOrBottom(this.searchObject.searchExperienceConfig.searchBarPosition);

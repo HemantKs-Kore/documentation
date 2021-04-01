@@ -21,6 +21,9 @@
                         <span routerLink="/index" class="d-none"></span>
                         <span routerLink="/query" class="d-none"></span>
                         <span routerLink="/attributes" class="d-none"></span>
+                        <span routerLink="/weights" class="d-none"></span>
+                        <span routerLink="/resultranking" class="d-none"></span>
+                        <span routerLink="/FieldManagementComponent" class="d-none"></span>
                     </div>
                     <div class="headerMenuTab" id='experimentsTab' [ngClass]="{'active' : mainMenu == '/experiments'}" (click)="analyticsClick('/experiments')">Experiments</div>
                     <div class="kr-sg-dropdowns headerMenuTab" [ngClass]="{'active' : (mainMenu == '/dashboard'
@@ -37,7 +40,10 @@
                     </div>
                     <!-- <div class="headerMenuTab" [routerLink]="['/dashboard']" skipLocationChange routerLinkActive="active" (click)="analyticsClick('metrics')">Analytics</div> -->
                     <!-- <div class="headerMenuTab" id='experimentsTab' [ngClass]="{'active' : mainMenu == '/experiments'}" (click)="analyticsClick('/experiments')">Experiments</div> -->
-                    <div class="headerMenuTab" id='channelsTab' [ngClass]="{'active' : mainMenu == '/settings'}" (click)="analyticsClick('/settings')">MANAGE</div>
+                    <div class="headerMenuTab" id='channelsTab' [ngClass]="{'active' : mainMenu == '/settings'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/settings')">
+                        <span>MANAGE</span>
+                        <span routerLink="/search-experience" class="d-none"></span>
+                        </div>
                 </div>
             </div>
             <ul class="navbar-nav nav-flex-icons align-items-center right-menu-content flex-row justify-content-end">
