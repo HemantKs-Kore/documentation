@@ -121,7 +121,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   altCancelSub: Subscription;
   followAddSub: Subscription;
   followCancelSub: Subscription;
-  openExtractsSubs : Subscription;
+  componentType: string = 'addData';
+  openExtractsSubs: Subscription;
   @ViewChild('editQaScrollContainer', { static: true }) editQaScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('fqasScrollContainer', { static: true }) fqasScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('addfaqSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -181,7 +182,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   loadingFaqs1: boolean;
   loadImageText: boolean = false;
-  imageLoad(){
+  imageLoad() {
     console.log("image loaded now")
     this.loadingFaqs = false;
     this.loadingFaqs1 = true;
@@ -842,10 +843,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     )
   }
   faqUpdateEvent() {
-    this.faqCancle();
     this.faqUpdate.next();
-    this.selectTab('draft');
-
+    setTimeout(() =>{
+      this.selectTab('draft');
+    this.faqCancle();
+     },500);
   }
   editThisQa() {
     this.showSourceAddition = false
@@ -917,7 +919,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       payload = params;
     }
     this.service.invoke('update.faq', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Selected FAQ updated succesfully', 'success');
+      this.notificationService.notify('Updated Successfully', 'success');
       this.addRemoveFaqFromSelection(null, null, true);
       this.selectAll(true);
       this.selectedFaq = res;
@@ -959,12 +961,12 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   bulkUpdate(action, state?, dialogRef?) {
     const payload: any = {};
     let custerrMsg = 'Failed to update faqs'
-    let custSucessMsg = 'Selected faqs updated successfully';
-    if (action === 'update' && state) { 
+    let custSucessMsg = 'Updated Successfully';
+    if (action === 'update' && state) {
       payload.state = state
     } else if (action === 'delete') {
       payload.action = 'delete'
-      custSucessMsg = 'Selected Faqs deleted successfully'
+      custSucessMsg = 'Deleted Successfully'
       custerrMsg = 'Failed to delete faqs'
     }
     if (this.faqSelectionObj && this.faqSelectionObj.selectAll && (!this.selectedResource && !this.manualFilterSelected)) {
@@ -998,7 +1000,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.getStats();
       this.editfaq = null
-      this.notificationService.notify(custSucessMsg, 'success');
+      if(state !='in_review' && state !='approved'){
+        this.notificationService.notify(custSucessMsg, 'success');
+      }
+      if(state ==  'in_review'){
+        this.notificationService.notify('Sent for Review', 'success');
+      }
+      else if(state ==  'approved'){
+        this.notificationService.notify('Approved', 'success');
+      }
       if (dialogRef) {
         dialogRef.close();
       }
@@ -1016,7 +1026,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
-      this.notificationService.notify('FAQ source deleted successfully', 'success');
+      this.notificationService.notify('Deleted Successfully', 'success');
       const deleteIndex = _.findIndex(this.resources, (fq) => {
         return fq._id === source._id;
       })
@@ -1030,12 +1040,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   deleteIndFAQ(faq, dialogRef) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      sourceId: faq._id,
+      contentId: faq._id,
+      sourceId : Math.random().toString(36).substr(7)
     }
-    this.service.invoke('delete.faq', quaryparms).subscribe(res => {
+    this.service.invoke('delete.structuredData', quaryparms).subscribe(res => {
       dialogRef.close();
       this.faqCancle();
-      this.notificationService.notify('Faq deleted succesfully', 'success')
+      this.notificationService.notify('Deleted Successfully', 'success')
       const deleteIndex = _.findIndex(this.faqs, (fq) => {
         return fq._id === faq._id;
       })
@@ -1266,13 +1277,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       exportType: ext,
     }
     this.service.invoke('export.faq', quaryparms, payload).subscribe(res => {
-      if(ext === 'json'){
+      if (ext === 'json') {
         this.notificationService.notify('Export to JSON is in progress. You can check the status in the Status Docker', 'success');
       }
-      else{
+      else {
         this.notificationService.notify('Export to CSV is in progress. You can check the status in the Status Docker', 'success');
       }
-    
+
       this.checkExportFaq();
     },
       errRes => {
@@ -1356,6 +1367,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showSearch = !this.showSearch
   };
 
-  
-  
+
+
 }

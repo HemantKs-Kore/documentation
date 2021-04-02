@@ -453,3 +453,47 @@
     }
     
 }
+
+.over-view-config-tour{
+    background: #202124;
+    border-radius: 4px;
+    padding: 20px 24px;
+    width: 364px;
+    height: 168px;
+    color: #fff;
+    position: absolute;
+    top: 77px;
+    z-index: 1;
+    left: 40px;
+    &::before{
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        background: #202124;
+        transform: rotate(-45deg);
+        top: -8px;
+        left: 60px;
+    }
+    .tour-header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .title{
+            color: #FFFFFF;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 22px;
+        }
+        .close-tour{
+            cursor: pointer;
+        }
+    }
+    .tour-info{
+        color: #FFFFFF;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 20px;
+        margin: 15px 0px;
+    }
+}

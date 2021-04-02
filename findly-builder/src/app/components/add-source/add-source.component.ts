@@ -21,7 +21,7 @@ import { ThrowStmt } from '@angular/compiler';
 import { RangySelectionService } from '../annotool/services/rangy-selection.service';
 import { DockStatusService } from '../../services/dock.status.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-
+import { AppSelectionService } from '@kore.services/app.selection.service';
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -55,7 +55,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   useCookies = true;
   respectRobotTxtDirectives = true;
   crawlBeyondSitemaps = false;
-  isJavaScriptRendered = false;
+  isJavaScriptRendered = true;
   blockHttpsMsgs = false;
   crwalOptionLabel = "Crawl Everything";
   crawlDepth: number;
@@ -194,7 +194,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   structuredData: any = {};
   structuredDataStatusModalRef: any;
   structuredDataDocPayload: any;
-
+  selectExtractType: string = 'file';
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -203,7 +203,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private dock: DockStatusService,
     public dialog: MatDialog,
-    private rangyService: RangySelectionService
+    private rangyService: RangySelectionService,
+    private appSelectionService: AppSelectionService
   ) { }
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -223,11 +224,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
-    console.log(this.userInfo);
-
     this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
-    console.log('StreamID', this.streamID)
-    console.log(this.workflowService.selectedApp())
     this.getAssociatedBots();
 
     if (this.route && this.route.snapshot && this.route.snapshot.queryParams) {
@@ -353,7 +350,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   openStatusModal() {
-    console.log("status popup opened");
     this.closeAddManualFAQModal();
     this.closeAddSourceModal();
     if (this.resourceIDToOpen) {
@@ -469,18 +465,18 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.extension = _ext
     if (this.selectedSourceType.sourceType != "faq") {
       if (this.extension === '.pdf') {
-        
+
         showProg = true;
       }
-        else{
-          $('#sourceFileUploader').val(null);
-          this.notificationService.notify('Please select a valid  pdf file', 'error');
-          // return;
-        }
-    
+      else {
+        $('#sourceFileUploader').val(null);
+        this.notificationService.notify('Please select a valid  pdf file', 'error');
+        // return;
+      }
+
     }
     else {
-    
+
       if (this.selectedSourceType.sourceType == "faq") {
         if (this.selectedSourceType.resourceType == '') {
           if (this.extension === '.pdf') {
@@ -502,7 +498,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       else {
         showProg = true;
       }
-      
+
     }
     if (showProg) {
       this.onFileSelect(event.target, this.extension);
@@ -552,6 +548,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.notificationService.notify('File uploaded successfully', 'success');
         this.selectedSourceType.resourceAdded = true;
         //  this.selectedSourceType.resourceType = 'webdomain';
+        $(".drag-drop-sec").css("border-color", "#BDC1C6");
       },
       errRes => {
         this.fileObj.fileUploadInProgress = false;
@@ -611,6 +608,76 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
   }
+  //change extract type
+  selectExtract(type) {
+    this.selectExtractType = type;
+    if (type == 'file') {
+      $("#extractUrl").css("border-color", "#BDC1C6");
+      $("#infoWarning1").hide();
+    }
+    else if (type == 'url') {
+      $(".drag-drop-sec").css("border-color", "#BDC1C6");
+    }
+  }
+  //form validation
+  validateSource() {
+    if (this.selectedSourceType.resourceType == "webdomain" || this.selectedSourceType.resourceType == "faq") {
+      if (this.newSourceObj.name) {
+        if (this.newSourceObj.url) {
+          this.proceedSource()
+        }
+        else {
+          $("#extractUrl").css("border-color", "#DD3646");
+          $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+          this.notificationService.notify('Enter the required fields to proceed', 'error');
+        }
+      }
+      else {
+        $("#addSourceTitleInput").css("border-color", "#DD3646");
+        $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+      }
+    }
+    else if (this.selectedSourceType.resourceType == "document" || this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
+      if (this.newSourceObj.name) {
+        if (this.selectExtractType == 'file') {
+          if (this.fileObj.fileId) {
+            this.proceedSource()
+          }
+          else {
+            $(".drag-drop-sec").css("border-color", "#DD3646");
+            this.notificationService.notify('Please upload the file to continue', 'error');
+          }
+        }
+        else if (this.selectExtractType == 'url') {
+          if (this.newSourceObj.url) {
+            this.proceedSource()
+          }
+          else {
+            $("#extractUrl").css("border-color", "#DD3646");
+            $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+            this.notificationService.notify('Enter the required fields to proceed', 'error');
+          }
+        }
+      }
+      else {
+        $("#addSourceTitleInput").css("border-color", "#DD3646");
+        $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+      }
+    }
+  }
+  //track changing of input
+  inputChanged(type) {
+    if (type == 'title') {
+      this.newSourceObj.name != '' ? $("#infoWarning").hide() : $("#infoWarning").show();
+      $("#addSourceTitleInput").css("border-color", this.newSourceObj.name != '' ? "#BDC1C6" : "#DD3646");
+    }
+    else if (type == 'extractURL') {
+      this.newSourceObj.url != '' ? $("#infoWarning1").hide() : $("#infoWarning1").show();
+      $("#extractUrl").css("border-color", this.newSourceObj.url != '' ? "#BDC1C6" : "#DD3646");
+    }
+  }
   proceedSource() {
     let payload: any = {};
     let schdVal = true;
@@ -628,6 +695,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic";
       this.importFaq();
+      schdVal = false;
     }
     if (this.selectedSourceType.annotate && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
       quaryparms.faqType = 'document';
@@ -701,12 +769,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (resourceType === 'document') {
         payload.fileId = this.fileObj.fileId;
         if (this.selectedSourceType.sourceType === 'faq') {
-          payload.extractionType = "basic"
+          payload.extractionType = "basic";
+          if (payload.hasOwnProperty('url')) delete payload.url;
         }
         //payload.extractionType = resourceType;
         quaryparms.resourceType = resourceType;
         payload.isNew = true;
-        if (payload.hasOwnProperty('url')) delete payload.url;
+        payload.resourceType = payload.fileId ? 'file' : 'url';
       }
       if (crawler.advanceOpts.scheduleOpt) {
         if (crawler.advanceOpts.scheduleOpts) {
@@ -724,8 +793,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       if (schdVal) {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-          console.log("proceedfor both pages", res)
           this.openStatusModal();
+          this.appSelectionService.updateTourConfig('addData');
           this.addSourceModalPopRef.close();
           if (this.selectedSourceType.sourceType === 'content') {
             this.statusObject = { ...this.statusObject, validation: { validated: true } };
@@ -743,7 +812,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.notificationService.notify('Failed to add sources ', 'error');
           }
         });
-      } else {
+      } else if(resourceType == 'webdomain') {
         this.notificationService.notify('Please fill Date and Time fields', 'error');
       }
       // this.callWebCraller(this.crwalObject,searchIndex)
@@ -809,6 +878,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.resourceIDToOpen) {
         const eve: any = {}
         this.saveEvent.emit(eve);
+        this.appSelectionService.updateTourConfig('addData');
       }
       this.router.navigate(['/faqs'], { skipLocationChange: true });
     }, errRes => {
@@ -1147,6 +1217,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       // streamId: this.streamId,
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
+      console.log("imp faq res", res)
+      this.openStatusModal();
+      this.addSourceModalPopRef.close();
       this.dock.trigger()
     },
       errRes => {

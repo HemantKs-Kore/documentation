@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError, ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
@@ -8,7 +8,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { EndPointsService } from '@kore.services/end-points.service';
 import { environment } from '@kore.environment';
 import { AppSelectionService } from '@kore.services/app.selection.service'
-
+import { AppHeaderComponent } from './components/app-header/app-header.component';
 // import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
 // declare const KoreWidgetSDK: any;
@@ -40,17 +40,19 @@ export class AppComponent implements OnInit, OnDestroy {
   showInsightFull = false;
   queryText;
   subscription: Subscription;
-  SearchConfigurationSubscription : Subscription;
-  searchSDKSubscription : Subscription;
-  resultRankDataSubscription :Subscription
+  SearchConfigurationSubscription: Subscription;
+  searchSDKSubscription: Subscription;
+  resultRankDataSubscription: Subscription
+  showHideMainMenuSubscription: Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
     '/source': 'Source',
     '/botActions': 'Bot Actions'
   };
-  topDownSearchInstance : any;
-  searchExperienceConfig : any;
+  topDownSearchInstance: any;
+  searchExperienceConfig: any;
+  @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(private router: Router,
     private authService: AuthService,
     public localstore: LocalStoreService,
@@ -84,13 +86,13 @@ export class AppComponent implements OnInit, OnDestroy {
       this.distroySearch();
       this.getSearchExperience();
     });
-    this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe( (res : any) => {
-      if(this.searchExperienceConfig){
-        if(this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')){
-          if(!this.headerService.isSDKCached){
+    this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
+      if (this.searchExperienceConfig) {
+        if (this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')) {
+          if (!this.headerService.isSDKCached) {
             if (!$('.search-background-div:visible').length) {
               this.showHideSearch(true);
-              this.resultRankDataSubscription = this.headerService.resultRankData.subscribe( (res : any) => {
+              this.resultRankDataSubscription = this.headerService.resultRankData.subscribe((res: any) => {
                 this.searchInstance.customTourResultRank(res);
               });
             } else {
@@ -98,16 +100,16 @@ export class AppComponent implements OnInit, OnDestroy {
               this.cacheBottomUpSDK(false);
             }
           }
-          else{
-            if($('.search-background-div').css('display') == 'block'){
+          else {
+            if ($('.search-background-div').css('display') == 'block') {
               this.cacheBottomUpSDK(false);
             }
-            else{
+            else {
               this.cacheBottomUpSDK(true);
             }
           }
         }
-        else{
+        else {
           if (!$('.top-down-search-background-div:visible').length) {
             $('.top-down-search-background-div').addClass('active');
             this.showHideTopDownSearch(true);
@@ -116,8 +118,10 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         }
       }
+    });
+    this.showHideMainMenuSubscription = this.headerService.showHideMainMenu.subscribe((res) => {
+      this.showMainMenu = res;
     })
-    
   }
   showMenu(event) {
     this.showMainMenu = event
@@ -137,7 +141,7 @@ export class AppComponent implements OnInit, OnDestroy {
         if (selectedApp && selectedApp.length) {
           this.appSelectionService.setAppWorkFlowData(selectedApp[0], this.previousState.selectedQueryPipeline);
           this.resetFindlySearchSDK(this.workflowService.selectedApp());
-          route = '/source';
+          route = '/summary';
           if (this.previousState.route) {
             route = this.previousState.route
           }
@@ -219,7 +223,7 @@ export class AppComponent implements OnInit, OnDestroy {
   navigationInterceptor(event: RouterEvent): void {
     if (event instanceof NavigationStart) {
       // this.showHideSearch(false);
-      this.showHideTopDownSearch(false);
+      // this.showHideTopDownSearch(false);
       this.authService.findlyApps.subscribe((res) => {
         self.loading = true;
         this.appsData = res;
@@ -227,6 +231,18 @@ export class AppComponent implements OnInit, OnDestroy {
 
     }
     if (event instanceof NavigationEnd) {
+      console.log("event.url", event.url)
+      if (event.url == '/summary') {
+        this.showMainMenu = false;
+      }
+      // if (event.url !== '/') {
+      //   this.headerComp.analyticsClick(event.url);
+      // }
+      // if (event.url == '/search-experience') {
+      //   this.showMainMenu = true;
+      //   this.settingMainMenu = true;
+
+      // }
       if (event && event.url === '/apps') {
         // this.showHideSearch(false);
         // this.showHideTopDownSearch(false);
@@ -234,8 +250,8 @@ export class AppComponent implements OnInit, OnDestroy {
       if (event && event.url === '/apps') {
         this.appSelectionService.setPreviousState();
         this.resetFindlySearchSDK(this.workflowService.selectedApp());
-        // this.showHideSearch(false);
-        // this.showHideTopDownSearch(false);
+        this.showHideSearch(false);
+        this.showHideTopDownSearch(false);
         this.selectApp(false);
         console.log('navigated to apps throught navigator and closed preview ball');
       } else {
@@ -282,6 +298,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.searchSDKSubscription.unsubscribe();
     this.resultRankDataSubscription.unsubscribe();
     this.SearchConfigurationSubscription ? this.SearchConfigurationSubscription.unsubscribe() : false;
+    this.showHideMainMenuSubscription ? this.showHideMainMenuSubscription.unsubscribe : false;
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
@@ -303,10 +320,10 @@ export class AppComponent implements OnInit, OnDestroy {
     };
     // useful for connecting to non-secure urls like localhost during development (not to be used in environments)
     if (window.appConfig.API_SERVER_URL.indexOf('http://') !== -1) {
-          botOptionsFindly.reWriteSocketURL = {
-            protocol: 'ws',
-            hostname:  window.appConfig.API_SERVER_URL.replace('http://','')
-        };
+      botOptionsFindly.reWriteSocketURL = {
+        protocol: 'ws',
+        hostname: window.appConfig.API_SERVER_URL.replace('http://', '')
+      };
     }
     const findlyConfig: any = {
       botOptions: botOptionsFindly,
@@ -329,7 +346,7 @@ export class AppComponent implements OnInit, OnDestroy {
       $('.search-background-div').show();
       // $('.start-search-icon-div').addClass('active');
       $('.search-background-div').off('click').on('click', (event) => {
-        if(event.target.classList.contains('bgDullOpacity')){
+        if (event.target.classList.contains('bgDullOpacity')) {
           console.log("event bgDullOpacity", event);
           this.cacheBottomUpSDK(false);
         }
@@ -358,6 +375,9 @@ export class AppComponent implements OnInit, OnDestroy {
     console.log(parms);
     // this.bridgeDataInsights = !parms.data;
     let call = false;
+    if (parms.type == 'onboardingjourney') {
+      this.appSelectionService.updateTourConfig(parms.data);
+    }
     if (parms.type === 'show' && parms.data === true && _self.bridgeDataInsights) {
       _self.bridgeDataInsights = false;
       call = true;
@@ -387,8 +407,8 @@ export class AppComponent implements OnInit, OnDestroy {
       _self.queryText = parms.query;
     }
 
-    if (parms.type === 'closeSearchContainer' && parms.data === false){
-      if(parms.bottomUp){
+    if (parms.type === 'closeSearchContainer' && parms.data === false) {
+      if (parms.bottomUp) {
         this.showHideSearch(false);
       }
       else {
@@ -402,7 +422,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.searchInstance && this.searchInstance.applicationToSDK && event) {
       this.searchInstance.applicationToSDK(event);
     }
-    if(this.topDownSearchInstance  && this.topDownSearchInstance.applicationToSDK && event){
+    if (this.topDownSearchInstance && this.topDownSearchInstance.applicationToSDK && event) {
       this.topDownSearchInstance.applicationToSDK(event);
     }
   }
@@ -427,7 +447,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  showHideTopDownSearch(show){
+  showHideTopDownSearch(show) {
     if (show) {
       $('app-body').append('<div class="top-down-search-background-div"><div class="bgDullOpacity"></div></div>');
       $('.top-down-search-background-div').show();
@@ -469,10 +489,10 @@ export class AppComponent implements OnInit, OnDestroy {
     };
     // useful for connecting to non-secure urls like localhost during development (not to be used in environments)
     if (window.appConfig.API_SERVER_URL.indexOf('http://') !== -1) {
-          botOptionsFindly.reWriteSocketURL = {
-            protocol: 'ws',
-            hostname:  window.appConfig.API_SERVER_URL.replace('http://','')
-        };
+      botOptionsFindly.reWriteSocketURL = {
+        protocol: 'ws',
+        hostname: window.appConfig.API_SERVER_URL.replace('http://', '')
+      };
     }
     const findlyConfig: any = {
       botOptions: botOptionsFindly,
@@ -486,7 +506,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.topDownSearchInstance.initializeTopDown(findlyConfig, 'top-down-search-background-div', this.searchExperienceConfig);
   }
 
-  distroyTopDownSearch(){
+  distroyTopDownSearch() {
     if (this.topDownSearchInstance && this.topDownSearchInstance.destroy) {
       this.topDownSearchInstance.destroy();
     }
@@ -506,10 +526,10 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  getSearchExperience(){
+  getSearchExperience() {
     console.log("getSearchExperience");
     console.log(this.workflowService.selectedApp());
-    let selectedApp : any;
+    let selectedApp: any;
     selectedApp = this.workflowService.selectedApp();
     const searchIndex = selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -518,39 +538,39 @@ export class AppComponent implements OnInit, OnDestroy {
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
       console.log("search experience data", res);
       this.searchExperienceConfig = res;
-      this.headerService.searchConfiguration =res;
+      this.headerService.searchConfiguration = res;
     }, errRes => {
       console.log(errRes);
     });
   }
 
-  clearBodyClasses(){
+  clearBodyClasses() {
     // have to clear the classes set for Top-down
-    if($('body').hasClass('top-down')){
+    if ($('body').hasClass('top-down')) {
       $('body').removeClass('top-down');
       $('body').removeClass('sdk-top-down-interface');
     }
   }
 
-  cacheBottomUpSDK(key){
-    if(key){
+  cacheBottomUpSDK(key) {
+    if (key) {
       $('.search-background-div').css('display', 'block');
-      if($('#show-all-results-container').length && ($('#show-all-results-container').attr('isCached') == 'true')){
+      if ($('#show-all-results-container').length && ($('#show-all-results-container').attr('isCached') == 'true')) {
         $('#show-all-results-container').css('display', 'block');
       }
       $('#test-btn-launch-sdk').addClass('active');
       this.headerService.isSDKOpen = true;
     }
-    else{
+    else {
       $('.search-background-div').css('display', 'none');
-      if($('#show-all-results-container').length){
-        if(!$('#show-all-results-container').attr('isCached') || ($('#show-all-results-container').attr('isCached') == 'false')){
-          if($('#show-all-results-container').attr('isCached') == 'false'){
+      if ($('#show-all-results-container').length) {
+        if (!$('#show-all-results-container').attr('isCached') || ($('#show-all-results-container').attr('isCached') == 'false')) {
+          if ($('#show-all-results-container').attr('isCached') == 'false') {
             $('#show-all-results-container').attr('isCached', 'false');
           }
-          else{
-            $('#show-all-results-container').attr('isCached', 'true');
-          }
+          // else {
+          //   $('#show-all-results-container').attr('isCached', 'true');
+          // }
           $('#show-all-results-container').css('display', 'none');
         }
       }

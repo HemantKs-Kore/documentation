@@ -264,7 +264,7 @@
 <!---add popup-->
 <kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop smallModal" #addExperiments>
   <div class="modal-header">
-    <div class="title">New Experiment</div>
+    <div class="title">{{form_type === 'edit'?'View Experiment':'New Experiment'}}</div>
     <div class="close_icon" (click)="closeModalPopup()">
       <img src="assets/icons/modal-close.svg" />
     </div>
@@ -309,10 +309,7 @@
           <div class="label-text">Index Configuration</div>
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
-              [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{
-                disable_edit:
-                  exp_status !== 'configured' || form_type === 'edit'
-              }">
+              [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{disable_edit: exp_status !== 'configured' && form_type === 'edit'}">
               {{
               vari.indexPipelineName === undefined
               ? varIndex===0? "Default Index Configuration":"Select Configuration"
@@ -330,10 +327,7 @@
           <div class="label-text">Search Configuration</div>
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
-              [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{
-                disable_edit:
-                  exp_status !== 'configured' || form_type === 'edit'
-              }">
+              [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{disable_edit: exp_status !== 'configured' && form_type === 'edit'}">
               {{
               vari.queryPipelineName === undefined
               ? varIndex===0? "Default Search Configuration":"Select Configuration"
@@ -379,10 +373,7 @@
         <div class="kr-sg-input-text">
           <div class="label-text">Duration</div>
           <input type="number" autocomplete="off" class="input-text text-center" min="0" max="90"
-            [(ngModel)]="experimentObj?.duration.days" [disabled]="exp_status !== 'configured' && form_type === 'edit'"
-            [ngClass]="{
-              disable_edit: exp_status !== 'configured' && form_type === 'edit'
-            }" />
+            [(ngModel)]="experimentObj?.duration.days" [disabled]="exp_status !== 'configured' && form_type === 'edit'"[ngClass]="{disable_edit: exp_status !== 'configured' && form_type === 'edit'}" />
           <img src="assets/icons/minus.svg" class="minus" [hidden]="exp_status !== 'configured' && form_type === 'edit'"
             (click)="
               experimentObj?.duration.days =
@@ -407,7 +398,7 @@
         !experimentObj.name ||
         (exp_status !== 'configured' && form_type === 'edit') || (variantsArray.length < 2) || (experimentObj?.duration.days < 1)
       ">
-     {{(form_type === 'edit'?'Save':'Add')}}
+     Add
     </button>
     <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">
       Cancel

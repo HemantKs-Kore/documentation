@@ -11,6 +11,7 @@
     </div>
   </div> -->
   <ng-container *ngIf="!(resources && resources.length) && loadingContent1">
+    <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="title-content">Content</div>
     <perfect-scrollbar class="scoll-empty-screen">
       <div class="empty-landing-screen">

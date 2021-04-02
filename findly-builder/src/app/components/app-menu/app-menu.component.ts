@@ -86,7 +86,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.headerService.toggle(toogleObj);
   }
   reloadCurrentRoute() {
-    let route = '/source';
+    let route = '/summary';
     const previousState = this.appSelectionService.getPreviousState();
     if (previousState.route) {
       route = previousState.route

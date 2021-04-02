@@ -7,6 +7,7 @@
         <div class="col-4 p-0">Result Ranking</div>     
         </div>
     <ng-container *ngIf="!nextPage&& loadingContent1">
+        <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
           <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/resultRanking-empty.svg"></div>
@@ -102,7 +103,7 @@
                                                         <div class="desc">{{list.numberOfCustomisations}} customization</div>
                                                     </div>
                                                     <div class="title-desc-sec col-1" [ngClass] = "{'disableDiv' : permisionView }">
-                                                        <div class="restore-icon" (click) = "restore(list)" ><img class="action-icon" src="assets/icons/restore.svg" ngbTooltip='Restore' placement="top"></div>
+                                                        <div class="restore-icon" (click) = "restore(list)" ><img class="action-icon" src="assets/icons/restore.svg" ngbTooltip='Rest' placement="top"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -184,9 +185,9 @@
                                                         <img src="assets/icons/resultranking/pin.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'pinned'"class="cursor-pointer">
                                                         <img src="assets/icons/resultranking/eye.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'hidden'"class="cursor-pointer">
                                                         <div>
-                                                        <img src="assets/icons/resultranking/export-up.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'burried'"class="cursor-pointer boost-trans">
+                                                        <img src="assets/icons/resultranking/export-up.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'lowered'"class="cursor-pointer boost-trans">
                                                         <img src="assets/icons/resultranking/export-up.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'boosted'"class="cursor-pointer">
-                                                        <span *ngIf="actLog.customization.action == 'boosted' || actLog.customization.action == 'burried'" class="boost-font">{{actLog.customization.value}}</span>
+                                                        <span *ngIf="actLog.customization.action == 'boosted' || actLog.customization.action == 'lowered'" class="boost-font">{{actLog.customization.value}}</span>
                                                         </div>
                                                         
 

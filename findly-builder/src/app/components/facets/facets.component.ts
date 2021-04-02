@@ -5,7 +5,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -15,73 +15,73 @@ declare const $: any;
   templateUrl: './facets.component.html',
   styleUrls: ['./facets.component.scss']
 })
-export class FacetsComponent implements OnInit , OnDestroy{
-  facetModalRef:any;
-  facets:any = [];
-  fieldAutoSuggestion:any =[];
+export class FacetsComponent implements OnInit, OnDestroy {
+  facetModalRef: any;
+  facets: any = [];
+  fieldAutoSuggestion: any = [];
   selectedApp;
   serachIndexId;
-  fieldDataType ='number';
+  fieldDataType = 'number';
   filedTypeShow = false;
-  selectedFieldId:any;
+  selectedFieldId: any;
   indexPipelineId;
   loadingContent = true;
-  addEditFacetObj:any = null;
+  addEditFacetObj: any = null;
   showSearch;
-  searchImgSrc:any='assets/icons/search_gray.svg';
-  searchFocusIn=false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   // serachTraits: any = '';
-  searchfacet:any = '';
-  facetDefaultValueObj:any = {
-    facet:{
+  searchfacet: any = '';
+  facetDefaultValueObj: any = {
+    facet: {
       fieldId: '',
       facetName: '',
       facetType: 'value',
       isMultiSelect: true,
       isFacetActive: true,
-      facetValue: { asc : true, size : 10 },
+      facetValue: { asc: true, size: 10 },
     },
-    range:{
-      rangeName:'',
-      from:'',
-      to:''
+    range: {
+      rangeName: '',
+      from: '',
+      to: ''
     },
-    value:{
-      size:0,
+    value: {
+      size: 0,
       orderKey: 'count',
-      asc:true
+      asc: true
     }
   }
   selcectionObj: any = {
     selectAll: false,
-    selectedItems:[],
+    selectedItems: [],
   };
-  fieldWarnings:any = {
-    NOT_INDEXED:'Indexed property has been set to False for this field',
-    NOT_EXISTS:'Associated field has been deleted'
+  fieldWarnings: any = {
+    NOT_INDEXED: 'Indexed property has been set to False for this field',
+    NOT_EXISTS: 'Associated field has been deleted'
   }
-  dummyCount =0;
+  dummyCount = 0;
   selectedField;
   queryPipelineId;
   subscription: Subscription;
   isAsc = true;
   selectedSort = '';
-  filterSystem : any = {
-    typefilter : 'all',
-    selectFilter : 'all',
-    statusFilter : 'all'
+  filterSystem: any = {
+    typefilter: 'all',
+    selectFilter: 'all',
+    statusFilter: 'all'
   };
-  beforeFilterFacets : any = [];
-  docTypeArr : any = [];
-  statusArr : any = [];
-  selectTypeArr : any = [];
-
+  beforeFilterFacets: any = [];
+  docTypeArr: any = [];
+  statusArr: any = [];
+  selectTypeArr: any = [];
+  componentType: string = 'configure';
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    private appSelectionService:AppSelectionService
+    private appSelectionService: AppSelectionService
   ) { }
   @ViewChild('facetModalPouup') facetModalPouup: KRModalComponent;
   ngOnInit() {
@@ -89,184 +89,184 @@ export class FacetsComponent implements OnInit , OnDestroy{
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     //this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.loadfacets();
-    this.subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
+    this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
       this.loadfacets();
     })
     // this.getFieldAutoComplete('');
   }
   loadImageText: boolean = false;
   loadingContent1: boolean
-  imageLoad(){
+  imageLoad() {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
   }
 
-  loadfacets(){
+  loadfacets() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-      if(this.indexPipelineId){
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
-      if(this.queryPipelineId){
+    if (this.indexPipelineId) {
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
+      if (this.queryPipelineId) {
         this.getFacts();
         this.getFieldAutoComplete('');
       }
     }
   }
-  getType(name){
-    if(typeof name === 'number'){
+  getType(name) {
+    if (typeof name === 'number') {
       return 'Number';
     } else {
       return 'String';
     }
   }
-  checkUncheckfacets(facet){
+  checkUncheckfacets(facet) {
     const selectedElements = $('.selectEachfacetInput:checkbox:checked');
     const allElements = $('.selectEachfacetInput');
-    if(selectedElements.length === allElements.length){
-      let partialElement : any = document.getElementsByClassName("partial-select-checkbox");
-      if(partialElement.length){
+    if (selectedElements.length === allElements.length) {
+      let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+      if (partialElement.length) {
         partialElement[0].classList.add('d-none');
       }
-      let selectAllElement : any = document.getElementsByClassName("select-all-checkbox");
-      if(selectAllElement.length){
+      let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+      if (selectAllElement.length) {
         selectAllElement[0].classList.remove('d-none');
       }
       $('#selectAllFacets')[0].checked = true;
     } else {
-      let partialElement : any = document.getElementsByClassName("partial-select-checkbox");
-      let selectAllElement : any = document.getElementsByClassName("select-all-checkbox");
+      let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+      let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
 
-      if(partialElement && (selectedElements.length != 0)){
+      if (partialElement && (selectedElements.length != 0)) {
         partialElement[0].classList.remove('d-none');
-        if(selectAllElement.length){
+        if (selectAllElement.length) {
           selectAllElement[0].classList.add('d-none');
         }
       }
-      else{
+      else {
         partialElement[0].classList.add('d-none');
-        if(selectAllElement.length){
+        if (selectAllElement.length) {
           selectAllElement[0].classList.remove('d-none');
         }
       }
       $('#selectAllFacets')[0].checked = false;
     }
     const element = $('#' + facet._id);
-    const addition =  element[0].checked
-    this.addRemovefacetFromSelection(facet._id,addition);
+    const addition = element[0].checked
+    this.addRemovefacetFromSelection(facet._id, addition);
   }
   selectAll(unselectAll?) {
     const allfacets = $('.selectEachfacetInput');
-    if (allfacets && allfacets.length){
-      $.each(allfacets, (index,element) => {
-        if($(element) && $(element).length){
-          $(element)[0].checked = unselectAll?false: this.selcectionObj.selectAll;
+    if (allfacets && allfacets.length) {
+      $.each(allfacets, (index, element) => {
+        if ($(element) && $(element).length) {
+          $(element)[0].checked = unselectAll ? false : this.selcectionObj.selectAll;
           const facetId = $(element)[0].id
-          this.addRemovefacetFromSelection(facetId,$(element)[0].checked);
+          this.addRemovefacetFromSelection(facetId, $(element)[0].checked);
         }
       });
     };
-    let partialElement : any = document.getElementsByClassName("partial-select-checkbox");
-    if(partialElement.length){
+    let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+    if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement : any = document.getElementsByClassName("select-all-checkbox");
-    if(selectAllElement.length){
+    let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+    if (selectAllElement.length) {
       selectAllElement[0].classList.remove('d-none');
     }
-    if(unselectAll){
+    if (unselectAll) {
       $('#selectAllFacets')[0].checked = false;
     }
   }
 
-  selectAllFromPartial(){
+  selectAllFromPartial() {
     this.selcectionObj.selectAll = true;
     $('#selectAllFacets')[0].checked = true;
     this.selectAll();
   }
 
-  resetPartial(){
+  resetPartial() {
     this.selcectionObj.selectAll = false;
-    if($('#selectAllFacets').length){
+    if ($('#selectAllFacets').length) {
       $('#selectAllFacets')[0].checked = false;
     }
-    let partialElement : any = document.getElementsByClassName("partial-select-checkbox");
-    if(partialElement.length){
+    let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+    if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement : any = document.getElementsByClassName("select-all-checkbox");
-    if(selectAllElement.length){
+    let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+    if (selectAllElement.length) {
       selectAllElement[0].classList.remove('d-none');
     }
   }
 
-  drop(event: CdkDragDrop<string[]>,list) {
-    if(event.previousIndex !== event.currentIndex){
+  drop(event: CdkDragDrop<string[]>, list) {
+    if (event.previousIndex !== event.currentIndex) {
       moveItemInArray(list, event.previousIndex, event.currentIndex);
       this.saveSortedList();
     }
   }
-  saveSortedList(){
-    const payload :any = [];
+  saveSortedList() {
+    const payload: any = [];
     const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
-      queryPipelineId:this.queryPipelineId,
+      searchIndexID: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.facets.forEach(face => {
       payload.push(face._id);
     });
-    this.service.invoke('reorder.facets', quaryparms,payload).subscribe(res => {
-      this.notificationService.notify('Facets updated successfully','success')
+    this.service.invoke('reorder.facets', quaryparms, payload).subscribe(res => {
+      this.notificationService.notify(' Updated Successfully', 'success')
     }, errRes => {
-      this.errorToaster(errRes,'Failed to update words');
+      this.errorToaster(errRes, 'Failed to update words');
     });
   }
   addRemovefacet
-  addRemovefacetFromSelection(facetId?,addtion?,clear?){
-    if(clear){
+  addRemovefacetFromSelection(facetId?, addtion?, clear?) {
+    if (clear) {
       this.resetPartial();
       const allfacets = $('.selectEachfacetInput');
-      $.each(allfacets, (index,element) => {
-        if($(element) && $(element).length){
-          $(element)[0].checked =false;
+      $.each(allfacets, (index, element) => {
+        if ($(element) && $(element).length) {
+          $(element)[0].checked = false;
         }
       });
-     this.selcectionObj.selectedItems = {};
-     this.selcectionObj.selectedCount = 0;
-     this.selcectionObj.selectAll = false;
+      this.selcectionObj.selectedItems = {};
+      this.selcectionObj.selectedCount = 0;
+      this.selcectionObj.selectAll = false;
     } else {
-     if(facetId){
-       if(addtion){
-         this.selcectionObj.selectedItems[facetId] = {};
-       } else {
-         if(this.selcectionObj.selectedItems[facetId]){
-           delete this.selcectionObj.selectedItems[facetId]
-         }
-       }
-     }
-     this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
+      if (facetId) {
+        if (addtion) {
+          this.selcectionObj.selectedItems[facetId] = {};
+        } else {
+          if (this.selcectionObj.selectedItems[facetId]) {
+            delete this.selcectionObj.selectedItems[facetId]
+          }
+        }
+      }
+      this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
     }
   }
   createNewFacet() {
     this.addEditFacetObj = JSON.parse(JSON.stringify(this.facetDefaultValueObj.facet));
-    if(this.selectedField && this.selectedField.fieldDataType){
+    if (this.selectedField && this.selectedField.fieldDataType) {
       this.selectedField.fieldDataType = null;
     }
     this.openModal();
   }
-  editFacetModal(facet){
+  editFacetModal(facet) {
     this.getRecordDetails(facet)
   }
-  getRecordDetails(data){
+  getRecordDetails(data) {
     const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
+      searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      offset:0,
-      limit:100
+      offset: 0,
+      limit: 100
     };
     this.service.invoke('get.allField', quaryparms).subscribe(res => {
       res.fields.forEach(element => {
-        if(element._id === data.fieldId){
+        if (element._id === data.fieldId) {
           console.log(element)
           this.addEditFacetObj = JSON.parse(JSON.stringify(data));
           this.selectedFieldId = element._id;
@@ -276,107 +276,107 @@ export class FacetsComponent implements OnInit , OnDestroy{
       });
     }, errRes => {
       this.loadingContent = false;
-      this.errorToaster(errRes,'Failed to get index  stages');
+      this.errorToaster(errRes, 'Failed to get index  stages');
     });
   }
-  resetDefaults(){
+  resetDefaults() {
     this.facetDefaultValueObj = {
-      facet:{
+      facet: {
         fieldId: '',
         facetName: '',
         facetType: 'value',
         isMultiSelect: true,
         isFacetActive: true,
-        facetValue: { asc : true, size: 10 },
+        facetValue: { asc: true, size: 10 },
       },
-      range:{
-        rangeName:'',
-        from:'',
-        to:''
+      range: {
+        rangeName: '',
+        from: '',
+        to: ''
       },
-      value:{
-        size:0,
+      value: {
+        size: 0,
         orderKey: 'count',
-        asc:true
+        asc: true
       }
     }
   }
-  getFieldAutoComplete(query){
+  getFieldAutoComplete(query) {
     const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
+      searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       query
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
       this.fieldAutoSuggestion = res || [];
-     }, errRes => {
-       this.errorToaster(errRes,'Failed to get fields');
-     });
-     if(!query){
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
+    if (!query) {
       this.fieldDataType = 'number';
       this.filedTypeShow = false;
-     }else{
+    } else {
       this.filedTypeShow = true;
-     }
+    }
   }
-  switchType(type){
-    if(type=== 'value'){
-      if(this.addEditFacetObj.facetRange){
+  switchType(type) {
+    if (type === 'value') {
+      if (this.addEditFacetObj.facetRange) {
         delete this.addEditFacetObj.facetRange;
       }
       this.addEditFacetObj.facetValue = {};
     } else {
-      if(this.addEditFacetObj.facetValue){
+      if (this.addEditFacetObj.facetValue) {
         delete this.addEditFacetObj.facetValue;
       }
       this.addEditFacetObj.facetRange = [];
     }
     this.addEditFacetObj.facetType = type;
   }
-  removeRange(index){
-    this.addEditFacetObj.facetRange.splice(index ,1);
+  removeRange(index) {
+    this.addEditFacetObj.facetRange.splice(index, 1);
   }
-  addFiled(facet?){
-    if(this.addEditFacetObj.facetType === 'value'){
-      if(this.addEditFacetObj.facetRange){
+  addFiled(facet?) {
+    if (this.addEditFacetObj.facetType === 'value') {
+      if (this.addEditFacetObj.facetRange) {
         delete this.addEditFacetObj.facetRange;
       }
-      if(!this.addEditFacetObj.facetValue){
+      if (!this.addEditFacetObj.facetValue) {
         this.addEditFacetObj.facetValue = {};
       }
     } else {
-      if(this.addEditFacetObj.facetValue){
+      if (this.addEditFacetObj.facetValue) {
         delete this.addEditFacetObj.facetValue;
       }
-      if(!this.addEditFacetObj.facetRange){
+      if (!this.addEditFacetObj.facetRange) {
         this.addEditFacetObj.facetRange = [];
       }
-      if(this.facetDefaultValueObj.range.from && this.facetDefaultValueObj.range.to){
+      if (this.facetDefaultValueObj.range.from && this.facetDefaultValueObj.range.to) {
         this.addEditFacetObj.facetRange.push(JSON.parse(JSON.stringify(this.facetDefaultValueObj.range)));
       }
     }
     this.resetDefaults();
   }
-  getFieldData(fieldId){
+  getFieldData(fieldId) {
     const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
+      searchIndexID: this.serachIndexId,
       fieldId,
     };
     this.service.invoke('get.getFieldById', quaryparms).subscribe(res => {
-      this.addEditFacetObj.fieldName= res.name;
+      this.addEditFacetObj.fieldName = res.name;
     }, errRes => {
     });
   }
-  getFacts(offset?){
+  getFacts(offset?) {
     const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
+      searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId:this.queryPipelineId,
+      queryPipelineId: this.queryPipelineId,
       offset: offset || 0,
-      limit:100
+      limit: 100
     };
     this.service.invoke('get.allFacets', quaryparms).subscribe(res => {
-      this.facets =  res || [];
+      this.facets = res || [];
       this.facets.forEach(element => {
         this.statusArr.push(element.isFacetActive);
         this.docTypeArr.push(element.facetType);
@@ -386,7 +386,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
       this.docTypeArr = [...new Set(this.docTypeArr)];
       this.selectTypeArr = [...new Set(this.selectTypeArr)];
       this.loadingContent = false;
-      this.addRemovefacetFromSelection(null,null,true);
+      this.addRemovefacetFromSelection(null, null, true);
       if (res.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
@@ -396,39 +396,39 @@ export class FacetsComponent implements OnInit , OnDestroy{
       }
     }, errRes => {
       this.loadingContent = false;
-      this.errorToaster(errRes,'Failed to get facets');
+      this.errorToaster(errRes, 'Failed to get facets');
     });
   }
-  selectField(suggesition){
+  selectField(suggesition) {
     this.selectedField = suggesition;
     this.fieldDataType = suggesition.fieldDataType;
     this.filedTypeShow = true;
-    if(suggesition.fieldId){
+    if (suggesition.fieldId) {
       this.addEditFacetObj.fieldId = suggesition.fieldId;
       this.selectedField.fieldId = suggesition.fieldId;
-    }else{
-      this.addEditFacetObj.fieldId =  suggesition._id;
+    } else {
+      this.addEditFacetObj.fieldId = suggesition._id;
       this.selectedField.fieldId = suggesition._id;
     }
     this.addEditFacetObj.fieldName = suggesition.fieldName
   }
 
-  setFaceName(suggesition){
+  setFaceName(suggesition) {
     this.addEditFacetObj.facetName = suggesition.fieldName;
   }
-  
+
   createFacet() {
     const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
+      searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId:this.queryPipelineId
+      queryPipelineId: this.queryPipelineId
     };
     const payload = this.addEditFacetObj;
-    if(this.addEditFacetObj.fieldName){
+    if (this.addEditFacetObj.fieldName) {
       delete payload.fieldName;
     }
-    if(!this.selectField){
-      this.notificationService.notify('Please select the valid Field','erroe');
+    if (!this.selectField) {
+      this.notificationService.notify('Please select the valid Field', 'erroe');
       return
     }
     // if(this.selectedField.fieldDataType === 'number'){
@@ -438,57 +438,58 @@ export class FacetsComponent implements OnInit , OnDestroy{
     // }
     payload.fieldId = this.selectedField._id;
     payload.isFacetActive = this.addEditFacetObj.isFacetActive || false;
-    this.service.invoke('create.facet', quaryparms,payload).subscribe(res => {
-      this.notificationService.notify('Facet created successfully','success');
+    this.service.invoke('create.facet', quaryparms, payload).subscribe(res => {
+      this.notificationService.notify('Facet Added Successfully', 'success');
+      if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) }
       this.facets.push(res);
       this.closeModal();
       this.addEditFacetObj = null;
       this.selectedFieldId = null;
     }, errRes => {
-      this.errorToaster(errRes,'Failed to create facet');
+      this.errorToaster(errRes, 'Failed to create facet');
     });
   }
-  editFacet(){
+  editFacet() {
     const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
+      searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      facetId:this.addEditFacetObj._id,
-      queryPipelineId:this.queryPipelineId
+      facetId: this.addEditFacetObj._id,
+      queryPipelineId: this.queryPipelineId
     };
     const payload = this.addEditFacetObj;
-    if(this.addEditFacetObj.fieldName){
+    if (this.addEditFacetObj.fieldName) {
       delete payload.fieldName;
     }
-    this.service.invoke('update.facet', quaryparms,payload).subscribe(res => {
-      this.notificationService.notify('Facet updated successfully','success');
+    this.service.invoke('update.facet', quaryparms, payload).subscribe(res => {
+      this.notificationService.notify('Facet Updated Successfully', 'success');
       this.getFacts();
       this.closeModal();
       this.addEditFacetObj = null;
       this.selectedFieldId = null;
     }, errRes => {
-      this.errorToaster(errRes,'Failed to update facet');
+      this.errorToaster(errRes, 'Failed to update facet');
     });
   }
-  deleteFacets(facet?,bulk?){
+  deleteFacets(facet?, bulk?) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
         newTitle: 'Are you sure you want to delete ?',
-        body:'Selected facet will be deleted.',
+        body: 'Selected facet will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp:true
+        confirmationPopUp: true
       }
     });
 
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          if(bulk){
-             this.deleteBulkFacet(dialogRef);
-          } else if(facet) {
-            this.deleteFacet(facet,dialogRef);
+          if (bulk) {
+            this.deleteBulkFacet(dialogRef);
+          } else if (facet) {
+            this.deleteFacet(facet, dialogRef);
           }
         } else if (result === 'no') {
           dialogRef.close();
@@ -496,78 +497,78 @@ export class FacetsComponent implements OnInit , OnDestroy{
         }
       })
   }
-  deleteBulkFacet(dialogRef){
+  deleteBulkFacet(dialogRef) {
     const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
+      searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId:this.queryPipelineId
+      queryPipelineId: this.queryPipelineId
     };
     const facets = Object.keys(this.selcectionObj.selectedItems);
     const delateitems = {
-      facets:[]
+      facets: []
     };
-    if(facets && facets.length){
-       facets.forEach(ele => {
-         const obj = {
-           _id:ele,
-         }
-         delateitems.facets.push(obj);
-       });
+    if (facets && facets.length) {
+      facets.forEach(ele => {
+        const obj = {
+          _id: ele,
+        }
+        delateitems.facets.push(obj);
+      });
     }
     const payload = delateitems;
-    this.service.invoke('delete.bulkFacet', quaryparms,payload).subscribe(res => {
+    this.service.invoke('delete.bulkFacet', quaryparms, payload).subscribe(res => {
       this.getFacts();
       dialogRef.close();
       this.closeModal();
-      this.notificationService.notify('Facets deleted successfully','success');
+      this.notificationService.notify('Facets Deleted Successfully', 'success');
     }, errRes => {
       this.loadingContent = false;
-      this.errorToaster(errRes,'Failed to delete facets');
+      this.errorToaster(errRes, 'Failed to delete facets');
     });
   }
-  deleteFacet(facet,dialogRef){
+  deleteFacet(facet, dialogRef) {
     const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
+      searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      facetId:facet._id,
-      queryPipelineId:this.queryPipelineId
+      facetId: facet._id,
+      queryPipelineId: this.queryPipelineId
     };
     const payload = this.addEditFacetObj;
-    this.service.invoke('delete.facet', quaryparms,payload).subscribe(res => {
+    this.service.invoke('delete.facet', quaryparms, payload).subscribe(res => {
       const deleteIndex = _.findIndex(this.facets, (fct) => {
         return fct._id === facet._id;
       })
-      this.facets.splice(deleteIndex,1);
+      this.facets.splice(deleteIndex, 1);
       dialogRef.close();
       this.closeModal();
-      this.notificationService.notify('Facet deleted successfully','success');
+      this.notificationService.notify('Facet Deleted Successfully', 'success');
     }, errRes => {
       this.loadingContent = false;
-      this.errorToaster(errRes,'Failed to delete facet');
+      this.errorToaster(errRes, 'Failed to delete facet');
     });
   }
-  errorToaster(errRes,message) {
-    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-    } else if (message){
+    } else if (message) {
       this.notificationService.notify(message, 'error');
     } else {
       this.notificationService.notify('Somthing went worng', 'error');
+    }
   }
- }
- addOrUpdate(){
-  this.addFiled();
-   if(this.addEditFacetObj && this.addEditFacetObj._id){
-    this.editFacet();
-   } else {
-     this.createFacet();
-   }
- }
-  openModal(){
+  addOrUpdate() {
+    this.addFiled();
+    if (this.addEditFacetObj && this.addEditFacetObj._id) {
+      this.editFacet();
+    } else {
+      this.createFacet();
+    }
+  }
+  openModal() {
     this.facetModalRef = this.facetModalPouup.open();
   }
-  closeModal(){
-    if(this.facetModalRef && this.facetModalRef.close){
+  closeModal() {
+    if (this.facetModalRef && this.facetModalRef.close) {
       this.facetModalRef.close();
     }
     this.resetDefaults();
@@ -581,7 +582,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
     this.showSearch = !this.showSearch
   };
 
-  changeFacetSorting(value){
+  changeFacetSorting(value) {
     this.addEditFacetObj.facetValue.asc = value;
   }
 
@@ -665,35 +666,35 @@ export class FacetsComponent implements OnInit , OnDestroy{
     this.filterSystem.statusFilter = 'all';
     this.filterFacets(source, headerOption);
     switch (headerOption) {
-      case 'facetType' : { this.filterSystem.typefilter = source; return;};
-      case 'isMultiSelect' : { this.filterSystem.selectFilter = source; return;};
-      case 'statusType' : { this.filterSystem.statusFilter = source; return;};
+      case 'facetType': { this.filterSystem.typefilter = source; return; };
+      case 'isMultiSelect': { this.filterSystem.selectFilter = source; return; };
+      case 'statusType': { this.filterSystem.statusFilter = source; return; };
     };
   }
 
-  filterFacets(source, headerOption){
-    if(!this.beforeFilterFacets.length){
+  filterFacets(source, headerOption) {
+    if (!this.beforeFilterFacets.length) {
       this.beforeFilterFacets = JSON.parse(JSON.stringify(this.facets));
     }
-    let tempFacets = this.beforeFilterFacets.filter( (facet : any) => {
-      if(source !== 'all'){
-        if(headerOption === 'facetType'){
-          if(facet.facetType === source){
+    let tempFacets = this.beforeFilterFacets.filter((facet: any) => {
+      if (source !== 'all') {
+        if (headerOption === 'facetType') {
+          if (facet.facetType === source) {
             return facet;
           }
         }
-        if(headerOption === 'isMultiSelect'){
-          if(facet.isMultiSelect === source){
+        if (headerOption === 'isMultiSelect') {
+          if (facet.isMultiSelect === source) {
             return facet;
           }
         }
-        if(headerOption === 'statusType'){
-          if(facet.isFacetActive === source){
+        if (headerOption === 'statusType') {
+          if (facet.isFacetActive === source) {
             return facet;
           }
         }
       }
-      else{
+      else {
         return facet;
       }
     });
@@ -701,9 +702,9 @@ export class FacetsComponent implements OnInit , OnDestroy{
     this.facets = JSON.parse(JSON.stringify(tempFacets));
   }
 
-ngOnDestroy(){
-  if(this.subscription){
-    this.subscription.unsubscribe();
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
-  }
-  }
+}
