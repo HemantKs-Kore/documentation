@@ -1,17 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { EChartOption } from 'echarts';
 @Component({
   selector: 'app-pricing',
   templateUrl: './pricing.component.html',
   styleUrls: ['./pricing.component.scss']
 })
 export class PricingComponent implements OnInit {
+  documentGraph : EChartOption;
+  queryGraph : EChartOption;
   addPricing1ModalPopRef: any;
   addPricing2ModalPopRef: any;
   addPricing3ModalPopRef: any;
   addPricing4ModalPopRef: any;
   addPricing5ModalPopRef: any;
+  termPlan = "monthly";
   constructor(public dialog: MatDialog) { }
   @ViewChild('addPricingModel1') addPricingModel1: KRModalComponent;
   @ViewChild('addPricingModel2') addPricingModel2: KRModalComponent;
@@ -19,6 +23,7 @@ export class PricingComponent implements OnInit {
   @ViewChild('addPricingModel4') addPricingModel4: KRModalComponent;
   @ViewChild('addPricingModel5') addPricingModel5: KRModalComponent;
   ngOnInit(): void {
+    this.userEngagementChart()
   }
   //open popup1
   openPopup1() {
@@ -74,5 +79,179 @@ export class PricingComponent implements OnInit {
       this.addPricing5ModalPopRef.close();
     }
   }
-
+  //Grap data
+  userEngagementChart(){
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    let xAxisData = [];
+    let yAxisRepeatUser = [];
+    let yAxisNewUsers = [];
+    this.queryGraph = {
+      
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {            
+          type: 'none'        
+        },
+        position: 'top',
+        padding: 0
+       
+      },
+     
+      grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+      },
+      xAxis: {
+          type: 'category',
+          data: ['Jan', 'Feb', 'Apr', 'May', 'Jun'], //data//
+          axisLabel:{
+            //margin: 20,
+            color: "#9AA0A6",
+            fontWeight: "normal",
+            fontSize: 12,
+            fontFamily: "Inter"
+          },
+      },
+      yAxis: {
+           type: 'value',
+           name: 'Document Ingested',
+           nameLocation: 'middle',
+           nameGap: 10,
+           nameTextStyle: {
+            color: "#9AA0A6",
+            fontWeight: "normal",
+            fontSize: 1,
+            fontFamily: "Inter"
+          },
+           axisLabel:{
+            //margin: 20,
+            color: "#9AA0A6",
+            fontWeight: "normal",
+            fontSize: 12,
+            fontFamily: "Inter"
+          },
+      },
+      series: [{
+        data: [120, 200, 150, 80, 70, 110, 130],
+        type: 'bar',
+        barWidth: 10,
+        itemStyle: {      
+          normal: {
+            color: '#7027E5',
+              barBorderRadius: [50, 50, 50 ,50 ]
+          },
+        },
+        lineStyle: {
+          color: '#0D6EFD',
+        },
+    }]
+  }
+    this.documentGraph = {
+      
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {            
+          type: 'none'        
+        },
+        position: 'top',
+        padding: 0
+       
+      },
+     
+      grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+      },
+      xAxis: {
+          type: 'category',
+          data: ['Jan', 'Feb', 'Apr', 'May', 'Jun'], //data//
+          axisLabel:{
+            //margin: 20,
+            color: "#9AA0A6",
+            fontWeight: "normal",
+            fontSize: 12,
+            fontFamily: "Inter"
+          },
+      },
+      yAxis: {
+           type: 'value',
+           name: 'Document Ingested',
+           nameLocation: 'middle',
+           nameGap: 50,
+           nameTextStyle: {
+            color: "#9AA0A6",
+            fontWeight: "normal",
+            fontSize: 12,
+            fontFamily: "Inter"
+          },
+           axisLabel:{
+            //margin: 20,
+            color: "#9AA0A6",
+            fontWeight: "normal",
+            fontSize: 12,
+            fontFamily: "Inter"
+          },
+      },
+      series: [{
+        data: [120, 200, 150, 80, 70, 110, 130],
+        type: 'bar',
+        barWidth: 10,
+        itemStyle: {      
+          normal: {
+            color: '#28A745',
+              barBorderRadius: [50, 50, 50 ,50 ]
+          },
+        },
+        lineStyle: {
+          color: '#0D6EFD',
+        },
+    }]
+      // series: [
+      //   //barMinWidth = 10;
+      //     {
+      //         name: 'bottom',
+      //         type: 'bar',
+      //         stack: '总量',
+      //         // label: {
+      //         //     show: true,
+      //         //     position: 'insideRight'
+      //         // },
+      //         barWidth: 10,
+      //         itemStyle: {
+                
+      //           normal: {
+      //             color: '#FF784B',
+      //               barBorderRadius: [0, 0, 50 ,50 ]
+      //           },
+                
+      //         },
+      //         data: yAxisRepeatUser
+      //     },
+      //     {
+      //         name: 'top',
+      //         type: 'bar',
+      //         stack: '总量',
+      //         // label: {
+      //         //     show: true,
+      //         //     position: 'insideRight'
+      //         // },
+      //         barWidth: 10,
+      //         itemStyle: {
+      //           normal: {
+      //             color: '#0D6EFD',
+      //               barBorderRadius: [50, 50, 0 ,0 ]
+      //           }
+      //         },
+      //         lineStyle: {
+      //           color: '#0D6EFD',
+      //         },
+      //         data:  yAxisNewUsers
+      //     }
+      // ]
+    };
+  }
 }

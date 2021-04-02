@@ -55,8 +55,8 @@
           <div class="row col-12 upgrade-header-sec">
             <div class="title col-5 p-0">Upgrade to</div>
             <div class="upgrader-btn-sec col-7 p-0">
-              <div class="btn-monthly active-btn">Monthly</div>
-              <div class="btn-monthly">Annually</div>
+              <div class="btn-monthly" [ngClass]="{'active-btn' : termPlan == 'monthly'}" (click)="termPlan = 'monthly'">Monthly</div>
+              <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'annually' }" (click)="termPlan = 'annually'">Annually</div>
               <div class="compare-plan">Compare Plans</div>
             </div>
           </div>
@@ -114,11 +114,13 @@
               <div class="col-6 metrics-data">
                 <div class="inner-content">
                     <div class="title">Document Ingestion Analytics <span>| Jan - June (Last 6 Months)</span></div>
+                    <div echarts [options]="documentGraph" class="demo-chart-graphMode" style="height: 320px;"></div>
                 </div>
               </div>
               <div class="col-6 metrics-data">
                 <div class="inner-content">
                     <div class="title">Query Usage Analytics <span>| Jan - June (Last 6 Months)</span></div>
+                    <div echarts [options]="queryGraph" class="demo-chart-graphMode" style="height: 320px;"></div>
                 </div>
               </div>
           </div>
@@ -147,8 +149,8 @@
             <div class="order-confirmation-table-body row col-12 m-0">
               <div class="col-9 plan_details">
                 <div class="plan-type">Standard Subscription</div>
-                <div class="btn-monthly active-btn">Monthly</div>
-                <div class="btn-monthly">Annually</div>
+                <div class="btn-monthly"  [ngClass]="{'active-btn' : termPlan == 'monthly'}" (click)="termPlan = 'monthly'">Monthly</div>
+                <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'annually' }" (click)="termPlan = 'annually'">Annually</div>
               </div>            
 
               <div class="amount col-3">$ 99</div>
@@ -207,8 +209,8 @@
     <div class="modal-header">
       <div class="title">Choose Plan</div>
       <div class="d-flex align-items-center justify-content-end">
-        <div class="btn-monthly active-btn">Monthly</div>
-        <div class="btn-monthly">Annually</div>
+        <div class="btn-monthly"  [ngClass]="{'active-btn' : termPlan == 'monthly'}" (click)="termPlan = 'monthly'">Monthly</div>
+        <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'annually' }" (click)="termPlan = 'annually'">Annually</div>
         <div class="close_icon ml-4">
           <img  (click)="closePopup3()" src="assets/icons/modal-close.svg">
         </div>
