@@ -89,7 +89,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       if (this.searchExperienceConfig) {
         if (this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')) {
-          if (!this.headerService.isSDKCached) {
+          if (!this.headerService.isSDKCached || !$('.search-background-div').length) {
             if (!$('.search-background-div:visible').length) {
               this.showHideSearch(true);
               this.resultRankDataSubscription = this.headerService.resultRankData.subscribe((res: any) => {
@@ -418,6 +418,12 @@ export class AppComponent implements OnInit, OnDestroy {
         this.showHideTopDownSearch(false);
       }
     }
+    
+    if (parms.type === 'refreshSearchContainer' && parms.data === false) {
+      if (parms.bottomUp) {
+        this.refreshSDK();
+      }
+    }
   }
   closeResultBody(event) {
     const bridgeObj = { type: 'addNew', data: false, query: null }
@@ -581,6 +587,13 @@ export class AppComponent implements OnInit, OnDestroy {
       this.headerService.isSDKCached = true;
       this.headerService.isSDKOpen = false;
     }
+  }
+
+  refreshSDK(){
+    this.showHideSearch(false);
+    setTimeout(() =>{
+      this.showHideSearch(true);
+    }, 200);
   }
 
   // click event on whole body. For now, using for Status Docker
