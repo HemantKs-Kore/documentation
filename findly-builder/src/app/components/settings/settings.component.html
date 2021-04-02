@@ -40,7 +40,7 @@
                     <div class="dropdown-toggle" id="menu1" data-toggle="dropdown"><img class="action_icon"
                             src="assets/icons/elipse-black.svg"></div>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                        <li><a (click)="enableConfiguration = !enableConfiguration">{{enableConfiguration?'Disable':'Enable'}} Configutation</a></li>
+                        <li><a (click)="enableConfiguration = !enableConfiguration">{{enableConfiguration?'Disable':'Enable'}} Configuration</a></li>
                         <li><a>Delete Configuration</a></li>
                     </ul>
                 </div>
@@ -105,8 +105,8 @@
                 <div class="desc-text">Create a credential to associate it with the channel</div>
                 <div class="kr-sg-input-text">
                     <div class="label-text">Credential Name</div>
-                    <input type="text" placeholder="Type Name" class="input-text" [(ngModel)]="credntial.name" required>
-
+                    <input type="text" placeholder="Type Name" id="addSourceTitleInput" class="input-text" [(ngModel)]="credntial.name" (change)="inputChanged('title')"required>
+                    <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
 
                 </div>
                 <div class="kr-sg-checkbox d-block p-0">
@@ -123,9 +123,10 @@
                 </div>
                 <div class="kr-sg-dropdowns">
                     <div class="label-text">JWT Signing Algorithm Used For Client App Authentication</div>
-                    <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" required>
+                    <div class="dropdown dropdown-open" >
+                        <button class="dropdown-toggle dropdown-input"  data-toggle="dropdown"  required>
                             {{ credntial.awt ? credntial.awt: 'Select Signing Algorithm'}}</button>
+                            <!-- <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" /> -->
                         <ul class="dropdown-menu content-menu">
                             <li (click)="jwtAuth('RS256')"><a>RS256</a></li>
                             <li (click)="jwtAuth('HS256')"><a>HS256</a></li>
@@ -261,8 +262,9 @@
     <div class="modal-body">
         <div class="kr-sg-input-text mb-4">
             <div class="label-text">Credential Name</div>
-            <input type="text" autocomplete="off" name="credname" placeholder="Enter Name" [(ngModel)]="credntial.name"
+            <input type="text" id="addSourceTitleInput" autocomplete="off" name="credname" placeholder="Enter Name" [(ngModel)]="credntial.name" (change)="inputChanged('title')"
                 class="input-text">
+                <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
         </div>
         <div class="kr-sg-checkbox d-block p-0">
             <input id="checkbox_1" class="checkbox-custom" type="checkbox" [(ngModel)]="credntial.anonymus">
@@ -297,7 +299,7 @@
     </div>
     <!-- </perfect-scrollbar> -->
     <div class="modal-footer">
-        <button class="kr-sg-button-primary btn_lg" (click)="createCredential()">Add</button>
+        <button class="kr-sg-button-primary btn_lg" (click)=" validateSource()">Add</button>
         <button class="kr-sg-button-secondary btn_lg" (click)="closeModalPopup()">Cancel</button>
     </div>
 </kr-modal>

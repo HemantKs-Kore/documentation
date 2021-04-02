@@ -108,12 +108,19 @@
               }}</span>
                         <span class="tags-input mr-1 mb-1"><span class="small-text">{{ "businessRules." + rule.contextType | translate
                 }} :</span> {{ "businessRules." + rule.contextCategory | translate }}</span>
-                        <br><span class="outer-name mr-1 mb-1 ml-4" [ngClass]="{'ml-4':ruleIndex > 0}">{{ rule.operator | titlecase}}</span>
-                        <ng-container *ngFor="let value of rule.value; let valueIndex = index">
-                            <span class="tags-input mr-1 mb-1">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
-                            <span class="divider mr-1 mb-1" *ngIf="valueIndex < rule.value.length - 1">{{ "or_caps" | translate
-                }}</span>
-                        </ng-container>
+                        <br>
+                        <div class="d-flex">
+                            <div class="d-inline-block">
+                                <span class="outer-name mr-1 mb-1 ml-4" [ngClass]="{'ml-4':ruleIndex > 0}">{{ rule.operator | titlecase}}</span>
+                            </div>
+                            <div class="d-inline-block">
+                                <ng-container *ngFor="let value of rule.value; let valueIndex = index">
+                                    <span class="tags-input mr-1 mb-1">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
+                                    <span class="divider mr-1 mb-1" *ngIf="valueIndex < rule.value.length - 1">{{ "or_caps" | translate
+                        }}</span>
+                                </ng-container>
+                            </div>
+                        </div>
                     </ng-container>
                 </div>
                 <div class="col-3 content">
@@ -263,10 +270,10 @@
                                                     <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'number')">
                                                         <ng-container *ngFor="let value of ruleObj.value; let index = index">
                                                             <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
-                                                                <span class="mat-val" *ngIf="value && value.length && ruleObj.operator == 'between'">
+                                                                <span class="mat-val" *ngIf="value && value.length && checkIsArray(value)">
                                   <span *ngFor="let num of value; let numIndex = index">{{num}}<span *ngIf="!numIndex"> - </span></span>
                                                                 </span>
-                                                                <span class="mat-val" *ngIf="value && ruleObj.operator !== 'between'">
+                                                                <span class="mat-val" *ngIf="value && !checkIsArray(value)">
                                   <span >{{value}}</span>
                                                                 </span>
                                                                 <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
@@ -274,7 +281,7 @@
                                                             <span>OR</span>
                                                         </ng-container>
                                                     </ng-container>
-                                                    <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator !== 'between')">
+                                                    <!-- <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator !== 'between')">
                                                         <ng-container *ngFor="let value of ruleObj.value; let index = index">
                                                             <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
                                                                 <span class="mat-val" *ngIf="value">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
@@ -296,8 +303,22 @@
                                                             </mat-chip>
                                                             <span>OR</span>
                                                         </ng-container>
+                                                    </ng-container> -->
+                                                    <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date')">
+                                                        <ng-container *ngFor="let value of ruleObj.value; let index = index">
+                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
+                                                                <span class="mat-val" *ngIf="value && value.length && checkIsArray(value)">
+                                                                    <span *ngFor="let date of value; let dateIndex = index">
+                                                                        {{date | dateFormatPipe: 'DD MMM YYYY'}} <span *ngIf="!dateIndex"> - </span>
+                                                                    </span>
+                                                                </span>
+                                                                <span class="mat-val" *ngIf="value  && !checkIsArray(value)">{{value | dateFormatPipe: 'DD MMM
+                                                                    YYYY'}}</span>
+                                                                <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
+                                                            </mat-chip>
+                                                            <span>OR</span>
+                                                        </ng-container>
                                                     </ng-container>
-
                                                     <ng-container *ngIf="(ruleObj.dataType != 'date') && (ruleObj.dataType != 'number')">
                                                         <input placeholder="Type Keyword" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" suggestedInput/>
                                                     </ng-container>
@@ -369,7 +390,7 @@
                                         </div>
                                         <ng-container *ngIf="outcomeObj.outcomeType === 'boost' || outcomeObj.outcomeType === 'lower'">
                                             <div class="col-4 pr-0">
-                                                <app-range-slider [customClass]="'weightsSlider'" [allData]="outcomeObj.sliderObj" (valueEvent)="valueEvent($event, outcomeObj)"></app-range-slider>
+                                                <app-range-slider [customClass]="'weightsSlider'" [allData]="outcomeObj.sliderObj" (valueEvent)="valueEvent($event, outcomeObj)" placement="top-center" container='body' ngbTooltip="{{ outcomeObj.scale }}X"></app-range-slider>
                                             </div>
                                             <div class="col-4 pr-0 text-right">
                                                 <span class="result-slider-title" *ngIf="outcomeObj.outcomeType === 'boost'">{{"businessRules.boostResults" | translate }}</span>
@@ -400,7 +421,7 @@
                                         <div class="kr-sg-dropdowns col-4 pl-0 disabled" ngbDropdown (click)="currentEditInex = index">
                                             <div class="dropdown dropdown-open">
                                                 <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle [disabled]="true">
-                          {{outcomeObj.fieldDataType? outcomeObj.fieldDataType: "String"}}
+                          {{outcomeObj.fieldDataType? (("businessRules."+outcomeObj.fieldDataType) | translate): "String"}}
                         </button>
                                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                                 </ul>

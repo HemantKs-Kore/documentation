@@ -196,7 +196,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
             if (!(this.stopwords && this.stopwords.length) && !dialogRef) {
               this.notificationService.notify('No default stop words available', 'error');
             } else {
-              this.notificationService.notify('Stopwords set to default', 'success');
+              this.notificationService.notify('Reset Successful', 'success');
               if (this.stopwords.length === 0) this.appSelectionService.updateTourConfig(this.componentType);
             }
           }
@@ -221,10 +221,10 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       data: {
         title: 'Restore Stop Words',
         text: 'Are you sure you want to restore Stop Words?',
-        newTitle: 'Are you sure you want to restore ?',
-        body: 'Selected stop words will be restored.',
-        buttons: [{ key: 'yes', label: 'Restore' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
+        newTitle:'Are you sure you want to restore ?',
+        body:'Stop words will be reset to system-defined values.',
+        buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 
@@ -252,8 +252,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       data: {
         title: 'Delete Stop Word',
         text: 'Are you sure you want to delete selected Stop Word?',
-        newTitle: 'Are you sure you want to delete ?',
-        body: 'Selected stop word will be deleted.',
+        newTitle:'Are you sure you want to delete ?',
+        body:'This will delete all the configures stop words.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -315,7 +315,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
-    let msg = 'Stop words updated successfully';
+    let msg = 'Updated Successfully';
     if (!enableOrDisable) {
       if (this.pipeline.stages && this.pipeline.stages.length) {
         this.pipeline.stages.forEach(stage => {
@@ -344,7 +344,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       if (dialogRef && dialogRef.close) {
         dialogRef.close();
         if (!enableOrDisable) {
-          msg = 'Stop word deleted successfully';
+          msg = 'Deleted Successfully';
         }
         else {
           if (this.stopwords.length === 0) this.appSelectionService.updateTourConfig(this.componentType);

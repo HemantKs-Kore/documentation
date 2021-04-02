@@ -125,7 +125,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('post.restoreWeights', quaryparms).subscribe(res => {
-      this.notificationService.notify('Weights reset successfully', 'success');
+      this.notificationService.notify('Updated Successfully', 'success');
       this.pipeline = res.pipeline || {};
       this.prepereWeights();
       if (dialogRef && dialogRef.close) {
@@ -267,14 +267,14 @@ export class WeightsComponent implements OnInit, OnDestroy {
       this.pipeline = res.pipeline || {};
       this.prepereWeights();
       if (type == 'add') {
-        this.notificationService.notify('Weight added successfully', 'success')
+        this.notificationService.notify('Added Successfully', 'success')
       }
       else if (type == 'edit') {
-        this.notificationService.notify('Weight updated successfully', 'success');
+        this.notificationService.notify(' Updated Successfully', 'success');
         this.appSelectionService.updateTourConfig(this.componentType);
       }
       else if (type == 'delete') {
-        this.notificationService.notify('Weight deleted successfully', 'success')
+        this.notificationService.notify(' Deleted Successfully', 'success')
       }
       if (dialogRef && dialogRef.close) {
         dialogRef.close();
@@ -298,7 +298,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
         title: 'Delete Rankable Field',
         text: 'Are you sure you want to delete selected rankable field?',
         newTitle: 'Are you sure you want to delete ?',
-        body: 'Selected rankable field will be deleted.',
+        body: 'Selected Searchable Field will be deleted',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }

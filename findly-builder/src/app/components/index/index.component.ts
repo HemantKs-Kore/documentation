@@ -59,6 +59,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedMapping: any = {};
   actionItmes: any = [{ type: 'set' }, { type: 'rename' }, { type: 'copy' }, { type: 'Delete' }];
   newMappingObj: any = {}
+  sourceType =  'faq';
   defaultStageTypesObj: any = {
     field_mapping: {
       name: 'Field Mapping',
@@ -93,7 +94,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     { title: 'Company Name or Organization Name', value: 'company_name', isDepricated: false },
     // {"title": "City", "value": "city"},
     { title: 'Color', value: 'color', isDepricated: false },
-    { title: 'Currency(Deprecated)', value: 'currency', isDepricated: true },
+    // { title: 'Currency(Deprecated)', value: 'currency', isDepricated: true },
     { title: 'Currency', value: 'currencyv2', isDepricated: false },
     { title: 'Custom', value: 'regex', isDepricated: false },
     { title: 'Composite', value: 'composite', isDepricated: false },
@@ -119,13 +120,13 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     { title: 'URL', value: 'url', isDepricated: false },
     { title: 'Zip Code', value: 'zipcode', isDepricated: false },
 
-    { title: 'From - number(minimum of a range)(Deprecated)', value: 'from_number', isDepricated: true },
-    { title: 'To - number(maximum of a range, limit)(Deprecated)', value: 'to_number', isDepricated: true },
-    { title: 'Quantity(Deprecated)', value: 'quantity', isDepricated: true }
+    // { title: 'From - number(minimum of a range)(Deprecated)', value: 'from_number', isDepricated: true },
+    // { title: 'To - number(maximum of a range, limit)(Deprecated)', value: 'to_number', isDepricated: true },
+    // { title: 'Quantity(Deprecated)', value: 'quantity', isDepricated: true }
     // {"title": "City", "value": "city"},
   ];
   simulteObj: any = {
-    sourceType: 'faq',
+    sourceType: this.sourceType,
     docCount: 5,
     showSimulation: false,
     simulate: this.defaultStageTypesObj
@@ -250,7 +251,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   setResetNewMappingsObj(ignoreSimulate?, saveConfig?) {
     if (!ignoreSimulate) {
       this.simulteObj = {
-        sourceType: 'faq',
+        sourceType: this.sourceType,
         docCount: 5,
         showSimulation: false,
       }
@@ -607,7 +608,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         this.pipeline = res.stages || [];
         this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
         // this.appSelectionService.updateTourConfig('addData');
-        this.notificationService.notify('Configurations saved successfully', 'success');
+        this.notificationService.notify('Configurations Saved Successfully', 'success');
         this.savingConfig = false;
         if (dialogRef && dialogRef.close) {
           dialogRef.close();
@@ -696,7 +697,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   changeSimulate(value, type) {
     if (type === 'source') {
-      this.simulteObj.sourceType = value;
+      this.sourceType = value
+      this.simulteObj.sourceType = this.sourceType;
     } else {
       this.simulteObj.docCount = value
     }
@@ -704,7 +706,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   closeSimulator() {
     this.simulteObj = {
-      sourceType: 'faq',
+      sourceType: this.sourceType,
       docCount: 5,
       showSimulation: false,
     }
@@ -752,7 +754,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.service.invoke('post.simulate', quaryparms, payload).subscribe(res => {
         this.simulteObj.simulating = false;
         this.addcode(res);
-        this.notificationService.notify('Simulated successfully', 'success')
+        this.notificationService.notify('Simulated Successfully', 'success')
         this.simulating = false;
         if (this.pollingSubscriber) {
           this.pollingSubscriber.unsubscribe();
@@ -762,6 +764,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       }, errRes => {
         this.simulating = false;
         this.simulteObj.simulating = false;
+        this.addcode({});
         if (this.pollingSubscriber) {
           this.pollingSubscriber.unsubscribe();
         }

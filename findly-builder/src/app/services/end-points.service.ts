@@ -905,11 +905,11 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['get.tourConfig'] = {
-      endpoint: this.API_SERVER_URL + '/findly/users/:userId/userConfigs',
+      endpoint: this.API_SERVER_URL + '/findly/apps/:streamId',
       method: 'get'
     }
     this.serviceList['put.tourConfig'] = {
-      endpoint: this.API_SERVER_URL + '/findly/users/:userId/userConfigs',
+      endpoint: this.API_SERVER_URL + '/findly/apps/:streamId',
       method: 'put'
     }
   }

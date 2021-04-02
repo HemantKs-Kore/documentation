@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError, ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
@@ -8,7 +8,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { EndPointsService } from '@kore.services/end-points.service';
 import { environment } from '@kore.environment';
 import { AppSelectionService } from '@kore.services/app.selection.service'
-
+import { AppHeaderComponent } from './components/app-header/app-header.component';
 // import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
 // declare const KoreWidgetSDK: any;
@@ -43,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
   SearchConfigurationSubscription: Subscription;
   searchSDKSubscription: Subscription;
   resultRankDataSubscription: Subscription
-  showHideMainMenuSubscription :Subscription;
+  showHideMainMenuSubscription: Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -52,6 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
   };
   topDownSearchInstance: any;
   searchExperienceConfig: any;
+  @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(private router: Router,
     private authService: AuthService,
     public localstore: LocalStoreService,
@@ -118,7 +119,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
     });
-    this.showHideMainMenuSubscription = this.headerService.showHideMainMenu.subscribe( (res) => {
+    this.showHideMainMenuSubscription = this.headerService.showHideMainMenu.subscribe((res) => {
       this.showMainMenu = res;
     })
   }
@@ -234,6 +235,14 @@ export class AppComponent implements OnInit, OnDestroy {
       if (event.url == '/summary') {
         this.showMainMenu = false;
       }
+      // if (event.url !== '/') {
+      //   this.headerComp.analyticsClick(event.url);
+      // }
+      // if (event.url == '/search-experience') {
+      //   this.showMainMenu = true;
+      //   this.settingMainMenu = true;
+
+      // }
       if (event && event.url === '/apps') {
         // this.showHideSearch(false);
         // this.showHideTopDownSearch(false);
@@ -368,6 +377,9 @@ export class AppComponent implements OnInit, OnDestroy {
     let call = false;
     if (parms.type == 'onboardingjourney') {
       this.appSelectionService.updateTourConfig(parms.data);
+    }
+    if (parms.type == 'fullResult') {
+      this.appSelectionService.updateTourConfig('test');
     }
     if (parms.type === 'show' && parms.data === true && _self.bridgeDataInsights) {
       _self.bridgeDataInsights = false;

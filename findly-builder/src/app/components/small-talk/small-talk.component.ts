@@ -63,7 +63,7 @@ export class SmallTalkComponent implements OnInit {
 
      console.log(res);
    },
-     (err) => { this.notificationService.notify("Task Enabling Failed", 'error') });
+     (err) => { this.notificationService.notify("Task Enabling Failedd", 'error') });
 
  }
 

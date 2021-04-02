@@ -45,11 +45,23 @@
     .test-button{
         display: none;
     }
+    .train-btn{
+        visibility: hidden;
+    }
     .notification-dropdown{
         visibility: hidden;
     }
     .dropdown-toggle.dropdown-input.notification{
         pointer-events: none;
+    }
+    .notification-block{
+        visibility: hidden;
+    }
+    .show-search1{
+        visibility: hidden;
+    }
+    .show-search2{
+        visibility: visible !important
     }
     &.appSelected{
         .trainBlock{
@@ -90,6 +102,18 @@
         }
         .dropdown-toggle.dropdown-input.notification{
             pointer-events: unset;
+        }
+        .train-btn{
+            visibility: visible !important;
+        }
+        .notification-block{
+            visibility: visible !important
+        }
+        .show-search1{
+            visibility: visible !important
+        }
+        .show-search2{
+            display: none !important;
         }
     }
 }
