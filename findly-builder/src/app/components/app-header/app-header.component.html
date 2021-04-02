@@ -90,10 +90,11 @@
                 <li class="nav-item test-button">
                     <button placement="bottom" #testButtonTooltip="ngbTooltip" ngbTooltip="Preview & Customize search results." container='body' tooltipClass="test-icon-tooltip" class="kr-sg-button-secondary btn_lg rr-tour-test-btn" id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()">Test</button>
                 </li>
-                <li class="nav-item train-btn" ngbTooltip="Train your App" container='body' tooltipClass="train-icon-tooltip">
+                <li class="nav-item train-btn" ngbTooltip="Train your App" container='body' tooltipClass="train-icon-tooltip" [ngClass]='{"active-train":training}'>
+                    <div class="loader-train"></div>
                     <img src="assets/icons/train.svg" class="defaultIcon" (click)="train()">
                 </li>
-                <li class="nav-item search-block">
+                <li class="nav-item search-block show-search1">
                     <div class="search_icon" [ngClass]="{'active-search-top' : showSearch}">
                         <img src="assets/icons/sidemenu/search.svg" (click)="showSearch=!showSearch;searchText=''">
                     </div>
@@ -173,6 +174,17 @@
                                 </div>
                             </ul>
                         </div>                                            
+                    </div>
+                </li>
+                <li class="nav-item search-block show-search2">
+                    <div class="search_icon" [ngClass]="{'active-search-top' : showSearch}">
+                        <img src="assets/icons/sidemenu/search.svg" (click)="showSearch=!showSearch;searchText=''">
+                    </div>
+                    <div class="global-searc-container" *ngIf='showSearch'>
+                        <div class="kr-sg-input-search">     
+                            <input type="text" placeholder="Search" class="input-search" (keyup.enter)="triggerRoute(searchText)" autocomplete="off" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">                                                      
+                            <img src="assets/icons/search_gray.svg" class="search-icon">
+                        </div>
                     </div>
                 </li>
                 <li class="nav-item help-icon">

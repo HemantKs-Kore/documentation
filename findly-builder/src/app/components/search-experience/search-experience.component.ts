@@ -90,7 +90,6 @@ export class SearchExperienceComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
     this.getSearchExperience();
-    // this.getTourConfig();
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourData = res;
       this.tourGuide = res.searchExperienceVisited ? '' : 'step1';
@@ -289,26 +288,16 @@ export class SearchExperienceComponent implements OnInit {
   selectSearchBox(type) {
     this.selectSearch = type;
   }
-  //get tour congfig data
-  // getTourConfig() {
-  //   const quaryparms: any = {
-  //     userId: this.userInfo.id
-  //   };
-  //   this.service.invoke('get.tourConfig', quaryparms).subscribe(res => {
-  //     this.tourGuide = res.configurations.searchExperienceVisited ? '' : 'step1';
-  //   }, errRes => {
-  //     console.log(errRes);
-  //   });
-  // }
   //put tour config data
   updateTourConfig() {
+    const appInfo: any = this.workflowService.selectedApp();
     const quaryparms: any = {
-      userId: this.userInfo.id
+      streamId: appInfo._id
     };
     this.tourData.searchExperienceVisited = true;
-    const payload = { "configurations": this.tourData };
+    const payload = { "tourConfigurations": this.tourData };
     this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
-      this.appSelectionService.updateTourConfig(this.componentType);
+      //this.appSelectionService.updateTourConfig(this.componentType);
       this.notificationService.notify('Updated successfully', 'success');
       this.tourGuide = '';
     }, errRes => {
