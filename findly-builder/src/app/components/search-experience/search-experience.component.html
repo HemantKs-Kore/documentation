@@ -103,7 +103,7 @@
                             </div> 
     
                             <div class="tour-guide-data button-tour" *ngSwitchCase="'step4'">
-                                <div class="close-guide" (click)="tourGuide=''">
+                                <div class="close-guide" (click)="updateTourConfig();tourGuide=''">
                                     <img src="assets/icons/search-experience/close-tour.svg">
                                 </div>
                                 <div class="title-info">Click on the button to customize button text, fill color and border color</div>

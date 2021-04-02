@@ -378,6 +378,9 @@ export class AppComponent implements OnInit, OnDestroy {
     if (parms.type == 'onboardingjourney') {
       this.appSelectionService.updateTourConfig(parms.data);
     }
+    if (parms.type == 'fullResult') {
+      this.appSelectionService.updateTourConfig('test');
+    }
     if (parms.type === 'show' && parms.data === true && _self.bridgeDataInsights) {
       _self.bridgeDataInsights = false;
       call = true;
