@@ -243,7 +243,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
             this.resetSelected();
             this.selectedRecord = {};
             this.customizeLog = [];
-            this.notificationService.notify('Bulk reset successfull', 'success');
+            this.notificationService.notify('Reset Successfull', 'success');
           }, errRes => {
             if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
               this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -518,7 +518,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         if (result === 'yes') {
           this.service.invoke('delete.CustomizatioLog', quaryparms).subscribe(res => {
             dialogRef.close();
-            this.notificationService.notify('Record Removed', 'success');
+            this.notificationService.notify('Removed Successfully', 'success');
             this.getcustomizeList(20, 0);
             this.actionLogData = [];
             this.customizeList = [];

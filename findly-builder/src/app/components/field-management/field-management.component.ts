@@ -205,9 +205,9 @@ export class FieldManagementComponent implements OnInit {
     }
     this.service.invoke(api, quaryparms, payload).subscribe(res => {
       if (this.newFieldObj && this.newFieldObj._id) {
-        this.notificationService.notify('Field updated successfully', 'success');
+        this.notificationService.notify('Updated Successfully', 'success');
       } else {
-        this.notificationService.notify('Field added successfully', 'success');
+        this.notificationService.notify('Added Successfully', 'success');
       }
       this.getFileds();
       this.closeModalPopup();
