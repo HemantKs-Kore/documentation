@@ -218,7 +218,6 @@ export class TeamManagementComponent implements OnInit {
     if (this.facetModalRef && this.facetModalRef.close) {
       this.facetModalRef.close();
     }
-
     this.addEditFacetObj = null;
     this.members = [];
   }

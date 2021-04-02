@@ -182,6 +182,7 @@
           line-height: 15px;
           text-transform: uppercase;
           color: #979797;
+
         }
         .add {
           cursor: pointer;
@@ -345,6 +346,25 @@
         padding-right: 10px;
       }
       .form_edit_content {
+        .add-condition-example-text{
+          color: #9AA0A6;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 18px;
+          margin-bottom: 8px;
+        }
+        .add-condition-info{
+          color: #0D6EFD;
+          font-size: 12px;
+          line-height: 15px;
+          display: flex;
+          align-items: center;
+          padding: 5px 0;
+          margin-bottom: 15px;
+          img{
+            margin-right: 10px;
+          }
+        }
       }
       .form_inputs_data {
         .form_list_drag {
@@ -661,5 +681,64 @@
 ::ng-deep .checkbox-custom-label.gray-checkbox{
   &::before{
     background-color: gainsboro !important;
+  }
+}
+
+.tooltip-custom-data{
+  position: relative;
+  padding: 0 6px;
+  float: none !important;
+  &:hover{
+    .tooltip-custom_{
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  .tooltip-custom_{
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    background-color: #555;
+    color: #fff;
+    z-index: 1;
+    transition: opacity .6s;
+    background: #202124;
+    box-shadow: 0px 4px 4px rgb(32 33 36 / 20%);
+    border-radius: 4px;
+    width: 179px;
+    padding: 15px;
+    text-align: left;
+    text-transform: none;
+    top: -15px;
+    left: 28px;
+    &.width-245{
+      width: 245px;
+    }
+    &::before{
+      content: "";
+      position: absolute;
+      top: 23px;
+      right: 100%;
+      margin-top: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent #202124 transparent transparent;
+    }
+    .title-data{
+      font-weight: 600;
+      font-size: 10px;
+      line-height: 14px;
+      margin-bottom: 8px;
+      color: #fff;
+      text-transform: none;
+    }
+    .learn_more{
+      display: inline-block;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 20px;
+      color: #0D6EFD !important;
+      cursor: pointer;
+    }
   }
 }
