@@ -117,9 +117,9 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
-    this.appSelectionService.getTourConfig()
+    //this.appSelectionService.getTourConfig()
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
-      this.showOverview = res.findlyOverViewVisted;
+      this.showOverview = res.findlyOverviewVisited;
     })
     this.getSummary();
     this.getQueries("TotalUsersStats");
@@ -129,10 +129,10 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.getAllOverview();
     this.componentType = 'summary';
   }
-  closeOverview() {
-    this.subscription.unsubscribe();
-    this.showOverview = true
-  }
+  // closeOverview() {
+  //   this.subscription.unsubscribe();
+  //   this.showOverview = true
+  // }
   getSummary() {
     this.loading = false;
     // this.loading = true;
@@ -324,7 +324,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
     setTimeout(() => {
       this.componentType = 'overview';
-      this.onboard.openOnBoardingModal();
+      //this.onboard.openOnBoardingModal();
     }, 1000)
   }
   closeOnBoardingModal() {

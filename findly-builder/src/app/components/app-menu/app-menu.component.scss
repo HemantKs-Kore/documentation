@@ -132,8 +132,10 @@ app-mainmenu{
 							text-align: center;
 							line-height: 0;
 							background: transparent;
-							&::before{
-								display: none !important;
+							&.before-none{
+								&::before{
+									display: none !important;
+								}
 							}
 							&:hover{
 								background: #F8F9FA;
@@ -307,8 +309,10 @@ app-mainmenu{
 					}
 					.dropdown-open {
 						.dropdown-input{
-							&::before{
-								display: none !important;
+							&.before-none{
+								&::before{
+									display: none !important;
+								}
 							}
 						}
 					}

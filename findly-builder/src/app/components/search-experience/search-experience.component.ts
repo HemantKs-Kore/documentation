@@ -22,7 +22,7 @@ export class SearchExperienceComponent implements OnInit {
   suggestions: any = [];
   searchObject: any = {
     "searchExperienceConfig": {
-      "searchBarPosition": "bottom"
+      "searchBarPosition": "top"
     },
     "searchWidgetConfig": {
       "searchBarFillColor": "#FFFFFF",
@@ -35,7 +35,8 @@ export class SearchExperienceComponent implements OnInit {
       "buttonFillColor": "#EFF0F1",
       "buttonBorderColor": "#EFF0F1",
       "searchBarIcon": "6038e58234b5352faa7773b0",
-      "userSelectedColors": []
+      "userSelectedColors": [],
+      "buttonPlacementPosition": 'inside'
     },
     "searchInteractionsConfig": {
       "feedbackExperience": { resultLevel: true, queryLevel: false },
@@ -89,7 +90,6 @@ export class SearchExperienceComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
     this.getSearchExperience();
-    // this.getTourConfig();
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourData = res;
       this.tourGuide = res.searchExperienceVisited ? '' : 'step1';
@@ -156,6 +156,10 @@ export class SearchExperienceComponent implements OnInit {
       }
     }
   }
+  // //change button placement
+  // changeButtonPlacement(type) {
+  //   this.searchObject.searchWidgetConfig.SearchBox = type;
+  // }
   //based on show searches show slider
   changeSlider(type, data?) {
     this.suggestions = [];
@@ -284,26 +288,16 @@ export class SearchExperienceComponent implements OnInit {
   selectSearchBox(type) {
     this.selectSearch = type;
   }
-  //get tour congfig data
-  // getTourConfig() {
-  //   const quaryparms: any = {
-  //     userId: this.userInfo.id
-  //   };
-  //   this.service.invoke('get.tourConfig', quaryparms).subscribe(res => {
-  //     this.tourGuide = res.configurations.searchExperienceVisited ? '' : 'step1';
-  //   }, errRes => {
-  //     console.log(errRes);
-  //   });
-  // }
   //put tour config data
   updateTourConfig() {
+    const appInfo: any = this.workflowService.selectedApp();
     const quaryparms: any = {
-      userId: this.userInfo.id
+      streamId: appInfo._id
     };
     this.tourData.searchExperienceVisited = true;
-    const payload = { "configurations": this.tourData };
+    const payload = { "tourConfigurations": this.tourData };
     this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
-      this.appSelectionService.updateTourConfig(this.componentType);
+      //this.appSelectionService.updateTourConfig(this.componentType);
       this.notificationService.notify('Updated successfully', 'success');
       this.tourGuide = '';
     }, errRes => {
@@ -357,7 +351,7 @@ export class SearchExperienceComponent implements OnInit {
       console.log("test res", res);
       this.searchIcon = res.widgetConfig.searchBarIcon;
       this.headerService.updateSearchConfiguration();
-      console.log("this.searchIcon", this.searchIcon)
+      this.appSelectionService.updateTourConfig(this.componentType);
       this.notificationService.notify('Updated successfully', 'success');
       this.statusModalPopRef = this.statusModalPop.open();
       this.workflowService.checkTopOrBottom(this.searchObject.searchExperienceConfig.searchBarPosition);

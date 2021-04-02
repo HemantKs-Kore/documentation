@@ -111,6 +111,7 @@ import { SmallTalkComponent } from './components/small-talk/small-talk.component
 import { PricingComponent } from './components/pricing/pricing.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { UsageLogComponent } from './components/usage-log/usage-log.component';
+import { RangeSliderSearchExperienceComponent } from './helpers/components/range-slider-search-experience/range-slider-search-experience.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -190,7 +191,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SmallTalkComponent,
     PricingComponent,
     InvoicesComponent,
-    UsageLogComponent
+    UsageLogComponent,
+    RangeSliderSearchExperienceComponent
   ],
   imports: [
     BrowserModule,

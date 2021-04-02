@@ -18,7 +18,15 @@
   <div class="split_section_stage_table" *ngIf="!loadingContent">
     <div class="stage_sec">
       <div class="stage_header">
-        <div class="title">Stages</div>
+        <div class="title">Stages
+          <span class="tooltip-custom-data">
+            <img src="assets/icons/help_gray.svg">
+            <span class="tooltip-custom_">
+              <div class="title-data">Transform the incoming data into optimized documents using Index Pipeline Stages</div>
+              <div class="learn_more">Learn More</div>
+            </span>
+          </span>
+        </div>
         <div class="add" (click)="showNewStageType=true;selectedStage={};" placement="bottom-right" 
           [disableTooltip]="pipeline && pipeline.length" #tleft="ngbTooltip" triggers="manual"
           (mouseenter)="tleft.open()" ngbTooltip="Click here to get started by adding a stage" [container]="'body'"
@@ -131,9 +139,7 @@
             <div class="kr-sg-dropdowns mb-20 pr-4 pl-0">
               <div class="label-text">
                 Stage Type
-                <span ngbTooltip="Select an appropriate stage to create and transform pipeline document objects"
-                  tooltipClass="metrics_tooltips m-0" placement="top-center" container="body" class="pl-1"><img
-                    src="assets/icons/help.svg" /></span>
+                <!-- <span tooltipClass="tooltip_custom" ngbTooltip="Select an appropriate stage to create and transform pipeline document objects" tooltipClass="workbench_tolltips m-0" placement="right-center" container="body" class="pl-1"><img src="assets/icons/help_gray.svg"/></span> -->
               </div>
               <div class="dropdown dropdown-open" [ngClass]="{ disabled: selectedStage._id }">
                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
@@ -168,21 +174,30 @@
           <div class="kr-sg-input-text mb-20">
             <div class="label-text">
               Stage Name
-              <img container="body" ngbTooltip="Give your own name for the stage" tooltipClass="metrics_tooltips m-0"
-                class="pl-1" src="assets/icons/help.svg" />
+              <img container="body" placement="right-center" ngbTooltip="Give Stage Name of your choice to create multiple stages with the same Stage Type" tooltipClass="workbench_tolltips m-0" class="pl-1" src="assets/icons/help_gray.svg" />
             </div>
             <input type="text" placeholder="Please Enter Stage Name" (keyup)="changesDetected = true" autocomplete="off"
               class="input-text" [(ngModel)]="selectedStage.name" />
           </div>
-          <div class="kr-sg-input-text mb-20">
+          <div class="kr-sg-input-text mb-2">
             <div class="label-text">
               Add Condition
-              <img container="body" ngbTooltip="Condition evaluates to false will skip the stage execution"
-                tooltipClass="metrics_tooltips m-0" class="pl-1" src="assets/icons/help.svg" />
+              <span class="tooltip-custom-data">
+                <img src="assets/icons/help_gray.svg">
+                <span class="tooltip-custom_ width-245">
+                  <div class="title-data">Documents that satisfy the condition will be executed as part of the stage. You can define condition in Painless Script
+                  </div>
+                  <div class="learn_more">Learn More</div>
+                </span>
+              </span>
             </div>
-            <input type="text" placeholder="Define Painless Rule" (keyup)="changesDetected = true" autocomplete="off"
+            <input type="text" placeholder="Define Condition" (keyup)="changesDetected = true" autocomplete="off"
               class="input-text" [(ngModel)]="selectedStage.condition" />
               <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div>
+          </div>
+          <div class="add-condition-example-text">Eg: ctx.contentType=="faq"</div>
+          <div class="add-condition-info">
+            <img src="assets/icons/Info_blue.svg">It is mandatory to add conditions for defining the Exclude Document stage.
           </div>
 
         </div>
@@ -489,15 +504,15 @@
                   ">
                   <div class="label-text" *ngIf="selectedStage.type === 'entity_extraction'">
                     Add Entities
-                    <img class="ml-1" tooltipClass="metrics_tooltips m-0"
+                    <img class="ml-1" tooltipClass="workbench_tolltips m-0"
                       ngbTooltip="Entities to be identified from the source field" [container]="'body'"
-                      src="assets/icons/help.svg" />
+                      src="assets/icons/help_gray.svg" />
                   </div>
                   <div class="label-text" *ngIf="selectedStage.type === 'traits_extraction'">
                     Add Trait Groups
-                    <img class="ml-1" tooltipClass="metrics_tooltips m-0"
+                    <img class="ml-1" tooltipClass="workbench_tolltips m-0"
                       ngbTooltip="Traits to be identified from the source field" [container]="'body'"
-                      src="assets/icons/help.svg" />
+                      src="assets/icons/help_gray.svg" />
                   </div>
                   <div class="label-text" *ngIf="selectedStage.type === 'keyword_extraction'">
                     Choose Kwywords
@@ -603,15 +618,15 @@
               ">
               <div class="label-text" *ngIf="selectedStage.type === 'entity_extraction'">
                 Add Entities
-                <img class="ml-1" tooltipClass="metrics_tooltips m-0"
+                <img class="ml-1" tooltipClass="workbench_tolltips m-0"
                   ngbTooltip="Entities to be identified from the source field" [container]="'body'"
-                  src="assets/icons/help.svg" />
+                  src="assets/icons/help_gray.svg" />
               </div>
               <div class="label-text" *ngIf="selectedStage.type === 'traits_extraction'">
                 Add Trait Groups
-                <img class="ml-1" tooltipClass="metrics_tooltips m-0"
+                <img class="ml-1" tooltipClass="workbench_tolltips m-0"
                   ngbTooltip="Traits to be identified from the source field" [container]="'body'"
-                  src="assets/icons/help.svg" />
+                  src="assets/icons/help_gray.svg" />
               </div>
               <div class="label-text" *ngIf="selectedStage.type === 'keyword_extraction'">
                 Choose Kwywords
@@ -726,13 +741,13 @@
       </perfect-scrollbar>
       <div class="footer-simulate-form simulatebtnContainer">
         <span class="float-right mr-5"><button class="kr-sg-button-primary btn_lg" id="simulateBtn" (click)="simulate()"
-            tooltipClass="metrics_tooltips m-0" [disabled]="simulteObj.simulating"
+            tooltipClass="workbench_tolltips m-0" [disabled]="simulteObj.simulating"
             ngbTooltip="Test the field transformations before saving the configuration">
             <img src="assets/images/simulate.svg" class="mr-1" />{{
             simulteObj.simulating ? "Simulating.." : "Simulate"
             }}
           </button> 
-          <span class="mr-2" placement="top-center" ngbTooltip="Simulate to check how the changes reflect in the documents before saving" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"> <img class="mr-5"src="assets/icons/help.svg"/></span></span>
+          <span class="mr-2" placement="top-right" ngbTooltip="Simulate to check how the changes reflect in the documents before saving" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"> <img class="mr-5" src="assets/icons/help_gray.svg"/></span></span>
         <button class="kr-sg-button-secondary btn_lg float-right" id="cancleUnsavedChanges"
           [disabled]="!changesDetected" (click)="clearDirtyObj(true)">
           Cancel
@@ -754,18 +769,18 @@
           <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
             {{
             (simulteObj.sourceType
-            ? simulteObj.sourceType
+            ? (simulteObj.sourceType == 'faq'? 'FAQs': (simulteObj.sourceType =='object'?'Structure Data':simulteObj.sourceType))
             : "choose_an_option"
             ) | translate
             }}
           </button>
           <ul class="dropdown-menu content-menu">
-            <li (click)="changeSimulate('page', 'source')"><a>Page</a></li>
+            <!-- <li (click)="changeSimulate('page', 'source')"><a>Page</a></li> -->
             <li (click)="changeSimulate('faq', 'source')"><a>FAQs</a></li>
             <li (click)="changeSimulate('content', 'source')">
               <a>Content</a>
             </li>
-            <li (click)="changeSimulate('object', 'source')"><a>Object</a></li>
+            <li (click)="changeSimulate('object', 'source')"><a>Structure Data</a></li>
           </ul>
         </div>
       </div>

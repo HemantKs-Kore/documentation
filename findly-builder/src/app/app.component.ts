@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError, ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
@@ -8,7 +8,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { EndPointsService } from '@kore.services/end-points.service';
 import { environment } from '@kore.environment';
 import { AppSelectionService } from '@kore.services/app.selection.service'
-
+import { AppHeaderComponent } from './components/app-header/app-header.component';
 // import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
 // declare const KoreWidgetSDK: any;
@@ -43,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
   SearchConfigurationSubscription: Subscription;
   searchSDKSubscription: Subscription;
   resultRankDataSubscription: Subscription
+  showHideMainMenuSubscription: Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -51,6 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
   };
   topDownSearchInstance: any;
   searchExperienceConfig: any;
+  @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(private router: Router,
     private authService: AuthService,
     public localstore: LocalStoreService,
@@ -87,7 +89,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       if (this.searchExperienceConfig) {
         if (this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')) {
-          if (!this.headerService.isSDKCached) {
+          if (!this.headerService.isSDKCached || !$('.search-background-div').length) {
             if (!$('.search-background-div:visible').length) {
               this.showHideSearch(true);
               this.resultRankDataSubscription = this.headerService.resultRankData.subscribe((res: any) => {
@@ -116,6 +118,9 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         }
       }
+    });
+    this.showHideMainMenuSubscription = this.headerService.showHideMainMenu.subscribe((res) => {
+      this.showMainMenu = res;
     })
   }
   showMenu(event) {
@@ -218,7 +223,7 @@ export class AppComponent implements OnInit, OnDestroy {
   navigationInterceptor(event: RouterEvent): void {
     if (event instanceof NavigationStart) {
       // this.showHideSearch(false);
-      this.showHideTopDownSearch(false);
+      // this.showHideTopDownSearch(false);
       this.authService.findlyApps.subscribe((res) => {
         self.loading = true;
         this.appsData = res;
@@ -230,6 +235,14 @@ export class AppComponent implements OnInit, OnDestroy {
       if (event.url == '/summary') {
         this.showMainMenu = false;
       }
+      // if (event.url !== '/') {
+      //   this.headerComp.analyticsClick(event.url);
+      // }
+      // if (event.url == '/search-experience') {
+      //   this.showMainMenu = true;
+      //   this.settingMainMenu = true;
+
+      // }
       if (event && event.url === '/apps') {
         // this.showHideSearch(false);
         // this.showHideTopDownSearch(false);
@@ -237,8 +250,8 @@ export class AppComponent implements OnInit, OnDestroy {
       if (event && event.url === '/apps') {
         this.appSelectionService.setPreviousState();
         this.resetFindlySearchSDK(this.workflowService.selectedApp());
-        // this.showHideSearch(false);
-        // this.showHideTopDownSearch(false);
+        this.showHideSearch(false);
+        this.showHideTopDownSearch(false);
         this.selectApp(false);
         console.log('navigated to apps throught navigator and closed preview ball');
       } else {
@@ -285,6 +298,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.searchSDKSubscription.unsubscribe();
     this.resultRankDataSubscription.unsubscribe();
     this.SearchConfigurationSubscription ? this.SearchConfigurationSubscription.unsubscribe() : false;
+    this.showHideMainMenuSubscription ? this.showHideMainMenuSubscription.unsubscribe : false;
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
@@ -364,6 +378,9 @@ export class AppComponent implements OnInit, OnDestroy {
     if (parms.type == 'onboardingjourney') {
       this.appSelectionService.updateTourConfig(parms.data);
     }
+    // if (parms.type == 'fullResult') {
+    //   this.appSelectionService.updateTourConfig('test');
+    // }
     if (parms.type === 'show' && parms.data === true && _self.bridgeDataInsights) {
       _self.bridgeDataInsights = false;
       call = true;
@@ -399,6 +416,12 @@ export class AppComponent implements OnInit, OnDestroy {
       }
       else {
         this.showHideTopDownSearch(false);
+      }
+    }
+    
+    if (parms.type === 'refreshSearchContainer' && parms.data === false) {
+      if (parms.bottomUp) {
+        this.refreshSDK();
       }
     }
   }
@@ -554,9 +577,9 @@ export class AppComponent implements OnInit, OnDestroy {
           if ($('#show-all-results-container').attr('isCached') == 'false') {
             $('#show-all-results-container').attr('isCached', 'false');
           }
-          else {
-            $('#show-all-results-container').attr('isCached', 'true');
-          }
+          // else {
+          //   $('#show-all-results-container').attr('isCached', 'true');
+          // }
           $('#show-all-results-container').css('display', 'none');
         }
       }
@@ -564,6 +587,13 @@ export class AppComponent implements OnInit, OnDestroy {
       this.headerService.isSDKCached = true;
       this.headerService.isSDKOpen = false;
     }
+  }
+
+  refreshSDK(){
+    this.showHideSearch(false);
+    setTimeout(() =>{
+      this.showHideSearch(true);
+    }, 200);
   }
 
   // click event on whole body. For now, using for Status Docker

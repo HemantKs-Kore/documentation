@@ -50,8 +50,8 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   anwerPayloadObj:any = {};
   ruleOptions = {
     searchContext:['recentSearches','currentSearch', 'traits', 'entity','keywords'],
-    pageContext:['device', 'browser', 'currentPage' , 'recentPages','signed'],
-    userContext:['userType', 'userProfile', 'age', 'sex'],
+    pageContext:['device', 'browser', 'currentPage' , 'recentPages'],
+    userContext:   [' ','userType', 'userProfile', 'age', 'sex'],
     contextTypes:['searchContext','pageContext','userContext'],
     dataTypes: ['string', 'date', 'number', 'trait', 'entity', 'keyword'],
     actions:['boost','lower','hide','filter']
@@ -60,6 +60,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     contextType:'searchContext',
     operator:'contains',
     contextCategory:'recentSearches',
+    // usercontextCategory:'',
     dataType: 'string',
     value:[]
   }
