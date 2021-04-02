@@ -573,6 +573,7 @@ export class AppHeaderComponent implements OnInit {
   }
   openOrCloseSearchSDK() {
     this.headerService.openSearchSDK(true);
+    this.loadHeader();
     this.getcustomizeList(20, 0);
     this.displayToolTip();
   }
