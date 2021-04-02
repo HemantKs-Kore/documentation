@@ -236,6 +236,7 @@ export class AppSelectionService {
         streamId: appInfo._id
       };
       const payload = { "tourConfigurations": this.getTourArray };
+
       this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
         this.getTourConfigData.next(this.getTourArray);
         let count = 0;
