@@ -3359,14 +3359,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
       // $('.full-search-close').off('click').on('click', function (e)
       $('.custom-chevron-right-icon').off('click').on('click', function (e) {
-        if (_self.overrideDefaultPoisition) {
-          var pos = _self.calculateContainerPosition(_self.getAvatarTopLeft())
-          $('.search-container').css('top', pos.y);
-          //$('.search-container').css('left', pos.x);
-        }
-        if(!$('body').hasClass('demo')){
-          $('.search-container').css('top', 'unset');
-        }
+        // if (_self.overrideDefaultPoisition) {
+        //   var pos = _self.calculateContainerPosition(_self.getAvatarTopLeft())
+        //   $('.search-container').css('top', pos.y);
+        //   //$('.search-container').css('left', pos.x);
+        // }
+        // if(!$('body').hasClass('demo')){
+        //   $('.search-container').css('top', 'unset');
+        // }
         if (($('.external-link-show').css('display') == 'none')) {
           $('.external-link-show').css('display', 'block');
           $('.desc-info').css('max-width', '100%');

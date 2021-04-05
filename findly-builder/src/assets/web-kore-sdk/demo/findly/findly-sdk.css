@@ -9665,7 +9665,7 @@ body::-webkit-scrollbar {
     float: right;
     position: relative !important;
     bottom: -8px !important;
-    background: #fff;
+    /* background: #fff; */
     left: 0px;
     right: 0 !important;
 }
