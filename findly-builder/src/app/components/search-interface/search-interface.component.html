@@ -3,7 +3,7 @@
   <div class="header_sec">
     <div class="title">Search Interface</div>
     <div class="btn_sec">     
-      <button class="kr-sg-button-primary btn_lg" (click)="openPreviewModal()">Preview</button>
+      <button class="kr-sg-button-primary btn_lg d-none" (click)="openPreviewModal()">Preview</button>
     </div>
   </div>
   <div class="body_content">
@@ -24,7 +24,7 @@
          
           <div class="kr-sg-dropdowns">        
             <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{selectedSettingResultsObj.referInterface || 'Select'}}</button>                                            
+                <button class="dropdown-toggle dropdown-input drop-enable" data-toggle="dropdown">{{selectedSettingResultsObj.referInterface || 'Select'}}</button>                                            
                 <ul class="dropdown-menu content-menu">  
                   <li (click)="copyConfiguration('')"><a>Select</a></li>                                                 
                   <li (click)="copyConfiguration('livesearch')"><a>Live Search</a></li>
@@ -105,6 +105,12 @@
                 <div cdkDrag class="input-name active-input"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Structured Data</span></div> -->
                 <div class="input-name add-new">+ Add New</div>
               </div>
+              <!-- <ng-container [ngTemplateOutlet]="itemTemplate">
+                <div class="customize-button">
+                <button class="kr-sg-button-secondary btn_lg" (click)="openCustomModal()">Customize</button>
+              </div>
+              </ng-container> -->
+
               <div class="result-right-sec">
                 <div class="result-card">
                   <div class="r-title text-truncate">{{preview_title}}</div>
@@ -469,8 +475,9 @@
             </div> 
             </div> 
             <div class="p-selection mb-2">Preview as per above selection</div>
-
-
+            <ng-container [ngTemplateOutlet]="itemTemplate">
+            </ng-container>
+            <ng-template #itemTemplate let-item>
           <!-- Tile with Text -->
             <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 1'">
               <div class="result-card">
@@ -1141,6 +1148,7 @@
                 </div>
               </div>
             </div>
+          </ng-template>
           </div>
         </perfect-scrollbar>
 
