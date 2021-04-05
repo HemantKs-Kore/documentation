@@ -79,7 +79,7 @@
                                         <div class="data-content">
                                             <!-- <pre>{{data._source.parsedData}}</pre> -->
                                             <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="data.parsedData"></ngx-codemirror>
-                                            <span class="ml-3 view-json" *ngIf="data.objectLength > 5" (click)="editJson(data)">{{'structuredData.viewJson' | translate}}</span>
+                                            <span class="ml-3 view-json" *ngIf="data.objectLength > 5" (click)="editJson(data, d_index)">{{'structuredData.viewJson' | translate}}</span>
                                         </div>
                                     </ng-container>
                                     <ng-container *ngIf="defaultView">
@@ -126,7 +126,7 @@
                                                     </div>                                         -->
                                                 </div>
                                             </div>
-                                            <div class="mt-2 view-json mb-2 col-12 p-0" *ngIf="data.objectLength > 3" (click)="editJson(data)">{{'structuredData.seeMore' | translate}}</div>
+                                            <div class="mt-2 view-json mb-2 col-12 p-0" *ngIf="data.objectLength > 3" (click)="editJson(data, d_index)">{{'structuredData.seeMore' | translate}}</div>
                                         
                                         </div>
                                     </ng-container>
@@ -138,7 +138,7 @@
                                         <img class="close-icon" src="assets/icons/modal-close.svg">
                                     </div> -->
                                     <div class="action-links">
-                                        <img src="assets/icons/edit-pencil.svg" (click)="editJson(data)" id="btn_edit_structured_data" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                                        <img src="assets/icons/edit-pencil.svg" (click)="editJson(data, d_index)" id="btn_edit_structured_data" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
                                         <img src="assets/icons/delete-table.svg" (click)="deleteStructuredDataPopup(data)"  id="btn_delete_structured_data" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
                                     </div>
                                     <div class="info-link">
@@ -221,7 +221,7 @@
     </perfect-scrollbar>
     <div class="footer-info" *ngIf="!isResultTemplate && !isLoading">
         <img class="info-icon" src="assets/icons/structured-data/Info.svg">
-        <div class="info-text">{{'structuredData.noResultTemplate' | translate}} <span class="interface-link" (click)="navigateToSearchInterface()"><b>{{'structuredData.searchInterfacePath' | translate}}</b></span> {{'structuredData.toDefine' | translate}}<a href="#">{{'structuredData.learnMore' | translate}}</a></div>
+        <div class="info-text">{{'structuredData.noResultTemplate' | translate}} <span class="interface-link" (click)="navigateToSearchInterface()"><b>{{'structuredData.searchInterfacePath' | translate}}</b></span> {{'structuredData.toDefine' | translate}}<a href="javascript:void(0);">{{'structuredData.learnMore' | translate}}</a></div>
         <img src="assets/icons/close.svg" class="close-info" (click)="isResultTemplate = !isResultTemplate">
     </div>
 </div>
