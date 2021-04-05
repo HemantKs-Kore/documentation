@@ -1173,6 +1173,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{/if}}\
             <input autocomplete="off" style="position: absolute; bottom: 0px; border : solid 1px ${searchConfig.searchBarBorderColor} !important; background : ${searchConfig.searchBarFillColor}; color : ${searchConfig.searchBarPlaceholderTextColor};" id="search" name="search" class="search" placeholder="${searchConfig.searchBarPlaceholderText}">\
             <div class="ksa-SpeakIcon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAETSURBVHgBxVPbSsNAEN2d3XRVSvqQBwNNQwmpgn3xC/x7/0ETEpG2oGAeTKVJ3HXH3Qch1KQiKfTAsJc5c/YyM4QMBO1zhGEYAYwWdg6gn/I8T7p4rGtzPr/xOWcLKat7rdUzIXw5Hl+W2+1btc+FLgGA2kWUa4PKGmO4FuLT6+SSgTi9AG8voii6OkT+8bczctwnNA3stGYXTTMqzOVmQRCcW1OKzBDx3VBcANj1Cvj+5BWAepR+GBKsOD+7s0apk0spSzO6dV0X7ZhflTidxoEQcG2q79Gc/mL30jSdMCZuHYcmWZatDgpYxHHsSkmWjFFPa5SIpFSKJ5vNQ0H+A/vrf2WG9gWaNtkL/Er6GmoQvgHqBWZkE0i8BAAAAABJRU5ErkJggg=="></div>\
+            {{if searchConfig.searchButtonEnabled}}\
+              <button class="search-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}"{{/if}} disabled>${searchConfig.buttonText}</button>\
+            {{/if}}\
             <div class="sdkFooterIcon microphoneBtn"> \
                 <button class="notRecordingMicrophone" title="Microphone On"> \
                     <i class="microphone"></i> \
@@ -1183,9 +1186,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 </button> \
                 <div id="textFromServer"></div> \
             </div> \
-            {{if searchConfig.searchButtonEnabled}}\
-              <button class="search-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}"{{/if}} disabled>${searchConfig.buttonText}</button>\
-            {{/if}}\
           </div>\
         </div>\
         </script>';
@@ -3359,14 +3359,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
       // $('.full-search-close').off('click').on('click', function (e)
       $('.custom-chevron-right-icon').off('click').on('click', function (e) {
-        if (_self.overrideDefaultPoisition) {
-          var pos = _self.calculateContainerPosition(_self.getAvatarTopLeft())
-          $('.search-container').css('top', pos.y);
-          //$('.search-container').css('left', pos.x);
-        }
-        if (!$('body').hasClass('demo')) {
-          $('.search-container').css('top', 'unset');
-        }
+        // if (_self.overrideDefaultPoisition) {
+        //   var pos = _self.calculateContainerPosition(_self.getAvatarTopLeft())
+        //   $('.search-container').css('top', pos.y);
+        //   //$('.search-container').css('left', pos.x);
+        // }
+        // if(!$('body').hasClass('demo')){
+        //   $('.search-container').css('top', 'unset');
+        // }
         if (($('.external-link-show').css('display') == 'none')) {
           $('.external-link-show').css('display', 'block');
           $('.desc-info').css('max-width', '100%');
