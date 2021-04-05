@@ -958,14 +958,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       };
       this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
         console.log('Associated Bots', res);
-
-        this.associatedBots = JSON.parse(JSON.stringify(res));
-        this.associatedBots.filter(element => {
+        let bots =  JSON.parse(JSON.stringify(res));
+        //this.associatedBots = JSON.parse(JSON.stringify(res));
+        this.associatedBots = [];
+        bots.forEach(element => {
           if (element.type == 'default' || element.type == 'universalbot') {
-            return element;
+            this.associatedBots.push(element)
           }
         });
+        //this.associatedBots = [...bots]
         console.log(this.associatedBots);
+        console.log(bots);
         /*this.associatedBotArr = [];
         if (this.associatedBots.length > 0) {
           this.associatedBots.forEach(element => {
