@@ -302,6 +302,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }
   }
   getFieldAutoComplete(query) {
+    if(!query){
+      query = '';
+    }
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
