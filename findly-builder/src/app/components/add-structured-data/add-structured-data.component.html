@@ -121,7 +121,7 @@
             <button class="kr-sg-button-primary btn_lg mr-3" *ngIf="selectedSourceType && selectedSourceType.viewMode" [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" (click)="editRecord()" id="btn_edit_structure_data">{{ 'structuredData.edit' | translate}}</button>
             <button class="kr-sg-button-primary btn_lg mr-3" *ngIf="!selectedSourceType || (selectedSourceType && !selectedSourceType.viewMode)" [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" (click)="proceedSource()" id="btn_save_structure_data">{{ selectedJsonForEdit ? ('structuredData.save' | translate) : ('structuredData.proceed' | translate)}}</button>
             <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition({cancel : true})" id="btn_cancel_structure_data">{{'structuredData.cancel' | translate}}</button>
-            <button class="kr-sg-button-danger float-left btn_lg mr-3" *ngIf="selectedJsonForEdit" (click)="deleteStructuredDataPopup(selectedJsonForEdit)" id="btn_delete_structure_data">{{ 'structuredData.delete' | translate}}</button> <!-- Removed Disabled [disabled]="selectedSourceType && !selectedSourceType.viewMode"-->
+            <button class="kr-sg-button-danger float-left btn_lg mr-3" *ngIf="selectedJsonForEdit && selectedSourceType.viewMode" (click)="deleteStructuredDataPopup(selectedJsonForEdit)" id="btn_delete_structure_data">{{ 'structuredData.delete' | translate}}</button> <!-- Removed Disabled [disabled]="selectedSourceType && !selectedSourceType.viewMode"-->
         </div>
     </form>
 </ng-container>
