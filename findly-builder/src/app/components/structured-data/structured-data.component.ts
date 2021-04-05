@@ -147,7 +147,7 @@ export class StructuredDataComponent implements OnInit {
     this.skip = skip;
     this.service.invoke('get.structuredData', quaryparms).subscribe((res : any) => {
       this.isLoading = false;
-      this.totalCount = res.total;
+      this.totalCount = JSON.parse(JSON.stringify(res.total));
       this.selectedStructuredData = [];
       this.allSelected = false;
       if(res.data){
@@ -512,7 +512,7 @@ export class StructuredDataComponent implements OnInit {
     }
     this.service.invoke('post.searchStructuredData', quaryparms, payload).subscribe(res => {
       this.isLoading = false;
-      this.totalCount = res.total;
+      this.totalCount = JSON.parse(JSON.stringify(res.total));
       this.selectedStructuredData = [];
       this.allSelected = false;
       if(this.adwancedSearchModalPopRef){
@@ -646,7 +646,7 @@ export class StructuredDataComponent implements OnInit {
     }
     this.service.invoke('get.searchStructuredData', quaryparms, payload).subscribe(res => {
       this.isLoading = false;
-      this.totalCount = res.total;
+      this.totalCount = JSON.parse(JSON.stringify(res.total));
       this.selectedStructuredData = [];
       this.allSelected = false;
       if(res.data){
