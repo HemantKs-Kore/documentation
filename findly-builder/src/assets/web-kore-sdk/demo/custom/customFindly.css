@@ -55,13 +55,20 @@
     z-index: 999;
 }
 .search-background-div .bgDullOpacity{
-  position: absolute;
+  /* position: absolute;
   width: 100%;
   background: #fff;
   opacity: 0.8;
   height: calc(100% - 44px);
   top: 0;
-  left: -245px;
+  left: -245px; */
+  position: fixed;
+  width: 100%;
+  background: #fff;
+  opacity: 0.8;
+  height: calc(100% - 62px);
+  top: 62px;
+  left: 0;
 }
 /*---- SEARCH RESULTS ----*/
 .search-body-full.searchInSideApp .custom-nav-panel-container{

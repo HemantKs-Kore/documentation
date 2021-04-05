@@ -29,7 +29,7 @@ export class AppHeaderComponent implements OnInit {
   mainMenu = '';
   showMainMenu: boolean = true;
   pagetitle: any;
-  training;
+  training: boolean = false;
   fromCallFlow = '';
   showSwichAccountOption = false;
   searchActive = false;
@@ -57,6 +57,7 @@ export class AppHeaderComponent implements OnInit {
   indexSubscription: Subscription;
   subscription: Subscription;
   routeChanged: Subscription;
+  updateHeaderMainMenuSubscription : Subscription;
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
@@ -144,6 +145,11 @@ export class AppHeaderComponent implements OnInit {
         this.analyticsClick(res.path, false);
       }
     })
+    this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
+      if(res){
+        this.mainMenu = res;
+      }
+    });
   }
   loadHeader() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -240,7 +246,7 @@ export class AppHeaderComponent implements OnInit {
       this.service.invoke('train.app', quaryparms, payload).subscribe(res => {
         setTimeout(() => {
           self.training = false;
-          self.notificationService.notify('Training has been initated', 'success');
+          self.notificationService.notify('Training has been Initiated', 'success');
           this.appSelectionService.updateTourConfig('indexing');
         }, 5000)
       }, errRes => {
@@ -510,6 +516,7 @@ export class AppHeaderComponent implements OnInit {
     if (this.routeChanged) {
       this.routeChanged.unsubscribe();
     }
+    this.updateHeaderMainMenuSubscription ? (this.updateHeaderMainMenuSubscription.unsubscribe()) : false;
   }
   //get all apps
   getAllApps() {
@@ -527,6 +534,7 @@ export class AppHeaderComponent implements OnInit {
   }
   //open app
   openApp(app) {
+    this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     this.appSelectionService.openApp(app);
   }
   //create new app
@@ -572,6 +580,7 @@ export class AppHeaderComponent implements OnInit {
   }
   openOrCloseSearchSDK() {
     this.headerService.openSearchSDK(true);
+    this.loadHeader();
     this.getcustomizeList(20, 0);
     this.displayToolTip();
   }

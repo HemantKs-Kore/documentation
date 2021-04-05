@@ -23,243 +23,206 @@
     </perfect-scrollbar>  
   </ng-container>
   <div *ngIf="nextPage">
-        <div class="faqsListContainer">
-            <div class="faq-content-boxes">
-                <div class="content left-content">
-                    <div class="content-boxes faq_tasks_list">
-                        <div class="header-sec">
-                            <div class="row kr-sg-input-search reset-div" *ngIf="resultSelected">
-                                <div class="col-1 mt-8" *ngIf="collectedRecord.length == customizeList.length">
+    <div class="faqsListContainer">
+        <div class="faq-content-boxes">
+            <div class="content left-content">
+                <div class="content-boxes faq_tasks_list">
+                    <div class="header-sec">
+                        <div class="row reset-div align-items-center justify-content-between m-0 w-100" *ngIf="resultSelected">
+                            <div class="d-flex align-items-center">
+                                <ng-container *ngIf="collectedRecord.length == customizeList.length">
                                     <div class="kr-sg-checkbox">
                                         <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" checked autocomplete="off" (click) = "selectAll()">
                                         <label for="selectAllFaqs" class="checkbox-custom-label"></label>
                                     </div>
-                                </div>  
-                                <div class="col-1" *ngIf="collectedRecord.length != customizeList.length">
+                                </ng-container>  
+                                <div class="mr-3" *ngIf="collectedRecord.length != customizeList.length">
                                     <img (click) = "selectAll()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
                                 </div>  
-                                <div class="col-4 mt-8">
+                                <div class="count-selected">
                                     {{collectedRecord.length}} Selected
                                 </div> 
-                                <div class="col-7" [ngClass] = "{'disableDiv' : permisionView }">
-                                    <button class="reset-but" (click)="resetCustomization()">Reset</button>
-                                </div> 
                             </div>
-                            <div class="kr-sg-checkbox" *ngIf="!resultSelected">
+                            <div [ngClass] = "{'disableDiv' : permisionView }">
+                                <button class="kr-sg-button-primary btn_lg" (click)="resetCustomization()">Reset</button>
+                            </div> 
+                        </div>
+                        <ng-container *ngIf="!resultSelected">
+                            <div class="kr-sg-checkbox">
                                 <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" autocomplete="off" (click) = "selectAll()">
                                 <label for="selectAllFaqs" class="checkbox-custom-label"></label>
                             </div>
-                            <div class="kr-sg-input-search" *ngIf="!resultSelected">                               
+                            <div class="kr-sg-input-search">                               
                                 <input type="text" placeholder="Search" class="input-search" id="searchFaqs"
-                                 (keyup)="applyFilter($event.target.value)" name='faqsSearch' autocomplete="off">
+                                    (keyup)="applyFilter($event.target.value)" name='faqsSearch' autocomplete="off">
                                 <img src="assets/icons/search-gray.svg" class="search-icon">
                             </div>
+                        </ng-container>                            
+                    </div>
+                    <div class ="info-div">
+                        <div>To add a customized query, click on the ball and select customize mode.</div>
+                        <div> All the changes will be recorded here.</div>
+                    </div>
+                    <div class="body-content">
+                        <div class="empty-questions-selected d-none">
+                            <div class="heading">{{'please_wait' | translate}}</div>
                         </div>
-                        <div class ="info-div">
-                            <p>To add a customized query, click on the ball and select customize mode.</p>
-                            <p class="mt-7"> All the changes will be recorded here.</p>
-                        </div>
-                        <div class="body-content">
-                            <div class="empty-questions-selected d-none">
-                                <div>
-                                    <div class="heading">{{'please_wait' | translate}}</div>
-                                </div>
-                            </div>
-                            <perfect-scrollbar class="accor-scroll" #fqasScrollContainer>
-                                <ng-container >
-                                    <!-- <div id="accordion" class="accordion-content">
-                                        <div >
-                                            <div class="card-content">
-                                                <div   class="card_link collapsed">      
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                                            <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
-                                                            <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
-                                                        </div>
-                                                        <div class="title-desc-sec">
-                                                            <div class="title">How do I access my account online at Citibank Online?</div>
-                                                            <div class="desc">4 customisations</div>
-                                                        </div>
-                                                    </div>
+                        <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer' : totalRecord}">
+                            <ng-container>                                    
+
+                            <div id="accordion" class="accordion-content">
+                                <ng-container *ngIf="customizeList">
+                                    <div class="card-content" *ngFor="let list of customizeList;let i = index">
+                                        <div class="card_link collapsed" [ngClass]="{'is-checked': list.check == true || selectedRecord._id == list._id}" (click) ="clickCustomizeRecord(list,$event)">      
+                                            <div class="d-flex align-items-center w-100">
+                                                <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                                    <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox"  autocomplete="off" [(ngModel)]="list.check" (click) ="multiSelect(list,!list.check,$event)">
+                                                    <label [attr.for]="i" class="checkbox-custom-label" ></label>
                                                 </div>
-                                            </div> 
-                                        </div>
-                                        <div class="empty-questions-selected divBlockEmptylastChild">
-                                            <div class="heading">No search results</div>
-                                        </div>
-                                    </div> -->
-    
-                                <div id="accordion" class="accordion-content">
-                                    <div *ngIf="customizeList">
-                                        <div class="card-content" *ngFor="let list of customizeList;let i = index">
-                                            <div   class="card_link collapsed" [ngClass]="{'is-checked': list.check == true || selectedRecord._id == list._id}" (click) ="clickCustomizeRecord(list,$event)">      
-                                                <div class="d-flex align-items-center" >
-                                                    <div class="kr-sg-checkbox col-1" (click)="$event.stopImmediatePropagation();">
-                                                        <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox"  autocomplete="off" [(ngModel)]="list.check" (click) ="multiSelect(list,!list.check,$event)">
-                                                        <label [attr.for]="i" class="checkbox-custom-label" ></label>
-                                                    </div>
-                                                    <div class="title-desc-sec col-10">
-                                                        <div class="title">{{list.searchQuery}}</div>
-                                                        <div class="desc">{{list.numberOfCustomisations}} customization</div>
-                                                    </div>
-                                                    <div class="title-desc-sec col-1" [ngClass] = "{'disableDiv' : permisionView }">
-                                                        <div class="restore-icon" (click) = "restore(list)" ><img class="action-icon" src="assets/icons/restore.svg" ngbTooltip='Rest' placement="top"></div>
-                                                    </div>
-                                                </div>
+                                                <div class="title-desc-sec">
+                                                    <div class="title">{{list.searchQuery}}</div>
+                                                    <div class="desc">{{list.numberOfCustomisations}} customization</div>
+                                                </div>                                                    
                                             </div>
-                                        </div> 
-                                    </div>
-                                    <div *ngIf="!customizeList" class="empty-questions-selected divBlockEmptylastChild">
-                                        <div class="heading"> {{'resultRanking.no_search_results' | translate}}</div> 
-                                    </div>
+                                            <div class="restore-icon" [ngClass]="{'disableDiv' : permisionView}" (click)="restore(list)">
+                                                <img class="action-icon" src="assets/icons/restore.svg" ngbTooltip='Rest' placement="top" container='body'>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </ng-container>
+                                <div *ngIf="!customizeList" class="empty-questions-selected divBlockEmptylastChild">
+                                    <div class="heading"> {{'resultRanking.no_search_results' | translate}}</div> 
                                 </div>
-                                <div class="pagination" *ngIf='totalRecord'>
-                                    <app-record-pagination [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
-                                </div>
-                               </ng-container>
-                            </perfect-scrollbar>
+                            </div>                                
+                            </ng-container>
+                        </perfect-scrollbar>
+                        <div class="pagination mt-4" *ngIf='totalRecord'>
+                            <app-record-pagination [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
                         </div>
                     </div>
-                </div>            
-                <div class="content right-content" [ngClass] = "{'disableDiv' : disableDiv }">
-                    <div class="content-boxes train_your_questions">
-                        <!-- <ng-container>
-                            <div class="empty-questions-selected">
-                            <img src="assets/images/icons/empty_ill.svg">
-                            <div class="heading">No Questions</div>
-                            <div class="desc">Please select a question</div>
-                           </div>
-                        </ng-container> -->
-                        <ng-container>
-                            <div class="header-info-que">
-                                <div class="row m-0 col-12 p-0">
-                                    <div class="col-4 p-0 lef-info">
-                                        <div class="approved_title">{{'resultRanking.no._of_customizations_caps' | translate}}</div>
-                                        <div class="approved_date"><span class="time">{{selectedRecord.numberOfCustomisations || '--'}}</span></div>
-                                    </div>
-                                    <div class="col-4 p-0 lef-info">
-                                        <div class="approved_title">{{'resultRanking.last_changes_caps' | translate}}</div>
-                                        <div class="approved_date"><span class="time">{{lastModifiedOn | dateFormatPipe: 'DD-MMM-YYYY' || '--'}}</span></div>
-                                    </div>
-                                    <div class="col-4 p-0 actions-sec">
-                                        <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                                            <div class="dropdown dropdown-open" [ngClass] = "{'disableDiv' : permisionView }">                                        
-                                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle  ngbTooltip='Launch' placement="top"><img class="cursor" (click) = "launch()" src="assets/icons/play.svg"></button>                                            
-                                                <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
-                                                    
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                                            <div class="dropdown dropdown-open">                                        
-                                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="showLogs()"  ngbTooltip='TimeLog' placement="top"><img class="cursor" src="assets/icons/Timer.svg"></button>                                            
-                                                <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
-                                                    
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-end" [ngClass] = "{'disableDiv' : permisionView }">
-                                            <button class="kr-sg-button-secondary btn_lg text-danger pl-2 pr-2" (click) = "restore(selectedRecord)"> <span><img src="assets/icons/restore.svg"></span> {{'resultRanking.restore' | translate}} </button>
-                                        </div>
-                                    </div>                                    
-                                    
+                </div>
+            </div>            
+            <div class="content right-content" [ngClass] = "{'disableDiv' : disableDiv }">
+                <div class="content-boxes train_your_questions">                   
+                    <ng-container>
+                        <div class="header-info-que">
+                            <div class="row m-0 col-12 p-0">
+                                <div class="col-4 p-0 lef-info">
+                                    <div class="approved_title">{{'resultRanking.no._of_customizations_caps' | translate}}</div>
+                                    <div class="approved_date"><span class="time">{{selectedRecord.numberOfCustomisations || '--'}}</span></div>
                                 </div>
+                                <div class="col-4 p-0 lef-info">
+                                    <div class="approved_title">{{'resultRanking.last_changes_caps' | translate}}</div>
+                                    <div class="approved_date"><span class="time">{{lastModifiedOn | dateFormatPipe: 'DD-MMM-YYYY' || '--'}}</span></div>
+                                </div>
+                                <div class="col-4 p-0 actions-sec">
+                                    <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                        <div class="dropdown dropdown-open" [ngClass] = "{'disableDiv' : permisionView }">                                        
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle  ngbTooltip='Launch' placement="top"><img class="cursor" (click) = "launch()" src="assets/icons/play.svg"></button>                                            
+                                        </div>
+                                    </div>
+                                    <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                        <div class="dropdown dropdown-open">                                        
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="showLogs()"  ngbTooltip='TimeLog' placement="top"><img class="cursor" src="assets/icons/Timer.svg"></button>                                                                                      
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-end" [ngClass] = "{'disableDiv' : permisionView }">
+                                        <button class="kr-sg-button-secondary btn_lg reset_btn" (click) = "restore(selectedRecord)"><img src="assets/icons/restore.svg">{{'resultRanking.restore' | translate}} </button>
+                                    </div>
+                                </div>                                                                    
                             </div>
+                        </div>
                         <perfect-scrollbar class="train-questions-body-scroll" #resultRankingRightContainer>               
                             <div class="body-content" id="resultsRankingRight">
-                                <div class="body-top-content">                                    
-                                   
+                                <div class="body-top-content">        
+                                    
+                                    <!-- <div id="accordion" class="accordion-sec" *ngFor="let actLog of actionLogData;let i = index">
+                                        <div class="acc-card" *ngIf="actionLogData">
+                                            <div class="acc-card-header">
+                                                <div class="collapsed acc-card-link link-block" data-toggle="collapse" href="#collapse{{i}}">
+                                                    <div class="row m-0 row_data">
+                                                        <div class="col-7 title" *ngIf ="actLog.target.contentInfo._source">{{actLog.target.contentInfo._source.pageTitle || actLog.target.contentInfo._source.question}}</div>
+                                                        <div class="col-7 title" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'" >{{actLog.target.contentInfo.lname}}</div>
+                                                        <div class="col-1">
+                                                            <img *ngIf="actLog.target.contentType == 'page'" ngbTooltip='page' placement="top" src="assets/icons/resultranking/copy.svg" class="cursor-pointer">
+                                                            <img *ngIf="actLog.target.contentType == 'faq'" ngbTooltip='faq' placement="top" src="assets/icons/resultranking/faq.svg" class="cursor-pointer">
+                                                            <img *ngIf="actLog.target.contentType == 'task'" ngbTooltip='task' placement="top" src="assets/icons/resultranking/task.svg" class="cursor-pointer">
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <img src="assets/icons/resultranking/pin.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'pinned'"class="cursor-pointer">
+                                                            <img src="assets/icons/resultranking/eye.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'hidden'"class="cursor-pointer">
+                                                            <div>
+                                                                <img src="assets/icons/resultranking/export-up.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'lowered'"class="cursor-pointer boost-trans">
+                                                                <img src="assets/icons/resultranking/export-up.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'boosted'"class="cursor-pointer">
+                                                                <span *ngIf="actLog.customization.action == 'boosted' || actLog.customization.action == 'lowered'" class="boost-font">{{actLog.customization.value}}</span>
+                                                            </div>                                                            
+                                                        </div>
+                                                        <div class="col-2 text-right time-stamp">{{actLog.customization.lMod}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="collapse{{i}}" class="collapse" data-parent="#accordion">
+                                                <div class="row card-body">
+                                                    <div class="col-9 info-card" *ngIf ="actLog.target.contentInfo._source"> {{actLog.target.contentInfo._source.pageSearchResultPreview}}</div>
+                                                    <div class="col-9 info-card" *ngIf ="actLog.target.contentInfo.contentType == 'faq'"> {{faqDesc}} </div>
+                                                    <div class="col-9 info-card" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'"> {{actLog.target.contentInfo.shortDesc}} </div>
+                                                    <div class="col-3 text-right mt-3" [ngClass] = "{'disableDiv' : permisionView }">
+                                                        <button class="kr-sg-button-secondary btn_lg" (click)="removeRecord(actLog)">Remove</button>
+                                                    </div>                                                    
+                                                </div>
+                                            </div>
+                                        </div>                                        
+                                    </div> -->
+                                    
                                     <div id="accordion" class="accordion-sec" *ngFor="let actLog of actionLogData;let i = index">
                                         <div class="acc-card" *ngIf="actionLogData">
-                                          <div class="acc-card-header">
-                                            <a class="collapsed acc-card-link link-block" data-toggle="collapse" href="#collapse{{i}}">
-                                                <div class="row m-0 row_data">
-                                                    <div class="col-7 title" *ngIf ="actLog.target.contentInfo._source">{{actLog.target.contentInfo._source.pageTitle || actLog.target.contentInfo._source.question}}</div>
-                                                    <div class="col-7 title" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'" >{{actLog.target.contentInfo.lname}}</div>
-                                                    <div class="col-1">
-                                                        <img *ngIf="actLog.target.contentType == 'page'" ngbTooltip='page' placement="top" src="assets/icons/resultranking/copy.svg" class="cursor-pointer">
-                                                        <img *ngIf="actLog.target.contentType == 'faq'" ngbTooltip='faq' placement="top" src="assets/icons/resultranking/faq.svg" class="cursor-pointer">
-                                                        <img *ngIf="actLog.target.contentType == 'task'" ngbTooltip='task' placement="top" src="assets/icons/resultranking/task.svg" class="cursor-pointer">
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <img src="assets/icons/resultranking/pin.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'pinned'"class="cursor-pointer">
-                                                        <img src="assets/icons/resultranking/eye.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'hidden'"class="cursor-pointer">
-                                                        <div>
-                                                        <img src="assets/icons/resultranking/export-up.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'lowered'"class="cursor-pointer boost-trans">
-                                                        <img src="assets/icons/resultranking/export-up.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'boosted'"class="cursor-pointer">
-                                                        <span *ngIf="actLog.customization.action == 'boosted' || actLog.customization.action == 'lowered'" class="boost-font">{{actLog.customization.value}}</span>
+                                            <div class="acc-card-header">
+                                                <a class="collapsed acc-card-link link-block" data-toggle="collapse" href="#collapse{{i}}">
+                                                    <div class="row m-0 row_data">
+                                                        <div class="main-title-text">                                                            
+                                                            <div class="img-block">
+                                                                <img *ngIf="actLog.target.contentType == 'page'" container='body' ngbTooltip='page' placement="top" src="assets/icons/resultranking/copy.svg" class="cursor-pointer">
+                                                                <img *ngIf="actLog.target.contentType == 'faq'" container='body' ngbTooltip='faq' placement="top" src="assets/icons/resultranking/faq.svg" class="cursor-pointer">
+                                                                <img *ngIf="actLog.target.contentType == 'task'" container='body' ngbTooltip='task' placement="top" src="assets/icons/resultranking/task.svg" class="cursor-pointer">
+                                                            </div>                                                            
+                                                            <ng-container *ngIf ="actLog.target.contentInfo._source">
+                                                                <div class="title">{{actLog.target.contentInfo._source.pageTitle || actLog.target.contentInfo._source.question}}</div>                                                                
+                                                            </ng-container>
+                                                            <ng-container *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'">
+                                                                <div class="title">{{actLog.target.contentInfo.lname}}</div>                                                                
+                                                            </ng-container>
                                                         </div>
-                                                        
-
+                                                        <ng-container *ngIf="actLog.target.contentInfo._source">
+                                                            <div class="desc-text-ranking">{{actLog.target.contentInfo._source.pageSearchResultPreview}}</div>
+                                                        </ng-container>
+                                                        <ng-container *ngIf="actLog.target.contentInfo.contentType == 'faq'">
+                                                            <div class="desc-text-ranking">{{faqDesc}}</div>
+                                                        </ng-container>
+                                                        <ng-container *ngIf="actLog.target.contentType && actLog.target.contentType == 'task'">
+                                                            <div class="desc-text-ranking">{{actLog.target.contentInfo.shortDesc}}</div>
+                                                        </ng-container>                                                   
+                                                        <div class="info-data-pinned-or-boostead">
+                                                            <div class="pinned"><img src="assets/icons/resultranking/pined.svg">PINNED</div>
+                                                            <div class="time-stamp">{{actLog.customization.lMod}}</div>
+                                                        </div>  
+                                                        <div class="remove-btn-sec" [ngClass] = "{'disableDiv' : permisionView }">
+                                                            <div class="remove-btn" (click)="removeRecord(actLog)">Remove</div> 
+                                                        </div>                                                     
                                                     </div>
-                                                    <div class="col-2 text-right time-stamp">{{actLog.customization.lMod}}</div>
-                                                </div>
-                                            </a>
-                                          </div>
-                                          <div id="collapse{{i}}" class="collapse" data-parent="#accordion">
-                                            <div class="row card-body">
-                                                <div class="col-9 info-card" *ngIf ="actLog.target.contentInfo._source"> {{actLog.target.contentInfo._source.pageSearchResultPreview}}</div>
-                                                <div class="col-9 info-card" *ngIf ="actLog.target.contentInfo.contentType == 'faq'"> {{faqDesc}} </div>
-                                                <div class="col-9 info-card" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'"> {{actLog.target.contentInfo.shortDesc}} </div>
-                                                <div class="col-3 text-right mt-3" [ngClass] = "{'disableDiv' : permisionView }">
-                                                  <button class="kr-sg-button-secondary btn_lg" (click)="removeRecord(actLog)">Remove</button>
-                                                </div>
-                                                <!-- <div id="accordion" class="inside-acc">
-                                                    <div class="inside-acc-card">
-                                                    <div class="inside-acc-card-header">
-                                                        <div class="collapsed inside-acc-card-link" data-toggle="collapse" href="#collapse1">
-                                                            PAST ACTIONS ON THIS ITEM
-                                                        </div>
-                                                    </div>
-                                                    <div id="collapse1" class="collapse" data-parent="#accordion">
-                                                        <div class="inside-card-body">
-                                                            <div class="row m-0 inside-row-content">
-                                                                <div class="col-8 inside-title">Result Boosted</div>
-                                                                <div class="col-2 status-click"><img src="assets/icons/resultranking/export-up.svg" class="cursor-pointer">4x</div>
-                                                                <div class="col-2 text-right time-stamp">4h ago</div>
-                                                            </div>
-                                                            <div class="row m-0 inside-row-content">
-                                                                <div class="col-8 inside-title">Result Unhidden</div>
-                                                                <div class="col-2 status-click"><img src="assets/icons/resultranking/eye.svg" class="cursor-pointer"></div>
-                                                                <div class="col-2 text-right time-stamp">4h ago</div>
-                                                            </div>
-                                                            <div class="row m-0 inside-row-content">
-                                                                <div class="col-8 inside-title">Result Hidden</div>
-                                                                <div class="col-2 status-click"><img src="assets/icons/resultranking/eye.svg" class="cursor-pointer"></div>
-                                                                <div class="col-2 text-right time-stamp">4h ago</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    </div>                                            
-                                                
-                                                </div> -->
+                                                </a>
                                             </div>
-                                          </div>
-                                        </div>
-                                        
+                                            <div id="collapse{{i}}" class="collapse" data-parent="#accordion">
+                                                
+                                            </div>
+                                        </div>                                        
                                     </div>
-
                                 </div>
                             </div>
                         </perfect-scrollbar>
-                       </ng-container>
-                    </div>
+                    </ng-container>
                 </div>
-            </div>        
-
-        <!-- <div class="log_section " [ngClass] ="{'d-none' : !resultLogs}">
-            <div class="header-log">
-                <div class="title">Log ({{customizeLog.length || 0}})</div>
-                <div class="close_log" (click) = "closeLogs()"><img src="assets/images/close-cross.svg"></div>
             </div>
-            <div class="empty_log d-none">
-                <img src="assets/icons/empty-log.svg">
-                <div class="main-title">{{'resultRanking.nothing_in_log_to_display' | translate}}</div>
-                <div class="desc">{{'resultRanking.go_ahead_and_make_some_changes.' | translate}}</div>
-            </div>
-
-            
-        </div> -->
+        </div>        
     </div>
 
     <div class="log_section_data" [ngClass] ="{'d-none' : !resultLogs}">
