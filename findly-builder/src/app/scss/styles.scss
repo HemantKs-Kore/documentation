@@ -1393,14 +1393,17 @@ div.divBlockEmptylastChild:first-child {
 }
 .metrics_tooltips{
     margin-left: 12px;
+    opacity: 1 !important;
     .arrow{
         display: block;
         &::before{
-            border-top-color:#26344a;
+            border-top-color:#202124;
         }
     }
     .tooltip-inner{
-        background-color: #26344a;
+        background: #202124;
+        box-shadow: 0px 4px 4px rgba(32, 33, 36, 0.2);
+        border-radius: 4px;
         max-width: 200px;
         min-width: 200px;
         text-align: center;
@@ -1409,6 +1412,30 @@ div.divBlockEmptylastChild:first-child {
         font-size: 12px;
         color: #fff;
         border: 0;
+    }
+}
+.workbench_tolltips{
+    margin-left: 12px;
+    opacity: 1 !important;
+    .arrow{
+        display: block;
+        &::before{
+            
+        }
+    }
+    .tooltip-inner{
+        background: #202124;
+        box-shadow: 0px 4px 4px rgba(32, 33, 36, 0.2);
+        border-radius: 4px;
+        max-width: 240px;
+        min-width: 240px;
+        text-align: center;
+        padding: 15px;
+        color: #fff;
+        border: 0;
+        font-weight: 600;
+        font-size: 10px;
+        line-height: 14px;
     }
 }
 
@@ -3056,7 +3083,8 @@ nouislider{
 }
 
 #test-btn-launch-sdk.active{
-    background: #BDC1C6;
+    background: #E4E5E7;
+    border: 1px solid #BDC1C6;
 }
 
 .test-icon-tooltip{

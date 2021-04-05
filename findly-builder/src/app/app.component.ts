@@ -44,6 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
   searchSDKSubscription: Subscription;
   resultRankDataSubscription: Subscription
   showHideMainMenuSubscription: Subscription;
+  showHideSettingsMenuSubscription : Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -89,7 +90,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       if (this.searchExperienceConfig) {
         if (this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')) {
-          if (!this.headerService.isSDKCached) {
+          if (!this.headerService.isSDKCached || !$('.search-background-div').length) {
             if (!$('.search-background-div:visible').length) {
               this.showHideSearch(true);
               this.resultRankDataSubscription = this.headerService.resultRankData.subscribe((res: any) => {
@@ -121,7 +122,10 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.showHideMainMenuSubscription = this.headerService.showHideMainMenu.subscribe((res) => {
       this.showMainMenu = res;
-    })
+    });
+    this.showHideSettingsMenuSubscription = this.headerService.showHideSettingsMenu.subscribe((res) => {
+      this.settingMainMenu = res;
+    });
   }
   showMenu(event) {
     this.showMainMenu = event
@@ -298,7 +302,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.searchSDKSubscription.unsubscribe();
     this.resultRankDataSubscription.unsubscribe();
     this.SearchConfigurationSubscription ? this.SearchConfigurationSubscription.unsubscribe() : false;
-    this.showHideMainMenuSubscription ? this.showHideMainMenuSubscription.unsubscribe : false;
+    this.showHideMainMenuSubscription ? this.showHideMainMenuSubscription.unsubscribe() : false;
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
@@ -378,9 +382,9 @@ export class AppComponent implements OnInit, OnDestroy {
     if (parms.type == 'onboardingjourney') {
       this.appSelectionService.updateTourConfig(parms.data);
     }
-    if (parms.type == 'fullResult') {
-      this.appSelectionService.updateTourConfig('test');
-    }
+    // if (parms.type == 'fullResult') {
+    //   this.appSelectionService.updateTourConfig('test');
+    // }
     if (parms.type === 'show' && parms.data === true && _self.bridgeDataInsights) {
       _self.bridgeDataInsights = false;
       call = true;
@@ -416,6 +420,12 @@ export class AppComponent implements OnInit, OnDestroy {
       }
       else {
         this.showHideTopDownSearch(false);
+      }
+    }
+    
+    if (parms.type === 'refreshSearchContainer' && parms.data === false) {
+      if (parms.bottomUp) {
+        this.refreshSDK();
       }
     }
   }
@@ -581,6 +591,13 @@ export class AppComponent implements OnInit, OnDestroy {
       this.headerService.isSDKCached = true;
       this.headerService.isSDKOpen = false;
     }
+  }
+
+  refreshSDK(){
+    this.showHideSearch(false);
+    setTimeout(() =>{
+      this.showHideSearch(true);
+    }, 200);
   }
 
   // click event on whole body. For now, using for Status Docker

@@ -385,6 +385,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       config_id: config !== undefined ? config._id : ''
     };
     this.addFieldModalPopRef = this.addFieldModalPop.open();
+    setTimeout(() => {
+      $('#createQueryConfig').blur();
+    }, 100)
   }
   openIndexModalPopup(type, config) {
     this.newIndexConfigObj = {
@@ -394,6 +397,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       index_config_id: config !== undefined ? config._id : ''
     };
     this.addIndexFieldModalPopRef = this.addIndexFieldModalPop.open();
+    setTimeout(() => {
+      $('#createIndexConfig').blur();
+    }, 100)
   }
   // Controlling the Status Docker Opening
   openStatusDocker() {
