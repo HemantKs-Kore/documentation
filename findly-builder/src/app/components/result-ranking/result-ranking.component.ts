@@ -65,6 +65,13 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
       this.loadCustomRankingList();
     })
+
+    //Top Down
+    $(document).off('click', '.rr-tour-test-btn').on('click', '.rr-tour-test-btn', () => {
+      this.selectedApp = this.workflowService.selectedApp();
+      this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+      this.loadCustomRankingList();
+    })
   }
   ngOnInit(): void {
     this.sdk_evenBind();
