@@ -14,6 +14,7 @@ export class SmallTalkComponent implements OnInit {
   searchIndexId:any;
   selectedApp: any;
   LinkABot:any;
+  streamId:any;
   enableSmallTalk:any;
   enable: boolean;
   botLinked = false;
@@ -29,22 +30,35 @@ export class SmallTalkComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    // this.LinkABot = this.workflowService.linkBot();
-    this.enableSmallTalk = this.workflowService.smallTalkEnable()
-    // this.checkBotId();
-    this.enableST('')
+    this.getAssociatedTasks();
   }
-//  checkBotId(){
-//    if (this.LinkABot) {
-//      if (this.enableSmallTalk) {
-//        this.botLinked = true;
-//        this.enable=true;
-//      }
-//    }
-//    else {
-//      this.botLinked = false;
-//    }
-//  }
+  
+// getBots() {
+//   if (this.streamId) {
+//     const quaryparms: any = {
+//       streamId: this.streamId
+//     };
+//     this.service.invoke('get.bots', quaryparms).subscribe(res => {
+//       console.log(res)
+//     }, errRes => {
+//       this.notificationService.notify("Error in loading bot action", 'error');
+
+//     });
+//   }
+
+// }
+  getAssociatedTasks() {
+    if (this.searchIndexId) {
+      const queryParams: any = {
+        searchIndexID: this.searchIndexId
+      };
+      this.service.invoke('get.AssociatedBotTasks', queryParams, null, { "state": "published" }).subscribe(res => {
+        console.log("getAllTasks API response payload", res);
+      },
+        (err) => {
+        },
+      )}
+  }
  enableST(type) {
    const queryParams: any = {
      searchIndexID: this.searchIndexId
