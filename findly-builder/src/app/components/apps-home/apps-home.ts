@@ -70,6 +70,7 @@ export class AppsListingComponent implements OnInit {
     //this.recentApps = apps.sort((a, b) => b.lastAccessedOn.localeCompare(a.lastAccessedOn)).slice(0, 4);
   }
   openApp(app) {
+    this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     this.appSelectionService.openApp(app);
   }
   openCreateApp() {

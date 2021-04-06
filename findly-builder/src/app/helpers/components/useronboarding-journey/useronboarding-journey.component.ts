@@ -18,12 +18,13 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
   tourConfigData: any = [];
   checklistCount: number;
   userInfo: any = {};
-  showSteps: boolean;
+  showSteps: boolean = false;
   showStatusIcon: boolean = true;
   prevStep;
   nextStep;
   subscribedShow: any;
   subscription: Subscription;
+  subscription1: Subscription;
   status: string;
   steps: any = [{ name: 'Start by Adding Data', path: '/source' }, { name: 'Index Data', path: '/FieldManagementComponent' }, { name: 'Optimize Search Results', path: '/weights' }, { name: 'Design Search Experience', path: '/searchInterface' }, { name: 'Test the Application', path: '/resultranking' }, { name: 'Fine-Tune Relevance', path: '/resultranking' }];
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
@@ -36,13 +37,13 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
       this.tourData = res.onBoardingChecklist;
       this.trackChecklist();
     })
-    this.appSelectionService.tourConfigCancel.subscribe(res => {
+    this.subscription1 = this.appSelectionService.tourConfigCancel.subscribe(res => {
       this.subscribedShow = res.name;
       this.status = res.status;
       if (res.name != undefined && this.componentType != 'summary') {
         this.showSteps = res.name;
       }
-      else {
+      else if (this.status == 'completed') {
         this.showSteps = true;
       }
     })
@@ -51,6 +52,7 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
     if (this.componentType != '' && this.componentType != undefined && this.tourConfigData && this.componentType != 'summary') {
       if (this.componentType == 'overview') {
         this.appSelectionService.updateTourConfig('overview');
+        this.openOnBoardingModal();
       }
     }
   }
@@ -73,7 +75,12 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
   }
   //goto Routes
   gotoRoutes(step) {
-    this.closeOnBoardingModal();
+    if (step !== '/settings') {
+      this.closeOnBoardingModal();
+    }
+    if (step == '/settings') {
+      this.appSelectionService.tourConfigCancel.next({ name: false, status: 'pending' });
+    }
     //this.router.navigate([step], { skipLocationChange: true });
     this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: step });
   }
@@ -88,14 +95,6 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
       }
     }
     this.checklistCount = count;
-    // let count = 0;
-    // count = this.tourData[0].addDataVisited ? count + 1 : count;
-    // count = this.tourData[1].indexDataVisited ? count + 1 : count;
-    // count = this.tourData[2].optimiseSearchResultsVisited ? count + 1 : count;
-    // count = this.tourData[3].designSearchExperienceVisited ? count + 1 : count;
-    // count = this.tourData[4].testAppVisited ? count + 1 : count;
-    // count = this.tourData[5].fineTuneRelevanceVisited ? count + 1 : count;
-    // this.checklistCount = this.checklistCount + count;
     if (this.status == 'pending') {
       this.showSteps = this.checklistCount === 6 ? false : this.subscribedShow == undefined ? true : this.subscribedShow;
       if (this.checklistCount != 6 && this.componentType == 'summary') {
@@ -107,27 +106,27 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
     }
     if (this.componentType != 'summary' && this.checklistCount != 6) {
       if (this.componentType == 'addData') {
-        this.showStatusIcon = this.tourData[0].addDataVisited ? true : false;
+        this.showStatusIcon = this.tourData[0].addData ? true : false;
         this.filterSteps(0, 0);
       }
       else if (this.componentType == 'indexing') {
-        this.showStatusIcon = this.tourData[1].indexDataVisited ? true : false;
+        this.showStatusIcon = this.tourData[1].indexData ? true : false;
         this.filterSteps(1, 0);
       }
       else if (this.componentType == 'configure') {
-        this.showStatusIcon = this.tourData[2].optimiseSearchResultsVisited ? true : false;
+        this.showStatusIcon = this.tourData[2].optimiseSearchResults ? true : false;
         this.filterSteps(2, 0);
       }
       else if (this.componentType == 'designing') {
-        this.showStatusIcon = this.tourData[3].designSearchExperienceVisited ? true : false;
+        this.showStatusIcon = this.tourData[3].designSearchExperience ? true : false;
         this.filterSteps(3, 0);
       }
       else if (this.componentType == 'test') {
-        this.showStatusIcon = this.tourData[4].testAppVisited ? true : false;
+        this.showStatusIcon = this.tourData[4].testApp ? true : false;
         this.filterSteps(4, 0);
       }
       else if (this.componentType == 'optimize') {
-        this.showStatusIcon = this.tourData[5].fineTuneRelevanceVisited ? true : false;
+        this.showStatusIcon = this.tourData[5].fineTuneRelevance ? true : false;
         this.filterSteps(5, 0);
       }
     }
@@ -161,5 +160,6 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.subscription1.unsubscribe();
   }
 }
