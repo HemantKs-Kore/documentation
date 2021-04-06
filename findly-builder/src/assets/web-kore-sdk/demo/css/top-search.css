@@ -1999,9 +1999,9 @@ body.top-down .top-down-search-background-div .top-down-wrapper{
   margin-top: 5px;
 }
 .sdk-top-down-interface .top-down-add-new-result{
-  top: 61px;
+  top: 152px;
   z-index: 99999;
-  height: calc(100% - 62px);
+  height: calc(100% - 154px);
   right: 0px !important;
   left: auto;
 }

@@ -13905,7 +13905,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}} {{if isFullResults == true}}results-wrap{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize" && isFullResults == true}}{{if data.config.visible == false}}ui-state-disabled{{/if}}{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" manuallyAdded="${data.addedResult}" id="${key}">\
                           {{if isClickable == true}}\
                             {{if viewType!="Customize" && (isFullResults == true ||  isSearch == true || isLiveSearch == true)}}\
                               <a class="tile-with-text structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
@@ -13923,38 +13923,57 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <div class="data-wrap" index="${i}" contentType="${data.__contentType}" contentId="${data.contentId}" score="${data.score}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}">\
                                 <div class="customization-tile{{if data.config.visible == false}} disable_hidden{{/if}}{{if data.config.pinIndex >= 0}} disable_pinned{{/if}}">\
                                     <div class="drag-content"></div>\
-                                    <div class="actions-content">\
-                                      <span class="action-item visibility" type="{{if data.config.visible == true}}Hide{{/if}}{{if data.config.visible == false}}UnHide{{/if}}">\
-                                        <span class="tooltiptext">\
-                                          <span class="_hide {{if data.config.visible == true}}display-block{{else}}display-none{{/if}}">\
-                                              Hide\
+                                    {{if !data.addedResult || data.addedResult == false}}\
+                                      <div class="actions-content">\
+                                        <span class="action-item visibility" type="{{if data.config.visible == true}}Hide{{/if}}{{if data.config.visible == false}}UnHide{{/if}}">\
+                                          <span class="tooltiptext">\
+                                            <span class="_hide {{if data.config.visible == true}}display-block{{else}}display-none{{/if}}">\
+                                                Hide\
+                                            </span>\
+                                            <span class="unhide {{if data.config.visible == false}}display-block{{else}}display-none{{/if}}">\
+                                                UnHide\
+                                            </span>\
                                           </span>\
-                                          <span class="unhide {{if data.config.visible == false}}display-block{{else}}display-none{{/if}}">\
-                                              UnHide\
+                                          <span class="img_hide {{if data.config.visible == true}}display-block{{else}}display-none{{/if}}">\
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEgSURBVHgB3VLRTcNADLUv4VREI90IYQPYACagnaDwh1ALHaGZAFQkxF9H6AjABGSEbEBQQaDcnc25JSgqCPWvVS1Z8vme37MtA6zbcDnR7tsjiNQJMnTCM12AMGfm3Noq+7zfLZp49YtSqWtgerVVdTwbRyjunTsD4KdY66kZsoHNM5l776I6WBUfxkiTvpMdLXYQlmSiOJ6sSuCZHkKR+SEgooIhsA7o3yXJX3LlJ8BgyFM+F5ekJ3om57sYYwdB9YA5E8D7nZ6DWucfqdatHgMNiX0GHh5VHE0jpQ6xZi5vsJRYFJg4BUSD33fAAEUgLQN5ObtV3WYNLrcYunkJN7AvB9O+tCPJv413RnWnolqL/WnSbh0nA3cq3hSA7bMvciOL7FwWG34AAAAASUVORK5CYII=">\
                                           </span>\
-                                        </span>\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAHVSURBVHgBlVLdUdtAEN7dE4ozYI86iFJBnAqwKgiuAHjLZJBRKpBdgQ1hMnkLqcDpwO4AUkFUggbDYEu6XfYEYszfg/fhbub2dr9vv28BNDoDSYNEAtgwyB0C9qO1MoUNA93hUJllBojzqxP87t7acXUgKCEyXjJzdvPTv3wVOZ9gToR9ET7oxDap2WihHrtgcEyeuWgP7H/X8AVyjXRsfyv/OinM0fXZ1rzJ7QzKIQKl9wU0vDrF0WNx51jGWtIThhwRAgEJy6L4vPz1PntsHvNM0P5DpC8odO4aUD2b8F6xWvWBJCyKVV+AT7Z8f9b6ehs2xSJ2hGI+GaRI88nOUdkjIEw1M2q1WrnSDhyaR95E/4e+/27aWOh5Xgaqg+qTueaIJiVgzBDwicdOQHcp/a61PH6uslL/oFwycnQEIV0ul4EqkDs69Q+WQ2Vyrn703BI5RK5sv31U7el7ryyLEa6pua/Fc2USLn5Q1KAo7dAyX6iryeIU/2zHRUJC2eLM+4uv2eEQXWc3fy2MMWMRCRU5Wl8WXJ/lHsUO9Xn/2Zi5Fs8RsasWRo2FCG/E9rei625tljefld2EwOzqNkYPom4WuizTdqzbqOHBhmEMHlaVrVndAWmT9/sAm8QuAAAAAElFTkSuQmCC">\
-                                      </span>\
-                                      <span class="action-item pinning" type="{{if data.config.pinIndex >= 0}}UnPin{{/if}}{{if data.config.pinIndex < 0}}Pin{{/if}}">\
-                                        <span class="tooltiptext">\
-                                          <span class="unpin {{if data.config.pinIndex >= 0}}display-block{{else}}display-none{{/if}}">\
-                                            UnPin\
-                                          </span>\
-                                          <span class="pin {{if data.config.pinIndex < 0}}display-block{{else}}display-none{{/if}}">\
-                                            Pin\
+                                          <span class="img_unhide {{if data.config.visible == false}}display-block{{else}}display-none{{/if}}">\
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGDSURBVHgB1VLLUQJBEO2e2bW0SixDWCNQM8AIwAjg6EH5RCBEwM+DNzUDiECMAMxgQ6AUS4WZeXavLoUl5Vmnqg/T816/191D9O8Pb0ruN7DvnS8GDkkGAk+jKJrOujz7tYASQ6A6KDRAlDJoqnkQEmYuMpmWMdRbL2TWyIlHmAT44nKxOJ737bG1pqkxH0Qn1pgDkD/wIUy2z16Tbw4yy0IGwt28H7c0t1dHR+5VfWY23aceNzW/W1u2DNmSMXyiTjIHAXRJgac5uXDhqkIuq6oGAcXCuSvrm2IAmmUcbUHVBdwAfC+3BUYicxipgkQayD/A4Ch/D941laNcoyABt42xHU18ImgsA6uoqoa0UILDMG/XxtGNcpS72kKh5m6FdLhYvJ++Xe+kWRvMdbGvAqOXwVY32xJwL+qPz/2o+mONMqCuFCkJqW2tHebrUuLSL6visi7kkcyhsfEfrAZIVNG9yzX9SicAxlp4fhWP1/Ebf2Ku6pw7QsAs3orTTb/wb5wP48rkd2sW1IgAAAAASUVORK5CYII=">\
                                           </span>\
                                         </span>\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD7SURBVHgBhZB/asJQDMeTZy0dW0eP0N1Aj9ATjJ1A9p8MVnYEvcFgMPxTT6A38Aj2BnqEgojSviYm/oAnvmLg8SD5fpNPgtASyQ8nDdGqrqrsMHnaXPMG2iORl3bDcBkN9+lDAxG8I2IBzGPXFPjEcc4DBhpR3WS7/7CIvy2oCYb7DF1eF4fsWfz8VfVM0JlfEMsTUvmLpXScaZKJPjvGvKlYGqWmK2LBkuX7ku+ji/KS1yMEM9DLRFFUNixTicfbv2DqXZotL3SK8lpre8AArvjGcGVVdsVDY+aee5yv5Ig/lF1SheCB4t05VBznzVp/X+3O8JrTyltoiSM5w31qLIEkiwAAAABJRU5ErkJggg==">\
-                                      </span>\
-                                      <span class="action-item boosting">\
-                                        <span class="tooltiptext">Boost</span>\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBfY/BCcJAEEVnNiKKrGgHKSElmA7swBxFJEkHYgfRg3jTTtKCHSQdKIIoMTtjNhgI65o5fh5//gMwbhxyJNfl3MyFAW0YKAaBJxnywgp+oeBdFD6VygegxIRrSIYqGyyfbpONVoVXZdcGxnbT6zjM2wUaFj0nrR7Hglh5Nkjf49C/1DOYZmCz1l/MHC3WgU6Rxfm+x22ntYPCZ6Tgp9lmPYnZlZHKGrjTWsOKKUWCnSAop/+sbwnmeoYCBR8N24MPhSbzYAAAAABJRU5ErkJggg==">\
-                                      </span>\
-                                      <span class="action-item burying {{if data.score <= 0}}disabled{{/if}}">\
-                                        <span class="tooltiptext">Lower</span>\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADJSURBVHgBdZDRDYIwEIZbEFKDTRiBEVzBSfDRmBRxA11BX3xTJ3AE4ghOgE7ggyaalvbskZCUWP633n253neUC31USm6/h/GdeJKWkDXG5AFQ84jiuGKLT+aDNJiKEEPbwqRQG17o2oUR4itdYw/ftGtggZIgV1LOGGMEJwGY83sX9UEXxqoLeYNwImT51+DCXHwiXZKlnOJlrLW+DVkjFIxCaw3XQet2UqGfXDTzQeswCNN2EsD6tR+demDP2p7RhfzLW+PuOzc/5PRxOXt0QzUAAAAASUVORK5CYII=">\
-                                      </span>\
-                                    </div>\
+                                        <span class="action-item pinning" type="{{if data.config.pinIndex >= 0}}UnPin{{/if}}{{if data.config.pinIndex < 0}}Pin{{/if}}">\
+                                          <span class="tooltiptext">\
+                                            <span class="unpin {{if data.config.pinIndex >= 0}}display-block{{else}}display-none{{/if}}">\
+                                              UnPin\
+                                            </span>\
+                                            <span class="pin {{if data.config.pinIndex < 0}}display-block{{else}}display-none{{/if}}">\
+                                              Pin\
+                                            </span>\
+                                          </span>\
+                                          <span class="img_unpin {{if data.config.pinIndex >= 0}}display-block{{else}}display-none{{/if}}">\
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGFSURBVHgBxVK/S8NAFH53SaugKQHpntp/oBlcBAdxcmsXKS5aJxX7Y3Jw0U6OFaluIl1EBUk3x4KTuLTgKNouQrGINyjV9HJnHxiN/YW6+EFI7uW9777vuwP4gJZ2DoeXmwb8EtT9UAjN+nxDfyL5hJ6RhpYUJS9Ju6ZrKafaj5h6F2yH1BSFJFDJ9b20pJQ4pLcfw+f3l3qR0M4CklxtEFg/E9G7BpQmw7BACKmAlNl+JF3AnW8fZHV215EXN0JmTmQU61qSL3baUeF7BrojRDmQFmCMgb43T2D7XEI+TnL8iEPhkmxiGyp5BQj1yoBJEAVsqjZErP7MzXyc1taOhTE3Qa2pMBRatm0qlJoDLYymWluu1NOyHUEbaAdtte3p3l61ZwZcFokKaZS6dCASoaBkxRXKZnKS1Z/ekIC5vV2nMLJqR6iqWII702iHUGrVHoGNB8FkTRIbeNlwGKXju9MOfAXdddn6Dnv/eddeEuIWAylRdjhPvOz7K/ADIAl4svg/vANVesefO32vSgAAAABJRU5ErkJggg==">\
+                                          </span>\
+                                          <span class="img_pin {{if data.config.pinIndex < 0}}display-block{{else}}display-none{{/if}}">\
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD7SURBVHgBhZB/asJQDMeTZy0dW0eP0N1Aj9ATjJ1A9p8MVnYEvcFgMPxTT6A38Aj2BnqEgojSviYm/oAnvmLg8SD5fpNPgtASyQ8nDdGqrqrsMHnaXPMG2iORl3bDcBkN9+lDAxG8I2IBzGPXFPjEcc4DBhpR3WS7/7CIvy2oCYb7DF1eF4fsWfz8VfVM0JlfEMsTUvmLpXScaZKJPjvGvKlYGqWmK2LBkuX7ku+ji/KS1yMEM9DLRFFUNixTicfbv2DqXZotL3SK8lpre8AArvjGcGVVdsVDY+aee5yv5Ig/lF1SheCB4t05VBznzVp/X+3O8JrTyltoiSM5w31qLIEkiwAAAABJRU5ErkJggg==">\
+                                          </span>\
+                                        </span>\
+                                        <span class="action-item boosting">\
+                                          <span class="tooltiptext">Boost</span>\
+                                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBfY/BCcJAEEVnNiKKrGgHKSElmA7swBxFJEkHYgfRg3jTTtKCHSQdKIIoMTtjNhgI65o5fh5//gMwbhxyJNfl3MyFAW0YKAaBJxnywgp+oeBdFD6VygegxIRrSIYqGyyfbpONVoVXZdcGxnbT6zjM2wUaFj0nrR7Hglh5Nkjf49C/1DOYZmCz1l/MHC3WgU6Rxfm+x22ntYPCZ6Tgp9lmPYnZlZHKGrjTWsOKKUWCnSAop/+sbwnmeoYCBR8N24MPhSbzYAAAAABJRU5ErkJggg==">\
+                                        </span>\
+                                        <span class="action-item burying {{if data.score <= 0}}disabled{{/if}}">\
+                                          <span class="tooltiptext">Lower</span>\
+                                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADJSURBVHgBdZDRDYIwEIZbEFKDTRiBEVzBSfDRmBRxA11BX3xTJ3AE4ghOgE7ggyaalvbskZCUWP633n253neUC31USm6/h/GdeJKWkDXG5AFQ84jiuGKLT+aDNJiKEEPbwqRQG17o2oUR4itdYw/ftGtggZIgV1LOGGMEJwGY83sX9UEXxqoLeYNwImT51+DCXHwiXZKlnOJlrLW+DVkjFIxCaw3XQet2UqGfXDTzQeswCNN2EsD6tR+demDP2p7RhfzLW+PuOzc/5PRxOXt0QzUAAAAASUVORK5CYII=">\
+                                        </span>\
+                                      </div>\
+                                    {{/if}}\
+                                    {{if data.addedResult && data.addedResult == true}}\
+                                      <div class="actions-content">\
+                                        <span class="action-item unpin_added_result">\
+                                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGFSURBVHgBxVK/S8NAFH53SaugKQHpntp/oBlcBAdxcmsXKS5aJxX7Y3Jw0U6OFaluIl1EBUk3x4KTuLTgKNouQrGINyjV9HJnHxiN/YW6+EFI7uW9777vuwP4gJZ2DoeXmwb8EtT9UAjN+nxDfyL5hJ6RhpYUJS9Ju6ZrKafaj5h6F2yH1BSFJFDJ9b20pJQ4pLcfw+f3l3qR0M4CklxtEFg/E9G7BpQmw7BACKmAlNl+JF3AnW8fZHV215EXN0JmTmQU61qSL3baUeF7BrojRDmQFmCMgb43T2D7XEI+TnL8iEPhkmxiGyp5BQj1yoBJEAVsqjZErP7MzXyc1taOhTE3Qa2pMBRatm0qlJoDLYymWluu1NOyHUEbaAdtte3p3l61ZwZcFokKaZS6dCASoaBkxRXKZnKS1Z/ekIC5vV2nMLJqR6iqWII702iHUGrVHoGNB8FkTRIbeNlwGKXju9MOfAXdddn6Dnv/eddeEuIWAylRdjhPvOz7K/ADIAl4svg/vANVesefO32vSgAAAABJRU5ErkJggg==">\
+                                        </span>\
+                                      </div>\
+                                    {{/if}}\
                                     <div class="title text-truncate">{{html data.heading}}</div>\
                                     <div class="desc_text text-truncate">{{html data.description}}</div>\
                                     <div class="appearences-count count">\
@@ -13971,22 +13990,33 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                     </span>\
                                     <span class="count">${data.feedback.click}</span>\
                                     </div>\
-                                    <div class="appearences-count bg-data record-status-pinned" style="display : {{if data.config.pinIndex >= 0}}block{{else}}none{{/if}}">\
-                                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
-                                      <span class="count">PINNED</span>\
-                                    </div>\
-                                    <div class="appearences-count bg-data record-status-hidden" style="display : {{if data.config.visible == false}}block{{else}}none{{/if}}">\
-                                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
-                                      <span class="count">HIDDEN</span>\
-                                    </div>\
-                                    <div class="appearences-count bg-data record-status-boosted {{if data.config.boost > 1}}display-block{{/if}}">\
-                                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
-                                      <span class="count boosted">${data.config.boost}X BOOSTED</span>\
-                                    </div>\
-                                    <div class="appearences-count bg-data record-status-lowered {{if data.config.boost < 1}}display-block{{/if}}">\
-                                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
-                                      <span class="count lowered">${data.config.boost}X LOWERED</span>\
-                                    </div>\
+                                    {{if !data.addedResult || data.addedResult == false}}\
+                                      <div class="appearences-count bg-data record-status-pinned" style="display : {{if data.config.pinIndex >= 0}}block{{else}}none{{/if}}">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                                        <span class="count">PINNED</span>\
+                                      </div>\
+                                      <div class="appearences-count bg-data record-status-hidden" style="display : {{if data.config.visible == false}}block{{else}}none{{/if}}">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                                        <span class="count">HIDDEN</span>\
+                                      </div>\
+                                      <div class="appearences-count bg-data record-status-boosted {{if data.config.boost > 1}}display-block{{/if}}">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                                        <span class="count boosted">${data.config.boost}X BOOSTED</span>\
+                                      </div>\
+                                      <div class="appearences-count bg-data record-status-lowered {{if data.config.boost < 1}}display-block{{/if}}">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                                        <span class="count lowered">${data.config.boost}X LOWERED</span>\
+                                      </div>\
+                                    {{/if}}\
+                                    {{if data.addedResult && data.addedResult == true}}\
+                                      <div class="appearences-count bg-data">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                                        <span class="count">PINNED</span>\
+                                      </div>\
+                                      <div class="appearences-count bg-data">\
+                                        <span class="count">MANUALLY ADDED</span>\
+                                      </div>\
+                                    {{/if}}\
                                     {{if appearanceType === "faq"}}\
                                       <div class="tag-ref">FAQ Response</div>\
                                     {{/if}}\
@@ -15834,6 +15864,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.customization = null;
           item.__contentType = obj.__contentType;
           item.contentId = obj.contentId;
+          item.addedResult = (obj.addedResult || (obj.addedResult == false)) ? obj.addedResult : false;
           data.push(item);
         });
         return data;
@@ -16401,6 +16432,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.customization = null;
           item.__contentType = faq.__contentType;
           item.contentId = faq.contentId;
+          item.addedResult = (faq.addedResult || (faq.addedResult == false)) ? faq.addedResult : false;
           data.push(item);
         });
         return data;
@@ -16854,6 +16886,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.customization = null;
           item.__contentType = page.__contentType;
           item.contentId = page.contentId;
+          item.addedResult = (page.addedResult || (page.addedResult == false)) ? page.addedResult : false;
           data.push(item);
         });
         return data;
@@ -17279,6 +17312,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.customization = null;
           item.__contentType = document.__contentType;
           item.contentId = document.contentId;
+          item.addedResult = (document.addedResult || (document.addedResult == false)) ? document.addedResult : false;
           data.push(item);
         });
         return data;
@@ -18461,6 +18495,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       setTimeout(function () {
         $(".results-wrap").sortable({
+          // items: "div:not(.ui-state-disabled)",
+          cancel: ".ui-state-disabled",
           stop: function (event, ui) {
             var element = ui.item[0];
             if ($(element).find('.pinning').length) {
@@ -18484,6 +18520,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         // }
       });
+
+      $('.customization').off('click', '.unpin_added_result').on('click', '.unpin_added_result', function (event) {
+        // _self.performRankActionsOnFullPage(event, { pinIndex: 0 }, _self.vars.searchObject.searchText, 'unpin_added_result');
+      });
+
       $('.customization').off('click', '.pinning').on('click', '.pinning', function (event) {
         if ($(event.target).closest('.data-wrap').attr('visible') == "true") {
           var _selectedElement = $(event.target).closest('.structure-data-wrp');
@@ -18611,6 +18652,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   selectedElement.find('.pin').removeClass('display-block');
                   selectedElement.find('.pin').addClass('display-none');
                 }
+                if (selectedElement.find('.img_unpin').hasClass('display-none')) {
+                  selectedElement.find('.img_unpin').removeClass('display-none');
+                  selectedElement.find('.img_unpin').addClass('display-block');
+                }
+                if (selectedElement.find('.img_pin').hasClass('display-block')) {
+                  selectedElement.find('.img_pin').removeClass('display-block');
+                  selectedElement.find('.img_pin').addClass('display-none');
+                }
               }
               else {
                 selectedElement.find('.pinning').attr('type', "Pin");
@@ -18627,6 +18676,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 if (selectedElement.find('.pin').hasClass('display-none')) {
                   selectedElement.find('.pin').removeClass('display-none');
                   selectedElement.find('.pin').addClass('display-block');
+                }
+                if (selectedElement.find('.img_unpin').hasClass('display-block')) {
+                  selectedElement.find('.img_unpin').removeClass('display-block');
+                  selectedElement.find('.img_unpin').addClass('display-none');
+                }
+                if (selectedElement.find('.img_pin').hasClass('display-none')) {
+                  selectedElement.find('.img_pin').removeClass('display-none');
+                  selectedElement.find('.img_pin').addClass('display-block');
                 }
               }
             }
@@ -18656,6 +18713,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   selectedElement.find('.unhide').removeClass('display-block');
                   selectedElement.find('.unhide').addClass('display-none');
                 }
+                if (selectedElement.find('.img_hide').hasClass('display-none')) {
+                  selectedElement.find('.img_hide').removeClass('display-none');
+                  selectedElement.find('.img_hide').addClass('display-block');
+                }
+                if (selectedElement.find('.img_unhide').hasClass('display-block')) {
+                  selectedElement.find('.img_unhide').removeClass('display-block');
+                  selectedElement.find('.img_unhide').addClass('display-none');
+                }
               }
               else {
                 selectedElement.find('.visibility').attr('type', "UnHide");
@@ -18673,6 +18738,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   selectedElement.find('.unhide').removeClass('display-none');
                   selectedElement.find('.unhide').addClass('display-block');
                 }
+                if (selectedElement.find('.img_hide').hasClass('display-block')) {
+                  selectedElement.find('.img_hide').removeClass('display-block');
+                  selectedElement.find('.img_hide').addClass('display-none');
+                }
+                if (selectedElement.find('.img_unhide').hasClass('display-none')) {
+                  selectedElement.find('.img_unhide').removeClass('display-none');
+                  selectedElement.find('.img_unhide').addClass('display-block');
+                }
                 // start - removing pinning option from DOM
                 $(selectedElement).attr('pinIndex', result.config.pinIndex);
                 selectedElement.find('.pinning').attr('type', "Pin");
@@ -18689,6 +18762,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 if (selectedElement.find('.pin').hasClass('display-none')) {
                   selectedElement.find('.pin').removeClass('display-none');
                   selectedElement.find('.pin').addClass('display-block');
+                }
+                if (selectedElement.find('.img_unpin').hasClass('display-block')) {
+                  selectedElement.find('.img_unpin').removeClass('display-block');
+                  selectedElement.find('.img_unpin').addClass('display-none');
+                }
+                if (selectedElement.find('.img_pin').hasClass('display-none')) {
+                  selectedElement.find('.img_pin').removeClass('display-none');
+                  selectedElement.find('.img_pin').addClass('display-block');
                 }
                 // end
               }

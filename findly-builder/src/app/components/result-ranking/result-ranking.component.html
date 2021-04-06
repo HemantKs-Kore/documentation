@@ -95,8 +95,8 @@
                                             <div   class="card_link collapsed" [ngClass]="{'is-checked': list.check == true || selectedRecord._id == list._id}" (click) ="clickCustomizeRecord(list,$event)">      
                                                 <div class="d-flex align-items-center" >
                                                     <div class="kr-sg-checkbox col-1" (click)="$event.stopImmediatePropagation();">
-                                                        <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox"  autocomplete="off" [(ngModel)]="list.check" (click) ="multiSelect(list,!list.check,$event)">
-                                                        <label [attr.for]="i" class="checkbox-custom-label" ></label>
+                                                        <input  [attr.id]="'result'+i"  class="checkbox-custom selectEachfaqInput" type="checkbox"  autocomplete="off" [(ngModel)]="list.check" (click) ="multiSelect(list,!list.check,$event)">
+                                                        <label [attr.for]="'result'+i" class="checkbox-custom-label" ></label>
                                                     </div>
                                                     <div class="title-desc-sec col-10">
                                                         <div class="title">{{list.searchQuery}}</div>
