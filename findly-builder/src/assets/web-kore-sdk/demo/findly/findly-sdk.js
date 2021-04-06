@@ -4980,9 +4980,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
         $(dataHTML).off('click', '#search').on('click', '#search', function (e) {
           if (!$('body').hasClass('top-down')) {
-          if (!$('#search').val()) {
-            _self.bindFrequentData();
-          }
+            if ($('#search').hasClass('from-result-ranking')) {
+              $("#search").removeClass('from-result-ranking');
+              _self.vars.customizeView = true;
+              // _self.invokeSearch();
+              $('#show-all-results-container').show();
+              setTimeout(function () {
+              $('#search').focus().trigger({ type: 'keydown', which: 13 });
+                setTimeout(function () {
+                    $('.show-all-results').click();
+                    
+                  }, 1000);
+              }, 1000);
+             
+            } else {
+              if (!$('#search').val()) {
+                _self.bindFrequentData();
+              }
+            }
         }
         })
         initPopularSearchList();
@@ -18973,7 +18988,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.showingMatchedResults = true;
             _self.searchFacetsList([]);
             $('#loaderDIV').show();
-            _self.invokeSearch();
+            // _self.invokeSearch();
+            var e1 = $.Event("keydown", { which: 13 });
+            $('#search').trigger(e1);
             //$('#loaderDIV').hide();
             _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
             $('.all-result-container').show();
@@ -18983,7 +19000,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               //top-down-searc-facets active -start//
               _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
               //top-down-search-facets active -end//
-            }, 500);
+            }, 1000);
           }
           if ($('#search').val()) {
             $('.cancel-search').show();
