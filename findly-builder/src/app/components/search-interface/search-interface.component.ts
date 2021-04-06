@@ -221,19 +221,19 @@ export class SearchInterfaceComponent implements OnInit {
       });
     }
   }
-  getTemplate(templateId) {
+  getTemplate(templateId , modal?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       templateId: templateId
     };
     this.service.invoke('get.SI_searchResultTemplate', quaryparms).subscribe(res => {
-      this.templateBind(res)
+      this.templateBind(res , modal)
       this.selectByDefaultValBindToTemplatae(res.mapping)
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch Template');
     });
   }
-  templateBind(res: any) {
+  templateBind(res: any, modal?) {
     if (res.type == 'grid' || res.type == 'carousel') {
       this.clickableDisabled = true;
     } else {
@@ -275,7 +275,7 @@ export class SearchInterfaceComponent implements OnInit {
       }
     });
 
-    this.customModalRef = this.customModal.open();
+    if(modal == 'openModal')this.customModalRef = this.customModal.open();
   }
   sourcelist(settingObj) {
     settingObj.appearance.forEach(element => {
@@ -384,7 +384,8 @@ export class SearchInterfaceComponent implements OnInit {
       this.selectedSettingResultsObj.facets.aligned = value;
     }
   }
-  openCustomModal() {
+  selectResultAppearnceList(list){
+    this.selectedSourceType = list.type;
     let templateId;
     this.list.forEach(element => {
       if (element.type == this.selectedSourceType) {
@@ -394,6 +395,18 @@ export class SearchInterfaceComponent implements OnInit {
     this.selectedTemplatedId = templateId;
     if (templateId) {
       this.getTemplate(templateId);
+    }
+  }
+  openCustomModal() {
+    let templateId;
+    this.list.forEach(element => {
+      if (element.type == this.selectedSourceType) {
+        templateId = element.id
+      }
+    });
+    this.selectedTemplatedId = templateId;
+    if (templateId) {
+      this.getTemplate(templateId,'openModal');
     } else {
       this.customizeTemplateObj = new customizeTemplate();
       this.defaultTemplate();
