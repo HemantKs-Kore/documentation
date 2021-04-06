@@ -117,13 +117,13 @@
                                 </div>
                                 <div class="col-4 p-0 actions-sec">
                                     <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                                        <div class="dropdown dropdown-open" [ngClass] = "{'disableDiv' : permisionView }">                                        
-                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle  ngbTooltip='Launch' placement="top"><img class="cursor" (click) = "launch()" src="assets/icons/play.svg"></button>                                            
+                                        <div class="dropdown dropdown-open" [ngClass] = "{'disableDiv' : permisionView }"  (click) = "launch()">                                        
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle  ngbTooltip='Launch' placement="top"><img class="cursor" src="assets/icons/play.svg"></button>                                            
                                         </div>
                                     </div>
                                     <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                                        <div class="dropdown dropdown-open">                                        
-                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="showLogs()"  ngbTooltip='TimeLog' placement="top"><img class="cursor" src="assets/icons/Timer.svg"></button>                                                                                      
+                                        <div class="dropdown dropdown-open"  (click)="showLogs()">                                        
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle  ngbTooltip='TimeLog' placement="top"><img class="cursor" src="assets/icons/Timer.svg"></button>                                                                                      
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-end" [ngClass] = "{'disableDiv' : permisionView }">
