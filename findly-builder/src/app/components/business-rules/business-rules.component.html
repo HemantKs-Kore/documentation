@@ -108,12 +108,19 @@
               }}</span>
                         <span class="tags-input mr-1 mb-1"><span class="small-text">{{ "businessRules." + rule.contextType | translate
                 }} :</span> {{ "businessRules." + rule.contextCategory | translate }}</span>
-                        <br><span class="outer-name mr-1 mb-1 ml-4" [ngClass]="{'ml-4':ruleIndex > 0}">{{ rule.operator | titlecase}}</span>
-                        <ng-container *ngFor="let value of rule.value; let valueIndex = index">
-                            <span class="tags-input mr-1 mb-1">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
-                            <span class="divider mr-1 mb-1" *ngIf="valueIndex < rule.value.length - 1">{{ "or_caps" | translate
-                }}</span>
-                        </ng-container>
+                        <br>
+                        <div class="d-flex">
+                            <div class="d-inline-block">
+                                <span class="outer-name mr-1 mb-1 ml-4" [ngClass]="{'ml-4':ruleIndex > 0}">{{ rule.operator | titlecase}}</span>
+                            </div>
+                            <div class="d-inline-block">
+                                <ng-container *ngFor="let value of rule.value; let valueIndex = index">
+                                    <span class="tags-input mr-1 mb-1">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
+                                    <span class="divider mr-1 mb-1" *ngIf="valueIndex < rule.value.length - 1">{{ "or_caps" | translate
+                        }}</span>
+                                </ng-container>
+                            </div>
+                        </div>
                     </ng-container>
                 </div>
                 <div class="col-3 content">
@@ -217,7 +224,7 @@
                                             </div>
                                         </div>
                                         <div *ngIf="ruleObj.contextType ==='userContext'">
-                                            <input type="text" id="userType" [(ngModel)]="ruleObj.contextCategory" />
+                                            <input type="text" id="userType"class="w-100" [(ngModel)]="ruleObj.contextCategory" />
                                         </div>
                                     </div>
                                     <div class="col-3 pr-0">

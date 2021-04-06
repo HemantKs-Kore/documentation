@@ -274,6 +274,7 @@
                 }
             }           
         }
+        
         .card-steps{
             width: 810px;
             margin: 50px auto;
@@ -323,6 +324,7 @@
         .select_credentials_sec{
             width: 810px;
             margin: 10px auto;
+           
             .main-heading{
                 text-align: center;
                 color: #202124;
@@ -347,7 +349,12 @@
             }
             .kr-sg-dropdowns{
                 margin:30px 0 23px 0;
+               
             }
+            // .border{
+            //     border-color: red;
+            // }
+            
             .kr-sg-toggle {
                 .slider{
                     span{
@@ -533,3 +540,6 @@
         }       
     }
 }
+// .border{
+//     border: red;
+// }

@@ -304,13 +304,13 @@
             }}</span>
         </div>
         <div class="kr-sg-dropdowns col-4 pl-pr-5">
-          <div class="label-text">Index Configuration</div>
+          <div class="label-text">Index</div>
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
-              [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{disable_edit: exp_status !== 'configured' && form_type === 'edit'}">
+              [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngStyle]='{"background-color":exp_status !== "configured" && form_type === "edit"?"#EFF0F1":"#ffffff","color":vari.indexPipelineName==undefined?"#9aa0a6":"#202124"}'>
               {{
               vari.indexPipelineName === undefined
-              ? varIndex===0? "Default Index Configuration":"Select Configuration"
+              ? varIndex===0? "Default Index":"Select Index"
               : vari.indexPipelineName
               }}
             </button>
@@ -325,10 +325,10 @@
           <div class="label-text">Search Configuration</div>
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
-              [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{disable_edit: exp_status !== 'configured' && form_type === 'edit'}">
+              [disabled]="(exp_status !== 'configured' && form_type === 'edit')||vari.indexPipelineName==undefined" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")||vari.indexPipelineName==undefined?"#EFF0F1":"#ffffff","color":vari.queryPipelineName==undefined?"#9aa0a6":"#202124"}'>
               {{
               vari.queryPipelineName === undefined
-              ? varIndex===0? "Default Search Configuration":"Select Configuration"
+              ? varIndex===0? "Default Search":"Select Configuration"
               : vari.queryPipelineName
               }}
             </button>

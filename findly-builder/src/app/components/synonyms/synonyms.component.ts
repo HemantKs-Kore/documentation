@@ -189,11 +189,11 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res => {
       this.pipeline = res.pipeline || {};
       if (this.newSynonymObj.addNew && !showFlag) {
-        this.notificationService.notify('Synonyms added successfully', 'success');
+        this.notificationService.notify(' Added Successfully', 'success');
         this.appSelectionService.updateTourConfig(this.componentType);
       }
       else if (!showFlag) {
-        this.notificationService.notify('Synonyms updated successfully', 'success');
+        this.notificationService.notify('Updated Successfully', 'success');
       }
       this.prepareSynonyms();
       this.cancleAddEdit();
@@ -259,7 +259,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
           synonyms.splice(index, 1);
           if (this.showFlag = true) {
             this.addOrUpddate(synonyms, dialogRef, this.showFlag);
-            this.notificationService.notify('Synonyms deleted successfully', 'error')
+            this.notificationService.notify('Deleted Successfully', 'error')
           }
         } else if (result === 'no') {
           dialogRef.close();

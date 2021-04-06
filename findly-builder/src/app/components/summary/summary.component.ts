@@ -324,7 +324,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
     setTimeout(() => {
       this.componentType = 'overview';
-      this.onboard.openOnBoardingModal();
+      //this.onboard.openOnBoardingModal();
     }, 1000)
   }
   closeOnBoardingModal() {
