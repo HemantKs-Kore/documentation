@@ -26,10 +26,14 @@ export class ActionsComponent implements OnInit {
   showTop = false;
   showBottom = false
   topActionsTop = false;
+  associatedBots: any = [];
   topActionsBottom : boolean;
   bottomActionsTop = false;
   bottomActionsBottom = false;
   previewTopBottom:any;
+  linkedBotID: any;
+  streamId: any;
+  userInfo:any;
   searchObject: any = {
    
   };
@@ -45,38 +49,66 @@ export class ActionsComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    if (this.workflowService.selectedApp()?.configuredBots[0]) {
+      this.streamId = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+    }
+    else if (this.workflowService.selectedApp()?.publishedBots[0]) {
+      this.streamId = this.workflowService.selectedApp()?.publishedBots[0]?._id ?? null
+    }
+    else {
+      this.streamId = null;
+    }
     this.LinkABot = this.workflowService.linkedBot;
+    // this. botLinkedOrUnlinked();
     console.log(this.LinkABot)
-    this.previewTopBottom = this.workflowService.checkTopOrBottom();
-    this. botLinkedOrUnlinked();
-    // this. topDownOrBottomUp(type);
-    console.log(this.previewTopBottom)
-    console.log(this.LinkABot)
-  }
+    this.userInfo = this.authService.getUserInfo() || {};
+    this.getAssociatedBots()
+    // streamId: this.selectedApp._id
 
+  }
+ 
   openActions(){
-  $('#botActionsTab').trigger('click')
+  $('#botActionsTab').trigger('click');
 } 
   botLinkedOrUnlinked() {
     // this.LinkABot = this.workflowService.linkBot()
-    this.botLinked  = this.LinkABot?true:false;
-    // if (this.LinkABot) {
-    //   this.botLinked = true; 
-    // }
-    // else if (!this.LinkABot){
-    //   this.botLinked = false;
-
+    // this.botLinked  = this.LinkABot?true:false;
+    if (this.LinkABot) {
+      this.botLinked = true; 
     }
-  
-    // topDownOrBottomUp(){
-    //   if(this.previewTopBottom == "top" ){
-    //     this.checkTopBottom = true;
-    //   }
-    //   else{
-    //     this.checkBottomTop = true;
-    //   }
-
-    // }
+    else if (!this.LinkABot){
+      this.botLinked = false;
+    }
+    this.getAssociatedBots()
+  }
+    getAssociatedBots() {
+      if (this.userInfo.id) {
+        const queryParams: any = {
+          userID: this.userInfo.id
+        };
+      this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
+          let bots = JSON.parse(JSON.stringify(res))
+          this.associatedBots =[];
+          bots.forEach(element => {
+            if (element.type == "default" || element.type == "universalbot") {
+              this.associatedBots.push(element)
+            }
+              if (this.streamId == element._id) {
+                // this.linkedBotID = element._id
+                // if(this.linkedBotID == element._id){
+                  this.LinkABot = element._id
+                  this.botLinked = true; 
+                // }
+              }
+              else if(this.streamId == null){
+                this.LinkABot != element._id
+                this.botLinked = false; 
+              }
+          });
+      },
+      )
+    }
+  }
     topDownOrBottomUp(type) {
     if (this.previewTopBottom == "top") {
       this.bottomActionsTop = false;
