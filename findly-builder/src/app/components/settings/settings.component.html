@@ -194,7 +194,8 @@
                             <div class="kr-sg-input-text" >
                                 <input type="password" id="password"  class="input-text"
                                     [value]="listData.clientSecret" readonly>
-                                <img  (click)="showPasword()" src="assets/images/icons/eye.svg" class="eye" type="eye" >
+                                <img  (click)="showPasword()" *ngIf="!showPassword" src="assets/images/icons/eye.svg" class="eye" type="eye" >
+                                <img  (click)="showPasword()"   *ngIf="showPassword" src="assets/images/icons/viewPw.svg.svg"class="eye" type="eye" >
                             </div>
                             <div class="copy-btn" (click)="copy(listData.clientSecret,clipclientSecret)"><img
                                     src="assets/images/icons/copy.svg">Copy</div>

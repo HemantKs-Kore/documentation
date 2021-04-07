@@ -68,7 +68,7 @@ export class ResultInsightsComponent implements OnInit {
   resultQueryAnswer = '';
   searchSources : any = '';
   dateType = "hour"
-
+  group = "week";
   totalRecord:number=0;
   limitPage : number = 10;
   skipPage:number = 0;
@@ -147,10 +147,22 @@ export class ResultInsightsComponent implements OnInit {
     let from = new Date();
     if(this.dateType == 'hour'){
       from = yesterday;
+      this.group = "hour";
     }else if(this.dateType == 'week'){
       from = week;
+      this.group = "date";
     }else if(this.dateType == 'custom'){
       from = custom;
+      var duration = moment.duration(Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()), 'milliseconds');
+      var days = duration.asDays();
+      console.log(days);
+      if(days > 28){
+        this.group = "week";
+      }else if(days == 1){
+        this.group = "hour";
+      }else{
+        this.group = "date";
+      }
     }
     const header : any= {
       'x-timezone-offset': '-330'
@@ -162,6 +174,7 @@ export class ResultInsightsComponent implements OnInit {
     };
     let payload : any = {
       type : type,
+      group:this.group,
       filters: {
         from:  this.startDate.toJSON(),//from.toJSON(),
         to: this.endDate.toJSON()
