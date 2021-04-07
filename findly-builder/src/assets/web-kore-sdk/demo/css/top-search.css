@@ -909,7 +909,7 @@ input:focus{
   border-radius: 0px 0px 5px 5px;
   position: absolute;
   width: 800px;
-  min-height: 125px;
+  /* min-height: 125px; */
   left: 0;
   right: 0;
   top: 93px;
@@ -1147,7 +1147,7 @@ input:focus{
   top: 2px;
 }
 
-.topdown-search-main-container .search-input-box .frequently_searched_box {
+.topdown-search-main-container .search-input-box .frequently_searched_box .freq-data-p{
   padding: 15px 26px;
 }
 
