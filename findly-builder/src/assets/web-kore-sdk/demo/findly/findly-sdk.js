@@ -4809,6 +4809,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
                 popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
               });
+              console.log("searchConfigurationCopy", searchConfigurationCopy);
               $('.search-body').html(freqData);
             }
 
@@ -18523,7 +18524,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
 
       $('.customization').off('click', '.unpin_added_result').on('click', '.unpin_added_result', function (event) {
-        // _self.performRankActionsOnFullPage(event, { pinIndex: 0 }, _self.vars.searchObject.searchText, 'unpin_added_result');
+        _self.performRankActionsOnFullPage(event, { pinIndex: -1 }, _self.vars.searchObject.searchText, 'unpin_added_result');
       });
 
       $('.customization').off('click', '.pinning').on('click', '.pinning', function (event) {
@@ -18620,6 +18621,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "contentId": contentID,
           "config": conf,
         }
+      }
+
+      if(actionType === 'unpin_added_result'){
+        payload.result['addedResult'] = false;
       }
 
       console.log(payload);
@@ -18837,6 +18842,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.checkBoostAndLowerTimes();
             }
           })
+        }
+
+        else if (actionType === "unpin_added_result"){
+          $('.show-all-results').click();
         }
       });
     }
