@@ -130,7 +130,7 @@
                   </div>
                 </perfect-scrollbar>
               </ng-container>
-              <ng-container *ngIf="!(linkedBotTasks && linkedBotTasks.length)">
+              <ng-container *ngIf="!(linkedBotTasks && linkedBotTasks.length) && !loading">
                 <div class="linked-bot-tasks-empty-content">
                   <img class="empty-content-indicator-image" src="assets/images/icons/empty_ill.svg" />
                   <div class="empty-content-container-content">

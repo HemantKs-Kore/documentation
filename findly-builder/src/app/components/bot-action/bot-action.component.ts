@@ -51,7 +51,8 @@ export class BotActionComponent implements OnInit {
     selectAll: false,
     selectedItems:[],
   };
-  isEnabledAll = "disable"
+  isEnabledAll = "disable";
+  loading:boolean=true;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -813,6 +814,7 @@ export class BotActionComponent implements OnInit {
         const queryParams: any = {
           searchIndexID: this.searchIndexId
         };
+        this.loading= true;
         this.service.invoke('get.AssociatedBotTasks', queryParams, null, { "state": "published" }).subscribe(res => {
 
           
@@ -855,11 +857,12 @@ export class BotActionComponent implements OnInit {
           else {
             this.linkedBotFAQs = [];
           }
-          
+          this.loading= false;
           this.loadingContent = false;
         },
           (err) => { 
             this.loadingContent = false;
+            this.loading= false;
             console.log(err) 
           },
           () => { console.log("XHR Call Completed") }
