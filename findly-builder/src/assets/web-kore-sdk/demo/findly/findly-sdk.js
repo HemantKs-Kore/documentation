@@ -1996,7 +1996,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       {{/if}}\
         {{if recents && recents.length}}\
         <div class="recentContainer">\
-          <div class="search-heads">RECENT SEARCHES</div>\
+          {{if showSearches == "recent"}}\
+            <div class="search-heads">RECENT SEARCHES</div>\
+          {{/if}}\
+          {{if showSearches == "frequent"}}\
+            <div class="search-heads">FREQUENT SEARCHES</div>\
+          {{/if}}\
             <div class="search-recent-column" >\
               {{each(key, recent) recents }}\
                 {{if recent}}\
@@ -4803,14 +4808,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('#frequently-searched-box').show();
               }
             } else {
-              var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
-                // searchResults: searchResults,
-                recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
-                recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-                popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
-              });
-              console.log("searchConfigurationCopy", searchConfigurationCopy);
-              $('.search-body').html(freqData);
+              if(searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled){
+                var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
+                  // searchResults: searchResults,
+                  recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+                  recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+                  popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6),
+                  showSearches : searchConfigurationCopy ? searchConfigurationCopy.showSearches : 'recent'
+                });
+                console.log("searchConfigurationCopy", searchConfigurationCopy);
+                $('.search-body').html(freqData);
+              }
             }
 
           },
@@ -5303,8 +5311,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $(dataHTML).off('focus', '#search').on('focus', '#search', function (e) {
           _self.pubSub.publish('sa-search-focus', {});
           _self.pubSub.publish('sa-handel-chat-container-view');
-          $('.search-body').removeClass('hide');
-          $('#searchChatContainer').addClass('bgfocus');
+          if(searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled){
+            $('.search-body').removeClass('hide');
+            $('#searchChatContainer').addClass('bgfocus');
+          }
+          else{
+            $('.search-body').addClass('hide');
+            $('#searchChatContainer').removeClass('bgfocus');
+          }
           // _self.closeGreetingMsg();
           //clear showing greeting if search bar focused before the greeting msg shown
           clearTimeout(_self.vars.searchObject.clearGreetingTimeOut);
@@ -6069,8 +6083,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         } else {
           event.stopPropagation();
-          $('.search-body').removeClass('hide');
-          $('#searchChatContainer').addClass('bgfocus');
+          if(searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled){
+            $('.search-body').removeClass('hide');
+            $('#searchChatContainer').addClass('bgfocus');
+          }
           $('.suggestion-search-data-parent').css('visibility', 'visible');
         }
         if ($(event.target).closest('#searchChatContainer').length) {
@@ -6091,8 +6107,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.suggestion-search-data-parent').css('visibility', 'hidden');
         } else {
           if (!$(event.target).closest('.show-all-results-outer-wrap').length) {
-            $('.search-body').removeClass('hide');
-            $('#searchChatContainer').addClass('bgfocus');
+            if(searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled){
+              $('.search-body').removeClass('hide');
+              $('#searchChatContainer').addClass('bgfocus');
+            }
             $('.suggestion-search-data-parent').css('visibility', 'hidden');
           }
         }
@@ -20003,7 +20021,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var frequentlySearchTemplate = '<script id="frequently-searched-template" type="text/x-jqury-tmpl">\
                                         {{if recents && recents.length && searchConfig.showSearchesEnabled == true}}\
                                         <div class="templates-data freq-data-p">\
-                                            <div class="main-title"> {{if searchConfig.showSearches == "frequent"}}\ FREQUENT {{else}} RECENT {{/if}}\ SEARCHED</div>\
+                                            <div class="main-title"> {{if searchConfig.showSearches == "frequent"}}\ FREQUENT {{else}} RECENT {{/if}}\ SEARCHES</div>\
                                             <div class="tile_with_header">\
                                                 {{each(key, recent) recents }}\
                                                 {{if recent}}\
