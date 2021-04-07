@@ -16,6 +16,7 @@ export class SettingsComponent implements OnInit {
   refId = "";
   botID = '';
   enableConfiguration=true;
+  showPassword:boolean;
   configuredBot_streamId = "";
   selectedApp: any;
   serachIndexId: any;
@@ -459,9 +460,11 @@ export class SettingsComponent implements OnInit {
   showPasword(){
     var show :any = document.getElementById("password");;
     if (show.type === "password") {
+      this.showPassword=true;
       show.type = "text";
      
     } else {
+      this.showPassword= false;
       show.type = "password";
     }
   }
