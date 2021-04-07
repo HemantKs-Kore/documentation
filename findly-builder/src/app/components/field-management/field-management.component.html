@@ -4,6 +4,7 @@
         <span class="please-wait-message">Please Wait!</span>
     </div>
     <div class="table_sec" *ngIf="!loadingContent" >
+        <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
             <div class="seach_add_feild">
                 <div class="title">Fields</div>
                 <div class="d-flex align-items-center">
@@ -185,7 +186,7 @@
                 <div class="kr-sg-input-text col-12 p-0">
                     <div class="label-text">Field Name</div>
                     <!-- <input type="number" *ngIf="newFieldObj.fieldDataType === 'number'"  placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName"> -->
-                    <input type="text" placeholder="Field Name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
+                    <input type="text" placeholder="Enter Field Name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
                 </div>
             </div>
             <div class="label-text col-12 p-0">Field Type</div>

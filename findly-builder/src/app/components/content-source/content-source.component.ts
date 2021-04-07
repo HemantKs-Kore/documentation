@@ -62,6 +62,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   docTypeArr = [];
   selectedFilter: any = ''
   executionLogStatus = false;
+  componentType: string = 'addData';
   contentTypes = {
     webdomain: 'Web',
     document: 'Doc'
@@ -733,7 +734,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
       this.isEditDoc = false;
       this.getSourceList();
-      this.notificationService.notify('updated ', 'success');
+      this.notificationService.notify('Updated Successfully', 'success');
       this.closeDocumentModal();
 
     }, errRes => {
@@ -857,7 +858,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       url: page._source.url
     }
     this.service.invoke('reCrwal.website', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Re-Crawling', 'success');
+      this.notificationService.notify('Re-Crawling Initiated', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Failed to Re-Crawl');
     });
@@ -1259,7 +1260,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('recrwal', quaryparms).subscribe(res => {
       this.getSourceList();
-      this.notificationService.notify('Re-Crawling', 'success');
+      this.notificationService.notify('Re-Crawling Initiated', 'success');
       this.closeStatusModal();
       //this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
     }, errRes => {
@@ -1398,7 +1399,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     if (schdVal) {
       this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
-        this.notificationService.notify('Crawler Updated', 'success');
+        this.notificationService.notify('Configuration Saved', 'success');
         this.editTitleFlag = false;
         this.getSourceList();
         this.closeStatusModal();

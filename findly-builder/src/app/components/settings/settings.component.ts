@@ -26,6 +26,7 @@ export class SettingsComponent implements OnInit {
   showSearch;
   searchchannel: any = '';
   isAlertsEnabled: boolean;
+  showError: boolean = false;
   channelEnabled: true;
   existingCredential: boolean = false;
   configFlag: boolean = false;
@@ -89,10 +90,10 @@ export class SettingsComponent implements OnInit {
             tempChannel.hide = channel.hide,
             tempChannel.class = channel.class,
             tempChannel.icon = channel.icon
-            if(channel.enable=true){
-              channel = tempChannel
-            }
-        } 
+          if (channel.enable = true) {
+            channel = tempChannel
+          }
+        }
 
       })
     })
@@ -112,12 +113,13 @@ export class SettingsComponent implements OnInit {
     document.execCommand('copy');
     document.body.removeChild(selBox);
     this.notificationService.notify('Copied to clipboard', 'success')
-    
+
   }
-  
+
   jwtAuth(awt) {
     this.credntial.awt = awt;
   }
+
   selctedChannel(channel) {
     this.listData = channel;
     this.botID = channel.bots[0]._id;
@@ -134,8 +136,8 @@ export class SettingsComponent implements OnInit {
   cancel() {
     if (this.slider > 0)
       this.slider = this.slider - 1;
-      if(this.existingCredential = true)
-      this.slider=0;
+    if (this.existingCredential = true)
+      this.slider = 0;
   }
   // if(slider)
   back() {
@@ -143,6 +145,35 @@ export class SettingsComponent implements OnInit {
       this.slider = this.slider - 1;
     if (this.existingCredential = true) {
       this.slider = 0
+    }
+  }
+
+  validateSource() {
+    if (this.credntial.awt != 'Signing algorithm') {
+      this.createCredential()
+    }
+    else if (this.credntial.awt == 'Signing algorithm') {
+      this.showError = true;
+      $(".dropdown-input").css("border-color", "#DD3646");
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
+
+    if (this.credntial.name) {
+      this.createCredential()
+    }
+    else {
+
+      $("#addSourceTitleInput").css("border-color", "#DD3646");
+      $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
+
+  }
+  //track changing of input
+  inputChanged(type) {
+    if (type == 'title') {
+      this.credntial.name != '' ? $("#infoWarning").hide() : $("#infoWarning").show();
+      $("#addSourceTitleInput").css("border-color", this.credntial.name != '' ? "#BDC1C6" : "#DD3646");
     }
   }
 
@@ -184,20 +215,21 @@ export class SettingsComponent implements OnInit {
           this.slider = 3
         }
 
-        this.notificationService.notify('Credential Created successfully', 'success');
+        this.notificationService.notify('Created successfully', 'success');
         this.closeModalPopup();
         this.getCredential();
 
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+          // this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed ', 'error');
         }
       }
     );
   }
+
   getCredential() {
     const queryParams = {
       userId: this.authService.getUserId(),
@@ -213,10 +245,10 @@ export class SettingsComponent implements OnInit {
           //     if(element.clientId === this.selectedApp.appPreferences.rtmAppId){
           //       this.listData=element;
           //     }
-              
+
           //   });
           // }
-          this.listData = this.channnelConguired.apps[this.channnelConguired.apps.length-1];
+          this.listData = this.channnelConguired.apps[this.channnelConguired.apps.length - 1];
           this.slider = 3
           this.configFlag = true;
         }
@@ -336,7 +368,7 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('standard.publish', queryParams, payload).subscribe(
       res => {
         this.notificationService.notify('Standard Published', 'success');
-        if(this.allBotArray.length > 0){
+        if (this.allBotArray.length > 0) {
           this.universalPublish();
         }
         console.log(res);
@@ -350,7 +382,7 @@ export class SettingsComponent implements OnInit {
       }
     );
   }
-  
+
   universalPublish() {
     const queryParams = {
       userId: this.authService.getUserId(),
@@ -358,12 +390,12 @@ export class SettingsComponent implements OnInit {
     }
     let payload = {
       "bots": this.allBotArray,
-        // [
-        //   {
-        //     "_id": this.configuredBot_streamId,
-        //     "state": "new"
-        //   }
-        // ],
+      // [
+      //   {
+      //     "_id": this.configuredBot_streamId,
+      //     "state": "new"
+      //   }
+      // ],
       "publishAllComponents": true,
       "versionComment": "publishing",
       "linkedBotCount": 1
@@ -424,13 +456,13 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('configure.credential', queryParams, payload).subscribe(
       res => {
         this.slider = 0;
-        this.selectedApp.channels=res.channels;
+        this.selectedApp.channels = res.channels;
         this.workflowService.selectedApp(this.selectedApp);
         this.notificationService.notify('Credential Configured', 'success');
         this.prepareChannelData();
         this.standardPublish();
         this.configFlag = true;
-  
+
         console.log(res);
       },
       errRes => {
@@ -447,8 +479,8 @@ export class SettingsComponent implements OnInit {
   }
   closeModalPopup() {
     this.addCredentialRef.close();
-    this.credntial.name=[];
-    this.credntial.awt = 'Select Signing Algorithm'; 
+    this.credntial.name = [];
+    this.credntial.awt = 'Select Signing Algorithm';
   }
   toggleSearch() {
     if (this.showSearch && this.searchchannel) {
@@ -457,12 +489,12 @@ export class SettingsComponent implements OnInit {
     this.showSearch = !this.showSearch
   };
 
-  showPasword(){
-    var show :any = document.getElementById("password");;
+  showPasword() {
+    var show: any = document.getElementById("password");;
     if (show.type === "password") {
       this.showPassword=true;
       show.type = "text";
-     
+
     } else {
       this.showPassword= false;
       show.type = "password";

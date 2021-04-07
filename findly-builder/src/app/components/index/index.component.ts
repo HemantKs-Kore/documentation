@@ -94,7 +94,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     { title: 'Company Name or Organization Name', value: 'company_name', isDepricated: false },
     // {"title": "City", "value": "city"},
     { title: 'Color', value: 'color', isDepricated: false },
-    { title: 'Currency(Deprecated)', value: 'currency', isDepricated: true },
+    // { title: 'Currency(Deprecated)', value: 'currency', isDepricated: true },
     { title: 'Currency', value: 'currencyv2', isDepricated: false },
     { title: 'Custom', value: 'regex', isDepricated: false },
     { title: 'Composite', value: 'composite', isDepricated: false },
@@ -120,9 +120,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     { title: 'URL', value: 'url', isDepricated: false },
     { title: 'Zip Code', value: 'zipcode', isDepricated: false },
 
-    { title: 'From - number(minimum of a range)(Deprecated)', value: 'from_number', isDepricated: true },
-    { title: 'To - number(maximum of a range, limit)(Deprecated)', value: 'to_number', isDepricated: true },
-    { title: 'Quantity(Deprecated)', value: 'quantity', isDepricated: true }
+    // { title: 'From - number(minimum of a range)(Deprecated)', value: 'from_number', isDepricated: true },
+    // { title: 'To - number(maximum of a range, limit)(Deprecated)', value: 'to_number', isDepricated: true },
+    // { title: 'Quantity(Deprecated)', value: 'quantity', isDepricated: true }
     // {"title": "City", "value": "city"},
   ];
   simulteObj: any = {
@@ -154,6 +154,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     readOnly: true,
   };
   simulateJson;
+  componentType: string = 'addData';
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     public workflowService: WorkflowService,
@@ -161,7 +162,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     private notificationService: NotificationService,
     public dialog: MatDialog,
     public authService: AuthService,
-    private appSelectionService:AppSelectionService
+    private appSelectionService: AppSelectionService
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -178,20 +179,20 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     // this.setResetNewMappingsObj();
     // this.addcode({});
     // this.getTraitGroups()
-    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res=>{
+    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadIndexAll()
     })
   }
-  loadIndexAll(){
+  loadIndexAll() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-      if(this.indexPipelineId){
-        this.getSystemStages();
-        this.getIndexPipline();
-        this.getFileds();
-        this.setResetNewMappingsObj();
-        this.addcode({});
-        this.getTraitGroups()
-      }
+    if (this.indexPipelineId) {
+      this.getSystemStages();
+      this.getIndexPipline();
+      this.getFileds();
+      this.setResetNewMappingsObj();
+      this.addcode({});
+      this.getTraitGroups()
+    }
   }
   ngAfterViewInit() {
     const self = this;
@@ -606,7 +607,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.service.invoke('put.indexPipeline', quaryparms, { stages: this.preparepayload() }).subscribe(res => {
         this.pipeline = res.stages || [];
         this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
-        this.notificationService.notify('Configurations saved successfully', 'success');
+        // this.appSelectionService.updateTourConfig('addData');
+        this.notificationService.notify('Configurations Saved Successfully', 'success');
         this.savingConfig = false;
         if (dialogRef && dialogRef.close) {
           dialogRef.close();
@@ -752,7 +754,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.service.invoke('post.simulate', quaryparms, payload).subscribe(res => {
         this.simulteObj.simulating = false;
         this.addcode(res);
-        this.notificationService.notify('Simulated successfully', 'success')
+        this.notificationService.notify('Simulated Successfully', 'success')
         this.simulating = false;
         if (this.pollingSubscriber) {
           this.pollingSubscriber.unsubscribe();

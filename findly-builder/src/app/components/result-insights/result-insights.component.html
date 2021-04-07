@@ -59,33 +59,38 @@
                 </div>       -->
                 <div class="table_data_content">
                     <div class="table_header row m-0">
-                        <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Search_Results'| translate}}</div>
+                        <div class="col-4 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Search_Results'| translate}}</div>
                         <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Appearances'| translate}}</div>
-                        <div class="col-1 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.No_of_Clicks'| translate}}</div>
+                        <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.No_of_Clicks'| translate}}</div>
                         <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Click-Through_Rate'| translate}}</div>
-                        <div class="col-1 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Avg_Position'| translate}}</span></div>
-                        <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Positive_Feedback'| translate}}</span></div>
-                        <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Negative_Feedback'| translate}}</span></div>
+                        <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Avg_Position'| translate}}</span></div>
+                        <!-- <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Positive_Feedback'| translate}}</span></div>-->
+                        <!-- <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Negative_Feedback'| translate}}</span></div>  -->
                     </div>
                     <div class="table_body row m-0" *ngFor="let result of resultsData | filter: [ searchSources , 'answer']">
-                        <div class="col-2 title d-flex align-items-center">
+                        <div class="col-4 title d-flex align-items-center">
                             <span class="img-sec"><img src="assets/icons/question-box.svg" *ngIf="result.answerType =='faq'"></span>
                             <span class="img-sec"><img src="assets/icons/sidemenu/new-icons/page.svg" *ngIf="result.answerType =='page'"></span>
                             <span class="img-sec"><img src="assets/icons/sidemenu/new-icons/actions.svg" *ngIf="result.answerType =='task'"></span>
                             <span class="results">{{result.answer}}</span>
                         </div>
                         <div class="col-2 title">{{result.appearances}}</div>
-                        <div class="col-1 title">{{result.clicks}}</div>
+                        <div class="col-2 title">{{result.clicks}}</div>
                         <div class="col-2 title">{{result.clickThroughRate | number : '1.2-2'}}%</div>
-                        <div class="col-1 title data-overview">{{result.avgPosition | number : '1.2-2'}}</div>
-                        <div class="col-2 title">{{result.positiveFeedback}}</div>                       
-                        <div class="col-2 title d-flex align-items-center justify-content-between">
-                            <span class="count">{{result.negativeFeedback}}</span>
+                        <div class="col-2 title data-overview d-flex align-items-center justify-content-between">{{result.avgPosition | number : '1.2-2'}}
                             <div class="view-query" (click)="openModalPopup(result)">
                                 <img src="assets/icons/view-query.svg">    
                                 <span>View Queries</span>                           
                             </div>
                         </div>
+                        <!-- <div class="col-2 title">{{result.positiveFeedback}}</div>                       
+                         <div class="col-2 title d-flex align-items-center justify-content-between">
+                            <span class="count">{{result.negativeFeedback}}</span>
+                            <div class="view-query" (click)="openModalPopup(result)">
+                                <img src="assets/icons/view-query.svg">    
+                                <span>View Queries</span>                           
+                            </div>
+                        </div> -->
                     </div>    
                     
                 </div>
@@ -109,16 +114,16 @@
     <div class="modal-body">
         <div class="table_data_content">
             <div class="table_header row m-0">
-                <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Search_Results'| translate}}</div>
+                <div class="col-4 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Search_Results'| translate}}</div>
                 <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Appearances'| translate}}</div>
                 <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.No_of_Clicks'| translate}}</div>
                 <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Click-Through_Rate'| translate}}</div>
                 <div class="col-2 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Avg_Position'| translate}}</span></div>
-                <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Positive_Feedback'| translate}}</span></div>
-                <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Negative_Feedback'| translate}}</span></div>
+                <!-- <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Positive_Feedback'| translate}}</span></div>
+                <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Negative_Feedback'| translate}}</span></div> -->
             </div>
             <div class="table_body row m-0" *ngFor="let result of resultsSearchData">
-                <div class="col-2 title d-flex align-items-center">
+                <div class="col-4 title d-flex align-items-center">
                     <!-- <span class="img-sec"><img src="assets/icons/question-box.svg"></span> -->
                     <span class="results">{{result.query}}</span>
                 </div>
@@ -126,8 +131,8 @@
                 <div class="col-2 title">{{result.clicks}}</div>
                 <div class="col-2 title">{{result.clickThroughRate}}%</div>
                 <div class="col-2 title data-overview">{{result.avgPosition}}</div>
-                <div class="col-1 title">{{result.positiveFeedback}}</div>                       
-                <div class="col-1 title">{{result.negativeFeedback}}</div>
+                <!-- <div class="col-1 title">{{result.positiveFeedback}}</div>                       
+                <div class="col-1 title">{{result.negativeFeedback}}</div> -->
             </div>                   
         </div>
         <span *ngIf='Q_totalRecord'><app-record-pagination [totalRecord]='Q_totalRecord' [limitpage]='Q_limitPage' (pageChanged)="paginate($event,'QRESULT')"></app-record-pagination></span>

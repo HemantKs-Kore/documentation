@@ -4,6 +4,7 @@
     <span class="please-wait-message">{{'please_wait' | translate}}</span>
 </div>
 <div class="faqmain-container" *ngIf="loadingFaqs1">
+    <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="faqsListContainer">       
         <div class="faq-header-sec row m-0">
             <div class="col-6 left-sec p-0 faq-title" >FAQs</div>
@@ -453,7 +454,27 @@
                                         <div class="bot-response-view-mode">
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.defaultAnswers && selectedFaq._source.defaultAnswers.length">
                                                 <ng-container *ngFor="let answer of selectedFaq._source.defaultAnswers ;let i = index;">
-                                                    <div class="bot-response-title">Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div> 
+                                                    
+
+                                                    <div class="response-title-bg row">
+                                                        <div class="bot-response-title col-6">Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div>
+                                                        <div class="response-likes-views-sec d-flex col-6">
+                                                            <div class="count-sec">
+                                                                <img src="assets/icons/faq/views.svg">{{selectedFaq.stats.appearances?selectedFaq.stats.appearances[0][0]: 0}}
+                                                            </div>
+                                                            <div class="count-sec">
+                                                                <img src="assets/icons/faq/hand.svg">{{selectedFaq.stats.clicks ||0}}
+                                                            </div>
+                                                            <!-- <div class="count-sec">
+                                                                <img src="assets/icons/faq/likes.svg">{{selectedFaq.stats.thumbsup ||0}}
+                                                            </div>
+                                                            <div class="count-sec">
+                                                                <img src="assets/icons/faq/dislikes.svg">{{selectedFaq.stats.thumbsdown ||0}}
+                                                            </div>                                                         -->
+                                                        </div>
+                                                    </div>
+
+
                                                     <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
                                                         <img src="{{answer.multimedia.url}}">
                                                     </div>
@@ -465,8 +486,58 @@
                                         <div class="conditionalBlock bot-response-view-mode" >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length">
                                             <ng-container *ngFor="let consitionalAnswer of selectedFaq._source.conditionalAnswers; let i = index;">
-                                                <div class="bot-response-title">Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.defaultAnswers?selectedFaq._source.defaultAnswers.length:0))}}</span></div> 
-                                                <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div>
+
+                                                
+                                                <div class="response-title-bg row">
+                                                    <div class="bot-response-title col-6">Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.defaultAnswers?selectedFaq._source.defaultAnswers.length:0))}}</span></div>
+                                                    <div class="response-likes-views-sec d-flex col-6">
+                                                        <div class="count-sec">
+                                                            <img src="assets/icons/faq/views.svg">{{selectedFaq.stats.appearances?selectedFaq.stats.appearances[0][0]: 0}}
+                                                        </div>
+                                                        <div class="count-sec">
+                                                            <img src="assets/icons/faq/hand.svg">{{selectedFaq.stats.clicks ||0}}
+                                                        </div>
+                                                        <!-- <div class="count-sec">
+                                                            <img src="assets/icons/faq/likes.svg">{{selectedFaq.stats.thumbsup ||0}}
+                                                        </div>
+                                                        <div class="count-sec">
+                                                            <img src="assets/icons/faq/dislikes.svg">{{selectedFaq.stats.thumbsdown ||0}}
+                                                        </div>                                                            -->
+                                                    </div>
+                                                    <div class="d-flex col-12 conditions-response-block">
+                                                        <div class="title col-2 px-0">Conditions :</div>
+                                                        <div class="right-content col-10 px-0 condition-content">
+                                                            <!-- if-lenthfour -->
+                                                            <div class="row added-conditions" *ngFor="let rule of consitionalAnswer.conditions | slice:0:2; let ruleIndex = index" >
+                                                                <ng-container *ngIf="showConditions(consitionalAnswer.conditions,ruleIndex)">
+                                                                   <div class="col-2  d-inline px-0 vertical-align-top">
+                                                                    <div class="rule-title pr-10" *ngIf="ruleIndex == 0">WHEN</div>
+                                                                    <div class="rule-title pr-20" *ngIf="ruleIndex > 0">AND</div>
+                                                                   </div>
+                                                                <div class="col-10 d-inline-block px-0"[ngStyle]="{'margin-bottom':(showSeeAll(consitionalAnswer.conditions) && ruleIndex==0)?'10px':'0px'}" >
+                                                                    <div class="rule-dropdown-data">
+                                                                        <span class="rule-dropdown-key">{{ "businessRules." + rule.contextType | translate}} :</span>
+                                                                        <span class="rule-dropdown-value" title='{{ "businessRules." + rule.contextCategory | translate }}'>{{ "businessRules." + rule.contextCategory | translate }}</span>
+                                                                    </div>
+                                                                    <div class="rule-contains">{{ rule.operator | titlecase}}</div>
+                                                                    <ng-container  *ngFor="let value of rule.value | slice:0:(ruleIndex==0?(rule.operator !=='between'?4:2):2); let valueIndex = index">
+                                                                        <div class="rule-value" *ngIf="rule.dataType=== 'date' && rule.operator !=='between'" title="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                                                                        <div class="rule-value" *ngIf="rule.dataType=== 'date'  && rule.operator =='between'" title="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value[0] | dateFormatPipe: 'DD MMM YYYY'}} - {{value[1] | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                                                                        <div class="rule-value" *ngIf="rule.dataType!== 'date'" title="{{value}}">{{value}}</div>
+                                                                        <div class="or-rule" *ngIf="(valueIndex < 3 && valueIndex!== (rule.value.length>3?3:(rule.value.length-1)) && ruleIndex==0 && rule.operator !=='between')||(valueIndex < 1 && ruleIndex==1 && valueIndex!== 1) || (valueIndex < 1 && valueIndex!== (rule.value.length>2?2:(rule.value.length-1)) && ruleIndex==0 && rule.operator =='between') ">{{ "or_caps" | translate}}</div>
+                                                                    </ng-container> 
+                                                                    <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div>
+                                                                </div>
+                                                                </ng-container>                                                             
+                                                            </div>
+                                                            <div class="d-block"><a (click)="editThisQa()" class="see-all-anchor" *ngIf="showSeeAll(consitionalAnswer.conditions)">See All</a></div>
+                                                           
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                                <!-- <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div> -->
                                                 <div *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.answers.length">
                                                     <div *ngFor="let ans of consitionalAnswer.answers">
                                                         <div class="img-view-mode" *ngIf="ans.multimedia && ans.multimedia.url">
@@ -493,14 +564,14 @@
                                         <span class="source">Clicks:</span>
                                         <span class="count">{{selectedFaq.feedback.click}}</span>
                                     </div>
-                                    <div class="col-2 p-0">
+                                    <!-- <div class="col-2 p-0">
                                         <span class="source cursor-pointer"><img src="assets/icons/like.svg"></span>
                                         <span class="count">{{selectedFaq.feedback.thumbsup}}</span>
                                     </div>
                                     <div class="col-3 p-0">
                                         <span class="sourc cursor-pointer"><img src="assets/icons/dislike.svg"></span>
                                         <span class="count">{{selectedFaq.feedback.thumbsdown}}</span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="add-alternative-questions row bg-white">
@@ -594,7 +665,7 @@
         </div>      
     </div>
    
-    <div *ngIf="!(resources && resources.length)" class="empty-source-modal">
+    <div *ngIf="!(resources && resources.length)"  class="empty-source-modal">
         <div class="empty-sources">
             <img src="assets/images/icons/empty_ill.svg">
             <div class="heading">No FAQ sources are available</div>

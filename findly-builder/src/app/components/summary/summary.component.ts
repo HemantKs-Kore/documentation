@@ -1,4 +1,4 @@
-import { Component, ModuleWithComponentFactories, OnInit } from '@angular/core';
+import { Component, ModuleWithComponentFactories, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { SideBarService } from '@kore.services/header.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -6,7 +6,11 @@ import { NotificationService } from '@kore.services/notification.service';
 import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
+import { AppSelectionService } from '@kore.services/app.selection.service';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
+import { UseronboardingJourneyComponent } from '../../helpers/components/useronboarding-journey/useronboarding-journey.component';
 import * as moment from 'moment';
+import { Subscription } from 'rxjs';
 declare const $: any;
 @Component({
   selector: 'app-summary',
@@ -14,7 +18,7 @@ declare const $: any;
   styleUrls: ['./summary.component.scss'],
   animations: [fadeInOutAnimation]
 })
-export class SummaryComponent implements OnInit {
+export class SummaryComponent implements OnInit, OnDestroy {
   serachIndexId;
   indices: any = [];
   experiments: any = [];
@@ -31,6 +35,9 @@ export class SummaryComponent implements OnInit {
   summary: any;
   showError = false;
   btLogs: any[] = [];
+  onBoardingModalPopRef: any;
+  showOverview: boolean = true;
+  indexPipeLineCount: number;
   summaryObj: any = {
     contentDocuments: [],
     contentWebDomains: [],
@@ -42,6 +49,7 @@ export class SummaryComponent implements OnInit {
     'active': 2,
     'configured': 3
   };
+  componentType: string;
   listMonths = ['January', 'February', 'March',
     'April', 'May', 'June', 'July',
     'August', 'September', 'October', 'November', 'December'];
@@ -86,7 +94,9 @@ export class SummaryComponent implements OnInit {
     'Handed-off to Agents': 'Number of conversation sessions that are handed-off Virtual Agents.',
     'Drop offs': 'Number of conversation sessions where the users have dropped-off from the conversation.'
   };
-
+  subscription: Subscription;
+  @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
+  @ViewChild('onboard') onboard: UseronboardingJourneyComponent;
   constructor(
     public workflowService: WorkflowService,
     private headerService: SideBarService,
@@ -94,6 +104,7 @@ export class SummaryComponent implements OnInit {
     private notificationService: NotificationService,
     private authService: AuthService,
     private router: Router,
+    private appSelectionService: AppSelectionService
   ) { }
 
 
@@ -106,14 +117,22 @@ export class SummaryComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
+    //this.appSelectionService.getTourConfig()
+    this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
+      this.showOverview = res.findlyOverviewVisited;
+    })
     this.getSummary();
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
     // this.getChannel();
     this.getLinkedBot();
     this.getAllOverview();
-
+    this.componentType = 'summary';
   }
+  // closeOverview() {
+  //   this.subscription.unsubscribe();
+  //   this.showOverview = true
+  // }
   getSummary() {
     this.loading = false;
     // this.loading = true;
@@ -154,6 +173,7 @@ export class SummaryComponent implements OnInit {
 
 
     this.service.invoke('get.queries', quaryparms, payload, header).subscribe(res => {
+      console.log("summary result rate", res)
       if (type == "TotalUsersStats") {
         this.totalUsersStats = res;
       } else if (type == "TotalSearchesStats") {
@@ -223,6 +243,7 @@ export class SummaryComponent implements OnInit {
         this.experiments = res.experiments
         this.activities = res.activities;
         this.indices = res.indices;
+        this.indexPipeLineCount = this.indices[0].indexPipeLineCount;
         // this.experiments.forEach(element => {
         //   if (element.variants) {
         //     element.variants.forEach(res => {
@@ -297,5 +318,19 @@ export class SummaryComponent implements OnInit {
   }
   openSource() {
     $('#sourceTab').trigger('click')
+  }
+  openOnBoardingModal() {
+    this.showOverview = true;
+    this.subscription.unsubscribe();
+    setTimeout(() => {
+      this.componentType = 'overview';
+      //this.onboard.openOnBoardingModal();
+    }, 1000)
+  }
+  closeOnBoardingModal() {
+    this.onboard.closeOnBoardingModal();
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

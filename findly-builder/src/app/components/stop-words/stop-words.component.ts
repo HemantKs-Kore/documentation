@@ -14,15 +14,15 @@ declare const $: any;
   styleUrls: ['./stop-words.component.scss']
 })
 export class StopWordsComponent implements OnInit, OnDestroy {
-  loadingContent:any = true;
-  stopwords:any = [];
+  loadingContent: any = true;
+  stopwords: any = [];
   searchStopwords: any = '';
-  newStopWord:any = '';
+  newStopWord: any = '';
   showSearch = false;
   enabled = false;
   validation: any = {
-    duplicate:false,
-    spaceFound:false
+    duplicate: false,
+    spaceFound: false
   }
   loadingWords = false;
   selectedApp: any = {};
@@ -32,96 +32,97 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   pipeline;
   stopWordsIntiType = 'default'
   createFromScratch;
-  showAddStopWordsContainer:boolean = false;
+  showAddStopWordsContainer: boolean = false;
   subscription: Subscription;
+  componentType: string = 'configure';
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    private appSelectionService:AppSelectionService
+    private appSelectionService: AppSelectionService
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.loadStopwords();
-    this.subscription =this.appSelectionService.queryConfigs.subscribe(res=>{
+    this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
       this.loadStopwords();
     })
   }
   loadImageText: boolean = false;
   loadingContent1: boolean
-  imageLoad(){
+  imageLoad() {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
   }
-  loadStopwords(){
+  loadStopwords() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if(this.indexPipelineId){
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
-      if(this.queryPipelineId){
+    if (this.indexPipelineId) {
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
+      if (this.queryPipelineId) {
         this.getStopWords();
       }
     }
   }
-  toggleSearch(){
-    if(this.showSearch && this.searchStopwords){
+  toggleSearch() {
+    if (this.showSearch && this.searchStopwords) {
       this.searchStopwords = '';
     }
     this.showSearch = !this.showSearch
   }
-  createInit(){
-    if(this.stopWordsIntiType === 'default'){
+  createInit() {
+    if (this.stopWordsIntiType === 'default') {
       this.restore();
     } else {
       this.createFromScratch = true;
     }
   }
-  validate(event){
-    if(!this.newStopWord){
+  validate(event) {
+    if (!this.newStopWord) {
       this.validation.spaceFound = false;
       this.validation.duplicate = false;
     }
-   if (this.newStopWord) {
-    if ( this.newStopWord.indexOf(' ') >= 0 ) {
-      this.validation.spaceFound = true;
-    } else {
-      this.validation.spaceFound = false;
-    }
-    const stopwords = (this.newStopWord || '').split(',');
-    let duplicate = false
-    if(stopwords && stopwords.length){
-      stopwords.forEach(element => {
-        _.map(this.stopwords,(stopword)=>{
-           if(stopword === element){
-            duplicate = true;
-           }
+    if (this.newStopWord) {
+      if (this.newStopWord.indexOf(' ') >= 0) {
+        this.validation.spaceFound = true;
+      } else {
+        this.validation.spaceFound = false;
+      }
+      const stopwords = (this.newStopWord || '').split(',');
+      let duplicate = false
+      if (stopwords && stopwords.length) {
+        stopwords.forEach(element => {
+          _.map(this.stopwords, (stopword) => {
+            if (stopword === element) {
+              duplicate = true;
+            }
           });
-      });
+        });
+      }
+      this.validation.duplicate = duplicate;
     }
-    this.validation.duplicate = duplicate;
-   }
-   if(event.keyCode === 13){
-     this.addStopWord(event);
-   }
+    if (event.keyCode === 13) {
+      this.addStopWord(event);
+    }
   }
-  getStopWords(){
+  getStopWords() {
     const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
-      queryPipelineId:this.queryPipelineId,
+      searchIndexID: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
-     this.pipeline=  res.pipeline || {};
-     if(res.options){
-      this.enabled = res.options.stopWordsRemovalEnabled;
-     }
-      if(this.pipeline.stages && this.pipeline.stages.length){
+      this.pipeline = res.pipeline || {};
+      if (res.options) {
+        this.enabled = res.options.stopWordsRemovalEnabled;
+      }
+      if (this.pipeline.stages && this.pipeline.stages.length) {
         this.pipeline.stages.forEach(stage => {
-          if(stage && stage.type === 'stopwords'){
+          if (stage && stage.type === 'stopwords') {
             this.stopwords = stage.stopwords || [];
-            if(stage.options){
+            if (stage.options) {
               this.enabled = stage.options.stopWordsRemovalEnabled;
             }
           }
@@ -137,21 +138,21 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.loadingContent = false;
     }, errRes => {
       this.loadingContent = false;
-      this.errorToaster(errRes,'Failed to get stop words');
+      this.errorToaster(errRes, 'Failed to get stop words');
     });
   }
   enableStopWords(event) {
-    if(event){
+    if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
-    const modalData :any =  {
+    const modalData: any = {
       newTitle: 'Are you sure you want to Enable ?',
       body: 'Stopwords will be enabled.',
-      buttons: [{ key: 'yes', label: 'Enable'}, { key: 'no', label: 'Cancel' }],
+      buttons: [{ key: 'yes', label: 'Enable' }, { key: 'no', label: 'Cancel' }],
       confirmationPopUp: true
     }
-    if(!this.enabled){
+    if (!this.enabled) {
       modalData.newTitle = 'Are you sure you want to disable?'
       modalData.body = 'Stopwords will be disabled. ';
       modalData.buttons[0].label = 'Disable';
@@ -160,13 +161,13 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
-      data:modalData,
-     
+      data: modalData,
+
     });
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.updateStopWords(dialogRef,true);
+          this.updateStopWords(dialogRef, true);
         } else if (result === 'no') {
           this.enabled = !this.enabled;
           dialogRef.close();
@@ -175,40 +176,41 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   }
   restore(dialogRef?) {
     const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
-      queryPipelineId:this.queryPipelineId,
+      searchIndexID: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('post.restoreStopWord', quaryparms).subscribe(res => {
       this.newStopWord = '';
-      this.pipeline=  res.pipeline || {};
-      if(res.options){
+      this.pipeline = res.pipeline || {};
+      if (res.options) {
         this.enabled = res.options.stopWordsRemovalEnabled;
-       }
-      if(this.pipeline.stages && this.pipeline.stages.length){
+      }
+      if (this.pipeline.stages && this.pipeline.stages.length) {
         this.pipeline.stages.forEach(stage => {
-          if(stage && stage.type === 'stopwords'){
+          if (stage && stage.type === 'stopwords') {
             this.stopwords = stage.stopwords || [];
-            if(stage.options){
+            if (stage.options) {
               this.enabled = stage.options.stopWordsRemovalEnabled;
             }
-            if(!(this.stopwords && this.stopwords.length) && !dialogRef){
-              this.notificationService.notify('No default stop words available','error');
+            if (!(this.stopwords && this.stopwords.length) && !dialogRef) {
+              this.notificationService.notify('No default stop words available', 'error');
             } else {
-              this.notificationService.notify('Stopwords set to default','success');
+              this.notificationService.notify('Reset Successful', 'success');
+              if (this.stopwords.length === 0) this.appSelectionService.updateTourConfig(this.componentType);
             }
           }
         });
       }
-      if(dialogRef && dialogRef.close){
-       dialogRef.close();
+      if (dialogRef && dialogRef.close) {
+        dialogRef.close();
       }
-     }, errRes => {
-       this.errorToaster(errRes,'Failed to create default stop words');
-     });
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to create default stop words');
+    });
   }
   restoreStopWords(event) {
-    if(event){
+    if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
@@ -229,17 +231,17 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-         this.restore(dialogRef)
+          this.restore(dialogRef)
         } else if (result === 'no') {
           dialogRef.close();
         }
       })
   }
-  getActiveSearch(){
+  getActiveSearch() {
     return $('.stopwordBlock').length;
   }
-  deleteInfividualStopWords(index,event,word,list) {
-    if(event){
+  deleteInfividualStopWords(index, event, word, list) {
+    if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
@@ -253,7 +255,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         newTitle:'Are you sure you want to delete ?',
         body:'This will delete all the configures stop words.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp:true
+        confirmationPopUp: true
       }
     });
 
@@ -261,19 +263,19 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         if (result === 'yes') {
           this.loadingWords = true;
-          const deleteindex = this.stopwords.findIndex(f => f=== word);
-          if(deleteindex > -1){
-            this.stopwords.splice(deleteindex,1);
+          const deleteindex = this.stopwords.findIndex(f => f === word);
+          if (deleteindex > -1) {
+            this.stopwords.splice(deleteindex, 1);
           }
-         this.updateStopWords(dialogRef);
+          this.updateStopWords(dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
           console.log('deleted')
         }
       })
   }
-  deleteAllStopWords(event){
-    if(event){
+  deleteAllStopWords(event) {
+    if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
@@ -283,93 +285,96 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       panelClass: 'delete-popup',
       data: {
         title: 'Delete  All StopWords',
-        newTitle:'Are you sure you want to delete ?',
-        body:'All stopwords will be deleted.',
+        newTitle: 'Are you sure you want to delete ?',
+        body: 'All stopwords will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp:true
+        confirmationPopUp: true
       }
     });
     dialogRef.componentInstance.onSelect
-    .subscribe(result => {
-      if (result === 'yes') {
-        this.loadingWords=true;
-        // let deleteStopWords = this.stopwords
-        // if(deleteStopWords >= this.stopwords.length ){
-        //   this.stopwords.splice(1,deleteStopWords)
-        //   dialogRef.close();
-        // }
-        this.updateStopWords(dialogRef,null,true);
-      } else if (result === 'no') {
-        dialogRef.close();
-        console.log('deleted')
-      }
-    })
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.loadingWords = true;
+          // let deleteStopWords = this.stopwords
+          // if(deleteStopWords >= this.stopwords.length ){
+          //   this.stopwords.splice(1,deleteStopWords)
+          //   dialogRef.close();
+          // }
+          this.updateStopWords(dialogRef, null, true);
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
 
 
   }
-  updateStopWords(dialogRef?,enableOrDisable?,deleteAll?) {
+  updateStopWords(dialogRef?, enableOrDisable?, deleteAll?) {
     const quaryparms: any = {
-      searchIndexId:this.serachIndexId,
-      queryPipelineId:this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
+      searchIndexId: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
-    let msg = 'Stop words updated successfully';
-    if(!enableOrDisable){
-      if(this.pipeline.stages && this.pipeline.stages.length) {
+    let msg = 'Updated Successfully';
+    if (!enableOrDisable) {
+      if (this.pipeline.stages && this.pipeline.stages.length) {
         this.pipeline.stages.forEach(stage => {
-          if(stage && stage.type === 'stopwords'){
+          if (stage && stage.type === 'stopwords') {
             stage.stopwords = this.stopwords;
           }
         });
       }
     }
-    if(deleteAll){
-      this.stopwords=[]
+    if (deleteAll) {
+      this.stopwords = []
     }
     const payload: any = {
-      pipeline:{
-        stopwords:this.stopwords
+      pipeline: {
+        stopwords: this.stopwords
       },
-      options:{
-        stopWordsRemovalEnabled : this.enabled
+      options: {
+        stopWordsRemovalEnabled: this.enabled
       }
     }
-    if (enableOrDisable){
-      msg = 'Stop words ' + (this.enabled?'enabled':'disabled') + ' successfully';
+    if (enableOrDisable) {
+      msg = 'Stop words ' + (this.enabled ? 'enabled' : 'disabled') + ' successfully';
     }
     this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res => {
-     this.newStopWord = '';
-     if(dialogRef && dialogRef.close){
-      dialogRef.close();
-      if(!enableOrDisable){
-        msg = 'Stop word deleted successfully';
-       }
-     }
-     this.notificationService.notify(msg,'success');
+      this.newStopWord = '';
+      if (dialogRef && dialogRef.close) {
+        dialogRef.close();
+        if (!enableOrDisable) {
+          msg = 'Deleted Successfully';
+        }
+        else {
+          if (this.stopwords.length === 0) this.appSelectionService.updateTourConfig(this.componentType);
+        }
+      }
+      this.notificationService.notify(msg, 'success');
       this.loadingWords = false;
     }, errRes => {
       this.loadingWords = false;
-      this.errorToaster(errRes,'Failed to update');
+      this.errorToaster(errRes, 'Failed to update');
     });
   }
-  errorToaster (errRes,message) {
-    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-    } else if (message){
+    } else if (message) {
       this.notificationService.notify(message, 'error');
     } else {
       this.notificationService.notify('Somthing went worng', 'error');
+    }
   }
- }
-  addStopWord(event){
+  addStopWord(event) {
     const stopwords = (this.newStopWord || '').split(',');
     this.stopwords = _.uniq(this.stopwords.concat(stopwords)).sort();
-    this.stopwords = _.filter(this.stopwords,(stopword)=>{
-           return stopword !== '';
+    this.stopwords = _.filter(this.stopwords, (stopword) => {
+      return stopword !== '';
     })
     this.updateStopWords();
   }
-  ngOnDestroy(){
-    this.subscription?this.subscription.unsubscribe(): false;
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : false;
   }
 }

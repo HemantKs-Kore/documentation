@@ -219,11 +219,21 @@
         <div class="modal-body">
           <div *ngIf="selectedSourceType" class="crerateWebCrawl" [ngClass]="{'pr-0': resourceIDToOpen}">
             <div class="crawl-form-title" *ngIf="!resourceIDToOpen"></div>
+            <div *ngIf= "(selectedSourceType.resourceType === 'webdomain')">
+              <div class="kr-sg-input-text mb-4">
+                <div class="label-text">Source URL</div>
+                <input type="text" id="extractUrl" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Domain URL"
+                  [(ngModel)]="newSourceObj.url" class="input-text" (change)="inputChanged('extractURL')">
+                  <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
+              </div>
+            </div>
             <div class="kr-sg-input-text mb-4">
               <div class="label-text">Source Title</div>
               <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Title"
-                [(ngModel)]="newSourceObj.name" class="input-text" required>
-            </div>
+                [(ngModel)]="newSourceObj.name" (change)="inputChanged('title')" class="input-text" required>
+               <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
+              </div>
             <div class="kr-sg-input-text-area mb-3"  *ngIf="!(selectedSourceType.sourceType==='faq')">
               <div class="label-text">Description</div>
               <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc"
@@ -245,10 +255,10 @@
             <div class="browse-file-tabs-container" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='document')">
                 <ul class="nav nav-tabs" *ngIf=" (selectedSourceType.id !='faqDoc')" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#fromfile">Extract from file</a>
+                    <a class="nav-link active" data-toggle="tab" href="#fromfile" (click)="selectExtract('file')">Extract from file</a>
                   </li>
                   <li class="nav-item ">
-                    <a class="nav-link" data-toggle="tab" href="#fromurl">Extract from url</a>
+                    <a class="nav-link" data-toggle="tab" href="#fromurl" (click)="selectExtract('url')">Extract from url</a>
                   </li>
                 </ul>
                   <!-- Tab panes -->
@@ -279,7 +289,7 @@
                                 (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf"> -->
                             </div>
                             <label for="sourceFileUploader" class="drag-label adjust_z_index">
-                              <span class="browse">Browse</span>
+                              <span class="browse">Browse File</span>
                             </label>
                           </ng-container>
 
@@ -329,9 +339,10 @@
                       <div class="input-url-block">
                         <div class="kr-sg-input-text">
                           <div class="label-text">Enter URL</div>
-                          <input type="text"  placeholder="http(s)://" class="input-text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="http(s)://"
+                          <input type="text" id="extractUrl" placeholder="http(s)://" class="input-text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange();inputChanged('extractURL')"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="https://"
                   [(ngModel)]="newSourceObj.url" class="input-text">
+                  <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
                           <!-- <input type="text" placeholder="https://" class="input-text"> -->
                           <!-- <div class="error-msg">Error message here</div> -->
                         </div>
@@ -356,7 +367,7 @@
                   </div>
                   <label for="sourceFileUploader" class="drag-label">Drag and Drop<span class="or-divider">Or</span>
 
-                    <button  mat-button [matMenuTriggerFor]="browse"> <span class="browse adjust_z_index">Browse</span></button>
+                    <button  mat-button [matMenuTriggerFor]="browse"> <span class="browse adjust_z_index">Browse File</span></button>
                     <mat-menu #browse="matMenu">
                       <li mat-menu-item > <img class="pr-3" src="assets/images/icons/Urlicon.svg">URL</li>
                       <li mat-menu-item (click)="gotoFileUpload()"><img class="pr-3" src="assets/images/icons/localfileupload.svg">Local File Upload</li>
@@ -455,7 +466,7 @@
               <div class="inner-content row m-0">
                 <div *ngIf="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
                   <div class="allow-urls-sec row allow-urlBox padd  pl-0 pr-0" *ngIf="crwalObject.advanceOpts.allowedOpt">
-                    <div class="col-2 p-0 title">Allow URLS</div>
+                    <div class="col-2 p-0 title">Allow URLs</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
@@ -506,7 +517,7 @@
 
                   <!--Block-->
                   <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0" *ngIf="crwalObject.advanceOpts.blockedOpt">
-                    <div class="col-2 p-0 title">Block URLS</div>
+                    <div class="col-2 p-0 title">Block URLs</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
@@ -773,9 +784,9 @@
         </div>
       </perfect-scrollbar>
       <div class="modal-footer">
+        <!-- [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" -->
         <button class="kr-sg-button-primary btn_lg mr-3"
-          [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded"
-          (click)="proceedSource()">Proceed</button>
+          (click)="validateSource()">Proceed</button>
         <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition()">Cancel</button>
       </div>
     </form>
@@ -855,7 +866,7 @@
   <div class="status-modal-popup">
     <div class="modal_content" *ngIf="selectedSourceType">
       <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
-          (click)="closeCrawlModalPop()"></div>
+          (click)="closeStatusModal()"></div>
       <div class="modal-body">
         <ng-container *ngIf="!(statusObject.status==='success')">
           <div class="progressNote">

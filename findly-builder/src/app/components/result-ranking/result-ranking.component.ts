@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { SideBarService } from '@kore.services/header.service';
 declare const $: any;
 
 @Component({
@@ -24,7 +25,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   serachIndexId;
   queryPipelineId;
   indexPipelineId;
-  customizeLog: any = {};
+  customizeLog: any = [];
   selectedRecord: any = {};
   resultLogs: boolean = false;
   customizeList: any;
@@ -43,20 +44,34 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   disableDiv = false;
   collectedRecord = [];
   permisionView = false;
+  componentType: string = 'optimize';
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
-    private appSelectionService: AppSelectionService) { }
+    private appSelectionService: AppSelectionService,
+    private headerService: SideBarService,) { }
   sdk_evenBind() {
+    // $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
+    //   this.getcustomizeList(20, 0);
+    // })
+    $(document).on('click', '.kore-search-container-close-icon', () => {
+      this.selectedApp = this.workflowService.selectedApp();
+      this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+      this.loadCustomRankingList();
+    })
     $(document).off('click', '.start-search-icon-div').on('click', '.start-search-icon-div', () => {
       this.selectedApp = this.workflowService.selectedApp();
       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
       this.loadCustomRankingList();
     })
-    // $(document).on('click','.start-search-icon-div.active',() =>{
-    //   this.getcustomizeList();
-    // })
+
+    //Top Down
+    $(document).off('click', '.rr-tour-test-btn').on('click', '.rr-tour-test-btn', () => {
+      this.selectedApp = this.workflowService.selectedApp();
+      this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+      this.loadCustomRankingList();
+    })
   }
   ngOnInit(): void {
     this.sdk_evenBind();
@@ -180,17 +195,17 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   loadImageText: boolean = false;
   loadingContent1: boolean
-  imageLoad(){
+  imageLoad() {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
   }
-  loadCustomRankingList(){
+  loadCustomRankingList() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-      if(this.indexPipelineId){
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
-      if(this.queryPipelineId){
-        this.getcustomizeList(20,0);
+    if (this.indexPipelineId) {
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
+      if (this.queryPipelineId) {
+        this.getcustomizeList(20, 0);
       }
     }
   }
@@ -205,7 +220,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   resetCustomization() {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      queryPipelineId : this.queryPipelineId,
+      queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     let ids = []
@@ -235,7 +250,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
             this.resetSelected();
             this.selectedRecord = {};
             this.customizeLog = [];
-            this.notificationService.notify('Bulk reset successfull', 'success');
+            this.notificationService.notify('Reset Successfull', 'success');
           }, errRes => {
             if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
               this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -250,23 +265,75 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       })
 
   }
+  lauchTest() {
+    let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
+    testButtun.click()
+    this.headerService.fromResultRank(true);
+  }
   launch() {
     if (this.selectedRecord && this.selectedRecord.searchQuery) {
-      let ball = document.getElementsByClassName('start-search-icon-div')[0] as HTMLBaseElement;
-      ball.click()
-      let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
-      texBox.value = this.selectedRecord.searchQuery;
-      setTimeout(() => {
-        let go = document.getElementsByClassName('search-button')[0] as HTMLBaseElement;
-        go.click();
+      this.headerService.fromResultRank(false);
+      // let ball = document.getElementsByClassName('start-search-icon-div')[0] as HTMLBaseElement;
+      // ball.click()
+      let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
+      testButtun.click()
+      console.log(this.headerService.searchConfiguration);
+      if (this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top') {
         setTimeout(() => {
-          let customTag = document.getElementsByClassName('faqs-wrp-content')[0] as HTMLBaseElement;
-          customTag.click();
-          let custom = document.getElementsByClassName('custom-header-nav-link-item')[1] as HTMLBaseElement;
-          custom.click();
+          if (this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top') {
+            var link = document.getElementById('search') as HTMLDataElement;
+            link.value = this.selectedRecord.searchQuery;
+            // link.focus();
+            $('#search').addClass('from-result-ranking');
+            link.click()
+            setTimeout(() => {
+              if (this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top') {
+                let containerClass = document.getElementsByClassName('top-down-search-background-div')[0] as HTMLBaseElement;
+                containerClass.classList.add('if-full-results')
+                let container = document.getElementsByClassName('all-result-container')[0] as HTMLBaseElement;
+                container.style.display = "block";
+              }
+            }, 3000)
+          }
         }, 3000)
-        //document.getElementById('viewTypeCustomize').click(); //viewTypeCustomize
-      }, 3000);
+
+      } else {
+        // let testButtun = document.getElementsByClassName('rr-tour-test-btn')[0] as HTMLBaseElement;
+        //testButtun.click()
+        setTimeout(() => {
+          // let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
+          // texBox.value = this.selectedRecord.searchQuery;
+          var link = document.getElementById('search') as HTMLDataElement;
+          link.value = this.selectedRecord.searchQuery;
+          link.focus();
+          document.getElementsByClassName('search-button')[0].removeAttribute('disabled')
+          let go = document.getElementsByClassName('search-button')[0] as HTMLBaseElement;
+          go.click();
+          //link.click();
+          var box = document.getElementById('searchBox') as HTMLDataElement;
+          box.style.display = "block"
+          var container = document.getElementById('searchChatContainer') as HTMLDataElement;
+          container.click();
+          //   texBox.value = this.selectedRecord.searchQuery;
+          // $('#search').keyup(function (this) {
+          //   let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
+          //   texBox.value = this.selectedRecord.searchQuery;
+          // });
+          // $('#search').keyup(this);
+          setTimeout(() => {
+            if (this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top') {
+              let customTag = document.getElementsByClassName('faqs-wrp-content')[0] as HTMLBaseElement;
+              customTag.click();
+              let custom = document.getElementsByClassName('custom-header-nav-link-item')[1] as HTMLBaseElement;
+              custom.click();
+              let seeAll = document.getElementsByClassName('show-all-results')[0] as HTMLBaseElement;
+              seeAll.click()
+            }
+          }, 3000)
+          //document.getElementById('viewTypeCustomize').click(); //viewTypeCustomize
+        }, 3000);
+      }
+
     }
   }
   resetSelected() {
@@ -367,12 +434,11 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     }
     //opt == 'default' ?  this.resultSelected = false : this.resultSelected = true;
     //this.multiSelect(record,opt)
-
     this.selectedRecord = record;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      queryPipelineId : this.queryPipelineId,
-      rankingAndPinningId : record._id,
+      queryPipelineId: this.queryPipelineId,
+      rankingAndPinningId: record._id,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
 
@@ -412,7 +478,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       searchIndexId: searchIndex,
       queryPipelineId: this.queryPipelineId,
       rankingAndPinningId: this.selectedRecord._id,
-      contentId : actLog.target.contentId,
+      contentId: actLog.target.contentId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.remove_Record(quaryparms)
@@ -459,7 +525,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         if (result === 'yes') {
           this.service.invoke('delete.CustomizatioLog', quaryparms).subscribe(res => {
             dialogRef.close();
-            this.notificationService.notify('Record Removed', 'success');
+            this.notificationService.notify('Removed Successfully', 'success');
             this.getcustomizeList(20, 0);
             this.actionLogData = [];
             this.customizeList = [];
@@ -524,8 +590,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   restore(record) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      queryPipelineId : this.queryPipelineId,
-      rankingAndPinningId : record._id,
+      queryPipelineId: this.queryPipelineId,
+      rankingAndPinningId: record._id,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -544,6 +610,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         if (result === 'yes') {
           this.service.invoke('put.restoreQueryCustomize', quaryparms).subscribe(res => {
             //this.customizeList = res;
+            this.selectedRecord = {};
             this.getcustomizeList(20, 0);
             this.actionLogData = [];
             this.customizeList = [];
@@ -567,36 +634,45 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     skip ? skip : 0;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      queryPipelineId : this.queryPipelineId,
+      queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      limit : limit,
-      skip : skip
+      limit: limit,
+      skip: skip
     };
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
       this.loadingContent = false;
-      this.customizeList = res;
-      if (res.length > 0) { this.nextPage = true; this.loadingContent = false; }
+      this.customizeList = res.data;
+      if (res.data.length > 0) {
+        this.nextPage = true; this.loadingContent = false;
+        this.headerService.fromResultRank(false);
+      }
       else {
         this.nextPage = false; this.loadingContent = false;
+        this.headerService.fromResultRank(true);
       }
-      this.customizeListBack = [...res];
-      this.totalRecord = res.length
-      this.customizeList.forEach((element, index) => {
-
-        if (index == 0) {
+      this.customizeListBack = [...res.data];
+      this.totalRecord = res.total || res.data.length
+      if (this.selectedRecord._id) {
+        this.customizeList.forEach((element, index) => {
+          if (this.selectedRecord._id == element._id) {
+            element['check'] = false;
+            this.clickCustomizeRecord(element)
+          }
+        });
+      } else {
+        this.customizeList.forEach((element, index) => {
           element['check'] = false;
-          this.clickCustomizeRecord(element)
-        } else {
-          element['check'] = false;
-        }
-
-      });
+          if (index == 0) {
+            this.clickCustomizeRecord(element)
+          }
+        });
+      }
       if (!this.customizeList.length) {
         this.selectedRecord = {};
         this.customizeLog = [];
         this.actionLogData = [];
       }
-      if (res.length > 0) {
+      if (res.data.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
       }

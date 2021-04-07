@@ -29,7 +29,7 @@ export class AppHeaderComponent implements OnInit {
   mainMenu = '';
   showMainMenu: boolean = true;
   pagetitle: any;
-  training;
+  training: boolean = false;
   fromCallFlow = '';
   showSwichAccountOption = false;
   searchActive = false;
@@ -50,9 +50,18 @@ export class AppHeaderComponent implements OnInit {
   };
   createAppPopRef: any;
   creatingInProgress: boolean = false;
+  selectedApp;
+  serachIndexId;
+  queryPipelineId;
+  indexPipelineId;
+  indexSubscription: Subscription;
+  subscription: Subscription;
+  routeChanged: Subscription;
+  updateHeaderMainMenuSubscription : Subscription;
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
+  @ViewChild('testButtonTooltip') testButtonTooltip: any;
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
     { displayName: 'Add Sources', routeId: '/source', quaryParms: {} },
@@ -122,6 +131,35 @@ export class AppHeaderComponent implements OnInit {
     this.formatter = (x: { displayName: string }) => (x.displayName || '');
     if (localStorage.krPreviousState) {
       this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
+    }
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.loadHeader();
+    this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+      this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
+        this.loadHeader();
+      })
+    })
+    this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
+      if (res.name != undefined) {
+        this.analyticsClick(res.path, false);
+      }
+    })
+    this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
+      if(res){
+        this.mainMenu = res;
+      }
+    });
+  }
+  loadHeader() {
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if (this.indexPipelineId) {
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
+      if (this.queryPipelineId) {
+        // this.getcustomizeList(20,0);
+        this.selectedApp = this.workflowService.selectedApp();
+        this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+      }
     }
   }
   metricsOption(menu) {
@@ -208,7 +246,8 @@ export class AppHeaderComponent implements OnInit {
       this.service.invoke('train.app', quaryparms, payload).subscribe(res => {
         setTimeout(() => {
           self.training = false;
-          self.notificationService.notify('Training has been initated', 'success');
+          self.notificationService.notify('Training has been Initiated', 'success');
+          this.appSelectionService.updateTourConfig('indexing');
         }, 5000)
       }, errRes => {
         self.training = false;
@@ -355,7 +394,7 @@ export class AppHeaderComponent implements OnInit {
   navigateTo(task) {
     if (task.jobType === 'faq') {
       this.router.navigate(['/faqs'], { skipLocationChange: true });
-      setTimeout(()=> {
+      setTimeout(() => {
         this.headerService.openFaqExtracts();
       }, 300);
     } else if (task.jobType === 'webdomain') {
@@ -474,6 +513,10 @@ export class AppHeaderComponent implements OnInit {
     if (this.dockServiceSubscriber) {
       this.dockServiceSubscriber.unsubscribe();
     }
+    if (this.routeChanged) {
+      this.routeChanged.unsubscribe();
+    }
+    this.updateHeaderMainMenuSubscription ? (this.updateHeaderMainMenuSubscription.unsubscribe()) : false;
   }
   //get all apps
   getAllApps() {
@@ -491,6 +534,7 @@ export class AppHeaderComponent implements OnInit {
   }
   //open app
   openApp(app) {
+    this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     this.appSelectionService.openApp(app);
   }
   //create new app
@@ -536,6 +580,36 @@ export class AppHeaderComponent implements OnInit {
   }
   openOrCloseSearchSDK() {
     this.headerService.openSearchSDK(true);
+    this.loadHeader();
+    this.getcustomizeList(20, 0);
+    this.displayToolTip();
+  }
+  getcustomizeList(limit?, skip?) {
+    limit ? limit : 20;
+    skip ? skip : 0;
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      limit: limit,
+      skip: skip
+    };
+    this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
+      if (res.data.length > 0) {
+        this.headerService.fromResultRank(false);
+      }
+      else {
+        this.headerService.fromResultRank(true);
+      }
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
   }
 
   notificationIconClick() {
@@ -595,5 +669,21 @@ export class AppHeaderComponent implements OnInit {
         }
       );
     }
+  }
+
+  displayToolTip() {
+    setTimeout(() => {
+      // console.log("isSDKOpen", this.headerService.isSDKOpen);
+      if (this.headerService.isSDKOpen) {
+        this.testButtonTooltip.tooltipClass = 'test-close-tooltip';
+        this.testButtonTooltip._ngbTooltip = 'Close Test mode by clicking on this button again.';
+        this.testButtonTooltip.open();
+        setTimeout(() => {
+          this.testButtonTooltip.close();
+          this.testButtonTooltip.tooltipClass = 'test-icon-tooltip';
+          this.testButtonTooltip._ngbTooltip = 'Preview & Customize search results.';
+        }, 2000);
+      }
+    }, 1000);
   }
 }

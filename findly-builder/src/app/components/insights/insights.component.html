@@ -148,7 +148,7 @@
 </div>
 
 <!-- TesT -->
-<div class="row m-0 graph-insight" #graphMode *ngIf="graphMode" (mouseleave)="mouseLeave()">
+<div class="row m-0 graph-insight d-none" #graphMode *ngIf="graphMode" (mouseleave)="mouseLeave()">
     <div class="graphMode">
         <div class="header">
             <span class="head-txt">Search & Click Trend</span>
@@ -209,8 +209,49 @@
             </div>
         </div>
     </div>
- </div>
+</div>
  <!-- Test -->
+
+
+
+
+
+
+ <!-- New UI -->
+
+ <div class="query_analytics_content" #graphMode *ngIf="graphMode" (mouseleave)="mouseLeave()">
+     <div class="header-sec">
+         <div class="title" (click)="$event.stopPropagation()">Query Analytics</div>
+         <div class="close-analytics" (click)="closeCross()">
+             <img src="assets/icons/close-analytics.svg">
+         </div>
+     </div>
+     <div class="analytics-counts" (click)="$event.stopPropagation()">
+        <div class="count-sec">
+             <div class="title">Searches</div>
+             <div class="count">
+                 <img src="assets/icons/analytics/searches.svg">{{analystic.searches || 0}}
+             </div>
+         </div>
+         <div class="count-sec">
+            <div class="title">Clicks</div>
+            <div class="count">
+                <img src="assets/icons/analytics/clicks.svg">{{analystic.clicks || 0}}
+            </div>
+        </div>
+        <div class="count-sec m-0 d-none">
+            <div class="title">Feedback</div>
+            <div class="count">
+                <span class="feedback-thumb">
+                    <img src="assets/icons/analytics/thumb-success.svg">234
+                </span>
+                <span class="feedback-thumb">
+                    <img src="assets/icons/analytics/thumb-red.svg">234
+                </span>
+            </div>
+        </div>
+     </div>
+ </div>
  
  
  

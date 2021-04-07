@@ -255,7 +255,7 @@
     "resultRanking": {
         "no_search_results": "No search results",
         "no._of_customizations_caps": "NO. OF CUSTOMIZATIONS",
-        "last_changes_caps": "LAST CHANGES",
+        "last_changes_caps": "LAST UPDATED",
         "restore": "Reset",
         "pinned": "pinned",
         "past_action_on_this_item_caps": "PAST ACTION ON THIS ITEM",
@@ -398,7 +398,7 @@
         "updated_by" : "Updated by",
         "updated_on" : "Last Updated On",
         "noResultTemplate" : "Result templates are not defined for structured data. Go to",
-        "searchInterfacePath" : "Configs >> Search Interface",
+        "searchInterfacePath" : "Manage >> Search Interface",
         "toDefine" : "to define.",
         "learnMore" : "Learn More"
     }

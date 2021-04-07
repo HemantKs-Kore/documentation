@@ -21,11 +21,11 @@ declare const $: any;
 })
 export class SynonymsComponent implements OnInit, OnDestroy {
   selectedApp: any = {};
-  synonymSearch:any = '';
+  synonymSearch: any = '';
   showSearch;
   serachIndexId
   loadingContent = true;
-  filterAllSynonym:boolean;
+  filterAllSynonym: boolean;
   haveRecord = false;
   currentEditIndex: any = -1;
   pipeline;
@@ -53,6 +53,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   synArr: any[] = [];
   synArrTemp: any[] = [];
   subscription: Subscription;
+  componentType: string = 'configure';
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -74,14 +75,14 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   }
   loadImageText: boolean = false;
   loadingContent1: boolean
-  imageLoad(){
+  imageLoad() {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
   }
   loadSynonyms() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if(this.indexPipelineId){
+    if (this.indexPipelineId) {
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       if (this.queryPipelineId) {
         this.getSynonyms();
@@ -141,17 +142,17 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         obj.keyword = this.newSynonymObj.keyword;
       }
     }
-    if (this.newSynonymObj.type === 'oneWaySynonym'){
-      this.filterAllSynonym=true;
-      }
-      else{
-        this.filterAllSynonym=false;
-      }
-   
-    this.synonymData.push(obj); 
+    if (this.newSynonymObj.type === 'oneWaySynonym') {
+      this.filterAllSynonym = true;
+    }
+    else {
+      this.filterAllSynonym = false;
+    }
+
+    this.synonymData.push(obj);
     this.addOrUpddate(this.synonymData);
   }
-  synonymChanged(){
+  synonymChanged() {
     this.newSynonymObj.values = [];
     this.synonymObj.values = [];
     this.newSynonymObj.keyword= [];
@@ -171,7 +172,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     const payload: any = {
       pipeline: {
@@ -188,10 +189,11 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res => {
       this.pipeline = res.pipeline || {};
       if (this.newSynonymObj.addNew && !showFlag) {
-        this.notificationService.notify('Synonyms added successfully', 'success');
+        this.notificationService.notify(' Added Successfully', 'success');
+        this.appSelectionService.updateTourConfig(this.componentType);
       }
       else if (!showFlag) {
-        this.notificationService.notify('Synonyms updated successfully', 'success');
+        this.notificationService.notify('Updated Successfully', 'success');
       }
       this.prepareSynonyms();
       this.cancleAddEdit();
@@ -252,12 +254,12 @@ export class SynonymsComponent implements OnInit, OnDestroy {
 
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
-        if (result === 'yes') {   
+        if (result === 'yes') {
           const synonyms = JSON.parse(JSON.stringify(this.synonymData));
           synonyms.splice(index, 1);
           if (this.showFlag = true) {
             this.addOrUpddate(synonyms, dialogRef, this.showFlag);
-            this.notificationService.notify('Synonyms deleted successfully', 'error')
+            this.notificationService.notify('Deleted Successfully', 'error')
           }
         } else if (result === 'no') {
           dialogRef.close();
