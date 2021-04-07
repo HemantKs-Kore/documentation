@@ -209,44 +209,23 @@
 
 		<!-- Inside config tab menus -->
 		<div class="list-group list-group-flush inside-config-tab-left-menus" *ngIf="settingMainMenu">
-			<div class="inside-menu-title">SETTINGS</div>
-			<div mat-button class="mat-button" [routerLink]="['/settings']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
-				<span class="inlineIconBox leftAdjust">
-					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Channels</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/credentials-list']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Credentials</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/team-management']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Team Management</span>
-			</div>
+			
 			<div class="inside-menu-title">SEARCH EXPERIENCE</div>
-
-			<div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Search Interface</span>
-			</div>
 
 			<div mat-button class="mat-button" [routerLink]="['/search-experience']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle">Search Experience</span>
+				<span class="linkTitle">Search Interface</span>
+			</div>
+
+			<div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Result Templates </span>
 			</div>
 
 			<div mat-button class="mat-button" [routerLink]="['/actions']" skipLocationChange routerLinkActive="active"
@@ -265,6 +244,29 @@
 					<img src="assets/icons/sidemenu/new-icons/smalltalk.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Small Talk</span>
+			</div>
+
+			<div class="inside-menu-title">SETTINGS</div>
+			<div mat-button class="mat-button" [routerLink]="['/settings']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
+				<span class="inlineIconBox leftAdjust">
+					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Channels</span>
+			</div>
+			<div mat-button class="mat-button" [routerLink]="['/credentials-list']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Credentials</span>
+			</div>
+			<div mat-button class="mat-button" [routerLink]="['/team-management']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/team_management.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/team_management.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Team Management</span>
 			</div>
 
 			
