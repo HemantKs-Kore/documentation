@@ -2814,6 +2814,10 @@ nouislider{
     padding: 42px 0 40px 0;
     text-align: center;
     .img-block{
+        .action_icon{
+            width: 340px;
+        }
+
 
     }
     .empty-title{
@@ -3190,9 +3194,7 @@ app-useronboarding-journey{
         max-height: 350px;
     }
 }
-.action_icon{
-    width: 340px;
-}
+
 .scroll-max-250{
     max-height: 250px;
 }
