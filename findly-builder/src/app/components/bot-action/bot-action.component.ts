@@ -819,11 +819,14 @@ export class BotActionComponent implements OnInit {
           console.log("getAllTasks API response payload", res);
 
           this.linkedBotTasks = [];
+          let taskEnable = true;
           if (res.tasks.length > 0) {
             res.tasks.forEach(element => {
               if (element.state == "published") {
                 if (element.isHidden == false) {
+                  $("#enableOrDisable").prop('checked', false);
                   element.taskStatus = "Enabled";
+                  taskEnable = false;
                 }
                 else {
                   element.taskStatus = "Disabled";
@@ -832,6 +835,9 @@ export class BotActionComponent implements OnInit {
                 this.linkedBotTasks.push(element);
               }
             });
+            if(taskEnable){
+              $("#enableOrDisable").prop('checked', true);
+            }
             console.log("Linked Bot, Tasks", this.linkedBotTasks);
           }
           else {
@@ -908,12 +914,15 @@ export class BotActionComponent implements OnInit {
             this.notificationService.notify("Task Enabled, Successfully", 'success');
           }
         })*/
+        let taskEnable = true;
         if (res.tasks.length > 0) {
           this.linkedBotTasks = [];
           res.tasks.forEach(element => {
             if (element.state == "published") {
               if (element.isHidden == false) {
                 element.taskStatus = "Enabled";
+                $("#enableOrDisable").prop('checked', false);
+                taskEnable = false;
               }
               else {
                 element.taskStatus = "Disabled";
@@ -922,6 +931,9 @@ export class BotActionComponent implements OnInit {
               this.linkedBotTasks.push(element);
             }
           });
+          if(taskEnable){
+            $("#enableOrDisable").prop('checked', true);
+          }
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
           this.notificationService.notify("Task Enabled, Successfully", 'success');
         }
@@ -1027,12 +1039,16 @@ export class BotActionComponent implements OnInit {
             this.notificationService.notify("Task Disabled, Successfully", 'success');
           }
         })*/
+
         if (res.tasks.length > 0) {
           this.linkedBotTasks = [];
+          let taskEnable = true;
           res.tasks.forEach(element => {
             if (element.state == "published") {
               if (element.isHidden == false) {
-                element.taskStatus = "Enabled";
+                  $("#enableOrDisable").prop('checked', false);
+                  element.taskStatus = "Enabled";
+                  taskEnable = false;
               }
               else {
                 element.taskStatus = "Disabled";
@@ -1041,6 +1057,9 @@ export class BotActionComponent implements OnInit {
               this.linkedBotTasks.push(element);
             }
           });
+          if(taskEnable){
+            $("#enableOrDisable").prop('checked', true);
+          }
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
           this.notificationService.notify("Task Disabled, Successfuly", 'success')
         }
