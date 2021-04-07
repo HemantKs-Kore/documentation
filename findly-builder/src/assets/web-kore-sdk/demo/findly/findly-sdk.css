@@ -12804,6 +12804,18 @@ padding-right: 0;
     align-items: center;
     justify-content: center;
 }
+.show-all-results-outer-wrap .customization .customization-tile .actions-content.manually_added_pin{
+    width: 88px;
+}
+
+.show-all-results-outer-wrap .customization .customization-tile .actions-content.manually_added_pin .tooltiptext{
+    width: 186px !important;
+    left: -150px !important;
+}
+.show-all-results-outer-wrap .customization .customization-tile .actions-content.manually_added_pin .tooltiptext::after{
+    left: auto !important;
+    right: 22px !important;
+}
 .show-all-results-outer-wrap .customization .customization-tile .actions-content .action-item{
     margin: 0 12px;
     cursor: pointer;
