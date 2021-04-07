@@ -2148,7 +2148,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <span>${msgData.text}</span>';
       if (!this.customSearchResult) {
         messageBubbles += '{{if devMode=="true"}}\
-              <div class="query-analytics-control-container {{if viewType=="Customize"}}display-block{{/if}} hide">\
+              <div class="query-analytics-control-container {{if viewType=="Customize"}}display-block{{/if}}">\
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD4SURBVHgBlVDbTcNAEJzZjQSfoQOX4A6gA8QvEtgkgMwX7iDQQfgz4nVUEKUCTAd0QNIBfxFSfMsdERGgRIpXOq1uZ0Y7s8SGlednqakMuBosu7E7N/xYkkVH9M0BV5Gt8/kC7xMQtTd7FchlJDt39yaHQf1bYDp7Imz8/Hi7Q/KGlPSHHHEe9wsX1ux6w7WETsHU3VdXa6KACxtF4hWlRN8PVYm2lZ8We/H9nx/1zss/oWMeFU3DMPnOA0zUo3aumsR/1ivemfUvRmxmJ9bZGjRzjlWRmWG6uAASUTgD9zsmw7k1dbBt4UrbXRjTtR7NlpigZbUWfAEi/12gzLS2XQAAAABJRU5ErkJggg==">\
                 Query Analytics\
               </div>\

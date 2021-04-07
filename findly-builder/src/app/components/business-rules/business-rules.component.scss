@@ -639,6 +639,41 @@
 ::ng-deep ngx-daterangepicker-material{
     z-index: 11111111;
 }
+::ng-deep ngx-daterangepicker-material .md-drppicker {
+    th {
+        color: #202124;
+    }
+    .calendar th span {
+        font-weight: 400 !important;
+    }
+    td.active,td.active:hover{
+        background-color: #0D6EFD !important;
+    }
+    td{
+        border: none !important;
+        &:hover{
+            background-color: #0D6EFD !important;
+            opacity: 1;
+            span{
+                color: #ffffff;
+            }
+        }
+        &.in-range{
+            background-color: #0D6EFD !important;
+            opacity: 1;
+            span{
+                color: #ffffff !important;
+            }
+        }
+        &.active {
+            background-color: #0D6EFD !important;
+            span{
+                color: #ffffff !important;
+            }
+        }
+    }
+}
+ 
 ::ng-deep ngx-daterangepicker-material .md-drppicker .buttons .buttons_input {
     button.btn.btn-default {
         display: none !important;
