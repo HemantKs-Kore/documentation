@@ -283,9 +283,9 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           if (this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top') {
             var link = document.getElementById('search') as HTMLDataElement;
             link.value = this.selectedRecord.searchQuery;
-            // link.focus();
+            link.focus();
             $('#search').addClass('from-result-ranking');
-            link.click()
+            link.click();
             setTimeout(() => {
               if (this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top') {
                 let containerClass = document.getElementsByClassName('top-down-search-background-div')[0] as HTMLBaseElement;
@@ -304,12 +304,14 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           // let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
           // texBox.value = this.selectedRecord.searchQuery;
           var link = document.getElementById('search') as HTMLDataElement;
-          link.value = this.selectedRecord.searchQuery;
-          link.focus();
-          document.getElementsByClassName('search-button')[0].removeAttribute('disabled')
-          let go = document.getElementsByClassName('search-button')[0] as HTMLBaseElement;
-          go.click();
-          //link.click();
+            link.value = this.selectedRecord.searchQuery;
+            $('#search').addClass('from-result-ranking');
+            link.click();
+          // link.focus();
+          // document.getElementsByClassName('search-button')[0].removeAttribute('disabled')
+          // let go = document.getElementsByClassName('search-button')[0] as HTMLBaseElement;
+          // go.click();
+          
           var box = document.getElementById('searchBox') as HTMLDataElement;
           box.style.display = "block"
           var container = document.getElementById('searchChatContainer') as HTMLDataElement;
@@ -320,16 +322,16 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           //   texBox.value = this.selectedRecord.searchQuery;
           // });
           // $('#search').keyup(this);
-          setTimeout(() => {
-            if (this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top') {
-              let customTag = document.getElementsByClassName('faqs-wrp-content')[0] as HTMLBaseElement;
-              customTag.click();
-              let custom = document.getElementsByClassName('custom-header-nav-link-item')[1] as HTMLBaseElement;
-              custom.click();
-              let seeAll = document.getElementsByClassName('show-all-results')[0] as HTMLBaseElement;
-              seeAll.click()
-            }
-          }, 3000)
+          // setTimeout(() => {
+          //   if (this.headerService.searchConfiguration.experienceConfig.searchBarPosition == 'top') {
+          //     let customTag = document.getElementsByClassName('faqs-wrp-content')[0] as HTMLBaseElement;
+          //     customTag.click();
+          //     let custom = document.getElementsByClassName('custom-header-nav-link-item')[1] as HTMLBaseElement;
+          //     custom.click();
+          //     let seeAll = document.getElementsByClassName('show-all-results')[0] as HTMLBaseElement;
+          //     seeAll.click()
+          //   }
+          // }, 3000)
           //document.getElementById('viewTypeCustomize').click(); //viewTypeCustomize
         }, 3000);
       }
