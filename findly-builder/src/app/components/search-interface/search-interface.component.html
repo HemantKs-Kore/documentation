@@ -105,13 +105,15 @@
                 <div cdkDrag class="input-name active-input"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Structured Data</span></div> -->
                 <div class="input-name add-new">+ Add New</div>
               </div>
-              <!-- <ng-container [ngTemplateOutlet]="itemTemplate">
-                <div class="customize-button">
-                <button class="kr-sg-button-secondary btn_lg" (click)="openCustomModal()">Customize</button>
-              </div>
-              </ng-container> -->
+              <div class="templates-dynamic-data">
+                  <ng-container [ngTemplateOutlet]="itemTemplate">
+                    <div class="customize-button">
+                      <button class="kr-sg-button-secondary btn_lg" (click)="openCustomModal()">Customize</button>
+                    </div>
+                  </ng-container>
+              </div>            
 
-              <div class="result-right-sec">
+              <!-- <div class="result-right-sec">
                 <div class="result-card">
                   <div class="r-title text-truncate">{{preview_title}}</div>
                   <div class="r-desc text-truncate">{{preview_desc}}</div>
@@ -131,7 +133,7 @@
                 <div class="customize-button">
                   <button class="kr-sg-button-secondary btn_lg" (click)="openCustomModal()">Customize</button>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>  
           <!-- Full results Facet--> 

@@ -416,7 +416,7 @@
           </div>
           <div class="kr-sg-input-text mb-2"> 
             <div class="label-text">URL</div>
-            <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName" [ngClass]="{'readonly': !uploadImage.slide}">         
+            <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown.enter)="addImage()" [(ngModel)]="imgInfo.url" name="appName" [ngClass]="{'readonly': !uploadImage.slide}">         
           </div>
           <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div>
           <!-- <div class="multi-select mb-2">
@@ -453,6 +453,9 @@
               <perfect-scrollbar>
                 <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
               </perfect-scrollbar>
+            </div>
+            <div *ngIf="image && image.url">
+              <img [src]="imageInfo.url">
             </div>
                            <div class="info-bubble-faq">
               <div class="w-100 d-flex">
@@ -537,7 +540,7 @@
       </div>
       <div class="modal-footer">
         <button [disabled]="!imgInfo.url"  type="button" class="btn kr-btn-primary"  data-dismiss="modal" (click)='addImage()' >Add</button>
-        <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeImgApp()">Close</button>
+        <!-- <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeImgApp()">Close</button> -->
       </div>
 </kr-modal>
 <kr-modal modalType="default" #createLinkPop>

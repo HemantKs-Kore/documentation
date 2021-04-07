@@ -155,10 +155,10 @@
                         <div class="title">
                             {{item.key}}
                             <span class="edit-icon">
-                                <img src="assets/images/icons/edit-black.svg" class="ml-1">
+                                <img src="assets/images/icons/edit-black.svg" class="ml-1"  placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
                             </span>
                             <span class="delete-icon" (click)="deleteTraitInGroup(item.key,traits.addEditTraits,$event,index)">
-                                <img src="assets/images/trashIcon.svg" class="ml-1 ">
+                                <img src="assets/images/trashIcon.svg" class="ml-1 "  placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
                             </span>
                         </div>
                     </div>
@@ -176,7 +176,7 @@
                                 <div class="item">
                                     {{utterance}}
                                     <span class="delete-icon" (click)="$event.stopPropagation();deleteUtteranceIntrait(utterance,item.key,traits.addEditTraits,index)">
-                                        <img src="assets/images/trashIcon.svg" class="ml-1 ">
+                                        <img src="assets/images/trashIcon.svg" class="ml-1 " placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
                                     </span>
                                 </div>
                             </ng-container>

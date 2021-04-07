@@ -6,13 +6,17 @@
     <div *ngIf="!loadingContent">
         <div class="seach_add_feild">
             <div class="title col-4 p-0">Team Management</div>
-            <div class="col-8 p-0 d-flex align-items-center justify-content-end p-0">
+            <div class="col-8 p-0 d-flex align-items-center justify-content-end p-0" *ngIf="!selcectionObj.selectedCount">
                 <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
                     <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="searchfacet">           
                 </div> 
                 <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
                 <div class="add_feild" (click)="createNewFacet()"><img src="assets/icons/add_plus.svg">Add Members</div>
             </div>
+
+            <div class="col-8 title text-right delete-action p-0" *ngIf="selcectionObj && selcectionObj.selectedCount">
+                <button id='btn_delete' class="kr-sg-button-danger btn_lg" (click)="deleteFacets(null,true)">Remove</button>
+            </div> 
         </div>
         <div class="table-container-data-teams">
             <div class="table-header row">
@@ -23,26 +27,25 @@
                     </div>
                     <div class="title p-0">MEMBERS</div>
                 </div>
-                <div class="col-5 title">ROLE</div>  
-                <div class="col-3 title text-right delete-action">
-                    <button id='btn_delete' class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">Remove</button>
-                </div>              
+                <div class="col-8 title">ROLE</div>                              
             </div>
             <ng-container *ngIf="(membersList && membersList.length)">
                 <perfect-scrollbar class="scroll-table-data">
-                    <div class="table-body row" *ngFor="let member of membersList" [ngClass]="{'selected': member.roleInfo[0].role==='Owner'?'':(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[member._id])}">
-                        <div class="col-4 withcheckbox title">
-                            <div class="kr-sg-checkbox p-0 m-0" [hidden]="member.roleInfo[0].role==='Owner'">
-                                <input id="{{member._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckTeam(member)" type="checkbox">
-                                <label for="{{member._id}}" class="checkbox-custom-label"></label>
+                    <div class="show-checkbox-hover" *ngFor="let member of membersList">
+                        <div class="table-body row" [ngClass]="{'selected': member.roleInfo[0].role==='Owner'?'':(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[member._id])}">
+                            <div class="col-4 withcheckbox title">
+                                <div class="kr-sg-checkbox p-0 m-0" [hidden]="member.roleInfo[0].role==='Owner'">
+                                    <input id="{{member._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckTeam(member)" type="checkbox">
+                                    <label for="{{member._id}}" class="checkbox-custom-label"></label>
+                                </div>
+                                <div class="title p-0 text-truncate" title="{{member.emailId}}">{{member.emailId}}</div>
                             </div>
-                            <div class="title p-0 text-truncate" title="{{member.emailId}}">{{member.emailId}}</div>
+                            <div class="col-5 title text-truncate" title="{{member.roleInfo[0].role===''?'-':member.roleInfo[0].role}}">{{member.roleInfo[0].role===''?'-':member.roleInfo[0].role}}</div>
+                            <div class="col-3 title text-right action-close" *ngIf="member.roleInfo[0].role!=='Owner'">
+                                <img id='btn_delete_facet_tab' class="action_icon" (click)="deleteFacets(member)" src="assets/icons/cross-cancel.svg">
+                            </div>
                         </div>
-                        <div class="col-5 title text-truncate" title="{{member.roleInfo[0].role===''?'-':member.roleInfo[0].role}}">{{member.roleInfo[0].role===''?'-':member.roleInfo[0].role}}</div>
-                        <div class="col-3 title text-right action-close" *ngIf="member.roleInfo[0].role!=='Owner'">
-                            <img id='btn_delete_facet_tab' class="action_icon" (click)="deleteFacets(member)" src="assets/icons/cross-cancel.svg">
-                        </div>
-                    </div>
+                    </div>                    
                 </perfect-scrollbar>
             </ng-container>
             <div class="divBlockEmptylastChild text-center">         

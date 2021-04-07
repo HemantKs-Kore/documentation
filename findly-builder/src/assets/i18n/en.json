@@ -356,6 +356,7 @@
         "addManually": "Add Manually",
         "delete": "Delete",
         "cancel": "Cancel",
+        "close" : "Close",
         "apply": "Apply",
         "addField": "Add Data",
         "searchFilterDesc": "Eg: field==lastName||(field==FirstName&&field==Age)",
