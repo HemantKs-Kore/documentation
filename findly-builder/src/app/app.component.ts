@@ -44,6 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
   searchSDKSubscription: Subscription;
   resultRankDataSubscription: Subscription
   showHideMainMenuSubscription: Subscription;
+  showHideSettingsMenuSubscription : Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -121,7 +122,10 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.showHideMainMenuSubscription = this.headerService.showHideMainMenu.subscribe((res) => {
       this.showMainMenu = res;
-    })
+    });
+    this.showHideSettingsMenuSubscription = this.headerService.showHideSettingsMenu.subscribe((res) => {
+      this.settingMainMenu = res;
+    });
   }
   showMenu(event) {
     this.showMainMenu = event
@@ -298,7 +302,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.searchSDKSubscription.unsubscribe();
     this.resultRankDataSubscription.unsubscribe();
     this.SearchConfigurationSubscription ? this.SearchConfigurationSubscription.unsubscribe() : false;
-    this.showHideMainMenuSubscription ? this.showHideMainMenuSubscription.unsubscribe : false;
+    this.showHideMainMenuSubscription ? this.showHideMainMenuSubscription.unsubscribe() : false;
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
@@ -379,9 +383,9 @@ export class AppComponent implements OnInit, OnDestroy {
     if (parms.type == 'onboardingjourney') {
       this.appSelectionService.updateTourConfig(parms.data);
     }
-    if (parms.type == 'fullResult') {
-      this.appSelectionService.updateTourConfig('test');
-    }
+    // if (parms.type == 'fullResult') {
+    //   this.appSelectionService.updateTourConfig('test');
+    // }
     if (parms.type === 'show' && parms.data === true && _self.bridgeDataInsights) {
       _self.bridgeDataInsights = false;
       call = true;

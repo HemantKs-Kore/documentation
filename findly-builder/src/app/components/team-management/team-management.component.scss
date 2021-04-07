@@ -122,7 +122,8 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: 17px 25px;
+    padding: 10px 25px;
+    height: 56px;
     margin: 0px 0px 10px 0px;
     background: #F5F8FA;
     border-radius: 4px;
@@ -195,48 +196,59 @@
         right: 25px;
       }
     }
-    .table-body{
-      padding: 15px 0px;
-      align-items: center;
-      margin: 0px 25px 0 58px;
-      box-shadow: inset 0px -1px 0px #E4E5E7;     
-      transition: 0.3s all ease;
-      &.selected{
-        background: #F8F9FA;
-        .kr-sg-checkbox{
-          visibility: visible !important;
-        }
+    .show-checkbox-hover{
+      padding: 0px 0 0 43px;
+      margin:0px 25px 0px 15px;
+      &:hover{     
+        .table-body{
+          .kr-sg-checkbox{
+            visibility: visible;
+          }
+        }               
       }
-      .action-close{
-        padding-right: 30px !important;
-        display: none;
-        img{
-          cursor: pointer;
-        }
-      }
-      &:hover{
-        background: #F8F9FA;
-        .kr-sg-checkbox{
-          visibility: visible;
+      .table-body{
+        padding: 15px 0px;
+        align-items: center;
+        margin: 0px;
+        box-shadow: inset 0px -1px 0px #E4E5E7;     
+        transition: 0.3s all ease;
+        &.selected{
+          background: #F8F9FA;
+          .kr-sg-checkbox{
+            visibility: visible !important;
+          }
         }
         .action-close{
-          display: block;
+          padding-right: 30px !important;
+          display: none;
+          img{
+            cursor: pointer;
+          }
+        }
+        &:hover{
+          background: #F8F9FA;
+          .kr-sg-checkbox{
+            visibility: visible;
+          }
+          .action-close{
+            display: block;
+          }
+        }
+        .title{
+          color: #202124;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 14px;
+          padding: 0 8px;
+        }
+        .kr-sg-checkbox{
+          position: absolute;
+          left: -30px;
+          top: -0px;
+          visibility: hidden;
         }
       }
-      .title{
-        color: #202124;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 14px;
-        padding: 0 8px;
-      }
-      .kr-sg-checkbox{
-        position: absolute;
-        left: -30px;
-        top: -0px;
-        visibility: hidden;
-      }
-    }
+    }    
     .scroll-table-data{
       height: calc(100vh - 185px);
     }

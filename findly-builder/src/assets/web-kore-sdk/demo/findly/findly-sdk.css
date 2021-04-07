@@ -7086,13 +7086,13 @@ body, html{
 }
 .search-container.conversation #searchChatContainer .messageBubble .userMessage .query-analytics-control-container{
     position: absolute;
+    display: block;
     bottom: -22px;
     right: 0;
     color: #9B9B9B;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;    
-    display: none;
     width: 134px;
     text-align: right;    
     cursor: pointer !important;

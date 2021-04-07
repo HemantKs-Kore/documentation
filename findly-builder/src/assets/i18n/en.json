@@ -356,6 +356,7 @@
         "addManually": "Add Manually",
         "delete": "Delete",
         "cancel": "Cancel",
+        "close" : "Close",
         "apply": "Apply",
         "addField": "Add Data",
         "searchFilterDesc": "Eg: field==lastName||(field==FirstName&&field==Age)",
@@ -398,7 +399,7 @@
         "updated_by" : "Updated by",
         "updated_on" : "Last Updated On",
         "noResultTemplate" : "Result templates are not defined for structured data. Go to",
-        "searchInterfacePath" : "Configs >> Search Interface",
+        "searchInterfacePath" : "Manage >> Search Interface",
         "toDefine" : "to define.",
         "learnMore" : "Learn More"
     }
