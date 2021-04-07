@@ -67,56 +67,17 @@
                         <div class="empty-questions-selected d-none">
                             <div class="heading">{{'please_wait' | translate}}</div>
                         </div>
-                        <div class ="info-div">
-                            <p>To add a customized query, click on the ball and select customize mode.</p>
-                            <p class="mt-7"> All the changes will be recorded here.</p>
-                        </div>
-                        <div class="body-content">
-                            <div class="empty-questions-selected d-none">
-                                <div>
-                                    <div class="heading">{{'please_wait' | translate}}</div>
-                                </div>
-                            </div>
-                            <perfect-scrollbar class="accor-scroll" #fqasScrollContainer>
-                                <ng-container >
-                                    <!-- <div id="accordion" class="accordion-content">
-                                        <div >
-                                            <div class="card-content">
-                                                <div   class="card_link collapsed">      
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                                            <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
-                                                            <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
-                                                        </div>
-                                                        <div class="title-desc-sec">
-                                                            <div class="title">How do I access my account online at Citibank Online?</div>
-                                                            <div class="desc">4 customisations</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> 
-                                        </div>
-                                        <div class="empty-questions-selected divBlockEmptylastChild">
-                                            <div class="heading">No search results</div>
-                                        </div>
-                                    </div> -->
-    
-                                <div id="accordion" class="accordion-content">
-                                    <div *ngIf="customizeList">
-                                        <div class="card-content" *ngFor="let list of customizeList;let i = index">
-                                            <div   class="card_link collapsed" [ngClass]="{'is-checked': list.check == true || selectedRecord._id == list._id}" (click) ="clickCustomizeRecord(list,$event)">      
-                                                <div class="d-flex align-items-center" >
-                                                    <div class="kr-sg-checkbox col-1" (click)="$event.stopImmediatePropagation();">
-                                                        <input  [attr.id]="'result'+i"  class="checkbox-custom selectEachfaqInput" type="checkbox"  autocomplete="off" [(ngModel)]="list.check" (click) ="multiSelect(list,!list.check,$event)">
-                                                        <label [attr.for]="'result'+i" class="checkbox-custom-label" ></label>
-                                                    </div>
-                                                    <div class="title-desc-sec col-10">
-                                                        <div class="title">{{list.searchQuery}}</div>
-                                                        <div class="desc">{{list.numberOfCustomisations}} customization</div>
-                                                    </div>
-                                                    <div class="title-desc-sec col-1" [ngClass] = "{'disableDiv' : permisionView }">
-                                                        <div class="restore-icon" (click) = "restore(list)" ><img class="action-icon" src="assets/icons/restore.svg" ngbTooltip='Rest' placement="top"></div>
-                                                    </div>
+                        <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer' : totalRecord}">
+                            <ng-container>                                    
+
+                            <div id="accordion" class="accordion-content">
+                                <ng-container *ngIf="customizeList">
+                                    <div class="card-content" *ngFor="let list of customizeList;let i = index">
+                                        <div class="card_link collapsed" [ngClass]="{'is-checked': list.check == true || selectedRecord._id == list._id}" (click) ="clickCustomizeRecord(list,$event)">      
+                                            <div class="d-flex align-items-center w-100">
+                                                <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                                    <input  [attr.id]="'result'+i"  class="checkbox-custom selectEachfaqInput" type="checkbox"  autocomplete="off" [(ngModel)]="list.check" (click) ="multiSelect(list,!list.check,$event)">
+                                                    <label [attr.for]="'result'+i" class="checkbox-custom-label" ></label>
                                                 </div>
                                                 <div class="title-desc-sec">
                                                     <div class="title">{{list.searchQuery}}</div>
