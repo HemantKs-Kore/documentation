@@ -347,7 +347,6 @@ export class AppComponent implements OnInit, OnDestroy {
       // $('.start-search-icon-div').addClass('active');
       $('.search-background-div').off('click').on('click', (event) => {
         if (event.target.classList.contains('bgDullOpacity')) {
-          console.log("event bgDullOpacity", event);
           this.cacheBottomUpSDK(false);
         }
       });
@@ -356,6 +355,7 @@ export class AppComponent implements OnInit, OnDestroy {
       $('.search-container').addClass('add-new-result')
       this.initSearch();
       $('#test-btn-launch-sdk').addClass('active');
+      $('#open-chat-window-no-clicks').css({display : 'block'});
       this.headerService.isSDKOpen = true;
     } else {
       $('.search-background-div').remove();
@@ -366,6 +366,7 @@ export class AppComponent implements OnInit, OnDestroy {
       _self.showInsightFull = false;
       this.distroySearch();
       $('#test-btn-launch-sdk').removeClass('active');
+      $('#open-chat-window-no-clicks').css({display : 'none'});
       this.headerService.isSDKCached = false;
       this.headerService.isSDKOpen = false;
     }
@@ -460,6 +461,11 @@ export class AppComponent implements OnInit, OnDestroy {
     if (show) {
       $('app-body').append('<div class="top-down-search-background-div"><div class="bgDullOpacity"></div></div>');
       $('.top-down-search-background-div').show();
+      $('.top-down-search-background-div').off('click').on('click', (event) => {
+        if (!event.target.closest('.topdown-search-main-container')) {
+          this.showHideTopDownSearch(false);
+        }
+      });
       // $('app-body').append('<img class="close-top-down-search" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB0SURBVHgBjZHBDYAgDEURjRcjs7iKI3D1gNu4hqPgBk7hRVuiNdEUoqE9ld/3adoqMwbfDHunfoJqxgWv8QCrq3L+gkmjGgLYV2gdrhxOtSJ1B8Ce3k++TfUSgRymnEO3UQlD3Fo+DP8pcqddaJnZhV9HOQHmYl73b8488gAAAABJRU5ErkJggg==">');
       $('.close-top-down-search').off('click').on('click', () => {
         this.showHideTopDownSearch(false);
@@ -469,6 +475,7 @@ export class AppComponent implements OnInit, OnDestroy {
       $('.search-container').addClass('add-new-result');
       this.initTopDownSearch();
       $('#test-btn-launch-sdk').addClass('active');
+      $('#open-chat-window-no-clicks').css({display : 'block'});
       this.headerService.isSDKOpen = true;
     } else {
       $('.top-down-search-background-div').remove();
@@ -479,6 +486,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.showInsightFull = false;
       this.distroyTopDownSearch();
       $('#test-btn-launch-sdk').removeClass('active');
+      $('#open-chat-window-no-clicks').css({display : 'none'});
       this.headerService.isSDKOpen = false;
     }
   }
@@ -568,6 +576,7 @@ export class AppComponent implements OnInit, OnDestroy {
         $('#show-all-results-container').css('display', 'block');
       }
       $('#test-btn-launch-sdk').addClass('active');
+      $('#open-chat-window-no-clicks').css({display : 'block'});
       this.headerService.isSDKOpen = true;
     }
     else {
@@ -584,6 +593,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
       $('#test-btn-launch-sdk').removeClass('active');
+      $('#open-chat-window-no-clicks').css({display : 'none'});
       this.headerService.isSDKCached = true;
       this.headerService.isSDKOpen = false;
     }
