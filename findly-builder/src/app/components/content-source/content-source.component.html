@@ -1094,43 +1094,59 @@
 </kr-modal>  -->
 <kr-modal modalType="center" modalClass="modal_popups_ sliderComponent" #statusModalDocument id="sourceSlider">
   <div class="modal-header">
-    <div class="title">{{selectedSource.name}}</div>
+    <div class="title">View Details</div>
     <div class="close_icon"><img (click)="closeDocumentModal()" src="assets/icons/modal-close.svg"></div>
   </div>
 <perfect-scrollbar class="perfect-scroll-modal-body">
   <div class="modal-body textAlignLeft">
-    <div class="kr-sg-data-table">
+    <!-- <div class="kr-sg-data-table"> -->
       <section class="table-content">
-        <header class="table-header">
-          <div class="col-2">TITLE</div>
-          <div class="col-2">FILE</div>
-          <div class="col-2">DESCRIPTION</div>
-          <div class="col-2">CREATED</div>
-          <div class="col-1">STATUS</div>
-          <div class="col-1">PAGES</div>
-          <div class="col-1">SIZE</div>
-        </header>
+        <!-- <header class="table-header"> -->
+          <div class="title-text">Title</div>
+          <div class="title-desc-text" *ngIf="!isEditDoc"><span>{{selectedSource.name}}</span></div>
+          <div class="title-text">Description</div>
+          <div class="title-desc-text" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div>
+
+          <div class="title-text">Document</div>
+
+          <div class="title-desc-text" *ngIf="selectedSource.fileMeta">{{selectedSource.fileMeta.fileName || '---'}}</div>
+          <div class="title-text">No. Of. Pages</div>
+          <div class="title-desc-text">{{selectedSource.numPages}}</div>
+
+          <div class="title-text">Last Updated</div>
+          <div class="title-desc-text">{{selectedSource.createdOn | dateFormatPipe: 'd MMMM YYYY , hh:mm A'}}</div>
+          <div class="title-text">Results Preview</div>
+          <div class="title-desc-text"></div>
+
+          <!-- <div class="title-text">STATUS</div>
+          <div class="title-desc-text" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
+          [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
+          {{statusObj[selectedSource.recentStatus].name}}</div>
+          
+          <div class="title-text">SIZE</div>
+          <div class="title-desc-text" *ngIf="selectedSource.fileMeta">{{selectedSource.fileMeta.size ? (selectedSource.fileMeta.size / (1024 * 1024)).toFixed(2) + 'MB': '--'|| '--'}}</div> -->
+        <!-- </header> -->
         <div class="content-body par">
-          <div class="col-2" *ngIf="!isEditDoc"><span>{{selectedSource.name}}</span></div>
+          <!-- <div class="col-2" *ngIf="!isEditDoc"><span>{{selectedSource.name}}</span></div> -->
           <div class="col-2" *ngIf="isEditDoc">
             <div class="kr-sg-input-text">
               <input type="text" placeholder="Title" class="input-text" [(ngModel)] = "editDocObj.title">
           </div>
           </div>
-          <div class="col-2" *ngIf="selectedSource.fileMeta">{{selectedSource.fileMeta.fileName || '---'}}</div>
-          <div class="col-2" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div>
+          <!-- <div class="col-2" *ngIf="selectedSource.fileMeta">{{selectedSource.fileMeta.fileName || '---'}}</div> -->
+          <!-- <div class="col-2" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div> -->
           <div class="col-2" *ngIf="isEditDoc"> 
             <div class="kr-sg-input-text-area" >
               <textarea placeholder="Description" class="input-text" [(ngModel)] = "editDocObj.desc" style="min-height: 50px;"></textarea>
           </div>
           </div>
-          <div class="col-2">{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}</div>
+          <!-- <div class="col-2">{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}</div> -->
           <!-- <div class="col">Cell text</div> -->
-          <div class="col_ col-1" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
+          <!-- <div class="col_ col-1" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
             [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
-            {{statusObj[selectedSource.recentStatus].name}}</div>
-          <div class="col-1">{{selectedSource.numPages}}</div>
-          <div class="col-1" *ngIf="selectedSource.fileMeta">{{selectedSource.fileMeta.size ? (selectedSource.fileMeta.size / (1024 * 1024)).toFixed(2) + 'MB': '--'|| '--'}}</div>
+            {{statusObj[selectedSource.recentStatus].name}}</div> -->
+          <!-- <div class="col-1">{{selectedSource.numPages}}</div> -->
+          <!-- <div class="col-1" *ngIf="selectedSource.fileMeta">{{selectedSource.fileMeta.size ? (selectedSource.fileMeta.size / (1024 * 1024)).toFixed(2) + 'MB': '--'|| '--'}}</div> -->
           <div class="col_ col-1  p-0 text-left actions-images">
             <img src="assets/images/edit-pencil.svg"  (click) = "editDoc()" title="Edit">
             <img src="assets/images/downloadIcon.svg" title="Download">
@@ -1138,12 +1154,13 @@
           </div>
         </div>
       </section>
-    </div>
+    <!-- </div> -->
     <!-- DATA TABLE ENDS HERE -->
   </div>
 </perfect-scrollbar>  
-<div class="modal-footer">          
-  <button type="button" class="kr-sg-button-primary btn_lg" (click)="saveDocDetails()">Save</button>        
-  <button type="button" class="kr-sg-button-secondary btn_lg" (click) = "cancelDocDetails()">Cancel</button>
+<div class="footer-btns">          
+  <button class="kr-sg-button-secondary-two btn_lg" (click)="deleteDocument('source',selectedSource ,$event)">Delete</button>
+  <!-- <button type="button" class="kr-sg-button-primary btn_lg" (click)="saveDocDetails()">Save</button>        
+  <button type="button" class="kr-sg-button-secondary btn_lg" (click) = "cancelDocDetails()">Cancel</button> -->
 </div>
 </kr-modal>
