@@ -243,9 +243,11 @@
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
-                        <ul class="dropdown-menu content-menu">
-                            <perfect-scrollbar class="country-code-perfect-scroll">
+                        <ul class="dropdown-menu content-menu scroll-max-250">
+                            <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
+                              <div class="scroll-max-250">
                               <li *ngFor="let field of url_fieldData" [id] = "field._id" (click)="filedSelect('url',field)"><a>{{field.fieldName}}</a></li>
+                            </div>
                             </perfect-scrollbar>
                         </ul>
                     </div> 
@@ -295,9 +297,11 @@
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
-                        <ul class="dropdown-menu content-menu">
-                            <perfect-scrollbar class="country-code-perfect-scroll">
+                        <ul class="dropdown-menu content-menu scroll-max-250">
+                            <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
+                              <div class="scroll-max-250">
                               <li *ngFor="let field of url_fieldData" [id] = "field._id" (click)="filedSelect('url',field)"><a>{{field.fieldName}}</a></li>
+                            </div>
                             </perfect-scrollbar>
                         </ul>
                     </div> 
@@ -347,9 +351,11 @@
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
-                        <ul class="dropdown-menu content-menu">
-                            <perfect-scrollbar class="country-code-perfect-scroll">
+                        <ul class="dropdown-menu content-menu scroll-max-250">
+                            <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
+                              <div class="scroll-max-250">
                               <li *ngFor="let field of url_fieldData" [id] = "field._id" (click)="filedSelect('url',field)"><a>{{field.fieldName}}</a></li>
+                            </div>
                             </perfect-scrollbar>
                         </ul>
                     </div> 
@@ -393,9 +399,11 @@
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
-                        <ul class="dropdown-menu content-menu">
-                            <perfect-scrollbar class="country-code-perfect-scroll">
+                        <ul class="dropdown-menu content-menu scroll-max-250">
+                            <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
+                              <div class="scroll-max-250">
                               <li *ngFor="let field of url_fieldData" [id] = "field._id" (click)="filedSelect('url',field)"><a>{{field.fieldName}}</a></li>
+                            </div>
                             </perfect-scrollbar>
                         </ul>
                     </div> 
@@ -416,9 +424,11 @@
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                   <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.heading">
                   <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
-                  <ul class="dropdown-menu content-menu">
-                      <perfect-scrollbar class="country-code-perfect-scroll">
+                  <ul class="dropdown-menu content-menu scroll-max-250">
+                      <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
+                        <div class="scroll-max-250">
                         <li *ngFor="let field of heading_fieldData" [id] = "field._id" (click)="filedSelect('heading',field)"><a>{{field.fieldName}}</a></li>
+                      </div>
                         <!-- <li><a>Field 2</a></li>
                         <li><a>Field 3</a></li>
                         <li><a>Field 4</a></li>
@@ -433,13 +443,15 @@
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                   <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('description',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.description">
                   <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
-                  <ul class="dropdown-menu content-menu">
-                      <perfect-scrollbar class="country-code-perfect-scroll">
+                  <ul class="dropdown-menu content-menu scroll-max-250">
+                      <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
+                        <div class="scroll-max-250">
                         <li *ngFor="let field of desc_fieldData" [id] = "field._id" (click)="filedSelect('description',field)"><a>{{field.fieldName}}</a></li>
                         <!-- <li><a>Field 2</a></li>
                         <li><a>Field 3</a></li>
                         <li><a>Field 4</a></li>
                         <li><a>Field 5</a></li> -->
+                      </div>
                       </perfect-scrollbar>
                   </ul>
               </div>                        
@@ -450,13 +462,15 @@
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                   <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.image">
                   <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
-                  <ul class="dropdown-menu content-menu">
-                      <perfect-scrollbar class="country-code-perfect-scroll">
+                  <ul class="dropdown-menu content-menu scroll-max-250">
+                      <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
+                        <div class="scroll-max-250">
                         <li *ngFor="let field of img_fieldData" [id] = "field._id" (click)="filedSelect('image',field)"><a>{{field.fieldName}}</a></li>
                         <!-- <li><a>URL 2</a></li>
                         <li><a>URL 3</a></li>
                         <li><a>URL 4</a></li>
                         <li><a>URL 5</a></li> -->
+                        </div>
                       </perfect-scrollbar>
                   </ul>
               </div>                        
