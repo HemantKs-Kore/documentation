@@ -22,29 +22,14 @@ declare const $: any;
   styleUrls: ['./team-management.component.scss']
 })
 export class TeamManagementComponent implements OnInit {
-  facetModalRef: any;
-  facets: any = [];
-  fieldAutoSuggestion: any = [];
+  teamModalRef: any;
   selectedApp;
   serachIndexId;
-  fieldDataType = 'number';
-  filedTypeShow = false;
   indexPipelineId;
   loadingContent = true;
-  addEditFacetObj: any = null;
   showSearch;
   // serachTraits: any = '';
-  searchfacet: any = '';
-  facetDefaultValueObj: any = {
-    facet: {
-      fieldId: '',
-      facetName: '',
-      facetType: 'value',
-      isMultiSelect: false,
-      isFacetActive: true,
-      facetValue: {},
-    }
-  }
+  searchteam: any = '';
   selcectionObj: any = {
     selectAll: false,
     selectedItems: [],
@@ -57,13 +42,13 @@ export class TeamManagementComponent implements OnInit {
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl();
-  filteredFruits: Observable<string[]>;
+  teamCtrl = new FormControl();
   members: any[] = [];
-  allFruits: string[] = [];
-
+  allMembers: string[] = [];
+  allMembersCount: number;
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
+  @ViewChild('teamModalPouup') teamModalPouup: KRModalComponent;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -72,30 +57,18 @@ export class TeamManagementComponent implements OnInit {
     private appSelectionService: AppSelectionService,
     public authService: AuthService
   ) {
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
   }
-  @ViewChild('facetModalPouup') facetModalPouup: KRModalComponent;
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
-    this.loadfacets();
-    this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
-      this.loadfacets();
-    })
     this.getUserInfo();
     this.getRoleMembers();
-  }
-  loadfacets() {
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
   }
   checkUncheckTeam(team) {
     const selectedElements = $('.selectEachfacetInput:checkbox:checked');
     const allElements = $('.selectEachfacetInput');
-    console.log("selectedElements", selectedElements, allElements)
-    if (selectedElements.length === allElements.length - 1) {
+    if (selectedElements.length === allElements.length) {
       $('#selectAllFacets')[0].checked = true;
     } else {
       $('#selectAllFacets')[0].checked = false;
@@ -104,14 +77,19 @@ export class TeamManagementComponent implements OnInit {
     const addition = element[0].checked
     this.addRemovefacetFromSelection(team._id, addition);
   }
+  selectAllFromPartial() {
+    this.selcectionObj.selectAll = true;
+    $('#selectAllFacets')[0].checked = true;
+    this.selectAll();
+  }
   selectAll(unselectAll?) {
     const allfacets = $('.selectEachfacetInput');
     if (allfacets && allfacets.length) {
       $.each(allfacets, (index, element) => {
         if ($(element) && $(element).length) {
           $(element)[0].checked = unselectAll ? false : this.selcectionObj.selectAll;
-          const facetId = $(element)[0].id
-          this.addRemovefacetFromSelection(facetId, $(element)[0].checked);
+          const teamId = $(element)[0].id
+          this.addRemovefacetFromSelection(teamId, $(element)[0].checked);
         }
       });
     };
@@ -119,7 +97,7 @@ export class TeamManagementComponent implements OnInit {
       $('#selectAllFacets')[0].checked = false;
     }
   }
-  addRemovefacetFromSelection(facetId?, addtion?, clear?) {
+  addRemovefacetFromSelection(teamId?, addtion?, clear?) {
     if (clear) {
       const allfacets = $('.selectEachfacetInput');
       $.each(allfacets, (index, element) => {
@@ -131,23 +109,22 @@ export class TeamManagementComponent implements OnInit {
       this.selcectionObj.selectedCount = 0;
       this.selcectionObj.selectAll = false;
     } else {
-      if (facetId) {
+      if (teamId) {
         if (addtion) {
-          this.selcectionObj.selectedItems[facetId] = {};
+          this.selcectionObj.selectedItems[teamId] = {};
         } else {
-          if (this.selcectionObj.selectedItems[facetId]) {
-            delete this.selcectionObj.selectedItems[facetId]
+          if (this.selcectionObj.selectedItems[teamId]) {
+            delete this.selcectionObj.selectedItems[teamId]
           }
         }
       }
       this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
+      if (this.allMembersCount == this.selcectionObj.selectedCount) {
+        this.selcectionObj.selectAll = true;
+      }
     }
   }
-  createNewFacet() {
-    this.addEditFacetObj = JSON.parse(JSON.stringify(this.facetDefaultValueObj.facet));
-    if (this.selectedField && this.selectedField.fieldDataType) {
-      this.selectedField.fieldDataType = null;
-    }
+  createNewMember() {
     this.openModal();
   }
   deleteFacets(member?, bulk?) {
@@ -177,29 +154,23 @@ export class TeamManagementComponent implements OnInit {
   }
   //delete multiple members
   deleteBulkFacet(dialogRef) {
-    const facets = Object.keys(this.selcectionObj.selectedItems);
-    console.log("facetst", facets);
+    const teams = Object.keys(this.selcectionObj.selectedItems);
     let users = [];
     for (let i = 0; i < this.membersList.length; i++) {
-      if (facets.includes(this.membersList[i]._id)) {
+      if (!(teams.includes(this.membersList[i]._id))) {
         users.push({ userId: this.membersList[i]._id, roleId: this.membersList[i].roleInfo[0].role === 'Member' ? this.membersList[i].roleInfo[0]._id : this.member_ownerId[0]._id });
       }
     }
-    // for (let i = 0; i < this.membersList.length; i++) {
-    //   if (this.membersList[i].) {
-    //     users.push({ userId: this.membersList[i]._id, roleId: this.member_ownerId[0]._id });
-    //   }
-    // }
-    console.log("bulk delete", users);
     this.updateMember(users, dialogRef, 'delete');
   }
   //delete single member
   deleteFacet(member, dialogRef) {
     let users = [];
     for (let i in this.membersList) {
-      if (this.membersList[i]._id === member._id)
+      if (this.membersList[i]._id !== member._id)
         users.push({ userId: this.membersList[i]._id, roleId: this.membersList[i].roleInfo[0].role === 'Member' ? this.membersList[i].roleInfo[0]._id : this.member_ownerId[0]._id });
     }
+    console.log("users", users)
     this.updateMember(users, dialogRef, 'delete');
   }
   errorToaster(errRes, message) {
@@ -212,18 +183,17 @@ export class TeamManagementComponent implements OnInit {
     }
   }
   openModal() {
-    this.facetModalRef = this.facetModalPouup.open();
+    this.teamModalRef = this.teamModalPouup.open();
   }
   closeModal() {
-    if (this.facetModalRef && this.facetModalRef.close) {
-      this.facetModalRef.close();
+    if (this.teamModalRef && this.teamModalRef.close) {
+      this.teamModalRef.close();
     }
-    this.addEditFacetObj = null;
     this.members = [];
   }
   toggleSearch() {
-    if (this.showSearch && this.searchfacet) {
-      this.searchfacet = '';
+    if (this.showSearch && this.searchteam) {
+      this.searchteam = '';
     }
     this.showSearch = !this.showSearch
   };
@@ -255,8 +225,8 @@ export class TeamManagementComponent implements OnInit {
       streamId: this.selectedApp._id
     };
     this.service.invoke('get.members', quaryparms).subscribe(res => {
-      console.log("res teamRole", res)
       this.membersList = res.users;
+      this.allMembersCount = this.membersList.length - 1;
       this.getRoles();
     }, errRes => {
     });
@@ -299,7 +269,7 @@ export class TeamManagementComponent implements OnInit {
       input.value = '';
     }
 
-    this.fruitCtrl.setValue(null);
+    this.teamCtrl.setValue(null);
   }
 
   remove(member: string): void {
@@ -313,12 +283,12 @@ export class TeamManagementComponent implements OnInit {
   selected(event: MatAutocompleteSelectedEvent): void {
     this.members.push(event.option.viewValue);
     this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
+    this.teamCtrl.setValue(null);
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+    return this.allMembers.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
   }
   //add member
   addMember() {
@@ -362,6 +332,10 @@ export class TeamManagementComponent implements OnInit {
       }
       else {
         dialogref.close();
+        this.selcectionObj = {
+          selectAll: false,
+          selectedItems: [],
+        };
         this.notificationService.notify("Member deleted successfully", 'success');
       }
       this.getRoleMembers();
