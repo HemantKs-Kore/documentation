@@ -476,7 +476,7 @@ export class AppComponent implements OnInit, OnDestroy {
       $('app-body').append('<div class="top-down-search-background-div"><div class="bgDullOpacity"></div></div>');
       $('.top-down-search-background-div').show();
       $('.top-down-search-background-div').off('click').on('click', (event) => {
-        if (!event.target.closest('.topdown-search-main-container')) {
+        if (!event.target.closest('.topdown-search-main-container') && !event.target.closest('.filters-sec')) {
           this.showHideTopDownSearch(false);
         }
       });
