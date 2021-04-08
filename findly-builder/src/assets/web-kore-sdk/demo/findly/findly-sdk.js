@@ -7663,7 +7663,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         if (searchConfig.interactionsConfig) {
           searchConfiguration.welcomeMsg = searchConfig.interactionsConfig.welcomeMsg;
-          searchConfiguration.welcomeMsgMsgColor = searchConfig.interactionsConfig.welcomeMsgMsgColor;
+          searchConfiguration.welcomeMsgColor = searchConfig.interactionsConfig.welcomeMsgColor;
           searchConfiguration.showSearchesEnabled = searchConfig.interactionsConfig.showSearchesEnabled;
           searchConfiguration.showSearches = searchConfig.interactionsConfig.showSearches;
           searchConfiguration.autocompleteOpt = searchConfig.interactionsConfig.autocompleteOpt;
@@ -7719,7 +7719,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var greetingMsg = '<script type="text/x-jqury-tmpl">\
         <div class="search-greeting-box">\
           <span class="greeting-img"><img src="${searchConfig.welcomeMsgEmoji}"></span>\
-          <span class="search-greeting-text" style="color : ${searchConfig.welcomeMsgMsgColor}">\
+          <span class="search-greeting-text" style="color : ${searchConfig.welcomeMsgColor}">\
           {{if searchConfig.welcomeMsg}}\
             ${searchConfig.welcomeMsg}\
           {{else}}\
