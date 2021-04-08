@@ -1,11 +1,10 @@
 <ng-container *ngIf="selectedSourceType">
-    <form #sourceCreation="ngForm">
+    <form #sourceCreation="ngForm" class="form-structured-data">
         <div class="modal-header">
             <div class="title">{{ selectedJsonForEdit ? ( selectedSourceType.viewMode ? ('structuredData.view_structured_data' | translate) : ('structuredData.edit_structured_data' | translate) ) : selectedSourceType.name}}</div>
-            <div class="close_icon" (click)="cancleSourceAddition({cancel : true})" id="btn_close_add_structured_modal"><img class="ng-tns-c11-2"
-                    src="assets/icons/modal-close.svg"></div>
+            <div class="close_icon" (click)="cancleSourceAddition({cancel : true})" id="btn_close_add_structured_modal"><img src="assets/icons/modal-close.svg"></div>
         </div>
-        <perfect-scrollbar class="addSourceModalBody addNewSource structuredData">
+        <perfect-scrollbar class="addSourceModalBody structuredData">
             <div class="modal-body">
                 <ng-container *ngIf="selectedSourceType.resourceType === 'structuredData'">
                     <div class="col-12 row mb-3 top-sec p-0 ml-0 mr-0">
@@ -21,7 +20,7 @@
                                 <input type="file" id="sourceFileUploader_add_structured_data" class="custom-file-input " (change)="fileChangeJsonListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.json">
                                 <ng-container *ngIf="!fileObj.fileName">
                                     <div class="imageDiv mb-3">
-                                        <img class="ng-tns-c11-2" src="assets/images/source-icos/drog_frop.svg">
+                                        <img src="assets/images/source-icos/drog_frop.svg">
                                     </div>
                                     <div class="info_text mb-3">Drag and drop file anywhere in this section</div>
                                     <div class="or-divider mb-3">{{'structuredData.or' | translate}}</div>
