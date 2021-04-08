@@ -4941,6 +4941,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
 
             _self.vars.searchObject.searchText = $('#search').val();
+
+            if($('body').hasClass('top-down')){
+              $('.sdk-filter-checkbox-top-down').prop('checked', false);
+              $('.sdk-filter-radio-top-down').prop('checked', false);
+              _self.vars.filterObject = [];
+              _self.vars.selectedFiltersArr = [];
+              _self.vars.tempSelectedFiltersArr = [];
+              _self.vars.tempSelectedFacetsList = [];
+              _self.vars.tempFilterObject = [];
+              _self.vars.selectedFacetsList = [];
+              _self.vars.isTopFacets = _self.vars.filterConfiguration.aligned === 'top' ? true : false;
+              _self.vars.countOfSelectedFilters = 0;
+              _self.searchFacetsList([]);
+            }
             // debugger;
             var searchText = $('#search').val() || (_self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : "") || null;
             _self.closeGreetingMsg();
@@ -7169,12 +7183,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         });
         _self.bindFacetsToggle();
         _self.bindAllResultsView();
-        _self.markSelectedFilters();
+        if(!$('body').hasClass('top-down')){
+          _self.markSelectedFilters();
+        }
       });
     }
     FindlySDK.prototype.addSearchFacets = function (config) {
       var _self = this;
-      _self.pubSub.subscribe('sa-search-facets', (msg, data) => {
+      _self.pubSub.unsubscribe('sa-search-facets');
+        _self.pubSub.subscribe('sa-search-facets', (msg, data) => {
         if (config.templateId) {
           var dataHTML = $('#' + config.templateId).tmplProxy({ searchFacets: data });
           $('#' + config.container).empty().append(dataHTML);
