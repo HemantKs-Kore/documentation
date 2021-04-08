@@ -1270,6 +1270,15 @@ input:focus{
   top : 33%;
 }
 
+.sdk-top-down-interface .customization .customization-tile .actions-content.manually_added_pin .tooltiptext{
+  width: 186px !important;
+  left: -150px !important;
+}
+.sdk-top-down-interface .customization .customization-tile .actions-content.manually_added_pin .tooltiptext::after{
+  left: auto !important;
+  right: 22px !important;
+}
+
 .sdk-top-down-interface .structured-search-data-container .search-heads{
   font-size: 12px;
   font-weight: bold;
