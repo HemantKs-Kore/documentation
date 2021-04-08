@@ -1061,9 +1061,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div id="textFromServer"></div> \
               </div> \
             {{/if}}\
-            {{if showButton}}\
             {{if searchConfig.searchButtonEnabled}}\
-              <button class="search-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}"{{/if}} disabled>${searchConfig.buttonText}</button>\
+            {{if searchConfig.buttonPlacementPosition== "inside"}}\
+            <button class="submit-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}; height: 28px; position: absolute; right: -6px;"{{/if}} disabled>${searchConfig.buttonText}</button>\
+           {{else}}\
+            <button class="submit-button submit-button-outside" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}; height: 34px; position: absolute; right: -99px;padding-right: 15px;padding-left: 15px;"{{/if}} disabled>${searchConfig.buttonText}</button>\
             {{/if}}\
             {{/if}}\
           </div>\
@@ -7638,6 +7640,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           searchConfiguration.searchBarPlaceholderText = searchConfig.widgetConfig.searchBarPlaceholderText;
           searchConfiguration.searchBarPlaceholderTextColor = searchConfig.widgetConfig.searchBarPlaceholderTextColor;
           searchConfiguration.searchButtonEnabled = searchConfig.widgetConfig.searchButtonEnabled;
+          searchConfiguration.buttonPlacementPosition = searchConfig.widgetConfig.buttonPlacementPosition;
         }
         else {
           searchConfiguration.buttonBorderColor = '#e5e8ec';
@@ -7649,6 +7652,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           searchConfiguration.searchBarPlaceholderText = 'Ask anything';
           searchConfiguration.searchBarPlaceholderTextColor = '#21202447';
           searchConfiguration.searchButtonEnabled = true;
+          searchConfiguration.buttonPlacementPosition = 'inside';
         }
         if (searchConfig.widgetConfig.searchBarIcon && searchConfig.widgetConfig.searchBarIcon.length) {
           searchConfiguration.searchBarIcon = searchConfig.widgetConfig.searchBarIcon;
@@ -7696,6 +7700,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           searchBarPlaceholderText: 'Ask anything',
           searchBarPlaceholderTextColor: '#21202447',
           searchButtonEnabled: true,
+          buttonPlacementPosition : 'inside',
           welcomeMsg: 'Hello! How can I help you today?',
           welcomeMsgEmoji: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJmSURBVHgBtVJLS5RhFH7O+10cZ2jmM5sgUfg0BAkq3VqhRrhx0biQ2ql7w7atnF2rsD8Q02XZQluGhhVBdIHGS4Q7JSOi0hk/57t/7+l1umCouzqr9+Wc5znP83CA/10rKyvmzcfexcFbbttBfdr78V7adiqFs+r5DHpjCazfm88sLTx4sd2ba9TFBaTnRvLt6VrgT2uJX2wcqqyLvQSGoXWzSM/CtCYhMjbM/MyluK/QdST7+sqZ9POeEVCU0Qp6Sh9L0FDYxYi925UeizTzNoy2IvT8GkR2DfqJuzdOD02c7yKnkyjQTbqspXTWGrTuvwh2twsjVQI0C5BPYeQLysYayNwCZYu8OjhV96wJW+gCrInufRnw8qkijJYpkFGGblnQsrYiK3Pw2SYEOSTeIyTfCzIMOHCiarr/Y9MfAn57chSGfh3G0UXox0chjAq0TC5xqyRMDYh3QOyoQY9l4FNY3Wa4sr1ugZlFJJPFenAk+iCrs+DISpwNEoYaSDzI0FV61T49T2Q0MyeC/DDsEfMfuPn+E6dpYvXNF8T+ACQssCxId2NLaDFIOpDepiKpMWSkWgTJJslEpcXIiaXlDXduHeeqntn68Nj71ST8Oo54Uw37yl9NAatKlKfk7yj8jhLmIXbVW+WQEK3XM7h6p9bS20HiWn/jJyJiftc5xoJKP0/NrEvn0EfkBsqvjsjxkYR+2Rre7CEcUtGrjqIimyLzKJga1PYAcVW5dF2WsVxUEgeahiuVQwl2y11onSQ2pmHmiJXn2PmGJHLL+AXedwcH1daMZZNmlCDJrt8Ex+O/wf+kfgAhFxenJ2BlUQAAAABJRU5ErkJggg==',
           showSearchesEnabled: '#161928',
@@ -18958,11 +18963,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             suggestions: data.autoComplete.querySuggestions,
             querySuggestionsLimit: searchConfigurationCopy.querySuggestionsLimit ? searchConfigurationCopy.querySuggestionsLimit : 2
           });
+          console.log(searchConfigurationCopy)
+
           $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
           _self.pubSub.publish('sa-auto-suggest', data.autoComplete.typeAheads);
           _self.bindAutoSuggestionTriggerOptions(autoSuggestionHTML);
           if ($('body').hasClass('top-down')) {
+            if($("#suggestion").length){
+              $("#suggestion").val(data.autoComplete.typeAheads[0]);
+            }
+            if(searchConfigurationCopy.autocompleteOpt){
             _self.showSuggestionbox(data.autoComplete.querySuggestions);
+            }
           }
         },
         error: function (err) {
@@ -19002,6 +19014,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       if ($('.topdown-search-main-container').length) {
         $('#search-box-container').off('keydown', '#search').on('keydown', '#search', function (e) {
+          _self.pubSub.publish('sa-handel-submit-button');
           var code = e.keyCode || e.which;
           if (code == '13') {
             if (_self.isDev) {
@@ -19146,9 +19159,26 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           });
         }, 100);
 
-
+        $('#search-box-container').off('click', '.submit-button').on('click', '.submit-button', function (e) {
+          if ($('#search').val()) {
+            var e1 = $.Event("keydown", { which: 13 });
+            $('#search').trigger(e1);
+          }
+        });
       }
-
+      _self.pubSub.subscribe('sa-handel-submit-button', (msg, data) => {
+        var isGoButtonDisabled = false;
+        if (!$('#search').val()) {
+          isGoButtonDisabled = true;
+        }
+        else {
+          isGoButtonDisabled = false;
+        }
+        var goBtn = $('.submit-button');
+        for (let i = 0; i < goBtn.length; i++) {
+          goBtn[i].disabled = isGoButtonDisabled;
+        }
+      });
     }
     FindlySDK.prototype.showSuggestionbox = function (suggestions) {
       var _self = this;
@@ -19747,10 +19777,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <!-- <div class="search-icon"> -->
                 <!-- <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBlVJLTgJBEK2q8RNXwg2GGzBbiEIHNHEl3ABOMHICvQFHQE8grEwU0wgBt9xAjjAkLkSnq+xB6JAwwfAWXV3pev1eVxdCCp70u38Asf8J8bSuVJRWg5uJHk1CZrlbJoKRPfURcbAwX80rpWabteRIw3HHMDSYuV4pFbOVciFHfJI1ht+O6Pijrye1LcVXPW4A4a0tDJQKtqy96FGZyHskXuTUyvqfoiUxm2YaKcGFOhuA0CCGoxtnVdtG2JhZHu6CmB4C5h3xBzhjYwT/gIFngHjqiIfwPbPR11pndlOtmsjcEZPHJi3f9J8GIgoRpOvyZIkNt4gwfNbjfBpJDydtsc+pqOK9019v+npYQ/I6gNQVIz0BE5G1h553bYcig3YYDIu6VMWpU0xQVeddYgosaU6IIeHykpIYfqiWCwGwtDxCvXaFsAdWg9ImxgD2xerf4RflG5JZZafRoQAAAABJRU5ErkJggg=="/> -->
                 <!--</div> -->
-                <div class="cancel-search">
-                      <span class="cross"> X </span>
+                <!--  <div class="cancel-search">-->
+                <!--<span class="cross"> X </span>-->
                       <!-- <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADeSURBVHgBnZI/C8IwEMUviRUHkdKp0KWgBccu/QAOgrj1k2arbtLZJXtFOpVOpXtoYyKk+CeJ4BtCEt7vuHscwJ8i6timh3gZbvy+vfUuc5Ie01W4XigfVh+Dh/25hy9Jtk9dECKC6vcTrK4FEwA5Ao+aYA2JAeU1O9dTq0pdU7VBlJQICA2iuOyae/sJVaxg2o++qmfSCEAF8By4BybICL7CMAowQUozEwhcDSGnxhLH3GjB4AjCFRixQao9W2BvoC09GzxtjrydbEGY4GlGG6SllgTzccc5ca7lTz0A2yqRYknu6twAAAAASUVORK5CYII="/>-->
-                  </div>
+                      <!-- </div>-->
                 </div>   
                 <div id="frequently-searched-box" class="frequently_searched_box"> </div>          
                 <div id="live-search-result-box" class="live_search_result_box">
