@@ -73,7 +73,7 @@
                         </div>
                         <div class="editor">
                             <div class="left-sec">
-                                <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="structuredData.payload" (ngModelChange)="setEditorContent($event)" id="ngx_codemirror_add_structured_data"></ngx-codemirror>
+                                <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" (dblclick)="doubleClick($event)" [(ngModel)]="structuredData.payload" (ngModelChange)="setEditorContent($event)" id="ngx_codemirror_add_structured_data"></ngx-codemirror>
                             </div>                                                     
                             <div class="sample-json" *ngIf="!selectedJsonForEdit">                              
                                 <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom-right'">
