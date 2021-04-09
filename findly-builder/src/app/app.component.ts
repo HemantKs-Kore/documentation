@@ -45,6 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
   resultRankDataSubscription: Subscription
   showHideMainMenuSubscription: Subscription;
   showHideSettingsMenuSubscription : Subscription;
+  closeSDKSubscription : Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -89,6 +90,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       if (this.searchExperienceConfig) {
+        this.distroySearch();
         if (this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')) {
           if (!this.headerService.isSDKCached || !$('.search-background-div').length) {
             if (!$('.search-background-div:visible').length) {
@@ -125,6 +127,12 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.showHideSettingsMenuSubscription = this.headerService.showHideSettingsMenu.subscribe((res) => {
       this.settingMainMenu = res;
+    });
+    this.closeSDKSubscription = this.headerService.hideSDK.subscribe((res) => {
+      this.headerService.isSDKCached = false;
+      this.distroySearch();
+      this.showHideSearch(false);
+      this.showHideTopDownSearch(false);
     });
   }
   showMenu(event) {
@@ -303,6 +311,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.resultRankDataSubscription.unsubscribe();
     this.SearchConfigurationSubscription ? this.SearchConfigurationSubscription.unsubscribe() : false;
     this.showHideMainMenuSubscription ? this.showHideMainMenuSubscription.unsubscribe() : false;
+    this.closeSDKSubscription ? this.closeSDKSubscription.unsubscribe() : false;
+    this.showHideSettingsMenuSubscription ? this.showHideSettingsMenuSubscription.unsubscribe() : false;
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
@@ -466,7 +476,7 @@ export class AppComponent implements OnInit, OnDestroy {
       $('app-body').append('<div class="top-down-search-background-div"><div class="bgDullOpacity"></div></div>');
       $('.top-down-search-background-div').show();
       $('.top-down-search-background-div').off('click').on('click', (event) => {
-        if (!event.target.closest('.topdown-search-main-container')) {
+        if (!event.target.closest('.topdown-search-main-container') && !event.target.closest('.filters-sec')) {
           this.showHideTopDownSearch(false);
         }
       });
