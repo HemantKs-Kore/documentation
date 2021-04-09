@@ -22,7 +22,7 @@ export class SearchExperienceComponent implements OnInit {
   suggestions: any = [];
   searchObject: any = {
     "searchExperienceConfig": {
-      "searchBarPosition": "top"
+      "searchBarPosition": ""
     },
     "searchWidgetConfig": {
       "searchBarFillColor": "#FFFFFF",

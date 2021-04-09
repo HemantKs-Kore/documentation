@@ -7086,13 +7086,13 @@ body, html{
 }
 .search-container.conversation #searchChatContainer .messageBubble .userMessage .query-analytics-control-container{
     position: absolute;
+    display: block;
     bottom: -22px;
     right: 0;
     color: #9B9B9B;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;    
-    display: none;
     width: 134px;
     text-align: right;    
     cursor: pointer !important;
@@ -12804,6 +12804,18 @@ padding-right: 0;
     align-items: center;
     justify-content: center;
 }
+.show-all-results-outer-wrap .customization .customization-tile .actions-content.manually_added_pin{
+    width: 88px;
+}
+
+.show-all-results-outer-wrap .customization .customization-tile .actions-content.manually_added_pin .tooltiptext{
+    width: 186px !important;
+    left: -150px !important;
+}
+.show-all-results-outer-wrap .customization .customization-tile .actions-content.manually_added_pin .tooltiptext::after{
+    left: auto !important;
+    right: 22px !important;
+}
 .show-all-results-outer-wrap .customization .customization-tile .actions-content .action-item{
     margin: 0 12px;
     cursor: pointer;
@@ -13832,4 +13844,9 @@ button.search-button:disabled {
     font-size: 12px;
     line-height: 15px;
     padding: 10px;
+}
+
+.task-wrp.structure-data-wrp.ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled{
+    opacity: unset;
+    pointer-events: unset;
 }

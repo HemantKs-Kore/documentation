@@ -188,8 +188,9 @@
               <div class="acc-card-body">
                 <div class="bg-sec">
                   <div class="row m-0 col-12 acc-row-header">
-                    <div class="col-3 title">Variant</div>
-                    <div class="col-2 title">SEARCH CONFIGURATION</div>
+                    <div class="col-2 title">Variant</div>
+                    <div class="col-2 title">INDEX CONFIG</div>
+                    <div class="col-2 title">SEARCH CONFIG</div>
                     <div class="col-1 title">Traffic</div>
                     <div class="col-1 title">users</div>
                     <div class="col-1 title">Searches</div>
@@ -197,12 +198,15 @@
                     <div class="col-2 title">CTR (goal)</div>
                   </div>
                   <div class="row m-0 col-12 acc-row-body align-items-center" *ngFor="let expCol of exp.variants">
-                    <div class="col-3 d-flex varient-data align-items-center">
+                    <div class="col-2 d-flex varient-data align-items-center">
                       <div class="name-letter" [style.background-color]="expCol.color">
                         {{ expCol.code }}
                       </div>
                       <div class="name">
                         {{ expCol.name | titlecase }}</div>
+                    </div>
+                    <div class="col-2 title">
+                      {{ expCol.indexPipelineName | titlecase }}
                     </div>
                     <div class="col-2 title">
                       {{ expCol.queryPipelineName | titlecase }}
