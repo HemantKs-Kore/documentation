@@ -72,7 +72,7 @@
         </ng-container>
         <div class="table_section" *ngIf="(facets && facets.length)">
             <div class="header_sec row m-0">
-                <div class="col-3 content withcheckbox">
+                <div class="col-4 content withcheckbox">
                     <!-- <div class="kr-sg-checkbox p-0 ml-1 mb-0 select-all-checkbox adjust-checkbox-padding">
                         <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll">
                         <label for="selectAllFacets" class="checkbox-custom-label"></label>
@@ -107,7 +107,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3 content d-flex">
+                <div class="col-2 content d-flex">
                     <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('select')">
                     <img [ngClass]="getSortIconVisibility('select', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                     <img [ngClass]="getSortIconVisibility('select', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
@@ -162,7 +162,7 @@
                 <ng-container *ngIf="(facets && facets.length)">
                     <div cdkDropList (cdkDropListDropped)="drop($event,facets)">
                         <div class="body_sec row m-0" cdkDrag *ngFor="let facet of facets | filter : [searchfacet, 'facetName']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[facet._id])}">
-                            <div class="col-3 content withcheckbox">
+                            <div class="col-4 content withcheckbox">
                                 <div class="drag_drop_icon pl-2"><img src="assets/icons/drog_drop.svg"></div>
                                 <div class="kr-sg-checkbox p-0 m-0 adjust-checkbox-padding">
                                     <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(facet)" type="checkbox">
@@ -173,7 +173,7 @@
                                 </div>
                             </div>
                             <div class="col-2 content pl-pr-17">{{facet.facetType | translate}}</div>
-                            <div class="col-3 content pl-pr-17">{{facet.isMultiSelect?'Yes':'No' | translate}}</div>
+                            <div class="col-2 content pl-pr-17">{{facet.isMultiSelect?'Yes':'No' | translate}}</div>
                             <div class="col-3 content pl-pr-17">
                                 <span [class.inActive]="!facet.isFacetActive" [class.active]="facet.isFacetActive">{{(facet.isFacetActive?'facets.active':'facets.inactive') | translate}}</span></div>
                             <div class="col-1 p-0 content actions">
