@@ -7467,6 +7467,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       if (config && config.focusHandler) {
+        _self.pubSub.unsubscribe('sa-search-focus');
         _self.pubSub.subscribe('sa-search-focus', data => {
           config.focusHandler();
           if (!$("#search").val()) {
@@ -20009,7 +20010,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#live-search-result-box').show();
         }
       });
-
+      
+      _self.pubSub.unsubscribe('sa-show-all-results-top-down');
       _self.pubSub.subscribe('sa-show-all-results-top-down', (msg, data) => {
         _self.vars.showingMatchedResults = true;
         _self.searchFacetsList([]);
