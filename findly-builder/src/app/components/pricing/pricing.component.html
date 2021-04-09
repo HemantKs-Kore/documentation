@@ -57,7 +57,7 @@
             <div class="upgrader-btn-sec col-7 p-0">
               <div class="btn-monthly" [ngClass]="{'active-btn' : termPlan == 'monthly'}" (click)="termPlan = 'monthly'">Monthly</div>
               <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'annually' }" (click)="termPlan = 'annually'">Annually</div>
-              <div class="compare-plan">Compare Plans</div>
+              <div class="compare-plan" (click)="compare()">Compare Plans</div>
             </div>
           </div>
           <div class="col-4 upgrade-price-card">
@@ -376,3 +376,5 @@
     <button class="kr-sg-button-secondary btn_lg" (click)="closePopup5()">Cancel</button>
   </div>
 </kr-modal>
+
+<app-upgrade-plan #plans></app-upgrade-plan>

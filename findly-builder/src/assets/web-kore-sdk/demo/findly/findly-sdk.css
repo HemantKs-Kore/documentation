@@ -7086,13 +7086,13 @@ body, html{
 }
 .search-container.conversation #searchChatContainer .messageBubble .userMessage .query-analytics-control-container{
     position: absolute;
+    display: block;
     bottom: -22px;
     right: 0;
     color: #9B9B9B;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;    
-    display: none;
     width: 134px;
     text-align: right;    
     cursor: pointer !important;
@@ -8108,19 +8108,20 @@ html , body{
     width: 40px;
     height: 34px;
     border: solid 0px #e5e8ec;
-    position: absolute;
-    right: 0px;
     font-style: normal;
     line-height: 1.5;
     letter-spacing: 1px;
     bottom: 0;
     border-radius: 6px;
-    margin: 3px 4px;
+    margin: 3px 10px 3px 0px;
     background: #0D6EFD;
     backdrop-filter: blur(27.1828px);
     font-size: 12px;
     font-weight: 500;
-    color: #fff;
+    color: #202124;
+    position: relative;
+    float: right;
+    width: auto;
   }
 .ksa-header{
     background: #006BB0;
@@ -9661,9 +9662,12 @@ body::-webkit-scrollbar {
     display: none;
 }
 .search-container .sdkFooterIcon.microphoneBtn{
-    position: absolute;
-    right: 45px;
-    bottom: 9px
+    float: right;
+    position: relative !important;
+    bottom: -8px !important;
+    /* background: #fff; */
+    left: 0px;
+    right: 0 !important;
 }
 .search-container .sdkFooterIcon button {
     margin-bottom: -1px;
@@ -12800,6 +12804,18 @@ padding-right: 0;
     align-items: center;
     justify-content: center;
 }
+.show-all-results-outer-wrap .customization .customization-tile .actions-content.manually_added_pin{
+    width: 88px;
+}
+
+.show-all-results-outer-wrap .customization .customization-tile .actions-content.manually_added_pin .tooltiptext{
+    width: 186px !important;
+    left: -150px !important;
+}
+.show-all-results-outer-wrap .customization .customization-tile .actions-content.manually_added_pin .tooltiptext::after{
+    left: auto !important;
+    right: 22px !important;
+}
 .show-all-results-outer-wrap .customization .customization-tile .actions-content .action-item{
     margin: 0 12px;
     cursor: pointer;
@@ -13286,7 +13302,8 @@ padding-right: 0;
     bottom: 40px;
     padding: 8px 30px;
     background: #F8F9FA;
-    box-shadow: 0px -1px 0px rgba(32, 33, 36, 0.15);
+    /* box-shadow: 0px -1px 0px rgba(32, 33, 36, 0.15); */
+    box-shadow: 0px -50px 0px rgba(255, 255, 255, 0.9);
     /* 0px -5px 6px 5px rgb(251 251 251) */
     z-index: 2;
 }
@@ -13827,4 +13844,9 @@ button.search-button:disabled {
     font-size: 12px;
     line-height: 15px;
     padding: 10px;
+}
+
+.task-wrp.structure-data-wrp.ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled{
+    opacity: unset;
+    pointer-events: unset;
 }

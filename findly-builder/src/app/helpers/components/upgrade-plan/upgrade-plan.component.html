@@ -1,0 +1,70 @@
+<kr-modal modalType="center" modalClass="modal_popups_ chooseplan-price" #addPricingModel3>
+    <div class="modal-header">
+      <div class="title">Choose Plan</div>
+      <div class="d-flex align-items-center justify-content-end">
+        <div class="btn-monthly"  [ngClass]="{'active-btn' : termPlan == 'monthly'}" (click)="termPlan = 'monthly'">Monthly</div>
+        <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'annually' }" (click)="termPlan = 'annually'">Annually</div>
+        <div class="close_icon ml-4">
+          <img  (click)="closePopup3()" src="assets/icons/modal-close.svg">
+        </div>
+      </div>      
+    </div>
+    <perfect-scrollbar>
+      <div class="modal-body">
+        <div class="mian-title-desc">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div>
+        <div class="upgrade-details-prices row col-12 p-0">          
+          <div class="col-4 upgrade-price-card current-plan">
+            <div class="inner-content">
+              <img src="assets/icons/pricing/standard.svg" class="standard-img">
+                <div class="title-sec">
+                  <div class="title">Standard</div>
+                  <div class="price d-none">$99 <span>/ month</span></div>
+                  <div class="current-plan-title"><img src="assets/icons/pricing/check-round.svg">Current Plan</div>
+                </div>
+                <div class="card-desc">10k Documents </div>
+                <div class="card-desc">50k Queries per month</div>
+                <div class="card-desc">Scheduled Crawling</div>
+                <div class="card-desc">Experiments</div>
+                <div class="card-desc">Community Support</div>
+                <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
+            </div>
+          </div>
+
+          <div class="col-4 upgrade-price-card">
+            <div class="inner-content">
+              <img src="assets/icons/pricing/pro.svg" class="pro-img">
+                <div class="title-sec">
+                  <div class="title">Pro</div>
+                  <div class="price">$399 <span>/ month</span></div>
+                </div>
+                <div class="card-desc">50k Documents  </div>
+                <div class="card-desc">100k Queries per month</div>
+                <div class="card-desc">Connectors & Unstructured content</div>
+                <div class="card-desc">Multiple indices</div>
+                <div class="card-desc">E-mail Support</div>
+                <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
+            </div>
+          </div>
+
+          <div class="col-4 upgrade-price-card custom_">
+            <div class="inner-content">
+              <img src="assets/icons/pricing/enterprise.svg" class="enterprise-img">
+              <div class="title-sec">
+                <div class="title">Enterprise</div>
+                <div class="custom-title">Custom</div>
+              </div>
+              <div class="card-desc">Any no. of documents </div>
+              <div class="card-desc">Any no. of documents</div>
+              <div class="card-desc">Custom SLAs</div>
+              <div class="custom-desc-text">Fully Customizable & Tailored Solution for your business needs</div>
+              <button class="kr-sg-button-secondary btn_lg">Contact US</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </perfect-scrollbar>
+    <div class="modal-footer text-right">
+      <button class="kr-sg-button-primary btn_lg mr-3">Proceed</button>
+      <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePopup3()">Cancel</button>
+    </div>
+</kr-modal>
