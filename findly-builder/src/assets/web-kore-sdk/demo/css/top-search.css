@@ -2113,3 +2113,18 @@ button.submit-button:disabled {
   float: right;
   width: auto;
 }
+
+.topdown-search-main-container .all-result-container .conversation-container .conversations .search-container.conversation #searchChatContainer .query-analytics-control-container {
+display: none !important;
+}
+
+.query-analytics-top-down{
+  position: absolute;
+    right: -98px;
+    top: 5px;
+    display: flex;
+    align-items: center;
+    color: #202124;
+    font-weight: 500;
+    font-size: 12px;
+}

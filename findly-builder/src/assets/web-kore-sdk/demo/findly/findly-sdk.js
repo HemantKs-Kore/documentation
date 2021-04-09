@@ -1069,6 +1069,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{/if}}\
             {{/if}}\
           </div>\
+          <div class="show_insights_top_down display-none" data-displayInsights="true">\
+            <span class="query-analytics-top-down"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBzZHNEcIgEIWfPwXYgZRAB1KCJdCB6SCWYAcpwRKkA8cK5OopdqC742YGHBJQPPhmvklgdx8Lu0C9dsQNlWqJB9GUJK8yJnsUmpyJK9ER5hsTBCaN/HNxP2bCp6qESSdFOthTYpp8k4OccCS2iFvX+EDckSVOiFu3qJCSDovGGWpWkGPk66biS+Rl8bqqm4iv55nid42+HRu1QZBHrpCXltzIyBCboBOFvIZJR0Y/0f8Z8fgvhJe1I+6Ckz0v6yHuE/H+Cfn+M6AXJD0vAAAAAElFTkSuQmCC">Query Analytics</span>\
+          </div>\
         </script>';
 
       return searchControl;
@@ -16724,7 +16727,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // From now, the container and data will be managed.
 
       // Search call back
-      _self.pubSub.subscribe('sa-page-search', (msg, data) => {
+      _self.pubSub.unsubscribe('sa-page-search');
+        _self.pubSub.subscribe('sa-page-search', (msg, data) => {
         var _self = this;
         var container;
         var pages = [];
@@ -19210,6 +19214,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           goBtn[i].disabled = isGoButtonDisabled;
         }
       });
+     
     }
     FindlySDK.prototype.showSuggestionbox = function (suggestions) {
       var _self = this;
@@ -19805,13 +19810,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
              <!-- </div>-->
             <div id="heading" class="search-input-box">      
                 <div id="search-box-container" class="search-box-container-data">                 
-                <!-- <div class="search-icon"> -->
-                <!-- <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBlVJLTgJBEK2q8RNXwg2GGzBbiEIHNHEl3ABOMHICvQFHQE8grEwU0wgBt9xAjjAkLkSnq+xB6JAwwfAWXV3pev1eVxdCCp70u38Asf8J8bSuVJRWg5uJHk1CZrlbJoKRPfURcbAwX80rpWabteRIw3HHMDSYuV4pFbOVciFHfJI1ht+O6Pijrye1LcVXPW4A4a0tDJQKtqy96FGZyHskXuTUyvqfoiUxm2YaKcGFOhuA0CCGoxtnVdtG2JhZHu6CmB4C5h3xBzhjYwT/gIFngHjqiIfwPbPR11pndlOtmsjcEZPHJi3f9J8GIgoRpOvyZIkNt4gwfNbjfBpJDydtsc+pqOK9019v+npYQ/I6gNQVIz0BE5G1h553bYcig3YYDIu6VMWpU0xQVeddYgosaU6IIeHykpIYfqiWCwGwtDxCvXaFsAdWg9ImxgD2xerf4RflG5JZZafRoQAAAABJRU5ErkJggg=="/> -->
-                <!--</div> -->
-                <!--  <div class="cancel-search">-->
-                <!--<span class="cross"> X </span>-->
-                      <!-- <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADeSURBVHgBnZI/C8IwEMUviRUHkdKp0KWgBccu/QAOgrj1k2arbtLZJXtFOpVOpXtoYyKk+CeJ4BtCEt7vuHscwJ8i6timh3gZbvy+vfUuc5Ie01W4XigfVh+Dh/25hy9Jtk9dECKC6vcTrK4FEwA5Ao+aYA2JAeU1O9dTq0pdU7VBlJQICA2iuOyae/sJVaxg2o++qmfSCEAF8By4BybICL7CMAowQUozEwhcDSGnxhLH3GjB4AjCFRixQao9W2BvoC09GzxtjrydbEGY4GlGG6SllgTzccc5ca7lTz0A2yqRYknu6twAAAAASUVORK5CYII="/>-->
-                      <!-- </div>-->
                 </div>   
                 <div id="frequently-searched-box" class="frequently_searched_box"> </div>          
                 <div id="live-search-result-box" class="live_search_result_box">
@@ -20010,7 +20008,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#live-search-result-box').show();
         }
       });
-      
+
       _self.pubSub.unsubscribe('sa-show-all-results-top-down');
       _self.pubSub.subscribe('sa-show-all-results-top-down', (msg, data) => {
         _self.vars.showingMatchedResults = true;
@@ -20037,6 +20035,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.bindFrequentData();
         }
       });
+      if(_self.isDev){
+        $('.show_insights_top_down').show();
+      $('.show_insights_top_down').off('click', '.query-analytics-top-down').on('click', '.query-analytics-top-down', function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+          var responseObject = { 'type': 'show', data: true, query: _self.vars.searchObject.searchText }
+          console.log(responseObject);
+          _self.parentEvent(responseObject);
+        }
+      })
+    }else{
+      $('.show_insights_top_down').hide();
+    }
     }
     FindlySDK.prototype.getTopDownFacetsTabs = function () {
       var topDownFacetsTabs = '<script id="top-down-tabs-template" type="text/x-jqury-tmpl">\
@@ -20051,7 +20063,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.getTopDownActionTemplate = function () {
       var topDownActionTemplate = '<script id="actions-template" type="text/x-jqury-tmpl">\
                                     {{if tasks.length > 0 }}\
-                                      <div class="type-section quick-actions"> Quick Actions</div>\
+                                    {{if selectedFacet !== appearanceType}}\
+                                      <div class="type-section quick-actions"> Actions</div>\
+                                      {{/if}}\
                                       <div class="action-results-container btn_block_actions">\
                                         {{each(key, task) tasks}}\
                                             <div class="action-content">\
