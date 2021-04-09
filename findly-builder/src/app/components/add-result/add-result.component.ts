@@ -14,8 +14,8 @@ declare const $: any;
 export class AddResultComponent implements OnInit {
   searchType = '';
   positionRecord = 'top'
-  searchRadioType = 'faq';
-  searchRadioTypeTxt = "FAQ's"
+  searchRadioType = 'all';
+  searchRadioTypeTxt = "Any"
   selectedApp :any = {};
   extractedResults : any = [];
   serachIndexId;

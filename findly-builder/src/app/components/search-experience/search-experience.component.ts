@@ -352,6 +352,7 @@ export class SearchExperienceComponent implements OnInit {
     this.service.invoke('put.searchexperience', quaryparms, obj).subscribe(res => {
       console.log("test res", res);
       this.searchIcon = res.widgetConfig.searchBarIcon;
+      this.headerService.closeSdk();
       this.headerService.updateSearchConfiguration();
       this.appSelectionService.updateTourConfig(this.componentType);
       this.notificationService.notify('Updated successfully', 'success');

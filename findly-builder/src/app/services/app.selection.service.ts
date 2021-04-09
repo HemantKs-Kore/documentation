@@ -161,6 +161,7 @@ export class AppSelectionService {
       title: '',
     };
     this.headerService.toggle(toogleObj);
+    this.headerService.closeSdk();
     this.headerService.updateSearchConfiguration();
   }
   setAppWorkFlowData(app, queryPipeline?) {
