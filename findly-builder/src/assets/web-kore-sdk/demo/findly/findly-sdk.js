@@ -3248,6 +3248,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       $('.custom-header-nav-link-item').off('click').on('click', function (event) {
+        if($('body').hasClass('top-down')){
+          if (($(event.currentTarget).attr('id') == 'viewTypeCustomize' && _self.vars.customizeView) || ($(event.currentTarget).attr('id') == 'viewTypePreview' && !_self.vars.customizeView)) {
+           return;
+          }
+        }
+
         event.preventDefault();
         event.stopImmediatePropagation();
 
