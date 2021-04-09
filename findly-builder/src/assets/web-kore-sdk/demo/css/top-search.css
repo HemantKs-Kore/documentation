@@ -1270,6 +1270,15 @@ input:focus{
   top : 33%;
 }
 
+.sdk-top-down-interface .customization .customization-tile .actions-content.manually_added_pin .tooltiptext{
+  width: 186px !important;
+  left: -150px !important;
+}
+.sdk-top-down-interface .customization .customization-tile .actions-content.manually_added_pin .tooltiptext::after{
+  left: auto !important;
+  right: 22px !important;
+}
+
 .sdk-top-down-interface .structured-search-data-container .search-heads{
   font-size: 12px;
   font-weight: bold;
@@ -2077,4 +2086,30 @@ a{
 
 .sdk-top-down-interface .conversation-container .conversations .search-container.conversation #searchChatContainer .finalResults{
   display:none !important;
+}
+
+/* Go Button */
+button.submit-button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.submit-button {
+  width: 40px;
+  height: 34px;
+  border: solid 0px #e5e8ec;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: 1px;
+  bottom: 0;
+  border-radius: 6px;
+  margin: 3px 10px 3px 0px;
+  background: #0D6EFD;
+  backdrop-filter: blur(27.1828px);
+  font-size: 12px;
+  font-weight: 500;
+  color: #202124;
+  position: relative;
+  float: right;
+  width: auto;
 }
