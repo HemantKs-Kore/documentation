@@ -181,7 +181,7 @@
                             </div>
                             <div class="row m-0 search-content-sec">
                                 <div class="col-2 p-0 title">
-                                  Select Parameters
+                                  Set Parameters
                                 </div>
                                 <div class="col-4 pr-0">
                                   <div class="kr-sg-dropdowns w-auto" ngbDropdown (click)="currentEditInex = index" *ngIf="ruleObj.contextType !=='userContext'">
@@ -416,7 +416,7 @@
           </div>
           <div class="kr-sg-input-text mb-2"> 
             <div class="label-text">URL</div>
-            <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown.enter)="addImage()" [(ngModel)]="imgInfo.url" name="appName" [ngClass]="{'readonly': !uploadImage.slide}">         
+            <input type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown.enter)="addImage()" [(ngModel)]="imgInfo.url" name="appName" [ngClass]="{'readonly': !uploadImage.slide}">         
           </div>
           <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div>
           <!-- <div class="multi-select mb-2">
@@ -455,7 +455,7 @@
               </perfect-scrollbar>
             </div>
             <div *ngIf="image && image.url">
-              <img [src]="imageInfo.url">
+              <img [src]="image.url">
             </div>
                            <div class="info-bubble-faq">
               <div class="w-100 d-flex">
@@ -566,7 +566,7 @@
 <kr-modal modalType="default" #externalResponsePop modalClass="modal_popups_">
   <div class="modal-header">
     <div class="title">External</div>
-    <div class="close_icon"><img class="ng-tns-c11-2" (click)="closeExternalPopUpRef()" src="assets/icons/modal-close.svg"></div>
+    <div class="close_icon"><img (click)="closeExternalPopUpRef()" src="assets/icons/modal-close.svg"></div>
   </div>
 <perfect-scrollbar class="perfect-scroll-modal-body">
   <div class="modal-body textAlignLeft">

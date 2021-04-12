@@ -474,10 +474,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const selectedElements = $('.selectRuleCheckBoxDiv:checkbox:checked');
     const allElements = $('.selectRuleCheckBoxDiv');
     if (selectedElements.length === allElements.length) {
-      $('#selectAllRules')[0].checked = true;
+      // $('#selectAllRules')[0].checked = true;
       this.selcectionObj.selectAll =  true
     } else {
-      $('#selectAllRules')[0].checked = false;
+      // $('#selectAllRules')[0].checked = false;
       this.selcectionObj.selectAll =  false
     }
     const element = $('#' + rule._id);
@@ -524,9 +524,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         }
       });
     };
-    if (unselectAll) {
-      $('#selectAllRules')[0].checked = false;
-    }
+    // if (unselectAll) {
+    //   $('#selectAllRules')[0].checked = false;
+    // }
   }
   createRule() {
     const quaryparms: any = {
