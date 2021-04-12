@@ -555,6 +555,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.faqsAvailable = res.length ? true : false;
       }
 
+      setTimeout(()=> {
+        this.selectAll()
+      }, 1)
+    
       this.editfaq = null
       this.apiLoading = false;
       this.loadingFaqs = false;
@@ -605,7 +609,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   paginate(event) {
     this.getfaqsBy(null, null, event.skip)
-    this.addRemoveFaqFromSelection(null, null, true);
+    // this.addRemoveFaqFromSelection(null, true,null);
     // this.perfectScroll.directiveRef.update();
     // this.perfectScroll.directiveRef.scrollToTop(2, 1000);
   }
