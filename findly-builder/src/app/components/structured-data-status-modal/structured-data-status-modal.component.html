@@ -15,8 +15,11 @@
         <div class="message-success text-center" *ngIf="(docStatusObject.status==='SUCCESS')">
           {{'structuredData.configuratoin_success' | translate}}
         </div>
-        <div class="message-success text-center" *ngIf="(docStatusObject.status==='FAILURE')">
+        <div class="message-success text-center" *ngIf="(docStatusObject.status==='FAILURE' && (docStatusObject.validation && docStatusObject.validation.fileValidation))">
           {{'structuredData.configuration_failed' | translate}}
+        </div>
+        <div class="message-success text-center" *ngIf="(docStatusObject.status==='FAILURE' && (docStatusObject.validation && !docStatusObject.validation.fileValidation))">
+          {{'structuredData.validation_failed' | translate}}
         </div>
         <ng-container *ngIf="docStatusObject && (docStatusObject.validation && docStatusObject.validation.fileValidation) && !(docStatusObject.status==='FAILURE')">
           <div class="status-identification-content"
@@ -27,6 +30,12 @@
             </div>
           </div>
         </ng-container>
+        <ng-container *ngIf="(docStatusObject.status==='FAILURE' && (docStatusObject.validation && !docStatusObject.validation.fileValidation))">
+          <div class="content-title text-center">
+            <img src="assets/icons/docker/info.svg" class="successfullyConnected" [ngbTooltip]="docStatusObject.store.statusMessage">
+            <span>{{'structuredData.file_validation_failed' | translate}} </span> <!--  <span >done</span> -->
+          </div>
+        </ng-container>
         <div class="progressNote" *ngIf="(docStatusObject.status==='IN_PROGRESS')">
           <div>{{'structuredData.import_progress' | translate}}</div>
         </div>
@@ -34,7 +43,7 @@
           <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
           <div class="relaxNote">{{'structuredData.notified_when_done' | translate}}</div>
         </div>
-        <div class="text-center" *ngIf="(docStatusObject.status==='FAILURE')">
+        <div class="text-center" *ngIf="(docStatusObject.status==='FAILURE' && (docStatusObject.validation && docStatusObject.validation.fileValidation))">
           <div class="relaxNote">{{docStatusObject.store.statusMessage}}</div>
         </div>
       </div>

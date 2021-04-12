@@ -365,6 +365,7 @@
         "configuratoin_success": "Successfully Configured.",
         "configuration_failed": "Configuration Failed",
         "validation_failed" : "Validation Failed",
+        "file_validation_failed" : "Invalid File format.",
         "initial_file_validation": "Initial File Validation",
         "import_progress": "Import In-progress",
         "import_done": "Import Done",
