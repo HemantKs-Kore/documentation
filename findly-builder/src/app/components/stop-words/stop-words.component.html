@@ -7,7 +7,7 @@
       <div class="title">{{'stopWords.stop_words'| translate}}</div>
       <div class="toggle_switch">
         <label class="kr-sg-toggle" *ngIf="(stopwords && stopwords.length)">                                       
-          <input type="checkbox" (change)="enableStopWords($event)" checked [(ngModel)]="enabled">
+          <input type="checkbox" checked  (change)="enableStopWords($event)" [(ngModel)]="enabled">
           <div class="slider" ><span class="enabled">{{'stopWords.enable_stop_word_removal'| translate}}</span><span class="disabled">{{'stopWords.stop_word_removal_disabled'| translate}}</span></div>
         </label>
       </div>     

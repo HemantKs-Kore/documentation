@@ -1154,7 +1154,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       panelClass: 'delete-popup',
       data: {
         newTitle: 'Are you sure you want to delete ?',
-        body: 'Selected questions will be deleted.',
+        body: 'Selected question(s) will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }

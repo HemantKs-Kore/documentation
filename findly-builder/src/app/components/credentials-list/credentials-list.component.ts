@@ -143,23 +143,30 @@ saveEditCredential(){
   }
 }
 validateSource() {
-  if (this.credntial.awt != 'Select Signing Algorithm') {
+  if (this.credntial.awt != 'Select Signing Algorithm' && this.credntial.name != "") {
     this.createCredential()
-  }
-  else if (this.credntial.awt == 'Select Signing Algorithm') {
-    $(".dropdown-input").css("border-color", "#DD3646");
-    this.notificationService.notify('Enter the required fields to proceed', 'error');
-  }
 
-  if (this.credntial.name) {
-    this.createCredential()
   }
-  else {
+  else { 
+    if (this.credntial.awt == 'Select Signing Algorithm') {
+      $(".dropdown-input").css("border-color", "#DD3646");
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
+    if (this.credntial.name == ""){
 
-    $("#addSourceTitleInput").css("border-color", "#DD3646");
-    $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-    this.notificationService.notify('Enter the required fields to proceed', 'error');
+      $("#addSourceTitleInput").css("border-color", "#DD3646");
+      $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
+
   }
+ 
+
+  // if (this.credntial.name) {
+  //   this.createCredential()
+ 
+  // }
+
   
 }
 //track changing of input
