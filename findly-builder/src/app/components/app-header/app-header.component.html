@@ -10,6 +10,7 @@
                 </div> -->
                 <div class="headerTabsContainer">
                     <div class="headerMenuTab" [ngClass]="{'active' : mainMenu == '/summary'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/summary')">Overview</div>
+                    <div class="headerMenuTab" [ngClass]="{'active' : mainMenu == '/source'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/source')">SOURCES</div>
                     <div class="headerMenuTab" id="sourceTab" [ngClass]="{'active' : mainMenu == '/source'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/source')">
                         <span>Indices</span>
                         <span routerLink="/content" class="d-none"></span>
@@ -26,12 +27,13 @@
                         <span routerLink="/resultranking" class="d-none"></span>
                         <span routerLink="/FieldManagementComponent" class="d-none"></span>
                     </div>
-                    <div class="headerMenuTab" id='experimentsTab' [ngClass]="{'active' : mainMenu == '/experiments'}" (click)="analyticsClick('/experiments')">Experiments</div>
+                    <!-- <div class="headerMenuTab" id='experimentsTab' [ngClass]="{'active' : mainMenu == '/experiments'}" (click)="analyticsClick('/experiments')">Experiments</div> -->
                     <div class="kr-sg-dropdowns headerMenuTab" [ngClass]="{'active' : (mainMenu == '/dashboard'
-                     || mainMenu == '/userEngagement' || mainMenu == '/searchInsights' ||mainMenu == '/resultInsights')}">
+                     || mainMenu == '/userEngagement' || mainMenu == '/searchInsights' || mainMenu == '/resultInsights' || mainMenu == '/experiments')}">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"> Analytics</button>
                             <ul class="dropdown-menu content-menu content-width">
+                                <li class="experment-link" (click)="analyticsClick('/experiments')" id="experimentsTab" [ngClass]="{'active' : mainMenu == '/experiments'}"><a>Experiments</a></li>
                                 <li (click)="analyticsClick('/dashboard')" id="dashboardTab" [ngClass]="{'active' : mainMenu == '/dashboard'}"><a>Dashboard</a></li>
                                 <li (click)="analyticsClick('/userEngagement')" [ngClass]="{'active' : mainMenu == '/userEngagement'}"><a>User Engagement</a></li>
                                 <li (click)="analyticsClick('/searchInsights')" [ngClass]="{'active' : mainMenu == '/searchInsights'}"><a>Search Insights</a></li>
@@ -52,11 +54,7 @@
                     <ngb-highlight (click)="triggerRoute(null,r)" [result]="r.displayName" [term]="t"></ngb-highlight>
                 </ng-template> 
                 <li class="nav-item autoSearchTools d-none">
-                    <img src="assets/icons/sidemenu/search.svg" (click)="toggleSearch(true)" [ngClass]="{'d-none': searchActive}">
-                    <!-- <div class="kr-sg-input-search" [ngClass]="{'d-none': !searchActive}" >                               
-                        <input type="text" placeholder="Search" class="input-search" (keydown.enter)="triggerRoute(searchText)" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt"  [inputFormatter]="formatter">
-                        <img src="assets/images/close.svg" class="search-icon" (click)="toggleSearch(false)">
-                    </div> -->
+                    <img src="assets/icons/sidemenu/search.svg" (click)="toggleSearch(true)" [ngClass]="{'d-none': searchActive}">                   
                     <div class="kr-sg-input-search" [ngClass]="{'d-none': !searchActive}">
                         <input type="text" placeholder="Search" class="input-search" (keyup.enter)="triggerRoute(searchText)" [ngClass]="{'pl-33':!searchText}" autocomplete="off" [(ngModel)]="searchText" (focusout)="toggleSearch(false)" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
