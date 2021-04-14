@@ -16,7 +16,12 @@ declare const $: any;
 })
 export class TraitsComponent implements OnInit {
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
+  @ViewChild('addUtteranceModalPop') addUtteranceModalPop: KRModalComponent;
+  currentUtteranceIndex:number;
+  currentTraitKey:string;
+  newUtterance:any;
   statusModalPopRef: any = [];
+  addUtteranceModalPopRef: any = [];
   traitsObj: any = [];
   traitType: string;
   traitsTableData: any = [];
@@ -513,6 +518,18 @@ var width = ctx.measureText(t.traitName +', ').width;
       this.statusModalPopRef.close();
     }
   }
+  openAddUtteranceModel(index,key) {
+    this.currentUtteranceIndex = index;
+    this.currentTraitKey = key;
+    this.addUtteranceModalPopRef = this.addUtteranceModalPop.open();
+  }
+  closeUtteranceModal() {
+    this.currentUtteranceIndex = null;
+    this.currentTraitKey = null;
+    if (this.addUtteranceModalPopRef && this.addUtteranceModalPopRef.close) {
+      this.addUtteranceModalPopRef.close();
+    }
+  }
   addTraits(traitName, event) {
     const traits = [];
     if (traitName.trim() !== '') {
@@ -699,4 +716,6 @@ var width = ctx.measureText(t.traitName +', ').width;
     }
     this.showSearch = !this.showSearch
   };
+
+  addNewUtterance(newUtterance){}
 }
