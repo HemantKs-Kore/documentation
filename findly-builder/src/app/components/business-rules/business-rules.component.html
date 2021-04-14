@@ -159,7 +159,6 @@
 </div>
 
 <kr-modal modalType="center" #addBusinessRules modalClass="modal_popups_ business-rules-popup">
-
     <div class="modal-header">
         <div class="title font-weight-bold">{{ (addEditRuleObj._id ?"businessRules.edit_rule" :"businessRules.add_rule") | translate }}</div>
         <label class="kr-sg-toggle toggle-switch">
@@ -169,21 +168,22 @@
       </div>
     </label>
         <div class="close_icon" (click)="closeModalPopup()">
+            <img src="assets/icons/modal-close.svg" />
+        </div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body">
         <div class="modal-body">
 
             <div class="kr-sg-input-text mb-5">
                 <div class="label-text">{{ "businessRules.rule_name" | translate }}</div>
                 <input type="text" placeholder="Rule Name" class="input-text" [(ngModel)]="addEditRuleObj.ruleName" />
             </div>
-
             <div class="rules-block row">
-
                 <div class="condition-add-text col-3 pl-0 pr-4">
                     <div class="title">{{ "businessRules.condition" | translate }}</div>
                     <div class="desc_text">{{ "businessRules.condition_desc" | translate }}</div>
                     <div class="add-condition" (click)="addNewRule()"><img src="assets/icons/plus-blue.svg" />Add Condition</div>
                 </div>
-
                 <div class="input-conditions col-9">
                     <ng-container *ngFor="let ruleObj of rulesArrayforAddEdit; let ruleIndex = index">
                         <div class="d-flex align-items-center w-100 mb-13 position-relative">
