@@ -61,7 +61,7 @@ export class AddResultComponent implements OnInit {
     this.searchType = this.searchRadioType;
     if(this.searchRadioType == 'faq'){
       this.searchRadioTypeTxt = "FAQ"
-    }else if(this.searchRadioType == 'page'){
+    }else if(this.searchRadioType == 'content'){
       this.searchRadioTypeTxt = "Content"
     }else if(this.searchRadioType == 'task'){
       this.searchRadioTypeTxt = "Bot Action"
