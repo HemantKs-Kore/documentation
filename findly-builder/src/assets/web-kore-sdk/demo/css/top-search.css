@@ -1763,11 +1763,11 @@ float: right;
   content: "";
   /* background: #fff; */
   height: 100%;
-  width: 245px;
+  /* width: 245px; */
   left: 0;
   top: 0;
   opacity: 0.7;
-}
+} 
 .top-down-search-background-div::before{
   content: "";
   background: #fff;
