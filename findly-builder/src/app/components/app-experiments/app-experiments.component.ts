@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
+import { InlineManualService } from '@kore.services/inline-manual.service'
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,7 +16,7 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
   styleUrls: ['./app-experiments.component.scss']
 })
 export class AppExperimentsComponent implements OnInit {
-  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog, private appSelectionService: AppSelectionService) { }
+  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog, private appSelectionService: AppSelectionService , public inlineManual : InlineManualService) { }
   addExperimentsRef: any;
   selectedApp: any;
   serachIndexId: any;
@@ -386,6 +387,8 @@ export class AppExperimentsComponent implements OnInit {
       }
       else {
         this.loadingContent1 = true;
+        this.inlineManual.loadInlineManualScripts();
+        this.inlineManual.openHelp('88837')
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
