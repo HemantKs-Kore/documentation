@@ -3054,7 +3054,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var payload = {
         "query": _self.vars.searchObject.searchText,
         // "maxNumOfResults": 9,
-        "maxNumOfResults": 16,
+        "maxNumOfResults": 10,
         "userId": _self.API.uuid,
         "streamId": _self.API.streamId,
         "lang": "en",
@@ -4630,7 +4630,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var payload = {
         "query": _self.vars.searchObject.searchText,
         // "maxNumOfResults": 9,
-        "maxNumOfResults": 16,
+        "maxNumOfResults": 10,
         /*"userId": _self.API.uuid,
         "streamId": _self.API.streamId,*/
         "lang": "en",
@@ -4965,7 +4965,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.vars.tempSelectedFacetsList = [];
               _self.vars.tempFilterObject = [];
               _self.vars.selectedFacetsList = [];
-              _self.vars.isTopFacets = _self.vars.filterConfiguration.aligned === 'top' ? true : false;
+              _self.vars.isTopFacets = (_self.vars.filterConfiguration||{}).aligned === 'top' ? true : false;
               _self.vars.countOfSelectedFilters = 0;
               _self.searchFacetsList([]);
             }
@@ -4998,7 +4998,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.selectedFiltersArr = [];
             _self.vars.tempSelectedFiltersArr = [];
             _self.vars.selectedFacetsList = [];
-            _self.vars.isTopFacets = _self.vars.filterConfiguration.aligned === 'top' ? true : false;
+            _self.vars.isTopFacets = (_self.vars.filterConfiguration||{}).aligned === 'top' ? true : false;
             _self.vars.countOfSelectedFilters = 0;
           }
         })
@@ -6650,7 +6650,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       if (url != this.API.livesearchUrl) {
-        payload['maxNumOfResults'] = 16;
+        payload['maxNumOfResults'] = 10;
         payload['pageNumber'] = _self.vars.scrollPageNumber
       }
       if (this.bot.options) {
@@ -7142,6 +7142,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return key;
       }
     }
+    FindlySDK.prototype.addGreetingMsgControl = function (config) {
+      var _self = this;
+        if (config.container) {
+            if ($('body').hasClass('top-down')) {
+              var dataHTML = $(_self.getGreetingMsgTopDownTemplate()).tmplProxy({searchConfig:config.searchConfig});
+              $('#' + config.container).empty().append(dataHTML);
+          } 
+        }
+    }
+
     FindlySDK.prototype.addSourceType = function (config) {
       var _self = this;
       _self.pubSub.unsubscribe('facet-selected');
@@ -7715,8 +7725,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           searchConfiguration.feedbackExperience = { resultLevel: true, queryLevel: false };
         }
 
-        if (searchConfig.welcomeMsgEmoji && searchConfig.welcomeMsgEmoji.length) {
-          searchConfiguration.welcomeMsgEmoji = searchConfig.welcomeMsgEmoji;
+        if (searchConfig.interactionsConfig.welcomeMsgEmoji && searchConfig.interactionsConfig.welcomeMsgEmoji.length) {
+          searchConfiguration.welcomeMsgEmoji = searchConfig.interactionsConfig.welcomeMsgEmoji;
         }
         else {
           searchConfiguration.welcomeMsgEmoji = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJmSURBVHgBtVJLS5RhFH7O+10cZ2jmM5sgUfg0BAkq3VqhRrhx0biQ2ql7w7atnF2rsD8Q02XZQluGhhVBdIHGS4Q7JSOi0hk/57t/7+l1umCouzqr9+Wc5znP83CA/10rKyvmzcfexcFbbttBfdr78V7adiqFs+r5DHpjCazfm88sLTx4sd2ba9TFBaTnRvLt6VrgT2uJX2wcqqyLvQSGoXWzSM/CtCYhMjbM/MyluK/QdST7+sqZ9POeEVCU0Qp6Sh9L0FDYxYi925UeizTzNoy2IvT8GkR2DfqJuzdOD02c7yKnkyjQTbqspXTWGrTuvwh2twsjVQI0C5BPYeQLysYayNwCZYu8OjhV96wJW+gCrInufRnw8qkijJYpkFGGblnQsrYiK3Pw2SYEOSTeIyTfCzIMOHCiarr/Y9MfAn57chSGfh3G0UXox0chjAq0TC5xqyRMDYh3QOyoQY9l4FNY3Wa4sr1ugZlFJJPFenAk+iCrs+DISpwNEoYaSDzI0FV61T49T2Q0MyeC/DDsEfMfuPn+E6dpYvXNF8T+ACQssCxId2NLaDFIOpDepiKpMWSkWgTJJslEpcXIiaXlDXduHeeqntn68Nj71ST8Oo54Uw37yl9NAatKlKfk7yj8jhLmIXbVW+WQEK3XM7h6p9bS20HiWn/jJyJiftc5xoJKP0/NrEvn0EfkBsqvjsjxkYR+2Rre7CEcUtGrjqIimyLzKJga1PYAcVW5dF2WsVxUEgeahiuVQwl2y11onSQ2pmHmiJXn2PmGJHLL+AXedwcH1daMZZNmlCDJrt8Ex+O/wf+kfgAhFxenJ2BlUQAAAABJRU5ErkJggg==';
@@ -7958,7 +7968,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       messageToBot["resourceid"] = '/bot.message';
 
-      messageToBot["maxNumOfResults"] = 16;
+      messageToBot["maxNumOfResults"] = 10;
 
       messageToBot["location"] = _self.vars.locationObject.location;
       messageToBot["timeDateDay"] = dateTime;
@@ -19178,7 +19188,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           data_body_sec_element.addEventListener('ps-y-reach-end', () => {
             console.log("ps-y-reach-end");
             if (_self.vars.scrollPageNumber >= 0) {
-              if (_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 16)) {
+              if (_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 10)) {
                 _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
                 _self.seeAllResultsInifiteScroll();
                 $(".content-data-sec").scrollTop(0);
@@ -19810,7 +19820,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
              <!-- </div>-->
             <div id="heading" class="search-input-box">      
                 <div id="search-box-container" class="search-box-container-data">                 
-                </div>   
+                </div>  
+                <div id="greeting-msg-top-down"></div> 
                 <div id="frequently-searched-box" class="frequently_searched_box"> </div>          
                 <div id="live-search-result-box" class="live_search_result_box">
                     <div id="auto-query-box" class="auto_query_box">
@@ -19964,6 +19975,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         templateId: "frequently-searched-template",
         searchConfig: searchConfiguration
       });
+      _self.addGreetingMsgControl({
+        container: "greeting-msg-top-down",
+        searchConfig: searchConfiguration
+      });
       _self.addCustomTemplateConfig();
       var searchText = "";
       function searchHandler(data) {
@@ -20033,6 +20048,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('#search-box-container').off('focus', '#search').on('focus', '#search', function (e) {
         if (!$('#search').val()) {
           _self.bindFrequentData();
+        }
+        if( $('#greeting-msg-top-down').length){
+          $('#greeting-msg-top-down').hide();
         }
       });
       if(_self.isDev){
@@ -20110,6 +20128,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                       </script>'
       return frequentlySearchTemplate;
     }
+
+    FindlySDK.prototype.getGreetingMsgTopDownTemplate = function () {
+      var greetingMsgTemplate = '<script id="greeting-msg-top-down-template" type="text/x-jqury-tmpl">\
+                                      {{if searchConfig.welcomeMsg}}\
+                                        <div class="search-greeting-box-top-down">\
+                                          <span class="greeting-img"><img src="${searchConfig.welcomeMsgEmoji}"></span>\
+                                          <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">${searchConfig.welcomeMsg}</span>\
+                                        </div>\
+                                      {{/if}}\
+                                 </script>'
+      return greetingMsgTemplate;
+    }
+    
     FindlySDK.prototype.showAllClickEventTopDown = function (e) {
       var _self = this;
       if ($('.topdown-search-main-container').length) {
