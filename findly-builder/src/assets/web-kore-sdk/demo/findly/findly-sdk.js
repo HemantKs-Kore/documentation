@@ -19071,7 +19071,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.searchObject.searchText = $('#search').val();
             _self.vars.showingMatchedResults = true;
             _self.searchFacetsList([]);
-            $('#loaderDIV').show();
+            // $('#loaderDIV').show();
             // _self.invokeSearch();
             //$('#loaderDIV').hide();
             _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
