@@ -51,7 +51,7 @@
                     </div> 
                     <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
                     <div class="add_feild" (click)="createNewTraits()"><img src="assets/icons/add_plus.svg"> Add Traits</div>
-                    <button class="kr-sg-button-primary btn_lg">Train Index</button>
+                    <!-- <button class="kr-sg-button-primary btn_lg" (click)="trainIndex()">Train Index</button> -->
                 </div>
             </div>  
             <div class="trailts-table-header row">
@@ -62,7 +62,7 @@
                 <div class="traits-body-sec">
                     <div class="content-body row col-12 m-0" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">
                         <div class="col-2 traitGroup-name" title="{{traitGroup.groupName || '---'}}">{{traitGroup.groupName || '---'}}</div>
-                        <div class="col-8 traits-groups row m-0 align-items-center">
+                        <div class="col-8 traits-groups row m-0 align-items-center pr-0">
                             <span *ngFor="let trait of traitGroup.traits| slice:0:getTraitsSliceValue(traitGroup.traits); let i=index;" class="trait-more">
                                 {{i!==0 ?', ':''}}{{trait.traitName || '---'}}
                             </span>   
@@ -155,10 +155,10 @@
                         <div class="title">
                             {{item.key}}
                             <span class="edit-icon">
-                                <img src="assets/images/icons/edit-black.svg" class="ml-1">
+                                <img src="assets/images/icons/edit-black.svg" class="ml-1"  placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
                             </span>
                             <span class="delete-icon" (click)="deleteTraitInGroup(item.key,traits.addEditTraits,$event,index)">
-                                <img src="assets/images/trashIcon.svg" class="ml-1 ">
+                                <img src="assets/images/trashIcon.svg" class="ml-1 "  placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
                             </span>
                         </div>
                     </div>
@@ -176,7 +176,7 @@
                                 <div class="item">
                                     {{utterance}}
                                     <span class="delete-icon" (click)="$event.stopPropagation();deleteUtteranceIntrait(utterance,item.key,traits.addEditTraits,index)">
-                                        <img src="assets/images/trashIcon.svg" class="ml-1 ">
+                                        <img src="assets/images/trashIcon.svg" class="ml-1 " placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
                                     </span>
                                 </div>
                             </ng-container>

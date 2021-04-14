@@ -22,7 +22,7 @@ export class SearchExperienceComponent implements OnInit {
   suggestions: any = [];
   searchObject: any = {
     "searchExperienceConfig": {
-      "searchBarPosition": "top"
+      "searchBarPosition": ""
     },
     "searchWidgetConfig": {
       "searchBarFillColor": "#FFFFFF",
@@ -69,6 +69,7 @@ export class SearchExperienceComponent implements OnInit {
   public color5: string = '';
   public color6: string = '';
   statusModalPopRef: any = [];
+  guideModalPopRef : any;
   userInfo: any = {};
   tourGuide: string;
   show_tab_color: boolean = false;
@@ -82,6 +83,7 @@ export class SearchExperienceComponent implements OnInit {
   tourData: any = [];
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
+  @ViewChild('guideModalPop') guideModalPop: KRModalComponent;
   constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService, public headerService: SideBarService) {
   }
 
@@ -90,7 +92,6 @@ export class SearchExperienceComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
     this.getSearchExperience();
-    // this.getTourConfig();
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourData = res;
       this.tourGuide = res.searchExperienceVisited ? '' : 'step1';
@@ -289,26 +290,16 @@ export class SearchExperienceComponent implements OnInit {
   selectSearchBox(type) {
     this.selectSearch = type;
   }
-  //get tour congfig data
-  // getTourConfig() {
-  //   const quaryparms: any = {
-  //     userId: this.userInfo.id
-  //   };
-  //   this.service.invoke('get.tourConfig', quaryparms).subscribe(res => {
-  //     this.tourGuide = res.configurations.searchExperienceVisited ? '' : 'step1';
-  //   }, errRes => {
-  //     console.log(errRes);
-  //   });
-  // }
   //put tour config data
   updateTourConfig() {
+    const appInfo: any = this.workflowService.selectedApp();
     const quaryparms: any = {
-      userId: this.userInfo.id
+      streamId: appInfo._id
     };
     this.tourData.searchExperienceVisited = true;
-    const payload = { "configurations": this.tourData };
+    const payload = { "tourConfigurations": this.tourData };
     this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
-      this.appSelectionService.updateTourConfig(this.componentType);
+      //this.appSelectionService.updateTourConfig(this.componentType);
       this.notificationService.notify('Updated successfully', 'success');
       this.tourGuide = '';
     }, errRes => {
@@ -361,6 +352,7 @@ export class SearchExperienceComponent implements OnInit {
     this.service.invoke('put.searchexperience', quaryparms, obj).subscribe(res => {
       console.log("test res", res);
       this.searchIcon = res.widgetConfig.searchBarIcon;
+      this.headerService.closeSdk();
       this.headerService.updateSearchConfiguration();
       this.appSelectionService.updateTourConfig(this.componentType);
       this.notificationService.notify('Updated successfully', 'success');
@@ -378,6 +370,16 @@ export class SearchExperienceComponent implements OnInit {
   closePreviewPopup() {
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef = this.statusModalPopRef.close();
+    }
+  }
+
+  openSearchInterfaceGuide(){
+    this.guideModalPopRef = this.guideModalPop.open();
+  }
+
+  closeGuidePopup() {
+    if (this.guideModalPopRef && this.guideModalPopRef.close) {
+      this.guideModalPopRef = this.guideModalPopRef.close();
     }
   }
 }

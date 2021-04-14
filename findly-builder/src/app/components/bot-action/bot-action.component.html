@@ -79,7 +79,7 @@
                <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
            </div>
              <label class="kr-sg-toggle large">                                       
-               <input type="checkbox"  (change)="enableDisableTask()">
+               <input type="checkbox" id="enableOrDisable" (change)="enableDisableTask()">
                <div class="slider"><span class="enabled w-163">Tasks Enabled</span><span class="disabled w-163">Tasks Disabled</span></div>
            </label>
             </div>
@@ -130,7 +130,7 @@
                   </div>
                 </perfect-scrollbar>
               </ng-container>
-              <ng-container *ngIf="!(linkedBotTasks && linkedBotTasks.length)">
+              <ng-container *ngIf="!(linkedBotTasks && linkedBotTasks.length) && !loading">
                 <div class="linked-bot-tasks-empty-content">
                   <img class="empty-content-indicator-image" src="assets/images/icons/empty_ill.svg" />
                   <div class="empty-content-container-content">

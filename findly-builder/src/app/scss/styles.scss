@@ -1393,14 +1393,17 @@ div.divBlockEmptylastChild:first-child {
 }
 .metrics_tooltips{
     margin-left: 12px;
+    opacity: 1 !important;
     .arrow{
         display: block;
         &::before{
-            border-top-color:#26344a;
+            border-top-color:#202124;
         }
     }
     .tooltip-inner{
-        background-color: #26344a;
+        background: #202124;
+        box-shadow: 0px 4px 4px rgba(32, 33, 36, 0.2);
+        border-radius: 4px;
         max-width: 200px;
         min-width: 200px;
         text-align: center;
@@ -1409,6 +1412,30 @@ div.divBlockEmptylastChild:first-child {
         font-size: 12px;
         color: #fff;
         border: 0;
+    }
+}
+.workbench_tolltips{
+    margin-left: 12px;
+    opacity: 1 !important;
+    .arrow{
+        display: block;
+        &::before{
+            
+        }
+    }
+    .tooltip-inner{
+        background: #202124;
+        box-shadow: 0px 4px 4px rgba(32, 33, 36, 0.2);
+        border-radius: 4px;
+        max-width: 240px;
+        min-width: 240px;
+        text-align: center;
+        padding: 15px;
+        color: #fff;
+        border: 0;
+        font-weight: 600;
+        font-size: 10px;
+        line-height: 14px;
     }
 }
 
@@ -1633,14 +1660,21 @@ ngx-simplebar {
         background-color: #ffffff;
         padding: 15px;  
         font-family: inter !important; 
+        top: 45px !important;
         left: auto !important;
         right: 32px !important;
         margin-top: 1px !important;  
+        td.start-date {
+            border-radius: 2em 0 0 2em !important;  
+        }
+        td.end-date {
+            border-radius: 0 2em 2em 0 !important;  
+        }
         td{
             width: 34px;
             height: 34px;
             min-width: 34px !important;
-            border: 0px solid transparent;            
+            border: 1px solid transparent;            
             span{
                 font-size: 14px;
                 color: #202124;
@@ -1656,10 +1690,12 @@ ngx-simplebar {
             }
             &.in-range{
                 border-radius: 0;
-                background-color: #ccebee !important;
+                // background-color: #ccebee !important;
+                background-color: #0D6EFD !important;
                 opacity: 1;
                 span{
-                    color: #202124 !important;
+                    // color: #202124 !important;
+                    color: #ffffff !important;
                 }
             }
             &.active {
@@ -1683,7 +1719,7 @@ ngx-simplebar {
             // }
             &.available{
                 background-size: auto !important;
-                border-radius: 0em !important;
+                // border-radius: 0em !important;
                 opacity: 1 !important;
                 transform: none !important;
                 &.prev{
@@ -1730,7 +1766,11 @@ ngx-simplebar {
                 border: 0;
             }
         }
+        .calendar.right{
+            display: none !important;
+        }
         .calendar-time{
+            display: none !important;
             text-align: left;
             margin-right: 15px;
             border-radius: 2px;
@@ -1792,6 +1832,30 @@ ngx-simplebar {
                     }
                 }
             }
+        }
+    }
+    .buttons .buttons_input {
+        button.btn.btn-default {
+            display: none !important;
+        }
+        button.btn {
+            float: left !important;
+            background: transparent !important;
+            color: #0D6EFD;
+            box-shadow: none !important;
+            position: relative;
+            border: 0px !important;
+        }
+        button.btn:after {
+            content: "Done";
+            text-transform: capitalize !important;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            color: #0D6EFD;
+            background: white;
         }
     }
 }
@@ -2750,6 +2814,10 @@ nouislider{
     padding: 42px 0 40px 0;
     text-align: center;
     .img-block{
+        .action_icon{
+            width: 340px;
+        }
+
 
     }
     .empty-title{
@@ -3056,7 +3124,8 @@ nouislider{
 }
 
 #test-btn-launch-sdk.active{
-    background: #BDC1C6;
+    background: #E4E5E7;
+    border: 1px solid #BDC1C6;
 }
 
 .test-icon-tooltip{
@@ -3118,4 +3187,14 @@ app-useronboarding-journey{
     .ps{
         max-height: 250px;
     }
+}
+.scroll-search-fiels-weights{
+    max-height: 350px;
+    .ps{
+        max-height: 350px;
+    }
+}
+
+.scroll-max-250{
+    max-height: 250px;
 }

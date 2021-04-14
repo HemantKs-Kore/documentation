@@ -1,6 +1,6 @@
 <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
 <div class="search-experience-wrapper">
-    <div class="header-title">Search Experience</div>
+    <div class="header-title">Search Interface</div>
     <div class="tabs-sec">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
@@ -103,7 +103,7 @@
                             </div> 
     
                             <div class="tour-guide-data button-tour" *ngSwitchCase="'step4'">
-                                <div class="close-guide" (click)="tourGuide=''">
+                                <div class="close-guide" (click)="updateTourConfig();tourGuide=''">
                                     <img src="assets/icons/search-experience/close-tour.svg">
                                 </div>
                                 <div class="title-info">Click on the button to customize button text, fill color and border color</div>
@@ -433,20 +433,23 @@
                                 <input id="checkbox_grpb" class="checkbox-custom" type="checkbox" [checked]="searchObject.searchInteractionsConfig.feedbackExperience.resultLevel" [(ngModel)]="searchObject.searchInteractionsConfig.feedbackExperience.resultLevel">
                                 <label for="checkbox_grpb" class="checkbox-custom-label">Result Level</label>
                             </div>
-                            <div class="kr-sg-checkbox">
+                            <!-- <div class="kr-sg-checkbox">
                                 <input id="checkbox_grpc" class="checkbox-custom" type="checkbox" disabled>
                                 <label for="checkbox_grpc" class="checkbox-custom-label">Query Level</label>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="right-sec col-5">
+                        <button class="btn kr-sg-button-primary" (click)="openSearchInterfaceGuide()">Open Guide</button>
+                    </div>
+                    <!-- <div class="right-sec col-5">
                         <div class="preview-interactions">
                             <div class="label_text">Preview</div>
                             <div class="bg-preview-content">
 
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>             
             </div>
           </div>
@@ -490,7 +493,22 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer">
-    <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal">Next</button>
+    <!-- <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal">Next</button> -->
     <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closePreviewPopup()">Close</button>
   </div>
-</kr-modal> 
+</kr-modal>
+
+<kr-modal  modalType="center" modalClass="sliderComponent modal_popups_ search-customization-popup-preview" #guideModalPop id="guideModalPop">
+    <div class="modal-header">
+      <div class="title">Modal header</div>
+      <div class="close_icon" (click)="closeGuidePopup()"><img  src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+      <div class="modal-body">
+          Modal body
+      </div>
+    </perfect-scrollbar>
+    <div class="modal-footer">
+      
+    </div>
+  </kr-modal> 

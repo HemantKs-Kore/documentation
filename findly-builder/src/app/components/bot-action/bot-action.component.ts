@@ -51,7 +51,8 @@ export class BotActionComponent implements OnInit {
     selectAll: false,
     selectedItems:[],
   };
-  isEnabledAll = "disable"
+  isEnabledAll = "disable";
+  loading:boolean=true;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -813,17 +814,21 @@ export class BotActionComponent implements OnInit {
         const queryParams: any = {
           searchIndexID: this.searchIndexId
         };
+        this.loading= true;
         this.service.invoke('get.AssociatedBotTasks', queryParams, null, { "state": "published" }).subscribe(res => {
 
           
           console.log("getAllTasks API response payload", res);
 
           this.linkedBotTasks = [];
+          let taskEnable = true;
           if (res.tasks.length > 0) {
             res.tasks.forEach(element => {
               if (element.state == "published") {
                 if (element.isHidden == false) {
+                  $("#enableOrDisable").prop('checked', false);
                   element.taskStatus = "Enabled";
+                  taskEnable = false;
                 }
                 else {
                   element.taskStatus = "Disabled";
@@ -832,6 +837,9 @@ export class BotActionComponent implements OnInit {
                 this.linkedBotTasks.push(element);
               }
             });
+            if(taskEnable){
+              $("#enableOrDisable").prop('checked', true);
+            }
             console.log("Linked Bot, Tasks", this.linkedBotTasks);
           }
           else {
@@ -849,11 +857,12 @@ export class BotActionComponent implements OnInit {
           else {
             this.linkedBotFAQs = [];
           }
-          
+          this.loading= false;
           this.loadingContent = false;
         },
           (err) => { 
             this.loadingContent = false;
+            this.loading= false;
             console.log(err) 
           },
           () => { console.log("XHR Call Completed") }
@@ -908,12 +917,15 @@ export class BotActionComponent implements OnInit {
             this.notificationService.notify("Task Enabled, Successfully", 'success');
           }
         })*/
+        let taskEnable = true;
         if (res.tasks.length > 0) {
           this.linkedBotTasks = [];
           res.tasks.forEach(element => {
             if (element.state == "published") {
               if (element.isHidden == false) {
                 element.taskStatus = "Enabled";
+                $("#enableOrDisable").prop('checked', false);
+                taskEnable = false;
               }
               else {
                 element.taskStatus = "Disabled";
@@ -922,6 +934,9 @@ export class BotActionComponent implements OnInit {
               this.linkedBotTasks.push(element);
             }
           });
+          if(taskEnable){
+            $("#enableOrDisable").prop('checked', true);
+          }
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
           this.notificationService.notify("Task Enabled, Successfully", 'success');
         }
@@ -1027,12 +1042,16 @@ export class BotActionComponent implements OnInit {
             this.notificationService.notify("Task Disabled, Successfully", 'success');
           }
         })*/
+
         if (res.tasks.length > 0) {
           this.linkedBotTasks = [];
+          let taskEnable = true;
           res.tasks.forEach(element => {
             if (element.state == "published") {
               if (element.isHidden == false) {
-                element.taskStatus = "Enabled";
+                  $("#enableOrDisable").prop('checked', false);
+                  element.taskStatus = "Enabled";
+                  taskEnable = false;
               }
               else {
                 element.taskStatus = "Disabled";
@@ -1041,6 +1060,9 @@ export class BotActionComponent implements OnInit {
               this.linkedBotTasks.push(element);
             }
           });
+          if(taskEnable){
+            $("#enableOrDisable").prop('checked', true);
+          }
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
           this.notificationService.notify("Task Disabled, Successfuly", 'success')
         }

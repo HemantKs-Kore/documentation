@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <perfect-scrollbar class="p-scroll-data">
+    <perfect-scrollbar class="p-scroll-data" [ngClass]="{'scroll-empty-screen': filterExperiments.length===0}">
       <div class="table-data-content">
         <div class="row m-0 header-data col-12"  *ngIf='filterExperiments.length>0'>
           <div class="col-3 h-title d-flex align-items-center">
@@ -188,8 +188,9 @@
               <div class="acc-card-body">
                 <div class="bg-sec">
                   <div class="row m-0 col-12 acc-row-header">
-                    <div class="col-3 title">Variant</div>
-                    <div class="col-2 title">SEARCH CONFIGURATION</div>
+                    <div class="col-2 title">Variant</div>
+                    <div class="col-2 title">INDEX CONFIG</div>
+                    <div class="col-2 title">SEARCH CONFIG</div>
                     <div class="col-1 title">Traffic</div>
                     <div class="col-1 title">users</div>
                     <div class="col-1 title">Searches</div>
@@ -197,12 +198,15 @@
                     <div class="col-2 title">CTR (goal)</div>
                   </div>
                   <div class="row m-0 col-12 acc-row-body align-items-center" *ngFor="let expCol of exp.variants">
-                    <div class="col-3 d-flex varient-data align-items-center">
+                    <div class="col-2 d-flex varient-data align-items-center">
                       <div class="name-letter" [style.background-color]="expCol.color">
                         {{ expCol.code }}
                       </div>
                       <div class="name">
                         {{ expCol.name | titlecase }}</div>
+                    </div>
+                    <div class="col-2 title">
+                      {{ expCol.indexPipelineName | titlecase }}
                     </div>
                     <div class="col-2 title">
                       {{ expCol.queryPipelineName | titlecase }}
@@ -239,8 +243,7 @@
           experiments
         </div>
       </div> --> 
-      <ng-container *ngIf="filterExperiments.length===0">
-        <perfect-scrollbar class="empty-scroll">
+      <ng-container *ngIf="filterExperiments.length===0">        
         <div  class="empty-landing-screen" >
           <div class="img-block"><img class="action_icon" src="assets/images/experiments-empty.svg" (load)="imageLoaded()"></div>
           <ng-container *ngIf="loadImageText">
@@ -251,9 +254,8 @@
                 <button class="kr-sg-button-primary btn_lg px-3" (click)="addExperiment('add')">Add Experiments</button>                                            
               <!-- </div> -->
           </ng-container>
-          </div>
-    </perfect-scrollbar>  
-  </ng-container>
+        </div>    
+    </ng-container>
 <div class="no-experiments" *ngIf="filterExperiments.length!=0&&listOfExperiments.length===0">
         <div>No results found</div>
       </div>
@@ -306,13 +308,13 @@
             }}</span>
         </div>
         <div class="kr-sg-dropdowns col-4 pl-pr-5">
-          <div class="label-text">Index Configuration</div>
+          <div class="label-text">Index</div>
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
-              [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{disable_edit: exp_status !== 'configured' && form_type === 'edit'}">
+              [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngStyle]='{"background-color":exp_status !== "configured" && form_type === "edit"?"#EFF0F1":"#ffffff","color":vari.indexPipelineName==undefined?"#9aa0a6":"#202124"}'>
               {{
               vari.indexPipelineName === undefined
-              ? varIndex===0? "Default Index Configuration":"Select Configuration"
+              ? varIndex===0? "Default Index":"Select Index"
               : vari.indexPipelineName
               }}
             </button>
@@ -327,10 +329,10 @@
           <div class="label-text">Search Configuration</div>
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
-              [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{disable_edit: exp_status !== 'configured' && form_type === 'edit'}">
+              [disabled]="(exp_status !== 'configured' && form_type === 'edit')||vari.indexPipelineName==undefined" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")||vari.indexPipelineName==undefined?"#EFF0F1":"#ffffff","color":vari.queryPipelineName==undefined?"#9aa0a6":"#202124"}'>
               {{
               vari.queryPipelineName === undefined
-              ? varIndex===0? "Default Search Configuration":"Select Configuration"
+              ? varIndex===0? "Default Search":"Select Configuration"
               : vari.queryPipelineName
               }}
             </button>

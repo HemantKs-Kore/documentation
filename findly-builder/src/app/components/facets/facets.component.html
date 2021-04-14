@@ -168,8 +168,8 @@
                                     <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(facet)" type="checkbox">
                                     <label for="{{facet._id}}" class="checkbox-custom-label"></label>
                                 </div>
-                                <div class="title">
-                                    <img class="pr-1" *ngIf="facet.showFieldWarning && (facet.showFieldWarning !== 'false')" src="assets/icons/info-blue.svg" placement="left" [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip='{{fieldWarnings[facet.showFieldWarning] || facet.showFieldWarning}}'>                                    {{facet.facetName}}
+                                <div class="title text-truncate" title="{{facet.facetName}}">
+                                    <img class="pr-1" *ngIf="facet.showFieldWarning && (facet.showFieldWarning !== 'false')" src="assets/icons/info-blue.svg" placement="left" [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip='{{fieldWarnings[facet.showFieldWarning] || facet.showFieldWarning}}'>{{facet.facetName}}                                    
                                 </div>
                             </div>
                             <div class="col-2 content pl-pr-17">{{facet.facetType | translate}}</div>
@@ -226,7 +226,7 @@
                         <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                             <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
-                            <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" (click)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
+                            <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
                             <img src="assets/images/search_gray.svg" class="search-icon">
                             <ul class="dropdown-menu content-menu">
                                 <perfect-scrollbar class="scroll-search-field">

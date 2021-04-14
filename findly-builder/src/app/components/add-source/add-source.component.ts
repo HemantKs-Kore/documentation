@@ -224,7 +224,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
-    this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+    // this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+    if (this.workflowService.selectedApp()?.configuredBots[0]) {
+      this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+    }
+    else if (this.workflowService.selectedApp()?.publishedBots[0]) {
+      this.streamID = this.workflowService.selectedApp()?.publishedBots[0]?._id ?? null
+    }
+    else {
+      this.streamID = null;
+    }
     this.getAssociatedBots();
 
     if (this.route && this.route.snapshot && this.route.snapshot.queryParams) {
@@ -1024,14 +1033,23 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       };
       this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
         console.log('Associated Bots', res);
-
-        this.associatedBots = JSON.parse(JSON.stringify(res));
-        this.associatedBots.filter(element => {
+        let bots =  JSON.parse(JSON.stringify(res));
+        //this.associatedBots = JSON.parse(JSON.stringify(res));
+        this.associatedBots = [];
+        bots.forEach(element => {
           if (element.type == 'default' || element.type == 'universalbot') {
-            return element;
+            this.associatedBots.push(element)
           }
+
         });
+        //this.associatedBots = [...bots]
         console.log(this.associatedBots);
+        console.log(bots);
+        // this.associatedBots.forEach(element => {
+          // if (this.streamID == element._id) {
+          //   this.linkedBotName = element.name;
+          // }
+        // })
         /*this.associatedBotArr = [];
         if (this.associatedBots.length > 0) {
           this.associatedBots.forEach(element => {

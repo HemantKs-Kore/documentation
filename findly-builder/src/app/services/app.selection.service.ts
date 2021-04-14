@@ -161,6 +161,7 @@ export class AppSelectionService {
       title: '',
     };
     this.headerService.toggle(toogleObj);
+    this.headerService.closeSdk();
     this.headerService.updateSearchConfiguration();
   }
   setAppWorkFlowData(app, queryPipeline?) {
@@ -185,14 +186,15 @@ export class AppSelectionService {
   //get tour congfig data
   getTourConfig() {
     this.getTourArray = [];
-    const userInfo: any = this.authService.getUserInfo();
+    const appInfo: any = this.workflowService.selectedApp();
+    console.log("appInfo", appInfo)
     const quaryparms: any = {
-      userId: userInfo.id
+      streamId: appInfo._id
     };
     const appObserver = this.service.invoke('get.tourConfig', quaryparms);
     appObserver.subscribe(res => {
-      this.getTourArray = res.configurations;
-      this.getTourConfigData.next(res.configurations);
+      this.getTourArray = res.tourConfigurations;
+      this.getTourConfigData.next(res.tourConfigurations);
     }, errRes => {
       console.log(errRes)
     });
@@ -200,41 +202,42 @@ export class AppSelectionService {
   //put tour config
   public updateTourConfig(component) {
     let callApi: boolean;
-    const userInfo: any = this.authService.getUserInfo();
+    const appInfo: any = this.workflowService.selectedApp();
     if (component == 'overview' && !this.getTourArray.findlyOverviewVisited) {
       this.getTourArray.findlyOverviewVisited = true;
       callApi = true;
     }
-    else if (component == 'addData' && !this.getTourArray.onBoardingChecklist[0].addDataVisited) {
-      this.getTourArray.onBoardingChecklist[0].addDataVisited = true;
+    else if (component == 'addData' && !this.getTourArray.onBoardingChecklist[0].addData) {
+      this.getTourArray.onBoardingChecklist[0].addData = true;
       callApi = true;
     }
-    else if (component == 'indexing' && !this.getTourArray.onBoardingChecklist[1].indexDataVisited) {
-      this.getTourArray.onBoardingChecklist[1].indexDataVisited = true;
+    else if (component == 'indexing' && !this.getTourArray.onBoardingChecklist[1].indexData) {
+      this.getTourArray.onBoardingChecklist[1].indexData = true;
       callApi = true;
     }
-    else if (component == 'configure' && !this.getTourArray.onBoardingChecklist[2].optimiseSearchResultsVisited) {
-      this.getTourArray.onBoardingChecklist[2].optimiseSearchResultsVisited = true;
+    else if (component == 'configure' && !this.getTourArray.onBoardingChecklist[2].optimiseSearchResults) {
+      this.getTourArray.onBoardingChecklist[2].optimiseSearchResults = true;
       callApi = true;
     }
-    else if (component == 'designing' && !this.getTourArray.onBoardingChecklist[3].designSearchExperienceVisited) {
-      this.getTourArray.onBoardingChecklist[3].designSearchExperienceVisited = true;
+    else if (component == 'designing' && !this.getTourArray.onBoardingChecklist[3].designSearchExperience) {
+      this.getTourArray.onBoardingChecklist[3].designSearchExperience = true;
       callApi = true;
     }
-    else if (component == 'test' && !this.getTourArray.onBoardingChecklist[4].testAppVisited) {
-      this.getTourArray.onBoardingChecklist[4].testAppVisited = true;
+    else if (component == 'test' && !this.getTourArray.onBoardingChecklist[4].testApp) {
+      this.getTourArray.onBoardingChecklist[4].testApp = true;
       callApi = true;
     }
-    else if (component == 'optimize' && !this.getTourArray.onBoardingChecklist[5].fineTuneRelevanceVisited) {
-      this.getTourArray.onBoardingChecklist[5].fineTuneRelevanceVisited = true;
+    else if (component == 'optimize' && !this.getTourArray.onBoardingChecklist[5].fineTuneRelevance) {
+      this.getTourArray.onBoardingChecklist[5].fineTuneRelevance = true;
       callApi = true;
     }
 
     if (callApi) {
       const quaryparms: any = {
-        userId: userInfo.id
+        streamId: appInfo._id
       };
-      const payload = { "configurations": this.getTourArray };
+      const payload = { "tourConfigurations": this.getTourArray };
+
       this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
         this.getTourConfigData.next(this.getTourArray);
         let count = 0;

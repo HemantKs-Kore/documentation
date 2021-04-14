@@ -40,7 +40,7 @@
                     <div class="dropdown-toggle" id="menu1" data-toggle="dropdown"><img class="action_icon"
                             src="assets/icons/elipse-black.svg"></div>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                        <li><a (click)="enableConfiguration = !enableConfiguration">{{enableConfiguration?'Disable':'Enable'}} Configutation</a></li>
+                        <li><a (click)="enableConfiguration = !enableConfiguration">{{enableConfiguration?'Disable':'Enable'}} Configuration</a></li>
                         <li><a>Delete Configuration</a></li>
                     </ul>
                 </div>
@@ -194,14 +194,15 @@
                             <div class="kr-sg-input-text" >
                                 <input type="password" id="password"  class="input-text"
                                     [value]="listData.clientSecret" readonly>
-                                <img  (click)="showPasword()" src="assets/images/icons/eye.svg" class="eye" type="eye" >
+                                <img  (click)="showPasword()" *ngIf="!showPassword" src="assets/images/icons/eye.svg" class="eye" type="eye" >
+                                <img  (click)="showPasword()"   *ngIf="showPassword" src="assets/images/icons/viewPw.svg.svg"class="eye" type="eye" >
                             </div>
                             <div class="copy-btn" (click)="copy(listData.clientSecret,clipclientSecret)"><img
                                     src="assets/images/icons/copy.svg">Copy</div>
                         </div>
                     </div>
                     <div class="input-data">
-                        <div class="label-text">Index ID</div>
+                        <div class="label-text">Search ID</div>
                         <div class="input-box mb-4">
                             <div class="kr-sg-input-text">
                                 <input type="text" class="input-text" [value]="serachIndexId" readonly>

@@ -212,6 +212,23 @@
                 font-size: 16px;
                 line-height: 19px;                
             }   
+            .empty-feedback{
+                height: calc(100% - 60px);
+                display: flex;
+                align-items: center;
+                justify-content: center;            
+                position: relative;
+                .title-empty{
+                    color: #5F6368;
+                    font-weight: bold;
+                    font-size: 26px;
+                    line-height: 31px;
+                    position: absolute;
+                    bottom: 41px;
+                    width: 200px;
+                    left: 15px;
+                }
+            }
             .paginations_list{
                 display: flex;
                 align-items: center;

@@ -85,9 +85,17 @@
                             <img class="close-icon" *ngIf="addEditWeighObj.fieldName" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':addEditWeighObj.fieldName}" (click)="clearField();">
                             <!-- <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName">
                         <img src="assets/images/search_gray.svg" class="search-icon">                                                          -->
-                            <ul class="dropdown-menu content-menu">
-                                <li *ngFor="let suggesition of fields" id="btn_selectWeightsField" (click)="selectedField(suggesition)"><a>{{suggesition.fieldName}}</a></li>
+                            <ul class="dropdown-menu content-menu scroll-max-250">
+                                <perfect-scrollbar class="scroll-max-250">
+                                    <div class="scroll-max-250">
+                                        <li *ngFor="let suggesition of fields" id="btn_selectWeightsField" (click)="selectedField(suggesition)">
+                                            <a>{{suggesition.fieldName}}</a>
+                                        </li>
+                                    </div>
+                                </perfect-scrollbar>
+                                    
                             </ul>
+
                         </div>
                     </div>
                 </div>

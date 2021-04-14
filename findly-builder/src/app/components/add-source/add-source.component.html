@@ -174,7 +174,7 @@
         </div>
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
-        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0 d-none" data-dismiss="modal"
         (click)="cancelExtraction()" *ngIf="selectedSourceType.sourceType==='faq'&&statusObject.status!=='success'||statusObject.status=='failed'">Cancel Extraction</button>
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='faq'">Ok</button>
@@ -192,7 +192,7 @@
   <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'manual'">
     <div class="modal-header">
       <div class="title">Add FAQs</div>
-      <div class="close_icon"><img class="ng-tns-c11-2" (click)="cancleSourceAddition()"
+      <div class="close_icon"><img (click)="cancleSourceAddition()"
           src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
@@ -212,22 +212,13 @@
     <form #sourceCreation="ngForm">
       <div class="modal-header">
         <div class="title">{{selectedSourceType.name}}</div>
-        <div class="close_icon"><img class="ng-tns-c11-2" (click)="cancleSourceAddition()"
+        <div class="close_icon"><img (click)="cancleSourceAddition()"
             src="assets/icons/modal-close.svg"></div>
       </div>
       <perfect-scrollbar class="addSourceModalBody addNewSource">
         <div class="modal-body">
           <div *ngIf="selectedSourceType" class="crerateWebCrawl" [ngClass]="{'pr-0': resourceIDToOpen}">
             <div class="crawl-form-title" *ngIf="!resourceIDToOpen"></div>
-            <div *ngIf= "(selectedSourceType.resourceType === 'webdomain')">
-              <div class="kr-sg-input-text mb-4">
-                <div class="label-text">Source URL</div>
-                <input type="text" id="extractUrl" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Domain URL"
-                  [(ngModel)]="newSourceObj.url" class="input-text" (change)="inputChanged('extractURL')">
-                  <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
-              </div>
-            </div>
             <div class="kr-sg-input-text mb-4">
               <div class="label-text">Source Title</div>
               <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Title"
@@ -238,6 +229,14 @@
               <div class="label-text">Description</div>
               <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc"
                 placeholder="Enter Description" class="input-text"></textarea>
+            </div>
+            <div *ngIf= "(selectedSourceType.resourceType === 'webdomain')">
+              <div class="kr-sg-input-text mb-4">
+                <div class="label-text">Source URL</div>
+                <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Domain URL"
+                  [(ngModel)]="newSourceObj.url" class="input-text">
+              </div>
             </div>
             <div class="container-import"  *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.id=== 'faqDoc')">
             <div class="import">IMPORT FROM FILE</div>
@@ -271,9 +270,10 @@
                             <input type="file" id="sourceFileUploader" class="custom-file-input "
                                 (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json">
                             <div class="imageDiv">
-                              <img class="ng-tns-c11-2" src="assets/images/source-icos/drog_frop.svg">
+                              <img src="assets/images/source-icos/drog_frop.svg">
                             </div>
-                            <div class="info_text">Drag and drop file anywhere on this screen</div>
+                            <div class="info_text" *ngIf="(selectedSourceType.resourceType !='importfaq')">Drag and drop a <b>pdf file</b> anywhere on this screen</div>
+                            <div class="info_text" *ngIf="(selectedSourceType.resourceType ==='importfaq')">Drag and drop file anywhere in this section</div>
                             <div class="or-divider">- or -</div>
                             <div class="custom-file">
                               
@@ -286,7 +286,7 @@
                           </ng-container>
 
                           <ng-container *ngIf="fileObj.fileName">
-                            <div class="kr-sg-file-drag-drop">
+                            <div class="kr-sg-file-drag-drop w-100">
                               <div class="uploaded-file-name" [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
                                 <div class="file-close-text">
                                   <div class="d-flex align-items-center">
@@ -311,7 +311,14 @@
                       <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId && selectedSourceType.resourceType != 'importfaq'" >
                         <div class="kr-sg-checkbox">
                           <input id="checkbox-1" class="checkbox-custom" type="checkbox" (change)="annotateChange($event)">
-                          <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract</label>
+                          <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract
+                            <span class="tooltip-text"><img src="assets/icons/help-annotation.svg">
+                              <span class="tooltiptext">
+                                <div class="t-text">Use the annotate option to extract only the desired FAQs by marking question & answer pairs</div>
+                                <div class="learn_more">Learn More</div>
+                              </span>
+                            </span>
+                          </label>
                         </div>
                       </div>
                       <!-- Annotation End Here -->
@@ -331,6 +338,7 @@
                           <!-- <input type="text" placeholder="https://" class="input-text"> -->
                           <!-- <div class="error-msg">Error message here</div> -->
                         </div>
+                        <div class="info-upload-pdf"><img src="assets/icons/Info-pdf.svg">Upload Pdf files only</div>
                       </div>
                   </div>
                 </div>
@@ -343,7 +351,7 @@
                   <input type="file" id="sourceFileUploader" class="custom-file-input"
                       (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json">
                   <div _ngcontent-gpv-c11="" class="imageDiv">
-                    <img _ngcontent-gpv-c11="" class="ng-tns-c11-2" src="assets/images/source-icos/drog_frop.svg">
+                    <img _ngcontent-gpv-c11="" src="assets/images/source-icos/drog_frop.svg">
                   </div>
                   <div class="custom-file">
                     <!-- <input type="file" id="sourceFileUploader" class="custom-file-input "
@@ -369,7 +377,7 @@
                     </span> -->
                 </label>
               </div>
-              <div class="kr-sg-file-drag-drop" *ngIf="fileObj.fileName">
+              <div class="kr-sg-file-drag-drop w-100" *ngIf="fileObj.fileName">
                 <div class="uploaded-file-name"
                   [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
                   <div class="file-close-text">
@@ -389,7 +397,11 @@
             <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId && selectedSourceType.resourceType!='importfaq'">
               <div class="kr-sg-checkbox">
                 <input id="checkbox-1" class="checkbox-custom" type="checkbox" (change)="annotateChange($event)">
-                <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract</label>
+                <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract
+                  <span class="tooltip"><img src="assets/icons/help-annotation.svg">
+                    <span class="tooltiptext">Tooltip text</span>
+                  </span>
+                </label>
               </div>
             </div>
             <!-- Annotation End Here -->

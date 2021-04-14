@@ -128,8 +128,8 @@
                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.No_of_Clicks'| translate}}</div>
                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Click-Through_Rate'| translate}}</div>
                     <div class="col-2 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Avg_Position'| translate}}</span></div>
-                    <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Positive_Feedback'| translate}}</span></div>
-                    <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Negative_Feedback'| translate}}</span></div>
+                    <!-- <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Positive_Feedback'| translate}}</span></div>
+                    <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Negative_Feedback'| translate}}</span></div> -->
                 </div>
                 <div class="table_body row m-0" *ngFor="let result of getSearchQueriesResults;let i = index">
                     <div class="col-2 title d-flex align-items-center">
@@ -140,8 +140,8 @@
                     <div class="col-2 title">{{result.clicks}}</div>
                     <div class="col-2 title">{{result.clickThroughRate}} %</div>
                     <div class="col-2 title">{{result.avgPosition}}</div>
-                    <div class="col-1 title">{{result.positiveFeedback}}</div>
-                    <div class="col-1 title">{{result.negativeFeedback}}</div>
+                    <!-- <div class="col-1 title">{{result.positiveFeedback}}</div>
+                    <div class="col-1 title">{{result.negativeFeedback}}</div> -->
                 </div>
             </div>
             <div *ngIf='SQR_totalRecord' style="margin : 15px"><app-record-pagination [totalRecord]='SQR_totalRecord' [limitpage]='SQR_limitPage' (pageChanged)="paginate($event,'SQR')"></app-record-pagination></div>
