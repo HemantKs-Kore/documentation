@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { SideBarService } from './../../services/header.service';
 import { Subscription } from 'rxjs';
+import { LocalStoreService } from './../../services/localstore.service';
 @Component({
   selector: 'app-search-experience',
   templateUrl: './search-experience.component.html',
@@ -81,10 +82,12 @@ export class SearchExperienceComponent implements OnInit {
   componentType: string = 'designing';
   subscription: Subscription;
   tourData: any = [];
+  userName : any = '';
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('guideModalPop') guideModalPop: KRModalComponent;
-  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService, public headerService: SideBarService) {
+  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService, public headerService: SideBarService,
+    public localstore: LocalStoreService) {
   }
 
   ngOnInit(): void {
@@ -95,7 +98,8 @@ export class SearchExperienceComponent implements OnInit {
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourData = res;
       this.tourGuide = res.searchExperienceVisited ? '' : 'step1';
-    })
+    });
+    this.userName = this.localstore.getAuthInfo() ? this.localstore.getAuthInfo().currentAccount.userInfo.fName : '';
   }
   //dynamically increse input text 
   resize() {
@@ -356,7 +360,7 @@ export class SearchExperienceComponent implements OnInit {
       this.headerService.updateSearchConfiguration();
       this.appSelectionService.updateTourConfig(this.componentType);
       this.notificationService.notify('Updated successfully', 'success');
-      this.statusModalPopRef = this.statusModalPop.open();
+      // this.statusModalPopRef = this.statusModalPop.open();
       this.workflowService.checkTopOrBottom(this.searchObject.searchExperienceConfig.searchBarPosition);
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
