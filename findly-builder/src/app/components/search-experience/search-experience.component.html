@@ -439,6 +439,9 @@
                             </div> -->
                         </div>
                     </div>
+                    <div class="right-sec col-5">
+                        <button class="btn kr-sg-button-primary" (click)="openSearchInterfaceGuide()">Open Guide</button>
+                    </div>
                     <!-- <div class="right-sec col-5">
                         <div class="preview-interactions">
                             <div class="label_text">Preview</div>
@@ -493,4 +496,19 @@
     <!-- <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal">Next</button> -->
     <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closePreviewPopup()">Close</button>
   </div>
-</kr-modal> 
+</kr-modal>
+
+<kr-modal  modalType="center" modalClass="sliderComponent modal_popups_ search-customization-popup-preview" #guideModalPop id="guideModalPop">
+    <div class="modal-header">
+      <div class="title">Modal header</div>
+      <div class="close_icon" (click)="closeGuidePopup()"><img  src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+      <div class="modal-body">
+          Modal body
+      </div>
+    </perfect-scrollbar>
+    <div class="modal-footer">
+      
+    </div>
+  </kr-modal> 

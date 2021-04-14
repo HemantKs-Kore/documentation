@@ -555,6 +555,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.faqsAvailable = res.length ? true : false;
       }
 
+      setTimeout(()=> {
+        this.selectAll()
+      }, 1)
+    
       this.editfaq = null
       this.apiLoading = false;
       this.loadingFaqs = false;
@@ -605,7 +609,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   paginate(event) {
     this.getfaqsBy(null, null, event.skip)
-    this.addRemoveFaqFromSelection(null, null, true);
+    // this.addRemoveFaqFromSelection(null, true,null);
     // this.perfectScroll.directiveRef.update();
     // this.perfectScroll.directiveRef.scrollToTop(2, 1000);
   }
@@ -1154,7 +1158,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       panelClass: 'delete-popup',
       data: {
         newTitle: 'Are you sure you want to delete ?',
-        body: 'Selected questions will be deleted.',
+        body: 'Selected question(s) will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
