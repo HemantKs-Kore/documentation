@@ -12,6 +12,7 @@ export class SideBarService {
   @Output() showHideMainMenu : EventEmitter<any> = new EventEmitter();
   @Output() showHideSettingsMenu : EventEmitter<any> = new EventEmitter();
   @Output() headerMainMenuUpdate : EventEmitter<any> = new EventEmitter();
+  @Output() hideSDK : EventEmitter<any> = new EventEmitter();
   isOnboardingPage = false;
   searchConfiguration: any;
   isSDKCached: boolean = false;
@@ -50,5 +51,9 @@ export class SideBarService {
 
   updateMainMenuInHeader(data){
     this.headerMainMenuUpdate.next(data);
+  }
+
+  closeSdk(){
+    this.hideSDK.next()
   }
 }
