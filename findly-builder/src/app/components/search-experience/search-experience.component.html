@@ -510,11 +510,11 @@
 
 <kr-modal  modalType="center" modalClass="sliderComponent modal_popups_ guide-seach-experience" #guideModalPop id="guideModalPop">
     <div class="modal-header">
-      <div class="title">Guide > <span>Bottom Up Experience</span></div>
+      <div class="title">Guide > <span *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">Bottom Up Experience</span><span *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">Top Down Experience</span></div>
       <div class="close_icon" (click)="closeGuidePopup()"><img  src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
-      <div class="modal-body">
+      <div class="modal-body" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
         <div class="main-title">Hi Ankit,</div>
         <div class="main-title">It is recommended to go through this guide before customizing interactions.</div>
         <div class="guide-data">
@@ -584,6 +584,87 @@
                 <div class="title"><span class="hilightedcolor">Live Search & Query Suggestions</span></div>
                 <div class="desc-text">when both are enabled the live search results appear at the background of the query suggestions and the user can scroll to browse the results.</div>
                 <div class="info-text">Here, the no. of <span>query suggestions</span> and <span>live search</span>, both are enabled and <span>set to three</span></div>
+            </div>
+        </div>
+
+        <div class="done-all">
+            <img src="assets/icons/search-experience/guide/handthumb.svg">
+            <span class="title">That’s all, Let’s Customize now.</span>
+        </div>
+
+      </div>
+
+
+      <div class="modal-body topdown-guide" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">
+        <div class="main-title">Hi Ankit,</div>
+        <div class="main-title">It is recommended to go through this guide before customizing interactions.</div>
+        <div class="guide-data">
+            <div class="layer-img">
+                <img src="assets/icons/search-experience/guide/topdown/recent-search-sdk.svg">
+            </div>
+            <div class="left-content">
+                <img src="assets/icons/search-experience/guide/topdown/recentsearch.svg">
+            </div>
+            <div class="right-content">
+                <div class="title">Choose <span class="hilightedcolor">Frequent Search</span> or <span class="hilightedcolor">Recent Search</span></div>
+                <div class="desc-text">to enable the user to see their Frequently or recently searched queries. These queries will appear as cards in the search window as soon as the user puts their cursor in the search bar </div>
+            </div>
+        </div>
+
+        <div class="autocomplete-guide">
+            <div class="layer-img">
+                <img src="assets/icons/search-experience/guide/topdown/autocomplete-sdk.svg">               
+            </div>
+            <div class="left-content">
+                <div class="title"><span class="hilightedcolor">Autocomplete</span></div>
+                <div class="desc-text">Saves the time and effort for the users by predicting the rest of the word as the user is typing</div>
+            </div>
+            <div class="right-content">
+                <img src="assets/icons/search-experience/guide/topdown/autocomplete.svg">
+            </div>
+        </div>
+
+        <div class="query-sugestion-guide">
+            <div class="layer-img">
+                <img src="assets/icons/search-experience/guide/topdown/query-sdk.svg">
+            </div>
+            <div class="left-content">
+                <img src="assets/icons/search-experience/guide/topdown/query-suggestion.svg">
+            </div>
+            <div class="right-content">
+                <div class="title"><span class="hilightedcolor">Query Suggestions</span></div>
+                <div class="desc-text">reduces user’s time to search a query by providing suggestions which help users to enter long queries or select a query as they type.</div>
+                <div class="info-text">Here, the no. of <span>query suggestions</span> are <span>set to three</span> and <span>Live search</span> is <span>set to zero</span></div>
+            </div>
+        </div>
+
+
+        <div class="livesearch-guide">
+            <div class="layer-img">
+                <img src="assets/icons/search-experience/guide/topdown/livesearch-sdk.svg">
+            </div>
+            <div class="left-content">
+                <div class="title"><span class="hilightedcolor">Live Search</span></div>
+                <div class="desc-text">enhances user’s search experience by showing the results while entering the query and allows the user to see search results without needing to redirect to the results page</div>
+                <div class="info-text">Here, the no. of <span>query suggestions</span> are <span>set to zero</span></div>
+            </div>
+            <div class="right-content">
+                <img src="assets/icons/search-experience/guide/topdown/liveseach.svg">
+            </div>
+        </div>
+
+
+        <div class="live-search-sugg-guide-data">
+            <div class="layer-img">
+                <img src="assets/icons/search-experience/guide/topdown/livesearch-query-sdk.svg">
+            </div>
+            <div class="left-content">
+                <img src="assets/icons/search-experience/guide/topdown/livesearch-query.svg">
+            </div>
+            <div class="right-content">
+                <div class="title"><span class="hilightedcolor">Live Search & Query Suggestions</span></div>
+                <div class="desc-text">when both are enabled the live search results appear at the background of the query suggestions and the user can scroll to browse the results.</div>
+                <div class="info-text">Here, the no. of <span>query suggestions</span> and <span>live search</span>, both are enabled and <span>set to three</span> and <span>five respectively</span></div>
             </div>
         </div>
 
