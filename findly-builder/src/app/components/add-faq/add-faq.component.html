@@ -416,7 +416,7 @@
           </div>
           <div class="kr-sg-input-text mb-2"> 
             <div class="label-text">URL</div>
-            <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown.enter)="addImage()" [(ngModel)]="imgInfo.url" name="appName" [ngClass]="{'readonly': !uploadImage.slide}">         
+            <input type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown.enter)="addImage()" [(ngModel)]="imgInfo.url" name="appName" [ngClass]="{'readonly': !uploadImage.slide}">         
           </div>
           <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div>
           <!-- <div class="multi-select mb-2">
@@ -455,7 +455,7 @@
               </perfect-scrollbar>
             </div>
             <div *ngIf="image && image.url">
-              <img [src]="imageInfo.url">
+              <img [src]="image.url">
             </div>
                            <div class="info-bubble-faq">
               <div class="w-100 d-flex">
