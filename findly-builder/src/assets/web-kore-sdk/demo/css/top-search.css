@@ -2149,3 +2149,7 @@ display: none !important;
     padding: 14px 12px;
     width: 347px;
 }
+
+.topdown-search-main-container .all-result-container .conversation-container .conversations .search-container.conversation #searchChatContainer .sdk-query-retry-icon{
+  display: none !important;
+}
