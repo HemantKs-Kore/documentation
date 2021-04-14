@@ -1,7 +1,7 @@
 <div class="business-rules-wrapper">
     <div class="header-sec col-12 row m-0">
         <div class="col-4 lef-sec p-0" *ngIf="!(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)">
-            <span class="title">Business Rules</span>
+            <span class="title">Rules</span>
         </div>
         <div class="col-4 lef-sec p-0" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">
             <div class="selected-count" *ngIf="!selcectionObj.selectAll">
@@ -66,11 +66,11 @@
     </ng-container>
     <div class="table_section" *ngIf="!loadingContent && rules && rules.length">
         <div class="header_sec row m-0">
-            <div class="col-3 content withcheckbox">
-                <div class="kr-sg-checkbox p-0 m-0">
+            <div class="col-3 content withcheckbox ">
+                <!-- <div class="kr-sg-checkbox p-0 m-0">
                     <input id="selectAllRules" class="checkbox-custom" type="checkbox" (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll" />
                     <label for="selectAllRules" class="checkbox-custom-label"></label>
-                </div>
+                </div> -->
                 <div class="title cursor-pointer" (click)="sortBy('ruleName')">
                     <img *ngIf="!(selectedSort && selectedSort === 'ruleName')" src="assets/icons/sort_up_down.svg" class="pr-1" />
                     <img *ngIf="selectedSort && selectedSort === 'ruleName'" [ngClass]="{ upArrow: !isAsc }" src="assets/icons/caretDown.svg" class="pr-1" /> {{ "name_caps" | translate }}
@@ -94,21 +94,21 @@
               selcectionObj.selectedItems &&
               selcectionObj.selectedItems[ruleObj._id]
           }">
-                <div class="col-3 content withcheckbox">
+                <div class="col-3 content withcheckbox align-items-start">
                     <div class="kr-sg-checkbox p-0 m-0">
                         <input id="{{ ruleObj._id }}" class="checkbox-custom selectRuleCheckBoxDiv" type="checkbox" (change)="checkUncheckfacets(ruleObj)" />
                         <label for="{{ ruleObj._id }}" class="checkbox-custom-label"></label>
                     </div>
-                    <div class="title">{{ ruleObj.ruleName }}</div>
+                    <div class="title text-truncate"  [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip="{{ ruleObj.ruleName }}">{{ ruleObj.ruleName }}</div>
                 </div>
                 <div class="col-3 content">
                     <ng-container *ngFor="let rule of ruleObj.rules; let ruleIndex = index">
-                        <span class="divider mr-1 mb-1" *ngIf="ruleIndex > 0">{{
+                        <br *ngIf="ruleIndex > 0"><span class="divider mr-1 mb-1" *ngIf="ruleIndex > 0">{{
               "and_caps" | translate
               }}</span>
                         <span class="tags-input mr-1 mb-1"><span class="small-text">{{ "businessRules." + rule.contextType | translate
                 }} :</span> {{ "businessRules." + rule.contextCategory | translate }}</span>
-                        <span class="outer-name mr-1 mb-1">{{ rule.operator | titlecase}}</span>
+                        <br><span class="outer-name mr-1 mb-1 ml-4" [ngClass]="{'ml-4':ruleIndex > 0}">{{ rule.operator | titlecase}}</span>
                         <ng-container *ngFor="let value of rule.value; let valueIndex = index">
                             <span class="tags-input mr-1 mb-1">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
                             <span class="divider mr-1 mb-1" *ngIf="valueIndex < rule.value.length - 1">{{ "or_caps" | translate
@@ -253,7 +253,7 @@
 
                                                     <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType !== 'date') && (ruleObj.dataType !== 'number')">
                                                         <ng-container *ngFor="let value of ruleObj.value; let index = index">
-                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
+                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
                                                                 <span class="mat-val" *ngIf="value">{{value}}</span>
                                                                 <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                             </mat-chip>
@@ -262,11 +262,11 @@
                                                     </ng-container>
                                                     <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'number')">
                                                         <ng-container *ngFor="let value of ruleObj.value; let index = index">
-                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
-                                                                <span class="mat-val" *ngIf="value && value.length && ruleObj.operator == 'between'">
+                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
+                                                                <span class="mat-val" *ngIf="value && value.length && checkIsArray(value)">
                                   <span *ngFor="let num of value; let numIndex = index">{{num}}<span *ngIf="!numIndex"> - </span></span>
                                                                 </span>
-                                                                <span class="mat-val" *ngIf="value && ruleObj.operator !== 'between'">
+                                                                <span class="mat-val" *ngIf="value && !checkIsArray(value)">
                                   <span >{{value}}</span>
                                                                 </span>
                                                                 <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
@@ -274,9 +274,9 @@
                                                             <span>OR</span>
                                                         </ng-container>
                                                     </ng-container>
-                                                    <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator !== 'between')">
+                                                    <!-- <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator !== 'between')">
                                                         <ng-container *ngFor="let value of ruleObj.value; let index = index">
-                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
+                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
                                                                 <span class="mat-val" *ngIf="value">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
                                                                 <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                             </mat-chip>
@@ -286,7 +286,7 @@
 
                                                     <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator === 'between')">
                                                         <ng-container *ngFor="let value of ruleObj.value; let index = index">
-                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
+                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
                                                                 <span class="mat-val" *ngIf="value && value.length">
                                 <span *ngFor="let date of value; let dateIndex = index">
                                   {{date | dateFormatPipe: 'DD MMM YYYY'}} <span *ngIf="!dateIndex"> - </span>
@@ -296,8 +296,22 @@
                                                             </mat-chip>
                                                             <span>OR</span>
                                                         </ng-container>
+                                                    </ng-container> -->
+                                                    <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date')">
+                                                        <ng-container *ngFor="let value of ruleObj.value; let index = index">
+                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
+                                                                <span class="mat-val" *ngIf="value && value.length && checkIsArray(value)">
+                                                                    <span *ngFor="let date of value; let dateIndex = index">
+                                                                        {{date | dateFormatPipe: 'DD MMM YYYY'}} <span *ngIf="!dateIndex"> - </span>
+                                                                    </span>
+                                                                </span>
+                                                                <span class="mat-val" *ngIf="value  && !checkIsArray(value)">{{value | dateFormatPipe: 'DD MMM
+                                                                    YYYY'}}</span>
+                                                                <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
+                                                            </mat-chip>
+                                                            <span>OR</span>
+                                                        </ng-container>
                                                     </ng-container>
-
                                                     <ng-container *ngIf="(ruleObj.dataType != 'date') && (ruleObj.dataType != 'number')">
                                                         <input placeholder="Type Keyword" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" suggestedInput/>
                                                     </ng-container>
@@ -369,7 +383,7 @@
                                         </div>
                                         <ng-container *ngIf="outcomeObj.outcomeType === 'boost' || outcomeObj.outcomeType === 'lower'">
                                             <div class="col-4 pr-0">
-                                                <app-range-slider [customClass]="'weightsSlider'" [allData]="outcomeObj.sliderObj" (valueEvent)="valueEvent($event, outcomeObj)"></app-range-slider>
+                                                <app-range-slider [customClass]="'weightsSlider'" [allData]="outcomeObj.sliderObj" (valueEvent)="valueEvent($event, outcomeObj)" placement="top-center" container='body' ngbTooltip="{{ outcomeObj.scale }}X"></app-range-slider>
                                             </div>
                                             <div class="col-4 pr-0 text-right">
                                                 <span class="result-slider-title" *ngIf="outcomeObj.outcomeType === 'boost'">{{"businessRules.boostResults" | translate }}</span>
@@ -400,7 +414,7 @@
                                         <div class="kr-sg-dropdowns col-4 pl-0 disabled" ngbDropdown (click)="currentEditInex = index">
                                             <div class="dropdown dropdown-open">
                                                 <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle [disabled]="true">
-                          {{outcomeObj.fieldDataType? outcomeObj.fieldDataType: "String"}}
+                          {{outcomeObj.fieldDataType? (("businessRules."+outcomeObj.fieldDataType) | translate): "String"}}
                         </button>
                                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                                 </ul>
@@ -435,9 +449,10 @@
                                             <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                                                 <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
                                                     <ng-container *ngFor="let value of outcomeObj.outcomeValue; let valueindex = index">
-                                                        <mat-chip [selectable]="selectable" (removed)="removeTag(outcomeObj.outcomeValue, tag)"><span class="mat-val" *ngIf="value">{{value}}</span>
+                                                        <mat-chip [selectable]="selectable" (removed)="removeTag(outcomeObj.outcomeValue, tag,valueindex)"><span class="mat-val" *ngIf="value">{{value}}</span>
                                                             <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                         </mat-chip>
+                                                        <span>OR</span>
                                                     </ng-container>
                                                     <input #contextSuggestedImput [placeholder]="'Type and Press Enter'" (click)='buildCurrentContextSuggetions(outcomeObj)' [(ngModel)]="outcomeObj.newValue" (keyup)='buildCurrentContextSuggetions(outcomeObj)' [matChipInputFor]="chipList" [matAutocomplete]="auto"
                                                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addOutcome($event, outcomeObj, i)" />

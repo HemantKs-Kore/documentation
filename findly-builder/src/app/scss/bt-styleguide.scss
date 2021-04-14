@@ -1731,11 +1731,11 @@ and open the template in the editor.
 /*---- RADIO BUTTON STYLES START HERE---*/
 .kr-sg-radiobutton{
     display: inline-flex;
-    padding-right: 32px;    
+    padding:0 32px 0 0 !important;    
     position: relative;
     &.d-block{
         display: block;
-        margin-bottom: 8px;
+        margin-bottom: 8px !important;
     }
     .radio-custom{
         opacity: 0;
@@ -2841,7 +2841,7 @@ and open the template in the editor.
         .dropdown-toggle{
             margin: 0;
             padding: 0;            
-            cursor: pointer;
+            // cursor: pointer;
             height: 100%;
             &::after{
                 border: 0;

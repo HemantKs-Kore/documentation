@@ -182,7 +182,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.outcomeArrayforAddEdit.push(ruleObj)
   }
   editRule(rule) {
-    this.addEditRuleObj = rule;
+    this.addEditRuleObj = {...rule};
     this.setDataForEdit(this.addEditRuleObj);
     this.openModalPopup();
     this.getFieldAutoComplete(null, null);
@@ -196,11 +196,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (ruleObj && ruleObj.rules && ruleObj.rules.length) {
       this.rulesArrayforAddEdit = JSON.parse(JSON.stringify(ruleObj.rules));
     } else {
-      this.addNewRule();
+      //this.addNewRule();
     }
     if (ruleObj && ruleObj.outcomes && ruleObj.outcomes.length) {
       const _outcoms = []
-      ruleObj.outcomes.forEach((outcome, i) => {
+      let ruleObjOutcomes = JSON.parse(JSON.stringify(ruleObj.outcomes));
+      ruleObjOutcomes.forEach((outcome, i) => {
         const tempObj: any = outcome
         tempObj.sliderObj = this.prepereSliderObj(i);
         _outcoms.push(tempObj);
@@ -251,8 +252,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   removeOutcome(index) {
     this.outcomeArrayforAddEdit.splice(index, 1);
   }
-  removeTag(tags, index) {
-    tags.splice(index, 1);
+  removeTag(value,tags, index) {
+    value.splice(index, 1);
   }
   openDateTimePicker(ruleObj, index) {
     setTimeout(() => {
@@ -441,6 +442,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (key === 'contextType') {
       ruleObj.contextType = value;
       ruleObj.contextCategory = this.ruleOptions[value][0];
+      if(ruleObj.contextType ==='userContext'){
+      ruleObj.contextCategory = '';
+      }
     }
     if (key === 'operator') {
       ruleObj.operator = value;
@@ -547,7 +551,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.service.invoke('create.businessRules', quaryparms, payload).subscribe(res => {
       this.rules.push(res);
       this.closeModalPopup();
-      this.notificationService.notify('Rule created successfully', 'sucecss');
+      this.notificationService.notify(' Created Successfully', 'sucecss');
     }, errRes => {
       this.errorToaster(errRes, 'Failed to create rules');
     });
@@ -636,7 +640,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         return pg._id === rule._id;
       })
       this.rules[editRule] = res;
-      this.notificationService.notify('Rule updated successfully', 'success');
+      this.notificationService.notify('Updated Successfully', 'success');
       this.closeModalPopup();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to update rule');
@@ -718,7 +722,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         dialogRef.close();
       }
       this.getRules();
-      this.notificationService.notify('Selected rules are deleted successfully', 'success');
+      this.notificationService.notify('Deleted Successfully', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete rule');
     });
@@ -739,7 +743,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       if (dilogRef && dilogRef.close) {
         dilogRef.close();
       }
-      this.notificationService.notify('Selected rule deleted successfully', 'success');
+      this.notificationService.notify('Deleted Successfully', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete rule');
     });
@@ -787,6 +791,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
    // this.subscription ? this.subscription.unsubscribe() : false;
     if(this.subscription){
       this.subscription.unsubscribe();
+    }
+  }
+  checkIsArray(value){
+    if(Array.isArray(value)){
+      return true;
+    }else{
+      return false;
     }
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable, Output, EventEmitter } from '@angular/core'
 import { WorkflowService } from './workflow.service';
 import { ServiceInvokerService } from './service-invoker.service';
-import { pipe, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, pipe, ReplaySubject, Subject } from 'rxjs';
 import * as _ from 'underscore';
 import { Router } from '@angular/router';
 import { SideBarService } from './header.service';
@@ -15,8 +15,12 @@ export class AppSelectionService {
   public appSelectedConfigs = new Subject<any>();
   public queryConfigSelected = new Subject<any>();
   public appSelected = new Subject<any>();
+  public getTourConfigData = new Subject<any>();
+  public routeChanged = new BehaviorSubject<any>({ name: undefined, path: '' });
+  public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
   public resumingApp = false;
   res_length: number = 0;
+  getTourArray: any = [];
   constructor(
     private workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -152,7 +156,7 @@ export class AppSelectionService {
     this.workflowService.appQueryPipelines({});
     this.setAppWorkFlowData(app);
     this.appSelected.next(app);
-    this.router.navigate(['/source'], { skipLocationChange: true });
+    this.router.navigate(['/summary'], { skipLocationChange: true });
     const toogleObj = {
       title: '',
     };
@@ -173,10 +177,81 @@ export class AppSelectionService {
     };
     const appObserver = this.service.invoke('get.streamData', queryParams);
     appObserver.subscribe(res => {
-      console.log("api called", res)
       this.workflowService.selectedApp(res);
     }, errRes => {
       this.queryList = null;
     });
+  }
+  //get tour congfig data
+  getTourConfig() {
+    this.getTourArray = [];
+    const userInfo: any = this.authService.getUserInfo();
+    const quaryparms: any = {
+      userId: userInfo.id
+    };
+    const appObserver = this.service.invoke('get.tourConfig', quaryparms);
+    appObserver.subscribe(res => {
+      this.getTourArray = res.configurations;
+      this.getTourConfigData.next(res.configurations);
+    }, errRes => {
+      console.log(errRes)
+    });
+  }
+  //put tour config
+  public updateTourConfig(component) {
+    let callApi: boolean;
+    const userInfo: any = this.authService.getUserInfo();
+    if (component == 'overview' && !this.getTourArray.findlyOverviewVisited) {
+      this.getTourArray.findlyOverviewVisited = true;
+      callApi = true;
+    }
+    else if (component == 'addData' && !this.getTourArray.onBoardingChecklist[0].addDataVisited) {
+      this.getTourArray.onBoardingChecklist[0].addDataVisited = true;
+      callApi = true;
+    }
+    else if (component == 'indexing' && !this.getTourArray.onBoardingChecklist[1].indexDataVisited) {
+      this.getTourArray.onBoardingChecklist[1].indexDataVisited = true;
+      callApi = true;
+    }
+    else if (component == 'configure' && !this.getTourArray.onBoardingChecklist[2].optimiseSearchResultsVisited) {
+      this.getTourArray.onBoardingChecklist[2].optimiseSearchResultsVisited = true;
+      callApi = true;
+    }
+    else if (component == 'designing' && !this.getTourArray.onBoardingChecklist[3].designSearchExperienceVisited) {
+      this.getTourArray.onBoardingChecklist[3].designSearchExperienceVisited = true;
+      callApi = true;
+    }
+    else if (component == 'test' && !this.getTourArray.onBoardingChecklist[4].testAppVisited) {
+      this.getTourArray.onBoardingChecklist[4].testAppVisited = true;
+      callApi = true;
+    }
+    else if (component == 'optimize' && !this.getTourArray.onBoardingChecklist[5].fineTuneRelevanceVisited) {
+      this.getTourArray.onBoardingChecklist[5].fineTuneRelevanceVisited = true;
+      callApi = true;
+    }
+
+    if (callApi) {
+      const quaryparms: any = {
+        userId: userInfo.id
+      };
+      const payload = { "configurations": this.getTourArray };
+      this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
+        this.getTourConfigData.next(this.getTourArray);
+        let count = 0;
+        const stepsData = this.getTourArray.onBoardingChecklist;
+        for (let key in stepsData) {
+          for (let key1 in stepsData[key]) {
+            if (stepsData[key][key1]) {
+              count = count + 1;
+            }
+          }
+        }
+        if (count == 6) {
+          this.tourConfigCancel.next({ name: undefined, status: 'completed' });
+        }
+      }, errRes => {
+        console.log(errRes);
+      });
+    }
   }
 }

@@ -84,6 +84,11 @@
     "array": "Array",
     "object": "Object",
     "test" : "Test",
+    "botAction":{
+        "disable":"Disable",
+        "enable":"Enable",
+        "tasksSelected":"Tasks Selected"
+    },
     "businessRules": {
         "rules_selected": "Rules Selected",
         "all_rules_selected": "All Rules Selected",
@@ -250,7 +255,7 @@
     "resultRanking": {
         "no_search_results": "No search results",
         "no._of_customizations_caps": "NO. OF CUSTOMIZATIONS",
-        "last_changes_caps": "LAST CHANGES",
+        "last_changes_caps": "LAST UPDATED",
         "restore": "Reset",
         "pinned": "pinned",
         "past_action_on_this_item_caps": "PAST ACTION ON THIS ITEM",
