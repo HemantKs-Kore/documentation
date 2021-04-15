@@ -70,6 +70,7 @@ export class ActionsComponent implements OnInit {
   openActions(){
     this.router.navigate(['/botActions'], { skipLocationChange: true });
     this.headerService.updateShowHideSettingsMenu(false);
+    this.headerService.updateShowHideSourceMenu(true);
     // this.headerService.updateMainMenuInHeader('/settings');
 } 
   botLinkedOrUnlinked() {

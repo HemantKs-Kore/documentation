@@ -401,7 +401,7 @@
         "updated_by" : "Updated by",
         "updated_on" : "Last Updated On",
         "noResultTemplate" : "Result templates are not defined for structured data. Go to",
-        "searchInterfacePath" : "Manage >> Result Templates",
+        "searchInterfacePath" : "Indices >> Result Templates",
         "toDefine" : "to define.",
         "learnMore" : "Learn More"
     }

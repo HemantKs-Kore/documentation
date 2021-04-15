@@ -40,6 +40,7 @@ export class AppHeaderComponent implements OnInit {
   formatter: any;
   appName = '';
   menuFlag = false;
+  sourcesFlag = false;
   recentApps: any;
   userId: any;
   showSearch: boolean = false;
@@ -60,6 +61,7 @@ export class AppHeaderComponent implements OnInit {
   updateHeaderMainMenuSubscription : Subscription;
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
+  @Output() showSourceMenu = new EventEmitter();
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('testButtonTooltip') testButtonTooltip: any;
   availableRouts = [
@@ -179,11 +181,17 @@ export class AppHeaderComponent implements OnInit {
       this.showMainMenu = false;
     } else {
       this.showMainMenu = true;
-      if (menu == '/settings' || menu == '/credentials-list' || menu == '/searchInterface' || menu == '/team-management' || menu == '/search-experience') {
+      if(menu == '/source' || menu == '/content' || menu == '/faqs' || menu == '/botActions' || menu == '/structuredData'){
+        this.sourcesFlag = true;
+        this.menuFlag = false;
+      }
+      else if (menu == '/settings' || menu == '/credentials-list' || menu == '/actions' || menu == '/team-management' || menu == '/smallTalk' || menu == '/pricing' || menu == '/usageLog' || menu == '/invoices') {
         this.menuFlag = true;
+        this.sourcesFlag = false;
       }
       else {
         this.menuFlag = false;
+        this.sourcesFlag = false;
         this.resetNotificationBadge();
         if (this.pollingSubscriber) {
           this.pollingSubscriber.unsubscribe();
@@ -195,6 +203,7 @@ export class AppHeaderComponent implements OnInit {
     }
     this.showMenu.emit(this.showMainMenu)
     this.settingMenu.emit(this.menuFlag)
+    this.showSourceMenu.emit(this.sourcesFlag);
   }
   logoutClick() {
     this.authService.logout();
