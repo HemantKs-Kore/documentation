@@ -3,6 +3,10 @@ import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EChartOption } from 'echarts';
 import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
+import { AppSelectionService } from '@kore.services/app.selection.service';
+import { NotificationService } from '@kore.services/notification.service';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { WorkflowService } from '@kore.services/workflow.service';
 @Component({
   selector: 'app-pricing',
   templateUrl: './pricing.component.html',
@@ -18,7 +22,11 @@ export class PricingComponent implements OnInit {
   addPricing5ModalPopRef: any;
   termPlan = "monthly";
   templateShow: boolean = false;
-  constructor(public dialog: MatDialog) { }
+  constructor(public workflowService: WorkflowService,
+    private service: ServiceInvokerService,
+    public dialog: MatDialog,
+    private notificationService: NotificationService,
+    private appSelectionService: AppSelectionService) { }
   @ViewChild('addPricingModel1') addPricingModel1: KRModalComponent;
   @ViewChild('addPricingModel2') addPricingModel2: KRModalComponent;
   @ViewChild('addPricingModel3') addPricingModel3: KRModalComponent;
@@ -27,6 +35,23 @@ export class PricingComponent implements OnInit {
   @ViewChild('plans') plans: UpgradePlanComponent;
   ngOnInit(): void {
     this.userEngagementChart()
+    this.getPlan()
+  }
+  getPlan(){
+    this.service.invoke('put.SI_saveResultSettings').subscribe(res => {
+      console.log(res)
+    }, errRes => {
+      this.errorToaster(errRes, 'failed to get plans');
+    });
+  }
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message) {
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+    }
   }
   compare() {
     this.plans.openPopup3();
