@@ -22,6 +22,7 @@ export class PricingComponent implements OnInit {
   addPricing5ModalPopRef: any;
   termPlan = "monthly";
   templateShow: boolean = false;
+  currentSubscriptionPlan : any;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -33,9 +34,11 @@ export class PricingComponent implements OnInit {
   @ViewChild('addPricingModel4') addPricingModel4: KRModalComponent;
   @ViewChild('addPricingModel5') addPricingModel5: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
+
   ngOnInit(): void {
     this.userEngagementChart()
     this.getPlan()
+    this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
   }
   getPlan(){
     this.service.invoke('get.pricingPlans').subscribe(res => {

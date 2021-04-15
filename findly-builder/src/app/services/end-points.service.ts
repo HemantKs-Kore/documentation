@@ -917,5 +917,9 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/plans',
       method: 'get'
     }
+    this.serviceList['get.currentPlans'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription',
+      method: 'get'
+    }
   }
 }

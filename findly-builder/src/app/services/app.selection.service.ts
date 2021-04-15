@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { SideBarService } from './header.service';
 import { AuthService } from '@kore.services/auth.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
+import { NotificationService } from './notification.service';
 @Injectable()
 export class AppSelectionService {
   queryList: any = [];
@@ -19,6 +20,7 @@ export class AppSelectionService {
   public routeChanged = new BehaviorSubject<any>({ name: undefined, path: '' });
   public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
   public resumingApp = false;
+  public currentsubscriptionPlanDetails: any;
   res_length: number = 0;
   getTourArray: any = [];
   constructor(
@@ -28,6 +30,7 @@ export class AppSelectionService {
     private headerService: SideBarService,
     private authService: AuthService,
     public localstore: LocalStoreService,
+    private notificationService: NotificationService
   ) { }
   public getIndexPipelineIds(setindex?): ReplaySubject<any> {
     const payload = {
@@ -152,6 +155,7 @@ export class AppSelectionService {
     });
   }
   openApp(app) {
+    this.currentsubscriptionPlan(app)
     this.workflowService.selectedQueryPipeline([]);
     this.workflowService.appQueryPipelines({});
     this.setAppWorkFlowData(app);
@@ -163,6 +167,26 @@ export class AppSelectionService {
     this.headerService.toggle(toogleObj);
     this.headerService.closeSdk();
     this.headerService.updateSearchConfiguration();
+  }
+  currentsubscriptionPlan(app){
+    const payload = {
+      streamId: app._id
+    };
+    const appObserver = this.service.invoke('get.currentPlans', payload);
+    appObserver.subscribe(res => {
+      this.currentsubscriptionPlanDetails = res
+    }, errRes => {
+      this.errorToaster(errRes, 'failed to get plans');
+    });
+  }
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message) {
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+    }
   }
   setAppWorkFlowData(app, queryPipeline?) {
     // this.getStreamData(app);
