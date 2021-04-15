@@ -29,15 +29,7 @@
                             <div class="desc-tect">Search Bar at the bottom</div>
                         </div>   
                     </div>
-                    <div class="right-sec">
-                        <!-- <div class="search-preview-dummy">
-                            <div class="top-search" [ngClass]="{'bottom-search': searchObject.searchExperienceConfig.searchBarPosition == 'bottom'}">
-                                <div class="kr-sg-input-search">                               
-                                    <input type="text" placeholder="Search" class="input-search" id="myInput">
-                                    <img src="assets/icons/search_gray.svg" class="search-icon">
-                                </div>
-                            </div>                                                 
-                        </div> -->
+                    <div class="right-sec">                       
                         <img src="assets/icons/search-experience/top-down.svg" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">
                         <img src="assets/icons/search-experience/bottom-up.svg" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
                     </div>
@@ -351,15 +343,96 @@
             <div class="col-12 pr-0" *ngSwitchCase="'interactions'">
                 <div class="interactins-content col-12 p-0 row m-0">
                     <div class="left-sec col-12 p-0">
-                        <div class="greeting-message border-with-padding col-7">
+                        <div class="greeting-message border-with-padding border-0 col-7 pb-0">
                             <div class="kr-sg-input-text-area">
                                 <div class="label-text">Customize Launch Greeting Message</div>
                                 <textarea class="input-text" maxlength="40" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}"></textarea>                                
                             </div>
                             <div class="emojis-block">
-                                <div class="emoji-img"><label for="myFileInput"><img [src]="emojiIcon" width="18" height="18">
-                                <input type="file" style="display: none;" id="myFileInput" (change)="selectIcon($event,'emoji','auto')" /></label>
-                                </div>                                
+                                <!-- <div class="emoji-img"><label for="myFileInput"><img [src]="emojiIcon" width="18" height="18">
+                                    <input type="file" style="display: none;" id="myFileInput" (change)="selectIcon($event,'emoji','auto')" /></label>
+                                </div>                                 -->
+                                <div class="emoji-img">
+                                    <div class="kr-sg-dropdowns" ngbDropdown [placement]="'right-top'">
+                                        <div class="dropdown dropdown-open">
+                                            <button class="dropdown-toggle dropdown-input before-none" ngbDropdownToggle>
+                                                <img [src]="emojiIcon" width="18" height="18">
+                                            </button>
+                                            <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+                                               <div class="emojis-images-block">
+                                                   <div class="close-btn">
+                                                       <img src="assets/icons/search-experience/emojis/close.svg">
+                                                   </div>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/smile.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/smile-2.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/smile-3.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/smile-4.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/smile-5.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/smile-6.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/cat-img.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/love.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/hand.svg">
+                                                    </li>                                                    
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/hand-1.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/hand-2.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/poke.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/thubsup.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/welcome.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/men-avatar.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/woment-avatar.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/old-women.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/old-men.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/monkey.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/monkey-1.svg">
+                                                    </li>
+                                                    <li class="emoji-type">
+                                                        <img src="assets/icons/search-experience/emojis/monkey-1.svg">
+                                                    </li>
+                                                   
+                                               </div>
+                                            </ul>
+                                        </div>
+                                    </div>	
+                                </div>
+
                                 <div class="fill-colors-block">
                                     <div class="fill-color">
                                         <div class="box-color" [ngClass]="{'color-pallet-container interaction-color': msgColor}" (mouseover)="toggle6=true;msgColor=true;">
@@ -394,6 +467,49 @@
                                 <div class="count-length">{{box.value.length}} / 40</div>
                             </div>
                         </div>
+
+                        <div class="col-12 preview-search-ex">
+                            <div class="search-widget-if-bottom-up" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">                               
+                                <div class="greeting-block">
+                                    <img src="assets/icons/search-experience/emojis/hand.svg">
+                                    <span class="greeting-title">Good morning! How can I help you today?</span>
+                                </div>
+                                <div class="d-flex search-customization-input">
+                                    <div class="kr-sg-input-search">                               
+                                        <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
+                                        <img [src]="searchIcon" class="search-icon" height="15" width="15">
+                                         <span class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
+                                         <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="(searchObject.searchExperienceConfig.searchBarPosition==='top' && searchObject.searchWidgetConfig.buttonPlacementPosition==='inside') || searchObject.searchExperienceConfig.searchBarPosition === 'bottom'">
+                                            <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
+                                        </button>  
+                                    </div>
+                                    <button class="btn-customize kr-sg-button-primary read-mode btn_lg" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="searchObject.searchExperienceConfig.searchBarPosition==='top' && searchObject.searchWidgetConfig.buttonPlacementPosition === 'outside'">
+                                        <span>{{searchObject.searchWidgetConfig.buttonText}}</span>                                       
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="search-widget" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">                               
+                                <div class="d-flex search-customization-input">
+                                    <div class="kr-sg-input-search">                               
+                                        <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
+                                        <img [src]="searchIcon" class="search-icon" height="15" width="15">
+                                         <span class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
+                                         <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="(searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='inside')||searchObject.searchExperienceConfig.searchBarPosition==='bottom'">
+                                            <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
+                                        </button>  
+                                    </div>
+                                    <button class="btn-customize kr-sg-button-primary read-mode btn_lg" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='outside'">
+                                        <span>{{searchObject.searchWidgetConfig.buttonText}}</span>                                       
+                                    </button>
+                                </div>
+                                <div class="greeting-block">
+                                    <img src="assets/icons/search-experience/emojis/hand.svg">
+                                    <span class="greeting-title">Good morning! How can I help you today?</span>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div class="col-12 p-0 position-relative">
                             <div class="guide-button-info">
                                 <div class="title-text">Not Sure! What you can do with these interaction settings?</div>
@@ -448,18 +564,7 @@
                                 </div>
                             </div>
                         </div>                        
-                    </div>                    
-                    <!-- <div class="right-sec col-5">
-                        <button class="btn kr-sg-button-primary" (click)="openSearchInterfaceGuide()">Open Guide</button>
-                    </div> -->
-                    <!-- <div class="right-sec col-5">
-                        <div class="preview-interactions">
-                            <div class="label_text">Preview</div>
-                            <div class="bg-preview-content">
-
-                            </div>
-                        </div>
-                    </div> -->
+                    </div>                                       
                 </div>             
             </div>
           </div>
@@ -473,40 +578,6 @@
 </div>
 
 <!--Show model for preview-->
-
-<kr-modal  modalType="center" modalClass="sliderComponent modal_popups_ search-customization-popup-preview" #statusModalPop id="sourceSlider">
-  <div class="modal-header">
-    <div class="title">Customization Preview / {{searchObject.searchExperienceConfig.searchBarPosition==='top'?"Top Down":"Bottom Up"}} Experience</div>
-    <div class="close_icon" (click)="closePreviewPopup()"><img  src="assets/icons/modal-close.svg"></div>
-  </div>
-  <perfect-scrollbar class="perfect-scroll-modal-body">
-    <div class="modal-body">
-        <div class="search-widget">
-            <div class="main-title">Search Widget</div>
-            <div class="d-flex search-customization-input">
-                <div class="kr-sg-input-search">                               
-                    <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
-                    <img [src]="searchIcon" class="search-icon" height="15" width="15">
-                     <span class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
-                     <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="(searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='inside')||searchObject.searchExperienceConfig.searchBarPosition==='bottom'">
-                        <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
-                    </button>  
-                </div>
-                <button class="btn-customize kr-sg-button-primary read-mode btn_lg" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='outside'">
-                    <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
-                    <!-- <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled">
-                        <img src="assets/icons/search-experience/edit.svg">
-                    </div> -->
-                </button>
-            </div>
-        </div>
-    </div>
-  </perfect-scrollbar>
-  <div class="modal-footer">
-    <!-- <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal">Next</button> -->
-    <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closePreviewPopup()">Close</button>
-  </div>
-</kr-modal>
 
 <kr-modal  modalType="center" modalClass="sliderComponent modal_popups_ guide-seach-experience" #guideModalPop id="guideModalPop">
     <div class="modal-header">
