@@ -7,9 +7,9 @@
 		<div class="document-limit">10%  query limit reached</div>
 	</div>
 	<perfect-scrollbar class="perfect-scroll">
-		<div class="list-group list-group-flush" *ngIf="!settingMainMenu">					
+		<div class="list-group list-group-flush" *ngIf="!settingMainMenu && !sourceMenu">					
 
-			<div class="sources-block-nav-items">
+			<!-- <div class="sources-block-nav-items">
 				<div class="link-side-menu">
 					<div class="source_title">Sources</div>
 					<div class="add-sources" [routerLink]="['/source']" skipLocationChange routerLinkActive="active" (click)="preview('Source')">
@@ -51,7 +51,7 @@
 					<span class="linkTitle">{{'structuredData.structured_data' | translate}}</span>
 				</div>
 
-			</div>			
+			</div> -->
 
 			<div class="default-index-title">				
 				<div class="kr-sg-dropdowns" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom'">
@@ -92,14 +92,6 @@
 			<div class="index-config-nav-block">
 				<div class="index-title">Index Configuration</div>				
 
-				<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
-					<span class="inlineIconBox leftAdjust">
-						<img src="assets/icons/sidemenu/new-icons/traits.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/traits.svg" class="activeIcon">
-					</span>
-					<span class="linkTitle">Traits</span>
-				</div>
-
 				<div mat-button class="mat-button" [routerLink]="['/index']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 					<span class="inlineIconBox">
 						<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">
@@ -110,15 +102,23 @@
 
 				<div mat-button class="mat-button" [routerLink]="['/FieldManagementComponent']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 					<span class="inlineIconBox">
-						<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/index.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/fields.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/fields.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">Fields</span>
-				</div>				
+				</div>
+				
+				<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
+					<span class="inlineIconBox leftAdjust">
+						<img src="assets/icons/sidemenu/new-icons/traits.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/traits.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Traits</span>
+				</div>
 
 			</div>
 
-			<div class="search-config-nav-block">									
+			<div class="search-config-nav-block mb-2">									
 
 				<div class="search-config-title">Search Configuration</div>
 
@@ -204,20 +204,86 @@
 						<img src="assets/icons/sidemenu/new-icons/rules.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/rules.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Rules</span>
+					<span class="linkTitle">Business Rules</span>
 				</div>
 
 			</div>
 
+			<div class="search-experience-nav-block mb-2">
+				<div class="search-experience-title">SEARCH EXPERIENCE</div>
+
+				<div mat-button class="mat-button" [routerLink]="['/search-experience']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Search Interface</span>
+				</div>
+
+				<div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Result Templates </span>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="list-group list-group-flush" *ngIf="!settingMainMenu && sourceMenu">					
+
+			<div class="sources-block-nav-items">
+				<div class="link-side-menu">
+					<div class="source_title">Sources</div>
+					<div class="add-sources" [routerLink]="['/source']" skipLocationChange routerLinkActive="active" (click)="preview('Source')">
+						<img src="assets/icons/sidemenu/source-add.svg">
+					</div>
+				</div>
+
+				<div mat-button class="mat-button" [routerLink]="['/content']" skipLocationChange routerLinkActive="active" (click)="preview('Content')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/page.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/page.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Content</span>
+				</div>
+				
+				<div [routerLink]="['/faqs']" mat-button class="mat-button" skipLocationChange routerLinkActive="active" (click)="preview('Faqs')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/faq.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/faq.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">FAQs</span>
+				</div>
+
+				<div mat-button class="mat-button" id="botActionsTab" [routerLink]="['/botActions']" skipLocationChange routerLinkActive="active" (click)="preview('Bot Actions')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/actions.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/actions.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Actions</span>
+				</div>
+
+
+				<div mat-button class="mat-button" [routerLink]="['/structuredData']" skipLocationChange routerLinkActive="active" (click)="preview('Structured Data')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/structured_data.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/structured_data.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">{{'structuredData.structured_data' | translate}}</span>
+				</div>
+
+			</div>
 		</div>
 
 
 		<!-- Inside config tab menus -->
-		<div class="list-group list-group-flush inside-config-tab-left-menus" *ngIf="settingMainMenu">
+		<div class="list-group list-group-flush inside-config-tab-left-menus" *ngIf="settingMainMenu && !sourceMenu">
 			
-			<div class="inside-menu-title">SEARCH EXPERIENCE</div>
+			<div class="inside-menu-title">BOT RESULTS</div>
 
-			<div mat-button class="mat-button" [routerLink]="['/search-experience']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+			<!-- <div mat-button class="mat-button" [routerLink]="['/search-experience']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
@@ -231,7 +297,7 @@
 					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Result Templates </span>
-			</div>
+			</div> -->
 
 			<div mat-button class="mat-button" [routerLink]="['/actions']" skipLocationChange routerLinkActive="active"
 				(click)="preview('index')" mat-button>

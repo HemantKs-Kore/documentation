@@ -25,7 +25,7 @@ app-mainmenu{
 					padding: 10px 20px;
 					.sources-block-nav-items{
 						padding: 12px 0 10px 0;
-    					border-bottom: 2px solid #E4E5E7;
+    					// border-bottom: 2px solid #E4E5E7;
 						margin-bottom: 10px;
 						.link-side-menu{
 							display: flex;
@@ -216,6 +216,20 @@ app-mainmenu{
 					}
 					.search-config-nav-block{
 						.search-config-title{
+							color: #9AA0A6;
+							letter-spacing: 1px;
+							text-transform: uppercase;
+							font-weight: 600;
+							font-size: 10px;
+							line-height: 12px;
+							margin-bottom: 5px;
+							padding: 0 15px;
+						}
+
+					}
+
+					.search-experience-nav-block{
+						.search-experience-title{
 							color: #9AA0A6;
 							letter-spacing: 1px;
 							text-transform: uppercase;

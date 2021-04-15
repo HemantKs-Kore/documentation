@@ -30,6 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
   userInfo: any = {};
   showMainMenu = true;
   settingMainMenu = false;
+  sourceMenu = false;
   previousState;
   appsData: any;
   searchInstance: any;
@@ -45,6 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
   resultRankDataSubscription: Subscription
   showHideMainMenuSubscription: Subscription;
   showHideSettingsMenuSubscription : Subscription;
+  showHideSourceMenuSubscription : Subscription;
   closeSDKSubscription : Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
@@ -128,6 +130,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.showHideSettingsMenuSubscription = this.headerService.showHideSettingsMenu.subscribe((res) => {
       this.settingMainMenu = res;
     });
+    this.showHideSourceMenuSubscription = this.headerService.showHideSourceMenu.subscribe((res) => {
+      this.sourceMenu = res;
+    });
     this.closeSDKSubscription = this.headerService.hideSDK.subscribe((res) => {
       this.headerService.isSDKCached = false;
       this.distroySearch();
@@ -137,6 +142,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   showMenu(event) {
     this.showMainMenu = event
+  }
+  showSourceMenu(event) {
+    this.sourceMenu = event
   }
   settingMenu(event) {
     this.settingMainMenu = event
@@ -313,6 +321,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.showHideMainMenuSubscription ? this.showHideMainMenuSubscription.unsubscribe() : false;
     this.closeSDKSubscription ? this.closeSDKSubscription.unsubscribe() : false;
     this.showHideSettingsMenuSubscription ? this.showHideSettingsMenuSubscription.unsubscribe() : false;
+    this.showHideSourceMenuSubscription ? this.showHideSourceMenuSubscription.unsubscribe() : false;
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
