@@ -198,6 +198,7 @@ export class SearchExperienceComponent implements OnInit {
   }
   //select search Icon
   selectIcon(event, type, icon) {
+    this.selectSearchBox('');
     const file = icon === 'manual' ? event : event.target.files[0];
     const _ext = file.name.substring(file.name.lastIndexOf('.'));
     const formData = new FormData();
