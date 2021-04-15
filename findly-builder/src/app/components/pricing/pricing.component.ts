@@ -38,7 +38,7 @@ export class PricingComponent implements OnInit {
     this.getPlan()
   }
   getPlan(){
-    this.service.invoke('put.SI_saveResultSettings').subscribe(res => {
+    this.service.invoke('get.pricingPlans').subscribe(res => {
       console.log(res)
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
