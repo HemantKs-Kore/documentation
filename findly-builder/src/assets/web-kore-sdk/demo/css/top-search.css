@@ -1270,6 +1270,15 @@ input:focus{
   top : 33%;
 }
 
+.sdk-top-down-interface .customization .customization-tile .actions-content.manually_added_pin .tooltiptext{
+  width: 186px !important;
+  left: -150px !important;
+}
+.sdk-top-down-interface .customization .customization-tile .actions-content.manually_added_pin .tooltiptext::after{
+  left: auto !important;
+  right: 22px !important;
+}
+
 .sdk-top-down-interface .structured-search-data-container .search-heads{
   font-size: 12px;
   font-weight: bold;
@@ -1740,7 +1749,7 @@ float: right;
   z-index: 9999 !important;
   left: 0;
   right: 0;
-  padding-left: 245px;
+  /* padding-left: 245px; */
 }
 
 .top-down-search-background-div.if-full-results{
@@ -1752,13 +1761,13 @@ float: right;
 .top-down-search-background-div::after{
   position: absolute;
   content: "";
-  background: #fff;
+  /* background: #fff; */
   height: 100%;
-  width: 245px;
+  /* width: 245px; */
   left: 0;
   top: 0;
   opacity: 0.7;
-}
+} 
 .top-down-search-background-div::before{
   content: "";
   background: #fff;
@@ -2077,4 +2086,70 @@ a{
 
 .sdk-top-down-interface .conversation-container .conversations .search-container.conversation #searchChatContainer .finalResults{
   display:none !important;
+}
+
+/* Go Button */
+button.submit-button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.submit-button {
+  width: 40px;
+  height: 34px;
+  border: solid 0px #e5e8ec;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: 1px;
+  bottom: 0;
+  border-radius: 6px;
+  margin: 3px 10px 3px 0px;
+  background: #0D6EFD;
+  backdrop-filter: blur(27.1828px);
+  font-size: 12px;
+  font-weight: 500;
+  color: #202124;
+  position: relative;
+  float: right;
+  width: auto;
+}
+
+.topdown-search-main-container .all-result-container .conversation-container .conversations .search-container.conversation #searchChatContainer .query-analytics-control-container {
+display: none !important;
+}
+
+.query-analytics-top-down{
+  position: absolute;
+    right: -98px;
+    top: 5px;
+    display: flex;
+    align-items: center;
+    color: #202124;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.search-greeting-box-top-down .greeting-img {
+    position: relative;
+    top: 3px;
+    margin-right: 6px;
+    
+}
+
+.search-greeting-box-top-down .greeting-img img {
+  width: 22px;
+}
+.search-greeting-box-top-down {
+    background: #fff;
+    border: 1px solid #E0E1E9;
+    box-sizing: border-box;
+    border-radius: 8px;
+    margin-top: 12px;
+    height: auto;
+    padding: 14px 12px;
+    width: 347px;
+}
+
+.topdown-search-main-container .all-result-container .conversation-container .conversations .search-container.conversation #searchChatContainer .sdk-query-retry-icon{
+  display: none !important;
 }

@@ -161,6 +161,7 @@ export class AppSelectionService {
       title: '',
     };
     this.headerService.toggle(toogleObj);
+    this.headerService.closeSdk();
     this.headerService.updateSearchConfiguration();
     this.routeChanged.next({ name: 'pathchanged', path: '/summary' });
   }

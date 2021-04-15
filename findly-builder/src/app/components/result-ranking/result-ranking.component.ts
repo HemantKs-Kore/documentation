@@ -55,7 +55,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     // $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
     //   this.getcustomizeList(20, 0);
     // })
-    $(document).on('click', '.kore-search-container-close-icon', () => {
+    $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
       this.selectedApp = this.workflowService.selectedApp();
       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
       this.loadCustomRankingList();
@@ -207,6 +207,16 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       if (this.queryPipelineId) {
         this.getcustomizeList(20, 0);
       }
+    }
+  }
+  multiplyAction(value){
+    let count = value/0.25
+    if(count > 4){
+      let data = count - 4;
+      return data
+    }else {
+      let data = 4 - count;
+      return data >= 0 ? data : -1*(data)
     }
   }
   showLogs() {

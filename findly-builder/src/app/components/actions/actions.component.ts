@@ -68,7 +68,9 @@ export class ActionsComponent implements OnInit {
   }
  
   openActions(){
-  $('#botActionsTab').trigger('click');
+    this.router.navigate(['/botActions'], { skipLocationChange: true });
+    this.headerService.updateShowHideSettingsMenu(false);
+    // this.headerService.updateMainMenuInHeader('/settings');
 } 
   botLinkedOrUnlinked() {
     // this.LinkABot = this.workflowService.linkBot()
