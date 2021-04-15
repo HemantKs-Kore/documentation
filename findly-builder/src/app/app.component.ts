@@ -48,6 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
   showHideSettingsMenuSubscription : Subscription;
   showHideSourceMenuSubscription : Subscription;
   closeSDKSubscription : Subscription;
+  searchExperienceSubscription: Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -56,6 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
   };
   topDownSearchInstance: any;
   searchExperienceConfig: any;
+  indexPipelineId : any;
   @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(private router: Router,
     private authService: AuthService,
@@ -283,7 +285,10 @@ export class AppComponent implements OnInit, OnDestroy {
           this.appSelectionService.setPreviousState(path);
           this.resetFindlySearchSDK(this.workflowService.selectedApp());
           this.selectApp(true);
-          this.getSearchExperience();
+          this.loadSearchExperience();
+          this.searchExperienceSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+            this.loadSearchExperience();
+          })
           console.log('navigated to path throught navigator and shown preview ball');
         } else {
           // this.showHideSearch(false);
@@ -308,6 +313,13 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  loadSearchExperience(){
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if (this.indexPipelineId) {
+      this.getSearchExperience();
+    }
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
     this.workflowService.disablePerfectScroll = window.innerWidth <= 600;
@@ -322,6 +334,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.closeSDKSubscription ? this.closeSDKSubscription.unsubscribe() : false;
     this.showHideSettingsMenuSubscription ? this.showHideSettingsMenuSubscription.unsubscribe() : false;
     this.showHideSourceMenuSubscription ? this.showHideSourceMenuSubscription.unsubscribe() : false;
+    this.searchExperienceSubscription ? this.searchExperienceSubscription.unsubscribe() : false;
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
@@ -573,7 +586,8 @@ export class AppComponent implements OnInit, OnDestroy {
     selectedApp = this.workflowService.selectedApp();
     const searchIndex = selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
-      searchIndexId: searchIndex
+      searchIndexId: searchIndex,
+      indexPipelineId : this.workflowService.selectedIndexPipeline()
     };
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
       console.log("search experience data", res);

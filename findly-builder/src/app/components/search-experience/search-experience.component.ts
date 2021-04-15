@@ -19,6 +19,7 @@ export class SearchExperienceComponent implements OnInit {
   selectSearch: string;
   selectedApp: any = {};
   serachIndexId: any;
+  indexPipelineId : any;
   suggestions: any = [];
   searchObject: any = {
     "searchExperienceConfig": {
@@ -80,6 +81,7 @@ export class SearchExperienceComponent implements OnInit {
   width: number = this.minWidth;
   componentType: string = 'designing';
   subscription: Subscription;
+  appSubscription : Subscription;
   tourData: any = [];
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -91,11 +93,21 @@ export class SearchExperienceComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
-    this.getSearchExperience();
+    this.loadSearchExperience();
+    this.appSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+      this.loadSearchExperience();
+    })
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourData = res;
       this.tourGuide = res.searchExperienceVisited ? '' : 'step1';
     })
+  }
+
+  loadSearchExperience() {
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if (this.indexPipelineId) {
+      this.getSearchExperience();
+    }
   }
   //dynamically increse input text 
   resize() {
@@ -310,7 +322,8 @@ export class SearchExperienceComponent implements OnInit {
   getSearchExperience() {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
-      searchIndexId: searchIndex
+      searchIndexId: searchIndex,
+      indexPipelineId : this.indexPipelineId
     };
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
       console.log("search experience data", res);
@@ -347,7 +360,8 @@ export class SearchExperienceComponent implements OnInit {
     console.log("obj", obj);
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
-      searchIndexId: searchIndex
+      searchIndexId: searchIndex,
+      indexPipelineId : this.indexPipelineId
     };
     this.service.invoke('put.searchexperience', quaryparms, obj).subscribe(res => {
       console.log("test res", res);
@@ -381,5 +395,11 @@ export class SearchExperienceComponent implements OnInit {
     if (this.guideModalPopRef && this.guideModalPopRef.close) {
       this.guideModalPopRef = this.guideModalPopRef.close();
     }
+  }
+
+  
+  ngOnDestroy() {
+    this.appSubscription ? this.appSubscription.unsubscribe() : false;
+    this.subscription ? this.subscription.unsubscribe() : false;
   }
 }
