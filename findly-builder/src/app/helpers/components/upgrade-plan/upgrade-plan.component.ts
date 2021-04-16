@@ -10,9 +10,9 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
   styleUrls: ['./upgrade-plan.component.scss']
 })
 export class UpgradePlanComponent implements OnInit {
-  addPricing1ModalPopRef: any;
+  orderConfirmModelRef: any;
   addPricing2ModalPopRef: any;
-  addPricing3ModalPopRef: any;
+  choosePlanModalPopRef: any;
   addPricing4ModalPopRef: any;
   addPricing5ModalPopRef: any;
   termPlan = "Monthly";
@@ -21,9 +21,9 @@ export class UpgradePlanComponent implements OnInit {
   currentPlan: string = 'Standard';
   showPlanDetails: string;
   constructor(public dialog: MatDialog, private service: ServiceInvokerService, private notificationService: NotificationService) { }
-  @ViewChild('addPricingModel1') addPricingModel1: KRModalComponent;
+  @ViewChild('orderConfirmModel') orderConfirmModel: KRModalComponent;
   @ViewChild('addPricingModel2') addPricingModel2: KRModalComponent;
-  @ViewChild('addPricingModel3') addPricingModel3: KRModalComponent;
+  @ViewChild('choosePlanModel') choosePlanModel: KRModalComponent;
   @ViewChild('addPricingModel4') addPricingModel4: KRModalComponent;
   @ViewChild('addPricingModel5') addPricingModel5: KRModalComponent;
 
@@ -49,14 +49,26 @@ export class UpgradePlanComponent implements OnInit {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+  //open order confirm popup
+  openOrderConfPopup(data?) {
+    console.log("order confie=rm data", data);
+    this.orderConfirmModelRef = this.orderConfirmModel.open();
+  }
+  //close order confirm popup
+  closeOrderConfPopup() {
+    if (this.orderConfirmModelRef && this.orderConfirmModelRef.close) {
+      this.orderConfirmModelRef.close();
+    }
+  }
   //open popup1
-  openPopup3() {
-    this.addPricing3ModalPopRef = this.addPricingModel3.open();
+  openChoosePlanPopup(data?) {
+    console.log("choose plan data", data);
+    this.choosePlanModalPopRef = this.choosePlanModel.open();
   }
   //close popup1
   closePopup3() {
-    if (this.addPricing3ModalPopRef && this.addPricing3ModalPopRef.close) {
-      this.addPricing3ModalPopRef.close();
+    if (this.choosePlanModalPopRef && this.choosePlanModalPopRef.close) {
+      this.choosePlanModalPopRef.close();
     }
   }
   //select type plan like monthly or yearly

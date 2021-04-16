@@ -55,28 +55,29 @@
           <div class="row col-12 upgrade-header-sec">
             <div class="title col-5 p-0">Upgrade to</div>
             <div class="upgrader-btn-sec col-7 p-0">
-              <div class="btn-monthly" [ngClass]="{'active-btn' : termPlan == 'monthly'}" (click)="termPlan = 'monthly'">Monthly</div>
-              <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'annually' }" (click)="termPlan = 'annually'">Annually</div>
-              <div class="compare-plan" (click)="compare()">Compare Plans</div>
+              <div class="btn-monthly" [ngClass]="{'active-btn' : termPlan == 'Monthly'}" (click)="typeOfPlan('Monthly')">Monthly</div>
+              <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'Yearly' }" (click)="typeOfPlan('Yearly')">Annually</div>
+              <div class="compare-plan" (click)="compare('choosePlans',currentSubscriptionPlan.subscription)">Compare Plans</div>
             </div>
           </div>
-          <div class="col-4 upgrade-price-card">
-            <div class="inner-content">
+          <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData'>
+            <div class="inner-content" *ngIf="plan.type!='free'">
               <img src="assets/icons/pricing/standard.svg" class="standard-img">
                 <div class="title-sec">
-                  <div class="title">Standard</div>
-                  <div class="price">$99 <span>/ month</span></div>
+                  <div class="title">{{plan.name}}</div>
+                  <div class="price" [ngClass]='{"d-none":currentPlan===plan.name||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?'month':'year'}}</span></div>
+                  <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise"}'>Custom</div>
                 </div>
                 <div class="card-desc">10k Documents </div>
                 <div class="card-desc">50k Queries per month</div>
                 <div class="card-desc">Scheduled Crawling</div>
                 <div class="card-desc">Experiments</div>
                 <div class="card-desc">Community Support</div>
-                <button class="kr-sg-button-secondary btn_lg" (click)="openPopup1()">Choose Plan</button>
+                <button class="kr-sg-button-secondary btn_lg" (click)="compare('order',plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
             </div>
           </div>
 
-          <div class="col-4 upgrade-price-card">
+          <!-- <div class="col-4 upgrade-price-card">
             <div class="inner-content">
               <img src="assets/icons/pricing/pro.svg" class="pro-img">
                 <div class="title-sec">
@@ -105,7 +106,7 @@
               <div class="custom-desc-text">Fully Customizable & Tailored Solution for your business needs</div>
               <button class="kr-sg-button-secondary btn_lg">Contact US</button>
             </div>
-          </div>
+          </div> -->
         </div>
 
         <div class="usage-metrics-sec row col-12 m-0">

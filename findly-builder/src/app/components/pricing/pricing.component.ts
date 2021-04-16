@@ -20,9 +20,11 @@ export class PricingComponent implements OnInit {
   addPricing3ModalPopRef: any;
   addPricing4ModalPopRef: any;
   addPricing5ModalPopRef: any;
-  termPlan = "monthly";
+  termPlan = "Monthly";
   templateShow: boolean = false;
-  currentSubscriptionPlan : any;
+  currentSubscriptionPlan: any;
+  totalPlansData: any;
+  filterPlansData: any;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -42,7 +44,8 @@ export class PricingComponent implements OnInit {
   }
   getPlan() {
     this.service.invoke('get.pricingPlans').subscribe(res => {
-      console.log(res)
+      this.totalPlansData = res;
+      this.typeOfPlan("Monthly");
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });
@@ -56,8 +59,13 @@ export class PricingComponent implements OnInit {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-  compare() {
-    this.plans.openPopup3();
+  compare(type, data) {
+    if (type == 'choosePlans') {
+      this.plans.openChoosePlanPopup(data);
+    }
+    else if (type == 'order') {
+      this.plans.openOrderConfPopup(data);
+    }
   }
   //open popup1
   openPopup1() {
@@ -287,5 +295,15 @@ export class PricingComponent implements OnInit {
       //     }
       // ]
     };
+  }
+  //select type plan like monthly or yearly
+  typeOfPlan(type) {
+    this.filterPlansData = [];
+    this.termPlan = type;
+    for (let data of this.totalPlansData) {
+      if (data.billingUnit && data.billingUnit == type) {
+        this.filterPlansData.push(data);
+      }
+    }
   }
 }
