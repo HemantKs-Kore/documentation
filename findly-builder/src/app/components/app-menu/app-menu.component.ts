@@ -75,7 +75,8 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
     public dialog: MatDialog
-  ) { }
+  ) {
+   }
   goHome() {
     this.workflowService.selectedApp(null);
     this.router.navigate(['/apps'], { skipLocationChange: true });

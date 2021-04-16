@@ -23,12 +23,12 @@
                 </div>
                 <div class="plan-details">
                   <div class="type-plan-sec">
-                    <div class="type-plan">Free</div>
-                    <div class="amount">$399 <span>/ month</span></div>
+                    <div class="type-plan">{{ currentSubscriptionPlan.subscription.planName || 'Free' }} </div>
+                    <div class="amount" *ngIf="currentSubscriptionPlan.subscription.planName != 'Free'">$399 <span>/ month</span></div>
                   </div>
                   <div class="plan-time">
                     <div class="started-title">Started On</div>
-                    <div class="started-date">18 April 2021</div>
+                    <div class="started-date">{{ currentSubscriptionPlan.subscription.planName.createdAt | date: 'dd/MMM/yyyy' || '18 April 2021'}}</div>
                   </div>
                 </div>
               </div>
