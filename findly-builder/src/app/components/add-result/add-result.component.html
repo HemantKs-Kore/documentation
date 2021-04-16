@@ -14,7 +14,7 @@
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{searchRadioTypeTxt}}</button>                                            
                     <ul class="dropdown-menu content-menu">
                       <li (click) = "resultClick('faq')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'FAQ'}">FAQ</a></li>
-                      <li (click) = "resultClick('page')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Content'}">Content</a></li>
+                      <li (click) = "resultClick('content')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Content'}">Content</a></li>
                       <li (click) = "resultClick('task')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Bot Action'}">Bot Action</a></li>
                       <li (click) = "resultClick('structuredData')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Structured Data'}">Structured Data</a></li>
                       <li (click) = "resultClick('all')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Any'}">Any</a></li>
@@ -188,9 +188,9 @@
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{searchRadioTypeTxt}}</button>                                            
                     <ul class="dropdown-menu content-menu">
                       <li (click) = "resultClick('faq')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'FAQ'}">FAQ</a></li>
-                      <li (click) = "resultClick('page')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Content'}">Content</a></li>
+                      <li (click) = "resultClick('content')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Content'}">Content</a></li>
                       <li (click) = "resultClick('task')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Bot Action'}">Bot Action</a></li>
-                      <li (click) = "resultClick('structuredData')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Structured Data'}">Structured Data</a></li>
+                      <li (click) = "resultClick('object')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Structured Data'}">Structured Data</a></li>
                       <li (click) = "resultClick('all')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Any'}">Any</a></li>
                     </ul>
                   </div>
@@ -276,7 +276,7 @@
             </ng-container>
         </perfect-scrollbar>
         
-        <div class="group-radiobutton">
+        <!-- <div class="group-radiobutton">
             <div class="kr-sg-radiobutton">
                 <input id="radio-last" name="radio" class="radio-custom" type="radio"  [checked] = "positionRecord == 'top'" (change)="positionRecord = 'top'">
                 <label for="radio-last" class="radio-custom-label">Add to the top</label>
@@ -285,7 +285,7 @@
                 <input id="radio-top" name="radio" class="radio-custom" type="radio"  [checked] = "positionRecord == 'bottom'" (change)="positionRecord = 'bottom'">
                 <label for="radio-top" class="radio-custom-label">Add to the last</label>
             </div>
-        </div> 
+        </div>  -->
 
         <div class="footer-info">
             <div class="selected-length">{{ recordArray.length }} results selected</div>

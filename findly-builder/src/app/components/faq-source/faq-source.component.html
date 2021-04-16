@@ -68,7 +68,7 @@
                     <div class="tab-sec d-flex" *ngIf="faqSelectionObj.selectedCount == 0">
                         <div class="tab_title" (click)="selectTab('draft')" [ngClass]="{'active': (selectedtab === 'draft')}">Drafts<span class="">({{faqSelectionObj.stats.draft || 0}})</span></div>
                         <div class="tab_title" (click)="selectTab('in_review')" [ngClass]="{'active': (selectedtab === 'in_review')}">In-review<span class="">({{faqSelectionObj.stats.in_review || 0}})</span></div>
-                        <div class="tab_title" (click)="selectTab('approved')" [ngClass]="{'active': (selectedtab === 'approved')}">Approved<span class="">({{faqSelectionObj.stats.approved || 0}})</span></div>
+                        <div class="tab_title" (click)="selectTab('approved')"  [ngClass]="{'active': (selectedtab === 'approved')}">Approved<span class="">({{faqSelectionObj.stats.approved || 0}})</span></div>
                     </div>
                     <div class="header-sec" *ngIf="faqSelectionObj.selectedCount == 0">
                         <div class="kr-sg-checkbox">
@@ -112,10 +112,11 @@
                             <div class="title">{{(faqSelectionObj.selectAll)?'All':faqSelectionObj.selectedCount}} Selected</div>
                         </div>
                         <div class="col-8 p-0 d-flex align-items-center justify-content-end">
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
                             <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
                             <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
                             <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
+                         
                             
                         </div>
                     </div>
@@ -127,7 +128,7 @@
                         </div>
                         <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer': faqSelectionObj.selectedCount}" (psYReachEnd)="onScrolledEnd($event)" *ngIf="faqSelectionObj.stats[selectedtab]">
                             <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab" >
-                            <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div>
+                            <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll" id="selectAllFaqs" (click)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div>
                             <div id="accordion" class="accordion-content">
                                 <div *ngFor="let faq of faqs">
                                     <div class="card-content" *ngIf="faq.action!=='delete'">
@@ -198,7 +199,7 @@
                                     <div class="approved_date" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.lMod | dateFormatPipe:'hh:mm:ss A'}}</span></div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
-                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" >                                        
                                         <div class="dropdown dropdown-open">                                        
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
                                             <ul class="dropdown-menu content-menu info_header_dropdown_content" ngbDropdownMenu>
@@ -223,7 +224,7 @@
                                             </ul>
                                         </div>
                                     </div>                             
-                                    <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <div class="kr-sg-dropdowns comments_header_dropdown"  #commentBox='ngbDropdown' ngbDropdown  [container]="'body'" [placement]="'bottom-right'" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved') || (selectedtab === 'in_review')">                                        
                                         <div class="dropdown dropdown-open">                                        
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                                                                      
                                             <ul class="dropdown-menu content-menu comments_header_dropdown_content" ngbDropdownMenu>
@@ -242,15 +243,15 @@
                                                                 </div>
                                                             </div>
                                                             <div class="kr-sg-input-text-area">                                                           
-                                                                <textarea placeholder="reply" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
+                                                                <textarea id="changePlaceholder" placeholder="Add a comment" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
                                                             </div>
                                                         </div>
                                                     </perfect-scrollbar>                                                   
                                                     <div class="footer-data">
                                                         <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
                                                         <div class="btn_sec">
-                                                            <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button> 
-                                                            <button class="kr-sg-button-secondary btn_lg" (click)="clearContent()">Cancel</button>                                               
+                                                            <button class="kr-sg-button-secondary btn_lg" (click)="commentBox.close()">Cancel</button>
+                                                            <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button>                                           
                                                         </div>
                                                     </div>
                                                 </div>  
@@ -264,7 +265,7 @@
                                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
                                                 <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
                                                     <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>
-                                                    <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                        
+                                                    <!-- <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                         -->
                                                 </ul>
                                             </div>
                                         </div>                                    
@@ -385,7 +386,7 @@
                                         </ul>
                                     </div>
                                 </div>                             
-                                <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                <div class="kr-sg-dropdowns comments_header_dropdown"  #commentBox='ngbDropdown' ngbDropdown   [container]="'body'" [placement]="'bottom-right'">                                        
                                     <div class="dropdown dropdown-open">                                        
                                         <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                                                                      
                                         <ul class="dropdown-menu content-menu comments_header_dropdown_content" ngbDropdownMenu>
@@ -404,15 +405,15 @@
                                                             </div>
                                                         </div>
                                                         <div class="kr-sg-input-text-area">                                                           
-                                                            <textarea placeholder="reply" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
+                                                            <textarea id="changePlaceholder" placeholder="Add a comment" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
                                                         </div>
                                                     </div>
                                                 </perfect-scrollbar>                                                   
                                                 <div class="footer-data">
                                                     <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
                                                     <div class="btn_sec">
-                                                        <button class="kr-sg-button-secondary btn_lg" (click)="clearContent()">Cancel</button>
-                                                        <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button>                                                            
+                                                        <button class="kr-sg-button-secondary btn_lg" (click)="commentBox.close()">Cancel</button>
+                                                        <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button>                                                           
                                                     </div>
                                                 </div>
                                             </div>  
@@ -425,8 +426,8 @@
                                         <div class="dropdown dropdown-open">
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
                                             <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
-                                                <li (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</li>
-                                                <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Needs Rework</li>
+                                                <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>
+                                                <li (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>
                                             </ul>
                                         </div>
                                     </div>                                    
@@ -453,7 +454,27 @@
                                         <div class="bot-response-view-mode">
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.defaultAnswers && selectedFaq._source.defaultAnswers.length">
                                                 <ng-container *ngFor="let answer of selectedFaq._source.defaultAnswers ;let i = index;">
-                                                    <div class="bot-response-title">Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div> 
+                                                    
+
+                                                    <div class="response-title-bg row">
+                                                        <div class="bot-response-title col-6">Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div>
+                                                        <div class="response-likes-views-sec d-flex col-6">
+                                                            <div class="count-sec">
+                                                                <img src="assets/icons/faq/views.svg">{{selectedFaq.stats.appearances?selectedFaq.stats.appearances[0][0]: 0}}
+                                                            </div>
+                                                            <div class="count-sec">
+                                                                <img src="assets/icons/faq/hand.svg">{{selectedFaq.stats.clicks ||0}}
+                                                            </div>
+                                                            <!-- <div class="count-sec">
+                                                                <img src="assets/icons/faq/likes.svg">{{selectedFaq.stats.thumbsup ||0}}
+                                                            </div>
+                                                            <div class="count-sec">
+                                                                <img src="assets/icons/faq/dislikes.svg">{{selectedFaq.stats.thumbsdown ||0}}
+                                                            </div>                                                         -->
+                                                        </div>
+                                                    </div>
+
+
                                                     <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
                                                         <img src="{{answer.multimedia.url}}">
                                                     </div>
@@ -465,8 +486,58 @@
                                         <div class="conditionalBlock bot-response-view-mode" >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length">
                                             <ng-container *ngFor="let consitionalAnswer of selectedFaq._source.conditionalAnswers; let i = index;">
-                                                <div class="bot-response-title">Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.defaultAnswers?selectedFaq._source.defaultAnswers.length:0))}}</span></div> 
-                                                <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div>
+
+                                                
+                                                <div class="response-title-bg row">
+                                                    <div class="bot-response-title col-6">Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.defaultAnswers?selectedFaq._source.defaultAnswers.length:0))}}</span></div>
+                                                    <div class="response-likes-views-sec d-flex col-6">
+                                                        <div class="count-sec">
+                                                            <img src="assets/icons/faq/views.svg">{{selectedFaq.stats.appearances?selectedFaq.stats.appearances[0][0]: 0}}
+                                                        </div>
+                                                        <div class="count-sec">
+                                                            <img src="assets/icons/faq/hand.svg">{{selectedFaq.stats.clicks ||0}}
+                                                        </div>
+                                                        <!-- <div class="count-sec">
+                                                            <img src="assets/icons/faq/likes.svg">{{selectedFaq.stats.thumbsup ||0}}
+                                                        </div>
+                                                        <div class="count-sec">
+                                                            <img src="assets/icons/faq/dislikes.svg">{{selectedFaq.stats.thumbsdown ||0}}
+                                                        </div>                                                            -->
+                                                    </div>
+                                                    <div class="d-flex col-12 conditions-response-block">
+                                                        <div class="title col-2 px-0">Conditions :</div>
+                                                        <div class="right-content col-10 px-0 condition-content">
+                                                            <!-- if-lenthfour -->
+                                                            <div class="row added-conditions" *ngFor="let rule of consitionalAnswer.conditions | slice:0:2; let ruleIndex = index" >
+                                                                <ng-container *ngIf="showConditions(consitionalAnswer.conditions,ruleIndex)">
+                                                                   <div class="col-2  d-inline px-0 vertical-align-top">
+                                                                    <div class="rule-title pr-10" *ngIf="ruleIndex == 0">WHEN</div>
+                                                                    <div class="rule-title pr-20" *ngIf="ruleIndex > 0">AND</div>
+                                                                   </div>
+                                                                <div class="col-10 d-inline-block px-0"[ngStyle]="{'margin-bottom':(showSeeAll(consitionalAnswer.conditions) && ruleIndex==0)?'10px':'0px'}" >
+                                                                    <div class="rule-dropdown-data">
+                                                                        <span class="rule-dropdown-key">{{ "businessRules." + rule.contextType | translate}} :</span>
+                                                                        <span class="rule-dropdown-value" title='{{ "businessRules." + rule.contextCategory | translate }}'>{{ "businessRules." + rule.contextCategory | translate }}</span>
+                                                                    </div>
+                                                                    <div class="rule-contains">{{ rule.operator | titlecase}}</div>
+                                                                    <ng-container  *ngFor="let value of rule.value | slice:0:(ruleIndex==0?(rule.operator !=='between'?4:2):2); let valueIndex = index">
+                                                                        <div class="rule-value" *ngIf="rule.dataType=== 'date' && rule.operator !=='between'" title="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                                                                        <div class="rule-value" *ngIf="rule.dataType=== 'date'  && rule.operator =='between'" title="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value[0] | dateFormatPipe: 'DD MMM YYYY'}} - {{value[1] | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                                                                        <div class="rule-value" *ngIf="rule.dataType!== 'date'" title="{{value}}">{{value}}</div>
+                                                                        <div class="or-rule" *ngIf="(valueIndex < 3 && valueIndex!== (rule.value.length>3?3:(rule.value.length-1)) && ruleIndex==0 && rule.operator !=='between')||(valueIndex < 1 && ruleIndex==1 && valueIndex!== 1) || (valueIndex < 1 && valueIndex!== (rule.value.length>2?2:(rule.value.length-1)) && ruleIndex==0 && rule.operator =='between') ">{{ "or_caps" | translate}}</div>
+                                                                    </ng-container> 
+                                                                    <div class="d-inline position-absolute" *ngIf="(rule.value.length>4 && ruleIndex==0)|| (rule.value.length>1  && ruleIndex==1) || (rule.value.length>2 && ruleIndex==0 && rule.operator =='between')">...</div>
+                                                                </div>
+                                                                </ng-container>                                                             
+                                                            </div>
+                                                            <div class="d-block"><a (click)="editThisQa()" class="see-all-anchor" *ngIf="showSeeAll(consitionalAnswer.conditions)">See All</a></div>
+                                                           
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                                <!-- <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div> -->
                                                 <div *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.answers.length">
                                                     <div *ngFor="let ans of consitionalAnswer.answers">
                                                         <div class="img-view-mode" *ngIf="ans.multimedia && ans.multimedia.url">
@@ -493,14 +564,14 @@
                                         <span class="source">Clicks:</span>
                                         <span class="count">{{selectedFaq.feedback.click}}</span>
                                     </div>
-                                    <div class="col-2 p-0">
+                                    <!-- <div class="col-2 p-0">
                                         <span class="source cursor-pointer"><img src="assets/icons/like.svg"></span>
                                         <span class="count">{{selectedFaq.feedback.thumbsup}}</span>
                                     </div>
                                     <div class="col-3 p-0">
                                         <span class="sourc cursor-pointer"><img src="assets/icons/dislike.svg"></span>
                                         <span class="count">{{selectedFaq.feedback.thumbsdown}}</span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="add-alternative-questions row bg-white">
@@ -740,7 +811,7 @@
     <ng-container  *ngIf="selectedFaq && selectedFaq.isAddFollow">
         <div class="modal-header">
           <div class="title">Add Follow Up FAQ</div>
-          <div class="close_icon"><img class="ng-tns-c11-2" (click)="cancleAddFollowUp()" src="assets/icons/modal-close.svg"></div>
+          <div class="close_icon"><img (click)="cancleAddFollowUp()" src="assets/icons/modal-close.svg"></div>
         </div>
       <perfect-scrollbar class="app-add-faq-insidescroll">
         <div class="modal-body">
@@ -759,7 +830,7 @@
     <ng-container  *ngIf="editfaq && selectedFaq">
   <div class="modal-header">
     <div class="title">Edit FAQ</div>
-    <div class="close_icon"><img class="ng-tns-c11-2" (click)="faqCancle()" src="assets/icons/modal-close.svg"></div>
+    <div class="close_icon"><img (click)="faqCancle()" src="assets/icons/modal-close.svg"></div>
   </div>
 <perfect-scrollbar class="perfect-scroll-modal-body">
   <div class="modal-body">

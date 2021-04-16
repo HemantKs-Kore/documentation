@@ -7,7 +7,7 @@
   .header-sec {
     background: #f8f9fa;
     border-radius: 4px;
-    padding: 5px 0px;
+    padding: 12px 10px;
     margin: 22px 30px;
     align-items: center;
     .left-sec {
@@ -74,6 +74,9 @@
   }
   .p-scroll-data {
     height: calc(100vh - 150px);
+    &.scroll-empty-screen{
+      height: calc(100vh - 62px);
+    }
   }
   .table-data-content {
     padding: 0 30px 20px 30px;

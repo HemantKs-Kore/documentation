@@ -22,6 +22,7 @@ import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pd
 declare const $: any;
 import * as moment from 'moment';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { D, F } from '@angular/cdk/keycodes';
 import { SideBarService } from './../../services/header.service';
 
 @Component({
@@ -500,7 +501,18 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       type: 'faq'
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => { //get.job.status
-      if (res && res.length) {
+      this.resources = [...res];
+        if(res &&res.length){
+          res.forEach((d:any)=>{
+          if(d.extractedFaqsCount === 0){
+          let index = this.resources.findIndex((f)=>f._id == d._id);
+          if(index>-1){
+          this.resources.splice(index,1);
+          }
+          }
+        });
+      res = [...this.resources] ;
+      this.resources = res.reverse();
         res.forEach(element => {
           this.resourcesStatusObj[element.resourceId] = element;
         });
@@ -543,6 +555,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.faqsAvailable = res.length ? true : false;
       }
 
+      setTimeout(()=> {
+        this.selectAll()
+      }, 1)
+    
       this.editfaq = null
       this.apiLoading = false;
       this.loadingFaqs = false;
@@ -593,7 +609,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   paginate(event) {
     this.getfaqsBy(null, null, event.skip)
-    this.addRemoveFaqFromSelection(null, null, true);
+    // this.addRemoveFaqFromSelection(null, true,null);
     // this.perfectScroll.directiveRef.update();
     // this.perfectScroll.directiveRef.scrollToTop(2, 1000);
   }
@@ -616,7 +632,18 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       skip: 0
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
-      this.resources = res;
+      this.resources = [...res];
+      if(res &&res.length){
+        res.forEach((d:any)=>{
+        if(d.extractedFaqsCount === 0){
+        let index = this.resources.findIndex((f)=>f._id == d._id);
+        if(index>-1){
+        this.resources.splice(index,1);
+        }
+        }
+      });
+    }
+    res = [...this.resources];
       this.resources.forEach(element => {
         if (element.advanceSettings && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time) {
           element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' at ' +
@@ -823,6 +850,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.pollingSubscriber = interval(5000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.job.status', quaryparms).subscribe(res => {
         this.updateSourceStatus(res);
+        this.getJobStatusForMessages();
         const queuedJobs = _.filter(res, (source) => {
           return ((source.status === 'running') || (source.status === 'queued'));
         });
@@ -843,10 +871,12 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     )
   }
   faqUpdateEvent() {
-    this.faqCancle();
     this.faqUpdate.next();
-    this.selectTab('draft');
-
+    setTimeout(() =>{
+      this.selectTab('draft');
+    this.faqCancle();
+     },500);
+     
   }
   editThisQa() {
     this.showSourceAddition = false
@@ -918,7 +948,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       payload = params;
     }
     this.service.invoke('update.faq', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Selected FAQ updated succesfully', 'success');
+      this.notificationService.notify('Updated Successfully', 'success');
       this.addRemoveFaqFromSelection(null, null, true);
       this.selectAll(true);
       this.selectedFaq = res;
@@ -947,6 +977,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editfaq = false;
       this.closeEditFAQModal();
       this.closeAddsourceModal();
+      
     }, errRes => {
       this.errorToaster(errRes, 'Somthing went worng');
     });
@@ -960,12 +991,12 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   bulkUpdate(action, state?, dialogRef?) {
     const payload: any = {};
     let custerrMsg = 'Failed to update faqs'
-    let custSucessMsg = 'Selected faqs updated successfully';
+    let custSucessMsg = 'Updated Successfully';
     if (action === 'update' && state) {
       payload.state = state
     } else if (action === 'delete') {
       payload.action = 'delete'
-      custSucessMsg = 'Selected Faqs deleted successfully'
+      custSucessMsg = 'Deleted Successfully'
       custerrMsg = 'Failed to delete faqs'
     }
     if (this.faqSelectionObj && this.faqSelectionObj.selectAll && (!this.selectedResource && !this.manualFilterSelected)) {
@@ -999,7 +1030,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.getStats();
       this.editfaq = null
-      this.notificationService.notify(custSucessMsg, 'success');
+      if(state !='in_review' && state !='approved'){
+        this.notificationService.notify(custSucessMsg, 'success');
+      }
+      if(state ==  'in_review'){
+        this.notificationService.notify('Sent for Review', 'success');
+      }
+      else if(state ==  'approved'){
+        this.notificationService.notify('Approved', 'success');
+      }
       if (dialogRef) {
         dialogRef.close();
       }
@@ -1017,7 +1056,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
-      this.notificationService.notify('FAQ source deleted successfully', 'success');
+      this.notificationService.notify('Deleted Successfully', 'success');
       const deleteIndex = _.findIndex(this.resources, (fq) => {
         return fq._id === source._id;
       })
@@ -1031,12 +1070,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   deleteIndFAQ(faq, dialogRef) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      sourceId: faq._id,
+      contentId: faq._id,
+      sourceId : Math.random().toString(36).substr(7)
     }
-    this.service.invoke('delete.faq', quaryparms).subscribe(res => {
+    this.service.invoke('delete.structuredData', quaryparms).subscribe(res => {
       dialogRef.close();
       this.faqCancle();
-      this.notificationService.notify('Faq deleted succesfully', 'success')
+      this.notificationService.notify('Deleted Successfully', 'success')
       const deleteIndex = _.findIndex(this.faqs, (fq) => {
         return fq._id === faq._id;
       })
@@ -1096,7 +1136,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         title: 'Delete Resource',
         text: 'Are you sure you want to delete ?',
         newTitle: 'Are you sure you want to delete ?',
-        body: 'Selected resource will be deleted.',
+        body: 'All the FAQs associated with this source will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -1118,7 +1158,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       panelClass: 'delete-popup',
       data: {
         newTitle: 'Are you sure you want to delete ?',
-        body: 'Selected question will be deleted.',
+        body: 'Selected question(s) will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -1160,6 +1200,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           console.log('deleted')
         }
       })
+       
   }
   addFollowUp(faq, event) {
     this.editfaq = false;
@@ -1284,7 +1325,28 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
   }
-
+  showSeeAll(conditions) {
+    if ((conditions || []).length) {
+      if (conditions.length > 2) {
+        return true;
+      } else {
+        for(let i=0;i<conditions.length;i++) {
+           if((conditions[0].value.length>4 && i==0) || (conditions.length ==2 && conditions[1].value.length>2 && i==1)|| (conditions[0].value.length==2 && i==0 && (conditions[0].value[0].length + (conditions[0].value.length==2?(conditions[0].value[1].length):0))>14 && conditions.length !==1 )||(conditions[0].value.length>2 && i==0 && conditions[0].operator=='between')){
+             return true
+           }
+        }
+      }
+    }
+    return false;
+  }
+  showConditions(conditions, ruleIndex){
+    if((conditions[0].value.length<3 && ruleIndex==1 &&  (conditions[0].value[0].length + (conditions[0].value.length==2?(conditions[0].value[1].length):0)<14)) ||ruleIndex==0 ){
+      return true;
+    }else{
+      return false;
+    }
+    return true;
+  }
   checkExportFaq() {
     const queryParms = {
       searchIndexId: this.workflowService.selectedSearchIndexId

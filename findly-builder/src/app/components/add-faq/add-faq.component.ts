@@ -50,8 +50,8 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   anwerPayloadObj:any = {};
   ruleOptions = {
     searchContext:['recentSearches','currentSearch', 'traits', 'entity','keywords'],
-    pageContext:['device', 'browser', 'currentPage' , 'recentPages','signed'],
-    userContext:['userType', 'userProfile', 'age', 'sex'],
+    pageContext:['device', 'browser', 'currentPage' , 'recentPages'],
+    userContext:   [' ','userType', 'userProfile', 'age', 'sex'],
     contextTypes:['searchContext','pageContext','userContext'],
     dataTypes: ['string', 'date', 'number', 'trait', 'entity', 'keyword'],
     actions:['boost','lower','hide','filter']
@@ -60,6 +60,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     contextType:'searchContext',
     operator:'contains',
     contextCategory:'recentSearches',
+    // usercontextCategory:'',
     dataType: 'string',
     value:[]
   }
@@ -142,7 +143,13 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   altInpKeySub: Subscription;
   altInpQuesSub: Subscription;
   groupAddSub: Subscription;
-  selectedResponseToEdit:any = {};
+  selectedResponseToEdit:any = {
+    responseObj:{
+      image: {
+        imageUrl:''
+      }
+    }
+  }
   public config: PerfectScrollbarConfigInterface = {};
   constructor(private fb: FormBuilder,
     config: NgbTooltipConfig,
@@ -650,13 +657,13 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     this.selectedResponseToEdit.type = type;
     this.createImagePopRef  = this.createImagePop.open();
    }
-   closeImgApp() {
-    this.createImagePopRef.close();
-   }
+  //  closeImgApp() {
+  //   this.createImagePopRef.close();
+  //  }
    addImage(){
-    this.image = this.imgInfo;
-    this.selectedResponseToEdit.resposneObj.image = this.imgInfo;
-    this.closeImgApp();
+    this.image = JSON.parse(JSON.stringify(this.imgInfo));
+    this.selectedResponseToEdit = this.imgInfo;
+    // this.closeImgApp();
    }
    openLinkApp(range) {
      this.linkInfo.range = range;

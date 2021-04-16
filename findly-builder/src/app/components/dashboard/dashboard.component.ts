@@ -171,7 +171,17 @@ export class DashboardComponent implements OnInit {
       this.group = "date";
     }else if(this.dateType == 'custom'){
       from = custom;
-      this.group = "week";
+      //this.group = "week";
+      var duration = moment.duration(Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()), 'milliseconds');
+      var days = duration.asDays();
+      console.log(days);
+      if(days > 28){
+        this.group = "week";
+      }else if(days == 1){
+        this.group = "hour";
+      }else{
+        this.group = "date";
+      }
     }
     const header : any= {
       'x-timezone-offset': '-330'

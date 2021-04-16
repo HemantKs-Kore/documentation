@@ -1,15 +1,15 @@
 <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
 <div class="search-interface-container">
   <div class="header_sec">
-    <div class="title">Search Interface</div>
+    <div class="title">Result Templates</div>
     <div class="btn_sec">     
-      <button class="kr-sg-button-primary btn_lg" (click)="openPreviewModal()">Preview</button>
+      <button class="kr-sg-button-primary btn_lg d-none" (click)="openPreviewModal()">Preview</button>
     </div>
   </div>
   <div class="body_content">
     <div class="search-interface-left-sec">
       <div class="left-tabs">
-        <div class="tab-name" *ngFor="let setting of settingList" (click)="selectedSetting = setting.id;getAllSettings()" [ngClass]="{'active-tab' : selectedSetting == setting.id}">{{setting.text}}</div>
+        <div class="tab-name" *ngFor="let setting of settingList" (click)="getAllSettings(setting)" [ngClass]="{'active-tab' : selectedSetting == setting.id}">{{setting.text}}</div>
         <!-- <div class="tab-name">Search Experience</div>
         <div class="tab-name">Live Search</div>
         <div class="tab-name active-tab">Search</div>
@@ -24,18 +24,18 @@
          
           <div class="kr-sg-dropdowns">        
             <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{selectedSettingResultsObj.referInterface || 'Select'}}</button>                                            
+                <button class="dropdown-toggle dropdown-input drop-enable" data-toggle="dropdown">{{selectedSettingResultsObj.referInterface || 'Select'}}</button>                                            
                 <ul class="dropdown-menu content-menu">  
                   <li (click)="copyConfiguration('')"><a>Select</a></li>                                                 
-                  <li (click)="copyConfiguration('livesearch')"><a>Live Search</a></li>
-                  <li (click)="copyConfiguration('search')"><a>Search </a></li>
-                  <li (click)="copyConfiguration('fullsearch')"><a>Full Page Result</a></li>
+                  <li (click)="copyConfiguration('livesearch')" *ngIf="selectedSetting != 'liveSearch'"><a>Live Search</a></li>
+                  <li (click)="copyConfiguration('search')" *ngIf="selectedSetting != 'search'"><a>Search </a></li>
+                  <li (click)="copyConfiguration('fullsearch')" *ngIf="selectedSetting != 'fullSearch'"><a>Full Page Result</a></li>
                 </ul>
             </div>
           </div>
         </div>  
 
-          <div class="radio-section" *ngIf="selectedSetting != 'search'">
+          <div class="radio-section d-none" *ngIf="selectedSetting != 'search'">
             <div class="radio-block">
               <div class="main-title">No. of Results to be Displayed</div>
               <div class="kr-sg-radiobutton d-block">
@@ -87,25 +87,37 @@
             <div class="main-title m-0">Results Appearance</div>
             <div class="label-desc p-0">Customize the result templates and choose the order in which the results should be displayed to the end-user.</div>
             <div class="group-radiobutton">         
-              <div class="kr-sg-radiobutton">
-                  <input id="radio-22" name="radio-app" class="radio-custom" type="radio" [checked] = "selectedSettingResultsObj.orderBasedOnRelevance">
-                  <label for="radio-22" class="radio-custom-label">Order based on relevance<img tooltipClass="inner-width m-0" placement="top-center" ngbTooltip="Order will be decided based on the top matched result" container="body" src="assets/icons/Info_gray.svg" class="ml-2"></label>
+              <div class="kr-sg-radiobutton"  (click) = "selectedSettingResultsObj.orderBasedOnRelevance = true">
+                  <input id="radio-resultApp-order" name="radio-app" class="radio-custom" type="radio" [checked] = "selectedSettingResultsObj.orderBasedOnRelevance">
+                  <label for="radio-resultApp-order" class="radio-custom-label">Order based on relevance<img tooltipClass="inner-width m-0" placement="top-center" ngbTooltip="Order will be decided based on the top matched result" container="body" src="assets/icons/Info_gray.svg" class="ml-2"></label>
               </div>
-              <div class="kr-sg-radiobutton">
-                  <input id="radio-23" name="radio-app" class="radio-custom" type="radio" [checked] = "!selectedSettingResultsObj.orderBasedOnRelevance" disabled>
-                  <label for="radio-23" class="radio-custom-label">Custom order</label>
+              <div class="kr-sg-radiobutton" (click) = "selectedSettingResultsObj.orderBasedOnRelevance = false">
+                  <input id="radio-resultApp-cust" name="radio-app" class="radio-custom" type="radio" [checked] = "!selectedSettingResultsObj.orderBasedOnRelevance" (change) = "selectedSettingResultsObj.orderBasedOnRelevance = true">
+                  <label for="radio-resultApp-cust" class="radio-custom-label">Custom order</label>
               </div>
             </div>
             <div class="result-appearences-section">
-              <div cdkDropList (cdkDropListDropped)="drop($event,list)" class="input-left-sec">
-                <div cdkDrag *ngFor="let list of list" class="input-name" (click)="selectedSourceType = list.type" [ngClass]="{'active-input' : list.type == selectedSourceType}"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>{{list.type}}</span></div>
-                <!-- <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Actions</span></div>
+              <div class="input-left-sec" *ngIf= "selectedSettingResultsObj.orderBasedOnRelevance">
+                <div *ngFor="let list of list" class="input-name" (click)="selectResultAppearnceList(list,'list')" [ngClass]="{'active-input' : list.type == selectedSourceType}"><span>{{list.type}}</span></div>
+                <div class="input-name add-new">+ Add New</div>
+              </div>
+              <div cdkDropList (cdkDropListDropped)="drop($event,list)" class="input-left-sec" *ngIf= "!selectedSettingResultsObj.orderBasedOnRelevance">
+                <div cdkDrag *ngFor="let list of list" class="input-name" (click)="selectResultAppearnceList(list,'custom')" [ngClass]="{'active-input' : list.type == selectedSourceType}"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>{{list.type}}</span></div>
+                <!-- <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><spanlist>Actions</span></div>
                 <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>FAQs</span></div>
                 <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Pages</span></div>
                 <div cdkDrag class="input-name active-input"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Structured Data</span></div> -->
                 <div class="input-name add-new">+ Add New</div>
               </div>
-              <div class="result-right-sec">
+              <div class="templates-dynamic-data">
+                  <ng-container [ngTemplateOutlet]="itemTemplate">
+                    <div class="customize-button">
+                      <button class="kr-sg-button-secondary btn_lg" (click)="openCustomModal()">Customize</button>
+                    </div>
+                  </ng-container>
+              </div>            
+
+              <!-- <div class="result-right-sec">
                 <div class="result-card">
                   <div class="r-title text-truncate">{{preview_title}}</div>
                   <div class="r-desc text-truncate">{{preview_desc}}</div>
@@ -125,7 +137,7 @@
                 <div class="customize-button">
                   <button class="kr-sg-button-secondary btn_lg" (click)="openCustomModal()">Customize</button>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>  
           <!-- Full results Facet--> 
@@ -235,9 +247,11 @@
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
-                        <ul class="dropdown-menu content-menu">
-                            <perfect-scrollbar class="country-code-perfect-scroll">
+                        <ul class="dropdown-menu content-menu scroll-max-250">
+                            <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
+                              <div class="scroll-max-250">
                               <li *ngFor="let field of url_fieldData" [id] = "field._id" (click)="filedSelect('url',field)"><a>{{field.fieldName}}</a></li>
+                            </div>
                             </perfect-scrollbar>
                         </ul>
                     </div> 
@@ -287,9 +301,11 @@
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
-                        <ul class="dropdown-menu content-menu">
-                            <perfect-scrollbar class="country-code-perfect-scroll">
+                        <ul class="dropdown-menu content-menu scroll-max-250">
+                            <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
+                              <div class="scroll-max-250">
                               <li *ngFor="let field of url_fieldData" [id] = "field._id" (click)="filedSelect('url',field)"><a>{{field.fieldName}}</a></li>
+                            </div>
                             </perfect-scrollbar>
                         </ul>
                     </div> 
@@ -339,9 +355,11 @@
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
-                        <ul class="dropdown-menu content-menu">
-                            <perfect-scrollbar class="country-code-perfect-scroll">
+                        <ul class="dropdown-menu content-menu scroll-max-250">
+                            <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
+                              <div class="scroll-max-250">
                               <li *ngFor="let field of url_fieldData" [id] = "field._id" (click)="filedSelect('url',field)"><a>{{field.fieldName}}</a></li>
+                            </div>
                             </perfect-scrollbar>
                         </ul>
                     </div> 
@@ -385,9 +403,11 @@
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
-                        <ul class="dropdown-menu content-menu">
-                            <perfect-scrollbar class="country-code-perfect-scroll">
+                        <ul class="dropdown-menu content-menu scroll-max-250">
+                            <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
+                              <div class="scroll-max-250">
                               <li *ngFor="let field of url_fieldData" [id] = "field._id" (click)="filedSelect('url',field)"><a>{{field.fieldName}}</a></li>
+                            </div>
                             </perfect-scrollbar>
                         </ul>
                     </div> 
@@ -408,9 +428,11 @@
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                   <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.heading">
                   <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
-                  <ul class="dropdown-menu content-menu">
-                      <perfect-scrollbar class="country-code-perfect-scroll">
+                  <ul class="dropdown-menu content-menu scroll-max-250">
+                      <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
+                        <div class="scroll-max-250">
                         <li *ngFor="let field of heading_fieldData" [id] = "field._id" (click)="filedSelect('heading',field)"><a>{{field.fieldName}}</a></li>
+                      </div>
                         <!-- <li><a>Field 2</a></li>
                         <li><a>Field 3</a></li>
                         <li><a>Field 4</a></li>
@@ -425,13 +447,15 @@
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                   <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('description',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.description">
                   <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
-                  <ul class="dropdown-menu content-menu">
-                      <perfect-scrollbar class="country-code-perfect-scroll">
+                  <ul class="dropdown-menu content-menu scroll-max-250">
+                      <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
+                        <div class="scroll-max-250">
                         <li *ngFor="let field of desc_fieldData" [id] = "field._id" (click)="filedSelect('description',field)"><a>{{field.fieldName}}</a></li>
                         <!-- <li><a>Field 2</a></li>
                         <li><a>Field 3</a></li>
                         <li><a>Field 4</a></li>
                         <li><a>Field 5</a></li> -->
+                      </div>
                       </perfect-scrollbar>
                   </ul>
               </div>                        
@@ -442,13 +466,15 @@
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                   <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.image">
                   <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
-                  <ul class="dropdown-menu content-menu">
-                      <perfect-scrollbar class="country-code-perfect-scroll">
+                  <ul class="dropdown-menu content-menu scroll-max-250">
+                      <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
+                        <div class="scroll-max-250">
                         <li *ngFor="let field of img_fieldData" [id] = "field._id" (click)="filedSelect('image',field)"><a>{{field.fieldName}}</a></li>
                         <!-- <li><a>URL 2</a></li>
                         <li><a>URL 3</a></li>
                         <li><a>URL 4</a></li>
                         <li><a>URL 5</a></li> -->
+                        </div>
                       </perfect-scrollbar>
                   </ul>
               </div>                        
@@ -469,8 +495,9 @@
             </div> 
             </div> 
             <div class="p-selection mb-2">Preview as per above selection</div>
-
-
+            <ng-container [ngTemplateOutlet]="itemTemplate">
+            </ng-container>
+            <ng-template #itemTemplate let-item>
           <!-- Tile with Text -->
             <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 1'">
               <div class="result-card">
@@ -1141,6 +1168,7 @@
                 </div>
               </div>
             </div>
+          </ng-template>
           </div>
         </perfect-scrollbar>
 

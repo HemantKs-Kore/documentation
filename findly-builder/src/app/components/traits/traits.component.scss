@@ -3,9 +3,7 @@
 .traits-container {
     .mainLoadingSpinner{
         position: absolute;
-        top: 40%;
-        // left: 30%;
-        // box-shadow: 0 5px 10px 0 #e9eff5;
+        top: 40%;        
         background:  transparent;
         width: 223px;
         height: 40px;
@@ -22,10 +20,7 @@
             font-size: 12px;
         }  
     }
-    padding-right: 15px;
-    .perfect-scroll {
-        height: calc(100vh - 50px);
-    }
+
     .noTraits {
         text-align: center;
         .noTraitsImg {
@@ -66,12 +61,10 @@
             }
         }
         .emptyNote {
-            font-size: 14px;
-            // border: solid 1px #f3d19b;
+            font-size: 14px;          
             background-color: #f8f9fa;
             margin-top: 30px;
             width: 80%;
-            // height: 114px;
             border-radius: 4px;
             margin: 30px auto 0;
             text-align: left;
@@ -98,85 +91,25 @@
                 padding-left: 15px;
             }
         }
-    }
-    .defineTraitsContainer{
-        // height: 98px;
-        border-radius: 4px;
-        border: solid 1px $borderColor;
-        background-color: $backgroundColor;
-        padding: 15px 40px;
-        .leftDiv{
-          padding: 0;
-          .defineTitle{
-            font-size: 14px;
-            font-weight: normal;
-            margin-bottom: 5px;
-          }
-          .defineDesc{
-            font-size: 12px;
-            font-weight: normal;
-            color: $secondaryColor;
-            margin-bottom: 5px;
-          }
-          .defineLink{
-            font-size: 14px;
-            color: #0D6EFD;
-            // text-decoration: underline;
-            border-bottom: 1px solid #0D6EFD;
-            cursor: default;
-            padding-bottom: 2px;
-            text-decoration: none;
-  
-          }
-        }
-        .backArrowDiv{
-          min-height: 60px;
-          text-align: center;
-          .backArrow{
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-          }
-        }
-  
-        .rightDiv{
-          padding: 0;
-          .defineTitle{
-            font-size: 14px;
-            font-weight: normal;
-            margin-bottom: 5px;
-          }
-          .defineDesc{
-            font-size: 12px;
-            font-weight: normal;
-            color: $secondaryColor;
-            margin-bottom: 5px;
-          }
-          .defineLink{
-            font-size: 14px;
-            color: #0D6EFD;
-            // text-decoration: underline;
-            border-bottom: 1px solid #0D6EFD;
-            cursor: default;
-            padding-bottom: 2px;
-            text-decoration: none;
-            // &:hover{
-            //   color: $hoverColor;
-            //   border-bottom: 1px solid $hoverColor;
-            // }
-          }
-        }
-      }
-      .table-list-content{
+    }  
+
+    .table-list-content{
         .seach_add_feild{
             display: flex;
             align-items: center;
-            justify-content: flex-end;
-            padding: 17px 18px;
-            margin: 10px 0px 10px 0px;
+            justify-content: space-between;
+            padding: 8px 25px;
+            margin: 0px 0px 10px 0px;
             background: #F5F8FA;
             border-radius: 4px;
-            .kr-sg-input-text{
+            height: 54px;
+            .title{               
+                font-weight: 500;
+                font-size: 18px;
+                line-height: 22px;
+                color: #000000;                            
+            }  
+            .kr-sg-input-search{
                 display: inline-block;
                 width: 0px;
                 display: none;  
@@ -194,8 +127,7 @@
                 color: #202124;
                 font-style: normal;
                 font-weight: 500;
-                font-size: 12px;
-                // line-height: 14px;
+                font-size: 12px;               
                 margin-right: 30px;
                 img{
                     margin-right: 7px;
@@ -209,129 +141,166 @@
                 font-size: 12px;
                 line-height: 14px;
                 cursor: pointer;
+                margin-right: 30px;
                 img{
                     margin-right: 7px;
                 }
             }
         }
-          .table-content{
-              .table-header{
-                  position: relative;
-                
-                  .kr-sg-input-inline-search{
-                      position: absolute;
-                      right: 180px;
-                      width: 200px;
-                  }
-                 
-                  .action{
-                    
-                    right: 10px;
-                    color: #202124;
-                    font-size: normal;
-                     text-transform: uppercase;
-                    cursor: pointer;
-                    font-weight: bold;
-                  }
-              }
-          }
-      }
-      .seach_add_feild{
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        padding: 17px 18px;
-        margin: 22px 24px 12px 24px;
-        background: #F5F8FA;
-        border-radius: 4px;
-        .kr-sg-input-search{
-            display: inline-block;
-            width: 0px;
-            display: none;  
-            width: 300px;
-            height: 20px;
-            position: relative;
-            bottom: 6px;
-            right: 10px;               
-            &.active{
-                display: block;
-                width: 300px;
-            }
-        } 
-        .seach-block{
-            color: #202124;
-            font-style: normal;
-            font-weight: 500;
-            font-size: 12px;
-            // line-height: 14px;
-            margin-right: 30px;
-            img{
-                margin-right: 7px;
-                cursor: pointer;
+        .trailts-table-header{
+            margin: 0 25px;
+            padding: 10px 0;
+            height: 50px;
+            align-items: center;
+            border-bottom: 1px solid #E4E5E7;
+            .title{
+                padding: 0 10px;
+                color: #9AA0A6;
+                text-transform: uppercase;
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 14px;
             }
         }
-        .add_feild{
-            color: #202124;
-            font-style: normal;
-            font-weight: 500;
-            font-size: 12px;
-            line-height: 14px;
-            cursor: pointer;
-            img{
-                margin-right: 7px;
-            }
+        .traits-scroll-data{
+            height: calc(100vh - 178px);
         }
-    }
-
-      .traits{
-        padding: 0px 30px 0px 30px;
-        width: 100%;
-        .tost-text{
-            max-width: 80%;
-        }
-        .trainTraits{
-            position: absolute;
-            right: 63px;
-            min-width: 110px !important;
-        }
-        .defineTraitsContainer{
-            display: flex;
-            .backArrowDiv{
-                padding-top: 22px;
-            }
-        }
-        .trailts{
-            height: calc(100vh - 267px);
-            .ps-content{
-                padding-bottom: 120px;
-              }
+        .traits-body-sec{
+            padding: 0 25px;
             .content-body{
-                .col_{
-                    &.col-2{
-                        padding: 0 15px;
+                padding: 10px 0;
+                min-height: 50px;
+                align-items: center;
+                border-bottom: 1px solid #E4E5E7;
+                transition: 0.2s all ease-in;
+                &:hover{
+                    background: #F8F9FA;
+                    .action-links{
+                        display: block;
                     }
                 }
-                .utteranceTag{
-                  padding: 5px;
-                //   border: solid 1px rgba(138, 149, 159, 0.4);
-                  border-radius: 2px;
-                //   background-color: #e5e8ec;
-                  margin-right: 5px;
-                  margin-bottom: 5px;
-                  float: left;
-                  width: auto;
-                  .kr-sg-tags{
-                    background-color: #9b9b9b4d;
-                  }
+                .action-links{
+                    display: none;
+                    padding: 0 30px 0 10px;
+                    text-align: right;
+                    img{
+                        cursor: pointer;
+                    }
                 }
-                cursor: default;
+                .traitGroup-name{
+                    color: #202124;
+                    padding: 0 10px;
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+                .traits-groups{
+                    color: #202124;
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 14px;
+                    padding: 0 10px;
+                    word-wrap: break-word;
+                    .traits-more-data-container{
+                        width: auto;
+                        height: auto;
+                        margin-left: 8px;
+                        &:hover{
+                            .traits-more-data-container-dropdown{
+                                display: block;
+                            }
+                        }
+                        .dropdown-open {
+                            .dropdown-input{
+                                display: inline-block;
+                                width: auto;
+                                height: auto;
+                                padding: 2px 4px;
+                                background: #F3F8FF;
+                                border: 1px solid #E7F1FF;
+                                box-sizing: border-box;
+                                border-radius: 100%;
+                                color: #9AA0A6;
+                                font-weight: normal;
+                                font-size: 12px;
+                                line-height: 20px;
+                                &::before{
+                                    display: none;
+                                }
+                            }
+                        }
+                        .traits-more-data-container-dropdown{
+                            border: 0;
+                            background: transparent;
+                            margin: 0;
+                            padding: 0;
+                            box-shadow: none;
+                            position: absolute;
+                            top: 0px;
+                            left: 0px;    
+                            transform: none !important; 
+                            padding-left: 45px !important;
+                            .inner-content{
+                                background: #FFFFFF;
+                                box-shadow: 0px 0px 11px rgb(0 0 0 / 10%);
+                                width: 196px;
+                                padding: 5px 0;                            
+                                z-index: 2;
+                                margin-top: -6px;
+                                border: 0;
+                                position: relative;                                                                              
+                                &::before{
+                                    content: "";
+                                    position: absolute;
+                                    width: 16px;
+                                    height: 16px;
+                                    left: -8px;
+                                    background: #FFFFFF;
+                                    box-shadow: 4px 2px 3px -1px rgb(0 0 0 / 10%);
+                                    transform: rotate(135deg);
+                                    top: 10px;
+                                }
+                                .close-dropdown{
+                                    padding: 5px 15px 0px 15px;
+                                    text-align: right;
+                                    img{
+                                        cursor: pointer;
+                                        vertical-align: top;
+                                    }
+                                }
+                                li{
+                                    cursor: pointer;
+                                    position: relative;
+                                    box-shadow: 0px 1px 0px rgb(0 0 0 / 10%);
+                                    background: #FFFFFF;
+                                    padding: 5px 8px;
+                                    color: #202124;
+                                    font-weight: normal;
+                                    font-size: 14px;
+                                    line-height: 20px;
+                                    margin: 0 5px;
+                                    margin-bottom: 1px;
+                                    &:last-child{
+                                        margin: 0;
+                                        box-shadow: none;
+                                    }
+                                }
+                            }                            
+                        }
+                    }
+                }
             }
         }
-      }
 
+    }      
 }
+
+
+.empty-scroll{
+    height: calc(100vh - 62px);
+}
+
 .kr-modal.addTraitModalComponent {
-    // text-align: right;
     .modal-dialog {
         height: 100%;
         .action {
@@ -479,10 +448,7 @@
     }
 }
 
-.trainTraits{
-    min-width: 130px !important;
-}
-perfect-scrollbar .ps--active-y{
+::ng-deep perfect-scrollbar .ps--active-y{
     .ps__thumb-y{
         width: 3px !important;
     }
@@ -496,9 +462,8 @@ perfect-scrollbar .ps--active-y{
         display: none !important;
     }
 }
-::ng-deep .trailts .ps-content{
-    padding-bottom: 120px;
-}
-.empty-scroll{
-    height: calc(100vh - 62px);
-}
+
+
+
+
+

@@ -474,10 +474,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const selectedElements = $('.selectRuleCheckBoxDiv:checkbox:checked');
     const allElements = $('.selectRuleCheckBoxDiv');
     if (selectedElements.length === allElements.length) {
-      $('#selectAllRules')[0].checked = true;
+      // $('#selectAllRules')[0].checked = true;
       this.selcectionObj.selectAll =  true
     } else {
-      $('#selectAllRules')[0].checked = false;
+      // $('#selectAllRules')[0].checked = false;
       this.selcectionObj.selectAll =  false
     }
     const element = $('#' + rule._id);
@@ -524,9 +524,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         }
       });
     };
-    if (unselectAll) {
-      $('#selectAllRules')[0].checked = false;
-    }
+    // if (unselectAll) {
+    //   $('#selectAllRules')[0].checked = false;
+    // }
   }
   createRule() {
     const quaryparms: any = {
@@ -551,7 +551,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.service.invoke('create.businessRules', quaryparms, payload).subscribe(res => {
       this.rules.push(res);
       this.closeModalPopup();
-      this.notificationService.notify('Rule created successfully', 'sucecss');
+      this.notificationService.notify(' Created Successfully', 'sucecss');
     }, errRes => {
       this.errorToaster(errRes, 'Failed to create rules');
     });
@@ -640,7 +640,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         return pg._id === rule._id;
       })
       this.rules[editRule] = res;
-      this.notificationService.notify('Rule updated successfully', 'success');
+      this.notificationService.notify('Updated Successfully', 'success');
       this.closeModalPopup();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to update rule');
@@ -722,7 +722,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         dialogRef.close();
       }
       this.getRules();
-      this.notificationService.notify('Selected rules are deleted successfully', 'success');
+      this.notificationService.notify('Deleted Successfully', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete rule');
     });
@@ -743,7 +743,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       if (dilogRef && dilogRef.close) {
         dilogRef.close();
       }
-      this.notificationService.notify('Selected rule deleted successfully', 'success');
+      this.notificationService.notify('Deleted Successfully', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete rule');
     });
@@ -791,6 +791,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
    // this.subscription ? this.subscription.unsubscribe() : false;
     if(this.subscription){
       this.subscription.unsubscribe();
+    }
+  }
+  checkIsArray(value){
+    if(Array.isArray(value)){
+      return true;
+    }else{
+      return false;
     }
   }
 }

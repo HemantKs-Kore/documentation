@@ -51,7 +51,7 @@
 				<div class="title text-truncate" title="{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name:'Loading..'}}">{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name:'Loading..'}} </div>		
 				<div class="kr-sg-dropdowns" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-left'">
 					<div class="dropdown dropdown-open">
-						<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>
+						<button class="dropdown-toggle dropdown-input before-none" ngbDropdownToggle>
 							<img src="assets/icons/sidemenu/overflow.svg">
 						</button>
 						<ul class="dropdown-menu content-menu queryPipelineConfig" ngbDropdownMenu>
@@ -121,7 +121,7 @@
 					<div class="title text-truncate" title="{{configObj[selectedConfig]?configObj[selectedConfig].name:'Loading..'}}">{{configObj[selectedConfig]?configObj[selectedConfig].name:'Loading..'}} </div>
 					<div class="kr-sg-dropdowns" #selectSearchConfigDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-left'">
 						<div class="dropdown dropdown-open">
-							<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>
+							<button class="dropdown-toggle dropdown-input before-none" ngbDropdownToggle>
 								<img src="assets/icons/sidemenu/overflow.svg">
 							</button>
 							<ul class="dropdown-menu content-menu queryPipelineConfig" ngbDropdownMenu>
@@ -209,44 +209,23 @@
 
 		<!-- Inside config tab menus -->
 		<div class="list-group list-group-flush inside-config-tab-left-menus" *ngIf="settingMainMenu">
-			<div class="inside-menu-title">SETTINGS</div>
-			<div mat-button class="mat-button" [routerLink]="['/settings']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
-				<span class="inlineIconBox leftAdjust">
-					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Channels</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/credentials-list']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Credentials</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/team-management']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Team Management</span>
-			</div>
+			
 			<div class="inside-menu-title">SEARCH EXPERIENCE</div>
-
-			<div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="defaultIcon">
-					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="activeIcon">
-				</span>
-				<span class="linkTitle">Search Interface</span>
-			</div>
 
 			<div mat-button class="mat-button" [routerLink]="['/search-experience']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle">Search Experience</span>
+				<span class="linkTitle">Search Interface</span>
+			</div>
+
+			<div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Result Templates </span>
 			</div>
 
 			<div mat-button class="mat-button" [routerLink]="['/actions']" skipLocationChange routerLinkActive="active"
@@ -265,6 +244,29 @@
 					<img src="assets/icons/sidemenu/new-icons/smalltalk.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Small Talk</span>
+			</div>
+
+			<div class="inside-menu-title">SETTINGS</div>
+			<div mat-button class="mat-button" [routerLink]="['/settings']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
+				<span class="inlineIconBox leftAdjust">
+					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Channels</span>
+			</div>
+			<div mat-button class="mat-button" [routerLink]="['/credentials-list']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Credentials</span>
+			</div>
+			<div mat-button class="mat-button" [routerLink]="['/team-management']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/team_management.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/team_management.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Team Management</span>
 			</div>
 
 			
@@ -307,11 +309,11 @@
     <div class="modal-body textAlignLeft">
 		<div class="group-radiobutton">
 			<div class="kr-sg-radiobutton">
-				<input id="createQueryConfig" [(ngModel)]="newConfigObj.method" name="creationType" value='default' class="radio-custom" type="radio">
+				<input id="createQueryConfig" [(ngModel)]="newConfigObj.method" name="default" value='default' class="radio-custom" type="radio">
 				<label for="createQueryConfig" class="radio-custom-label">Create New</label>
 			</div>
 			<div class="kr-sg-radiobutton">
-				<input id="cloneQueryConfig" [(ngModel)]="newConfigObj.method" (change)='selectDefault()' name="creationType" value='clone' class="radio-custom" type="radio">
+				<input id="cloneQueryConfig" [(ngModel)]="newConfigObj.method" (change)='selectDefault()' name="clone" value='clone' class="radio-custom" type="radio">
 				<label for="cloneQueryConfig" class="radio-custom-label">Clone Configuration</label>
 			</div>
 		</div>
@@ -347,12 +349,12 @@
     <div class="modal-body textAlignLeft">
 		<div class="group-radiobutton">
 			<div class="kr-sg-radiobutton">
-				<input id="createQueryConfig" [(ngModel)]="newIndexConfigObj.method" name="creationType" value='default' class="radio-custom" type="radio">
-				<label for="createQueryConfig" class="radio-custom-label">Create New</label>
+				<input id="createIndexConfig" [(ngModel)]="newIndexConfigObj.method" name="creationType" value='default' class="radio-custom" type="radio">
+				<label for="createIndexConfig" class="radio-custom-label">Create New</label>
 			</div>
 			<div class="kr-sg-radiobutton">
-				<input id="cloneQueryConfig" [(ngModel)]="newIndexConfigObj.method" (change)='selectDefault()' name="creationType" value='clone' class="radio-custom" type="radio">
-				<label for="cloneQueryConfig" class="radio-custom-label">Clone Configuration</label>
+				<input id="cloneIndexConfig" [(ngModel)]="newIndexConfigObj.method" (change)='selectDefault()' name="creationType" value='clone' class="radio-custom" type="radio">
+				<label for="cloneIndexConfig" class="radio-custom-label">Clone Configuration</label>
 			</div>
 		</div>
 		<ng-container *ngIf="newIndexConfigObj.method === 'clone'">

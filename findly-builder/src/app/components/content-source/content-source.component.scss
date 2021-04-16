@@ -193,7 +193,9 @@
             }  
             .table-content{
                 margin-top: 0px;      
-                padding: 0 30px;          
+                padding: 0 30px; 
+                
+                
                 .table-header{
                     background: #fff;
                     border-bottom: 1px solid #E4E5E7;
@@ -1339,4 +1341,19 @@
         }
     
     }
+    .title-text{
+        color: #202124;
+        font-weight: 600;
+        font-size: 13px;
+        line-height: 10px;
+        margin-bottom: 10px;
+        }
+        
+        .title-desc-text{
+        color: #202124;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 17px;
+        margin-bottom: 30px;
+        }
    

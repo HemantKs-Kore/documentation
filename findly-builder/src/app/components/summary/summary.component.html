@@ -29,7 +29,7 @@
 <div class="over-view-config-tour" *ngIf="!showOverview">
   <div class="tour-header">
     <div class="title">Overview</div>
-    <div class="close-tour"><img src="assets/icons/close-white.svg" (click)="closeOverview()"></div>
+    <div class="close-tour"><img src="assets/icons/close-white.svg" (click)="openOnBoardingModal()"></div>
   </div>
   <div class="tour-info">Shows the Birds eye view of configurations in your App</div>
   <button class="kr-sg-button-primary btn_lg" (click)="openOnBoardingModal()">Got It</button>
@@ -172,9 +172,7 @@
     </div>
     <div class="row col-12 row table-data m-0" >
       <div class="table-data-content col-6" *ngIf="!experiments.length">
-        <div class="content-sec active_experments">
-         <div class="title-sec d-flex justify-content-between">
-            </div>
+        <div class="content-sec active_experments">       
             <div class="img-block center-image" (click) = "openExp()"><img src="assets/icons/overview/no-experiments.svg"></div>
         </div>
     </div>

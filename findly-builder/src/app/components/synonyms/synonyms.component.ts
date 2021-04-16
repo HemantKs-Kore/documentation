@@ -37,6 +37,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   removable = true;
   addOnBlur = true;
   queryPipelineId;
+  // showSynonym:boolean
   indexPipelineId;
   newSynonymObj: any = {
     type: 'synonym',
@@ -46,6 +47,8 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   selectedFilter: any;
   createFromScratch: any;
   synonymObj;
+  // synonym;
+  // showoneWaySynonym:boolean;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   synArr: any[] = [];
   synArrTemp: any[] = [];
@@ -91,6 +94,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.pipeline.stages.forEach(stage => {
         if (stage && stage.type === 'synonyms') {
           this.synonymData = JSON.parse(JSON.stringify(stage.synonyms || []));
+          // this.showSynonym=true
         }
       });
     }
@@ -112,6 +116,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       else {
         this.loadingContent1 = true;
       }
+    
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get stop words');
@@ -150,7 +155,8 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   synonymChanged() {
     this.newSynonymObj.values = [];
     this.synonymObj.values = [];
-  }
+    this.newSynonymObj.keyword= [];
+    }
   cancleAddEdit() {
     this.currentEditIndex = -1;
     this.newSynonymObj = {
@@ -183,11 +189,11 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res => {
       this.pipeline = res.pipeline || {};
       if (this.newSynonymObj.addNew && !showFlag) {
-        this.notificationService.notify('Synonyms added successfully', 'success');
+        this.notificationService.notify(' Added Successfully', 'success');
         this.appSelectionService.updateTourConfig(this.componentType);
       }
       else if (!showFlag) {
-        this.notificationService.notify('Synonyms updated successfully', 'success');
+        this.notificationService.notify('Updated Successfully', 'success');
       }
       this.prepareSynonyms();
       this.cancleAddEdit();
@@ -240,7 +246,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       panelClass: 'delete-popup',
       data: {
         newTitle: 'Are you sure you want to delete ?',
-        body: 'Selected synonym will be deleted.',
+        body:'Selected Synonym group will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -253,7 +259,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
           synonyms.splice(index, 1);
           if (this.showFlag = true) {
             this.addOrUpddate(synonyms, dialogRef, this.showFlag);
-            this.notificationService.notify('Synonyms deleted successfully', 'error')
+            this.notificationService.notify('Deleted Successfully', 'error')
           }
         } else if (result === 'no') {
           dialogRef.close();
@@ -289,6 +295,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   cancleAddSynonyms() {
     this.newSynonymObj.type = 'synonym'
     this.newSynonymObj.addNew = false;
+    this.synonymChanged()
   }
   addList(event: MatChipInputEvent, synonymId, i) {
     const input = event.input;

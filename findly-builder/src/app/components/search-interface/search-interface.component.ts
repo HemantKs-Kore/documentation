@@ -1,11 +1,13 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { Subscription } from 'rxjs';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 
 // import * as PureJSCarousel from 'src/assets/web-kore-sdk/libs/purejscarousel.js';
@@ -29,6 +31,7 @@ export class SearchInterfaceComponent implements OnInit {
   url_fieldData: any;
   fieldData: any;
   list: any = [];
+  customList : any = [];
   //   [{
   //     id : "",
   //     type : 'Actions',
@@ -107,7 +110,8 @@ export class SearchInterfaceComponent implements OnInit {
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -159,7 +163,29 @@ export class SearchInterfaceComponent implements OnInit {
     this.preview_desc = "Field mapped for Description will appear here";
   }
   copyConfiguration(interfaceType) {
-    this.selectedSettingResultsObj.referInterface = interfaceType;
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Restore Customization',
+        text: 'Are you sure you want to copy?',
+        newTitle: 'Are you sure you want to copy?',
+        body: 'Copying will overwrite the existing configuration.',
+        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true,
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.selectedSettingResultsObj.referInterface = interfaceType;
+          dialogRef.close();
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+    
   }
   getSettings(interfaceType) {
     const quaryparms: any = {
@@ -175,13 +201,15 @@ export class SearchInterfaceComponent implements OnInit {
       //this.selectedSettingResultsObj = new selectedSettingResults()
     });
   }
-  getAllSettings() {
+  getAllSettings(setting?) {
+    this.selectedSetting = setting ? setting.id : 'search';
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
     };
     this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
       this.allSettings = res;
       this.list = [];
+      this.customList = [];
       res.settings.forEach(element => {
         if (element.interface == this.selectedSetting) {
           this.selectedSettingResultsObj = element;
@@ -221,19 +249,19 @@ export class SearchInterfaceComponent implements OnInit {
       });
     }
   }
-  getTemplate(templateId) {
+  getTemplate(templateId , modal?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       templateId: templateId
     };
     this.service.invoke('get.SI_searchResultTemplate', quaryparms).subscribe(res => {
-      this.templateBind(res)
+      this.templateBind(res , modal)
       this.selectByDefaultValBindToTemplatae(res.mapping)
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch Template');
     });
   }
-  templateBind(res: any) {
+  templateBind(res: any, modal?) {
     if (res.type == 'grid' || res.type == 'carousel') {
       this.clickableDisabled = true;
     } else {
@@ -275,7 +303,7 @@ export class SearchInterfaceComponent implements OnInit {
       }
     });
 
-    this.customModalRef = this.customModal.open();
+    if(modal == 'openModal')this.customModalRef = this.customModal.open();
   }
   sourcelist(settingObj) {
     settingObj.appearance.forEach(element => {
@@ -285,30 +313,35 @@ export class SearchInterfaceComponent implements OnInit {
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
+        this.customList.push(obj)
       } else if (element.type == 'faq') {
         let obj = {
           type: "FAQs",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
+        this.customList.push(obj)
       } else if (element.type == 'page') {
         let obj = {
           type: "Pages",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
+        this.customList.push(obj)
       } else if (element.type == 'structuredData') {
         let obj = {
           type: "Structured Data",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
+        this.customList.push(obj)
       } else if (element.type == 'document') {
         let obj = {
           type: "Document",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
+        this.customList.push(obj)
       }
     });
   }
@@ -384,6 +417,27 @@ export class SearchInterfaceComponent implements OnInit {
       this.selectedSettingResultsObj.facets.aligned = value;
     }
   }
+  selectResultAppearnceList(list,type){
+    this.selectedSourceType = list.type;
+    let templateId;
+    if(type == 'list'){
+      this.list.forEach(element => {
+        if (element.type == this.selectedSourceType) {
+          templateId = element.id
+        }
+      });
+    }else{
+      this.customList.forEach(element => {
+        if (element.type == this.selectedSourceType) {
+          templateId = element.id
+        }
+      });
+    }
+    this.selectedTemplatedId = templateId;
+    if (templateId) {
+      this.getTemplate(templateId);
+    }
+  }
   openCustomModal() {
     let templateId;
     this.list.forEach(element => {
@@ -393,7 +447,7 @@ export class SearchInterfaceComponent implements OnInit {
     });
     this.selectedTemplatedId = templateId;
     if (templateId) {
-      this.getTemplate(templateId);
+      this.getTemplate(templateId,'openModal');
     } else {
       this.customizeTemplateObj = new customizeTemplate();
       this.defaultTemplate();
@@ -480,7 +534,7 @@ export class SearchInterfaceComponent implements OnInit {
         "isEnabled": this.selectedSettingResultsObj.facets.isEnabled
       },
       "interface": this.selectedSetting,
-      "appearance": this.selectedSettingResultsObj.appearance
+      "appearance": this.selectedSettingResultsObj.appearance //this.list
       // [
       //       {
       //           "type": "action"

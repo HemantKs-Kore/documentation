@@ -35,31 +35,75 @@
         </div>
       </div>
       <div class="linked-bot-content-container">
-        <ul class="nav nav-tabs" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#linkedBotTasks">Tasks ({{linkedBotTasks.length}})</a>
-          </li>
-          <li class="nav-item" style="pointer-events: none; opacity: 0.5">
-            <a class="nav-link" data-toggle="tab" href="#linkedBotFAQs">FAQs ({{linkedBotFAQs.length}})</a>
-          </li>
-          <li class="nav-item" style="pointer-events: none; opacity: 0.5">
-            <a class="nav-link" data-toggle="tab" href="#linkedBotSmallTalk">Small Talk</a>
-          </li>
-        </ul>
+        <div class="header-sec col-12 row m-0 pr-0 bb-gray" [ngClass]="{ 'd-none ' : !selcectionObj.selectedCount}">
+          <div class="col-4 lef-sec p-0">
+              <div class="kr-sg-checkbox p-0 ml-1 mb-0 select-all-checkbox adjust-checkbox-padding">
+                  <input id="selectAllTasks" class="checkbox-custom" type="checkbox" (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll">
+                  <label for="selectAllTasks" class="checkbox-custom-label"></label>
+                  <span class="selected_count pl-3" *ngIf="selcectionObj && selcectionObj.selectedCount">{{selcectionObj.selectedCount}}  {{'botAction.tasksSelected' | translate}}</span>
+              </div>
+              <div class="kr-sg-checkbox p-0 ml-1 mb-0 adjust-checkbox-padding partial-select-checkbox d-none" *ngIf="selcectionObj.selectedItems.length != linkedBotTasks.length">
+                  <img (click)="selectAllFromPartial()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
+                  <span class="selected_count pl-3" *ngIf="selcectionObj && selcectionObj.selectedCount">{{selcectionObj.selectedCount}}  {{'botAction.tasksSelected' | translate}}</span>
+              </div>
+          </div>
+          <div class="actions text-right col-8 right-sec p-0 pb-2">
+              <button id='btn_enable' class="kr-sg-button-primary btn_lg mr-2" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="enableSeletedTasks()">{{'botAction.enable'| translate}}</button>
+              <button id='btn_disable' class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="disableSeletedTasks()">{{'botAction.disable'| translate}}</button>
+          </div>
+      </div>
+      <div class="row" [ngClass]="{ 'd-none' : selcectionObj.selectedCount}">
+        <div class="col-12">
+          <ul class="nav nav-tabs "  role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#linkedBotTasks">Tasks ({{linkedBotTasks.length}})</a>
+            </li>
+            <!-- <li class="nav-item" style="pointer-events: none; opacity: 0.5">
+              <a class="nav-link" data-toggle="tab" href="#linkedBotFAQs">FAQs ({{linkedBotFAQs.length}})</a>
+            </li>
+            <li class="nav-item" style="pointer-events: none; opacity: 0.5">
+              <a class="nav-link" data-toggle="tab" href="#linkedBotSmallTalk">Small Talk</a>
+            </li> -->
+          </ul>
+        </div>
+        <div class="col-8 enable-container">
+          <div class="float-right m-r-92">
+            <div class="d-flex ">
+             <div class="kr-sg-input-search mr-2" [ngClass]="{'d-none': !showSearch}">
+               <input type="text" placeholder="Search" class="input-search"  [ngClass]="{'pl-33':!searchTasks}" autocomplete="off" [(ngModel)]="searchTasks" (focusout)="showSearch= !showSearch" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                   (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+               <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchTasks">
+               <img class="close-icon" *ngIf="searchTasks" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchTasks}" (click)="searchTasks='';toggleSearch(false)">
+           </div>
+           <div class="seach-block" *ngIf="(linkedBotTasks && linkedBotTasks.length)">
+               <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+           </div>
+             <label class="kr-sg-toggle large">                                       
+               <input type="checkbox" id="enableOrDisable" (change)="enableDisableTask()">
+               <div class="slider"><span class="enabled w-163">Tasks Enabled</span><span class="disabled w-163">Tasks Disabled</span></div>
+           </label>
+            </div>
+           </div>
+        </div>
+      </div>
         <div class="tab-content">
           <div id="linkedBotTasks" class="tab-pane active">
             <div class="linked-bot-tasks-content-container">
               <ng-container *ngIf="( linkedBotTasks && linkedBotTasks.length )">
                 <perfect-scrollbar class="linked-bot-tasks-content-container-scroll">
                   <div class="linked-bot-tasks-list">
-                    <ng-container *ngFor="let task of linkedBotTasks; let i = index">
+                    <ng-container *ngFor="let task of linkedBotTasks  | filter: [ searchTasks, 'name']; let i = index;">
                       <div class="card linked-bot-task-card">
                         <div class="card-body">
                           <!-- <div class="linked-bot-task-checkbox-container">
                       </div> -->
                           <div class="col-6 linked-bot-task-details-container">
-                            <p class="bold-text">{{task.name}}</p>
-                            <p class="normal-text">Bot-related Task</p>
+                            <div class="kr-sg-checkbox p-0 m-0 d-inline-block">
+                              <input id="{{task._id}}" class="checkbox-custom selectEachTaskInput" (change)="checkUncheckTasks(task)" type="checkbox">
+                              <label for="{{task._id}}" class="checkbox-custom-label"></label>
+                          </div>
+                            <div class=" d-inline-block"><p class="bold-text" [ngClass]="{'kg-gray-text': (task.taskStatus =='Disabled')}">{{task.name}}</p>
+                              <p class="normal-text">Bot-related Task</p></div>
                           </div>
                           <div class="col-6 linked-bot-task-views-clicks-container">
                             <span class="linked-bot-task-type">{{task.type}}</span>
@@ -86,7 +130,7 @@
                   </div>
                 </perfect-scrollbar>
               </ng-container>
-              <ng-container *ngIf="!(linkedBotTasks && linkedBotTasks.length)">
+              <ng-container *ngIf="!(linkedBotTasks && linkedBotTasks.length) && !loading">
                 <div class="linked-bot-tasks-empty-content">
                   <img class="empty-content-indicator-image" src="assets/images/icons/empty_ill.svg" />
                   <div class="empty-content-container-content">

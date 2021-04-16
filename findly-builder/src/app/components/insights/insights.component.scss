@@ -287,78 +287,154 @@
 }
 
 //Test 
-.graph-insight{
-   
-.graphMode{
-        top: 67px;
-        z-index: 1000;
-        right:300px;
-        position: absolute;
-        background: #FFFFFF;
-        box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
-        border-radius: 8px;
-        border: 0;
-        width: 336px;
-        top: 150px;
-        right: 172px;
-        padding: 15px 20px;
+.graph-insight{   
+    .graphMode{
+            top: 67px;
+            z-index: 1000;
+            right:300px;
+            position: absolute;
+            background: #FFFFFF;
+            box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+            border: 0;
+            width: 336px;
+            top: 150px;
+            right: 172px;
+            padding: 15px 20px;
 
-        .header{        
-            .head-txt{
+            .header{        
+                .head-txt{
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                .closeCross{              
+                    cursor: pointer;
+                    float: right;                
+                }
+            }
+            .demo-chart-graphMode{
+                height: 300px !important;
+            }
+            .legends{      
+                .mr-10{
+                    margin-right: 10px;
+                }     
+                .searches{
+                    .head{
+                        font-weight: 500;
+                        font-size: 10px;
+                        line-height: 12px;
+                        color: #9AA0A6;                
+                    }
+                    .val{
+                        font-weight: 500;
+                        font-size: 14px;                
+                    }
+                }
+                .clicks{
+                    .head{
+                        font-weight: 500;
+                        font-size: 10px;
+                        line-height: 12px;
+                        color: #9AA0A6;                                
+                    }
+                    .val{
+                        font-weight: 500;
+                        font-size: 14px;                
+                        color: #3368BB;
+                    }
+                }
+                .CTR{
+                    .head{
+                        font-weight: 500;
+                        font-size: 10px;
+                        line-height: 12px;
+                        color: #9AA0A6;                
+                    }
+                    .val{
+                        font-weight: 500;
+                        font-size: 14px;                
+                        color: #009DAB;
+                    }
+                }
+            }
+    }
+}
+// Test 
+
+
+
+// New UI//
+
+.query_analytics_content{
+    position: absolute;
+    top: 163px;
+    right: 155px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+    border-radius: 8px;
+    width: 185px;
+    padding: 17px 15px;
+    z-index: 10000;
+    &::before{
+        content: "";
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background: #fff;
+        transform: rotate(45deg);
+        right: -6px;
+        top: 45px;
+        border: 1px solid rgb(0 0 0 / 10%);
+        border-left: 0;
+        border-bottom: 0;
+    }
+    .header-sec{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        .title{
+            color: #26344A;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 17px;
+        }
+        .close-analytics{
+            padding: 0px 8px;
+            cursor: pointer;
+        }
+    }
+    .analytics-counts{
+        display: flex;
+        align-items: center;
+        .count-sec{
+            margin-right: 30px;
+            .title{
+                color: #9AA0A6;
+                font-weight: 500;
+                font-size: 10px;
+                line-height: 12px;
+                margin-bottom: 2px;
+            }
+            .count{
+                display: flex;
+                align-items: center;
+                color: #3C4043;
                 font-weight: 500;
                 font-size: 14px;
-            }
-            .closeCross{              
-                cursor: pointer;
-                float: right;                
-            }
-        }
-        .demo-chart-graphMode{
-            height: 300px !important;
-        }
-        .legends{      
-            .mr-10{
-                margin-right: 10px;
-            }     
-            .searches{
-                .head{
-                    font-weight: 500;
-                    font-size: 10px;
-                    line-height: 12px;
-                    color: #9AA0A6;                
+                img{
+                    margin-right: 8px;
                 }
-                .val{
+                .feedback-thumb{
+                    display: flex;
+                    align-items: center;
+                    margin-right: 20px;
+                    color: #3C4043;
                     font-weight: 500;
-                    font-size: 14px;                
-                }
-            }
-            .clicks{
-                .head{
-                    font-weight: 500;
-                    font-size: 10px;
-                    line-height: 12px;
-                    color: #9AA0A6;                                
-                }
-                .val{
-                    font-weight: 500;
-                    font-size: 14px;                
-                    color: #3368BB;
-                }
-            }
-            .CTR{
-                .head{
-                    font-weight: 500;
-                    font-size: 10px;
-                    line-height: 12px;
-                    color: #9AA0A6;                
-                }
-                .val{
-                    font-weight: 500;
-                    font-size: 14px;                
-                    color: #009DAB;
+                    font-size: 14px;
                 }
             }
         }
     }
 }
-// Test 

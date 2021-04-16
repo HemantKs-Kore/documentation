@@ -75,29 +75,6 @@ export class AddStructuredDataComponent implements OnInit {
     if(changes && changes.selectedSourceType){
       if(changes.selectedSourceType.currentValue && changes.selectedSourceType.currentValue.resourceType === 'structuredDataManual'){
         this.setRequirementsForManualInput(changes);
-        // if(changes.selectedSourceType.currentValue.payload){
-        //   this.selectedJsonForEdit = changes.selectedSourceType.currentValue.payload;
-        //   console.log("source",changes.selectedSourceType.currentValue);
-        //   // this.structuredData.payload = JSON.stringify(this.selectedJsonForEdit._source.jsonData,null,1);
-        //   this.structuredData.payload = this.selectedJsonForEdit.parsedData;
-        //   if(this.selectedSourceType.viewMode){
-        //     this.codeMirrorOptions['readOnly'] = 'nocursor';
-        //   }
-        //   else{
-        //     this.codeMirrorOptions['readOnly'] = '';
-        //   }
-        //   setTimeout( () => {
-        //     this.indentObj();
-        //   },200)
-        // }
-        // else{
-        //   this.structuredData.payload = JSON.stringify({});
-        // }
-        // setTimeout(() => {
-        //   if(this.codemirror && this.codemirror.codeMirror){
-        //     this.codemirror.codeMirror.refresh();
-        //   }
-        // }, 200);
       }
     }
   }
@@ -156,6 +133,11 @@ export class AddStructuredDataComponent implements OnInit {
     }, 500);
   }
 
+  doubleClick(event){
+    if(this.selectedSourceType && this.selectedSourceType.viewMode){
+      this.editRecord();
+    }
+  }
   navigateToRecord(key){
     if(this.currentDataIndex || (this.currentDataIndex == 0)){
       if(key){

@@ -116,14 +116,15 @@
 
 .configured-dropdown{
     width: 393px;
-    position: fixed;
-    top: 70px;
-    z-index: 999;
+    position: absolute;
+    top: 0;
+    z-index: 1;
     left: 0;
     bottom: 0;
     margin: 0 auto;
     right: 0;
-    height:180px;
+    height: auto;
+    display: table;
     &:hover{
         .content-menu{
             display: block;
@@ -149,6 +150,7 @@
     .dropdown-open {
         .dropdown-input{
             padding: 0 12px 0 17px;
+            cursor:default;
             &:hover{
                 border: solid 1px #1372ff;
             }
@@ -179,6 +181,7 @@
                 .left-sec{
                     display: flex;
                     align-items: center;
+                    cursor: default;
                     img{
                         margin-right: 10px;
                     }

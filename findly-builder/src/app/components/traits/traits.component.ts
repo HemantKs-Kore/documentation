@@ -60,6 +60,7 @@ export class TraitsComponent implements OnInit {
   };
   currentTraitEditIndex;
   editedContent;
+  traitsCount = false;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -83,7 +84,30 @@ export class TraitsComponent implements OnInit {
     this.loadingTraits1 = true;
     this.loadImageText = true;
   }
+  trainIndex(){
+    $('#trainId').click();
+  }
+getTraitsSliceValue(traits){
+  let sliceValue = 0;
+  if(traits.length){
+  let columnWidth =document.getElementsByClassName('traits-groups')[0].clientWidth-65;
+    let traitsLength = 0;
+    traits.forEach((t)=>{
+      var canvas = document.createElement('canvas');
+var ctx = canvas.getContext("2d");
+ctx.font = "400 14px Roboto";        
+var width = ctx.measureText(t.traitName +', ').width;
+      traitsLength = width+ traitsLength;
+      if(columnWidth<traitsLength){
+        return sliceValue;
+      }else{
+        sliceValue = sliceValue +1;
+      }
+    })
+  }
 
+  return sliceValue;
+}
   getTraitsGroupsApi(initial?) {
     if (initial) {
       this.loadingTraits = true;
@@ -325,7 +349,7 @@ export class TraitsComponent implements OnInit {
               this.getTraitsGroupsApi();
               this.traitDeleted = false;
               dialogRef.close();
-              this.notificationService.notify('Trait group deleted successfully', 'success');
+              this.notificationService.notify('Deleted Successfully', 'success');
             }, (err) => {
               if (err && err.data && err.data.errors && err.data.errors[0]) {
                 this.notificationService.notify(err.data.errors[0].msg, 'error');
@@ -357,7 +381,7 @@ export class TraitsComponent implements OnInit {
       this.getTraitsGroupsApi();
       this.traitDeleted = false;
       this.closeCreate();
-      this.notificationService.notify('Trait group updated successfully', 'success');
+      this.notificationService.notify('Updated Successfully', 'success');
     }, (err) => {
       if (err && err.data && err.data.errors && err.data.errors[0]) {
         this.notificationService.notify(err.data.errors[0].msg, 'error');
@@ -376,7 +400,7 @@ export class TraitsComponent implements OnInit {
       this.closeCreate();
       this.traits.addEditTraits = {};
       this.traits.addEditTraits.matchStrategy = 'probability';
-      this.notificationService.notify('Trait created successfully', 'success');
+      this.notificationService.notify('Created Successfully', 'success');
     }, (err) => {
       if (err && err.error && err.error.errors && err.error.errors[0]) {
         this.notificationService.notify(err.error.errors[0].msg, 'error');
@@ -448,7 +472,7 @@ export class TraitsComponent implements OnInit {
       traitId,
     }
     this.service.invoke('get.traits', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Trait updated successFully', 'success');
+      this.notificationService.notify('Updated SuccessFully', 'success');
       this.getTraitsGroupsApi();
       // this.closeModalSlider('#createEditTraitsSlider');
       this.sliderMode = '';

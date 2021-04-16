@@ -84,6 +84,11 @@
     "array": "Array",
     "object": "Object",
     "test" : "Test",
+    "botAction":{
+        "disable":"Disable",
+        "enable":"Enable",
+        "tasksSelected":"Tasks Selected"
+    },
     "businessRules": {
         "rules_selected": "Rules Selected",
         "all_rules_selected": "All Rules Selected",
@@ -250,7 +255,7 @@
     "resultRanking": {
         "no_search_results": "No search results",
         "no._of_customizations_caps": "NO. OF CUSTOMIZATIONS",
-        "last_changes_caps": "LAST CHANGES",
+        "last_changes_caps": "LAST UPDATED",
         "restore": "Reset",
         "pinned": "pinned",
         "past_action_on_this_item_caps": "PAST ACTION ON THIS ITEM",
@@ -351,6 +356,7 @@
         "addManually": "Add Manually",
         "delete": "Delete",
         "cancel": "Cancel",
+        "close" : "Close",
         "apply": "Apply",
         "addField": "Add Data",
         "searchFilterDesc": "Eg: field==lastName||(field==FirstName&&field==Age)",
@@ -358,6 +364,8 @@
         "configuratoin_progress": "Configuration in Progress...",
         "configuratoin_success": "Successfully Configured.",
         "configuration_failed": "Configuration Failed",
+        "validation_failed" : "Validation Failed",
+        "file_validation_failed" : "Invalid File format.",
         "initial_file_validation": "Initial File Validation",
         "import_progress": "Import In-progress",
         "import_done": "Import Done",
@@ -393,7 +401,7 @@
         "updated_by" : "Updated by",
         "updated_on" : "Last Updated On",
         "noResultTemplate" : "Result templates are not defined for structured data. Go to",
-        "searchInterfacePath" : "Configs >> Search Interface",
+        "searchInterfacePath" : "Manage >> Result Templates",
         "toDefine" : "to define.",
         "learnMore" : "Learn More"
     }
