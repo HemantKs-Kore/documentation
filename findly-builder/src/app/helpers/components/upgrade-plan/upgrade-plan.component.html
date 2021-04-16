@@ -6,30 +6,30 @@
         <div class="btn-monthly"  [ngClass]="{'active-btn' : termPlan == 'Monthly'}" (click)="typeOfPlan('Monthly')">Monthly</div>
         <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'Yearly' }" (click)="typeOfPlan('Yearly')">Annually</div>
         <div class="close_icon ml-4">
-          <img  (click)="closePopup3()" src="assets/icons/modal-close.svg">
+          <img  (click)="closeChoosePlanPopup()" src="assets/icons/modal-close.svg">
         </div>
       </div>      
     </div>
     <perfect-scrollbar>
       <div class="modal-body">
         <!-- <div class="mian-title-desc">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div> -->
-        <div class="upgrade-details-prices row col-12 p-0">          
-          <div class="col-4 upgrade-price-card"  *ngFor='let plan of filterPlansData' [ngClass]='{"current-plan":currentPlan===plan.name}'>
+        <div class="upgrade-details-prices row col-12 p-0" *ngIf="selectedPlan">          
+          <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData' [ngClass]='{"current-plan":selectedPlan.planName===plan.name}'>
             <div class="main-content" *ngIf="plan.type!='free'">
               <div class="inner-content">
                 <img src="assets/icons/pricing/standard.svg" class="standard-img">
                   <div class="title-sec">
                     <div class="title">{{plan.name}}</div>
-                    <div class="price" [ngClass]='{"d-none":currentPlan===plan.name||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?'month':'year'}}</span></div>
+                    <div class="price" [ngClass]='{"d-none":selectedPlan.planName===plan.name||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?'month':'year'}}</span></div>
                     <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise"}'>Custom</div>
-                    <div class="current-plan-title" *ngIf="currentPlan===plan.name"><img src="assets/icons/pricing/check-round.svg">Current Plan</div>
+                    <div class="current-plan-title" *ngIf="selectedPlan.planName===plan.name"><img src="assets/icons/pricing/check-round.svg">Current Plan</div>
                   </div>
                   <div class="card-desc">10k Documents </div>
                   <div class="card-desc">50k Queries per month</div>
                   <div class="card-desc">Scheduled Crawling</div>
                   <div class="card-desc">Experiments</div>
                   <div class="card-desc">Community Support</div>
-                  <button class="kr-sg-button-secondary btn_lg">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
+                  <button class="kr-sg-button-secondary btn_lg" (click)="openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
               </div>
               <div class="goto_details" (click)="showPlanDetails = plan.name">Go to Details</div>
             </div>
@@ -165,8 +165,8 @@
     <div class="close_icon"><img (click)="closeOrderConfPopup()" src="assets/icons/modal-close.svg"></div>
   </div>
   <perfect-scrollbar>
-    <div class="modal-body">
-      <div class="plan-desc">You are Subscribing to <span>Standard Plan</span>. Please find the order summary below.</div>
+    <div class="modal-body" *ngIf="orderConfirmData">
+      <div class="plan-desc">You are Subscribing to <span>{{orderConfirmData.name}} Plan</span>. Please find the order summary below.</div>
       <div class="order-confirmation-table">
         <div class="order-confirmation-table-header row col-12 m-0">
           <div class="title col-9">PLAN</div>
@@ -174,12 +174,12 @@
         </div>
         <div class="order-confirmation-table-body row col-12 m-0">
           <div class="col-9 plan_details">
-            <div class="plan-type">Standard Subscription</div>
-            <div class="btn-monthly"  [ngClass]="{'active-btn' : termPlan == 'monthly'}" (click)="termPlan = 'monthly'">Monthly</div>
-            <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'annually' }" (click)="termPlan = 'annually'">Annually</div>
+            <div class="plan-type">{{orderConfirmData.name}} Subscription</div>
+            <div class="btn-monthly"  [ngClass]="{'active-btn' : orderConfirmData.billingUnit == 'Monthly'}" (click)="choosePlanType('Monthly')">Monthly</div>
+            <div class="btn-monthly" [ngClass]="{ 'active-btn' : orderConfirmData.billingUnit == 'Yearly' }" (click)="choosePlanType('Yearly')">Annually</div>
           </div>            
 
-          <div class="amount col-3">$ 99</div>
+          <div class="amount col-3">$ {{orderConfirmData.planAmount}}</div>
         </div>
         <!-- <div class="order-confirmation-table-body row col-12 m-0">             
           <div class="col-9 plan_details">
@@ -196,13 +196,66 @@
         </div> -->
         <div class="order-confirmation-table-body row col-12 m-0">
           <div class="col-9 total-amount text-right">Total Amount</div>
-          <div class="amount col-3">$ 99</div>
+          <div class="amount col-3">$ {{orderConfirmData.planAmount}}</div>
         </div>
       </div>
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="openPopup2()">Pay</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="openPaymentGatewayPopup()">Pay</button>
     <button class="kr-sg-button-secondary backbtn btn_md" (click)="closeOrderConfPopup()">Cancel</button>
   </div>
+</kr-modal>
+
+<!--payment gateway iframe-->
+<kr-modal modalType="center" modalClass="modal_popups_ chooseplan-price" #paymentGatewayModel>
+  <div class="modal-header">
+    <div class="title">Payment Details</div>
+    <div class="d-flex align-items-center justify-content-end">
+      <div class="close_icon ml-4">
+        <img (click)="closePaymentGatewayPopup()" src="assets/icons/modal-close.svg">
+      </div>
+    </div>      
+  </div>
+  <perfect-scrollbar>
+    <div class="modal-body">
+      <!-- <div class="mian-title-desc">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div> -->
+   <h2>Iframe page</h2>
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer text-right">
+    <button class="kr-sg-button-primary btn_lg mr-3" (click)="openSuccessFailurePopup()">Proceed</button>
+    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePaymentGatewayPopup()">Back</button>
+  </div>
+</kr-modal>
+
+<!--payment success/failure popup-->
+<kr-modal modalType="center" modalClass="modal_popups_ payment-confirmation-price" #successFailureModel>
+  <div class="modal-header">
+    <div class="title">Payment Confirmation</div>
+    <div class="close_icon">
+      <img (click)="closeSuccessFailurePopup()" src="assets/icons/modal-close.svg">
+    </div>
+  </div>
+  <perfect-scrollbar>
+    <div class="modal-body">
+        <div class="payment-confiramtion-data d-none">
+          <div class="img-block"><img src="assets/icons/pricing/payment-success.svg"></div>
+          <div class="payment-success-message">
+            <div class="title">Yay! Payment Successfull...</div>
+            <button class="kr-sg-buttonicon-secondary btn_lg"><img src="assets/icons/pricing/download.svg">Download Invoice</button>
+          </div>
+        </div>
+        <div class="payment-confiramtion-data pl-0 pr-0 m-0 row pt-5">
+          <div class="img-block col-7 p-0"><img src="assets/icons/pricing/payment-failed.svg"></div>
+          <div class="payment-success-message col-5 p-0">
+            <div class="title">Oops! Payment Failed!!</div>
+            <button class="kr-sg-buttonicon-primary btn_lg">Retry Payment</button>
+          </div>
+        </div>
+    </div>
+  </perfect-scrollbar>
+  <!-- <div class="modal-footer text-right">
+    <button class="kr-sg-button-primary btn_lg" (click)="closePopup2()">Done</button>     
+  </div> -->
 </kr-modal>

@@ -3,6 +3,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { viewClassName } from '@angular/compiler';
 
 @Component({
   selector: 'app-upgrade-plan',
@@ -15,18 +16,22 @@ export class UpgradePlanComponent implements OnInit {
   choosePlanModalPopRef: any;
   addPricing4ModalPopRef: any;
   addPricing5ModalPopRef: any;
+  paymentGatewayModelPopRef: any;
+  successFailureModelPopRef: any;
   termPlan = "Monthly";
   totalPlansData: any;
   filterPlansData: any;
-  currentPlan: string = 'Standard';
   showPlanDetails: string;
+  orderConfirmData: any;
+  selectedPlan: any;
   constructor(public dialog: MatDialog, private service: ServiceInvokerService, private notificationService: NotificationService) { }
   @ViewChild('orderConfirmModel') orderConfirmModel: KRModalComponent;
   @ViewChild('addPricingModel2') addPricingModel2: KRModalComponent;
   @ViewChild('choosePlanModel') choosePlanModel: KRModalComponent;
   @ViewChild('addPricingModel4') addPricingModel4: KRModalComponent;
   @ViewChild('addPricingModel5') addPricingModel5: KRModalComponent;
-
+  @ViewChild('paymentGatewayModel') paymentGatewayModel: KRModalComponent;
+  @ViewChild('successFailureModel') successFailureModel: KRModalComponent;
   ngOnInit(): void {
     this.getPlan();
   }
@@ -51,7 +56,7 @@ export class UpgradePlanComponent implements OnInit {
   }
   //open order confirm popup
   openOrderConfPopup(data?) {
-    console.log("order confie=rm data", data);
+    this.orderConfirmData = data;
     this.orderConfirmModelRef = this.orderConfirmModel.open();
   }
   //close order confirm popup
@@ -62,13 +67,36 @@ export class UpgradePlanComponent implements OnInit {
   }
   //open popup1
   openChoosePlanPopup(data?) {
-    console.log("choose plan data", data);
+    this.selectedPlan = data;
     this.choosePlanModalPopRef = this.choosePlanModel.open();
   }
   //close popup1
-  closePopup3() {
+  closeChoosePlanPopup() {
     if (this.choosePlanModalPopRef && this.choosePlanModalPopRef.close) {
       this.choosePlanModalPopRef.close();
+    }
+  }
+  //open payment gateway popup
+  openPaymentGatewayPopup() {
+    this.closeChoosePlanPopup();
+    this.closeOrderConfPopup();
+    this.paymentGatewayModelPopRef = this.paymentGatewayModel.open();
+  }
+  //close payment gateway popup
+  closePaymentGatewayPopup() {
+    if (this.paymentGatewayModelPopRef && this.paymentGatewayModelPopRef.close) {
+      this.paymentGatewayModelPopRef.close();
+    }
+  }
+  //open payment success/failure popup
+  openSuccessFailurePopup() {
+    this.closePaymentGatewayPopup();
+    this.successFailureModelPopRef = this.successFailureModel.open();
+  }
+  //close payment success/failure popup
+  closeSuccessFailurePopup() {
+    if (this.successFailureModelPopRef && this.successFailureModelPopRef.close) {
+      this.successFailureModelPopRef.close();
     }
   }
   //select type plan like monthly or yearly
@@ -78,6 +106,16 @@ export class UpgradePlanComponent implements OnInit {
     for (let data of this.totalPlansData) {
       if (data.billingUnit && data.billingUnit == type) {
         this.filterPlansData.push(data);
+      }
+    }
+  }
+  //based on choosePlanType in order confirm popup
+  choosePlanType(type) {
+    for (let plan of this.totalPlansData) {
+      if (plan.type == this.orderConfirmData.type) {
+        if (plan.billingUnit == type) {
+          this.orderConfirmData = plan;
+        }
       }
     }
   }

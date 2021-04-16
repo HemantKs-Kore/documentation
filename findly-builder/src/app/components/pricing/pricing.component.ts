@@ -40,7 +40,7 @@ export class PricingComponent implements OnInit {
   ngOnInit(): void {
     this.userEngagementChart()
     this.getPlan()
-    this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+    this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails
   }
   getPlan() {
     this.service.invoke('get.pricingPlans').subscribe(res => {
