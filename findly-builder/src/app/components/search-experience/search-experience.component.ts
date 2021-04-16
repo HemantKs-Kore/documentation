@@ -69,6 +69,7 @@ export class SearchExperienceComponent implements OnInit {
   public color5: string = '';
   public color6: string = '';
   statusModalPopRef: any = [];
+  guideModalPopRef : any;
   userInfo: any = {};
   tourGuide: string;
   show_tab_color: boolean = false;
@@ -82,6 +83,7 @@ export class SearchExperienceComponent implements OnInit {
   tourData: any = [];
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
+  @ViewChild('guideModalPop') guideModalPop: KRModalComponent;
   constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService, public headerService: SideBarService) {
   }
 
@@ -369,6 +371,16 @@ export class SearchExperienceComponent implements OnInit {
   closePreviewPopup() {
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef = this.statusModalPopRef.close();
+    }
+  }
+
+  openSearchInterfaceGuide(){
+    this.guideModalPopRef = this.guideModalPop.open();
+  }
+
+  closeGuidePopup() {
+    if (this.guideModalPopRef && this.guideModalPopRef.close) {
+      this.guideModalPopRef = this.guideModalPopRef.close();
     }
   }
 }
