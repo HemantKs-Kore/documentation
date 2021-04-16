@@ -29,15 +29,9 @@
                             <div class="desc-tect">Search Bar at the bottom</div>
                         </div>   
                     </div>
-                    <div class="right-sec">
-                        <div class="search-preview-dummy">
-                            <div class="top-search" [ngClass]="{'bottom-search': searchObject.searchExperienceConfig.searchBarPosition == 'bottom'}">
-                                <div class="kr-sg-input-search">                               
-                                    <input type="text" placeholder="Search" class="input-search" id="myInput">
-                                    <img src="assets/icons/search_gray.svg" class="search-icon">
-                                </div>
-                            </div>                                                 
-                        </div>
+                    <div class="right-sec">                       
+                        <img src="assets/icons/search-experience/top-down.svg" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">
+                        <img src="assets/icons/search-experience/bottom-up.svg" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
                     </div>
                 </div>
             </div>
@@ -346,18 +340,38 @@
                     </div>
                 </div>         
             </div>
-            <div class="container" *ngSwitchCase="'interactions'">
+            <div class="col-12 pr-0" *ngSwitchCase="'interactions'">
                 <div class="interactins-content col-12 p-0 row m-0">
-                    <div class="left-sec col-7">
-                        <div class="greeting-message border-with-padding">
+                    <div class="left-sec col-12 p-0">
+                        <div class="greeting-message border-with-padding border-0 col-7 pb-0">
                             <div class="kr-sg-input-text-area">
                                 <div class="label-text">Customize Launch Greeting Message</div>
-                                <textarea class="input-text" maxlength="40" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}"></textarea>                                
+                                <textarea class="input-text" maxlength="40" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}"></textarea>
                             </div>
                             <div class="emojis-block">
-                                <div class="emoji-img"><label for="myFileInput"><img [src]="emojiIcon" width="18" height="18">
-                                <input type="file" style="display: none;" id="myFileInput" (change)="selectIcon($event,'emoji','auto')" /></label>
-                                </div>                                
+                                <!-- <div class="emoji-img"><label for="myFileInput"><img [src]="emojiIcon" width="18" height="18">
+                                    <input type="file" style="display: none;" id="myFileInput" (change)="selectIcon($event,'emoji','auto')" /></label>
+                                </div>                                 -->
+                                <div class="emoji-img">
+                                    <div class="kr-sg-dropdowns" ngbDropdown [placement]="'right-top'" id="avatarDropdown">
+                                        <div class="dropdown dropdown-open">
+                                            <button class="dropdown-toggle dropdown-input before-none" ngbDropdownToggle>
+                                                <img [src]="emojiIcon" width="18" height="18">
+                                            </button>
+                                            <ul class="dropdown-menu content-menu" ngbDropdownMenu >
+                                               <div class="emojis-images-block">
+                                                   <div class="close-btn" (click)="closeEmojiPicker()">
+                                                       <img src="assets/icons/search-experience/emojis/close.svg">
+                                                   </div>
+                                                    <li class="emoji-type" *ngFor="let emoji of emojiList" (click)="emojiIcon = emoji.img_src; emojiIconUpload('update')">
+                                                        <img [src]="emoji.img_src" [alt]="emoji.value">
+                                                    </li>
+                                               </div>
+                                            </ul>
+                                        </div>
+                                    </div>	
+                                </div>
+
                                 <div class="fill-colors-block">
                                     <div class="fill-color">
                                         <div class="box-color" [ngClass]="{'color-pallet-container interaction-color': msgColor}" (mouseover)="toggle6=true;msgColor=true;">
@@ -392,64 +406,112 @@
                                 <div class="count-length">{{box.value.length}} / 40</div>
                             </div>
                         </div>
-                        <div class="border-with-padding">
-                            <div class="heading-title">Show Searches</div>
-                            <label class="kr-sg-toggle">                                       
-                                <input type="checkbox" [(ngModel)]="searchObject.searchInteractionsConfig.showSearchesEnabled">
-                                <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
-                            </label>
-                       
-                            <div class="group-radiobutton mt-3">
-                                <div class="kr-sg-radiobutton">
-                                    <input id="radio-22" name="radio" class="radio-custom" type="radio" value="frequent" [checked]="searchObject.searchInteractionsConfig.showSearches=='Frequent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches" [disabled]="!searchObject.searchInteractionsConfig.showSearchesEnabled">
-                                    <label for="radio-22" class="radio-custom-label">Frequent</label>
-                                </div>
-                                <div class="kr-sg-radiobutton">
-                                    <input id="radio-23" name="radio" class="radio-custom" type="radio" value="recent" [checked]="searchObject.searchInteractionsConfig.showSearches=='recent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches" [disabled]="!searchObject.searchInteractionsConfig.showSearchesEnabled">
-                                    <label for="radio-23" class="radio-custom-label">Recent</label>
-                                </div>
-                            </div>                            
-                        </div>
-                        <div class="border-with-padding">                                                                     
-                            <div class="label_text">Autocomplete</div>
-                            <label class="kr-sg-toggle">                                       
-                                <input type="checkbox" [(ngModel)]="searchObject.searchInteractionsConfig.autocompleteOpt">
-                                <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
-                            </label>
-                        </div>
-                        <div class="border-with-padding" *ngFor="let data of suggestions"> 
-                            <!-- <ng-container *ngFor="let num of data.numbers;let i=index;">
-                                <span  [ngStyle]="{'margin-right':num+'px'}">{{num}}&nbsp;&nbsp;</span></ng-container >                                                                     -->
-                            <div class="label_text">{{data.name}}</div>
-                            <div class="kr-sg-toggle sliderContainer">  
-                                <div class="range-slider">
-                                <app-range-slider-search-experience [customClass]='"querySlider"' [allData]='data.sliderObj' (valueEvent)="valueEvent(data.name,$event)"></app-range-slider-search-experience>
-                            </div></div>
-                        </div>
 
-                        <div class="border-with-padding group-checkbox">
-                            <div class="heading-title">Feedback Experience </div>
-                            <div class="kr-sg-checkbox">
-                                <input id="checkbox_grpb" class="checkbox-custom" type="checkbox" [checked]="searchObject.searchInteractionsConfig.feedbackExperience.resultLevel" [(ngModel)]="searchObject.searchInteractionsConfig.feedbackExperience.resultLevel">
-                                <label for="checkbox_grpb" class="checkbox-custom-label">Result Level</label>
+                        <div class="col-12 preview-search-ex">
+                            <div class="search-widget-if-bottom-up" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">                               
+                                <div class="greeting-block">
+                                    <img [src]="emojiIcon">
+                                    <span class="greeting-title">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
+                                </div>
+                                <div class="d-flex search-customization-input">
+                                    <div class="kr-sg-input-search">                               
+                                        <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
+                                        <img [src]="searchIcon" class="search-icon" height="15" width="15">
+                                        <span class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
+                                        <ng-container *ngIf="searchObject.searchWidgetConfig.searchButtonEnabled">
+                                            <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="(searchObject.searchExperienceConfig.searchBarPosition==='top' && searchObject.searchWidgetConfig.buttonPlacementPosition==='inside') || searchObject.searchExperienceConfig.searchBarPosition === 'bottom'">
+                                                <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
+                                            </button>
+                                        </ng-container>
+                                    </div>
+                                    <ng-container *ngIf="searchObject.searchWidgetConfig.searchButtonEnabled">
+                                        <button class="btn-customize kr-sg-button-primary read-mode btn_lg" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="searchObject.searchExperienceConfig.searchBarPosition==='top' && searchObject.searchWidgetConfig.buttonPlacementPosition === 'outside'">
+                                            <span>{{searchObject.searchWidgetConfig.buttonText}}</span>                                       
+                                        </button>
+                                    </ng-container>
+                                </div>
                             </div>
-                            <!-- <div class="kr-sg-checkbox">
-                                <input id="checkbox_grpc" class="checkbox-custom" type="checkbox" disabled>
-                                <label for="checkbox_grpc" class="checkbox-custom-label">Query Level</label>
-                            </div> -->
-                        </div>
-                    </div>
-                    <div class="right-sec col-5">
-                        <button class="btn kr-sg-button-primary" (click)="openSearchInterfaceGuide()">Open Guide</button>
-                    </div>
-                    <!-- <div class="right-sec col-5">
-                        <div class="preview-interactions">
-                            <div class="label_text">Preview</div>
-                            <div class="bg-preview-content">
-
+                            <div class="search-widget" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">                               
+                                <div class="d-flex search-customization-input">
+                                    <div class="kr-sg-input-search">                               
+                                        <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
+                                        <img [src]="searchIcon" class="search-icon" height="15" width="15">
+                                        <span class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
+                                        <ng-container *ngIf="searchObject.searchWidgetConfig.searchButtonEnabled">
+                                            <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="(searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='inside')||searchObject.searchExperienceConfig.searchBarPosition==='bottom'">
+                                                <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
+                                            </button>
+                                        </ng-container>
+                                    </div>
+                                    <ng-container *ngIf="searchObject.searchWidgetConfig.searchButtonEnabled">
+                                        <button class="btn-customize kr-sg-button-primary read-mode btn_lg" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='outside'">
+                                            <span>{{searchObject.searchWidgetConfig.buttonText}}</span>                                       
+                                        </button>
+                                    </ng-container>
+                                </div>
+                                <div class="greeting-block">
+                                    <img [src]="emojiIcon">
+                                    <span class="greeting-title">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
+                                </div>
                             </div>
                         </div>
-                    </div> -->
+
+
+                        <div class="col-12 p-0 position-relative">
+                            <div class="guide-button-info">
+                                <div class="title-text">Not Sure! What you can do with these interaction settings?</div>
+                                <div class="guide-btn">
+                                    <img src="assets/icons/search-experience/guide/help.svg">
+                                    <span class="choose-guide" (click)="openSearchInterfaceGuide()">Let us help you choose</span>
+                                </div>
+                            </div>
+                            <div class="col-7 p-0">                            
+                                <div class="border-with-padding">
+                                    <div class="label_text">Show Searches</div>
+                                    <label class="kr-sg-toggle">                                       
+                                        <input type="checkbox" [(ngModel)]="searchObject.searchInteractionsConfig.showSearchesEnabled">
+                                        <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                                    </label>
+                               
+                                    <div class="group-radiobutton mt-3">
+                                        <div class="kr-sg-radiobutton">
+                                            <input id="radio-22" name="radio" class="radio-custom" type="radio" value="frequent" [checked]="searchObject.searchInteractionsConfig.showSearches=='Frequent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches" [disabled]="!searchObject.searchInteractionsConfig.showSearchesEnabled">
+                                            <label for="radio-22" class="radio-custom-label">Frequent</label>
+                                        </div>
+                                        <div class="kr-sg-radiobutton">
+                                            <input id="radio-23" name="radio" class="radio-custom" type="radio" value="recent" [checked]="searchObject.searchInteractionsConfig.showSearches=='recent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches" [disabled]="!searchObject.searchInteractionsConfig.showSearchesEnabled">
+                                            <label for="radio-23" class="radio-custom-label">Recent</label>
+                                        </div>
+                                    </div>                                                          
+                                </div>
+                                <div class="border-with-padding">                                                                     
+                                    <div class="label_text">Autocomplete</div>
+                                    <label class="kr-sg-toggle">                                       
+                                        <input type="checkbox" [(ngModel)]="searchObject.searchInteractionsConfig.autocompleteOpt">
+                                        <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                                    </label>
+                                </div>
+                                <div class="border-with-padding" *ngFor="let data of suggestions">                                    
+                                    <div class="label_text">{{data.name}}</div>
+                                    <div class="range-slider">
+                                        <app-range-slider-search-experience [customClass]='"querySlider"' [allData]='data.sliderObj' (valueEvent)="valueEvent(data.name,$event)"></app-range-slider-search-experience>
+                                    </div>
+                                </div>
+        
+                                <div class="border-with-padding group-checkbox">
+                                    <div class="heading-title">Feedback Experience </div>
+                                    <div class="kr-sg-checkbox">
+                                        <input id="checkbox_grpb" class="checkbox-custom" type="checkbox" [checked]="searchObject.searchInteractionsConfig.feedbackExperience.resultLevel" [(ngModel)]="searchObject.searchInteractionsConfig.feedbackExperience.resultLevel">
+                                        <label for="checkbox_grpb" class="checkbox-custom-label">Result Level</label>
+                                    </div>
+                                    <!-- <div class="kr-sg-checkbox">
+                                        <input id="checkbox_grpc" class="checkbox-custom" type="checkbox" disabled>
+                                        <label for="checkbox_grpc" class="checkbox-custom-label">Query Level</label>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>                                       
                 </div>             
             </div>
           </div>
@@ -464,51 +526,171 @@
 
 <!--Show model for preview-->
 
-<kr-modal  modalType="center" modalClass="sliderComponent modal_popups_ search-customization-popup-preview" #statusModalPop id="sourceSlider">
-  <div class="modal-header">
-    <div class="title">Customization Preview / {{searchObject.searchExperienceConfig.searchBarPosition==='top'?"Top Down":"Bottom Up"}} Experience</div>
-    <div class="close_icon" (click)="closePreviewPopup()"><img  src="assets/icons/modal-close.svg"></div>
-  </div>
-  <perfect-scrollbar class="perfect-scroll-modal-body">
-    <div class="modal-body">
-        <div class="search-widget">
-            <div class="main-title">Search Widget</div>
-            <div class="d-flex search-customization-input">
-                <div class="kr-sg-input-search">                               
-                    <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
-                    <img [src]="searchIcon" class="search-icon" height="15" width="15">
-                     <span class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
-                     <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="(searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='inside')||searchObject.searchExperienceConfig.searchBarPosition==='bottom'">
-                        <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
-                    </button>  
-                </div>
-                <button class="btn-customize kr-sg-button-primary read-mode btn_lg" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='outside'">
-                    <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
-                    <!-- <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled">
-                        <img src="assets/icons/search-experience/edit.svg">
-                    </div> -->
-                </button>
-            </div>
-        </div>
-    </div>
-  </perfect-scrollbar>
-  <div class="modal-footer">
-    <!-- <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal">Next</button> -->
-    <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closePreviewPopup()">Close</button>
-  </div>
-</kr-modal>
-
-<kr-modal  modalType="center" modalClass="sliderComponent modal_popups_ search-customization-popup-preview" #guideModalPop id="guideModalPop">
+<kr-modal  modalType="center" modalClass="sliderComponent modal_popups_ guide-seach-experience" #guideModalPop id="guideModalPop">
     <div class="modal-header">
-      <div class="title">Modal header</div>
+      <div class="title">Guide > <span *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">Bottom Up Experience</span><span *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">Top Down Experience</span></div>
       <div class="close_icon" (click)="closeGuidePopup()"><img  src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
-      <div class="modal-body">
-          Modal body
+      <div class="modal-body" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
+        <div class="main-title">Hi Ankit,</div>
+        <div class="main-title">It is recommended to go through this guide before customizing interactions.</div>
+        <div class="guide-data">
+            <div class="layer-img">
+                <img src="assets/icons/search-experience/guide/sdk-img.svg">
+            </div>
+            <div class="left-content">
+                <img src="assets/icons/search-experience/guide/recent-search.svg">
+            </div>
+            <div class="right-content">
+                <div class="title">Choose <span class="hilightedcolor">Frequent Search</span> or <span class="hilightedcolor">Recent Search</span></div>
+                <div class="desc-text">to enable the user to see their Frequently or recently searched queries. These queries will appear as cards in the search window as soon as the user puts their cursor in the search bar </div>
+            </div>
+        </div>
+
+        <div class="autocomplete-guide">
+            <div class="layer-img">
+                <img src="assets/icons/search-experience/guide/sdk-automatic.svg">
+            </div>
+            <div class="left-content">
+                <div class="title"><span class="hilightedcolor">Autocomplete</span></div>
+                <div class="desc-text">Saves the time and effort for the users by predicting the rest of the word as the user is typing</div>
+            </div>
+            <div class="right-content">
+                <img src="assets/icons/search-experience/guide/autocomplete.svg">
+            </div>
+        </div>
+
+        <div class="query-sugestion-guide">
+            <div class="layer-img">
+                <img src="assets/icons/search-experience/guide/suggestion-sdk.svg">
+            </div>
+            <div class="left-content">
+                <img src="assets/icons/search-experience/guide/querysuggestion.svg">
+            </div>
+            <div class="right-content">
+                <div class="title"><span class="hilightedcolor">Query Suggestions</span></div>
+                <div class="desc-text">reduces user’s time to search a query by providing suggestions which help users to enter long queries or select a query as they type.</div>
+                <div class="info-text">Here, the no. of <span>query suggestions</span> are <span>set to two</span> and <span>Live search</span> is <span>set to zero</span></div>
+            </div>
+        </div>
+
+
+        <div class="livesearch-guide">
+            <div class="layer-img">
+                <img src="assets/icons/search-experience/guide/live-search-sdk.svg">
+            </div>
+            <div class="left-content">
+                <div class="title"><span class="hilightedcolor">Live Search</span></div>
+                <div class="desc-text">enhances user’s search experience by showing the results while entering the query and allows the user to see search results without needing to redirect to the results page</div>
+                <div class="info-text">Here, the no. of <span>query suggestions</span> are <span>set to zero</span></div>
+            </div>
+            <div class="right-content">
+                <img src="assets/icons/search-experience/guide/livesearch-suggestion.svg">
+            </div>
+        </div>
+
+
+        <div class="live-search-sugg-guide-data">
+            <div class="layer-img">
+                <img src="assets/icons/search-experience/guide/liveasech-query.svg">
+            </div>
+            <div class="left-content">
+                <img src="assets/icons/search-experience/guide/livesearch-suggestion.svg">
+            </div>
+            <div class="right-content">
+                <div class="title"><span class="hilightedcolor">Live Search & Query Suggestions</span></div>
+                <div class="desc-text">when both are enabled the live search results appear at the background of the query suggestions and the user can scroll to browse the results.</div>
+                <div class="info-text">Here, the no. of <span>query suggestions</span> and <span>live search</span>, both are enabled and <span>set to three</span></div>
+            </div>
+        </div>
+
+        <div class="done-all">
+            <img src="assets/icons/search-experience/guide/handthumb.svg">
+            <span class="title">That’s all, Let’s Customize now.</span>
+        </div>
+
+      </div>
+
+
+      <div class="modal-body topdown-guide" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">
+        <div class="main-title">Hi {{userName}},</div>
+        <div class="main-title">It is recommended to go through this guide before customizing interactions.</div>
+        <div class="guide-data">
+            <div class="layer-img">
+                <img src="assets/icons/search-experience/guide/topdown/recent-search-sdk.svg">
+            </div>
+            <div class="left-content">
+                <img src="assets/icons/search-experience/guide/topdown/recentsearch.svg">
+            </div>
+            <div class="right-content">
+                <div class="title">Choose <span class="hilightedcolor">Frequent Search</span> or <span class="hilightedcolor">Recent Search</span></div>
+                <div class="desc-text">to enable the user to see their Frequently or recently searched queries. These queries will appear as cards in the search window as soon as the user puts their cursor in the search bar </div>
+            </div>
+        </div>
+
+        <div class="autocomplete-guide">
+            <div class="layer-img">
+                <img src="assets/icons/search-experience/guide/topdown/autocomplete-sdk.svg">               
+            </div>
+            <div class="left-content">
+                <div class="title"><span class="hilightedcolor">Autocomplete</span></div>
+                <div class="desc-text">Saves the time and effort for the users by predicting the rest of the word as the user is typing</div>
+            </div>
+            <div class="right-content">
+                <img src="assets/icons/search-experience/guide/topdown/autocomplete.svg">
+            </div>
+        </div>
+
+        <div class="query-sugestion-guide">
+            <div class="layer-img">
+                <img src="assets/icons/search-experience/guide/topdown/query-sdk.svg">
+            </div>
+            <div class="left-content">
+                <img src="assets/icons/search-experience/guide/topdown/query-suggestion.svg">
+            </div>
+            <div class="right-content">
+                <div class="title"><span class="hilightedcolor">Query Suggestions</span></div>
+                <div class="desc-text">reduces user’s time to search a query by providing suggestions which help users to enter long queries or select a query as they type.</div>
+                <div class="info-text">Here, the no. of <span>query suggestions</span> are <span>set to three</span> and <span>Live search</span> is <span>set to zero</span></div>
+            </div>
+        </div>
+
+
+        <div class="livesearch-guide">
+            <div class="layer-img">
+                <img src="assets/icons/search-experience/guide/topdown/livesearch-sdk.svg">
+            </div>
+            <div class="left-content">
+                <div class="title"><span class="hilightedcolor">Live Search</span></div>
+                <div class="desc-text">enhances user’s search experience by showing the results while entering the query and allows the user to see search results without needing to redirect to the results page</div>
+                <div class="info-text">Here, the no. of <span>query suggestions</span> are <span>set to zero</span></div>
+            </div>
+            <div class="right-content">
+                <img src="assets/icons/search-experience/guide/topdown/liveseach.svg">
+            </div>
+        </div>
+
+
+        <div class="live-search-sugg-guide-data">
+            <div class="layer-img">
+                <img src="assets/icons/search-experience/guide/topdown/livesearch-query-sdk.svg">
+            </div>
+            <div class="left-content">
+                <img src="assets/icons/search-experience/guide/topdown/livesearch-query.svg">
+            </div>
+            <div class="right-content">
+                <div class="title"><span class="hilightedcolor">Live Search & Query Suggestions</span></div>
+                <div class="desc-text">when both are enabled the live search results appear at the background of the query suggestions and the user can scroll to browse the results.</div>
+                <div class="info-text">Here, the no. of <span>query suggestions</span> and <span>live search</span>, both are enabled and <span>set to three</span> and <span>five respectively</span></div>
+            </div>
+        </div>
+
+        <div class="done-all">
+            <img src="assets/icons/search-experience/guide/handthumb.svg">
+            <span class="title">That’s all, Let’s Customize now.</span>
+        </div>
+
       </div>
     </perfect-scrollbar>
-    <div class="modal-footer">
-      
-    </div>
   </kr-modal> 

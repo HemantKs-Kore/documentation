@@ -41,7 +41,7 @@
         .tooltip-main{
             min-width: 40px;
             top: 8px !important;
-            z-index:1;
+            z-index:-1 !important;
             margin-left:-20px !important;
             opacity: 1;
             .tooltip-arrow{ display: none; }
@@ -63,7 +63,8 @@
     }
     .single-slider{
         width: 300px;
-        margin-bottom: 25px;
+        margin: 0;
+        position: relative;
         display: block !important;
         .slider-track-low{
             background: #009DAB;
@@ -71,6 +72,7 @@
         }
         .slider-selection{
             background: #9B9B9B;
+            box-shadow: none !important;
         }
         .slider-track-high{
             background: #ededed;
@@ -81,6 +83,16 @@
           text-align: center;
           font-size: 10px;
           color: #8a959f;
+        //   .pull-left{
+        //     position: absolute;
+        //     left: -12px;
+        //     top: -1px;
+        //   }
+        //   .pull-right{
+        //     position: absolute;
+        //     right: -12px;
+        //     top: -1px;
+        //   }
           .pull-left, .pull-right {
               font-size: 10px;
               color: #8a959f;
@@ -93,4 +105,4 @@
           }
         }
     }
-  }
+}

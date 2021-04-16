@@ -57,7 +57,7 @@ export class AppHeaderComponent implements OnInit {
   indexSubscription: Subscription;
   subscription: Subscription;
   routeChanged: Subscription;
-  updateHeaderMainMenuSubscription : Subscription;
+  updateHeaderMainMenuSubscription: Subscription;
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
@@ -146,7 +146,7 @@ export class AppHeaderComponent implements OnInit {
       }
     })
     this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
-      if(res){
+      if (res) {
         this.mainMenu = res;
       }
     });
@@ -569,8 +569,15 @@ export class AppHeaderComponent implements OnInit {
       res => {
         this.notificationService.notify('App created successfully', 'success');
         this.closeCreateApp();
-        this.router.navigate(['/apps'], { skipLocationChange: true });
-        this.analyticsClick('apps', true)
+        this.newApp = {
+          name: '',
+          description: ''
+        };
+        this.creatingInProgress = false;
+        this.openApp(res);
+        this.analyticsClick('/summary');
+        // this.router.navigate(['/apps'], { skipLocationChange: true });
+        // this.analyticsClick('apps', true)
       },
       errRes => {
         this.errorToaster(errRes, 'Error in creating app');
