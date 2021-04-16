@@ -2,8 +2,8 @@
     <div class="modal-header">
       <div class="title">Choose Plan</div>
       <div class="d-flex align-items-center justify-content-end">
-        <div class="btn-monthly"  [ngClass]="{'active-btn' : termPlan == 'monthly'}" (click)="termPlan = 'monthly'">Monthly</div>
-        <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'annually' }" (click)="termPlan = 'annually'">Annually</div>
+        <div class="btn-monthly"  [ngClass]="{'active-btn' : termPlan == 'Monthly'}" (click)="typeOfPlan('Monthly')">Monthly</div>
+        <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'Yearly' }" (click)="typeOfPlan('Yearly')">Annually</div>
         <div class="close_icon ml-4">
           <img  (click)="closePopup3()" src="assets/icons/modal-close.svg">
         </div>
@@ -11,16 +11,16 @@
     </div>
     <perfect-scrollbar>
       <div class="modal-body">
-        <div class="mian-title-desc">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div>
+        <!-- <div class="mian-title-desc">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div> -->
         <div class="upgrade-details-prices row col-12 p-0">          
-          <div class="col-4 upgrade-price-card current-plan">
-            <div class="main-content">
+          <div class="col-4 upgrade-price-card"  *ngFor='let plan of filterPlansData' [ngClass]='{"current-plan":currentPlan===plan.name}'>
+            <div class="main-content" *ngIf="plan.type!='free'">
               <div class="inner-content">
                 <img src="assets/icons/pricing/standard.svg" class="standard-img">
                   <div class="title-sec">
-                    <div class="title">Standard</div>
-                    <div class="price d-none">$99 <span>/ month</span></div>
-                    <div class="current-plan-title"><img src="assets/icons/pricing/check-round.svg">Current Plan</div>
+                    <div class="title">{{plan.name}}</div>
+                    <div class="price" [ngClass]='{"d-none":currentPlan===plan.name}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?'month':'year'}}</span></div>
+                    <div class="current-plan-title" *ngIf="currentPlan===plan.name"><img src="assets/icons/pricing/check-round.svg">Current Plan</div>
                   </div>
                   <div class="card-desc">10k Documents </div>
                   <div class="card-desc">50k Queries per month</div>
@@ -29,11 +29,11 @@
                   <div class="card-desc">Community Support</div>
                   <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
               </div>
-              <div class="goto_details">Go to Details</div>
+              <div class="goto_details" (click)="showPlanDetails = plan.name">Go to Details</div>
             </div>
           </div>
 
-          <div class="col-4 upgrade-price-card">
+          <!-- <div class="col-4 upgrade-price-card">
             <div class="main-content">
               <div class="inner-content">
                 <img src="assets/icons/pricing/pro.svg" class="pro-img">
@@ -68,19 +68,21 @@
               </div>
               <div class="goto_details">Go to Details</div>
             </div>            
-          </div>
+          </div> -->
         </div>
 
         <div class="choose-plan-data-table if-standard">
-          <!-- if-free, if-standard, if-pro, if-enterprise   add this classes based on type selected-->
-          <div class="header-table-plan row m-0">
+         <!-- if-free, if-standard, if-pro, if-enterprise   add this classes based on type selected-->
+          <div class="header-table-plan row m-0" *ngFor="let planInfo of filterPlansData">
             <div class="type-title width-24">
               
             </div>
             <div class="type-title width-19">
-              <div class="title">Free</div>            
+              <div class="title">{{planInfo.planAmount}}</div>  
+              <div class="plan-duration">${{planInfo.name}} / month </div>
+              <button class="kr-sg-button-secondary btn_lg" *ngIf="planInfo.name!=='free'">Choose Plan</button>          
             </div>
-            <div class="type-title width-19">
+            <!-- <div class="type-title width-19">
               <div class="title">Standard</div>
               <div class="plan-duration">$99 / month </div>
               <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
@@ -94,7 +96,7 @@
               <div class="title">Enterprise</div>
               <div class="plan-duration">Custom Pricing </div>
               <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
-            </div>
+            </div> -->
           </div>
 
           <div class="body-content-plan">
@@ -146,7 +148,7 @@
               <div class="title width-19">E-mail, Standard SLA</div>
               <div class="title width-19">Dedicated POC, Custom SLA</div>
             </div>
-          </div>
+        </div>
         </div>
       </div>
     </perfect-scrollbar>

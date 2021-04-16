@@ -37,7 +37,7 @@ export class PricingComponent implements OnInit {
     this.userEngagementChart()
     this.getPlan()
   }
-  getPlan(){
+  getPlan() {
     this.service.invoke('get.pricingPlans').subscribe(res => {
       console.log(res)
     }, errRes => {
