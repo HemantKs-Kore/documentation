@@ -165,10 +165,10 @@ export class AppSelectionService {
       title: '',
     };
     this.headerService.toggle(toogleObj);
-    this.headerService.closeSdk();
+    //this.headerService.closeSdk();
     this.headerService.updateSearchConfiguration();
   }
-  currentsubscriptionPlan(app){
+  currentsubscriptionPlan(app) {
     const payload = {
       streamId: app._id
     };

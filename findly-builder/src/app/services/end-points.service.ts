@@ -921,5 +921,13 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription',
       method: 'get'
     }
+    this.serviceList['post.payement'] = {
+      endpoint: this.API_SERVER_URL + '/findly/plans/:planId/checkout',
+      method: 'post'
+    }
+    this.serviceList['get.payementStatus'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/transactions/:transactionId/status',
+      method: 'get'
+    }
   }
 }
