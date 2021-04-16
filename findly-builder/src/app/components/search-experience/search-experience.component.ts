@@ -10,6 +10,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service'
 import { SideBarService } from './../../services/header.service';
 import { Subscription } from 'rxjs';
 import { LocalStoreService } from './../../services/localstore.service';
+import { NgbDropdown, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-search-experience',
   templateUrl: './search-experience.component.html',
@@ -59,7 +60,7 @@ export class SearchExperienceComponent implements OnInit {
   buttonTextColor: boolean = false;
   msgColor: boolean = false;
   searchIcon: any = 'assets/images/search_gray.png';
-  emojiIcon: any = 'assets/icons/search-experience/emoji.png';
+  emojiIcon: any = 'assets/icons/search-experience/emojis/hand.png';
   //search button disabled
   buttonDisabled: boolean = true;
   public color: string = '';
@@ -83,9 +84,33 @@ export class SearchExperienceComponent implements OnInit {
   subscription: Subscription;
   tourData: any = [];
   userName : any = '';
+  emojiList = [
+    {img_src : 'assets/icons/search-experience/emojis/smile.png', value :"smile"},
+    {img_src : 'assets/icons/search-experience/emojis/smile-2.png', value : 'smile-2'},
+    {img_src : 'assets/icons/search-experience/emojis/smile-3.png', value : 'smile-3'},
+    {img_src : 'assets/icons/search-experience/emojis/smile-4.png', value : 'smile-4'},
+    {img_src : 'assets/icons/search-experience/emojis/smile-5.png', value : 'smile-5'},
+    {img_src : 'assets/icons/search-experience/emojis/smile-6.png', value : 'smile-6'},
+    {img_src : 'assets/icons/search-experience/emojis/cat-img.png', value : 'cat'},
+    {img_src : 'assets/icons/search-experience/emojis/love.png', value : 'love'},
+    {img_src : 'assets/icons/search-experience/emojis/hand.png', value : 'hand'},
+    {img_src : 'assets/icons/search-experience/emojis/hand-1.png', value : 'hand-1'},
+    {img_src : 'assets/icons/search-experience/emojis/hand-2.png', value : 'hand-2'},
+    {img_src : 'assets/icons/search-experience/emojis/poke.png', value : 'poke'},
+    {img_src : 'assets/icons/search-experience/emojis/thubsup.png', value : 'thumsup'},
+    {img_src : 'assets/icons/search-experience/emojis/welcome.png', value : 'welcome'},
+    {img_src : 'assets/icons/search-experience/emojis/men-avatar.png', value : 'men-avatar'},
+    {img_src : 'assets/icons/search-experience/emojis/women-avatar.png', value : 'women-avatar'},
+    {img_src : 'assets/icons/search-experience/emojis/old-women.png', value : 'old-women'},
+    {img_src : 'assets/icons/search-experience/emojis/old-men.png', value : 'old-men'},
+    {img_src : 'assets/icons/search-experience/emojis/monkey.png', value : 'monkey'},
+    {img_src : 'assets/icons/search-experience/emojis/monkey-1.png', value : 'monkey-1'},
+    {img_src : 'assets/icons/search-experience/emojis/monkey-2.png', value : 'monkey-2'}
+  ];
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('guideModalPop') guideModalPop: KRModalComponent;
+  @ViewChild(NgbDropdownMenu) avatarDropdown : NgbDropdownMenu;
   constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService, public headerService: SideBarService,
     public localstore: LocalStoreService) {
   }
@@ -121,7 +146,7 @@ export class SearchExperienceComponent implements OnInit {
     xhr.send();
   }
   //upload emoji icon image manually from asset folder
-  emojiIconUpload() {
+  emojiIconUpload(update?) {
     let blob = null;
     let file;
     var xhr = new XMLHttpRequest();
@@ -130,8 +155,8 @@ export class SearchExperienceComponent implements OnInit {
     xhr.onload = () => {
       blob = xhr.response;//xhr.response is now a blob object
       file = new File([blob], 'emoji.png', { type: 'image/png', lastModified: Date.now() });
-      this.searchIcon = file;
-      this.selectIcon(file, 'emoji', 'manual')
+      this.emojiIcon = file;
+      this.selectIcon(file, 'emoji', 'manual', update ? update : null)
     }
     xhr.send();
   }
@@ -203,7 +228,7 @@ export class SearchExperienceComponent implements OnInit {
     }
   }
   //select search Icon
-  selectIcon(event, type, icon) {
+  selectIcon(event, type, icon, update?) {
     const file = icon === 'manual' ? event : event.target.files[0];
     const _ext = file.name.substring(file.name.lastIndexOf('.'));
     const formData = new FormData();
@@ -211,7 +236,7 @@ export class SearchExperienceComponent implements OnInit {
     formData.set('fileContext', 'findly');
     formData.set('Content-Type', file.type);
     formData.set('fileExtension', _ext.replace('.', ''));
-    this.fileupload(formData, type, icon);
+    this.fileupload(formData, type, icon, update ? update : null);
     if (file) {
       const reader = new FileReader();
       reader.onload = e => {
@@ -226,7 +251,7 @@ export class SearchExperienceComponent implements OnInit {
     }
   }
   //fileupload method
-  fileupload(data, type, icon) {
+  fileupload(data, type, icon, update?) {
     const quaryparms: any = {
       userId: this.userInfo.id
     };
@@ -244,12 +269,14 @@ export class SearchExperienceComponent implements OnInit {
             this.searchIconUpload();
           }
         }
-        if (icon === 'manual') {
+        if (icon === 'manual' && !update) {
           if (this.searchObject.searchWidgetConfig.searchBarIcon !== '' && this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
             this.addSearchExperience();
           }
         }
-        this.notificationService.notify('File uploaded successfully', 'success');
+        if(icon == 'auto' || update){
+          this.notificationService.notify('File uploaded successfully', 'success');
+        }
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -386,4 +413,12 @@ export class SearchExperienceComponent implements OnInit {
       this.guideModalPopRef = this.guideModalPopRef.close();
     }
   }
+
+  closeEmojiPicker(){
+    console.log("avatarDropdown", this.avatarDropdown);
+    if(this.avatarDropdown){
+      this.avatarDropdown.dropdown.close();
+    }
+  }
+  
 }
