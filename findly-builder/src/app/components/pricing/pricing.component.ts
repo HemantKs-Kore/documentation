@@ -23,6 +23,8 @@ export class PricingComponent implements OnInit {
   termPlan = "monthly";
   templateShow: boolean = false;
   currentSubscriptionPlan : any;
+  selectedApp;
+  serachIndexId;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -36,9 +38,25 @@ export class PricingComponent implements OnInit {
   @ViewChild('plans') plans: UpgradePlanComponent;
 
   ngOnInit(): void {
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userEngagementChart()
     this.getPlan()
     this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+    if(!this.currentSubscriptionPlan){
+      this.currentsubscriptionPlan(this.selectedApp)
+    }
+  }
+  currentsubscriptionPlan(app){
+    const payload = {
+      streamId: app._id
+    };
+    const appObserver = this.service.invoke('get.currentPlans', payload);
+    appObserver.subscribe(res => {
+      this.currentSubscriptionPlan = res
+    }, errRes => {
+      this.errorToaster(errRes, 'failed to get plans');
+    });
   }
   getPlan(){
     this.service.invoke('get.pricingPlans').subscribe(res => {
@@ -93,7 +111,7 @@ export class PricingComponent implements OnInit {
   }
 
   //open popup1
-  openPopup4() {
+  addOverage() {
     this.addPricing4ModalPopRef = this.addPricingModel4.open();
   }
   //close popup1

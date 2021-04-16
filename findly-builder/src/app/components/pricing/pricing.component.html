@@ -15,7 +15,7 @@
                   <div class="dropdown dropdown-open">
                       <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/pricing/overflow.svg"></button>                                            
                       <ul class="dropdown-menu content-menu">                                                                    
-                        <li (click)="openPopup4()"><a>Add Overage</a></li>
+                        <li (click)="addOverage()"><a>Add Overage</a></li>
                         <li (click)="openPopup3()"><a>Change Plan</a></li>
                         <li (click)="openPopup5()"><a>Cancel Subscription</a></li>
                       </ul>
@@ -28,7 +28,7 @@
                   </div>
                   <div class="plan-time">
                     <div class="started-title">Started On</div>
-                    <div class="started-date">{{ currentSubscriptionPlan.subscription.planName.createdAt | date: 'dd/MMM/yyyy' || '18 April 2021'}}</div>
+                    <div class="started-date">{{ currentSubscriptionPlan.subscription.planName.createdAt | date: 'DD/MON/YYYY' || '18 April 2021'}}</div>
                   </div>
                 </div>
               </div>
