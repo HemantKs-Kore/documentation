@@ -18,7 +18,7 @@ export class PricingComponent implements OnInit {
   addPricing1ModalPopRef: any;
   addPricing2ModalPopRef: any;
   addPricing3ModalPopRef: any;
-  addPricing4ModalPopRef: any;
+  addOverageModalPopRef: any;
   addPricing5ModalPopRef: any;
   termPlan = "Monthly";
   templateShow: boolean = false;
@@ -27,6 +27,10 @@ export class PricingComponent implements OnInit {
   serachIndexId;
   totalPlansData: any;
   filterPlansData: any;
+  addDocOver = false;
+  addQueOver = false;
+  numberDoc = 1;
+  numberQuery = 1;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -35,7 +39,7 @@ export class PricingComponent implements OnInit {
   @ViewChild('addPricingModel1') addPricingModel1: KRModalComponent;
   @ViewChild('addPricingModel2') addPricingModel2: KRModalComponent;
   @ViewChild('addPricingModel3') addPricingModel3: KRModalComponent;
-  @ViewChild('addPricingModel4') addPricingModel4: KRModalComponent;
+  @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
   @ViewChild('addPricingModel5') addPricingModel5: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
 
@@ -120,13 +124,17 @@ export class PricingComponent implements OnInit {
 
   //open popup1
   addOverage() {
-    this.addPricing4ModalPopRef = this.addPricingModel4.open();
+    this.addOverageModalPopRef = this.addOverageModel.open();
   }
   //close popup1
-  closePopup4() {
-    if (this.addPricing4ModalPopRef && this.addPricing4ModalPopRef.close) {
-      this.addPricing4ModalPopRef.close();
+  addOveragePopup() {
+    if (this.addOverageModalPopRef && this.addOverageModalPopRef.close) {
+      this.addOverageModalPopRef.close();
     }
+    this.addDocOver = false;
+    this.addQueOver = false;
+    this.numberQuery = 1;
+    this.numberDoc = 1;
   }
 
   //open popup1
@@ -137,6 +145,27 @@ export class PricingComponent implements OnInit {
   closePopup5() {
     if (this.addPricing5ModalPopRef && this.addPricing5ModalPopRef.close) {
       this.addPricing5ModalPopRef.close();
+    }
+  }
+  addDocument(){
+    this.addDocOver = true
+  }
+  addQuerry(){
+    this.addQueOver = true;
+  }
+  count(type,operation){
+    if(type == 'doc'){
+      if(operation =='plus'){
+        this.numberDoc = this.numberDoc + 1;
+      }else{
+        this.numberDoc = this.numberDoc - 1;
+      }
+    }else{
+      if(operation =='plus'){
+        this.numberQuery = this.numberQuery + 1;
+      }else{
+        this.numberQuery = this.numberQuery - 1;
+      }
     }
   }
   //Grap data
