@@ -876,7 +876,7 @@ input:focus{
 .topdown-search-main-container .search-input-box .search-box-container-data {
   position: relative;
   height: 100%;
-  width: 800px;
+  /* width: 800px; */
   margin: 0 auto;
   top: 0;
 }
@@ -914,7 +914,7 @@ input:focus{
   right: 0;
   top: 93px;
   z-index: 9;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   display: none;
   overflow: scroll;
   max-height: calc(100vh - 305px);
@@ -1749,7 +1749,7 @@ float: right;
   z-index: 9999 !important;
   left: 0;
   right: 0;
-  /* padding-left: 245px; */
+  padding-left: 0px;
 }
 
 .top-down-search-background-div.if-full-results{
@@ -1761,12 +1761,14 @@ float: right;
 .top-down-search-background-div::after{
   position: absolute;
   content: "";
-  /* background: #fff; */
+  background: #fff;
   height: 100%;
-  /* width: 245px; */
+  width: 245px;
   left: 0;
   top: 0;
   opacity: 0.7;
+  display: none;
+
 } 
 .top-down-search-background-div::before{
   content: "";
@@ -1792,7 +1794,7 @@ float: right;
   display: block;
   height: 35px;
   padding-top: 66px;
-  width: 800px;
+  width: 865px;
   margin: 0 auto;
   padding-bottom: 26px;
 }
@@ -2038,7 +2040,8 @@ background:none !important;
   height: 100%;
   }
 .sdk-top-down-interface .search-bar .widget-icon{
-  bottom: 8px;
+  bottom: 7px;
+  left: 12px;
 }
 
 
@@ -2131,7 +2134,7 @@ display: none !important;
 
 .search-greeting-box-top-down .greeting-img {
     position: relative;
-    top: 3px;
+    top: 0px;
     margin-right: 6px;
     
 }
@@ -2156,4 +2159,25 @@ display: none !important;
 
 .topdown-search-main-container .all-result-container .conversation-container .conversations .search-container.conversation #searchChatContainer .sdk-results-customize-icon{
   display: none !important;
+}
+
+
+.show_insights_top_down{
+  position: fixed;
+  top: 99px;
+  right: 32px;
+  display: none;
+  cursor: pointer;
+}
+.show_insights_top_down .query_analytics_top_down{
+  display: flex;
+  align-items: center;
+  color: #9B9B9B;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.show_insights_top_down .query_analytics_top_down img{
+  margin-right: 7px;
 }
