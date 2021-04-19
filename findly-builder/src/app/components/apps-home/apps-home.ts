@@ -54,7 +54,12 @@ export class AppsListingComponent implements OnInit {
     $('.krFindlyAppComponent').removeClass('appSelected');
     //const apps = this.workflowService.findlyApps();
     //this.prepareApps(apps);
-    this.getAllApps();
+    //let accountConf = localStorage.setItem('accountConf',{})
+    if(!localStorage.accountConf){
+      this.getAccountConf()
+    }else{
+      this.getAllApps();
+    }
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
@@ -110,6 +115,15 @@ export class AppsListingComponent implements OnInit {
       else {
         this.emptyApp = true;
       }
+    }, errRes => {
+      console.log(errRes);
+    });
+  }
+  // Get Account Configuration
+  public getAccountConf() {
+    this.service.invoke('app.account-configuratuion').subscribe(res => {
+      localStorage.accountConf = true;
+      this.getAllApps();
     }, errRes => {
       console.log(errRes);
     });

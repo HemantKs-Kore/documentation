@@ -5,7 +5,7 @@ import { environment } from '@kore.environment';
 })
 export class EndPointsService {
 
-  private API_URL_PREFIX = '/searchassist_api';
+  private API_URL_PREFIX = '/searchassistapi';
   private API_VERSION_PREFIX = '/1.1';
   private SERVER_URL: string;
   private API_SERVER_URL: string;
@@ -16,12 +16,12 @@ export class EndPointsService {
   constructor() {
     if (environment.production) {
       this.SERVER_URL = window.location.protocol + '//' + window.location.host;
-      this.API_SERVER_URL = this.SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
-      this.API_SERVER_URL_PLATFORM = this.SERVER_URL + this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
+      this.API_SERVER_URL = this.SERVER_URL + this.API_URL_PREFIX //+ this.API_VERSION_PREFIX;
+      this.API_SERVER_URL_PLATFORM = this.SERVER_URL +  this.API_URL_PREFIX  //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
       window.appConfig.API_SERVER_URL = this.SERVER_URL;
       } else {
       this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX;
-      this.API_SERVER_URL_PLATFORM = environment.API_SERVER_URL + this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
+      this.API_SERVER_URL_PLATFORM = environment.API_SERVER_URL +  this.API_URL_PREFIX //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
       //this.API_SERVER_URL = "http://b10c83bc1944.ngrok.io" + "/api/1.1"
       }
     this.init();
@@ -40,13 +40,19 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/AppControlList',
       method: 'get'
     };
-
+    /** Get Account Configuration API */
+    this.serviceList['app.account-configuratuion'] = {
+      endpoint: this.API_SERVER_URL_PLATFORM + '/findly/users/:userId/accountConfigs',
+      method: 'get'
+    };
+    /** Get Account Configuration API */
     this.serviceList['get.findly.apps'] = {
       endpoint: this.API_SERVER_URL + '/findlyai/apps',
       method: 'get'
     };
     this.serviceList['create.app'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams',
+      //endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams',
+      endpoint: this.API_SERVER_URL + '/findly/apps',
       method: 'post'
     };
     this.serviceList['get.appData'] = {
@@ -656,7 +662,8 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['configure.credential'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/channels/rtm',
+      //endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/channels/rtm',
+      endpoint: this.API_SERVER_URL + '/findly/apps/:streamId/channels/rtm',
       method: 'post'
     }
     this.serviceList['get.dialog'] = {

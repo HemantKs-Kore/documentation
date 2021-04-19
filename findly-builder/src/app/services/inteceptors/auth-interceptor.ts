@@ -52,6 +52,9 @@ export class AuthInterceptor implements HttpInterceptor {
       }, error => {
         if(error.status===401){
           // window.alert('Session Expired');
+          if(localStorage && localStorage.accountConf){
+            window['localStorage'].removeItem('accountConf');
+          }
          this.redirectToLogin();
         }
       })

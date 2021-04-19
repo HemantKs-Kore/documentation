@@ -42,6 +42,7 @@ export class LocalStoreService {
   public removeAuthInfo() {
     try {
       window[this.storageType].setItem('jStorage', '{}');
+      window[this.storageType].removeItem('accountConf');
       return true;
     } catch (error) {
       return false;
