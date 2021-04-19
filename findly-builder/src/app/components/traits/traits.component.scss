@@ -392,6 +392,15 @@
                     cursor: pointer;
                 }
             }
+            .add-traits-input{
+                margin-bottom: 0px;
+                .close-icon{
+                    position: absolute;
+                    right: 11px;
+                    top: 18px;
+                    cursor: pointer;
+                }
+            }
         }
     }
 }

@@ -117,20 +117,24 @@
 
             <ng-container *ngIf="traits.addEditTraits && traits.addEditTraits.traitsArray && traits.addEditTraits.traitsArray.length">
                 <div class="content-body-traits row col-12" *ngFor="let item of traits.addEditTraits.traitsArray;let index = index;">
-                    <div class="col-4 group-name" title="{{item.key}}"> {{item.key}}</div>
-                    <div class="col-6 m-0 align-items-center">
+                    <div class="col-4 group-name" title="{{item.key}}" *ngIf="showEditTraitInput !== index"> {{item.key}}</div>
+                    <div class="col-6 m-0 align-items-center" *ngIf="showEditTraitInput !== index">
                         <div class="utterances-count" *ngIf="item.data.length">{{item.data.length}} Utterances</div>
                         <div class="add-utt-title" *ngIf="!item.data.length" (click)="openAddUtteranceModel(index,item.key,item.data)">
                             <img src="assets/icons/add_blue.svg">Add utterances
                         </div> 
                     </div>
-                    <div class="col-2 action-btns pr-1">
+                    <div class="col-2 action-btns pr-1" *ngIf="showEditTraitInput !== index">
                         <ng-container *ngIf="item.data.length">
                             <img src="assets/icons/add_blue.svg" (click)="openAddUtteranceModel(index,item.key,item.data)" placement="top-center" container='body' ngbTooltip="Add Utterance" tooltipClass="ngb_tooltip_custom_class sampleJson">                      
-                            <img src="assets/icons/edit-pencil.svg" id="btn_edit_traits" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            <img src="assets/icons/edit-pencil.svg" id="btn_edit_traits" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson" (click)="showEditTraitInput = index">
                             <img src="assets/icons/delete-table.svg" (click)="deleteTraitInGroup(item.key,traits.addEditTraits,$event,index)" id="btn_delete_traits" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
                         </ng-container>
                     </div> 
+                    <div class="kr-sg-input-text add-traits-input mb-0" *ngIf="showEditTraitInput == index">              
+                        <input autocomplete="off" type="text" placeholder="Type and Enter to Add Traits" class="input-text shadow-none" maxlength="120" #traitValue [(ngModel)]="item.key"(keyup.enter)="editTraits(item.key,$event)">
+                        <img class="close-icon" *ngIf="item.key" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':item.key}" (click)="item.key='';">
+                    </div>
                 </div>                    
             </ng-container>
         </div>

@@ -25,6 +25,7 @@ export class TraitsComponent implements OnInit {
   utteranceList = [];
   showUtteranceInput = false;
   showEditUtteranceInput:any;
+  showEditTraitInput:any;
   traitsObj: any = [];
   traitType: string;
   traitsTableData: any = [];
@@ -795,6 +796,12 @@ var width = ctx.measureText(t.traitName +', ').width;
     if(event && event.keyCode === 13 && utter !== ''){
       this.showEditUtteranceInput = null;
       this.showUtteranceInput = false;
+    }
+  }
+
+  editTraits(trait,event){
+    if(event && event.keyCode === 13 && trait !== ''){
+      this.showEditTraitInput = null;
     }
   }
 }
