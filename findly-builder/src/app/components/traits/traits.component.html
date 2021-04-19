@@ -16,8 +16,7 @@
                     <div class="kr-sg-dropdowns" #selectSourceDrop='ngbDropdown' ngbDropdown [container]="'body'">                                         
                         <div class="dropdown dropdown-open">
                             <button class='kr-sg-button-primary btn_lg px-3' (click)='createNewTraits()'>Add Traits</button>
-                        
-                    </div>                                    
+                        </div>                                    
                     </div>
                 </ng-container>
                 <ng-container *ngIf="noItems && emptySearchResults">
@@ -26,21 +25,8 @@
                 </div>
             </perfect-scrollbar>
         </ng-container>
-
-
-   
-
-
     <!-- TABLE CONTENT -->
     <div class="traits" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
-        <div class="kr-sg-multi-line-notification d-none">
-            <div class="bulb-icon"><img src="assets/images/24x29-bulbicon.png"></div>
-            <div class="tost-text">Please click on 'Train' button to update your traits model with the latest
-                changes.
-                Your bot will identify the traits using latest changes only after the training is completed.</div>
-            <button class="kr-sg-button-primary ml-2" (click)="trainBot()">Train Traits</button>
-        </div> 
-        
         
         <div class="table-list-content" *ngIf="traits.traitGroups &&  traits.traitGroups.length">                         
             <div class="seach_add_feild">
@@ -65,23 +51,7 @@
                         <div class="col-8 traits-groups row m-0 align-items-center pr-0">
                             <span *ngFor="let trait of traitGroup.traits| slice:0:getTraitsSliceValue(traitGroup.traits); let i=index;" class="trait-more">
                                 {{i!==0 ?', ':''}}{{trait.traitName || '---'}}
-                            </span>   
-                            
-                                      <!-- <span class="trait-count-container" *ngIf="traitGroup.traits.length>5" >
-                                <span class="trait-count ml-3">+{{traitGroup.traits.length-5}}</span>
-                                <div class="execute-log">
-                                    <div class="header-title">
-                                        <div class="close-log"><img src="assets/images/close.svg" (click)="traitsCount = false"></div>
-                                    </div>
-                                    <ng-container *ngFor="let trait of traitGroup.traits| slice:5:(traitGroup.traits.length);">
-                                      <div class="log-details">
-                                        {{trait.traitName || '---'}}
-                                      </div>
-                                    </ng-container>
-                                </div>
-
-
-                            </span>   -->
+                            </span>                                                                    
 
                             <div class="kr-sg-dropdowns traits-more-data-container" ngbDropdown [placement]="'right-top'" *ngIf="traitGroup.traits.length>getTraitsSliceValue(traitGroup.traits)">
                                 <div class="dropdown dropdown-open">
@@ -112,116 +82,83 @@
                 </div>
             </perfect-scrollbar>
         </div>
+
     </div>
     <!-- CREATE NEW TRAIT MODAL-->
     </ng-container>
 </div>
 
 
-
-<kr-modal modalType="center" modalClass="addTraitModalComponent" #statusModalPop>
+<kr-modal modalType="center" #statusModalPop modalClass="modal_popups_ add-Trait-Modal-Component">
     <div class="modal-header">
-        <div class="header-title" (click)='closeStatusModal()'><img src="assets/images/closeCross.png"
-                class="closeCross">
-            {{(traits.addEditTraits._id)?'Edit Trait Group':'New Trait Group'}}
-        </div>
+        <div class="title">{{(traits.addEditTraits._id)?'Edit Trait Group':'New Trait Group'}}</div>
+        <div class="close_icon" (click)='closeStatusModal()'><img src="assets/icons/modal-close.svg"></div>
     </div>
-    <perfect-scrollbar class="traits-modal-scroller">
-        <div class="modal-body traits-modal-popup">
-
-            <div class="kr-sg-input-text">
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+        <div class="modal-body">
+            <div class="kr-sg-input-text trait-group-name">
                 <div class="label-text">Trait Group Name</div>
                 <input type="text" autocomplete="off" placeholder="Enter Trait Group" class="input-text" maxlength="120" [(ngModel)]="traits.addEditTraits.groupName">
-                <p class="text">Eg: Vehicle type , Class
-                </p>
+                <div class="eg-text">Eg: Vehicle type , Class</div>
             </div>
-            <div class="kr-sg-input-text">
-                <!-- <div class="label-text">Traits</div> -->
-                <!-- <p class="text">Add one or more traits and provide the required training sentences. E.g. 'car',
-                    'bus', 'modem', 'router'.
-                </p> -->
-                <input autocomplete="off" type="text" placeholder="Type and Enter to Add Traits" class="input-text" maxlength="120" #traitValue [(ngModel)]="add.traitName"
-                    (keyup.enter)="addTraits(add.traitName,$event)">
+
+            <div class="kr-sg-input-text add-traits-input">              
+                <input autocomplete="off" type="text" placeholder="Type and Enter to Add Traits" class="input-text" maxlength="120" #traitValue [(ngModel)]="add.traitName"(keyup.enter)="addTraits(add.traitName,$event)">
             </div>
-            <div class="" *ngIf="traits.addEditTraits && traits.addEditTraits.traitsArray && traits.addEditTraits.traitsArray.length">
-                <ng-container >
-                    <div class="content-body row col-12 m-0" *ngFor="let item of traits.addEditTraits.traitsArray;let index = index;">
-                        <div class="col-2" title=" {{item.key}}"> {{item.key}}</div>
-                        <div class="col-8 row m-0 align-items-center pr-0">
-                            <span *ngIf="item.data.length"> {{item.data.length}} Utterances</span>
-                            <div class=" text-primary" *ngIf="!item.data.length" (click)="openAddUtteranceModel(index,item.key)"><span style="font-size: 20px;">+</span> Add utterances</div> 
-                        </div>
-                        <div class="col-2 ">
-                            <span (click)="openAddUtteranceModel(index,item.key)"  class="mr-4" style="font-size: 18px;"  placement="top-center" container='body' ngbTooltip="Add Utterance" tooltipClass="ngb_tooltip_custom_class sampleJson">+</span> 
-                            <img src="assets/icons/edit-pencil.svg" class="mr-4"  id="btn_edit_traits" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                            <img src="assets/icons/delete-table.svg"(click)="deleteTraitInGroup(item.key,traits.addEditTraits,$event,index)"  id="btn_delete_traits" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+
+            <ng-container *ngIf="traits.addEditTraits && traits.addEditTraits.traitsArray && traits.addEditTraits.traitsArray.length">
+                <div class="content-body-traits row col-12" *ngFor="let item of traits.addEditTraits.traitsArray;let index = index;">
+                    <div class="col-4 group-name" title="{{item.key}}"> {{item.key}}</div>
+                    <div class="col-6 m-0 align-items-center">
+                        <div class="utterances-count" *ngIf="item.data.length">{{item.data.length}} Utterances</div>
+                        <div class="add-utt-title" *ngIf="!item.data.length" (click)="openAddUtteranceModel(index,item.key)">
+                            <img src="assets/icons/add_blue.svg">Add utterances
                         </div> 
                     </div>
-                    <!-- <div class="traits-header" (click)="accordianAction(index)">
-                        <span class="icon">
-                            <img [ngClass]="{'expanded': (currentTraitEditIndex === index)}" src="assets/images/arrow.svg" class="ml-1">
-                        </span>
-                        <div class="title">
-                            {{item.key}}
-                            <span class="edit-icon">
-                                <img src="assets/images/icons/edit-black.svg" class="ml-1"  placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                            </span>
-                            <span class="delete-icon" (click)="deleteTraitInGroup(item.key,traits.addEditTraits,$event,index)">
-                                <img src="assets/images/trashIcon.svg" class="ml-1 "  placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                            </span>
-                        </div>
-                    </div>
-                    <div class="add-utterances" *ngIf="currentTraitEditIndex === index">
-                        <div class="sub-title">
-                            Add utterances or phrases
-                        </div>
-                        <div class="kr-sg-input-text">
-                            <input  maxlength="2048" type="text" autocomplete="off" placeholder="Add Utterance" class="input-text"
-                            (keyup)='addUtterance(item.utterance,item.key,$event,traits.addEditTraits,index)' [(ngModel)]='item.utterance'
-                            name='traitName'>
-                        </div>
-                        <div class="utterance-list" *ngIf="item.data && item.data.length">
-                            <ng-container *ngFor="let utterance of item.data; let uIndex = index;">
-                                <div class="item">
-                                    {{utterance}}
-                                    <span class="delete-icon" (click)="$event.stopPropagation();deleteUtteranceIntrait(utterance,item.key,traits.addEditTraits,index)">
-                                        <img src="assets/images/trashIcon.svg" class="ml-1 " placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                                    </span>
-                                </div>
-                            </ng-container>
-                        </div>
-                    </div> -->
-                </ng-container>
-            </div>
+                    <div class="col-2 action-btns pr-1">
+                        <img src="assets/icons/add_blue.svg" (click)="openAddUtteranceModel(index,item.key)" placement="top-center" container='body' ngbTooltip="Add Utterance" tooltipClass="ngb_tooltip_custom_class sampleJson">                      
+                        <img src="assets/icons/edit-pencil.svg" id="btn_edit_traits" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                        <img src="assets/icons/delete-table.svg" (click)="deleteTraitInGroup(item.key,traits.addEditTraits,$event,index)" id="btn_delete_traits" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                    </div> 
+                </div>                    
+            </ng-container>
         </div>
     </perfect-scrollbar>
-
     <div class="modal-footer">
         <button class="kr-sg-button-primary btn_lg" [disabled]="!traits.addEditTraits.groupName" (click)="saveTraits(traits.addEditTraits)">Save</button>
         <button class="kr-sg-button-secondary btn_lg"  (click)="closeStatusModal()">Cancel</button>
     </div>
-</kr-modal>
+</kr-modal> 
 
-<kr-modal modalType="center" modalClass="addTraitModalComponent" #addUtteranceModalPop>
+<kr-modal modalType="center" #addUtteranceModalPop modalClass="modal_popups_ add-utterances-modal">
     <div class="modal-header">
-        <div class="header-title" (click)='closeUtteranceModal()'><img src="assets/images/closeCross.png"
-                class="closeCross">
-            Utterance
-        </div>
+        <div class="title">Berth Type <img src="assets/icons/carrotright.svg"> Lower <img src="assets/icons/carrotright.svg"> Utterance</div>
+        <div class="close_icon" (click)='closeUtteranceModal()'><img src="assets/icons/modal-close.svg"></div>
     </div>
-    <perfect-scrollbar class="traits-modal-scroller">
-        <div class="modal-body traits-modal-popup">
-
-            <div class="kr-sg-input-text">
-                <input  maxlength="2048" type="text" autocomplete="off" placeholder="Add Utterance" class="input-text"
-                            (keyup)='addUtterance(newUtterance,currentTraitKey,$event,traits.addEditTraits,currentUtteranceIndex)' [(ngModel)]='newUtterance'
-                            name='traitName'>
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+        <div class="modal-body">
+            <div class="kr-sg-input-text add-traits-input">
+                <input  maxlength="2048" type="text" autocomplete="off" placeholder="Type and Enter to Add Utterances" class="input-text" (keyup)='addUtterance(newUtterance,currentTraitKey,$event,traits.addEditTraits,currentUtteranceIndex)' [(ngModel)]='newUtterance' name='traitName'>
             </div>
+
+            <ng-container>
+                <div class="content-body-traits row col-12">
+                    <div class="col-10 group-name">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>                   
+                    <div class="col-2 action-btns pr-1">                        
+                        <img src="assets/icons/edit-pencil.svg" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                        <img src="assets/icons/delete-table.svg" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                    </div> 
+                </div> 
+                <div class="add-utt-title">
+                    <img src="assets/icons/add_blue.svg">Add utterances
+                </div>                  
+            </ng-container>
         </div>
     </perfect-scrollbar>
-
     <div class="modal-footer">
         <button class="kr-sg-button-primary btn_lg" [disabled]="!newUtterance" (click)="addNewUtterance(newUtterance)">Add</button>
         <button class="kr-sg-button-secondary btn_lg"  (click)="closeUtteranceModal()">Cancel</button>
     </div>
-</kr-modal>
+</kr-modal> 
+
+
