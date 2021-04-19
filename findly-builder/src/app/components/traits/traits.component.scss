@@ -112,8 +112,8 @@
             .kr-sg-input-search{
                 display: inline-block;
                 width: 0px;
-                display: none;  
-                width: 300px;
+                // display: none;  
+                width: 215px;
                 height: 20px;
                 position: relative;
                 bottom: 6px;
@@ -121,6 +121,12 @@
                 &.active{
                     display: block;
                     width: 300px;
+                }
+                 .close-icon{
+                    position: absolute;
+                    right: 11px;
+                    top: 12px;
+                    cursor: pointer;
                 }
             } 
             .seach-block{
@@ -416,6 +422,12 @@
                     color: #BDC1C6 !important;
                 }
             }
+            .close-icon{
+                position: absolute;
+                right: 11px;
+                top: 12px;
+                cursor: pointer;
+            }
         }  
         
         .content-body-traits{
@@ -443,6 +455,15 @@
                 text-align: right;
                 img{
                     margin: 0 12px;
+                    cursor: pointer;
+                }
+            }
+            .add-traits-input{
+                margin-bottom: 0px;
+                .close-icon{
+                    position: absolute;
+                    right: 11px;
+                    top: 18px;
                     cursor: pointer;
                 }
             }
