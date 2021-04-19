@@ -93,16 +93,146 @@ export class SearchExperienceComponent implements OnInit {
     {img_src : 'assets/icons/search-experience/emojis/smile-6.png', value : 'smile-6'},
     {img_src : 'assets/icons/search-experience/emojis/cat-img.png', value : 'cat'},
     {img_src : 'assets/icons/search-experience/emojis/love.png', value : 'love'},
-    {img_src : 'assets/icons/search-experience/emojis/hand.png', value : 'hand'},
-    {img_src : 'assets/icons/search-experience/emojis/hand-1.png', value : 'hand-1'},
-    {img_src : 'assets/icons/search-experience/emojis/hand-2.png', value : 'hand-2'},
-    {img_src : 'assets/icons/search-experience/emojis/poke.png', value : 'poke'},
-    {img_src : 'assets/icons/search-experience/emojis/thubsup.png', value : 'thumsup'},
-    {img_src : 'assets/icons/search-experience/emojis/welcome.png', value : 'welcome'},
-    {img_src : 'assets/icons/search-experience/emojis/men-avatar.png', value : 'men-avatar'},
-    {img_src : 'assets/icons/search-experience/emojis/women-avatar.png', value : 'women-avatar'},
-    {img_src : 'assets/icons/search-experience/emojis/old-women.png', value : 'old-women'},
-    {img_src : 'assets/icons/search-experience/emojis/old-men.png', value : 'old-men'},
+    {
+      img_src : 'assets/icons/search-experience/emojis/hand.png',
+      selected : 'assets/icons/search-experience/emojis/hand.png', 
+      value : 'hand', 
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/hand.png',
+        'assets/icons/search-experience/emojis/hand-varient-2.png',
+        'assets/icons/search-experience/emojis/hand-varient-3.png',
+        'assets/icons/search-experience/emojis/hand-varient-4.png',
+        'assets/icons/search-experience/emojis/hand-varient-5.png',
+        'assets/icons/search-experience/emojis/hand-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/hand-1.png', 
+      selected : 'assets/icons/search-experience/emojis/hand-1.png', 
+      value : 'hand-1',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/hand-1.png',
+        'assets/icons/search-experience/emojis/hand-1-varient-2.png',
+        'assets/icons/search-experience/emojis/hand-1-varient-3.png',
+        'assets/icons/search-experience/emojis/hand-1-varient-4.png',
+        'assets/icons/search-experience/emojis/hand-1-varient-5.png',
+        'assets/icons/search-experience/emojis/hand-1-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/hand-2.png',
+      selected : 'assets/icons/search-experience/emojis/hand-2.png', 
+      value : 'hand-2',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/hand-2.png',
+        'assets/icons/search-experience/emojis/hand-2-varient-2.png',
+        'assets/icons/search-experience/emojis/hand-2-varient-3.png',
+        'assets/icons/search-experience/emojis/hand-2-varient-4.png',
+        'assets/icons/search-experience/emojis/hand-2-varient-5.png',
+        'assets/icons/search-experience/emojis/hand-2-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/poke.png',
+      selected : 'assets/icons/search-experience/emojis/poke.png', 
+      value : 'poke',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/poke.png',
+        'assets/icons/search-experience/emojis/poke-varient-2.png',
+        'assets/icons/search-experience/emojis/poke-varient-3.png',
+        'assets/icons/search-experience/emojis/poke-varient-4.png',
+        'assets/icons/search-experience/emojis/poke-varient-5.png',
+        'assets/icons/search-experience/emojis/poke-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/thubsup.png',
+      selected : 'assets/icons/search-experience/emojis/thubsup.png', 
+      value : 'thumsup',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/thubsup.png',
+        'assets/icons/search-experience/emojis/thubsup-varient-2.png',
+        'assets/icons/search-experience/emojis/thubsup-varient-3.png',
+        'assets/icons/search-experience/emojis/thubsup-varient-3.png',
+        'assets/icons/search-experience/emojis/thubsup-varient-4.png',
+        'assets/icons/search-experience/emojis/thubsup-varient-5.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/welcome.png',
+      selected : 'assets/icons/search-experience/emojis/welcome.png', 
+      value : 'welcome',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/welcome.png',
+        'assets/icons/search-experience/emojis/welcome-varient-2.png',
+        'assets/icons/search-experience/emojis/welcome-varient-3.png',
+        'assets/icons/search-experience/emojis/welcome-varient-4.png',
+        'assets/icons/search-experience/emojis/welcome-varient-5.png',
+        'assets/icons/search-experience/emojis/welcome-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/men-avatar.png',
+      selected : 'assets/icons/search-experience/emojis/men-avatar.png',
+      value : 'men-avatar',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/men-avatar.png',
+        'assets/icons/search-experience/emojis/men-avatar-varient-2.png',
+        'assets/icons/search-experience/emojis/men-avatar-varient-3.png',
+        'assets/icons/search-experience/emojis/men-avatar-varient-4.png',
+        'assets/icons/search-experience/emojis/men-avatar-varient-5.png',
+        'assets/icons/search-experience/emojis/men-avatar-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/women-avatar.png',
+      selected : 'assets/icons/search-experience/emojis/women-avatar.png', 
+      value : 'women-avatar',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/women-avatar.png',
+        'assets/icons/search-experience/emojis/women-avatar-varient-2.png',
+        'assets/icons/search-experience/emojis/women-avatar-varient-3.png',
+        'assets/icons/search-experience/emojis/women-avatar-varient-4.png',
+        'assets/icons/search-experience/emojis/women-avatar-varient-5.png',
+        'assets/icons/search-experience/emojis/women-avatar-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/old-women.png',
+      selected : 'assets/icons/search-experience/emojis/old-women.png',
+      value : 'old-women',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/old-women.png',
+        'assets/icons/search-experience/emojis/old-women-varient-2.png',
+        'assets/icons/search-experience/emojis/old-women-varient-3.png',
+        'assets/icons/search-experience/emojis/old-women-varient-4.png',
+        'assets/icons/search-experience/emojis/old-women-varient-5.png',
+        'assets/icons/search-experience/emojis/old-women-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/old-men.png',
+      selected : 'assets/icons/search-experience/emojis/old-men.png',
+      value : 'old-men',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/old-men.png',
+        'assets/icons/search-experience/emojis/old-men-varient-2.png',
+        'assets/icons/search-experience/emojis/old-men-varient-3.png',
+        'assets/icons/search-experience/emojis/old-men-varient-4.png',
+        'assets/icons/search-experience/emojis/old-men-varient-5.png',
+        'assets/icons/search-experience/emojis/old-men-varient-6.png',
+      ]
+    },
     {img_src : 'assets/icons/search-experience/emojis/monkey.png', value : 'monkey'},
     {img_src : 'assets/icons/search-experience/emojis/monkey-1.png', value : 'monkey-1'},
     {img_src : 'assets/icons/search-experience/emojis/monkey-2.png', value : 'monkey-2'}

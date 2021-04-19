@@ -363,25 +363,13 @@
                                                    <div class="close-btn" (click)="closeEmojiPicker()">
                                                        <img src="assets/icons/search-experience/emojis/close.svg">
                                                    </div>
-                                                    <li class="emoji-type" *ngFor="let emoji of emojiList" (click)="emojiIcon = emoji.img_src; emojiIconUpload('update')">
-                                                        <img [src]="emoji.img_src" [alt]="emoji.value">
-                                                        <div class="nestead-emojies d-none">
-                                                            <div class="img-block">
-                                                                <img [src]="emoji.img_src" [alt]="emoji.value">
-                                                            </div> 
-                                                            <div class="img-block">
-                                                                <img [src]="emoji.img_src" [alt]="emoji.value">
-                                                            </div> 
-                                                            <div class="img-block">
-                                                                <img [src]="emoji.img_src" [alt]="emoji.value">
-                                                            </div>                                                           
-                                                            <div class="img-block">
-                                                                <img [src]="emoji.img_src" [alt]="emoji.value">
-                                                            </div> 
-                                                            <div class="img-block">
-                                                                <img [src]="emoji.img_src" [alt]="emoji.value">
-                                                            </div> 
-
+                                                    <li class="emoji-type" *ngFor="let emoji of emojiList">
+                                                        <img [src]="emoji.img_src" *ngIf="!emoji.multiple" [alt]="emoji.value" (click)="emojiIcon = emoji.img_src; emojiIconUpload('update')">
+                                                        <img [src]="emoji.selected" *ngIf="emoji.multiple" [alt]="emoji.value" (click)="emojiIcon = emoji.selected; emojiIconUpload('update')">
+                                                        <div class="nestead-emojies" *ngIf="emoji.multiple">
+                                                            <div class="img-block" *ngFor="let emoji_varient of emoji.emoji_set">
+                                                                <img [src]="emoji_varient" [alt]="emoji.value" (click)="emojiIcon = emoji_varient; emoji.selected = emoji_varient;emojiIconUpload('update')">
+                                                            </div>
                                                         </div>
                                                     </li>
                                                </div>
