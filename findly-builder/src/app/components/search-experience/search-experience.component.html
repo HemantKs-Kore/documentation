@@ -365,6 +365,24 @@
                                                    </div>
                                                     <li class="emoji-type" *ngFor="let emoji of emojiList" (click)="emojiIcon = emoji.img_src; emojiIconUpload('update')">
                                                         <img [src]="emoji.img_src" [alt]="emoji.value">
+                                                        <div class="nestead-emojies d-none">
+                                                            <div class="img-block">
+                                                                <img [src]="emoji.img_src" [alt]="emoji.value">
+                                                            </div> 
+                                                            <div class="img-block">
+                                                                <img [src]="emoji.img_src" [alt]="emoji.value">
+                                                            </div> 
+                                                            <div class="img-block">
+                                                                <img [src]="emoji.img_src" [alt]="emoji.value">
+                                                            </div>                                                           
+                                                            <div class="img-block">
+                                                                <img [src]="emoji.img_src" [alt]="emoji.value">
+                                                            </div> 
+                                                            <div class="img-block">
+                                                                <img [src]="emoji.img_src" [alt]="emoji.value">
+                                                            </div> 
+
+                                                        </div>
                                                     </li>
                                                </div>
                                             </ul>
