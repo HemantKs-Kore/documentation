@@ -217,7 +217,7 @@
   <div class="modal-header">
     <div class="title">Overage Plan</div>
     <div class="close_icon">
-      <img  (click)="addOveragePopup()" src="assets/icons/modal-close.svg">
+      <img  (click)="closeOveragePopup()" src="assets/icons/modal-close.svg">
     </div>     
   </div>
   <perfect-scrollbar>
@@ -268,8 +268,8 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg mr-3" [disabled] = "!addDocOver && !addQueOver" (click)="openPopup1()">Proceed</button>
-    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="addOveragePopup()">Cancel</button>
+    <button class="kr-sg-button-primary btn_lg mr-3" [disabled] = "!addDocOver && !addQueOver" (click)="compare('orderOverage')">Proceed</button>
+    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancelOveragePopup()">Cancel</button>
   </div>
 </kr-modal>
 

@@ -81,12 +81,20 @@ export class PricingComponent implements OnInit {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-  compare(type, data) {
+  compare(type, data?) {
     if (type == 'choosePlans') {
       this.plans.openChoosePlanPopup(data);
     }
     else if (type == 'order') {
       this.plans.openOrderConfPopup(data);
+    }else if(type =='orderOverage'){
+      for (let data of this.totalPlansData) {
+        if(this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription && this.currentSubscriptionPlan.subscription.planName){
+          if (data.name == this.currentSubscriptionPlan.subscription.planName) {
+            this.plans.openOrderConfPopup(data);
+          }
+        }
+      }
     }
   }
   //open popup1
@@ -127,16 +135,18 @@ export class PricingComponent implements OnInit {
     this.addOverageModalPopRef = this.addOverageModel.open();
   }
   //close popup1
-  addOveragePopup() {
+  closeOveragePopup() {
     if (this.addOverageModalPopRef && this.addOverageModalPopRef.close) {
       this.addOverageModalPopRef.close();
     }
+   this.cancelOveragePopup();
+  }
+  cancelOveragePopup(){
     this.addDocOver = false;
     this.addQueOver = false;
     this.numberQuery = 1;
     this.numberDoc = 1;
   }
-
   //open popup1
   openPopup5() {
     this.addPricing5ModalPopRef = this.addPricingModel5.open();
@@ -158,13 +168,13 @@ export class PricingComponent implements OnInit {
       if(operation =='plus'){
         this.numberDoc = this.numberDoc + 1;
       }else{
-        this.numberDoc = this.numberDoc - 1;
+        this.numberDoc > 1 ? this.numberDoc = this.numberDoc - 1 : this.numberDoc = 1;
       }
     }else{
       if(operation =='plus'){
         this.numberQuery = this.numberQuery + 1;
       }else{
-        this.numberQuery = this.numberQuery - 1;
+        this.numberQuery > 1 ?  this.numberQuery = this.numberQuery - 1: this.numberQuery = 1;
       }
     }
   }
