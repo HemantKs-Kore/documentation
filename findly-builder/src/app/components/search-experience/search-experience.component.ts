@@ -196,14 +196,14 @@ export class SearchExperienceComponent implements OnInit {
     this.suggestions = [];
     let queryValue = data === undefined ? type == 'bottom-up' ? 3 : 5 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
     let recentValue = data === undefined ? type == 'bottom-up' ? 5 : 10 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
-    if (type == 'bottom-up') {
-      this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 3, 1, queryValue, 'suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 5, 1, recentValue, 'live') });
+    if (type == 'bottom') {
+      this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 3, 1, queryValue, 'suggestion', 'bottom-up-suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 5, 1, recentValue, 'live', 'bottom-up-live') });
       this.searchObject.searchInteractionsConfig.querySuggestionsLimit = data === undefined ? 3 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
       this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = data === undefined ? 5 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
 
     }
     else {
-      this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 5, 1, queryValue, 'suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 10, 1, recentValue, 'live') });
+      this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 5, 1, queryValue, 'suggestion', 'top-down-suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 10, 1, recentValue, 'live', 'top-down-live') });
       this.searchObject.searchInteractionsConfig.querySuggestionsLimit = data === undefined ? 5 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
       this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = data === undefined ? 10 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
     }
@@ -352,7 +352,7 @@ export class SearchExperienceComponent implements OnInit {
       if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
         this.emojiIcon = this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
       }
-      this.changeSlider(this.searchObject.searchInteractionsConfig.showSearches, this.searchObject.searchInteractionsConfig);
+      this.changeSlider(this.searchObject.searchExperienceConfig.searchBarPosition, this.searchObject.searchInteractionsConfig);
     }, errRes => {
       console.log(errRes);
     });
