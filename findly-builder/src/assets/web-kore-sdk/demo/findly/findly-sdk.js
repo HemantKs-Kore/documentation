@@ -1061,11 +1061,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div id="textFromServer"></div> \
               </div> \
             {{/if}}\
-            {{if showButton}}\
             {{if searchConfig.searchButtonEnabled}}\
-              <button class="search-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}"{{/if}} disabled>${searchConfig.buttonText}</button>\
+            {{if searchConfig.buttonPlacementPosition== "inside"}}\
+            <button class="submit-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}; height: 28px; position: absolute; right: 70px;margin: 0;top: -31px;padding: 0px 15px;line-height: 20px;font-size: 14px;letter-spacing: 0px;"{{/if}} disabled>${searchConfig.buttonText}</button>\
+           {{else}}\
+            <button class="submit-button submit-button-outside" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}; height: 34px; position: absolute; right: -18px;margin:0px;padding: 0px 15px;line-height: 20px;font-size: 14px;letter-spacing: 0px;"{{/if}} disabled>${searchConfig.buttonText}</button>\
             {{/if}}\
             {{/if}}\
+          </div>\
+          <div class="show_insights_top_down" data-displayInsights="true">\
+            <span class="query_analytics_top_down"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD4SURBVHgBlVDbTcNAEJzZjQSfoQOX4A6gA8QvEtgkgMwX7iDQQfgz4nVUEKUCTAd0QNIBfxFSfMsdERGgRIpXOq1uZ0Y7s8SGlednqakMuBosu7E7N/xYkkVH9M0BV5Gt8/kC7xMQtTd7FchlJDt39yaHQf1bYDp7Imz8/Hi7Q/KGlPSHHHEe9wsX1ux6w7WETsHU3VdXa6KACxtF4hWlRN8PVYm2lZ8We/H9nx/1zss/oWMeFU3DMPnOA0zUo3aumsR/1ivemfUvRmxmJ9bZGjRzjlWRmWG6uAASUTgD9zsmw7k1dbBt4UrbXRjTtR7NlpigZbUWfAEi/12gzLS2XQAAAABJRU5ErkJggg==">Query Analytics</span>\
           </div>\
         </script>';
 
@@ -1996,7 +2001,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       {{/if}}\
         {{if recents && recents.length}}\
         <div class="recentContainer">\
-          <div class="search-heads">RECENT SEARCHES</div>\
+          {{if showSearches == "recent"}}\
+            <div class="search-heads">RECENT SEARCHES</div>\
+          {{/if}}\
+          {{if showSearches == "frequent"}}\
+            <div class="search-heads">FREQUENT SEARCHES</div>\
+          {{/if}}\
             <div class="search-recent-column" >\
               {{each(key, recent) recents }}\
                 {{if recent}}\
@@ -2148,7 +2158,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <span>${msgData.text}</span>';
       if (!this.customSearchResult) {
         messageBubbles += '{{if devMode=="true"}}\
-              <div class="query-analytics-control-container {{if viewType=="Customize"}}display-block{{/if}} hide">\
+              <div class="query-analytics-control-container {{if viewType=="Customize"}}display-block{{/if}}">\
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD4SURBVHgBlVDbTcNAEJzZjQSfoQOX4A6gA8QvEtgkgMwX7iDQQfgz4nVUEKUCTAd0QNIBfxFSfMsdERGgRIpXOq1uZ0Y7s8SGlednqakMuBosu7E7N/xYkkVH9M0BV5Gt8/kC7xMQtTd7FchlJDt39yaHQf1bYDp7Imz8/Hi7Q/KGlPSHHHEe9wsX1ux6w7WETsHU3VdXa6KACxtF4hWlRN8PVYm2lZ8We/H9nx/1zss/oWMeFU3DMPnOA0zUo3aumsR/1ivemfUvRmxmJ9bZGjRzjlWRmWG6uAASUTgD9zsmw7k1dbBt4UrbXRjTtR7NlpigZbUWfAEi/12gzLS2XQAAAABJRU5ErkJggg==">\
                 Query Analytics\
               </div>\
@@ -3044,7 +3054,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var payload = {
         "query": _self.vars.searchObject.searchText,
         // "maxNumOfResults": 9,
-        "maxNumOfResults": 16,
+        "maxNumOfResults": 10,
         "userId": _self.API.uuid,
         "streamId": _self.API.streamId,
         "lang": "en",
@@ -3126,8 +3136,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   _self.bindStructuredDataTriggeringOptions();
                 }, 100);
               }
+              setTimeout(function () {
+                _self.vars['selectedFacetFromSearch'] = _self.vars.selectedFacetFromSearch || 'all results';
+                _self.prepAllSearchData(_self.vars.selectedFacetFromSearch || 'all results');
+              _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results'});
               _self.pubSub.publish('sa-search-result', { ..._self.vars.searchObject.liveData, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' } });
 
+            }, 100);
             } else {
               _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
               _self.pubSub.publish('sa-search-result', _self.vars.searchObject.liveData);
@@ -3236,6 +3251,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       $('.custom-header-nav-link-item').off('click').on('click', function (event) {
+        if($('body').hasClass('top-down')){
+          if (($(event.currentTarget).attr('id') == 'viewTypeCustomize' && _self.vars.customizeView) || ($(event.currentTarget).attr('id') == 'viewTypePreview' && !_self.vars.customizeView)) {
+           return;
+          }
+        }
+
         event.preventDefault();
         event.stopImmediatePropagation();
 
@@ -4609,7 +4630,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var payload = {
         "query": _self.vars.searchObject.searchText,
         // "maxNumOfResults": 9,
-        "maxNumOfResults": 16,
+        "maxNumOfResults": 10,
         /*"userId": _self.API.uuid,
         "streamId": _self.API.streamId,*/
         "lang": "en",
@@ -4803,13 +4824,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('#frequently-searched-box').show();
               }
             } else {
-              var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
-                // searchResults: searchResults,
-                recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
-                recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-                popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
-              });
-              $('.search-body').html(freqData);
+              if(searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled){
+                var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
+                  // searchResults: searchResults,
+                  recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+                  recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+                  popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6),
+                  showSearches : searchConfigurationCopy ? searchConfigurationCopy.showSearches : 'recent'
+                });
+                console.log("searchConfigurationCopy", searchConfigurationCopy);
+                $('.search-body').html(freqData);
+              }
             }
 
           },
@@ -4930,6 +4955,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
 
             _self.vars.searchObject.searchText = $('#search').val();
+
+            if($('body').hasClass('top-down')){
+              $('.sdk-filter-checkbox-top-down').prop('checked', false);
+              $('.sdk-filter-radio-top-down').prop('checked', false);
+              _self.vars.filterObject = [];
+              _self.vars.selectedFiltersArr = [];
+              _self.vars.tempSelectedFiltersArr = [];
+              _self.vars.tempSelectedFacetsList = [];
+              _self.vars.tempFilterObject = [];
+              _self.vars.selectedFacetsList = [];
+              _self.vars.isTopFacets = (_self.vars.filterConfiguration||{}).aligned === 'top' ? true : false;
+              _self.vars.countOfSelectedFilters = 0;
+              _self.searchFacetsList([]);
+            }
             // debugger;
             var searchText = $('#search').val() || (_self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : "") || null;
             _self.closeGreetingMsg();
@@ -4959,7 +4998,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.selectedFiltersArr = [];
             _self.vars.tempSelectedFiltersArr = [];
             _self.vars.selectedFacetsList = [];
-            _self.vars.isTopFacets = _self.vars.filterConfiguration.aligned === 'top' ? true : false;
+            _self.vars.isTopFacets = (_self.vars.filterConfiguration||{}).aligned === 'top' ? true : false;
             _self.vars.countOfSelectedFilters = 0;
           }
         })
@@ -4980,10 +5019,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
         $(dataHTML).off('click', '#search').on('click', '#search', function (e) {
           if (!$('body').hasClass('top-down')) {
-            if (!$('#search').val()) {
-              _self.bindFrequentData();
+            if ($('#search').hasClass('from-result-ranking')) {
+              $("#search").removeClass('from-result-ranking');
+              _self.vars.customizeView = true;
+              // _self.invokeSearch();
+              $('#show-all-results-container').show();
+              setTimeout(function () {
+              $('#search').focus().trigger({ type: 'keydown', which: 13 });
+                setTimeout(function () {
+                    $('.show-all-results').click();
+                    
+                  }, 1000);
+              }, 1000);
+             
+            } else {
+              if (!$('#search').val()) {
+                _self.bindFrequentData();
+              }
             }
-          }
+        }
         })
         initPopularSearchList();
         function initPopularSearchList() {
@@ -5287,8 +5341,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $(dataHTML).off('focus', '#search').on('focus', '#search', function (e) {
           _self.pubSub.publish('sa-search-focus', {});
           _self.pubSub.publish('sa-handel-chat-container-view');
-          $('.search-body').removeClass('hide');
-          $('#searchChatContainer').addClass('bgfocus');
+          if(searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled){
+            $('.search-body').removeClass('hide');
+            $('#searchChatContainer').addClass('bgfocus');
+          }
+          else{
+            $('.search-body').addClass('hide');
+            $('#searchChatContainer').removeClass('bgfocus');
+          }
           // _self.closeGreetingMsg();
           //clear showing greeting if search bar focused before the greeting msg shown
           clearTimeout(_self.vars.searchObject.clearGreetingTimeOut);
@@ -5734,6 +5794,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         tasks = res.results.task;
         facets = res.facets;
         totalSearchResults = res.totalNumOfResults ? res.totalNumOfResults : 0;
+        _self.vars.totalNumOfResults = res.totalNumOfResults ? res.totalNumOfResults : 0;
         if ($('body').hasClass('top-down')) {
           facets["all results"] = res.totalNumOfResults ? res.totalNumOfResults : 0;
         }
@@ -5814,7 +5875,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           object: object
         }
         if ($('body').hasClass('top-down')) {
-          _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: 'all results' } });
+          _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true} });
         } else {
           _self.pubSub.publish('sa-search-result', dataObj);
         }
@@ -6052,8 +6113,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         } else {
           event.stopPropagation();
-          $('.search-body').removeClass('hide');
-          $('#searchChatContainer').addClass('bgfocus');
+          if(searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled){
+            $('.search-body').removeClass('hide');
+            $('#searchChatContainer').addClass('bgfocus');
+          }
           $('.suggestion-search-data-parent').css('visibility', 'visible');
         }
         if ($(event.target).closest('#searchChatContainer').length) {
@@ -6074,8 +6137,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.suggestion-search-data-parent').css('visibility', 'hidden');
         } else {
           if (!$(event.target).closest('.show-all-results-outer-wrap').length) {
-            $('.search-body').removeClass('hide');
-            $('#searchChatContainer').addClass('bgfocus');
+            if(searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled){
+              $('.search-body').removeClass('hide');
+              $('#searchChatContainer').addClass('bgfocus');
+            }
             $('.suggestion-search-data-parent').css('visibility', 'hidden');
           }
         }
@@ -6585,7 +6650,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       if (url != this.API.livesearchUrl) {
-        payload['maxNumOfResults'] = 16;
+        payload['maxNumOfResults'] = 10;
         payload['pageNumber'] = _self.vars.scrollPageNumber
       }
       if (this.bot.options) {
@@ -7037,7 +7102,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (!$('body').hasClass('top-down')) {
               var dataHTML = $('#' + config.templateId).tmplProxy(data);
             } else {
-              var dataHTML = $(_self.getFrequentlySearchTemplate()).tmplProxy(data);
+              var dataHTML = $(_self.getFrequentlySearchTemplate()).tmplProxy({...data,...{searchConfig:config.searchConfig}});
               if (data.recents && data.recents.length && !$('#search').val()) {
                 $('#frequently-searched-box').show();
               } else {
@@ -7077,8 +7142,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return key;
       }
     }
+    FindlySDK.prototype.addGreetingMsgControl = function (config) {
+      var _self = this;
+        if (config.container) {
+            if ($('body').hasClass('top-down')) {
+              var dataHTML = $(_self.getGreetingMsgTopDownTemplate()).tmplProxy({searchConfig:config.searchConfig});
+              $('#' + config.container).empty().append(dataHTML);
+          } 
+        }
+    }
+
     FindlySDK.prototype.addSourceType = function (config) {
       var _self = this;
+      _self.pubSub.unsubscribe('facet-selected');
       _self.pubSub.subscribe('facet-selected', (topic, data) => {
         if ((((_self.vars || {}).searchObject || {}).liveData || {}).facets) {
           var facets = _self.getFacetsAsArray(_self.vars.searchObject.liveData.facets);
@@ -7093,7 +7169,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
       });
-
+      _self.pubSub.unsubscribe('sa-source-type');
       _self.pubSub.subscribe('sa-source-type', (msg, data) => {
         var facets = data;
         if (config.templateId) {
@@ -7132,12 +7208,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         });
         _self.bindFacetsToggle();
         _self.bindAllResultsView();
-        _self.markSelectedFilters();
+        if (!$('body').hasClass('top-down')) {
+          _self.markSelectedFilters();
+        }
       });
     }
     FindlySDK.prototype.addSearchFacets = function (config) {
       var _self = this;
-      _self.pubSub.subscribe('sa-search-facets', (msg, data) => {
+      _self.pubSub.unsubscribe('sa-search-facets');
+        _self.pubSub.subscribe('sa-search-facets', (msg, data) => {
         if (config.templateId) {
           var dataHTML = $('#' + config.templateId).tmplProxy({ searchFacets: data });
           $('#' + config.container).empty().append(dataHTML);
@@ -7196,6 +7275,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.pubSub.unsubscribe('sa-search-result');
       _self.pubSub.subscribe('sa-search-result', (msg, data) => {
         if (!data.selectedFacet) {
+          data.selectedFacet =  'all results';
           _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
         }
         if (data.selectedFacet && data.selectedFacet === 'faq') {
@@ -7400,6 +7480,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       if (config && config.focusHandler) {
+        _self.pubSub.unsubscribe('sa-search-focus');
         _self.pubSub.subscribe('sa-search-focus', data => {
           config.focusHandler();
           if (!$("#search").val()) {
@@ -7603,6 +7684,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           searchConfiguration.searchBarPlaceholderText = searchConfig.widgetConfig.searchBarPlaceholderText;
           searchConfiguration.searchBarPlaceholderTextColor = searchConfig.widgetConfig.searchBarPlaceholderTextColor;
           searchConfiguration.searchButtonEnabled = searchConfig.widgetConfig.searchButtonEnabled;
+          searchConfiguration.buttonPlacementPosition = searchConfig.widgetConfig.buttonPlacementPosition;
         }
         else {
           searchConfiguration.buttonBorderColor = '#e5e8ec';
@@ -7614,6 +7696,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           searchConfiguration.searchBarPlaceholderText = 'Ask anything';
           searchConfiguration.searchBarPlaceholderTextColor = '#21202447';
           searchConfiguration.searchButtonEnabled = true;
+          searchConfiguration.buttonPlacementPosition = 'inside';
         }
         if (searchConfig.widgetConfig.searchBarIcon && searchConfig.widgetConfig.searchBarIcon.length) {
           searchConfiguration.searchBarIcon = searchConfig.widgetConfig.searchBarIcon;
@@ -7624,7 +7707,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         if (searchConfig.interactionsConfig) {
           searchConfiguration.welcomeMsg = searchConfig.interactionsConfig.welcomeMsg;
-          searchConfiguration.welcomeMsgMsgColor = searchConfig.interactionsConfig.welcomeMsgMsgColor;
+          searchConfiguration.welcomeMsgColor = searchConfig.interactionsConfig.welcomeMsgColor;
           searchConfiguration.showSearchesEnabled = searchConfig.interactionsConfig.showSearchesEnabled;
           searchConfiguration.showSearches = searchConfig.interactionsConfig.showSearches;
           searchConfiguration.autocompleteOpt = searchConfig.interactionsConfig.autocompleteOpt;
@@ -7642,8 +7725,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           searchConfiguration.feedbackExperience = { resultLevel: true, queryLevel: false };
         }
 
-        if (searchConfig.welcomeMsgEmoji && searchConfig.welcomeMsgEmoji.length) {
-          searchConfiguration.welcomeMsgEmoji = searchConfig.welcomeMsgEmoji;
+        if (searchConfig.interactionsConfig.welcomeMsgEmoji && searchConfig.interactionsConfig.welcomeMsgEmoji.length) {
+          searchConfiguration.welcomeMsgEmoji = searchConfig.interactionsConfig.welcomeMsgEmoji;
         }
         else {
           searchConfiguration.welcomeMsgEmoji = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJmSURBVHgBtVJLS5RhFH7O+10cZ2jmM5sgUfg0BAkq3VqhRrhx0biQ2ql7w7atnF2rsD8Q02XZQluGhhVBdIHGS4Q7JSOi0hk/57t/7+l1umCouzqr9+Wc5znP83CA/10rKyvmzcfexcFbbttBfdr78V7adiqFs+r5DHpjCazfm88sLTx4sd2ba9TFBaTnRvLt6VrgT2uJX2wcqqyLvQSGoXWzSM/CtCYhMjbM/MyluK/QdST7+sqZ9POeEVCU0Qp6Sh9L0FDYxYi925UeizTzNoy2IvT8GkR2DfqJuzdOD02c7yKnkyjQTbqspXTWGrTuvwh2twsjVQI0C5BPYeQLysYayNwCZYu8OjhV96wJW+gCrInufRnw8qkijJYpkFGGblnQsrYiK3Pw2SYEOSTeIyTfCzIMOHCiarr/Y9MfAn57chSGfh3G0UXox0chjAq0TC5xqyRMDYh3QOyoQY9l4FNY3Wa4sr1ugZlFJJPFenAk+iCrs+DISpwNEoYaSDzI0FV61T49T2Q0MyeC/DDsEfMfuPn+E6dpYvXNF8T+ACQssCxId2NLaDFIOpDepiKpMWSkWgTJJslEpcXIiaXlDXduHeeqntn68Nj71ST8Oo54Uw37yl9NAatKlKfk7yj8jhLmIXbVW+WQEK3XM7h6p9bS20HiWn/jJyJiftc5xoJKP0/NrEvn0EfkBsqvjsjxkYR+2Rre7CEcUtGrjqIimyLzKJga1PYAcVW5dF2WsVxUEgeahiuVQwl2y11onSQ2pmHmiJXn2PmGJHLL+AXedwcH1daMZZNmlCDJrt8Ex+O/wf+kfgAhFxenJ2BlUQAAAABJRU5ErkJggg==';
@@ -7661,6 +7744,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           searchBarPlaceholderText: 'Ask anything',
           searchBarPlaceholderTextColor: '#21202447',
           searchButtonEnabled: true,
+          buttonPlacementPosition : 'inside',
           welcomeMsg: 'Hello! How can I help you today?',
           welcomeMsgEmoji: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJmSURBVHgBtVJLS5RhFH7O+10cZ2jmM5sgUfg0BAkq3VqhRrhx0biQ2ql7w7atnF2rsD8Q02XZQluGhhVBdIHGS4Q7JSOi0hk/57t/7+l1umCouzqr9+Wc5znP83CA/10rKyvmzcfexcFbbttBfdr78V7adiqFs+r5DHpjCazfm88sLTx4sd2ba9TFBaTnRvLt6VrgT2uJX2wcqqyLvQSGoXWzSM/CtCYhMjbM/MyluK/QdST7+sqZ9POeEVCU0Qp6Sh9L0FDYxYi925UeizTzNoy2IvT8GkR2DfqJuzdOD02c7yKnkyjQTbqspXTWGrTuvwh2twsjVQI0C5BPYeQLysYayNwCZYu8OjhV96wJW+gCrInufRnw8qkijJYpkFGGblnQsrYiK3Pw2SYEOSTeIyTfCzIMOHCiarr/Y9MfAn57chSGfh3G0UXox0chjAq0TC5xqyRMDYh3QOyoQY9l4FNY3Wa4sr1ugZlFJJPFenAk+iCrs+DISpwNEoYaSDzI0FV61T49T2Q0MyeC/DDsEfMfuPn+E6dpYvXNF8T+ACQssCxId2NLaDFIOpDepiKpMWSkWgTJJslEpcXIiaXlDXduHeeqntn68Nj71ST8Oo54Uw37yl9NAatKlKfk7yj8jhLmIXbVW+WQEK3XM7h6p9bS20HiWn/jJyJiftc5xoJKP0/NrEvn0EfkBsqvjsjxkYR+2Rre7CEcUtGrjqIimyLzKJga1PYAcVW5dF2WsVxUEgeahiuVQwl2y11onSQ2pmHmiJXn2PmGJHLL+AXedwcH1daMZZNmlCDJrt8Ex+O/wf+kfgAhFxenJ2BlUQAAAABJRU5ErkJggg==',
           showSearchesEnabled: '#161928',
@@ -7679,7 +7763,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var greetingMsg = '<script type="text/x-jqury-tmpl">\
         <div class="search-greeting-box">\
           <span class="greeting-img"><img src="${searchConfig.welcomeMsgEmoji}"></span>\
-          <span class="search-greeting-text" style="color : ${searchConfig.welcomeMsgMsgColor}">\
+          <span class="search-greeting-text" style="color : ${searchConfig.welcomeMsgColor}">\
           {{if searchConfig.welcomeMsg}}\
             ${searchConfig.welcomeMsg}\
           {{else}}\
@@ -7884,7 +7968,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       messageToBot["resourceid"] = '/bot.message';
 
-      messageToBot["maxNumOfResults"] = 16;
+      messageToBot["maxNumOfResults"] = 10;
 
       messageToBot["location"] = _self.vars.locationObject.location;
       messageToBot["timeDateDay"] = dateTime;
@@ -13885,12 +13969,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}} {{if isFullResults == true}}results-wrap{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
+                  <ul class="tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}} {{if isFullResults == true}}results-wrap{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <li class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize" && isFullResults == true}}{{if data.config.visible == false || (data.config.visible == true && !data.addedResult && (data.config.pinIndex < 0))}}ui-state-disabled{{/if}}{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" manuallyAdded="${data.addedResult}" id="${key}">\
                           {{if isClickable == true}}\
                             {{if viewType!="Customize" && (isFullResults == true ||  isSearch == true || isLiveSearch == true)}}\
                               <a class="tile-with-text structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
@@ -13907,39 +13991,59 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             {{if viewType=="Customize" && isFullResults == true}}\
                               <div class="data-wrap" index="${i}" contentType="${data.__contentType}" contentId="${data.contentId}" score="${data.score}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}">\
                                 <div class="customization-tile{{if data.config.visible == false}} disable_hidden{{/if}}{{if data.config.pinIndex >= 0}} disable_pinned{{/if}}">\
-                                    <div class="drag-content"></div>\
-                                    <div class="actions-content">\
-                                      <span class="action-item visibility" type="{{if data.config.visible == true}}Hide{{/if}}{{if data.config.visible == false}}UnHide{{/if}}">\
-                                        <span class="tooltiptext">\
-                                          <span class="_hide {{if data.config.visible == true}}display-block{{else}}display-none{{/if}}">\
-                                              Hide\
+                                    <div class="drag-content {{if data.config.visible == false || (data.config.visible == true && !data.addedResult && (data.config.pinIndex < 0))}}display-none{{/if}}"></div>\
+                                    {{if !data.addedResult || data.addedResult == false}}\
+                                      <div class="actions-content">\
+                                        <span class="action-item visibility" type="{{if data.config.visible == true}}Hide{{/if}}{{if data.config.visible == false}}UnHide{{/if}}">\
+                                          <span class="tooltiptext">\
+                                            <span class="_hide {{if data.config.visible == true}}display-block{{else}}display-none{{/if}}">\
+                                                Hide\
+                                            </span>\
+                                            <span class="unhide {{if data.config.visible == false}}display-block{{else}}display-none{{/if}}">\
+                                                UnHide\
+                                            </span>\
                                           </span>\
-                                          <span class="unhide {{if data.config.visible == false}}display-block{{else}}display-none{{/if}}">\
-                                              UnHide\
+                                          <span class="img_hide {{if data.config.visible == true}}display-block{{else}}display-none{{/if}}">\
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEgSURBVHgB3VLRTcNADLUv4VREI90IYQPYACagnaDwh1ALHaGZAFQkxF9H6AjABGSEbEBQQaDcnc25JSgqCPWvVS1Z8vme37MtA6zbcDnR7tsjiNQJMnTCM12AMGfm3Noq+7zfLZp49YtSqWtgerVVdTwbRyjunTsD4KdY66kZsoHNM5l776I6WBUfxkiTvpMdLXYQlmSiOJ6sSuCZHkKR+SEgooIhsA7o3yXJX3LlJ8BgyFM+F5ekJ3om57sYYwdB9YA5E8D7nZ6DWucfqdatHgMNiX0GHh5VHE0jpQ6xZi5vsJRYFJg4BUSD33fAAEUgLQN5ObtV3WYNLrcYunkJN7AvB9O+tCPJv413RnWnolqL/WnSbh0nA3cq3hSA7bMvciOL7FwWG34AAAAASUVORK5CYII=">\
                                           </span>\
-                                        </span>\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAHVSURBVHgBlVLdUdtAEN7dE4ozYI86iFJBnAqwKgiuAHjLZJBRKpBdgQ1hMnkLqcDpwO4AUkFUggbDYEu6XfYEYszfg/fhbub2dr9vv28BNDoDSYNEAtgwyB0C9qO1MoUNA93hUJllBojzqxP87t7acXUgKCEyXjJzdvPTv3wVOZ9gToR9ET7oxDap2WihHrtgcEyeuWgP7H/X8AVyjXRsfyv/OinM0fXZ1rzJ7QzKIQKl9wU0vDrF0WNx51jGWtIThhwRAgEJy6L4vPz1PntsHvNM0P5DpC8odO4aUD2b8F6xWvWBJCyKVV+AT7Z8f9b6ehs2xSJ2hGI+GaRI88nOUdkjIEw1M2q1WrnSDhyaR95E/4e+/27aWOh5Xgaqg+qTueaIJiVgzBDwicdOQHcp/a61PH6uslL/oFwycnQEIV0ul4EqkDs69Q+WQ2Vyrn703BI5RK5sv31U7el7ryyLEa6pua/Fc2USLn5Q1KAo7dAyX6iryeIU/2zHRUJC2eLM+4uv2eEQXWc3fy2MMWMRCRU5Wl8WXJ/lHsUO9Xn/2Zi5Fs8RsasWRo2FCG/E9rei625tljefld2EwOzqNkYPom4WuizTdqzbqOHBhmEMHlaVrVndAWmT9/sAm8QuAAAAAElFTkSuQmCC">\
-                                      </span>\
-                                      <span class="action-item pinning" type="{{if data.config.pinIndex >= 0}}UnPin{{/if}}{{if data.config.pinIndex < 0}}Pin{{/if}}">\
-                                        <span class="tooltiptext">\
-                                          <span class="unpin {{if data.config.pinIndex >= 0}}display-block{{else}}display-none{{/if}}">\
-                                            UnPin\
-                                          </span>\
-                                          <span class="pin {{if data.config.pinIndex < 0}}display-block{{else}}display-none{{/if}}">\
-                                            Pin\
+                                          <span class="img_unhide {{if data.config.visible == false}}display-block{{else}}display-none{{/if}}">\
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGDSURBVHgB1VLLUQJBEO2e2bW0SixDWCNQM8AIwAjg6EH5RCBEwM+DNzUDiECMAMxgQ6AUS4WZeXavLoUl5Vmnqg/T816/191D9O8Pb0ruN7DvnS8GDkkGAk+jKJrOujz7tYASQ6A6KDRAlDJoqnkQEmYuMpmWMdRbL2TWyIlHmAT44nKxOJ737bG1pqkxH0Qn1pgDkD/wIUy2z16Tbw4yy0IGwt28H7c0t1dHR+5VfWY23aceNzW/W1u2DNmSMXyiTjIHAXRJgac5uXDhqkIuq6oGAcXCuSvrm2IAmmUcbUHVBdwAfC+3BUYicxipgkQayD/A4Ch/D941laNcoyABt42xHU18ImgsA6uoqoa0UILDMG/XxtGNcpS72kKh5m6FdLhYvJ++Xe+kWRvMdbGvAqOXwVY32xJwL+qPz/2o+mONMqCuFCkJqW2tHebrUuLSL6visi7kkcyhsfEfrAZIVNG9yzX9SicAxlp4fhWP1/Ebf2Ku6pw7QsAs3orTTb/wb5wP48rkd2sW1IgAAAAASUVORK5CYII=">\
                                           </span>\
                                         </span>\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD7SURBVHgBhZB/asJQDMeTZy0dW0eP0N1Aj9ATjJ1A9p8MVnYEvcFgMPxTT6A38Aj2BnqEgojSviYm/oAnvmLg8SD5fpNPgtASyQ8nDdGqrqrsMHnaXPMG2iORl3bDcBkN9+lDAxG8I2IBzGPXFPjEcc4DBhpR3WS7/7CIvy2oCYb7DF1eF4fsWfz8VfVM0JlfEMsTUvmLpXScaZKJPjvGvKlYGqWmK2LBkuX7ku+ji/KS1yMEM9DLRFFUNixTicfbv2DqXZotL3SK8lpre8AArvjGcGVVdsVDY+aee5yv5Ig/lF1SheCB4t05VBznzVp/X+3O8JrTyltoiSM5w31qLIEkiwAAAABJRU5ErkJggg==">\
-                                      </span>\
-                                      <span class="action-item boosting">\
-                                        <span class="tooltiptext">Boost</span>\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBfY/BCcJAEEVnNiKKrGgHKSElmA7swBxFJEkHYgfRg3jTTtKCHSQdKIIoMTtjNhgI65o5fh5//gMwbhxyJNfl3MyFAW0YKAaBJxnywgp+oeBdFD6VygegxIRrSIYqGyyfbpONVoVXZdcGxnbT6zjM2wUaFj0nrR7Hglh5Nkjf49C/1DOYZmCz1l/MHC3WgU6Rxfm+x22ntYPCZ6Tgp9lmPYnZlZHKGrjTWsOKKUWCnSAop/+sbwnmeoYCBR8N24MPhSbzYAAAAABJRU5ErkJggg==">\
-                                      </span>\
-                                      <span class="action-item burying {{if data.score <= 0}}disabled{{/if}}">\
-                                        <span class="tooltiptext">Lower</span>\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADJSURBVHgBdZDRDYIwEIZbEFKDTRiBEVzBSfDRmBRxA11BX3xTJ3AE4ghOgE7ggyaalvbskZCUWP633n253neUC31USm6/h/GdeJKWkDXG5AFQ84jiuGKLT+aDNJiKEEPbwqRQG17o2oUR4itdYw/ftGtggZIgV1LOGGMEJwGY83sX9UEXxqoLeYNwImT51+DCXHwiXZKlnOJlrLW+DVkjFIxCaw3XQet2UqGfXDTzQeswCNN2EsD6tR+demDP2p7RhfzLW+PuOzc/5PRxOXt0QzUAAAAASUVORK5CYII=">\
-                                      </span>\
-                                    </div>\
+                                        <span class="action-item pinning" type="{{if data.config.pinIndex >= 0}}UnPin{{/if}}{{if data.config.pinIndex < 0}}Pin{{/if}}">\
+                                          <span class="tooltiptext">\
+                                            <span class="unpin {{if data.config.pinIndex >= 0}}display-block{{else}}display-none{{/if}}">\
+                                              UnPin\
+                                            </span>\
+                                            <span class="pin {{if data.config.pinIndex < 0}}display-block{{else}}display-none{{/if}}">\
+                                              Pin\
+                                            </span>\
+                                          </span>\
+                                          <span class="img_unpin {{if data.config.pinIndex >= 0}}display-block{{else}}display-none{{/if}}">\
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGFSURBVHgBxVK/S8NAFH53SaugKQHpntp/oBlcBAdxcmsXKS5aJxX7Y3Jw0U6OFaluIl1EBUk3x4KTuLTgKNouQrGINyjV9HJnHxiN/YW6+EFI7uW9777vuwP4gJZ2DoeXmwb8EtT9UAjN+nxDfyL5hJ6RhpYUJS9Ju6ZrKafaj5h6F2yH1BSFJFDJ9b20pJQ4pLcfw+f3l3qR0M4CklxtEFg/E9G7BpQmw7BACKmAlNl+JF3AnW8fZHV215EXN0JmTmQU61qSL3baUeF7BrojRDmQFmCMgb43T2D7XEI+TnL8iEPhkmxiGyp5BQj1yoBJEAVsqjZErP7MzXyc1taOhTE3Qa2pMBRatm0qlJoDLYymWluu1NOyHUEbaAdtte3p3l61ZwZcFokKaZS6dCASoaBkxRXKZnKS1Z/ekIC5vV2nMLJqR6iqWII702iHUGrVHoGNB8FkTRIbeNlwGKXju9MOfAXdddn6Dnv/eddeEuIWAylRdjhPvOz7K/ADIAl4svg/vANVesefO32vSgAAAABJRU5ErkJggg==">\
+                                          </span>\
+                                          <span class="img_pin {{if data.config.pinIndex < 0}}display-block{{else}}display-none{{/if}}">\
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD7SURBVHgBhZB/asJQDMeTZy0dW0eP0N1Aj9ATjJ1A9p8MVnYEvcFgMPxTT6A38Aj2BnqEgojSviYm/oAnvmLg8SD5fpNPgtASyQ8nDdGqrqrsMHnaXPMG2iORl3bDcBkN9+lDAxG8I2IBzGPXFPjEcc4DBhpR3WS7/7CIvy2oCYb7DF1eF4fsWfz8VfVM0JlfEMsTUvmLpXScaZKJPjvGvKlYGqWmK2LBkuX7ku+ji/KS1yMEM9DLRFFUNixTicfbv2DqXZotL3SK8lpre8AArvjGcGVVdsVDY+aee5yv5Ig/lF1SheCB4t05VBznzVp/X+3O8JrTyltoiSM5w31qLIEkiwAAAABJRU5ErkJggg==">\
+                                          </span>\
+                                        </span>\
+                                        <span class="action-item boosting">\
+                                          <span class="tooltiptext">Boost</span>\
+                                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBfY/BCcJAEEVnNiKKrGgHKSElmA7swBxFJEkHYgfRg3jTTtKCHSQdKIIoMTtjNhgI65o5fh5//gMwbhxyJNfl3MyFAW0YKAaBJxnywgp+oeBdFD6VygegxIRrSIYqGyyfbpONVoVXZdcGxnbT6zjM2wUaFj0nrR7Hglh5Nkjf49C/1DOYZmCz1l/MHC3WgU6Rxfm+x22ntYPCZ6Tgp9lmPYnZlZHKGrjTWsOKKUWCnSAop/+sbwnmeoYCBR8N24MPhSbzYAAAAABJRU5ErkJggg==">\
+                                        </span>\
+                                        <span class="action-item burying {{if data.score <= 0}}disabled{{/if}}">\
+                                          <span class="tooltiptext">Lower</span>\
+                                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADJSURBVHgBdZDRDYIwEIZbEFKDTRiBEVzBSfDRmBRxA11BX3xTJ3AE4ghOgE7ggyaalvbskZCUWP633n253neUC31USm6/h/GdeJKWkDXG5AFQ84jiuGKLT+aDNJiKEEPbwqRQG17o2oUR4itdYw/ftGtggZIgV1LOGGMEJwGY83sX9UEXxqoLeYNwImT51+DCXHwiXZKlnOJlrLW+DVkjFIxCaw3XQet2UqGfXDTzQeswCNN2EsD6tR+demDP2p7RhfzLW+PuOzc/5PRxOXt0QzUAAAAASUVORK5CYII=">\
+                                        </span>\
+                                      </div>\
+                                    {{/if}}\
+                                    {{if data.addedResult && data.addedResult == true}}\
+                                      <div class="actions-content manually_added_pin">\
+                                        <span class="action-item unpin_added_result">\
+                                          <span class="tooltiptext">Unpinning will remove the result</span>\
+                                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGFSURBVHgBxVK/S8NAFH53SaugKQHpntp/oBlcBAdxcmsXKS5aJxX7Y3Jw0U6OFaluIl1EBUk3x4KTuLTgKNouQrGINyjV9HJnHxiN/YW6+EFI7uW9777vuwP4gJZ2DoeXmwb8EtT9UAjN+nxDfyL5hJ6RhpYUJS9Ju6ZrKafaj5h6F2yH1BSFJFDJ9b20pJQ4pLcfw+f3l3qR0M4CklxtEFg/E9G7BpQmw7BACKmAlNl+JF3AnW8fZHV215EXN0JmTmQU61qSL3baUeF7BrojRDmQFmCMgb43T2D7XEI+TnL8iEPhkmxiGyp5BQj1yoBJEAVsqjZErP7MzXyc1taOhTE3Qa2pMBRatm0qlJoDLYymWluu1NOyHUEbaAdtte3p3l61ZwZcFokKaZS6dCASoaBkxRXKZnKS1Z/ekIC5vV2nMLJqR6iqWII702iHUGrVHoGNB8FkTRIbeNlwGKXju9MOfAXdddn6Dnv/eddeEuIWAylRdjhPvOz7K/ADIAl4svg/vANVesefO32vSgAAAABJRU5ErkJggg==">\
+                                        </span>\
+                                      </div>\
+                                    {{/if}}\
                                     <div class="title text-truncate">{{html data.heading}}</div>\
                                     <div class="desc_text text-truncate">{{html data.description}}</div>\
                                     <div class="appearences-count count">\
@@ -13956,22 +14060,33 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                     </span>\
                                     <span class="count">${data.feedback.click}</span>\
                                     </div>\
-                                    <div class="appearences-count bg-data record-status-pinned" style="display : {{if data.config.pinIndex >= 0}}block{{else}}none{{/if}}">\
-                                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
-                                      <span class="count">PINNED</span>\
-                                    </div>\
-                                    <div class="appearences-count bg-data record-status-hidden" style="display : {{if data.config.visible == false}}block{{else}}none{{/if}}">\
-                                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
-                                      <span class="count">HIDDEN</span>\
-                                    </div>\
-                                    <div class="appearences-count bg-data record-status-boosted {{if data.config.boost > 1}}display-block{{/if}}">\
-                                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
-                                      <span class="count boosted">${data.config.boost}X BOOSTED</span>\
-                                    </div>\
-                                    <div class="appearences-count bg-data record-status-lowered {{if data.config.boost < 1}}display-block{{/if}}">\
-                                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
-                                      <span class="count lowered">${data.config.boost}X LOWERED</span>\
-                                    </div>\
+                                    {{if !data.addedResult || data.addedResult == false}}\
+                                      <div class="appearences-count bg-data record-status-pinned" style="display : {{if data.config.pinIndex >= 0}}block{{else}}none{{/if}}">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                                        <span class="count">PINNED</span>\
+                                      </div>\
+                                      <div class="appearences-count bg-data record-status-hidden" style="display : {{if data.config.visible == false}}block{{else}}none{{/if}}">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                                        <span class="count">HIDDEN</span>\
+                                      </div>\
+                                      <div class="appearences-count bg-data record-status-boosted {{if data.config.boost > 1}}display-block{{/if}}">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                                        <span class="count boosted">${data.config.boost}X BOOSTED</span>\
+                                      </div>\
+                                      <div class="appearences-count bg-data record-status-lowered {{if data.config.boost < 1}}display-block{{/if}}">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                                        <span class="count lowered">${data.config.boost}X LOWERED</span>\
+                                      </div>\
+                                    {{/if}}\
+                                    {{if data.addedResult && data.addedResult == true}}\
+                                      <div class="appearences-count bg-data">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                                        <span class="count">PINNED</span>\
+                                      </div>\
+                                      <div class="appearences-count bg-data">\
+                                        <span class="count">MANUALLY ADDED</span>\
+                                      </div>\
+                                    {{/if}}\
                                     {{if appearanceType === "faq"}}\
                                       <div class="tag-ref">FAQ Response</div>\
                                     {{/if}}\
@@ -14003,9 +14118,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               </div>\
                             </div>\
                           {{/if}}\
-                      </div>\
+                      </li>\
                     {{/each}}\
-                  </div>\
+                  </ul>\
                   <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
@@ -14048,7 +14163,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14130,7 +14245,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14227,7 +14342,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14302,7 +14417,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-text-parent template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14378,7 +14493,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14460,7 +14575,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14546,7 +14661,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14621,7 +14736,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-text-parent template-3 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14697,7 +14812,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent template-3 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14779,7 +14894,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent template-e tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14865,7 +14980,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header template-3 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14940,7 +15055,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if appearanceType == "document"}}\
                       Documents\
                     {{/if}}\
-                    <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                    <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile-with-text-parent grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial  mb-15 {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14993,7 +15108,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial  mb-15 {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -15051,7 +15166,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial  mb-15  {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -15109,7 +15224,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial mb-15 {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -15159,7 +15274,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if appearanceType == "document"}}\
                       Documents\
                     {{/if}}\
-                    <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                    <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="carousel tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
@@ -15214,7 +15329,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if appearanceType == "document"}}\
                       Documents\
                     {{/if}}\
-                    <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                    <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="carousel tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
@@ -15274,7 +15389,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if appearanceType == "document"}}\
                       Documents\
                     {{/if}}\
-                    <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                    <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="carousel tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
@@ -15334,7 +15449,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if appearanceType == "document"}}\
                       Documents\
                     {{/if}}\
-                    <div class="search-heads show-all sdk-show-classification {{if isFullResults == false}} display-block{{/if}}">Show All</div>\
+                    <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="carousel tile-with-image-parent structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
@@ -15719,24 +15834,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'tour': _self.vars.customTourResultRank
         });
         // _self.vars.customizeView = true;
-        setTimeout(() => {
-          if (_self.vars.customizeView == true) {
-            $(".structured-data-outer-wrap").sortable({
-              stop: function (event, ui) {
-                var element = ui.item[0];
-                if ($(element).find('.pinning').length) {
-                  var pinningElement = $(element).find('.pinning')[0];
-                  if (pinningElement) {
-                    $(pinningElement).trigger("click");
-                  }
-                }
-              }
-            });;
-          }
-          else {
-            $(".structured-data-outer-wrap").sortable({ disabled: true });
-          }
-        }, 100);
         if (data && data.container && data.container.length) {
           container = data.container;
         }
@@ -15819,6 +15916,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.customization = null;
           item.__contentType = obj.__contentType;
           item.contentId = obj.contentId;
+          item.addedResult = (obj.addedResult || (obj.addedResult == false)) ? obj.addedResult : false;
           data.push(item);
         });
         return data;
@@ -16290,15 +16388,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'isDropdownEnabled': isDropdownEnabled,
           'tour': _self.vars.customTourResultRank
         });
-        // _self.vars.customizeView = true;
-        setTimeout(() => {
-          if (_self.vars.customizeView == true) {
-            $(".structured-data-outer-wrap").sortable();
-          }
-          else {
-            $(".structured-data-outer-wrap").sortable({ disabled: true });
-          }
-        }, 100);
         if (data && data.container && data.container.length) {
           container = data.container;
         }
@@ -16386,6 +16475,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.customization = null;
           item.__contentType = faq.__contentType;
           item.contentId = faq.contentId;
+          item.addedResult = (faq.addedResult || (faq.addedResult == false)) ? faq.addedResult : false;
           data.push(item);
         });
         return data;
@@ -16620,7 +16710,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // From now, the container and data will be managed.
 
       // Search call back
-      _self.pubSub.subscribe('sa-page-search', (msg, data) => {
+      _self.pubSub.unsubscribe('sa-page-search');
+        _self.pubSub.subscribe('sa-page-search', (msg, data) => {
         var _self = this;
         var container;
         var pages = [];
@@ -16726,15 +16817,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'isDropdownEnabled': isDropdownEnabled,
           'tour': _self.vars.customTourResultRank
         });
-        // _self.vars.customizeView = true;
-        setTimeout(() => {
-          if (_self.vars.customizeView == true) {
-            $(".structured-data-outer-wrap").sortable();
-          }
-          else {
-            $(".structured-data-outer-wrap").sortable({ disabled: true });
-          }
-        }, 100);
         if (data && data.container && data.container.length) {
           container = data.container;
         }
@@ -16839,6 +16921,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.customization = null;
           item.__contentType = page.__contentType;
           item.contentId = page.contentId;
+          item.addedResult = (page.addedResult || (page.addedResult == false)) ? page.addedResult : false;
           data.push(item);
         });
         return data;
@@ -17174,14 +17257,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'tour': _self.vars.customTourResultRank
         });
         // _self.vars.customizeView = true;
-        setTimeout(() => {
-          if (_self.vars.customizeView == true) {
-            $(".structured-data-outer-wrap").sortable();
-          }
-          else {
-            $(".structured-data-outer-wrap").sortable({ disabled: true });
-          }
-        }, 100);
         if (data && data.container && data.container.length) {
           container = data.container;
         }
@@ -17264,6 +17339,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.customization = null;
           item.__contentType = document.__contentType;
           item.contentId = document.contentId;
+          item.addedResult = (document.addedResult || (document.addedResult == false)) ? document.addedResult : false;
           data.push(item);
         });
         return data;
@@ -17477,7 +17553,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'facetPosition': _self.vars.filterConfiguration.aligned
         });
         $('#resultRankingId').append(resultRanking);
-        _self.checkBoostAndLowerTimes();
+        setTimeout( () => {
+          _self.checkBoostAndLowerTimes();
+        }, 400);
         _self.bindAllResultRankingOperations();
         _self.bindShowAllResultsTrigger(showAllHTML, facetData, data);
       });
@@ -18104,28 +18182,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       <div id="myDropdown" class="dropdown-content filters-content-top-down myDropdown-${i}" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
       {{each(j, bucket) searchFacet.buckets}}\
       <div class="option-text">\
-      {{if searchFacet.facetType == "value"&& !searchFacet.isMultiselect }}\
+      {{if searchFacet.facetType == "value"&& searchFacet.isMultiSelect }}\
       <div class="kr-sg-checkbox d-block">\
       <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
       <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
           <span class="count">\(${bucket.doc_count})</span>\
         </div>\
         {{/if}}\
-        {{if searchFacet.facetType == "range" && !searchFacet.isMultiselect}}\
+        {{if searchFacet.facetType == "range" && searchFacet.isMultiSelect}}\
         <div class="kr-sg-checkbox d-block">\
         <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
         <label  id="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">\${bucket.key}</label>\
             <span class="count">\(${bucket.doc_count})</span>\
           </div>\
           {{/if}}\
-          {{if searchFacet.facetType == "value" && searchFacet.isMultiselect}}\
+          {{if searchFacet.facetType == "value" && !searchFacet.isMultiSelect}}\
           <div class="kr-sg-checkbox d-block">\
             <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
               <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
-            {{if searchFacet.facetType == "range" && searchFacet.isMultiselect }}\
+            {{if searchFacet.facetType == "range" && !searchFacet.isMultiSelect }}\
             <div class="kr-sg-checkbox d-block">\
               <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
                 <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
@@ -18135,8 +18213,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       </div>\
       {{/each}}\
       <div class="action-bar">\
-      {{if searchFacet.isMultiselect}}\<button class="btn clear-btn">Clear</button>\{{/if}}\
-      {{if !searchFacet.isMultiselect}}\<button class="btn apply-btn">Apply</button>\{{/if}}\
+      {{if searchFacet.isMultiSelect}}\<button class="btn clear-btn">Clear</button>\{{/if}}\
+      {{if !searchFacet.isMultiSelect}}\<button class="btn apply-btn">Apply</button>\{{/if}}\
     </div>\
       </div>\
       </div>\
@@ -18446,6 +18524,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       setTimeout(function () {
         $(".results-wrap").sortable({
+          items: "li:not(.ui-state-disabled)",
+          cancel: ".ui-state-disabled",
           stop: function (event, ui) {
             var element = ui.item[0];
             if ($(element).find('.pinning').length) {
@@ -18453,6 +18533,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if (pinningElement) {
                 $(pinningElement).closest('.pinning').attr('type', 'Pin');
                 $(pinningElement).trigger("click");
+              }
+            }
+            else if($(element).attr('manuallyadded') == "true"){
+              var pinIndex = 0;
+              var _selectedElement = ui.item[0];
+              var _parentElement = $(event.target).closest('.results-wrap');
+              var childNodes = Array.prototype.slice.call(_parentElement[0].children);
+              pinIndex = childNodes.indexOf(_selectedElement);
+              if(pinIndex >= 0){
+                // console.log("pinIndex ", pinIndex);
+                _self.performRankActionsOnFullPage(ui.item, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning', true);
+                //
               }
             }
           }
@@ -18469,6 +18561,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         // }
       });
+
+      $('.customization').off('click', '.unpin_added_result').on('click', '.unpin_added_result', function (event) {
+        _self.performRankActionsOnFullPage(event, { pinIndex: -1 }, _self.vars.searchObject.searchText, 'unpin_added_result');
+      });
+
       $('.customization').off('click', '.pinning').on('click', '.pinning', function (event) {
         if ($(event.target).closest('.data-wrap').attr('visible') == "true") {
           var _selectedElement = $(event.target).closest('.structure-data-wrp');
@@ -18543,13 +18640,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //Tour RR
     }
 
-    FindlySDK.prototype.performRankActionsOnFullPage = function (event, conf, searchText, actionType) {
+    FindlySDK.prototype.performRankActionsOnFullPage = function (event, conf, searchText, actionType, isManuallyAdded) {
 
       var _self = this;
-      event.preventDefault();
-      event.stopPropagation();
+      if(!isManuallyAdded){
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      var selectedElement;
 
-      var selectedElement = $(event.target).closest('.data-wrap');
+      if(!isManuallyAdded){
+        selectedElement = $(event.target).closest('.data-wrap');
+      }
+      else{
+        selectedElement = $(event).find('.data-wrap');
+      }
 
       var contentID = selectedElement.attr('contentid');
       var contentType = selectedElement.attr('contentType');
@@ -18565,6 +18670,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
 
+      if(actionType === 'unpin_added_result'){
+        payload.result['addedResult'] = false;
+      }
+
       console.log(payload);
 
       // fqp-0357ee01-975c-56ab-bfd3-0a577ed1ed8b
@@ -18577,48 +18686,63 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.parentEvent(responseObject);
         }
         if (actionType === "pinning") {
-          res.results.forEach((result) => {
-            if (result.contentId === payload.result.contentId) {
-              $(selectedElement).attr('pinIndex', result.config.pinIndex);
-              if (result.config.pinIndex >= 0) {
-                selectedElement.find('.pinning').attr('type', "UnPin");
-                if (!selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
-                  selectedElement.find('.customization-tile').addClass('disable_pinned')
-                }
-                if (selectedElement.find('.record-status-pinned')) {
-                  selectedElement.find('.record-status-pinned').css('display', 'block');
-                }
-                if (selectedElement.find('.unpin').hasClass('display-none')) {
-                  selectedElement.find('.unpin').removeClass('display-none');
-                  selectedElement.find('.unpin').addClass('display-block');
-                }
-                if (selectedElement.find('.pin').hasClass('display-block')) {
-                  selectedElement.find('.pin').removeClass('display-block');
-                  selectedElement.find('.pin').addClass('display-none');
-                }
-              }
-              else {
-                selectedElement.find('.pinning').attr('type', "Pin");
-                if (selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
-                  selectedElement.find('.customization-tile').removeClass('disable_pinned')
-                }
-                if (selectedElement.find('.record-status-pinned')) {
-                  selectedElement.find('.record-status-pinned').css('display', 'none');
-                }
-                if (selectedElement.find('.unpin').hasClass('display-block')) {
-                  selectedElement.find('.unpin').removeClass('display-block');
-                  selectedElement.find('.unpin').addClass('display-none');
-                }
-                if (selectedElement.find('.pin').hasClass('display-none')) {
-                  selectedElement.find('.pin').removeClass('display-none');
-                  selectedElement.find('.pin').addClass('display-block');
-                }
-              }
-            }
-          })
-          // if(res.results[0].config.visible){
 
-          // }
+          // res.results.forEach((result) => {
+          //   if (result.contentId === payload.result.contentId) {
+          //     $(selectedElement).attr('pinIndex', result.config.pinIndex);
+          //     if (result.config.pinIndex >= 0) {
+          //       selectedElement.find('.pinning').attr('type', "UnPin");
+          //       if (!selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
+          //         selectedElement.find('.customization-tile').addClass('disable_pinned')
+          //       }
+          //       if (selectedElement.find('.record-status-pinned')) {
+          //         selectedElement.find('.record-status-pinned').css('display', 'block');
+          //       }
+          //       if (selectedElement.find('.unpin').hasClass('display-none')) {
+          //         selectedElement.find('.unpin').removeClass('display-none');
+          //         selectedElement.find('.unpin').addClass('display-block');
+          //       }
+          //       if (selectedElement.find('.pin').hasClass('display-block')) {
+          //         selectedElement.find('.pin').removeClass('display-block');
+          //         selectedElement.find('.pin').addClass('display-none');
+          //       }
+          //       if (selectedElement.find('.img_unpin').hasClass('display-none')) {
+          //         selectedElement.find('.img_unpin').removeClass('display-none');
+          //         selectedElement.find('.img_unpin').addClass('display-block');
+          //       }
+          //       if (selectedElement.find('.img_pin').hasClass('display-block')) {
+          //         selectedElement.find('.img_pin').removeClass('display-block');
+          //         selectedElement.find('.img_pin').addClass('display-none');
+          //       }
+          //     }
+          //     else {
+          //       selectedElement.find('.pinning').attr('type', "Pin");
+          //       if (selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
+          //         selectedElement.find('.customization-tile').removeClass('disable_pinned')
+          //       }
+          //       if (selectedElement.find('.record-status-pinned')) {
+          //         selectedElement.find('.record-status-pinned').css('display', 'none');
+          //       }
+          //       if (selectedElement.find('.unpin').hasClass('display-block')) {
+          //         selectedElement.find('.unpin').removeClass('display-block');
+          //         selectedElement.find('.unpin').addClass('display-none');
+          //       }
+          //       if (selectedElement.find('.pin').hasClass('display-none')) {
+          //         selectedElement.find('.pin').removeClass('display-none');
+          //         selectedElement.find('.pin').addClass('display-block');
+          //       }
+          //       if (selectedElement.find('.img_unpin').hasClass('display-block')) {
+          //         selectedElement.find('.img_unpin').removeClass('display-block');
+          //         selectedElement.find('.img_unpin').addClass('display-none');
+          //       }
+          //       if (selectedElement.find('.img_pin').hasClass('display-none')) {
+          //         selectedElement.find('.img_pin').removeClass('display-none');
+          //         selectedElement.find('.img_pin').addClass('display-block');
+          //       }
+          //     }
+          //   }
+          // })
+          $('.show-all-results').click();
         }
 
         else if (actionType === "visibility") {
@@ -18641,6 +18765,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   selectedElement.find('.unhide').removeClass('display-block');
                   selectedElement.find('.unhide').addClass('display-none');
                 }
+                if (selectedElement.find('.img_hide').hasClass('display-none')) {
+                  selectedElement.find('.img_hide').removeClass('display-none');
+                  selectedElement.find('.img_hide').addClass('display-block');
+                }
+                if (selectedElement.find('.img_unhide').hasClass('display-block')) {
+                  selectedElement.find('.img_unhide').removeClass('display-block');
+                  selectedElement.find('.img_unhide').addClass('display-none');
+                }
               }
               else {
                 selectedElement.find('.visibility').attr('type', "UnHide");
@@ -18658,6 +18790,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   selectedElement.find('.unhide').removeClass('display-none');
                   selectedElement.find('.unhide').addClass('display-block');
                 }
+                if (selectedElement.find('.img_hide').hasClass('display-block')) {
+                  selectedElement.find('.img_hide').removeClass('display-block');
+                  selectedElement.find('.img_hide').addClass('display-none');
+                }
+                if (selectedElement.find('.img_unhide').hasClass('display-none')) {
+                  selectedElement.find('.img_unhide').removeClass('display-none');
+                  selectedElement.find('.img_unhide').addClass('display-block');
+                }
                 // start - removing pinning option from DOM
                 $(selectedElement).attr('pinIndex', result.config.pinIndex);
                 selectedElement.find('.pinning').attr('type', "Pin");
@@ -18674,6 +18814,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 if (selectedElement.find('.pin').hasClass('display-none')) {
                   selectedElement.find('.pin').removeClass('display-none');
                   selectedElement.find('.pin').addClass('display-block');
+                }
+                if (selectedElement.find('.img_unpin').hasClass('display-block')) {
+                  selectedElement.find('.img_unpin').removeClass('display-block');
+                  selectedElement.find('.img_unpin').addClass('display-none');
+                }
+                if (selectedElement.find('.img_pin').hasClass('display-none')) {
+                  selectedElement.find('.img_pin').removeClass('display-none');
+                  selectedElement.find('.img_pin').addClass('display-block');
                 }
                 // end
               }
@@ -18740,6 +18888,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.checkBoostAndLowerTimes();
             }
           })
+        }
+
+        else if (actionType === "unpin_added_result"){
+          $('.show-all-results').click();
         }
       });
     }
@@ -18833,11 +18985,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             suggestions: data.autoComplete.querySuggestions,
             querySuggestionsLimit: searchConfigurationCopy.querySuggestionsLimit ? searchConfigurationCopy.querySuggestionsLimit : 2
           });
+          console.log(searchConfigurationCopy)
+
           $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
           _self.pubSub.publish('sa-auto-suggest', data.autoComplete.typeAheads);
           _self.bindAutoSuggestionTriggerOptions(autoSuggestionHTML);
           if ($('body').hasClass('top-down')) {
+            if($("#suggestion").length){
+              $("#suggestion").val(data.autoComplete.typeAheads[0]);
+            }
+            if(searchConfigurationCopy.autocompleteOpt){
             _self.showSuggestionbox(data.autoComplete.querySuggestions);
+            }
           }
         },
         error: function (err) {
@@ -18877,6 +19036,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       if ($('.topdown-search-main-container').length) {
         $('#search-box-container').off('keydown', '#search').on('keydown', '#search', function (e) {
+          _self.pubSub.publish('sa-handel-submit-button');
           var code = e.keyCode || e.which;
           if (code == '13') {
             if (_self.isDev) {
@@ -18973,7 +19133,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.showingMatchedResults = true;
             _self.searchFacetsList([]);
             $('#loaderDIV').show();
-            _self.invokeSearch();
+            // _self.invokeSearch();
+            var e1 = $.Event("keydown", { which: 13 });
+            $('#search').trigger(e1);
             //$('#loaderDIV').hide();
             _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
             $('.all-result-container').show();
@@ -18983,7 +19145,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               //top-down-searc-facets active -start//
               _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
               //top-down-search-facets active -end//
-            }, 500);
+            }, 1000);
           }
           if ($('#search').val()) {
             $('.cancel-search').show();
@@ -19003,7 +19165,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           data_body_sec_element.addEventListener('ps-y-reach-end', () => {
             console.log("ps-y-reach-end");
             if (_self.vars.scrollPageNumber >= 0) {
-              if (_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 16)) {
+              if (_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 10)) {
                 _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
                 _self.seeAllResultsInifiteScroll();
                 $(".content-data-sec").scrollTop(0);
@@ -19019,9 +19181,27 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           });
         }, 100);
 
-
+        $('#search-box-container').off('click', '.submit-button').on('click', '.submit-button', function (e) {
+          if ($('#search').val()) {
+            var e1 = $.Event("keydown", { which: 13 });
+            $('#search').trigger(e1);
+          }
+        });
       }
-
+      _self.pubSub.subscribe('sa-handel-submit-button', (msg, data) => {
+        var isGoButtonDisabled = false;
+        if (!$('#search').val()) {
+          isGoButtonDisabled = true;
+        }
+        else {
+          isGoButtonDisabled = false;
+        }
+        var goBtn = $('.submit-button');
+        for (let i = 0; i < goBtn.length; i++) {
+          goBtn[i].disabled = isGoButtonDisabled;
+        }
+      });
+     
     }
     FindlySDK.prototype.showSuggestionbox = function (suggestions) {
       var _self = this;
@@ -19108,28 +19288,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 			<div class="heading-title {{if searchFacet.showSearch == true}}d-none{{/if}}"">\${searchFacet.facetName}<span class="float-right d-none  {{if searchFacet.maxCount && searchFacet.buckets.length > searchFacet.maxCount}}d-block{{/if}}"><img class="facet-search-icon" facetFacetName="${searchFacet.facetName}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBrVNLUsJAEO2eiLoTbhBuQE6g3gC3UJSZhViUi8gJ9AaWCyuFLhqLApbiCcQbcAM5QtiJMmk7VsoKDPFT8jZdk+735r3MDMA/gXmNkMgF2HJ3YTHRWke/Fri97wfAcJm2E6IrQ+MFz3VL6+nqvFoid4cEjL7h+Kjp10tNv1Yu8LwUMz87uPPSoUE110FIfd9BvBCCt85ySL0DB50H6Zez/S8HCdmw0Xl5W7oxljJ+g+1zK0JIQ1dKMR3KhWF+ZFAVS8CB16KUCH5EPHWQ9yyBAsBUiktExe/oCrBiGGeWQJrbyrcKRBUoiEeWQIJ35jYiBjfUr6wj33UHV1Kipq53l0Sziw71qrILie6I5YfFYKLEtnw7TgZZYspGh2e6PrEcJDjVjZFh5QHzTCEEcu4k5H1ZX5/4NU9OoV1AfMq6zH0LeUgvHIkTL+vkjyKf92Yz+ADa8Y5Ak9HPCwAAAABJRU5ErkJggg==">\<span>\</div>\
       <div class="input-div {{if searchFacet.showSearch !== true}}d-none{{/if}}"><input type="text" class="searchFacetInput" id="${searchFacet.facetName}">\ <span class="float-right d-none" id="${searchFacet.facetName}-close">\<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACGSURBVHgB3ZK9DYAgEIURjY2RWVzFEWgtYBvXcBTcwClsFIg5osmZgEjoeNVxx/v4ySOkLDFpVTcdQ2gOMyaswj2KF+bUnDb14oNAD2ZGa06+BBt7YTYM8fUeVSEInGa1Gd0173qf2/UXAEOgDpkdnGQq+wlec8onRs1JEAhJNEjyHaQCdAGUc1yB6RityQAAAABJRU5ErkJggg==">\</span>\</div>\
       {{each(j, bucket) searchFacet.buckets.slice(0, (searchFacet.maxCount?searchFacet.maxCount:searchFacet.buckets.length))}}\
-          {{if searchFacet.facetType == "value"&& searchFacet.isMultiselect }}\
+          {{if searchFacet.facetType == "value" && searchFacet.isMultiSelect }}\
           <div class="kr-sg-checkbox d-block">\
           <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
 					<label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
-            {{if searchFacet.facetType == "range" && searchFacet.isMultiselect}}\
+            {{if searchFacet.facetType == "range" && searchFacet.isMultiSelect }}\
             <div class="kr-sg-checkbox d-block">\
             <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
 						<label  id="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                 <span class="count">\(${bucket.doc_count})</span>\
               </div>\
               {{/if}}\
-              {{if searchFacet.facetType == "value" && !searchFacet.isMultiselect}}\
+              {{if searchFacet.facetType == "value" && !searchFacet.isMultiSelect}}\
               <div class="kr-sg-radiobutton d-block">\
                 <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
                   <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
                   <span class="count">\(${bucket.doc_count})</span>\
                 </div>\
                 {{/if}}\
-                {{if searchFacet.facetType == "range" && !searchFacet.isMultiselect }}\
+                {{if searchFacet.facetType == "range" &&  !searchFacet.isMultiSelect}}\
                 <div class="kr-sg-radiobutton d-block">\
                   <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
                     <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
@@ -19156,28 +19336,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       <div id="myDropdown" class="dropdown-content filters-content-top-down myDropdown-${i}" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
       {{each(j, bucket) searchFacet.buckets}}\
       <div class="option-text">\
-      {{if searchFacet.facetType == "value"&& !searchFacet.isMultiselect }}\
+      {{if searchFacet.facetType == "value"&& searchFacet.isMultiSelect }}\
       <div class="kr-sg-checkbox d-block">\
       <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
       <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
           <span class="count">\(${bucket.doc_count})</span>\
         </div>\
         {{/if}}\
-        {{if searchFacet.facetType == "range" && !searchFacet.isMultiselect}}\
+        {{if searchFacet.facetType == "range" && searchFacet.isMultiSelect}}\
         <div class="kr-sg-checkbox d-block">\
         <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
         <label  id="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">\${bucket.key}</label>\
             <span class="count">\(${bucket.doc_count})</span>\
           </div>\
           {{/if}}\
-          {{if searchFacet.facetType == "value" && searchFacet.isMultiselect}}\
+          {{if searchFacet.facetType == "value" && !searchFacet.isMultiSelect}}\
           <div class="kr-sg-radiobutton d-block">\
             <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
               <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
-            {{if searchFacet.facetType == "range" && searchFacet.isMultiselect }}\
+            {{if searchFacet.facetType == "range" && !searchFacet.isMultiSelect }}\
             <div class="kr-sg-radiobutton d-block">\
               <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
                 <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
@@ -19187,8 +19367,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       </div>\
       {{/each}}\
       <div class="action-bar">\
-      {{if searchFacet.isMultiselect}}\<button class="btn clear-btn">Clear</button>\{{/if}}\
-      {{if !searchFacet.isMultiselect}}\<button class="btn apply-btn">Apply</button>\{{/if}}\
+      {{if searchFacet.isMultiSelect}}\<button class="btn clear-btn">Clear</button>\{{/if}}\
+      {{if !searchFacet.isMultiSelect}}\<button class="btn apply-btn">Apply</button>\{{/if}}\
     </div>\
       </div>\
       </div>\
@@ -19617,14 +19797,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
              <!-- </div>-->
             <div id="heading" class="search-input-box">      
                 <div id="search-box-container" class="search-box-container-data">                 
-                <!-- <div class="search-icon"> -->
-                <!-- <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBlVJLTgJBEK2q8RNXwg2GGzBbiEIHNHEl3ABOMHICvQFHQE8grEwU0wgBt9xAjjAkLkSnq+xB6JAwwfAWXV3pev1eVxdCCp70u38Asf8J8bSuVJRWg5uJHk1CZrlbJoKRPfURcbAwX80rpWabteRIw3HHMDSYuV4pFbOVciFHfJI1ht+O6Pijrye1LcVXPW4A4a0tDJQKtqy96FGZyHskXuTUyvqfoiUxm2YaKcGFOhuA0CCGoxtnVdtG2JhZHu6CmB4C5h3xBzhjYwT/gIFngHjqiIfwPbPR11pndlOtmsjcEZPHJi3f9J8GIgoRpOvyZIkNt4gwfNbjfBpJDydtsc+pqOK9019v+npYQ/I6gNQVIz0BE5G1h553bYcig3YYDIu6VMWpU0xQVeddYgosaU6IIeHykpIYfqiWCwGwtDxCvXaFsAdWg9ImxgD2xerf4RflG5JZZafRoQAAAABJRU5ErkJggg=="/> -->
-                <!--</div> -->
-                <div class="cancel-search">
-                      <span class="cross"> X </span>
-                      <!-- <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADeSURBVHgBnZI/C8IwEMUviRUHkdKp0KWgBccu/QAOgrj1k2arbtLZJXtFOpVOpXtoYyKk+CeJ4BtCEt7vuHscwJ8i6timh3gZbvy+vfUuc5Ie01W4XigfVh+Dh/25hy9Jtk9dECKC6vcTrK4FEwA5Ao+aYA2JAeU1O9dTq0pdU7VBlJQICA2iuOyae/sJVaxg2o++qmfSCEAF8By4BybICL7CMAowQUozEwhcDSGnxhLH3GjB4AjCFRixQao9W2BvoC09GzxtjrydbEGY4GlGG6SllgTzccc5ca7lTz0A2yqRYknu6twAAAAASUVORK5CYII="/>-->
-                  </div>
-                </div>   
+                </div>  
+                <div id="greeting-msg-top-down"></div> 
                 <div id="frequently-searched-box" class="frequently_searched_box"> </div>          
                 <div id="live-search-result-box" class="live_search_result_box">
                     <div id="auto-query-box" class="auto_query_box">
@@ -19652,7 +19826,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             <div class="all-result-container">
             <div id="conversation-container" class="conversation-container">
-                    <div class="conversation-title">                
+                    <div class="conversation-title">    
+                        <div class="custom-header-container-left searchAssist" style="padding-left: 20px;">    
+                            <img class="searchAssistIcon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAAAOCAYAAADub7QZAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAXjSURBVHgB7VjbUeNYEO0re6r2a0cTwVyD53tNBGNHAESAHQEQAZ4IBiLARDAQASYC/M9LGeD9xrj39EOyLB42W8tjqrYLG1nqe/txu093q0b/06tQjN9aafrnH2MQ/UYU8osYY0pJfRuXLWJK8WRMUz7JsqsBfTAyXT/91B/Tu90sy5Zyeoyr+5Qkn23d9Oy1bEMwdCnwIS7HxJPGsvp9BKrLl0QzDDjVQMiJ8QlhIzaa2zCq88GMSom5KxchhD6J4xcQgiiCGbaw3Qgh4ntAr0o8fonfYmzu4ByQlCHLbi479A6U6LdFM4KBM+LQQzB04LgD52khbrr021N9o3Kj3Wg0vtIrUJZdDJBEX4jv1+hlhDMI0T7vQ3X/39JvDkdqjNEQEIvSEeacVpQWpjapAQKLfFSFX4XNhNfxrCURD/4R0eQAGZPZ8+ZPlCUpT2eUhFvi6Y7Jv+zPy+Bo6x/KKGStNPcMMZ7hs8yTv+Ncd+ZaD//7Fb1bSJNt01vWUVYtnYt44DeUjLDl7J2K3xCYnFZ1NX/whlVxToHMp8/Z/FqUB4TAGg6ft6DYEIcylJtQpvtgRahLaWnN3wttrEuxbl9++gH1texQkL3bsLNNVNuAY9YURoPu0Tb7ua2OSDz45mRomxNVxkrza3Z9+aMsmkNt35xc4ivpojflADWwQFM+wvffemCB1qkUEFZWitJpUC96SOmMq+KPwQIelIirY8/w9ryPaufgi86fqT/UptXv2fVVz/wRonOntj6c0RtT4gq6k6FQoFNE561EqEZ6iTTrFU2ktFAHdS7g/64tpT3JAs0EyUBWnl3wfJHGqtgfQVHRoa3lScrUlA60jhaIxZsGva4fk6FHmSRLtcRpJo5dl615EdOuX+QHNvDfLchrz/hqIttRD82g6g7ZYovqvpBnPlEKv4kMX88BCXHV8LIMZAkt89lkc1amBT3EZ5N9emNShJBswmGPBSGIilJgEdxYRbbfdxTq7bkgwkiy352JUuAIg8N2iCtg0rJTg+gpHUZYs5P/QCAe6gXTiR2e7gMUyMGMKgERejmiIYCPtHGkMM9jSCB6H9uNCXSujws7UR6dcVzIwBQD+47kUGB6v7TZEjxVkjVuf8J7qqc0jtllo8yFvYoGNC+tb03JTIGLgXS2nvUSvUf2JETPCsnGaP8B0UCS4lM5pLjybRuBdAPov0UQnXvT+jhxZUJgzvcazXTLxtJb2Oc5R4UHHf18dnKEbofFyKpLQglNJCMl05W3a/bVHS1jXJ5nnuDbUQnl4LvwS/wiPqqi8HtTXR2WuFN8pveMQ1PZ/AyDYUAiGVZksQVLAbsluh+pU5j3rYEDzxRNI90N4bQbegkl1WY2h/bJiF5EgmrF65Z2MXbOnkfZW2z2EbHhsuAX+sv6E0HLmgR+Yxmex7TwZnlg0w7KXKDvXqIPsVeWo9x7U12zymd6dMFirPYE3jy11JnsGUF0gs+2TB5AkqHz2UuiKcta8H1qOzyOs+uLXrHX8mQymKUB/SGIgCwSRPqlT/kTRrm75d+JBG/uZJqpBnFgQQoZt+VAhzYZyUGhjF1f9E33Zl/6oxxlBP3IepwneapUTCVCnnT+7ufcODilD0J1gTPA3ZA0e2gH1zsGiSHO2PLycY/Mr2ufYSUhGcrBKcwHbSIPCjiFoxWeJVB0nMr7jEVUyEgl46CPrIumBg1V3yUDzLPYeXmALBzMPW80rWeysrGjB8PU1WcrWmrGap/Jtv5jyl9w+I/zhMdQUwgBzP4uJ9QwWXwbFiOr+uV+NLtWYVEae/D08j7qrcinjLzDzQ8zRLtPovhmPgtr/ebJmr1TCNGRJTU+azwV+op6qTW2i8YPUwQvldUPZFg2mgya9OhFxKX+4P6hY/Hew69SLxv7prsG90aBnHrQJlug3+0bP+BB9tOTNmFiyhPN1rTMb6Ez64smg1nvJk1rsk5vTKF6o5R9z7529fEvfYpv0fNl6L/Y49/SMn5Y1leVNQttynneY9L4B8IcafF/DEj3AAAAAElFTkSuQmCC">
+                        </div>            
                         <div class="close-conv">
                             <img class="close-conv-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBbZHRDcIwDERju+zTSizSCWgl8sFM+Ug26AwsUDIGO9A05AChprV/osjPd2eZLtfbg2gZg3PRKDUMts3SeAaUV5kGa1sVYpkoLaPEeX525+4OGC/+FbSmPgQX6T9dFAETp968jNlC6FNl9YNNLo0NhOIqVFEC9Bk/1Xn5ELwowX6/oGjBtQVpD2mZ4cBZ2GsQCkf4xmj8GzsLeh0gnVcbAAAAAElFTkSuQmCC" />
                         </div>
@@ -19775,7 +19952,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       _self.addFrequentlyUsedControl({
         container: "frequently-searched-box",
-        templateId: "frequently-searched-template"
+        templateId: "frequently-searched-template",
+        searchConfig: searchConfiguration
+      });
+      _self.addGreetingMsgControl({
+        container: "greeting-msg-top-down",
+        searchConfig: searchConfiguration
       });
       _self.addCustomTemplateConfig();
       var searchText = "";
@@ -19822,6 +20004,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       });
 
+      _self.pubSub.unsubscribe('sa-show-all-results-top-down');
       _self.pubSub.subscribe('sa-show-all-results-top-down', (msg, data) => {
         _self.vars.showingMatchedResults = true;
         _self.searchFacetsList([]);
@@ -19846,7 +20029,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (!$('#search').val()) {
           _self.bindFrequentData();
         }
+        if( $('#greeting-msg-top-down').length){
+          $('#greeting-msg-top-down').hide();
+        }
       });
+      if(_self.isDev){
+        $('.show_insights_top_down').show();
+      $('.show_insights_top_down').off('click', '.query-analytics-top-down').on('click', '.query-analytics-top-down', function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+          var responseObject = { 'type': 'show', data: true, query: _self.vars.searchObject.searchText }
+          console.log(responseObject);
+          _self.parentEvent(responseObject);
+        }
+      })
+    }else{
+      $('.show_insights_top_down').hide();
+    }
     }
     FindlySDK.prototype.getTopDownFacetsTabs = function () {
       var topDownFacetsTabs = '<script id="top-down-tabs-template" type="text/x-jqury-tmpl">\
@@ -19861,7 +20061,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.getTopDownActionTemplate = function () {
       var topDownActionTemplate = '<script id="actions-template" type="text/x-jqury-tmpl">\
                                     {{if tasks.length > 0 }}\
-                                      <div class="type-section quick-actions"> Quick Actions</div>\
+                                    {{if selectedFacet !== appearanceType}}\
+                                      <div class="type-section quick-actions"> Actions</div>\
+                                      {{/if}}\
                                       <div class="action-results-container btn_block_actions">\
                                         {{each(key, task) tasks}}\
                                             <div class="action-content">\
@@ -19891,9 +20093,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.getFrequentlySearchTemplate = function () {
       var frequentlySearchTemplate = '<script id="frequently-searched-template" type="text/x-jqury-tmpl">\
-                                        {{if recents && recents.length}}\
-                                        <div class="templates-data">\
-                                            <div class="main-title">FREQUENTLY SEARCHED</div>\
+                                        {{if recents && recents.length && searchConfig.showSearchesEnabled == true}}\
+                                        <div class="templates-data freq-data-p">\
+                                            <div class="main-title"> {{if searchConfig.showSearches == "frequent"}}\ FREQUENT {{else}} RECENT {{/if}}\ SEARCHES</div>\
                                             <div class="tile_with_header">\
                                                 {{each(key, recent) recents }}\
                                                 {{if recent}}\
@@ -19906,12 +20108,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                       </script>'
       return frequentlySearchTemplate;
     }
+
+    FindlySDK.prototype.getGreetingMsgTopDownTemplate = function () {
+      var greetingMsgTemplate = '<script id="greeting-msg-top-down-template" type="text/x-jqury-tmpl">\
+                                      {{if searchConfig.welcomeMsg}}\
+                                        <div class="search-greeting-box-top-down">\
+                                          <span class="greeting-img"><img src="${searchConfig.welcomeMsgEmoji}"></span>\
+                                          <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">${searchConfig.welcomeMsg}</span>\
+                                        </div>\
+                                      {{/if}}\
+                                 </script>'
+      return greetingMsgTemplate;
+    }
+    
     FindlySDK.prototype.showAllClickEventTopDown = function (e) {
       var _self = this;
       if ($('.topdown-search-main-container').length) {
         _self.vars.searchObject.searchText = $('#search').val();
         $("#suggestion").val($('#search').val());
-        _self.vars.scrollPageNumber = 1;
+        _self.vars.scrollPageNumber = 0;
         _self.vars.showingMatchedResults = true;
         _self.searchFacetsList([]);
         // _self.invokeSearch();

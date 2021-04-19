@@ -284,3 +284,9 @@
         }
     }
 }
+
+
+::ng-deep ngx-daterangepicker-material {
+    position: absolute;
+    bottom: -11px !important;
+}

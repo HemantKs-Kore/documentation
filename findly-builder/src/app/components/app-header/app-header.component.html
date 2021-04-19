@@ -1,5 +1,6 @@
 <header>
     <nav class="findlyHeader navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+        <div id="open-chat-window-no-clicks" class="open-chat-window-no-clicks"></div>
         <div class="container-fluid p-0">
             <div class="logoTabsContainer align-items-center">
                 <img src="assets/images/logos/findly-logo.svg" class="logoKoreIcon landing-screen" [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange (click)="analyticsClick('apps',true)">
@@ -40,7 +41,7 @@
                     </div>
                     <!-- <div class="headerMenuTab" [routerLink]="['/dashboard']" skipLocationChange routerLinkActive="active" (click)="analyticsClick('metrics')">Analytics</div> -->
                     <!-- <div class="headerMenuTab" id='experimentsTab' [ngClass]="{'active' : mainMenu == '/experiments'}" (click)="analyticsClick('/experiments')">Experiments</div> -->
-                    <div class="headerMenuTab" id='channelsTab' [ngClass]="{'active' : mainMenu == '/settings'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/settings')">
+                    <div class="headerMenuTab" id='channelsTab' [ngClass]="{'active' : mainMenu == '/settings'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/search-experience')">
                         <span>MANAGE</span>
                         <span routerLink="/search-experience" class="d-none"></span>
                         </div>
@@ -214,12 +215,12 @@
         </div>
         <div class="modal-body textAlignLeft">
           <div class="kr-sg-input-text mb-3">
-            <div class="label-text">Name</div>
-            <input maxlength="128" type="text" autocomplete="off" placeholder="App name" class="input-text" [(ngModel)]="newApp.name" name="appName">
+            <div class="label-text">App Name</div>
+            <input maxlength="128" type="text" autocomplete="off" placeholder="Enter App Name" class="input-text" [(ngModel)]="newApp.name" name="appName">
           </div>
           <div class="kr-sg-input-text-area mb-2">
             <div class="label-text">Description</div>
-            <textarea maxlength="512" placeholder="App description " autocomplete="off" class="input-text" [(ngModel)]="newApp.description" name="appDesc"></textarea>
+            <textarea maxlength="512" placeholder="Enter App Description " autocomplete="off" class="input-text" [(ngModel)]="newApp.description" name="appDesc"></textarea>
           </div>
           <div class="kr-sg-dropdowns w-100 mt-1">
             <div class="label-text">Language</div>
@@ -238,7 +239,7 @@
         </div>
         <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
            <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeCreateApp()">Close</button>
-           <button [disabled]="!newApp.name"  type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='createFindlyApp()'>{{creatingInProgress?'Creating...':'Proceed'}}</button>
+           <button [disabled]="!newApp.name"  type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='createFindlyApp()'>{{creatingInProgress?'Creating...':'Create'}}</button>
        
           </div>
   

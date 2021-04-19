@@ -45,6 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
   resultRankDataSubscription: Subscription
   showHideMainMenuSubscription: Subscription;
   showHideSettingsMenuSubscription : Subscription;
+  closeSDKSubscription : Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -89,6 +90,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       if (this.searchExperienceConfig) {
+        this.distroySearch();
         if (this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')) {
           if (!this.headerService.isSDKCached || !$('.search-background-div').length) {
             if (!$('.search-background-div:visible').length) {
@@ -125,6 +127,12 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.showHideSettingsMenuSubscription = this.headerService.showHideSettingsMenu.subscribe((res) => {
       this.settingMainMenu = res;
+    });
+    this.closeSDKSubscription = this.headerService.hideSDK.subscribe((res) => {
+      this.headerService.isSDKCached = false;
+      this.distroySearch();
+      this.showHideSearch(false);
+      this.showHideTopDownSearch(false);
     });
   }
   showMenu(event) {
@@ -303,6 +311,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.resultRankDataSubscription.unsubscribe();
     this.SearchConfigurationSubscription ? this.SearchConfigurationSubscription.unsubscribe() : false;
     this.showHideMainMenuSubscription ? this.showHideMainMenuSubscription.unsubscribe() : false;
+    this.closeSDKSubscription ? this.closeSDKSubscription.unsubscribe() : false;
+    this.showHideSettingsMenuSubscription ? this.showHideSettingsMenuSubscription.unsubscribe() : false;
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
@@ -351,7 +361,6 @@ export class AppComponent implements OnInit, OnDestroy {
       // $('.start-search-icon-div').addClass('active');
       $('.search-background-div').off('click').on('click', (event) => {
         if (event.target.classList.contains('bgDullOpacity')) {
-          console.log("event bgDullOpacity", event);
           this.cacheBottomUpSDK(false);
         }
       });
@@ -360,6 +369,7 @@ export class AppComponent implements OnInit, OnDestroy {
       $('.search-container').addClass('add-new-result')
       this.initSearch();
       $('#test-btn-launch-sdk').addClass('active');
+      $('#open-chat-window-no-clicks').css({display : 'block'});
       this.headerService.isSDKOpen = true;
     } else {
       $('.search-background-div').remove();
@@ -370,6 +380,7 @@ export class AppComponent implements OnInit, OnDestroy {
       _self.showInsightFull = false;
       this.distroySearch();
       $('#test-btn-launch-sdk').removeClass('active');
+      $('#open-chat-window-no-clicks').css({display : 'none'});
       this.headerService.isSDKCached = false;
       this.headerService.isSDKOpen = false;
     }
@@ -464,6 +475,11 @@ export class AppComponent implements OnInit, OnDestroy {
     if (show) {
       $('app-body').append('<div class="top-down-search-background-div"><div class="bgDullOpacity"></div></div>');
       $('.top-down-search-background-div').show();
+      $('.top-down-search-background-div').off('click').on('click', (event) => {
+        if (!event.target.closest('.topdown-search-main-container') && !event.target.closest('.filters-sec')) {
+          this.showHideTopDownSearch(false);
+        }
+      });
       // $('app-body').append('<img class="close-top-down-search" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB0SURBVHgBjZHBDYAgDEURjRcjs7iKI3D1gNu4hqPgBk7hRVuiNdEUoqE9ld/3adoqMwbfDHunfoJqxgWv8QCrq3L+gkmjGgLYV2gdrhxOtSJ1B8Ce3k++TfUSgRymnEO3UQlD3Fo+DP8pcqddaJnZhV9HOQHmYl73b8488gAAAABJRU5ErkJggg==">');
       $('.close-top-down-search').off('click').on('click', () => {
         this.showHideTopDownSearch(false);
@@ -473,6 +489,7 @@ export class AppComponent implements OnInit, OnDestroy {
       $('.search-container').addClass('add-new-result');
       this.initTopDownSearch();
       $('#test-btn-launch-sdk').addClass('active');
+      $('#open-chat-window-no-clicks').css({display : 'block'});
       this.headerService.isSDKOpen = true;
     } else {
       $('.top-down-search-background-div').remove();
@@ -483,6 +500,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.showInsightFull = false;
       this.distroyTopDownSearch();
       $('#test-btn-launch-sdk').removeClass('active');
+      $('#open-chat-window-no-clicks').css({display : 'none'});
       this.headerService.isSDKOpen = false;
     }
   }
@@ -572,6 +590,7 @@ export class AppComponent implements OnInit, OnDestroy {
         $('#show-all-results-container').css('display', 'block');
       }
       $('#test-btn-launch-sdk').addClass('active');
+      $('#open-chat-window-no-clicks').css({display : 'block'});
       this.headerService.isSDKOpen = true;
     }
     else {
@@ -588,6 +607,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
       $('#test-btn-launch-sdk').removeClass('active');
+      $('#open-chat-window-no-clicks').css({display : 'none'});
       this.headerService.isSDKCached = true;
       this.headerService.isSDKOpen = false;
     }

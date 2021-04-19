@@ -1171,7 +1171,7 @@
                         position: absolute;
                         right: 0;                        
                         height: 100%;
-                        top: 0;
+                        top: -8px;
                         width: 181px;                   
                         visibility: visible;
                         text-align: right;
@@ -1367,3 +1367,11 @@
         }
     }
 }
+
+.rotateimg180-move-up {
+    -webkit-transform:rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }

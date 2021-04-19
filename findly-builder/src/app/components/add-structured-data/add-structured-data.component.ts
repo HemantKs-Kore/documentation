@@ -133,6 +133,11 @@ export class AddStructuredDataComponent implements OnInit {
     }, 500);
   }
 
+  doubleClick(event){
+    if(this.selectedSourceType && this.selectedSourceType.viewMode){
+      this.editRecord();
+    }
+  }
   navigateToRecord(key){
     if(this.currentDataIndex || (this.currentDataIndex == 0)){
       if(key){
