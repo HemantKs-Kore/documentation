@@ -31,6 +31,25 @@ export class PricingComponent implements OnInit {
   addQueOver = false;
   numberDoc = 1;
   numberQuery = 1;
+  overageDeatils = {
+    ingestDocs :{
+      amount : 0,
+      limit : 0
+    },
+    searchQueries: {
+      amount : 0,
+      limit : 0
+    }
+  }
+  plansIdList  = {
+    free : 'fp_free',
+    standardMonth : '65066',
+    standardYear : '65451',
+    proMonth : '65123',
+    proYear : '65453',
+    enterpriceMonth : 'fp_enterprise_custom_monthly',
+    enterpriceYear : 'fp_enterprise_custom_yearly'
+  }
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -48,18 +67,15 @@ export class PricingComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userEngagementChart()
     this.getPlan()
-    this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
-    if(!this.currentSubscriptionPlan){
-      this.currentsubscriptionPlan(this.selectedApp)
-    }
   }
-  currentsubscriptionPlan(app){
+  currentsubscriptionPlan(app,overageRes?){
     const payload = {
       streamId: app._id
     };
     const appObserver = this.service.invoke('get.currentPlans', payload);
     appObserver.subscribe(res => {
       this.currentSubscriptionPlan = res
+      this.getOverage(overageRes);
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });
@@ -68,9 +84,28 @@ export class PricingComponent implements OnInit {
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.totalPlansData = res;
       this.typeOfPlan("Monthly");
+      
+    this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+    if(!this.currentSubscriptionPlan){
+      this.currentsubscriptionPlan(this.selectedApp,res)
+    }else{
+      this.getOverage(res);
+    }
+    
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });
+  }
+  getOverage(allPlans){
+    allPlans.forEach(element => {
+      if(element._id == this.currentSubscriptionPlan.subscription.planId){
+        this.overageDeatils = element.overage;
+      }
+      if(element._id == this.plansIdList.proMonth){
+        this.overageDeatils = element.overage;
+      }
+    });
+
   }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
