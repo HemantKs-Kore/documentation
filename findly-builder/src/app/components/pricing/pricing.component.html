@@ -16,7 +16,7 @@
                       <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/pricing/overflow.svg"></button>                                            
                       <ul class="dropdown-menu content-menu">                                                                    
                         <li (click)="addOverage()"><a>Add Overage</a></li>
-                        <li (click)="openPopup3()"><a>Change Plan</a></li>
+                        <li (click)="compare('choosePlans',currentSubscriptionPlan.subscription)"><a>Change Plan</a></li>
                         <li (click)="openPopup5()"><a>Cancel Subscription</a></li>
                       </ul>
                     </div>
@@ -213,11 +213,11 @@
 </kr-modal>
 <!--popup3-->
 
-<kr-modal modalType="center" modalClass="modal_popups_ overage_plan" #addPricingModel4>
+<kr-modal modalType="center" modalClass="modal_popups_ overage_plan" #addOverageModel>
   <div class="modal-header">
     <div class="title">Overage Plan</div>
     <div class="close_icon">
-      <img  (click)="closePopup4()" src="assets/icons/modal-close.svg">
+      <img  (click)="closeOveragePopup()" src="assets/icons/modal-close.svg">
     </div>     
   </div>
   <perfect-scrollbar>
@@ -234,11 +234,11 @@
           </div>
           <div class="info-card-overage">Add <span>Additional 10k</span> documents to your plan</div>
           <div class="btn_add_doc text-right">
-            <button class="kr-sg-button-secondary btn_lg d-none">Add Documents </button>
-            <div class="add-doc-block">
-              <div class="minus-btn"><img src="assets/icons/pricing/minus.svg"></div>
-              <div class="number-doc">1</div>
-              <div class="plus-btn"><img src="assets/icons/pricing/plus.svg"></div>
+            <button class="kr-sg-button-secondary btn_lg" [ngClass] = "{'d-none': addDocOver}" (click) = "addDocument()">Add Documents </button>
+            <div class="add-doc-block" [ngClass] = "{'d-none': !addDocOver}">
+              <div class="minus-btn" (click)="count('doc','minus')"><img src="assets/icons/pricing/minus.svg"></div>
+              <div class="number-doc">{{numberDoc}}</div>
+              <div class="plus-btn" (click)="count('doc','plus')"><img src="assets/icons/pricing/plus.svg"></div>
             </div>
           </div>
         </div>
@@ -249,13 +249,18 @@
           </div>
           <div class="info-card-overage">Add <span>Additional 50k</span> queries to your plan</div>
           <div class="btn_add_doc text-right">
-            <button class="kr-sg-button-secondary btn_lg">Add Queries</button>
+            <button class="kr-sg-button-secondary btn_lg" [ngClass] = "{'d-none': addQueOver}" (click) = "addQuerry()">Add Queries</button>
+            <div class="add-doc-block" [ngClass] = "{'d-none': !addQueOver}">
+              <div class="minus-btn" (click)="count('query','minus')"><img src="assets/icons/pricing/minus.svg"></div>
+              <div class="number-doc">{{numberQuery}}</div>
+              <div class="plus-btn" (click)="count('query','plus')"><img src="assets/icons/pricing/plus.svg"></div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="change-plan-container">
-        <button class="kr-sg-button-secondary btn_lg">Change Plan</button>
+        <button class="kr-sg-button-secondary btn_lg" (click)="compare('choosePlans',currentSubscriptionPlan.subscription)">Change Plan</button>
         <div class="info-text">You can also choose to <span>Upgrade your Plan</span> </div>
         <div class="info-text">Upgrade to <u>Pro</u> to get <span>50k documents</span> and <span>100k Queries</span> per month.</div>
         <div class="info-text">Upgrade to <u>Enterprise</u> to get <span>custom</span> no. of documents and queries per month.  </div>
@@ -263,8 +268,8 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg mr-3">Proceed</button>
-    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePopup4()">Cancel</button>
+    <button class="kr-sg-button-primary btn_lg mr-3" [disabled] = "!addDocOver && !addQueOver" (click)="compare('orderOverage')">Proceed</button>
+    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancelOveragePopup()">Cancel</button>
   </div>
 </kr-modal>
 

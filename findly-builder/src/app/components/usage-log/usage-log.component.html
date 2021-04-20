@@ -1,17 +1,237 @@
-<div class="usage-log-container">
+<div class="invoice-container">
     <div class="header-sec">
         <div class="title">Usage Log</div>
         <div class="d-flex align-items-center">
             <div class="kr-sg-input-search">
-                <input type="text" placeholder="Search" class="input-search"  autocomplete="off">
-                <img src="assets/icons/search_gray.svg" class="search-icon">               
+                <input type="text" placeholder="Search" class="input-search" autocomplete="off">
+                <!-- <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchInvoice">
+                <img class="close-icon" *ngIf="searchInvoice" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchInvoice}" (click)="searchInvoice='';toggleSearch(false)">              -->
             </div>           
             <div class="seach-block">
-                <img src="assets/icons/search.svg">{{'search' | translate}}             
+                <span class="mr-3" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
             </div> 
-            <div class="download-icon">
+            <div class="download-icon" tooltipClass="tooltip_custom margin-10" placement="bottom-right" container='body' ngbTooltip="Download Log">
                 <img src="assets/icons/usage-log/download.svg">
             </div>           
         </div>
     </div>
+    <div class="plan-type">
+        <div class="current-plan">Current Plan</div>
+        <div class="type">Free</div>
+    </div>
+    <perfect-scrollbar class="scroll-invoice-content">
+        <div class="table_data_content">
+            <div class="table_header row m-0">
+                <div class="col_ col-4 title d-flex align-items-center">
+                    Search Query
+                </div>
+                <div class="col_ col-2 title d-flex align-items-center">
+                    <span class="d-flex align-items-center flex-column mr-1">
+                        <img src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                      </span>
+                    Type 
+                    <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">                 
+                                <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                            </button>
+                            <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                                <li>
+                                    <span class="list-name">All</span>
+                                    <img src="assets/icons/check-blue.svg"></li>
+                                <li>
+                                    <span class="list-name">Type</span>
+                                </li>                        
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col_ col-2 title d-flex align-items-center">
+                    <span class="d-flex align-items-center flex-column mr-1">
+                        <img src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                      </span>
+                      Channel 
+                      <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">                 
+                                <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                            </button>
+                            <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                                <li>
+                                    <span class="list-name">All</span>
+                                    <img src="assets/icons/check-blue.svg"></li>
+                                <li>
+                                    <span class="list-name">Type</span>
+                                </li>                        
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col_ col-2 title d-flex align-items-center">
+                    <span class="d-flex align-items-center flex-column mr-1">
+                        <img src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                      </span>
+                      RESULTS 
+                      <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">                 
+                                <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                            </button>
+                            <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                                <li>
+                                    <span class="list-name">All</span>
+                                    <img src="assets/icons/check-blue.svg"></li>
+                                <li>
+                                    <span class="list-name">Type</span>
+                                </li>                        
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col_ col-2 title d-flex align-items-center">
+                    <span class="d-flex align-items-center flex-column mr-1">
+                        <img src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                      </span>
+                      Date & Time 
+                      <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">                 
+                                <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                            </button>
+                            <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                                <li>
+                                    <span class="list-name">All</span>
+                                    <img src="assets/icons/check-blue.svg"></li>
+                                <li>
+                                    <span class="list-name">Type</span>
+                                </li>                        
+                            </ul>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+
+
+            <div class="table_body row">
+                <div class="col-4 title search-query-data">
+                    <div class="img-block">
+                        <img src="assets/icons/usage-logs/info-img.svg">
+                    </div>
+                    <div class="content-sec">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</div>
+                </div>
+                <div class="col-2 title pl-3">Query Suggestion</div>
+                <div class="col-2 title pl-3">SDK</div>
+                <div class="col-2 title pl-3">Yes</div>
+                <div class="col-2 title pl-3">3 Jun 2020 12:00 p.m.</div>                             
+            </div>    
+            
+            <div class="table_body row">
+                <div class="col-4 title search-query-data">
+                    <div class="img-block">
+                        <img src="assets/icons/usage-logs/info-img.svg">
+                    </div>
+                    <div class="content-sec">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</div>
+                </div>
+                <div class="col-2 title pl-3">Query Suggestion</div>
+                <div class="col-2 title pl-3">SDK</div>
+                <div class="col-2 title pl-3">Yes</div>
+                <div class="col-2 title pl-3">3 Jun 2020 12:00 p.m.</div>                             
+            </div> 
+
+            <div class="table_body row">
+                <div class="col-4 title search-query-data">
+                    <div class="img-block">
+                        <img src="assets/icons/usage-logs/info-img.svg">
+                    </div>
+                    <div class="content-sec">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</div>
+                </div>
+                <div class="col-2 title pl-3">Query Suggestion</div>
+                <div class="col-2 title pl-3">SDK</div>
+                <div class="col-2 title pl-3">Yes</div>
+                <div class="col-2 title pl-3">3 Jun 2020 12:00 p.m.</div>                             
+            </div> 
+
+            <div class="table_body row">
+                <div class="col-4 title search-query-data">
+                    <div class="img-block">
+                        <img src="assets/icons/usage-logs/info-img.svg">
+                    </div>
+                    <div class="content-sec">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</div>
+                </div>
+                <div class="col-2 title pl-3">Query Suggestion</div>
+                <div class="col-2 title pl-3">SDK</div>
+                <div class="col-2 title pl-3">Yes</div>
+                <div class="col-2 title pl-3">3 Jun 2020 12:00 p.m.</div>                             
+            </div> 
+
+            <div class="table_body row">
+                <div class="col-4 title search-query-data">
+                    <div class="img-block">
+                        <img src="assets/icons/usage-logs/info-img.svg">
+                    </div>
+                    <div class="content-sec">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</div>
+                </div>
+                <div class="col-2 title pl-3">Query Suggestion</div>
+                <div class="col-2 title pl-3">SDK</div>
+                <div class="col-2 title pl-3">Yes</div>
+                <div class="col-2 title pl-3">3 Jun 2020 12:00 p.m.</div>                             
+            </div> 
+
+            <div class="table_body row">
+                <div class="col-4 title search-query-data">
+                    <div class="img-block">
+                        <img src="assets/icons/usage-logs/info-img.svg">
+                    </div>
+                    <div class="content-sec">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</div>
+                </div>
+                <div class="col-2 title pl-3">Query Suggestion</div>
+                <div class="col-2 title pl-3">SDK</div>
+                <div class="col-2 title pl-3">Yes</div>
+                <div class="col-2 title pl-3">3 Jun 2020 12:00 p.m.</div>                             
+            </div> 
+
+            <div class="table_body row">
+                <div class="col-4 title search-query-data">
+                    <div class="img-block">
+                        <img src="assets/icons/usage-logs/info-img.svg">
+                    </div>
+                    <div class="content-sec">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</div>
+                </div>
+                <div class="col-2 title pl-3">Query Suggestion</div>
+                <div class="col-2 title pl-3">SDK</div>
+                <div class="col-2 title pl-3">Yes</div>
+                <div class="col-2 title pl-3">3 Jun 2020 12:00 p.m.</div>                             
+            </div> 
+
+            <div class="table_body row">
+                <div class="col-4 title search-query-data">
+                    <div class="img-block">
+                        <img src="assets/icons/usage-logs/info-img.svg">
+                    </div>
+                    <div class="content-sec">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</div>
+                </div>
+                <div class="col-2 title pl-3">Query Suggestion</div>
+                <div class="col-2 title pl-3">SDK</div>
+                <div class="col-2 title pl-3">Yes</div>
+                <div class="col-2 title pl-3">3 Jun 2020 12:00 p.m.</div>                             
+            </div> 
+
+            <div class="table_body row">
+                <div class="col-4 title search-query-data">
+                    <div class="img-block">
+                        <img src="assets/icons/usage-logs/info-img.svg">
+                    </div>
+                    <div class="content-sec">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</div>
+                </div>
+                <div class="col-2 title pl-3">Query Suggestion</div>
+                <div class="col-2 title pl-3">SDK</div>
+                <div class="col-2 title pl-3">Yes</div>
+                <div class="col-2 title pl-3">3 Jun 2020 12:00 p.m.</div>                             
+            </div> 
+        </div>
+    </perfect-scrollbar>
 </div>

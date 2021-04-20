@@ -18,7 +18,7 @@ export class PricingComponent implements OnInit {
   addPricing1ModalPopRef: any;
   addPricing2ModalPopRef: any;
   addPricing3ModalPopRef: any;
-  addPricing4ModalPopRef: any;
+  addOverageModalPopRef: any;
   addPricing5ModalPopRef: any;
   termPlan = "Monthly";
   templateShow: boolean = false;
@@ -27,6 +27,10 @@ export class PricingComponent implements OnInit {
   serachIndexId;
   totalPlansData: any;
   filterPlansData: any;
+  addDocOver = false;
+  addQueOver = false;
+  numberDoc = 1;
+  numberQuery = 1;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -35,7 +39,7 @@ export class PricingComponent implements OnInit {
   @ViewChild('addPricingModel1') addPricingModel1: KRModalComponent;
   @ViewChild('addPricingModel2') addPricingModel2: KRModalComponent;
   @ViewChild('addPricingModel3') addPricingModel3: KRModalComponent;
-  @ViewChild('addPricingModel4') addPricingModel4: KRModalComponent;
+  @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
   @ViewChild('addPricingModel5') addPricingModel5: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
 
@@ -77,12 +81,20 @@ export class PricingComponent implements OnInit {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-  compare(type, data) {
+  compare(type, data?) {
     if (type == 'choosePlans') {
       this.plans.openChoosePlanPopup(data);
     }
     else if (type == 'order') {
       this.plans.openOrderConfPopup(data);
+    }else if(type =='orderOverage'){
+      for (let data of this.totalPlansData) {
+        if(this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription && this.currentSubscriptionPlan.subscription.planName){
+          if (data.name == this.currentSubscriptionPlan.subscription.planName) {
+            this.plans.openOrderConfPopup(data);
+          }
+        }
+      }
     }
   }
   //open popup1
@@ -120,15 +132,21 @@ export class PricingComponent implements OnInit {
 
   //open popup1
   addOverage() {
-    this.addPricing4ModalPopRef = this.addPricingModel4.open();
+    this.addOverageModalPopRef = this.addOverageModel.open();
   }
   //close popup1
-  closePopup4() {
-    if (this.addPricing4ModalPopRef && this.addPricing4ModalPopRef.close) {
-      this.addPricing4ModalPopRef.close();
+  closeOveragePopup() {
+    if (this.addOverageModalPopRef && this.addOverageModalPopRef.close) {
+      this.addOverageModalPopRef.close();
     }
+   this.cancelOveragePopup();
   }
-
+  cancelOveragePopup(){
+    this.addDocOver = false;
+    this.addQueOver = false;
+    this.numberQuery = 1;
+    this.numberDoc = 1;
+  }
   //open popup1
   openPopup5() {
     this.addPricing5ModalPopRef = this.addPricingModel5.open();
@@ -137,6 +155,27 @@ export class PricingComponent implements OnInit {
   closePopup5() {
     if (this.addPricing5ModalPopRef && this.addPricing5ModalPopRef.close) {
       this.addPricing5ModalPopRef.close();
+    }
+  }
+  addDocument(){
+    this.addDocOver = true
+  }
+  addQuerry(){
+    this.addQueOver = true;
+  }
+  count(type,operation){
+    if(type == 'doc'){
+      if(operation =='plus'){
+        this.numberDoc = this.numberDoc + 1;
+      }else{
+        this.numberDoc > 1 ? this.numberDoc = this.numberDoc - 1 : this.numberDoc = 1;
+      }
+    }else{
+      if(operation =='plus'){
+        this.numberQuery = this.numberQuery + 1;
+      }else{
+        this.numberQuery > 1 ?  this.numberQuery = this.numberQuery - 1: this.numberQuery = 1;
+      }
     }
   }
   //Grap data
