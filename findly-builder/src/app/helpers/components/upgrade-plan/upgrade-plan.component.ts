@@ -35,6 +35,7 @@ export class UpgradePlanComponent implements OnInit {
   urlSafe: any;
   transactionId: any;
   payementSuccess: true;
+  overageExist: boolean;
   payementResponse: any = {
     hostedPage: {
       transactionId: "",
@@ -121,7 +122,8 @@ export class UpgradePlanComponent implements OnInit {
     }
   }
   //open order confirm popup
-  openOrderConfPopup(data?) {
+  openOrderConfPopup(data?, overage?, obj?) {
+    this.overageExist = overage === undefined ? false : overage;
     this.orderConfirmData = data;
     this.orderConfirmModelRef = this.orderConfirmModel.open();
   }

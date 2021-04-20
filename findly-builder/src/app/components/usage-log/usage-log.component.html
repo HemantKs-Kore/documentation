@@ -8,7 +8,7 @@
                 <img class="close-icon" *ngIf="searchInvoice" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchInvoice}" (click)="searchInvoice='';toggleSearch(false)">              -->
             </div>           
             <div class="seach-block">
-                <span class="mr-3" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                <span class="mr-3" (click)="toggleSearch()"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
             </div> 
             <div class="download-icon" tooltipClass="tooltip_custom margin-10" placement="bottom-right" container='body' ngbTooltip="Download Log">
                 <img src="assets/icons/usage-log/download.svg">

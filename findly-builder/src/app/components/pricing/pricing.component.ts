@@ -22,7 +22,7 @@ export class PricingComponent implements OnInit {
   addPricing5ModalPopRef: any;
   termPlan = "Monthly";
   templateShow: boolean = false;
-  currentSubscriptionPlan : any;
+  currentSubscriptionPlan: any;
   selectedApp;
   serachIndexId;
   totalPlansData: any;
@@ -49,11 +49,11 @@ export class PricingComponent implements OnInit {
     this.userEngagementChart()
     this.getPlan()
     this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
-    if(!this.currentSubscriptionPlan){
+    if (!this.currentSubscriptionPlan) {
       this.currentsubscriptionPlan(this.selectedApp)
     }
   }
-  currentsubscriptionPlan(app){
+  currentsubscriptionPlan(app) {
     const payload = {
       streamId: app._id
     };
@@ -87,11 +87,12 @@ export class PricingComponent implements OnInit {
     }
     else if (type == 'order') {
       this.plans.openOrderConfPopup(data);
-    }else if(type =='orderOverage'){
+    } else if (type == 'orderOverage') {
       for (let data of this.totalPlansData) {
-        if(this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription && this.currentSubscriptionPlan.subscription.planName){
+        if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription && this.currentSubscriptionPlan.subscription.planName) {
           if (data.name == this.currentSubscriptionPlan.subscription.planName) {
-            this.plans.openOrderConfPopup(data);
+            let obj = { docCount: this.numberDoc, queryCount: this.numberQuery }
+            this.plans.openOrderConfPopup(data, true, obj);
           }
         }
       }
@@ -139,9 +140,9 @@ export class PricingComponent implements OnInit {
     if (this.addOverageModalPopRef && this.addOverageModalPopRef.close) {
       this.addOverageModalPopRef.close();
     }
-   this.cancelOveragePopup();
+    this.cancelOveragePopup();
   }
-  cancelOveragePopup(){
+  cancelOveragePopup() {
     this.addDocOver = false;
     this.addQueOver = false;
     this.numberQuery = 1;
@@ -157,24 +158,24 @@ export class PricingComponent implements OnInit {
       this.addPricing5ModalPopRef.close();
     }
   }
-  addDocument(){
+  addDocument() {
     this.addDocOver = true
   }
-  addQuerry(){
+  addQuerry() {
     this.addQueOver = true;
   }
-  count(type,operation){
-    if(type == 'doc'){
-      if(operation =='plus'){
+  count(type, operation) {
+    if (type == 'doc') {
+      if (operation == 'plus') {
         this.numberDoc = this.numberDoc + 1;
-      }else{
+      } else {
         this.numberDoc > 1 ? this.numberDoc = this.numberDoc - 1 : this.numberDoc = 1;
       }
-    }else{
-      if(operation =='plus'){
+    } else {
+      if (operation == 'plus') {
         this.numberQuery = this.numberQuery + 1;
-      }else{
-        this.numberQuery > 1 ?  this.numberQuery = this.numberQuery - 1: this.numberQuery = 1;
+      } else {
+        this.numberQuery > 1 ? this.numberQuery = this.numberQuery - 1 : this.numberQuery = 1;
       }
     }
   }
