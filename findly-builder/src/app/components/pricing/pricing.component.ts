@@ -19,7 +19,7 @@ export class PricingComponent implements OnInit {
   addPricing2ModalPopRef: any;
   addPricing3ModalPopRef: any;
   addOverageModalPopRef: any;
-  addPricing5ModalPopRef: any;
+  cancelSubscriptionModelPopRef: any;
   termPlan = "Monthly";
   templateShow: boolean = false;
   currentSubscriptionPlan : any;
@@ -59,7 +59,7 @@ export class PricingComponent implements OnInit {
   @ViewChild('addPricingModel2') addPricingModel2: KRModalComponent;
   @ViewChild('addPricingModel3') addPricingModel3: KRModalComponent;
   @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
-  @ViewChild('addPricingModel5') addPricingModel5: KRModalComponent;
+  @ViewChild('cancelSubscriptionModel') cancelSubscriptionModel: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
 
   ngOnInit(): void {
@@ -74,7 +74,7 @@ export class PricingComponent implements OnInit {
     };
     const appObserver = this.service.invoke('get.currentPlans', payload);
     appObserver.subscribe(res => {
-      this.currentSubscriptionPlan = res
+      this.currentSubscriptionPlan = res;
       this.getOverage(overageRes);
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
@@ -184,12 +184,28 @@ export class PricingComponent implements OnInit {
   }
   //open popup1
   openPopup5() {
-    this.addPricing5ModalPopRef = this.addPricingModel5.open();
+    this.cancelSubscriptionModelPopRef = this.cancelSubscriptionModel.open();
   }
   //close popup1
-  closePopup5() {
-    if (this.addPricing5ModalPopRef && this.addPricing5ModalPopRef.close) {
-      this.addPricing5ModalPopRef.close();
+  cancelSubscription() {
+    const queryParam = {
+      streamId: this.selectedApp._id
+    }
+    const payload = {
+      subscriptionId: this.currentSubscriptionPlan.subscription._id,
+      status: "success"
+    };
+    this.service.invoke('put.cancelSubscribtion',queryParam,payload).subscribe(res => {
+      this.currentsubscriptionPlan(this.selectedApp)
+    // this.notificationService.notify('Cancel Subscription', 'success');
+    }, errRes => {
+      this.errorToaster(errRes, 'failed to Cancel subscription');
+    });
+   this.closeCancelSubsPopup();
+  }
+  closeCancelSubsPopup(){
+    if (this.cancelSubscriptionModelPopRef && this.cancelSubscriptionModelPopRef.close) {
+      this.cancelSubscriptionModelPopRef.close();
     }
   }
   addDocument(){
@@ -223,12 +239,20 @@ export class PricingComponent implements OnInit {
 
       tooltip: {
         trigger: 'axis',
-        axisPointer: {
-          type: 'none'
-        },
+        axisPointer: {            
+          type: 'none'        
+      },
+        formatter: `
+          <div class="metrics-tooltips-hover agent_drop_tolltip">
+          <div class="">
+            <div class="main-title">Query Usage on {b0} is {c0}</div>
+          </div> 
+        </div>
+        
+        `,
         position: 'top',
         padding: 0
-
+       
       },
 
       grid: {
@@ -284,22 +308,39 @@ export class PricingComponent implements OnInit {
     }
     this.documentGraph = {
 
+      // tooltip: {
+      //   trigger: 'axis',
+      //   axisPointer: {
+      //     type: 'none'
+      //   },
+      //   position: 'top',
+      //   padding: 0
+
+      // },
       tooltip: {
         trigger: 'axis',
-        axisPointer: {
-          type: 'none'
-        },
+        axisPointer: {            
+          type: 'none'        
+      },
+        formatter: `
+          <div class="metrics-tooltips-hover agent_drop_tolltip">
+          <div class="">
+            <div class="main-title">Document Usage on {b0} is {c0}</div>
+          </div> 
+        </div>
+        
+        `,
         position: 'top',
         padding: 0
-
+       
       },
-
       grid: {
         left: '3%',
         right: '4%',
         bottom: '3%',
         containLabel: true
       },
+      
       xAxis: {
         type: 'category',
         data: ['Jan', 'Feb', 'Apr', 'May', 'Jun'], //data//
