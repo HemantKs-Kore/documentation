@@ -89,7 +89,7 @@ export class UpgradePlanComponent implements OnInit {
     this.service.invoke('get.payementStatus', queryParams).subscribe(res => {
       if (res.state == 'success') {
         this.openSuccessFailurePopup(true)
-      } else if (res.state == 'fail') {
+      } else if (res.state == 'failed') {
         this.openSuccessFailurePopup(false)
       } else {
         this.poling();
@@ -176,6 +176,7 @@ export class UpgradePlanComponent implements OnInit {
       // }
       let url = this.payementResponse.hostedPage.url;
       this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      this.getPayementStatus()
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });
