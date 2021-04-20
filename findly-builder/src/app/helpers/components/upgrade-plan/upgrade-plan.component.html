@@ -24,11 +24,11 @@
                     <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise"}'>Custom</div>
                     <div class="current-plan-title" *ngIf="selectedPlan.planName===plan.name"><img src="assets/icons/pricing/check-round.svg">Current Plan</div>
                   </div>
-                  <div class="card-desc">10k Documents </div>
-                  <div class="card-desc">50k Queries per month</div>
+                  <div class="card-desc" *ngFor="let info of plan.featureData" [hidden]="!(info.displayOnBanner)">{{info.displayText}}</div>
+                  <!-- <div class="card-desc">50k Queries per month</div>
                   <div class="card-desc">Scheduled Crawling</div>
                   <div class="card-desc">Experiments</div>
-                  <div class="card-desc">Community Support</div>
+                  <div class="card-desc">Community Support</div> -->
                   <button class="kr-sg-button-secondary btn_lg" (click)="openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
               </div>
               <div class="goto_details" (click)="showPlanDetails = plan.name">Go to Details</div>
@@ -73,41 +73,27 @@
           </div> -->
         </div>
 
-        <div class="choose-plan-data-table if-standard d-none">
+        <div class="choose-plan-data-table if-standard" *ngFor="let plan of filterPlansData">
          <!-- if-free, if-standard, if-pro, if-enterprise   add this classes based on type selected--> 
+         <ng-container>
          <div class="header-table-plan row m-0">
             <div class="type-title width-24">
               
             </div>
             <div class="type-title width-19">
-              <div class="title">Free</div>  
-            </div>
-            <div class="type-title width-19">
-              <div class="title">Standard</div>
-              <div class="plan-duration">$99 / month </div>
-              <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
-            </div>
-            <div class="type-title width-19">
-              <div class="title">Pro</div>
-              <div class="plan-duration">$399 / month </div>
-              <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
-            </div>
-            <div class="type-title width-19">
-              <div class="title">Enterprise</div>
-              <div class="plan-duration">Custom Pricing </div>
+              <div class="title">{{plan.name}}</div>  
+              <div class="plan-duration" *ngIf="selectedPlan" [ngClass]='{"d-none":selectedPlan.planName===plan.name||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?'month':'year'}}</span></div>
+              <div class="plan-duration" [ngClass]='{"d-none":plan.name!="Enterprise"}'>Custom Pricing</div>
               <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
             </div>
           </div>
 
           <div class="body-content-plan">
-            <div class="body-table-plan row">
-              <div class="title width-24 pl-4">Allowed Documents <img src="assets/icons/pricing/info.svg"></div>
-              <div class="title width-19">1000</div>
-              <div class="title width-19">10k</div>
-              <div class="title width-19">50k</div>
-              <div class="title width-19">Custom</div>
+            <div class="body-table-plan row" *ngFor="let feature of plan.featureData">
+              <div class="title width-24 pl-4">{{feature.name}} <img src="assets/icons/pricing/info.svg"></div>
+              <div class="title width-19">{{feature.limit==Undefined?"-":feature.limit}}</div>
             </div>
-            <div class="body-table-plan row">
+            <!-- <div class="body-table-plan row">
               <div class="title width-24 pl-4">Number of Queries <img src="assets/icons/pricing/info.svg"></div>
               <div class="title width-19">1000</div>
               <div class="title width-19">50k</div>
@@ -147,8 +133,9 @@
               <div class="title width-19">Community Support</div>
               <div class="title width-19">E-mail, Standard SLA</div>
               <div class="title width-19">Dedicated POC, Custom SLA</div>
-            </div>
+            </div> -->
         </div>
+      </ng-container>
         </div>
       </div>
     </perfect-scrollbar>

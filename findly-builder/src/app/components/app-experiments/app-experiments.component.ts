@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
 import * as moment from 'moment';
 declare const $: any;
+import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 @Component({
   selector: 'app-app-experiments',
@@ -36,6 +37,7 @@ export class AppExperimentsComponent implements OnInit {
   someRangeconfig: any = null;
   @ViewChild('addExperiments') addExperiments: KRModalComponent;
   @ViewChild('sliderref') sliderref;
+  @ViewChild('plans') plans: UpgradePlanComponent;
   variantList = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }];
   // add Experiment
   form_type;
@@ -61,12 +63,34 @@ export class AppExperimentsComponent implements OnInit {
   exp_skipPage: number = 0;
   test = 33.33;
   loadingContent1: boolean;
+  currentSubscriptionPlan: any;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getExperiments();
-    this.setSliderDefaults();
-    this.getIndexPipeline();
+    this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+    if (!this.currentSubscriptionPlan) {
+      this.currentsubscriptionPlan(this.selectedApp)
+    }
+  }
+  //get current subscription data
+  currentsubscriptionPlan(app) {
+    const payload = {
+      streamId: app._id
+    };
+    const appObserver = this.service.invoke('get.currentPlans', payload);
+    appObserver.subscribe(res => {
+      this.currentSubscriptionPlan = res.subscription;
+      if (this.currentSubscriptionPlan.planName != 'Free') {
+        this.getExperiments();
+        this.setSliderDefaults();
+        this.getIndexPipeline();
+      }
+      else if (this.currentSubscriptionPlan.planName == 'Free') {
+        this.loadingContent1 = true;
+      }
+    }, errRes => {
+      console.log('failed to get plans');
+    });
   }
   loadImageText: boolean = false;
   imageLoaded() {
@@ -694,5 +718,9 @@ export class AppExperimentsComponent implements OnInit {
   }
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  //upgrade plan
+  upgrade() {
+    this.plans.openChoosePlanPopup('choosePlans');
   }
 }

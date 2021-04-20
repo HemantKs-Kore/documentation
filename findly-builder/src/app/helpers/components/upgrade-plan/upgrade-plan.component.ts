@@ -28,26 +28,26 @@ export class UpgradePlanComponent implements OnInit {
   showPlanDetails: string;
   orderConfirmData: any;
   selectedPlan: any;
-  selectedApp : any;
-  serachIndexId : any;
-  userInfo : any;
-  currentSubscriptionPlan : any;
-  urlSafe : any;
-  transactionId : any;
-  payementSuccess : true;
-  payementResponse : any = {
-    hostedPage : {
-      transactionId : "",
-      url :"https://store.payproglobal.com/checkout?products[1][id]=65066&products[1][qty]=1&page-template=2339&language=en&currency=USD&x-accountId=5ecfbf1407c1bd2347c4f199&x-resourceId=st-7a270f50-338b-5d82-8022-c2ef8e6b46da&x-transactionId=faTYYAH3g2GsdmthszR5kDT179I4&x-streamName=AmazeBot&exfo=742&use-test-mode=true&secret-key=_npaisT4eQ&emailoverride=akshay.gupta%40kore.com&x-isSearchbot=true"
+  selectedApp: any;
+  serachIndexId: any;
+  userInfo: any;
+  currentSubscriptionPlan: any;
+  urlSafe: any;
+  transactionId: any;
+  payementSuccess: true;
+  payementResponse: any = {
+    hostedPage: {
+      transactionId: "",
+      url: "https://store.payproglobal.com/checkout?products[1][id]=65066&products[1][qty]=1&page-template=2339&language=en&currency=USD&x-accountId=5ecfbf1407c1bd2347c4f199&x-resourceId=st-7a270f50-338b-5d82-8022-c2ef8e6b46da&x-transactionId=faTYYAH3g2GsdmthszR5kDT179I4&x-streamName=AmazeBot&exfo=742&use-test-mode=true&secret-key=_npaisT4eQ&emailoverride=akshay.gupta%40kore.com&x-isSearchbot=true"
     }
   };
   constructor(public dialog: MatDialog,
-     private service: ServiceInvokerService,
-     private appSelectionService : AppSelectionService,
-     public workflowService: WorkflowService, 
-     private authService: AuthService,
-     public sanitizer: DomSanitizer,
-     private notificationService: NotificationService) { }
+    private service: ServiceInvokerService,
+    private appSelectionService: AppSelectionService,
+    public workflowService: WorkflowService,
+    private authService: AuthService,
+    public sanitizer: DomSanitizer,
+    private notificationService: NotificationService) { }
   @ViewChild('orderConfirmModel') orderConfirmModel: KRModalComponent;
   @ViewChild('addPricingModel2') addPricingModel2: KRModalComponent;
   @ViewChild('choosePlanModel') choosePlanModel: KRModalComponent;
@@ -59,12 +59,12 @@ export class UpgradePlanComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
-    if(!this.currentSubscriptionPlan){
+    if (!this.currentSubscriptionPlan) {
       this.currentsubscriptionPlan(this.selectedApp)
     }
     this.getPlan();
   }
-  currentsubscriptionPlan(app){
+  currentsubscriptionPlan(app) {
     const payload = {
       streamId: app._id
     };
@@ -75,22 +75,22 @@ export class UpgradePlanComponent implements OnInit {
       this.errorToaster(errRes, 'failed to get plans');
     });
   }
-  poling(){
-    setTimeout(()=>{
+  poling() {
+    setTimeout(() => {
       this.getPayementStatus();
-    },3000)
+    }, 3000)
   }
-  getPayementStatus(){
+  getPayementStatus() {
     const queryParams = {
-      streamId : this.selectedApp._id,
-      transactionId : this.payementResponse.hostedPage.transactionId
+      streamId: this.selectedApp._id,
+      transactionId: this.payementResponse.hostedPage.transactionId
     };
-    this.service.invoke('get.payementStatus',queryParams).subscribe(res => {
-      if(res.state == 'success'){
+    this.service.invoke('get.payementStatus', queryParams).subscribe(res => {
+      if (res.state == 'success') {
         this.openSuccessFailurePopup(true)
-      }else if(res.state == 'fail'){
+      } else if (res.state == 'fail') {
         this.openSuccessFailurePopup(false)
-      }else{
+      } else {
         this.poling();
       }
     }, errRes => {
@@ -100,9 +100,13 @@ export class UpgradePlanComponent implements OnInit {
   //get plans api
   getPlan() {
     this.service.invoke('get.pricingPlans').subscribe(res => {
-      console.log("plans data", res);
       this.totalPlansData = res;
       this.typeOfPlan("Monthly");
+      this.totalPlansData.forEach(data => {
+        let dat = Object.values(data.featureAccess);
+        data = Object.assign(data, { "featureData": dat });
+      })
+      console.log("totalPlansData", this.totalPlansData);
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });
@@ -146,33 +150,33 @@ export class UpgradePlanComponent implements OnInit {
       planId: this.currentSubscriptionPlan.subscription._id
     };
     const payload = {
-        "streamId": this.selectedApp._id,
-        "fName": this.userInfo.fName,
-        "lName": this.userInfo.lName,
-        "country": "India",
-        "city": "Hyd",
-        "address": "some address",
-        "state": "Tel",
-        "zip": 302016,
-        "streamName": this.selectedApp.name,
-        "quantity": 1
+      "streamId": this.selectedApp._id,
+      "fName": this.userInfo.fName,
+      "lName": this.userInfo.lName,
+      "country": "India",
+      "city": "Hyd",
+      "address": "some address",
+      "state": "Tel",
+      "zip": 302016,
+      "streamName": this.selectedApp.name,
+      "quantity": 1
     }
-    let url = "https://store.payproglobal.com/checkout?products[1][id]=65066&products[1][qty]=1&page-template=2339&language=en&currency=USD&x-accountId=5ecfbf1407c1bd2347c4f199&x-resourceId=st-7a270f50-338b-5d82-8022-c2ef8e6b46da&x-transactionId=faTYYAH3g2GsdmthszR5kDT179I4&x-streamName=AmazeBot&exfo=742&use-test-mode=true&secret-key=_npaisT4eQ&emailoverride=akshay.gupta%40kore.com&x-isSearchbot=true" 
-    this.urlSafe= this.sanitizer.bypassSecurityTrustResourceUrl(url);
-    const appObserver = this.service.invoke('post.payement', queryParams ,payload);
+    let url = "https://store.payproglobal.com/checkout?products[1][id]=65066&products[1][qty]=1&page-template=2339&language=en&currency=USD&x-accountId=5ecfbf1407c1bd2347c4f199&x-resourceId=st-7a270f50-338b-5d82-8022-c2ef8e6b46da&x-transactionId=faTYYAH3g2GsdmthszR5kDT179I4&x-streamName=AmazeBot&exfo=742&use-test-mode=true&secret-key=_npaisT4eQ&emailoverride=akshay.gupta%40kore.com&x-isSearchbot=true"
+    this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    const appObserver = this.service.invoke('post.payement', queryParams, payload);
     appObserver.subscribe(res => {
       //this.payementResponse = res;
       this.payementResponse = {
-         "hostedPage" : {
-        "transactionId": "faTYYAH3g2GsdmthszR5kDT179I4",
-        "url": "https://store.payproglobal.com/checkout?products[1][id]=65066&products[1][qty]=1&page-template=2339&language=en&currency=USD&x-accountId=5ecfbf1407c1bd2347c4f199&x-resourceId=st-7a270f50-338b-5d82-8022-c2ef8e6b46da&x-transactionId=faTYYAH3g2GsdmthszR5kDT179I4&x-streamName=AmazeBot&exfo=742&use-test-mode=true&secret-key=_npaisT4eQ&emailoverride=akshay.gupta%40kore.com&x-isSearchbot=true"
+        "hostedPage": {
+          "transactionId": "faTYYAH3g2GsdmthszR5kDT179I4",
+          "url": "https://store.payproglobal.com/checkout?products[1][id]=65066&products[1][qty]=1&page-template=2339&language=en&currency=USD&x-accountId=5ecfbf1407c1bd2347c4f199&x-resourceId=st-7a270f50-338b-5d82-8022-c2ef8e6b46da&x-transactionId=faTYYAH3g2GsdmthszR5kDT179I4&x-streamName=AmazeBot&exfo=742&use-test-mode=true&secret-key=_npaisT4eQ&emailoverride=akshay.gupta%40kore.com&x-isSearchbot=true"
         }
       }
- 
+
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });
-    
+
     this.closeChoosePlanPopup();
     this.closeOrderConfPopup();
     this.paymentGatewayModelPopRef = this.paymentGatewayModel.open();
