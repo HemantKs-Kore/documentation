@@ -53,7 +53,7 @@ export class InvoicesComponent implements OnInit {
       this.getInvoices();
     }
   }
-
+  searchItems(){}
   getInvoices(offset?) {
     const quaryparms: any = {
       streamId : this.selectedApp._id,
