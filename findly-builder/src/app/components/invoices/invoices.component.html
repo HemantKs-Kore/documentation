@@ -21,7 +21,7 @@
         <div class="current-plan">Current Plan</div>
         <div class="type">Free</div>
     </div>
-    <perfect-scrollbar class="scroll-invoice-content">
+    <perfect-scrollbar class="scroll-invoice-content if-pagination">
         <div class="invoice-table-data">
             <div class="invoice-table-header row col-12">
                 <div class="title col-2">INVOICE ID</div>
@@ -37,10 +37,13 @@
                 <div class="title col-2">{{invoice.subscriptionType}}</div>
                 <div class="title col-3">{{invoice.invoiceCreatedDate  | dateFormatPipe: 'DD MMM YYYY'}}</div>
                 <div class="actions-invoice">
-                    <div class="view"><img src="assets/icons/usage-log/view.svg"></div>
-                    <div class="download-invoice"><img src="assets/icons/usage-log/download.svg"></div>
+                    <div class="view"> <a href="{{invoice.viewInvoice}}" target="_blank"><img src="assets/icons/usage-log/view.svg"></a></div>
+                    <div class="download-invoice"><a type="button" (click)="downloadInvoice(invoice.viewInvoice,invoice._id)"><img src="assets/icons/usage-log/download.svg"></a></div>
                 </div>
             </div>
         </div>
     </perfect-scrollbar>
+    <div class="px-4">
+        <app-record-pagination *ngIf="invoices && invoices.length" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
+    </div>
 </div>

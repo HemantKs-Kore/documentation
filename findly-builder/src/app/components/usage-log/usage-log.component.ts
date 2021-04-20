@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class UsageLogComponent implements OnInit {
   showSearch;
   searchUsageLog = '';
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   constructor() { }
 
   ngOnInit(): void {
