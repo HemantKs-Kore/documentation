@@ -6,7 +6,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
-
+import { saveAs } from 'file-saver';
+declare var require: any
+const FileSaver = require('file-saver');
 @Component({
   selector: 'app-invoices',
   templateUrl: './invoices.component.html',
@@ -22,7 +24,7 @@ export class InvoicesComponent implements OnInit {
   serachIndexId;
   indexPipelineId;
   subscription: Subscription;
-
+  totalRecord:number;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -62,6 +64,7 @@ export class InvoicesComponent implements OnInit {
     };
     this.service.invoke('get.allInvoices', quaryparms).subscribe(res => {
       this.invoices = res.data || [];
+      this.totalRecord = res.total;
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get invoices');
     });
@@ -75,5 +78,14 @@ export class InvoicesComponent implements OnInit {
     } else {
       this.notificationService.notify('Somthing went wrong', 'error');
     }
+  }
+
+  paginate(event){
+    this.getInvoices(event.skip)
+  }
+
+  downloadInvoice(url,invoiceId){
+    // FileSaver.saveAs("https://httpbin.org/image", "image.jpg");
+    FileSaver.saveAs(url+'&DownloadPdf=true', 'invoice_'+invoiceId+'.pdf');
   }
 }
