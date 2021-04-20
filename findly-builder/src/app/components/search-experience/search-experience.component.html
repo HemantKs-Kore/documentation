@@ -19,12 +19,12 @@
                 <div class="experience-tab">
                     <div class="left-sec">
                         <div class="kr-sg-radiobutton d-block plr-0 mb-4">
-                            <input id="radio-2" name="topdown" value='top' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition" (click)="changeSlider('top-down')">
+                            <input id="radio-2" name="topdown" value='top' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition" (click)="changeSlider('top')">
                             <label for="radio-2" class="radio-custom-label">Top Down</label>
                             <div class="desc-tect">Search Bar at the top</div>
                         </div>   
                         <div class="kr-sg-radiobutton d-block plr-0 mb-4">
-                            <input id="radio-22" name="bottomup" value='bottom' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition" (click)="changeSlider('bottom-up')">
+                            <input id="radio-22" name="bottomup" value='bottom' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition" (click)="changeSlider('bottom')">
                             <label for="radio-22" class="radio-custom-label">Bottom Up</label>
                             <div class="desc-tect">Search Bar at the bottom</div>
                         </div>   
@@ -363,8 +363,14 @@
                                                    <div class="close-btn" (click)="closeEmojiPicker()">
                                                        <img src="assets/icons/search-experience/emojis/close.svg">
                                                    </div>
-                                                    <li class="emoji-type" *ngFor="let emoji of emojiList" (click)="emojiIcon = emoji.img_src; emojiIconUpload('update')">
-                                                        <img [src]="emoji.img_src" [alt]="emoji.value">
+                                                    <li class="emoji-type" *ngFor="let emoji of emojiList">
+                                                        <img [src]="emoji.img_src" *ngIf="!emoji.multiple" [alt]="emoji.value" (click)="emojiIcon = emoji.img_src; emojiIconUpload('update')">
+                                                        <img [src]="emoji.selected" *ngIf="emoji.multiple" [alt]="emoji.value" (click)="emojiIcon = emoji.selected; emojiIconUpload('update')">
+                                                        <div class="nestead-emojies" *ngIf="emoji.multiple">
+                                                            <div class="img-block" *ngFor="let emoji_varient of emoji.emoji_set">
+                                                                <img [src]="emoji_varient" [alt]="emoji.value" (click)="emojiIcon = emoji_varient; emoji.selected = emoji_varient;emojiIconUpload('update')">
+                                                            </div>
+                                                        </div>
                                                     </li>
                                                </div>
                                             </ul>
@@ -411,7 +417,7 @@
                             <div class="search-widget-if-bottom-up" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">                               
                                 <div class="greeting-block">
                                     <img [src]="emojiIcon">
-                                    <span class="greeting-title">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
+                                    <span class="greeting-title" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
                                 </div>
                                 <div class="d-flex search-customization-input">
                                     <div class="kr-sg-input-search">                               
@@ -451,7 +457,7 @@
                                 </div>
                                 <div class="greeting-block">
                                     <img [src]="emojiIcon">
-                                    <span class="greeting-title">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
+                                    <span class="greeting-title" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
                                 </div>
                             </div>
                         </div>
@@ -533,7 +539,7 @@
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
       <div class="modal-body" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
-        <div class="main-title">Hi Ankit,</div>
+        <div class="main-title">Hi {{userName}},</div>
         <div class="main-title">It is recommended to go through this guide before customizing interactions.</div>
         <div class="guide-data">
             <div class="layer-img">

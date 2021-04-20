@@ -569,7 +569,7 @@
                       </div>
                     </div>
                     <div class="kr-sg-input-text">
-                      <input type="text" id="enterPathInput" #inputVal placeholder="Enter/Path"
+                      <input type="text" id="enterPathInput" #inputVal placeholder="https://"
                         [(ngModel)]="allowUrl.url" class="input-text" autocomplete="off">
                     </div>
                     <div class="add-urls" (click)="allowUrls(urlConditionAllow,inputVal,allowUrl)"><img
@@ -590,7 +590,7 @@
                           </div>
                           <div class="kr-sg-input-text">
                             <input type="text" autocomplete="off" value= "{{allow.url}}" name="allowVal"
-                              placeholder="Enter/Path" class="input-text" disabled>
+                              placeholder="https://" class="input-text" disabled>
                           </div>
                           <div class="add-urls" (click)="updateRecord(i,allow,'delete','allow')"><img src="assets/images/close-cross.svg"></div>
                         </div>
@@ -623,7 +623,7 @@
                     </div>
                     <div class="kr-sg-input-text">
                       <input type="text" autocomplete="off" [(ngModel)]="blockUrl.url" name="blockVal"
-                        placeholder="Enter/Path" class="input-text">
+                        placeholder="https://" class="input-text">
                     </div>
                     <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
                   </div>
@@ -642,7 +642,7 @@
                       </div>
                       <div class="kr-sg-input-text">
                         <input type="text" autocomplete="off" value= "{{allow.url}}" name="allowVal"
-                          placeholder="Enter/Path" class="input-text" disabled>
+                          placeholder="https://" class="input-text" disabled>
                       </div>
                       <div class="add-urls" (click)="updateRecord(i,allow,'delete','block')"><img src="assets/images/close-cross.svg"></div>
                     </div>

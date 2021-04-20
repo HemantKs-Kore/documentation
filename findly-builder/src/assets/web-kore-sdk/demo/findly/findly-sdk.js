@@ -1063,14 +1063,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{/if}}\
             {{if searchConfig.searchButtonEnabled}}\
             {{if searchConfig.buttonPlacementPosition== "inside"}}\
-            <button class="submit-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}; height: 28px; position: absolute; right: 4px;margin: 0;top: -31px;line-height: 20px;font-size: 14px;letter-spacing: 0px;"{{/if}} disabled>${searchConfig.buttonText}</button>\
+            <button class="submit-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}; height: 28px; position: absolute; right: 70px;margin: 0;top: -31px;padding: 0px 15px;line-height: 20px;font-size: 14px;letter-spacing: 0px;"{{/if}} disabled>${searchConfig.buttonText}</button>\
            {{else}}\
-            <button class="submit-button submit-button-outside" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}; height: 34px; position: absolute; right: -100px;margin:0px;padding: 0px 15px;line-height: 20px;font-size: 14px;letter-spacing: 0px;"{{/if}} disabled>${searchConfig.buttonText}</button>\
+            <button class="submit-button submit-button-outside" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}; height: 34px; position: absolute; right: -18px;margin:0px;padding: 0px 15px;line-height: 20px;font-size: 14px;letter-spacing: 0px;"{{/if}} disabled>${searchConfig.buttonText}</button>\
             {{/if}}\
             {{/if}}\
           </div>\
-          <div class="show_insights_top_down display-none" data-displayInsights="true">\
-            <span class="query-analytics-top-down"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBzZHNEcIgEIWfPwXYgZRAB1KCJdCB6SCWYAcpwRKkA8cK5OopdqC742YGHBJQPPhmvklgdx8Lu0C9dsQNlWqJB9GUJK8yJnsUmpyJK9ER5hsTBCaN/HNxP2bCp6qESSdFOthTYpp8k4OccCS2iFvX+EDckSVOiFu3qJCSDovGGWpWkGPk66biS+Rl8bqqm4iv55nid42+HRu1QZBHrpCXltzIyBCboBOFvIZJR0Y/0f8Z8fgvhJe1I+6Ckz0v6yHuE/H+Cfn+M6AXJD0vAAAAAElFTkSuQmCC">Query Analytics</span>\
+          <div class="show_insights_top_down" data-displayInsights="true">\
+            <span class="query_analytics_top_down"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD4SURBVHgBlVDbTcNAEJzZjQSfoQOX4A6gA8QvEtgkgMwX7iDQQfgz4nVUEKUCTAd0QNIBfxFSfMsdERGgRIpXOq1uZ0Y7s8SGlednqakMuBosu7E7N/xYkkVH9M0BV5Gt8/kC7xMQtTd7FchlJDt39yaHQf1bYDp7Imz8/Hi7Q/KGlPSHHHEe9wsX1ux6w7WETsHU3VdXa6KACxtF4hWlRN8PVYm2lZ8We/H9nx/1zss/oWMeFU3DMPnOA0zUo3aumsR/1ivemfUvRmxmJ9bZGjRzjlWRmWG6uAASUTgD9zsmw7k1dbBt4UrbXRjTtR7NlpigZbUWfAEi/12gzLS2XQAAAABJRU5ErkJggg==">Query Analytics</span>\
           </div>\
         </script>';
 
@@ -13972,9 +13972,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}} {{if isFullResults == true}}results-wrap{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
+                  <ul class="tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}} {{if isFullResults == true}}results-wrap{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize" && isFullResults == true}}{{if data.config.visible == false}}ui-state-disabled{{/if}}{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" manuallyAdded="${data.addedResult}" id="${key}">\
+                      <li class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize" && isFullResults == true}}{{if data.config.visible == false || (data.config.visible == true && !data.addedResult && (data.config.pinIndex < 0))}}ui-state-disabled{{/if}}{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" manuallyAdded="${data.addedResult}" id="${key}">\
                           {{if isClickable == true}}\
                             {{if viewType!="Customize" && (isFullResults == true ||  isSearch == true || isLiveSearch == true)}}\
                               <a class="tile-with-text structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
@@ -13991,7 +13991,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             {{if viewType=="Customize" && isFullResults == true}}\
                               <div class="data-wrap" index="${i}" contentType="${data.__contentType}" contentId="${data.contentId}" score="${data.score}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}">\
                                 <div class="customization-tile{{if data.config.visible == false}} disable_hidden{{/if}}{{if data.config.pinIndex >= 0}} disable_pinned{{/if}}">\
-                                    <div class="drag-content"></div>\
+                                    <div class="drag-content {{if data.config.visible == false || (data.config.visible == true && !data.addedResult && (data.config.pinIndex < 0))}}display-none{{/if}}"></div>\
                                     {{if !data.addedResult || data.addedResult == false}}\
                                       <div class="actions-content">\
                                         <span class="action-item visibility" type="{{if data.config.visible == true}}Hide{{/if}}{{if data.config.visible == false}}UnHide{{/if}}">\
@@ -14118,9 +14118,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               </div>\
                             </div>\
                           {{/if}}\
-                      </div>\
+                      </li>\
                     {{/each}}\
-                  </div>\
+                  </ul>\
                   <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
@@ -15834,24 +15834,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'tour': _self.vars.customTourResultRank
         });
         // _self.vars.customizeView = true;
-        setTimeout(() => {
-          if (_self.vars.customizeView == true) {
-            $(".structured-data-outer-wrap").sortable({
-              stop: function (event, ui) {
-                var element = ui.item[0];
-                if ($(element).find('.pinning').length) {
-                  var pinningElement = $(element).find('.pinning')[0];
-                  if (pinningElement) {
-                    $(pinningElement).trigger("click");
-                  }
-                }
-              }
-            });;
-          }
-          else {
-            $(".structured-data-outer-wrap").sortable({ disabled: true });
-          }
-        }, 100);
         if (data && data.container && data.container.length) {
           container = data.container;
         }
@@ -16406,15 +16388,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'isDropdownEnabled': isDropdownEnabled,
           'tour': _self.vars.customTourResultRank
         });
-        // _self.vars.customizeView = true;
-        setTimeout(() => {
-          if (_self.vars.customizeView == true) {
-            $(".structured-data-outer-wrap").sortable();
-          }
-          else {
-            $(".structured-data-outer-wrap").sortable({ disabled: true });
-          }
-        }, 100);
         if (data && data.container && data.container.length) {
           container = data.container;
         }
@@ -16844,15 +16817,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'isDropdownEnabled': isDropdownEnabled,
           'tour': _self.vars.customTourResultRank
         });
-        // _self.vars.customizeView = true;
-        setTimeout(() => {
-          if (_self.vars.customizeView == true) {
-            $(".structured-data-outer-wrap").sortable();
-          }
-          else {
-            $(".structured-data-outer-wrap").sortable({ disabled: true });
-          }
-        }, 100);
         if (data && data.container && data.container.length) {
           container = data.container;
         }
@@ -17293,14 +17257,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'tour': _self.vars.customTourResultRank
         });
         // _self.vars.customizeView = true;
-        setTimeout(() => {
-          if (_self.vars.customizeView == true) {
-            $(".structured-data-outer-wrap").sortable();
-          }
-          else {
-            $(".structured-data-outer-wrap").sortable({ disabled: true });
-          }
-        }, 100);
         if (data && data.container && data.container.length) {
           container = data.container;
         }
@@ -17597,7 +17553,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'facetPosition': _self.vars.filterConfiguration.aligned
         });
         $('#resultRankingId').append(resultRanking);
-        _self.checkBoostAndLowerTimes();
+        setTimeout( () => {
+          _self.checkBoostAndLowerTimes();
+        }, 400);
         _self.bindAllResultRankingOperations();
         _self.bindShowAllResultsTrigger(showAllHTML, facetData, data);
       });
@@ -18566,7 +18524,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       setTimeout(function () {
         $(".results-wrap").sortable({
-          // items: "div:not(.ui-state-disabled)",
+          items: "li:not(.ui-state-disabled)",
           cancel: ".ui-state-disabled",
           stop: function (event, ui) {
             var element = ui.item[0];
@@ -18575,6 +18533,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if (pinningElement) {
                 $(pinningElement).closest('.pinning').attr('type', 'Pin');
                 $(pinningElement).trigger("click");
+              }
+            }
+            else if($(element).attr('manuallyadded') == "true"){
+              var pinIndex = 0;
+              var _selectedElement = ui.item[0];
+              var _parentElement = $(event.target).closest('.results-wrap');
+              var childNodes = Array.prototype.slice.call(_parentElement[0].children);
+              pinIndex = childNodes.indexOf(_selectedElement);
+              if(pinIndex >= 0){
+                // console.log("pinIndex ", pinIndex);
+                _self.performRankActionsOnFullPage(ui.item, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning', true);
+                //
               }
             }
           }
@@ -18670,13 +18640,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //Tour RR
     }
 
-    FindlySDK.prototype.performRankActionsOnFullPage = function (event, conf, searchText, actionType) {
+    FindlySDK.prototype.performRankActionsOnFullPage = function (event, conf, searchText, actionType, isManuallyAdded) {
 
       var _self = this;
-      event.preventDefault();
-      event.stopPropagation();
+      if(!isManuallyAdded){
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      var selectedElement;
 
-      var selectedElement = $(event.target).closest('.data-wrap');
+      if(!isManuallyAdded){
+        selectedElement = $(event.target).closest('.data-wrap');
+      }
+      else{
+        selectedElement = $(event).find('.data-wrap');
+      }
 
       var contentID = selectedElement.attr('contentid');
       var contentType = selectedElement.attr('contentType');
@@ -18708,64 +18686,63 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.parentEvent(responseObject);
         }
         if (actionType === "pinning") {
-          res.results.forEach((result) => {
-            if (result.contentId === payload.result.contentId) {
-              $(selectedElement).attr('pinIndex', result.config.pinIndex);
-              if (result.config.pinIndex >= 0) {
-                selectedElement.find('.pinning').attr('type', "UnPin");
-                if (!selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
-                  selectedElement.find('.customization-tile').addClass('disable_pinned')
-                }
-                if (selectedElement.find('.record-status-pinned')) {
-                  selectedElement.find('.record-status-pinned').css('display', 'block');
-                }
-                if (selectedElement.find('.unpin').hasClass('display-none')) {
-                  selectedElement.find('.unpin').removeClass('display-none');
-                  selectedElement.find('.unpin').addClass('display-block');
-                }
-                if (selectedElement.find('.pin').hasClass('display-block')) {
-                  selectedElement.find('.pin').removeClass('display-block');
-                  selectedElement.find('.pin').addClass('display-none');
-                }
-                if (selectedElement.find('.img_unpin').hasClass('display-none')) {
-                  selectedElement.find('.img_unpin').removeClass('display-none');
-                  selectedElement.find('.img_unpin').addClass('display-block');
-                }
-                if (selectedElement.find('.img_pin').hasClass('display-block')) {
-                  selectedElement.find('.img_pin').removeClass('display-block');
-                  selectedElement.find('.img_pin').addClass('display-none');
-                }
-              }
-              else {
-                selectedElement.find('.pinning').attr('type', "Pin");
-                if (selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
-                  selectedElement.find('.customization-tile').removeClass('disable_pinned')
-                }
-                if (selectedElement.find('.record-status-pinned')) {
-                  selectedElement.find('.record-status-pinned').css('display', 'none');
-                }
-                if (selectedElement.find('.unpin').hasClass('display-block')) {
-                  selectedElement.find('.unpin').removeClass('display-block');
-                  selectedElement.find('.unpin').addClass('display-none');
-                }
-                if (selectedElement.find('.pin').hasClass('display-none')) {
-                  selectedElement.find('.pin').removeClass('display-none');
-                  selectedElement.find('.pin').addClass('display-block');
-                }
-                if (selectedElement.find('.img_unpin').hasClass('display-block')) {
-                  selectedElement.find('.img_unpin').removeClass('display-block');
-                  selectedElement.find('.img_unpin').addClass('display-none');
-                }
-                if (selectedElement.find('.img_pin').hasClass('display-none')) {
-                  selectedElement.find('.img_pin').removeClass('display-none');
-                  selectedElement.find('.img_pin').addClass('display-block');
-                }
-              }
-            }
-          })
-          // if(res.results[0].config.visible){
 
-          // }
+          // res.results.forEach((result) => {
+          //   if (result.contentId === payload.result.contentId) {
+          //     $(selectedElement).attr('pinIndex', result.config.pinIndex);
+          //     if (result.config.pinIndex >= 0) {
+          //       selectedElement.find('.pinning').attr('type', "UnPin");
+          //       if (!selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
+          //         selectedElement.find('.customization-tile').addClass('disable_pinned')
+          //       }
+          //       if (selectedElement.find('.record-status-pinned')) {
+          //         selectedElement.find('.record-status-pinned').css('display', 'block');
+          //       }
+          //       if (selectedElement.find('.unpin').hasClass('display-none')) {
+          //         selectedElement.find('.unpin').removeClass('display-none');
+          //         selectedElement.find('.unpin').addClass('display-block');
+          //       }
+          //       if (selectedElement.find('.pin').hasClass('display-block')) {
+          //         selectedElement.find('.pin').removeClass('display-block');
+          //         selectedElement.find('.pin').addClass('display-none');
+          //       }
+          //       if (selectedElement.find('.img_unpin').hasClass('display-none')) {
+          //         selectedElement.find('.img_unpin').removeClass('display-none');
+          //         selectedElement.find('.img_unpin').addClass('display-block');
+          //       }
+          //       if (selectedElement.find('.img_pin').hasClass('display-block')) {
+          //         selectedElement.find('.img_pin').removeClass('display-block');
+          //         selectedElement.find('.img_pin').addClass('display-none');
+          //       }
+          //     }
+          //     else {
+          //       selectedElement.find('.pinning').attr('type', "Pin");
+          //       if (selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
+          //         selectedElement.find('.customization-tile').removeClass('disable_pinned')
+          //       }
+          //       if (selectedElement.find('.record-status-pinned')) {
+          //         selectedElement.find('.record-status-pinned').css('display', 'none');
+          //       }
+          //       if (selectedElement.find('.unpin').hasClass('display-block')) {
+          //         selectedElement.find('.unpin').removeClass('display-block');
+          //         selectedElement.find('.unpin').addClass('display-none');
+          //       }
+          //       if (selectedElement.find('.pin').hasClass('display-none')) {
+          //         selectedElement.find('.pin').removeClass('display-none');
+          //         selectedElement.find('.pin').addClass('display-block');
+          //       }
+          //       if (selectedElement.find('.img_unpin').hasClass('display-block')) {
+          //         selectedElement.find('.img_unpin').removeClass('display-block');
+          //         selectedElement.find('.img_unpin').addClass('display-none');
+          //       }
+          //       if (selectedElement.find('.img_pin').hasClass('display-none')) {
+          //         selectedElement.find('.img_pin').removeClass('display-none');
+          //         selectedElement.find('.img_pin').addClass('display-block');
+          //       }
+          //     }
+          //   }
+          // })
+          $('.show-all-results').click();
         }
 
         else if (actionType === "visibility") {

@@ -150,6 +150,7 @@
     .dropdown-open {
         .dropdown-input{
             padding: 0 12px 0 17px;
+            cursor:default;
             &:hover{
                 border: solid 1px #1372ff;
             }
