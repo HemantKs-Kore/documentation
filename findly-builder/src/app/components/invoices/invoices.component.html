@@ -32,9 +32,9 @@
             </div>
             <div class="invoice-table-body row col-12" *ngFor="let invoice of invoices">
                 <div class="title col-2">{{invoice._id}}</div>
-                <div class="title col-3">--</div>
+                <div class="title col-3">{{invoice.subscriptionDetails.startDate  | dateFormatPipe: 'DD MMM YYYY'}} - {{invoice.subscriptionDetails.endDate  | dateFormatPipe: 'DD MMM YYYY'}}</div>
                 <div class="title col-2">$ {{invoice.amount}}</div>
-                <div class="title col-2">{{invoice.subscriptionId}}</div>
+                <div class="title col-2">{{invoice.subscriptionType}}</div>
                 <div class="title col-3">{{invoice.invoiceCreatedDate  | dateFormatPipe: 'DD MMM YYYY'}}</div>
                 <div class="actions-invoice">
                     <div class="view"><img src="assets/icons/usage-log/view.svg"></div>
