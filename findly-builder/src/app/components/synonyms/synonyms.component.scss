@@ -378,7 +378,9 @@
                             margin-right: 4px;
                             vertical-align: middle;
                             cursor: pointer;
+                           
                         }
+                        
                         .kr-sg-dropdowns{
                             width: auto;
                             .dropdown{
@@ -405,6 +407,11 @@
                                 }
                             }
                         }
+                    }
+                    .downArrow {
+                        transform: rotate(180deg) !important;
+                        top: -1px !important;
+                       position: relative;
                     }
                 }
                 .content-body{
