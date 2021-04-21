@@ -522,7 +522,7 @@ export class AppExperimentsComponent implements OnInit {
       
     // });
   }
-  inputChanged(type, i) {
+  inputChanged(type, i?) {
     if (type == 'enterName') {
      if(!this.experimentObj.name )  {
       $("#infoWarning").show();
