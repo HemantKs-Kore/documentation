@@ -19764,7 +19764,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     // Configuraition of Interface //
     FindlySDK.prototype.configureSearchInterface = function (botOptions, JWTResponse) {
       var baseAPIServer = botOptions.koreAPIUrl ? botOptions.koreAPIUrl : 'https://app.findly.ai/api/'
-      var searchExperienceAPIUrl = baseAPIServer + 'public/searchAssist/stream/' + botOptions.botInfo.taskBotId + '/' + botOptions.searchIndexID + '/searchExperience';
+      var searchExperienceAPIUrl = baseAPIServer + 'public/searchAssist/stream/' + botOptions.botInfo.taskBotId + '/' + botOptions.searchIndexID + '/searchInterface';
       console.log('config', searchExperienceAPIUrl);
       var type = 'GET';
 
