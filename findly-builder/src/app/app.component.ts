@@ -20,6 +20,7 @@ declare let self: any;
 import * as _ from 'underscore';
 import { Subscription } from 'rxjs';
 import { DockStatusService } from './services/dockstatusService/dock-status.service';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -68,7 +69,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private service: ServiceInvokerService,
     private endpointservice: EndPointsService,
     private appSelectionService: AppSelectionService,
-    public dockService: DockStatusService
+    public dockService: DockStatusService,
+    public inlineManual : InlineManualService
     // private translate: TranslateService
   ) {
 
@@ -141,6 +143,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.showHideSearch(false);
       this.showHideTopDownSearch(false);
     });
+    this.inlineManual.loadInlineManualScripts();
   }
   showMenu(event) {
     this.showMainMenu = event

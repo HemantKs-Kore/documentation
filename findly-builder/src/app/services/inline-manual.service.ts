@@ -13,12 +13,9 @@ export class InlineManualService {
   
   constructor(public authService : AuthService) { }
   topicHelpMap = {
-      BOT_WALK_THROUGH: '60080',
-      PRODUCT_TOUR: '',
-      TAKE_TOUR: "64679",//this can be overridden by version below with takeTourVersionMap//"64679", //"60493",//What's New
-      CREATE_BOT_ALERT:'60281',
-      CREATE_BOT_DIALOG:'60555',
-      CREATE_BOT_KT:'60129',
+      CREATEAPP :'85337',
+      FACETS : '88590',
+      SYNONYMS :'88586',
       EXPERIMENTS : '88837'
   };
   loadInlineManualScripts = function () {

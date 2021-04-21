@@ -390,8 +390,7 @@ export class AppExperimentsComponent implements OnInit {
       }
       else {
         this.loadingContent1 = true;
-        this.inlineManual.loadInlineManualScripts();
-          this.inlineManual.openHelp('EXPERIMENTS')
+        this.inlineManual.openHelp('EXPERIMENTS')
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
