@@ -332,7 +332,7 @@
                         <div class="kr-sg-input-text">
                           <div class="label-text">Enter URL</div>
                           <input type="text" id="extractUrl" placeholder="http(s)://" class="input-text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange();inputChanged('extractURL')"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="https://"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="http(s)://"
                   [(ngModel)]="newSourceObj.url" class="input-text">
                   <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
                           <!-- <input type="text" placeholder="https://" class="input-text"> -->
@@ -476,7 +476,7 @@
                       </div>
                       <div class="kr-sg-input-text">
                         <input type="text" autocomplete="off" [(ngModel)]="allowUrl.url" name="allowVal"
-                          placeholder="https://" class="input-text">
+                          placeholder="http(s)://" class="input-text">
                       </div>
                       <div class="add-urls" (click)="allowUrls(allowUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
@@ -527,7 +527,7 @@
                       </div>
                       <div class="kr-sg-input-text">
                         <input type="text" autocomplete="off" [(ngModel)]="blockUrl.url" name="blockVal"
-                          placeholder="https://" class="input-text">
+                          placeholder="http(s)://" class="input-text">
                       </div>
                       <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>

@@ -23,9 +23,11 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   selectedApp: any = {};
   synonymSearch: any = '';
   showSearch;
+  synonyms: any = [];
   serachIndexId
   loadingContent = true;
-  filterAllSynonym: boolean;
+  filteroneWaySynonym: boolean;
+  filterSynonym:boolean;
   haveRecord = false;
   currentEditIndex: any = -1;
   pipeline;
@@ -39,6 +41,8 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   queryPipelineId;
   // showSynonym:boolean
   indexPipelineId;
+  isAsc = true;
+  selectedSort = '';
   newSynonymObj: any = {
     type: 'synonym',
     addNew: false,
@@ -86,7 +90,10 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       if (this.queryPipelineId) {
         this.getSynonyms();
+        
+       
       }
+     
     }
   }
   prepareSynonyms() {
@@ -116,6 +123,19 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       else {
         this.loadingContent1 = true;
       }
+   
+        this.pipeline.stages[3].synonyms.forEach(element => {
+          if(element.type === 'synonym'){
+            this.filterSynonym = true;
+          }
+          else if(element.type === 'oneWaySynonym'){
+            this.filteroneWaySynonym = true;
+          }
+          
+        });
+    
+      
+     
     
     }, errRes => {
       this.loadingContent = false;
@@ -143,10 +163,11 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       }
     }
     if (this.newSynonymObj.type === 'oneWaySynonym') {
-      this.filterAllSynonym = true;
+      this.filteroneWaySynonym = true;
+
     }
-    else {
-      this.filterAllSynonym = false;
+    else if (this.newSynonymObj.type === 'synonym') {
+      this.filterSynonym = true;
     }
 
     this.synonymData.push(obj);
@@ -328,6 +349,55 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     if (index >= 0) {
       this.newSynonymObj.values.splice(index, 1);
     }
+  }
+  getSortIconVisibility(sortingField: string, type: string) {
+    switch (this.selectedSort) {
+      case "name": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "type": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+    }
+  }
+
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  sortBy(sort) {
+    const data = this.synonymData.slice();
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    const sortedData = data.sort((a, b) => {
+      const isAsc = this.isAsc;
+      switch (sort) {
+        case 'name': return this.compare(a.name, b.name , isAsc);
+        case 'type': return this.compare(a.type, b.type, isAsc);
+        
+        default: return 0;
+      }
+    });
+    this.synonyms = sortedData;
   }
   toggleSearch() {
     if (this.showSearch && this.synonymSearch) {
