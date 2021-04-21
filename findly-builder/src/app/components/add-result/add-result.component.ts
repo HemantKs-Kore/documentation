@@ -61,11 +61,11 @@ export class AddResultComponent implements OnInit {
     this.searchType = this.searchRadioType;
     if(this.searchRadioType == 'faq'){
       this.searchRadioTypeTxt = "FAQ"
-    }else if(this.searchRadioType == 'page'){
+    }else if(this.searchRadioType == 'content'){
       this.searchRadioTypeTxt = "Content"
     }else if(this.searchRadioType == 'task'){
       this.searchRadioTypeTxt = "Bot Action"
-    }else if(this.searchRadioType == 'structuredData'){
+    }else if(this.searchRadioType == 'object'){
       this.searchRadioTypeTxt = "Structured Data"
     }else {
       this.searchRadioTypeTxt = "Any"
@@ -99,7 +99,6 @@ export class AddResultComponent implements OnInit {
         var id = element.contentId
         $("[custumId="+id+"]").prop('checked', true);
       });
-      
      // $('#viewTypeCheckboxControl').prop('checked', false);
     }
     // if(this.searchType == "all" || this.searchRadioType == "all"){
@@ -129,7 +128,7 @@ export class AddResultComponent implements OnInit {
       obj.contentType = contentTaskFlag ? contentType : element.__contentType;
       //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
       obj.contentId = element.contentId;
-      obj.position = this.positionRecord;
+      // obj.position = this.positionRecord;
       // obj.config = {
       //   pinIndex : -1,
       //   //boost: 1.0,

@@ -62,6 +62,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   public dockersList: Array<any> = [];
   @Input() show;
   @Input() settingMainMenu;
+  @Input() sourceMenu;
   @ViewChild('addIndexFieldModalPop') addIndexFieldModalPop: KRModalComponent;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('statusDockerModalPop') statusDockerModalPop: KRModalComponent;

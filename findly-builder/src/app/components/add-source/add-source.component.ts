@@ -106,14 +106,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           sourceType: 'content',
           resourceType: 'document'
         },
-        {
-          name: 'Others',
-          description: 'Extract content from other',
-          icon: 'assets/icons/content/othersuccess.svg',
-          id: 'contentothers',
-          sourceType: 'content',
-          resourceType: 'document'
-        }
+        // {
+        //   name: 'Others',
+        //   description: 'Extract content from other',
+        //   icon: 'assets/icons/content/othersuccess.svg',
+        //   id: 'contentothers',
+        //   sourceType: 'content',
+        //   resourceType: 'document'
+        // }
       ]
     },
     {
@@ -224,7 +224,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
-    this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+    // this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+    if (this.workflowService.selectedApp()?.configuredBots[0]) {
+      this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+    }
+    else if (this.workflowService.selectedApp()?.publishedBots[0]) {
+      this.streamID = this.workflowService.selectedApp()?.publishedBots[0]?._id ?? null
+    }
+    else {
+      this.streamID = null;
+    }
     this.getAssociatedBots();
 
     if (this.route && this.route.snapshot && this.route.snapshot.queryParams) {
@@ -1031,10 +1040,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           if (element.type == 'default' || element.type == 'universalbot') {
             this.associatedBots.push(element)
           }
+
         });
         //this.associatedBots = [...bots]
         console.log(this.associatedBots);
         console.log(bots);
+        // this.associatedBots.forEach(element => {
+          // if (this.streamID == element._id) {
+          //   this.linkedBotName = element.name;
+          // }
+        // })
         /*this.associatedBotArr = [];
         if (this.associatedBots.length > 0) {
           this.associatedBots.forEach(element => {
@@ -1122,7 +1137,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(res);
 
         selectedApp = this.workflowService.selectedApp();
-        selectedApp.configuredBots[0]._id = null;
+        // selectedApp.configuredBots[0]._id = null;
+        if (this.workflowService.selectedApp()?.configuredBots[0] && this.workflowService.selectedApp()?.configuredBots[0]?._id ) {
+          this.workflowService.selectedApp().configuredBots[0]._id = null;
+        }
+        else if (this.workflowService.selectedApp()?.publishedBots[0] && this.workflowService.selectedApp()?.publishedBots[0]?._id ) {
+        this.workflowService.selectedApp().publishedBots[0]._id = null;
+        }
+      
         this.workflowService.selectedApp(selectedApp);
         this.streamID = null;
         this.getAssociatedBots();

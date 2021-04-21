@@ -1063,11 +1063,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{/if}}\
             {{if searchConfig.searchButtonEnabled}}\
             {{if searchConfig.buttonPlacementPosition== "inside"}}\
-            <button class="submit-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}; height: 28px; position: absolute; right: 4px;margin: 0;top: -31px;line-height: 20px;font-size: 14px;letter-spacing: 0px;"{{/if}} disabled>${searchConfig.buttonText}</button>\
+            <button class="submit-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}; height: 28px; position: absolute; right: 70px;margin: 0;top: -31px;padding: 0px 15px;line-height: 20px;font-size: 14px;letter-spacing: 0px;"{{/if}} disabled>${searchConfig.buttonText}</button>\
            {{else}}\
-            <button class="submit-button submit-button-outside" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}; height: 34px; position: absolute; right: -100px;margin:0px;padding: 0px 15px;line-height: 20px;font-size: 14px;letter-spacing: 0px;"{{/if}} disabled>${searchConfig.buttonText}</button>\
+              <button class="submit-button submit-button-outside" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}; height: 34px; position: absolute; right: -18px;margin:0px;padding: 0px 15px;line-height: 20px;font-size: 14px;letter-spacing: 0px;"{{/if}} disabled>${searchConfig.buttonText}</button>\
             {{/if}}\
             {{/if}}\
+          </div>\
+          <div class="show_insights_top_down" data-displayInsights="true">\
+            <span class="query_analytics_top_down"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD4SURBVHgBlVDbTcNAEJzZjQSfoQOX4A6gA8QvEtgkgMwX7iDQQfgz4nVUEKUCTAd0QNIBfxFSfMsdERGgRIpXOq1uZ0Y7s8SGlednqakMuBosu7E7N/xYkkVH9M0BV5Gt8/kC7xMQtTd7FchlJDt39yaHQf1bYDp7Imz8/Hi7Q/KGlPSHHHEe9wsX1ux6w7WETsHU3VdXa6KACxtF4hWlRN8PVYm2lZ8We/H9nx/1zss/oWMeFU3DMPnOA0zUo3aumsR/1ivemfUvRmxmJ9bZGjRzjlWRmWG6uAASUTgD9zsmw7k1dbBt4UrbXRjTtR7NlpigZbUWfAEi/12gzLS2XQAAAABJRU5ErkJggg==">Query Analytics</span>\
           </div>\
         </script>';
 
@@ -3051,7 +3054,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var payload = {
         "query": _self.vars.searchObject.searchText,
         // "maxNumOfResults": 9,
-        "maxNumOfResults": 16,
+        "maxNumOfResults": 10,
         "userId": _self.API.uuid,
         "streamId": _self.API.streamId,
         "lang": "en",
@@ -4627,7 +4630,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var payload = {
         "query": _self.vars.searchObject.searchText,
         // "maxNumOfResults": 9,
-        "maxNumOfResults": 16,
+        "maxNumOfResults": 10,
         /*"userId": _self.API.uuid,
         "streamId": _self.API.streamId,*/
         "lang": "en",
@@ -4962,7 +4965,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.vars.tempSelectedFacetsList = [];
               _self.vars.tempFilterObject = [];
               _self.vars.selectedFacetsList = [];
-              _self.vars.isTopFacets = _self.vars.filterConfiguration.aligned === 'top' ? true : false;
+              _self.vars.isTopFacets = (_self.vars.filterConfiguration||{}).aligned === 'top' ? true : false;
               _self.vars.countOfSelectedFilters = 0;
               _self.searchFacetsList([]);
             }
@@ -4995,7 +4998,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.selectedFiltersArr = [];
             _self.vars.tempSelectedFiltersArr = [];
             _self.vars.selectedFacetsList = [];
-            _self.vars.isTopFacets = _self.vars.filterConfiguration.aligned === 'top' ? true : false;
+            _self.vars.isTopFacets = (_self.vars.filterConfiguration||{}).aligned === 'top' ? true : false;
             _self.vars.countOfSelectedFilters = 0;
           }
         })
@@ -6647,7 +6650,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       if (url != this.API.livesearchUrl) {
-        payload['maxNumOfResults'] = 16;
+        payload['maxNumOfResults'] = 10;
         payload['pageNumber'] = _self.vars.scrollPageNumber
       }
       if (this.bot.options) {
@@ -7139,6 +7142,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return key;
       }
     }
+    FindlySDK.prototype.addGreetingMsgControl = function (config) {
+      var _self = this;
+        if (config.container) {
+            if ($('body').hasClass('top-down')) {
+              var dataHTML = $(_self.getGreetingMsgTopDownTemplate()).tmplProxy({searchConfig:config.searchConfig});
+              $('#' + config.container).empty().append(dataHTML);
+          } 
+        }
+    }
+
     FindlySDK.prototype.addSourceType = function (config) {
       var _self = this;
       _self.pubSub.unsubscribe('facet-selected');
@@ -7712,8 +7725,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           searchConfiguration.feedbackExperience = { resultLevel: true, queryLevel: false };
         }
 
-        if (searchConfig.welcomeMsgEmoji && searchConfig.welcomeMsgEmoji.length) {
-          searchConfiguration.welcomeMsgEmoji = searchConfig.welcomeMsgEmoji;
+        if (searchConfig.interactionsConfig.welcomeMsgEmoji && searchConfig.interactionsConfig.welcomeMsgEmoji.length) {
+          searchConfiguration.welcomeMsgEmoji = searchConfig.interactionsConfig.welcomeMsgEmoji;
         }
         else {
           searchConfiguration.welcomeMsgEmoji = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJmSURBVHgBtVJLS5RhFH7O+10cZ2jmM5sgUfg0BAkq3VqhRrhx0biQ2ql7w7atnF2rsD8Q02XZQluGhhVBdIHGS4Q7JSOi0hk/57t/7+l1umCouzqr9+Wc5znP83CA/10rKyvmzcfexcFbbttBfdr78V7adiqFs+r5DHpjCazfm88sLTx4sd2ba9TFBaTnRvLt6VrgT2uJX2wcqqyLvQSGoXWzSM/CtCYhMjbM/MyluK/QdST7+sqZ9POeEVCU0Qp6Sh9L0FDYxYi925UeizTzNoy2IvT8GkR2DfqJuzdOD02c7yKnkyjQTbqspXTWGrTuvwh2twsjVQI0C5BPYeQLysYayNwCZYu8OjhV96wJW+gCrInufRnw8qkijJYpkFGGblnQsrYiK3Pw2SYEOSTeIyTfCzIMOHCiarr/Y9MfAn57chSGfh3G0UXox0chjAq0TC5xqyRMDYh3QOyoQY9l4FNY3Wa4sr1ugZlFJJPFenAk+iCrs+DISpwNEoYaSDzI0FV61T49T2Q0MyeC/DDsEfMfuPn+E6dpYvXNF8T+ACQssCxId2NLaDFIOpDepiKpMWSkWgTJJslEpcXIiaXlDXduHeeqntn68Nj71ST8Oo54Uw37yl9NAatKlKfk7yj8jhLmIXbVW+WQEK3XM7h6p9bS20HiWn/jJyJiftc5xoJKP0/NrEvn0EfkBsqvjsjxkYR+2Rre7CEcUtGrjqIimyLzKJga1PYAcVW5dF2WsVxUEgeahiuVQwl2y11onSQ2pmHmiJXn2PmGJHLL+AXedwcH1daMZZNmlCDJrt8Ex+O/wf+kfgAhFxenJ2BlUQAAAABJRU5ErkJggg==';
@@ -7955,7 +7968,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       messageToBot["resourceid"] = '/bot.message';
 
-      messageToBot["maxNumOfResults"] = 16;
+      messageToBot["maxNumOfResults"] = 10;
 
       messageToBot["location"] = _self.vars.locationObject.location;
       messageToBot["timeDateDay"] = dateTime;
@@ -13959,9 +13972,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="search-heads show-all sdk-show-classification {{if isFullResults == false && isLiveSearch == false}} display-block{{/if}}">Show All</div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
-                  <div class="tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}} {{if isFullResults == true}}results-wrap{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
+                  <ul class="tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}} {{if isFullResults == true}}results-wrap{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize" && isFullResults == true}}{{if data.config.visible == false}}ui-state-disabled{{/if}}{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" manuallyAdded="${data.addedResult}" id="${key}">\
+                      <li class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize" && isFullResults == true}}{{if data.config.visible == false || (data.config.visible == true && !data.addedResult && (data.config.pinIndex < 0))}}ui-state-disabled{{/if}}{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" manuallyAdded="${data.addedResult}" id="${key}">\
                           {{if isClickable == true}}\
                             {{if viewType!="Customize" && (isFullResults == true ||  isSearch == true || isLiveSearch == true)}}\
                               <a class="tile-with-text structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
@@ -13978,7 +13991,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             {{if viewType=="Customize" && isFullResults == true}}\
                               <div class="data-wrap" index="${i}" contentType="${data.__contentType}" contentId="${data.contentId}" score="${data.score}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}">\
                                 <div class="customization-tile{{if data.config.visible == false}} disable_hidden{{/if}}{{if data.config.pinIndex >= 0}} disable_pinned{{/if}}">\
-                                    <div class="drag-content"></div>\
+                                    <div class="drag-content {{if data.config.visible == false || (data.config.visible == true && !data.addedResult && (data.config.pinIndex < 0))}}display-none{{/if}}"></div>\
                                     {{if !data.addedResult || data.addedResult == false}}\
                                       <div class="actions-content">\
                                         <span class="action-item visibility" type="{{if data.config.visible == true}}Hide{{/if}}{{if data.config.visible == false}}UnHide{{/if}}">\
@@ -14105,9 +14118,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               </div>\
                             </div>\
                           {{/if}}\
-                      </div>\
+                      </li>\
                     {{/each}}\
-                  </div>\
+                  </ul>\
                   <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
@@ -15821,24 +15834,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'tour': _self.vars.customTourResultRank
         });
         // _self.vars.customizeView = true;
-        setTimeout(() => {
-          if (_self.vars.customizeView == true) {
-            $(".structured-data-outer-wrap").sortable({
-              stop: function (event, ui) {
-                var element = ui.item[0];
-                if ($(element).find('.pinning').length) {
-                  var pinningElement = $(element).find('.pinning')[0];
-                  if (pinningElement) {
-                    $(pinningElement).trigger("click");
-                  }
-                }
-              }
-            });;
-          }
-          else {
-            $(".structured-data-outer-wrap").sortable({ disabled: true });
-          }
-        }, 100);
         if (data && data.container && data.container.length) {
           container = data.container;
         }
@@ -16393,15 +16388,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'isDropdownEnabled': isDropdownEnabled,
           'tour': _self.vars.customTourResultRank
         });
-        // _self.vars.customizeView = true;
-        setTimeout(() => {
-          if (_self.vars.customizeView == true) {
-            $(".structured-data-outer-wrap").sortable();
-          }
-          else {
-            $(".structured-data-outer-wrap").sortable({ disabled: true });
-          }
-        }, 100);
         if (data && data.container && data.container.length) {
           container = data.container;
         }
@@ -16724,7 +16710,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // From now, the container and data will be managed.
 
       // Search call back
-      _self.pubSub.subscribe('sa-page-search', (msg, data) => {
+      _self.pubSub.unsubscribe('sa-page-search');
+        _self.pubSub.subscribe('sa-page-search', (msg, data) => {
         var _self = this;
         var container;
         var pages = [];
@@ -16830,15 +16817,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'isDropdownEnabled': isDropdownEnabled,
           'tour': _self.vars.customTourResultRank
         });
-        // _self.vars.customizeView = true;
-        setTimeout(() => {
-          if (_self.vars.customizeView == true) {
-            $(".structured-data-outer-wrap").sortable();
-          }
-          else {
-            $(".structured-data-outer-wrap").sortable({ disabled: true });
-          }
-        }, 100);
         if (data && data.container && data.container.length) {
           container = data.container;
         }
@@ -17279,14 +17257,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'tour': _self.vars.customTourResultRank
         });
         // _self.vars.customizeView = true;
-        setTimeout(() => {
-          if (_self.vars.customizeView == true) {
-            $(".structured-data-outer-wrap").sortable();
-          }
-          else {
-            $(".structured-data-outer-wrap").sortable({ disabled: true });
-          }
-        }, 100);
         if (data && data.container && data.container.length) {
           container = data.container;
         }
@@ -17583,7 +17553,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'facetPosition': _self.vars.filterConfiguration.aligned
         });
         $('#resultRankingId').append(resultRanking);
-        _self.checkBoostAndLowerTimes();
+        setTimeout( () => {
+          _self.checkBoostAndLowerTimes();
+        }, 400);
         _self.bindAllResultRankingOperations();
         _self.bindShowAllResultsTrigger(showAllHTML, facetData, data);
       });
@@ -18552,7 +18524,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       setTimeout(function () {
         $(".results-wrap").sortable({
-          // items: "div:not(.ui-state-disabled)",
+          items: "li:not(.ui-state-disabled)",
           cancel: ".ui-state-disabled",
           stop: function (event, ui) {
             var element = ui.item[0];
@@ -18561,6 +18533,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if (pinningElement) {
                 $(pinningElement).closest('.pinning').attr('type', 'Pin');
                 $(pinningElement).trigger("click");
+              }
+            }
+            else if($(element).attr('manuallyadded') == "true"){
+              var pinIndex = 0;
+              var _selectedElement = ui.item[0];
+              var _parentElement = $(event.target).closest('.results-wrap');
+              var childNodes = Array.prototype.slice.call(_parentElement[0].children);
+              pinIndex = childNodes.indexOf(_selectedElement);
+              if(pinIndex >= 0){
+                // console.log("pinIndex ", pinIndex);
+                _self.performRankActionsOnFullPage(ui.item, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning', true);
+                //
               }
             }
           }
@@ -18656,13 +18640,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //Tour RR
     }
 
-    FindlySDK.prototype.performRankActionsOnFullPage = function (event, conf, searchText, actionType) {
+    FindlySDK.prototype.performRankActionsOnFullPage = function (event, conf, searchText, actionType, isManuallyAdded) {
 
       var _self = this;
-      event.preventDefault();
-      event.stopPropagation();
+      if(!isManuallyAdded){
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      var selectedElement;
 
-      var selectedElement = $(event.target).closest('.data-wrap');
+      if(!isManuallyAdded){
+        selectedElement = $(event.target).closest('.data-wrap');
+      }
+      else{
+        selectedElement = $(event).find('.data-wrap');
+      }
 
       var contentID = selectedElement.attr('contentid');
       var contentType = selectedElement.attr('contentType');
@@ -18694,64 +18686,63 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.parentEvent(responseObject);
         }
         if (actionType === "pinning") {
-          res.results.forEach((result) => {
-            if (result.contentId === payload.result.contentId) {
-              $(selectedElement).attr('pinIndex', result.config.pinIndex);
-              if (result.config.pinIndex >= 0) {
-                selectedElement.find('.pinning').attr('type', "UnPin");
-                if (!selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
-                  selectedElement.find('.customization-tile').addClass('disable_pinned')
-                }
-                if (selectedElement.find('.record-status-pinned')) {
-                  selectedElement.find('.record-status-pinned').css('display', 'block');
-                }
-                if (selectedElement.find('.unpin').hasClass('display-none')) {
-                  selectedElement.find('.unpin').removeClass('display-none');
-                  selectedElement.find('.unpin').addClass('display-block');
-                }
-                if (selectedElement.find('.pin').hasClass('display-block')) {
-                  selectedElement.find('.pin').removeClass('display-block');
-                  selectedElement.find('.pin').addClass('display-none');
-                }
-                if (selectedElement.find('.img_unpin').hasClass('display-none')) {
-                  selectedElement.find('.img_unpin').removeClass('display-none');
-                  selectedElement.find('.img_unpin').addClass('display-block');
-                }
-                if (selectedElement.find('.img_pin').hasClass('display-block')) {
-                  selectedElement.find('.img_pin').removeClass('display-block');
-                  selectedElement.find('.img_pin').addClass('display-none');
-                }
-              }
-              else {
-                selectedElement.find('.pinning').attr('type', "Pin");
-                if (selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
-                  selectedElement.find('.customization-tile').removeClass('disable_pinned')
-                }
-                if (selectedElement.find('.record-status-pinned')) {
-                  selectedElement.find('.record-status-pinned').css('display', 'none');
-                }
-                if (selectedElement.find('.unpin').hasClass('display-block')) {
-                  selectedElement.find('.unpin').removeClass('display-block');
-                  selectedElement.find('.unpin').addClass('display-none');
-                }
-                if (selectedElement.find('.pin').hasClass('display-none')) {
-                  selectedElement.find('.pin').removeClass('display-none');
-                  selectedElement.find('.pin').addClass('display-block');
-                }
-                if (selectedElement.find('.img_unpin').hasClass('display-block')) {
-                  selectedElement.find('.img_unpin').removeClass('display-block');
-                  selectedElement.find('.img_unpin').addClass('display-none');
-                }
-                if (selectedElement.find('.img_pin').hasClass('display-none')) {
-                  selectedElement.find('.img_pin').removeClass('display-none');
-                  selectedElement.find('.img_pin').addClass('display-block');
-                }
-              }
-            }
-          })
-          // if(res.results[0].config.visible){
 
-          // }
+          // res.results.forEach((result) => {
+          //   if (result.contentId === payload.result.contentId) {
+          //     $(selectedElement).attr('pinIndex', result.config.pinIndex);
+          //     if (result.config.pinIndex >= 0) {
+          //       selectedElement.find('.pinning').attr('type', "UnPin");
+          //       if (!selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
+          //         selectedElement.find('.customization-tile').addClass('disable_pinned')
+          //       }
+          //       if (selectedElement.find('.record-status-pinned')) {
+          //         selectedElement.find('.record-status-pinned').css('display', 'block');
+          //       }
+          //       if (selectedElement.find('.unpin').hasClass('display-none')) {
+          //         selectedElement.find('.unpin').removeClass('display-none');
+          //         selectedElement.find('.unpin').addClass('display-block');
+          //       }
+          //       if (selectedElement.find('.pin').hasClass('display-block')) {
+          //         selectedElement.find('.pin').removeClass('display-block');
+          //         selectedElement.find('.pin').addClass('display-none');
+          //       }
+          //       if (selectedElement.find('.img_unpin').hasClass('display-none')) {
+          //         selectedElement.find('.img_unpin').removeClass('display-none');
+          //         selectedElement.find('.img_unpin').addClass('display-block');
+          //       }
+          //       if (selectedElement.find('.img_pin').hasClass('display-block')) {
+          //         selectedElement.find('.img_pin').removeClass('display-block');
+          //         selectedElement.find('.img_pin').addClass('display-none');
+          //       }
+          //     }
+          //     else {
+          //       selectedElement.find('.pinning').attr('type', "Pin");
+          //       if (selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
+          //         selectedElement.find('.customization-tile').removeClass('disable_pinned')
+          //       }
+          //       if (selectedElement.find('.record-status-pinned')) {
+          //         selectedElement.find('.record-status-pinned').css('display', 'none');
+          //       }
+          //       if (selectedElement.find('.unpin').hasClass('display-block')) {
+          //         selectedElement.find('.unpin').removeClass('display-block');
+          //         selectedElement.find('.unpin').addClass('display-none');
+          //       }
+          //       if (selectedElement.find('.pin').hasClass('display-none')) {
+          //         selectedElement.find('.pin').removeClass('display-none');
+          //         selectedElement.find('.pin').addClass('display-block');
+          //       }
+          //       if (selectedElement.find('.img_unpin').hasClass('display-block')) {
+          //         selectedElement.find('.img_unpin').removeClass('display-block');
+          //         selectedElement.find('.img_unpin').addClass('display-none');
+          //       }
+          //       if (selectedElement.find('.img_pin').hasClass('display-none')) {
+          //         selectedElement.find('.img_pin').removeClass('display-none');
+          //         selectedElement.find('.img_pin').addClass('display-block');
+          //       }
+          //     }
+          //   }
+          // })
+          $('.show-all-results').click();
         }
 
         else if (actionType === "visibility") {
@@ -19057,7 +19048,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.searchObject.searchText = $('#search').val();
             _self.vars.showingMatchedResults = true;
             _self.searchFacetsList([]);
-            $('#loaderDIV').show();
+            // $('#loaderDIV').show();
             // _self.invokeSearch();
             //$('#loaderDIV').hide();
             _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
@@ -19174,7 +19165,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           data_body_sec_element.addEventListener('ps-y-reach-end', () => {
             console.log("ps-y-reach-end");
             if (_self.vars.scrollPageNumber >= 0) {
-              if (_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 16)) {
+              if (_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 10)) {
                 _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
                 _self.seeAllResultsInifiteScroll();
                 $(".content-data-sec").scrollTop(0);
@@ -19210,6 +19201,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           goBtn[i].disabled = isGoButtonDisabled;
         }
       });
+     
     }
     FindlySDK.prototype.showSuggestionbox = function (suggestions) {
       var _self = this;
@@ -19772,7 +19764,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     // Configuraition of Interface //
     FindlySDK.prototype.configureSearchInterface = function (botOptions, JWTResponse) {
       var baseAPIServer = botOptions.koreAPIUrl ? botOptions.koreAPIUrl : 'https://app.findly.ai/api/'
-      var searchExperienceAPIUrl = baseAPIServer + 'public/searchAssist/stream/' + botOptions.botInfo.taskBotId + '/' + botOptions.searchIndexID + '/searchExperience';
+      var searchExperienceAPIUrl = baseAPIServer + 'public/searchAssist/stream/' + botOptions.botInfo.taskBotId + '/' + botOptions.searchIndexID + '/searchInterface';
       console.log('config', searchExperienceAPIUrl);
       var type = 'GET';
 
@@ -19805,14 +19797,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
              <!-- </div>-->
             <div id="heading" class="search-input-box">      
                 <div id="search-box-container" class="search-box-container-data">                 
-                <!-- <div class="search-icon"> -->
-                <!-- <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBlVJLTgJBEK2q8RNXwg2GGzBbiEIHNHEl3ABOMHICvQFHQE8grEwU0wgBt9xAjjAkLkSnq+xB6JAwwfAWXV3pev1eVxdCCp70u38Asf8J8bSuVJRWg5uJHk1CZrlbJoKRPfURcbAwX80rpWabteRIw3HHMDSYuV4pFbOVciFHfJI1ht+O6Pijrye1LcVXPW4A4a0tDJQKtqy96FGZyHskXuTUyvqfoiUxm2YaKcGFOhuA0CCGoxtnVdtG2JhZHu6CmB4C5h3xBzhjYwT/gIFngHjqiIfwPbPR11pndlOtmsjcEZPHJi3f9J8GIgoRpOvyZIkNt4gwfNbjfBpJDydtsc+pqOK9019v+npYQ/I6gNQVIz0BE5G1h553bYcig3YYDIu6VMWpU0xQVeddYgosaU6IIeHykpIYfqiWCwGwtDxCvXaFsAdWg9ImxgD2xerf4RflG5JZZafRoQAAAABJRU5ErkJggg=="/> -->
-                <!--</div> -->
-                <!--  <div class="cancel-search">-->
-                <!--<span class="cross"> X </span>-->
-                      <!-- <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADeSURBVHgBnZI/C8IwEMUviRUHkdKp0KWgBccu/QAOgrj1k2arbtLZJXtFOpVOpXtoYyKk+CeJ4BtCEt7vuHscwJ8i6timh3gZbvy+vfUuc5Ie01W4XigfVh+Dh/25hy9Jtk9dECKC6vcTrK4FEwA5Ao+aYA2JAeU1O9dTq0pdU7VBlJQICA2iuOyae/sJVaxg2o++qmfSCEAF8By4BybICL7CMAowQUozEwhcDSGnxhLH3GjB4AjCFRixQao9W2BvoC09GzxtjrydbEGY4GlGG6SllgTzccc5ca7lTz0A2yqRYknu6twAAAAASUVORK5CYII="/>-->
-                      <!-- </div>-->
-                </div>   
+                </div>  
+                <div id="greeting-msg-top-down"></div> 
                 <div id="frequently-searched-box" class="frequently_searched_box"> </div>          
                 <div id="live-search-result-box" class="live_search_result_box">
                     <div id="auto-query-box" class="auto_query_box">
@@ -19840,7 +19826,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             <div class="all-result-container">
             <div id="conversation-container" class="conversation-container">
-                    <div class="conversation-title">                
+                    <div class="conversation-title">    
+                        <div class="custom-header-container-left searchAssist" style="padding-left: 20px;">    
+                            <img class="searchAssistIcon" src="data:image/png;base64,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">
+                        </div>            
                         <div class="close-conv">
                             <img class="close-conv-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBbZHRDcIwDERju+zTSizSCWgl8sFM+Ug26AwsUDIGO9A05AChprV/osjPd2eZLtfbg2gZg3PRKDUMts3SeAaUV5kGa1sVYpkoLaPEeX525+4OGC/+FbSmPgQX6T9dFAETp968jNlC6FNl9YNNLo0NhOIqVFEC9Bk/1Xn5ELwowX6/oGjBtQVpD2mZ4cBZ2GsQCkf4xmj8GzsLeh0gnVcbAAAAAElFTkSuQmCC" />
                         </div>
@@ -19966,6 +19955,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         templateId: "frequently-searched-template",
         searchConfig: searchConfiguration
       });
+      _self.addGreetingMsgControl({
+        container: "greeting-msg-top-down",
+        searchConfig: searchConfiguration
+      });
       _self.addCustomTemplateConfig();
       var searchText = "";
       function searchHandler(data) {
@@ -20010,7 +20003,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#live-search-result-box').show();
         }
       });
-      
+
       _self.pubSub.unsubscribe('sa-show-all-results-top-down');
       _self.pubSub.subscribe('sa-show-all-results-top-down', (msg, data) => {
         _self.vars.showingMatchedResults = true;
@@ -20036,7 +20029,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (!$('#search').val()) {
           _self.bindFrequentData();
         }
+        if( $('#greeting-msg-top-down').length){
+          $('#greeting-msg-top-down').hide();
+        }
       });
+      if(_self.isDev){
+        $('.show_insights_top_down').show();
+      $('.show_insights_top_down').off('click', '.query_analytics_top_down').on('click', '.query_analytics_top_down', function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+          var responseObject = { 'type': 'show', data: true, query: _self.vars.searchObject.searchText }
+          console.log(responseObject);
+          _self.parentEvent(responseObject);
+        }
+      })
+    }else{
+      $('.show_insights_top_down').hide();
+    }
     }
     FindlySDK.prototype.getTopDownFacetsTabs = function () {
       var topDownFacetsTabs = '<script id="top-down-tabs-template" type="text/x-jqury-tmpl">\
@@ -20051,7 +20061,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.getTopDownActionTemplate = function () {
       var topDownActionTemplate = '<script id="actions-template" type="text/x-jqury-tmpl">\
                                     {{if tasks.length > 0 }}\
-                                      <div class="type-section quick-actions"> Quick Actions</div>\
+                                    {{if selectedFacet !== appearanceType}}\
+                                      <div class="type-section quick-actions"> Actions</div>\
+                                      {{/if}}\
                                       <div class="action-results-container btn_block_actions">\
                                         {{each(key, task) tasks}}\
                                             <div class="action-content">\
@@ -20096,6 +20108,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                       </script>'
       return frequentlySearchTemplate;
     }
+
+    FindlySDK.prototype.getGreetingMsgTopDownTemplate = function () {
+      var greetingMsgTemplate = '<script id="greeting-msg-top-down-template" type="text/x-jqury-tmpl">\
+                                      {{if searchConfig.welcomeMsg}}\
+                                        <div class="search-greeting-box-top-down">\
+                                          <span class="greeting-img"><img src="${searchConfig.welcomeMsgEmoji}"></span>\
+                                          <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">${searchConfig.welcomeMsg}</span>\
+                                        </div>\
+                                      {{/if}}\
+                                 </script>'
+      return greetingMsgTemplate;
+    }
+    
     FindlySDK.prototype.showAllClickEventTopDown = function (e) {
       var _self = this;
       if ($('.topdown-search-main-container').length) {

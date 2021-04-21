@@ -19,7 +19,7 @@ export class EndPointsService {
       window.appConfig.API_SERVER_URL = this.SERVER_URL;
     } else {
       this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
-      //this.API_SERVER_URL = "http://b10c83bc1944.ngrok.io" + "/api/1.1"
+      // this.API_SERVER_URL = "https://e1974d4ae908.ngrok.io" + "/api/1.1"
     }
     this.init();
   }
@@ -849,31 +849,31 @@ export class EndPointsService {
 
     /** APIs for Search Interface */
     this.serviceList['get.SI_setting'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/resultviewsettings',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/resultviewsettings',
       method: 'get'
     }
     this.serviceList['get.SI_settingInterface'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/resultviewsettings?interface=:interface',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/resultviewsettings?interface=:interface',
       method: 'get'
     }
     this.serviceList['get.SI_searchResultTemplate'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/resulttemplates/:templateId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/resulttemplates/:templateId',
       method: 'get'
     }
     this.serviceList['post.SI_saveTemplate'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/resulttemplates/:interface/resultviewsettings',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/resulttemplates/:interface/resultviewsettings',
       method: 'post'
     }
     this.serviceList['put.SI_saveTemplate_Id'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/resulttemplates/:templateId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/resulttemplates/:templateId',
       method: 'put'
     }
     this.serviceList['put.SI_saveResultSettings'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/resultviewsettings',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/resultviewsettings',
       method: 'put'
     }
     this.serviceList['get.SI_allResultSettings'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/getresultviewsettings',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/getresultviewsettings',
       method: 'get'
     }
     /** APIs for Search Interface */
@@ -897,11 +897,11 @@ export class EndPointsService {
     }
     /** APIs for search experience and tour guide */
     this.serviceList['get.searchexperience.list'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/searchExperience',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/searchInterface',
       method: 'get'
     }
     this.serviceList['put.searchexperience'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/searchExperience',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/searchInterface',
       method: 'put'
     }
     this.serviceList['get.tourConfig'] = {

@@ -9,6 +9,8 @@ import { HttpClient } from '@angular/common/http';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { SideBarService } from './../../services/header.service';
 import { Subscription } from 'rxjs';
+import { LocalStoreService } from './../../services/localstore.service';
+import { NgbDropdown, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-search-experience',
   templateUrl: './search-experience.component.html',
@@ -19,6 +21,7 @@ export class SearchExperienceComponent implements OnInit {
   selectSearch: string;
   selectedApp: any = {};
   serachIndexId: any;
+  indexPipelineId : any;
   suggestions: any = [];
   searchObject: any = {
     "searchExperienceConfig": {
@@ -58,7 +61,7 @@ export class SearchExperienceComponent implements OnInit {
   buttonTextColor: boolean = false;
   msgColor: boolean = false;
   searchIcon: any = 'assets/images/search_gray.png';
-  emojiIcon: any = 'assets/icons/search-experience/emoji.png';
+  emojiIcon: any = 'assets/icons/search-experience/emojis/hand.png';
   //search button disabled
   buttonDisabled: boolean = true;
   public color: string = '';
@@ -69,6 +72,7 @@ export class SearchExperienceComponent implements OnInit {
   public color5: string = '';
   public color6: string = '';
   statusModalPopRef: any = [];
+  guideModalPopRef : any;
   userInfo: any = {};
   tourGuide: string;
   show_tab_color: boolean = false;
@@ -79,21 +83,190 @@ export class SearchExperienceComponent implements OnInit {
   width: number = this.minWidth;
   componentType: string = 'designing';
   subscription: Subscription;
+  appSubscription : Subscription;
   tourData: any = [];
+  userName : any = '';
+  emojiList = [
+    {img_src : 'assets/icons/search-experience/emojis/smile.png', value :"smile"},
+    {img_src : 'assets/icons/search-experience/emojis/smile-2.png', value : 'smile-2'},
+    {img_src : 'assets/icons/search-experience/emojis/smile-3.png', value : 'smile-3'},
+    {img_src : 'assets/icons/search-experience/emojis/smile-4.png', value : 'smile-4'},
+    {img_src : 'assets/icons/search-experience/emojis/smile-5.png', value : 'smile-5'},
+    {img_src : 'assets/icons/search-experience/emojis/smile-6.png', value : 'smile-6'},
+    {img_src : 'assets/icons/search-experience/emojis/cat-img.png', value : 'cat'},
+    {img_src : 'assets/icons/search-experience/emojis/love.png', value : 'love'},
+    {
+      img_src : 'assets/icons/search-experience/emojis/hand.png',
+      selected : 'assets/icons/search-experience/emojis/hand.png', 
+      value : 'hand', 
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/hand.png',
+        'assets/icons/search-experience/emojis/hand-varient-2.png',
+        'assets/icons/search-experience/emojis/hand-varient-3.png',
+        'assets/icons/search-experience/emojis/hand-varient-4.png',
+        'assets/icons/search-experience/emojis/hand-varient-5.png',
+        'assets/icons/search-experience/emojis/hand-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/hand-1.png', 
+      selected : 'assets/icons/search-experience/emojis/hand-1.png', 
+      value : 'hand-1',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/hand-1.png',
+        'assets/icons/search-experience/emojis/hand-1-varient-2.png',
+        'assets/icons/search-experience/emojis/hand-1-varient-3.png',
+        'assets/icons/search-experience/emojis/hand-1-varient-4.png',
+        'assets/icons/search-experience/emojis/hand-1-varient-5.png',
+        'assets/icons/search-experience/emojis/hand-1-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/hand-2.png',
+      selected : 'assets/icons/search-experience/emojis/hand-2.png', 
+      value : 'hand-2',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/hand-2.png',
+        'assets/icons/search-experience/emojis/hand-2-varient-2.png',
+        'assets/icons/search-experience/emojis/hand-2-varient-3.png',
+        'assets/icons/search-experience/emojis/hand-2-varient-4.png',
+        'assets/icons/search-experience/emojis/hand-2-varient-5.png',
+        'assets/icons/search-experience/emojis/hand-2-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/poke.png',
+      selected : 'assets/icons/search-experience/emojis/poke.png', 
+      value : 'poke',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/poke.png',
+        'assets/icons/search-experience/emojis/poke-varient-2.png',
+        'assets/icons/search-experience/emojis/poke-varient-3.png',
+        'assets/icons/search-experience/emojis/poke-varient-4.png',
+        'assets/icons/search-experience/emojis/poke-varient-5.png',
+        'assets/icons/search-experience/emojis/poke-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/thubsup.png',
+      selected : 'assets/icons/search-experience/emojis/thubsup.png', 
+      value : 'thumsup',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/thubsup.png',
+        'assets/icons/search-experience/emojis/thubsup-varient-2.png',
+        'assets/icons/search-experience/emojis/thubsup-varient-3.png',
+        'assets/icons/search-experience/emojis/thubsup-varient-3.png',
+        'assets/icons/search-experience/emojis/thubsup-varient-4.png',
+        'assets/icons/search-experience/emojis/thubsup-varient-5.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/welcome.png',
+      selected : 'assets/icons/search-experience/emojis/welcome.png', 
+      value : 'welcome',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/welcome.png',
+        'assets/icons/search-experience/emojis/welcome-varient-2.png',
+        'assets/icons/search-experience/emojis/welcome-varient-3.png',
+        'assets/icons/search-experience/emojis/welcome-varient-4.png',
+        'assets/icons/search-experience/emojis/welcome-varient-5.png',
+        'assets/icons/search-experience/emojis/welcome-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/men-avatar.png',
+      selected : 'assets/icons/search-experience/emojis/men-avatar.png',
+      value : 'men-avatar',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/men-avatar.png',
+        'assets/icons/search-experience/emojis/men-avatar-varient-2.png',
+        'assets/icons/search-experience/emojis/men-avatar-varient-3.png',
+        'assets/icons/search-experience/emojis/men-avatar-varient-4.png',
+        'assets/icons/search-experience/emojis/men-avatar-varient-5.png',
+        'assets/icons/search-experience/emojis/men-avatar-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/women-avatar.png',
+      selected : 'assets/icons/search-experience/emojis/women-avatar.png', 
+      value : 'women-avatar',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/women-avatar.png',
+        'assets/icons/search-experience/emojis/women-avatar-varient-2.png',
+        'assets/icons/search-experience/emojis/women-avatar-varient-3.png',
+        'assets/icons/search-experience/emojis/women-avatar-varient-4.png',
+        'assets/icons/search-experience/emojis/women-avatar-varient-5.png',
+        'assets/icons/search-experience/emojis/women-avatar-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/old-women.png',
+      selected : 'assets/icons/search-experience/emojis/old-women.png',
+      value : 'old-women',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/old-women.png',
+        'assets/icons/search-experience/emojis/old-women-varient-2.png',
+        'assets/icons/search-experience/emojis/old-women-varient-3.png',
+        'assets/icons/search-experience/emojis/old-women-varient-4.png',
+        'assets/icons/search-experience/emojis/old-women-varient-5.png',
+        'assets/icons/search-experience/emojis/old-women-varient-6.png',
+      ]
+    },
+    {
+      img_src : 'assets/icons/search-experience/emojis/old-men.png',
+      selected : 'assets/icons/search-experience/emojis/old-men.png',
+      value : 'old-men',
+      multiple : true,
+      emoji_set : [
+        'assets/icons/search-experience/emojis/old-men.png',
+        'assets/icons/search-experience/emojis/old-men-varient-2.png',
+        'assets/icons/search-experience/emojis/old-men-varient-3.png',
+        'assets/icons/search-experience/emojis/old-men-varient-4.png',
+        'assets/icons/search-experience/emojis/old-men-varient-5.png',
+        'assets/icons/search-experience/emojis/old-men-varient-6.png',
+      ]
+    },
+    {img_src : 'assets/icons/search-experience/emojis/monkey.png', value : 'monkey'},
+    {img_src : 'assets/icons/search-experience/emojis/monkey-1.png', value : 'monkey-1'},
+    {img_src : 'assets/icons/search-experience/emojis/monkey-2.png', value : 'monkey-2'}
+  ];
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
-  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService, public headerService: SideBarService) {
+  @ViewChild('guideModalPop') guideModalPop: KRModalComponent;
+  @ViewChild(NgbDropdownMenu) avatarDropdown : NgbDropdownMenu;
+  constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService, public headerService: SideBarService,
+    public localstore: LocalStoreService) {
   }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
-    this.getSearchExperience();
+    this.loadSearchExperience();
+    this.appSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+      this.loadSearchExperience();
+    })
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourData = res;
       this.tourGuide = res.searchExperienceVisited ? '' : 'step1';
-    })
+    });
+    this.userName = this.localstore.getAuthInfo() ? this.localstore.getAuthInfo().currentAccount.userInfo.fName : '';
+  }
+
+  loadSearchExperience() {
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if (this.indexPipelineId) {
+      this.getSearchExperience();
+    }
   }
   //dynamically increse input text 
   resize() {
@@ -115,7 +288,7 @@ export class SearchExperienceComponent implements OnInit {
     xhr.send();
   }
   //upload emoji icon image manually from asset folder
-  emojiIconUpload() {
+  emojiIconUpload(update?) {
     let blob = null;
     let file;
     var xhr = new XMLHttpRequest();
@@ -124,8 +297,8 @@ export class SearchExperienceComponent implements OnInit {
     xhr.onload = () => {
       blob = xhr.response;//xhr.response is now a blob object
       file = new File([blob], 'emoji.png', { type: 'image/png', lastModified: Date.now() });
-      this.searchIcon = file;
-      this.selectIcon(file, 'emoji', 'manual')
+      this.emojiIcon = file;
+      this.selectIcon(file, 'emoji', 'manual', update ? update : null)
     }
     xhr.send();
   }
@@ -165,14 +338,14 @@ export class SearchExperienceComponent implements OnInit {
     this.suggestions = [];
     let queryValue = data === undefined ? type == 'bottom-up' ? 3 : 5 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
     let recentValue = data === undefined ? type == 'bottom-up' ? 5 : 10 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
-    if (type == 'bottom-up') {
-      this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 3, 1, queryValue, 'suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 5, 1, recentValue, 'live') });
+    if (type == 'bottom') {
+      this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 3, 1, queryValue, 'suggestion', 'bottom-up-suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 5, 1, recentValue, 'live', 'bottom-up-live') });
       this.searchObject.searchInteractionsConfig.querySuggestionsLimit = data === undefined ? 3 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
       this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = data === undefined ? 5 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
 
     }
     else {
-      this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 5, 1, queryValue, 'suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 10, 1, recentValue, 'live') });
+      this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 5, 1, queryValue, 'suggestion', 'top-down-suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 10, 1, recentValue, 'live', 'top-down-live') });
       this.searchObject.searchInteractionsConfig.querySuggestionsLimit = data === undefined ? 5 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
       this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = data === undefined ? 10 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
     }
@@ -197,7 +370,7 @@ export class SearchExperienceComponent implements OnInit {
     }
   }
   //select search Icon
-  selectIcon(event, type, icon) {
+  selectIcon(event, type, icon, update?) {
     const file = icon === 'manual' ? event : event.target.files[0];
     const _ext = file.name.substring(file.name.lastIndexOf('.'));
     const formData = new FormData();
@@ -205,7 +378,7 @@ export class SearchExperienceComponent implements OnInit {
     formData.set('fileContext', 'findly');
     formData.set('Content-Type', file.type);
     formData.set('fileExtension', _ext.replace('.', ''));
-    this.fileupload(formData, type, icon);
+    this.fileupload(formData, type, icon, update ? update : null);
     if (file) {
       const reader = new FileReader();
       reader.onload = e => {
@@ -220,7 +393,7 @@ export class SearchExperienceComponent implements OnInit {
     }
   }
   //fileupload method
-  fileupload(data, type, icon) {
+  fileupload(data, type, icon, update?) {
     const quaryparms: any = {
       userId: this.userInfo.id
     };
@@ -238,12 +411,14 @@ export class SearchExperienceComponent implements OnInit {
             this.searchIconUpload();
           }
         }
-        if (icon === 'manual') {
+        if (icon === 'manual' && !update) {
           if (this.searchObject.searchWidgetConfig.searchBarIcon !== '' && this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
             this.addSearchExperience();
           }
         }
-        this.notificationService.notify('File uploaded successfully', 'success');
+        if(icon == 'auto' || update){
+          this.notificationService.notify('File uploaded successfully', 'success');
+        }
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -308,7 +483,8 @@ export class SearchExperienceComponent implements OnInit {
   getSearchExperience() {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
-      searchIndexId: searchIndex
+      searchIndexId: searchIndex,
+      indexPipelineId : this.indexPipelineId
     };
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
       console.log("search experience data", res);
@@ -319,7 +495,7 @@ export class SearchExperienceComponent implements OnInit {
       if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
         this.emojiIcon = this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
       }
-      this.changeSlider(this.searchObject.searchInteractionsConfig.showSearches, this.searchObject.searchInteractionsConfig);
+      this.changeSlider(this.searchObject.searchExperienceConfig.searchBarPosition, this.searchObject.searchInteractionsConfig);
     }, errRes => {
       console.log(errRes);
     });
@@ -345,7 +521,8 @@ export class SearchExperienceComponent implements OnInit {
     console.log("obj", obj);
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
-      searchIndexId: searchIndex
+      searchIndexId: searchIndex,
+      indexPipelineId : this.indexPipelineId
     };
     this.service.invoke('put.searchexperience', quaryparms, obj).subscribe(res => {
       console.log("test res", res);
@@ -354,7 +531,7 @@ export class SearchExperienceComponent implements OnInit {
       this.headerService.updateSearchConfiguration();
       this.appSelectionService.updateTourConfig(this.componentType);
       this.notificationService.notify('Updated successfully', 'success');
-      this.statusModalPopRef = this.statusModalPop.open();
+      // this.statusModalPopRef = this.statusModalPop.open();
       this.workflowService.checkTopOrBottom(this.searchObject.searchExperienceConfig.searchBarPosition);
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -370,4 +547,27 @@ export class SearchExperienceComponent implements OnInit {
       this.statusModalPopRef = this.statusModalPopRef.close();
     }
   }
+
+  openSearchInterfaceGuide(){
+    this.guideModalPopRef = this.guideModalPop.open();
+  }
+
+  closeGuidePopup() {
+    if (this.guideModalPopRef && this.guideModalPopRef.close) {
+      this.guideModalPopRef = this.guideModalPopRef.close();
+    }
+  }
+
+  ngOnDestroy() {
+    this.appSubscription ? this.appSubscription.unsubscribe() : false;
+    this.subscription ? this.subscription.unsubscribe() : false;
+  }
+
+  closeEmojiPicker(){
+    console.log("avatarDropdown", this.avatarDropdown);
+    if(this.avatarDropdown){
+      this.avatarDropdown.dropdown.close();
+    }
+  }
+  
 }
