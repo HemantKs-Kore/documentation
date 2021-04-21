@@ -2009,17 +2009,26 @@ body.top-down .top-down-search-background-div .top-down-wrapper{
   padding: 1px 6px;
   margin-top: 5px;
 }
-.sdk-top-down-interface .top-down-add-new-result{
+
+.add-new-result-container.top-down-add-new-result{
   top: 152px;
-  z-index: 99999;
   height: calc(100% - 154px);
   right: 0px !important;
   left: auto;
+  z-index:99999;
+}
+.add-new-result-container.top-down-add-new-result::before{
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  opacity: .8;
+  border-radius: 6px;
+  left: 0;
+  top: 60px;
 }
 
-.sdk-top-down-interface .top-down-add-new-result::before {
-background:none !important;
-}
 
 .sdk-top-down-interface .custom-add-new-result-content{
   padding-left:0px !important;
