@@ -14,14 +14,14 @@
                 <div class="kr-sg-dropdowns">                
                   <div class="dropdown dropdown-open">
                       <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/pricing/overflow.svg"></button>                                            
-                      <ul class="dropdown-menu content-menu">                                                                    
+                      <ul class="dropdown-menu content-menu" *ngIf="currentSubscriptionPlan">                                                                    
                         <li (click)="addOverage()" [attr.disabled] = "currentSubscriptionPlan.subscription.planName == 'Free' ? true : null"><a>Add Overage</a></li>
                         <li (click)="compare('choosePlans',currentSubscriptionPlan.subscription)"><a>Change Plan</a></li>
                         <li (click)="openPopup5()" [attr.disabled] = "currentSubscriptionPlan.subscription.planName == 'Free' ? true : null"><a>Cancel Subscription</a></li>
                       </ul>
                     </div>
                 </div>
-                <div class="plan-details">
+                <div class="plan-details" *ngIf="currentSubscriptionPlan">
                   <div class="type-plan-sec">
                     <div class="type-plan">{{ currentSubscriptionPlan.subscription.planName || 'Free' }} </div>
                     <div class="amount" *ngIf="currentSubscriptionPlan.subscription.planName != 'Free'">${{currentSubscriptionPlan.subscription.planAmount}}<span>/ month</span></div>
@@ -51,7 +51,7 @@
             </div>
         </div>
 
-        <div class="upgrade-details-prices row col-12" *ngIf ="currentSubscriptionPlan.subscription.planName =='Free'">
+        <div class="upgrade-details-prices row col-12" *ngIf ="currentSubscriptionPlan&&currentSubscriptionPlan.subscription.planName =='Free'">
           <div class="row col-12 upgrade-header-sec">
             <div class="title col-5 p-0">Upgrade to</div>
             <div class="upgrader-btn-sec col-7 p-0">
@@ -68,12 +68,12 @@
                   <div class="price" [ngClass]='{"d-none":currentPlan===plan.name||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?'month':'year'}}</span></div>
                   <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise"}'>Custom</div>
                 </div>
-                <div class="card-desc">10k Documents </div>
-                <div class="card-desc">50k Queries per month</div>
+                <div class="card-desc" *ngFor="let info of plan.featureData" [hidden]="!(info.displayOnBanner)">{{info.displayText}}</div>
+                <!-- <div class="card-desc">50k Queries per month</div>
                 <div class="card-desc">Scheduled Crawling</div>
                 <div class="card-desc">Experiments</div>
-                <div class="card-desc">Community Support</div>
-                <button class="kr-sg-button-secondary btn_lg" (click)="compare('order',plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
+                <div class="card-desc">Community Support</div> -->
+                <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':compare('order',plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
             </div>
           </div>
 
@@ -134,7 +134,7 @@
 
 
 <!--popup1-->
-<kr-modal modalType="center" modalClass="modal_popups_ order-confirmation" #addPricingModel1>
+<!-- <kr-modal modalType="center" modalClass="modal_popups_ order-confirmation" #addPricingModel1>
       <div class="modal-header">
         <div class="title">Order Confirmation</div>
         <div class="close_icon"><img (click)="closePopup1()" src="assets/icons/modal-close.svg"></div>
@@ -180,9 +180,9 @@
         <button class="kr-sg-button-primary btn_lg" (click)="openPopup2()">Pay</button>
         <button class="kr-sg-button-secondary backbtn btn_md" (click)="closePopup1()">Cancel</button>
       </div>
-</kr-modal>
+</kr-modal> -->
 <!--popup2-->
-<kr-modal modalType="center" modalClass="modal_popups_ payment-confirmation-price" #addPricingModel2>
+<!-- <kr-modal modalType="center" modalClass="modal_popups_ payment-confirmation-price" #addPricingModel2>
     <div class="modal-header">
       <div class="title">Payment Confirmation</div>
       <div class="close_icon">
@@ -207,10 +207,10 @@
           </div>
       </div>
     </perfect-scrollbar>
-    <!-- <div class="modal-footer text-right">
+    <div class="modal-footer text-right">
       <button class="kr-sg-button-primary btn_lg" (click)="closePopup2()">Done</button>     
-    </div> -->
-</kr-modal>
+    </div>
+</kr-modal> -->
 <!--popup3-->
 
 <kr-modal modalType="center" modalClass="modal_popups_ overage_plan" #addOverageModel>
@@ -232,7 +232,7 @@
             <div class="title">Documents</div>
             <div class="price">${{overageDeatils.ingestDocs.amount}} <span>/ month</span></div>
           </div>
-          <div class="info-card-overage">Add <span>Additional {{overageDeatils.ingestDocs.limit}}</span> documents to your plan</div>
+          <div class="info-card-overage">Add <span>Additional {{overageDeatils.ingestDocs.limit | valueFormat}}</span> documents to your plan</div>
           <div class="btn_add_doc text-right">
             <button class="kr-sg-button-secondary btn_lg" [ngClass] = "{'d-none': addDocOver}" (click) = "addDocument()">Add Documents </button>
             <div class="add-doc-block" [ngClass] = "{'d-none': !addDocOver}">
@@ -247,7 +247,7 @@
             <div class="title">Queries</div>
             <div class="price">${{overageDeatils.searchQueries.amount}} <span>/ month</span></div>
           </div>
-          <div class="info-card-overage">Add <span>Additional {{overageDeatils.searchQueries.limit}}</span> queries to your plan</div>
+          <div class="info-card-overage">Add <span>Additional {{overageDeatils.searchQueries.limit | valueFormat}}</span> queries to your plan</div>
           <div class="btn_add_doc text-right">
             <button class="kr-sg-button-secondary btn_lg" [ngClass] = "{'d-none': addQueOver}" (click) = "addQuerry()">Add Queries</button>
             <div class="add-doc-block" [ngClass] = "{'d-none': !addQueOver}">
@@ -262,7 +262,7 @@
       <div class="change-plan-container">
         <button class="kr-sg-button-secondary btn_lg" (click)="compare('choosePlans',currentSubscriptionPlan.subscription)">Change Plan</button>
         <div class="info-text">You can also choose to <span>Upgrade your Plan</span> </div>
-        <div class="info-text" *ngIf="currentSubscriptionPlan.subscription.planId == plansIdList.standardMonth">Upgrade to <u>Pro</u> to get <span>50k documents</span> and <span>100k Queries</span> per month.</div>
+        <div class="info-text" *ngIf="currentSubscriptionPlan&&currentSubscriptionPlan.subscription.planId == plansIdList.standardMonth">Upgrade to <u>Pro</u> to get <span>50k documents</span> and <span>100k Queries</span> per month.</div>
         <div class="info-text">Upgrade to <u>Enterprise</u> to get <span>custom</span> no. of documents and queries per month.  </div>
       </div>
     </div>
@@ -327,4 +327,4 @@
   </div>
 </kr-modal>
 
-<app-upgrade-plan #plans></app-upgrade-plan>
+<app-upgrade-plan #plans (overageModel)="closeOveragePopup()"></app-upgrade-plan>

@@ -29,7 +29,7 @@
                   <div class="card-desc">Scheduled Crawling</div>
                   <div class="card-desc">Experiments</div>
                   <div class="card-desc">Community Support</div> -->
-                  <button class="kr-sg-button-secondary btn_lg" (click)="openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
+                  <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
               </div>
               <div class="goto_details" (click)="showPlanDetails = plan.name">Go to Details</div>
             </div>
@@ -76,13 +76,14 @@
         <div class="choose-plan-data-table if-standard">
          <!-- if-free, if-standard, if-pro, if-enterprise   add this classes based on type selected--> 
          <div class="header-table-plan row m-0">
-            <div class="type-title width-24">
-              
+            <div class="type-title width-24">              
             </div>
-            <div class="type-title width-19">
-              <div class="title">Free</div>  
+            <div class="type-title width-19"  *ngFor="let plan of filterPlansData">
+              <div class="title">{{plan.name}}</div>  
+              <div class="plan-duration">${{plan.planAmount}} / month </div>
+              <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
             </div>
-            <div class="type-title width-19">
+            <!-- <div class="type-title width-19">
               <div class="title">Standard</div>
               <div class="plan-duration">$99 / month </div>
               <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
@@ -96,18 +97,17 @@
               <div class="title">Enterprise</div>
               <div class="plan-duration">Custom Pricing </div>
               <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
-            </div>
+            </div> -->
           </div>
 
-          <div class="body-content-plan">
-            <div class="body-table-plan row">
-              <div class="title width-24 pl-4">Allowed Documents <img src="assets/icons/pricing/info.svg"></div>
-              <div class="title width-19">1000</div>
-              <div class="title width-19">10k</div>
-              <div class="title width-19">50k</div>
-              <div class="title width-19">Custom</div>
+          <div class="body-content-plan" *ngFor="let plan of filterPlansData;">
+            <div class="body-table-plan row" *ngFor="let feature of plan.featureData;">
+              <div class="title width-24 pl-4">{{feature.name}} <img src="assets/icons/pricing/info.svg"></div>
+              <div class="title width-19">{{feature.limit}}</div>
+              <div class="title width-19">{{feature.limit}}</div>
+              <div class="title width-19">{{feature.limit}}</div>
             </div>
-            <div class="body-table-plan row">
+            <!-- <div class="body-table-plan row">
               <div class="title width-24 pl-4">Number of Queries <img src="assets/icons/pricing/info.svg"></div>
               <div class="title width-19">1000</div>
               <div class="title width-19">50k</div>
@@ -147,7 +147,7 @@
               <div class="title width-19">Community Support</div>
               <div class="title width-19">E-mail, Standard SLA</div>
               <div class="title width-19">Dedicated POC, Custom SLA</div>
-            </div>
+            </div> -->
         </div>
         </div>
       </div>
@@ -165,15 +165,15 @@
     <div class="close_icon"><img (click)="closeOrderConfPopup()" src="assets/icons/modal-close.svg"></div>
   </div>
   <perfect-scrollbar>
-    <div class="modal-body" *ngIf="orderConfirmData">
-      <div class="plan-desc" *ngIf="!overageExist">You are Subscribing to <span>{{orderConfirmData.name}} Plan</span>. Please find the order summary below.</div>
-      <div class="plan-desc" *ngIf="overageExist">You have added additional <span>10k documents </span> to your plan. Please find the order summary below.</div>
+    <div class="modal-body" *ngIf="orderConfirmData&&overageData">
+      <div class="plan-desc" *ngIf="!overageData.overageShow">You are Subscribing to <span>{{orderConfirmData.name}} Plan</span>. Please find the order summary below.</div>
+      <div class="plan-desc" *ngIf="overageData.overageShow">You have added additional <span *ngIf="overageData.docCount>=1">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}} documents </span><span *ngIf="overageData.queryCount>=1">, {{overageData.overageDeatils.searchQueries.limit | valueFormat}} queries </span> to your plan. Please find the order summary below.</div>
       <div class="order-confirmation-table">
         <div class="order-confirmation-table-header row col-12 m-0">
           <div class="title col-9">PLAN</div>
           <div class="title col-3">AMOUNT</div>
         </div>
-        <div class="order-confirmation-table-body row col-12 m-0"  *ngIf="!overageExist">
+        <div class="order-confirmation-table-body row col-12 m-0"  *ngIf="!overageData.overageShow">
           <div class="col-9 plan_details">
             <div class="plan-type">{{orderConfirmData.name}} Subscription</div>
             <div class="btn-monthly"  [ngClass]="{'active-btn' : orderConfirmData.billingUnit == 'Monthly'}" (click)="choosePlanType('Monthly')">Monthly</div>
@@ -182,28 +182,41 @@
 
           <div class="amount col-3">$ {{orderConfirmData.planAmount}}</div>
         </div>
-        <div class="order-confirmation-table-body row col-12 m-0"  *ngIf="overageExist">             
-          <div class="col-9 plan_details">
-            <div class="plan-type">Document Overage</div>
-            <div class="add-doc-btn-sec">
-              <div class="minus"><img src="assets/icons/pricing/minus-small.svg"></div>
-              <div class="increase-num">1</div>
-              <div class="plus"><img src="assets/icons/pricing/plus-small.svg"></div>
+        <div class="order-confirmation-table-body row col-12 m-0"  *ngIf="overageData&&overageData.overageShow&&overageData.overageDeatils">            
+          <ng-container *ngIf="overageData.docCount>=1">
+            <div class="col-9 plan_details">
+              <div class="plan-type">Document Overage</div>
+              <div class="add-doc-btn-sec">
+                <div class="minus" (click)="count('doc','minus')"><img src="assets/icons/pricing/minus-small.svg"></div>
+                <div class="increase-num">{{overageData.docCount}}</div>
+                <div class="plus" (click)="count('doc','plus')"><img src="assets/icons/pricing/plus-small.svg"></div>
+              </div>
+              <div class="amount-increased">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}}</div>
             </div>
-            <div class="amount-increased">10 k</div>
-          </div>
-
-          <div class="amount col-3">$ 99</div>
+            <div class="amount col-3">$ {{overageData.overageDeatils.ingestDocs.amount * overageData.docCount}}</div>
+          </ng-container>
+          <ng-container *ngIf="overageData.queryCount>=1">
+            <div class="col-9 plan_details">
+              <div class="plan-type">Query Overage</div>
+              <div class="add-doc-btn-sec">
+                <div class="minus" (click)="count('query','minus')"><img src="assets/icons/pricing/minus-small.svg"></div>
+                <div class="increase-num">{{overageData.queryCount}}</div>
+                <div class="plus" (click)="count('query','plus')"><img src="assets/icons/pricing/plus-small.svg"></div>
+              </div>
+              <div class="amount-increased">{{overageData.overageDeatils.searchQueries.limit | valueFormat}}</div>
+            </div>
+            <div class="amount col-3">$ {{overageData.overageDeatils.searchQueries.amount * overageData.queryCount}}</div>
+          </ng-container>
         </div>
         <div class="order-confirmation-table-body row col-12 m-0">
           <div class="col-9 total-amount text-right">Total Amount</div>
-          <div class="amount col-3">$ {{orderConfirmData.planAmount}}</div>
+          <div class="amount col-3">$ {{overageData.overageShow?overageData.overageDeatils.ingestDocs.amount * overageData.docCount+overageData.overageDeatils.searchQueries.amount * overageData.queryCount:orderConfirmData.planAmount}}</div>
         </div>
       </div>
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="openPaymentGatewayPopup()">Pay</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="overageData.overageShow?buyOveragePayment():openPaymentGatewayPopup()">Pay</button>
     <button class="kr-sg-button-secondary backbtn btn_md" (click)="closeOrderConfPopup()">Cancel</button>
   </div>
 </kr-modal>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,11 +15,8 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./upgrade-plan.component.scss']
 })
 export class UpgradePlanComponent implements OnInit {
-  orderConfirmModelRef: any;
-  addPricing2ModalPopRef: any;
+  orderConfirmModelPopRef: any;
   choosePlanModalPopRef: any;
-  addPricing4ModalPopRef: any;
-  addPricing5ModalPopRef: any;
   paymentGatewayModelPopRef: any;
   successFailureModelPopRef: any;
   termPlan = "Monthly";
@@ -35,7 +32,7 @@ export class UpgradePlanComponent implements OnInit {
   urlSafe: any;
   transactionId: any;
   payementSuccess: true;
-  overageExist: boolean;
+  overageData: any;
   payementResponse: any = {
     hostedPage: {
       transactionId: "",
@@ -56,6 +53,7 @@ export class UpgradePlanComponent implements OnInit {
   @ViewChild('addPricingModel5') addPricingModel5: KRModalComponent;
   @ViewChild('paymentGatewayModel') paymentGatewayModel: KRModalComponent;
   @ViewChild('successFailureModel') successFailureModel: KRModalComponent;
+  @Output() overageModel = new EventEmitter<string>();
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -100,14 +98,16 @@ export class UpgradePlanComponent implements OnInit {
   }
   //get plans api
   getPlan() {
+    let result = [];
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.totalPlansData = res;
       this.typeOfPlan("Monthly");
       this.totalPlansData.forEach(data => {
         let dat = Object.values(data.featureAccess);
         data = Object.assign(data, { "featureData": dat });
-      })
-      console.log("totalPlansData", this.totalPlansData);
+      });
+      console.log("obj", this.totalPlansData);
+      console.log("result", result);
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });
@@ -122,15 +122,15 @@ export class UpgradePlanComponent implements OnInit {
     }
   }
   //open order confirm popup
-  openOrderConfPopup(data?, overage?, obj?) {
-    this.overageExist = overage === undefined ? false : overage;
+  openOrderConfPopup(data?, obj?) {
+    this.overageData = obj == undefined ? { overageShow: false } : obj;
     this.orderConfirmData = data;
-    this.orderConfirmModelRef = this.orderConfirmModel.open();
+    this.orderConfirmModelPopRef = this.orderConfirmModel.open();
   }
   //close order confirm popup
   closeOrderConfPopup() {
-    if (this.orderConfirmModelRef && this.orderConfirmModelRef.close) {
-      this.orderConfirmModelRef.close();
+    if (this.orderConfirmModelPopRef && this.orderConfirmModelPopRef.close) {
+      this.orderConfirmModelPopRef.close();
     }
   }
   //open popup1
@@ -147,7 +147,6 @@ export class UpgradePlanComponent implements OnInit {
   //open payment gateway popup
   openPaymentGatewayPopup() {
     this.userInfo = this.authService.getUserInfo() || {};
-    console.log(this.userInfo)
     const queryParams = {
       planId: this.orderConfirmData._id
     };
@@ -223,5 +222,38 @@ export class UpgradePlanComponent implements OnInit {
         }
       }
     }
+  }
+  //based on count change cost
+  count(type, operator) {
+    if (type == 'doc') {
+      this.overageData.docCount = operator == 'plus' ? this.overageData.docCount + 1 : this.overageData.docCount > 1 ? this.overageData.docCount - 1 : this.overageData.docCount = 1;
+    }
+    else if (type == 'query') {
+      this.overageData.queryCount = operator == 'plus' ? this.overageData.queryCount + 1 : this.overageData.queryCount > 1 ? this.overageData.queryCount - 1 : this.overageData.queryCount = 1;
+    }
+  }
+  //buy overage payment
+  buyOveragePayment() {
+    let overage = [];
+    if (this.overageData.docCount != null) {
+      overage.push({ "feature": "ingestDocs", "quantity": this.overageData.docCount })
+    }
+    if (this.overageData.queryCount != null) {
+      overage.push({ "feature": "searchQueries", "quantity": this.overageData.queryCount })
+    }
+    const queryParams = {
+      "streamId": this.selectedApp._id,
+      "subscriptionId": this.currentSubscriptionPlan.subscription._id
+    }
+    const payload = { "overages": overage };
+    const buyOverage = this.service.invoke('put.buyOverage', queryParams, payload);
+    buyOverage.subscribe(res => {
+      this.notificationService.notify(res.status, 'success');
+      this.overageData = {};
+      this.overageModel.emit();
+      this.closeOrderConfPopup();
+    }, errRes => {
+      this.errorToaster(errRes, 'failed buy overage');
+    });
   }
 }

@@ -20,4 +20,5 @@ export class UsageLogComponent implements OnInit {
     }
     this.showSearch = !this.showSearch
   }
+  searchItems() { }
 }

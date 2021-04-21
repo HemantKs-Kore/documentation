@@ -113,6 +113,7 @@ import { InvoicesComponent } from './components/invoices/invoices.component';
 import { UsageLogComponent } from './components/usage-log/usage-log.component';
 import { RangeSliderSearchExperienceComponent } from './helpers/components/range-slider-search-experience/range-slider-search-experience.component';
 import { UpgradePlanComponent } from './helpers/components/upgrade-plan/upgrade-plan.component';
+import { valueFormatPipe } from './helpers/filters/number-format.pipe';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -194,7 +195,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     InvoicesComponent,
     UsageLogComponent,
     RangeSliderSearchExperienceComponent,
-    UpgradePlanComponent
+    UpgradePlanComponent,
+    valueFormatPipe
   ],
   imports: [
     BrowserModule,

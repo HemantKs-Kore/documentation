@@ -15,8 +15,6 @@ import { WorkflowService } from '@kore.services/workflow.service';
 export class PricingComponent implements OnInit {
   documentGraph: EChartOption;
   queryGraph: EChartOption;
-  addPricing1ModalPopRef: any;
-  addPricing2ModalPopRef: any;
   addPricing3ModalPopRef: any;
   addOverageModalPopRef: any;
   addPricing5ModalPopRef: any;
@@ -55,8 +53,8 @@ export class PricingComponent implements OnInit {
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService) { }
-  @ViewChild('addPricingModel1') addPricingModel1: KRModalComponent;
-  @ViewChild('addPricingModel2') addPricingModel2: KRModalComponent;
+  // @ViewChild('addPricingModel1') addPricingModel1: KRModalComponent;
+  // @ViewChild('addPricingModel2') addPricingModel2: KRModalComponent;
   @ViewChild('addPricingModel3') addPricingModel3: KRModalComponent;
   @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
   @ViewChild('addPricingModel5') addPricingModel5: KRModalComponent;
@@ -84,10 +82,13 @@ export class PricingComponent implements OnInit {
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.totalPlansData = res;
       this.typeOfPlan("Monthly");
-
+      this.totalPlansData.forEach(data => {
+        let dat = Object.values(data.featureAccess);
+        data = Object.assign(data, { "featureData": dat });
+      })
       this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
       if (!this.currentSubscriptionPlan) {
-        this.currentsubscriptionPlan(this.selectedApp, res)
+        this.currentsubscriptionPlan(this.selectedApp, res);
       } else {
         this.getOverage(res);
       }
@@ -126,34 +127,34 @@ export class PricingComponent implements OnInit {
       for (let data of this.totalPlansData) {
         if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription && this.currentSubscriptionPlan.subscription.planName) {
           if (data.name == this.currentSubscriptionPlan.subscription.planName) {
-            let obj = { docCount: this.numberDoc, queryCount: this.numberQuery }
-            this.plans.openOrderConfPopup(data, true, obj);
+            let obj = { overageShow: true, docCount: this.addDocOver ? this.numberDoc : null, queryCount: this.addQueOver ? this.numberQuery : null, overageDeatils: this.overageDeatils }
+            this.plans.openOrderConfPopup(data, obj);
           }
         }
       }
     }
   }
   //open popup1
-  openPopup1() {
-    this.addPricing1ModalPopRef = this.addPricingModel1.open();
-  }
+  // openPopup1() {
+  //   this.addPricing1ModalPopRef = this.addPricingModel1.open();
+  // }
   //close popup1
-  closePopup1() {
-    if (this.addPricing1ModalPopRef && this.addPricing1ModalPopRef.close) {
-      this.addPricing1ModalPopRef.close();
-    }
-  }
+  // closePopup1() {
+  //   if (this.addPricing1ModalPopRef && this.addPricing1ModalPopRef.close) {
+  //     this.addPricing1ModalPopRef.close();
+  //   }
+  // }
 
   //open popup1
-  openPopup2() {
-    this.addPricing2ModalPopRef = this.addPricingModel2.open();
-  }
+  // openPopup2() {
+  //   this.addPricing2ModalPopRef = this.addPricingModel2.open();
+  // }
   //close popup1
-  closePopup2() {
-    if (this.addPricing2ModalPopRef && this.addPricing2ModalPopRef.close) {
-      this.addPricing2ModalPopRef.close();
-    }
-  }
+  // closePopup2() {
+  //   if (this.addPricing2ModalPopRef && this.addPricing2ModalPopRef.close) {
+  //     this.addPricing2ModalPopRef.close();
+  //   }
+  // }
 
   //open popup1
   openPopup3() {
