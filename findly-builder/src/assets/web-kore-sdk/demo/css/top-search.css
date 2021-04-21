@@ -2177,3 +2177,28 @@ display: none !important;
 .topdown-search-main-container .all-result-container .conversation-container .conversations .search-container.conversation #searchChatContainer .sdk-query-retry-icon{
   display: none !important;
 }
+
+.topdown-search-main-container .all-result-container .conversation-container .conversations .search-container.conversation #searchChatContainer .sdk-results-customize-icon{
+  display: none !important;
+}
+
+
+.show_insights_top_down{
+  position: fixed;
+  top: 99px;
+  right: 32px;
+  display: none;
+  cursor: pointer;
+}
+.show_insights_top_down .query_analytics_top_down{
+  display: flex;
+  align-items: center;
+  color: #9B9B9B;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.show_insights_top_down .query_analytics_top_down img{
+  margin-right: 7px;
+}
