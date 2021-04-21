@@ -40,22 +40,37 @@
         }
         .tooltip-main{
             min-width: 40px;
-            top: 8px !important;
+            top: -15px !important;
             z-index:-1 !important;
-            margin-left:-20px !important;
+            margin-left: -23px !important;
             opacity: 1;
-            .tooltip-arrow{ display: none; }
-            .tooltip-inner {
-                min-width: 26px !important;
-                padding: 0px;
+            .tooltip-arrow{ 
+                &::before{
+                    content: "";
+                    position: absolute;
+                    width: 12px;
+                    height: 12px;
+                    background: #202124;
+                    bottom: -6px;
+                    left: 15px;
+                    transform: rotate(45deg);
+                }
+             }
+            .tooltip-inner {                
                 max-width: 50px;
                 text-align: center;
-                color:#202124;
-                border-radius: 0px;
+                color: #fff;
                 background-color: #fff;
                 box-shadow: none;
                 border: none;
-                font-size: 10px;
+                background: #202124;
+                border-radius: 4px;
+                padding: 8px 0;
+                width: 40px;
+                height: 34px;
+                font-weight: 600;
+                font-size: 14px;
+                line-height: 20px;
             }
         }
         width:300px;
@@ -63,7 +78,7 @@
     }
     .single-slider{
         width: 300px;
-        margin: 0;
+        margin: 60px 0 0 0;
         position: relative;
         display: block !important;
         .slider-track-low{
@@ -83,6 +98,7 @@
           text-align: center;
           font-size: 10px;
           color: #8a959f;
+          display: none;
         //   .pull-left{
         //     position: absolute;
         //     left: -12px;
@@ -103,6 +119,16 @@
           .pull-right {
               float: right;
           }
+        }
+    }
+}
+
+.slider{
+    &.slider-horizontal {
+        .slider-tick-label-container {
+            .slider-tick-label{
+                top: -35px;
+            }
         }
     }
 }

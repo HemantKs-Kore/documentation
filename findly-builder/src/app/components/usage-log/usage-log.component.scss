@@ -1,0 +1,52 @@
+.usage-log-container{
+    .header-sec {       
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding:6px 45px;
+        margin: 0px 0px 25px 0px;
+        background: #F5F8FA;
+        border-radius: 4px;
+        min-height: 53px;
+        .title {
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 22px;
+            color: #000000;
+        }
+        .kr-sg-input-search {
+            display: inline-block;
+            width: 0px;
+            width: 215px;            
+            position: relative;            
+            &.active {
+                display: block;
+                width: 300px;
+            }
+            .close-icon {
+                position: absolute;
+                right: 11px;
+                top: 12px;
+                cursor: pointer;
+            }
+        }
+        .seach-block {
+            color: #202124;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            img {
+                margin-right: 7px;
+                cursor: pointer;
+            }
+        }
+       .download-icon{
+            position: relative;
+            margin-left: 40px;
+            cursor: pointer;
+            padding: 0 10px;
+       }
+    }
+}

@@ -124,9 +124,9 @@ export class SearchInterfaceComponent implements OnInit {
     // this.customizeTemplate.layout.isClickable = true;
     // this.customizeTemplate.layout.behaviour="webpage";
 
-    this.defaultTemplate();
-    this.getSettings('search')
-    this.getAllSettings();
+    // this.defaultTemplate();
+    // this.getSettings('search')
+    // this.getAllSettings();
     //this.filedSelect(type,field)
 
     this.loadFiledsData();
@@ -149,6 +149,9 @@ export class SearchInterfaceComponent implements OnInit {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
       this.getFieldAutoComplete();
+      this.defaultTemplate();
+      this.getSettings('search');
+      this.getAllSettings();
     }
   }
   defaultTemplate() {
@@ -190,7 +193,8 @@ export class SearchInterfaceComponent implements OnInit {
   getSettings(interfaceType) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      interface: interfaceType
+      interface: interfaceType,
+      indexPipelineId : this.indexPipelineId
     };
     this.service.invoke('get.SI_settingInterface', quaryparms).subscribe(res => {
       if (res) {
@@ -205,6 +209,7 @@ export class SearchInterfaceComponent implements OnInit {
     this.selectedSetting = setting ? setting.id : 'search';
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
+      indexPipelineId : this.indexPipelineId
     };
     this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
       this.allSettings = res;
@@ -252,7 +257,8 @@ export class SearchInterfaceComponent implements OnInit {
   getTemplate(templateId , modal?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      templateId: templateId
+      templateId: templateId,
+      indexPipelineId : this.indexPipelineId
     };
     this.service.invoke('get.SI_searchResultTemplate', quaryparms).subscribe(res => {
       this.templateBind(res , modal)
@@ -519,7 +525,8 @@ export class SearchInterfaceComponent implements OnInit {
   }
   saveResultSettings() {
     let queryparams = {
-      searchIndexId: this.serachIndexId
+      searchIndexId: this.serachIndexId,
+      indexPipelineId : this.indexPipelineId
     };
     let payload = {
       "_id": this.selectedSettingResultsObj._id,
@@ -599,7 +606,8 @@ export class SearchInterfaceComponent implements OnInit {
       url = "put.SI_saveTemplate_Id";
       queryparams = {
         searchIndexId: this.serachIndexId,
-        templateId: this.selectedTemplatedId
+        templateId: this.selectedTemplatedId,
+        indexPipelineId : this.indexPipelineId
       }
       // delete payload['appearanceType'];
       message = "Template Updated Successfully"
