@@ -39,7 +39,7 @@ export class AuthGuard implements CanActivate {
       let jStoarge = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')):{}
       if(!jStoarge.currentAccount.accountConf){
         jStoarge.currentAccount['accountConf'] = true;
-        window.localStorage.setItem('jStorage',jStoarge)
+        window.localStorage.setItem('jStorage',JSON.stringify(jStoarge))
       }
       return true;
     }
