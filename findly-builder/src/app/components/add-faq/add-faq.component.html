@@ -373,7 +373,7 @@
       
         <div class="col-6 right-sec">
           <div class="tabs-sec border-0">
-            <span class="tab-title pl-0">Response Preview</span>
+            <span class="tab-title pl-0">preview</span>
           </div>
         </div>
       </div>
@@ -449,25 +449,31 @@
        
         <div class="col-6 right_sec">        
           <div class="content-data">
-            <div class="responsePreviewBlock">
+            <div class="preview-title">response </div>
+            <div class="responsePreviewBlock" [ngClass]="{'adjust-height': image && image.url}">
               <perfect-scrollbar>
                 <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
               </perfect-scrollbar>
             </div>
-            <div *ngIf="image && image.url">
-              <img [src]="image.url">
+            <ng-container *ngIf="image && image.url">
+              <div class="preview-title mt-3 pt-1">IMAGE</div>
+              <div class="responsePreviewBlock adjust-height">
+                <perfect-scrollbar>
+                    <img [src]="image.url">
+                </perfect-scrollbar>
+              </div>  
+            </ng-container>             
+              <div class="info-bubble-faq">
+                <div class="w-100 d-flex">
+                  <div class="info_img">
+                    <img src="assets/icons/faq/Info.svg">
+                  </div>
+                  <div class="bubnle-info">
+                    Response layout will be based on the template you select in Search Interface Customization
+                  </div>
+                </div>
+                <div class="know-more-data">Know more</div>
             </div>
-                           <div class="info-bubble-faq">
-              <div class="w-100 d-flex">
-                <div class="info_img">
-                  <img src="assets/icons/faq/Info.svg">
-                </div>
-                <div class="bubnle-info">
-                  Response layout will be based on the template you select in Search Interface Customization
-                </div>
-              </div>
-              <div class="know-more-data">Know more</div>
-          </div>
           </div>
         </div>
       </div>      
