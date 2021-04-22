@@ -3392,6 +3392,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //   _self.vars.customizeView = true;
       // })
       $('.show-all-results').off('click').on('click', function (e) {
+        _self.vars.scrollPageNumber = 0;
         _self.vars.selectedFacetFromSearch = "all results"
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -17500,7 +17501,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       _self.pubSub.unsubscribe('sa-search-full-results');
       _self.pubSub.subscribe('sa-search-full-results', (msg, data) => {
-        _self.vars.scrollPageNumber = 0;
+        // _self.vars.scrollPageNumber = 0;
         console.log(data)
         _self.vars['selectedFiltersRadio'] = [];
         var facetCount = {};
@@ -17539,9 +17540,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             data_body_sec_element.addEventListener('ps-y-reach-end', () => {
               console.log("ps-y-reach-end");
               if (_self.vars.scrollPageNumber >= 0) {
-                $('#loaderDIV').show()
-                _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
-                _self.seeAllResultsInifiteScroll();
+                if (_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 10)) {
+                  $('#loaderDIV').show()
+                  _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
+                  _self.seeAllResultsInifiteScroll();
+                }
               }
             });
             data_body_sec_element.addEventListener('ps-y-reach-start', () => {

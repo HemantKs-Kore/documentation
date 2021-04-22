@@ -1221,6 +1221,7 @@ input:focus{
   text-transform: none;
   font-size: 12px;
   color: #9AA0A6 !important;
+  margin-top: 0px;
 }
 
 .sdk-top-down-interface .faqs-search-data-container{
