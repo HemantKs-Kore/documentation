@@ -5,7 +5,7 @@
     </div>
     <div *ngIf="!loadingContent">
         <div class="seach_add_feild">
-            <div class="title col-4 p-0" *ngIf="!(selcectionObj && selcectionObj.selectedCount)">Team Management</div>
+            <div class="title col-4 p-0" *ngIf="!(selcectionObj && selcectionObj.selectedCount)">Teams</div>
             <div class="title col-4 p-0" *ngIf="selcectionObj && selcectionObj.selectedCount">  
                 <div class="kr-sg-checkbox p-0 m-0" *ngIf="selcectionObj.selectedCount == allMembersCount">
                 <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()"  [(ngModel)]="selcectionObj.selectAll">
