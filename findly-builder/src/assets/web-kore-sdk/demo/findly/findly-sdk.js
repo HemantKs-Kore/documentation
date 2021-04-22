@@ -4741,7 +4741,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.custom-header-container-center').removeClass('display-none');
               $('.custom-add-result-container').removeClass('display-none');
             }
-            // _self.prepAllSearchData(facetActive);
+             _self.prepAllSearchData(facetActive);
             setTimeout(function () {
               _self.bindStructuredDataTriggeringOptions();
             }, 100);
