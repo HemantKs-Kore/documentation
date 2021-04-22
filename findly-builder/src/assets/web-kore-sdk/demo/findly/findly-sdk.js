@@ -2779,7 +2779,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.pubSub.publish('sa-document-search', { container: '.documents-search-data-container', isFullResults: true, selectedFacet: selectedFacet_temp, isLiveSearch: false, isSearch: false, dataObj, isShowAllBtn: false });
         if (_self.isDev) {
           $('.custom-header-container-center').removeClass('display-none');
-          $('.custom-add-result-container').removeClass('display-none');
+          if(_self.vars.customizeView){
+            $('.custom-add-result-container').removeClass('display-none');
+          }
         }
         setTimeout(function () {
           _self.bindStructuredDataTriggeringOptions();
@@ -3286,6 +3288,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         event.currentTarget.className += " nav-link-item-active";
         if ($('body').hasClass('top-down')) {
           var searchData;
+          _self.vars.selectedFacetsList = [];
+          _self.searchFacetsList([]);
         }
         if ($(searchData).find('.tasks-wrp .faqs-shadow')) {
           $(searchData).find('.tasks-wrp .faqs-shadow').find(".accordion.acc-active").trigger('click');
@@ -3295,6 +3299,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.customizeView = true;
             if ($('body').hasClass('top-down') && _self.isDev) {
               $('.show_insights_top_down').show();
+              $('.custom-add-result-container').removeClass('display-none');
             }
 
             // $(".custom-insights-control-container").show();
@@ -3320,6 +3325,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.customizeView = false;
             if ($('body').hasClass('top-down') && _self.isDev) {
               $('.show_insights_top_down').hide();
+              $('.custom-add-result-container').addClass('display-none');
             }
             // $(".custom-insights-control-container").hide();
 
@@ -3351,12 +3357,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.customizeView = true;
             if ($('body').hasClass('top-down') && _self.isDev) {
               $('.show_insights_top_down').show();
+              $('.custom-add-result-container').removeClass('display-none');
             }
           }
           else {
             _self.vars.customizeView = false;
             if ($('body').hasClass('top-down') && _self.isDev) {
               $('.show_insights_top_down').hide();
+              $('.custom-add-result-container').addClass('display-none');
             }
           }
           if ($('body').hasClass('top-down')) {
@@ -4739,7 +4747,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.pubSub.publish('sa-st-data-search', { container: '.structured-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
             if (_self.isDev) {
               $('.custom-header-container-center').removeClass('display-none');
-              $('.custom-add-result-container').removeClass('display-none');
+              if(_self.vars.customizeView){
+                $('.custom-add-result-container').removeClass('display-none');
+              }
             }
              _self.prepAllSearchData(facetActive);
             setTimeout(function () {
@@ -5909,7 +5919,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('sa-st-data-search', { container: '.structured-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
           if (_self.isDev) {
             $('.custom-header-container-center').removeClass('display-none');
-            $('.custom-add-result-container').removeClass('display-none');
+            if(_self.vars.customizeView){
+              $('.custom-add-result-container').removeClass('display-none');
+            }
           }
           setTimeout(function () {
             _self.bindStructuredDataTriggeringOptions();
