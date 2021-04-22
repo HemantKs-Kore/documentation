@@ -1807,6 +1807,15 @@ float: right;
   margin: 0 auto;
   padding-bottom: 26px;
 }
+.sdk-top-down-interface .topdown-search-main-container .search-input-box{
+  position: relative;
+  display: block;
+  height: 35px;
+  padding-top: 66px;
+  width: 865px;
+  margin: 0 auto;
+  padding-bottom: 26px;
+}
 body.top-down .top-down-search-background-div .top-down-wrapper{
   padding-bottom: 0;
   background-image: none;
