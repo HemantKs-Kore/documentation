@@ -3293,6 +3293,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.vars.showingMatchedResults == true) {
           if ($(event.currentTarget).attr('id') == 'viewTypeCustomize') {
             _self.vars.customizeView = true;
+            if ($('body').hasClass('top-down') && _self.isDev) {
+              $('.show_insights_top_down').show();
+            }
+
             // $(".custom-insights-control-container").show();
 
             // $(".query-analytics-control-container").show(); // Temporary modification, made as per FLY-1012
@@ -3314,7 +3318,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           else {
             _self.vars.customizeView = false;
-
+            if ($('body').hasClass('top-down') && _self.isDev) {
+              $('.show_insights_top_down').hide();
+            }
             // $(".custom-insights-control-container").hide();
 
             // $(".query-analytics-control-container").hide(); // Temporary modification, made as per FLY-1012
@@ -3343,9 +3349,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         else {
           if ($(event.currentTarget).attr('id') == 'viewTypeCustomize') {
             _self.vars.customizeView = true;
+            if ($('body').hasClass('top-down') && _self.isDev) {
+              $('.show_insights_top_down').show();
+            }
           }
           else {
             _self.vars.customizeView = false;
+            if ($('body').hasClass('top-down') && _self.isDev) {
+              $('.show_insights_top_down').hide();
+            }
           }
           if ($('body').hasClass('top-down')) {
             _self.pubSub.publish('sa-show-all-results-top-down', {});
@@ -4699,7 +4711,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           console.log(_self.vars.searchObject.liveData);
           if ($('body').hasClass('top-down')) {
+            setTimeout(function () {
+          _self.pubSub.publish('facet-selected', { selectedFacet:  'all results'});
             _self.pubSub.publish('sa-search-result', { ..._self.vars.searchObject.liveData, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' } });
+          }, 100);
           } else {
             _self.pubSub.publish('sa-search-result', _self.vars.searchObject.liveData);
           }
@@ -4726,7 +4741,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.custom-header-container-center').removeClass('display-none');
               $('.custom-add-result-container').removeClass('display-none');
             }
-            _self.prepAllSearchData(facetActive);
+             _self.prepAllSearchData(facetActive);
             setTimeout(function () {
               _self.bindStructuredDataTriggeringOptions();
             }, 100);
@@ -19136,6 +19151,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $("#viewTypePreview").removeClass('nav-link-item-active');
             $("#viewTypeCustomize").addClass('nav-link-item-active');
             _self.vars.customizeView = true;
+            $('.show_insights_top_down').show();
             if (_self.isDev) {
               if ($('.top-down-search-background-div')) {
                 $('.top-down-search-background-div').addClass('if-full-results');
@@ -20047,7 +20063,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       });
       if(_self.isDev){
-        $('.show_insights_top_down').show();
       $('.show_insights_top_down').off('click', '.query_analytics_top_down').on('click', '.query_analytics_top_down', function (event) {
         event.preventDefault();
         event.stopImmediatePropagation();
@@ -20057,8 +20072,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.parentEvent(responseObject);
         }
       })
-    }else{
-      $('.show_insights_top_down').hide();
     }
     }
     FindlySDK.prototype.getTopDownFacetsTabs = function () {
