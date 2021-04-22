@@ -634,6 +634,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.headerService.isSDKCached = true;
       this.headerService.isSDKOpen = false;
     }
+    this.addNewResult = true;
   }
 
   refreshSDK(){
