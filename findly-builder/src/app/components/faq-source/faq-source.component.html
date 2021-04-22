@@ -72,7 +72,7 @@
                     </div>
                     <div class="header-sec" *ngIf="faqSelectionObj.selectedCount == 0">
                         <div class="kr-sg-checkbox">
-                            <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll" autocomplete="off">
+                            <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="headerSelectAll()" [(ngModel)]="faqSelectionObj.selectAll" autocomplete="off">
                             <label for="selectAllFaqs" class="checkbox-custom-label"></label>
                         </div>                        
                         <div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom'">                                        
@@ -105,10 +105,13 @@
                     </div>
                     <div class="footer-sec-btns row m-0 col-12" *ngIf="faqSelectionObj.selectedCount">
                         <div class="col-4 p-0 d-flex align-items-center">
-                            <div class="kr-sg-checkbox">
+                            <div class="kr-sg-checkbox" [hidden]="!(selectedtab === 'draft' && faqSelectionObj.selectedCount == faqSelectionObj.stats.draft) || (selectedtab === 'in_review' && faqSelectionObj.selectedCount == faqSelectionObj.stats.in_review) || (selectedtab === 'approved' && faqSelectionObj.selectedCount == faqSelectionObj.stats.approved )">
                                 <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll" autocomplete="off">
                                 <label for="selectAllFaqs" class="checkbox-custom-label"></label>
                             </div>  
+                            <div class="mr-3" *ngIf="faqSelectionObj.selectedCount>0 && ((selectedtab === 'draft' && faqSelectionObj.selectedCount !== faqSelectionObj.stats.draft) || (selectedtab === 'in_review' && faqSelectionObj.selectedCount !== faqSelectionObj.stats.in_review) || (selectedtab === 'approved' && faqSelectionObj.selectedCount !== faqSelectionObj.stats.approved ))">
+                                <img (click) = "selectAllPartially();" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
+                            </div>
                             <div class="title">{{(faqSelectionObj.selectAll)?'All':faqSelectionObj.selectedCount}} Selected</div>
                         </div>
                         <div class="col-8 p-0 d-flex align-items-center justify-content-end">
@@ -128,7 +131,7 @@
                         </div>
                         <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer': faqSelectionObj.selectedCount}" (psYReachEnd)="onScrolledEnd($event)" *ngIf="faqSelectionObj.stats[selectedtab]">
                             <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab" >
-                            <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll" id="selectAllFaqs" (click)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div>
+                            <!-- <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll" id="selectAllFaqs" (click)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div> -->
                             <div id="accordion" class="accordion-content">
                                 <div *ngFor="let faq of faqs">
                                     <div class="card-content" *ngIf="faq.action!=='delete'">
