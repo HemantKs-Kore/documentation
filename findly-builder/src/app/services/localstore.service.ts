@@ -17,6 +17,9 @@ export class LocalStoreService {
       false if user data not found in browser localstore,
       else returns accountDetails
   */
+ public setAppConfigSearchAsssit(val){
+  window[this.storageType].setItem('accountConf', val);
+ }
   public getAuthInfo(): any {
     try {
       let _accountDetails = window[this.storageType].getItem('jStorage');

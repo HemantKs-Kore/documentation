@@ -55,7 +55,8 @@ export class AppsListingComponent implements OnInit {
     //const apps = this.workflowService.findlyApps();
     //this.prepareApps(apps);
     //let accountConf = localStorage.setItem('accountConf',{})
-    if(!localStorage.accountConf){
+    
+    if(localStorage.accountConf){
       this.getAccountConf()
     }else{
       this.getAllApps();
@@ -122,7 +123,8 @@ export class AppsListingComponent implements OnInit {
   // Get Account Configuration
   public getAccountConf() {
     this.service.invoke('app.account-configuratuion').subscribe(res => {
-      localStorage.accountConf = true;
+      //localStorage.accountConf = false;
+      this.localstore.setAppConfigSearchAsssit(false);
       this.getAllApps();
     }, errRes => {
       console.log(errRes);
