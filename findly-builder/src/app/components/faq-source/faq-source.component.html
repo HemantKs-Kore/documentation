@@ -199,23 +199,24 @@
                                     <div class="approved_date" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.lMod | dateFormatPipe:'hh:mm:ss A'}}</span></div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
-                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" >                                        
+                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-center'" >                                        
                                         <div class="dropdown dropdown-open">                                        
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
-                                            <ul class="dropdown-menu content-menu info_header_dropdown_content" ngbDropdownMenu>
+                                            <ul class="dropdown-menu content-menu info_header_dropdown_content w-274px" ngbDropdownMenu>
                                                 <div class="row m-0 col-12 p-0">
-                                                    <div class="col-6 inner-data-column">
+                                                    <div class="col-5 inner-data-column">
                                                         <div class="heading">SOURCE</div>
                                                         <div class="title" ngbTooltip='{{(selectedFaq.sourceName || contentTypes[selectedFaq.contentSource]) || "Manual"| titlecase}}' placement="top-left">{{(selectedFaq.sourceName || contentTypes[selectedFaq.contentSource]) || 'Manual' | titlecase}}</div>
                                                     </div>
-                                                    <div class="col-2 inner-data-column d-none">
-                                                        <div class="heading">Type</div>
-                                                        <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}</div>
-                                                    </div>
-                                                    <div class="col-6 inner-data-column">
+                                                    <div class="col-7 inner-data-column">
                                                         <div class="heading">EDITED BY</div>
                                                         <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
                                                     </div>
+
+                                                    <div class="col-2 inner-data-column d-none">
+                                                        <div class="heading">Type</div>
+                                                        <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}</div>
+                                                    </div>                                                    
                                                     <div class="col-4 inner-data-column d-none">
                                                         <div class="heading">Last Modified</div>
                                                         <div class="title" ngbTooltip="{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
@@ -280,23 +281,23 @@
                                     <div class="approved_date" ngbTooltip="{{selectedFaq.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
-                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-center'">                                        
                                         <div class="dropdown dropdown-open">                                        
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
-                                            <ul class="dropdown-menu content-menu info_header_dropdown_content" ngbDropdownMenu>
+                                            <ul class="dropdown-menu content-menu info_header_dropdown_content w-274px" ngbDropdownMenu>
                                                 <div class="row m-0 col-12 p-0">
-                                                    <div class="col-6 inner-data-column"> 
+                                                    <div class="col-5 inner-data-column"> 
                                                         <div class="heading">SOURCE</div>
                                                         <div class="title" ngbTooltip='{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) || "Manual" | titlecase}}' placement="top-left">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) || 'Manual' | titlecase}}</div>
+                                                    </div>
+                                                    <div class="col-7 inner-data-column">
+                                                        <div class="heading">EDITED BY</div>
+                                                        <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
                                                     </div>
                                                     <div class="col-2 inner-data-column d-none">
                                                         <div class="heading">Type</div>
                                                         <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}</div>
-                                                    </div>
-                                                    <div class="col-6 inner-data-column">
-                                                        <div class="heading">EDITED BY</div>
-                                                        <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
-                                                    </div>
+                                                    </div>                                                    
                                                     <div class="col-4 inner-data-column d-none">
                                                         <div class="heading">Last Modified</div>
                                                         <div class="title" ngbTooltip="{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
@@ -361,26 +362,26 @@
                                 <div class="approved_date" ngbTooltip="{{selectedFaq.lMod | dateFormatPipe:'d MMMM YYYY , hh:mm A'}}" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'d MMMM YYYY | hh:mm A'}}</div>
                             </div>
                             <div class="col-7 p-0 actions-sec">
-                                <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-right'">                                        
                                     <div class="dropdown dropdown-open">                                        
                                         <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
-                                        <ul class="dropdown-menu content-menu info_header_dropdown_content" ngbDropdownMenu>
+                                        <ul class="dropdown-menu content-menu info_header_dropdown_content ml-58" ngbDropdownMenu>
                                             <div class="row m-0 col-12 p-0">
-                                                <div class="col-4 inner-data-column">
+                                                <div class="col-3 inner-data-column">
                                                     <div class="heading">SOURCE</div>
                                                     <div class="title" ngbTooltip='{{(selectedFaq.sourceName || "Manual") | titlecase}}' placement="top-left">{{(selectedFaq.sourceName || 'Manual') | titlecase}}</div>
-                                                </div>
-                                                <div class="col-4 inner-data-column d-none">
-                                                    <div class="heading">Type</div>
-                                                    <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || 'Manual') | titlecase}}</div>
-                                                </div>
-                                                <div class="col-4 inner-data-column">
+                                                </div>                                              
+                                                <div class="col-5 inner-data-column">
                                                     <div class="heading">EDITED BY</div>
                                                     <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
                                                 </div>
                                                 <div class="col-4 inner-data-column">
                                                     <div class="heading">REVIEWED BY</div>
                                                     <div class="title" ngbTooltip="{{(selectedFaq._meta.reviewerDetails?selectedFaq._meta.reviewerDetails.fullName:'---')}}" placement="top-left">{{(selectedFaq._meta.reviewerDetails?selectedFaq._meta.reviewerDetails.fullName:'---')}}</div>
+                                                </div>
+                                                <div class="col-4 inner-data-column d-none">
+                                                    <div class="heading">Type</div>
+                                                    <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || 'Manual') | titlecase}}</div>
                                                 </div>
                                             </div>
                                         </ul>
@@ -422,12 +423,14 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-end">
                                     <!-- <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button> -->
-                                    <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <div class="kr-sg-dropdowns add elipse-action-dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                         <div class="dropdown dropdown-open">
-                                            <div class= "linked-task-status-control dropdown-control" ngbDropdownToggle ><img src="assets/icons/elipse.svg">               </div>                      
+                                            <div class="linked-task-status-control" ngbDropdownToggle>
+                                                <img src="assets/icons/elipse.svg">
+                                            </div>                      
                                             <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
                                                 <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>
-                                                <li class ="list" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>
+                                                <li class ="list delete-text" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>
                                             </ul>
                                         </div>
                                     </div>                                    
