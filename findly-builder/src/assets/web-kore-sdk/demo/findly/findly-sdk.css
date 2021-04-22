@@ -13757,7 +13757,7 @@ button.search-button:disabled {
     border-radius: 4px;
     padding: 10px 15px;
     bottom: 125%;
-    z-index: 99;
+    z-index: 999;
     color: #FFFFFF;
     font-weight: 600;
     font-size: 10px;
