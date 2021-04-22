@@ -11673,10 +11673,10 @@ padding-right: 0;
     line-height: 16px;
 }
 .tile-with-text-parent.template-2 .tile-with-text {
-    box-shadow: none;
-    border-radius: 0;
+    box-shadow: none !important;
+    border-radius: 0 !important;
     border-bottom: 1px solid #E4E5E7;
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
     padding: 11px 10px;
 }
 .tile-with-text-parent.template-2.with-accordion .tile-with-text {
@@ -12472,6 +12472,12 @@ padding-right: 0;
     font-weight: normal;
     font-size: 12px;
     line-height: 15px;
+}
+
+.show-all-results-outer-wrap .search-heads.show-all.sdk-show-classification{
+    text-transform: none;
+    font-size: 12px;
+    color: #9AA0A6 !important;
 }
 
 .data-body-sec .structured-data-header .search-heads{
