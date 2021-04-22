@@ -17587,6 +17587,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }, 400);
         _self.bindAllResultRankingOperations();
         _self.bindShowAllResultsTrigger(showAllHTML, facetData, data);
+        setTimeout(() => {
+          if(!$('body').hasClass('top-down')){
+            if(_self.isDev){
+              if (_self.vars.customizeView) {
+                $('#viewTypePreview').removeClass('nav-link-item-active');
+                $('#viewTypeCustomize').addClass('nav-link-item-active');
+              }
+              else {
+                $('#viewTypePreview').addClass('nav-link-item-active');
+                $('#viewTypeCustomize').removeClass('nav-link-item-active');
+              }
+            }
+          }
+        }, 100);
       });
 
     }
