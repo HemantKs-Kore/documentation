@@ -131,6 +131,9 @@
                                     }
                                 }
                                 li {
+                                    &.experment-link{
+                                        border-bottom: 1px solid #EFF0F1;
+                                    }
                                     a {
                                         text-transform: capitalize;
                                         font-weight: normal;

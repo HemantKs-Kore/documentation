@@ -163,6 +163,7 @@ export class AppSelectionService {
     this.headerService.toggle(toogleObj);
     this.headerService.closeSdk();
     this.headerService.updateSearchConfiguration();
+    this.routeChanged.next({ name: 'pathchanged', path: '/summary' });
   }
   setAppWorkFlowData(app, queryPipeline?) {
     // this.getStreamData(app);

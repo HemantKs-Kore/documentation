@@ -99,7 +99,6 @@ export class AddResultComponent implements OnInit {
         var id = element.contentId
         $("[custumId="+id+"]").prop('checked', true);
       });
-      
      // $('#viewTypeCheckboxControl').prop('checked', false);
     }
     // if(this.searchType == "all" || this.searchRadioType == "all"){
@@ -129,7 +128,7 @@ export class AddResultComponent implements OnInit {
       obj.contentType = contentTaskFlag ? contentType : element.__contentType;
       //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
       obj.contentId = element.contentId;
-      obj.position = this.positionRecord;
+      // obj.position = this.positionRecord;
       // obj.config = {
       //   pinIndex : -1,
       //   //boost: 1.0,

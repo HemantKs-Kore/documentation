@@ -144,7 +144,10 @@
         "actionlower": "Lower",
         "actionhide": "Hide",
         "actionfilter": "Filter",
+        "object": "Object",
+        "dense_vector": "Dense Vector",
         "string": "String",
+        "array": "Array",
         "date": "Date",
         "number": "Number",
         "between": "Between",
@@ -365,7 +368,7 @@
         "configuratoin_success": "Successfully Configured.",
         "configuration_failed": "Configuration Failed",
         "validation_failed" : "Validation Failed",
-        "file_validation_failed" : "Invalid File format.",
+        "file_validation_failed" : "File Validation.",
         "initial_file_validation": "Initial File Validation",
         "import_progress": "Import In-progress",
         "import_done": "Import Done",
@@ -401,7 +404,7 @@
         "updated_by" : "Updated by",
         "updated_on" : "Last Updated On",
         "noResultTemplate" : "Result templates are not defined for structured data. Go to",
-        "searchInterfacePath" : "Manage >> Result Templates",
+        "searchInterfacePath" : "Indices >> Result Templates",
         "toDefine" : "to define.",
         "learnMore" : "Learn More"
     }

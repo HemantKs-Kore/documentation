@@ -8,6 +8,12 @@
     text-align: center;
     padding: 0!important;
     z-index: 10500;
+    &.width-700{
+        .modal-dialog{
+            max-width: 700px !important;
+            width: 700px !important;
+        }
+    }
     &:before {
         content: '';
         display: inline-block;
@@ -18,6 +24,31 @@
     &.kr-center{
         animation-name: example;
         animation-duration: 0.3s;
+        &.payment-confirmation-price{
+            .modal-dialog{
+                max-width: 100% !important;
+            }
+        }
+        &.chooseplan-price{
+            .modal-dialog{
+                max-width: 100% !important;
+            }
+        }
+        &.overage_plan{
+            .modal-dialog{
+                max-width: 100% !important;
+            }
+        }
+        &.payment-confirmation-price{
+            .modal-dialog{
+                max-width: 100% !important;
+            }
+        }
+        &.cancel_subscription{
+            .modal-dialog{
+                max-width: 100% !important;
+            }
+        }
         &.smallModal{
             .modal-dialog{
                 max-width: 67% !important;
@@ -344,6 +375,7 @@
                 padding: 6px;
                 z-index: 1;
                 position: relative;
+                margin-top: 2px;
                 .kr-btn-primary{
                     width: 114px;
                     background-color:#0D6EFD;

@@ -108,7 +108,11 @@ import { SearchExperienceComponent } from './components/search-experience/search
 import { UseronboardingJourneyComponent } from './helpers/components/useronboarding-journey/useronboarding-journey.component';
 import { ActionsComponent } from './components/actions/actions.component';
 import { SmallTalkComponent } from './components/small-talk/small-talk.component';
+import { PricingComponent } from './components/pricing/pricing.component';
+import { InvoicesComponent } from './components/invoices/invoices.component';
+import { UsageLogComponent } from './components/usage-log/usage-log.component';
 import { RangeSliderSearchExperienceComponent } from './helpers/components/range-slider-search-experience/range-slider-search-experience.component';
+import { UpgradePlanComponent } from './helpers/components/upgrade-plan/upgrade-plan.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -186,7 +190,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     UseronboardingJourneyComponent,
     ActionsComponent,
     SmallTalkComponent,
-    RangeSliderSearchExperienceComponent
+    PricingComponent,
+    InvoicesComponent,
+    UsageLogComponent,
+    RangeSliderSearchExperienceComponent,
+    UpgradePlanComponent
   ],
   imports: [
     BrowserModule,
