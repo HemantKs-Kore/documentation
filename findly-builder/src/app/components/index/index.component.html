@@ -52,7 +52,7 @@
             </div>
           </div>
         </ng-container>
-        <ng-container *ngIf="pipeline && pipeline.length && !showNewStageType">
+        <ng-container *ngIf="pipeline && pipeline.length">
           <div cdkDropList (cdkDropListDropped)="drop($event, pipeline)">
             <div (click)="selectStage(pipe, i)" class="field_data" *ngFor="let pipe of pipeline; let i = index" cdkDrag
               [ngClass]="{
@@ -110,7 +110,7 @@
                   {{
                   (selectedStage.type
                   ? selectedStage.type
-                  : "choose_an_option"
+                  : "choose_stage_type"
                   ) | translate
                   }}
                 </button>
@@ -146,7 +146,7 @@
                   {{
                   (selectedStage.type
                   ? selectedStage.type
-                  : "choose_an_option"
+                  : "choose_stage_type"
                   ) | translate
                   }}
                 </button>
@@ -193,10 +193,10 @@
             </div>
             <input type="text" placeholder="Define Condition" (keyup)="changesDetected = true" autocomplete="off"
               class="input-text" [(ngModel)]="selectedStage.condition" />
-              <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div>
+              <!-- <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div> -->
           </div>
           <div class="add-condition-example-text">Eg: ctx.contentType=="faq"</div>
-          <div class="add-condition-info">
+          <div class="add-condition-info" *ngIf="selectedStage.type === 'exclude_document'">
             <img src="assets/icons/Info_blue.svg">It is mandatory to add conditions for defining the Exclude Document stage.
           </div>
 
