@@ -18597,8 +18597,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             buryByValue = buryByValue - 0.25;
             _self.performRankActionsOnFullPage(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
           }
-          else {
+          else if(buryByValue != 0){
             buryByValue = 0.25 - buryByValue;
+            _self.performRankActionsOnFullPage(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
+          }
+          else{
+            buryByValue = 0;
             _self.performRankActionsOnFullPage(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
           }
         }
@@ -18675,17 +18679,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       console.log(payload);
-
+      $('#loaderDIV').show();
       // fqp-0357ee01-975c-56ab-bfd3-0a577ed1ed8b
       // var url = 'https://dev.findly.ai/api/1.1/findly/sidx-05441d26-7bb8-5886-a84b-0dd7768f0a44/queryPipeline/fqp-0357ee01-975c-56ab-bfd3-0a577ed1ed8b/rankingAndPinning';
       var url = _self.API.queryConfig;
-      _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
+      _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then( (res) => {
         console.log(res);
+        $('#loaderDIV').hide();
         if (_self.isDev) {
           var responseObject = { 'type': 'onboardingjourney', data: 'optimize', query: _self.vars.searchObject.searchText, bottomUp: true }
           _self.parentEvent(responseObject);
         }
-        if (actionType === "pinning") {
+        // if (actionType === "pinning") {
 
           // res.results.forEach((result) => {
           //   if (result.contentId === payload.result.contentId) {
@@ -18742,158 +18747,164 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           //     }
           //   }
           // })
+        // }
+
+        // else if (actionType === "visibility") {
+        //   res.results.forEach((result) => {
+        //     if (result.contentId === payload.result.contentId) {
+        //       $(selectedElement).attr('visible', result.config.visible);
+        //       if (result.config.visible) {
+        //         selectedElement.find('.visibility').attr('type', "Hide");
+        //         if (selectedElement.find('.customization-tile').hasClass('disable_hidden')) {
+        //           selectedElement.find('.customization-tile').removeClass('disable_hidden')
+        //         }
+        //         if (selectedElement.find('.record-status-hidden')) {
+        //           selectedElement.find('.record-status-hidden').css('display', 'none');
+        //         }
+        //         if (selectedElement.find('._hide').hasClass('display-none')) {
+        //           selectedElement.find('._hide').removeClass('display-none');
+        //           selectedElement.find('._hide').addClass('display-block');
+        //         }
+        //         if (selectedElement.find('.unhide').hasClass('display-block')) {
+        //           selectedElement.find('.unhide').removeClass('display-block');
+        //           selectedElement.find('.unhide').addClass('display-none');
+        //         }
+        //         if (selectedElement.find('.img_hide').hasClass('display-none')) {
+        //           selectedElement.find('.img_hide').removeClass('display-none');
+        //           selectedElement.find('.img_hide').addClass('display-block');
+        //         }
+        //         if (selectedElement.find('.img_unhide').hasClass('display-block')) {
+        //           selectedElement.find('.img_unhide').removeClass('display-block');
+        //           selectedElement.find('.img_unhide').addClass('display-none');
+        //         }
+        //       }
+        //       else {
+        //         selectedElement.find('.visibility').attr('type', "UnHide");
+        //         if (!selectedElement.find('.customization-tile').hasClass('disable_hidden')) {
+        //           selectedElement.find('.customization-tile').addClass('disable_hidden')
+        //         }
+        //         if (selectedElement.find('.record-status-hidden')) {
+        //           selectedElement.find('.record-status-hidden').css('display', 'block');
+        //         }
+        //         if (selectedElement.find('._hide').hasClass('display-block')) {
+        //           selectedElement.find('._hide').removeClass('display-block');
+        //           selectedElement.find('._hide').addClass('display-none');
+        //         }
+        //         if (selectedElement.find('.unhide').hasClass('display-none')) {
+        //           selectedElement.find('.unhide').removeClass('display-none');
+        //           selectedElement.find('.unhide').addClass('display-block');
+        //         }
+        //         if (selectedElement.find('.img_hide').hasClass('display-block')) {
+        //           selectedElement.find('.img_hide').removeClass('display-block');
+        //           selectedElement.find('.img_hide').addClass('display-none');
+        //         }
+        //         if (selectedElement.find('.img_unhide').hasClass('display-none')) {
+        //           selectedElement.find('.img_unhide').removeClass('display-none');
+        //           selectedElement.find('.img_unhide').addClass('display-block');
+        //         }
+        //         // start - removing pinning option from DOM
+        //         $(selectedElement).attr('pinIndex', result.config.pinIndex);
+        //         selectedElement.find('.pinning').attr('type', "Pin");
+        //         if (selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
+        //           selectedElement.find('.customization-tile').removeClass('disable_pinned')
+        //         }
+        //         if (selectedElement.find('.record-status-pinned')) {
+        //           selectedElement.find('.record-status-pinned').css('display', 'none');
+        //         }
+        //         if (selectedElement.find('.unpin').hasClass('display-block')) {
+        //           selectedElement.find('.unpin').removeClass('display-block');
+        //           selectedElement.find('.unpin').addClass('display-none');
+        //         }
+        //         if (selectedElement.find('.pin').hasClass('display-none')) {
+        //           selectedElement.find('.pin').removeClass('display-none');
+        //           selectedElement.find('.pin').addClass('display-block');
+        //         }
+        //         if (selectedElement.find('.img_unpin').hasClass('display-block')) {
+        //           selectedElement.find('.img_unpin').removeClass('display-block');
+        //           selectedElement.find('.img_unpin').addClass('display-none');
+        //         }
+        //         if (selectedElement.find('.img_pin').hasClass('display-none')) {
+        //           selectedElement.find('.img_pin').removeClass('display-none');
+        //           selectedElement.find('.img_pin').addClass('display-block');
+        //         }
+        //         // end
+        //       }
+        //     }
+        //   })
+        //   // if(res.results[0].config.visible){
+
+        //   // }
+        // }
+
+        // else if (actionType === "boosting") {
+        //   res.results.forEach((result) => {
+        //     if (result.contentId === payload.result.contentId) {
+        //       $(selectedElement).attr('boost', result.config.boost);
+        //       if (result.config.boost == 1) {
+        //         selectedElement.find('.record-status-boosted').css('display', 'none');
+        //         selectedElement.find('.record-status-lowered').css('display', 'none');
+        //       }
+        //       else if (result.config.boost > 1) {
+        //         if (selectedElement.find('.record-status-boosted')) {
+        //           selectedElement.find('.record-status-boosted').css('display', 'block');
+        //         }
+        //         if (selectedElement.find('.record-status-lowered')) {
+        //           selectedElement.find('.record-status-lowered').css('display', 'none');
+        //         }
+        //       }
+        //       else {
+        //         if (selectedElement.find('.record-status-boosted')) {
+        //           selectedElement.find('.record-status-boosted').css('display', 'none');
+        //         }
+        //         if (selectedElement.find('.record-status-lowered')) {
+        //           selectedElement.find('.record-status-lowered').css('display', 'block');
+        //         }
+        //       }
+        //       _self.checkBoostAndLowerTimes();
+        //     }
+        //   })
+        // }
+
+        // else if (actionType === "burying") {
+        //   res.results.forEach((result) => {
+        //     if (result.contentId === payload.result.contentId) {
+        //       $(selectedElement).attr('boost', result.config.boost);
+        //       if (result.config.boost == 1) {
+        //         selectedElement.find('.record-status-boosted').css('display', 'none');
+        //         selectedElement.find('.record-status-lowered').css('display', 'none');
+        //       }
+        //       else if (result.config.boost < 1) {
+        //         if (selectedElement.find('.record-status-lowered')) {
+        //           selectedElement.find('.record-status-lowered').css('display', 'block');
+        //         }
+        //         if (selectedElement.find('.record-status-boosted')) {
+        //           selectedElement.find('.record-status-boosted').css('display', 'none');
+        //         }
+        //       }
+        //       else {
+        //         if (selectedElement.find('.record-status-lowered')) {
+        //           selectedElement.find('.record-status-lowered').css('display', 'none');
+        //         }
+        //         if (selectedElement.find('.record-status-boosted')) {
+        //           selectedElement.find('.record-status-boosted').css('display', 'block');
+        //         }
+        //       }
+        //       _self.checkBoostAndLowerTimes();
+        //     }
+        //   })
+        // }
+
+        // else if (actionType === "unpin_added_result"){
+          // for every customization, calling search API again to show the results according to customization
           $('.show-all-results').click();
-        }
-
-        else if (actionType === "visibility") {
-          res.results.forEach((result) => {
-            if (result.contentId === payload.result.contentId) {
-              $(selectedElement).attr('visible', result.config.visible);
-              if (result.config.visible) {
-                selectedElement.find('.visibility').attr('type', "Hide");
-                if (selectedElement.find('.customization-tile').hasClass('disable_hidden')) {
-                  selectedElement.find('.customization-tile').removeClass('disable_hidden')
-                }
-                if (selectedElement.find('.record-status-hidden')) {
-                  selectedElement.find('.record-status-hidden').css('display', 'none');
-                }
-                if (selectedElement.find('._hide').hasClass('display-none')) {
-                  selectedElement.find('._hide').removeClass('display-none');
-                  selectedElement.find('._hide').addClass('display-block');
-                }
-                if (selectedElement.find('.unhide').hasClass('display-block')) {
-                  selectedElement.find('.unhide').removeClass('display-block');
-                  selectedElement.find('.unhide').addClass('display-none');
-                }
-                if (selectedElement.find('.img_hide').hasClass('display-none')) {
-                  selectedElement.find('.img_hide').removeClass('display-none');
-                  selectedElement.find('.img_hide').addClass('display-block');
-                }
-                if (selectedElement.find('.img_unhide').hasClass('display-block')) {
-                  selectedElement.find('.img_unhide').removeClass('display-block');
-                  selectedElement.find('.img_unhide').addClass('display-none');
-                }
-              }
-              else {
-                selectedElement.find('.visibility').attr('type', "UnHide");
-                if (!selectedElement.find('.customization-tile').hasClass('disable_hidden')) {
-                  selectedElement.find('.customization-tile').addClass('disable_hidden')
-                }
-                if (selectedElement.find('.record-status-hidden')) {
-                  selectedElement.find('.record-status-hidden').css('display', 'block');
-                }
-                if (selectedElement.find('._hide').hasClass('display-block')) {
-                  selectedElement.find('._hide').removeClass('display-block');
-                  selectedElement.find('._hide').addClass('display-none');
-                }
-                if (selectedElement.find('.unhide').hasClass('display-none')) {
-                  selectedElement.find('.unhide').removeClass('display-none');
-                  selectedElement.find('.unhide').addClass('display-block');
-                }
-                if (selectedElement.find('.img_hide').hasClass('display-block')) {
-                  selectedElement.find('.img_hide').removeClass('display-block');
-                  selectedElement.find('.img_hide').addClass('display-none');
-                }
-                if (selectedElement.find('.img_unhide').hasClass('display-none')) {
-                  selectedElement.find('.img_unhide').removeClass('display-none');
-                  selectedElement.find('.img_unhide').addClass('display-block');
-                }
-                // start - removing pinning option from DOM
-                $(selectedElement).attr('pinIndex', result.config.pinIndex);
-                selectedElement.find('.pinning').attr('type', "Pin");
-                if (selectedElement.find('.customization-tile').hasClass('disable_pinned')) {
-                  selectedElement.find('.customization-tile').removeClass('disable_pinned')
-                }
-                if (selectedElement.find('.record-status-pinned')) {
-                  selectedElement.find('.record-status-pinned').css('display', 'none');
-                }
-                if (selectedElement.find('.unpin').hasClass('display-block')) {
-                  selectedElement.find('.unpin').removeClass('display-block');
-                  selectedElement.find('.unpin').addClass('display-none');
-                }
-                if (selectedElement.find('.pin').hasClass('display-none')) {
-                  selectedElement.find('.pin').removeClass('display-none');
-                  selectedElement.find('.pin').addClass('display-block');
-                }
-                if (selectedElement.find('.img_unpin').hasClass('display-block')) {
-                  selectedElement.find('.img_unpin').removeClass('display-block');
-                  selectedElement.find('.img_unpin').addClass('display-none');
-                }
-                if (selectedElement.find('.img_pin').hasClass('display-none')) {
-                  selectedElement.find('.img_pin').removeClass('display-none');
-                  selectedElement.find('.img_pin').addClass('display-block');
-                }
-                // end
-              }
-            }
-          })
-          // if(res.results[0].config.visible){
-
-          // }
-        }
-
-        else if (actionType === "boosting") {
-          res.results.forEach((result) => {
-            if (result.contentId === payload.result.contentId) {
-              $(selectedElement).attr('boost', result.config.boost);
-              if (result.config.boost == 1) {
-                selectedElement.find('.record-status-boosted').css('display', 'none');
-                selectedElement.find('.record-status-lowered').css('display', 'none');
-              }
-              else if (result.config.boost > 1) {
-                if (selectedElement.find('.record-status-boosted')) {
-                  selectedElement.find('.record-status-boosted').css('display', 'block');
-                }
-                if (selectedElement.find('.record-status-lowered')) {
-                  selectedElement.find('.record-status-lowered').css('display', 'none');
-                }
-              }
-              else {
-                if (selectedElement.find('.record-status-boosted')) {
-                  selectedElement.find('.record-status-boosted').css('display', 'none');
-                }
-                if (selectedElement.find('.record-status-lowered')) {
-                  selectedElement.find('.record-status-lowered').css('display', 'block');
-                }
-              }
-              _self.checkBoostAndLowerTimes();
-            }
-          })
-        }
-
-        else if (actionType === "burying") {
-          res.results.forEach((result) => {
-            if (result.contentId === payload.result.contentId) {
-              $(selectedElement).attr('boost', result.config.boost);
-              if (result.config.boost == 1) {
-                selectedElement.find('.record-status-boosted').css('display', 'none');
-                selectedElement.find('.record-status-lowered').css('display', 'none');
-              }
-              else if (result.config.boost < 1) {
-                if (selectedElement.find('.record-status-lowered')) {
-                  selectedElement.find('.record-status-lowered').css('display', 'block');
-                }
-                if (selectedElement.find('.record-status-boosted')) {
-                  selectedElement.find('.record-status-boosted').css('display', 'none');
-                }
-              }
-              else {
-                if (selectedElement.find('.record-status-lowered')) {
-                  selectedElement.find('.record-status-lowered').css('display', 'none');
-                }
-                if (selectedElement.find('.record-status-boosted')) {
-                  selectedElement.find('.record-status-boosted').css('display', 'block');
-                }
-              }
-              _self.checkBoostAndLowerTimes();
-            }
-          })
-        }
-
-        else if (actionType === "unpin_added_result"){
-          $('.show-all-results').click();
-        }
-      });
+        // }
+      },
+      (err) => {
+        console.log('HTTP Error', err);
+        $('#loaderDIV').hide();
+        $('.show-all-results').click();
+      }
+      );
     }
 
     FindlySDK.prototype.checkBoostAndLowerTimes = function () {
