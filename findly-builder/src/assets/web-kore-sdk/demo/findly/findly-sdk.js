@@ -20243,7 +20243,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $("body").append("<style>.cancel-search {right:" + rightPosition + "px !important;}</style>")
       } else {
         $("body").append("<style>.cancel-search {right: 72px !important;}</style>")
-        $("body").append("<style>.submit-button-outside {right: -" + rightPosition + "px !important;}</style>")
       }
       $("body").append("<style>#search::placeholder,  .cancel-search .cross {color:" + config.searchConfig.searchBarPlaceholderTextColor + "!important;}</style>")
     }
