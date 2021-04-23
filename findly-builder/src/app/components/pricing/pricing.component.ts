@@ -86,6 +86,44 @@ export class PricingComponent implements OnInit {
         let dat = Object.values(data.featureAccess);
         data = Object.assign(data, { "featureData": dat });
       })
+      let listData = [...this.totalPlansData]
+
+      let listDataMonthlyFeature= [];
+      listData.forEach(data => {
+        Object.keys(data.featureAccess);
+        Object.values(data.featureAccess);
+        Object.entries(data.featureAccess);
+        /** Pick only the Month Plans */
+        if(data._id == this.plansIdList.free || data._id == this.plansIdList.standardMonth || data._id == this.plansIdList.proMonth || data._id == this.plansIdList.enterpriceMonth){
+          listDataMonthlyFeature.push(Object.entries(data.featureAccess))
+        }
+      })
+      console.log(listData)
+      console.log(listDataMonthlyFeature);
+      // let maxArr =[]
+      // listDataMonthlyFeature.forEach((element,index) => {
+      //   maxArr.push(element.length)
+      // });
+      // let maxRecordIndex = maxArr.indexOf(Math.max(...maxArr));
+      if(listDataMonthlyFeature.length = 4){
+        for(let i=1; i<= listDataMonthlyFeature.length;i++){
+          if(listDataMonthlyFeature[i]){
+            for(let j=0; j < listDataMonthlyFeature[i].length;j++){
+              if(listDataMonthlyFeature[i][j]){
+                if(listDataMonthlyFeature[i][j][0] == listDataMonthlyFeature[0][j][0]){ //comapre 3 records with 1st record's Key
+                  listDataMonthlyFeature[0][j].push(listDataMonthlyFeature[i][j][1])       // push the values array in 1st record
+                }
+              }
+            }
+          }
+        }
+      }
+      console.log(listDataMonthlyFeature);
+      // listDataMonthlyFeature.forEach((parent,i)=> {
+      //   parent.forEach((child,j)=> {
+          
+      //   });
+      // });
       this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
       if (!this.currentSubscriptionPlan) {
         this.currentsubscriptionPlan(this.selectedApp, res);
