@@ -2014,6 +2014,16 @@ ngx-simplebar {
             background: #202124;
         }
     }   
+    &.searchTemplate{
+        left: -100px !important;
+        .tooltip-inner{
+            color: #FFFFFF;
+            background: #202124;
+            max-width: 200px;
+            min-width: 200px;
+            font-size: 10px;
+        }
+    }
     .arrow{
         &::before{
             border-top-color: #fff !important;

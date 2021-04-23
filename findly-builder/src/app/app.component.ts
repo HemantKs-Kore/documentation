@@ -592,6 +592,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
       console.log("search experience data", res);
       this.searchExperienceConfig = res;
+      this.headerService.updateSearchConfigurationValue(res);
       this.headerService.searchConfiguration = res;
     }, errRes => {
       console.log(errRes);
