@@ -119,7 +119,7 @@
                 <div class="content-body-traits row col-12" *ngFor="let item of traits.addEditTraits.traitsArray;let index = index;">
                     <div class="col-4 group-name" title="{{item.key}}" *ngIf="showEditTraitInput !== index"> {{item.key}}</div>
                     <div class="col-6 m-0 align-items-center" *ngIf="showEditTraitInput !== index">
-                        <div class="utterances-count" *ngIf="item.data.length">{{item.data.length}} Utterances</div>
+                        <div class="utterances-count" *ngIf="item.data.length" (click)="openAddUtteranceModel(index,item.key,item.data,true)">{{item.data.length}} Utterances</div>
                         <div class="add-utt-title" *ngIf="!item.data.length" (click)="openAddUtteranceModel(index,item.key,item.data)">
                             <img src="assets/icons/add_blue.svg">Add utterances
                         </div> 
@@ -132,7 +132,7 @@
                         </ng-container>
                     </div> 
                     <div class="kr-sg-input-text add-traits-input mb-0" *ngIf="showEditTraitInput == index">              
-                        <input autocomplete="off" type="text" placeholder="Type and Enter to Add Traits" class="input-text shadow-none" maxlength="120" #traitValue [(ngModel)]="item.key"(keyup.enter)="editTraits(item.key,$event)">
+                        <input autocomplete="off" type="text" placeholder="Type and Enter to Add Traits " class="input-text shadow-none input-h-40 pl-3" maxlength="120" #traitValue [(ngModel)]="item.key"(keyup.enter)="editTraits(item.key,$event,item.displayName)">
                         <img class="close-icon" *ngIf="item.key" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':item.key}" (click)="item.key='';">
                     </div>
                 </div>                    
@@ -155,7 +155,7 @@
             <ng-container >
                 <div class="content-body-traits row col-12" *ngFor="let utterance of utteranceList;let i = index;" [ngClass]="{'py-0':(showEditUtteranceInput == i)}">
                     <div class="kr-sg-input-text add-traits-input" *ngIf="showEditUtteranceInput == i">
-                        <input autocomplete="off" maxlength="2048" type="text" placeholder="Type and Enter to Add Utterances" class="input-text pl-3 shadow-none" (keyup)='editUtter($event,utterance)' [(ngModel)]='utterance' name='utteranceName'>
+                        <input autocomplete="off" maxlength="2048" type="text" placeholder="Type and Enter to Add Utterances" class="input-text pl-3 shadow-none input-h-40" (keyup)='editUtter($event,utterance,i)' [(ngModel)]='utterance' name='utteranceName'>
                         <img class="close-icon" *ngIf="utterance" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':utterance}" (click)="utterance='';">
                     </div>
 

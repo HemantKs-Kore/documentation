@@ -3,6 +3,7 @@ import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { SideBarService } from './../../services/header.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -57,6 +58,9 @@ export class SearchInterfaceComponent implements OnInit {
   selectedSettingResultsObj: selectedSettingResults = new selectedSettingResults();
   allSettings: any;
   subscription: Subscription;
+  searchConfigurationSubscription : Subscription;
+  searchExperienceConfig : any = {};
+  searchTemplatesDisabled : boolean = false;
   settingList: any = [
     //   {
     //   id:"searchUi",
@@ -111,7 +115,8 @@ export class SearchInterfaceComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public headerService : SideBarService
   ) { }
 
   ngOnInit(): void {
@@ -133,6 +138,12 @@ export class SearchInterfaceComponent implements OnInit {
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadFiledsData();
     })
+    this.searchExperienceConfig = this.headerService.searchConfiguration;
+    this.searchConfigurationSubscription = this.headerService.savedSearchConfiguration.subscribe((res) =>{
+      this.searchExperienceConfig = res;
+      this.updateResultTemplateTabsAccess();
+    });
+    this.updateResultTemplateTabsAccess();
 
     console.log(this.customizeTemplateObj);
     console.log(this.selectedSettingResultsObj);
@@ -206,6 +217,9 @@ export class SearchInterfaceComponent implements OnInit {
     });
   }
   getAllSettings(setting?) {
+    if((setting && setting.id == 'search') && this.searchTemplatesDisabled){
+      return false;
+    }
     this.selectedSetting = setting ? setting.id : 'search';
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -656,10 +670,29 @@ export class SearchInterfaceComponent implements OnInit {
     }
   }
 
+  updateResultTemplateTabsAccess(){
+    if(this.searchExperienceConfig && Object.values(this.searchExperienceConfig).length){
+      console.log(this.searchExperienceConfig);
+      if(this.searchExperienceConfig && this.searchExperienceConfig.experienceConfig && this.searchExperienceConfig.experienceConfig.searchBarPosition){
+        if(this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top'){
+          this.searchTemplatesDisabled = true;
+          this.getAllSettings({id: "fullSearch",text: "Full Page Result"});
+        }
+        else{
+          this.searchTemplatesDisabled = false;
+        }
+      }
+    }
+    else{
+      this.searchTemplatesDisabled = false;
+    }
+  }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe : false;
   }
 
 }
