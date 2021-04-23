@@ -40,6 +40,7 @@ export class AuthGuard implements CanActivate {
       if(!jStoarge.currentAccount.accountConf){
         jStoarge.currentAccount['accountConf'] = true;
         window.localStorage.setItem('jStorage',JSON.stringify(jStoarge))
+        this.getAccountConf();
       }
       return true;
     }
