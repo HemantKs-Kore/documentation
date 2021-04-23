@@ -56,7 +56,8 @@ export class EndPointsService {
       method: 'post'
     };
     this.serviceList['get.appData'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId',
+      //endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId',
+      endpoint: this.API_SERVER_URL + 'findly/users/:userId/builder/streams/:streamId',
       method: 'get'
     };
     this.serviceList['jwt.grunt.generate'] = {
@@ -112,7 +113,8 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['findly.seed.data'] = {
-      endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/builder/seed_data',
+      //endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/builder/seed_data',
+      endpoint: this.API_SERVER_URL + '/findly/seed_data ',
       method: 'get'
     };
     this.serviceList['get.token'] = {
@@ -833,7 +835,8 @@ export class EndPointsService {
       method: 'get'
     }
     this.serviceList['get.roles'] = {
-      endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/builder/streams/:streamId/sharebot/getorgroles/organizations/:orgId',
+      //endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/builder/streams/:streamId/sharebot/getorgroles/organizations/:orgId',
+      endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/builder/streams/:streamId/shareApp/getorgroles/organizations/:orgId',
       method: 'get'
     }
     this.serviceList['put.members'] = {
