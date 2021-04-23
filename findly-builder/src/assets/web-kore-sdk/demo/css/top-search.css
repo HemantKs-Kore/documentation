@@ -1326,7 +1326,16 @@ input:focus{
 float: right;
 }
 
-.topdown-search-main-container .search-input-box .search-box-container-data .cancel-search {
+.sdk-top-down-interface .search-input-box .search-box-container-data .cancel-search {
+  position: absolute;
+  display: none;
+  right: 72px;
+  top: -27px;
+  z-index: 1;
+  padding: 3px 5px;
+  cursor: pointer;
+}
+.top-down-search-background-div .search-input-box .search-box-container-data .cancel-search {
   position: absolute;
   display: none;
   right: 72px;
@@ -2067,8 +2076,12 @@ body.top-down .top-down-search-background-div .top-down-wrapper{
   width: 100%;
   height: 100%;
   }
-.sdk-top-down-interface .search-bar .widget-icon{
-  bottom: 7px;
+  .sdk-top-down-interface .search-bar .widget-icon{
+    bottom: 9px;
+    left: 12px;
+  }
+.top-down-search-background-div .search-bar .widget-icon{
+  bottom: 8px;
   left: 12px;
 }
 
