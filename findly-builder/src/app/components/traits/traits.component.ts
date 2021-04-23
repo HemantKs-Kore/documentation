@@ -195,6 +195,7 @@ var width = ctx.measureText(t.traitName +', ').width;
   };
   editTraitFroup = function (traitGroup, index) {
     this.editedContent = false;
+    this.showEditTraitInput = null;
     this.currentGroupEditIndex = index;
     this.groupConfigs.matchStrategy = traitGroup.matchStrategy;
     this.traitDeleted = false;
@@ -524,8 +525,8 @@ var width = ctx.measureText(t.traitName +', ').width;
       this.statusModalPopRef.close();
     }
   }
-  openAddUtteranceModel(index,key,utteranceList) {
-    this.showUtteranceInput = true;
+  openAddUtteranceModel(index,key,utteranceList,isView=false) {
+    this.showUtteranceInput = isView?false:true;
     this.showEditUtteranceInput = null;
     this.newUtterance = '';
     this.utteranceList = [];
@@ -792,16 +793,37 @@ var width = ctx.measureText(t.traitName +', ').width;
       });
   }
  
-  editUtter(event,utter){
+  editUtter(event,utter,index){
     if(event && event.keyCode === 13 && utter !== ''){
+      let utternaceIndex = -1;
+      const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
+        if (utter === utterance && index !== i) {
+          utternaceIndex = i;
+          return false;
+        }
+      });
+      if (utternaceIndex > -1) {
+        this.notificationService.notify('Utterance is already added', 'error');
+        return;
+      }
       this.showEditUtteranceInput = null;
       this.showUtteranceInput = false;
+      this.utteranceList[index]=utter;
     }
   }
 
-  editTraits(trait,event){
-    if(event && event.keyCode === 13 && trait !== ''){
-      this.showEditTraitInput = null;
+  editTraits(trait, event, displayName) {
+    if (event && event.keyCode === 13 && trait !== '') {
+      if (!this.traits.addEditTraits.traits[trait]) {
+        this.showEditTraitInput = null;
+        this.traits.addEditTraits.traits[displayName].displayName = trait;
+        this.traits.addEditTraits.traits[trait] = this.traits.addEditTraits.traits[displayName];
+        delete this.traits.addEditTraits.traits[displayName];
+      } else if(this.traits.addEditTraits.traits[trait] && displayName == trait){
+        this.showEditTraitInput = null;
+      } else {
+        this.notificationService.notify(trait + ' is already added', 'error');
+      }
     }
   }
 }

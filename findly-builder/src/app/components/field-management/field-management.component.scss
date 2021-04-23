@@ -209,3 +209,12 @@ perfect-scrollbar .ps--active-y{
     max-height: 300px;
     overflow: auto;
 }
+.type_sort_dropdown{   
+    .dropdown-open{                                
+        .dropdown-input{
+            img{
+                top: 0px !important;
+            }
+        }
+    }
+}
