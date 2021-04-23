@@ -9,7 +9,7 @@
   <div class="body_content">
     <div class="search-interface-left-sec">
       <div class="left-tabs">
-        <div class="tab-name" *ngFor="let setting of settingList" (click)="getAllSettings(setting)" [ngClass]="{'active-tab' : selectedSetting == setting.id}">{{setting.text}}</div>
+        <div class="tab-name" *ngFor="let setting of settingList" (click)="getAllSettings(setting)" [ngClass]="{'active-tab' : selectedSetting == setting.id}" [class.disabled]="(setting.id == 'search' && searchTemplatesDisabled)" ngbTooltip="Search customization is not needed for Top Down Experience" [disableTooltip]="(setting.id !== 'search' && searchTemplatesDisabled) || (!searchTemplatesDisabled)" placement="right" tooltipClass="ngb_tooltip_custom_class searchTemplate">{{setting.text}}</div>
         <!-- <div class="tab-name">Search Experience</div>
         <div class="tab-name">Live Search</div>
         <div class="tab-name active-tab">Search</div>
@@ -28,7 +28,7 @@
                 <ul class="dropdown-menu content-menu">  
                   <li (click)="copyConfiguration('')"><a>Select</a></li>                                                 
                   <li (click)="copyConfiguration('livesearch')" *ngIf="selectedSetting != 'liveSearch'"><a>Live Search</a></li>
-                  <li (click)="copyConfiguration('search')" *ngIf="selectedSetting != 'search'"><a>Search </a></li>
+                  <li (click)="copyConfiguration('search')" *ngIf="selectedSetting != 'search' && !searchTemplatesDisabled"><a>Search </a></li>
                   <li (click)="copyConfiguration('fullsearch')" *ngIf="selectedSetting != 'fullSearch'"><a>Full Page Result</a></li>
                 </ul>
             </div>
@@ -149,8 +149,7 @@
                       <input type="checkbox" (change)= "facetEnableChange($event)" [checked] = "selectedSettingResultsObj.facets.isEnabled">
                       <div class="slider"><span class="enabled">Enabled</span><span class="disabled">Disabled</span></div>
                     </label> 
-
-                    <div class="group-radiobutton mt-4" *ngIf="selectedSettingResultsObj.facets.isEnabled">                  
+                    <div class="group-radiobutton mt-4" *ngIf="selectedSettingResultsObj.facets && selectedSettingResultsObj.facets.isEnabled">                  
                       <div class="kr-sg-radiobutton">
                           <input id="radio-24" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'left')" [checked] ="selectedSettingResultsObj.facets.aligned == 'left'">
                           <label for="radio-24" class="radio-custom-label">Left Aligned</label>

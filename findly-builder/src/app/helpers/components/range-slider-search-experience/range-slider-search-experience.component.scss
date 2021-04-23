@@ -1,4 +1,4 @@
-.custom-created-range-slider {
+.custom-created-range-slider.search-experience-range-slider {
     .slider-horizontal{
         .tooltip-max{
             min-width: 40px;
@@ -44,6 +44,7 @@
             z-index:-1 !important;
             margin-left: -23px !important;
             opacity: 1;
+            .tooltip-arrow{display: flex;}
             .tooltip-arrow{ 
                 &::before{
                     content: "";

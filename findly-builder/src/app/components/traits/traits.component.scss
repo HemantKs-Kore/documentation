@@ -344,6 +344,9 @@
                     color: #BDC1C6 !important;
                 }
             }
+            .input-h-40{
+                height: 40px !important;
+            }
         }
         .content-body-traits{
             padding: 5px 0;
@@ -430,6 +433,9 @@
                 &::placeholder{
                     color: #BDC1C6 !important;
                 }
+            }
+            .input-h-40{
+                height: 40px !important;
             }
             .close-icon{
                 position: absolute;

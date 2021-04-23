@@ -80,7 +80,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       name: 'Semantic Meaning'
     },
     exclude_document: {
-      name: 'Remove Document'
+      name: 'Exclude Document'
     },
   }
   entityNlp = [

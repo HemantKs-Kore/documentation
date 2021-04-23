@@ -199,6 +199,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
         question: ['', Validators.required],
         botResponse: ['', Validators.required]
       });
+      this.addAnotherResponse('default');
     }
     this.altAddSub = this.faqServiceAlt.addAltQues.subscribe(params => {
       this.isAdd = false;
