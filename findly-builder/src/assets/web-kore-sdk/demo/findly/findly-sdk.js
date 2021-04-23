@@ -3179,6 +3179,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('#live-search-result-box').hide();
               $('#frequently-searched-box').hide();
               $('#loaderDIV').hide();
+              $(".content-data-sec").scrollTop(0);
             }
             //_self.pubSub.publish('sa-full-data-search', { });
 
@@ -19226,7 +19227,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if (_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 10)) {
                 _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
                 _self.seeAllResultsInifiteScroll();
-                $(".content-data-sec").scrollTop(0);
+                // $(".content-data-sec").scrollTop(0);
               }
             }
           });
