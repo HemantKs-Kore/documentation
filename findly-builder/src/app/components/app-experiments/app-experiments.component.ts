@@ -9,6 +9,7 @@ import * as _ from 'underscore';
 import * as moment from 'moment';
 declare const $: any;
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-app-experiments',
   templateUrl: './app-experiments.component.html',
@@ -61,12 +62,20 @@ export class AppExperimentsComponent implements OnInit {
   exp_skipPage: number = 0;
   test = 33.33;
   loadingContent1: boolean;
+  indexSubscription: Subscription;
+  searchSubscription: Subscription;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getExperiments();
     this.setSliderDefaults();
     this.getIndexPipeline();
+    // this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+    //   this.indexConfig = res;
+    // })
+    // this.searchSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
+    //   this.queryPipeline = res;
+    // })
   }
   loadImageText: boolean = false;
   imageLoaded() {
@@ -163,12 +172,12 @@ export class AppExperimentsComponent implements OnInit {
       this.experimentObj.duration.days = data.duration.days;
       this.setSliderDefaults();
       this.showTraffic(this.variantsArray.length, 'add');
-     
+
     }
     else {
       this.showSlider = false;
       this.addVarient(2);
-      
+
     }
     this.addExperimentsRef = this.addExperiments.open();
     $("#infoWarning").hide()
@@ -338,6 +347,7 @@ export class AppExperimentsComponent implements OnInit {
     });
   }
   getQueryPipeline(id) {
+    //this.appSelectionService.getIndexPipelineIds(id)
     const header: any = {
       'x-timezone-offset': '-330'
     };
@@ -469,36 +479,36 @@ export class AppExperimentsComponent implements OnInit {
       });
     }
   }
-  validateSource(){
-    let validField =  true;
+  validateSource() {
+    let validField = true;
 
-    if(!this.experimentObj.name){
+    if (!this.experimentObj.name) {
       $("#enterName").css("border-color", "#DD3646");
       $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
       this.notificationService.notify('Enter the required fields to proceed', 'error');
       validField = false
       // this.createExperiment()
     }
-    this.variantsArray.forEach((element,i)=> {
-      if(!element.name){
-        $("#variantName" + i) .css("border-color", "#DD3646");
+    this.variantsArray.forEach((element, i) => {
+      if (!element.name) {
+        $("#variantName" + i).css("border-color", "#DD3646");
         $("#infoWarning" + i).css({ "top": "58%", "position": "absolute", "right": "2.5%", "display": "block" });
         this.notificationService.notify('Enter the required fields to proceed', 'error');
         validField = false
       }
-      if(!element.indexPipelineName){
-        $("#indexPipelineName" + i) .css("border-color", "#DD3646");
+      if (!element.indexPipelineName) {
+        $("#indexPipelineName" + i).css("border-color", "#DD3646");
         this.notificationService.notify('Enter the required fields to proceed', 'error');
         validField = false
       }
-      if(!element.queryPipelineName){
-        $("#queryPipelineName" + i) .css("border-color", "#DD3646");
+      if (!element.queryPipelineName) {
+        $("#queryPipelineName" + i).css("border-color", "#DD3646");
         this.notificationService.notify('Enter the required fields to proceed', 'error');
         validField = false
       }
-   
+
     });
-    if(validField){
+    if (validField) {
       this.createExperiment()
     }
     // this.variantsArray.forEach((element,i)=> {
@@ -509,7 +519,7 @@ export class AppExperimentsComponent implements OnInit {
     //     $("#indexPipelineName" + i) .css("border-color", "#DD3646");
     //     this.notificationService.notify('Enter the required fields to proceed', 'error');
     //   }
-      
+
     // });
     // this.variantsArray.forEach((element,i)=> {
     //   if(element.queryPipelineName){
@@ -519,31 +529,31 @@ export class AppExperimentsComponent implements OnInit {
     //     $("#queryPipelineName" + i) .css("border-color", "#DD3646");
     //     this.notificationService.notify('Enter the required fields to proceed', 'error');
     //   }
-      
+
     // });
   }
   inputChanged(type, i?) {
     if (type == 'enterName') {
-     if(!this.experimentObj.name )  {
-      $("#infoWarning").show();
-      $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-     }
-     else {
-      $("#infoWarning").hide()
-    }
-    $("#enterName").css("border-color", this.experimentObj.name != '' ? "#BDC1C6" : "#DD3646");
+      if (!this.experimentObj.name) {
+        $("#infoWarning").show();
+        $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+      }
+      else {
+        $("#infoWarning").hide()
+      }
+      $("#enterName").css("border-color", this.experimentObj.name != '' ? "#BDC1C6" : "#DD3646");
     }
     if (type == 'variantName') {
-      if( this.variantsArray != []){
+      if (this.variantsArray != []) {
         $("#infoWarning" + i).show()
-        $("#variantName" + i).css("border-color",  this.variantsArray != [] ? "#BDC1C6" : "#DD3646");
+        $("#variantName" + i).css("border-color", this.variantsArray != [] ? "#BDC1C6" : "#DD3646");
       }
       else {
         $("#infoWarning" + i).hide()
       }
-    
+
     }
-    
+
   }
 
   // change traffic percentage based on slider
@@ -775,4 +785,8 @@ export class AppExperimentsComponent implements OnInit {
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
+  // ngOnDestroy() {
+  //   this.indexSubscription.unsubscribe();
+  //   this.searchSubscription.unsubscribe();
+  // }
 }

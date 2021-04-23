@@ -156,14 +156,14 @@ export class AppSelectionService {
     this.workflowService.appQueryPipelines({});
     this.setAppWorkFlowData(app);
     this.appSelected.next(app);
-    this.router.navigate(['/summary'], { skipLocationChange: true });
     const toogleObj = {
       title: '',
     };
     this.headerService.toggle(toogleObj);
     this.headerService.closeSdk();
     this.headerService.updateSearchConfiguration();
-    this.routeChanged.next({ name: 'pathchanged', path: '/summary' });
+    this.router.navigate(['/summary'], { skipLocationChange: true });
+    //this.routeChanged.next({ name: undefined, path: '' });
   }
   setAppWorkFlowData(app, queryPipeline?) {
     // this.getStreamData(app);
