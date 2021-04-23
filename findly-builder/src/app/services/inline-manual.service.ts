@@ -14,9 +14,35 @@ export class InlineManualService {
   constructor(public authService : AuthService) { }
   topicHelpMap = {
       CREATEAPP :'85337',
+      CHANNELS :'88836',
+      CONTENT :'89010',
+      CRAWL_WEB_LANDING : '89008',
+      CRAWL_WEB_SOURCE: '88953',
+      CREATE_APP : '85337',
+      CREDENTIALS :'88835',
+      EXPERIMENTS : '88837',
+      EXTRACT_FAQ_FROM_SOURCE : '89022',  
+      EXTRACT_FAQ : '88926',
       FACETS : '88590',
-      SYNONYMS :'88586',
-      EXPERIMENTS : '88837'
+      FAQ_OVERVIEW : '88928',
+      FIEDS_TABLE :'88907',
+      IMPORT_FAQ_FROM_SOURCE : '89023',
+      IMPORT_FAQ : '88455',
+      IMPORT_STRUCTURED_DATA : '89187',
+      MULTIPLE_INDEX : '88923',
+      RESULT_RANKING :'89209',
+      RULES : '89207',
+      SEARCH_INTERFACE : '89210',
+      SMALL_TALK : '88833',
+      SOURCES : '89050',
+      STOP_WORDS : '88588',
+      STRUCTURED_DATA_WALKTHROUGH : '89206',
+      SYNONYMS :'88586', // '88586'
+      UPLOAD_FILE_FROM_LANDING_PAGE : '89009',
+      UPLOAD_FILE_FROM_SOURCE : '89007',
+      UPLOAD_FILE_SUB_TOPIC : '88954',
+      WEIGHTS : '88687',
+      WORKBENCH : '88908'
   };
   loadInlineManualScripts = function () {
     var _self = this
