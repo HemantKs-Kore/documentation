@@ -39,14 +39,18 @@
                 <div class="title">Usage</div>
                 <div class="queries">
                   <div class="queries-title">Queries</div>
-                  <div class="queries-count"><span class="">0</span> / 10K</div>
+                  <div class="queries-count"><span class="">{{(usageDetails.searchQueries?.used)/1000 | number: '1.0-0'}}K</span> / {{(usageDetails.searchQueries?.limit)/1000}}K</div>
                 </div>
-                <div class="bg_queries"></div>
+                <!-- <div class="bg_queries"></div> -->
+                <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails.searchQueries?.type" [value]="usageDetails.searchQueries?.used" [max]="usageDetails.searchQueries?.limit">
+                </ngb-progressbar>
                 <div class="queries">
                   <div class="queries-title">Documents</div>
-                  <div class="queries-count"><span class="">0</span> / 10K</div>
+                  <div class="queries-count"><span class="">{{(usageDetails.ingestDocs?.used)/1000 | number: '1.0-0'}}K</span> / {{(usageDetails.ingestDocs?.limit)/1000}}K</div>
                 </div>
-                <div class="bg_queries"></div>
+                <!-- <div class="bg_queries"></div> -->
+                <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails.ingestDocs?.type" [value]="usageDetails.ingestDocs?.used" [max]="usageDetails.ingestDocs?.limit">
+                </ngb-progressbar>
               </div>
             </div>
         </div>
