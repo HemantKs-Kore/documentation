@@ -18,6 +18,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import * as moment from 'moment';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 declare const $: any;
 @Component({
   selector: 'app-business-rules',
@@ -119,6 +120,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     public dialog: MatDialog,
     private sortPipe: SortPipe,
+    public inlineManual : InlineManualService,
     private appSelectionService: AppSelectionService
   ) { }
   // ngAfterViewInit(){
@@ -594,6 +596,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
       else {
         this.loadingContent1 = true;
+        this.inlineManual.openHelp('RULES')
       }
     }, errRes => {
       this.loadingContent = false;

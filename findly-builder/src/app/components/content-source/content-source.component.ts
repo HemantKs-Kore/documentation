@@ -17,6 +17,7 @@ import { fromEvent } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 
 @Component({
   selector: 'app-content-source',
@@ -180,6 +181,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
+    public inlineManual : InlineManualService,
   ) { }
 
   ngOnInit(): void {
@@ -331,6 +333,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
       else {
         this.loadingContent1 = true;
+        this.inlineManual.openHelp('CONTENT')
       }
     }, errRes => {
       console.log(errRes);

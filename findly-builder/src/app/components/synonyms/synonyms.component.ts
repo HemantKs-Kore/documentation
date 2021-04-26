@@ -124,7 +124,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       }
       else {
         this.loadingContent1 = true;
-        this.inlineManual.openHelp('EXPERIMENTS')
+        this.inlineManual.openHelp('SYNONYMS')
       }
    
         this.pipeline.stages[3].synonyms.forEach(element => {

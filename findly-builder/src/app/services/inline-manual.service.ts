@@ -13,31 +13,33 @@ export class InlineManualService {
   
   constructor(public authService : AuthService) { }
   topicHelpMap = {
-      CREATEAPP :'85337',
       CHANNELS :'88836',
-      CONTENT :'89010',
+      CONTENT :'89010',//d
+      CONTENT_SUB_TOPIC : '85339',
       CRAWL_WEB_LANDING : '89008',
       CRAWL_WEB_SOURCE: '88953',
       CREATE_APP : '85337',
       CREDENTIALS :'88835',
-      EXPERIMENTS : '88837',
+      EXPERIMENTS : '88837', //d
       EXTRACT_FAQ_FROM_SOURCE : '89022',  
       EXTRACT_FAQ : '88926',
-      FACETS : '88590',
+      FACETS : '88590', //d
       FAQ_OVERVIEW : '88928',
       FIEDS_TABLE :'88907',
       IMPORT_FAQ_FROM_SOURCE : '89023',
+      ADD_FAQ_MAUALY_FROM_SOURCE : '89024',
       IMPORT_FAQ : '88455',
       IMPORT_STRUCTURED_DATA : '89187',
       MULTIPLE_INDEX : '88923',
       RESULT_RANKING :'89209',
-      RULES : '89207',
+      RULES : '89207', //d
       SEARCH_INTERFACE : '89210',
       SMALL_TALK : '88833',
       SOURCES : '89050',
-      STOP_WORDS : '88588',
+      STOP_WORDS : '88588', //d
+      ADD_STRUCTURED_DATA_LANDING : '89190',
       STRUCTURED_DATA_WALKTHROUGH : '89206',
-      SYNONYMS :'88586', // '88586'
+      SYNONYMS :'88586', //d '88586'  
       UPLOAD_FILE_FROM_LANDING_PAGE : '89009',
       UPLOAD_FILE_FROM_SOURCE : '89007',
       UPLOAD_FILE_SUB_TOPIC : '88954',
