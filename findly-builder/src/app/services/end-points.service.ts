@@ -831,7 +831,8 @@ export class EndPointsService {
       method: 'get'
     }
     this.serviceList['get.members'] = {
-      endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/builder/streams/:streamId/getcodevelopers',
+      //endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/builder/streams/:streamId/getcodevelopers',
+      endpoint: this.API_SERVER_URL_PLATFORM + '/findly/users/:userId/streams/:streamId/getcodevelopers',
       method: 'get'
     }
     this.serviceList['get.roles'] = {
