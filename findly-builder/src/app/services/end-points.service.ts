@@ -114,7 +114,7 @@ export class EndPointsService {
     };
     this.serviceList['findly.seed.data'] = {
       //endpoint: this.API_SERVER_URL_PLATFORM + '/users/:userId/builder/seed_data',
-      endpoint: this.API_SERVER_URL + '/findly/seed_data ',
+      endpoint: this.API_SERVER_URL + '/findly/seed_data',
       method: 'get'
     };
     this.serviceList['get.token'] = {
