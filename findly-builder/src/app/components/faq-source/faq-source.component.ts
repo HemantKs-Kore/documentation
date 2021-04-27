@@ -283,6 +283,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.faqSelectionObj.selectedCount = Object.keys(this.faqSelectionObj.selectedItems).length;
     }
   }
+  resetCheckboxSelect(){
+    this.faqSelectionObj = {
+      selectAll: false,
+      selectedItems: {},
+      selectedCount: 0,
+      stats: {},
+      loadingStats: true
+    }
+  }
   selectAllPartially(){
     if((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount== this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved )){
       $('#selectAllFaqs')[0].checked = true;
@@ -1105,6 +1114,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       if (deleteIndex > -1) {
         this.resources.splice(deleteIndex, 1);
       }
+      this.resetCheckboxSelect();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete faq source');
     });
@@ -1126,6 +1136,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.faqs.splice(deleteIndex, 1);
       }
       this.getStats();
+      this.resetCheckboxSelect();
       if (!(this.faqs && this.faqs.length)) {
         this.selectedFaq = null;
       } else {
