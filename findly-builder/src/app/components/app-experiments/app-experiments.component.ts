@@ -798,15 +798,12 @@ export class AppExperimentsComponent implements OnInit {
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-<<<<<<< HEAD
   //upgrade plan
   upgrade() {
     this.plans.openChoosePlanPopup('choosePlans');
   }
-=======
   // ngOnDestroy() {
   //   this.indexSubscription.unsubscribe();
   //   this.searchSubscription.unsubscribe();
   // }
->>>>>>> e752b93995bbcce30c6e7d975d779e4945ca7593
 }
