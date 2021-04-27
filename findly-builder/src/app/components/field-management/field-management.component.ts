@@ -31,6 +31,7 @@ export class FieldManagementComponent implements OnInit {
   fetchingFieldUsage = false
   selectedSort = '';
   isAsc = true;
+  fieldAutoSuggestion: any = [];
   fieldDataTypeArr: any = [];
   isMultiValuedArr: any = [];
   isRequiredArr: any = [];
@@ -96,6 +97,7 @@ export class FieldManagementComponent implements OnInit {
     if (field) {
       this.newFieldObj = JSON.parse(JSON.stringify(field));
       this.newFieldObj.previousFieldDataType = field.fieldDataType;
+      this.getFieldAutoComplete(field.fieldName);
     } else {
       this.newFieldObj = {
         fieldName: '',
@@ -486,6 +488,22 @@ export class FieldManagementComponent implements OnInit {
     });
 
   this.filelds = JSON.parse(JSON.stringify(tempFields));
+}
+
+getFieldAutoComplete(query) {
+  if(!query){
+    query = '';
+  }
+  const quaryparms: any = {
+    searchIndexID: this.serachIndexId,
+    indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+    query
+  };
+  this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
+    this.fieldAutoSuggestion = res || [];
+  }, errRes => {
+    this.errorToaster(errRes, 'Failed to get fields');
+  });
 }
   ngOnDestroy() {
     const self = this;
