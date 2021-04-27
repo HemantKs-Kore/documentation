@@ -36,7 +36,7 @@ import { SmallTalkComponent } from './components/small-talk/small-talk.component
 import { PricingComponent } from './components/pricing/pricing.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { UsageLogComponent } from './components/usage-log/usage-log.component';
-import { GeneralSettingsComponent } from './general-settings/general-settings.component';
+import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 const routes: Routes = [
   {
     path: '',
