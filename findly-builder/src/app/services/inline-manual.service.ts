@@ -79,9 +79,9 @@ export class InlineManualService {
         };
         el.src = script;
     }
-
-    if (environment.hasOwnProperty('INLINE_MANUAL_SITE_KEY') && environment['INLINE_MANUAL_SITE_KEY']) {
-        loadInlineManualScripts(environment.INLINE_MANUAL_SITE_KEY);
+    const inline : any = environment;
+    if (inline.hasOwnProperty('INLINE_MANUAL_SITE_KEY') && inline['INLINE_MANUAL_SITE_KEY']) {
+        loadInlineManualScripts(inline['INLINE_MANUAL_SITE_KEY']);
     }
   };
 
