@@ -1422,13 +1422,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="resultsButtons asstTask" >\
                   <span class="search-heads">${taskPrefix} ACTIONS</span>\
                   <div class="faqBtnContainer suggestion_actions_container">\
-                      <div class="tasks-wrp action-wrp btn_block_actions">\
+                      <div class="main-content-title-grid-data">\
                         {{each(key, task) tasks}}\
-                          <div class="task-wrp action-wrp">\
-                            <button id="${key}" class="faq search-task" title="${task.taskName}" boost="${task.config.boost}" pinIndex="${task.config.pinIndex}" visible="${task.config.visible}" contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card">\
-                                ${task.taskName}\
-                            </button>\
+                          <div class="title-box-data">\
+                            <div id="${key}" class="title-name text-truncate search-task" title="${task.taskName}" boost="${task.config.boost}" pinIndex="${task.config.pinIndex}" visible="${task.config.visible}" contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                            ${task.taskName}\
+                            </div>\
                             <div class="faqs-bottom-actions background-white">\
                               <span class="appearences display-none">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
@@ -1557,9 +1556,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         <p class="quickTitle">MATCHED ACTIONS</p>\
                         {{each(key, task) selectedFacet === "all results" ? tasks.slice(0,4) : tasks }}\
                         <div class="creditCard ">\
-                            <div class="creditCardIconDiv">\
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card">\
-                            </div>\
                             <div class="creditCardDetails search-task" title="${task.taskName}" contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" id="${key}" payload="${task.payload}">\
                                 <p class="title">${task.taskName}</p>\
                                 <p class="desc">${task.text}</p>\
@@ -2781,6 +2777,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.custom-header-container-center').removeClass('display-none');
           if(_self.vars.customizeView){
             $('.custom-add-result-container').removeClass('display-none');
+          } else{
+            $(".query-analytics-control-container").hide();
           }
         }
         setTimeout(function () {
@@ -4751,6 +4749,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.custom-header-container-center').removeClass('display-none');
               if(_self.vars.customizeView){
                 $('.custom-add-result-container').removeClass('display-none');
+              } else{
+                $(".query-analytics-control-container").hide();
               }
             }
              _self.prepAllSearchData(facetActive);
@@ -4915,6 +4915,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var responseObject = { 'type': 'show', data: true, query: _self.vars.searchObject.searchText }
           console.log(responseObject);
           _self.parentEvent(responseObject);
+          setTimeout(function () {
+            $('.query_analytics_content').css('top', event.pageY-50);
+            $('.query_analytics_content').css('left', event.pageX-178-event.offsetX);
+          }, 50);
+  
         }
         /*$('.custom-header-container-left').css('visibility', 'visible');
         $('.custom-insights-control-container').hide();*/
@@ -4979,6 +4984,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             if (_self.isDev) {
               $('#searchChatContainer').animate({ scrollTop: $('#searchChatContainer').prop("scrollHeight") }, 0);
+              if(!_self.vars.customizeView){
+                $(".query-analytics-control-container").hide();
+              }
             }
 
             _self.vars.searchObject.searchText = $('#search').val();
@@ -5472,7 +5480,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         // _self.bindSearchAccordion();
         _self.bindSearchActionEvents();
+        if (_self.isDev) {
+          if(!_self.vars.customizeView){
+            $(".query-analytics-control-container").hide();
+          }else{
+            $(".query-analytics-control-container").show();
 
+          }
+        }
 
       }
       if (templateType === "pay bill" || templateType === "pay credit card bill") {
@@ -5923,6 +5938,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.custom-header-container-center').removeClass('display-none');
             if(_self.vars.customizeView){
               $('.custom-add-result-container').removeClass('display-none');
+            } else{
+              $(".query-analytics-control-container").hide();
             }
           }
           setTimeout(function () {
@@ -7695,7 +7712,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // $('.search-modal-body').html(searchModal);
       // $('#search-modal').css('display', 'block');
       _self.searchEventBinding(dataHTML, 'search-container', {}, {});
-
     };
 
     var searchConfigurationCopy = {};
@@ -17599,6 +17615,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('#viewTypeCustomize').addClass('nav-link-item-active');
               }
               else {
+                $(".query-analytics-control-container").hide();
                 $('#viewTypePreview').addClass('nav-link-item-active');
                 $('#viewTypeCustomize').removeClass('nav-link-item-active');
               }
@@ -17618,6 +17635,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('#viewTypeCustomize').addClass('nav-link-item-active');
           }
           else {
+            $(".query-analytics-control-container").hide();
             $('#viewTypePreview').addClass('nav-link-item-active');
             $('#viewTypeCustomize').removeClass('nav-link-item-active');
           }
@@ -17652,7 +17670,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 _self.vars.customizeView = true;
                 // $(".custom-insights-control-container").show();
 
-                // $(".query-analytics-control-container").show(); // Temporary modification, made as per FLY-1012
+                $(".query-analytics-control-container").show(); // Temporary modification, made as per FLY-1012
 
                 $(".tasks-wrp").sortable();
                 $(".tasks-wrp").sortable("option", "disabled", false);
@@ -17674,7 +17692,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
                 // $(".custom-insights-control-container").hide();
 
-                // $(".query-analytics-control-container").hide(); // Temporary modification, made as per FLY-1012
+                $(".query-analytics-control-container").hide(); // Temporary modification, made as per FLY-1012
 
                 $(".faqs-shadow").removeClass('custom-faqs-shadow');
                 $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
@@ -20103,6 +20121,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var responseObject = { 'type': 'show', data: true, query: _self.vars.searchObject.searchText }
           console.log(responseObject);
           _self.parentEvent(responseObject);
+          setTimeout(function () {
+            $('.query_analytics_content').css('top', event.pageY-50);
+            $('.query_analytics_content').css('left', event.pageX-200-event.offsetX);
+        }, 50);
         }
       })
     }
@@ -20123,13 +20145,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                     {{if selectedFacet !== appearanceType}}\
                                       <div class="type-section quick-actions"> Actions</div>\
                                       {{/if}}\
-                                      <div class="action-results-container btn_block_actions">\
+                                      <div class="main-content-title-grid-data">\
                                         {{each(key, task) tasks}}\
-                                            <div class="action-content">\
-                                                <button id="${key}" class="action-btns search-task" title="${task.taskName}"  contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
-                                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card">\
-                                                ${task.titleText}\
-                                                </button>\
+                                            <div class="title-box-data">\
+                                              <div class="title-name text-truncate search-task" id="${key}" title="${task.taskName}"  contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                                                  ${task.titleText}\
+                                                </div>\
                                             </div>\
                                         {{/each}}\
                                       </div>\
@@ -20244,6 +20265,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $("body").append("<style>.cancel-search {right:" + rightPosition + "px !important;}</style>")
       } else {
         $("body").append("<style>.cancel-search {right: 72px !important;}</style>")
+        if (config.searchConfig.buttonPlacementPosition == "outside"){
+          let rightPosition=-32;
+          if(config.searchConfig.buttonText.length==1){
+            rightPosition = 12;
+          }
+          if(config.searchConfig.buttonText.length==2){
+            rightPosition = 6;
+          }
+          if(config.searchConfig.buttonText.length==3){
+            rightPosition = -6;
+          }
+          if(config.searchConfig.buttonText.length==4){
+            rightPosition = -16;
+          }
+          if(config.searchConfig.buttonText.length==5){
+            rightPosition = -26;
+          }
+          if(config.searchConfig.buttonText.length==6){
+            rightPosition = -32;
+          }
+          $("body").append("<style>.submit-button-outside {right: "+rightPosition+"px !important;}</style>")
+        }
       }
       $("body").append("<style>#search::placeholder,  .cancel-search .cross {color:" + config.searchConfig.searchBarPlaceholderTextColor + "!important;}</style>")
     }
