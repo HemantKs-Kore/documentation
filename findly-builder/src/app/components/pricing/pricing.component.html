@@ -4,7 +4,11 @@
 <button (click)="openPopup3()">popup3</button> -->
 
 <div class="pricing-container-wrapper">
-  <div class="title-header">Plan Details</div>
+  <div class="row card-plans justify-content-between">
+    <div class="col-12 title-header">Plan Details
+      <button class="kr-sg-button-primary btn_lg" *ngIf="showUpgradeBtn" (click)="compare('choosePlans',currentSubscriptionPlan.subscription)">Upgrade</button>
+    </div>
+  </div>
   <perfect-scrollbar class="pricing-scroll">
     <div class="pricing-details-main-sec">
         <div class="row col-12 card-plans">
@@ -15,9 +19,9 @@
                   <div class="dropdown dropdown-open">
                       <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/pricing/overflow.svg"></button>                                            
                       <ul class="dropdown-menu content-menu" *ngIf="currentSubscriptionPlan">                                                                    
-                        <li (click)="addOverage()" [attr.disabled] = "currentSubscriptionPlan.subscription.planName == 'Free' ? true : null"><a>Add Overage</a></li>
+                        <li (click)="addOverage()" [ngClass]="{'disabled': currentSubscriptionPlan.subscription.planName=='Free'}"><a>Add Overage</a></li>
                         <li (click)="compare('choosePlans',currentSubscriptionPlan.subscription)"><a>Change Plan</a></li>
-                        <li (click)="openPopup5()" [attr.disabled] = "currentSubscriptionPlan.subscription.planName == 'Free' ? true : null"><a>Cancel Subscription</a></li>
+                        <li (click)="openPopup5()" [ngClass]="{'disabled': currentSubscriptionPlan.subscription.planName=='Free'}"><a>Cancel Subscription</a></li>
                       </ul>
                     </div>
                 </div>

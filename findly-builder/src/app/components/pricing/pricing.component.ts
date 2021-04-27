@@ -47,7 +47,8 @@ export class PricingComponent implements OnInit {
     proYear: '65453',
     enterpriceMonth: 'fp_enterprise_custom_monthly',
     enterpriceYear: 'fp_enterprise_custom_yearly'
-  }
+  };
+  showUpgradeBtn: boolean;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -74,8 +75,12 @@ export class PricingComponent implements OnInit {
     appObserver.subscribe(res => {
       this.currentSubscriptionPlan = res;
       this.getOverage(overageRes);
+      this.showUpgradeBtn = this.currentSubscriptionPlan.subscription.planName != 'Free' ? true : false;
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
+      if (errRes.error.errors[0].code === 'NoActiveSubscription') {
+        this.showUpgradeBtn = true;
+      }
     });
   }
   getPlan() {
@@ -88,13 +93,13 @@ export class PricingComponent implements OnInit {
       })
       let listData = [...this.totalPlansData]
 
-      let listDataMonthlyFeature= [];
+      let listDataMonthlyFeature = [];
       listData.forEach(data => {
         Object.keys(data.featureAccess);
         Object.values(data.featureAccess);
         Object.entries(data.featureAccess);
         /** Pick only the Month Plans */
-        if(data._id == this.plansIdList.free || data._id == this.plansIdList.standardMonth || data._id == this.plansIdList.proMonth || data._id == this.plansIdList.enterpriceMonth){
+        if (data._id == this.plansIdList.free || data._id == this.plansIdList.standardMonth || data._id == this.plansIdList.proMonth || data._id == this.plansIdList.enterpriceMonth) {
           listDataMonthlyFeature.push(Object.entries(data.featureAccess))
         }
       })
@@ -105,23 +110,23 @@ export class PricingComponent implements OnInit {
       //   maxArr.push(element.length)
       // });
       // let maxRecordIndex = maxArr.indexOf(Math.max(...maxArr));
-      if(listDataMonthlyFeature.length = 4){
-        for(let i=1; i<= listDataMonthlyFeature.length;i++){
-          if(listDataMonthlyFeature[i]){
-            for(let j=0; j < listDataMonthlyFeature[i].length;j++){
-              if(listDataMonthlyFeature[i][j]){
-                if(listDataMonthlyFeature[i][j][0] == listDataMonthlyFeature[0][j][0]){ //comapre 3 records with 1st record's Key
-                  listDataMonthlyFeature[0][j].push(listDataMonthlyFeature[i][j][1])       // push the values array in 1st record
-                }
+      //if(listDataMonthlyFeature.length = 4){
+      for (let i = 1; i <= listDataMonthlyFeature.length; i++) {
+        if (listDataMonthlyFeature[i]) {
+          for (let j = 0; j < listDataMonthlyFeature[i].length; j++) {
+            if (listDataMonthlyFeature[i][j]) {
+              if (listDataMonthlyFeature[i][j][0] == listDataMonthlyFeature[0][j][0]) { //comapre 3 records with 1st record's Key
+                listDataMonthlyFeature[0][j].push(listDataMonthlyFeature[i][j][1])       // push the values array in 1st record
               }
             }
           }
         }
+        //}
       }
       console.log(listDataMonthlyFeature);
       // listDataMonthlyFeature.forEach((parent,i)=> {
       //   parent.forEach((child,j)=> {
-          
+
       //   });
       // });
       this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
@@ -235,15 +240,15 @@ export class PricingComponent implements OnInit {
       subscriptionId: this.currentSubscriptionPlan.subscription._id,
       status: "success"
     };
-    this.service.invoke('put.cancelSubscribtion',queryParam,payload).subscribe(res => {
+    this.service.invoke('put.cancelSubscribtion', queryParam, payload).subscribe(res => {
       this.currentsubscriptionPlan(this.selectedApp)
-    // this.notificationService.notify('Cancel Subscription', 'success');
+      // this.notificationService.notify('Cancel Subscription', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'failed to Cancel subscription');
     });
-   this.closeCancelSubsPopup();
+    this.closeCancelSubsPopup();
   }
-  closeCancelSubsPopup(){
+  closeCancelSubsPopup() {
     if (this.cancelSubscriptionModelPopRef && this.cancelSubscriptionModelPopRef.close) {
       this.cancelSubscriptionModelPopRef.close();
     }
@@ -279,9 +284,9 @@ export class PricingComponent implements OnInit {
 
       tooltip: {
         trigger: 'axis',
-        axisPointer: {            
-          type: 'none'        
-      },
+        axisPointer: {
+          type: 'none'
+        },
         formatter: `
           <div class="metrics-tooltips-hover agent_drop_tolltip">
           <div class="">
@@ -292,7 +297,7 @@ export class PricingComponent implements OnInit {
         `,
         position: 'top',
         padding: 0
-       
+
       },
 
       grid: {
@@ -359,9 +364,9 @@ export class PricingComponent implements OnInit {
       // },
       tooltip: {
         trigger: 'axis',
-        axisPointer: {            
-          type: 'none'        
-      },
+        axisPointer: {
+          type: 'none'
+        },
         formatter: `
           <div class="metrics-tooltips-hover agent_drop_tolltip">
           <div class="">
@@ -372,7 +377,7 @@ export class PricingComponent implements OnInit {
         `,
         position: 'top',
         padding: 0
-       
+
       },
       grid: {
         left: '3%',
@@ -380,7 +385,7 @@ export class PricingComponent implements OnInit {
         bottom: '3%',
         containLabel: true
       },
-      
+
       xAxis: {
         type: 'category',
         data: ['Jan', 'Feb', 'Apr', 'May', 'Jun'], //data//
@@ -478,5 +483,17 @@ export class PricingComponent implements OnInit {
         this.filterPlansData.push(data);
       }
     }
+  }
+  //renew subscription
+  renewSubscription() {
+    const queryParam = {
+      streamId: this.selectedApp._id
+    }
+    this.service.invoke('post.renewSubscribtion', queryParam).subscribe(res => {
+      console.log("renew sub", res)
+      // this.notificationService.notify('Cancel Subscription', 'success');
+    }, errRes => {
+      this.errorToaster(errRes, 'failed to renew subscription');
+    });
   }
 }

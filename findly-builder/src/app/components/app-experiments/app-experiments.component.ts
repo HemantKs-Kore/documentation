@@ -67,10 +67,7 @@ export class AppExperimentsComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
-    if (!this.currentSubscriptionPlan) {
-      this.currentsubscriptionPlan(this.selectedApp)
-    }
+    this.currentsubscriptionPlan(this.selectedApp)
   }
   //get current subscription data
   currentsubscriptionPlan(app) {
@@ -80,12 +77,12 @@ export class AppExperimentsComponent implements OnInit {
     const appObserver = this.service.invoke('get.currentPlans', payload);
     appObserver.subscribe(res => {
       this.currentSubscriptionPlan = res.subscription;
-      if (this.currentSubscriptionPlan.planName != 'Free') {
+      if (this.currentSubscriptionPlan.planId != 'fp_free') {
         this.getExperiments();
         this.setSliderDefaults();
         this.getIndexPipeline();
       }
-      else if (this.currentSubscriptionPlan.planName == 'Free') {
+      else if (this.currentSubscriptionPlan.planId == 'fp_free') {
         this.loadingContent1 = true;
       }
     }, errRes => {

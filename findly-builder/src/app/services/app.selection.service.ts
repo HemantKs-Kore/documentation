@@ -1,7 +1,7 @@
 import { Injectable, Output, EventEmitter } from '@angular/core'
 import { WorkflowService } from './workflow.service';
 import { ServiceInvokerService } from './service-invoker.service';
-import { BehaviorSubject, pipe, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, pipe, ReplaySubject, Subject, Subscription } from 'rxjs';
 import * as _ from 'underscore';
 import { Router } from '@angular/router';
 import { SideBarService } from './header.service';
@@ -17,6 +17,7 @@ export class AppSelectionService {
   public queryConfigSelected = new Subject<any>();
   public appSelected = new Subject<any>();
   public getTourConfigData = new Subject<any>();
+  public currentSubscription = new Subject<any>();
   public routeChanged = new BehaviorSubject<any>({ name: undefined, path: '' });
   public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
   public resumingApp = false;
@@ -108,6 +109,7 @@ export class AppSelectionService {
     let previOusState: any = null;
     try {
       previOusState = JSON.parse(window.localStorage.getItem('krPreviousState'));
+      this.currentsubscriptionPlan(previOusState.selectedApp);
     } catch (e) {
     }
     return previOusState;
@@ -155,7 +157,7 @@ export class AppSelectionService {
     });
   }
   openApp(app) {
-    this.currentsubscriptionPlan(app)
+    this.currentsubscriptionPlan(app._id)
     this.workflowService.selectedQueryPipeline([]);
     this.workflowService.appQueryPipelines({});
     this.setAppWorkFlowData(app);
@@ -168,13 +170,14 @@ export class AppSelectionService {
     //this.headerService.closeSdk();
     this.headerService.updateSearchConfiguration();
   }
-  currentsubscriptionPlan(app) {
+  currentsubscriptionPlan(id) {
     const payload = {
-      streamId: app._id
+      streamId: id
     };
     const appObserver = this.service.invoke('get.currentPlans', payload);
     appObserver.subscribe(res => {
-      this.currentsubscriptionPlanDetails = res
+      this.currentsubscriptionPlanDetails = res;
+      this.currentSubscription.next(res);
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });

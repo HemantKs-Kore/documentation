@@ -941,5 +941,13 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/cancel',
       method: 'put'
     }
+    this.serviceList['post.renewSubscribtion'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/renew',
+      method: 'post'
+    }
+    this.serviceList['put.planChange'] = {
+      endpoint: this.API_SERVER_URL + '/findly/plans/change',
+      method: 'put'
+    }
   }
 }

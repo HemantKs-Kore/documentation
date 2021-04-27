@@ -1,10 +1,11 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
-
-	<div class="upgrade_your_plan_price d-none" >
-		<div class="upgrade-plan-btn">Upgrade Your Plan<img src="assets/icons/pricing/carrotright.svg"></div>
+	<div class="upgrade_your_plan_price" *ngIf="!settingMainMenu && !sourceMenu">
+		<ng-container *ngIf="showUpgrade">
+		<div class="upgrade-plan-btn" (click)="upgrade()">Upgrade Your Plan<img src="assets/icons/pricing/carrotright.svg"></div>
 		<div class="document-limit">22%  document limit reached</div>
 		<div class="document-limit">10%  query limit reached</div>
+	</ng-container>
 	</div>
 	<perfect-scrollbar class="perfect-scroll">
 		<div class="list-group list-group-flush" *ngIf="!settingMainMenu && !sourceMenu">					
@@ -446,3 +447,4 @@
 			<button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeIndexModalPopup()">Cancel</button>
 		</div>    
 	</kr-modal>
+	<app-upgrade-plan #plans></app-upgrade-plan>
