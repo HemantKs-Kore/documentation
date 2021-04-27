@@ -256,6 +256,7 @@ export class FieldManagementComponent implements OnInit {
         return pg._id === record._id;
       })
       this.filelds.splice(deleteIndex, 1);
+      this.notificationService.notify('Deleted Successfully', 'success');
       dialogRef.close();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete field');
