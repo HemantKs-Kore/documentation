@@ -49,6 +49,7 @@ export class PricingComponent implements OnInit {
     enterpriceYear: 'fp_enterprise_custom_yearly'
   };
   showUpgradeBtn: boolean;
+  usageDetails: any = {};
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -74,6 +75,7 @@ export class PricingComponent implements OnInit {
     const appObserver = this.service.invoke('get.currentPlans', payload);
     appObserver.subscribe(res => {
       this.currentSubscriptionPlan = res;
+      this.updateUsageDetails();
       this.getOverage(overageRes);
       this.showUpgradeBtn = this.currentSubscriptionPlan.subscription.planName != 'Free' ? true : false;
     }, errRes => {
@@ -495,5 +497,33 @@ export class PricingComponent implements OnInit {
     }, errRes => {
       this.errorToaster(errRes, 'failed to renew subscription');
     });
+  }
+  updateUsageDetails() {
+    // console.log("currentSubscriptionPlan", this.currentSubscriptionPlan);
+    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.usage && this.currentSubscriptionPlan.usage.ingestDocs) {
+      this.usageDetails.ingestDocs = this.currentSubscriptionPlan.usage.ingestDocs;
+      if (this.usageDetails.ingestDocs.percentageUsed >= 80) {
+        this.usageDetails.ingestDocs.type = 'danger';
+      }
+      else {
+        this.usageDetails.ingestDocs.type = 'primary'
+      }
+    }
+    else {
+      this.usageDetails.ingestDocs = {};
+    }
+
+    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.usage && this.currentSubscriptionPlan.usage.searchQueries) {
+      this.usageDetails.searchQueries = this.currentSubscriptionPlan.usage.searchQueries;
+      if (this.usageDetails.searchQueries.percentageUsed >= 80) {
+        this.usageDetails.searchQueries.type = 'danger';
+      }
+      else {
+        this.usageDetails.searchQueries.type = 'primary';
+      }
+    }
+    else {
+      this.usageDetails.searchQueries = {};
+    }
   }
 }
