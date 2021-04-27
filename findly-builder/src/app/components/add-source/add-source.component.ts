@@ -106,14 +106,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           sourceType: 'content',
           resourceType: 'document'
         },
-        {
-          name: 'Others',
-          description: 'Extract content from other',
-          icon: 'assets/icons/content/othersuccess.svg',
-          id: 'contentothers',
-          sourceType: 'content',
-          resourceType: 'document'
-        }
+        // {
+        //   name: 'Others',
+        //   description: 'Extract content from other',
+        //   icon: 'assets/icons/content/othersuccess.svg',
+        //   id: 'contentothers',
+        //   sourceType: 'content',
+        //   resourceType: 'document'
+        // }
       ]
     },
     {
@@ -1136,7 +1136,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(res);
 
         selectedApp = this.workflowService.selectedApp();
-        selectedApp.configuredBots[0]._id = null;
+        // selectedApp.configuredBots[0]._id = null;
+        if (this.workflowService.selectedApp()?.configuredBots[0] && this.workflowService.selectedApp()?.configuredBots[0]?._id ) {
+          this.workflowService.selectedApp().configuredBots[0]._id = null;
+        }
+        else if (this.workflowService.selectedApp()?.publishedBots[0] && this.workflowService.selectedApp()?.publishedBots[0]?._id ) {
+        this.workflowService.selectedApp().publishedBots[0]._id = null;
+        }
+      
         this.workflowService.selectedApp(selectedApp);
         this.streamID = null;
         this.getAssociatedBots();

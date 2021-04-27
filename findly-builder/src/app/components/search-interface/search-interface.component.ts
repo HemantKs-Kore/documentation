@@ -1,11 +1,14 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { SideBarService } from './../../services/header.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { Subscription } from 'rxjs';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 
 // import * as PureJSCarousel from 'src/assets/web-kore-sdk/libs/purejscarousel.js';
@@ -29,6 +32,7 @@ export class SearchInterfaceComponent implements OnInit {
   url_fieldData: any;
   fieldData: any;
   list: any = [];
+  customList : any = [];
   //   [{
   //     id : "",
   //     type : 'Actions',
@@ -54,6 +58,9 @@ export class SearchInterfaceComponent implements OnInit {
   selectedSettingResultsObj: selectedSettingResults = new selectedSettingResults();
   allSettings: any;
   subscription: Subscription;
+  searchConfigurationSubscription : Subscription;
+  searchExperienceConfig : any = {};
+  searchTemplatesDisabled : boolean = false;
   settingList: any = [
     //   {
     //   id:"searchUi",
@@ -107,7 +114,9 @@ export class SearchInterfaceComponent implements OnInit {
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    public dialog: MatDialog,
+    public headerService : SideBarService
   ) { }
 
   ngOnInit(): void {
@@ -120,15 +129,21 @@ export class SearchInterfaceComponent implements OnInit {
     // this.customizeTemplate.layout.isClickable = true;
     // this.customizeTemplate.layout.behaviour="webpage";
 
-    this.defaultTemplate();
-    this.getSettings('search')
-    this.getAllSettings();
+    // this.defaultTemplate();
+    // this.getSettings('search')
+    // this.getAllSettings();
     //this.filedSelect(type,field)
 
     this.loadFiledsData();
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadFiledsData();
     })
+    this.searchExperienceConfig = this.headerService.searchConfiguration;
+    this.searchConfigurationSubscription = this.headerService.savedSearchConfiguration.subscribe((res) =>{
+      this.searchExperienceConfig = res;
+      this.updateResultTemplateTabsAccess();
+    });
+    this.updateResultTemplateTabsAccess();
 
     console.log(this.customizeTemplateObj);
     console.log(this.selectedSettingResultsObj);
@@ -145,6 +160,9 @@ export class SearchInterfaceComponent implements OnInit {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
       this.getFieldAutoComplete();
+      this.defaultTemplate();
+      this.getSettings('search');
+      this.getAllSettings();
     }
   }
   defaultTemplate() {
@@ -159,12 +177,35 @@ export class SearchInterfaceComponent implements OnInit {
     this.preview_desc = "Field mapped for Description will appear here";
   }
   copyConfiguration(interfaceType) {
-    this.selectedSettingResultsObj.referInterface = interfaceType;
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Restore Customization',
+        text: 'Are you sure you want to copy?',
+        newTitle: 'Are you sure you want to copy?',
+        body: 'Copying will overwrite the existing configuration.',
+        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true,
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.selectedSettingResultsObj.referInterface = interfaceType;
+          dialogRef.close();
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+    
   }
   getSettings(interfaceType) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      interface: interfaceType
+      interface: interfaceType,
+      indexPipelineId : this.indexPipelineId
     };
     this.service.invoke('get.SI_settingInterface', quaryparms).subscribe(res => {
       if (res) {
@@ -175,13 +216,19 @@ export class SearchInterfaceComponent implements OnInit {
       //this.selectedSettingResultsObj = new selectedSettingResults()
     });
   }
-  getAllSettings() {
+  getAllSettings(setting?) {
+    if((setting && setting.id == 'search') && this.searchTemplatesDisabled){
+      return false;
+    }
+    this.selectedSetting = setting ? setting.id : 'search';
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
+      indexPipelineId : this.indexPipelineId
     };
     this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
       this.allSettings = res;
       this.list = [];
+      this.customList = [];
       res.settings.forEach(element => {
         if (element.interface == this.selectedSetting) {
           this.selectedSettingResultsObj = element;
@@ -224,7 +271,8 @@ export class SearchInterfaceComponent implements OnInit {
   getTemplate(templateId , modal?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      templateId: templateId
+      templateId: templateId,
+      indexPipelineId : this.indexPipelineId
     };
     this.service.invoke('get.SI_searchResultTemplate', quaryparms).subscribe(res => {
       this.templateBind(res , modal)
@@ -285,30 +333,35 @@ export class SearchInterfaceComponent implements OnInit {
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
+        this.customList.push(obj)
       } else if (element.type == 'faq') {
         let obj = {
           type: "FAQs",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
+        this.customList.push(obj)
       } else if (element.type == 'page') {
         let obj = {
           type: "Pages",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
+        this.customList.push(obj)
       } else if (element.type == 'structuredData') {
         let obj = {
           type: "Structured Data",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
+        this.customList.push(obj)
       } else if (element.type == 'document') {
         let obj = {
           type: "Document",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
+        this.customList.push(obj)
       }
     });
   }
@@ -384,14 +437,22 @@ export class SearchInterfaceComponent implements OnInit {
       this.selectedSettingResultsObj.facets.aligned = value;
     }
   }
-  selectResultAppearnceList(list){
+  selectResultAppearnceList(list,type){
     this.selectedSourceType = list.type;
     let templateId;
-    this.list.forEach(element => {
-      if (element.type == this.selectedSourceType) {
-        templateId = element.id
-      }
-    });
+    if(type == 'list'){
+      this.list.forEach(element => {
+        if (element.type == this.selectedSourceType) {
+          templateId = element.id
+        }
+      });
+    }else{
+      this.customList.forEach(element => {
+        if (element.type == this.selectedSourceType) {
+          templateId = element.id
+        }
+      });
+    }
     this.selectedTemplatedId = templateId;
     if (templateId) {
       this.getTemplate(templateId);
@@ -478,7 +539,8 @@ export class SearchInterfaceComponent implements OnInit {
   }
   saveResultSettings() {
     let queryparams = {
-      searchIndexId: this.serachIndexId
+      searchIndexId: this.serachIndexId,
+      indexPipelineId : this.indexPipelineId
     };
     let payload = {
       "_id": this.selectedSettingResultsObj._id,
@@ -493,7 +555,7 @@ export class SearchInterfaceComponent implements OnInit {
         "isEnabled": this.selectedSettingResultsObj.facets.isEnabled
       },
       "interface": this.selectedSetting,
-      "appearance": this.selectedSettingResultsObj.appearance
+      "appearance": this.selectedSettingResultsObj.appearance //this.list
       // [
       //       {
       //           "type": "action"
@@ -558,7 +620,8 @@ export class SearchInterfaceComponent implements OnInit {
       url = "put.SI_saveTemplate_Id";
       queryparams = {
         searchIndexId: this.serachIndexId,
-        templateId: this.selectedTemplatedId
+        templateId: this.selectedTemplatedId,
+        indexPipelineId : this.indexPipelineId
       }
       // delete payload['appearanceType'];
       message = "Template Updated Successfully"
@@ -607,10 +670,29 @@ export class SearchInterfaceComponent implements OnInit {
     }
   }
 
+  updateResultTemplateTabsAccess(){
+    if(this.searchExperienceConfig && Object.values(this.searchExperienceConfig).length){
+      console.log(this.searchExperienceConfig);
+      if(this.searchExperienceConfig && this.searchExperienceConfig.experienceConfig && this.searchExperienceConfig.experienceConfig.searchBarPosition){
+        if(this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top'){
+          this.searchTemplatesDisabled = true;
+          this.getAllSettings({id: "fullSearch",text: "Full Page Result"});
+        }
+        else{
+          this.searchTemplatesDisabled = false;
+        }
+      }
+    }
+    else{
+      this.searchTemplatesDisabled = false;
+    }
+  }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe : false;
   }
 
 }

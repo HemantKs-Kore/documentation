@@ -283,6 +283,30 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.faqSelectionObj.selectedCount = Object.keys(this.faqSelectionObj.selectedItems).length;
     }
   }
+  selectAllPartially(){
+    if((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount== this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved )){
+      $('#selectAllFaqs')[0].checked = true;
+      this.faqSelectionObj.selectAll = true;
+      this.faqSelectionObj.selectAll = !this.faqSelectionObj.selectAll;
+    } else {
+      $('#selectAllFaqs')[0].checked = false;
+      this.faqSelectionObj.selectAll = false;
+    }
+    const selectedElements = $('.selectEachfaqInput:checkbox:checked');
+    if (selectedElements.length !== this.faqs.length) {
+      this.selectAll(true);
+    }else{
+      this.selectAll();
+    }
+  }
+  headerSelectAll(){
+    this.selectAll();
+    if((this.selectedtab === 'draft' && this.faqs.length == this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqs.length == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqs.length == this.faqSelectionObj.stats.approved )){
+      this.faqSelectionObj.selectAll = true;
+    }else{
+      this.faqSelectionObj.selectAll = false;
+    }
+  }
   selectAll(unselectAll?) {
     const allFaqs = $('.selectEachfaqInput');
     if (allFaqs && allFaqs.length) {
@@ -296,21 +320,37 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     if (unselectAll) {
       $('#selectAllFaqs')[0].checked = false;
+      this.faqSelectionObj.selectAll = false;
     }
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
   }
   checkUncheckfaqs(faq) {
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
     const allElements = $('.selectEachfaqInput');
-    if (selectedElements.length > 1) {
-      $('#selectAllFaqs')[0].checked = true;
-    } else {
-      $('#selectAllFaqs')[0].checked = false;
-    }
+    // if (selectedElements.length > 1) {
     const element = $('#selectFaqCheckBox_' + faq._id);
     const addition = element[0].checked
     this.addRemoveFaqFromSelection(faq._id, addition);
+    if((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount== this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved )){
+      $('#selectAllFaqs')[0].checked = true;
+      this.faqSelectionObj.selectAll = true;
+    } else {
+      $('#selectAllFaqs')[0].checked = false;
+      this.faqSelectionObj.selectAll = false;
+    }
     this.singleSelectedFaq = faq;
+  }
+
+  markSelectedFaqs(faqs){
+    if(Object.keys(this.faqSelectionObj.selectedItems).length){
+      Object.keys(this.faqSelectionObj.selectedItems).forEach((key)=>{
+        let index = faqs.findIndex((d)=> d._id === key);
+        if(index >-1){
+          $('#selectFaqCheckBox_'+key)[0].checked = true;
+          this.checkUncheckfaqs(faqs[index]);
+        }
+      })
+    }
   }
   manualFaqsFilter() {
     this.manualFilterSelected = true;
@@ -554,10 +594,12 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       if (serviceId === 'get.allFaqs') {
         this.faqsAvailable = res.length ? true : false;
       }
-
       setTimeout(()=> {
-        this.selectAll()
-      }, 1)
+        this.markSelectedFaqs(this.faqs);
+      }, 100)
+      // setTimeout(()=> {
+      //   this.selectAll()
+      // }, 1)
     
       this.editfaq = null
       this.apiLoading = false;

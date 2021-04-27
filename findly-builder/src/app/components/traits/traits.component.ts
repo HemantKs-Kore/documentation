@@ -16,7 +16,17 @@ declare const $: any;
 })
 export class TraitsComponent implements OnInit {
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
+  @ViewChild('addUtteranceModalPop') addUtteranceModalPop: KRModalComponent;
+  currentUtteranceIndex:number;
+  currentTraitKey:string;
+  newUtterance:any;
+  tempUtterance:string;
   statusModalPopRef: any = [];
+  addUtteranceModalPopRef: any = [];
+  utteranceList = [];
+  showUtteranceInput = false;
+  showEditUtteranceInput:any;
+  showEditTraitInput:any;
   traitsObj: any = [];
   traitType: string;
   traitsTableData: any = [];
@@ -25,6 +35,8 @@ export class TraitsComponent implements OnInit {
   loadingTraits = true
   traitCounts;
   showSearch;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   serachTraits: any = '';
   traits: any = {
     traitGroups: {},
@@ -184,6 +196,7 @@ var width = ctx.measureText(t.traitName +', ').width;
   };
   editTraitFroup = function (traitGroup, index) {
     this.editedContent = false;
+    this.showEditTraitInput = null;
     this.currentGroupEditIndex = index;
     this.groupConfigs.matchStrategy = traitGroup.matchStrategy;
     this.traitDeleted = false;
@@ -513,6 +526,27 @@ var width = ctx.measureText(t.traitName +', ').width;
       this.statusModalPopRef.close();
     }
   }
+  openAddUtteranceModel(index,key,utteranceList,isView=false) {
+    if(isView && !utteranceList.length){
+      return;
+    }
+    this.showUtteranceInput = isView?false:true;
+    this.showEditUtteranceInput = null;
+    this.newUtterance = '';
+    this.utteranceList = [];
+    this.utteranceList = [...utteranceList, ...this.utteranceList];
+    this.currentUtteranceIndex = index;
+    this.currentTraitKey = key;
+    this.addUtteranceModalPopRef = this.addUtteranceModalPop.open();
+  }
+  closeUtteranceModal() {
+    this.currentUtteranceIndex = null;
+    this.currentTraitKey = null;
+    this.utteranceList = [];
+    if (this.addUtteranceModalPopRef && this.addUtteranceModalPopRef.close) {
+      this.addUtteranceModalPopRef.close();
+    }
+  }
   addTraits(traitName, event) {
     const traits = [];
     if (traitName.trim() !== '') {
@@ -561,7 +595,25 @@ var width = ctx.measureText(t.traitName +', ').width;
       }
     }
   };
-
+  addNewUtter(utter, event) {
+    const utteranceData = [];
+    if (event && (event.keyCode === 13 || event.type=='click') && utter !== '') {
+      let utternaceIndex = -1;
+      const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
+        if (utter === utterance) {
+          utternaceIndex = i;
+          return false;
+        }
+      });
+      if (utternaceIndex > -1) {
+        this.notificationService.notify('Utterance is already added', 'error');
+        return;
+      }
+      this.utteranceList = [utter].concat(this.utteranceList);
+      this.newUtterance = '';
+      this.showUtteranceInput = false;
+    }
+  }
   addUtterance(utter, key, event, traitsGroup, index) {
     const utteranceData = [];
     if (event && event.keyCode === 13 && traitsGroup && utter !== '') {
@@ -621,12 +673,6 @@ var width = ctx.measureText(t.traitName +', ').width;
         }
       });
   }
-
-
-
-
-
-
 
   deleteUtteranceIntrait(deletedutternace, key, traitsGroup, traitIndex) {
     let utternaceIndex = null;
@@ -699,4 +745,97 @@ var width = ctx.measureText(t.traitName +', ').width;
     }
     this.showSearch = !this.showSearch
   };
+
+  addNewUtterance( key, traitsGroup, index){
+    const utteranceData = [];
+    if (traitsGroup && this.utteranceList.length) {
+      this.traits.addEditTraits.traits[key].data = this.utteranceList;
+      if (index > -1) {
+        this.traits.addEditTraits.traitsArray[index] = this.traits.addEditTraits.traits[key];
+      }
+      this.traits.addEditTraits.traits[key].utterance = '';
+    }
+    this.closeUtteranceModal();
+  }
+
+  deleteUtterance = function (deletedutternace,event) {
+    if (event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Utterance',
+        text: 'Are you sure you want to delete Utterance ?',
+        newTitle: 'Are you sure you want to delete ?',
+        body: 'Selected utterance will be deleted. ',
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
+      }
+
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          let utternaceIndex = null;
+          const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
+            if (deletedutternace === utterance) {
+              utternaceIndex = i;
+              this.utteranceList.splice(utternaceIndex, 1);
+              return false;
+            }
+          });
+          dialogRef.close();
+        }
+        else if (result === 'no') {
+          dialogRef.close();
+        }
+      });
+  }
+ 
+  editUtter(event,utter,index){
+    if(event && (event.keyCode === 13  || event.type=='click') && utter !== ''){
+      let utternaceIndex = -1;
+      const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
+        if (utter === utterance && index !== i) {
+          utternaceIndex = i;
+          return false;
+        }
+      });
+      if (utternaceIndex > -1) {
+        this.notificationService.notify('Utterance is already added', 'error');
+        return;
+      }
+      this.showEditUtteranceInput = null;
+      this.showUtteranceInput = false;
+      this.utteranceList[index]=utter;
+    }
+  }
+
+  editTraits(trait, event, displayName) {
+    if (event && (event.keyCode === 13 || event.type=='click') && trait !== '') {
+      if (!this.traits.addEditTraits.traits[trait]) {
+        this.showEditTraitInput = null;
+        this.traits.addEditTraits.traits[displayName].displayName = trait;
+        this.traits.addEditTraits.traits[trait] = this.traits.addEditTraits.traits[displayName];
+        delete this.traits.addEditTraits.traits[displayName];
+      } else if(this.traits.addEditTraits.traits[trait] && displayName == trait){
+        this.showEditTraitInput = null;
+      } else {
+        this.notificationService.notify(trait + ' is already added', 'error');
+      }
+    }
+  }
+
+  showEditTrait(index, event){
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    this.showEditTraitInput=index;
+  }
 }

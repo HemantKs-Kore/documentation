@@ -10,6 +10,7 @@ import * as moment from 'moment';
 declare const $: any;
 import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-app-experiments',
   templateUrl: './app-experiments.component.html',
@@ -27,7 +28,7 @@ export class AppExperimentsComponent implements OnInit {
   experimentObj: any = {
     name: '',
     variants: this.variantsArray,
-    duration: { days: 0 }
+    duration: { days: 30 }
   }
   conn: any = [true, true];
   tool: any = [true];
@@ -128,7 +129,7 @@ export class AppExperimentsComponent implements OnInit {
     this.exp_status = '';
     this.form_type = '';
     this.variantsArray = [];
-    this.experimentObj = { name: '', variants: [], duration: { days: 0 } };
+    this.experimentObj = { name: '', variants: [], duration: { days: 30 } };
     this.updateSliderConfig(true);
     this.showSlider = false;
     this.someRangeconfig = null;
@@ -184,12 +185,15 @@ export class AppExperimentsComponent implements OnInit {
       this.experimentObj.duration.days = data.duration.days;
       this.setSliderDefaults();
       this.showTraffic(this.variantsArray.length, 'add');
+
     }
     else {
       this.showSlider = false;
       this.addVarient(2);
+
     }
     this.addExperimentsRef = this.addExperiments.open();
+    $("#infoWarning").hide()
   }
   addVarient(count?) {
     if (this.variantsArray.length <= 3) {
@@ -356,6 +360,7 @@ export class AppExperimentsComponent implements OnInit {
     });
   }
   getQueryPipeline(id) {
+    //this.appSelectionService.getIndexPipelineIds(id)
     const header: any = {
       'x-timezone-offset': '-330'
     };
@@ -487,6 +492,83 @@ export class AppExperimentsComponent implements OnInit {
       });
     }
   }
+  validateSource() {
+    let validField = true;
+
+    if (!this.experimentObj.name) {
+      $("#enterName").css("border-color", "#DD3646");
+      $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+      validField = false
+      // this.createExperiment()
+    }
+    this.variantsArray.forEach((element, i) => {
+      if (!element.name) {
+        $("#variantName" + i).css("border-color", "#DD3646");
+        $("#infoWarning" + i).css({ "top": "58%", "position": "absolute", "right": "2.5%", "display": "block" });
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+        validField = false
+      }
+      if (!element.indexPipelineName) {
+        $("#indexPipelineName" + i).css("border-color", "#DD3646");
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+        validField = false
+      }
+      if (!element.queryPipelineName) {
+        $("#queryPipelineName" + i).css("border-color", "#DD3646");
+        this.notificationService.notify('Enter the required fields to proceed', 'error');
+        validField = false
+      }
+
+    });
+    if (validField) {
+      this.createExperiment()
+    }
+    // this.variantsArray.forEach((element,i)=> {
+    //   if(element.indexPipelineName){
+    //     this.createExperiment()
+    //   }
+    //   else{
+    //     $("#indexPipelineName" + i) .css("border-color", "#DD3646");
+    //     this.notificationService.notify('Enter the required fields to proceed', 'error');
+    //   }
+
+    // });
+    // this.variantsArray.forEach((element,i)=> {
+    //   if(element.queryPipelineName){
+    //     this.createExperiment()
+    //   }
+    //   else{
+    //     $("#queryPipelineName" + i) .css("border-color", "#DD3646");
+    //     this.notificationService.notify('Enter the required fields to proceed', 'error');
+    //   }
+
+    // });
+  }
+  inputChanged(type, i?) {
+    if (type == 'enterName') {
+      if (!this.experimentObj.name) {
+        $("#infoWarning").show();
+        $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+      }
+      else {
+        $("#infoWarning").hide()
+      }
+      $("#enterName").css("border-color", this.experimentObj.name != '' ? "#BDC1C6" : "#DD3646");
+    }
+    if (type == 'variantName') {
+      if (this.variantsArray != []) {
+        $("#infoWarning" + i).show()
+        $("#variantName" + i).css("border-color", this.variantsArray != [] ? "#BDC1C6" : "#DD3646");
+      }
+      else {
+        $("#infoWarning" + i).hide()
+      }
+
+    }
+
+  }
+
   // change traffic percentage based on slider
   sliderPercentage() {
     if (this.variantsArray.length === 1) {
@@ -716,8 +798,15 @@ export class AppExperimentsComponent implements OnInit {
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
+<<<<<<< HEAD
   //upgrade plan
   upgrade() {
     this.plans.openChoosePlanPopup('choosePlans');
   }
+=======
+  // ngOnDestroy() {
+  //   this.indexSubscription.unsubscribe();
+  //   this.searchSubscription.unsubscribe();
+  // }
+>>>>>>> e752b93995bbcce30c6e7d975d779e4945ca7593
 }
