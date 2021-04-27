@@ -203,7 +203,7 @@
         "add_custom_stop_words": "Add custom stop words",
         "Continue": "Continue",
         "Search": "Search",
-        "restore_to_default": " Restore to Default",
+        "reset_to_default": " Reset to Default",
         "no_search_results_found": "No search results found"
     },
     "facets": {

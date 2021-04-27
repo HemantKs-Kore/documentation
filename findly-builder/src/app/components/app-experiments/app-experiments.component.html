@@ -251,7 +251,7 @@
               <div class="desc-text">Experiments is the best way to test multiple search configuration variants and pick the best one that fulfills business needs. SearchAssist allows you to create experiments with two or more variants to continuously improve search relevance and user experience. 
               </div>
               <!-- <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                          -->
-                <button class="kr-sg-button-primary btn_lg px-3" (click)="addExperiment('add')">Add Experiments</button>                                            
+                <button class="kr-sg-button-primary btn_lg px-3" (click)="addExperiment('add')">Add Experiment</button>                                            
               <!-- </div> -->
           </ng-container>
         </div>    
@@ -287,7 +287,7 @@
       </div>
       <div class="row ml-0 mr-0 mb-3 col-12 p-0 pr-30">
         <div class="kr-sg-input-text col-8 pl-pr-5">
-          <div class="label-text">Name of Experiment</div>
+          <div class="label-text">Experiment Name</div>
           <input type="text" autocomplete="off" id="enterName"placeholder="Enter Experiment Name" class="input-text"  (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')"
             [(ngModel)]="experimentObj.name" [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{
               disable_edit: exp_status !== 'configured' && form_type === 'edit'

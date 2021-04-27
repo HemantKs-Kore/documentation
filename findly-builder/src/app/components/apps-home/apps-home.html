@@ -169,7 +169,8 @@
   <div class="modal-body">
     <div class="kr-sg-input-text mb-3">
       <div class="label-text">App Name</div>
-      <input maxlength="128" type="text" autocomplete="off" placeholder="Enter App Name" class="input-text" [(ngModel)]="newApp.name" name="appName">
+      <input maxlength="128" type="text" autocomplete="off" placeholder="Enter App Name"  [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
+      <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
     </div>
     <!-- <div class="kr-sg-input-text-area mb-2">
       <div class="label-text">Description</div>
@@ -198,7 +199,7 @@
   </div>
   <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
       <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closeCreateApp()">Cancel</button>
-      <button [disabled]="!newApp.name"  type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='createFindlyApp()'>{{creatingInProgress?'Creating...':'Create'}}</button>
+      <button   type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='validateSource()'>{{creatingInProgress?'Creating...':'Create'}}</button>
   
   </div>
 </kr-modal>
