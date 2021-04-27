@@ -12,6 +12,7 @@ import { debounceTime, map, retryWhen } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
+import { InlineManualService } from '../../services/inline-manual.service';
 
 @Component({
   selector: 'app-structured-data',
@@ -112,7 +113,8 @@ export class StructuredDataComponent implements OnInit {
     private authService: AuthService,
     private modalService: NgbModal,
     public headerService: SideBarService,
-    private router: Router, public dialog: MatDialog) { }
+    private router: Router, public dialog: MatDialog,
+    public inlineManual : InlineManualService) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -178,9 +180,11 @@ export class StructuredDataComponent implements OnInit {
       if(this.structuredDataItemsList.length == 0){
         this.noItems = true;
         this.enableSearchBlock = false;
+        this.inlineManual.openHelp('ADD_STRUCTURED_DATA_LANDING')
       }
       else{
         this.enableSearchBlock = true;
+        this.inlineManual.openHelp('STRUCTURED_DATA_WALKTHROUGH')
       }
     }, errRes => {
       console.log("error", errRes);
@@ -308,6 +312,9 @@ export class StructuredDataComponent implements OnInit {
     this.selectedSourceType = this.availableSources.find((s) =>{ if(s.resourceType === key){ return s}});
     console.log("this.selectedSourceType", this.selectedSourceType);
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
+    if(this.selectedSourceType.id == "contentStucturedDataImport"){
+      this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA');
+    }
   }
 
   cancleSourceAddition(event?) {
