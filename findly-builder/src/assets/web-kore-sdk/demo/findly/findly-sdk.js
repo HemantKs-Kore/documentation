@@ -3177,7 +3177,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('#live-search-result-box').hide();
               $('#frequently-searched-box').hide();
               $('#loaderDIV').hide();
-              $(".content-data-sec").scrollTop(0);
+              $(".content-data-sec").scrollTop(2);
             }
             //_self.pubSub.publish('sa-full-data-search', { });
 
@@ -4916,9 +4916,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           console.log(responseObject);
           _self.parentEvent(responseObject);
           setTimeout(function () {
-            $('.query_analytics_content').css('top', event.pageY-50);
-            $('.query_analytics_content').css('left', event.pageX-178-event.offsetX);
-          }, 50);
+            $('.query_analytics_content').css('top', event.pageY - 50);
+            $('.query_analytics_content').css('left', event.pageX - 178 - event.offsetX);
+            $(document).on('click', function (event) {
+              if (!($(event.target).closest('.query_analytics_content').length)) {
+                $('.query_analytics_content').hide();
+              }
+            });
+          }, 100);
   
         }
         /*$('.custom-header-container-left').css('visibility', 'visible');
@@ -20124,7 +20129,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           setTimeout(function () {
             $('.query_analytics_content').css('top', event.pageY-50);
             $('.query_analytics_content').css('left', event.pageX-200-event.offsetX);
-        }, 50);
+            $(document).on('click', function (event) {
+              if (!($(event.target).closest('.query_analytics_content').length)) {
+                $('.query_analytics_content').hide();
+              }
+            });
+        }, 100);
         }
       })
     }
