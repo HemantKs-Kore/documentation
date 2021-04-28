@@ -109,7 +109,7 @@ export class AppSelectionService {
     let previOusState: any = null;
     try {
       previOusState = JSON.parse(window.localStorage.getItem('krPreviousState'));
-      this.currentsubscriptionPlan(previOusState.selectedApp);
+      this.getCurrentSubscriptionData();
     } catch (e) {
     }
     return previOusState;
@@ -157,7 +157,7 @@ export class AppSelectionService {
     });
   }
   openApp(app) {
-    this.currentsubscriptionPlan(app._id)
+    //this.currentsubscriptionPlan(app._id)
     this.workflowService.selectedQueryPipeline([]);
     this.workflowService.appQueryPipelines({});
     this.setAppWorkFlowData(app);
@@ -171,17 +171,34 @@ export class AppSelectionService {
     this.router.navigate(['/summary'], { skipLocationChange: true });
     //this.routeChanged.next({ name: undefined, path: '' });
   }
-  currentsubscriptionPlan(id) {
-    const payload = {
-      streamId: id
-    };
-    const appObserver = this.service.invoke('get.currentPlans', payload);
-    appObserver.subscribe(res => {
-      this.currentsubscriptionPlanDetails = res;
-      this.currentSubscription.next(res);
-    }, errRes => {
-      this.errorToaster(errRes, 'failed to get plans');
-    });
+  // currentsubscriptionPlan(id) {
+  //   const payload = {
+  //     streamId: id
+  //   };
+  //   const appObserver = this.service.invoke('get.currentPlans', payload);
+  //   appObserver.subscribe(res => {
+  //     this.currentsubscriptionPlanDetails = res;
+  //     this.currentSubscription.next(res);
+  //   }, errRes => {
+  //     this.errorToaster(errRes, 'failed to get plans');
+  //   });
+  // }
+  //get current subscription data
+  getCurrentSubscriptionData() {
+    const data = this.workflowService.selectedApp();
+    if (data != undefined) {
+      console.log("data get data", data);
+      const payload = {
+        streamId: data._id
+      };
+      const appObserver = this.service.invoke('get.currentPlans', payload);
+      appObserver.subscribe(res => {
+        this.currentsubscriptionPlanDetails = res;
+        this.currentSubscription.next(res);
+      }, errRes => {
+        this.errorToaster(errRes, 'failed to get plans');
+      });
+    }
   }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {

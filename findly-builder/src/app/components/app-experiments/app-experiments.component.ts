@@ -65,18 +65,13 @@ export class AppExperimentsComponent implements OnInit {
   test = 33.33;
   loadingContent1: boolean;
   currentSubscriptionPlan: any;
-  ngOnInit(): void {
+  currentSubsciptionData: Subscription;
+  async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.currentsubscriptionPlan(this.selectedApp)
-  }
-  //get current subscription data
-  currentsubscriptionPlan(app) {
-    const payload = {
-      streamId: app._id
-    };
-    const appObserver = this.service.invoke('get.currentPlans', payload);
-    appObserver.subscribe(res => {
+    //this.currentsubscriptionPlan(this.selectedApp)
+    await this.appSelectionService.getCurrentSubscriptionData();
+    this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.currentSubscriptionPlan = res.subscription;
       if (this.currentSubscriptionPlan.planId != 'fp_free') {
         this.getExperiments();
@@ -86,10 +81,28 @@ export class AppExperimentsComponent implements OnInit {
       else if (this.currentSubscriptionPlan.planId == 'fp_free') {
         this.loadingContent1 = true;
       }
-    }, errRes => {
-      console.log('failed to get plans');
-    });
+    })
   }
+  //get current subscription data
+  // currentsubscriptionPlan(app) {
+  //   const payload = {
+  //     streamId: app._id
+  //   };
+  //   const appObserver = this.service.invoke('get.currentPlans', payload);
+  //   appObserver.subscribe(res => {
+  //     this.currentSubscriptionPlan = res.subscription;
+  //     if (this.currentSubscriptionPlan.planId != 'fp_free') {
+  //       this.getExperiments();
+  //       this.setSliderDefaults();
+  //       this.getIndexPipeline();
+  //     }
+  //     else if (this.currentSubscriptionPlan.planId == 'fp_free') {
+  //       this.loadingContent1 = true;
+  //     }
+  //   }, errRes => {
+  //     console.log('failed to get plans');
+  //   });
+  // }
   loadImageText: boolean = false;
   imageLoaded() {
     this.loadingContent = false;

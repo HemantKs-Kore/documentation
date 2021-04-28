@@ -5,9 +5,10 @@
 
 <div class="pricing-container-wrapper">
   <div class="row card-plans justify-content-between">
-    <div class="col-12 title-header">Plan Details
-      <button class="kr-sg-button-primary btn_lg" *ngIf="showUpgradeBtn" (click)="compare('choosePlans',currentSubscriptionPlan.subscription)">Upgrade</button>
-    </div>
+    <div class="title-header col-12">
+      <div class="col-11">Plan Details</div>
+      <button class="kr-sg-button-primary btn_lg col-1" *ngIf="showUpgradeBtn" (click)="currentSubscriptionPlan.subscription.changesScheduledFor=='none'?compare('choosePlans',currentSubscriptionPlan.subscription):revertCancel()">{{currentSubscriptionPlan.subscription.changesScheduledFor=='none'?'Upgrade':'Revert Cancellation'}}</button>
+      </div>    
   </div>
   <perfect-scrollbar class="pricing-scroll">
     <div class="pricing-details-main-sec">
@@ -15,7 +16,7 @@
             <div class="col-6 current-plan">
               <div class="inner-content">
                 <div class="title">Current Subscription Plan</div>
-                <div class="kr-sg-dropdowns">                
+                <div class="kr-sg-dropdowns" [hidden]="currentSubscriptionPlan&&currentSubscriptionPlan.subscription.changesScheduledFor=='cancel'">                
                   <div class="dropdown dropdown-open">
                       <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/pricing/overflow.svg"></button>                                            
                       <ul class="dropdown-menu content-menu" *ngIf="currentSubscriptionPlan">                                                                    
@@ -31,8 +32,8 @@
                     <div class="amount" *ngIf="currentSubscriptionPlan.subscription.planName != 'Free'">${{currentSubscriptionPlan.subscription.planAmount}}<span>/ month</span></div>
                   </div>
                   <div class="plan-time">
-                    <div class="started-title">Started On</div>
-                    <div class="started-date">{{ currentSubscriptionPlan.subscription.planName.createdAt | date: 'DD/MMM/YYYY' || '18 April 2021'}}</div>
+                    <div class="started-title">{{currentSubscriptionPlan.subscription.planName=='Free'?'Started On':currentSubscriptionPlan.subscription.changesScheduledFor=='none'?'Renewal Date':'Valid till'}}</div>
+                    <div class="started-date">{{ currentSubscriptionPlan.subscription.createdAt | date}}</div>
                   </div>
                 </div>
               </div>

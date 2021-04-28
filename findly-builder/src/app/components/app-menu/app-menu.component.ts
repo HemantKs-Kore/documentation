@@ -340,10 +340,11 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       return false;
     }
   }
-  ngOnInit() {
+  async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     // this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     // Multiple INdex hardcoded
+    await this.appSelectionService.getCurrentSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.showUpgrade = res.subscription.planId == 'fp_free' ? true : false;
     })

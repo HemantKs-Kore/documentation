@@ -1,7 +1,7 @@
 <!--choose plan popup-->
 <kr-modal modalType="center" modalClass="modal_popups_ chooseplan-price" #choosePlanModel>
     <div class="modal-header">
-      <div class="title">Choose Plan</div>
+      <div class="title">Choose Plan <button (click)="openChangePlanModel()">test</button></div>
       <div class="d-flex align-items-center justify-content-end">
         <div class="btn-monthly"  [ngClass]="{'active-btn' : termPlan == 'Monthly'}" (click)="typeOfPlan('Monthly')">Monthly</div>
         <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'Yearly' }" (click)="typeOfPlan('Yearly')">Annually</div>
@@ -27,7 +27,7 @@
                   <div class="card-desc" *ngFor="let info of plan.featureData" [hidden]="!(info.displayOnBanner)">{{info.displayText}}</div>
                   <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
               </div>
-              <div class="goto_details" (click)="showPlanDetails = plan.name">Go to Details</div>
+              <div class="goto_details" (click)="gotoDetails(plan.name)">Go to Details</div>
             </div>
           </div>
         </div>
@@ -136,7 +136,7 @@
           <div class="title col-9">PLAN</div>
           <div class="title col-3">AMOUNT</div>
         </div>
-        <div class="order-confirmation-table-body row col-12 m-0"  *ngIf="!overageData.overageShow">
+         <div class="order-confirmation-table-body row col-12 m-0"  *ngIf="!overageData.overageShow">
           <div class="col-9 plan_details">
             <div class="plan-type">{{orderConfirmData.name}} Subscription</div>
             <div class="btn-monthly"  [ngClass]="{'active-btn' : orderConfirmData.billingUnit == 'Monthly'}" (click)="choosePlanType('Monthly')">Monthly</div>
@@ -145,7 +145,7 @@
 
           <div class="amount col-3">$ {{orderConfirmData.planAmount}}</div>
         </div>
-        <div class="order-confirmation-table-body row col-12 m-0"  *ngIf="overageData&&overageData.overageShow&&overageData.overageDeatils">            
+         <div class="order-confirmation-table-body row col-12 m-0"  *ngIf="overageData&&overageData.overageShow&&overageData.overageDeatils">            
           <ng-container *ngIf="overageData.docCount>=1">
             <div class="col-9 plan_details">
               <div class="plan-type">Document Overage</div>
@@ -236,4 +236,37 @@
   <!-- <div class="modal-footer text-right">
     <button class="kr-sg-button-primary btn_lg" (click)="closePopup2()">Done</button>     
   </div> -->
+</kr-modal>
+
+<!--change plan/excess data show popup-->
+<kr-modal modalType="center" modalClass="modal_popups_ order-confirmation" #changePlanModel>
+  <div class="modal-header">
+    <div class="title">Change Plan</div>
+    <div class="close_icon"><img (click)="closeChangePlanModel()" src="assets/icons/modal-close.svg"></div>
+  </div>
+  <perfect-scrollbar>
+    <div class="modal-body">
+      <div class="plan-desc">You are Subscribing to Pro. Please find the order summary below.</div>
+      <div class="order-confirmation-table">
+        <div class="order-confirmation-table-header row col-12 m-0">
+          <div class="title col-9">PLAN</div>
+          <div class="title col-3">AMOUNT</div>
+        </div>
+        <div class="order-confirmation-table-body row col-12 m-0">
+          <div class="col-9 plan_details">
+            <div class="plan-type"> Subscription</div>
+          </div>            
+
+          <div class="amount col-3">$10</div>
+        </div>
+        <div class="order-confirmation-table-body row col-12 m-0">
+          <div class="col-9 total-amount text-right">Total Amount</div>
+          <div class="amount col-3">$ 10</div>
+        </div>
+      </div>
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer text-right">
+    <button class="kr-sg-button-primary btn_lg" (click)="closeChangePlanModel()">Okay</button>
+  </div>
 </kr-modal>

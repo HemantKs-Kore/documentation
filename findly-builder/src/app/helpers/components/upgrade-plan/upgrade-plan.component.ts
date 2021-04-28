@@ -8,7 +8,8 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { AuthService } from '@kore.services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
-
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+declare const $: any;
 @Component({
   selector: 'app-upgrade-plan',
   templateUrl: './upgrade-plan.component.html',
@@ -19,6 +20,7 @@ export class UpgradePlanComponent implements OnInit {
   choosePlanModalPopRef: any;
   paymentGatewayModelPopRef: any;
   successFailureModelPopRef: any;
+  changePlanModelPopRef: any;
   termPlan = "Monthly";
   totalPlansData: any;
   filterPlansData: any;
@@ -63,7 +65,9 @@ export class UpgradePlanComponent implements OnInit {
   @ViewChild('addPricingModel5') addPricingModel5: KRModalComponent;
   @ViewChild('paymentGatewayModel') paymentGatewayModel: KRModalComponent;
   @ViewChild('successFailureModel') successFailureModel: KRModalComponent;
+  @ViewChild('changePlanModel') changePlanModel: KRModalComponent;
   @Output() overageModel = new EventEmitter<string>();
+  @ViewChild(PerfectScrollbarComponent) public directiveScroll: PerfectScrollbarComponent;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -140,6 +144,16 @@ export class UpgradePlanComponent implements OnInit {
       this.orderConfirmModelPopRef.close();
     }
   }
+  //open changePlanModel popup
+  openChangePlanModel() {
+    this.changePlanModelPopRef = this.changePlanModel.open();
+  }
+  //close changePlanModel popup
+  closeChangePlanModel() {
+    if (this.changePlanModelPopRef && this.changePlanModelPopRef.close) {
+      this.changePlanModelPopRef.close();
+    }
+  }
   //open popup1
   openChoosePlanPopup(data?) {
     this.selectedPlan = data;
@@ -186,11 +200,9 @@ export class UpgradePlanComponent implements OnInit {
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });
-
     this.closeChoosePlanPopup();
     this.closeOrderConfPopup();
     this.paymentGatewayModelPopRef = this.paymentGatewayModel.open();
-
   }
   //payment plan for upgrade/downgrade
   paymentPlan(show) {
@@ -229,6 +241,7 @@ export class UpgradePlanComponent implements OnInit {
     this.payementSuccess = state
     this.closePaymentGatewayPopup();
     this.successFailureModelPopRef = this.successFailureModel.open();
+    this.appSelectionService.getCurrentSubscriptionData();
   }
   //close payment success/failure popup
   closeSuccessFailurePopup() {
@@ -309,8 +322,16 @@ export class UpgradePlanComponent implements OnInit {
       this.overageData = {};
       this.overageModel.emit();
       this.closeOrderConfPopup();
+      this.openSuccessFailurePopup(true);
     }, errRes => {
       this.errorToaster(errRes, 'failed buy overage');
     });
+  }
+  //gotoDetails
+  gotoDetails(name) {
+    this.showPlanDetails = name;
+    setTimeout(() => {
+      this.directiveScroll.directiveRef.scrollTo(420)
+    }, 500)
   }
 }
