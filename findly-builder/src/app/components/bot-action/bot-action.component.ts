@@ -17,6 +17,8 @@ declare const $: any;
   styleUrls: ['./bot-action.component.scss']
 })
 export class BotActionComponent implements OnInit {
+  enableBtnDisable = false;
+  disableBtnDisable = false;
   loadingContent = true;
   selectedApp: any;
   searchIndexId: any;
@@ -94,7 +96,7 @@ export class BotActionComponent implements OnInit {
       }
       $('#selectAllTasks')[0].checked = false;
     }
-    const element = $('#' + task._id);
+    const element = $('#cx' + task._id);
     const addition =  element[0].checked
     this.addRemoveTasksFromSelection(task._id,addition);
   }
@@ -109,7 +111,7 @@ export class BotActionComponent implements OnInit {
       $.each(allTasks, (index,element) => {
         if($(element) && $(element).length){
           $(element)[0].checked = unselectAll?false: this.selcectionObj.selectAll;
-          const facetId = $(element)[0].id
+          const facetId = $(element)[0].name;
           this.addRemoveTasksFromSelection(facetId,$(element)[0].checked);
         }
       });
@@ -1005,13 +1007,22 @@ export class BotActionComponent implements OnInit {
               element.type = element.type ?? "Dialog";
               this.linkedBotTasks.push(element);
             }
+            let index = requestBody['tasks'].findIndex((d)=> d._id == element._id)
+            if(index>-1){
+              const ele = $('#cx' + element._id);
+              const addition =  ele[0].checked
+            }
+              
+            
           });
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
           this.notificationService.notify("Task Enabled, Successfully", 'success');
-          this.selcectionObj = {
-            selectAll: false,
-            selectedItems:[]
-          };
+          // this.selcectionObj = {
+          //   selectAll: false,
+          //   selectedItems:[]
+          // };
+          this.enableBtnDisable = true;
+          this.disableBtnDisable = false;
         }
       },
         (err) => { this.notificationService.notify("Task Enabling Failed", 'error') });
@@ -1126,13 +1137,21 @@ export class BotActionComponent implements OnInit {
               element.type = element.type ?? "Dialog";
               this.linkedBotTasks.push(element);
             }
+            let index = requestBody['tasks'].findIndex((d)=> d._id == element._id)
+            if(index>-1){
+              const ele = $('#cx' + element._id);
+              const addition =  ele[0].checked
+            }
           });
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
           this.notificationService.notify("Task Disabled, Successfuly", 'success')
-          this.selcectionObj = {
-            selectAll: false,
-            selectedItems:[]
-          };
+          // this.selcectionObj = {
+          //   selectAll: false,
+          //   selectedItems:[]
+          // };
+          this.enableBtnDisable = false;
+          this.disableBtnDisable = true;
+
         }
       }, (err) => { this.notificationService.notify("Task Disabling Failed", 'error') })
     }
