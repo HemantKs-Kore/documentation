@@ -191,6 +191,12 @@
                     justify-content: flex-end;
                     .kr-sg-input-search{
                         width: 250px;
+                        .close-icon {
+                            position: absolute;
+                            right: 11px;
+                            top: 12px;
+                            cursor: pointer;
+                        }
                     }
                     .seach-block-name{
                         display: flex;
@@ -244,6 +250,15 @@
                 box-sizing: border-box;
                 border-radius: 4px;
                 align-items: center;
+                &.checked-item{
+                    .checkbox-info-data{
+                        .kr-sg-checkbox{
+                            &.checkbox-for-all{
+                                visibility: visible !important;
+                            }
+                        }
+                    }
+                }
                 &:hover{
                     .checkbox-info-data{
                         .kr-sg-checkbox{
@@ -270,12 +285,16 @@
                             font-size: 12px;
                             line-height: 20px;
                         }
+                        .kg-gray-text{
+                            color: #828282 !important;
+                        }
                         .secondary-title{
                             font-weight: normal;
                             font-size: 10px;
                             line-height: 20px;
                             color: #828282;
                         }
+
                     }
                 }
                 .task-type{
