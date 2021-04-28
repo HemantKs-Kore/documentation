@@ -933,6 +933,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/invoices?skip=:skip&limit=:limit',
       method: 'get'
     }
+    this.serviceList['get.allUsageLogs'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/usageLog?skip=:skip&limit=:limit',
+      method: 'get'
+    }
     this.serviceList['put.buyOverage'] = {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/:subscriptionId/overage',
       method: 'put'
