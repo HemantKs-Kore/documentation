@@ -520,10 +520,10 @@ export class BotActionComponent implements OnInit {
         this.getAssociatedBots();
         this.workflowService.linkBot(botID);
         this.workflowService.smallTalkEnable(res.stEnabled);
-        this.notificationService.notify("Bot linked, successfully", 'success')
+        this.notificationService.notify("Bot Linked Successfully", 'success')
       },
         (err) => {
-           console.log(err); this.notificationService.notify("Bot linking, unsuccessful", 'error') 
+           console.log(err); this.notificationService.notify("Bot linking  Unsuccessful", 'error') 
         this.loadingContent = false;
 
       }
@@ -641,7 +641,7 @@ export class BotActionComponent implements OnInit {
 
     this.service.invoke('universal.publish', queryParams, payload).subscribe(
       res => {
-        this.notificationService.notify('Universal Published', 'success');
+        // this.notificationService.notify('Universal Published', 'success');
        // console.log(res);
       },
       errRes => {
@@ -720,7 +720,8 @@ export class BotActionComponent implements OnInit {
 
         //this.getAssociatedBots();
         //this.getAssociatedTasks(this.streamId);
-        this.notificationService.notify("Bot unlinked, successfully. Please publish to reflect", 'success');
+        this.notificationService.notify("Bot Unlinked Successfully.", 'success')
+        // this.notificationService.notify("Bot unlinked Successfully. Please publish to reflect", 'success');
         
       },
         (err) => { 
@@ -798,12 +799,13 @@ export class BotActionComponent implements OnInit {
         this.getAssociatedTasks(this.streamId);
         this.workflowService.linkBot('');
         this.syncLinkedBot();
+        this.notificationService.notify("Bot Unlinked Successfully.", 'success')
 
-        this.notificationService.notify("Bot unlinked, successfully. Please publish to reflect", 'success');
+        // this.notificationService.notify("Bot unlinked, successfully. Please publish to reflect", 'success');
         
       },
         (err) => { 
-          console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error'); 
+          console.log(err); this.notificationService.notify("Bot unlinking Successfully", 'error'); 
           this.loadingContent = false;
           //this.getAssociatedTasks(this.streamId);
         }
@@ -942,7 +944,7 @@ export class BotActionComponent implements OnInit {
             $("#enableOrDisable").prop('checked', true);
           }
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
-          this.notificationService.notify("Task Enabled, Successfully", 'success');
+          this.notificationService.notify("Task Enabled Successfully", 'success');
         }
       },
         (err) => { this.notificationService.notify("Task Enabling Failed", 'error') });
@@ -1016,7 +1018,7 @@ export class BotActionComponent implements OnInit {
             
           });
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
-          this.notificationService.notify("Task Enabled, Successfully", 'success');
+          this.notificationService.notify("Task Enabled Successfully", 'success');
           // this.selcectionObj = {
           //   selectAll: false,
           //   selectedItems:[]
@@ -1077,7 +1079,7 @@ export class BotActionComponent implements OnInit {
             $("#enableOrDisable").prop('checked', true);
           }
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
-          this.notificationService.notify("Task Disabled, Successfuly", 'success')
+          this.notificationService.notify("Task Disabled Successfuly", 'success')
         }
       }, (err) => { this.notificationService.notify("Task Disabling Failed", 'error') })
     }
@@ -1144,7 +1146,7 @@ export class BotActionComponent implements OnInit {
             }
           });
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
-          this.notificationService.notify("Task Disabled, Successfuly", 'success')
+          this.notificationService.notify("Task Disabled Successfuly", 'success')
           // this.selcectionObj = {
           //   selectAll: false,
           //   selectedItems:[]
@@ -1194,7 +1196,7 @@ export class BotActionComponent implements OnInit {
         else {
           this.linkedBotFAQs = [];
         }
-        this.notificationService.notify("Linked Bot Synced, Successfully", 'success')
+        // this.notificationService.notify("Linked Bot Synced, Successfully", 'success')
       })
     }
   }

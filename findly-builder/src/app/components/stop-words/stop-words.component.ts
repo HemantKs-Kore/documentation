@@ -223,10 +223,10 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       panelClass: 'delete-popup',
       data: {
         title: 'Restore Stop Words',
-        text: 'Are you sure you want to restore Stop Words?',
-        newTitle:'Are you sure you want to restore ?',
+        text: 'Are you sure you want to reset Stop Words?',
+        newTitle:'Are you sure you want to reset ?',
         body:'Stop words will be reset to system-defined values.',
-        buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Reset'}, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
     });

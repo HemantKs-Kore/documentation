@@ -1070,6 +1070,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     if (valToSearch === this.selectedFilter) {
       this.getSourceList();
       this.selectedFilter = '';
+      this.searchSources = '';
       return;
     }
     if (valToSearch) {

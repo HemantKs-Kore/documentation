@@ -5,9 +5,14 @@
 export const environment = {
   production: false,
   tag: 'dev',
+<<<<<<< HEAD
   API_SERVER_URL: 'https://app.findly.ai',
   USE_SESSION_STORE: false,
   INLINE_MANUAL_SITE_KEY :"1ec224ee46620656a9b18a17c80587a3"
+=======
+  API_SERVER_URL: 'https://qa.findly.ai',
+  USE_SESSION_STORE: false
+>>>>>>> 7b53f46bec3546066aa294284799296905b023fa
   // API_SERVER_URL: 'http://192.168.10.101:5000'
 };
 

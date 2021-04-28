@@ -445,7 +445,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     payload.fieldId = this.selectedField._id;
     payload.isFacetActive = this.addEditFacetObj.isFacetActive || false;
     this.service.invoke('create.facet', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Facet Added Successfully', 'success');
+      this.notificationService.notify('Added Successfully', 'success');
       if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) }
       this.facets.push(res);
       this.closeModal();
@@ -467,7 +467,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       delete payload.fieldName;
     }
     this.service.invoke('update.facet', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Facet Updated Successfully', 'success');
+      this.notificationService.notify('Updated Successfully', 'success');
       this.getFacts();
       this.closeModal();
       this.addEditFacetObj = null;
@@ -547,7 +547,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.facets.splice(deleteIndex, 1);
       dialogRef.close();
       this.closeModal();
-      this.notificationService.notify('Facet Deleted Successfully', 'success');
+      this.notificationService.notify('Deleted Successfully', 'success');
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to delete facet');

@@ -628,6 +628,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
             this.getcustomizeList(20, 0);
             this.actionLogData = [];
             this.customizeList = [];
+            this.notificationService.notify('Reset Successful', 'success');
             dialogRef.close();
           }, errRes => {
             if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
