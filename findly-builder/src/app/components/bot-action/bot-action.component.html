@@ -1,4 +1,4 @@
-<div class="botContainer">
+<div class="botContainer d-none">
   <div class="mainLoadingSpinner" *ngIf="loadingContent">
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">Please Wait!</span>
@@ -245,7 +245,7 @@
 
 </div>
 
-<kr-modal modalType="center" modalClass="linkExistingBotsModal" #botsModalElement>
+<!-- <kr-modal modalType="center" modalClass="linkExistingBotsModal" #botsModalElement>
   <div class="modal-header">
     <span class="header-title">Link Bot</span>
     <button class="button-close" (click)="closeBotsModalElement()">&times;</button>
@@ -307,4 +307,402 @@
     <button class="kr-sg-button-primary btn_lg" (click)="closeBotsModalElement()">Save</button>
     <button class="kr-sg-button-secondary btn_lg" (click)="closeBotsModalElement()">Cancel</button>
   </div>
+</kr-modal> -->
+
+
+
+<div class="bot-actions-container">
+
+  <div class="mainLoadingSpinner" *ngIf="loadingContent">
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">Please Wait!</span>
+  </div>
+
+
+  <div class="header-sec col-12 row m-0">
+    <div class="col-4 p-0 title-header">Bot Actions</div>
+    <div class="col-8 right-sec p-0">
+      <div *ngIf="linkedBotID" class="view-all-bots" (click)="openBotsModalElement()">View All Bots</div>
+      <div class="clock"><img src="assets/icons/clock.svg"></div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="false">
+    <div class="empty-bot-actions">
+      <div class="img-block">
+        <img src="assets/icons/actions/empty-actions.svg">
+      </div>
+      <div class="title">You haven’t linked any bot yet!</div>
+      <div class="desc-text">Fortunately, it is very easy to link one by clicking on the button below.</div>
+      <button class="kr-sg-button-primary btn_lg">Link a Bot</button>
+    </div>
+  </ng-container>
+
+
+
+  <ng-container *ngIf="true">
+    <div class="linked-bot-data">
+      <div class="box-content-linked row col-12">
+        <div class="left-sec col-8">
+          <div class="img-block">
+            <img src="assets/icons/actions/bot-icon.svg">
+          </div>
+          <div class="content-sec">
+            <div class="bot-name-sec">
+              Bot Name: <span class="bot-name-title">Banking Bot</span>
+            </div>
+            <div class="bot-desc">Perform banking related activities</div>
+            <div class="bot_type">Universal Bot</div>
+          </div>
+        </div>
+        <div class="righ-sec col-4">
+          <div class="sync-btn">
+            <img src="assets/icons/actions/sync.svg">Sync
+          </div>
+          <div class="unlink-btn">
+            <img src="assets/icons/actions/unlink.svg">Unlink
+          </div>
+        </div>
+      </div>      
+    </div>
+  
+    <div class="task-list-data">
+      <div class="header-sec-tab-checked">
+          <div class="tab-sec-task row col-12">
+            <div class="tab-name col-6">
+              <div class="name-task">Tasks(5)</div>
+            </div>
+            <div class="col-6 search-block">
+              <div class="kr-sg-input-search d-none">
+                <input type="text" placeholder="Search" class="input-search" autocomplete="off">
+                <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchTasks">
+                <img class="close-icon" *ngIf="searchTasks" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchTasks}" (click)="searchTasks='';toggleSearch(false)">
+             </div>
+             <div class="seach-block-name">
+                <img src="assets/icons/search.svg">{{'search' | translate}}
+              </div>
+            </div>
+          </div>
+          <div class="checked-list-data row col-12 d-none">
+            <div class="col-6 checkbox-data">
+              <div class="kr-sg-checkbox checkbox-for-all m-0 p-0">
+                <input id="checkbox_grpg" class="checkbox-custom" type="checkbox">
+                <label for="checkbox_grpg" class="checkbox-custom-label">
+                  <span class="selected-count">3 Tasks Selected</span>
+                </label>
+              </div>
+              <div class="checkbox-partial-selected d-none">              
+                <img src="assets/icons/resultranking/selected-checkbox.svg" class="icon-all-selected">
+                <span class="label-text">3 Tasks Selected</span>
+              </div>
+            </div>
+            <div class="col-6 btn-actions text-right">
+              <button class="kr-sg-button-primary btn_lg mr-3">Enable</button>
+              <button class="kr-sg-button-danger btn_lg">Disable</button>
+            </div>
+          </div>
+      </div>
+  
+      <perfect-scrollbar class="scroll-task-data">
+        <div class="table-body-content-task">
+          <div class="data-container-sec row col-12">
+              <div class="checkbox-info-data col-5">
+                <div class="kr-sg-checkbox checkbox-for-all m-0 p-0">
+                  <input id="checkbox_grpgw" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox_grpgw" class="checkbox-custom-label">
+                    <span class="selected-count"></span>
+                  </label>
+                </div>
+                <div class="content-sec">
+                    <div class="primary-title">Get 3 Day Spendings</div>
+                    <div class="secondary-title">This bot shows the transactions occurred in past 3 days</div>
+                </div>
+              </div>
+              <div class="col-2 task-type">Dialog Task</div>
+              <div class="col-1 enable-title">Disabled</div>
+              <div class="views-clicks-data col-4">
+                  <div class="clicks-view-info">
+                    <img src="assets/icons/actions/views.svg">872 Views
+                  </div>
+                  <div class="clicks-view-info">
+                    <img src="assets/icons/actions/clicks.svg">764 Clicks
+                  </div>
+                  <div class="kr-sg-dropdowns add elipse-action-dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                    <div class="dropdown dropdown-open">
+                        <div class="linked-task-status-control" ngbDropdownToggle>
+                            <img src="assets/icons/elipse.svg">
+                        </div>                      
+                        <ul class="dropdown-menu content-menu faq-filter-add pt-0 pb-0" ngbDropdownMenu>                          
+                            <li>Enable Task</li>
+                        </ul>
+                    </div>
+                </div> 
+              </div>
+          </div>
+          <div class="data-container-sec row col-12">
+            <div class="checkbox-info-data col-5">
+              <div class="kr-sg-checkbox checkbox-for-all m-0 p-0">
+                <input id="checkbox_grpgw" class="checkbox-custom" type="checkbox">
+                <label for="checkbox_grpgw" class="checkbox-custom-label">
+                  <span class="selected-count"></span>
+                </label>
+              </div>
+              <div class="content-sec">
+                  <div class="primary-title">Get 3 Day Spendings</div>
+                  <div class="secondary-title">This bot shows the transactions occurred in past 3 days</div>
+              </div>
+            </div>
+            <div class="col-2 task-type">Dialog Task</div>
+            <div class="col-1 enable-title">Disabled</div>
+            <div class="views-clicks-data col-4">
+                <div class="clicks-view-info">
+                  <img src="assets/icons/actions/views.svg">872 Views
+                </div>
+                <div class="clicks-view-info">
+                  <img src="assets/icons/actions/clicks.svg">764 Clicks
+                </div>
+                <div class="kr-sg-dropdowns add elipse-action-dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                  <div class="dropdown dropdown-open">
+                      <div class="linked-task-status-control" ngbDropdownToggle>
+                          <img src="assets/icons/elipse.svg">
+                      </div>                      
+                      <ul class="dropdown-menu content-menu faq-filter-add pt-0 pb-0" ngbDropdownMenu>                          
+                          <li>Enable Task</li>
+                      </ul>
+                  </div>
+              </div> 
+            </div>
+          </div>   
+          <div class="data-container-sec row col-12">
+            <div class="checkbox-info-data col-5">
+              <div class="kr-sg-checkbox checkbox-for-all m-0 p-0">
+                <input id="checkbox_grpgw" class="checkbox-custom" type="checkbox">
+                <label for="checkbox_grpgw" class="checkbox-custom-label">
+                  <span class="selected-count"></span>
+                </label>
+              </div>
+              <div class="content-sec">
+                  <div class="primary-title">Get 3 Day Spendings</div>
+                  <div class="secondary-title">This bot shows the transactions occurred in past 3 days</div>
+              </div>
+            </div>
+            <div class="col-2 task-type">Dialog Task</div>
+            <div class="col-1 enable-title">Disabled</div>
+            <div class="views-clicks-data col-4">
+                <div class="clicks-view-info">
+                  <img src="assets/icons/actions/views.svg">872 Views
+                </div>
+                <div class="clicks-view-info">
+                  <img src="assets/icons/actions/clicks.svg">764 Clicks
+                </div>
+                <div class="kr-sg-dropdowns add elipse-action-dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                  <div class="dropdown dropdown-open">
+                      <div class="linked-task-status-control" ngbDropdownToggle>
+                          <img src="assets/icons/elipse.svg">
+                      </div>                      
+                      <ul class="dropdown-menu content-menu faq-filter-add pt-0 pb-0" ngbDropdownMenu>                          
+                          <li>Enable Task</li>
+                      </ul>
+                  </div>
+              </div> 
+            </div>
+          </div>         
+          <div class="data-container-sec row col-12">
+            <div class="checkbox-info-data col-5">
+              <div class="kr-sg-checkbox checkbox-for-all m-0 p-0">
+                <input id="checkbox_grpgw" class="checkbox-custom" type="checkbox">
+                <label for="checkbox_grpgw" class="checkbox-custom-label">
+                  <span class="selected-count"></span>
+                </label>
+              </div>
+              <div class="content-sec">
+                  <div class="primary-title">Get 3 Day Spendings</div>
+                  <div class="secondary-title">This bot shows the transactions occurred in past 3 days</div>
+              </div>
+            </div>
+            <div class="col-2 task-type">Dialog Task</div>
+            <div class="col-1 enable-title">Disabled</div>
+            <div class="views-clicks-data col-4">
+                <div class="clicks-view-info">
+                  <img src="assets/icons/actions/views.svg">872 Views
+                </div>
+                <div class="clicks-view-info">
+                  <img src="assets/icons/actions/clicks.svg">764 Clicks
+                </div>
+                <div class="kr-sg-dropdowns add elipse-action-dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                  <div class="dropdown dropdown-open">
+                      <div class="linked-task-status-control" ngbDropdownToggle>
+                          <img src="assets/icons/elipse.svg">
+                      </div>                      
+                      <ul class="dropdown-menu content-menu faq-filter-add pt-0 pb-0" ngbDropdownMenu>                          
+                          <li>Enable Task</li>
+                      </ul>
+                  </div>
+              </div> 
+            </div>
+          </div>
+          <div class="data-container-sec row col-12">
+            <div class="checkbox-info-data col-5">
+              <div class="kr-sg-checkbox checkbox-for-all m-0 p-0">
+                <input id="checkbox_grpgw" class="checkbox-custom" type="checkbox">
+                <label for="checkbox_grpgw" class="checkbox-custom-label">
+                  <span class="selected-count"></span>
+                </label>
+              </div>
+              <div class="content-sec">
+                  <div class="primary-title">Get 3 Day Spendings</div>
+                  <div class="secondary-title">This bot shows the transactions occurred in past 3 days</div>
+              </div>
+            </div>
+            <div class="col-2 task-type">Dialog Task</div>
+            <div class="col-1 enable-title">Disabled</div>
+            <div class="views-clicks-data col-4">
+                <div class="clicks-view-info">
+                  <img src="assets/icons/actions/views.svg">872 Views
+                </div>
+                <div class="clicks-view-info">
+                  <img src="assets/icons/actions/clicks.svg">764 Clicks
+                </div>
+                <div class="kr-sg-dropdowns add elipse-action-dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                  <div class="dropdown dropdown-open">
+                      <div class="linked-task-status-control" ngbDropdownToggle>
+                          <img src="assets/icons/elipse.svg">
+                      </div>                      
+                      <ul class="dropdown-menu content-menu faq-filter-add pt-0 pb-0" ngbDropdownMenu>                          
+                          <li>Enable Task</li>
+                      </ul>
+                  </div>
+              </div> 
+            </div>
+          </div>
+        </div>
+      </perfect-scrollbar>    
+    </div>
+  </ng-container>
+
+</div>
+
+
+<kr-modal modalType="center" #botsModalElement modalClass="modal_popups_ linkExistingBotsModal">
+  <div class="modal-header">
+    <div class="title">Link Bot</div>
+    <div class="close_icon" (click)="closeBotsModalElement()"><img src="assets/icons/modal-close.svg"></div>
+  </div>
+  <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="modal-body">
+        <div class="info-link-text">Choose any bot from the list to link it to your Findly app.</div>
+        <div class="kr-sg-input-text">          
+          <input type="text"placeholder="Search" [(ngModel)]="searchAssociatedBots" name="searchAssociatedBots" class="input-text"> 
+          <img class="search-icon" src="assets/images/search_gray.svg">        
+        </div>
+        <div class="link-bot-table">
+          <div class="table-header col-12 row">
+              <div class="col-6 title">Bot Name</div>
+              <div class="col-6 title">Owner</div>
+          </div>
+          <div class="table-body-link-bot row col-12">
+            <div class="col-6 bot-name-data row m-0">
+              <div class="col-9 name-with-type">
+                Banking Integration Bot <span class="bot-type">Universal Bot</span>
+              </div>
+              <div class="col-3 shares-data">
+                  <img src="assets/icons/actions/shares.svg">65 Tasks
+              </div>
+            </div>
+            <div class="col-2 owner-name">Monica Rossi</div>
+            <div class="col-4 link-bot-actions">
+              <div class="link-bot-btn">
+                <img src="assets/icons/actions/link-bot.svg">Link Bot
+              </div>
+              <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12">
+            </div>
+          </div>
+          <div class="table-body-link-bot row col-12">
+            <div class="col-6 bot-name-data row m-0">
+              <div class="col-9 name-with-type">
+                Banking Integration Bot
+              </div>
+              <div class="col-3 shares-data">
+                  <img src="assets/icons/actions/shares.svg">65 Tasks
+              </div>
+            </div>
+            <div class="col-2 owner-name">Monica Rossi</div>
+            <div class="col-4 link-bot-actions">
+              <div class="link-bot-btn">
+                <img src="assets/icons/actions/link-bot.svg">Link Bot
+              </div>
+              <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12">
+            </div>
+          </div>
+          <div class="table-body-link-bot row col-12">
+            <div class="col-6 bot-name-data row m-0">
+              <div class="col-9 name-with-type">
+                Banking Integration Bot
+              </div>
+              <div class="col-3 shares-data">
+                  <img src="assets/icons/actions/shares.svg">65 Tasks
+              </div>
+            </div>
+            <div class="col-2 owner-name">Monica Rossi</div>
+            <div class="col-4 link-bot-actions">
+              <div class="link-bot-btn">
+                <img src="assets/icons/actions/link-bot.svg">Link Bot
+              </div>
+              <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12">
+            </div>
+          </div>
+          <div class="table-body-link-bot row col-12">
+            <div class="col-6 bot-name-data row m-0">
+              <div class="col-9 name-with-type">
+                Banking Integration Bot
+              </div>
+              <div class="col-3 shares-data">
+                  <img src="assets/icons/actions/shares.svg">65 Tasks
+              </div>
+            </div>
+            <div class="col-2 owner-name">Monica Rossi</div>
+            <div class="col-4 link-bot-actions">
+              <div class="link-bot-btn">
+                <img src="assets/icons/actions/link-bot.svg">Link Bot
+              </div>
+              <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12">
+            </div>
+          </div>
+          <div class="table-body-link-bot row col-12">
+            <div class="col-6 bot-name-data row m-0">
+              <div class="col-9 name-with-type">
+                Banking Integration Bot
+              </div>
+              <div class="col-3 shares-data">
+                  <img src="assets/icons/actions/shares.svg">65 Tasks
+              </div>
+            </div>
+            <div class="col-2 owner-name">Monica Rossi</div>
+            <div class="col-4 link-bot-actions">
+              <div class="link-bot-btn">
+                <img src="assets/icons/actions/link-bot.svg">Link Bot
+              </div>
+              <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12">
+            </div>
+          </div>
+          <div class="table-body-link-bot row col-12">
+            <div class="col-6 bot-name-data row m-0">
+              <div class="col-9 name-with-type">
+                Banking Integration Bot
+              </div>
+              <div class="col-3 shares-data">
+                  <img src="assets/icons/actions/shares.svg">65 Tasks
+              </div>
+            </div>
+            <div class="col-2 owner-name">Monica Rossi</div>
+            <div class="col-4 link-bot-actions">
+              <div class="link-bot-btn">
+                <img src="assets/icons/actions/link-bot.svg">Link Bot
+              </div>
+              <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12">
+            </div>
+          </div>
+        </div>
+    </div>
+  </perfect-scrollbar>
 </kr-modal>
