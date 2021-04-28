@@ -4686,6 +4686,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (_self.vars.countOfSelectedFilters > 1) {
         facetActive = "all results";
+        _self.vars.selectedFacetFromSearch = 'all results';
       }
       else {
         facetActive = $('.facetActive').attr('id');
@@ -4758,6 +4759,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.bindStructuredDataTriggeringOptions();
             }, 100);
           }
+
+          setTimeout(() => {
+            _self.bindCustomizeAction();
+          }, 300);
 
           $('#loaderDIV').hide()
           _self.markSelectedFilters();
@@ -17563,18 +17568,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               console.log("ps-y-reach-end");
               if (_self.vars.scrollPageNumber >= 0) {
                 if (_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 10)) {
-                  $('#loaderDIV').show()
-                  _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
-                  _self.seeAllResultsInifiteScroll();
+                  if(_self.vars.selectedFacetFromSearch && (_self.vars.selectedFacetFromSearch !== 'all results')){
+                    $('#loaderDIV').show()
+                    _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
+                    _self.seeAllResultsInifiteScroll();
+                  }
                 }
               }
             });
             data_body_sec_element.addEventListener('ps-y-reach-start', () => {
               console.log("ps-y-reach-start");
               if (_self.vars.scrollPageNumber > 0) {
-                $('#loaderDIV').show()
-                _self.vars.scrollPageNumber = _self.vars.scrollPageNumber - 1;
-                _self.seeAllResultsInifiteScroll();
+                if(_self.vars.selectedFacetFromSearch && (_self.vars.selectedFacetFromSearch !== 'all results')){
+                  $('#loaderDIV').show()
+                  _self.vars.scrollPageNumber = _self.vars.scrollPageNumber - 1;
+                  _self.seeAllResultsInifiteScroll();
+                }
               }
             });
           }, 100);
@@ -17638,11 +17647,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (_self.vars.customizeView) {
             $('#viewTypePreview').removeClass('nav-link-item-active');
             $('#viewTypeCustomize').addClass('nav-link-item-active');
+            $('.data-body-sec').css('height', 'calc(100vh - 260px)');
           }
           else {
             $(".query-analytics-control-container").hide();
             $('#viewTypePreview').addClass('nav-link-item-active');
             $('#viewTypeCustomize').removeClass('nav-link-item-active');
+            if(_self.vars.selectedFiltersArr && _self.vars.selectedFiltersArr.length > 0){
+              $('.data-body-sec').css('height', 'calc(100vh - 225px)');
+            }
+            else{
+              $('.data-body-sec').css('height', 'calc(100vh - 195px)');
+            }
           }
 
           $('.sdk-customize-nav').off('click').on('click', function (event) {
@@ -18678,7 +18694,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       })
 
-      $('.custom-add-result-container').off('click').on('click', function (event) {
+      $('.custom-add-result-container').off('click', '.link-text').on('click', '.link-text', function (event) {
         console.log(event);
         var structure = 'bottom';
         if ($('body').hasClass('top-down')) {
@@ -18966,15 +18982,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         // else if (actionType === "unpin_added_result"){
           // for every customization, calling search API again to show the results according to customization
-          $('.show-all-results').click();
+          // $('.show-all-results').click();
+          _self.refreshFullResultsPage();
         // }
       },
       (err) => {
         console.log('HTTP Error', err);
         $('#loaderDIV').hide();
-        $('.show-all-results').click();
+        // $('.show-all-results').click();
+        _self.refreshFullResultsPage();
       }
       );
+    }
+
+    FindlySDK.prototype.refreshFullResultsPage = function() {
+      var _self = this;
+      _self.vars.selectedFacetFromSearch = "all results"
+        _self.invokeSearch();
+        $('#loaderDIV').show()
     }
 
     FindlySDK.prototype.checkBoostAndLowerTimes = function () {
@@ -19035,7 +19060,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "maxNumOfResults": 3,
         "userId": _self.API.uuid,
         "streamId": _self.API.streamId,
-        "lang": "en"
+        "lang": "en",
+        "isDev": _self.isDev
       }
       if (!$('body').hasClass('demo')) {
         payload.indexPipelineId = _self.API.indexpipelineId;
