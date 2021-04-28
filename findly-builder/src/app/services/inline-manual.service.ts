@@ -13,7 +13,8 @@ export class InlineManualService {
   
   constructor(public authService : AuthService) { }
   topicHelpMap = {
-      CHANNELS :'88836',
+      CHANNELS :'88836',//89011
+      APP_WALKTHROUGH : '88933',
       CONTENT :'89010',//d
       CONTENT_SUB_TOPIC : '85339',
       CRAWL_WEB_LANDING : '89008',

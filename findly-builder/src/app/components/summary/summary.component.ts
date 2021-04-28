@@ -1,4 +1,4 @@
-import { Component, ModuleWithComponentFactories, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ModuleWithComponentFactories, OnInit, ViewChild, OnDestroy ,AfterViewInit } from '@angular/core';
 import { SideBarService } from '@kore.services/header.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -11,6 +11,7 @@ import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { UseronboardingJourneyComponent } from '../../helpers/components/useronboarding-journey/useronboarding-journey.component';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 declare const $: any;
 @Component({
   selector: 'app-summary',
@@ -18,7 +19,7 @@ declare const $: any;
   styleUrls: ['./summary.component.scss'],
   animations: [fadeInOutAnimation]
 })
-export class SummaryComponent implements OnInit, OnDestroy {
+export class SummaryComponent implements OnInit, OnDestroy , AfterViewInit {
   serachIndexId;
   indices: any = [];
   experiments: any = [];
@@ -104,6 +105,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private authService: AuthService,
     private router: Router,
+    public inlineManual : InlineManualService,
     private appSelectionService: AppSelectionService
   ) { }
 
@@ -118,9 +120,9 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
     //this.appSelectionService.getTourConfig()
-    this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
-      this.showOverview = res.findlyOverviewVisited;
-    })
+    // this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
+    //   this.showOverview = res.findlyOverviewVisited;
+    // })
     this.getSummary();
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
@@ -128,6 +130,11 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.getLinkedBot();
     this.getAllOverview();
     this.componentType = 'summary';
+    this.inlineManual.openHelp('APP_WALKTHROUGH')
+    this.onboard.openOnBoardingModal();
+  }
+  ngAfterViewInit(){
+    this.onboard.openOnBoardingModal();
   }
   // closeOverview() {
   //   this.subscription.unsubscribe();
@@ -331,6 +338,6 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.onboard.closeOnBoardingModal();
   }
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscription ? this.subscription.unsubscribe() : null;
   }
 }
