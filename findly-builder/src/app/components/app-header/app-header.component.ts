@@ -185,7 +185,7 @@ export class AppHeaderComponent implements OnInit {
         this.sourcesFlag = true;
         this.menuFlag = false;
       }
-      else if (menu == '/settings' || menu == '/credentials-list' || menu == '/actions' || menu == '/team-management' || menu == '/smallTalk' || menu == '/pricing' || menu == '/usageLog' || menu == '/invoices') {
+      else if (menu == '/settings' || menu == '/credentials-list' || menu == '/actions' || menu == '/team-management' || menu == '/smallTalk' || menu == '/pricing' || menu == '/usageLog' || menu == '/invoices' || menu == '/generalSettings') {
         this.menuFlag = true;
         this.sourcesFlag = false;
       }
@@ -701,5 +701,31 @@ export class AppHeaderComponent implements OnInit {
         }, 2000);
       }
     }, 1000);
+  }
+  validateSource(){
+    let validField=true
+    if(!this.newApp.name){
+      $("#enterAppName").css("border-color", "#DD3646");
+      $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+      this.notificationService.notify('Enter the required field to proceed', 'error');
+      validField = false
+    }
+    if(validField){
+      this.createFindlyApp()
+    }
+
+  }
+  inputChanged(type, i?) {
+    if (type == 'enterName') {
+     if(!this.newApp.name )  {
+      $("#infoWarning").show();
+      $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+     }
+     else {
+      $("#infoWarning").hide()
+    }
+    $("#infoWarning").hide()
+    $("#enterAppName").css("border-color", this.newApp.name != '' ? "#BDC1C6" : "#DD3646");
+    }
   }
 }
