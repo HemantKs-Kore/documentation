@@ -689,10 +689,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       if (res.data.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
-        this.inlineManual.openHelp('RESULT_RANKING')
       }
       else {
         this.loadingContent1 = true;
+        this.inlineManual.openHelp('RESULT_RANKING')
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

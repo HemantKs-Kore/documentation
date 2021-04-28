@@ -13,28 +13,33 @@ export class InlineManualService {
   
   constructor(public authService : AuthService) { }
   topicHelpMap = {
-      CHANNELS :'88836',//89011
+      CHANNELS :'88836',
+      ADDING_WEB_FILE_CONTENT : '89011',
+      ACTION_SUBTOPIC : '88933',
       APP_WALKTHROUGH : '88933',
-      CONTENT :'89010',//d
+      CONTENT_OVERVIEW :'89010',//d
       CONTENT_SUB_TOPIC : '85339',
-      CRAWL_WEB_LANDING : '89008',
+      ADD_CONTENT_FROM_LANDING : '89008',
       CRAWL_WEB_SOURCE: '88953',
       CREATE_APP : '85337',
       CREDENTIALS :'88835',
       EXPERIMENTS : '88837', //d
       EXTRACT_FAQ_FROM_SOURCE : '89022',  
-      EXTRACT_FAQ : '88926',
+      ADD_FAQ_FROM_LANDING : '88927',
+      EXTRACT_FAQ_SUBTOPIC : '88926',
       FACETS : '88590', //d
       FAQ_OVERVIEW : '88928',
       FIEDS_TABLE :'88907',
       IMPORT_FAQ_FROM_SOURCE : '89023',
       ADD_FAQ_MAUALY_FROM_SOURCE : '89024',
-      IMPORT_FAQ : '88455',
+      ADD_FAQ_MAUALY_SUBTOPIC : '88454',
+      IMPORT_FAQ_SUBTOPIC : '88455',
       IMPORT_STRUCTURED_DATA : '89187',
       MULTIPLE_INDEX : '88923',
       RESULT_RANKING :'89209',
       RULES : '89207', //d
       SEARCH_INTERFACE : '89210',
+      RESULT_TEMPLATE : '89333',
       SMALL_TALK : '88833',
       SOURCES : '89050',
       STOP_WORDS : '88588', //d

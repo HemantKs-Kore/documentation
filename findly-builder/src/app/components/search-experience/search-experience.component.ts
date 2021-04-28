@@ -11,6 +11,7 @@ import { SideBarService } from './../../services/header.service';
 import { Subscription } from 'rxjs';
 import { LocalStoreService } from './../../services/localstore.service';
 import { NgbDropdown, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 @Component({
   selector: 'app-search-experience',
   templateUrl: './search-experience.component.html',
@@ -244,7 +245,7 @@ export class SearchExperienceComponent implements OnInit {
   @ViewChild('guideModalPop') guideModalPop: KRModalComponent;
   @ViewChild(NgbDropdownMenu) avatarDropdown: NgbDropdownMenu;
   constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService, public headerService: SideBarService,
-    public localstore: LocalStoreService) {
+    public localstore: LocalStoreService, public inlineManual : InlineManualService) {
   }
 
   ngOnInit(): void {
@@ -503,6 +504,8 @@ export class SearchExperienceComponent implements OnInit {
       this.color4 = this.searchObject.searchWidgetConfig.buttonFillColor;
       this.color5 = this.searchObject.searchWidgetConfig.buttonBorderColor;
       this.color6 = this.searchObject.searchWidgetConfig.welcomeMsgColor;
+
+      this.inlineManual.openHelp('SEARCH_INTERFACE')
     }, errRes => {
       console.log(errRes);
     });

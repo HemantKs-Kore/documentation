@@ -462,11 +462,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentDoc'){
       this.inlineManual.openHelp('CONTENT_SUB_TOPIC')
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'faqWeb'){
-      this.inlineManual.openHelp('EXTRACT_FAQ_FROM_SOURCE')
+      this.inlineManual.openHelp('EXTRACT_FAQ_SUBTOPIC')
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'faqDoc'){
-      this.inlineManual.openHelp('IMPORT_FAQ_FROM_SOURCE')
+      this.inlineManual.openHelp('IMPORT_FAQ_SUBTOPIC')
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'manual'){
-      this.inlineManual.openHelp('ADD_FAQ_MAUALY_FROM_SOURCE')
+      this.inlineManual.openHelp('ADD_FAQ_MAUALY_SUBTOPIC')
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentStucturedDataImport'){
       this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentStucturedDataAdd'){

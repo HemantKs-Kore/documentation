@@ -330,10 +330,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       if (res.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
+        this.inlineManual.openHelp('CONTENT_OVERVIEW')
       }
       else {
         this.loadingContent1 = true;
-        this.inlineManual.openHelp('CONTENT')
+        this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
       }
     }, errRes => {
       console.log(errRes);

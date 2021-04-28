@@ -9,6 +9,7 @@ import * as _ from 'underscore';
 
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 declare const $: any;
 @Component({
   selector: 'app-bot-action',
@@ -59,6 +60,7 @@ export class BotActionComponent implements OnInit {
     private notificationService: NotificationService,
     private authService: AuthService,
     private router: Router,
+    public inlineManual : InlineManualService,
     public dialog: MatDialog,
   ) { }
   checkUncheckTasks(task){
@@ -362,7 +364,7 @@ export class BotActionComponent implements OnInit {
 
   openBotsModalElement() {
     this.botsModalRef = this.botsModalElement.open();
-
+    this.inlineManual.openHelp('ACTION_SUBTOPIC')
   }
 
   closeBotsModalElement() {
