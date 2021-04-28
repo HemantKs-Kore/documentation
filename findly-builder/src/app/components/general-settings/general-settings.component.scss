@@ -1,11 +1,16 @@
-.header-title{
-    color: #000000;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 22px;
-    padding: 15px 45px;
-    background: #F8F9FA;
-}
-.action-body-scroll{
-    height: calc(100vh - 115px);
+.g-settings-container{
+    .header-title{
+        color: #000000;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 22px;
+        padding: 15px 45px;
+        background: #F8F9FA;
+    }
+    .action-body-scroll{
+        height: calc(100vh - 115px);
+    }
+    .settings-general-data{
+        padding: 30px 45px;
+    }
 }
