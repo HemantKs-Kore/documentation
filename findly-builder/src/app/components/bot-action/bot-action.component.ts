@@ -518,7 +518,8 @@ export class BotActionComponent implements OnInit {
         this.getAssociatedBots();
         this.workflowService.linkBot(botID);
         this.workflowService.smallTalkEnable(res.stEnabled);
-        this.notificationService.notify("Bot Linked Successfully", 'success')
+        this.notificationService.notify("Bot Linked Successfully", 'success');
+        this.syncLinkedBot();
       },
         (err) => {
            console.log(err); this.notificationService.notify("Bot linking  Unsuccessful", 'error') 
