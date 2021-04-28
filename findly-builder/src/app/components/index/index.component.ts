@@ -801,6 +801,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         if (result === 'yes') {
           this.pipeline.splice(i, 1);
           dialogRef.close();
+          this.notificationService.notify('Deletd Successfully' , 'success')
           if (this.pipeline && this.pipeline.length) {
             this.selectStage(this.pipeline[0], 0);
           } else {

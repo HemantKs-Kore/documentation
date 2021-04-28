@@ -1,51 +1,38 @@
-.small-talk-comp{
-    .header-title{
+.small-talk-body-data{        
+    width: 550px;
+    padding: 20px 0;
+    .title-heading{
         color: #000000;
         font-weight: 500;
-        font-size: 18px;
-        line-height: 22px;
-        padding: 15px 45px;
-        background: #F8F9FA;
+        font-size: 16px;
+        line-height: 19px;
+        margin-bottom: 2px;
     }
-    .small-talk-body-scroll{
-
+    .title-desc-text{
+        color: #9AA0A6;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 20px;
+        margin-bottom: 13px;
     }
-    .small-talk-body-data{
-        padding: 30px 45px;
-        width: 640px;
-        .title-heading{
-            color: #000000;
-            font-weight: 500;
-            font-size: 16px;
-            line-height: 19px;
-            margin-bottom: 2px;
-        }
-        .title-desc-text{
-            color: #9AA0A6;
-            font-weight: normal;
-            font-size: 12px;
-            line-height: 20px;
-            margin-bottom: 13px;
-        }
-        .kr-sg-toggle {
-            input{
-                &:checked {
-                    + .slider{
-                        background-color: #0D6EFD;
-                        box-shadow: 0 0 1px #0d6efd;
-                        border: 1px solid #0D6EFD;
-                        &::before{
-                            background-color: #fff;
-                        }
+    .kr-sg-toggle {
+        input{
+            &:checked {
+                + .slider{
+                    background-color: #0D6EFD;
+                    box-shadow: 0 0 1px #0d6efd;
+                    border: 1px solid #0D6EFD;
+                    &::before{
+                        background-color: #fff;
                     }
                 }
             }
-            .slider{
-                border: 1px solid #BDC1C6;
-                background-color: #fff;
-                &::before{                    
-                    background-color: #BDC1C6;
-                }
+        }
+        .slider{
+            border: 1px solid #BDC1C6;
+            background-color: #fff;
+            &::before{                    
+                background-color: #BDC1C6;
             }
         }
     }

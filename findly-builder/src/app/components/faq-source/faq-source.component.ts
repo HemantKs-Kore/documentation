@@ -45,7 +45,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   noManulaRecords: boolean = false;
   selectedApp: any = {};
   fileName: ' ';
+  extractedResources: any =[];
   resources: any = [];
+  filters:  any =[];
   polingObj: any = {};
   faqUpdate: Subject<void> = new Subject<void>();
   filterObject = {};
@@ -523,7 +525,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         else {
           this.noManulaRecords = false;
-        }
+        } 
       }
     }, errRes => {
     });
@@ -551,17 +553,18 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => { //get.job.status
       this.resources = [...res];
-        if(res &&res.length){
-          res.forEach((d:any)=>{
-          if(d.extractedFaqsCount === 0){
-          let index = this.resources.findIndex((f)=>f._id == d._id);
-          if(index>-1){
-          this.resources.splice(index,1);
-          }
+      this.extractedResources = [...res];
+      if (res && res.length) {
+        res.forEach((d: any) => {
+          if (d.extractedFaqsCount === 0) {
+            let index = this.resources.findIndex((f) => f.name == d.name);
+            if (index > -1) {
+              this.resources.splice(index, 1);
+            }
           }
         });
-      res = [...this.resources] ;
-      this.resources = res.reverse();
+        res = [...this.resources];
+        this.resources = res.reverse();
         res.forEach(element => {
           this.resourcesStatusObj[element.resourceId] = element;
         });
@@ -1108,11 +1111,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
       this.notificationService.notify('Deleted Successfully', 'success');
-      const deleteIndex = _.findIndex(this.resources, (fq) => {
+      const deleteIndex = _.findIndex(this.extractedResources, (fq) => {
         return fq._id === source._id;
       })
       if (deleteIndex > -1) {
-        this.resources.splice(deleteIndex, 1);
+        this.extractedResources.splice(deleteIndex, 1);
       }
       this.resetCheckboxSelect();
     }, errRes => {
