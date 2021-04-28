@@ -316,12 +316,23 @@
                 border-radius: 8px;
                 padding: 25px;
                 height: 100%;
-                align-items: center;
-                justify-content: center;
-                display: flex;
-                flex-wrap: wrap;
+                // align-items: center;
+                // justify-content: center;
+                // display: flex;
+                // flex-wrap: wrap;
+                .preview-title{
+                    color: #595959;
+                    font-weight: 600;
+                    font-size: 12px;
+                    line-height: 14px;
+                    padding: 5px 0 12px 0;
+                    text-transform: uppercase;
+                }
                 .responsePreviewBlock{
                     // background: #ffffff;
+                    &.adjust-height{
+                        height: 160px;
+                    }
                     padding: 20px 0 20px 20px;
                     margin:  0 !important;
                     height: 327px;
@@ -411,7 +422,7 @@
         .tab-title{
             padding: 11px 20px;
             display: inline-block;
-            color: #8A959F;
+            color: #595959;
             font-weight: 600;
             font-size: 12px;
             text-transform: uppercase;

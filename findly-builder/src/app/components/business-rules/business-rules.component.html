@@ -101,7 +101,7 @@
                     </div>
                     <div class="title text-truncate"  [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip="{{ ruleObj.ruleName }}">{{ ruleObj.ruleName }}</div>
                 </div>
-                <div class="col-3 content">
+                <div class="col-3 content lh-5">
                     <ng-container *ngFor="let rule of ruleObj.rules; let ruleIndex = index">
                         <br *ngIf="ruleIndex > 0"><span class="divider mr-1 mb-1" *ngIf="ruleIndex > 0">{{
               "and_caps" | translate
@@ -485,3 +485,5 @@
         <button class="kr-sg-button-secondary btn_lg" (click)="closeModalPopup()">{{addEditRuleObj._id?"Cancel":"Back"}}</button>
     </div>
 </kr-modal>
+
+<app-upgrade-plan #plans></app-upgrade-plan>

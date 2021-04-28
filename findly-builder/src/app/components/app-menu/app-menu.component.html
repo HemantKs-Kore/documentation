@@ -1,11 +1,15 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
-
-	<div class="upgrade_your_plan_price d-none" >
-		<div class="upgrade-plan-btn">Upgrade Your Plan<img src="assets/icons/pricing/carrotright.svg"></div>
+	<ng-container *ngIf="!settingMainMenu && !sourceMenu || sourceMenu">
+	<div class="upgrade_your_plan_price" [hidden]="!showUpgrade">
+		<div class="upgrade-plan-btn" (click)="upgrade()">Upgrade Your Plan<img src="assets/icons/pricing/carrotright.svg"></div>
 		<div class="document-limit">22%  document limit reached</div>
+		<ngb-progressbar class="mt-3" height="10px" type="primary" value="20" max="100">
+		</ngb-progressbar>
 		<div class="document-limit">10%  query limit reached</div>
-	</div>
+		<ngb-progressbar class="mt-3" height="10px" type="primary" value="20" max="100">
+		</ngb-progressbar>
+	</div></ng-container>
 	<perfect-scrollbar class="perfect-scroll">
 		<div class="list-group list-group-flush" *ngIf="!settingMainMenu && !sourceMenu">					
 
@@ -337,7 +341,7 @@
 					<img src="assets/icons/sidemenu/new-icons/team_management.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/team_management.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle">Team Management</span>
+				<span class="linkTitle">Teams</span>
 			</div>
 
 			<div class="inside-menu-title">BILLING & USAGE</div>
@@ -446,3 +450,4 @@
 			<button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeIndexModalPopup()">Cancel</button>
 		</div>    
 	</kr-modal>
+	<app-upgrade-plan #plans></app-upgrade-plan>

@@ -3131,3 +3131,9 @@ pre{
 /*---- FILE UPLOAD DRAG AND DROP STYLES ENDS HERE---*/
 
 /* -------------------- COMPONENTS STYLES STARTS HERE ---------------------*/
+
+.dropdown-toggle{
+    &::after{
+        display: none;
+    }
+}

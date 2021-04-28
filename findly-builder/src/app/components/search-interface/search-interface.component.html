@@ -9,7 +9,7 @@
   <div class="body_content">
     <div class="search-interface-left-sec">
       <div class="left-tabs">
-        <div class="tab-name" *ngFor="let setting of settingList" (click)="selectedSetting = setting.id;getAllSettings()" [ngClass]="{'active-tab' : selectedSetting == setting.id}">{{setting.text}}</div>
+        <div class="tab-name" *ngFor="let setting of settingList" (click)="getAllSettings(setting)" [ngClass]="{'active-tab' : selectedSetting == setting.id}" [class.disabled]="(setting.id == 'search' && searchTemplatesDisabled)" ngbTooltip="Search customization is not needed for Top Down Experience" [disableTooltip]="(setting.id !== 'search' && searchTemplatesDisabled) || (!searchTemplatesDisabled)" placement="right" tooltipClass="ngb_tooltip_custom_class searchTemplate">{{setting.text}}</div>
         <!-- <div class="tab-name">Search Experience</div>
         <div class="tab-name">Live Search</div>
         <div class="tab-name active-tab">Search</div>
@@ -20,16 +20,16 @@
       <div class="search-interface-right-sec">  
         <div class="radio-section">
           <div class="main-title">Copy Configuration</div>
-          <div class="label-desc p-0">Choose whether to apply the same Configurations as per Previous settings</div>
+          <div class="label-desc p-0 mb-2">Choose whether to apply the same Configurations as per Previous settings</div>
          
           <div class="kr-sg-dropdowns">        
             <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input drop-enable" data-toggle="dropdown">{{selectedSettingResultsObj.referInterface || 'Select'}}</button>                                            
                 <ul class="dropdown-menu content-menu">  
                   <li (click)="copyConfiguration('')"><a>Select</a></li>                                                 
-                  <li (click)="copyConfiguration('livesearch')"><a>Live Search</a></li>
-                  <li (click)="copyConfiguration('search')"><a>Search </a></li>
-                  <li (click)="copyConfiguration('fullsearch')"><a>Full Page Result</a></li>
+                  <li (click)="copyConfiguration('livesearch')" *ngIf="selectedSetting != 'liveSearch'"><a>Live Search</a></li>
+                  <li (click)="copyConfiguration('search')" *ngIf="selectedSetting != 'search' && !searchTemplatesDisabled"><a>Search </a></li>
+                  <li (click)="copyConfiguration('fullsearch')" *ngIf="selectedSetting != 'fullSearch'"><a>Full Page Result</a></li>
                 </ul>
             </div>
           </div>
@@ -87,18 +87,22 @@
             <div class="main-title m-0">Results Appearance</div>
             <div class="label-desc p-0">Customize the result templates and choose the order in which the results should be displayed to the end-user.</div>
             <div class="group-radiobutton">         
-              <div class="kr-sg-radiobutton">
-                  <input id="radio-22" name="radio-app" class="radio-custom" type="radio" [checked] = "selectedSettingResultsObj.orderBasedOnRelevance">
-                  <label for="radio-22" class="radio-custom-label">Order based on relevance<img tooltipClass="inner-width m-0" placement="top-center" ngbTooltip="Order will be decided based on the top matched result" container="body" src="assets/icons/Info_gray.svg" class="ml-2"></label>
+              <div class="kr-sg-radiobutton"  (click) = "selectedSettingResultsObj.orderBasedOnRelevance = true">
+                  <input id="radio-resultApp-order" name="radio-app" class="radio-custom" type="radio" [checked] = "selectedSettingResultsObj.orderBasedOnRelevance">
+                  <label for="radio-resultApp-order" class="radio-custom-label">Order based on relevance<img tooltipClass="inner-width m-0" placement="top-center" ngbTooltip="Order will be decided based on the top matched result" container="body" src="assets/icons/Info_gray.svg" class="ml-2"></label>
               </div>
-              <div class="kr-sg-radiobutton">
-                  <input id="radio-23" name="radio-app" class="radio-custom" type="radio" [checked] = "!selectedSettingResultsObj.orderBasedOnRelevance" disabled>
-                  <label for="radio-23" class="radio-custom-label">Custom order</label>
+              <div class="kr-sg-radiobutton" (click) = "selectedSettingResultsObj.orderBasedOnRelevance = false">
+                  <input id="radio-resultApp-cust" name="radio-app" class="radio-custom" type="radio" [checked] = "!selectedSettingResultsObj.orderBasedOnRelevance" (change) = "selectedSettingResultsObj.orderBasedOnRelevance = true">
+                  <label for="radio-resultApp-cust" class="radio-custom-label">Custom order</label>
               </div>
             </div>
             <div class="result-appearences-section">
-              <div cdkDropList (cdkDropListDropped)="drop($event,list)" class="input-left-sec">
-                <div cdkDrag *ngFor="let list of list" class="input-name" (click)="selectResultAppearnceList(list)" [ngClass]="{'active-input' : list.type == selectedSourceType}"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>{{list.type}}</span></div>
+              <div class="input-left-sec" *ngIf= "selectedSettingResultsObj.orderBasedOnRelevance">
+                <div *ngFor="let list of list" class="input-name" (click)="selectResultAppearnceList(list,'list')" [ngClass]="{'active-input' : list.type == selectedSourceType}"><span>{{list.type}}</span></div>
+                <div class="input-name add-new">+ Add New</div>
+              </div>
+              <div cdkDropList (cdkDropListDropped)="drop($event,list)" class="input-left-sec" *ngIf= "!selectedSettingResultsObj.orderBasedOnRelevance">
+                <div cdkDrag *ngFor="let list of list" class="input-name" (click)="selectResultAppearnceList(list,'custom')" [ngClass]="{'active-input' : list.type == selectedSourceType}"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>{{list.type}}</span></div>
                 <!-- <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><spanlist>Actions</span></div>
                 <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>FAQs</span></div>
                 <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Pages</span></div>
@@ -145,8 +149,7 @@
                       <input type="checkbox" (change)= "facetEnableChange($event)" [checked] = "selectedSettingResultsObj.facets.isEnabled">
                       <div class="slider"><span class="enabled">Enabled</span><span class="disabled">Disabled</span></div>
                     </label> 
-
-                    <div class="group-radiobutton mt-4" *ngIf="selectedSettingResultsObj.facets.isEnabled">                  
+                    <div class="group-radiobutton mt-4" *ngIf="selectedSettingResultsObj.facets && selectedSettingResultsObj.facets.isEnabled">                  
                       <div class="kr-sg-radiobutton">
                           <input id="radio-24" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'left')" [checked] ="selectedSettingResultsObj.facets.aligned == 'left'">
                           <label for="radio-24" class="radio-custom-label">Left Aligned</label>

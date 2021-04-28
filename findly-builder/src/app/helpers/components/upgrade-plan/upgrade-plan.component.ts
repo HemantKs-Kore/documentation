@@ -8,7 +8,8 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { AuthService } from '@kore.services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
-
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+declare const $: any;
 @Component({
   selector: 'app-upgrade-plan',
   templateUrl: './upgrade-plan.component.html',
@@ -19,10 +20,11 @@ export class UpgradePlanComponent implements OnInit {
   choosePlanModalPopRef: any;
   paymentGatewayModelPopRef: any;
   successFailureModelPopRef: any;
+  changePlanModelPopRef: any;
   termPlan = "Monthly";
   totalPlansData: any;
   filterPlansData: any;
-  showPlanDetails: string;
+  showPlanDetails: string = '';
   orderConfirmData: any;
   selectedPlan: any;
   selectedApp: any;
@@ -33,12 +35,22 @@ export class UpgradePlanComponent implements OnInit {
   transactionId: any;
   payementSuccess: true;
   overageData: any;
+  listPlanFeaturesData: any;
   payementResponse: any = {
     hostedPage: {
       transactionId: "",
       url: "https://store.payproglobal.com/checkout?products[1][id]=65066&products[1][qty]=1&page-template=2339&language=en&currency=USD&x-accountId=5ecfbf1407c1bd2347c4f199&x-resourceId=st-7a270f50-338b-5d82-8022-c2ef8e6b46da&x-transactionId=faTYYAH3g2GsdmthszR5kDT179I4&x-streamName=AmazeBot&exfo=742&use-test-mode=true&secret-key=_npaisT4eQ&emailoverride=akshay.gupta%40kore.com&x-isSearchbot=true"
     }
   };
+  plansIdList = {
+    free: 'fp_free',
+    standardMonth: '65066',
+    standardYear: '65451',
+    proMonth: '65123',
+    proYear: '65453',
+    enterpriceMonth: 'fp_enterprise_custom_monthly',
+    enterpriceYear: 'fp_enterprise_custom_yearly'
+  }
   constructor(public dialog: MatDialog,
     private service: ServiceInvokerService,
     private appSelectionService: AppSelectionService,
@@ -53,7 +65,9 @@ export class UpgradePlanComponent implements OnInit {
   @ViewChild('addPricingModel5') addPricingModel5: KRModalComponent;
   @ViewChild('paymentGatewayModel') paymentGatewayModel: KRModalComponent;
   @ViewChild('successFailureModel') successFailureModel: KRModalComponent;
+  @ViewChild('changePlanModel') changePlanModel: KRModalComponent;
   @Output() overageModel = new EventEmitter<string>();
+  @ViewChild(PerfectScrollbarComponent) public directiveScroll: PerfectScrollbarComponent;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -98,7 +112,6 @@ export class UpgradePlanComponent implements OnInit {
   }
   //get plans api
   getPlan() {
-    let result = [];
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.totalPlansData = res;
       this.typeOfPlan("Monthly");
@@ -106,8 +119,6 @@ export class UpgradePlanComponent implements OnInit {
         let dat = Object.values(data.featureAccess);
         data = Object.assign(data, { "featureData": dat });
       });
-      console.log("obj", this.totalPlansData);
-      console.log("result", result);
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });
@@ -131,6 +142,16 @@ export class UpgradePlanComponent implements OnInit {
   closeOrderConfPopup() {
     if (this.orderConfirmModelPopRef && this.orderConfirmModelPopRef.close) {
       this.orderConfirmModelPopRef.close();
+    }
+  }
+  //open changePlanModel popup
+  openChangePlanModel() {
+    this.changePlanModelPopRef = this.changePlanModel.open();
+  }
+  //close changePlanModel popup
+  closeChangePlanModel() {
+    if (this.changePlanModelPopRef && this.changePlanModelPopRef.close) {
+      this.changePlanModelPopRef.close();
     }
   }
   //open popup1
@@ -179,11 +200,35 @@ export class UpgradePlanComponent implements OnInit {
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });
-
     this.closeChoosePlanPopup();
     this.closeOrderConfPopup();
     this.paymentGatewayModelPopRef = this.paymentGatewayModel.open();
-
+  }
+  //payment plan for upgrade/downgrade
+  paymentPlan(show) {
+    if (show) {
+      this.buyOveragePayment();
+    }
+    else {
+      if (this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free) {
+        this.openPaymentGatewayPopup()
+      }
+      else {
+        const payload = { "streamId": this.selectedApp._id, "targetPlanId": this.orderConfirmData._id };
+        const upgradePlan = this.service.invoke('put.planChange', {}, payload);
+        upgradePlan.subscribe(res => {
+          console.log("upgrade", res);
+          if (res.status == 'success') {
+            this.openSuccessFailurePopup(true);
+            this.closeChoosePlanPopup();
+            this.closeOrderConfPopup();
+          }
+        }, errRes => {
+          this.errorToaster(errRes, 'failed upgrade');
+          this.openSuccessFailurePopup(false);
+        });
+      }
+    }
   }
   //close payment gateway popup
   closePaymentGatewayPopup() {
@@ -196,6 +241,7 @@ export class UpgradePlanComponent implements OnInit {
     this.payementSuccess = state
     this.closePaymentGatewayPopup();
     this.successFailureModelPopRef = this.successFailureModel.open();
+    this.appSelectionService.getCurrentSubscriptionData();
   }
   //close payment success/failure popup
   closeSuccessFailurePopup() {
@@ -212,6 +258,30 @@ export class UpgradePlanComponent implements OnInit {
         this.filterPlansData.push(data);
       }
     }
+    let listData = [...this.totalPlansData];
+    this.listPlanFeaturesData = [];
+    let listDataMonthlyFeature = [];
+    listData.forEach(data => {
+      Object.keys(data.featureAccess);
+      Object.values(data.featureAccess);
+      Object.entries(data.featureAccess);
+      /** Pick only the Month Plans */
+      if (data._id == this.plansIdList.free || data._id == this.plansIdList.standardMonth || data._id == this.plansIdList.proMonth || data._id == this.plansIdList.enterpriceMonth) {
+        listDataMonthlyFeature.push(Object.entries(data.featureAccess))
+      }
+    })
+    for (let i = 1; i <= listDataMonthlyFeature.length; i++) {
+      if (listDataMonthlyFeature[i]) {
+        for (let j = 0; j < listDataMonthlyFeature[i].length; j++) {
+          if (listDataMonthlyFeature[i][j]) {
+            if (listDataMonthlyFeature[i][j][0] == listDataMonthlyFeature[0][j][0]) { //comapre 3 records with 1st record's Key
+              listDataMonthlyFeature[0][j].push(listDataMonthlyFeature[i][j][1])       // push the values array in 1st record
+            }
+          }
+        }
+      }
+    }
+    this.listPlanFeaturesData = listDataMonthlyFeature;
   }
   //based on choosePlanType in order confirm popup
   choosePlanType(type) {
@@ -252,8 +322,16 @@ export class UpgradePlanComponent implements OnInit {
       this.overageData = {};
       this.overageModel.emit();
       this.closeOrderConfPopup();
+      this.openSuccessFailurePopup(true);
     }, errRes => {
       this.errorToaster(errRes, 'failed buy overage');
     });
+  }
+  //gotoDetails
+  gotoDetails(name) {
+    this.showPlanDetails = name;
+    setTimeout(() => {
+      this.directiveScroll.directiveRef.scrollTo(420)
+    }, 500)
   }
 }

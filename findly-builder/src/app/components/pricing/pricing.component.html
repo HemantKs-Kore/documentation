@@ -4,20 +4,25 @@
 <button (click)="openPopup3()">popup3</button> -->
 
 <div class="pricing-container-wrapper">
-  <div class="title-header">Plan Details</div>
+  <div class="row card-plans justify-content-between">
+    <div class="title-header col-12">
+      <div class="col-11">Plan Details</div>
+      <button class="kr-sg-button-primary btn_lg col-1" *ngIf="showUpgradeBtn" (click)="currentSubscriptionPlan.subscription.changesScheduledFor=='none'?compare('choosePlans',currentSubscriptionPlan.subscription):revertCancel()">{{currentSubscriptionPlan.subscription.changesScheduledFor=='none'?'Upgrade':'Revert Cancellation'}}</button>
+      </div>    
+  </div>
   <perfect-scrollbar class="pricing-scroll">
     <div class="pricing-details-main-sec">
         <div class="row col-12 card-plans">
             <div class="col-6 current-plan">
               <div class="inner-content">
                 <div class="title">Current Subscription Plan</div>
-                <div class="kr-sg-dropdowns">                
+                <div class="kr-sg-dropdowns" [hidden]="currentSubscriptionPlan&&currentSubscriptionPlan.subscription.changesScheduledFor=='cancel'">                
                   <div class="dropdown dropdown-open">
                       <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/pricing/overflow.svg"></button>                                            
                       <ul class="dropdown-menu content-menu" *ngIf="currentSubscriptionPlan">                                                                    
-                        <li (click)="addOverage()" [attr.disabled] = "currentSubscriptionPlan.subscription.planName == 'Free' ? true : null"><a>Add Overage</a></li>
+                        <li (click)="addOverage()" [ngClass]="{'disabled': currentSubscriptionPlan.subscription.planName=='Free'}"><a>Add Overage</a></li>
                         <li (click)="compare('choosePlans',currentSubscriptionPlan.subscription)"><a>Change Plan</a></li>
-                        <li (click)="openPopup5()" [attr.disabled] = "currentSubscriptionPlan.subscription.planName == 'Free' ? true : null"><a>Cancel Subscription</a></li>
+                        <li (click)="openPopup5()" [ngClass]="{'disabled': currentSubscriptionPlan.subscription.planName=='Free'}"><a>Cancel Subscription</a></li>
                       </ul>
                     </div>
                 </div>
@@ -27,8 +32,8 @@
                     <div class="amount" *ngIf="currentSubscriptionPlan.subscription.planName != 'Free'">${{currentSubscriptionPlan.subscription.planAmount}}<span>/ month</span></div>
                   </div>
                   <div class="plan-time">
-                    <div class="started-title">Started On</div>
-                    <div class="started-date">{{ currentSubscriptionPlan.subscription.planName.createdAt | date: 'DD/MMM/YYYY' || '18 April 2021'}}</div>
+                    <div class="started-title">{{currentSubscriptionPlan.subscription.planName=='Free'?'Started On':currentSubscriptionPlan.subscription.changesScheduledFor=='none'?'Renewal Date':'Valid till'}}</div>
+                    <div class="started-date">{{ currentSubscriptionPlan.subscription.createdAt | date}}</div>
                   </div>
                 </div>
               </div>

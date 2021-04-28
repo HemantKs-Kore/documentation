@@ -58,7 +58,7 @@ export class AppHeaderComponent implements OnInit {
   indexSubscription: Subscription;
   subscription: Subscription;
   routeChanged: Subscription;
-  updateHeaderMainMenuSubscription : Subscription;
+  updateHeaderMainMenuSubscription: Subscription;
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
   @Output() showSourceMenu = new EventEmitter();
@@ -100,6 +100,11 @@ export class AppHeaderComponent implements OnInit {
     this.userId = this.authService.getUserId();
   }
   ngOnInit() {
+    this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
+      if (res.name != undefined) {
+        this.analyticsClick(res.path, false);
+      }
+    })
     this.toShowAppHeader = this.workflowService.showAppCreationHeader();
     this.getAllApps();
     this.headerService.change.subscribe(data => {
@@ -134,6 +139,11 @@ export class AppHeaderComponent implements OnInit {
     if (localStorage.krPreviousState) {
       this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
     }
+    this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
+      if (res) {
+        this.mainMenu = res;
+      }
+    });
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.loadHeader();
@@ -142,16 +152,6 @@ export class AppHeaderComponent implements OnInit {
         this.loadHeader();
       })
     })
-    this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
-      if (res.name != undefined) {
-        this.analyticsClick(res.path, false);
-      }
-    })
-    this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
-      if(res){
-        this.mainMenu = res;
-      }
-    });
   }
   loadHeader() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -181,7 +181,7 @@ export class AppHeaderComponent implements OnInit {
       this.showMainMenu = false;
     } else {
       this.showMainMenu = true;
-      if(menu == '/source' || menu == '/content' || menu == '/faqs' || menu == '/botActions' || menu == '/structuredData'){
+      if (menu == '/source' || menu == '/content' || menu == '/faqs' || menu == '/botActions' || menu == '/structuredData') {
         this.sourcesFlag = true;
         this.menuFlag = false;
       }
@@ -578,8 +578,15 @@ export class AppHeaderComponent implements OnInit {
       res => {
         this.notificationService.notify('App created successfully', 'success');
         this.closeCreateApp();
-        this.router.navigate(['/apps'], { skipLocationChange: true });
-        this.analyticsClick('apps', true)
+        this.newApp = {
+          name: '',
+          description: ''
+        };
+        this.creatingInProgress = false;
+        this.openApp(res);
+        this.analyticsClick('/summary');
+        // this.router.navigate(['/apps'], { skipLocationChange: true });
+        // this.analyticsClick('apps', true)
       },
       errRes => {
         this.errorToaster(errRes, 'Error in creating app');

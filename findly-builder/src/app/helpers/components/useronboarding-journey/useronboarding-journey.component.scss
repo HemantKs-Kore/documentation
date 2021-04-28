@@ -37,6 +37,7 @@
                 line-height: 20px;
                 float: right;
                 cursor: pointer;
+                margin-top: 30px;
             }
         }
         .accodion-content{
@@ -150,6 +151,7 @@
     .dropdown-open {
         .dropdown-input{
             padding: 0 12px 0 17px;
+            cursor:default;
             &:hover{
                 border: solid 1px #1372ff;
             }

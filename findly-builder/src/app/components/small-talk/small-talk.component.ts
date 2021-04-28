@@ -3,7 +3,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { AuthService } from '@kore.services/auth.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { THIS_EXPR, ThrowStmt } from '@angular/compiler/src/output/output_ast';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 @Component({
   selector: 'app-small-talk',
@@ -16,7 +16,7 @@ export class SmallTalkComponent implements OnInit {
   LinkABot:any;
   streamId:any;
   enableSmallTalk:any;
-  enable: boolean;
+  enable = false ;
   botLinked = false;
   constructor(
     public workflowService: WorkflowService,
@@ -67,11 +67,13 @@ export class SmallTalkComponent implements OnInit {
      stEnabled: type
    }
    this.service.invoke('put.enableTask', queryParams, payload).subscribe(res => {
-     if (this.enable = true) {
-       payload.stEnabled = true;
+     if (this.enable) {
+       payload.stEnabled = true
+       this.notificationService.notify('Small Talk Enabled', 'success')
      }
-     else if (this.enable = false){
+    if (!this.enable){
        payload.stEnabled = false;
+       this.notificationService.notify('Small Talk Disabled', 'success')
      }
 
 

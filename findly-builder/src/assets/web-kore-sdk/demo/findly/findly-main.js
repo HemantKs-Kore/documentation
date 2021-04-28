@@ -38,7 +38,7 @@
                 }
                 else{
                     fSdk.initialize(findlyConfig);
-                    fSdk.showSearch();
+                    fSdk.showSearch(null, response);
                 }
             })
         }, function (errRes) {

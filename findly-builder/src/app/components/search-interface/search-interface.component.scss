@@ -59,6 +59,10 @@
                             display: block;                      
                         }                       
                     }
+                    &.disabled{
+                        cursor: default;
+                        opacity: 0.5;
+                    }
                 }
             }           
         }
@@ -118,6 +122,7 @@
                         .drop-enable{
                             border: solid 1px;
                             background: #ffffff;
+                            color: #202124;
                         }
                     }
                 }

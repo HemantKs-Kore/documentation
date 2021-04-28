@@ -238,7 +238,7 @@
           color: #202124;
           font-weight: normal;
           font-size: 14px;
-          line-height: 14px;
+          //line-height: 14px;
           padding: 0 8px;
         }
         .kr-sg-checkbox{
@@ -253,4 +253,12 @@
       height: calc(100vh - 185px);
     }
   }
+}
+.selected_count{
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 20px;
+}
+.search-icon{
+  cursor: pointer;
 }

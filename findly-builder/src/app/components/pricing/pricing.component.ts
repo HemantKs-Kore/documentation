@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EChartOption } from 'echarts';
@@ -7,12 +7,14 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
+import { Subscription } from 'rxjs';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 @Component({
   selector: 'app-pricing',
   templateUrl: './pricing.component.html',
   styleUrls: ['./pricing.component.scss']
 })
-export class PricingComponent implements OnInit {
+export class PricingComponent implements OnInit, OnDestroy {
   documentGraph: EChartOption;
   queryGraph: EChartOption;
   addPricing3ModalPopRef: any;
@@ -47,7 +49,9 @@ export class PricingComponent implements OnInit {
     proYear: '65453',
     enterpriceMonth: 'fp_enterprise_custom_monthly',
     enterpriceYear: 'fp_enterprise_custom_yearly'
-  }
+  };
+  currentSubsciptionData: Subscription;
+  showUpgradeBtn: boolean;
   usageDetails: any = {};
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -61,25 +65,37 @@ export class PricingComponent implements OnInit {
   @ViewChild('cancelSubscriptionModel') cancelSubscriptionModel: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userEngagementChart()
-    this.getPlan()
-  }
-  currentsubscriptionPlan(app, overageRes?) {
-    const payload = {
-      streamId: app._id
-    };
-    const appObserver = this.service.invoke('get.currentPlans', payload);
-    appObserver.subscribe(res => {
+    this.getPlan();
+    await this.appSelectionService.getCurrentSubscriptionData();
+    this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.currentSubscriptionPlan = res;
       this.updateUsageDetails();
-      this.getOverage(overageRes);
-    }, errRes => {
-      this.errorToaster(errRes, 'failed to get plans');
-    });
+      // this.getOverage(overageRes);
+      this.showUpgradeBtn = this.currentSubscriptionPlan.subscription.planName != 'Free' ? true : false;
+    })
   }
+  // currentsubscriptionPlan(app, overageRes?) {
+  //   const payload = {
+  //     streamId: app._id
+  //   };
+  //   const appObserver = this.service.invoke('get.currentPlans', payload);
+  //   appObserver.subscribe(res => {
+  //     this.currentSubscriptionPlan = res;
+  //     this.updateUsageDetails();
+  //     this.getOverage(overageRes);
+  //     this.showUpgradeBtn = this.currentSubscriptionPlan.subscription.planName != 'Free' ? true : false;
+
+  //   }, errRes => {
+  //     this.errorToaster(errRes, 'failed to get plans');
+  //     if (errRes.error.errors[0].code === 'NoActiveSubscription') {
+  //       this.showUpgradeBtn = true;
+  //     }
+  //   });
+  // }
   getPlan() {
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.totalPlansData = res;
@@ -89,56 +105,52 @@ export class PricingComponent implements OnInit {
         data = Object.assign(data, { "featureData": dat });
       })
       let listData = [...this.totalPlansData]
-
-      let listDataMonthlyFeature= [];
+      let listDataMonthlyFeature = [];
       listData.forEach(data => {
         Object.keys(data.featureAccess);
         Object.values(data.featureAccess);
         Object.entries(data.featureAccess);
         /** Pick only the Month Plans */
-        if(data._id == this.plansIdList.free || data._id == this.plansIdList.standardMonth || data._id == this.plansIdList.proMonth || data._id == this.plansIdList.enterpriceMonth){
+        if (data._id == this.plansIdList.free || data._id == this.plansIdList.standardMonth || data._id == this.plansIdList.proMonth || data._id == this.plansIdList.enterpriceMonth) {
           listDataMonthlyFeature.push(Object.entries(data.featureAccess))
         }
       })
-      console.log(listData)
-      console.log(listDataMonthlyFeature);
       // let maxArr =[]
       // listDataMonthlyFeature.forEach((element,index) => {
       //   maxArr.push(element.length)
       // });
       // let maxRecordIndex = maxArr.indexOf(Math.max(...maxArr));
-      if(listDataMonthlyFeature.length = 4){
-        for(let i=1; i<= listDataMonthlyFeature.length;i++){
-          if(listDataMonthlyFeature[i]){
-            for(let j=0; j < listDataMonthlyFeature[i].length;j++){
-              if(listDataMonthlyFeature[i][j]){
-                if(listDataMonthlyFeature[i][j][0] == listDataMonthlyFeature[0][j][0]){ //comapre 3 records with 1st record's Key
-                  listDataMonthlyFeature[0][j].push(listDataMonthlyFeature[i][j][1])       // push the values array in 1st record
-                }
+      //if(listDataMonthlyFeature.length = 4){
+      for (let i = 1; i <= listDataMonthlyFeature.length; i++) {
+        if (listDataMonthlyFeature[i]) {
+          for (let j = 0; j < listDataMonthlyFeature[i].length; j++) {
+            if (listDataMonthlyFeature[i][j]) {
+              if (listDataMonthlyFeature[i][j][0] == listDataMonthlyFeature[0][j][0]) { //comapre 3 records with 1st record's Key
+                listDataMonthlyFeature[0][j].push(listDataMonthlyFeature[i][j][1])       // push the values array in 1st record
               }
             }
           }
         }
+        //}
       }
       console.log(listDataMonthlyFeature);
       // listDataMonthlyFeature.forEach((parent,i)=> {
       //   parent.forEach((child,j)=> {
-          
+
       //   });
       // });
-      this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
-      if (!this.currentSubscriptionPlan) {
-        this.currentsubscriptionPlan(this.selectedApp, res);
-      } else {
-        this.getOverage(res);
-      }
+      // this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+      // if (!this.currentSubscriptionPlan) {
+      //   this.currentsubscriptionPlan(this.selectedApp, res);
+      // } else {
+      // }
 
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });
   }
-  getOverage(allPlans) {
-    allPlans.forEach(element => {
+  getOverage() {
+    this.totalPlansData.forEach(element => {
       if (element._id == this.currentSubscriptionPlan.subscription.planId) {
         this.overageDeatils = element.overage;
       }
@@ -164,14 +176,17 @@ export class PricingComponent implements OnInit {
     else if (type == 'order') {
       this.plans.openOrderConfPopup(data);
     } else if (type == 'orderOverage') {
-      for (let data of this.totalPlansData) {
-        if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription && this.currentSubscriptionPlan.subscription.planName) {
-          if (data.name == this.currentSubscriptionPlan.subscription.planName) {
-            let obj = { overageShow: true, docCount: this.addDocOver ? this.numberDoc : null, queryCount: this.addQueOver ? this.numberQuery : null, overageDeatils: this.overageDeatils }
-            this.plans.openOrderConfPopup(data, obj);
-          }
-        }
-      }
+      let planData = this.totalPlansData.filter(plan => plan._id == this.currentSubscriptionPlan.subscription.planId);
+      let obj = { overageShow: true, docCount: this.addDocOver ? this.numberDoc : null, queryCount: this.addQueOver ? this.numberQuery : null, overageDeatils: this.overageDeatils }
+      this.plans.openOrderConfPopup(planData[0], obj);
+      // for (let data of this.totalPlansData) {
+      //   if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription && this.currentSubscriptionPlan.subscription.planName) {
+      //     if (data.name == this.currentSubscriptionPlan.subscription.planName) {
+      //       let obj = { overageShow: true, docCount: this.addDocOver ? this.numberDoc : null, queryCount: this.addQueOver ? this.numberQuery : null, overageDeatils: this.overageDeatils }
+      //       this.plans.openOrderConfPopup(data, obj);
+      //     }
+      //   }
+      // }
     }
   }
   //open popup1
@@ -209,6 +224,7 @@ export class PricingComponent implements OnInit {
 
   //open popup1
   addOverage() {
+    this.getOverage();
     this.addOverageModalPopRef = this.addOverageModel.open();
   }
   //close popup1
@@ -237,15 +253,16 @@ export class PricingComponent implements OnInit {
       subscriptionId: this.currentSubscriptionPlan.subscription._id,
       status: "success"
     };
-    this.service.invoke('put.cancelSubscribtion',queryParam,payload).subscribe(res => {
-      this.currentsubscriptionPlan(this.selectedApp)
-    // this.notificationService.notify('Cancel Subscription', 'success');
+    this.service.invoke('put.cancelSubscribtion', queryParam, payload).subscribe(res => {
+      this.appSelectionService.getCurrentSubscriptionData();
+      //this.currentsubscriptionPlan(this.selectedApp)
+      // this.notificationService.notify('Cancel Subscription', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'failed to Cancel subscription');
     });
-   this.closeCancelSubsPopup();
+    this.closeCancelSubsPopup();
   }
-  closeCancelSubsPopup(){
+  closeCancelSubsPopup() {
     if (this.cancelSubscriptionModelPopRef && this.cancelSubscriptionModelPopRef.close) {
       this.cancelSubscriptionModelPopRef.close();
     }
@@ -281,9 +298,9 @@ export class PricingComponent implements OnInit {
 
       tooltip: {
         trigger: 'axis',
-        axisPointer: {            
-          type: 'none'        
-      },
+        axisPointer: {
+          type: 'none'
+        },
         formatter: `
           <div class="metrics-tooltips-hover agent_drop_tolltip">
           <div class="">
@@ -294,7 +311,7 @@ export class PricingComponent implements OnInit {
         `,
         position: 'top',
         padding: 0
-       
+
       },
 
       grid: {
@@ -361,9 +378,9 @@ export class PricingComponent implements OnInit {
       // },
       tooltip: {
         trigger: 'axis',
-        axisPointer: {            
-          type: 'none'        
-      },
+        axisPointer: {
+          type: 'none'
+        },
         formatter: `
           <div class="metrics-tooltips-hover agent_drop_tolltip">
           <div class="">
@@ -374,7 +391,7 @@ export class PricingComponent implements OnInit {
         `,
         position: 'top',
         padding: 0
-       
+
       },
       grid: {
         left: '3%',
@@ -382,7 +399,7 @@ export class PricingComponent implements OnInit {
         bottom: '3%',
         containLabel: true
       },
-      
+
       xAxis: {
         type: 'category',
         data: ['Jan', 'Feb', 'Apr', 'May', 'Jun'], //data//
@@ -481,33 +498,70 @@ export class PricingComponent implements OnInit {
       }
     }
   }
-
-  updateUsageDetails(){
+  //revert subscription dialog
+  revertCancel() {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Are you sure you want to Revert?',
+        body: 'Your cancellation request will be reverted and current plan will be retained',
+        buttons: [{ key: 'yes', label: 'Revert Cancellation', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.renewSubscription(dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+  }
+  //renew subscription
+  renewSubscription(dialogRef) {
+    const queryParam = {
+      streamId: this.selectedApp._id
+    }
+    this.service.invoke('get.renewSubscribtion', queryParam).subscribe(res => {
+      this.appSelectionService.getCurrentSubscriptionData();
+      dialogRef.close();
+      // this.notificationService.notify('Cancel Subscription', 'success');
+    }, errRes => {
+      this.errorToaster(errRes, 'failed to renew subscription');
+    });
+  }
+  updateUsageDetails() {
     // console.log("currentSubscriptionPlan", this.currentSubscriptionPlan);
-    if(this.currentSubscriptionPlan &&  this.currentSubscriptionPlan.usage && this.currentSubscriptionPlan.usage.ingestDocs){
+    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.usage && this.currentSubscriptionPlan.usage.ingestDocs) {
       this.usageDetails.ingestDocs = this.currentSubscriptionPlan.usage.ingestDocs;
-      if(this.usageDetails.ingestDocs.percentageUsed >= 80){
+      if (this.usageDetails.ingestDocs.percentageUsed >= 80) {
         this.usageDetails.ingestDocs.type = 'danger';
       }
-      else{
+      else {
         this.usageDetails.ingestDocs.type = 'primary'
       }
     }
-    else{
+    else {
       this.usageDetails.ingestDocs = {};
     }
 
-    if(this.currentSubscriptionPlan && this.currentSubscriptionPlan.usage && this.currentSubscriptionPlan.usage.searchQueries){
+    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.usage && this.currentSubscriptionPlan.usage.searchQueries) {
       this.usageDetails.searchQueries = this.currentSubscriptionPlan.usage.searchQueries;
-      if(this.usageDetails.searchQueries.percentageUsed >= 80){
+      if (this.usageDetails.searchQueries.percentageUsed >= 80) {
         this.usageDetails.searchQueries.type = 'danger';
       }
-      else{
+      else {
         this.usageDetails.searchQueries.type = 'primary';
       }
     }
-    else{
+    else {
       this.usageDetails.searchQueries = {};
     }
+  }
+  ngOnDestroy() {
+    this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
   }
 }
