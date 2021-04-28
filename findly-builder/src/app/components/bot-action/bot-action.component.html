@@ -1,70 +1,4 @@
 
-<!-- <kr-modal modalType="center" modalClass="linkExistingBotsModal" #botsModalElement>
-  <div class="modal-header">
-    <span class="header-title">Link Bot</span>
-    <button class="button-close" (click)="closeBotsModalElement()">&times;</button>
-  </div>
-  <div class="modal-body">
-    <div class="empty-content-container" *ngIf="!associatedBotsExist">
-      <img class="empty-content-indicator-image" src="assets/images/icons/empty_ill.svg" />
-      <div class="empty-content-container-content">
-        <p class="bold-text">No associated bots found!</p>
-      </div>
-    </div>
-    <ng-container *ngIf="associatedBotsExist">
-      <p class="bold-informative-text">Choose any bot from the list to link it to your SearchAssist app</p>
-      <div class="search-input-container">
-        <input class="search-input" type="text" placeholder="Search" [(ngModel)]="searchAssociatedBots"
-          name="searchAssociatedBots" />
-        <img class="search-icon" src="assets/images/search_gray.svg">
-      </div>
-      <div class="associated-bots-list-container">
-        <div class="kr-sg-data-table">
-          <section class="table-content">
-            <header class="table-header">
-              <div class="col_ col-3 d-flex align-items-center">
-                Bot Name
-              </div>
-              <div class="col_ col-3 d-flex align-items-center">
-                Owner
-              </div>
-              <div class="col_ col-4 d-flex align-items-center">
-                Contents
-              </div>
-              <div class="col_ col-3 d-flex align-items-center">
-              </div>
-              <div class="col_ col-4 d-flex align-items-center">
-              </div>
-            </header>
-            <perfect-scrollbar class="table-scroll-perfect">
-              <div class="content-body" *ngFor="let bot of associatedBots | filter: [searchAssociatedBots, 'name']">
-                <div class="col_ col-3 col-botName-text">{{bot.name}}</div>
-                <div class="col_ col-3 col-ownerName-text">{{bot.createdBy.firstName}} {{bot.createdBy.lastName}}</div>
-                <div class="col_ col-2 col-content-text"><span class="col-content-faqs"><img
-                      src="assets/icons/iconFAQ.svg" class="col-content-icon" />&nbsp;{{bot.publishedFAQsCount}}
-                    FAQs</span><span class="col-content-tasks"><img src="assets/icons/iconTask.svg"
-                      class="col-content-icon" />&nbsp;{{bot.publishedTasksCount}} Tasks</span></div>
-                <div class="col_ col-2"></div>
-                <div class="col_ col-2"><button *ngIf="streamId != bot._id" class="button-bot-link"
-                    (click)="linkBot(bot._id)"><img src="assets/icons/iconLink.svg">&nbsp;Link</button><button
-                    *ngIf="streamId == bot._id" class="button-bot-unlink" (click)="unlinkBot(bot._id,'bulk_unlink')"><img
-                      src="assets/icons/iconUnlink.svg">&nbsp;Unlink</button><img class="col-content-ellipse-icon"
-                    src="assets/icons/elipse.svg"></div>
-              </div>
-            </perfect-scrollbar>
-          </section>
-        </div>
-      </div>
-    </ng-container>
-  </div>
-  <div class="modal-footer">
-    <button class="kr-sg-button-primary btn_lg" (click)="closeBotsModalElement()">Save</button>
-    <button class="kr-sg-button-secondary btn_lg" (click)="closeBotsModalElement()">Cancel</button>
-  </div>
-</kr-modal> -->
-
-
-
 <div class="bot-actions-container">
 
   <div class="mainLoadingSpinner" *ngIf="loadingContent">
@@ -114,17 +48,17 @@
           </div>
           <div class="content-sec">
             <div class="bot-name-sec">
-              Bot Name: <span class="bot-name-title">Banking Bot</span>
+              Bot Name: <span class="bot-name-title">{{linkedBotName}}</span>
             </div>
-            <div class="bot-desc">Perform banking related activities</div>
+            <div class="bot-desc">{{linkedBotDescription}}</div>
             <div class="bot_type">Universal Bot</div>
           </div>
         </div>
         <div class="righ-sec col-4">
-          <div class="sync-btn">
+          <div class="sync-btn" (click)="syncLinkedBot()">
             <img src="assets/icons/actions/sync.svg">Sync
           </div>
-          <div class="unlink-btn">
+          <div class="unlink-btn" (click)="unlinkBot(linkedBotID)">
             <img src="assets/icons/actions/unlink.svg">Unlink
           </div>
         </div>
@@ -192,7 +126,7 @@
                     <div class="clicks-view-info">
                       <img src="assets/icons/actions/clicks.svg">{{task.noOfClicks}}&nbsp; Clicks
                     </div>
-                    <div class="kr-sg-dropdowns add elipse-action-dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                    <div class="kr-sg-dropdowns add elipse-action-dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" [ngClass]="{'d-none':selcectionObj.selectedItems[task._id]}">                                        
                       <div class="dropdown dropdown-open">
                           <div class="linked-task-status-control" ngbDropdownToggle>
                               <img src="assets/icons/elipse.svg">
@@ -232,108 +166,27 @@
               <div class="col-6 title">Bot Name</div>
               <div class="col-6 title">Owner</div>
           </div>
-          <div class="table-body-link-bot row col-12">
+          <div class="table-body-link-bot row col-12"  *ngFor="let bot of associatedBots | filter: [searchAssociatedBots, 'name']">
             <div class="col-6 bot-name-data row m-0">
               <div class="col-9 name-with-type">
-                Banking Integration Bot <span class="bot-type">Universal Bot</span>
+                {{bot.name}} <span class="bot-type">Universal Bot</span>
               </div>
               <div class="col-3 shares-data">
-                  <img src="assets/icons/actions/shares.svg">65 Tasks
+                  <img src="assets/icons/actions/shares.svg">{{bot.publishedTasksCount}} Tasks
               </div>
             </div>
-            <div class="col-2 owner-name">Monica Rossi</div>
+            <div class="col-2 owner-name">{{bot.createdBy.firstName}} {{bot.createdBy.lastName}}</div>
             <div class="col-4 link-bot-actions">
-              <div class="link-bot-btn">
+              <div class="link-bot-btn" (click)="linkBot(bot._id)" *ngIf="streamId !== bot._id">
                 <img src="assets/icons/actions/link-bot.svg">Link Bot
+              </div>
+              <div class="link-bot-btn" (click)="unlinkBot(bot._id,'bulk_unlink')" *ngIf="streamId == bot._id">
+                <img src="assets/icons/actions/link-bot.svg">Unlink Bot
               </div>
               <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12">
             </div>
           </div>
-          <div class="table-body-link-bot row col-12">
-            <div class="col-6 bot-name-data row m-0">
-              <div class="col-9 name-with-type">
-                Banking Integration Bot
-              </div>
-              <div class="col-3 shares-data">
-                  <img src="assets/icons/actions/shares.svg">65 Tasks
-              </div>
-            </div>
-            <div class="col-2 owner-name">Monica Rossi</div>
-            <div class="col-4 link-bot-actions">
-              <div class="link-bot-btn">
-                <img src="assets/icons/actions/link-bot.svg">Link Bot
-              </div>
-              <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12">
-            </div>
-          </div>
-          <div class="table-body-link-bot row col-12">
-            <div class="col-6 bot-name-data row m-0">
-              <div class="col-9 name-with-type">
-                Banking Integration Bot
-              </div>
-              <div class="col-3 shares-data">
-                  <img src="assets/icons/actions/shares.svg">65 Tasks
-              </div>
-            </div>
-            <div class="col-2 owner-name">Monica Rossi</div>
-            <div class="col-4 link-bot-actions">
-              <div class="link-bot-btn">
-                <img src="assets/icons/actions/link-bot.svg">Link Bot
-              </div>
-              <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12">
-            </div>
-          </div>
-          <div class="table-body-link-bot row col-12">
-            <div class="col-6 bot-name-data row m-0">
-              <div class="col-9 name-with-type">
-                Banking Integration Bot
-              </div>
-              <div class="col-3 shares-data">
-                  <img src="assets/icons/actions/shares.svg">65 Tasks
-              </div>
-            </div>
-            <div class="col-2 owner-name">Monica Rossi</div>
-            <div class="col-4 link-bot-actions">
-              <div class="link-bot-btn">
-                <img src="assets/icons/actions/link-bot.svg">Link Bot
-              </div>
-              <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12">
-            </div>
-          </div>
-          <div class="table-body-link-bot row col-12">
-            <div class="col-6 bot-name-data row m-0">
-              <div class="col-9 name-with-type">
-                Banking Integration Bot
-              </div>
-              <div class="col-3 shares-data">
-                  <img src="assets/icons/actions/shares.svg">65 Tasks
-              </div>
-            </div>
-            <div class="col-2 owner-name">Monica Rossi</div>
-            <div class="col-4 link-bot-actions">
-              <div class="link-bot-btn">
-                <img src="assets/icons/actions/link-bot.svg">Link Bot
-              </div>
-              <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12">
-            </div>
-          </div>
-          <div class="table-body-link-bot row col-12">
-            <div class="col-6 bot-name-data row m-0">
-              <div class="col-9 name-with-type">
-                Banking Integration Bot
-              </div>
-              <div class="col-3 shares-data">
-                  <img src="assets/icons/actions/shares.svg">65 Tasks
-              </div>
-            </div>
-            <div class="col-2 owner-name">Monica Rossi</div>
-            <div class="col-4 link-bot-actions">
-              <div class="link-bot-btn">
-                <img src="assets/icons/actions/link-bot.svg">Link Bot
-              </div>
-              <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12">
-            </div>
-          </div>
+          
         </div>
     </div>
   </perfect-scrollbar>
