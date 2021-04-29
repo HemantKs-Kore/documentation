@@ -3,12 +3,12 @@
 	<ng-container *ngIf="!settingMainMenu && !sourceMenu || sourceMenu">
 	<div class="upgrade_your_plan_price" [hidden]="!showUpgrade">
 		<div class="upgrade-plan-btn" (click)="upgrade()">Upgrade Your Plan<img src="assets/icons/pricing/carrotright.svg"></div>
-		<div class="document-limit">22%  document limit reached</div>
-		<ngb-progressbar class="mt-3" height="10px" type="primary" value="20" max="100">
-		</ngb-progressbar>
-		<div class="document-limit">10%  query limit reached</div>
-		<ngb-progressbar class="mt-3" height="10px" type="primary" value="20" max="100">
-		</ngb-progressbar>
+		<div class="document-limit">22%  document limit reached
+			<ngb-progressbar height="10px" type="primary" value="20" max="100"></ngb-progressbar>
+		</div>		
+		<div class="document-limit">10%  query limit reached
+			<ngb-progressbar class="query-limited-reached" height="10px" type="primary" value="20" max="100"></ngb-progressbar>
+		</div>		
 	</div></ng-container>
 	<perfect-scrollbar class="perfect-scroll">
 		<div class="list-group list-group-flush" *ngIf="!settingMainMenu && !sourceMenu">					

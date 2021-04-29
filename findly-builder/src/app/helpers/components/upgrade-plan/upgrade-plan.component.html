@@ -18,6 +18,8 @@
             <div class="main-content" *ngIf="plan.type!='free'">
               <div class="inner-content">
                 <img src="assets/icons/pricing/standard.svg" class="standard-img">
+                <!-- <img src="assets/icons/pricing/pro.svg" class="pro-img" *ngIf="plan.type == 'pro_monthly'">
+                <img src="assets/icons/pricing/enterprise.svg" class="enterprise-img" *ngIf="plan.type == 'enterprise_monthly'"> -->
                   <div class="title-sec">
                     <div class="title">{{plan.name}}</div>
                     <div class="price" [ngClass]='{"d-none":selectedPlan.planName===plan.name||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?'month':'year'}}</span></div>
@@ -148,7 +150,7 @@
          <div class="order-confirmation-table-body row col-12 m-0"  *ngIf="overageData&&overageData.overageShow&&overageData.overageDeatils">            
           <ng-container *ngIf="overageData.docCount>=1">
             <div class="col-9 plan_details">
-              <div class="plan-type">Document Overage</div>
+              <div class="plan-type col-5 p-0 m-0">Document Overage</div>
               <div class="add-doc-btn-sec">
                 <div class="minus" (click)="count('doc','minus')"><img src="assets/icons/pricing/minus-small.svg"></div>
                 <div class="increase-num">{{overageData.docCount}}</div>
@@ -160,7 +162,7 @@
           </ng-container>
           <ng-container *ngIf="overageData.queryCount>=1">
             <div class="col-9 plan_details">
-              <div class="plan-type">Query Overage</div>
+              <div class="plan-type col-5 p-0 m-0">Query Overage</div>
               <div class="add-doc-btn-sec">
                 <div class="minus" (click)="count('query','minus')"><img src="assets/icons/pricing/minus-small.svg"></div>
                 <div class="increase-num">{{overageData.queryCount}}</div>
@@ -228,7 +230,7 @@
           <div class="img-block col-7 p-0"><img src="assets/icons/pricing/payment-failed.svg"></div>
           <div class="payment-success-message col-5 p-0">
             <div class="title">Oops! Payment Failed!!</div>
-            <button class="kr-sg-buttonicon-primary btn_lg" (click)="openPaymentGatewayPopup();closeSuccessFailurePopup()">Retry Payment</button>
+            <button class="kr-sg-button-primary btn_lg" (click)="openPaymentGatewayPopup();closeSuccessFailurePopup()">Retry Payment</button>
           </div>
         </div>
     </div>
@@ -239,31 +241,31 @@
 </kr-modal>
 
 <!--change plan/excess data show popup-->
-<kr-modal modalType="center" modalClass="modal_popups_ order-confirmation" #changePlanModel>
+<kr-modal modalType="center" modalClass="modal_popups_ order-confirmation excess-modal-data" #changePlanModel>
   <div class="modal-header">
     <div class="title">Change Plan</div>
     <div class="close_icon"><img (click)="closeChangePlanModel()" src="assets/icons/modal-close.svg"></div>
   </div>
   <perfect-scrollbar>
     <div class="modal-body">
-      <div class="plan-desc">You are Subscribing to Pro. Please find the order summary below.</div>
-      <div class="order-confirmation-table">
-        <div class="order-confirmation-table-header row col-12 m-0">
-          <div class="title col-9">PLAN</div>
-          <div class="title col-3">AMOUNT</div>
-        </div>
-        <div class="order-confirmation-table-body row col-12 m-0">
-          <div class="col-9 plan_details">
-            <div class="plan-type"> Subscription</div>
-          </div>            
-
-          <div class="amount col-3">$10</div>
-        </div>
-        <div class="order-confirmation-table-body row col-12 m-0">
-          <div class="col-9 total-amount text-right">Total Amount</div>
-          <div class="amount col-3">$ 10</div>
-        </div>
+      <div class="desc-text-info">
+        I see, you want to choose another plan. Please <span>delete the excess document & Index</span> to change the plan. Rules, Workbench stages & Experiments added in your application will be automatically deactivated. 
       </div>
+        <div class="excess-table-data">
+          <div class="excess-header">FEATURES</div>
+          <div class="excess-table-body col-12 row">
+            <div class="excess-type col-6">Document</div>
+            <div class="excess-name col-6">Excess</div>
+          </div>
+          <div class="excess-table-body col-12 row">
+            <div class="excess-type col-6">Index</div>
+            <div class="excess-name col-6">Excess</div>
+          </div>
+          <div class="excess-table-body col-12 row">
+            <div class="excess-type col-6">Document</div>
+            <div class="excess-name col-6">Excess</div>
+          </div>
+        </div>
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">

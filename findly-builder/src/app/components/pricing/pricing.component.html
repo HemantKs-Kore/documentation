@@ -4,11 +4,9 @@
 <button (click)="openPopup3()">popup3</button> -->
 
 <div class="pricing-container-wrapper">
-  <div class="row card-plans justify-content-between">
-    <div class="title-header col-12">
-      <div class="col-11">Plan Details</div>
-      <button class="kr-sg-button-primary btn_lg col-1" *ngIf="showUpgradeBtn" (click)="currentSubscriptionPlan.subscription.changesScheduledFor=='none'?compare('choosePlans',currentSubscriptionPlan.subscription):revertCancel()">{{currentSubscriptionPlan.subscription.changesScheduledFor=='none'?'Upgrade':'Revert Cancellation'}}</button>
-      </div>    
+  <div class="title-header d-flex align-items-center justify-content-between">
+    <div>Plan Details</div>
+    <button class="kr-sg-button-primary btn_lg" *ngIf="showUpgradeBtn" (click)="currentSubscriptionPlan.subscription.changesScheduledFor=='none'?compare('choosePlans',currentSubscriptionPlan.subscription):revertCancel()">{{currentSubscriptionPlan.subscription.changesScheduledFor=='none'?'Upgrade':'Revert Cancellation'}}</button>  
   </div>
   <perfect-scrollbar class="pricing-scroll">
     <div class="pricing-details-main-sec">

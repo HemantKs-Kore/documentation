@@ -456,4 +456,58 @@
             }
         }
     }
+    &.excess-modal-data{
+        background: rgba(31, 32, 35, 0.5);
+        .modal-dialog{
+            height: 448px !important;
+            .modal-content{
+                .modal-body{
+                    padding: 25px !important;
+                    .desc-text-info{
+                        color: #202124;
+                        font-weight: normal;
+                        font-size: 14px;
+                        line-height: 30px;
+                        margin-bottom: 20px;
+                        span{
+                            font-weight: 600;
+                        }
+                    }
+                    .excess-table-data{
+                        .excess-header{
+                            color: #9AA0A6;
+                            font-weight: 500;
+                            font-size: 12px;
+                            line-height: 30px;
+                            background: #FFFFFF;
+                            box-shadow: 0px 1px 0px rgba(32, 33, 36, 0.1);
+                            padding: 6px 15px;
+                            margin-bottom: 1px;
+                        }
+                        .excess-table-body{
+                            margin: 0 0 1px 0;
+                            padding: 8px 0 8px 0px;
+                            background: #FFFFFF;
+                            box-shadow: 0px 1px 0px rgba(32, 33, 36, 0.1);
+                            min-height: 41px;
+                            align-items: center;  
+                            .excess-type{
+                                color: #3C4043;
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 20px;
+                            }    
+                            .excess-name{
+                                color: #DD3646;
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 20px;
+                            }                  
+                        }
+                    }
+
+                }
+            }
+        }
+    }
 }
