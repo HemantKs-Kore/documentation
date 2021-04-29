@@ -25,6 +25,8 @@ export class InvoicesComponent implements OnInit {
   indexPipelineId;
   subscription: Subscription;
   totalRecord:number;
+  selectedSort = '';
+  isAsc = true;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -87,5 +89,41 @@ export class InvoicesComponent implements OnInit {
   downloadInvoice(url,invoiceId){
     // FileSaver.saveAs("https://httpbin.org/image", "image.jpg");
     FileSaver.saveAs(url+'&DownloadPdf=true', 'invoice_'+invoiceId+'.pdf');
+  }
+
+  getSortIconVisibility(sortingField: string, type: string) {
+    switch (this.selectedSort) {
+      case "invoiceCreatedDate": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+    }
+  }
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  sortBy(sort) {
+    const data = this.invoices.slice();
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    const sortedData = data.sort((a, b) => {
+      const isAsc = this.isAsc;
+      switch (sort) {
+        case 'invoiceCreatedDate': return this.compare(a.invoiceCreatedDate, b.invoiceCreatedDate, isAsc);
+        default: return 0;
+      }
+    });
+    this.invoices = sortedData;
   }
 }

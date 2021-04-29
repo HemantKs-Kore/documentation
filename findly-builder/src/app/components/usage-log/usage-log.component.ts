@@ -15,7 +15,7 @@ export class UsageLogComponent implements OnInit {
   usageLogs=[];
   queryTypeArr = [];
   requestSourceArr = [];
-  isResultArr = [];
+  resultsArr = [];
   showSearch;
   searchUsageLog = '';
   searchImgSrc: any = 'assets/icons/search_gray.svg';
@@ -28,7 +28,7 @@ export class UsageLogComponent implements OnInit {
   filterSystem: any = {
     'queryTypeFilter': 'all',
     'requestSourceFilter': 'all',
-    'isResultFilter': 'all'
+    'resultsFilter': 'all'
   }
   selectedSort = '';
   isAsc = true;
@@ -77,11 +77,11 @@ export class UsageLogComponent implements OnInit {
         this.usageLogs.forEach(element => {
           this.queryTypeArr.push(element.queryType);
           this.requestSourceArr.push(element.requestSource);
-          this.isResultArr.push(element.isResult);
+          this.resultsArr.push(element.results);
         });
         this.queryTypeArr = [...new Set(this.queryTypeArr)];
         this.requestSourceArr = [...new Set(this.requestSourceArr)];
-        this.isResultArr = [...new Set(this.isResultArr)];
+        this.resultsArr = [...new Set(this.resultsArr)];
       }
 
     }, errRes => {
@@ -106,13 +106,13 @@ export class UsageLogComponent implements OnInit {
     console.log(this.usageLogs, source, headerOption);
     this.filterSystem.queryTypeFilter = 'all';
     this.filterSystem.requestSourceFilter = 'all';
-    this.filterSystem.isResultFilter = 'all';
+    this.filterSystem.resultsFilter = 'all';
 
     this.filterUsageLogs(source, headerOption);
     switch (headerOption) {
       case 'queryType': { this.filterSystem.queryTypeFilter = source; return; };
       case 'requestSource': { this.filterSystem.requestSourceFilter = source; return; };
-      case 'isResult': { this.filterSystem.isResultFilter = source; return; };
+      case 'results': { this.filterSystem.resultsFilter = source; return; };
     };
   }
 
@@ -132,8 +132,8 @@ export class UsageLogComponent implements OnInit {
             return field;
           }
         }
-        if (headerOption === 'isResult') {
-          if (field.isResult === source) {
+        if (headerOption === 'results') {
+          if (field.results === source) {
             return field;
           }
         }
@@ -148,7 +148,7 @@ export class UsageLogComponent implements OnInit {
 }
 getSortIconVisibility(sortingField: string, type: string) {
   switch (this.selectedSort) {
-    case "isResult": {
+    case "results": {
       if (this.selectedSort == sortingField) {
         if (this.isAsc == false && type == 'down') {
           return "display-block";
@@ -210,7 +210,7 @@ sortBy(sort) {
     switch (sort) {
       case 'queryType': return this.compare(a.queryType, b.queryType, isAsc);
       case 'requestSource': return this.compare(a.requestSource, b.requestSource, isAsc);
-      case 'isResult': return this.compare(a.isResult, b.isResult, isAsc);
+      case 'results': return this.compare(a.results, b.results, isAsc);
       case 'createdOn': return this.compare(a.createdOn, b.createdOn, isAsc);
       default: return 0;
     }

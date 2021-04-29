@@ -28,7 +28,12 @@
                 <div class="title col-3">BILLING period</div>
                 <div class="title col-2">INVOICE AMOUNT</div>
                 <div class="title col-2">SUBSCRIPTION</div>
-                <div class="title col-3 d-flex align-items-center"><img src="assets/icons/usage-log/sort.svg" class="mr-1"> INVOICE DATE</div>
+                <div class="title col-3 col_ d-flex align-items-center" (click)="sortBy('invoiceCreatedDate')">
+                    <span class="d-flex align-items-center flex-column mr-1">
+                        <img  [ngClass]="getSortIconVisibility('invoiceCreatedDate', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img  [ngClass]="getSortIconVisibility('invoiceCreatedDate', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                      </span>
+                    INVOICE DATE</div>
             </div>
             <div class="invoice-table-body row col-12" *ngFor="let invoice of invoices | fieldsFilter: [ searchInvoice, '_id']">
                 <div class="title col-2">{{invoice._id}}</div>
