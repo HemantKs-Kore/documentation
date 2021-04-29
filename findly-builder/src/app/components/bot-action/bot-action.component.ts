@@ -37,6 +37,7 @@ export class BotActionComponent implements OnInit {
   // associatedBotArr = [];
   userInfo: any;
   botsModalRef: any;
+  searchAssociatedBots = '';
   @ViewChild('botsModalElement') botsModalElement: KRModalComponent;
   searchBots: string;
   searchSources: string;
