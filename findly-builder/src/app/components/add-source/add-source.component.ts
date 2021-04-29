@@ -470,7 +470,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentStucturedDataImport'){
       this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentStucturedDataAdd'){
-      //this.inlineManual.openHelp('ADD_FAQ_MAUALY_FROM_SOURCE')
+      this.inlineManual.openHelp('ADD_STRUCTURED_DATA_MANUALY')
     }
     setTimeout(() => {
       $('#addSourceTitleInput').focus();
