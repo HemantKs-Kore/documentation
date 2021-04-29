@@ -54,9 +54,12 @@ export class SmallTalkComponent implements OnInit {
       };
       this.service.invoke('get.AssociatedBotTasks', queryParams, null, { "state": "published" }).subscribe(res => {
         console.log("getAllTasks API response payload", res);
+        this.enable = res.stEnabled
       },
+    
         (err) => {
         },
+        
       )}
   }
  enableST(type) {

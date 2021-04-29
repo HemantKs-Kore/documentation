@@ -281,7 +281,7 @@
 		<!-- Inside config tab menus -->
 		<div class="list-group list-group-flush inside-config-tab-left-menus" *ngIf="settingMainMenu && !sourceMenu">
 			
-			<div class="inside-menu-title">BOT RESULTS</div>
+			<div class="inside-menu-title d-none">BOT RESULTS</div>
 
 			<!-- <div mat-button class="mat-button" [routerLink]="['/search-experience']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
@@ -299,7 +299,7 @@
 				<span class="linkTitle">Result Templates </span>
 			</div> -->
 
-			<div mat-button class="mat-button" [routerLink]="['/actions']" skipLocationChange routerLinkActive="active"
+			<!-- <div mat-button class="mat-button" [routerLink]="['/actions']" skipLocationChange routerLinkActive="active"
 				(click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/actions-config.svg" class="defaultIcon">
@@ -315,9 +315,16 @@
 					<img src="assets/icons/sidemenu/new-icons/smalltalk.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Small Talk</span>
+			</div> -->
+			<div mat-button class="mat-button" [routerLink]="['/generalSettings']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
+				<span class="inlineIconBox leftAdjust">
+					<img src="assets/icons/sidemenu/new-icons/Settings.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/Settings.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">General Settings</span>
 			</div>
 
-			<div class="inside-menu-title">SETTINGS</div>
+			<!-- <div class="inside-menu-title">SETTINGS</div> -->
 			<div mat-button class="mat-button" [routerLink]="['/settings']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
 				<span class="inlineIconBox leftAdjust">
 					<img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
@@ -337,7 +344,7 @@
 					<img src="assets/icons/sidemenu/new-icons/team_management.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/team_management.svg" class="activeIcon">
 				</span>
-				<span class="linkTitle">Teams</span>
+				<span class="linkTitle">Team</span>
 			</div>
 
 			<!-- <div class="inside-menu-title">BILLING & USAGE</div>

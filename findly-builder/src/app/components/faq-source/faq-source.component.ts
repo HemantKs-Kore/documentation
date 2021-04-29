@@ -45,7 +45,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   noManulaRecords: boolean = false;
   selectedApp: any = {};
   fileName: ' ';
+  extractedResources: any =[];
   resources: any = [];
+  filters:  any =[];
   polingObj: any = {};
   faqUpdate: Subject<void> = new Subject<void>();
   filterObject = {};
@@ -151,9 +153,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getfaqsBy();
+    this.getStats(null,true);
+    // this.getfaqsBy();
     this.getSourceList();
-    this.getStats();
     this.userInfo = this.authService.getUserInfo() || {};
     this.altAddSub = this.faqServiceAlt.addAltQues.subscribe(params => {
       this.selectedFaq.isAlt = false;
@@ -293,19 +295,23 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   selectAllPartially(){
+  
+    const selectedElements = $('.selectEachfaqInput:checkbox:checked');
+    if (selectedElements.length !== this.faqs.length) {
+      this.faqSelectionObj.selectAll = true;
+      this.selectAll();
+      setTimeout(()=>{
+        this.faqSelectionObj.selectAll = false;
+      },100)
+    }else{
+      this.selectAll(true);
+    }
     if((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount== this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved )){
       $('#selectAllFaqs')[0].checked = true;
       this.faqSelectionObj.selectAll = true;
-      this.faqSelectionObj.selectAll = !this.faqSelectionObj.selectAll;
     } else {
       $('#selectAllFaqs')[0].checked = false;
       this.faqSelectionObj.selectAll = false;
-    }
-    const selectedElements = $('.selectEachfaqInput:checkbox:checked');
-    if (selectedElements.length !== this.faqs.length) {
-      this.selectAll(true);
-    }else{
-      this.selectAll();
     }
   }
   headerSelectAll(){
@@ -333,6 +339,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
   }
+  selectAllRecords(){
+this.faqSelectionObj.selectAll = true;
+this.selectAll();
+  }
   checkUncheckfaqs(faq) {
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
     const allElements = $('.selectEachfaqInput');
@@ -351,14 +361,21 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   markSelectedFaqs(faqs){
-    if(Object.keys(this.faqSelectionObj.selectedItems).length){
-      Object.keys(this.faqSelectionObj.selectedItems).forEach((key)=>{
-        let index = faqs.findIndex((d)=> d._id === key);
-        if(index >-1){
-          $('#selectFaqCheckBox_'+key)[0].checked = true;
-          this.checkUncheckfaqs(faqs[index]);
-        }
-      })
+    if (this.faqSelectionObj.selectAll) {
+      faqs.forEach((e) => {
+        $('#selectFaqCheckBox_' + e._id)[0].checked = true;
+        this.checkUncheckfaqs(e);
+      });
+    } else {
+      if (Object.keys(this.faqSelectionObj.selectedItems).length) {
+        Object.keys(this.faqSelectionObj.selectedItems).forEach((key) => {
+          let index = faqs.findIndex((d) => d._id === key);
+          if (index > -1) {
+            $('#selectFaqCheckBox_' + key)[0].checked = true;
+            this.checkUncheckfaqs(faqs[index]);
+          }
+        })
+      }
     }
   }
   manualFaqsFilter() {
@@ -499,7 +516,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }, errRes => {
     });
   }
-  getStats(resourceId?) {
+  getStats(resourceId?,isInitialFaqCall?) {
     console.log("resourceId", resourceId)
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -523,6 +540,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         else {
           this.noManulaRecords = false;
+        } 
+      }
+      if(isInitialFaqCall){
+        if (this.faqSelectionObj.stats.draft) {
+          this.selectTab('draft')
+        } else if (this.faqSelectionObj.stats.in_review) {
+          this.selectTab('in_review')
+        } else if (this.faqSelectionObj.stats.approved) {
+          this.selectTab('approved')
         }
       }
     }, errRes => {
@@ -551,17 +577,18 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => { //get.job.status
       this.resources = [...res];
-        if(res &&res.length){
-          res.forEach((d:any)=>{
-          if(d.extractedFaqsCount === 0){
-          let index = this.resources.findIndex((f)=>f._id == d._id);
-          if(index>-1){
-          this.resources.splice(index,1);
-          }
+      this.extractedResources = [...res];
+      if (res && res.length) {
+        res.forEach((d: any) => {
+          if (d.extractedFaqsCount === 0) {
+            let index = this.resources.findIndex((f) => f.name == d.name);
+            if (index > -1) {
+              this.resources.splice(index, 1);
+            }
           }
         });
-      res = [...this.resources] ;
-      this.resources = res.reverse();
+        res = [...this.resources];
+        this.resources = res.reverse();
         res.forEach(element => {
           this.resourcesStatusObj[element.resourceId] = element;
         });
@@ -1108,11 +1135,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
       this.notificationService.notify('Deleted Successfully', 'success');
-      const deleteIndex = _.findIndex(this.resources, (fq) => {
+      const deleteIndex = _.findIndex(this.extractedResources, (fq) => {
         return fq._id === source._id;
       })
       if (deleteIndex > -1) {
-        this.resources.splice(deleteIndex, 1);
+        this.extractedResources.splice(deleteIndex, 1);
       }
       this.resetCheckboxSelect();
     }, errRes => {

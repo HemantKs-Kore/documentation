@@ -36,6 +36,7 @@ import { SmallTalkComponent } from './components/small-talk/small-talk.component
 import { PricingComponent } from './components/pricing/pricing.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { UsageLogComponent } from './components/usage-log/usage-log.component';
+import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 const routes: Routes = [
   {
     path: '',
@@ -69,6 +70,7 @@ const routes: Routes = [
       { path: 'credentials-list', component: CredentialsListComponent },
       { path: 'actions', component: ActionsComponent },
       { path: 'smallTalk', component: SmallTalkComponent },
+      { path: 'generalSettings', component: GeneralSettingsComponent },
       { path: 'FieldManagementComponent', component: FieldManagementComponent },
       { path: 'experiments', component: ExperimentsComponent },
       { path: 'searchInterface', component: SearchInterfaceComponent }, /* currently in UI Result Templates */

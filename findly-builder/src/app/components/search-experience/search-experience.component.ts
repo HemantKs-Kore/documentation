@@ -502,7 +502,7 @@ export class SearchExperienceComponent implements OnInit {
       this.color3 = this.searchObject.searchWidgetConfig.buttonTextColor;
       this.color4 = this.searchObject.searchWidgetConfig.buttonFillColor;
       this.color5 = this.searchObject.searchWidgetConfig.buttonBorderColor;
-      this.color6 = this.searchObject.searchWidgetConfig.welcomeMsgColor;
+      this.color6 = this.searchObject.searchInteractionsConfig.welcomeMsgColor;
     }, errRes => {
       console.log(errRes);
     });
