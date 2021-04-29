@@ -20,6 +20,7 @@ export class TraitsComponent implements OnInit {
   currentUtteranceIndex:number;
   currentTraitKey:string;
   newUtterance:any;
+  tempUtterance:string;
   statusModalPopRef: any = [];
   addUtteranceModalPopRef: any = [];
   utteranceList = [];
@@ -526,6 +527,9 @@ var width = ctx.measureText(t.traitName +', ').width;
     }
   }
   openAddUtteranceModel(index,key,utteranceList,isView=false) {
+    if(isView && !utteranceList.length){
+      return;
+    }
     this.showUtteranceInput = isView?false:true;
     this.showEditUtteranceInput = null;
     this.newUtterance = '';
@@ -593,7 +597,7 @@ var width = ctx.measureText(t.traitName +', ').width;
   };
   addNewUtter(utter, event) {
     const utteranceData = [];
-    if (event && event.keyCode === 13 && utter !== '') {
+    if (event && (event.keyCode === 13 || event.type=='click') && utter !== '') {
       let utternaceIndex = -1;
       const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
         if (utter === utterance) {
@@ -794,7 +798,7 @@ var width = ctx.measureText(t.traitName +', ').width;
   }
  
   editUtter(event,utter,index){
-    if(event && event.keyCode === 13 && utter !== ''){
+    if(event && (event.keyCode === 13  || event.type=='click') && utter !== ''){
       let utternaceIndex = -1;
       const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
         if (utter === utterance && index !== i) {
@@ -813,7 +817,7 @@ var width = ctx.measureText(t.traitName +', ').width;
   }
 
   editTraits(trait, event, displayName) {
-    if (event && event.keyCode === 13 && trait !== '') {
+    if (event && (event.keyCode === 13 || event.type=='click') && trait !== '') {
       if (!this.traits.addEditTraits.traits[trait]) {
         this.showEditTraitInput = null;
         this.traits.addEditTraits.traits[displayName].displayName = trait;
@@ -825,5 +829,13 @@ var width = ctx.measureText(t.traitName +', ').width;
         this.notificationService.notify(trait + ' is already added', 'error');
       }
     }
+  }
+
+  showEditTrait(index, event){
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    this.showEditTraitInput=index;
   }
 }

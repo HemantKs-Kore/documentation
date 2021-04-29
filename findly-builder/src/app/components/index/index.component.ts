@@ -801,6 +801,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         if (result === 'yes') {
           this.pipeline.splice(i, 1);
           dialogRef.close();
+          this.notificationService.notify('Deletd Successfully' , 'success')
           if (this.pipeline && this.pipeline.length) {
             this.selectStage(this.pipeline[0], 0);
           } else {
@@ -839,7 +840,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.service.invoke(api, quaryparms, payload).subscribe(res => {
       //this.notificationService.notify('Fields added successfully','success');
-      this.notificationService.notify('ⓘ New Fields have been added. Please train to re-index the configuration', 'info');
+      this.notificationService.notify('New Fields have been added. Please train to re-index the configuration', 'info');
       this.closeModalPopup();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to create field');

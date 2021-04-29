@@ -1,15 +1,10 @@
-<div class="small-talk-comp">
-    <div class="header-title">Small Talk</div>
-    <perfect-scrollbar class="small-talk-body-scroll">
-        <div class="small-talk-body-data">
-            <div class="title-heading">Small Talk</div>
-            <div class="title-desc-text">Small Talk refers to the casual conversations that a Search app can have with the end-users. Search apps that can answer social inputs like How Are You? are more likely to create a positive impression and help build an invaluable connection with the user.</div>
-            <label class="kr-sg-toggle">                                       
-                <input type="checkbox" [(ngModel)]="enable">
-                <div class="slider"><span  (click)="enableST(false)" class="enabled" >Enabled</span>
-                    <span   (click)="enableST(true)" class="disabled">Disabled</span>
-                </div>
-            </label>
+<div class="small-talk-body-data">
+    <div class="title-heading">Small Talk</div>
+    <div class="title-desc-text">Small Talk refers to the casual conversations that a Search app can have with the end-users. Search apps that can answer social inputs like How Are You? are more likely to create a positive impression and help build an invaluable connection with the user.</div>
+    <label class="kr-sg-toggle">                                       
+        <input type="checkbox" [(ngModel)]="enable">
+        <div class="slider"><span  (click)="enableST(false)" class="enabled" >Enabled</span>
+            <span   (click)="enableST(true)" class="disabled">Disabled</span>
         </div>
-    </perfect-scrollbar>
+    </label>
 </div>

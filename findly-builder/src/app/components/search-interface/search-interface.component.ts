@@ -626,14 +626,15 @@ export class SearchInterfaceComponent implements OnInit {
       // delete payload['appearanceType'];
       message = "Template Updated Successfully"
     }
-    //else{
-    //   url = "post.SI_saveTemplate";
-    //   queryparams = {
-    //     searchIndexId : this.serachIndexId,
-    //     interface  : this.selectedSetting
-    //   }
-    //   message = "Template Added Successfully"
-    // }
+    else{
+      url = "post.SI_saveTemplate";
+      queryparams = {
+        searchIndexId : this.serachIndexId,
+        interface  : this.selectedSetting,
+        indexPipelineId : this.indexPipelineId
+      }
+      message = "Template Added Successfully"
+    }
     this.service.invoke(url, queryparams, payload).subscribe(res => {
       this.notificationService.notify(message, 'success');
       this.selectedTemplatedId = "";

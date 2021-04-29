@@ -185,8 +185,25 @@
             <div class="row m-0 mb-20">
                 <div class="kr-sg-input-text col-12 p-0">
                     <div class="label-text">Field Name</div>
-                    <!-- <input type="number" *ngIf="newFieldObj.fieldDataType === 'number'"  placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName"> -->
-                    <input type="text" placeholder="Enter Field Name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
+                    <div class="kr-sg-dropdowns col-8 pl-0">
+                        <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                            <input type="text" placeholder="Enter Field Name" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown"  [(ngModel)]="newFieldObj.fieldName" (keyup)="getFieldAutoComplete(newFieldObj.fieldName)">
+                            <ul class="dropdown-menu content-menu" [hidden]="!newFieldObj.fieldName">
+                                <perfect-scrollbar class="scroll-search-field">
+                                    <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="newFieldObj.fieldName = suggesition.fieldName; "><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
+                                </perfect-scrollbar>
+                            </ul>
+                        </div>
+                        <div class="kr-sg-inline-notification" *ngIf="selectedFieldId === selectedField?.fieldId && addEditFacetObj?.showFieldWarning && addEditFacetObj?.showFieldWarning === 'NOT_INDEXED'">
+                            <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
+                            <div class="tost-text">{{selectedField.fieldName}} is not indexed</div>
+                        </div>
+                        <div class="kr-sg-inline-notification" *ngIf="selectedFieldId === selectedField?.fieldId && addEditFacetObj?.showFieldWarning && addEditFacetObj?.showFieldWarning === 'CHANGE_IN_TYPE'">
+                            <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
+                            <div class="tost-text">The Field type has been changed</div>
+                        </div>
+                    </div>
+                    <!-- <input type="text" placeholder="Enter Field Name" class="input-text" [(ngModel)]="newFieldObj.fieldName"> -->
                 </div>
             </div>
             <div class="label-text col-12 p-0">Field Type</div>
