@@ -4721,7 +4721,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           console.log(_self.vars.searchObject.liveData);
           if ($('body').hasClass('top-down')) {
             setTimeout(function () {
-          _self.pubSub.publish('facet-selected', { selectedFacet:  'all results'});
+              if (_self.vars.countOfSelectedFilters > 1) {
+                facetActive = "all results";
+                _self.vars.selectedFacetFromSearch = 'all results';
+              }
+              else {
+                facetActive = $('.active-tab').attr('id');
+                _self.vars.selectedFacetFromSearch = facetActive;
+              }
+          _self.pubSub.publish('facet-selected', { selectedFacet:  _self.vars.selectedFacetFromSearch|| 'all results'});
             _self.pubSub.publish('sa-search-result', { ..._self.vars.searchObject.liveData, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' } });
           }, 100);
           } else {
@@ -19272,7 +19280,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           let data_body_sec_element = document.querySelector('.content-data-sec');
           data_body_sec_element.addEventListener('ps-y-reach-end', () => {
             console.log("ps-y-reach-end");
-            if (_self.vars.scrollPageNumber >= 0) {
+            if (_self.vars.scrollPageNumber >= 0 && _self.vars.selectedFacetFromSearch !=='all results') {
               if (_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 10)) {
                 _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
                 _self.seeAllResultsInifiteScroll();
