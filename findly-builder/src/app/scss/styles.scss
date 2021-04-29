@@ -3189,6 +3189,14 @@ nouislider{
 
 .train-icon-tooltip{
     opacity: 1 !important;
+    &.ml-12{
+        margin-left: 12px;
+        .tooltip-inner{
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 14px;
+        }      
+    }
     .arrow{
         &::before{
             border-bottom-color: #202124;
@@ -3199,14 +3207,15 @@ nouislider{
         font-size: 10px;
         line-height: 14px;
         color: #FFFFFF;
-        background: #202124;        
-        border-radius: 4px;
         font-weight: normal;
         padding: 10px;
         text-align: center;
         border: 0;
         width: auto;
-        max-width: auto;
+        max-width: 100%;
+        background: #202124;
+        box-shadow: 0px -4px 4px rgba(32, 33, 36, 0.2);
+        border-radius: 4px;
     }
 }
 
