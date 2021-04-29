@@ -1,4 +1,4 @@
-import { Component, ModuleWithComponentFactories, OnInit, ViewChild, OnDestroy ,AfterViewInit } from '@angular/core';
+import { Component, ModuleWithComponentFactories, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { SideBarService } from '@kore.services/header.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -19,7 +19,7 @@ declare const $: any;
   styleUrls: ['./summary.component.scss'],
   animations: [fadeInOutAnimation]
 })
-export class SummaryComponent implements OnInit, OnDestroy , AfterViewInit {
+export class SummaryComponent implements OnInit, OnDestroy, AfterViewInit {
   serachIndexId;
   indices: any = [];
   experiments: any = [];
@@ -105,7 +105,7 @@ export class SummaryComponent implements OnInit, OnDestroy , AfterViewInit {
     private notificationService: NotificationService,
     private authService: AuthService,
     private router: Router,
-    public inlineManual : InlineManualService,
+    public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService
   ) { }
 
@@ -119,10 +119,10 @@ export class SummaryComponent implements OnInit, OnDestroy , AfterViewInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
-    this.appSelectionService.getTourConfig()
-    this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
-      this.showOverview = res.findlyOverviewVisited;
-    })
+    //this.appSelectionService.getTourConfig()
+    // this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
+    //   this.showOverview = res.findlyOverviewVisited;
+    // })
     this.getSummary();
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
@@ -133,13 +133,29 @@ export class SummaryComponent implements OnInit, OnDestroy , AfterViewInit {
     this.inlineManual.openHelp('APP_WALKTHROUGH')
     //this.onboard.openOnBoardingModal();
   }
-  ngAfterViewInit(){
-    this.onboard.openOnBoardingModal();
+  ngAfterViewInit() {
+    this.getTourConfig();
   }
   // closeOverview() {
   //   this.subscription.unsubscribe();
   //   this.showOverview = true
   // }
+  getTourConfig() {
+    const appInfo: any = this.workflowService.selectedApp();
+    const quaryparms: any = {
+      streamId: appInfo._id
+    };
+    const appObserver = this.service.invoke('get.tourConfig', quaryparms);
+    appObserver.subscribe(res => {
+      const getTourArray = res.tourConfigurations;
+      this.showOverview = getTourArray.findlyOverviewVisited;
+      if (this.showOverview == false) {
+        this.onboard.openOnBoardingModal();
+      }
+    }, errRes => {
+      console.log(errRes)
+    });
+  }
   getSummary() {
     this.loading = false;
     // this.loading = true;
@@ -284,7 +300,6 @@ export class SummaryComponent implements OnInit, OnDestroy , AfterViewInit {
           let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
           return { ...data, total_days: days_result, time_result: hours };
         })
-        if(!this.showOverview)this.onboard.openOnBoardingModal();
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
