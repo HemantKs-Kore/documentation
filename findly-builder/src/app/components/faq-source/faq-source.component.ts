@@ -614,7 +614,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       // setTimeout(()=> {
       //   this.selectAll()
       // }, 1)
-    
+    // FAQ Overview
+      this.inlineManual.openHelp('FAQ_OVERVIEW')
+
       this.editfaq = null
       this.apiLoading = false;
       this.loadingFaqs = false;
@@ -733,7 +735,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       if (res.length > 0) {
         this.loadingFaqs = false;
         this.loadingFaqs1 = true;
-        this.inlineManual.openHelp('FAQ_OVERVIEW')
       }
       else {
         this.loadingFaqs1 = true;
