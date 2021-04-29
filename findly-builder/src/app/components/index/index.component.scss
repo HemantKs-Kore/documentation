@@ -381,6 +381,12 @@
             left: 5px;
             cursor: move;
             top: 34px;
+            display: none;
+          }
+          &:hover {
+            .drag_drop{
+              display: block !important;
+             }
           }
           .delete_icon {
             position: absolute;

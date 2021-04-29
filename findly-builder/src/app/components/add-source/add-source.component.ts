@@ -158,7 +158,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           resourceType: 'structuredData'
         },
         {
-          name: 'Import Structured Data',
+          name: 'Add Structured Data',
           description: 'Add structured data manually',
           icon: 'assets/icons/content/database-add.svg',
           id: 'contentStucturedDataAdd',
@@ -493,8 +493,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     const _ext = fileName.substring(fileName.lastIndexOf('.'));
     this.extension = _ext
     if (this.selectedSourceType.sourceType != "faq") {
-      if (this.extension === '.pdf') {
-
+      if (['.pdf', '.doc', '.ppt', '.xlsx', '.txt'].includes(this.extension)) {
         showProg = true;
       }
       else {
@@ -502,7 +501,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.notificationService.notify('Please select a valid  pdf file', 'error');
         // return;
       }
-
     }
     else {
 
@@ -841,7 +839,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.notificationService.notify('Failed to add sources ', 'error');
           }
         });
-      } else if(resourceType == 'webdomain') {
+      } else if (resourceType == 'webdomain') {
         this.notificationService.notify('Please fill Date and Time fields', 'error');
       }
       // this.callWebCraller(this.crwalObject,searchIndex)
@@ -1053,7 +1051,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       };
       this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
         console.log('Associated Bots', res);
-        let bots =  JSON.parse(JSON.stringify(res));
+        let bots = JSON.parse(JSON.stringify(res));
         //this.associatedBots = JSON.parse(JSON.stringify(res));
         this.associatedBots = [];
         bots.forEach(element => {
@@ -1066,9 +1064,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(this.associatedBots);
         console.log(bots);
         // this.associatedBots.forEach(element => {
-          // if (this.streamID == element._id) {
-          //   this.linkedBotName = element.name;
-          // }
+        // if (this.streamID == element._id) {
+        //   this.linkedBotName = element.name;
+        // }
         // })
         /*this.associatedBotArr = [];
         if (this.associatedBots.length > 0) {
@@ -1158,13 +1156,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
         selectedApp = this.workflowService.selectedApp();
         // selectedApp.configuredBots[0]._id = null;
-        if (this.workflowService.selectedApp()?.configuredBots[0] && this.workflowService.selectedApp()?.configuredBots[0]?._id ) {
+        if (this.workflowService.selectedApp()?.configuredBots[0] && this.workflowService.selectedApp()?.configuredBots[0]?._id) {
           this.workflowService.selectedApp().configuredBots[0]._id = null;
         }
-        else if (this.workflowService.selectedApp()?.publishedBots[0] && this.workflowService.selectedApp()?.publishedBots[0]?._id ) {
-        this.workflowService.selectedApp().publishedBots[0]._id = null;
+        else if (this.workflowService.selectedApp()?.publishedBots[0] && this.workflowService.selectedApp()?.publishedBots[0]?._id) {
+          this.workflowService.selectedApp().publishedBots[0]._id = null;
         }
-      
+
         this.workflowService.selectedApp(selectedApp);
         this.streamID = null;
         this.getAssociatedBots();

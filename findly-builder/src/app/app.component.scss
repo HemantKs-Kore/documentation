@@ -64,9 +64,6 @@
     .show-search1{
         visibility: hidden;
     }
-    .show-search2{
-        visibility: visible !important
-    }
     &.appSelected{
         .trainBlock{
             display: block !important;
@@ -115,9 +112,6 @@
         }
         .show-search1{
             visibility: visible !important
-        }
-        .show-search2{
-            display: none !important;
         }
     }
 }

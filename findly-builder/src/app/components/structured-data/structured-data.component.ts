@@ -10,9 +10,10 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { ConfirmationComponent } from 'src/app/components/annotool/components/confirmation/confirmation.component';
 import { debounceTime, map, retryWhen } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
 import { InlineManualService } from '../../services/inline-manual.service';
+import { AppSelectionService } from './../../services/app.selection.service';
 
 @Component({
   selector: 'app-structured-data',
@@ -102,6 +103,8 @@ export class StructuredDataComponent implements OnInit {
   search : any;
   formatter: any;
   enableSearchBlock : boolean = false;
+  indexPipelineId : any;
+  subscription : Subscription;
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
@@ -114,18 +117,29 @@ export class StructuredDataComponent implements OnInit {
     private modalService: NgbModal,
     public headerService: SideBarService,
     private router: Router, public dialog: MatDialog,
-    public inlineManual : InlineManualService) { }
+    public inlineManual : InlineManualService,
+    private appSelectionService: AppSelectionService) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.getStructuredDataList();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getAllSettings();
     this.search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       map(term => this.searchItems())
     )
+    this.loadData();
+    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+      this.loadData();
+    })
+  }
+
+  loadData(){
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if (this.indexPipelineId) {
+      this.getAllSettings();
+    }
   }
   isLoading1: boolean;
   loadImageText: boolean = false;
@@ -800,6 +814,7 @@ export class StructuredDataComponent implements OnInit {
   getAllSettings(){
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId
     };
     this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
       console.log("res", res);
@@ -828,6 +843,12 @@ export class StructuredDataComponent implements OnInit {
     this.router.navigate(['/searchInterface'], { skipLocationChange: true });
     this.headerService.updateShowHideSettingsMenu(false);
     this.headerService.updateShowHideSourceMenu(false);
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
   
 }

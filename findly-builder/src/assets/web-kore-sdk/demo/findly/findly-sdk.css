@@ -10324,7 +10324,7 @@ input:checked + .custom-slider:before {
     margin: 0;
     height: auto;
     padding-left: 35px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 .custom-add-new-result-content .bold-text{
     color: #161928;
@@ -10340,6 +10340,7 @@ input:checked + .custom-slider:before {
     font-size: 14px;
     line-height: 20px;
     color: #0D6EFD;
+    cursor: pointer;
 }
 .custom-add-new-result-content .link-text img{    
     margin-right: 13px;
