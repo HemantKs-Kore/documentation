@@ -368,23 +368,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // var baseAPIServer = 'https://app.findly.ai';
 
       //var baseAPIServer =   _self.config.botOptions ? _self.config.botOptions.baseAPIServer : 'https://dev.findly.ai'; // For XHR calls in QA
-      var baseAPIServer = 'https://app.findly.ai'; // For XHR calls in DEV
+      var baseAPIServer = 'https://dev.findly.ai/searchassistapi/'; // For XHR calls in DEV
       //var baseAPIServer = 'https://pilot.searchassist.ai'; // For XHR calls in PILOT
 
 
       if (_self.isDev) {
-        baseAPIServer = window.appConfig.API_SERVER_URL;
+        baseAPIServer = window.appConfig.API_SERVER_URL + '/searchassistapi/';
       }
 
       if (_self.baseAPIServer) {
         baseAPIServer = _self.baseAPIServer;
       }
-      var baseUrl = baseAPIServer + "/searchAssistant";
-      var searchAPIURL = baseAPIServer + "/searchassistapi/findly/";
-      var liveSearchAPIURL = baseAPIServer + "/searchassistapi/searchAssist/";
+      var baseUrl = baseAPIServer;
+      var searchAPIURL = baseAPIServer + "findly/";
+      var liveSearchAPIURL = baseAPIServer + "searchAssist/";
       console.log(baseUrl);
-      var businessTooBaseURL = baseAPIServer + "/searchassistapi/findly/";
-      var searchResultsConfigAPIURL = baseAPIServer + "/searchassistapi/findly/";
+      var businessTooBaseURL = baseAPIServer + "findly/";
+      var searchResultsConfigAPIURL = baseAPIServer + "findly/";
       console.log(businessTooBaseURL);
       _self.API = {
         baseUrl: baseUrl,
@@ -392,9 +392,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         livesearchUrl: liveSearchAPIURL + SearchIndexID + "/liveSearch",
         // searchUrl: baseUrl + "/search/" + SearchIndexID,
         searchUrl: searchAPIURL + SearchIndexID + "/search",
-        metricsUrl: baseAPIServer + "/searchassistapi/findlymetrics/logs",
-        // popularSearchesUrl: "https://app.findly.ai/searchassistapi/searchAssist/" + SearchIndexID + "/popularSearches",
-        popularSearchesUrl: baseAPIServer + "/searchassistapi/searchAssist/" + SearchIndexID + "/popularSearches",
+        metricsUrl: baseAPIServer + "/findlymetrics/logs", /*/api/1.1/ */
+        // popularSearchesUrl: "https://app.findly.ai/searchAssist/" + SearchIndexID + "/popularSearches",
+        popularSearchesUrl: baseAPIServer + "searchAssist/" + SearchIndexID + "/popularSearches",
         newSearchFeedbackUrl: businessTooBaseURL + SearchIndexID + "/search/feedback",
         // queryConfig: businessTooBaseURL + SearchIndexID +"/search/queryConfig",
         queryConfig: businessTooBaseURL + SearchIndexID + '/indexPipeline/' + indexpipelineId + '/queryPipeline/' + pipelineId + '/rankingAndPinning',
@@ -404,10 +404,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         jstBarrer: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM",
         //jstBarrer: "bearer " + _self.bot.options.accessToken,
         searchResultsConfigURL: searchResultsConfigAPIURL + SearchIndexID + "/getresultviewsettings",
-        recentSearchUrl: baseAPIServer + "/searchassistapi/findly/" + SearchIndexID + "/recentSearches",
+        recentSearchUrl: baseAPIServer + "findly/" + SearchIndexID + "/recentSearches",
         indexpipelineId: indexpipelineId,
         pipelineId: pipelineId,
-        autoSuggestionsURL: baseAPIServer + "/searchassistapi/searchAssist/" + SearchIndexID + "/autoSuggestions"
+        autoSuggestionsURL: baseAPIServer + "searchAssist/" + SearchIndexID + "/autoSuggestions"
       };
       _self.API.uuid = uuid.v4();
       var botIntigrationUrl = businessTooBaseURL + SearchIndexID + '/linkedbotdetails';
