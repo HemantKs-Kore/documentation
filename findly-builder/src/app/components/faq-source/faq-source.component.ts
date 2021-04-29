@@ -339,6 +339,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
   }
+  selectAllRecords(){
+this.faqSelectionObj.selectAll = true;
+this.selectAll();
+  }
   checkUncheckfaqs(faq) {
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
     const allElements = $('.selectEachfaqInput');
@@ -357,14 +361,21 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   markSelectedFaqs(faqs){
-    if(Object.keys(this.faqSelectionObj.selectedItems).length){
-      Object.keys(this.faqSelectionObj.selectedItems).forEach((key)=>{
-        let index = faqs.findIndex((d)=> d._id === key);
-        if(index >-1){
-          $('#selectFaqCheckBox_'+key)[0].checked = true;
-          this.checkUncheckfaqs(faqs[index]);
-        }
-      })
+    if (this.faqSelectionObj.selectAll) {
+      faqs.forEach((e) => {
+        $('#selectFaqCheckBox_' + e._id)[0].checked = true;
+        this.checkUncheckfaqs(e);
+      });
+    } else {
+      if (Object.keys(this.faqSelectionObj.selectedItems).length) {
+        Object.keys(this.faqSelectionObj.selectedItems).forEach((key) => {
+          let index = faqs.findIndex((d) => d._id === key);
+          if (index > -1) {
+            $('#selectFaqCheckBox_' + key)[0].checked = true;
+            this.checkUncheckfaqs(faqs[index]);
+          }
+        })
+      }
     }
   }
   manualFaqsFilter() {
