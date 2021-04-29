@@ -38,6 +38,7 @@ export class BotActionComponent implements OnInit {
   // associatedBotArr = [];
   userInfo: any;
   botsModalRef: any;
+  searchAssociatedBots = '';
   @ViewChild('botsModalElement') botsModalElement: KRModalComponent;
   searchBots: string;
   searchSources: string;
@@ -520,7 +521,8 @@ export class BotActionComponent implements OnInit {
         this.getAssociatedBots();
         this.workflowService.linkBot(botID);
         this.workflowService.smallTalkEnable(res.stEnabled);
-        this.notificationService.notify("Bot Linked Successfully", 'success')
+        this.notificationService.notify("Bot Linked Successfully", 'success');
+        this.syncLinkedBot();
       },
         (err) => {
            console.log(err); this.notificationService.notify("Bot linking  Unsuccessful", 'error') 
@@ -945,6 +947,7 @@ export class BotActionComponent implements OnInit {
           }
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
           this.notificationService.notify("Task Enabled Successfully", 'success');
+          this.markCheckboxSelectedTasks();
         }
       },
         (err) => { this.notificationService.notify("Task Enabling Failed", 'error') });
@@ -1009,22 +1012,21 @@ export class BotActionComponent implements OnInit {
               element.type = element.type ?? "Dialog";
               this.linkedBotTasks.push(element);
             }
-            let index = requestBody['tasks'].findIndex((d)=> d._id == element._id)
-            if(index>-1){
-              const ele = $('#cx' + element._id);
-              const addition =  ele[0].checked
-            }
-              
-            
           });
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
-          this.notificationService.notify("Task Enabled Successfully", 'success');
+          this.notificationService.notify(this.linkedBotTasks.length == requestBody['tasks'].length ?"All the tasks are enabled":(requestBody['tasks'].length + " tasks are enabled"), 'success');
           // this.selcectionObj = {
           //   selectAll: false,
           //   selectedItems:[]
           // };
-          this.enableBtnDisable = true;
-          this.disableBtnDisable = false;
+          if(this.linkedBotTasks.length == requestBody['tasks'].length){
+            this.enableBtnDisable = true;
+            this.disableBtnDisable = false;
+          } else{
+            this.enableBtnDisable = false;
+            this.disableBtnDisable = false;
+          }
+          this.markCheckboxSelectedTasks();
         }
       },
         (err) => { this.notificationService.notify("Task Enabling Failed", 'error') });
@@ -1079,7 +1081,8 @@ export class BotActionComponent implements OnInit {
             $("#enableOrDisable").prop('checked', true);
           }
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
-          this.notificationService.notify("Task Disabled Successfuly", 'success')
+          this.notificationService.notify("Task Disabled Successfuly", 'success');
+          this.markCheckboxSelectedTasks();
         }
       }, (err) => { this.notificationService.notify("Task Disabling Failed", 'error') })
     }
@@ -1139,24 +1142,35 @@ export class BotActionComponent implements OnInit {
               element.type = element.type ?? "Dialog";
               this.linkedBotTasks.push(element);
             }
-            let index = requestBody['tasks'].findIndex((d)=> d._id == element._id)
-            if(index>-1){
-              const ele = $('#cx' + element._id);
-              const addition =  ele[0].checked
-            }
+           
           });
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
-          this.notificationService.notify("Task Disabled Successfuly", 'success')
+          this.notificationService.notify(this.linkedBotTasks.length == requestBody['tasks'].length ?'All the tasks are disabled':(requestBody['tasks'].length + " tasks are disabled"), 'success');
           // this.selcectionObj = {
           //   selectAll: false,
           //   selectedItems:[]
           // };
-          this.enableBtnDisable = false;
-          this.disableBtnDisable = true;
-
+          if(this.linkedBotTasks.length == requestBody['tasks'].length){
+            this.enableBtnDisable = false;
+            this.disableBtnDisable = true;
+          } else{
+            this.enableBtnDisable = false;
+            this.disableBtnDisable = false;
+          }
+          this.markCheckboxSelectedTasks();
         }
       }, (err) => { this.notificationService.notify("Task Disabling Failed", 'error') })
     }
+  }
+  markCheckboxSelectedTasks(){
+  setTimeout(()=>{
+    this.linkedBotTasks.forEach(element => {
+    if(this.selcectionObj.selectedItems[element._id]){
+      $('#cx'+element._id)[0].checked = true;
+    }
+    });
+  },100)
+    
   }
   syncLinkedBot() {
     if (this.searchIndexId) {
@@ -1196,7 +1210,7 @@ export class BotActionComponent implements OnInit {
         else {
           this.linkedBotFAQs = [];
         }
-        // this.notificationService.notify("Linked Bot Synced, Successfully", 'success')
+         this.notificationService.notify("Linked Bot Synced, Successfully", 'success')
       })
     }
   }

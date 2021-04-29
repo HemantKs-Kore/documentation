@@ -155,9 +155,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getfaqsBy();
+    this.getStats(null,true);
+    // this.getfaqsBy();
     this.getSourceList();
-    this.getStats();
     this.userInfo = this.authService.getUserInfo() || {};
     this.altAddSub = this.faqServiceAlt.addAltQues.subscribe(params => {
       this.selectedFaq.isAlt = false;
@@ -297,19 +297,23 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   selectAllPartially(){
+  
+    const selectedElements = $('.selectEachfaqInput:checkbox:checked');
+    if (selectedElements.length !== this.faqs.length) {
+      this.faqSelectionObj.selectAll = true;
+      this.selectAll();
+      setTimeout(()=>{
+        this.faqSelectionObj.selectAll = false;
+      },100)
+    }else{
+      this.selectAll(true);
+    }
     if((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount== this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved )){
       $('#selectAllFaqs')[0].checked = true;
       this.faqSelectionObj.selectAll = true;
-      this.faqSelectionObj.selectAll = !this.faqSelectionObj.selectAll;
     } else {
       $('#selectAllFaqs')[0].checked = false;
       this.faqSelectionObj.selectAll = false;
-    }
-    const selectedElements = $('.selectEachfaqInput:checkbox:checked');
-    if (selectedElements.length !== this.faqs.length) {
-      this.selectAll(true);
-    }else{
-      this.selectAll();
     }
   }
   headerSelectAll(){
@@ -337,6 +341,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
   }
+  selectAllRecords(){
+this.faqSelectionObj.selectAll = true;
+this.selectAll();
+  }
   checkUncheckfaqs(faq) {
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
     const allElements = $('.selectEachfaqInput');
@@ -355,14 +363,21 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   markSelectedFaqs(faqs){
-    if(Object.keys(this.faqSelectionObj.selectedItems).length){
-      Object.keys(this.faqSelectionObj.selectedItems).forEach((key)=>{
-        let index = faqs.findIndex((d)=> d._id === key);
-        if(index >-1){
-          $('#selectFaqCheckBox_'+key)[0].checked = true;
-          this.checkUncheckfaqs(faqs[index]);
-        }
-      })
+    if (this.faqSelectionObj.selectAll) {
+      faqs.forEach((e) => {
+        $('#selectFaqCheckBox_' + e._id)[0].checked = true;
+        this.checkUncheckfaqs(e);
+      });
+    } else {
+      if (Object.keys(this.faqSelectionObj.selectedItems).length) {
+        Object.keys(this.faqSelectionObj.selectedItems).forEach((key) => {
+          let index = faqs.findIndex((d) => d._id === key);
+          if (index > -1) {
+            $('#selectFaqCheckBox_' + key)[0].checked = true;
+            this.checkUncheckfaqs(faqs[index]);
+          }
+        })
+      }
     }
   }
   manualFaqsFilter() {
@@ -503,7 +518,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }, errRes => {
     });
   }
-  getStats(resourceId?) {
+  getStats(resourceId?,isInitialFaqCall?) {
     console.log("resourceId", resourceId)
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -528,6 +543,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         else {
           this.noManulaRecords = false;
         } 
+      }
+      if(isInitialFaqCall){
+        if (this.faqSelectionObj.stats.draft) {
+          this.selectTab('draft')
+        } else if (this.faqSelectionObj.stats.in_review) {
+          this.selectTab('in_review')
+        } else if (this.faqSelectionObj.stats.approved) {
+          this.selectTab('approved')
+        }
       }
     }, errRes => {
     });

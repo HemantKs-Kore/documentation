@@ -42,7 +42,7 @@
                         <div class="kr-sg-input-search" [ngClass]="{'added-tour':tourGuide==='step1'||tourGuide==='step2'||tourGuide==='step3'}">                               
                             <input type="text" class="input-search" [ngClass]="{'activeBox':selectSearch=='inputBox'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" (click)="selectSearchBox('inputBox');$event.stopPropagation();" readonly>
                             <img [src]="searchIcon" class="search-icon" [ngClass]="{'activeBox':selectSearch=='inputIcon'}" (click)="selectSearchBox('inputIcon');$event.stopPropagation();" height="15" width="15">
-                            <input #elasticInput class="placeholder-custom-search" value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}" placeholder="search" (click)="selectSearchBox('placeholderText');$event.stopPropagation()" [ngClass]="{'activeBox':selectSearch=='placeholderText'}" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor,'width.px': width}" #data (change)="onEventLog('placeholderText',data.value);" (input)="resize()"> 
+                            <input #elasticInput class="placeholder-custom-search" value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}" placeholder="search" (click)="selectSearchBox('placeholderText');$event.stopPropagation()" [ngClass]="{'activeBox':selectSearch=='placeholderText'}" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor,'width.px': width,'background':'none'}" #data (change)="onEventLog('placeholderText',data.value);" (input)="resize()"> 
                             <span #hiddenText style="visibility: hidden; white-space: pre;">{{elasticInput.value}}</span>
                             <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn"  (click)="selectSearchBox('button')" [ngClass]="{'activeBox':selectSearch=='button','added-tour':tourGuide==='step4'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled" *ngIf="(searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='inside')||searchObject.searchExperienceConfig.searchBarPosition==='bottom'">
                                 <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
@@ -503,17 +503,17 @@
                                     </div>
                                 </div>
         
-                                <div class="border-with-padding group-checkbox">
+                                <!-- <div class="border-with-padding group-checkbox">
                                     <div class="heading-title">Feedback Experience </div>
                                     <div class="kr-sg-checkbox">
                                         <input id="checkbox_grpb" class="checkbox-custom" type="checkbox" [checked]="searchObject.searchInteractionsConfig.feedbackExperience.resultLevel" [(ngModel)]="searchObject.searchInteractionsConfig.feedbackExperience.resultLevel">
                                         <label for="checkbox_grpb" class="checkbox-custom-label">Result Level</label>
                                     </div>
-                                    <!-- <div class="kr-sg-checkbox">
+                                    <div class="kr-sg-checkbox">
                                         <input id="checkbox_grpc" class="checkbox-custom" type="checkbox" disabled>
                                         <label for="checkbox_grpc" class="checkbox-custom-label">Query Level</label>
-                                    </div> -->
-                                </div>
+                                    </div>
+                                </div> -->
                             </div>
                         </div>                        
                     </div>                                       

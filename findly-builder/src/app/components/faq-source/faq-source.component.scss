@@ -270,7 +270,8 @@
                             text-align: center;
                             margin: 5px;
                             padding: 10px;
-                            pointer-events: none;
+                            // pointer-events: none;
+                            cursor: pointer;
                         }
                         .accordion-content{   
                             .card-content{
