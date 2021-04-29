@@ -53,7 +53,7 @@
                             <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
                             <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled"><img src="assets/icons/search-experience/edit.svg"></div>
                         </button>
-                        <div [ngSwitch]="tourGuide">
+                        <!-- <div [ngSwitch]="tourGuide">
                             <div class="tour-guide-data" *ngSwitchCase="'step1'">
                                 <div class="close-guide" (click)="tourGuide=''">
                                     <img src="assets/icons/search-experience/close-tour.svg">
@@ -63,7 +63,6 @@
                                     <div class="tour-length">1 of 4</div>
                                     <div class="bt-sec">
                                         <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step2'">Next</button>
-                                        <!-- <button class="kr-sg-button-secondary btn_lg">Previous</button> -->
                                     </div>
                                 </div>
                             </div>  
@@ -109,8 +108,8 @@
                                     </div>
                                 </div>
                             </div> 
-                        </div>                                                  
-                    </div>
+                        </div>-->                                                  
+                    </div> 
                     <div [ngSwitch]="selectSearch">                        
                         <div class="fill-colors-block" *ngSwitchCase="'inputBox'">
                             <div class="fill-color">

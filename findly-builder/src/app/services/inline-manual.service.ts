@@ -28,6 +28,7 @@ export class InlineManualService {
       ADD_FAQ_FROM_LANDING : '88927',
       EXTRACT_FAQ_SUBTOPIC : '88926',
       FACETS : '88590', //d
+      FACETS_OVERVIEW : '89394',
       FAQ_OVERVIEW : '88928',
       FIEDS_TABLE :'88907',
       IMPORT_FAQ_FROM_SOURCE : '89023',

@@ -258,7 +258,7 @@ export class SearchExperienceComponent implements OnInit {
     })
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourData = res;
-      this.tourGuide = res.searchExperienceVisited ? '' : 'step1';
+      //this.tourGuide = res.searchExperienceVisited ? '' : 'step1';
     });
     this.userName = this.localstore.getAuthInfo() ? this.localstore.getAuthInfo().currentAccount.userInfo.fName : '';
   }
@@ -475,7 +475,7 @@ export class SearchExperienceComponent implements OnInit {
     this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
       //this.appSelectionService.updateTourConfig(this.componentType);
       this.notificationService.notify('Updated successfully', 'success');
-      this.tourGuide = '';
+      //this.tourGuide = '';
     }, errRes => {
       console.log(errRes);
     });

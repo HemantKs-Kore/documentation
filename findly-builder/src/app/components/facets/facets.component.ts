@@ -395,6 +395,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       if (res.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
+        this.inlineManual.openHelp('FACETS_OVERVIEW')
       }
       else {
         this.loadingContent1 = true;
