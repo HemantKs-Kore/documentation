@@ -211,7 +211,7 @@
             <div cdkDropList (cdkDropListDropped)="drop($event, selectedStage.config.mappings)">
               <div class="row m-0 form_list" *ngFor="let map of selectedStage.config.mappings; let i = index" cdkDrag>
                 <div *cdkDragPreview class="drag_drop">
-                  <img src="assets/icons/drog_drop.svg" />{{ map.target_field }}
+                  
                 </div>
                 <div class="drag_drop">
                   <img src="assets/icons/drog_drop.svg" />
@@ -450,7 +450,7 @@
               <div class="row m-0 form_list form_list_drag"
                 *ngFor="let map of selectedStage.config.mappings; let i = index" cdkDrag>
                 <div *cdkDragPreview class="drag_drop">
-                  <img src="assets/icons/drog_drop.svg" />{{ map.target_field }}
+                
                 </div>
                 <div class="drag_drop">
                   <img src="assets/icons/drog_drop.svg" />
