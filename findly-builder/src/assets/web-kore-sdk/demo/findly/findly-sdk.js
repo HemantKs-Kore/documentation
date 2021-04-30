@@ -3664,7 +3664,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
 
-      $('.filters-reset-anchor').on('click', function (event) {
+      $('.filters-reset-anchor').off('click').on('click', function (event) {
         // $('.filter-checkbox').prop('checked', false);
         if (!$('body').hasClass('top-down')) {
           $('.sdk-filter-checkbox').prop('checked', false);
