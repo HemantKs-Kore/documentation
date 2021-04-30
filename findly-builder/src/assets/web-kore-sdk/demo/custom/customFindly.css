@@ -282,9 +282,12 @@ img.logo-img{
   bottom: 6px;
 }
 
-.top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec{
+.top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec.if-customize-mode{
   max-height: calc(100vh - 311px) !important;
   /* /* max-height: calc(100vh - 380px) !important; if added filter */
+}
+.top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec{
+  max-height: calc(100vh - 280px) !important;
 }
 .top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec.filter-added{
    max-height: calc(100vh - 380px) !important; 
