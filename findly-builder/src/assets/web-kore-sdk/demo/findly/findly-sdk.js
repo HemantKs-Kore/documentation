@@ -4972,9 +4972,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (templateType === "search-container") {
 
         $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
-          if ($('body').hasClass('top-down')) {
-            _self.vars.enterIsClicked = false;
-          }
+         
           _self.pubSub.publish('sa-handel-chat-container-view');
           _self.pubSub.publish('sa-handel-go-button');
           $('.search-body').removeClass('hide');
@@ -4983,6 +4981,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.search-chat-container').empty();
           }
           var code = e.keyCode || e.which;
+          if ($('body').hasClass('top-down') && code !== '13') {
+            _self.vars.enterIsClicked = false;
+          }
           if (code == '9' || code == '39') {
             $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
             $('#search').focus();
@@ -5021,7 +5022,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.searchObject.searchText = $('#search').val();
 
             if($('body').hasClass('top-down')){
-              _self.vars.enterIsClicked = true;
               $('.sdk-filter-checkbox-top-down').prop('checked', false);
               $('.sdk-filter-radio-top-down').prop('checked', false);
               _self.vars.filterObject = [];
@@ -5172,9 +5172,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
 
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
-          if ($('body').hasClass('top-down')) {
-            _self.vars.enterIsClicked = false;
-          }
           _self.pubSub.unsubscribe('sa-input-keyup');
           _self.pubSub.publish('sa-handel-go-button');
           _self.pubSub.subscribe('sa-input-keyup', (msg, data) => {
@@ -5193,6 +5190,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             } else {
               $('#frequently-searched-box').hide();
               var code = e.keyCode || e.which;
+              if ($('body').hasClass('top-down') && code !== '13') {
+                _self.vars.enterIsClicked = false;
+              }
               if (code == '9' || code == '39') {
                 $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
                 $('#search').focus();
@@ -5218,6 +5218,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   _self.hideAutoSuggestion();
                 } else {
                   _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
+                   if(_self.vars.enterIsClicked){
+                     return;
+                   }
                     if (res && res.requestId && res.template && res.template.originalQuery) {
                       _self.vars.previousSearchObj = {};
                       _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
@@ -5363,8 +5366,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch | 'all results' } });
                           } else {
                             _self.pubSub.publish('sa-search-result', dataObj);
-                          }
                           _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
+                          }
                         }
                       }
                       _self.vars.searchObject.liveData = {
