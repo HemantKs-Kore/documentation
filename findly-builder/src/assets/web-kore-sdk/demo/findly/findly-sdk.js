@@ -13821,18 +13821,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               //_self.vars.filterConfiguration = {aligned: "top",isEnabled: true};
               // for top down filter alignment //
               if ($('body').hasClass('top-down')) {
-                if (_self.vars.filterConfiguration.aligned === 'top') {
-                  _self.addSearchFacets({
-                    container: 'filters-center-sec'
-                  });
-                  _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
+                if (_self.vars.filterConfiguration.isEnabled) {
+                  if (_self.vars.filterConfiguration.aligned === 'top') {
+                    _self.addSearchFacets({
+                      container: 'filters-center-sec'
+                    });
+                    _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
+                  } else {
+                    _self.addSearchFacets({
+                      container: 'filters-left-sec'
+                    });
+                    _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
+                  }
                 } else {
-                  _self.addSearchFacets({
-                    container: 'filters-left-sec'
-                  });
-                  _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
+                  _self.facetsAlignTopdownClass('top');
+                  $('#filters-left-sec').hide();
                 }
-              }
+              } 
             }
           });
         }
@@ -19175,9 +19180,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       if ($('.topdown-search-main-container').length) {
         $('#search-box-container').off('keydown', '#search').on('keydown', '#search', function (e) {
-          if ($('body').hasClass('top-down')) {
-            _self.vars.enterIsClicked = false;
-          }
+          // if ($('body').hasClass('top-down')) {
+          //   _self.vars.enterIsClicked = false;
+          // }
           _self.pubSub.publish('sa-handel-submit-button');
           var code = e.keyCode || e.which;
           if (code == '13') {
@@ -19214,9 +19219,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         });
         $('#search-box-container').off('keyup', '#search').on('keyup', '#search', function (e) {
-          if ($('body').hasClass('top-down')) {
-            _self.vars.enterIsClicked = false;
-          }
+          // if ($('body').hasClass('top-down')) {
+          //   _self.vars.enterIsClicked = false;
+          // }
           if ($('#search').val()) {
             $('.cancel-search').show();
           } else {
@@ -19435,7 +19440,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   {{each(i, searchFacet) searchFacets}}\
 	<div class="category-wise-container">\
 		<div class="group-checkbox filters-content-top-down" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
-			<div class="heading-title {{if searchFacet.showSearch == true}}d-none{{/if}}"">\${searchFacet.facetName}<span class="float-right d-none  {{if searchFacet.maxCount && searchFacet.buckets.length > searchFacet.maxCount}}d-block{{/if}}"><img class="facet-search-icon" facetFacetName="${searchFacet.facetName}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBrVNLUsJAEO2eiLoTbhBuQE6g3gC3UJSZhViUi8gJ9AaWCyuFLhqLApbiCcQbcAM5QtiJMmk7VsoKDPFT8jZdk+735r3MDMA/gXmNkMgF2HJ3YTHRWke/Fri97wfAcJm2E6IrQ+MFz3VL6+nqvFoid4cEjL7h+Kjp10tNv1Yu8LwUMz87uPPSoUE110FIfd9BvBCCt85ySL0DB50H6Zez/S8HCdmw0Xl5W7oxljJ+g+1zK0JIQ1dKMR3KhWF+ZFAVS8CB16KUCH5EPHWQ9yyBAsBUiktExe/oCrBiGGeWQJrbyrcKRBUoiEeWQIJ35jYiBjfUr6wj33UHV1Kipq53l0Sziw71qrILie6I5YfFYKLEtnw7TgZZYspGh2e6PrEcJDjVjZFh5QHzTCEEcu4k5H1ZX5/4NU9OoV1AfMq6zH0LeUgvHIkTL+vkjyKf92Yz+ADa8Y5Ak9HPCwAAAABJRU5ErkJggg==">\<span>\</div>\
+			<div class="heading-title {{if searchFacet.showSearch == true}}d-none{{/if}}"">\${searchFacet.facetName}<span class="float-right d-none  {{if searchFacet.maxCount && searchFacet.buckets.length > searchFacet.maxCount}}d-block{{/if}}"><img class="facet-search-icon display-none" facetFacetName="${searchFacet.facetName}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBrVNLUsJAEO2eiLoTbhBuQE6g3gC3UJSZhViUi8gJ9AaWCyuFLhqLApbiCcQbcAM5QtiJMmk7VsoKDPFT8jZdk+735r3MDMA/gXmNkMgF2HJ3YTHRWke/Fri97wfAcJm2E6IrQ+MFz3VL6+nqvFoid4cEjL7h+Kjp10tNv1Yu8LwUMz87uPPSoUE110FIfd9BvBCCt85ySL0DB50H6Zez/S8HCdmw0Xl5W7oxljJ+g+1zK0JIQ1dKMR3KhWF+ZFAVS8CB16KUCH5EPHWQ9yyBAsBUiktExe/oCrBiGGeWQJrbyrcKRBUoiEeWQIJ35jYiBjfUr6wj33UHV1Kipq53l0Sziw71qrILie6I5YfFYKLEtnw7TgZZYspGh2e6PrEcJDjVjZFh5QHzTCEEcu4k5H1ZX5/4NU9OoV1AfMq6zH0LeUgvHIkTL+vkjyKf92Yz+ADa8Y5Ak9HPCwAAAABJRU5ErkJggg==">\<span>\</div>\
       <div class="input-div {{if searchFacet.showSearch !== true}}d-none{{/if}}"><input type="text" class="searchFacetInput" id="${searchFacet.facetName}">\ <span class="float-right d-none" id="${searchFacet.facetName}-close">\<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACGSURBVHgB3ZK9DYAgEIURjY2RWVzFEWgtYBvXcBTcwClsFIg5osmZgEjoeNVxx/v4ySOkLDFpVTcdQ2gOMyaswj2KF+bUnDb14oNAD2ZGa06+BBt7YTYM8fUeVSEInGa1Gd0173qf2/UXAEOgDpkdnGQq+wlec8onRs1JEAhJNEjyHaQCdAGUc1yB6RityQAAAABJRU5ErkJggg==">\</span>\</div>\
       {{each(j, bucket) searchFacet.buckets.slice(0, (searchFacet.maxCount?searchFacet.maxCount:searchFacet.buckets.length))}}\
           {{if searchFacet.facetType == "value" && searchFacet.isMultiSelect }}\
@@ -19517,8 +19522,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       </div>\
       {{/each}}\
       <div class="action-bar">\
-      {{if searchFacet.isMultiSelect}}\<button class="btn clear-btn">Clear</button>\{{/if}}\
-      {{if !searchFacet.isMultiSelect}}\<button class="btn apply-btn">Apply</button>\{{/if}}\
+      {{if !searchFacet.isMultiSelect}}\<button class="btn clear-btn">Clear</button>\{{/if}}\
+      {{if searchFacet.isMultiSelect}}\<button class="btn apply-btn">Apply</button>\{{/if}}\
     </div>\
       </div>\
       </div>\
@@ -19550,11 +19555,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 f['maxCount'] = 5
               }
             });
-            $('#filters-left-sec').show();
-            _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
+            if(_self.vars.filterConfiguration.isEnabled){
+                $('#filters-left-sec').show();
+                _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
+            }
           } else {
-            $('#filters-left-sec').hide();
-            _self.facetsAlignTopdownClass('top');
+            if(_self.vars.filterConfiguration.isEnabled){
+              $('#filters-left-sec').hide();
+              _self.facetsAlignTopdownClass('top');
+            }
           }
           var topDownDataHTML = $(_self.getSearchFacetsTopDownTemplate(_self.vars.filterConfiguration.aligned)).tmplProxy({
             searchFacets: _self.vars.searchFacetFilters,
@@ -19674,61 +19683,63 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             })
           })
-          _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
-          var topDownDataHTML = $(_self.getSearchFacetsTopDownTemplate(_self.vars.filterConfiguration.aligned)).tmplProxy({
-            searchFacets: _self.vars.searchFacetFilters,
-            position: 'left'
-          });
-          $('#' + config.container).empty().append(topDownDataHTML);
-          if (_self.vars.searchFacetFilters.length) {
-            setTimeout(function () {
-              for (let k = 0; k < _self.vars.searchFacetFilters.length; k++) {
-                var dropdownContainer = $('.dropdown_custom_filter');
-                _self.bindPerfectScroll(dropdownContainer, '.myDropdown-' + k);
-              }
+          if (_self.vars.filterConfiguration.isEnabled) {
+            _self.facetsAlignTopdownClass(_self.vars.filterConfiguration.aligned);
+            var topDownDataHTML = $(_self.getSearchFacetsTopDownTemplate(_self.vars.filterConfiguration.aligned)).tmplProxy({
+              searchFacets: _self.vars.searchFacetFilters,
+              position: 'left'
+            });
+            $('#' + config.container).empty().append(topDownDataHTML);
+            if (_self.vars.searchFacetFilters.length) {
+              setTimeout(function () {
+                for (let k = 0; k < _self.vars.searchFacetFilters.length; k++) {
+                  var dropdownContainer = $('.dropdown_custom_filter');
+                  _self.bindPerfectScroll(dropdownContainer, '.myDropdown-' + k);
+                }
 
-            }, 500)
-          }
-          $('.horizantal-filter-sec').off('click', '.openDropdownFacets').on('click', '.openDropdownFacets', function (event) {
-            if ($(event.target).siblings('#myDropdown').is(':visible')) {
-              $(event.target).siblings('#myDropdown').hide();
-              $(event.target).find('.down-arrow').show();
-              $(event.target).find('.up-arrow').hide();
-              _self.vars.filterObject = [..._self.vars.tempFilterObject];
-              _self.vars.selectedFiltersArr = [..._self.vars.tempSelectedFiltersArr];
-              _self.vars.selectedFacetsList = [..._self.vars.tempSelectedFacetsList];
-              $('.sdk-filter-checkbox-top-down').prop('checked', false);
-              $('.sdk-filter-radio-top-down').prop('checked', false);
-              _self.markSelectedFilters();
-            } else {
-              $(event.target).find('.down-arrow').hide();
-              $(event.target).find('.up-arrow').show();
-              _self.vars.filterObject = [..._self.vars.tempFilterObject];
-              _self.vars.selectedFiltersArr = [..._self.vars.tempSelectedFiltersArr];
-              _self.vars.selectedFacetsList = [..._self.vars.tempSelectedFacetsList];
-              $('.sdk-filter-checkbox-top-down').prop('checked', false);
-              $('.sdk-filter-radio-top-down').prop('checked', false);
-              _self.markSelectedFilters();
-              $('.dropdown-content').hide();
-              $(event.target).siblings('#myDropdown').show();
-              $(event.target).siblings('#myDropdown').off('click', '.clear-btn').on('click', '.clear-btn', function (event) {
-                var _dropdownContainer = $(event.target).closest('.filters-content-top-down');
-                var _fieldName = _dropdownContainer.attr('data-fieldName');
-                _self.vars.selectedFacetsList.forEach((d) => {
-                  if (d.fieldName === _fieldName) {
-                    let index = _self.vars.selectedFiltersArr.indexOf(d.id);
-                    _self.vars.selectedFiltersArr.splice(index, 1)
-                    _self.vars.selectedFacetsList.splice(index, 1)
-                  }
-                })
-                _self.searchFacetsList(_self.vars.selectedFacetsList);
-                _self.markSelectedFilters();
-                _self.vars.countOfSelectedFilters -= 1;
-                _self.filterResultsTopDown(event, false, true);
-              });
+              }, 500)
             }
-            console.log(_self.vars.filterObject);
-          })
+            $('.horizantal-filter-sec').off('click', '.openDropdownFacets').on('click', '.openDropdownFacets', function (event) {
+              if ($(event.target).siblings('#myDropdown').is(':visible')) {
+                $(event.target).siblings('#myDropdown').hide();
+                $(event.target).find('.down-arrow').show();
+                $(event.target).find('.up-arrow').hide();
+                _self.vars.filterObject = [..._self.vars.tempFilterObject];
+                _self.vars.selectedFiltersArr = [..._self.vars.tempSelectedFiltersArr];
+                _self.vars.selectedFacetsList = [..._self.vars.tempSelectedFacetsList];
+                $('.sdk-filter-checkbox-top-down').prop('checked', false);
+                $('.sdk-filter-radio-top-down').prop('checked', false);
+                _self.markSelectedFilters();
+              } else {
+                $(event.target).find('.down-arrow').hide();
+                $(event.target).find('.up-arrow').show();
+                _self.vars.filterObject = [..._self.vars.tempFilterObject];
+                _self.vars.selectedFiltersArr = [..._self.vars.tempSelectedFiltersArr];
+                _self.vars.selectedFacetsList = [..._self.vars.tempSelectedFacetsList];
+                $('.sdk-filter-checkbox-top-down').prop('checked', false);
+                $('.sdk-filter-radio-top-down').prop('checked', false);
+                _self.markSelectedFilters();
+                $('.dropdown-content').hide();
+                $(event.target).siblings('#myDropdown').show();
+                $(event.target).siblings('#myDropdown').off('click', '.clear-btn').on('click', '.clear-btn', function (event) {
+                  var _dropdownContainer = $(event.target).closest('.filters-content-top-down');
+                  var _fieldName = _dropdownContainer.attr('data-fieldName');
+                  _self.vars.selectedFacetsList.forEach((d) => {
+                    if (d.fieldName === _fieldName) {
+                      let index = _self.vars.selectedFiltersArr.indexOf(d.id);
+                      _self.vars.selectedFiltersArr.splice(index, 1)
+                      _self.vars.selectedFacetsList.splice(index, 1)
+                    }
+                  })
+                  _self.searchFacetsList(_self.vars.selectedFacetsList);
+                  _self.markSelectedFilters();
+                  _self.vars.countOfSelectedFilters -= 1;
+                  _self.filterResultsTopDown(event, false, true);
+                });
+              }
+              console.log(_self.vars.filterObject);
+            })
+          }
         }
       }
     }

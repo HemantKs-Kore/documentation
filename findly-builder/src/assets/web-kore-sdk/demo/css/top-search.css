@@ -1852,7 +1852,7 @@ body.top-down .top-down-search-background-div .top-down-wrapper{
 }
 
 .top-down-search-background-div .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .content-data-sec{
-  max-height: calc(100vh - 302px);
+  max-height: calc(100vh - 302px) !important;
 }
 
 .close-top-down-search{
@@ -2249,3 +2249,7 @@ display: none !important;
   text-overflow: ellipsis;
   white-space: nowrap;
   }
+
+  .top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec.filter-added.if-customize-mode {
+    max-height: calc(100vh - 458px) !important;
+}
