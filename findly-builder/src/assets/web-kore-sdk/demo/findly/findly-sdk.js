@@ -4712,6 +4712,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           documents = response.template.results.document;
           facets = response.template.facets;
           facets["all results"] = response.template.totalNumOfResults;
+          _self.vars.totalNumOfResults = response.template.totalNumOfResults
 
           _self.vars.searchObject.liveData = {
             faqs: faqs,
@@ -17463,7 +17464,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
              <!-- <button id="btn-close-show-all" class="btn-close-show-all">close</button> -->\
           <div class="filter-sec-tab">\
                       <!-- Facet left-->\
-                      <div id="leftFacetFilterId"> </div>\
+                      <div id="leftFacetFilterId" class="{{if isFilterEnabled == false}}display-none{{/if}}"> </div>\
                       <!-- Facet left-->\
                       <div class="tab-name see-all-result-nav active-tab" classification="all results">All <span class="count sdk-facet-count">(${facet.all})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="faq">FAQs <span class="count sdk-facet-count">(${facet.faq})</span></div>\
@@ -17472,10 +17473,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       <div class="tab-name see-all-result-nav " classification="object">Data <span class="count sdk-facet-count">(${facet.object})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="document"> Files <span class="count sdk-facet-count">(${facet.document})</span></div>\
                       <!-- Facet right-->\
-                      <div  id="rightFacetFilterId"> </div>\
+                      <div  id="rightFacetFilterId" class="{{if isFilterEnabled == false}}display-none{{/if}}"> </div>\
                       <!-- Facet right Icon -->\
                       <!-- Facet top-->\
-                      <div  id="topFacetIcon"> </div>\
+                      <div  id="topFacetIcon" class="{{if isFilterEnabled == false}}display-none{{/if}}"> </div>\
                       <!-- Facet top Icon-->\
                       {{if count > 0 }}\
                       <div class="filter-updated-count">\
@@ -17592,11 +17593,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           count = _self.vars.selectedFiltersArr.length;
         }
         if (data && data.container) {
+          var isFilterEnabled = _self.vars.filterConfiguration.isEnabled;
+          if(isFilterEnabled || isFilterEnabled == false){
+            isFilterEnabled = isFilterEnabled;
+          }
+          else{
+            isFilterEnabled = false;
+          }
           var showAllHTML = $(showAllResultsContainerTemplate).tmpl({
             'facet': facetCount,
             'count': count,
             'view': view,
-            'isDev': _self.isDev
+            'isDev': _self.isDev,
+            'isFilterEnabled': isFilterEnabled
           });
           $(data.container).empty().append(showAllHTML);
           // _self.vars.seeAllResultsOSObj = new KRPerfectScrollbar(data.container);
