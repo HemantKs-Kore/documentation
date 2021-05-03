@@ -13897,13 +13897,13 @@ button.search-button:disabled {
   }
 
   .bot-actions-customize-info {
-        padding: 10px;
+        padding: 10px 30px 10px 10px;
         background-color: #F3F8FF;
         border-radius: 5px;
         border: 1px solid #85B7FE;
         margin-bottom: 10px;
         color: #07377F;
-        width: 60%;
+        display: inline-block;
    }
    .bot-actions-customize-info .info-text{
        margin-left:10px
