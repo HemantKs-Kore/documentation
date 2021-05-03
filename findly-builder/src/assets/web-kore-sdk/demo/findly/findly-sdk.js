@@ -1422,12 +1422,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="resultsButtons asstTask" >\
                   <span class="search-heads">${taskPrefix} ACTIONS</span>\
                   <div class="faqBtnContainer suggestion_actions_container">\
-                      <div class="main-content-title-grid-data">\
+                      <div class="tasks-wrp action-wrp btn_block_actions main-content-title-grid-data">\
                         {{each(key, task) tasks}}\
-                          <div class="title-box-data">\
-                            <div id="${key}" class="title-name text-truncate search-task" title="${task.taskName}" boost="${task.config.boost}" pinIndex="${task.config.pinIndex}" visible="${task.config.visible}" contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
-                            ${task.taskName}\
-                            </div>\
+                          <div class="task-wrp action-wrp title-box-data">\
+                          <button id="${key}" class="faq search-task title-name text-truncate " title="${task.taskName}" boost="${task.config.boost}" pinIndex="${task.config.pinIndex}" visible="${task.config.visible}" contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
+                          ${task.taskName}\
+                      </button>\
                             <div class="faqs-bottom-actions background-white display-none">\
                               <span class="appearences display-none">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
@@ -1556,6 +1557,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         <p class="quickTitle">MATCHED ACTIONS</p>\
                         {{each(key, task) selectedFacet === "all results" ? tasks.slice(0,4) : tasks }}\
                         <div class="creditCard ">\
+                        <div class="creditCardIconDiv">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card">\
+                            </div>\
                             <div class="creditCardDetails search-task" title="${task.taskName}" contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" id="${key}" payload="${task.payload}">\
                                 <p class="title">${task.taskName}</p>\
                                 <p class="desc">${task.text}</p>\
@@ -20256,16 +20260,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                       {{/if}}\
                                     {{if selectedFacet !== appearanceType}}\
                                       <div class="type-section quick-actions"> Actions</div>\
-                                      {{/if}}\
-                                      <div class="main-content-title-grid-data">\
+                                    {{/if}}\
+                                    <div class="action-results-container btn_block_actions main-content-title-grid-data">\
                                         {{each(key, task) tasks}}\
-                                            <div class="title-box-data">\
-                                              <div class="title-name text-truncate search-task" id="${key}" title="${task.taskName}"  contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
-                                                  ${task.titleText}\
-                                                </div>\
+                                        <div class="action-content title-box-data">\
+                                            <button id="${key}" class="action-btns search-task title-name text-truncate" title="${task.taskName}"  contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
+                                            ${task.titleText}\
+                                            </button>\
                                             </div>\
                                         {{/each}}\
-                                      </div>\
+                                        </div>\
                                     {{/if}}\
                                      {{if !tasks || tasks.length === 0 }}\
                                       {{if selectedFacet != "all results"}}\
