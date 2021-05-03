@@ -268,7 +268,7 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['get.traitgroup'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/traitgroup',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/traitgroup',
       method: 'get'
     };
     this.serviceList['post.traitgroup'] = {
