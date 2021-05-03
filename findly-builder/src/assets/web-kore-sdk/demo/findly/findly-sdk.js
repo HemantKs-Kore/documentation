@@ -16976,7 +16976,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.pubSub.subscribe('sa-action-full-search', (msg, data) => {
         if (data.isFullResults && data.dataObj && data.dataObj.tasks && (data.dataObj.tasks.length || data.dataObj.tasks.length == 0)) {
           var actionContainer = '#actions-full-search-container';
-          var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy({ 'selectedFacet': _self.vars.selectedFacetFromSearch || 'all results', 'tasks': data.dataObj.tasks, 'isFullResults': data.isFullResults, appearanceType: 'task' });
+          var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
+          var devMode = _self.isDev ? true : false;
+          var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy({ 'selectedFacet': _self.vars.selectedFacetFromSearch || 'all results', 'tasks': data.dataObj.tasks, 'isFullResults': data.isFullResults, appearanceType: 'task', 'devMode': devMode, 'viewType': viewType });
           $(actionContainer).empty().append(dataHTML);
         }
       });
@@ -20246,6 +20248,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.getTopDownActionTemplate = function () {
       var topDownActionTemplate = '<script id="actions-template" type="text/x-jqury-tmpl">\
                                     {{if tasks.length > 0 }}\
+                                      {{if devMode == true && viewType == "Customize" && selectedFacet == appearanceType}}\
+                                        <div class="bot-actions-customize-info hide">\
+                                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFnSURBVHgBpVNNSsNQEH4zabXLuFXEHsGCqLjQ9gTqCWJP0AsUk0j26tJdegLrCczKnyL0CDbgAbKzhvjGmZBIfIQScODxHt/8fzNPqRXSOfS6clbZgAm09sZ9tCxHkToDULZgRCphyykC+MsXb1G1x78ZfRfRumfDGBF6X68+yJG3YET0uLZ/6dZWIM5E+gIABmaWaksShE+Yzq783wClwnRmvK91ZqezYFoNojXNtf4+z96CKG9BE3F2mpiZAWgXsWVXMbHhlm5znoSzHGXCELFnlvz57N+oegm59DnfQyjKfxeyTCsmzJOb+/VM3fqBS2C1u6j+KSg9yZw7R8FOU6diuZLl0zguKqAHnaVD1VjAIaXyyeQBmMCQRzgy15bxhRwzu+yLbGUeqqLwmEyn4SJNSmKtUpl9RFF7e7DBymtr68Tmd8xYUjri5vGIuQq53bvqVKAui9aaDeC05jPJskWqqTT5zj8FOrqqP5/xLgAAAABJRU5ErkJggg==" alt="actions-info">\
+                                          <span class="info-text">Bot Actions cannot be customized</span>\
+                                        </div>\
+                                      {{/if}}\
                                     {{if selectedFacet !== appearanceType}}\
                                       <div class="type-section quick-actions"> Actions</div>\
                                       {{/if}}\
