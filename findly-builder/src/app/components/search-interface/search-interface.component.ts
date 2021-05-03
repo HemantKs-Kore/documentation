@@ -74,7 +74,7 @@ export class SearchInterfaceComponent implements OnInit {
       text: "Live Search"
     }, {
       id: "search",
-      text: "Search"
+      text: "Conversational Search"
     }, {
       id: "fullSearch",
       text: "Full Page Result"
