@@ -7458,7 +7458,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if ((!data.isLiveSearch && $('body').hasClass('top-down'))) {
                 if (config.actionTemplateId) {
                   if (config.actionTemplateId === 'actions-template') {
-                    data = { ...data, ...{ appearanceType: 'task' } };
+                    var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
+                    var devMode = _self.isDev ? true : false;
+                    data = { ...data, ...{ appearanceType: 'task','devMode': devMode, 'viewType': viewType } };
                     var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy(data);
                     if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
                       $('#' + actionContainer).empty();
@@ -20253,7 +20255,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var topDownActionTemplate = '<script id="actions-template" type="text/x-jqury-tmpl">\
                                     {{if tasks.length > 0 }}\
                                       {{if devMode == true && viewType == "Customize" && selectedFacet == appearanceType}}\
-                                        <div class="bot-actions-customize-info hide">\
+                                        <div class="bot-actions-customize-info ">\
                                           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFnSURBVHgBpVNNSsNQEH4zabXLuFXEHsGCqLjQ9gTqCWJP0AsUk0j26tJdegLrCczKnyL0CDbgAbKzhvjGmZBIfIQScODxHt/8fzNPqRXSOfS6clbZgAm09sZ9tCxHkToDULZgRCphyykC+MsXb1G1x78ZfRfRumfDGBF6X68+yJG3YET0uLZ/6dZWIM5E+gIABmaWaksShE+Yzq783wClwnRmvK91ZqezYFoNojXNtf4+z96CKG9BE3F2mpiZAWgXsWVXMbHhlm5znoSzHGXCELFnlvz57N+oegm59DnfQyjKfxeyTCsmzJOb+/VM3fqBS2C1u6j+KSg9yZw7R8FOU6diuZLl0zguKqAHnaVD1VjAIaXyyeQBmMCQRzgy15bxhRwzu+yLbGUeqqLwmEyn4SJNSmKtUpl9RFF7e7DBymtr68Tmd8xYUjri5vGIuQq53bvqVKAui9aaDeC05jPJskWqqTT5zj8FOrqqP5/xLgAAAABJRU5ErkJggg==" alt="actions-info">\
                                           <span class="info-text">Bot Actions cannot be customized</span>\
                                         </div>\
