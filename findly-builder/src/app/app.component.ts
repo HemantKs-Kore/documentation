@@ -94,7 +94,6 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       if (this.searchExperienceConfig) {
-        this.distroySearch();
         if (this.searchExperienceConfig.experienceConfig && (this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top')) {
           if (!this.headerService.isSDKCached || !$('.search-background-div').length) {
             if (!$('.search-background-div:visible').length) {
@@ -122,6 +121,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.showHideTopDownSearch(true);
           } else {
             this.showHideTopDownSearch(false);
+            this.distroySearch();
           }
         }
       }
@@ -450,6 +450,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (parms.type === 'closeSearchContainer' && parms.data === false) {
       if (parms.bottomUp) {
         this.showHideSearch(false);
+        this.distroySearch();
       }
       else {
         this.showHideTopDownSearch(false);

@@ -83,7 +83,7 @@ export class AppHeaderComponent implements OnInit {
   public isAnyRecordFailed: boolean = false;
   public readDocs: any = [];
   public unReadDocs: any = [];
-
+  trainingInitiated = false;
   constructor(
     private authService: AuthService,
     public headerService: SideBarService,
@@ -255,8 +255,10 @@ export class AppHeaderComponent implements OnInit {
       this.service.invoke('train.app', quaryparms, payload).subscribe(res => {
         setTimeout(() => {
           self.training = false;
+          this.trainingInitiated = true;
           self.notificationService.notify('Training has been Initiated', 'success');
           this.appSelectionService.updateTourConfig('indexing');
+          this.poling();
         }, 5000)
       }, errRes => {
         self.training = false;
@@ -301,6 +303,10 @@ export class AppHeaderComponent implements OnInit {
         this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
         this.dockersList.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
+          if(this.trainingInitiated && record.status === 'SUCCESS' && record.action === "TRAIN"){
+            this.trainingInitiated = false;
+          this.notificationService.notify('Training Completed', 'success');
+          }
           if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
             if (record.action === 'EXPORT') {
               this.downloadDockFile(record.fileId, record.store.urlParams, record.streamId, record._id);
