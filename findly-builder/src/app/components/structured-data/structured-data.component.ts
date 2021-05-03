@@ -215,7 +215,7 @@ export class StructuredDataComponent implements OnInit {
         else{
           nested = false;
         }
-        if(index < 2){
+        if(index < 3){
           // element.objectValues.push({
           //   key : key,
           //   value : nested ? JSON.stringify(element._source[key], null, 2) : element._source[key],
