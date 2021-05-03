@@ -183,14 +183,14 @@
           <div class="create_new_link" (click)="openExp()">+ Create New</div>
         </div>    
         <div class="header-data row m-0">
-          <div class="col-10 title">Experiment Name</div>
-          <div class="col-2 title">Status</div>         
+          <div class="col-9 title">Experiment Name</div>
+          <div class="col-3 title">Status</div>         
         </div>    
         <div class="body-data row m-0" *ngFor="let experiment of experiments">
-          <div class="col-10 title">{{experiment.name|titlecase}}</div>
-          <div class="col-2 status">
+          <div class="col-9 title">{{experiment.name|titlecase}}</div>
+          <div class="col-3 status">
              <span class="a-status" [ngClass]="experiment.state">{{experiment.state|titlecase }}</span>
-           <!-- <span placement="top-center" [ngbTooltip]="experiment.total_days" [container]='"body"' tooltipClass="metrics_tooltips m-0" *ngIf="experiment.state!=='completed'"><img src="assets/icons/overview/Info.svg"></span> -->
+           <span placement="top-center" [ngbTooltip]="experiment.total_days" [container]='"body"' tooltipClass="metrics_tooltips m-0" *ngIf="experiment.state=='active'"><img src="assets/icons/overview/Info.svg"></span>
           </div>          
         </div>
         <!-- <div class="body-data row m-0">
