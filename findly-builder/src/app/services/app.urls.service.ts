@@ -21,6 +21,7 @@ export class AppUrlsService {
     const redirectedUrl = this.completeAppPath();
     // tslint:disable-next-line:max-line-length
     return this.marketURL() + '/?return_to=' + redirectedUrl + '&showLogin=true&hideSSOButtons=true&hideResourcesPageLink=true';
+    //var link = "http://localhost:8000/accounts/?return_to=http://localhost:4200/home&showLogin=true&hideSSOButtons=true&hideResourcesPageLink=true"
   }
   public redirectToLogin() {
     const redirectUrl = this.getLoginRedirectURL();

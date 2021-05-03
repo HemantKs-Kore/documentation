@@ -56,7 +56,7 @@
             </div>
           </div>
     
-          <div id="collapseOne" class="collapse show">
+          <div id="collapseOne" class="collapse" [ngClass]='{"show":componentType=="summary"}'>
             <div class="card-body">
                 <div class="guide-inner-info">SearchAssist allows you to add different types of data such as FAQs, Actions, Content, Structured Data from various sources. </div>
                 <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/source')">Add Data</button>
