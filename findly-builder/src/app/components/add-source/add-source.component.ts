@@ -22,6 +22,7 @@ import { RangySelectionService } from '../annotool/services/rangy-selection.serv
 import { DockStatusService } from '../../services/dock.status.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -215,6 +216,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
   @ViewChild('crawlModalPop') crawlModalPop: KRModalComponent;
+  @ViewChild('plans') plans: UpgradePlanComponent;
   ngOnInit() {
     const _self = this
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
@@ -814,6 +816,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           //this.crwal_jobId = res.jobId
           console.log("this.statusObject", this.statusObject)
         }, errRes => {
+          if (errRes && errRes.error && errRes.error.errors[0].code == 'FEATURE_ACCESS_DENIED') {
+            this.addSourceModalPopRef.close();
+            this.errorToaster(errRes, errRes.error.errors[0].msg);
+            this.upgrade();
+          }
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
             this.notificationService.notify(errRes.error.errors[0].msg, 'error');
           } else {
@@ -825,7 +832,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       // this.callWebCraller(this.crwalObject,searchIndex)
     }
-
+  }
+  //upgrade plan
+  upgrade() {
+    this.plans.openChoosePlanPopup('choosePlans');
   }
   callWebCraller(crawler, searchIndex) {
     let payload = {}
@@ -1137,13 +1147,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
         selectedApp = this.workflowService.selectedApp();
         // selectedApp.configuredBots[0]._id = null;
-        if (this.workflowService.selectedApp()?.configuredBots[0] && this.workflowService.selectedApp()?.configuredBots[0]?._id ) {
+        if (this.workflowService.selectedApp()?.configuredBots[0] && this.workflowService.selectedApp()?.configuredBots[0]?._id) {
           this.workflowService.selectedApp().configuredBots[0]._id = null;
         }
-        else if (this.workflowService.selectedApp()?.publishedBots[0] && this.workflowService.selectedApp()?.publishedBots[0]?._id ) {
-        this.workflowService.selectedApp().publishedBots[0]._id = null;
+        else if (this.workflowService.selectedApp()?.publishedBots[0] && this.workflowService.selectedApp()?.publishedBots[0]?._id) {
+          this.workflowService.selectedApp().publishedBots[0]._id = null;
         }
-      
+
         this.workflowService.selectedApp(selectedApp);
         this.streamID = null;
         this.getAssociatedBots();

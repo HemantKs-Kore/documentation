@@ -18,8 +18,8 @@ export class EndPointsService {
       this.API_SERVER_URL = this.SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
       window.appConfig.API_SERVER_URL = this.SERVER_URL;
     } else {
-      //this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
-      this.API_SERVER_URL = "https://37a5c6447b18.ngrok.io" + "/api/1.1"
+      this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
+      //this.API_SERVER_URL = "https://37a5c6447b18.ngrok.io" + "/api/1.1"
     }
     this.init();
   }
@@ -928,6 +928,10 @@ export class EndPointsService {
     this.serviceList['get.payementStatus'] = {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/transactions/:transactionId/status',
       method: 'get'
+    }
+    this.serviceList['post.usageData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/usage',
+      method: 'post'
     }
     this.serviceList['get.allInvoices'] = {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/invoices?skip=:skip&limit=:limit',

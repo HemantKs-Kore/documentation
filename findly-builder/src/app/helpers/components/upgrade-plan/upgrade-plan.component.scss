@@ -162,7 +162,7 @@
                                 }
                                 .kr-sg-button-secondary{
                                     position: absolute;
-                                    bottom: 18px;
+                                    bottom: 18px;                                
                                 }
                             }
                             .goto_details{
@@ -247,6 +247,13 @@
                                 font-size: 18px;
                                 line-height: 22px;
                                 margin-bottom: 20px;
+                            }
+                            .kr-sg-button-secondary{
+                                &:hover{
+                                    border: 1px solid transparent;
+                                    background: #0D6EFD;       
+                                    color: #fff; 
+                                }
                             }
                         }
                     }

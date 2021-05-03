@@ -47,7 +47,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
   searchIndexId;
   selectedApp;
-
+  usageDetails: any = {};
   configObj: any = {};
   selectedConfig: any = {};
   indexConfigObj: any = {};
@@ -92,6 +92,8 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
   //upgrade plan
   upgrade() {
+    // var all = document.getElementsByClassName('query-limited-reached');
+    // console.log("all", all)
     this.plans.openChoosePlanPopup('choosePlans');
   }
   reloadCurrentRoute() {
@@ -377,7 +379,23 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     //   this.indexConfigObj[element._id] = element;
     // });
     // this.selectedConfig = 'fip-29dee24c-0be2-5ca3-9340-b3fcb9ea965a';
+    this.getCurrentUsage();
+  }
+  //get current usage data of search and queries
+  getCurrentUsage() {
+    const queryParms = {
+      streamId: this.selectedApp._id
+    }
+    const payload = { "features": ["ingestDocs", "searchQueries"] };
+    this.service.invoke('post.usageData', queryParms, payload).subscribe(
+      res => {
+        this.usageDetails = { ingestDocs: res.ingestDocs.percentageUsed, searchQueries: res.searchQueries.percentageUsed };
 
+      },
+      errRes => {
+        this.errorToaster(errRes, 'Failed to get current data.');
+      }
+    );
   }
   // toggle sub-menu
   switchToTerminal() {

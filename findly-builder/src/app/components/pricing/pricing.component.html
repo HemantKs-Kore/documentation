@@ -69,7 +69,9 @@
           </div>
           <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData'>
             <div class="inner-content" *ngIf="plan.type!='free'">
-              <img src="assets/icons/pricing/standard.svg" class="standard-img">
+              <img src="assets/icons/pricing/standard.svg" class="standard-img" *ngIf="plan.name == 'Standard'"> 
+              <img src="assets/icons/pricing/pro.svg" class="pro-img" *ngIf="plan.name == 'Pro'">
+              <img src="assets/icons/pricing/enterprise.svg" class="enterprise-img" *ngIf="plan.name == 'Enterprise'">
                 <div class="title-sec">
                   <div class="title">{{plan.name}}</div>
                   <div class="price" [ngClass]='{"d-none":currentPlan===plan.name||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?'month':'year'}}</span></div>
@@ -277,7 +279,7 @@
   <div class="modal-footer text-right">
     <button class="kr-sg-button-primary btn_lg mr-3" [disabled] = "!addDocOver && !addQueOver" (click)="compare('orderOverage')">Proceed</button>
     <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancelOveragePopup()">Cancel</button>
-  </div>
+  </div>`1  
 </kr-modal>
 
 <kr-modal modalType="center" modalClass="modal_popups_ cancel_subscription" #cancelSubscriptionModel>
