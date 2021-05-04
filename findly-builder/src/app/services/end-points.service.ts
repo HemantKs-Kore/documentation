@@ -427,7 +427,7 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['post.simulate'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/simulate',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/simulate',
       method: 'post'
     }
     this.serviceList['post.restoreStopWord'] = {
