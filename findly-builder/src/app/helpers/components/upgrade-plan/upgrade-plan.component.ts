@@ -43,13 +43,13 @@ export class UpgradePlanComponent implements OnInit {
     }
   };
   plansIdList = {
-    free: 'fp_free',
-    standardMonth: '65066',
-    standardYear: '65451',
-    proMonth: '65123',
-    proYear: '65453',
-    enterpriceMonth: 'fp_enterprise_custom_monthly',
-    enterpriceYear: 'fp_enterprise_custom_yearly'
+    free: 'free',
+    standardMonth: 'standard_monthly',
+    standardYear: 'standard_yearly',
+    proMonth: 'pro_monthly',
+    proYear: 'pro_yearly',
+    enterpriceMonth: 'enterprise_monthly',
+    enterpriceYear: 'enterprise_yearly'
   }
   constructor(public dialog: MatDialog,
     private service: ServiceInvokerService,
@@ -224,8 +224,14 @@ export class UpgradePlanComponent implements OnInit {
             this.closeOrderConfPopup();
           }
         }, errRes => {
-          this.errorToaster(errRes, 'failed upgrade');
-          this.openSuccessFailurePopup(false);
+          if (errRes && errRes.error && errRes.error.errors[0].code == 'ERR_FAILED_ACCESS_EXCEEDED') {
+            this.openChangePlanModel();
+            this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
+          }
+          else {
+            this.errorToaster(errRes, 'failed upgrade');
+            this.openSuccessFailurePopup(false);
+          }
         });
       }
     }
@@ -254,7 +260,7 @@ export class UpgradePlanComponent implements OnInit {
     this.filterPlansData = [];
     this.termPlan = type;
     for (let data of this.totalPlansData) {
-      if (data.billingUnit && data.billingUnit == type) {
+      if (data.billingUnit && data.billingUnit == type || data.planId == 'fp_free') {
         this.filterPlansData.push(data);
       }
     }
@@ -266,7 +272,7 @@ export class UpgradePlanComponent implements OnInit {
       Object.values(data.featureAccess);
       Object.entries(data.featureAccess);
       /** Pick only the Month Plans */
-      if (data._id == this.plansIdList.free || data._id == this.plansIdList.standardMonth || data._id == this.plansIdList.proMonth || data._id == this.plansIdList.enterpriceMonth) {
+      if (data.type == this.plansIdList.free || data.type == this.plansIdList.standardMonth || data.type == this.plansIdList.proMonth || data.type == this.plansIdList.enterpriceMonth) {
         listDataMonthlyFeature.push(Object.entries(data.featureAccess))
       }
     })
@@ -282,6 +288,7 @@ export class UpgradePlanComponent implements OnInit {
       }
     }
     this.listPlanFeaturesData = listDataMonthlyFeature;
+    console.log("this.listPlanFeaturesData", this.listPlanFeaturesData)
   }
   //based on choosePlanType in order confirm popup
   choosePlanType(type) {

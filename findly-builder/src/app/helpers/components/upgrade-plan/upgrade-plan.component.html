@@ -1,7 +1,7 @@
 <!--choose plan popup-->
 <kr-modal modalType="center" modalClass="modal_popups_ chooseplan-price" #choosePlanModel>
     <div class="modal-header">
-      <div class="title">Choose Plan <button (click)="openChangePlanModel()">test</button></div>
+      <div class="title">Choose Plan</div>
       <div class="d-flex align-items-center justify-content-end">
         <div class="btn-monthly"  [ngClass]="{'active-btn' : termPlan == 'Monthly'}" (click)="typeOfPlan('Monthly')">Monthly</div>
         <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'Yearly' }" (click)="typeOfPlan('Yearly')">Annually</div>
@@ -14,12 +14,12 @@
       <div class="modal-body">
         <!-- <div class="mian-title-desc">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div> -->
         <div class="upgrade-details-prices row col-12 p-0" *ngIf="selectedPlan">          
-          <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData' [ngClass]='{"current-plan":selectedPlan.planName===plan.name}'>
-            <div class="main-content" *ngIf="plan.type!='free'">
+          <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData' [ngClass]='{"current-plan":selectedPlan.planName===plan.name,"d-none":plan.type=="free"}'>
+            <div class="main-content">
               <div class="inner-content">
-                <img src="assets/icons/pricing/standard.svg" class="standard-img">
-                <!-- <img src="assets/icons/pricing/pro.svg" class="pro-img" *ngIf="plan.type == 'pro_monthly'">
-                <img src="assets/icons/pricing/enterprise.svg" class="enterprise-img" *ngIf="plan.type == 'enterprise_monthly'"> -->
+                <img src="assets/icons/pricing/standard.svg" class="standard-img" *ngIf="plan.name == 'Standard'"> 
+                <img src="assets/icons/pricing/pro.svg" class="pro-img" *ngIf="plan.name == 'Pro'">
+                <img src="assets/icons/pricing/enterprise.svg" class="enterprise-img" *ngIf="plan.name == 'Enterprise'">
                   <div class="title-sec">
                     <div class="title">{{plan.name}}</div>
                     <div class="price" [ngClass]='{"d-none":selectedPlan.planName===plan.name||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?'month':'year'}}</span></div>
@@ -34,85 +34,32 @@
           </div>
         </div>
 
-        <div class="choose-plan-data-table" *ngIf="showPlanDetails!=''" [ngClass]='{"if-standard":showPlanDetails}'>
+        <div class="choose-plan-data-table if-pro" *ngIf="showPlanDetails!=''" [ngClass]="{'if-standard':showPlanDetails=='Standard','if-pro':showPlanDetails=='Pro','if-enterprise':showPlanDetails=='Enterprise'}">
          <!-- if-free, if-standard, if-pro, if-enterprise   add this classes based on type selected--> 
          <div class="header-table-plan row m-0">
             <div class="type-title width-24">              
             </div>
             <div class="type-title width-19"  *ngFor="let plan of filterPlansData">
               <div class="title">{{plan.name}}</div>  
-              <div class="plan-duration" *ngIf="plan.type!='enterprise'">${{plan.planAmount}} / month</div>
-              <div class="plan-duration" *ngIf="plan.type=='enterprise'">Custom Pricing</div>
-              <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
+              <div class="plan-duration" *ngIf="plan.name!='Enterprise'&&plan.type!='free'">${{plan.planAmount}} / month</div>
+              <div class="plan-duration" *ngIf="plan.name=='Enterprise'">Custom Pricing</div>
+              <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
             </div>
-            <!-- <div class="type-title width-19">
-              <div class="title">Standard</div>
-              <div class="plan-duration">$99 / month </div>
-              <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
-            </div>
-            <div class="type-title width-19">
-              <div class="title">Pro</div>
-              <div class="plan-duration">$399 / month </div>
-              <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
-            </div>
-            <div class="type-title width-19">
-              <div class="title">Enterprise</div>
-              <div class="plan-duration">Custom Pricing </div>
-              <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
-            </div> -->
           </div>
 
           <div class="body-content-plan" *ngIf="listPlanFeaturesData">
             <div class="body-table-plan row" *ngFor="let feature of listPlanFeaturesData[0]">
               <div class="title width-24 pl-4">{{feature[1].name}} <img src="assets/icons/pricing/info.svg"></div>
+              <div class="title width-19" *ngIf="feature[1].fullDisplayText!=undefined">{{feature[1].fullDisplayText}}</div>
               <div class="title width-19" *ngIf="feature[2].fullDisplayText!=undefined">{{feature[2].fullDisplayText}}</div>
               <div class="title width-19" *ngIf="feature[3].fullDisplayText!=undefined">{{feature[3].fullDisplayText}}</div>
               <div class="title width-19" *ngIf="feature[4].fullDisplayText!=undefined">{{feature[4].fullDisplayText}}</div>
+              <div class="title width-19" *ngIf="feature[1].fullDisplayText==undefined&&feature[1].featureActive==true"><img src="assets/icons/pricing/check.svg"></div>
               <div class="title width-19" *ngIf="feature[2].fullDisplayText==undefined&&feature[2].featureActive==true"><img src="assets/icons/pricing/check.svg"></div>
               <div class="title width-19" *ngIf="feature[3].fullDisplayText==undefined&&feature[3].featureActive==true"><img src="assets/icons/pricing/check.svg"></div>
               <div class="title width-19" *ngIf="feature[4].fullDisplayText==undefined&&feature[4].featureActive==true"><img src="assets/icons/pricing/check.svg"></div>
+
             </div>
-            <!-- <div class="body-table-plan row">
-              <div class="title width-24 pl-4">Number of Queries <img src="assets/icons/pricing/info.svg"></div>
-              <div class="title width-19">1000</div>
-              <div class="title width-19">50k</div>
-              <div class="title width-19">100k</div>
-              <div class="title width-19">Custom</div>
-            </div>
-            <div class="body-table-plan row">
-              <div class="title width-24 pl-4">Document Overage <img src="assets/icons/pricing/info.svg"></div>
-              <div class="title width-19">
-                <img src="assets/icons/pricing/minus-gray.svg">
-              </div>
-              <div class="title width-19">$50 <span class="text_light">for 10k</span></div>
-              <div class="title width-19">$50 <span class="text_light">for 10k</span></div>
-              <div class="title width-19">Custom</div>
-            </div>
-            <div class="body-table-plan row">
-              <div class="title width-24 pl-4">Document Overage <img src="assets/icons/pricing/info.svg"></div>
-              <div class="title width-19">
-                <img src="assets/icons/pricing/minus-gray.svg">
-              </div>
-              <div class="title width-19">$50 <span class="text_light">for 10k</span></div>
-              <div class="title width-19">$50 <span class="text_light">for 10k</span></div>
-              <div class="title width-19">Custom</div>
-            </div>
-            <div class="body-table-plan row">
-              <div class="title width-24 pl-4">Sources - Web Crawling <img src="assets/icons/pricing/info.svg"></div>
-              <div class="title width-19">
-                <img src="assets/icons/pricing/check.svg">
-              </div>
-              <div class="title width-19"><img src="assets/icons/pricing/check.svg"></div>
-              <div class="title width-19"><img src="assets/icons/pricing/check.svg"></div>
-              <div class="title width-19"><img src="assets/icons/pricing/check.svg"></div>
-            </div>
-            <div class="body-table-plan row">
-              <div class="title width-24 pl-4"></div>
-              <div class="title width-19">Community Support</div>
-              <div class="title width-19">Community Support</div>
-              <div class="title width-19">E-mail, Standard SLA</div>
-              <div class="title width-19">Dedicated POC, Custom SLA</div>
-            </div> -->
         </div>
         </div>
       </div>

@@ -929,6 +929,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/transactions/:transactionId/status',
       method: 'get'
     }
+    this.serviceList['post.usageData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/usage',
+      method: 'post'
+    }
     this.serviceList['get.allInvoices'] = {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/invoices?skip=:skip&limit=:limit',
       method: 'get'
