@@ -53,6 +53,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   currentSubsciptionData: Subscription;
   showUpgradeBtn: boolean;
   usageDetails: any = {};
+  monthRange = "Jan - June"
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -68,7 +69,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.userEngagementChart()
+    this.pricingChart()
     this.getPlan();
     await this.appSelectionService.getCurrentSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
@@ -289,11 +290,25 @@ export class PricingComponent implements OnInit, OnDestroy {
     }
   }
   //Grap data
-  userEngagementChart() {
+  pricingChart() {
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    let xAxisData = [];
-    let yAxisRepeatUser = [];
-    let yAxisNewUsers = [];
+    let xAxisQueryData = [];
+    let xAxisDocumentData = [];
+    let yAxisQueryData = [];
+    let yAxisDocumentData = [];
+    if(this.currentSubscriptionPlan && this.currentSubscriptionPlan.search){
+      this.currentSubscriptionPlan.search.forEach(element => {
+        xAxisQueryData.push(element.month)
+        yAxisQueryData.push(element.total)
+      });
+    }
+    if(this.currentSubscriptionPlan && this.currentSubscriptionPlan.content){
+      this.currentSubscriptionPlan.content.forEach(element => {
+        xAxisDocumentData.push(element.month)
+        yAxisDocumentData.push(element.total)
+      });
+    }
+    xAxisQueryData.length ? this.monthRange = xAxisQueryData[0] +  xAxisQueryData[xAxisQueryData.length-1] : this.monthRange = "Jan - June";
     this.queryGraph = {
 
       tooltip: {
@@ -322,7 +337,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       },
       xAxis: {
         type: 'category',
-        data: ['Jan', 'Feb', 'Apr', 'May', 'Jun'], //data//
+        data: xAxisQueryData, //['Jan', 'Feb', 'Apr', 'May', 'Jun'], //data//
         axisLabel: {
           //margin: 20,
           color: "#9AA0A6",
@@ -351,7 +366,7 @@ export class PricingComponent implements OnInit, OnDestroy {
         },
       },
       series: [{
-        data: [120, 200, 150, 80, 70, 110, 130],
+        data: yAxisQueryData, //[120, 200, 150, 80, 70, 110, 130],
         type: 'bar',
         barWidth: 10,
         itemStyle: {
@@ -402,7 +417,7 @@ export class PricingComponent implements OnInit, OnDestroy {
 
       xAxis: {
         type: 'category',
-        data: ['Jan', 'Feb', 'Apr', 'May', 'Jun'], //data//
+        data: xAxisDocumentData, //['Jan', 'Feb', 'Apr', 'May', 'Jun'], //data//
         axisLabel: {
           //margin: 20,
           color: "#9AA0A6",
@@ -431,7 +446,7 @@ export class PricingComponent implements OnInit, OnDestroy {
         },
       },
       series: [{
-        data: [120, 200, 150, 80, 70, 110, 130],
+        data: yAxisDocumentData, //[120, 200, 150, 80, 70, 110, 130],
         type: 'bar',
         barWidth: 10,
         itemStyle: {

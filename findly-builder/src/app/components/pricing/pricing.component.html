@@ -121,13 +121,13 @@
           <div class="row col-12 m-0 p-0 cards-usage-metrics">
               <div class="col-6 metrics-data">
                 <div class="inner-content">
-                    <div class="title">Document Ingestion Analytics <span>| Jan - June (Last 6 Months)</span></div>
+                    <div class="title">Document Ingestion Analytics <span>| {{monthRange}} (Last 6 Months)</span></div>
                     <div echarts [options]="documentGraph" class="demo-chart-graphMode" style="height: 320px;"></div>
                 </div>
               </div>
               <div class="col-6 metrics-data">
                 <div class="inner-content">
-                    <div class="title">Query Usage Analytics <span>| Jan - June (Last 6 Months)</span></div>
+                    <div class="title">Query Usage Analytics <span>| {{monthRange}} (Last 6 Months)</span></div>
                     <div echarts [options]="queryGraph" class="demo-chart-graphMode" style="height: 320px;"></div>
                 </div>
               </div>
