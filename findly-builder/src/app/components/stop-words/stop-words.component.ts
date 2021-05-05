@@ -19,6 +19,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   searchStopwords: any = '';
   newStopWord: any = '';
   showSearch = false;
+  checkStopwords =false;
   enabled = false;
   validation: any = {
     duplicate: false,
@@ -74,6 +75,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   }
   createInit() {
     if (this.stopWordsIntiType === 'default') {
+      this.checkStopwords = true
+      this.notificationService.notify('Added Successfully', 'success')
       this.restore();
     } else {
       this.createFromScratch = true;
@@ -195,7 +198,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
             }
             if (!(this.stopwords && this.stopwords.length) && !dialogRef) {
               this.notificationService.notify('No default stop words available', 'error');
-            } else {
+            } else  {
+              this.checkStopwords = false;
               this.notificationService.notify('Reset Successful', 'success');
               if (this.stopwords.length === 0) this.appSelectionService.updateTourConfig(this.componentType);
             }
