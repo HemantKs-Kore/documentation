@@ -59,7 +59,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedMapping: any = {};
   actionItmes: any = [{ type: 'set' }, { type: 'rename' }, { type: 'copy' }, { type: 'Delete' }];
   newMappingObj: any = {}
-  sourceType =  'faq';
+  sourceType =  'all';
   defaultStageTypesObj: any = {
     field_mapping: {
       name: 'Field Mapping',
