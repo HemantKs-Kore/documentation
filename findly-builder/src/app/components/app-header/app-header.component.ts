@@ -303,9 +303,9 @@ export class AppHeaderComponent implements OnInit {
         this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
         this.dockersList.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
-          if(this.trainingInitiated && record.status === 'SUCCESS' && record.action === "TRAIN"){
+          if (this.trainingInitiated && record.status === 'SUCCESS' && record.action === "TRAIN") {
             this.trainingInitiated = false;
-          this.notificationService.notify('Training Completed', 'success');
+            this.notificationService.notify('Training Completed', 'success');
           }
           if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
             if (record.action === 'EXPORT') {
@@ -590,7 +590,7 @@ export class AppHeaderComponent implements OnInit {
         };
         this.creatingInProgress = false;
         this.openApp(res);
-        this.analyticsClick('/summary');
+        //this.analyticsClick('/summary');
         // this.router.navigate(['/apps'], { skipLocationChange: true });
         // this.analyticsClick('apps', true)
       },
@@ -708,30 +708,30 @@ export class AppHeaderComponent implements OnInit {
       }
     }, 1000);
   }
-  validateSource(){
-    let validField=true
-    if(!this.newApp.name){
+  validateSource() {
+    let validField = true
+    if (!this.newApp.name) {
       $("#enterAppName").css("border-color", "#DD3646");
       $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
       this.notificationService.notify('Enter the required field to proceed', 'error');
       validField = false
     }
-    if(validField){
+    if (validField) {
       this.createFindlyApp()
     }
 
   }
   inputChanged(type, i?) {
     if (type == 'enterName') {
-     if(!this.newApp.name )  {
-      $("#infoWarning").show();
-      $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-     }
-     else {
+      if (!this.newApp.name) {
+        $("#infoWarning").show();
+        $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+      }
+      else {
+        $("#infoWarning").hide()
+      }
       $("#infoWarning").hide()
-    }
-    $("#infoWarning").hide()
-    $("#enterAppName").css("border-color", this.newApp.name != '' ? "#BDC1C6" : "#DD3646");
+      $("#enterAppName").css("border-color", this.newApp.name != '' ? "#BDC1C6" : "#DD3646");
     }
   }
 }

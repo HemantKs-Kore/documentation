@@ -172,27 +172,16 @@
       <input maxlength="128" type="text" autocomplete="off" placeholder="Enter App Name"  [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
       <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
     </div>
-    <!-- <div class="kr-sg-input-text-area mb-2">
-      <div class="label-text">Description</div>
-      <textarea maxlength="512" placeholder="App description " autocomplete="off" class="input-text" [(ngModel)]="newApp.description" name="appDesc"></textarea>
-    </div> -->
     <div class="kr-sg-input-text">
       <div class="label-text">Description</div>
       <input class="input-text" maxlength="512" placeholder="Enter App Description" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
     </div>
-
-    
     <div class="kr-sg-dropdowns w-100">
       <div class="label-text">Language</div>
       <div class="dropdown dropdown-open">
           <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>English</button>                                            
           <ul class="dropdown-menu content-menu">
-          <!-- <li class="search-box">
-              <input maxlength="128" type="text" placeholder="Search" class="seach-input">
-          </li> -->
             <li><a>English</a></li>
-            <!-- <li><a>German</a></li>
-            <li><a>French</a></li> -->
           </ul>
       </div>
     </div>
@@ -200,7 +189,6 @@
   <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
       <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closeCreateApp()">Cancel</button>
       <button   type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='validateSource()'>Create</button>
-  
   </div>
 </kr-modal>
 
