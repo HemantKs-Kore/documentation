@@ -4,18 +4,18 @@
     <span class="please-wait-message">Please Wait!</span>
   </div>
   <div *ngIf="loadingContent1">
-    <div class="header-sec row"  *ngIf='listOfExperiments.length>0'>
+    <div class="header-sec row"  *ngIf='listOfExperiments.length>0||filterExperiments.length>0'>
       <div class="col-6 left-sec p-0">
         <div class="tab-sec d-flex">
           <b>Experiments</b>
         </div>
       </div>
       <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
-        <div class="kr-sg-input-search m-0" [ngClass]="{ active: showSearch }" style="float: left" *ngIf="listOfExperiments.length>0">
+        <div class="kr-sg-input-search m-0" [ngClass]="{ active: showSearch }" style="float: left" *ngIf="listOfExperiments.length>0||filterExperiments.length>0">
           <input type="text" placeholder="Search" autocomplete="off" class="input-search" name="searchSources"
             placeholder="Search" id="fieldSearchId" [(ngModel)]="searchFields" />
         </div>
-        <div class="seach-block" (click)="toggleSearch()" *ngIf="listOfExperiments.length>0">
+        <div class="seach-block" (click)="toggleSearch()" *ngIf="listOfExperiments.length>0||filterExperiments.length>0">
           <img *ngIf="!showSearch" src="assets/icons/search.svg" /><img *ngIf="showSearch"
             src="assets/images/close.svg" />Search
         </div>
@@ -218,7 +218,7 @@
                     <div class="col-2 title" [class.leader_percent]="(expCol.searches > 0) && (expCol.leader)">
                       {{
                       expCol.ctr > 0
-                      ? (expCol.ctr| number : '2.0-0') + "%"
+                      ? expCol.toFixed(2) + "%"
                       : expCol.ctr
                       }}
                     </div>
@@ -291,7 +291,7 @@
           <input type="text" autocomplete="off" id="enterName"placeholder="Enter Experiment Name" class="input-text"  (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')"
             [(ngModel)]="experimentObj.name" [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{
               disable_edit: exp_status !== 'configured' && form_type === 'edit'
-            }" />
+            }" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")?"#EFF0F1":"#ffffff","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}'/>
             <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
         </div>
       </div>
@@ -313,7 +313,7 @@
           <div class="label-text">Index</div>
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" id="indexPipelineName{{varIndex}}"     
-              [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngStyle]='{"background-color":exp_status !== "configured" && form_type === "edit"?"#EFF0F1":"#ffffff","color":vari.indexPipelineName==undefined?"#9aa0a6":"#202124"}'>
+              [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")?"#EFF0F1":"#ffffff","color":(vari.indexPipelineName==undefined)||(exp_status !== "configured" && form_type === "edit")?"#9aa0a6":"#202124","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}'>
               {{
               vari.indexPipelineName === undefined
               ? varIndex===0? "Default Index":"Select Index"
@@ -331,10 +331,10 @@
           <div class="label-text">Search Configuration</div>
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" id="queryPipelineName{{varIndex}}"  
-              [disabled]="(exp_status !== 'configured' && form_type === 'edit')||vari.indexPipelineName==undefined" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")||vari.indexPipelineName==undefined?"#EFF0F1":"#ffffff","color":vari.queryPipelineName==undefined?"#9aa0a6":"#202124"}'>
+              [disabled]="(exp_status !== 'configured' && form_type === 'edit')||vari.indexPipelineName==undefined" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")||vari.indexPipelineName==undefined?"#EFF0F1":"#ffffff","color":(vari.indexPipelineName==undefined)||(exp_status !== "configured" && form_type === "edit")?"#9aa0a6":"#202124","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}'>
               {{
               vari.queryPipelineName === undefined
-              ? varIndex===0? "Default Search":"Select Configuration"
+              ? varIndex===0? "Default Search":"Select Search Configuration"
               : vari.queryPipelineName
               }}
             </button>
@@ -377,7 +377,7 @@
         <div class="kr-sg-input-text">
           <div class="label-text">Duration</div>
           <input type="number" autocomplete="off" class="input-text text-center" min="30" max="90"
-            [(ngModel)]="experimentObj?.duration.days" [disabled]="exp_status !== 'configured' && form_type === 'edit'"[ngClass]="{disable_edit: exp_status !== 'configured' && form_type === 'edit'}" />
+            [(ngModel)]="experimentObj?.duration.days" [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")?"#EFF0F1":"#ffffff","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}' />
           <img src="assets/icons/minus.svg" class="minus" [hidden]="exp_status !== 'configured' && form_type === 'edit'"
             (click)="
               experimentObj?.duration.days =
@@ -398,8 +398,7 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-left">
-    <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="validateSource()" 
-   > 
+    <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="validateSource()" [disabled]="(exp_status !== 'configured' && form_type === 'edit')"> 
    <!-- [disabled]="
    !experimentObj.name ||
           (exp_status !== 'configured' && form_type === 'edit') || (variantsArray.length < 2) || (experimentObj?.duration.days < 1)

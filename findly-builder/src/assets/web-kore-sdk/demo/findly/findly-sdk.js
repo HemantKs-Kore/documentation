@@ -20374,37 +20374,39 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
 
     FindlySDK.prototype.bindPlaceholderStyle = function (config) {
+      var canvas = document.createElement('canvas');
+      var ctx = canvas.getContext("2d");
+      ctx.font = "14px 'Inter', sans-serif";
+      var width = ctx.measureText(config.searchConfig.buttonText).width;
+      console.log(width);
       if (config.searchConfig.buttonPlacementPosition == "inside") {
         let rightPosition = 70 + 31 + 23;
-        var canvas = document.createElement('canvas');
-        var ctx = canvas.getContext("2d");
-        ctx.font = "400 14px Roboto";
-        var width = ctx.measureText(config.searchConfig.buttonText).width;
-        rightPosition = rightPosition + (width);
+       
+        rightPosition = rightPosition + (width)+1;
         $("body").append("<style>.cancel-search {right:" + rightPosition + "px !important;}</style>")
       } else {
         $("body").append("<style>.cancel-search {right: 72px !important;}</style>")
         if (config.searchConfig.buttonPlacementPosition == "outside"){
-          let rightPosition=-32;
-          if(config.searchConfig.buttonText.length==1){
-            rightPosition = 12;
-          }
-          if(config.searchConfig.buttonText.length==2){
-            rightPosition = 6;
-          }
-          if(config.searchConfig.buttonText.length==3){
-            rightPosition = -6;
-          }
-          if(config.searchConfig.buttonText.length==4){
-            rightPosition = -16;
-          }
-          if(config.searchConfig.buttonText.length==5){
-            rightPosition = -26;
-          }
-          if(config.searchConfig.buttonText.length==6){
-            rightPosition = -32;
-          }
-          $("body").append("<style>.submit-button-outside {right: "+rightPosition+"px !important;}</style>")
+          let rightPosition=812;
+          // if(config.searchConfig.buttonText.length==1){
+          //   rightPosition = 12;
+          // }
+          // if(config.searchConfig.buttonText.length==2){
+          //   rightPosition = 6;
+          // }
+          // if(config.searchConfig.buttonText.length==3){
+          //   rightPosition = -6;
+          // }
+          // if(config.searchConfig.buttonText.length==4){
+          //   rightPosition = -16;
+          // }
+          // if(config.searchConfig.buttonText.length==5){
+          //   rightPosition = -26;
+          // }
+          // if(config.searchConfig.buttonText.length==6){
+          //   rightPosition = -32;
+          // }
+          $("body").append("<style>.submit-button-outside {left: "+rightPosition+"px !important;}</style>")
         }
       }
       $("body").append("<style>#search::placeholder,  .cancel-search .cross {color:" + config.searchConfig.searchBarPlaceholderTextColor + "!important;}</style>")

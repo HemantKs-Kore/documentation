@@ -551,7 +551,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.service.invoke('create.businessRules', quaryparms, payload).subscribe(res => {
       this.rules.push(res);
       this.closeModalPopup();
-      this.notificationService.notify(' Created Successfully', 'sucecss');
+      this.notificationService.notify('Added successfully', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Failed to create rules');
     });
