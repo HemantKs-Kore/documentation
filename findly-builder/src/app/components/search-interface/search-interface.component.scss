@@ -125,6 +125,9 @@
                             color: #202124;
                         }
                     }
+                    .dropdown-menu.content-menu .active{
+                        font-weight: 600;
+                    }
                 }
                 .group-radiobutton{
                     margin: 10px 0 30px 0;
@@ -326,7 +329,7 @@
                                 }
                             }
                             &.list-template-2{
-                                background: #FFFFFF;
+                                // background: #FFFFFF; // FLY-2012 for List-template-2 css coming white space
                                 border: 1px solid #E7F1FF;
                                 border-radius: 4px;
                                 box-shadow: none;

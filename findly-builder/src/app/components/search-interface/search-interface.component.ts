@@ -194,6 +194,7 @@ export class SearchInterfaceComponent implements OnInit {
       .subscribe(result => {
         if (result === 'yes') {
           this.selectedSettingResultsObj.referInterface = interfaceType;
+          // this.saveResultSettings(); Inorder to reflect the configuretion, we need to save the current interface with reference
           dialogRef.close();
         } else if (result === 'no') {
           dialogRef.close();
@@ -362,6 +363,16 @@ export class SearchInterfaceComponent implements OnInit {
         }
         this.list.push(obj)
         this.customList.push(obj)
+      }
+    });
+    this.list.forEach(element => {
+      if(element.type === this.selectedSourceType){
+        if(element.id){
+          this.selectedTemplatedId = element.id;
+          if (this.selectedTemplatedId) {
+            this.getTemplate(this.selectedTemplatedId);
+          }
+        }
       }
     });
   }
@@ -686,6 +697,21 @@ export class SearchInterfaceComponent implements OnInit {
     }
     else{
       this.searchTemplatesDisabled = false;
+    }
+  }
+
+  getConfigurationName(referInterface){
+    if(referInterface === 'livesearch'){
+      return 'Live Search';
+    }
+    else if(referInterface === 'search'){
+      return 'Conversational Search';
+    }
+    else if(referInterface === 'fullsearch'){
+      return 'Full Page Result';
+    }
+    else{
+      return referInterface;
     }
   }
 
