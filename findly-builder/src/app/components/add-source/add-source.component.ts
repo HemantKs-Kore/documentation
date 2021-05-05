@@ -158,7 +158,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           resourceType: 'structuredData'
         },
         {
-          name: 'Import Structured Data',
+          name: 'Add Structured Data',
           description: 'Add structured data manually',
           icon: 'assets/icons/content/database-add.svg',
           id: 'contentStucturedDataAdd',
@@ -475,7 +475,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     const _ext = fileName.substring(fileName.lastIndexOf('.'));
     this.extension = _ext
     if (this.selectedSourceType.sourceType != "faq") {
-      if (['.pdf', '.txt', '.ppt', '.doc', '.xlsx'].includes(this.extension)) {
+      if (['.pdf', '.doc', '.ppt', '.xlsx', '.txt'].includes(this.extension)) {
         showProg = true;
       }
       else {
@@ -483,7 +483,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.notificationService.notify('Please select a valid  pdf file', 'error');
         // return;
       }
-
     }
     else {
 

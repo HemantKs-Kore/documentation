@@ -553,7 +553,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.service.invoke('create.businessRules', quaryparms, payload).subscribe(res => {
       this.rules.push(res);
       this.closeModalPopup();
-      this.notificationService.notify(' Created Successfully', 'sucecss');
+      this.notificationService.notify('Added successfully', 'success');
     }, errRes => {
       if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
         this.closeModalPopup();

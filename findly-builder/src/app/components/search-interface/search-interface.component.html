@@ -9,7 +9,7 @@
   <div class="body_content">
     <div class="search-interface-left-sec">
       <div class="left-tabs">
-        <div class="tab-name" *ngFor="let setting of settingList" (click)="getAllSettings(setting)" [ngClass]="{'active-tab' : selectedSetting == setting.id}" [class.disabled]="(setting.id == 'search' && searchTemplatesDisabled)" ngbTooltip="Search customization is not needed for Top Down Experience" [disableTooltip]="(setting.id !== 'search' && searchTemplatesDisabled) || (!searchTemplatesDisabled)" placement="right" tooltipClass="ngb_tooltip_custom_class searchTemplate">{{setting.text}}</div>
+        <div class="tab-name" *ngFor="let setting of settingList" (click)="getAllSettings(setting)" [ngClass]="{'active-tab' : selectedSetting == setting.id}" [class.disabled]="(setting.id == 'search' && searchTemplatesDisabled)" ngbTooltip="Conversational Search customization is not needed for Top Down Experience" [disableTooltip]="(setting.id !== 'search' && searchTemplatesDisabled) || (!searchTemplatesDisabled)" placement="right" tooltipClass="ngb_tooltip_custom_class searchTemplate">{{setting.text}}</div>
         <!-- <div class="tab-name">Search Experience</div>
         <div class="tab-name">Live Search</div>
         <div class="tab-name active-tab">Search</div>
@@ -24,12 +24,12 @@
          
           <div class="kr-sg-dropdowns">        
             <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input drop-enable" data-toggle="dropdown">{{selectedSettingResultsObj.referInterface || 'Select'}}</button>                                            
+                <button class="dropdown-toggle dropdown-input drop-enable" data-toggle="dropdown">{{selectedSettingResultsObj.referInterface ? getConfigurationName(selectedSettingResultsObj.referInterface) : 'Select'}}</button>                                            
                 <ul class="dropdown-menu content-menu">  
                   <li (click)="copyConfiguration('')"><a>Select</a></li>                                                 
-                  <li (click)="copyConfiguration('livesearch')" *ngIf="selectedSetting != 'liveSearch'"><a>Live Search</a></li>
-                  <li (click)="copyConfiguration('search')" *ngIf="selectedSetting != 'search' && !searchTemplatesDisabled"><a>Search </a></li>
-                  <li (click)="copyConfiguration('fullsearch')" *ngIf="selectedSetting != 'fullSearch'"><a>Full Page Result</a></li>
+                  <li [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'livesearch'}" (click)="copyConfiguration('livesearch')" *ngIf="selectedSetting != 'liveSearch'"><a>Live Search</a></li>
+                  <li [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'search'}" (click)="copyConfiguration('search')" *ngIf="selectedSetting != 'search' && !searchTemplatesDisabled"><a>Conversational Search </a></li>
+                  <li [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'fullsearch'}" (click)="copyConfiguration('fullsearch')" *ngIf="selectedSetting != 'fullSearch'"><a>Full Page Result</a></li>
                 </ul>
             </div>
           </div>
@@ -102,7 +102,12 @@
                 <div class="input-name add-new">+ Add New</div>
               </div>
               <div cdkDropList (cdkDropListDropped)="drop($event,list)" class="input-left-sec" *ngIf= "!selectedSettingResultsObj.orderBasedOnRelevance">
-                <div cdkDrag *ngFor="let list of list" class="input-name" (click)="selectResultAppearnceList(list,'custom')" [ngClass]="{'active-input' : list.type == selectedSourceType}"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>{{list.type}}</span></div>
+                <div cdkDrag *ngFor="let list of list" class="input-name" (click)="selectResultAppearnceList(list,'custom')" [ngClass]="{'active-input' : list.type == selectedSourceType}">
+                  <img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>{{list.type}}</span>
+                  <div class="field_data" *cdkDragPreview>
+                    <div class="title text-truncate"></div>
+                  </div>
+                </div>
                 <!-- <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><spanlist>Actions</span></div>
                 <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>FAQs</span></div>
                 <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Pages</span></div>

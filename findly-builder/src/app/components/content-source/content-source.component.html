@@ -71,10 +71,10 @@
           <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">
             <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search"
               id="searchContentSources" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)"
-              autocomplete="off" (focusout)="showSearch= !showSearch" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+              autocomplete="off"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
               (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
               <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
-              <img class="close-icon" *ngIf="searchSources" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (click)="applyFilter('');searchSources='';toggleSearch();">
+              <img class="close-icon" *ngIf="searchSources" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (click)="applyFilter('');searchSources='';toggleSearch(false);">
               <!-- <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
             <img *ngIf="!searchSources" class="search-icon" src="assets/images/search_gray.svg"> -->
           </div>
@@ -88,7 +88,7 @@
               <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img
                   src="assets/icons/sidemenu/plus-table.svg">Add Content</button>
               <ul class="dropdown-menu content-menu">
-                <li (click)="addNewContentSource('contentWeb')">Web Crawling</li>
+                <li (click)="addNewContentSource('contentWeb')">Crawl Web Domain</li>
                 <li (click)="addNewContentSource('contentDoc')">Upload File</li>
               </ul>
             </div>
@@ -284,7 +284,7 @@
             (click)="openStatusSlider(source)">
               <div class="card_sec">
                 <div class="titles-sec">
-                  <span class="name text-truncate">{{source.title || source.name}}</span><span class="type-data" [ngClass]="{'doc': (source.extractionType==='document')}">
+                  <span class="name text-truncate"  placement="top-center"  container='body' ngbTooltip='{{source.title || source.name}}'>{{source.title || source.name}}</span><span class="type-data" [ngClass]="{'doc': (source.extractionType==='document')}" >
                     {{(source.extractionType == 'webdomain' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) | uppercase }}</span>
                 </div>
                 <div class="row col-12 p-0 m-0 align-items-center justify-content-between">
@@ -470,9 +470,9 @@
                               (click)="swapSlider()">{{selectedSource.numPages}}</a>
                           </div> -->
                           <div class="col_ col-2 p-0 text-right actions-images">
-                            <img src="assets/icons/return.svg" *ngIf="selectedSource.extractionType == 'webdomain'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl">
-                            <img src="assets/icons/content/edit_black.svg" (click)="editTitle($event)" title="Edit">
-                            <img src="assets/icons/content/delete.svg" (click)="deletePages('source',page ,$event)" title="Delete">
+                            <img src="assets/icons/return.svg" *ngIf="selectedSource.extractionType == 'webdomain'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl" ngbTooltip='Recrawl'  container="body">
+                            <img src="assets/icons/content/edit_black.svg" (click)="editTitle($event)" title="Edit" ngbTooltip='Edit'  container="body">
+                            <img src="assets/icons/content/delete.svg" (click)="deletePages('source',page ,$event)" title="Delete" ngbTooltip='Delete'  container="body">
                           </div>
                         </div>
                       </ng-container>
@@ -558,7 +558,7 @@
                
                 <div class="allow-urls-sec row allow-urlBox pl-0 pr-0"
                   *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
-                  <div class="col-2 p-0 title">Allow URLS</div>
+                  <div class="col-2 p-0 title">Allow URLs</div>
                   <div class="col-10 p-0 d-flex align-items-center">
                     <div class="kr-sg-dropdowns">
                       <div class="dropdown dropdown-open">
@@ -611,7 +611,7 @@
                 
                 <div class="allow-urls-sec row allow-urlBox pl-0 pr-0"
                   *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
-                  <div class="col-2 p-0 title">Block URLS</div>
+                  <div class="col-2 p-0 title">Block URLs</div>
                   <div class="col-10 p-0 d-flex align-items-center">
                     <div class="kr-sg-dropdowns">
                       <div class="dropdown dropdown-open">

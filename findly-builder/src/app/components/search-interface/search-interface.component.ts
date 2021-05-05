@@ -74,7 +74,7 @@ export class SearchInterfaceComponent implements OnInit {
       text: "Live Search"
     }, {
       id: "search",
-      text: "Search"
+      text: "Conversational Search"
     }, {
       id: "fullSearch",
       text: "Full Page Result"
@@ -194,6 +194,7 @@ export class SearchInterfaceComponent implements OnInit {
       .subscribe(result => {
         if (result === 'yes') {
           this.selectedSettingResultsObj.referInterface = interfaceType;
+          // this.saveResultSettings(); Inorder to reflect the configuretion, we need to save the current interface with reference
           dialogRef.close();
         } else if (result === 'no') {
           dialogRef.close();
@@ -362,6 +363,16 @@ export class SearchInterfaceComponent implements OnInit {
         }
         this.list.push(obj)
         this.customList.push(obj)
+      }
+    });
+    this.list.forEach(element => {
+      if(element.type === this.selectedSourceType){
+        if(element.id){
+          this.selectedTemplatedId = element.id;
+          if (this.selectedTemplatedId) {
+            this.getTemplate(this.selectedTemplatedId);
+          }
+        }
       }
     });
   }
@@ -626,14 +637,15 @@ export class SearchInterfaceComponent implements OnInit {
       // delete payload['appearanceType'];
       message = "Template Updated Successfully"
     }
-    //else{
-    //   url = "post.SI_saveTemplate";
-    //   queryparams = {
-    //     searchIndexId : this.serachIndexId,
-    //     interface  : this.selectedSetting
-    //   }
-    //   message = "Template Added Successfully"
-    // }
+    else{
+      url = "post.SI_saveTemplate";
+      queryparams = {
+        searchIndexId : this.serachIndexId,
+        interface  : this.selectedSetting,
+        indexPipelineId : this.indexPipelineId
+      }
+      message = "Template Added Successfully"
+    }
     this.service.invoke(url, queryparams, payload).subscribe(res => {
       this.notificationService.notify(message, 'success');
       this.selectedTemplatedId = "";
@@ -685,6 +697,21 @@ export class SearchInterfaceComponent implements OnInit {
     }
     else{
       this.searchTemplatesDisabled = false;
+    }
+  }
+
+  getConfigurationName(referInterface){
+    if(referInterface === 'livesearch'){
+      return 'Live Search';
+    }
+    else if(referInterface === 'search'){
+      return 'Conversational Search';
+    }
+    else if(referInterface === 'fullsearch'){
+      return 'Full Page Result';
+    }
+    else{
+      return referInterface;
     }
   }
 
