@@ -555,7 +555,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.closeModalPopup();
       this.notificationService.notify(' Created Successfully', 'sucecss');
     }, errRes => {
-      if (errRes && errRes.error && errRes.error.errors[0].code == 'FEATURE_ACCESS_DENIED') {
+      if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
         this.closeModalPopup();
         this.errorToaster(errRes, errRes.error.errors[0].msg);
         this.plans.openChoosePlanPopup('choosePlans');

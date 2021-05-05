@@ -229,7 +229,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         this.closeIndexModalPopup();
       },
       errRes => {
-        if (errRes && errRes.error && errRes.error.errors[0].code == 'FEATURE_ACCESS_DENIED') {
+        if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
           this.closeIndexModalPopup();
           this.errorToaster(errRes, errRes.error.errors[0].msg);
           this.upgrade();
@@ -268,7 +268,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         }
       },
       errRes => {
-        if (errRes && errRes.error && errRes.error.errors[0].code == 'FEATURE_ACCESS_DENIED') {
+        if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
           this.closeModalPopup();
           this.errorToaster(errRes, errRes.error.errors[0].msg);
           this.upgrade();
