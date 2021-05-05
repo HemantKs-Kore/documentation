@@ -11,6 +11,8 @@ import { of, interval, Subject, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { InlineManualService } from '@kore.services/inline-manual.service';
+
 declare const $: any;
 @Component({
   selector: 'app-field-management',
@@ -58,7 +60,8 @@ export class FieldManagementComponent implements OnInit {
     private notificationService: NotificationService,
     public dialog: MatDialog,
     public authService: AuthService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    public inlineManual : InlineManualService
   ) { }
 
   ngOnInit(): void {
@@ -228,6 +231,7 @@ export class FieldManagementComponent implements OnInit {
       this.filelds = res.fields || [];
       this.loadingContent = false;
       if (this.filelds.length) {
+
         this.filelds.forEach(element => {
           this.fieldDataTypeArr.push(element.fieldDataType);
           this.isMultiValuedArr.push(element.isMultiValued);
@@ -240,7 +244,7 @@ export class FieldManagementComponent implements OnInit {
         this.isRequiredArr = [...new Set(this.isRequiredArr)];
         this.isStoredArr = [...new Set(this.isStoredArr)];
         this.isIndexedArr = [...new Set(this.isIndexedArr)];
-
+        this.inlineManual.openHelp('FIEDS_TABLE')
       }
     }, errRes => {
       this.loadingContent = false;
