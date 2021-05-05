@@ -242,6 +242,9 @@ export class AppHeaderComponent implements OnInit {
     this.ref.detectChanges();
   }
   train() {
+    if (this.training) {
+      return;
+    }
     this.training = true;
     const self = this;
     const selectedApp = this.workflowService.selectedApp();
@@ -254,7 +257,7 @@ export class AppHeaderComponent implements OnInit {
       }
       this.service.invoke('train.app', quaryparms, payload).subscribe(res => {
         setTimeout(() => {
-          self.training = false;
+          // self.training = false;
           this.trainingInitiated = true;
           self.notificationService.notify('Training has been Initiated', 'success');
           this.appSelectionService.updateTourConfig('indexing');
@@ -306,6 +309,13 @@ export class AppHeaderComponent implements OnInit {
           if (this.trainingInitiated && record.status === 'SUCCESS' && record.action === "TRAIN") {
             this.trainingInitiated = false;
             this.notificationService.notify('Training Completed', 'success');
+            this.training = false;
+            this.notificationService.notify('Training Completed', 'success');
+          }
+          if (this.trainingInitiated && record.status === 'FAILURE' && record.action === "TRAIN") {
+            this.trainingInitiated = false;
+            this.training = false;
+            this.notificationService.notify(record.message, 'error');
           }
           if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
             if (record.action === 'EXPORT') {

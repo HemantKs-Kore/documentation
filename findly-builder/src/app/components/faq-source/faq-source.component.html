@@ -71,7 +71,7 @@
                         <div class="tab_title" (click)="selectTab('approved')"  [ngClass]="{'active': (selectedtab === 'approved')}">Approved<span class="">({{faqSelectionObj.stats.approved || 0}})</span></div>
                     </div>
                     <div class="header-sec" *ngIf="faqSelectionObj.selectedCount == 0">
-                        <div class="kr-sg-checkbox"> 
+                        <div class="kr-sg-checkbox" [ngStyle]="{'visibility':loadingTab ? 'hidden':'visible'}"> 
                             <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="headerSelectAll()" [(ngModel)]="faqSelectionObj.selectAll" autocomplete="off">
                             <label for="selectAllFaqs" class="checkbox-custom-label"></label>
                         </div>                        
