@@ -689,6 +689,21 @@ export class SearchInterfaceComponent implements OnInit {
     }
   }
 
+  getConfigurationName(referInterface){
+    if(referInterface === 'livesearch'){
+      return 'Live Search';
+    }
+    else if(referInterface === 'search'){
+      return 'Search';
+    }
+    else if(referInterface === 'fullsearch'){
+      return 'Full Page Result';
+    }
+    else{
+      return referInterface;
+    }
+  }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
