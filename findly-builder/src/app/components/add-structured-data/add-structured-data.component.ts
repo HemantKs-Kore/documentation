@@ -316,6 +316,7 @@ export class AddStructuredDataComponent implements OnInit {
       quaryparms.file = 'file';
       payload.fileId = this.fileObj.fileId;
       this.jsonInvoke(payload,endPoint,quaryparms);
+      
     }
     else if(this.selectedSourceType && this.selectedSourceType.resourceType === 'structuredDataManual'){
       try{
@@ -327,6 +328,7 @@ export class AddStructuredDataComponent implements OnInit {
         }
         else{
           quaryparms.file = 'manual';
+          this.notificationService.notify('Added Successfully', 'success');
           this.jsonInvoke(payload_temp,endPoint,quaryparms);
         }
       }
@@ -358,7 +360,7 @@ export class AddStructuredDataComponent implements OnInit {
 
   jsonInvoke(payload,endPoint,quaryparms){
     this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Imported Successfully', 'success');
+      
       if(quaryparms.file === 'file'){
         this.cancleSourceAddition({showStatusModal : true, payload : res});
       }
