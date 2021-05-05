@@ -28,7 +28,7 @@
                 <ul class="dropdown-menu content-menu">  
                   <li (click)="copyConfiguration('')"><a>Select</a></li>                                                 
                   <li [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'livesearch'}" (click)="copyConfiguration('livesearch')" *ngIf="selectedSetting != 'liveSearch'"><a>Live Search</a></li>
-                  <li [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'search'}" (click)="copyConfiguration('search')" *ngIf="selectedSetting != 'search' && !searchTemplatesDisabled"><a>Search </a></li>
+                  <li [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'search'}" (click)="copyConfiguration('search')" *ngIf="selectedSetting != 'search' && !searchTemplatesDisabled"><a>Conversational Search </a></li>
                   <li [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'fullsearch'}" (click)="copyConfiguration('fullsearch')" *ngIf="selectedSetting != 'fullSearch'"><a>Full Page Result</a></li>
                 </ul>
             </div>
@@ -102,7 +102,12 @@
                 <div class="input-name add-new">+ Add New</div>
               </div>
               <div cdkDropList (cdkDropListDropped)="drop($event,list)" class="input-left-sec" *ngIf= "!selectedSettingResultsObj.orderBasedOnRelevance">
-                <div cdkDrag *ngFor="let list of list" class="input-name" (click)="selectResultAppearnceList(list,'custom')" [ngClass]="{'active-input' : list.type == selectedSourceType}"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>{{list.type}}</span></div>
+                <div cdkDrag *ngFor="let list of list" class="input-name" (click)="selectResultAppearnceList(list,'custom')" [ngClass]="{'active-input' : list.type == selectedSourceType}">
+                  <img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>{{list.type}}</span>
+                  <div class="field_data" *cdkDragPreview>
+                    <div class="title text-truncate"></div>
+                  </div>
+                </div>
                 <!-- <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><spanlist>Actions</span></div>
                 <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>FAQs</span></div>
                 <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Pages</span></div>
