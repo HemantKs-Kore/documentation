@@ -1,152 +1,66 @@
-<kr-modal modalType="center" modalClass="modal_popups_ chooseplan-price" #addPricingModel3>
+<!--choose plan popup-->
+<kr-modal modalType="center" modalClass="modal_popups_ chooseplan-price" #choosePlanModel>
     <div class="modal-header">
       <div class="title">Choose Plan</div>
       <div class="d-flex align-items-center justify-content-end">
-        <div class="btn-monthly"  [ngClass]="{'active-btn' : termPlan == 'monthly'}" (click)="termPlan = 'monthly'">Monthly</div>
-        <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'annually' }" (click)="termPlan = 'annually'">Annually</div>
+        <div class="btn-monthly"  [ngClass]="{'active-btn' : termPlan == 'Monthly'}" (click)="typeOfPlan('Monthly')">Monthly</div>
+        <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'Yearly' }" (click)="typeOfPlan('Yearly')">Annually</div>
         <div class="close_icon ml-4">
-          <img  (click)="closePopup3()" src="assets/icons/modal-close.svg">
+          <img  (click)="closeChoosePlanPopup()" src="assets/icons/modal-close.svg">
         </div>
       </div>      
     </div>
     <perfect-scrollbar>
       <div class="modal-body">
-        <div class="mian-title-desc">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div>
-        <div class="upgrade-details-prices row col-12 p-0">          
-          <div class="col-4 upgrade-price-card current-plan">
+        <!-- <div class="mian-title-desc">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div> -->
+        <div class="upgrade-details-prices row col-12 p-0" *ngIf="selectedPlan">          
+          <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData' [ngClass]='{"current-plan":selectedPlan.planName===plan.name,"d-none":plan.type=="free"}'>
             <div class="main-content">
               <div class="inner-content">
-                <img src="assets/icons/pricing/standard.svg" class="standard-img">
+                <img src="assets/icons/pricing/standard.svg" class="standard-img" *ngIf="plan.name == 'Standard'"> 
+                <img src="assets/icons/pricing/pro.svg" class="pro-img" *ngIf="plan.name == 'Pro'">
+                <img src="assets/icons/pricing/enterprise.svg" class="enterprise-img" *ngIf="plan.name == 'Enterprise'">
                   <div class="title-sec">
-                    <div class="title">Standard</div>
-                    <div class="price d-none">$99 <span>/ month</span></div>
-                    <div class="current-plan-title"><img src="assets/icons/pricing/check-round.svg">Current Plan</div>
+                    <div class="title">{{plan.name}}</div>
+                    <div class="price" [ngClass]='{"d-none":selectedPlan.planName===plan.name||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?'month':'year'}}</span></div>
+                    <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise"}'>Custom</div>
+                    <div class="current-plan-title" *ngIf="selectedPlan.planName===plan.name"><img src="assets/icons/pricing/check-round.svg">Current Plan</div>
                   </div>
-                  <div class="card-desc">10k Documents </div>
-                  <div class="card-desc">50k Queries per month</div>
-                  <div class="card-desc">Scheduled Crawling</div>
-                  <div class="card-desc">Experiments</div>
-                  <div class="card-desc">Community Support</div>
-                  <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
+                  <div class="card-desc" *ngFor="let info of plan.featureData" [hidden]="!(info.displayOnBanner)">{{info.displayText}}</div>
+                  <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
               </div>
-              <div class="goto_details">Go to Details</div>
+              <div class="goto_details" (click)="gotoDetails(plan.name)">Go to Details</div>
             </div>
-          </div>
-
-          <div class="col-4 upgrade-price-card">
-            <div class="main-content">
-              <div class="inner-content">
-                <img src="assets/icons/pricing/pro.svg" class="pro-img">
-                  <div class="title-sec">
-                    <div class="title">Pro</div>
-                    <div class="price">$399 <span>/ month</span></div>
-                  </div>
-                  <div class="card-desc">50k Documents  </div>
-                  <div class="card-desc">100k Queries per month</div>
-                  <div class="card-desc">Connectors & Unstructured content</div>
-                  <div class="card-desc">Multiple indices</div>
-                  <div class="card-desc">E-mail Support</div>
-                  <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
-              </div>
-              <div class="goto_details">Go to Details</div>
-            </div>            
-          </div>
-
-          <div class="col-4 upgrade-price-card custom_">
-            <div class="main-content">
-              <div class="inner-content">
-                <img src="assets/icons/pricing/enterprise.svg" class="enterprise-img">
-                <div class="title-sec">
-                  <div class="title">Enterprise</div>
-                  <div class="custom-title">Custom</div>
-                </div>
-                <div class="card-desc">Any no. of documents </div>
-                <div class="card-desc">Any no. of documents</div>
-                <div class="card-desc">Custom SLAs</div>
-                <div class="custom-desc-text">Fully Customizable & Tailored Solution for your business needs</div>
-                <button class="kr-sg-button-secondary btn_lg">Contact US</button>
-              </div>
-              <div class="goto_details">Go to Details</div>
-            </div>            
           </div>
         </div>
 
-        <div class="choose-plan-data-table if-standard">
-          <!-- if-free, if-standard, if-pro, if-enterprise   add this classes based on type selected-->
-          <div class="header-table-plan row m-0">
-            <div class="type-title width-24">
-              
+        <div class="choose-plan-data-table if-pro" *ngIf="showPlanDetails!=''" [ngClass]="{'if-standard':showPlanDetails=='Standard','if-pro':showPlanDetails=='Pro','if-enterprise':showPlanDetails=='Enterprise'}">
+         <!-- if-free, if-standard, if-pro, if-enterprise   add this classes based on type selected--> 
+         <div class="header-table-plan row m-0">
+            <div class="type-title width-24">              
             </div>
-            <div class="type-title width-19">
-              <div class="title">Free</div>            
-            </div>
-            <div class="type-title width-19">
-              <div class="title">Standard</div>
-              <div class="plan-duration">$99 / month </div>
-              <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
-            </div>
-            <div class="type-title width-19">
-              <div class="title">Pro</div>
-              <div class="plan-duration">$399 / month </div>
-              <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
-            </div>
-            <div class="type-title width-19">
-              <div class="title">Enterprise</div>
-              <div class="plan-duration">Custom Pricing </div>
-              <button class="kr-sg-button-secondary btn_lg">Choose Plan</button>
+            <div class="type-title width-19"  *ngFor="let plan of filterPlansData">
+              <div class="title">{{plan.name}}</div>  
+              <div class="plan-duration" *ngIf="plan.name!='Enterprise'&&plan.type!='free'">${{plan.planAmount}} / month</div>
+              <div class="plan-duration" *ngIf="plan.name=='Enterprise'">Custom Pricing</div>
+              <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
             </div>
           </div>
 
-          <div class="body-content-plan">
-            <div class="body-table-plan row">
-              <div class="title width-24 pl-4">Allowed Documents <img src="assets/icons/pricing/info.svg"></div>
-              <div class="title width-19">1000</div>
-              <div class="title width-19">10k</div>
-              <div class="title width-19">50k</div>
-              <div class="title width-19">Custom</div>
+          <div class="body-content-plan" *ngIf="listPlanFeaturesData">
+            <div class="body-table-plan row" *ngFor="let feature of listPlanFeaturesData[0]">
+              <div class="title width-24 pl-4">{{feature[1].name}} <img src="assets/icons/pricing/info.svg"></div>
+              <div class="title width-19" *ngIf="feature[1].fullDisplayText!=undefined">{{feature[1].fullDisplayText}}</div>
+              <div class="title width-19" *ngIf="feature[2].fullDisplayText!=undefined">{{feature[2].fullDisplayText}}</div>
+              <div class="title width-19" *ngIf="feature[3].fullDisplayText!=undefined">{{feature[3].fullDisplayText}}</div>
+              <div class="title width-19" *ngIf="feature[4].fullDisplayText!=undefined">{{feature[4].fullDisplayText}}</div>
+              <div class="title width-19" *ngIf="feature[1].fullDisplayText==undefined&&feature[1].featureActive==true"><img src="assets/icons/pricing/check.svg"></div>
+              <div class="title width-19" *ngIf="feature[2].fullDisplayText==undefined&&feature[2].featureActive==true"><img src="assets/icons/pricing/check.svg"></div>
+              <div class="title width-19" *ngIf="feature[3].fullDisplayText==undefined&&feature[3].featureActive==true"><img src="assets/icons/pricing/check.svg"></div>
+              <div class="title width-19" *ngIf="feature[4].fullDisplayText==undefined&&feature[4].featureActive==true"><img src="assets/icons/pricing/check.svg"></div>
+
             </div>
-            <div class="body-table-plan row">
-              <div class="title width-24 pl-4">Number of Queries <img src="assets/icons/pricing/info.svg"></div>
-              <div class="title width-19">1000</div>
-              <div class="title width-19">50k</div>
-              <div class="title width-19">100k</div>
-              <div class="title width-19">Custom</div>
-            </div>
-            <div class="body-table-plan row">
-              <div class="title width-24 pl-4">Document Overage <img src="assets/icons/pricing/info.svg"></div>
-              <div class="title width-19">
-                <img src="assets/icons/pricing/minus-gray.svg">
-              </div>
-              <div class="title width-19">$50 <span class="text_light">for 10k</span></div>
-              <div class="title width-19">$50 <span class="text_light">for 10k</span></div>
-              <div class="title width-19">Custom</div>
-            </div>
-            <div class="body-table-plan row">
-              <div class="title width-24 pl-4">Document Overage <img src="assets/icons/pricing/info.svg"></div>
-              <div class="title width-19">
-                <img src="assets/icons/pricing/minus-gray.svg">
-              </div>
-              <div class="title width-19">$50 <span class="text_light">for 10k</span></div>
-              <div class="title width-19">$50 <span class="text_light">for 10k</span></div>
-              <div class="title width-19">Custom</div>
-            </div>
-            <div class="body-table-plan row">
-              <div class="title width-24 pl-4">Sources - Web Crawling <img src="assets/icons/pricing/info.svg"></div>
-              <div class="title width-19">
-                <img src="assets/icons/pricing/check.svg">
-              </div>
-              <div class="title width-19"><img src="assets/icons/pricing/check.svg"></div>
-              <div class="title width-19"><img src="assets/icons/pricing/check.svg"></div>
-              <div class="title width-19"><img src="assets/icons/pricing/check.svg"></div>
-            </div>
-            <div class="body-table-plan row">
-              <div class="title width-24 pl-4"></div>
-              <div class="title width-19">Community Support</div>
-              <div class="title width-19">Community Support</div>
-              <div class="title width-19">E-mail, Standard SLA</div>
-              <div class="title width-19">Dedicated POC, Custom SLA</div>
-            </div>
-          </div>
+        </div>
         </div>
       </div>
     </perfect-scrollbar>
@@ -154,4 +68,154 @@
       <button class="kr-sg-button-primary btn_lg mr-3">Proceed</button>
       <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePopup3()">Cancel</button>
     </div> -->
+</kr-modal>
+
+<!--order confirm popup-->
+<kr-modal modalType="center" modalClass="modal_popups_ order-confirmation" #orderConfirmModel>
+  <div class="modal-header">
+    <div class="title">Order Confirmation</div>
+    <div class="close_icon"><img (click)="closeOrderConfPopup()" src="assets/icons/modal-close.svg"></div>
+  </div>
+  <perfect-scrollbar>
+    <div class="modal-body" *ngIf="orderConfirmData&&overageData">
+      <div class="plan-desc" *ngIf="!overageData.overageShow">You are Subscribing to <span>{{orderConfirmData.name}} Plan</span>. Please find the order summary below.</div>
+      <div class="plan-desc" *ngIf="overageData.overageShow">You have added additional <span *ngIf="overageData.docCount>=1">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}} documents </span><span *ngIf="overageData.queryCount>=1">, {{overageData.overageDeatils.searchQueries.limit | valueFormat}} queries </span> to your plan. Please find the order summary below.</div>
+      <div class="order-confirmation-table">
+        <div class="order-confirmation-table-header row col-12 m-0">
+          <div class="title col-9">PLAN</div>
+          <div class="title col-3">AMOUNT</div>
+        </div>
+         <div class="order-confirmation-table-body row col-12 m-0"  *ngIf="!overageData.overageShow">
+          <div class="col-9 plan_details">
+            <div class="plan-type">{{orderConfirmData.name}} Subscription</div>
+            <div class="btn-monthly"  [ngClass]="{'active-btn' : orderConfirmData.billingUnit == 'Monthly'}" (click)="choosePlanType('Monthly')">Monthly</div>
+            <div class="btn-monthly" [ngClass]="{ 'active-btn' : orderConfirmData.billingUnit == 'Yearly' }" (click)="choosePlanType('Yearly')">Annually</div>
+          </div>            
+
+          <div class="amount col-3">$ {{orderConfirmData.planAmount}}</div>
+        </div>
+         <div class="order-confirmation-table-body row col-12 m-0"  *ngIf="overageData&&overageData.overageShow&&overageData.overageDeatils">            
+          <ng-container *ngIf="overageData.docCount>=1">
+            <div class="col-9 plan_details">
+              <div class="plan-type col-5 p-0 m-0">Document Overage</div>
+              <div class="add-doc-btn-sec">
+                <div class="minus" (click)="count('doc','minus')"><img src="assets/icons/pricing/minus-small.svg"></div>
+                <div class="increase-num">{{overageData.docCount}}</div>
+                <div class="plus" (click)="count('doc','plus')"><img src="assets/icons/pricing/plus-small.svg"></div>
+              </div>
+              <div class="amount-increased">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}}</div>
+            </div>
+            <div class="amount col-3">$ {{overageData.overageDeatils.ingestDocs.amount * overageData.docCount}}</div>
+          </ng-container>
+          <ng-container *ngIf="overageData.queryCount>=1">
+            <div class="col-9 plan_details">
+              <div class="plan-type col-5 p-0 m-0">Query Overage</div>
+              <div class="add-doc-btn-sec">
+                <div class="minus" (click)="count('query','minus')"><img src="assets/icons/pricing/minus-small.svg"></div>
+                <div class="increase-num">{{overageData.queryCount}}</div>
+                <div class="plus" (click)="count('query','plus')"><img src="assets/icons/pricing/plus-small.svg"></div>
+              </div>
+              <div class="amount-increased">{{overageData.overageDeatils.searchQueries.limit | valueFormat}}</div>
+            </div>
+            <div class="amount col-3">$ {{overageData.overageDeatils.searchQueries.amount * overageData.queryCount}}</div>
+          </ng-container>
+        </div>
+        <div class="order-confirmation-table-body row col-12 m-0">
+          <div class="col-9 total-amount text-right">Total Amount</div>
+          <div class="amount col-3">$ {{overageData.overageShow?overageData.overageDeatils.ingestDocs.amount * overageData.docCount+overageData.overageDeatils.searchQueries.amount * overageData.queryCount:orderConfirmData.planAmount}}</div>
+        </div>
+      </div>
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer text-right">
+    <button class="kr-sg-button-primary btn_lg" (click)="paymentPlan(overageData.overageShow)">Pay</button>
+    <button class="kr-sg-button-secondary backbtn btn_md" (click)="closeOrderConfPopup()">Cancel</button>
+  </div>
+</kr-modal>
+
+<!--payment gateway iframe-->
+<kr-modal modalType="center" modalClass="modal_popups_ chooseplan-price" #paymentGatewayModel>
+  <div class="modal-header">
+    <div class="title">Payment Details</div>
+    <div class="d-flex align-items-center justify-content-end">
+      <div class="close_icon ml-4">
+        <img (click)="closePaymentGatewayPopup()" src="assets/icons/modal-close.svg">
+      </div>
+    </div>      
+  </div>
+  <perfect-scrollbar>
+    <div class="modal-body">
+      <!-- <div class="mian-title-desc">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div> -->
+      <!-- <iframe src="{{ payementResponse.hostedPage.url }}" width="100%" height="100%" frameborder="0"></iframe> -->
+      <iframe width="100%" height="100%" frameBorder="0" [src]="urlSafe"></iframe>
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer text-right">
+    <button class="kr-sg-button-primary btn_lg mr-3" (click)="openSuccessFailurePopup()">Proceed</button>
+    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePaymentGatewayPopup()">Back</button>
+  </div>
+</kr-modal>
+
+<!--payment success/failure popup-->
+<kr-modal modalType="center" modalClass="modal_popups_ payment-confirmation-price" #successFailureModel>
+  <div class="modal-header">
+    <div class="title">Payment Confirmation</div>
+    <div class="close_icon">
+      <img (click)="closeSuccessFailurePopup()" src="assets/icons/modal-close.svg">
+    </div>
+  </div>
+  <perfect-scrollbar>
+    <div class="modal-body">
+        <div class="payment-confiramtion-data" *ngIf="payementSuccess">
+          <div class="img-block"><img src="assets/icons/pricing/payment-success.svg"></div>
+          <div class="payment-success-message">
+            <div class="title">Yay! Payment Successfull...</div>
+            <button class="kr-sg-buttonicon-secondary btn_lg"><img src="assets/icons/pricing/download.svg">Download Invoice</button>
+          </div>
+        </div>
+        <div class="payment-confiramtion-data pl-0 pr-0 m-0 row pt-5" *ngIf="!payementSuccess">
+          <div class="img-block col-7 p-0"><img src="assets/icons/pricing/payment-failed.svg"></div>
+          <div class="payment-success-message col-5 p-0">
+            <div class="title">Oops! Payment Failed!!</div>
+            <button class="kr-sg-button-primary btn_lg" (click)="openPaymentGatewayPopup();closeSuccessFailurePopup()">Retry Payment</button>
+          </div>
+        </div>
+    </div>
+  </perfect-scrollbar>
+  <!-- <div class="modal-footer text-right">
+    <button class="kr-sg-button-primary btn_lg" (click)="closePopup2()">Done</button>     
+  </div> -->
+</kr-modal>
+
+<!--change plan/excess data show popup-->
+<kr-modal modalType="center" modalClass="modal_popups_ order-confirmation excess-modal-data" #changePlanModel>
+  <div class="modal-header">
+    <div class="title">Change Plan</div>
+    <div class="close_icon"><img (click)="closeChangePlanModel()" src="assets/icons/modal-close.svg"></div>
+  </div>
+  <perfect-scrollbar>
+    <div class="modal-body">
+      <div class="desc-text-info">
+        I see, you want to choose another plan. Please <span>delete the excess document & Index</span> to change the plan. Rules, Workbench stages & Experiments added in your application will be automatically deactivated. 
+      </div>
+        <div class="excess-table-data">
+          <div class="excess-header">FEATURES</div>
+          <div class="excess-table-body col-12 row">
+            <div class="excess-type col-6">Document</div>
+            <div class="excess-name col-6">Excess</div>
+          </div>
+          <div class="excess-table-body col-12 row">
+            <div class="excess-type col-6">Index</div>
+            <div class="excess-name col-6">Excess</div>
+          </div>
+          <div class="excess-table-body col-12 row">
+            <div class="excess-type col-6">Document</div>
+            <div class="excess-name col-6">Excess</div>
+          </div>
+        </div>
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer text-right">
+    <button class="kr-sg-button-primary btn_lg" (click)="closeChangePlanModel()">Okay</button>
+  </div>
 </kr-modal>

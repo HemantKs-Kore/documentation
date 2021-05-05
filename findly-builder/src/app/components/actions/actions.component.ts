@@ -32,7 +32,7 @@ export class ActionsComponent implements OnInit {
   topActionsBottom : boolean;
   bottomActionsTop = false;
   bottomActionsBottom = false;
-  previewTopBottom:any;
+  previewTopBottom = 'top';
   linkedBotID: any;
   streamId: any;
   userInfo:any;
@@ -66,6 +66,8 @@ export class ActionsComponent implements OnInit {
     this.userInfo = this.authService.getUserInfo() || {};
     this.getAssociatedBots()
     // streamId: this.selectedApp._id
+    this.previewTopBottom = this.workflowService.topDownOrBottomUp
+    this.topDownOrBottomUp('showTop')
 
   }
  

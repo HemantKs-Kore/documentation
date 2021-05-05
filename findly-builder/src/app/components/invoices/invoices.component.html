@@ -1,43 +1,50 @@
 <div class="invoice-container">
     <div class="header-sec">
         <div class="title">Invoices</div>
-        <div class="d-flex align-items-center">
-            <div class="kr-sg-input-search">
-                <input type="text" placeholder="Search" class="input-search"  autocomplete="off">
-                <img src="assets/icons/search_gray.svg" class="search-icon">               
+        <!-- <div class="d-flex align-items-center">
+            <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
+                <input type="text" placeholder="Search" class="input-search" [ngClass]="{'pl-33':!searchInvoice,'pl-2':searchInvoice}" autocomplete="off" [(ngModel)]="searchInvoice" (focusout)="showSearch= !showSearch" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+                <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchInvoice">
+                <img class="close-icon" *ngIf="searchInvoice" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchInvoice}" (click)="searchInvoice='';toggleSearch(false)">
             </div>           
-            <div class="seach-block">
-                <img src="assets/icons/search.svg">{{'search' | translate}}             
+            <div class="seach-block" *ngIf="(invoices && invoices.length)">
+                <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
             </div> 
-            <div class="download-icon" tooltipClass="tooltip_custom margin-10" placement="bottom-right" container='body' ngbTooltip="Download Log">
-                <img src="assets/icons/usage-log/download.svg">
-            </div>           
-        </div>
+        </div> -->
     </div>
     <div class="plan-type">
         <div class="current-plan">Current Plan</div>
         <div class="type">Free</div>
     </div>
-    <perfect-scrollbar class="scroll-invoice-content">
+    <perfect-scrollbar class="scroll-invoice-content if-pagination">
         <div class="invoice-table-data">
             <div class="invoice-table-header row col-12">
                 <div class="title col-2">INVOICE ID</div>
                 <div class="title col-3">BILLING period</div>
                 <div class="title col-2">INVOICE AMOUNT</div>
                 <div class="title col-2">SUBSCRIPTION</div>
-                <div class="title col-3 d-flex align-items-center"><img src="assets/icons/usage-log/sort.svg" class="mr-1"> INVOICE DATE</div>
+                <div class="title col-3 col_ d-flex align-items-center" (click)="sortBy('invoiceCreatedDate')">
+                    <span class="d-flex align-items-center flex-column mr-1">
+                        <img  [ngClass]="getSortIconVisibility('invoiceCreatedDate', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img  [ngClass]="getSortIconVisibility('invoiceCreatedDate', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                      </span>
+                    INVOICE DATE</div>
             </div>
-            <div class="invoice-table-body row col-12">
-                <div class="title col-2">SA0087</div>
-                <div class="title col-3">3 Jun 2020 - 12 Nov 2020</div>
-                <div class="title col-2">$0</div>
-                <div class="title col-2">Annual</div>
-                <div class="title col-3">3 Jun 2020</div>
+            <div class="invoice-table-body row col-12" *ngFor="let invoice of invoices | fieldsFilter: [ searchInvoice, '_id']">
+                <div class="title col-2">{{invoice._id}}</div>
+                <div class="title col-3">{{invoice.subscriptionDetails.startDate  | dateFormatPipe: 'DD MMM YYYY'}} - {{invoice.subscriptionDetails.endDate  | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                <div class="title col-2">$ {{invoice.amount}}</div>
+                <div class="title col-2">{{invoice.subscriptionType}}</div>
+                <div class="title col-3">{{invoice.invoiceCreatedDate  | dateFormatPipe: 'DD MMM YYYY'}}</div>
                 <div class="actions-invoice">
-                    <div class="view"><img src="assets/icons/usage-log/view.svg"></div>
-                    <div class="download-invoice"><img src="assets/icons/usage-log/download.svg"></div>
+                    <!-- <div class="view"> <a href="{{invoice.viewInvoice}}" target="_blank"><img src="assets/icons/usage-log/view.svg"></a></div> -->
+                    <div class="download-invoice"><a type="button" (click)="downloadInvoice(invoice.viewInvoice,invoice._id)"><img src="assets/icons/usage-log/download.svg"></a></div>
                 </div>
             </div>
         </div>
     </perfect-scrollbar>
+    <div class="px-4">
+        <app-record-pagination *ngIf="invoices && invoices.length" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
+    </div>
 </div>

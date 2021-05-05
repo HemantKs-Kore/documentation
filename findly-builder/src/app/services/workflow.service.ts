@@ -36,6 +36,9 @@ export class WorkflowService {
     if (topDownOrBottomUp) {
       this.topDownOrBottomUp = topDownOrBottomUp;
     }
+    else{
+      this.topDownOrBottomUp = 'top';
+    }
 
     return this.topDownOrBottomUp;
 

@@ -479,6 +479,7 @@ app-mainmenu{
 		font-size: 14px;
 		line-height: 20px;
 		margin-bottom: 5px;
+		cursor: pointer;
 		img{
 			margin-left: 5px;
 		}
@@ -494,6 +495,33 @@ app-mainmenu{
 		font-size: 12px;
 		line-height: 20px;
 		margin-bottom: 5px;
+		position: relative;		
+		.progress{
+			height: 2px !important;
+			position: absolute;
+			left: 0;
+			width: 100%;
+			bottom: 0;
+			background-color: transparent;
+			border-radius: 0;
+			.progress-bar{
+				background: #0D6EFD !important;
+			}
+		}
+		.query-limited-reached{
+			.progress{
+				height: 2px !important;
+				position: absolute;
+				left: 0;
+				width: 100%;
+				bottom: 0;
+				background-color: transparent;
+				border-radius: 0;
+				.progress-bar{
+					background: #B893F2 !important;
+				}
+			}
+		}
 	}
 
 }

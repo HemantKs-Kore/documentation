@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
 import * as moment from 'moment';
 declare const $: any;
+import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { Subscription } from 'rxjs';
 @Component({
@@ -38,6 +39,7 @@ export class AppExperimentsComponent implements OnInit {
   someRangeconfig: any = null;
   @ViewChild('addExperiments') addExperiments: KRModalComponent;
   @ViewChild('sliderref') sliderref;
+  @ViewChild('plans') plans: UpgradePlanComponent;
   variantList = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }];
   // add Experiment
   form_type;
@@ -63,21 +65,45 @@ export class AppExperimentsComponent implements OnInit {
   exp_skipPage: number = 0;
   test = 33.33;
   loadingContent1: boolean;
-  indexSubscription: Subscription;
-  searchSubscription: Subscription;
-  ngOnInit(): void {
+  currentSubscriptionPlan: any;
+  currentSubsciptionData: Subscription;
+  async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getExperiments();
-    this.setSliderDefaults();
-    this.getIndexPipeline();
-    // this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
-    //   this.indexConfig = res;
-    // })
-    // this.searchSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
-    //   this.queryPipeline = res;
-    // })
+    //this.currentsubscriptionPlan(this.selectedApp)
+    await this.appSelectionService.getCurrentSubscriptionData();
+    this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
+      this.currentSubscriptionPlan = res.subscription;
+      if (this.currentSubscriptionPlan.planId != 'fp_free') {
+        this.getExperiments();
+        this.setSliderDefaults();
+        this.getIndexPipeline();
+      }
+      else if (this.currentSubscriptionPlan.planId == 'fp_free') {
+        this.loadingContent1 = true;
+      }
+    })
   }
+  //get current subscription data
+  // currentsubscriptionPlan(app) {
+  //   const payload = {
+  //     streamId: app._id
+  //   };
+  //   const appObserver = this.service.invoke('get.currentPlans', payload);
+  //   appObserver.subscribe(res => {
+  //     this.currentSubscriptionPlan = res.subscription;
+  //     if (this.currentSubscriptionPlan.planId != 'fp_free') {
+  //       this.getExperiments();
+  //       this.setSliderDefaults();
+  //       this.getIndexPipeline();
+  //     }
+  //     else if (this.currentSubscriptionPlan.planId == 'fp_free') {
+  //       this.loadingContent1 = true;
+  //     }
+  //   }, errRes => {
+  //     console.log('failed to get plans');
+  //   });
+  // }
   loadImageText: boolean = false;
   imageLoaded() {
     this.loadingContent = false;
@@ -498,13 +524,13 @@ export class AppExperimentsComponent implements OnInit {
         // this.notificationService.notify('Enter the required fields to proceed', 'error');
         validField = false
       }
-      if(!element.indexPipelineName){
-        $("#indexPipelineName" + i) .css("border-color", "#DD3646");
+      if (!element.indexPipelineName) {
+        $("#indexPipelineName" + i).css("border-color", "#DD3646");
         // this.notificationService.notify('Enter the required fields to proceed', 'error');
         validField = false
       }
-      if(!element.queryPipelineName){
-        $("#queryPipelineName" + i) .css("border-color", "#DD3646");
+      if (!element.queryPipelineName) {
+        $("#queryPipelineName" + i).css("border-color", "#DD3646");
         // this.notificationService.notify('Enter the required fields to proceed', 'error');
         validField = false
       }
@@ -644,8 +670,9 @@ export class AppExperimentsComponent implements OnInit {
       this.listOfExperiments = this.filterExperiments;
       this.countExperiment(this.listOfExperiments);
       this.selectedTab(this.setTab);
-      this.statusList(this.listOfExperiments);
+      this.statusList(this.filterExperiments);
       this.notificationService.notify(`Experiment ${status} `, 'success');
+      console.log("filterExperiments", this.filterExperiments)
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -786,6 +813,10 @@ export class AppExperimentsComponent implements OnInit {
   }
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  //upgrade plan
+  upgrade() {
+    this.plans.openChoosePlanPopup('choosePlans');
   }
   // ngOnDestroy() {
   //   this.indexSubscription.unsubscribe();

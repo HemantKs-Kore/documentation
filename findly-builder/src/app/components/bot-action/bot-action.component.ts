@@ -688,7 +688,7 @@ export class BotActionComponent implements OnInit {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
-          this.notificationService.notify('Failed Standard Publish', 'error');
+          // this.notificationService.notify('Failed Standard Publish', 'error');
         }
       }
     );
@@ -1168,7 +1168,7 @@ export class BotActionComponent implements OnInit {
             this.disableBtnDisable = true;
           } else {
             this.enableBtnDisable = false;
-            this.disableBtnDisable = false;
+            this.disableBtnDisable = false; 
           }
           this.markCheckboxSelectedTasks();
         }
@@ -1223,7 +1223,7 @@ export class BotActionComponent implements OnInit {
         else {
           this.linkedBotFAQs = [];
         }
-        this.notificationService.notify("Linked Bot Synced, Successfully", 'success')
+        //  this.notificationService.notify("Linked Bot Synced, Successfully", 'success')
       })
     }
   }

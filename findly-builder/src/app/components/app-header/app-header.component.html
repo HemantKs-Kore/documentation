@@ -227,7 +227,7 @@
 </header>
 
 <!--create new app popup-->
-<kr-modal modalType="default" #createAppPop>
+<!-- <kr-modal modalType="default" #createAppPop>
     <div class="modal-header">
           <h4 class="modal-title">Create App</h4>
         </div>
@@ -263,4 +263,35 @@
           </div>
   
   
+  </kr-modal> -->
+
+  <kr-modal modalType="default" #createAppPop modalClass="creating-new-app-modal">
+    <div class="modal-header">
+        <div class="modal-title">Create App</div>
+        <div class="close_modal" (click)="closeCreateApp()"><img src="assets/icons/close.svg"></div>
+    </div>
+    <div class="modal-body">
+      <div class="kr-sg-input-text mb-3">
+        <div class="label-text">App Name</div>
+        <input maxlength="128" type="text" autocomplete="off" placeholder="Enter App Name"  [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
+        <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
+      </div>
+      <div class="kr-sg-input-text">
+        <div class="label-text">Description</div>
+        <input class="input-text" maxlength="512" placeholder="Enter App Description" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
+      </div>
+      <div class="kr-sg-dropdowns w-100">
+        <div class="label-text">Language</div>
+        <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>English</button>                                            
+            <ul class="dropdown-menu content-menu">
+              <li><a>English</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
+        <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closeCreateApp()">Cancel</button>
+        <button   type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='validateSource()'>Create</button>
+    </div>
   </kr-modal>

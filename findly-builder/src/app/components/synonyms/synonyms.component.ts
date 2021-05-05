@@ -394,13 +394,13 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     const sortedData = data.sort((a, b) => {
       const isAsc = this.isAsc;
       switch (sort) {
-        case 'name': return this.compare(a.name, b.name , isAsc);
+        case 'name': return this.compare(a.values[0], b.values[0] , isAsc);
         case 'type': return this.compare(a.type, b.type, isAsc);
         
         default: return 0;
       }
     });
-    this.synonyms = sortedData;
+    this.synonymData = sortedData;
   }
   toggleSearch() {
     if (this.showSearch && this.synonymSearch) {

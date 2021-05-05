@@ -1,11 +1,15 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
-
-	<div class="upgrade_your_plan_price d-none">
-		<div class="upgrade-plan-btn">Upgrade Your Plan<img src="assets/icons/pricing/carrotright.svg"></div>
-		<div class="document-limit">22%  document limit reached</div>
-		<div class="document-limit">10%  query limit reached</div>
-	</div>
+	<ng-container *ngIf="!settingMainMenu && !sourceMenu || sourceMenu">
+	<div class="upgrade_your_plan_price" [hidden]="!showUpgrade">
+		<div class="upgrade-plan-btn" (click)="upgrade()">Upgrade Your Plan<img src="assets/icons/pricing/carrotright.svg"></div>
+		<div class="document-limit">{{usageDetails.ingestDocs}}%  document limit reached
+			<ngb-progressbar height="10px" type="primary" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
+		</div>		
+		<div class="document-limit">{{usageDetails.searchQueries}}%  query limit reached
+			<ngb-progressbar class="query-limited-reached" height="10px" type="primary" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
+		</div>		
+	</div></ng-container>
 	<perfect-scrollbar class="perfect-scroll">
 		<div class="list-group list-group-flush" *ngIf="!settingMainMenu && !sourceMenu">					
 
@@ -347,7 +351,7 @@
 				<span class="linkTitle">Team</span>
 			</div>
 
-			<!-- <div class="inside-menu-title">BILLING & USAGE</div>
+			<div class="inside-menu-title">BILLING & USAGE</div>
 			<div mat-button class="mat-button" [routerLink]="['/pricing']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 				<span class="inlineIconBox leftAdjust">
 					<img src="assets/icons/sidemenu/new-icons/plandetails.svg" class="defaultIcon">
@@ -368,7 +372,7 @@
 					<img src="assets/icons/sidemenu/new-icons/invoice.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Invoices</span>
-			</div> -->
+			</div>
 
 		</div>
 
@@ -453,3 +457,4 @@
 			<button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeIndexModalPopup()">Cancel</button>
 		</div>    
 	</kr-modal>
+	<app-upgrade-plan #plans></app-upgrade-plan>

@@ -19,7 +19,7 @@ export class EndPointsService {
       window.appConfig.API_SERVER_URL = this.SERVER_URL;
     } else {
       this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
-      // this.API_SERVER_URL = "https://e1974d4ae908.ngrok.io" + "/api/1.1"
+      //this.API_SERVER_URL = "https://75fcf158ac7b.ngrok.io" + "/api/1.1"
     }
     this.init();
   }
@@ -130,6 +130,13 @@ export class EndPointsService {
       // endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
       method: 'post'
     };
+
+    // cancel annotation
+    this.serviceList['put.cancelAnnotation'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/jobs/:jobId/status',
+      method: 'put'
+    }
+    
     this.serviceList['put.EditConfig'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/webdomain/:webdomainId',
       method: 'put'
@@ -268,7 +275,7 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['get.traitgroup'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/traitgroup',
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/traitgroup',
       method: 'get'
     };
     this.serviceList['post.traitgroup'] = {
@@ -427,7 +434,7 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['post.simulate'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/simulate',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/simulate',
       method: 'post'
     }
     this.serviceList['post.restoreStopWord'] = {
@@ -446,23 +453,23 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['get.traits'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/traitgroup',
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/traitgroup',
       method: 'get'
     }
     this.serviceList['update.traitGroup'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/traitgroup/:traitGroupId',
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/traitgroup/:traitGroupId',
       method: 'put'
     }
     this.serviceList['create.traitGroup'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/traitgroup',
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/traitgroup/',
       method: 'post'
     }
     this.serviceList['delete.traitGroup'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/traitgroup/:traitGroupId',
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/traitgroup/:traitGroupId',
       method: 'delete'
     }
     this.serviceList['get.traitGroupById'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/traitgroup/:traitGroupId',
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/traitgroup/:traitGroupId',
       method: 'get'
     }
     this.serviceList['update.traitById'] = {
@@ -910,6 +917,51 @@ export class EndPointsService {
     }
     this.serviceList['put.tourConfig'] = {
       endpoint: this.API_SERVER_URL + '/findly/apps/:streamId',
+      method: 'put'
+    }
+    /** Pricing **/
+    this.serviceList['get.pricingPlans'] = {
+      endpoint: this.API_SERVER_URL + '/findly/plans',
+      method: 'get'
+    }
+    this.serviceList['get.currentPlans'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription',
+      method: 'get'
+    }
+    this.serviceList['post.payement'] = {
+      endpoint: this.API_SERVER_URL + '/findly/plans/:planId/checkout',
+      method: 'post'
+    }
+    this.serviceList['get.payementStatus'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/transactions/:transactionId/status',
+      method: 'get'
+    }
+    this.serviceList['post.usageData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/usage',
+      method: 'post'
+    }
+    this.serviceList['get.allInvoices'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/invoices?skip=:skip&limit=:limit',
+      method: 'get'
+    }
+    this.serviceList['get.allUsageLogs'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/usageLog?skip=:skip&limit=:limit',
+      method: 'get'
+    }
+    this.serviceList['put.buyOverage'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/:subscriptionId/overage',
+      method: 'put'
+    }
+    this.serviceList['put.cancelSubscribtion'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/cancel',
+      method: 'put'
+    }
+    this.serviceList['get.renewSubscribtion'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/renew',
+      method: 'get'
+    }
+    this.serviceList['put.planChange'] = {
+      endpoint: this.API_SERVER_URL + '/findly/plans/change',
       method: 'put'
     }
   }
