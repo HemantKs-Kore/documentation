@@ -496,13 +496,13 @@ export class AppExperimentsComponent implements OnInit {
         // this.notificationService.notify('Enter the required fields to proceed', 'error');
         validField = false
       }
-      if(!element.indexPipelineName){
-        $("#indexPipelineName" + i) .css("border-color", "#DD3646");
+      if (!element.indexPipelineName) {
+        $("#indexPipelineName" + i).css("border-color", "#DD3646");
         // this.notificationService.notify('Enter the required fields to proceed', 'error');
         validField = false
       }
-      if(!element.queryPipelineName){
-        $("#queryPipelineName" + i) .css("border-color", "#DD3646");
+      if (!element.queryPipelineName) {
+        $("#queryPipelineName" + i).css("border-color", "#DD3646");
         // this.notificationService.notify('Enter the required fields to proceed', 'error');
         validField = false
       }
@@ -642,8 +642,9 @@ export class AppExperimentsComponent implements OnInit {
       this.listOfExperiments = this.filterExperiments;
       this.countExperiment(this.listOfExperiments);
       this.selectedTab(this.setTab);
-      this.statusList(this.listOfExperiments);
+      this.statusList(this.filterExperiments);
       this.notificationService.notify(`Experiment ${status} `, 'success');
+      console.log("filterExperiments", this.filterExperiments)
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
