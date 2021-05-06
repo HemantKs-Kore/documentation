@@ -7097,6 +7097,7 @@ body, html{
     text-align: right;    
     cursor: pointer !important;
     z-index: 100;
+    display: none;
 }
 .search-container.conversation #searchChatContainer .messageBubble .userMessage .query-analytics-control-container img{
     margin-right: 7px;
