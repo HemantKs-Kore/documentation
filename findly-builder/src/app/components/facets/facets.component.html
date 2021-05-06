@@ -229,8 +229,9 @@
                         <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                             <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
-                            <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
+                            <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
                             <img src="assets/images/search_gray.svg" class="search-icon">
+                            <img *ngIf="(!addEditFacetObj.fieldId.length) && submitted" id="fieldWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
                             <ul class="dropdown-menu content-menu">
                                 <perfect-scrollbar class="scroll-search-field">
                                     <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="selectField(suggesition); setFaceName(suggesition)"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
@@ -260,7 +261,8 @@
             <div class="row-content row">
                 <div class="kr-sg-input-text col-8 pl-0">
                     <div class="label-text">{{'facets.facet_name'| translate}}</div>
-                    <input type="text" placeholder="Asset Class" class="input-text" [(ngModel)]="addEditFacetObj.facetName">
+                    <input type="text" placeholder="Asset Class" class="input-text" [class.err-block]="((!addEditFacetObj.facetName.length) && submitted)" [(ngModel)]="addEditFacetObj.facetName">
+                    <img *ngIf="(!addEditFacetObj.facetName.length) && submitted" id="facetNameWarning" src="assets/icons/warning_escalation.svg" style="top: 57%; position: absolute; right: 4.5%; display: block;" height="12" width="12" />
                 </div>
                 <div class="kr-sg-dropdowns col-4 pl-2">
                     <div class="label-text">{{'facets.facet_type'| translate}}</div>
@@ -378,7 +380,7 @@
         </div>
     </perfect-scrollbar>
     <div class="modal-footer" *ngIf="addEditFacetObj" [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldId === selectedField.fieldId)'>
-        <button type="button" class="kr-sg-button-primary btn_lg float-right" [disabled]='(!addEditFacetObj._id && !selectedField) || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldId !== selectedField.fieldId))' (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button> <!-- [disabled]='(!addEditFacetObj._id && !selectedField) || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldId !== selectedField.fieldId))' -->
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModal()">{{'facets.cancel'| translate}}</button>
         <!-- <button type="button" class="kr-sg-button-danger btn_lg float-left" *ngIf="addEditFacetObj._id" (click)="deleteFacets(addEditFacetObj)">{{'facets.delete'| translate}}</button> -->
 
