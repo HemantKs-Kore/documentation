@@ -159,7 +159,7 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
     this.nextStep = nex == undefined ? 'undefined' : this.steps[parseInt(nex)];
   }
   ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.subscription1.unsubscribe();
+    this.subscription ? this.subscription.unsubscribe() : null;
+    this.subscription1 ? this.subscription1.unsubscribe() : null;
   }
 }
