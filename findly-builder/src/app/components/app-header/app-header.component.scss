@@ -365,6 +365,7 @@
                 transition: 0.2s all ease;   
                 &.active-train{
                     background: #E7F1FF;
+                    pointer-events: none;
                     .loader-train{
                         background: #FFFFFF;
                         border: 1px solid #F3F8FF;

@@ -702,3 +702,12 @@
 .w-400{
     width: 400px;
 }
+
+.kr-sg-dropdowns{
+    .kr-sg-input-inline-search {
+        input.input-search.err-block{
+            background-color: rgb(255, 255, 255);
+            border-color: rgb(221, 54, 70);
+        }
+    }
+}
