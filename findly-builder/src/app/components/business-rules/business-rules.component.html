@@ -256,7 +256,7 @@
 
                                                     <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType !== 'date') && (ruleObj.dataType !== 'number')">
                                                         <ng-container *ngFor="let value of ruleObj.value; let index = index">
-                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
+                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)" [ngClass]="{'firstChip':index==0}">
                                                                 <span class="mat-val" *ngIf="value">{{value}}</span>
                                                                 <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                             </mat-chip>
@@ -265,7 +265,7 @@
                                                     </ng-container>
                                                     <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'number')">
                                                         <ng-container *ngFor="let value of ruleObj.value; let index = index">
-                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
+                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)" [ngClass]="{'firstChip':index==0}">
                                                                 <span class="mat-val" *ngIf="value && value.length && checkIsArray(value)">
                                   <span *ngFor="let num of value; let numIndex = index">{{num}}<span *ngIf="!numIndex"> - </span></span>
                                                                 </span>
@@ -302,7 +302,7 @@
                                                     </ng-container> -->
                                                     <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date')">
                                                         <ng-container *ngFor="let value of ruleObj.value; let index = index">
-                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
+                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)" [ngClass]="{'firstChip':index==0}">
                                                                 <span class="mat-val" *ngIf="value && value.length && checkIsArray(value)">
                                                                     <span *ngFor="let date of value; let dateIndex = index">
                                                                         {{date | dateFormatPipe: 'DD MMM YYYY'}} <span *ngIf="!dateIndex"> - </span>
@@ -452,7 +452,7 @@
                                             <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                                                 <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
                                                     <ng-container *ngFor="let value of outcomeObj.outcomeValue; let valueindex = index">
-                                                        <mat-chip [selectable]="selectable" (removed)="removeTag(outcomeObj.outcomeValue, tag,valueindex)"><span class="mat-val" *ngIf="value">{{value}}</span>
+                                                        <mat-chip [selectable]="selectable" (removed)="removeTag(outcomeObj.outcomeValue, tag,valueindex)" [ngClass]="{'firstChip':valueindex==0}"><span class="mat-val" *ngIf="value">{{value}}</span>
                                                             <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                         </mat-chip>
                                                         <span>OR</span>
