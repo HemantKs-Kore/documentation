@@ -128,15 +128,15 @@
     </div> -->
   </form>
   <!-- <hr> -->
-  <div class="text">
+  <!-- <div class="text">
     <div class="heading">Answer(s)</div>
     <div class="desc">Reorder the conditioned responses to execute in specific order</div>
-  </div>
+  </div> -->
   <ng-container *ngFor="let faqObj of faqResponse.defaultAnswers ; let index = index">
     <div class="body-top-content pointer" title="Click to edit this response" (click)="currentEditIndex = index">
       <div class="question-content">
         <div class="conditionalBlock bot-response-view-mode">
-          <div class="bot-response-title">Response <span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span> <span *ngIf="faqObj.answerType !== 'condition'">(DEFAULT)</span>
+          <div class="bot-response-title">Response <span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span>
             <div class="advanced_mode_faq">
               <label class="kr-sg-toggle with-label" *ngIf="(currentEditIndex === index)">
                 <input type="checkbox" [checked]='(faqObj.answerType === "condition")' (click)="changeResponseType(faqObj,index)">
@@ -362,48 +362,26 @@
       </div>
     </div>
     <div class="responseEditorContainer" *ngIf="currentEditIndex === index">
-      <div class="top-sec d-flex">
-        <div class="col-6 left_sec">
-          <div class="tabs-sec">
-            <span class="tab-title " (click)="faqObj.type='string'" [ngClass]="{'active': faqObj.type === 'string'}">Editor</span>
-            <!-- <span class="tab-title" (click)="faqObj.type='javascript'" [ngClass]="{'active': faqObj.type==='javascript'}">&lt;/&gt; CODE</span> -->
-            <span class="tab-title d-none" (click)="faqObj.type='external'" [ngClass]="{'active': faqObj.type==='external'}">External</span>
-          </div>
-        </div>
-      
-        <div class="col-6 right-sec">
-          <div class="tabs-sec border-0">
-            <span class="tab-title pl-0">preview</span>
-          </div>
-        </div>
-      </div>
-      <div class="bottom_sec d-flex">
-        <div class="col-6 left_sec">        
+      <div class="bottom_sec ">
+        <div class="col-12 left_sec editResponseMode">        
           <div class="content-data">
-            <!-- <div class="bot_rsponse_advance_mode">
-              <div class="layout-select">
-                <div class="d-flex align-items-center m-0 col-10 p-0">
-                  <div class="title">Select Layout</div>
-                  <div class="img-block" (click)="setResponseType('default',faqObj)" [ngClass]="{'active': (faqObj.responseType === 'default') || (!faqObj.responseType)}">
-                    <img *ngIf="(faqObj.responseType !== 'default')" src="assets/icons/editor/no-image.svg">
-                    <img  *ngIf="(faqObj.responseType === 'default')" src="assets/icons/editor/no-image-active.svg">
-                  </div>
-                  <div class="img-block" (click)="setResponseType('horizontalSplit',faqObj)"  [ngClass]="{'active': (faqObj.responseType === 'horizontalSplit')}">
-                    <img *ngIf="(faqObj.responseType !== 'horizontalSplit')" src="assets/icons/editor/image-horizantal.svg">
-                    <img *ngIf="(faqObj.responseType === 'horizontalSplit')" src="assets/icons/editor/image-horizantal-active.svg" >
-                  </div>
-                  <div class="img-block" (click)="setResponseType('verticalSplit',faqObj)"  [ngClass]="{'active': (faqObj.responseType === 'verticalSplit')}">
-                    <img *ngIf="(faqObj.responseType !== 'verticalSplit')" src="assets/icons/editor/image-vertical.svg">
-                    <img *ngIf="(faqObj.responseType == 'verticalSplit')" src="assets/icons/editor/image-vertical-active.svg" >
-                  </div>
-                </div>
-              </div>
-              <img src="assets/icons/sidemenu/delete-table.svg" class="delete-response hide">
-            </div>     -->
-            <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+              <ng-container    *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
           </div>
-          <div class="label_text mt-2">Upload Image</div>
-          <!-- <div class="push-notify"> </div> -->
+        </div>  
+        <div class="col-12 right_sec previewResponseMode d-none"> 
+          <div class="content-data">
+              <div class="preview-response-title"> Response Preview </div>
+            <div class="responsePreviewBlock">
+              <perfect-scrollbar>
+                <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+              </perfect-scrollbar>
+            </div>
+          </div>  
+        </div>
+      </div>   
+      <div class="bottom_sec d-flex">
+        <div class="col-6 left_sec">  
+          <!--          
           <div class="multi-select mb-2">         
 
             <label class="kr-sg-toggle">                                       
@@ -413,70 +391,42 @@
                 <span class="disabled">No</span>
               </div>
             </label>
-          </div>
-          <div class="kr-sg-input-text mb-2"> 
-            <div class="label-text">URL</div>
-            <input type="text" autocomplete="off" placeholder="http(s)//" class="input-text" (keydown.enter)="addImage()" [(ngModel)]="imgInfo.url" name="appName" [ngClass]="{'readonly': !uploadImage.slide}">         
-          </div>
-          <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div>
-          <!-- <div class="multi-select mb-2">
-            <{{uploadImage.slide | json}} -->
-            <!-- <div class="row ml-1">
-                <label class="kr-sg-toggle">                                           
-                    <input type="checkbox" [(ngModel)]="uploadImage.slide">
-                    <div class="slider"></div>
-                </label>  
-                <div class="response ml-1">
-                    <span *ngIf="!uploadImage.slide">No</span>
-                    <span *ngIf="uploadImage.slide">Yes</span>
-                </div>
+          </div> -->
+          <div class="kr-sg-input-text mb-2 mt-3"> 
+             <!-- image optional preview related changes -->
+             <div class="d-flex justify-content-between align-items-center">
+              <div class="label-text w-100">Image (Optional)</div>
+              <div class="know-more-data" (click)="addImage();openPreviewImgModal();" *ngIf="imgInfo.url && imgInfo.url.length">Preview</div>
             </div>
-        </div> -->
-        <!-- <div class="kr-sg-input-text mb-3">
-        <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName" readonly>
-        <div class="label-text">URL</div>
-      </div> -->
-        <!-- <div class="kr-sg-input-text mb-3"> 
-          <div class="label-text">URL</div>
-          <div *ngIf="!uploadImage.slide">
-          <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName" readonly>
+            <!-- image optional preview related changes -->
+            <input type="text" autocomplete="off" placeholder="http(s)//" class="input-text" (keydown.enter)="addImage()" [(ngModel)]="imgInfo.url" name="appName">         
+          </div>
+          <!-- <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div> -->
         </div>
-          <div *ngIf="uploadImage.slide">
-          <input maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName">
-        </div>
-        </div>  -->
-        </div>
-       
         <div class="col-6 right_sec">        
-          <div class="content-data">
-            <div class="preview-title">response </div>
-            <div class="responsePreviewBlock" [ngClass]="{'adjust-height': image && image.url}">
-              <perfect-scrollbar>
-                <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
-              </perfect-scrollbar>
-            </div>
-            <ng-container *ngIf="image && image.url">
+          <div class="content-data p-0 bg-transparent">
+            <!-- <ng-container *ngIf="image && image.url">
               <div class="preview-title mt-3 pt-1">IMAGE</div>
               <div class="responsePreviewBlock adjust-height">
                 <perfect-scrollbar>
                     <img [src]="image.url">
                 </perfect-scrollbar>
               </div>  
-            </ng-container>             
+            </ng-container>              -->
               <div class="info-bubble-faq">
                 <div class="w-100 d-flex">
                   <div class="info_img">
                     <img src="assets/icons/faq/Info.svg">
                   </div>
                   <div class="bubnle-info">
-                    Response layout will be based on the template you select in Search Interface Customization
+                    The end-users will see the response as per the template you select in the Search Experience
                   </div>
                 </div>
-                <div class="know-more-data">Know more</div>
+                <!-- <div class="know-more-data">Know more</div> -->
             </div>
           </div>
         </div>
-      </div>      
+      </div>   
     </div>
     <div class="col-12 p-0 pointer body_sec" title="Click to edit this response" *ngIf="currentEditIndex !== index">
        <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
@@ -500,14 +450,14 @@
   </div>
   <hr>
   <div class="add-alternative-questions row" *ngIf="!isFollowUp && faqData"> 
-    <div class="col-10 pl-0 pr-2">
+    <div class="col-12 pl-0 pr-2">
         <div class="question-name text-truncate">Alternate Questions
             <span *ngIf="faqData">{{faqData._source.alternateQuestions?.length>0?'('+faqData._source.alternateQuestions?.length+')':''}}</span>
             <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
         </div>
         <div class="added-tags text-truncate">Add alternate forms of the question.</div>
     </div>
-    <div class="col-2 p-0 text-right" *ngIf="!isAdd">
+    <div class="col-12 p-0 " *ngIf="!isAdd">
         <button class="kr-sg-button-primary btn_lg" (click)="addAltQues()">Add</button>
     </div>
   </div>
@@ -549,7 +499,7 @@
         <!-- <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeImgApp()">Close</button> -->
       </div>
 </kr-modal>
-<kr-modal modalType="default" #createLinkPop>
+<kr-modal modalType="default" modalClass="provideLinkPopup" #createLinkPop>
   <div class="modal-header">
         <h4 class="modal-title">Provide link URL</h4>
       </div>
@@ -583,3 +533,21 @@
       <button class="kr-sg-button-secondary btn_lg" (click)="closeExternalPopUpRef()">Close</button>
   </div>
 </kr-modal>
+
+<!-- preview image modal popup start from here -->
+<kr-modal id="previewImageModalPop" modalType="default" #previewImageModalPop modalClass="modal_popups_ previewImageModalPop">
+  <div class="modal-header previewImageModalPopHeader">
+    <div class="title"></div>
+    <div class="close_icon" (click)="closePreviewImgModal();"><img src="assets/icons/modal-close.svg"></div>
+  </div>
+ 
+    <div class="modal-body">
+      <div class="previewImageBlock">
+        <perfect-scrollbar>
+          <img [src]="image.url">
+      </perfect-scrollbar>
+      </div>
+    </div>
+ 
+</kr-modal> 
+<!-- preview image modal popup start from here -->
