@@ -10,6 +10,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',
@@ -46,7 +47,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
   searchIndexId;
   selectedApp;
-
+  usageDetails: any = {};
   configObj: any = {};
   selectedConfig: any = {};
   indexConfigObj: any = {};
@@ -60,12 +61,16 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   public showStatusDocker: boolean = false;
   public statusDockerLoading: boolean = false;
   public dockersList: Array<any> = [];
+  showUpgrade: boolean;
+  currentSubsciptionData: Subscription;
+  submitted : boolean = false;
   @Input() show;
   @Input() settingMainMenu;
+  @Input() sourceMenu;
   @ViewChild('addIndexFieldModalPop') addIndexFieldModalPop: KRModalComponent;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('statusDockerModalPop') statusDockerModalPop: KRModalComponent;
-
+  @ViewChild('plans') plans: UpgradePlanComponent;
   constructor(private service: ServiceInvokerService,
     private headerService: SideBarService,
     private workflowService: WorkflowService,
@@ -74,7 +79,8 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
     public dialog: MatDialog
-  ) { }
+  ) {
+  }
   goHome() {
     this.workflowService.selectedApp(null);
     this.router.navigate(['/apps'], { skipLocationChange: true });
@@ -84,6 +90,12 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       title: selection,
     };
     this.headerService.toggle(toogleObj);
+  }
+  //upgrade plan
+  upgrade() {
+    // var all = document.getElementsByClassName('query-limited-reached');
+    // console.log("all", all)
+    this.plans.openChoosePlanPopup('choosePlans');
   }
   reloadCurrentRoute() {
     let route = '/summary';
@@ -194,65 +206,120 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       this.notify.notify('Somthing went worng', 'error');
     }
   }
-  createIndexConfig() {
-    let payload: any = {
-      method: this.newIndexConfigObj.method,
-      name: this.newIndexConfigObj.name,
-    }
-    if (this.newIndexConfigObj.method === 'clone') {
-      payload = { ...payload, sourceIndexPipelineId: this.newIndexConfigObj.index_config_id }
-    }
-    const queryParms = {
-      searchIndexId: this.searchIndexId
-    }
-    this.service.invoke('post.newIndexPipeline', queryParms, payload).subscribe(
-      res => {
-        if (res && res._id) {
-          if (this.newIndexConfigObj.method === 'clone') {
-            this.notify.notify('New Index config cloned successfully', 'success');
-          } else {
-            this.notify.notify('New Index config created successfully', 'success');
-          }
-          this.selectIndexPipelineId(res);
-        }
-        this.closeIndexModalPopup();
-      },
-      errRes => {
-        this.errorToaster(errRes, 'Failed to Create indexPipeline');
+  validateIndexConfig(){
+    if(this.newIndexConfigObj && this.newIndexConfigObj.name.length){
+      if(this.newIndexConfigObj.method === 'clone' && this.newIndexConfigObj.index_config_name.length){
+        this.submitted = false;
+        return true;
       }
-    );
+      else if(this.newIndexConfigObj.method === 'clone' && !this.newIndexConfigObj.index_config_name.length){
+        return false;
+      }
+      else{
+        this.submitted = false;
+        return true;
+      }
+    }
+    else{
+      return false;
+    }
+  }
+  createIndexConfig() {
+    this.submitted = true;
+    if(this.validateIndexConfig()){
+      let payload: any = {
+        method: this.newIndexConfigObj.method,
+        name: this.newIndexConfigObj.name,
+      }
+      if (this.newIndexConfigObj.method === 'clone') {
+        payload = { ...payload, sourceIndexPipelineId: this.newIndexConfigObj.index_config_id }
+      }
+      const queryParms = {
+        searchIndexId: this.searchIndexId
+      }
+      this.service.invoke('post.newIndexPipeline', queryParms, payload).subscribe(
+        res => {
+          if (res && res._id) {
+            if (this.newIndexConfigObj.method === 'clone') {
+              this.notify.notify('New Index config cloned successfully', 'success');
+            } else {
+              this.notify.notify('New Index config created successfully', 'success');
+            }
+            this.selectIndexPipelineId(res);
+          }
+          this.closeIndexModalPopup();
+        },
+        errRes => {
+          if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
+            this.closeIndexModalPopup();
+            this.errorToaster(errRes, errRes.error.errors[0].msg);
+            this.upgrade();
+          }
+          else {
+            this.errorToaster(errRes, 'Failed to Create indexPipeline');
+          }
+        }
+      );
+    }
+  }
+  validateSearchConfig(){
+    if(this.newConfigObj && this.newConfigObj.name.length){
+      if(this.newConfigObj.method === 'clone' && this.newConfigObj.config_name.length){
+        this.submitted = false;
+        return true;
+      }
+      else if(this.newConfigObj.method === 'clone' && !this.newConfigObj.config_name.length){
+        return false;
+      }
+      else{
+        this.submitted = false;
+        return true;
+      }
+    }
+    else{
+      return false;
+    }
   }
   createConfig() {
-    const payload: any = {
-      method: this.newConfigObj.method,
-      name: this.newConfigObj.name,
-    }
-    if (this.newConfigObj.method === 'clone') {
-      payload.sourceQueryPipelineId = this.newConfigObj.config_id
-    }
-    const queryParms = {
-      searchIndexId: this.searchIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
-    }
-    this.service.invoke('create.queryPipeline', queryParms, payload).subscribe(
-      res => {
-        console.log("search config", res)
-        this.appSelectionService.getQureryPipelineIds();
-        if (res && res._id) {
-          this.selectQueryPipelineId(res);
-        }
-        this.closeModalPopup();
-        if (this.newConfigObj.method === 'clone') {
-          this.notify.notify('New Search config cloned successfully', 'success');
-        }
-        else {
-          this.notify.notify('New Search config created successfully', 'success');
-        }
-      },
-      errRes => {
-        this.errorToaster(errRes, 'Failed to Create searchconfig');
+    this.submitted = true;
+    if(this.validateSearchConfig()){
+      const payload: any = {
+        method: this.newConfigObj.method,
+        name: this.newConfigObj.name,
       }
-    );
+      if (this.newConfigObj.method === 'clone') {
+        payload.sourceQueryPipelineId = this.newConfigObj.config_id
+      }
+      const queryParms = {
+        searchIndexId: this.searchIndexId,
+        indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
+      }
+      this.service.invoke('create.queryPipeline', queryParms, payload).subscribe(
+        res => {
+          console.log("search config", res)
+          this.appSelectionService.getQureryPipelineIds();
+          if (res && res._id) {
+            this.selectQueryPipelineId(res);
+          }
+          this.closeModalPopup();
+          if (this.newConfigObj.method === 'clone') {
+            this.notify.notify('New Search config cloned successfully', 'success');
+          }
+          else {
+            this.notify.notify('New Search config created successfully', 'success');
+          }
+        },
+        errRes => {
+          if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
+            this.closeModalPopup();
+            this.errorToaster(errRes, errRes.error.errors[0].msg);
+            this.upgrade();
+          } else {
+            this.errorToaster(errRes, 'Failed to Create searchconfig');
+          }
+        }
+      );
+    }
   }
   selectQueryPipelineId(queryConfigs, event?, type?) {
     console.log("queryConfigs", queryConfigs)
@@ -318,10 +385,14 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       return false;
     }
   }
-  ngOnInit() {
+  async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     // this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     // Multiple INdex hardcoded
+    await this.appSelectionService.getCurrentSubscriptionData();
+    this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
+      this.showUpgrade = res.subscription.planId == 'fp_free' ? true : false;
+    })
     this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.indexConfigs = res;
       this.indexConfigs.forEach(element => {
@@ -351,6 +422,23 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     //   this.indexConfigObj[element._id] = element;
     // });
     // this.selectedConfig = 'fip-29dee24c-0be2-5ca3-9340-b3fcb9ea965a';
+    this.getCurrentUsage();
+  }
+  //get current usage data of search and queries
+  getCurrentUsage() {
+    const queryParms = {
+      streamId: this.selectedApp._id
+    }
+    const payload = { "features": ["ingestDocs", "searchQueries"] };
+    this.service.invoke('post.usageData', queryParms, payload).subscribe(
+      res => {
+        this.usageDetails = { ingestDocs: res.ingestDocs.percentageUsed, searchQueries: res.searchQueries.percentageUsed };
+
+      },
+      errRes => {
+        this.errorToaster(errRes, 'Failed to get current data.');
+      }
+    );
   }
   // toggle sub-menu
   switchToTerminal() {
@@ -360,6 +448,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.trainingMenu === false ? this.trainingMenu = true : this.trainingMenu = false;
   }
   closeModalPopup() {
+    this.submitted = false;
     this.addFieldModalPopRef.close();
     this.newConfigObj = {
       method: 'default',
@@ -369,6 +458,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     };
   }
   closeIndexModalPopup() {
+    this.submitted = false;
     this.addIndexFieldModalPopRef.close();
     this.newIndexConfigObj = {
       method: 'default',
@@ -384,6 +474,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       config_name: config !== undefined ? config.name : '',
       config_id: config !== undefined ? config._id : ''
     };
+    this.submitted = false;
     this.addFieldModalPopRef = this.addFieldModalPop.open();
     setTimeout(() => {
       $('#createQueryConfig').blur();
@@ -396,6 +487,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       index_config_name: config !== undefined ? config.name : '',
       index_config_id: config !== undefined ? config._id : ''
     };
+    this.submitted = false;
     this.addIndexFieldModalPopRef = this.addIndexFieldModalPop.open();
     setTimeout(() => {
       $('#createIndexConfig').blur();
@@ -457,5 +549,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
     this.indexSub ? this.indexSub.unsubscribe() : false;
+    this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
   }
 }

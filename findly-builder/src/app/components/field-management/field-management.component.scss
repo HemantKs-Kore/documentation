@@ -209,3 +209,21 @@ perfect-scrollbar .ps--active-y{
     max-height: 300px;
     overflow: auto;
 }
+.type_sort_dropdown{   
+    .dropdown-open{                                
+        .dropdown-input{
+            img{
+                top: 0px !important;
+            }
+        }
+    }
+}
+
+.kr-sg-input-text{
+    .kr-sg-input-search {
+        input.input-search.err-block{
+            background-color: rgb(255, 255, 255);
+            border-color: rgb(221, 54, 70);
+        }
+    }
+}

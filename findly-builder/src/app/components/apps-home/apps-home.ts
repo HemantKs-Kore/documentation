@@ -157,6 +157,31 @@ export class AppsListingComponent implements OnInit {
       }
     );
   }
+  validateSource(){
+    let validField=true
+    if(!this.newApp.name){
+      $("#enterAppName").css("border-color", "#DD3646");
+      $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+      validField = false
+    }
+    if(validField){
+      this.createFindlyApp()
+    }
+
+  }
+  inputChanged(type, i?) {
+    if (type == 'enterName') {
+     if(!this.newApp.name )  {
+      $("#infoWarning").show();
+      $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+     }
+     else {
+      $("#infoWarning").hide()
+    }
+    $("#enterAppName").css("border-color", this.newApp.name != '' ? "#BDC1C6" : "#DD3646");
+    }
+  }
   callStream() {
     this.service.invoke('get.credential').subscribe(
       res => {

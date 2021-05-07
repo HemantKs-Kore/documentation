@@ -26,6 +26,9 @@ import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
+  showSearch;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   executionPop = -1;
   loadingcheckForUpdate = false;
   isEditDoc: boolean = false;
@@ -1063,6 +1066,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     if (valToSearch === this.selectedFilter) {
       this.getSourceList();
       this.selectedFilter = '';
+      this.searchSources = '';
       return;
     }
     if (valToSearch) {
@@ -1510,6 +1514,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     window.removeEventListener('scroll', this.scroll, true);
   }
+  toggleSearch() {
+    if (this.showSearch && this.searchSources) {
+      this.searchSources = '';
+    }
+    this.showSearch = !this.showSearch
+  };
 }
 
 // class CrwalObj{  

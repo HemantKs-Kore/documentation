@@ -3,6 +3,7 @@ import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { SideBarService } from './../../services/header.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -57,6 +58,9 @@ export class SearchInterfaceComponent implements OnInit {
   selectedSettingResultsObj: selectedSettingResults = new selectedSettingResults();
   allSettings: any;
   subscription: Subscription;
+  searchConfigurationSubscription : Subscription;
+  searchExperienceConfig : any = {};
+  searchTemplatesDisabled : boolean = false;
   settingList: any = [
     //   {
     //   id:"searchUi",
@@ -70,7 +74,7 @@ export class SearchInterfaceComponent implements OnInit {
       text: "Live Search"
     }, {
       id: "search",
-      text: "Search"
+      text: "Conversational Search"
     }, {
       id: "fullSearch",
       text: "Full Page Result"
@@ -104,6 +108,7 @@ export class SearchInterfaceComponent implements OnInit {
   customizeTemplate: templateResponse = new templateResponse();
   carousel: any;
   componentType: string = 'designing';
+  submitted : boolean = false;
   @ViewChild('customModal') customModal: KRModalComponent;
   @ViewChild('previewModal') previewModal: KRModalComponent;
 
@@ -111,7 +116,8 @@ export class SearchInterfaceComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public headerService : SideBarService
   ) { }
 
   ngOnInit(): void {
@@ -124,15 +130,21 @@ export class SearchInterfaceComponent implements OnInit {
     // this.customizeTemplate.layout.isClickable = true;
     // this.customizeTemplate.layout.behaviour="webpage";
 
-    this.defaultTemplate();
-    this.getSettings('search')
-    this.getAllSettings();
+    // this.defaultTemplate();
+    // this.getSettings('search')
+    // this.getAllSettings();
     //this.filedSelect(type,field)
 
     this.loadFiledsData();
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadFiledsData();
     })
+    this.searchExperienceConfig = this.headerService.searchConfiguration;
+    this.searchConfigurationSubscription = this.headerService.savedSearchConfiguration.subscribe((res) =>{
+      this.searchExperienceConfig = res;
+      this.updateResultTemplateTabsAccess();
+    });
+    this.updateResultTemplateTabsAccess();
 
     console.log(this.customizeTemplateObj);
     console.log(this.selectedSettingResultsObj);
@@ -149,6 +161,9 @@ export class SearchInterfaceComponent implements OnInit {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
       this.getFieldAutoComplete();
+      this.defaultTemplate();
+      this.getSettings('search');
+      this.getAllSettings();
     }
   }
   defaultTemplate() {
@@ -180,6 +195,7 @@ export class SearchInterfaceComponent implements OnInit {
       .subscribe(result => {
         if (result === 'yes') {
           this.selectedSettingResultsObj.referInterface = interfaceType;
+          // this.saveResultSettings(); Inorder to reflect the configuretion, we need to save the current interface with reference
           dialogRef.close();
         } else if (result === 'no') {
           dialogRef.close();
@@ -190,7 +206,8 @@ export class SearchInterfaceComponent implements OnInit {
   getSettings(interfaceType) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      interface: interfaceType
+      interface: interfaceType,
+      indexPipelineId : this.indexPipelineId
     };
     this.service.invoke('get.SI_settingInterface', quaryparms).subscribe(res => {
       if (res) {
@@ -202,9 +219,13 @@ export class SearchInterfaceComponent implements OnInit {
     });
   }
   getAllSettings(setting?) {
+    if((setting && setting.id == 'search') && this.searchTemplatesDisabled){
+      return false;
+    }
     this.selectedSetting = setting ? setting.id : 'search';
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
+      indexPipelineId : this.indexPipelineId
     };
     this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
       this.allSettings = res;
@@ -252,7 +273,8 @@ export class SearchInterfaceComponent implements OnInit {
   getTemplate(templateId , modal?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      templateId: templateId
+      templateId: templateId,
+      indexPipelineId : this.indexPipelineId
     };
     this.service.invoke('get.SI_searchResultTemplate', quaryparms).subscribe(res => {
       this.templateBind(res , modal)
@@ -303,7 +325,10 @@ export class SearchInterfaceComponent implements OnInit {
       }
     });
 
-    if(modal == 'openModal')this.customModalRef = this.customModal.open();
+    if(modal == 'openModal'){
+      this.submitted = false;
+      this.customModalRef = this.customModal.open();
+    }
   }
   sourcelist(settingObj) {
     settingObj.appearance.forEach(element => {
@@ -344,6 +369,16 @@ export class SearchInterfaceComponent implements OnInit {
         this.customList.push(obj)
       }
     });
+    this.list.forEach(element => {
+      if(element.type === this.selectedSourceType){
+        if(element.id){
+          this.selectedTemplatedId = element.id;
+          if (this.selectedTemplatedId) {
+            this.getTemplate(this.selectedTemplatedId);
+          }
+        }
+      }
+    });
   }
   template(id, type) {
     this.customizeTemplateObj.template.type = type;
@@ -363,6 +398,7 @@ export class SearchInterfaceComponent implements OnInit {
   }
   resultLayoutChange(layout) {
     //this.customizeTemplate.
+    this.submitted = false;
 
     this.customizeTemplateObj.template.searchResultlayout = new searchResultlayout();
     //this.customizeTemplateObj.template.resultMapping = new resultMapping();
@@ -451,12 +487,14 @@ export class SearchInterfaceComponent implements OnInit {
     } else {
       this.customizeTemplateObj = new customizeTemplate();
       this.defaultTemplate();
+      this.submitted = false;
       this.customModalRef = this.customModal.open();
     }
   }
   closeCustomModal() {
     if (this.customModalRef && this.customModalRef.close) {
       this.customModalRef.close();
+      this.submitted = false;
     }
   }
   openPreviewModal() {
@@ -519,7 +557,8 @@ export class SearchInterfaceComponent implements OnInit {
   }
   saveResultSettings() {
     let queryparams = {
-      searchIndexId: this.serachIndexId
+      searchIndexId: this.serachIndexId,
+      indexPipelineId : this.indexPipelineId
     };
     let payload = {
       "_id": this.selectedSettingResultsObj._id,
@@ -564,62 +603,108 @@ export class SearchInterfaceComponent implements OnInit {
       this.errorToaster(errRes, 'Failed to save result settings');
     });
   }
-  saveTemplate() {
-    let url: any;
-    let payload: any;
-    let queryparams: any;
-    let appearnce: any;
-    let message: any;
-    if (this.selectedSourceType == 'Action') {
-      appearnce = 'action';
-    } else if (this.selectedSourceType == 'FAQs') {
-      appearnce = 'faq';
-    } else if (this.selectedSourceType == 'Pages') {
-      appearnce = 'page';
-    } else if (this.selectedSourceType == 'Structured Data') {
-      appearnce = 'structuredData';
-    }
-    payload = {
-      "type": this.customizeTemplateObj.template.typeId,
-      "layout": {
-        "layoutType": this.customizeTemplateObj.template.searchResultlayout.layout,
-        "isClickable": this.customizeTemplateObj.template.searchResultlayout.clickable,
-        "behaviour": this.customizeTemplateObj.template.searchResultlayout.behaviour,
-        'textAlignment': this.customizeTemplateObj.template.searchResultlayout.textAlignment
-      },
-      "mapping": {
-        "heading": this.customizeTemplateObj.template.resultMapping.headingId,
-        "description": this.customizeTemplateObj.template.resultMapping.descriptionId,
-        "img": this.customizeTemplateObj.template.resultMapping.imageId,
-        "url": this.customizeTemplateObj.template.resultMapping.urlId
-      },
-      "appearanceType": appearnce
-    }
-    if (this.selectedTemplatedId) {
-      url = "put.SI_saveTemplate_Id";
-      queryparams = {
-        searchIndexId: this.serachIndexId,
-        templateId: this.selectedTemplatedId
+  validateTemplate(){
+    if(this.selectedSourceType == 'Structured Data'){
+      if(this.customizeTemplateObj.template.resultMapping.headingId.length && this.customizeTemplateObj.template.resultMapping.descriptionId.length){
+        if(this.customizeTemplateObj.template.searchResultlayout.clickable && this.customizeTemplateObj.template.resultMapping.urlId.length){
+          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.imageId.length)){
+            return true;
+          }
+          else if ((this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText') || (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader')){
+            return true;
+          }
+          else{
+            return false;
+          }
+        }
+        else if (this.customizeTemplateObj.template.searchResultlayout.clickable && !this.customizeTemplateObj.template.resultMapping.urlId.length){
+          return false;
+        }
+        else{
+          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.imageId.length)){
+            return true;
+          }
+          else if ((this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText') || (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader')){
+            return true;
+          }
+          else{
+            return false;
+          }
+        }
       }
-      // delete payload['appearanceType'];
-      message = "Template Updated Successfully"
     }
-    //else{
-    //   url = "post.SI_saveTemplate";
-    //   queryparams = {
-    //     searchIndexId : this.serachIndexId,
-    //     interface  : this.selectedSetting
-    //   }
-    //   message = "Template Added Successfully"
-    // }
-    this.service.invoke(url, queryparams, payload).subscribe(res => {
-      this.notificationService.notify(message, 'success');
-      this.selectedTemplatedId = "";
-      this.getSettings(this.selectedSetting);
-      this.closeCustomModal();
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to get fields');
-    });
+    else if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.imageId.length)){
+      return true;
+    }
+    else if((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (!this.customizeTemplateObj.template.resultMapping.imageId.length)){
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+  saveTemplate() {
+    this.submitted = true;
+    if(this.validateTemplate()){
+      let url: any;
+      let payload: any;
+      let queryparams: any;
+      let appearnce: any;
+      let message: any;
+      if (this.selectedSourceType == 'Action') {
+        appearnce = 'action';
+      } else if (this.selectedSourceType == 'FAQs') {
+        appearnce = 'faq';
+      } else if (this.selectedSourceType == 'Pages') {
+        appearnce = 'page';
+      } else if (this.selectedSourceType == 'Structured Data') {
+        appearnce = 'structuredData';
+      }
+      payload = {
+        "type": this.customizeTemplateObj.template.typeId,
+        "layout": {
+          "layoutType": this.customizeTemplateObj.template.searchResultlayout.layout,
+          "isClickable": this.customizeTemplateObj.template.searchResultlayout.clickable,
+          "behaviour": this.customizeTemplateObj.template.searchResultlayout.behaviour,
+          'textAlignment': this.customizeTemplateObj.template.searchResultlayout.textAlignment
+        },
+        "mapping": {
+          "heading": this.customizeTemplateObj.template.resultMapping.headingId,
+          "description": this.customizeTemplateObj.template.resultMapping.descriptionId,
+          "img": this.customizeTemplateObj.template.resultMapping.imageId,
+          "url": this.customizeTemplateObj.template.resultMapping.urlId
+        },
+        "appearanceType": appearnce
+      }
+      if (this.selectedTemplatedId) {
+        url = "put.SI_saveTemplate_Id";
+        queryparams = {
+          searchIndexId: this.serachIndexId,
+          templateId: this.selectedTemplatedId,
+          indexPipelineId : this.indexPipelineId
+        }
+        // delete payload['appearanceType'];
+        message = "Template Updated Successfully"
+      }
+      else{
+        url = "post.SI_saveTemplate";
+        queryparams = {
+          searchIndexId : this.serachIndexId,
+          interface  : this.selectedSetting,
+          indexPipelineId : this.indexPipelineId
+        }
+        message = "Template Added Successfully"
+      }
+      this.service.invoke(url, queryparams, payload).subscribe(res => {
+        this.notificationService.notify(message, 'success');
+        this.selectedTemplatedId = "";
+        this.getSettings(this.selectedSetting);
+        this.closeCustomModal();
+      }, errRes => {
+        this.errorToaster(errRes, 'Failed to get fields');
+      });
+    }
   }
   getFieldAutoComplete() {
     let query: any = '';
@@ -648,10 +733,44 @@ export class SearchInterfaceComponent implements OnInit {
     }
   }
 
+  updateResultTemplateTabsAccess(){
+    if(this.searchExperienceConfig && Object.values(this.searchExperienceConfig).length){
+      console.log(this.searchExperienceConfig);
+      if(this.searchExperienceConfig && this.searchExperienceConfig.experienceConfig && this.searchExperienceConfig.experienceConfig.searchBarPosition){
+        if(this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top'){
+          this.searchTemplatesDisabled = true;
+          this.getAllSettings({id: "fullSearch",text: "Full Page Result"});
+        }
+        else{
+          this.searchTemplatesDisabled = false;
+        }
+      }
+    }
+    else{
+      this.searchTemplatesDisabled = false;
+    }
+  }
+
+  getConfigurationName(referInterface){
+    if(referInterface === 'livesearch'){
+      return 'Live Search';
+    }
+    else if(referInterface === 'search'){
+      return 'Conversational Search';
+    }
+    else if(referInterface === 'fullsearch'){
+      return 'Full Page Result';
+    }
+    else{
+      return referInterface;
+    }
+  }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe : false;
   }
 
 }

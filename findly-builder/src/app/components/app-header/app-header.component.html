@@ -9,13 +9,25 @@
                     <div container="body" ngbTooltip="{{appName}}" class="name">{{appName}}</div>
                 </div> -->
                 <div class="headerTabsContainer">
-                    <div class="headerMenuTab" [ngClass]="{'active' : mainMenu == '/summary'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/summary')">Overview</div>
-                    <div class="headerMenuTab" id="sourceTab" [ngClass]="{'active' : mainMenu == '/source'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/source')">
-                        <span>Indices</span>
+                    <div class="headerMenuTab" [ngClass]="{'active' : mainMenu == '/summary'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/summary')">
+                        <span>Overview</span>
+                        <span routerLink="/summary" class="d-none"></span>
+                    </div>
+                    <div class="headerMenuTab" [ngClass]="{'active' : mainMenu == '/content'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/content')">
+                        <span>SOURCES</span>
+                        <span routerLink="/source" class="d-none"></span>
                         <span routerLink="/content" class="d-none"></span>
                         <span routerLink="/faqs" class="d-none"></span>
-                        <span routerLink="/indices" class="d-none"></span>
                         <span routerLink="/botActions" class="d-none"></span>
+                        <span routerLink="/structuredData" class="d-none"></span>
+                    </div>
+                    <div class="headerMenuTab" id="sourceTab" [ngClass]="{'active' : mainMenu == '/index'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/index')">
+                        <span>Indices</span>
+                        <span routerLink="/searchInterface" class="d-none"></span>
+                        <span routerLink="/search-experience" class="d-none"></span>
+                        <span routerLink="/indices" class="d-none"></span>
+                        <span routerLink="/synonyms" class="d-none"></span>
+                        <span routerLink="/stopWords" class="d-none"></span>
                         <span routerLink="/ml-threshold" class="d-none"></span>
                         <span routerLink="/traits" class="d-none"></span>
                         <span routerLink="/rules" class="d-none"></span>
@@ -24,14 +36,16 @@
                         <span routerLink="/attributes" class="d-none"></span>
                         <span routerLink="/weights" class="d-none"></span>
                         <span routerLink="/resultranking" class="d-none"></span>
+                        <span routerLink="/facets" class="d-none"></span>
                         <span routerLink="/FieldManagementComponent" class="d-none"></span>
                     </div>
-                    <div class="headerMenuTab" id='experimentsTab' [ngClass]="{'active' : mainMenu == '/experiments'}" (click)="analyticsClick('/experiments')">Experiments</div>
+                    <!-- <div class="headerMenuTab" id='experimentsTab' [ngClass]="{'active' : mainMenu == '/experiments'}" (click)="analyticsClick('/experiments')">Experiments</div> -->
                     <div class="kr-sg-dropdowns headerMenuTab" [ngClass]="{'active' : (mainMenu == '/dashboard'
-                     || mainMenu == '/userEngagement' || mainMenu == '/searchInsights' ||mainMenu == '/resultInsights')}">
+                     || mainMenu == '/userEngagement' || mainMenu == '/searchInsights' || mainMenu == '/resultInsights' || mainMenu == '/experiments')}">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"> Analytics</button>
                             <ul class="dropdown-menu content-menu content-width">
+                                <li class="experment-link" (click)="analyticsClick('/experiments')" id="experimentsTab" [ngClass]="{'active' : mainMenu == '/experiments'}"><a>Experiments</a></li>
                                 <li (click)="analyticsClick('/dashboard')" id="dashboardTab" [ngClass]="{'active' : mainMenu == '/dashboard'}"><a>Dashboard</a></li>
                                 <li (click)="analyticsClick('/userEngagement')" [ngClass]="{'active' : mainMenu == '/userEngagement'}"><a>User Engagement</a></li>
                                 <li (click)="analyticsClick('/searchInsights')" [ngClass]="{'active' : mainMenu == '/searchInsights'}"><a>Search Insights</a></li>
@@ -41,10 +55,18 @@
                     </div>
                     <!-- <div class="headerMenuTab" [routerLink]="['/dashboard']" skipLocationChange routerLinkActive="active" (click)="analyticsClick('metrics')">Analytics</div> -->
                     <!-- <div class="headerMenuTab" id='experimentsTab' [ngClass]="{'active' : mainMenu == '/experiments'}" (click)="analyticsClick('/experiments')">Experiments</div> -->
-                    <div class="headerMenuTab" id='channelsTab' [ngClass]="{'active' : mainMenu == '/settings'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/search-experience')">
+                    <div class="headerMenuTab" id='channelsTab' [ngClass]="{'active' : mainMenu == '/generalSettings'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/generalSettings')">
                         <span>MANAGE</span>
-                        <span routerLink="/search-experience" class="d-none"></span>
-                        </div>
+                        <span routerLink="/actions" class="d-none"></span>
+                        <span routerLink="/smallTalk" class="d-none"></span>
+                        <span routerLink="/settings" class="d-none"></span>
+                        <span routerLink="/credentials-list" class="d-none"></span>
+                        <span routerLink="/team-management" class="d-none"></span>
+                        <span routerLink="/pricing" class="d-none"></span>
+                        <span routerLink="/usageLog" class="d-none"></span>
+                        <span routerLink="/invoices" class="d-none"></span>
+                        <span routerLink="/generalSettings" class="d-none"></span>
+                    </div>
                 </div>
             </div>
             <ul class="navbar-nav nav-flex-icons align-items-center right-menu-content flex-row justify-content-end">
@@ -52,11 +74,7 @@
                     <ngb-highlight (click)="triggerRoute(null,r)" [result]="r.displayName" [term]="t"></ngb-highlight>
                 </ng-template> 
                 <li class="nav-item autoSearchTools d-none">
-                    <img src="assets/icons/sidemenu/search.svg" (click)="toggleSearch(true)" [ngClass]="{'d-none': searchActive}">
-                    <!-- <div class="kr-sg-input-search" [ngClass]="{'d-none': !searchActive}" >                               
-                        <input type="text" placeholder="Search" class="input-search" (keydown.enter)="triggerRoute(searchText)" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt"  [inputFormatter]="formatter">
-                        <img src="assets/images/close.svg" class="search-icon" (click)="toggleSearch(false)">
-                    </div> -->
+                    <img src="assets/icons/sidemenu/search.svg" (click)="toggleSearch(true)" [ngClass]="{'d-none': searchActive}">                   
                     <div class="kr-sg-input-search" [ngClass]="{'d-none': !searchActive}">
                         <input type="text" placeholder="Search" class="input-search" (keyup.enter)="triggerRoute(searchText)" [ngClass]="{'pl-33':!searchText}" autocomplete="off" [(ngModel)]="searchText" (focusout)="toggleSearch(false)" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
@@ -78,7 +96,7 @@
                                         <div class="title-secondary">Recent Apps</div>
                                         <div class="app-name-block" *ngFor='let app of recentApps' (click)="openApp(app);myDrop.close()">
                                             <div class="app-name">{{app.name|titlecase}}</div>
-                                            <div class="shared-name">{{app.createdBy===userId?'My App':'Shared by '+app.userDetails.fullName}}</div>
+                                            <div class="shared-name d-none">{{app.createdBy===userId?'My App':'Shared by '+app.userDetails.fullName}}</div>
                                         </div>                                                       
                                     </div>
                                     <div class="view-app-apps"  [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange (click)="analyticsClick('apps',true)">View all Apps</div>
@@ -177,7 +195,7 @@
                         </div>                                            
                     </div>
                 </li>
-                <li class="nav-item search-block show-search2">
+                <!-- <li class="nav-item search-block show-search2">
                     <div class="search_icon" [ngClass]="{'active-search-top' : showSearch}">
                         <img src="assets/icons/sidemenu/search.svg" (click)="showSearch=!showSearch;searchText=''">
                     </div>
@@ -187,7 +205,7 @@
                             <img src="assets/icons/search_gray.svg" class="search-icon">
                         </div>
                     </div>
-                </li>
+                </li> -->
                 <li class="nav-item help-icon">
                     <img src="assets/icons/sidemenu/help.svg">
                 </li>
@@ -209,14 +227,15 @@
 </header>
 
 <!--create new app popup-->
-<kr-modal modalType="default" #createAppPop>
+<!-- <kr-modal modalType="default" #createAppPop>
     <div class="modal-header">
           <h4 class="modal-title">Create App</h4>
         </div>
         <div class="modal-body textAlignLeft">
           <div class="kr-sg-input-text mb-3">
             <div class="label-text">App Name</div>
-            <input maxlength="128" type="text" autocomplete="off" placeholder="Enter App Name" class="input-text" [(ngModel)]="newApp.name" name="appName">
+            <input maxlength="128" type="text" autocomplete="off" placeholder="Enter App Name" class="input-text" [(ngModel)]="newApp.name" name="appName"  id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
+            <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
           </div>
           <div class="kr-sg-input-text-area mb-2">
             <div class="label-text">Description</div>
@@ -239,9 +258,40 @@
         </div>
         <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
            <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeCreateApp()">Close</button>
-           <button [disabled]="!newApp.name"  type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='createFindlyApp()'>{{creatingInProgress?'Creating...':'Create'}}</button>
+           <button type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='validateSource()'>{{creatingInProgress?'Creating...':'Create'}}</button>
        
           </div>
   
   
+  </kr-modal> -->
+
+  <kr-modal modalType="default" #createAppPop modalClass="creating-new-app-modal">
+    <div class="modal-header">
+        <div class="modal-title">Create App</div>
+        <div class="close_modal" (click)="closeCreateApp()"><img src="assets/icons/close.svg"></div>
+    </div>
+    <div class="modal-body">
+      <div class="kr-sg-input-text mb-3">
+        <div class="label-text">App Name</div>
+        <input maxlength="128" type="text" autocomplete="off" placeholder="Enter App Name"  [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
+        <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
+      </div>
+      <div class="kr-sg-input-text">
+        <div class="label-text">Description</div>
+        <input class="input-text" maxlength="512" placeholder="Enter App Description" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
+      </div>
+      <div class="kr-sg-dropdowns w-100">
+        <div class="label-text">Language</div>
+        <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>English</button>                                            
+            <ul class="dropdown-menu content-menu">
+              <li><a>English</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
+        <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closeCreateApp()">Cancel</button>
+        <button   type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='validateSource()'>Create</button>
+    </div>
   </kr-modal>

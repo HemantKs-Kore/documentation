@@ -136,7 +136,7 @@
     <div class="body-top-content pointer" title="Click to edit this response" (click)="currentEditIndex = index">
       <div class="question-content">
         <div class="conditionalBlock bot-response-view-mode">
-          <div class="bot-response-title">Bot Response <span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span> <span *ngIf="faqObj.answerType !== 'condition'">(DEFAULT)</span>
+          <div class="bot-response-title">Response <span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span> <span *ngIf="faqObj.answerType !== 'condition'">(DEFAULT)</span>
             <div class="advanced_mode_faq">
               <label class="kr-sg-toggle with-label" *ngIf="(currentEditIndex === index)">
                 <input type="checkbox" [checked]='(faqObj.answerType === "condition")' (click)="changeResponseType(faqObj,index)">
@@ -373,7 +373,7 @@
       
         <div class="col-6 right-sec">
           <div class="tabs-sec border-0">
-            <span class="tab-title pl-0">Response Preview</span>
+            <span class="tab-title pl-0">preview</span>
           </div>
         </div>
       </div>
@@ -416,7 +416,7 @@
           </div>
           <div class="kr-sg-input-text mb-2"> 
             <div class="label-text">URL</div>
-            <input type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown.enter)="addImage()" [(ngModel)]="imgInfo.url" name="appName" [ngClass]="{'readonly': !uploadImage.slide}">         
+            <input type="text" autocomplete="off" placeholder="http(s)//" class="input-text" (keydown.enter)="addImage()" [(ngModel)]="imgInfo.url" name="appName" [ngClass]="{'readonly': !uploadImage.slide}">         
           </div>
           <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div>
           <!-- <div class="multi-select mb-2">
@@ -449,25 +449,31 @@
        
         <div class="col-6 right_sec">        
           <div class="content-data">
-            <div class="responsePreviewBlock">
+            <div class="preview-title">response </div>
+            <div class="responsePreviewBlock" [ngClass]="{'adjust-height': image && image.url}">
               <perfect-scrollbar>
                 <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
               </perfect-scrollbar>
             </div>
-            <div *ngIf="image && image.url">
-              <img [src]="image.url">
+            <ng-container *ngIf="image && image.url">
+              <div class="preview-title mt-3 pt-1">IMAGE</div>
+              <div class="responsePreviewBlock adjust-height">
+                <perfect-scrollbar>
+                    <img [src]="image.url">
+                </perfect-scrollbar>
+              </div>  
+            </ng-container>             
+              <div class="info-bubble-faq">
+                <div class="w-100 d-flex">
+                  <div class="info_img">
+                    <img src="assets/icons/faq/Info.svg">
+                  </div>
+                  <div class="bubnle-info">
+                    Response layout will be based on the template you select in Search Interface Customization
+                  </div>
+                </div>
+                <div class="know-more-data">Know more</div>
             </div>
-                           <div class="info-bubble-faq">
-              <div class="w-100 d-flex">
-                <div class="info_img">
-                  <img src="assets/icons/faq/Info.svg">
-                </div>
-                <div class="bubnle-info">
-                  Response layout will be based on the template you select in Search Interface Customization
-                </div>
-              </div>
-              <div class="know-more-data">Know more</div>
-          </div>
           </div>
         </div>
       </div>      
@@ -478,7 +484,7 @@
   </ng-container>
   <div class="btn-sec">
     <div class="left-btns">
-      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Add Bot Response</button>
+      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Add  Response</button>
     </div>
   </div>
   <div class="btn-sec" *ngIf="!faqData && false">
@@ -487,19 +493,19 @@
       <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
     </div>
     <div class="right-btns">        
-      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Add Bot Response</button>
+      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Add  Response</button>
       <!-- <button class="kr-sg-button-tertiary"  *ngIf="!isFollowUp" (click)='addAltQues()'>Add Alternate Question</button>
       <button class="kr-sg-button-tertiary"  *ngIf="!isFollowUp" (click)='addFollowupQues()'>Add Followup Question</button> -->
     </div>
   </div>
   <hr>
-  <div class="add-alternative-questions row" *ngIf="!isFollowUp && faqData">
+  <div class="add-alternative-questions row" *ngIf="!isFollowUp && faqData"> 
     <div class="col-10 pl-0 pr-2">
         <div class="question-name text-truncate">Alternate Questions
             <span *ngIf="faqData">{{faqData._source.alternateQuestions?.length>0?'('+faqData._source.alternateQuestions?.length+')':''}}</span>
             <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
         </div>
-        <div class="added-tags text-truncate">Add alternate forms of the question, key tags and add synonyms.</div>
+        <div class="added-tags text-truncate">Add alternate forms of the question.</div>
     </div>
     <div class="col-2 p-0 text-right" *ngIf="!isAdd">
         <button class="kr-sg-button-primary btn_lg" (click)="addAltQues()">Add</button>

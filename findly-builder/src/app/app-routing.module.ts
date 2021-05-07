@@ -33,6 +33,10 @@ import { StructuredDataComponent } from './components/structured-data/structured
 import { SearchExperienceComponent } from './components/search-experience/search-experience.component';
 import { ActionsComponent } from './components/actions/actions.component';
 import { SmallTalkComponent } from './components/small-talk/small-talk.component';
+import { PricingComponent } from './components/pricing/pricing.component';
+import { InvoicesComponent } from './components/invoices/invoices.component';
+import { UsageLogComponent } from './components/usage-log/usage-log.component';
+import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 const routes: Routes = [
   {
     path: '',
@@ -64,14 +68,18 @@ const routes: Routes = [
       { path: 'resultInsights', component: ResultInsightsComponent },
       { path: 'settings', component: SettingsComponent },
       { path: 'credentials-list', component: CredentialsListComponent },
-      { path: 'actions', component: ActionsComponent },  
-      { path: 'smallTalk', component: SmallTalkComponent },      
+      { path: 'actions', component: ActionsComponent },
+      { path: 'smallTalk', component: SmallTalkComponent },
+      { path: 'generalSettings', component: GeneralSettingsComponent },
       { path: 'FieldManagementComponent', component: FieldManagementComponent },
       { path: 'experiments', component: ExperimentsComponent },
       { path: 'searchInterface', component: SearchInterfaceComponent }, /* currently in UI Result Templates */
       { path: 'structuredData', component: StructuredDataComponent },
       { path: 'team-management', component: TeamManagementComponent },
-      { path: 'search-experience', component: SearchExperienceComponent }, /* Currently in UI Search Interface */
+      { path: 'search-experience', component: SearchExperienceComponent },
+      { path: 'pricing', component: PricingComponent },
+      { path: 'invoices', component: InvoicesComponent },
+      { path: 'usageLog', component: UsageLogComponent },
       { path: '**', component: AppsListingComponent }
     ]
   }

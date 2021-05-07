@@ -5,7 +5,7 @@
     </div>
     <div *ngIf="!loadingContent">
         <div class="seach_add_feild">
-            <div class="title col-4 p-0" *ngIf="!(selcectionObj && selcectionObj.selectedCount)">Team Management</div>
+            <div class="title col-4 p-0" *ngIf="!(selcectionObj && selcectionObj.selectedCount)">Team</div>
             <div class="title col-4 p-0" *ngIf="selcectionObj && selcectionObj.selectedCount">  
                 <div class="kr-sg-checkbox p-0 m-0" *ngIf="selcectionObj.selectedCount == allMembersCount">
                 <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()"  [(ngModel)]="selcectionObj.selectAll">
@@ -26,7 +26,7 @@
             </div>
 
             <div class="col-8 title text-right delete-action p-0" *ngIf="selcectionObj && selcectionObj.selectedCount">
-                <button id='btn_delete' class="kr-sg-button-danger btn_lg" (click)="deleteFacets(null,true)">Delete</button>
+                <button id='btn_delete' class="kr-sg-button-danger btn_lg" (click)="deleteFacets(null,true)">Remove</button>
             </div> 
         </div>
         <div class="table-container-data-teams">
@@ -91,12 +91,15 @@
                         <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                       </mat-chip>
                       <input
+                        id="teamInput"
                         placeholder="Type and Enter To Add"
                         #fruitInput
                         [formControl]="teamCtrl"                        
                         [matChipInputFor]="chipList"
+                        [matChipInputAddOnBlur]="addOnBlur"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                        (matChipInputTokenEnd)="add($event)">
+                        (matChipInputTokenEnd)="add($event)"
+                        autocomplete="off">
                     </mat-chip-list>
                     <!--[matAutocomplete]="auto" <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
                       <mat-option *ngFor="let membersug of filteredFruits | async" [value]="membersug">

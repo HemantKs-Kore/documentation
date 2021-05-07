@@ -14,7 +14,7 @@
             .nav-item{
                 margin-bottom: 0;
                 margin-right: 60px;
-                pointer-events: none;
+                cursor: pointer;
                 .nav-link{
                     padding: 0;
                     border: 0;
@@ -664,12 +664,52 @@
                                             li{
                                                 &.emoji-type{
                                                     position: relative;
-                                                    margin: 5px;
+                                                    padding: 5px;
                                                     line-height: normal;
                                                     display: inline-block;
-                                                    width: 22px;
-                                                    height: 22px;
+                                                    width: 32px;
+                                                    height: 32px;
                                                     cursor: pointer;
+                                                    border-radius: 2px;
+                                                    transition: 0.2s all ease-in;
+                                                    &:hover{
+                                                        background: #EFF0F1;    
+                                                        .nestead-emojies{
+                                                            display: flex;
+                                                        }                                                    
+                                                    }
+                                                    .nestead-emojies{
+                                                        position: absolute;
+                                                        top: -33px;
+                                                        height: 32px;
+                                                        display: none;
+                                                        background: #EFF0F1;
+                                                        box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+                                                        border-radius: 4px;
+                                                        z-index: 9;
+                                                        align-items: center;
+                                                        left: 1px;
+                                                        transition: 0.2s all ease-in;
+                                                        .img-block{
+                                                            width: 32px;
+                                                            height: 32px;
+                                                            text-align: center;
+                                                            display: flex;
+                                                            align-items: center;
+                                                            justify-content: center;
+                                                            border-radius: 4px;
+                                                            transition: 0.2s all ease-in;
+                                                            &.selected-img{
+                                                                background: #F8F9FA;
+                                                            }
+                                                            &:hover{
+                                                                background: #F8F9FA;
+                                                            }
+                                                            img{
+
+                                                            }
+                                                        }                                                        
+                                                    }
                                                 }
                                             }
                                         }
@@ -1347,6 +1387,7 @@
     .slider-horizontal {
         .slider-tick {
             background: #0D6EFD !important;
+            display: none;
         }
         .slider-handle {
             background: #0D6EFD !important;
@@ -1361,4 +1402,10 @@
 }
 ::ng-deep .joyride-step__close{
     display: none;
+}
+.kr-sg-input-text{
+    input.input-text.err-block{
+        background-color: rgb(255, 255, 255);
+        border-color: rgb(221, 54, 70);
+    }
 }

@@ -234,7 +234,7 @@
               <div class="kr-sg-input-text mb-4">
                 <div class="label-text">Source URL</div>
                 <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Domain URL"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="http(s)//"
                   [(ngModel)]="newSourceObj.url" class="input-text">
               </div>
             </div>
@@ -268,7 +268,7 @@
                         <div class="drag-drop-sec">
                           <ng-container *ngIf="!fileObj.fileName">
                             <input type="file" id="sourceFileUploader" class="custom-file-input "
-                                (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json">
+                                (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json,.doc,.ppt,.xlsx,.txt">
                             <div class="imageDiv">
                               <img src="assets/images/source-icos/drog_frop.svg">
                             </div>
@@ -332,13 +332,13 @@
                         <div class="kr-sg-input-text">
                           <div class="label-text">Enter URL</div>
                           <input type="text" id="extractUrl" placeholder="http(s)://" class="input-text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange();inputChanged('extractURL')"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="https://"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="http(s)://"
                   [(ngModel)]="newSourceObj.url" class="input-text">
                   <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
                           <!-- <input type="text" placeholder="https://" class="input-text"> -->
                           <!-- <div class="error-msg">Error message here</div> -->
                         </div>
-                        <div class="info-upload-pdf"><img src="assets/icons/Info-pdf.svg">Upload Pdf files only</div>
+                        <div class="info-upload-pdf"><img src="assets/icons/Info-pdf.svg">Upload PDF files only</div>
                       </div>
                   </div>
                 </div>
@@ -458,7 +458,7 @@
               <div class="inner-content row m-0">
                 <div *ngIf="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
                   <div class="allow-urls-sec row allow-urlBox padd  pl-0 pr-0" *ngIf="crwalObject.advanceOpts.allowedOpt">
-                    <div class="col-2 p-0 title">Allow URLs</div>
+                    <div class="col-2 p-0 title">Allow If URL</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
@@ -476,7 +476,7 @@
                       </div>
                       <div class="kr-sg-input-text">
                         <input type="text" autocomplete="off" [(ngModel)]="allowUrl.url" name="allowVal"
-                          placeholder="https://" class="input-text">
+                          placeholder="http(s)://" class="input-text">
                       </div>
                       <div class="add-urls" (click)="allowUrls(allowUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
@@ -509,7 +509,7 @@
 
                   <!--Block-->
                   <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0" *ngIf="crwalObject.advanceOpts.blockedOpt">
-                    <div class="col-2 p-0 title">Block URLs</div>
+                    <div class="col-2 p-0 title">Block If URL</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
@@ -527,7 +527,7 @@
                       </div>
                       <div class="kr-sg-input-text">
                         <input type="text" autocomplete="off" [(ngModel)]="blockUrl.url" name="blockVal"
-                          placeholder="https://" class="input-text">
+                          placeholder="http(s)://" class="input-text">
                       </div>
                       <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
@@ -845,7 +845,7 @@
   </ng-container>
 </kr-modal>
 
-<kr-modal modalType="center" modalClass="modal_popups_ import-structure-data" #addStructuredDataModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_" #addStructuredDataModalPop>
   <app-add-structured-data [selectedSourceType]="selectedSourceType" (closeStructuredDataModal)="cancleSourceAddition($event)"></app-add-structured-data>
 </kr-modal>
 
@@ -888,3 +888,5 @@
     </div>
   </div>
 </kr-modal>
+
+<app-upgrade-plan #plans></app-upgrade-plan>

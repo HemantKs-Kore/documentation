@@ -71,18 +71,19 @@
                         <div class="tab_title" (click)="selectTab('approved')"  [ngClass]="{'active': (selectedtab === 'approved')}">Approved<span class="">({{faqSelectionObj.stats.approved || 0}})</span></div>
                     </div>
                     <div class="header-sec" *ngIf="faqSelectionObj.selectedCount == 0">
-                        <div class="kr-sg-checkbox">
-                            <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll" autocomplete="off">
+                        <div class="kr-sg-checkbox" [ngStyle]="{'visibility':loadingTab ? 'hidden':'visible'}"> 
+                            <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="headerSelectAll()" [(ngModel)]="faqSelectionObj.selectAll" autocomplete="off">
                             <label for="selectAllFaqs" class="checkbox-custom-label"></label>
                         </div>                        
                         <div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom'">                                        
                             <div class="dropdown dropdown-open">
                                 <!-- <span class="filter-count"  placement="top" ngbTooltip="{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}">{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}</span> -->
-                                <button class="dropdown-toggle dropdown-input pl-0 mr-2" ngbDropdownToggle><img src="assets/icons/filter.svg">Filter</button>                                            
+                                <button class="dropdown-toggle dropdown-input pl-0 mr-2" (click)="getJobStatusForMessages()" ngbDropdownToggle><img src="assets/icons/filter.svg">Filter</button>                                            
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                     <li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">All</span><img *ngIf="!(selectedResource && selectedResource._id) && !manualFilterSelected" src="assets/icons/check-blue.svg"></li>
                                     <li  (click)="selectResourceDrop.close();manualFaqsFilter()" *ngIf="noManulaRecords"><span class="list-name">Manual</span><img *ngIf="!(selectedResource && selectedResource._id) && manualFilterSelected" src="assets/icons/check-blue.svg"></li>
-                                    <ng-container *ngFor="let source of resources">                                        
+                                    <ng-container *ngFor="let source of resources">           
+                   
                                         <li *ngIf="source.recentStatus==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><span class="list-name">{{source.name}}</span><img *ngIf="selectedResource && (source._id ===  selectedResource._id)" src="assets/icons/check-blue.svg"></li>
                                     </ng-container>
                                 </ul>
@@ -105,16 +106,19 @@
                     </div>
                     <div class="footer-sec-btns row m-0 col-12" *ngIf="faqSelectionObj.selectedCount">
                         <div class="col-4 p-0 d-flex align-items-center">
-                            <div class="kr-sg-checkbox">
+                            <div class="kr-sg-checkbox" [hidden]="!((selectedtab === 'draft' && faqSelectionObj.selectedCount == faqSelectionObj.stats.draft) || (selectedtab === 'in_review' && faqSelectionObj.selectedCount == faqSelectionObj.stats.in_review) || (selectedtab === 'approved' && faqSelectionObj.selectedCount == faqSelectionObj.stats.approved ) || faqSelectionObj.selectAll) ">
                                 <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll" autocomplete="off">
                                 <label for="selectAllFaqs" class="checkbox-custom-label"></label>
                             </div>  
+                            <div class="mr-3" *ngIf="(faqSelectionObj.selectedCount>0 && ((selectedtab === 'draft' && faqSelectionObj.selectedCount !== faqSelectionObj.stats.draft) || (selectedtab === 'in_review' && faqSelectionObj.selectedCount !== faqSelectionObj.stats.in_review) || (selectedtab === 'approved' && faqSelectionObj.selectedCount !== faqSelectionObj.stats.approved ))) && !faqSelectionObj.selectAll">
+                                <img (click) = "selectAllPartially();" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
+                            </div>
                             <div class="title">{{(faqSelectionObj.selectAll)?'All':faqSelectionObj.selectedCount}} Selected</div>
                         </div>
                         <div class="col-8 p-0 d-flex align-items-center justify-content-end">
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
+                            <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
                             <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
-                            <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
+                            <button class="kr-sg-button-danger btn_lg" *ngIf="(selectedtab === 'draft')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
                             <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
                          
                             
@@ -128,7 +132,7 @@
                         </div>
                         <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer': faqSelectionObj.selectedCount}" (psYReachEnd)="onScrolledEnd($event)" *ngIf="faqSelectionObj.stats[selectedtab]">
                             <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab" >
-                            <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll" id="selectAllFaqs" (click)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div>
+                            <div class="selected-all-questions" *ngIf="faqSelectionObj.selectedCount" id="selectAllFaqs" (click)="selectAllRecords()" >Select all {{(selectedtab === 'draft' ? faqSelectionObj.stats.draft: (selectedtab === 'in_review' ? faqSelectionObj.stats.in_review:(selectedtab === 'approved' ? faqSelectionObj.stats.approved:'' )))}}  questions?</div>
                             <div id="accordion" class="accordion-content">
                                 <div *ngFor="let faq of faqs">
                                     <div class="card-content" *ngIf="faq.action!=='delete'">
@@ -136,7 +140,7 @@
                                             <span class="published-que" *ngIf="(faq.state==='published')" [ngClass]="{'reverted': (faq.state==='reverted')}">{{faq.state | titlecase}}</span>
                                             <div class="d-flex align-items-center">
                                                 <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                                    <input  [attr.id]="'selectFaqCheckBox_' + faq._id" (change)="checkUncheckfaqs(faq)" class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
+                                                    <input  [attr.id]="'selectFaqCheckBox_' + faq._id" name="{{faq._id}}" (change)="checkUncheckfaqs(faq)" class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
                                                     <label [attr.for]="'selectFaqCheckBox_' + faq._id" class="checkbox-custom-label"></label>
                                                 </div>
                                                 <div class="title-desc-sec">
@@ -195,28 +199,29 @@
                         <div class="header-info-que" *ngIf="selectedFaq && selectedFaq._meta.state === 'in_review'">
                             <div class="row m-0 col-12 p-0">
                                 <div class="col-5 p-0 lef-info">
-                                    <div class="approved_title">Requested On</div>
+                                    <div class="approved_title">SENT FOR REVIEW ON</div>
                                     <div class="approved_date" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.lMod | dateFormatPipe:'hh:mm:ss A'}}</span></div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
-                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" >                                        
+                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-center'" >                                        
                                         <div class="dropdown dropdown-open">                                        
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
-                                            <ul class="dropdown-menu content-menu info_header_dropdown_content" ngbDropdownMenu>
+                                            <ul class="dropdown-menu content-menu info_header_dropdown_content w-274px" ngbDropdownMenu>
                                                 <div class="row m-0 col-12 p-0">
-                                                    <div class="col-3 inner-data-column">
-                                                        <div class="heading">Source</div>
+                                                    <div class="col-5 inner-data-column">
+                                                        <div class="heading">SOURCE</div>
                                                         <div class="title" ngbTooltip='{{(selectedFaq.sourceName || contentTypes[selectedFaq.contentSource]) || "Manual"| titlecase}}' placement="top-left">{{(selectedFaq.sourceName || contentTypes[selectedFaq.contentSource]) || 'Manual' | titlecase}}</div>
                                                     </div>
-                                                    <div class="col-2 inner-data-column">
-                                                        <div class="heading">Type</div>
-                                                        <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}</div>
-                                                    </div>
-                                                    <div class="col-3 inner-data-column">
-                                                        <div class="heading">Edited by</div>
+                                                    <div class="col-7 inner-data-column">
+                                                        <div class="heading">EDITED BY</div>
                                                         <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
                                                     </div>
-                                                    <div class="col-4 inner-data-column">
+
+                                                    <div class="col-2 inner-data-column d-none">
+                                                        <div class="heading">Type</div>
+                                                        <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}</div>
+                                                    </div>                                                    
+                                                    <div class="col-4 inner-data-column d-none">
                                                         <div class="heading">Last Modified</div>
                                                         <div class="title" ngbTooltip="{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
                                                     </div>
@@ -264,8 +269,8 @@
                                             <div class="dropdown dropdown-open">
                                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
                                                 <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
-                                                    <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>
-                                                    <!-- <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                         -->
+                                                    <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Needs Rework</li>
+                                                    <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                        
                                                 </ul>
                                             </div>
                                         </div>                                    
@@ -276,28 +281,28 @@
                         <div class="header-info-que" *ngIf="selectedFaq && selectedFaq._meta.state === 'draft'">
                             <div class="row m-0 col-12 p-0">
                                 <div class="col-5 p-0 lef-info">
-                                    <div class="approved_title">Created ON</div>
+                                    <div class="approved_title">EDITED ON</div>
                                     <div class="approved_date" ngbTooltip="{{selectedFaq.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
-                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-center'">                                        
                                         <div class="dropdown dropdown-open">                                        
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
-                                            <ul class="dropdown-menu content-menu info_header_dropdown_content" ngbDropdownMenu>
+                                            <ul class="dropdown-menu content-menu info_header_dropdown_content w-274px" ngbDropdownMenu>
                                                 <div class="row m-0 col-12 p-0">
-                                                    <div class="col-3 inner-data-column"> 
-                                                        <div class="heading">Source</div>
+                                                    <div class="col-5 inner-data-column"> 
+                                                        <div class="heading">SOURCE</div>
                                                         <div class="title" ngbTooltip='{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) || "Manual" | titlecase}}' placement="top-left">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) || 'Manual' | titlecase}}</div>
                                                     </div>
-                                                    <div class="col-2 inner-data-column">
-                                                        <div class="heading">Type</div>
-                                                        <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}</div>
-                                                    </div>
-                                                    <div class="col-3 inner-data-column">
-                                                        <div class="heading">Created By</div>
+                                                    <div class="col-7 inner-data-column">
+                                                        <div class="heading">EDITED BY</div>
                                                         <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
                                                     </div>
-                                                    <div class="col-4 inner-data-column">
+                                                    <div class="col-2 inner-data-column d-none">
+                                                        <div class="heading">Type</div>
+                                                        <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}</div>
+                                                    </div>                                                    
+                                                    <div class="col-4 inner-data-column d-none">
                                                         <div class="heading">Last Modified</div>
                                                         <div class="title" ngbTooltip="{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
                                                     </div>
@@ -341,7 +346,7 @@
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-end">
-                                        <button class="kr-sg-button-secondary btn_lg" *ngIf="!(selectedFaq && selectedFaq._meta && selectedFaq._meta.isFollowupQuestion)" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button>
+                                        <button class="kr-sg-button-primary btn_lg" *ngIf="!(selectedFaq && selectedFaq._meta && selectedFaq._meta.isFollowupQuestion)" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button>
                                         <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                             <div class="dropdown dropdown-open">
                                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
@@ -358,29 +363,29 @@
                         <div class="row m-0 col-12 p-0">
                             <div class="col-5 p-0 lef-info">
                                 <div class="approved_title">Approved ON</div>
-                                <div class="approved_date" ngbTooltip="{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
+                                <div class="approved_date" ngbTooltip="{{selectedFaq.lMod | dateFormatPipe:'d MMMM YYYY , hh:mm A'}}" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'d MMMM YYYY | hh:mm A'}}</div>
                             </div>
                             <div class="col-7 p-0 actions-sec">
-                                <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-right'">                                        
                                     <div class="dropdown dropdown-open">                                        
                                         <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
-                                        <ul class="dropdown-menu content-menu info_header_dropdown_content" ngbDropdownMenu>
+                                        <ul class="dropdown-menu content-menu info_header_dropdown_content ml-58" ngbDropdownMenu>
                                             <div class="row m-0 col-12 p-0">
-                                                <div class="col-2 inner-data-column">
-                                                    <div class="heading">Source</div>
+                                                <div class="col-3 inner-data-column">
+                                                    <div class="heading">SOURCE</div>
                                                     <div class="title" ngbTooltip='{{(selectedFaq.sourceName || "Manual") | titlecase}}' placement="top-left">{{(selectedFaq.sourceName || 'Manual') | titlecase}}</div>
-                                                </div>
-                                                <div class="col-2 inner-data-column">
-                                                    <div class="heading">Type</div>
-                                                    <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || 'Manual') | titlecase}}</div>
-                                                </div>
-                                                <div class="col-4 inner-data-column">
-                                                    <div class="heading">Created by</div>
+                                                </div>                                              
+                                                <div class="col-5 inner-data-column">
+                                                    <div class="heading">EDITED BY</div>
                                                     <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
                                                 </div>
                                                 <div class="col-4 inner-data-column">
-                                                    <div class="heading">Reviewed by</div>
+                                                    <div class="heading">REVIEWED BY</div>
                                                     <div class="title" ngbTooltip="{{(selectedFaq._meta.reviewerDetails?selectedFaq._meta.reviewerDetails.fullName:'---')}}" placement="top-left">{{(selectedFaq._meta.reviewerDetails?selectedFaq._meta.reviewerDetails.fullName:'---')}}</div>
+                                                </div>
+                                                <div class="col-4 inner-data-column d-none">
+                                                    <div class="heading">Type</div>
+                                                    <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || 'Manual') | titlecase}}</div>
                                                 </div>
                                             </div>
                                         </ul>
@@ -422,12 +427,12 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-end">
                                     <!-- <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button> -->
-                                    <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <div class="kr-sg-dropdowns add elipse-action-dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                         <div class="dropdown dropdown-open">
-                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
+                                            <button class= "dropdown-toggle dropdown-input p-0 border-0" ngbDropdownToggle ><img src="assets/icons/elipse.svg">  </button>                      
                                             <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
                                                 <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>
-                                                <li (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>
+                                                <li class ="list delete-text" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>
                                             </ul>
                                         </div>
                                     </div>                                    
@@ -580,7 +585,7 @@
                                         <span>{{selectedFaq._source.alternateQuestions?.length>0?'('+selectedFaq._source.alternateQuestions?.length+')':''}}</span>
                                         <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
                                     </div>
-                                    <div class="que-desc text-truncate">Add alternate forms of the question, key tags and add synonyms.</div>
+                                    <div class="que-desc text-truncate">Add alternate forms of the question.</div>
                                 </div>
                                 <!-- <div class="col-2 p-0 text-right">
                                     <button class="kr-sg-button-primary btn_lg" (click)="addAlternate()">Add</button>
@@ -739,12 +744,12 @@
                         <div class="col last-child" (click)="sortBy('name')"></div>
                     </header>
                     <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
-                    <div class="content-body" *ngFor="let source of resources | filter: [ searchSources, 'name']">
-                        <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name}}</div>
+                    <div class="content-body" *ngFor="let source of extractedResources | filter: [ searchSources, 'name']">
+                        <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name | titlecase}}</div>
                         <div class="col_ col-2">{{contentTypes[source.contentSource] | titlecase}}</div>
                         <div class="col_ col-3">
                             <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}
-                                <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
+                                <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
                                 <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
                                  *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
                             </span>
@@ -774,7 +779,7 @@
             <perfect-scrollbar class="faqScurceListScroll">
                 <div class="list-view-data">
                     <div class="row row_list">
-                        <div class="box-content" *ngFor="let source of resources | filter: [ searchSources , 'name']"
+                        <div class="box-content" *ngFor="let source of extractedResources | filter: [ searchSources , 'name']"
                         (click)="openStatusSlider(source)">
                         <div class="box">
                           <div class="title">{{source.title || source.name}}</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation,OnDestroy } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
@@ -7,6 +7,9 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { AuthService } from '@kore.services/auth.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as _ from 'underscore';
+import { AppSelectionService } from '@kore.services/app.selection.service';
+import { of, interval, Subject, Subscription } from 'rxjs';
+
 declare const $: any;
 @Component({
   selector: 'app-traits',
@@ -16,7 +19,17 @@ declare const $: any;
 })
 export class TraitsComponent implements OnInit {
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
+  @ViewChild('addUtteranceModalPop') addUtteranceModalPop: KRModalComponent;
+  currentUtteranceIndex:number;
+  currentTraitKey:string;
+  newUtterance:any;
+  tempUtterance:string;
   statusModalPopRef: any = [];
+  addUtteranceModalPopRef: any = [];
+  utteranceList = [];
+  showUtteranceInput = false;
+  showEditUtteranceInput:any;
+  showEditTraitInput:any;
   traitsObj: any = [];
   traitType: string;
   traitsTableData: any = [];
@@ -25,6 +38,8 @@ export class TraitsComponent implements OnInit {
   loadingTraits = true
   traitCounts;
   showSearch;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   serachTraits: any = '';
   traits: any = {
     traitGroups: {},
@@ -61,12 +76,17 @@ export class TraitsComponent implements OnInit {
   currentTraitEditIndex;
   editedContent;
   traitsCount = false;
+  indexPipelineId;
+  subscription: Subscription;
+
+  submitted = false;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    public authService: AuthService
+    public authService: AuthService,
+    private appSelectionService: AppSelectionService
   ) { }
 
   ngOnInit(): void {
@@ -74,7 +94,13 @@ export class TraitsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
     this.groupConfigs = JSON.parse(JSON.stringify(this.defaultGroupConfigs));
-    this.getTraitsGroupsApi(true);
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    this.loadFileds();
+    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+      this.loadFileds();
+    })
+    
+    
   }
   loadingTraits1: boolean;
   loadImageText: boolean = false;
@@ -83,6 +109,12 @@ export class TraitsComponent implements OnInit {
     this.loadingTraits=false;
     this.loadingTraits1 = true;
     this.loadImageText = true;
+  }
+  loadFileds() {
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if (this.indexPipelineId) {
+      this.getTraitsGroupsApi(true);
+    }
   }
   trainIndex(){
     $('#trainId').click();
@@ -113,8 +145,8 @@ var width = ctx.measureText(t.traitName +', ').width;
       this.loadingTraits = true;
     }
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
     }
     this.service.invoke('get.traits', quaryparms).subscribe(res => {
       this.traits.traitGroups = res;
@@ -184,6 +216,7 @@ var width = ctx.measureText(t.traitName +', ').width;
   };
   editTraitFroup = function (traitGroup, index) {
     this.editedContent = false;
+    this.showEditTraitInput = null;
     this.currentGroupEditIndex = index;
     this.groupConfigs.matchStrategy = traitGroup.matchStrategy;
     this.traitDeleted = false;
@@ -193,6 +226,7 @@ var width = ctx.measureText(t.traitName +', ').width;
     }
   };
   saveTraits(traitsGroup?, byTraitId?) {
+    this.submitted = true;
     if (!this.traits.addEditTraits.groupName.trim()) {
       this.notificationService.notify('Please provide a valid trait group', 'error');
       return;
@@ -341,8 +375,10 @@ var width = ctx.measureText(t.traitName +', ').width;
             traitslist.splice(index, 1);
             const payload = traitslist;
             const quaryparms: any = {
-              userId: this.authService.getUserId(),
-              streamId: this.selectedApp._id,
+              // userId: this.authService.getUserId(),
+              // streamId: this.selectedApp._id,
+              searchIndexId: this.serachIndexId,
+              indexPipelineId: this.indexPipelineId,
               traitGroupId: traitsGroup._id
             }
             this.service.invoke('delete.traitGroup', quaryparms, payload).subscribe(res => {
@@ -373,8 +409,10 @@ var width = ctx.measureText(t.traitName +', ').width;
   };
   updateTraitsApi(traitGroupId, payload) {
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      // userId: this.authService.getUserId(),
+      // streamId: this.selectedApp._id,
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
       traitGroupId
     }
     this.service.invoke('update.traitGroup', quaryparms, payload).subscribe(res => {
@@ -392,8 +430,10 @@ var width = ctx.measureText(t.traitName +', ').width;
   };
   createTraitsApi(payload) {
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId
+      // userId: this.authService.getUserId(),
+      // streamId: this.selectedApp._id,
     }
     this.service.invoke('create.traitGroup', quaryparms, payload).subscribe(res => {
       this.getTraitsGroupsApi();
@@ -412,8 +452,10 @@ var width = ctx.measureText(t.traitName +', ').width;
   getTraitGroupById(groupId, traitKey) {
     const self = this
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      // userId: this.authService.getUserId(),
+      // streamId: this.selectedApp._id,
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
       traitGroupId: groupId,
     }
     this.service.invoke('get.traitGroupById', quaryparms).subscribe(res => {
@@ -509,8 +551,30 @@ var width = ctx.measureText(t.traitName +', ').width;
     this.statusModalPopRef = this.statusModalPop.open();
   }
   closeStatusModal() {
+    this.submitted=false;
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
+    }
+  }
+  openAddUtteranceModel(index,key,utteranceList,isView=false) {
+    if(isView && !utteranceList.length){
+      return;
+    }
+    this.showUtteranceInput = isView?false:true;
+    this.showEditUtteranceInput = null;
+    this.newUtterance = '';
+    this.utteranceList = [];
+    this.utteranceList = [...utteranceList, ...this.utteranceList];
+    this.currentUtteranceIndex = index;
+    this.currentTraitKey = key;
+    this.addUtteranceModalPopRef = this.addUtteranceModalPop.open();
+  }
+  closeUtteranceModal() {
+    this.currentUtteranceIndex = null;
+    this.currentTraitKey = null;
+    this.utteranceList = [];
+    if (this.addUtteranceModalPopRef && this.addUtteranceModalPopRef.close) {
+      this.addUtteranceModalPopRef.close();
     }
   }
   addTraits(traitName, event) {
@@ -561,7 +625,25 @@ var width = ctx.measureText(t.traitName +', ').width;
       }
     }
   };
-
+  addNewUtter(utter, event) {
+    const utteranceData = [];
+    if (event && (event.keyCode === 13 || event.type=='click') && utter !== '') {
+      let utternaceIndex = -1;
+      const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
+        if (utter === utterance) {
+          utternaceIndex = i;
+          return false;
+        }
+      });
+      if (utternaceIndex > -1) {
+        this.notificationService.notify('Utterance is already added', 'error');
+        return;
+      }
+      this.utteranceList = [utter].concat(this.utteranceList);
+      this.newUtterance = '';
+      this.showUtteranceInput = false;
+    }
+  }
   addUtterance(utter, key, event, traitsGroup, index) {
     const utteranceData = [];
     if (event && event.keyCode === 13 && traitsGroup && utter !== '') {
@@ -621,12 +703,6 @@ var width = ctx.measureText(t.traitName +', ').width;
         }
       });
   }
-
-
-
-
-
-
 
   deleteUtteranceIntrait(deletedutternace, key, traitsGroup, traitIndex) {
     let utternaceIndex = null;
@@ -699,4 +775,105 @@ var width = ctx.measureText(t.traitName +', ').width;
     }
     this.showSearch = !this.showSearch
   };
+
+  addNewUtterance( key, traitsGroup, index){
+    const utteranceData = [];
+    if (traitsGroup && this.utteranceList.length) {
+      this.traits.addEditTraits.traits[key].data = this.utteranceList;
+      if (index > -1) {
+        this.traits.addEditTraits.traitsArray[index] = this.traits.addEditTraits.traits[key];
+      }
+      this.traits.addEditTraits.traits[key].utterance = '';
+    }
+    this.closeUtteranceModal();
+  }
+
+  deleteUtterance = function (deletedutternace,event) {
+    if (event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Utterance',
+        text: 'Are you sure you want to delete Utterance ?',
+        newTitle: 'Are you sure you want to delete ?',
+        body: 'Selected utterance will be deleted. ',
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
+      }
+
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          let utternaceIndex = null;
+          const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
+            if (deletedutternace === utterance) {
+              utternaceIndex = i;
+              this.utteranceList.splice(utternaceIndex, 1);
+              return false;
+            }
+          });
+          dialogRef.close();
+        }
+        else if (result === 'no') {
+          dialogRef.close();
+        }
+      });
+  }
+ 
+  editUtter(event,utter,index){
+    if(event && (event.keyCode === 13  || event.type=='click') && utter !== ''){
+      let utternaceIndex = -1;
+      const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
+        if (utter === utterance && index !== i) {
+          utternaceIndex = i;
+          return false;
+        }
+      });
+      if (utternaceIndex > -1) {
+        this.notificationService.notify('Utterance is already added', 'error');
+        return;
+      }
+      this.showEditUtteranceInput = null;
+      this.showUtteranceInput = false;
+      this.utteranceList[index]=utter;
+    }
+  }
+
+  editTraits(trait, event, displayName) {
+    if (event && (event.keyCode === 13 || event.type=='click') && trait !== '') {
+      if (!this.traits.addEditTraits.traits[trait]) {
+        this.showEditTraitInput = null;
+        this.traits.addEditTraits.traits[displayName].displayName = trait;
+        this.traits.addEditTraits.traits[trait] = this.traits.addEditTraits.traits[displayName];
+        delete this.traits.addEditTraits.traits[displayName];
+      } else if(this.traits.addEditTraits.traits[trait] && displayName == trait){
+        this.showEditTraitInput = null;
+      } else {
+        this.notificationService.notify(trait + ' is already added', 'error');
+      }
+    }
+  }
+
+  showEditTrait(index, event){
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    this.showEditTraitInput=index;
+  }
+
+  ngOnDestroy() {
+    const self = this;
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    
+  }
 }

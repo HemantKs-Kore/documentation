@@ -341,8 +341,12 @@
                 font-size: 14px;
                 margin-bottom: 15px;
                 img{
-                    margin-right: 12px;
+                    margin-right: 5px;
                 }
+            }
+            .content-description{
+                width: max-content;
+                margin-left: -45px;
             }
             .status-identification-content{
                 width: 230px;
@@ -484,7 +488,7 @@
     }
 }
 .addSourceModalBody{
-    height: calc(100vh - 125px);
+    height: calc(100vh - 135px);
 }
 .kr-sg-file-drag-drop{
     .progress-status{

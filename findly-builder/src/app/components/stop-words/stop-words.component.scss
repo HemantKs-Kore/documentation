@@ -261,3 +261,9 @@
 .kr-sg-dropdowns.exportdropdown .dropdown-open .dropdown-input::before{
     background-image: unset;
 }
+.kr-sg-input-text{
+	input.input-text.err-block{
+		background-color: rgb(255, 255, 255);
+		border-color: rgb(221, 54, 70);
+	}
+}

@@ -7097,6 +7097,7 @@ body, html{
     text-align: right;    
     cursor: pointer !important;
     z-index: 100;
+    display: none;
 }
 .search-container.conversation #searchChatContainer .messageBubble .userMessage .query-analytics-control-container img{
     margin-right: 7px;
@@ -8113,7 +8114,7 @@ html , body{
     letter-spacing: 1px;
     bottom: 0;
     border-radius: 6px;
-    margin: 3px 10px 3px 0px;
+    margin: 3px 3px 3px 0px;
     background: #0D6EFD;
     backdrop-filter: blur(27.1828px);
     font-size: 12px;
@@ -10324,7 +10325,7 @@ input:checked + .custom-slider:before {
     margin: 0;
     height: auto;
     padding-left: 35px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 .custom-add-new-result-content .bold-text{
     color: #161928;
@@ -10340,6 +10341,7 @@ input:checked + .custom-slider:before {
     font-size: 14px;
     line-height: 20px;
     color: #0D6EFD;
+    cursor: pointer;
 }
 .custom-add-new-result-content .link-text img{    
     margin-right: 13px;
@@ -11673,10 +11675,10 @@ padding-right: 0;
     line-height: 16px;
 }
 .tile-with-text-parent.template-2 .tile-with-text {
-    box-shadow: none;
-    border-radius: 0;
+    box-shadow: none !important;
+    border-radius: 0 !important;
     border-bottom: 1px solid #E4E5E7;
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
     padding: 11px 10px;
 }
 .tile-with-text-parent.template-2.with-accordion .tile-with-text {
@@ -12472,6 +12474,13 @@ padding-right: 0;
     font-weight: normal;
     font-size: 12px;
     line-height: 15px;
+}
+
+.show-all-results-outer-wrap .search-heads.show-all.sdk-show-classification{
+    text-transform: none;
+    font-size: 12px;
+    color: #9AA0A6 !important;
+    margin-top: 0px;
 }
 
 .data-body-sec .structured-data-header .search-heads{
@@ -13757,7 +13766,7 @@ button.search-button:disabled {
     border-radius: 4px;
     padding: 10px 15px;
     bottom: 125%;
-    z-index: 99;
+    z-index: 999;
     color: #FFFFFF;
     font-weight: 600;
     font-size: 10px;
@@ -13887,3 +13896,20 @@ button.search-button:disabled {
   #actions-full-search-container .action-results-container .action-content img{
       vertical-align: middle;
   }
+
+  .bot-actions-customize-info {
+        padding: 10px 30px 10px 10px;
+        background-color: #F3F8FF;
+        border-radius: 5px;
+        border: 1px solid #85B7FE;
+        margin-bottom: 10px;
+        color: #07377F;
+        display: inline-block;
+   }
+   .bot-actions-customize-info .info-text{
+       margin-left:10px
+   }
+   
+   .structured-data-outer-wrap {
+        margin-bottom: 10px;
+    }

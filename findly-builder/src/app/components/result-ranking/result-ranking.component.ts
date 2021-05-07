@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
@@ -50,15 +50,18 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
-    private headerService: SideBarService,) { }
+    private headerService: SideBarService,
+    private zone: NgZone) { }
   sdk_evenBind() {
     // $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
     //   this.getcustomizeList(20, 0);
     // })
-    $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
+    $(document).on('click', '.kore-search-container-close-icon', () => {
       this.selectedApp = this.workflowService.selectedApp();
       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-      this.loadCustomRankingList();
+      this.zone.run( () => {
+        this.loadCustomRankingList();
+      });
     })
     $(document).off('click', '.start-search-icon-div').on('click', '.start-search-icon-div', () => {
       this.selectedApp = this.workflowService.selectedApp();
@@ -457,7 +460,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
       //this.customizeList = res;
       this.lastModifiedOn = res.lMod;
-      this.actionLogData = res.customizations;
+      this.actionLogData = JSON.parse(JSON.stringify(res.customizations));
       for (let i = 0; i < this.actionLogData.length; i++) {
         this.actionLogData[i]["selected"] = false;
         this.actionLogData[i]["drop"] = false;
@@ -626,6 +629,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
             this.getcustomizeList(20, 0);
             this.actionLogData = [];
             this.customizeList = [];
+            this.notificationService.notify('Reset Successful', 'success');
             dialogRef.close();
           }, errRes => {
             if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
