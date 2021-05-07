@@ -161,7 +161,7 @@
                       [ngClass]="{'hide': filterSystem.statusFilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                   <li *ngFor="let status of statusArr"
                     (click)="statusFilter.close();filterTable(status,'recentStatus')"><span
-                      class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : (status == 'queued' ? 'Queued' :'In Progress'))}}</span>
+                      class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : (status == 'queued' ? 'Queued' :(status == 'configured' ? 'Validated' :(status == 'halted' ? 'Stopped' :'In-progress'))))}}</span>
                       <img
                       [ngClass]="{'hide': filterSystem.statusFilter !== status}" src="assets/icons/check-blue.svg">
                   </li>
@@ -382,7 +382,7 @@
             <div class="tabs-sec">
               <span class="tabname active" [ngClass] = "{'active' : page}" (click)="swapSlider('page')">Pages</span>
               <span class="tabname" [ngClass] = "{'active' : isConfig}"(click)="swapSlider('config')">Configuration</span>
-              <span class="tabname" *ngIf="executionHistoryData" [ngClass] = "{'active' : execution}" (click)="swapSlider('execution')">Execution</span>
+              <span class="tabname" *ngIf="executionHistoryData" [ngClass] = "{'active' : execution}" (click)="swapSlider('execution')">Executions</span>
             </div>
             <div class="right-side">
               <div class="kr-sg-input-search" *ngIf="page">
@@ -661,7 +661,7 @@
               </div>
 
               <!-- Cookies -->
-                <div class=" group-checkbox">
+                <div class=" group-checkbox" [ngStyle]='{"padding-top":crwalOptionLabel!="Crawl Everything"?"17px":"0px"}'>
                   <!-- <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "blockHttpsMsgs" [checked]="blockHttpsMsgs" [(ngModel)] = "blockHttpsMsgs" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Block HTTPS Pages</label>

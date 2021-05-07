@@ -33,6 +33,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   serachIndexId;
   indexPipelineId;
   currentEditInex;
+  submitted = false;
   rules = [];
   currentSugg: any = [];
   selectedSort;
@@ -190,6 +191,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.getFieldAutoComplete(null, null);
   }
   closeModalPopup() {
+    this.submitted = false;
     this.rulesArrayforAddEdit = [];
     this.outcomeArrayforAddEdit = [];
     this.addBusinessRulesRef.close();
@@ -449,6 +451,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
     }
     if (key === 'operator') {
+      if(ruleObj.operator !== value){
+        ruleObj.value = [];
+      }
       ruleObj.operator = value;
     }
     if (key === 'dataType') {
@@ -530,39 +535,51 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     //   $('#selectAllRules')[0].checked = false;
     // }
   }
+  validateRules(){
+    if(this.addEditRuleObj && this.addEditRuleObj.ruleName.length){
+      this.submitted = false;
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
   createRule() {
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
-    };
-    const payload: any = {
-      ruleName: this.addEditRuleObj.ruleName,
-      isRuleActive: this.addEditRuleObj.isRuleActive,
-      rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [],
-      outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
-    }
-    // if (!payload.rules.length) {
-    //   this.errorToaster(null, 'Atleast one condition is required');
-    //   return;
-    // }
-    if (!payload.outcomes.length) {
-      this.errorToaster(null, 'Atleast one outcome is required');
-      return;
-    }
-    this.service.invoke('create.businessRules', quaryparms, payload).subscribe(res => {
-      this.rules.push(res);
-      this.closeModalPopup();
-      this.notificationService.notify('Added successfully', 'success');
-    }, errRes => {
-      if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
-        this.closeModalPopup();
-        this.errorToaster(errRes, errRes.error.errors[0].msg);
-        this.plans.openChoosePlanPopup('choosePlans');
-      } else {
-        this.errorToaster(errRes, 'Failed to create rules');
+    this.submitted = true;
+    if (this.validateRules()) {
+      const quaryparms: any = {
+        searchIndexID: this.serachIndexId,
+        queryPipelineId: this.queryPipelineId,
+        indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
+      };
+      const payload: any = {
+        ruleName: this.addEditRuleObj.ruleName,
+        isRuleActive: this.addEditRuleObj.isRuleActive,
+        rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [],
+        outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
       }
-    });
+      // if (!payload.rules.length) {
+      //   this.errorToaster(null, 'Atleast one condition is required');
+      //   return;
+      // }
+      if (!payload.outcomes.length) {
+        this.errorToaster(null, 'Atleast one outcome is required');
+        return;
+      }
+      this.service.invoke('create.businessRules', quaryparms, payload).subscribe(res => {
+        this.rules.push(res);
+        this.closeModalPopup();
+        this.notificationService.notify('Added successfully', 'success');
+      }, errRes => {
+        if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
+          this.closeModalPopup();
+          this.errorToaster(errRes, errRes.error.errors[0].msg);
+          this.plans.openChoosePlanPopup('choosePlans');
+        } else {
+          this.errorToaster(errRes, 'Failed to create rules');
+        }
+      });
+    }
   }
   getFieldAutoComplete(event, outcomeObj) {
     let query: any = '';
@@ -623,36 +640,39 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     });
   }
   updateRule(rule) {
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      ruleId: rule._id,
-    };
-    const payload: any = {
-      ruleName: this.addEditRuleObj.ruleName,
-      isRuleActive: this.addEditRuleObj.isRuleActive,
-      rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit),
-      outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit)
+    this.submitted = true;
+    if (this.validateRules()) {
+      const quaryparms: any = {
+        searchIndexID: this.serachIndexId,
+        queryPipelineId: this.queryPipelineId,
+        indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+        ruleId: rule._id,
+      };
+      const payload: any = {
+        ruleName: this.addEditRuleObj.ruleName,
+        isRuleActive: this.addEditRuleObj.isRuleActive,
+        rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit),
+        outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit)
+      }
+      if (!payload.rules.length) {
+        this.errorToaster(null, 'Atleast one condition is required');
+        return;
+      }
+      if (!payload.outcomes.length) {
+        this.errorToaster(null, 'Atleast one outcome is required');
+        return;
+      }
+      this.service.invoke('update.businessRule', quaryparms, payload).subscribe(res => {
+        const editRule = _.findIndex(this.rules, (pg) => {
+          return pg._id === rule._id;
+        })
+        this.rules[editRule] = res;
+        this.notificationService.notify('Updated Successfully', 'success');
+        this.closeModalPopup();
+      }, errRes => {
+        this.errorToaster(errRes, 'Failed to update rule');
+      });
     }
-    if (!payload.rules.length) {
-      this.errorToaster(null, 'Atleast one condition is required');
-      return;
-    }
-    if (!payload.outcomes.length) {
-      this.errorToaster(null, 'Atleast one outcome is required');
-      return;
-    }
-    this.service.invoke('update.businessRule', quaryparms, payload).subscribe(res => {
-      const editRule = _.findIndex(this.rules, (pg) => {
-        return pg._id === rule._id;
-      })
-      this.rules[editRule] = res;
-      this.notificationService.notify('Updated Successfully', 'success');
-      this.closeModalPopup();
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to update rule');
-    });
   }
   deleteRulePop(rule, i) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {

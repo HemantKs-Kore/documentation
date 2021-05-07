@@ -113,7 +113,7 @@
 <kr-modal modalType="center" #viewQueries modalClass="modal_popups_ view-query-modal">
     <div class="modal-header">
         <div>
-            <div class="small-title">{{'metrics.search_insights.Search_Queries_for'| translate}}</div>
+            <div class="small-title">{{'metrics.search_insights.Search_Results_for'| translate}}</div>
             <div class="title-small">{{selectedQuery}}</div>
             <div class="response">FAQ Response</div>
         </div>
@@ -123,23 +123,23 @@
         <div class="modal-body">
             <div class="table_data_content">
                 <div class="table_header row m-0">
-                    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_Results'| translate}}</div>
+                    <div class="col-4 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_Results'| translate}}</div>
                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Appearances'| translate}}</div>
                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.No_of_Clicks'| translate}}</div>
                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Click-Through_Rate'| translate}}</div>
-                    <div class="col-2 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Avg_Position'| translate}}</span></div>
+                    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Avg_Position'| translate}}</span></div>
                     <!-- <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Positive_Feedback'| translate}}</span></div>
                     <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Negative_Feedback'| translate}}</span></div> -->
                 </div>
                 <div class="table_body row m-0" *ngFor="let result of getSearchQueriesResults;let i = index">
-                    <div class="col-2 title d-flex align-items-center">
+                    <div class="col-4 title d-flex align-items-center">
                         <span class="img-sec"><img src="assets/icons/question-box.svg"></span>
-                        <span class="results">{{result.answer}}</span>
+                        <span class="results ">{{result.answer}}</span>
                     </div>
-                    <div class="col-2 title">{{result.appearances}}</div>
-                    <div class="col-2 title">{{result.clicks}}</div>
-                    <div class="col-2 title">{{result.clickThroughRate}} %</div>
-                    <div class="col-2 title">{{result.avgPosition}}</div>
+                    <div class="col-2 title pl-3">{{result.appearances}}</div>
+                    <div class="col-2 title pl-3">{{result.clicks}}</div>
+                    <div class="col-2 title pl-3">{{result.clickThroughRate}} %</div>
+                    <div class="col-2 title pl-3">{{result.avgPosition}}</div>
                     <!-- <div class="col-1 title">{{result.positiveFeedback}}</div>
                     <div class="col-1 title">{{result.negativeFeedback}}</div> -->
                 </div>

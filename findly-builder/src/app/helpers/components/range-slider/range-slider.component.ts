@@ -11,13 +11,14 @@ import { RangeSlider } from '../../../helpers/models/range-slider.model';
 export class RangeSliderComponent implements OnInit, AfterViewInit {
   @Input() allData;
   @Input() customClass;
+  @Input() addTextToTooltip;
   @Output() valueEvent = new EventEmitter();
   sliderUpdatedVal: number;
   sliderRet: any;
   constructor() { }
 
   ngAfterViewInit() {
-    this.sliderRet = this.registerSlider('#'+this.allData.id, {tooltip: 'always', tooltip_position: 'bottom'})
+    this.sliderRet = this.registerSlider('#'+this.allData.id, { tooltip_position: 'top'})
     this.sliderRet.bootstrapSlider('setValue', this.allData.default);
     this.formatTooltip(this.allData.default);
   }
@@ -32,7 +33,7 @@ export class RangeSliderComponent implements OnInit, AfterViewInit {
       this.onSliderChanged(ev.value);
     });
     $(ele).bootstrapSlider().on('slide', (ev) => {
-      this.formatTooltip(ev.value);
+      this.formatTooltip(ev.value,true);
     });
     return slider;
   }
@@ -40,8 +41,15 @@ export class RangeSliderComponent implements OnInit, AfterViewInit {
   onSliderChanged(val) {
     this.valueEvent.emit(val);
     this.sliderUpdatedVal = val;
-    this.formatTooltip(val);
+    this.formatTooltip(val,false);
   }
-  formatTooltip(val){ $('#'+this.allData.id+'-slider').find('.tooltip-inner').text(val); }
+  formatTooltip(val, hide?){ 
+    if(hide){
+      $('#' + this.allData.id + '-slider').find('.tooltip-main').removeClass('hide');
+    }
+    else{
+      $('#' + this.allData.id + '-slider').find('.tooltip-main').addClass('hide');
+    }
+    $('#'+this.allData.id+'-slider').find('.tooltip-inner').text(val+(this.addTextToTooltip?this.addTextToTooltip:'')); }
 }
 

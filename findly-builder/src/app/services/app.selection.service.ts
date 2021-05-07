@@ -11,7 +11,8 @@ import { NotificationService } from './notification.service';
 @Injectable()
 export class AppSelectionService {
   queryList: any = [];
-  indexList: any = []
+  indexList: any = [];
+  configSelected : any = {}
   public queryConfigs = new Subject<any>();
   public appSelectedConfigs = new Subject<any>();
   public queryConfigSelected = new Subject<any>();
@@ -73,7 +74,7 @@ export class AppSelectionService {
     };
     const appObserver = this.service.invoke('get.queryPipelines', payload);
     const subject = new ReplaySubject(1);
-    subject.subscribe(res => {
+    subject.subscribe((res : any)=> {
       this.queryList = res || [];
       let length = this.queryList.length;
       if (this.queryList) {
@@ -92,7 +93,17 @@ export class AppSelectionService {
             this.selectQueryConfig(data[0]);
           }
           else {
-            this.selectQueryConfig(res[length - 1]);
+            if(this.configSelected && this.configSelected['_id']){
+              const data = res.filter(element => element._id == this.configSelected['_id']);
+              if(data.length){
+                this.selectQueryConfig(data[0]);
+              }else{
+                this.selectQueryConfig(res[length - 1]);
+              }
+            }else{
+              this.selectQueryConfig(res[length - 1]);
+            }
+            
           }
         } else {
           this.selectQueryConfig({});
@@ -140,6 +151,7 @@ export class AppSelectionService {
   }
   selectQueryConfig(config) {
     this.res_length = this.queryList.length;
+    this.configSelected = config
     this.workflowService.selectedQueryPipeline(config);
     const previousState = this.getPreviousState();
     this.setPreviousState(previousState.route);
