@@ -232,18 +232,18 @@
           </div>
         </div>
       </div>
-      <!-- <div class="no-experiments">
-        <div class="desc">No search results found</div>
-      </div> -->
-      <!-- <div class="no-experiments" *ngIf="filterExperiments.length===0">
-        <img src="assets/icons/experiment/empty_experiments.svg" />
-        <div class="title">You haven't added any Experiment yet</div>
-        <div class="dec">
-          Fortunately , it is very easy to add one by clicking on the Add
-          experiments
+      
+      <ng-container>
+        <div class="upgrade-experience" [ngClass]='{"d-none":currentSubscriptionPlan.planName!="Free"}'>
+          <div class="img-block">
+            <img src="assets/icons/pricing/upgrade-experience.svg">
+          </div>
+          <div class="title">Oops!! Experiements is not available in your current Plan</div>
+          <button class="kr-sg-button-primary btn_lg" (click)="upgrade()">Upgrade</button>
         </div>
-      </div> --> 
-      <ng-container *ngIf="filterExperiments.length===0">        
+      </ng-container>
+
+      <ng-container *ngIf="filterExperiments.length===0 && currentSubscriptionPlan.planName!='Free'">        
         <div  class="empty-landing-screen" >
           <div class="img-block"><img class="action_icon" src="assets/images/experiments-empty.svg" (load)="imageLoaded()"></div>
           <ng-container *ngIf="loadImageText">
@@ -410,3 +410,6 @@
     </button>
   </div>
 </kr-modal>
+
+<!-- upgrade plan component-->
+<app-upgrade-plan #plans></app-upgrade-plan>
