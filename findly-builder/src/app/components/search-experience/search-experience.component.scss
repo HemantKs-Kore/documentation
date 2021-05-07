@@ -1403,3 +1403,9 @@
 ::ng-deep .joyride-step__close{
     display: none;
 }
+.kr-sg-input-text{
+    input.input-text.err-block{
+        background-color: rgb(255, 255, 255);
+        border-color: rgb(221, 54, 70);
+    }
+}

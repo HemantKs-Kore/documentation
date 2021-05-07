@@ -55,10 +55,11 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     // $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
     //   this.getcustomizeList(20, 0);
     // })
-    $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
+    $(document).on('click', '.kore-search-container-close-icon', () => {
       this.selectedApp = this.workflowService.selectedApp();
       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
       this.loadCustomRankingList();
+      $('#result-rank-container').click();
     })
     $(document).off('click', '.start-search-icon-div').on('click', '.start-search-icon-div', () => {
       this.selectedApp = this.workflowService.selectedApp();

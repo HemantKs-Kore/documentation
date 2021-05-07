@@ -237,7 +237,8 @@
                             
                             <div class="kr-sg-input-text">
                                 <div class="label-text">Button Text</div>
-                                <input type="text" maxlength="6" #butttonText (keyup)="0" placeholder="Enter Name" class="input-text" [(ngModel)]="searchObject.searchWidgetConfig.buttonText" [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)">                            
+                                <input type="text" maxlength="6" #butttonText (keyup)="0" placeholder="Enter Name" class="input-text" [(ngModel)]="searchObject.searchWidgetConfig.buttonText" [class.err-block]="(searchObject.searchWidgetConfig.searchButtonEnabled && !searchObject.searchWidgetConfig.buttonText.length) && submitted" [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)">
+                                <img *ngIf="(searchObject.searchWidgetConfig.searchButtonEnabled && !searchObject.searchWidgetConfig.buttonText.length) && submitted" id="facetNameWarning" src="assets/icons/warning_escalation.svg" style="top: 57%; position: absolute; right: 4.5%; display: block;" height="12" width="12" />
                                 <div class="button-text-count">{{butttonText.value.length}}/6</div>
                             </div>
                             <div class="fill-colors-block">

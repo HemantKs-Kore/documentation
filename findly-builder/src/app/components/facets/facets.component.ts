@@ -76,6 +76,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   statusArr: any = [];
   selectTypeArr: any = [];
   componentType: string = 'configure';
+  submitted : boolean = false;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -559,21 +560,36 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+
+  validateAddEditFacet(){
+    if(this.addEditFacetObj.fieldId.length && this.addEditFacetObj.facetName){
+      this.submitted;
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
   addOrUpdate() {
-    this.addFiled();
-    if (this.addEditFacetObj && this.addEditFacetObj._id) {
-      this.editFacet();
-    } else {
-      this.createFacet();
+    this.submitted = true;
+    if(this.validateAddEditFacet()){
+      this.addFiled();
+      if (this.addEditFacetObj && this.addEditFacetObj._id) {
+        this.editFacet();
+      } else {
+        this.createFacet();
+      }
     }
   }
   openModal() {
+    this.submitted = false;
     this.facetModalRef = this.facetModalPouup.open();
   }
   closeModal() {
     if (this.facetModalRef && this.facetModalRef.close) {
       this.facetModalRef.close();
     }
+    this.submitted = false;
     this.resetDefaults();
     this.addEditFacetObj = null;
     this.selectedFieldId = null;

@@ -55,14 +55,15 @@
       </div>
       <div class="keyword row m-0" *ngIf="newSynonymObj.type==='oneWaySynonym'">
         <div class="kr-sg-input-text">
-          <input type="text" id="synonymName" name="synonymName" autocomplete="off"  (click)="synonymChanged()" [(ngModel)]="newSynonymObj.keyword"
+          <input [class.err-block]="((!newSynonymObj.keyword || !newSynonymObj.keyword.length) && submitted)" type="text" id="synonymName" name="synonymName" autocomplete="off"  (click)="synonymChanged()" [(ngModel)]="newSynonymObj.keyword"
             [ngModelOptions]="{standalone: true}" placeholder="Search Term" required class="input-text">
+            <img *ngIf="(!newSynonymObj.keyword || !newSynonymObj.keyword.length) && submitted" id="searchTermWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
         </div>
       </div>
 
       <div class="tags row m-0"  *ngIf="newSynonymObj.type==='synonym'">
         <div class="chip-sys-data">
-          <mat-form-field class="example-chip-list" [floatLabel]="'never'">
+          <mat-form-field class="example-chip-list" [class.err-block]="((!synonymObj.values || !synonymObj.values.length) && submitted)" [floatLabel]="'never'">
             <mat-chip-list #chipList>
               <mat-chip *ngFor="let syn of newSynonymObj.values" [selectable]="selectable" [removable]="removable"
                 (removed)="remove(syn)"><span *ngIf="syn">{{syn}}</span>
@@ -73,6 +74,7 @@
                 (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.values"
                 [ngModelOptions]="{standalone: true}"   autocomplete="off">
             </mat-chip-list>
+            <img *ngIf="(!synonymObj.values || !synonymObj.values.length) && submitted" id="valuesWarningWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
           </mat-form-field>
         </div>
       </div>
@@ -80,7 +82,7 @@
 
       <div class="tags row m-0"  *ngIf="newSynonymObj.type==='oneWaySynonym'">
         <div class="chip-sys-data">
-          <mat-form-field class="example-chip-list" [floatLabel]="'never'">
+          <mat-form-field class="example-chip-list" [class.err-block]="((!synonymObj.values || !synonymObj.values.length) && submitted)" [floatLabel]="'never'">
             <mat-chip-list #chipList>
               <mat-chip *ngFor="let syn of newSynonymObj.values" [selectable]="selectable" [removable]="removable"
                 (removed)="remove(syn)"><span *ngIf="syn">{{syn}}</span>
@@ -91,6 +93,7 @@
                 (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.values"
                 [ngModelOptions]="{standalone: true}" autocomplete="off">
             </mat-chip-list>
+            <img *ngIf="(!synonymObj.values || !synonymObj.values.length) && submitted" id="oneWayValuesWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
           </mat-form-field>
         </div>
       </div>
@@ -99,9 +102,8 @@
           <button class="kr-sg-button-secondary btn_lg"
             (click)="cancleAddSynonyms()">{{'synonyms.cancel_it' | translate}}</button>
           <button class="kr-sg-button-primary btn_lg"
-            [disabled]="!newSynonymObj || (newSynonymObj.values && !newSynonymObj.values.length) || ((newSynonymObj.type === 'oneWaySynonym') && (!newSynonymObj.keyword))"
             (click)="addNewSynonyms(synonymObj)">{{'synonyms.save' | translate}}</button>
-
+          <!-- [disabled]="!newSynonymObj || (newSynonymObj.values && !newSynonymObj.values.length) || ((newSynonymObj.type === 'oneWaySynonym') && (!newSynonymObj.keyword))" -->
         </div>
       </div>
     </div>

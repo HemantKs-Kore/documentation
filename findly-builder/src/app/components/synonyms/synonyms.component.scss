@@ -506,3 +506,19 @@
         display: none !important;
     }
 }
+
+.kr-sg-input-text{
+    .kr-sg-input-search {
+        input.input-text.err-block{
+            background-color: rgb(255, 255, 255);
+            border-color: rgb(221, 54, 70);
+        }
+    }
+}
+
+:host ::ng-deep .example-chip-list.err-block{
+    .mat-chip-list-wrapper{
+        background-color: rgb(255, 255, 255);
+        border-color: rgb(221, 54, 70) !important;
+    }
+}
