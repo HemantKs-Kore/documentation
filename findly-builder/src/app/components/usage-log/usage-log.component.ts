@@ -64,12 +64,22 @@ export class UsageLogComponent implements OnInit {
       this.getUsageLogs();
     }
   }
-  getUsageLogs(offset?) {
+  searchUsageLogs(){
+    if (this.searchUsageLog) {
+      this.getUsageLogs(null, this.searchUsageLog);
+    } else {
+      this.getUsageLogs();
+    }
+  }
+  getUsageLogs(offset?,quary?) {
     const quaryparms: any = {
       streamId : this.selectedApp._id,
       skip: offset || 0,
       limit: 10
     };
+    if (quary) {
+      quaryparms.searchQuary = quary;
+    }
     this.service.invoke('get.allUsageLogs', quaryparms).subscribe(res => {
       this.usageLogs = res.data || [];
       this.totalRecord = res.total;
@@ -216,5 +226,19 @@ sortBy(sort) {
     }
   });
   this.usageLogs = sortedData;
+}
+
+exportUsageLog(){
+  const quaryparms: any = {
+    streamId : this.selectedApp._id,
+  };
+  const payload = {
+    "fileType": "csv"
+  }
+  this.service.invoke('post.exportUsageLog', quaryparms,payload).subscribe(res => {
+    this.notificationService.notify('Export to CSV is in progress. You can check the status in the Status Docker', 'success');
+  }, errRes => {
+    this.errorToaster(errRes, 'Failed to export usage logs');
+  });
 }
 }
