@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation,OnDestroy } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
@@ -7,6 +7,9 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { AuthService } from '@kore.services/auth.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as _ from 'underscore';
+import { AppSelectionService } from '@kore.services/app.selection.service';
+import { of, interval, Subject, Subscription } from 'rxjs';
+
 declare const $: any;
 @Component({
   selector: 'app-traits',
@@ -73,12 +76,16 @@ export class TraitsComponent implements OnInit {
   currentTraitEditIndex;
   editedContent;
   traitsCount = false;
+  indexPipelineId;
+  subscription: Subscription;
+
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    public authService: AuthService
+    public authService: AuthService,
+    private appSelectionService: AppSelectionService
   ) { }
 
   ngOnInit(): void {
@@ -86,7 +93,13 @@ export class TraitsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
     this.groupConfigs = JSON.parse(JSON.stringify(this.defaultGroupConfigs));
-    this.getTraitsGroupsApi(true);
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    this.loadFileds();
+    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+      this.loadFileds();
+    })
+    
+    
   }
   loadingTraits1: boolean;
   loadImageText: boolean = false;
@@ -95,6 +108,12 @@ export class TraitsComponent implements OnInit {
     this.loadingTraits=false;
     this.loadingTraits1 = true;
     this.loadImageText = true;
+  }
+  loadFileds() {
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if (this.indexPipelineId) {
+      this.getTraitsGroupsApi(true);
+    }
   }
   trainIndex(){
     $('#trainId').click();
@@ -125,8 +144,8 @@ var width = ctx.measureText(t.traitName +', ').width;
       this.loadingTraits = true;
     }
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
     }
     this.service.invoke('get.traits', quaryparms).subscribe(res => {
       this.traits.traitGroups = res;
@@ -354,8 +373,10 @@ var width = ctx.measureText(t.traitName +', ').width;
             traitslist.splice(index, 1);
             const payload = traitslist;
             const quaryparms: any = {
-              userId: this.authService.getUserId(),
-              streamId: this.selectedApp._id,
+              // userId: this.authService.getUserId(),
+              // streamId: this.selectedApp._id,
+              searchIndexId: this.serachIndexId,
+              indexPipelineId: this.indexPipelineId,
               traitGroupId: traitsGroup._id
             }
             this.service.invoke('delete.traitGroup', quaryparms, payload).subscribe(res => {
@@ -386,8 +407,10 @@ var width = ctx.measureText(t.traitName +', ').width;
   };
   updateTraitsApi(traitGroupId, payload) {
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      // userId: this.authService.getUserId(),
+      // streamId: this.selectedApp._id,
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
       traitGroupId
     }
     this.service.invoke('update.traitGroup', quaryparms, payload).subscribe(res => {
@@ -405,8 +428,10 @@ var width = ctx.measureText(t.traitName +', ').width;
   };
   createTraitsApi(payload) {
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId
+      // userId: this.authService.getUserId(),
+      // streamId: this.selectedApp._id,
     }
     this.service.invoke('create.traitGroup', quaryparms, payload).subscribe(res => {
       this.getTraitsGroupsApi();
@@ -425,8 +450,10 @@ var width = ctx.measureText(t.traitName +', ').width;
   getTraitGroupById(groupId, traitKey) {
     const self = this
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      // userId: this.authService.getUserId(),
+      // streamId: this.selectedApp._id,
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
       traitGroupId: groupId,
     }
     this.service.invoke('get.traitGroupById', quaryparms).subscribe(res => {
@@ -837,5 +864,13 @@ var width = ctx.measureText(t.traitName +', ').width;
       event.preventDefault();
     }
     this.showEditTraitInput=index;
+  }
+
+  ngOnDestroy() {
+    const self = this;
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    
   }
 }
