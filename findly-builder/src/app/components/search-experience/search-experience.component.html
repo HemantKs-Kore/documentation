@@ -3,13 +3,13 @@
     <div class="header-title">Search Interface</div>
     <div class="tabs-sec">
         <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
+            <li class="nav-item" (click)="selectedTab='experience'">
               <a class="nav-link" [ngClass]="{'active':selectedTab==='experience'}" data-toggle="tab"><span class="active-steps" [ngStyle]="show_tab_color?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">1</span><span class="name">Experience</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" (click)="selectedTab='searchwidget'">
               <a class="nav-link" [ngClass]="{'active':selectedTab==='searchwidget'}" data-toggle="tab"><span class="active-steps" [ngStyle]="show_tab_color1?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">2</span><span class="name">Search Widget</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" (click)="selectedTab='interactions'">
               <a class="nav-link" [ngClass]="{'active':selectedTab==='interactions'}" data-toggle="tab" ><span class="active-steps" [ngStyle]="show_tab_color2?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">3</span><span class="name">Interactions</span></a>
             </li>
         </ul>
