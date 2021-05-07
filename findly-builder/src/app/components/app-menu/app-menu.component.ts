@@ -389,7 +389,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     const payload = { "features": ["ingestDocs", "searchQueries"] };
     this.service.invoke('post.usageData', queryParms, payload).subscribe(
       res => {
-        this.usageDetails = { ingestDocs: res.ingestDocs.percentageUsed, searchQueries: res.searchQueries.percentageUsed };
+        let docs = Number.isInteger(res.ingestDocs.percentageUsed) ? (res.ingestDocs.percentageUsed) : (res.ingestDocs.percentageUsed).toFixed(2);
+        let queries = Number.isInteger(res.searchQueries.percentageUsed) ? (res.searchQueries.percentageUsed) : (res.searchQueries.percentageUsed).toFixed(2);
+        this.usageDetails = { ingestDocs: docs, searchQueries: queries };
 
       },
       errRes => {

@@ -18,9 +18,9 @@
                   <div class="dropdown dropdown-open">
                       <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/pricing/overflow.svg"></button>                                            
                       <ul class="dropdown-menu content-menu" *ngIf="currentSubscriptionPlan">                                                                    
-                        <li (click)="addOverage()" [ngClass]="{'disabled': currentSubscriptionPlan.subscription.planName=='Free'}"><a>Add Overage</a></li>
+                        <li (click)="addOverage()" [hidden]="currentSubscriptionPlan.subscription.planName=='Free'"><a>Add Overage</a></li>
                         <li (click)="compare('choosePlans',currentSubscriptionPlan.subscription)"><a>Change Plan</a></li>
-                        <li (click)="openPopup5()" [ngClass]="{'disabled': currentSubscriptionPlan.subscription.planName=='Free'}"><a>Cancel Subscription</a></li>
+                        <li (click)="openPopup5()" [hidden]="currentSubscriptionPlan.subscription.planName=='Free'"><a>Cancel Subscription</a></li>
                       </ul>
                     </div>
                 </div>

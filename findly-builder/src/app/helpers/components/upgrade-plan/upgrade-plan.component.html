@@ -51,14 +51,13 @@
             <div class="body-table-plan row" *ngFor="let feature of listPlanFeaturesData[0]">
               <div class="title width-24 pl-4">{{feature[1].name}} <img src="assets/icons/pricing/info.svg"></div>
               <div class="title width-19" *ngIf="feature[1].fullDisplayText!=undefined">{{feature[1].fullDisplayText}}</div>
-              <div class="title width-19" *ngIf="feature[2].fullDisplayText!=undefined">{{feature[2].fullDisplayText}}</div>
+             <div class="title width-19" *ngIf="feature[2].fullDisplayText!=undefined">{{feature[2].fullDisplayText}}</div>
               <div class="title width-19" *ngIf="feature[3].fullDisplayText!=undefined">{{feature[3].fullDisplayText}}</div>
               <div class="title width-19" *ngIf="feature[4].fullDisplayText!=undefined">{{feature[4].fullDisplayText}}</div>
               <div class="title width-19" *ngIf="feature[1].fullDisplayText==undefined&&feature[1].featureActive==true"><img src="assets/icons/pricing/check.svg"></div>
               <div class="title width-19" *ngIf="feature[2].fullDisplayText==undefined&&feature[2].featureActive==true"><img src="assets/icons/pricing/check.svg"></div>
               <div class="title width-19" *ngIf="feature[3].fullDisplayText==undefined&&feature[3].featureActive==true"><img src="assets/icons/pricing/check.svg"></div>
               <div class="title width-19" *ngIf="feature[4].fullDisplayText==undefined&&feature[4].featureActive==true"><img src="assets/icons/pricing/check.svg"></div>
-
             </div>
         </div>
         </div>

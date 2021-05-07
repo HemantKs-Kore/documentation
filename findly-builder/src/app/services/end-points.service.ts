@@ -136,7 +136,7 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/jobs/:jobId/status',
       method: 'put'
     }
-    
+
     this.serviceList['put.EditConfig'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/webdomain/:webdomainId',
       method: 'put'
@@ -967,6 +967,10 @@ export class EndPointsService {
     this.serviceList['put.planChange'] = {
       endpoint: this.API_SERVER_URL + '/findly/plans/change',
       method: 'put'
+    }
+    this.serviceList['get.lastActiveSubscription'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/lastactive',
+      method: 'get'
     }
   }
 }
