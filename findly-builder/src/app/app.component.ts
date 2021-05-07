@@ -370,7 +370,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.distroySearch();
     this.clearBodyClasses();
     this.searchInstance = new FindlySDK(findlyConfig);
-    this.searchInstance.showSearch(findlyConfig.botOptions, this.searchExperienceConfig);
+    this.searchInstance.showSearch(findlyConfig.botOptions, this.searchExperienceConfig, true);
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
 
   }
