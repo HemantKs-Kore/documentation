@@ -790,9 +790,10 @@ var valueList2 = totaldata.map(function (item) {
       //console.log(this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData))
       this.mostUsedDev_bro_geo_sen.forEach(element => {
         y_axis.forEach(y => {
-          let name = this.toCapitalize(element.name) ||'';
+          let name = element.name ? this.toCapitalize(element.name) : '';
           if(y == name){
             y = name ||'';
+            element.name = name;
             graphData.push(element.percentOfUsers);
           }else{
             graphData.push('')

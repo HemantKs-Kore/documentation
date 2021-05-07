@@ -71,7 +71,7 @@
                         <div class="tab_title" (click)="selectTab('approved')"  [ngClass]="{'active': (selectedtab === 'approved')}">Approved<span class="">({{faqSelectionObj.stats.approved || 0}})</span></div>
                     </div>
                     <div class="header-sec" *ngIf="faqSelectionObj.selectedCount == 0">
-                        <div class="kr-sg-checkbox"> 
+                        <div class="kr-sg-checkbox" [ngStyle]="{'visibility':loadingTab ? 'hidden':'visible'}"> 
                             <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="headerSelectAll()" [(ngModel)]="faqSelectionObj.selectAll" autocomplete="off">
                             <label for="selectAllFaqs" class="checkbox-custom-label"></label>
                         </div>                        
@@ -745,7 +745,7 @@
                     </header>
                     <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
                     <div class="content-body" *ngFor="let source of extractedResources | filter: [ searchSources, 'name']">
-                        <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name}}</div>
+                        <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name | titlecase}}</div>
                         <div class="col_ col-2">{{contentTypes[source.contentSource] | titlecase}}</div>
                         <div class="col_ col-3">
                             <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}

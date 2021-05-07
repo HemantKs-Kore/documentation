@@ -130,6 +130,13 @@ export class EndPointsService {
       // endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
       method: 'post'
     };
+
+    // cancel annotation
+    this.serviceList['put.cancelAnnotation'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/jobs/:jobId/status',
+      method: 'put'
+    }
+    
     this.serviceList['put.EditConfig'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/webdomain/:webdomainId',
       method: 'put'

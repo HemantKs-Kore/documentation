@@ -218,3 +218,12 @@ perfect-scrollbar .ps--active-y{
         }
     }
 }
+
+.kr-sg-input-text{
+    .kr-sg-input-search {
+        input.input-search.err-block{
+            background-color: rgb(255, 255, 255);
+            border-color: rgb(221, 54, 70);
+        }
+    }
+}

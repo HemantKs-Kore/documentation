@@ -14,7 +14,7 @@
             .nav-item{
                 margin-bottom: 0;
                 margin-right: 60px;
-                pointer-events: none;
+                cursor: pointer;
                 .nav-link{
                     padding: 0;
                     border: 0;
@@ -1402,4 +1402,10 @@
 }
 ::ng-deep .joyride-step__close{
     display: none;
+}
+.kr-sg-input-text{
+    input.input-text.err-block{
+        background-color: rgb(255, 255, 255);
+        border-color: rgb(221, 54, 70);
+    }
 }
