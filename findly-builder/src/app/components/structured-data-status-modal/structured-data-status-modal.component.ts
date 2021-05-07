@@ -52,6 +52,9 @@ export class StructuredDataStatusModalComponent implements OnInit {
           console.log(queuedDoc);
           this.docStatusObject = JSON.parse(JSON.stringify(queuedDoc));
           if(queuedDoc.status === 'FAILURE' || queuedDoc.status === 'SUCCESS'){
+            if(queuedDoc.status === 'SUCCESS'){
+              this.notificationService.notify('Imported Successfully', 'success');
+            }
             this.pollingSubscriber.unsubscribe();
           }
         } else {

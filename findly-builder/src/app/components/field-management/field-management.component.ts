@@ -51,6 +51,7 @@ export class FieldManagementComponent implements OnInit {
   filterTableSource = "all";
   firstFilter: any = { 'header': '', 'source': '' };
   componentType: string = 'indexing';
+  submitted : boolean = false;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   constructor(
     public workflowService: WorkflowService,
@@ -109,9 +110,11 @@ export class FieldManagementComponent implements OnInit {
         isIndexed: true
       }
     }
+    this.submitted = false;
     this.openModalPopup();
   }
   closeModalPopup() {
+    this.submitted = false;
     this.addFieldModalPopRef.close();
   }
   getFieldUsage(record) {
@@ -181,41 +184,53 @@ export class FieldManagementComponent implements OnInit {
       this.fetchingFieldUsage = false;
     });
   }
+  validateFilelds(){
+    if(this.newFieldObj && this.newFieldObj.fieldName.length){
+      this.submitted = false;
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
   addField() {
-    const temppayload: any = {
-      fieldName: this.newFieldObj.fieldName,
-      fieldDataType: this.newFieldObj.fieldDataType,
-      isMultiValued: this.newFieldObj.isMultiValued,
-      isRequired: this.newFieldObj.isRequired,
-      isStored: this.newFieldObj.isStored,
-      isIndexed: this.newFieldObj.isIndexed,
-    }
-    let payload: any = {
-      fields: []
-    }
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId,
-      fieldId: this.newFieldObj._id
-    };
-    let api = 'post.createField';
-    if (this.newFieldObj && this.newFieldObj._id) {
-      api = 'put.updateField'
-      payload = temppayload;
-    } else {
-      payload.fields.push(temppayload);
-    }
-    this.service.invoke(api, quaryparms, payload).subscribe(res => {
-      if (this.newFieldObj && this.newFieldObj._id) {
-        this.notificationService.notify('Updated Successfully', 'success');
-      } else {
-        this.notificationService.notify('Added Successfully', 'success');
+    this.submitted = true;
+    if(this.validateFilelds()){
+      const temppayload: any = {
+        fieldName: this.newFieldObj.fieldName,
+        fieldDataType: this.newFieldObj.fieldDataType,
+        isMultiValued: this.newFieldObj.isMultiValued,
+        isRequired: this.newFieldObj.isRequired,
+        isStored: this.newFieldObj.isStored,
+        isIndexed: this.newFieldObj.isIndexed,
       }
-      this.getFileds();
-      this.closeModalPopup();
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to create field');
-    });
+      let payload: any = {
+        fields: []
+      }
+      const quaryparms: any = {
+        searchIndexID: this.serachIndexId,
+        indexPipelineId: this.indexPipelineId,
+        fieldId: this.newFieldObj._id
+      };
+      let api = 'post.createField';
+      if (this.newFieldObj && this.newFieldObj._id) {
+        api = 'put.updateField'
+        payload = temppayload;
+      } else {
+        payload.fields.push(temppayload);
+      }
+      this.service.invoke(api, quaryparms, payload).subscribe(res => {
+        if (this.newFieldObj && this.newFieldObj._id) {
+          this.notificationService.notify('Updated Successfully', 'success');
+        } else {
+          this.notificationService.notify('Added Successfully', 'success');
+        }
+        this.getFileds();
+        this.closeModalPopup();
+      }, errRes => {
+        this.errorToaster(errRes, 'Failed to create field');
+      });
+    }
   }
   getFileds(offset?) {
     const quaryparms: any = {

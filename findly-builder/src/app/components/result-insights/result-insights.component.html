@@ -67,17 +67,17 @@
                         <!-- <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Positive_Feedback'| translate}}</span></div>-->
                         <!-- <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Negative_Feedback'| translate}}</span></div>  -->
                     </div>
-                    <div class="table_body row m-0" *ngFor="let result of resultsData | filter: [ searchSources , 'answer']">
+                    <div class="table_body row m-0" *ngFor="let result of resultsData | filter: [ searchSources , 'answer'];let i = index">
                         <div class="col-4 title d-flex align-items-center">
-                            <span class="img-sec"><img src="assets/icons/question-box.svg" *ngIf="result.answerType =='faq'"></span>
-                            <span class="img-sec"><img src="assets/icons/sidemenu/new-icons/page.svg" *ngIf="result.answerType =='page'"></span>
-                            <span class="img-sec"><img src="assets/icons/sidemenu/new-icons/actions.svg" *ngIf="result.answerType =='task'"></span>
+                            <span class="img-sec" *ngIf="result.answerType =='faq'"><img src="assets/icons/question-box.svg" ></span>
+                            <span class="img-sec" *ngIf="result.answerType =='page'"><img src="assets/icons/sidemenu/new-icons/page.svg" ></span>
+                            <span class="img-sec" *ngIf="result.answerType =='task'"><img src="assets/icons/sidemenu/new-icons/actions.svg" ></span>
                             <span class="results">{{result.answer}}</span>
                         </div>
-                        <div class="col-2 title">{{result.appearances}}</div>
-                        <div class="col-2 title">{{result.clicks}}</div>
-                        <div class="col-2 title">{{result.clickThroughRate | number : '1.2-2'}}%</div>
-                        <div class="col-2 title data-overview d-flex align-items-center justify-content-between">{{result.avgPosition | number : '1.2-2'}}
+                        <div class="col-2 title pl-3">{{result.appearances}}</div>
+                        <div class="col-2 title pl-3">{{result.clicks}}</div>
+                        <div class="col-2 title pl-3">{{result.clickThroughRate | number : '1.2-2'}}%</div>
+                        <div class="col-2 title data-overview d-flex align-items-center justify-content-between pl-3">{{result.avgPosition | number : '1.2-2'}}
                             <div class="view-query" (click)="openModalPopup(result)">
                                 <img src="assets/icons/view-query.svg">    
                                 <span>View Queries</span>                           
@@ -125,12 +125,12 @@
             <div class="table_body row m-0" *ngFor="let result of resultsSearchData">
                 <div class="col-4 title d-flex align-items-center">
                     <!-- <span class="img-sec"><img src="assets/icons/question-box.svg"></span> -->
-                    <span class="results">{{result.query}}</span>
+                    <span class="results pl-3">{{result.query}}</span>
                 </div>
-                <div class="col-2 title">{{result.appearances}}</div>
-                <div class="col-2 title">{{result.clicks}}</div>
-                <div class="col-2 title">{{result.clickThroughRate}}%</div>
-                <div class="col-2 title data-overview">{{result.avgPosition}}</div>
+                <div class="col-2 title pl-3">{{result.appearances}}</div>
+                <div class="col-2 title pl-3">{{result.clicks}}</div>
+                <div class="col-2 title pl-3">{{result.clickThroughRate}}%</div>
+                <div class="col-2 title data-overview pl-3">{{result.avgPosition}}</div>
                 <!-- <div class="col-1 title">{{result.positiveFeedback}}</div>                       
                 <div class="col-1 title">{{result.negativeFeedback}}</div> -->
             </div>                   

@@ -58,6 +58,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   synArrTemp: any[] = [];
   subscription: Subscription;
   componentType: string = 'configure';
+  submitted : boolean = false;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -145,33 +146,47 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   selectFilter(type) {
     this.selectedFilter = type;
   }
+  validateSynonyms(){
+    if(!this.newSynonymObj || (this.newSynonymObj.values && !this.newSynonymObj.values.length)){
+      return false;
+    }
+    else if((this.newSynonymObj.type === 'oneWaySynonym') && (!this.newSynonymObj.keyword)){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
   addNewSynonyms() {
-    const obj: any = {
-      type: this.newSynonymObj.type,
-      values: this.newSynonymObj.values
-    }
-    if (this.newSynonymObj.type === 'oneWaySynonym') {
-      if (!(this.newSynonymObj.values && this.newSynonymObj.values.length)) {
-        this.notificationService.notify('Synonyms cannot be empty', 'error');
-        return;
+    this.submitted = true;
+    if(this.validateSynonyms()){
+      const obj: any = {
+        type: this.newSynonymObj.type,
+        values: this.newSynonymObj.values
       }
-      if (!this.newSynonymObj.keyword) {
-        this.notificationService.notify('Please enter keyword', 'error');
-        return;
-      } else {
-        obj.keyword = this.newSynonymObj.keyword;
+      if (this.newSynonymObj.type === 'oneWaySynonym') {
+        if (!(this.newSynonymObj.values && this.newSynonymObj.values.length)) {
+          this.notificationService.notify('Synonyms cannot be empty', 'error');
+          return;
+        }
+        if (!this.newSynonymObj.keyword) {
+          this.notificationService.notify('Please enter keyword', 'error');
+          return;
+        } else {
+          obj.keyword = this.newSynonymObj.keyword;
+        }
       }
+      if (this.newSynonymObj.type === 'oneWaySynonym') {
+        this.filteroneWaySynonym = true;
+  
+      }
+      else if (this.newSynonymObj.type === 'synonym') {
+        this.filterSynonym = true;
+      }
+  
+      this.synonymData.push(obj);
+      this.addOrUpddate(this.synonymData);
     }
-    if (this.newSynonymObj.type === 'oneWaySynonym') {
-      this.filteroneWaySynonym = true;
-
-    }
-    else if (this.newSynonymObj.type === 'synonym') {
-      this.filterSynonym = true;
-    }
-
-    this.synonymData.push(obj);
-    this.addOrUpddate(this.synonymData);
   }
   synonymChanged() {
     this.newSynonymObj.values = [];
@@ -308,12 +323,14 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   }
   enableAddNewSynonymBtn() {
     this.currentEditIndex = -1;
+    this.submitted = false;
     if (!this.newSynonymObj.addNew) {
       this.newSynonymObj.type = 'synonym'
       this.newSynonymObj.addNew = true;
     }
   }
   cancleAddSynonyms() {
+    this.submitted = false;
     this.newSynonymObj.type = 'synonym'
     this.newSynonymObj.addNew = false;
     this.synonymChanged()
@@ -391,13 +408,13 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     const sortedData = data.sort((a, b) => {
       const isAsc = this.isAsc;
       switch (sort) {
-        case 'name': return this.compare(a.name, b.name , isAsc);
+        case 'name': return this.compare(a.values[0], b.values[0] , isAsc);
         case 'type': return this.compare(a.type, b.type, isAsc);
         
         default: return 0;
       }
     });
-    this.synonyms = sortedData;
+    this.synonymData = sortedData;
   }
   toggleSearch() {
     if (this.showSearch && this.synonymSearch) {
