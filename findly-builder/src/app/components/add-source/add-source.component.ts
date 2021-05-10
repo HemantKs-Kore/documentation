@@ -230,7 +230,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.workflowService.selectedApp()?.configuredBots[0]) {
       this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
     }
-    else if (this.workflowService.selectedApp()?.publishedBots[0]) {
+    else if (this.workflowService.selectedApp()?.publishedBots && this.workflowService.selectedApp()?.publishedBots[0]) {
       this.streamID = this.workflowService.selectedApp()?.publishedBots[0]?._id ?? null
     }
     else {
@@ -1149,7 +1149,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.workflowService.selectedApp()?.configuredBots[0] && this.workflowService.selectedApp()?.configuredBots[0]?._id) {
           this.workflowService.selectedApp().configuredBots[0]._id = null;
         }
-        else if (this.workflowService.selectedApp()?.publishedBots[0] && this.workflowService.selectedApp()?.publishedBots[0]?._id) {
+        else if (this.workflowService.selectedApp()?.publishedBots && this.workflowService.selectedApp()?.publishedBots[0] && this.workflowService.selectedApp()?.publishedBots[0]?._id) {
           this.workflowService.selectedApp().publishedBots[0]._id = null;
         }
 
