@@ -20,7 +20,7 @@ export class AppUrlsService {
   public getLoginRedirectURL(): string {
     const redirectedUrl = this.completeAppPath();
     // tslint:disable-next-line:max-line-length
-    return this.marketURL() + '/?return_to=' + redirectedUrl + '&showLogin=true&hideSSOButtons=true&hideResourcesPageLink=true';
+    return this.marketURL() + '/?return_to=' + redirectedUrl + '&showLogin=true&hideSSOButtons=true&hideResourcesPageLink=true&comingFromKey=isSearchAssist';
   }
   public redirectToLogin() {
     const redirectUrl = this.getLoginRedirectURL();
