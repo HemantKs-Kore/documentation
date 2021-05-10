@@ -4,18 +4,18 @@
     <span class="please-wait-message">Please Wait!</span>
   </div>
   <div *ngIf="loadingContent1">
-    <div class="header-sec row"  *ngIf='listOfExperiments.length>0'>
+    <div class="header-sec row"  *ngIf='listOfExperiments.length>0||filterExperiments.length>0'>
       <div class="col-6 left-sec p-0">
         <div class="tab-sec d-flex">
           <b>Experiments</b>
         </div>
       </div>
       <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
-        <div class="kr-sg-input-search m-0" [ngClass]="{ active: showSearch }" style="float: left" *ngIf="listOfExperiments.length>0">
+        <div class="kr-sg-input-search m-0" [ngClass]="{ active: showSearch }" style="float: left" *ngIf="listOfExperiments.length>0||filterExperiments.length>0">
           <input type="text" placeholder="Search" autocomplete="off" class="input-search" name="searchSources"
             placeholder="Search" id="fieldSearchId" [(ngModel)]="searchFields" />
         </div>
-        <div class="seach-block" (click)="toggleSearch()" *ngIf="listOfExperiments.length>0">
+        <div class="seach-block" (click)="toggleSearch()" *ngIf="listOfExperiments.length>0||filterExperiments.length>0">
           <img *ngIf="!showSearch" src="assets/icons/search.svg" /><img *ngIf="showSearch"
             src="assets/images/close.svg" />Search
         </div>
@@ -218,7 +218,7 @@
                     <div class="col-2 title" [class.leader_percent]="(expCol.searches > 0) && (expCol.leader)">
                       {{
                       expCol.ctr > 0
-                      ? (expCol.ctr| number : '2.0-0') + "%"
+                      ? expCol.toFixed(2) + "%"
                       : expCol.ctr
                       }}
                     </div>
@@ -232,18 +232,18 @@
           </div>
         </div>
       </div>
-      <!-- <div class="no-experiments">
-        <div class="desc">No search results found</div>
-      </div> -->
-      <!-- <div class="no-experiments" *ngIf="filterExperiments.length===0">
-        <img src="assets/icons/experiment/empty_experiments.svg" />
-        <div class="title">You haven't added any Experiment yet</div>
-        <div class="dec">
-          Fortunately , it is very easy to add one by clicking on the Add
-          experiments
+      
+      <ng-container>
+        <div class="upgrade-experience" [ngClass]='{"d-none":currentSubscriptionPlan.planName!="Free"}'>
+          <div class="img-block">
+            <img src="assets/icons/pricing/upgrade-experience.svg">
+          </div>
+          <div class="title">Oops!! Experiements is not available in your current Plan</div>
+          <button class="kr-sg-button-primary btn_lg" (click)="upgrade()">Upgrade</button>
         </div>
-      </div> --> 
-      <ng-container *ngIf="filterExperiments.length===0">        
+      </ng-container>
+
+      <ng-container *ngIf="filterExperiments.length===0 && currentSubscriptionPlan.planName!='Free'">        
         <div  class="empty-landing-screen" >
           <div class="img-block"><img class="action_icon" src="assets/images/experiments-empty.svg" (load)="imageLoaded()"></div>
           <ng-container *ngIf="loadImageText">
@@ -251,7 +251,7 @@
               <div class="desc-text">Experiments is the best way to test multiple search configuration variants and pick the best one that fulfills business needs. SearchAssist allows you to create experiments with two or more variants to continuously improve search relevance and user experience. 
               </div>
               <!-- <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                          -->
-                <button class="kr-sg-button-primary btn_lg px-3" (click)="addExperiment('add')">Add Experiments</button>                                            
+                <button class="kr-sg-button-primary btn_lg px-3" (click)="addExperiment('add')">Add Experiment</button>                                            
               <!-- </div> -->
           </ng-container>
         </div>    
@@ -287,31 +287,33 @@
       </div>
       <div class="row ml-0 mr-0 mb-3 col-12 p-0 pr-30">
         <div class="kr-sg-input-text col-8 pl-pr-5">
-          <div class="label-text">Name of Experiment</div>
-          <input type="text" autocomplete="off" placeholder="Enter Experiment Name" class="input-text"
+          <div class="label-text">Experiment Name</div>
+          <input type="text" autocomplete="off" id="enterName"placeholder="Enter Experiment Name" class="input-text"  (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')"
             [(ngModel)]="experimentObj.name" [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{
               disable_edit: exp_status !== 'configured' && form_type === 'edit'
-            }" />
+            }" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")?"#EFF0F1":"#ffffff","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}'/>
+            <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
         </div>
       </div>
 
       <div class="row ml-0 mr-0 mb-3 col-12 p-0 pr-30" *ngFor="let vari of variantsArray; let varIndex = index">
         <div class="kr-sg-input-text col-4 pl-pr-5 ifvariant"> 
           <div class="label-text">Variant Name</div>
-          <input type="text" autocomplete="off" #varName placeholder="Enter Variant Name" class="input-text"
-            [(ngModel)]="vari.name" (blur)="fetchVariant(varIndex, varName.value, 'name')"
+          <input type="text" autocomplete="off" #varName placeholder="Enter Variant Name" class="input-text"  id ="variantName{{varIndex}}"  (change)="inputChanged('variantName', varIndex)"
+            [(ngModel)]="vari.name" (blur)="fetchVariant(varIndex, varName.value, 'name'); inputChanged('variantName', varIndex)"
             [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{
               disable_edit: exp_status !== 'configured' && form_type === 'edit'
             }" />
           <span class="v-name" [style.background-color]="vari.color">{{
             vari.code
             }}</span>
+            <img id="infoWarning{{varIndex}}" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
         </div>
         <div class="kr-sg-dropdowns col-4 pl-pr-5">
           <div class="label-text">Index</div>
           <div class="dropdown dropdown-open">
-            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
-              [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngStyle]='{"background-color":exp_status !== "configured" && form_type === "edit"?"#EFF0F1":"#ffffff","color":vari.indexPipelineName==undefined?"#9aa0a6":"#202124"}'>
+            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" id="indexPipelineName{{varIndex}}"     
+              [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")?"#EFF0F1":"#ffffff","color":(vari.indexPipelineName==undefined)||(exp_status !== "configured" && form_type === "edit")?"#9aa0a6":"#202124","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}'>
               {{
               vari.indexPipelineName === undefined
               ? varIndex===0? "Default Index":"Select Index"
@@ -328,11 +330,11 @@
         <div class="kr-sg-dropdowns col-4 pl-pr-5">
           <div class="label-text">Search Configuration</div>
           <div class="dropdown dropdown-open">
-            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
-              [disabled]="(exp_status !== 'configured' && form_type === 'edit')||vari.indexPipelineName==undefined" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")||vari.indexPipelineName==undefined?"#EFF0F1":"#ffffff","color":vari.queryPipelineName==undefined?"#9aa0a6":"#202124"}'>
+            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" id="queryPipelineName{{varIndex}}"  
+              [disabled]="(exp_status !== 'configured' && form_type === 'edit')||vari.indexPipelineName==undefined" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")||vari.indexPipelineName==undefined?"#EFF0F1":"#ffffff","color":(vari.indexPipelineName==undefined)||(exp_status !== "configured" && form_type === "edit")?"#9aa0a6":"#202124","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}'>
               {{
               vari.queryPipelineName === undefined
-              ? varIndex===0? "Default Search":"Select Configuration"
+              ? varIndex===0? "Default Search":"Select Search Configuration"
               : vari.queryPipelineName
               }}
             </button>
@@ -374,14 +376,14 @@
       <div class="duration-sec">
         <div class="kr-sg-input-text">
           <div class="label-text">Duration</div>
-          <input type="number" autocomplete="off" class="input-text text-center" min="0" max="90"
-            [(ngModel)]="experimentObj?.duration.days" [disabled]="exp_status !== 'configured' && form_type === 'edit'"[ngClass]="{disable_edit: exp_status !== 'configured' && form_type === 'edit'}" />
+          <input type="number" autocomplete="off" class="input-text text-center" min="30" max="90"
+            [(ngModel)]="experimentObj?.duration.days" [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")?"#EFF0F1":"#ffffff","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}' />
           <img src="assets/icons/minus.svg" class="minus" [hidden]="exp_status !== 'configured' && form_type === 'edit'"
             (click)="
               experimentObj?.duration.days =
                 experimentObj?.duration.days >= 1
                   ? experimentObj?.duration.days - 1
-                  : 0
+                  : 30
             " />
           <img src="assets/icons/plus_gray.svg" class="plus"
             [hidden]="exp_status !== 'configured' && form_type === 'edit'" (click)="
@@ -396,10 +398,11 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-left">
-    <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="createExperiment()" [disabled]="
-        !experimentObj.name ||
-        (exp_status !== 'configured' && form_type === 'edit') || (variantsArray.length < 2) || (experimentObj?.duration.days < 1)
-      ">
+    <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="validateSource()" [disabled]="(exp_status !== 'configured' && form_type === 'edit')"> 
+   <!-- [disabled]="
+   !experimentObj.name ||
+          (exp_status !== 'configured' && form_type === 'edit') || (variantsArray.length < 2) || (experimentObj?.duration.days < 1)
+        " -->
      Add
     </button>
     <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">
@@ -407,3 +410,6 @@
     </button>
   </div>
 </kr-modal>
+
+<!-- upgrade plan component-->
+<app-upgrade-plan #plans></app-upgrade-plan>

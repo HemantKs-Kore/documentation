@@ -112,8 +112,8 @@
             .kr-sg-input-search{
                 display: inline-block;
                 width: 0px;
-                display: none;  
-                width: 300px;
+                // display: none;  
+                width: 215px;
                 height: 20px;
                 position: relative;
                 bottom: 6px;
@@ -121,6 +121,18 @@
                 &.active{
                     display: block;
                     width: 300px;
+                }
+                 .close-icon{
+                    position: absolute;
+                    right: 11px;
+                    top: 12px;
+                    cursor: pointer;
+                }
+                .check-icon{
+                    position: absolute;
+                    right: 42px;
+                    top: 12px;
+                    cursor: pointer;
                 }
             } 
             .seach-block{
@@ -300,151 +312,216 @@
     height: calc(100vh - 62px);
 }
 
-.kr-modal.addTraitModalComponent {
-    .modal-dialog {
-        height: 100%;
-        .action {
-            margin-top: 10px;
+
+.kr-modal.add-Trait-Modal-Component{
+    .modal-body{
+        padding: 20px 30px !important;
+        .label-text{
+            color: #202124;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 15px;
+            margin-bottom: 6px;
         }
-        .modal-content {
-            .modal-header {
-                font-size: 20px;
+        .trait-group-name{
+            width: 586px;
+            margin-bottom: 15px;
+            .eg-text{
+                color: #5F6368;
                 font-weight: normal;
-                line-height: 1;
-                display: inline-block;
-                background-color: #fff;
-                height: 69px;
-                border-bottom: 1px solid #bdc1c6;
-                padding: 26px 30px;
-                .header-title {
-                    color: #202124;
-                    font-size: 14px;
-                    .closeCross {
-                        position: absolute;
-                        right: 30px;
-                        background: #fff;
-                        display: inline-block;
-                        width: 30px;
-                        height: 30px;
-                        top: 20px;
-                        border-radius: 50%;
-                        padding: 8px;
-                        cursor: pointer;
-                        &:hover {
-                            background: #f8f9fa;
-                        }
-                    }
-                }
-            }
-            .traits-modal-scroller {
-                height: calc(100vh - 128px);
-                .ps__rail-x{
-                    display: none !important;
-                }
-            }
-            .modal-body {
-                padding: 25px 30px;
-                .kr-sg-input-text {
-                    margin-bottom: 25px;
-                    .label-text {
-                        color: #202124;
-                        font-size: 14px;
-                        font-weight: 500;
-                    }
-                    .text {
-                        color: #202124;
-                        font-size: 12px;
-                        margin-bottom: 5px;
-                    }
-                }
-                .traits-group {
-                    .traits-header {
-                        height: 34px;
-                        border-radius: 2px;
-                        box-shadow: 0 1.5px 1px 0 rgba(38, 52, 74, 0.2);
-                        border: solid 1px #E4E5E7;
-                        line-height: 28px;
-                        background-color: #fff;
-                        padding: 0 15px;
-                        cursor: pointer;
-                        position: relative;
-                        .icon {
-                            margin-right: 10px;
-                            position: relative;
-                            .expanded{
-                                -ms-transform: rotate(90deg); /* IE 9 */
-                                 transform: rotate(90deg); /* Standard syntax */
-                            }
-                        }
-                        .title {
-                            display: inline-block;
-                            color: #202124;
-                        }
-                        .edit-icon {
-                            display: none;
-                            &:hover {
-                                display: block;
-                            }
-                        }
-                        .delete-icon {
-                            opacity: 0.5;
-                            float: right;
-                            position: absolute;
-                            right: 10px;
-                            top: 1px;
-                            cursor: pointer;
-                        }
-                    }
-                    .add-utterances {
-                        border-radius: 2px;
-                        box-shadow: 0 2px 4px 0 rgba(38, 52, 74, 0.1);
-                        border: solid 1px #E4E5E7;
-                        background-color: #EFF0F1;
-                        padding: 15px;
-                        min-height: 95px;
-                        height: auto !important;
-                        margin-bottom: 10px;
-                        .sub-title {
-                            font-size: 12px;
-                            font-weight: bold;
-                            color: #202124;
-                        }
-                        .utterance-list {
-                            .item {
-                                position: relative;
-                                margin-bottom: 5px;
-                                width: 100%;
-                                border: 1px solid #E4E5E7;
-                                background: #fff;
-                                border-radius: 3px;
-                                z-index: 0;
-                                min-height: 30px;
-                                margin-top: 2px;
-                                padding: 5px 10px;
-                                clear: both;
-                            }
-                            .delete-icon {
-                                position: absolute;
-                                right: 10px;
-                                cursor: pointer;
-                                &:hover {
-                                    display: inline-block;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            .modal-footer {
-                background-color: #fff;
-                height: 60px;
-                border-top: 1px solid #bdc1c6;
-                justify-content: left !important;
-                padding-left: 30px;
-                display: block;
-            
+                font-size: 12px;
+                line-height: 20px;
+                margin-top: 5px;
             }
         }
+        .add-traits-input{
+            margin-bottom: 20px;
+            .input-text{
+                background: #FFFFFF;
+                box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2);
+                height: 50px;
+                border: 0 !important;
+                border-radius: 0;
+                color: #202124;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 17px;         
+                &::placeholder{
+                    color: #BDC1C6 !important;
+                }
+            }
+            .input-h-40{
+                height: 40px !important;
+            }
+        }
+        .content-body-traits{
+            padding: 5px 0;
+            min-height: 50px;
+            background: #FFFFFF;
+            box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2);
+            align-items: center;
+            transition: 0.3s all ease-in;
+            margin: 0 0 1px 0;
+            &:hover{
+                background: #F8F9FA;
+                .action-btns{
+                    display: block;
+                }
+            }
+            .group-name{
+                color: #202124;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 17px;
+            }
+            .utterances-count{
+                color: #202124;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 17px;
+                padding-left: 23px;
+            }
+            .add-utt-title{
+                display: inline-flex;
+                align-items: center;
+                color: #0D6EFD;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 20px;
+                cursor: pointer;
+                img{
+                    margin-right: 12px;
+                }
+            }
+            .action-btns{
+                display: none;
+                text-align: right;
+                img{
+                    margin: 0 12px;
+                    cursor: pointer;
+                }
+            }
+            .add-traits-input{
+                margin-bottom: 0px;
+                .close-icon{
+                    position: absolute;
+                    right: 11px;
+                    top: 18px;
+                    cursor: pointer;
+                }
+                .check-icon{
+                    position: absolute;
+                    right: 42px;
+                    top: 17px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+.kr-modal.add-utterances-modal{
+    .modal-body{
+        padding: 20px 30px !important;
+        .label-text{
+            color: #202124;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 15px;
+            margin-bottom: 6px;
+        }      
+        .add-traits-input{
+            margin-bottom: 20px;
+            .input-text{
+                background: #FFFFFF;
+                box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2);
+                height: 50px;
+                border: 0 !important;
+                border-radius: 0;
+                color: #202124;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 17px;         
+                &::placeholder{
+                    color: #BDC1C6 !important;
+                }
+            }
+            .input-h-40{
+                height: 40px !important;
+            }
+            .close-icon{
+                position: absolute;
+                right: 11px;
+                top: 17px;
+                cursor: pointer;
+            }
+            .check-icon{
+                position: absolute;
+                right: 42px;
+                top: 17px;
+                cursor: pointer;
+            }
+        }  
+        
+        .content-body-traits{
+            padding: 5px 0;
+            min-height: 50px;
+            background: #FFFFFF;
+            box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2);
+            align-items: center;
+            transition: 0.3s all ease-in;
+            margin: 0 0 1px 0;
+            &:hover{
+                background: #F8F9FA;
+                .action-btns{
+                    display: block;
+                }
+            }
+            .group-name{
+                color: #202124;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 17px;
+            }                      
+            .action-btns{
+                display: none;
+                text-align: right;
+                img{
+                    margin: 0 12px;
+                    cursor: pointer;
+                }
+            }
+            .add-traits-input{
+                margin-bottom: 0px;
+                .close-icon{
+                    position: absolute;
+                    right: 11px;
+                    top: 18px;
+                    cursor: pointer;
+                }
+                .check-icon{
+                    position: absolute;
+                    right: 42px;
+                    top: 17px;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .add-utt-title{
+            display: inline-flex;
+            align-items: center;
+            color: #0D6EFD;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 20px;
+            cursor: pointer;
+            margin: 20px 0;
+            img{
+                margin-right: 12px;
+            }
+        }
+
     }
 }
 

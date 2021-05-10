@@ -52,7 +52,7 @@
             </div>
           </div>
         </ng-container>
-        <ng-container *ngIf="pipeline && pipeline.length && !showNewStageType">
+        <ng-container *ngIf="pipeline && pipeline.length">
           <div cdkDropList (cdkDropListDropped)="drop($event, pipeline)">
             <div (click)="selectStage(pipe, i)" class="field_data" *ngFor="let pipe of pipeline; let i = index" cdkDrag
               [ngClass]="{
@@ -68,7 +68,7 @@
                 allRunningActive: simulteObj && i < simulteObj.totalStages
               }">
               <div class="field_data" *cdkDragPreview>
-                <div class="title text-truncate">{{ pipe?.name }}</div>
+                <div class="title text-truncate"></div>
               </div>
               <div class="drag_drop_icon">
                 <img src="assets/icons/drog_drop.svg" />
@@ -110,7 +110,7 @@
                   {{
                   (selectedStage.type
                   ? selectedStage.type
-                  : "choose_an_option"
+                  : "choose_stage_type"
                   ) | translate
                   }}
                 </button>
@@ -146,7 +146,7 @@
                   {{
                   (selectedStage.type
                   ? selectedStage.type
-                  : "choose_an_option"
+                  : "choose_stage_type"
                   ) | translate
                   }}
                 </button>
@@ -193,10 +193,10 @@
             </div>
             <input type="text" placeholder="Define Condition" (keyup)="changesDetected = true" autocomplete="off"
               class="input-text" [(ngModel)]="selectedStage.condition" />
-              <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div>
+              <!-- <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div> -->
           </div>
           <div class="add-condition-example-text">Eg: ctx.contentType=="faq"</div>
-          <div class="add-condition-info">
+          <div class="add-condition-info" *ngIf="selectedStage.type === 'exclude_document'">
             <img src="assets/icons/Info_blue.svg">It is mandatory to add conditions for defining the Exclude Document stage.
           </div>
 
@@ -211,7 +211,7 @@
             <div cdkDropList (cdkDropListDropped)="drop($event, selectedStage.config.mappings)">
               <div class="row m-0 form_list" *ngFor="let map of selectedStage.config.mappings; let i = index" cdkDrag>
                 <div *cdkDragPreview class="drag_drop">
-                  <img src="assets/icons/drog_drop.svg" />{{ map.target_field }}
+                  
                 </div>
                 <div class="drag_drop">
                   <img src="assets/icons/drog_drop.svg" />
@@ -450,7 +450,7 @@
               <div class="row m-0 form_list form_list_drag"
                 *ngFor="let map of selectedStage.config.mappings; let i = index" cdkDrag>
                 <div *cdkDragPreview class="drag_drop">
-                  <img src="assets/icons/drog_drop.svg" />{{ map.target_field }}
+                
                 </div>
                 <div class="drag_drop">
                   <img src="assets/icons/drog_drop.svg" />
@@ -740,18 +740,14 @@
         </div>
       </perfect-scrollbar>
       <div class="footer-simulate-form simulatebtnContainer">
-        <span class="float-right mr-5"><button class="kr-sg-button-primary btn_lg" id="simulateBtn" (click)="simulate()"
+        <span class="float-right"><button class="kr-sg-button-primary btn_lg mr-0" id="simulateBtn" (click)="simulate()" placement="top-right"
             tooltipClass="workbench_tolltips m-0" [disabled]="simulteObj.simulating"
-            ngbTooltip="Test the field transformations before saving the configuration">
+            ngbTooltip="Simulate to check how the changes reflect in the documents before saving">
             <img src="assets/images/simulate.svg" class="mr-1" />{{
             simulteObj.simulating ? "Simulating.." : "Simulate"
             }}
           </button> 
-          <span class="mr-2" placement="top-right" ngbTooltip="Simulate to check how the changes reflect in the documents before saving" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"> <img class="mr-5" src="assets/icons/help_gray.svg"/></span></span>
-        <button class="kr-sg-button-secondary btn_lg float-right" id="cancleUnsavedChanges"
-          [disabled]="!changesDetected" (click)="clearDirtyObj(true)">
-          Cancel
-        </button>
+        </span>
       </div>
     </div> 
   </div>
@@ -768,14 +764,15 @@
         <div class="dropdown dropdown-open">
           <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
             {{
-            (simulteObj.sourceType
-            ? (simulteObj.sourceType == 'faq'? 'FAQs': (simulteObj.sourceType =='object'?'Structure Data':simulteObj.sourceType))
-            : "choose_an_option"
-            ) | translate
-            }}
+              (simulteObj.sourceType
+              ? (simulteObj.sourceType == 'faq'? 'FAQs': (simulteObj.sourceType =='object'?'Structure Data':(simulteObj.sourceType =='all'?'All':simulteObj.sourceType)))
+              : "choose_an_option"
+              ) | translate
+              }}
           </button>
           <ul class="dropdown-menu content-menu">
             <!-- <li (click)="changeSimulate('page', 'source')"><a>Page</a></li> -->
+            <li (click)="changeSimulate('all', 'source')"><a>All</a></li>
             <li (click)="changeSimulate('faq', 'source')"><a>FAQs</a></li>
             <li (click)="changeSimulate('content', 'source')">
               <a>Content</a>

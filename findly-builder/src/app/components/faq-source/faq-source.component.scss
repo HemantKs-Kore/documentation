@@ -251,15 +251,7 @@
                         button{
                             font-size: 14px;
                             margin-left: 7px;
-                            color: #FFFFFF;
-                            &.kr-sg-button-primary{
-                                background: #0D6EFD;
-                                border-radius: 4px;
-                            }
-                            &.kr-sg-button-secondary{
-                                background: #DD3646;
-                                border-radius: 4px;
-                            }
+                        
                         }
                     }
                     .body-content{
@@ -278,7 +270,8 @@
                             text-align: center;
                             margin: 5px;
                             padding: 10px;
-                            pointer-events: none;
+                            // pointer-events: none;
+                            cursor: pointer;
                         }
                         .accordion-content{   
                             .card-content{
@@ -594,6 +587,31 @@
                             .add {
                                 margin-left: 5px;
                                 width: 24px;
+                                &.elipse-action-dropdown{
+                                    height: 34px;
+                                    width: 34px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    border-radius: 4px;
+                                    .linked-task-status-control{
+                                        width: 34px;
+                                        text-align: center;
+                                        height: 34px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        cursor: pointer;
+                                    }
+                                    &:hover{
+                                        background: #fff;
+                                        border: 1px solid #BDC1C6;
+                                    }
+                                    &.show{
+                                        background: #fff;
+                                        border: 1px solid #BDC1C6;
+                                    }
+                                }
                                 .dropdown{
                                     .dropdown-input{
                                         padding: 0;                                        
@@ -601,6 +619,9 @@
                                         border-radius: 4px;
                                         border: 1px solid #BDC1C6;
                                         &::before{
+                                            display: none;
+                                        }
+                                        &::after{
                                             display: none;
                                         }
                                     }

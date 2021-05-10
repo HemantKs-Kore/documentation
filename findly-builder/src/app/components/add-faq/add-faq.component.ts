@@ -128,6 +128,10 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   defaultAnsInterface:any =  {
     answerType:'default', // default/conditional
     responseType: 'default',
+    multimedia: {
+      type: '',
+      url: ''
+    },
     payload: '',
     conditions:[],
     type: 'string',
@@ -195,6 +199,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
         question: ['', Validators.required],
         botResponse: ['', Validators.required]
       });
+      this.addAnotherResponse('default');
     }
     this.altAddSub = this.faqServiceAlt.addAltQues.subscribe(params => {
       this.isAdd = false;
@@ -421,6 +426,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     if(faqdata){
       if(faqdata && faqdata._source && faqdata._source.defaultAnswers && faqdata._source.defaultAnswers.length){
         $.each(faqdata._source.defaultAnswers,(i,answer)=>{
+
             const answerObj:any = {
               type: answer.type,
               payload:answer.payload,
@@ -500,14 +506,22 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
           if(answer.type === 'javascript' && answer.payload){
             answerObj.payload = JSON.stringify(answer.payload);
           }
-          if(answer && answer.image && answer.image.url){
+          if(answer.multimedia && answer.multimedia.url){
             answerObj.multimedia = {
-              type:'image',
-              url:answer.image.url,
-              // position:'horizontalSplit'
-              position: answer.responseType
-            }
+                  type:'image',
+                  url:answer.multimedia.url,
+                  // position:'horizontalSplit'
+                  // position: answer.responseType
+                }
           }
+          // if(answer && answer.image && answer.image.url){
+          //   answerObj.multimedia = {
+          //     type:'image',
+          //     url:answer.image.url,
+          //     // position:'horizontalSplit'
+          //     position: answer.responseType
+          //   }
+          // }
           defaultAnswers.push(answerObj);
         }
         if(answer.answerType === 'condition'){
@@ -661,6 +675,12 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   //   this.createImagePopRef.close();
   //  }
    addImage(){
+    // this.imgInfo && this.imgInfo.url ? this.defaultAnsInterface.multimedia.url = this.imgInfo.url : ''
+    this.faqResponse.defaultAnswers.forEach((element,index) => {
+      if( this.faqResponse.defaultAnswers.length - 1 == index){
+        element.multimedia.url =  this.imgInfo && this.imgInfo.url ? this.imgInfo.url : ''
+      }
+    });
     this.image = JSON.parse(JSON.stringify(this.imgInfo));
     this.selectedResponseToEdit = this.imgInfo;
     // this.closeImgApp();

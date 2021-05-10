@@ -59,6 +59,10 @@
                             display: block;                      
                         }                       
                     }
+                    &.disabled{
+                        cursor: default;
+                        opacity: 0.5;
+                    }
                 }
             }           
         }
@@ -118,7 +122,11 @@
                         .drop-enable{
                             border: solid 1px;
                             background: #ffffff;
+                            color: #202124;
                         }
+                    }
+                    .dropdown-menu.content-menu .active{
+                        font-weight: 600;
                     }
                 }
                 .group-radiobutton{
@@ -321,7 +329,7 @@
                                 }
                             }
                             &.list-template-2{
-                                background: #FFFFFF;
+                                // background: #FFFFFF; // FLY-2012 for List-template-2 css coming white space
                                 border: 1px solid #E7F1FF;
                                 border-radius: 4px;
                                 box-shadow: none;
@@ -693,4 +701,13 @@
 }
 .w-400{
     width: 400px;
+}
+
+.kr-sg-dropdowns{
+    .kr-sg-input-inline-search {
+        input.input-search.err-block{
+            background-color: rgb(255, 255, 255);
+            border-color: rgb(221, 54, 70);
+        }
+    }
 }

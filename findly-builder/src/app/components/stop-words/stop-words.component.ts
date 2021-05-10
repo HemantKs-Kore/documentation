@@ -19,6 +19,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   searchStopwords: any = '';
   newStopWord: any = '';
   showSearch = false;
+  checkStopwords =false;
   enabled = false;
   validation: any = {
     duplicate: false,
@@ -35,6 +36,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   showAddStopWordsContainer: boolean = false;
   subscription: Subscription;
   componentType: string = 'configure';
+  submitted : boolean = false;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -74,6 +76,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   }
   createInit() {
     if (this.stopWordsIntiType === 'default') {
+      this.checkStopwords = true
+      this.notificationService.notify('Added Successfully', 'success')
       this.restore();
     } else {
       this.createFromScratch = true;
@@ -195,7 +199,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
             }
             if (!(this.stopwords && this.stopwords.length) && !dialogRef) {
               this.notificationService.notify('No default stop words available', 'error');
-            } else {
+            } else  {
+              this.checkStopwords = false;
               this.notificationService.notify('Reset Successful', 'success');
               if (this.stopwords.length === 0) this.appSelectionService.updateTourConfig(this.componentType);
             }
@@ -220,10 +225,10 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       panelClass: 'delete-popup',
       data: {
         title: 'Restore Stop Words',
-        text: 'Are you sure you want to restore Stop Words?',
-        newTitle:'Are you sure you want to restore ?',
+        text: 'Are you sure you want to reset Stop Words?',
+        newTitle:'Are you sure you want to reset ?',
         body:'Stop words will be reset to system-defined values.',
-        buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Reset'}, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
     });
@@ -366,13 +371,28 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+
+  validateAddStopWord(){
+    if(!this.newStopWord || !this.newStopWord.length){
+      return false;
+    }
+    else{
+      this.submitted = false;
+      return true;
+    }
+  }
+
   addStopWord(event) {
-    const stopwords = (this.newStopWord || '').split(',');
-    this.stopwords = _.uniq(this.stopwords.concat(stopwords)).sort();
-    this.stopwords = _.filter(this.stopwords, (stopword) => {
-      return stopword !== '';
-    })
-    this.updateStopWords();
+    this.submitted = true;
+    if(this.validateAddStopWord()){
+      const stopwords = (this.newStopWord || '').split(',');
+      this.stopwords = _.uniq(this.stopwords.concat(stopwords)).sort();
+      this.stopwords = _.filter(this.stopwords, (stopword) => {
+        return stopword !== '';
+      })
+      this.updateStopWords();
+      this.submitted = false;
+    }
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;

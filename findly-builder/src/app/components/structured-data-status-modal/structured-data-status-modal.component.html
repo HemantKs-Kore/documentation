@@ -10,10 +10,10 @@
           <img src="assets/images/exclamationCircle-Red.svg">
         </div>
         <div class="message-success text-center" *ngIf="(docStatusObject.status==='IN_PROGRESS')">
-            {{'structuredData.configuratoin_progress' | translate}}
+            {{'structuredData.validation_progress' | translate}}
         </div>
         <div class="message-success text-center" *ngIf="(docStatusObject.status==='SUCCESS')">
-          {{'structuredData.configuratoin_success' | translate}}
+          {{'structuredData.validation_success' | translate}}
         </div>
         <div class="message-success text-center" *ngIf="(docStatusObject.status==='FAILURE' && (docStatusObject.validation && docStatusObject.validation.fileValidation))">
           {{'structuredData.configuration_failed' | translate}}

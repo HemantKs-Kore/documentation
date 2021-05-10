@@ -24,13 +24,15 @@ export class ActionsComponent implements OnInit {
   checkTopBottom=false;
   checkBottomTop=false;
   showTop = false;
+  loadingBotContent:boolean;
+  loadingBotContent1:boolean;
   showBottom = false
   topActionsTop = false;
   associatedBots: any = [];
   topActionsBottom : boolean;
   bottomActionsTop = false;
   bottomActionsBottom = false;
-  previewTopBottom:any;
+  previewTopBottom = 'top';
   linkedBotID: any;
   streamId: any;
   userInfo:any;
@@ -64,12 +66,15 @@ export class ActionsComponent implements OnInit {
     this.userInfo = this.authService.getUserInfo() || {};
     this.getAssociatedBots()
     // streamId: this.selectedApp._id
+    this.previewTopBottom = this.workflowService.topDownOrBottomUp
+    this.topDownOrBottomUp('showTop')
 
   }
  
   openActions(){
     this.router.navigate(['/botActions'], { skipLocationChange: true });
     this.headerService.updateShowHideSettingsMenu(false);
+    this.headerService.updateShowHideSourceMenu(true);
     // this.headerService.updateMainMenuInHeader('/settings');
 } 
   botLinkedOrUnlinked() {
@@ -91,26 +96,34 @@ export class ActionsComponent implements OnInit {
       this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
           let bots = JSON.parse(JSON.stringify(res))
           this.associatedBots =[];
-          bots.forEach(element => {
-            if (element.type == "default" || element.type == "universalbot") {
-              this.associatedBots.push(element)
+        bots.forEach(element => {
+          if (element.type == "default" || element.type == "universalbot") {
+            this.associatedBots.push(element)
+          }
+
+          if (this.streamId == element._id) {
+            if (this.loadingBotContent1 = true) {
+              // this.linkedBotID = element._id
+              // if(this.linkedBotID == element._id){
+              this.LinkABot = element._id
+              this.loadingBotContent = true
+              this.botLinked = true;
+              // }
             }
-              if (this.streamId == element._id) {
-                // this.linkedBotID = element._id
-                // if(this.linkedBotID == element._id){
-                  this.LinkABot = element._id
-                  this.botLinked = true; 
-                // }
-              }
-              else if(this.streamId == null){
-                this.LinkABot != element._id
-                this.botLinked = false; 
-              }
-          });
+          }
+
+          else if (this.streamId == null) {
+            if (this.loadingBotContent = true) {
+              this.LinkABot != element._id
+              this.botLinked = false;
+            }
+
+          }
+        });
       },
       )
+      }
     }
-  }
     topDownOrBottomUp(type) {
     if (this.previewTopBottom == "top") {
       this.bottomActionsTop = false;

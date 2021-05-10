@@ -46,6 +46,7 @@ export class TeamManagementComponent implements OnInit {
   members: any[] = [];
   allMembers: string[] = [];
   allMembersCount: number;
+  addOnBlur = true;
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
   @ViewChild('teamModalPouup') teamModalPouup: KRModalComponent;

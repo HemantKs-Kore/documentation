@@ -16,6 +16,8 @@ declare const $: any;
   styleUrls: ['./bot-action.component.scss']
 })
 export class BotActionComponent implements OnInit {
+  enableBtnDisable = false;
+  disableBtnDisable = false;
   loadingContent = true;
   selectedApp: any;
   searchIndexId: any;
@@ -35,6 +37,7 @@ export class BotActionComponent implements OnInit {
   // associatedBotArr = [];
   userInfo: any;
   botsModalRef: any;
+  searchAssociatedBots = '';
   @ViewChild('botsModalElement') botsModalElement: KRModalComponent;
   searchBots: string;
   searchSources: string;
@@ -92,7 +95,7 @@ export class BotActionComponent implements OnInit {
       }
       $('#selectAllTasks')[0].checked = false;
     }
-    const element = $('#' + task._id);
+    const element = $('#cx' + task._id);
     const addition =  element[0].checked
     this.addRemoveTasksFromSelection(task._id,addition);
   }
@@ -107,7 +110,7 @@ export class BotActionComponent implements OnInit {
       $.each(allTasks, (index,element) => {
         if($(element) && $(element).length){
           $(element)[0].checked = unselectAll?false: this.selcectionObj.selectAll;
-          const facetId = $(element)[0].id
+          const facetId = $(element)[0].name;
           this.addRemoveTasksFromSelection(facetId,$(element)[0].checked);
         }
       });
@@ -516,10 +519,11 @@ export class BotActionComponent implements OnInit {
         this.getAssociatedBots();
         this.workflowService.linkBot(botID);
         this.workflowService.smallTalkEnable(res.stEnabled);
-        this.notificationService.notify("Bot linked, successfully", 'success')
+        this.notificationService.notify("Bot Linked Successfully", 'success');
+        this.syncLinkedBot();
       },
         (err) => {
-           console.log(err); this.notificationService.notify("Bot linking, unsuccessful", 'error') 
+           console.log(err); this.notificationService.notify("Bot linking  Unsuccessful", 'error') 
         this.loadingContent = false;
 
       }
@@ -637,7 +641,7 @@ export class BotActionComponent implements OnInit {
 
     this.service.invoke('universal.publish', queryParams, payload).subscribe(
       res => {
-        this.notificationService.notify('Universal Published', 'success');
+        // this.notificationService.notify('Universal Published', 'success');
        // console.log(res);
       },
       errRes => {
@@ -681,7 +685,7 @@ export class BotActionComponent implements OnInit {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
-          this.notificationService.notify('Failed Standard Publish', 'error');
+          // this.notificationService.notify('Failed Standard Publish', 'error');
         }
       }
     );
@@ -716,7 +720,8 @@ export class BotActionComponent implements OnInit {
 
         //this.getAssociatedBots();
         //this.getAssociatedTasks(this.streamId);
-        this.notificationService.notify("Bot unlinked, successfully. Please publish to reflect", 'success');
+        this.notificationService.notify("Bot Unlinked Successfully.", 'success')
+        // this.notificationService.notify("Bot unlinked Successfully. Please publish to reflect", 'success');
         
       },
         (err) => { 
@@ -794,12 +799,13 @@ export class BotActionComponent implements OnInit {
         this.getAssociatedTasks(this.streamId);
         this.workflowService.linkBot('');
         this.syncLinkedBot();
+        this.notificationService.notify("Bot Unlinked Successfully.", 'success')
 
-        this.notificationService.notify("Bot unlinked, successfully. Please publish to reflect", 'success');
+        // this.notificationService.notify("Bot unlinked, successfully. Please publish to reflect", 'success');
         
       },
         (err) => { 
-          console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error'); 
+          console.log(err); this.notificationService.notify("Bot unlinking Successfully", 'error'); 
           this.loadingContent = false;
           //this.getAssociatedTasks(this.streamId);
         }
@@ -938,7 +944,8 @@ export class BotActionComponent implements OnInit {
             $("#enableOrDisable").prop('checked', true);
           }
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
-          this.notificationService.notify("Task Enabled, Successfully", 'success');
+          this.notificationService.notify("Task Enabled Successfully", 'success');
+          this.markCheckboxSelectedTasks();
         }
       },
         (err) => { this.notificationService.notify("Task Enabling Failed", 'error') });
@@ -1005,11 +1012,19 @@ export class BotActionComponent implements OnInit {
             }
           });
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
-          this.notificationService.notify("Task Enabled, Successfully", 'success');
-          this.selcectionObj = {
-            selectAll: false,
-            selectedItems:[]
-          };
+          this.notificationService.notify(this.linkedBotTasks.length == requestBody['tasks'].length ?"All the tasks are enabled":(requestBody['tasks'].length + " tasks are enabled"), 'success');
+          // this.selcectionObj = {
+          //   selectAll: false,
+          //   selectedItems:[]
+          // };
+          if(this.linkedBotTasks.length == requestBody['tasks'].length){
+            this.enableBtnDisable = true;
+            this.disableBtnDisable = false;
+          } else{
+            this.enableBtnDisable = false;
+            this.disableBtnDisable = false;
+          }
+          this.markCheckboxSelectedTasks();
         }
       },
         (err) => { this.notificationService.notify("Task Enabling Failed", 'error') });
@@ -1064,7 +1079,8 @@ export class BotActionComponent implements OnInit {
             $("#enableOrDisable").prop('checked', true);
           }
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
-          this.notificationService.notify("Task Disabled, Successfuly", 'success')
+          this.notificationService.notify("Task Disabled Successfuly", 'success');
+          this.markCheckboxSelectedTasks();
         }
       }, (err) => { this.notificationService.notify("Task Disabling Failed", 'error') })
     }
@@ -1124,16 +1140,35 @@ export class BotActionComponent implements OnInit {
               element.type = element.type ?? "Dialog";
               this.linkedBotTasks.push(element);
             }
+           
           });
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
-          this.notificationService.notify("Task Disabled, Successfuly", 'success')
-          this.selcectionObj = {
-            selectAll: false,
-            selectedItems:[]
-          };
+          this.notificationService.notify(this.linkedBotTasks.length == requestBody['tasks'].length ?'All the tasks are disabled':(requestBody['tasks'].length + " tasks are disabled"), 'success');
+          // this.selcectionObj = {
+          //   selectAll: false,
+          //   selectedItems:[]
+          // };
+          if(this.linkedBotTasks.length == requestBody['tasks'].length){
+            this.enableBtnDisable = false;
+            this.disableBtnDisable = true;
+          } else{
+            this.enableBtnDisable = false;
+            this.disableBtnDisable = false; 
+          }
+          this.markCheckboxSelectedTasks();
         }
       }, (err) => { this.notificationService.notify("Task Disabling Failed", 'error') })
     }
+  }
+  markCheckboxSelectedTasks(){
+  setTimeout(()=>{
+    this.linkedBotTasks.forEach(element => {
+    if(this.selcectionObj.selectedItems[element._id]){
+      $('#cx'+element._id)[0].checked = true;
+    }
+    });
+  },100)
+    
   }
   syncLinkedBot() {
     if (this.searchIndexId) {
@@ -1173,7 +1208,7 @@ export class BotActionComponent implements OnInit {
         else {
           this.linkedBotFAQs = [];
         }
-        this.notificationService.notify("Linked Bot Synced, Successfully", 'success')
+        //  this.notificationService.notify("Linked Bot Synced, Successfully", 'success')
       })
     }
   }

@@ -75,6 +75,7 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
   }
   //goto Routes
   gotoRoutes(step) {
+    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: step });
     if (step !== '/settings') {
       this.closeOnBoardingModal();
     }
@@ -82,7 +83,6 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
       this.appSelectionService.tourConfigCancel.next({ name: false, status: 'pending' });
     }
     //this.router.navigate([step], { skipLocationChange: true });
-    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: step });
   }
   //track checklist count and show count number
   trackChecklist() {
@@ -159,7 +159,7 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
     this.nextStep = nex == undefined ? 'undefined' : this.steps[parseInt(nex)];
   }
   ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.subscription1.unsubscribe();
+    this.subscription ? this.subscription.unsubscribe() : null;
+    this.subscription1 ? this.subscription1.unsubscribe() : null;
   }
 }

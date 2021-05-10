@@ -1,0 +1,520 @@
+::ng-deep .chooseplan-price{
+    .modal-dialog{
+        height: calc(100% - 40px) !important; 
+        width: 1116px;
+        max-width: 100% !important;
+        .modal-content{
+            background: #FFFFFF;
+            box-shadow: 0px 20px 40px rgb(32 33 36 / 20%);
+            border-radius: 4px !important;
+            .modal-header{
+                display: flex !important;
+                align-items: center;
+                justify-content: space-between;
+                .title{
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 17px;
+                    color: #202124;
+                }
+                .btn-monthly{
+                    color: #202124;
+                    font-weight: normal;
+                    font-size: 12px;
+                    line-height: 14px;
+                    text-align: center;
+                    padding: 6px;
+                    border-radius: 4px;
+                    margin-right: 9px;
+                    cursor: pointer;
+                    &.active-btn{
+                        background: #0D6EFD;
+                        color: #fff;
+                    }
+                }
+                .compare-plan{
+                    color: #0D6EFD;
+                    padding: 4px 0px 0px 13px;
+                    font-weight: 500;
+                    font-size: 12px;
+                    line-height: 14px;
+                    cursor: pointer;
+                    border-left: 1px solid #E4E5E7;
+                    height: 21px;
+                }
+            }
+            .modal-body{
+                padding: 0px 15px 10px 15px !important;
+                .mian-title-desc{
+                    color: #202124;
+                    font-weight: normal;
+                    font-size: 16px;
+                    line-height: 30px;
+                    background: #FFFFFF;
+                    box-shadow: 0px 1px 0px rgb(13 110 253 / 25%);
+                    padding: 15px 0;
+                    margin-bottom: 30px;
+                    margin: 10px 15px 30px 15px;
+                }
+                .upgrade-details-prices{
+                    margin: 30px 0 60px 0;                   
+                    .upgrade-price-card{
+                        &.current-plan{
+                            .main-content{
+                                .inner-content{
+                                    background: #EAF6EC !important;
+                                    border-radius: 6px;
+                                    .kr-sg-button-secondary{
+                                        display: none;
+                                    }
+                                }
+                                // .goto_details{
+                                //     display: block;
+                                // }
+                            }                            
+                        }
+                        .main-content{
+                            .inner-content{
+                                background: #FFFFFF;
+                                box-shadow: 0px 0px 4px rgb(13 110 253 / 20%);
+                                border-radius: 6px;
+                                padding: 18px 20px;
+                                height: 352px;
+                                position: relative;
+                                .standard-img{
+                                    position: absolute;
+                                    bottom: -25px;
+                                    right: -25px;
+                                }
+                                .pro-img{
+                                    position: absolute;
+                                    bottom: -25px;
+                                    right: -25px;
+                                }
+                                .enterprise-img{
+                                    position: absolute;
+                                    bottom: -25px;
+                                    right: -22px;
+                                }
+                                &:hover{
+                                    background: #F3F8FF;
+                                    box-shadow: 0px 0px 4px rgba(13, 110, 253, 0.2);
+                                    .kr-sg-button-secondary{
+                                        border: 1px solid transparent;
+                                        background: #0D6EFD;       
+                                        color: #fff;                 
+                                    }
+                                }
+                                .title-sec{
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                    margin-bottom: 28px;
+                                    .title{
+                                        display: inline-table;
+                                        color: #3C4043;
+                                        font-weight: 600;
+                                        font-size: 16px;
+                                        line-height: 20px;
+                                        border-bottom: 2px solid #FFDA2D;
+                                    }
+                                    .price{
+                                        color: #3C4043;
+                                        font-weight: normal;
+                                        font-size: 24px;
+                                        line-height: 20px;
+                                        span{
+                                            font-size: 12px;
+                                        }
+                                    }
+                                    .custom-title{
+                                        color: #202124;
+                                        font-weight: normal;
+                                        font-size: 18px;
+                                        line-height: 20px;
+                                    }
+                                    .current-plan-title{
+                                        color: #3C4043;
+                                        font-weight: normal;
+                                        font-size: 14px;
+                                        display: flex;
+                                        align-items: center;
+                                        img{
+                                            margin-right: 5px;
+                                        }
+                                    }
+                                }
+                                .card-desc{
+                                    color: #3C4043;
+                                    font-weight: normal;
+                                    font-size: 14px;
+                                    line-height: 17px;
+                                    padding: 10px 0 11px 0;
+                                }
+                                .custom-desc-text{
+                                    margin: 8px 0 0 0;
+                                    color: #3C4043;
+                                    font-weight: normal;
+                                    font-size: 14px;
+                                    line-height: 17px;
+                                    padding: 8px 0;
+                                    border-top: 1px solid #EFF0F1;
+                                }
+                                .kr-sg-button-secondary{
+                                    position: absolute;
+                                    bottom: 18px;                                
+                                }
+                            }
+                            .goto_details{
+                                color: #0D6EFD;
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 20px;
+                                padding: 10px 20px;
+                                display: none;
+                                cursor: pointer;
+                            }
+                            &:hover{
+                                .goto_details{
+                                    display: block;
+                                }
+                            }
+                        }                        
+                    }
+                }
+
+                .choose-plan-data-table{
+                    margin: 0 -15px;
+                    position: relative;
+                    &.if-free{
+                        &::before{
+                            left: calc(24% + 8px);
+                            border: 1px solid #0D6EFD;
+                        }
+                    }
+                    &.if-standard{
+                        &::before{
+                            left: calc(43% + 2px);
+                            border: 1px solid #0D6EFD;
+                        }
+                    }
+                    &.if-pro{
+                        &::before{
+                            left: calc(61% + 7px);
+                            border: 1px solid #0D6EFD;
+                        }
+                    }
+                    &.if-enterprise{
+                        &::before{
+                            left: calc(79% + 12px);
+                            border: 1px solid #0D6EFD;
+                        }
+                    }
+                    &::before{
+                        content: "";
+                        position: absolute;
+                        width: 207px;
+                        height: 100%;                        
+                        top: -5px;                        
+                        box-sizing: border-box;
+                        border-radius: 4px;
+                        z-index: 1;
+                    }
+                    .header-table-plan{
+                        padding: 25px 15px;
+                        background: #FFFFFF;
+                        box-shadow: 0px 4px 4px rgba(13, 110, 253, 0.1);
+                        position: sticky;
+                        .type-title{
+                            padding: 0 10px;
+                            text-align: center;
+                            &.width-19{
+                                width: 19%;
+                            }
+                            &.width-24{
+                                width: 24%;
+                            }
+                            .title{
+                                color: #3C4043;
+                                font-weight: 500;
+                                font-size: 24px;
+                                line-height: 20px;
+                                margin-bottom: 15px;
+                            }
+                            .plan-duration{
+                                color: #9AA0A6;
+                                font-weight: normal;
+                                font-size: 18px;
+                                line-height: 22px;
+                                margin-bottom: 20px;
+                            }
+                            .kr-sg-button-secondary{
+                                &:hover{
+                                    border: 1px solid transparent;
+                                    background: #0D6EFD;       
+                                    color: #fff; 
+                                }
+                            }
+                        }
+                    }
+
+                    .body-content-plan{
+                        padding: 5px 12px;
+                        .body-table-plan{
+                            background: #F8F9FA;
+                            box-shadow: 0px 1px 0px rgb(0 0 0 / 10%);
+                            align-items: center;
+                            min-height: 50px;
+                            padding: 10px 0;
+                            margin: 0 0 1px 0;
+                            &:last-child{
+                                box-shadow:none;
+                            }
+                            &:nth-child(even){
+                                background: #fff;
+                            }
+                            &:nth-child(odd){
+                                background: #F8F9FA;                                
+                            }                         
+                            .title{
+                                padding: 0 10px;
+                                color: #3C4043;
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 17px;
+                                .text_light{
+                                    color: #9AA0A6;
+                                }
+                                &.width-24{
+                                    width: 24%;
+                                }
+                                &.width-19{
+                                    width: 19%;
+                                    text-align: center;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .payrro-iframe{
+            height: calc(100vh - 175px);
+        }
+    }
+}
+
+
+
+::ng-deep .order-confirmation{
+    .modal-dialog{
+        width: 625px;
+        height: 355px !important;
+        background: #FFFFFF;
+        box-shadow: 0px 0px 5px rgb(0 0 0 / 10%);
+        border-radius: 8px;
+        .modal-content{
+            border-radius: 8px !important;
+            .modal-header{
+                height: auto;               
+                padding: 10px 24px;
+                display: flex !important;
+                align-items: center;
+                justify-content: space-between;
+                .title{
+                    color: #202124;
+                    font-weight: 500;
+                    font-size: 18px;
+                    line-height: 22px;
+                }
+            }
+            .modal-body{
+                padding: 15px 24px !important;
+                .plan-desc{
+                    color: #202124;
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 30px;
+                    margin-bottom: 15px;
+                    span{
+                        font-weight: 600;
+                    }
+                }
+                .order-confirmation-table{
+                    background: #FFFFFF;
+                    border: 1px solid #EFF0F1;
+                    box-sizing: border-box;
+                    border-radius: 4px;
+                    border-bottom: 0;
+                    .order-confirmation-table-header{
+                        background: #FFFFFF;
+                        box-shadow: 0px 1px 0px rgb(32 33 36 / 10%);
+                        padding: 5px 0px;
+                        .title {
+                            color: #9AA0A6;
+                            font-weight: 500;
+                            font-size: 12px;
+                            line-height: 30px;
+                            text-transform: uppercase;
+                        }
+                    }
+                    .order-confirmation-table-body{
+                        padding: 7px 0;
+                        align-items: center;
+                        box-shadow: 0px 1px 0px rgb(32 33 36 / 10%);
+                        .plan_details{
+                            display: flex;
+                            align-items: center;
+                            .plan-type{
+                                color: #3C4043;
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 20px;
+                                margin-right: 28px;
+                            }
+                            .btn-monthly{
+                                color: #202124;
+                                font-weight: normal;
+                                font-size: 12px;
+                                line-height: 14px;
+                                text-align: center;
+                                padding: 6px;
+                                border-radius: 4px;
+                                margin-right: 9px;
+                                cursor: pointer;
+                                &.active-btn{
+                                    background: #0D6EFD;
+                                    color: #fff;
+                                }
+                            }
+                            .compare-plan{
+                                color: #0D6EFD;
+                                padding: 4px 0px 0px 13px;
+                                font-weight: 500;
+                                font-size: 12px;
+                                line-height: 14px;
+                                cursor: pointer;
+                                border-left: 1px solid #E4E5E7;
+                                height: 21px;
+                            }
+                            .add-doc-btn-sec{
+                                display: flex;
+                                align-items: center;
+                                .minus{
+                                    background: #FFFFFF;
+                                    border: 1px solid #E4E5E7;
+                                    box-sizing: border-box;
+                                    border-radius: 17px;
+                                    width: 22px;
+                                    height: 22px;
+                                    text-align: center;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    cursor: pointer;
+                                }
+                                .increase-num{
+                                    color: #3C4043;
+                                    font-weight: normal;
+                                    font-size: 14px;
+                                    line-height: 20px;
+                                    min-width: 30px;
+                                    padding: 0 5px;
+                                    text-align: center;
+                                }
+                                .plus{
+                                    background: #FFFFFF;
+                                    border: 1px solid #E4E5E7;
+                                    box-sizing: border-box;
+                                    border-radius: 17px;
+                                    width: 22px;
+                                    height: 22px;
+                                    text-align: center;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    cursor: pointer;
+                                }
+                            }
+                            .amount-increased{
+                                margin-left: 10px;
+                                padding-left: 10px;
+                                border-left: 1px solid #E4E5E7;
+                                color: #3C4043;
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 20px;
+                            }
+                        }
+                        .total-amount{
+                            color: #9AA0A6;
+                            font-weight: normal;
+                            font-size: 12px;
+                            line-height: 30px;
+                        }
+                        .amount{
+                            color: #3C4043;
+                            font-weight: normal;
+                            font-size: 14px;
+                            line-height: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &.excess-modal-data{
+        background: rgba(31, 32, 35, 0.5);
+        .modal-dialog{
+            height: 448px !important;
+            .modal-content{
+                .modal-body{
+                    padding: 25px !important;
+                    .desc-text-info{
+                        color: #202124;
+                        font-weight: normal;
+                        font-size: 14px;
+                        line-height: 30px;
+                        margin-bottom: 20px;
+                        span{
+                            font-weight: 600;
+                        }
+                    }
+                    .excess-table-data{
+                        .excess-header{
+                            color: #9AA0A6;
+                            font-weight: 500;
+                            font-size: 12px;
+                            line-height: 30px;
+                            background: #FFFFFF;
+                            box-shadow: 0px 1px 0px rgba(32, 33, 36, 0.1);
+                            padding: 6px 15px;
+                            margin-bottom: 1px;
+                        }
+                        .excess-table-body{
+                            margin: 0 0 1px 0;
+                            padding: 8px 0 8px 0px;
+                            background: #FFFFFF;
+                            box-shadow: 0px 1px 0px rgba(32, 33, 36, 0.1);
+                            min-height: 41px;
+                            align-items: center;  
+                            .excess-type{
+                                color: #3C4043;
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 20px;
+                            }    
+                            .excess-name{
+                                color: #DD3646;
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 20px;
+                            }                  
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}

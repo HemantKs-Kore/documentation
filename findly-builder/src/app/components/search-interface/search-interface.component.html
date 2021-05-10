@@ -9,7 +9,7 @@
   <div class="body_content">
     <div class="search-interface-left-sec">
       <div class="left-tabs">
-        <div class="tab-name" *ngFor="let setting of settingList" (click)="getAllSettings(setting)" [ngClass]="{'active-tab' : selectedSetting == setting.id}">{{setting.text}}</div>
+        <div class="tab-name" *ngFor="let setting of settingList" (click)="getAllSettings(setting)" [ngClass]="{'active-tab' : selectedSetting == setting.id}" [class.disabled]="(setting.id == 'search' && searchTemplatesDisabled)" ngbTooltip="Conversational Search customization is not needed for Top Down Experience" [disableTooltip]="(setting.id !== 'search' && searchTemplatesDisabled) || (!searchTemplatesDisabled)" placement="right" tooltipClass="ngb_tooltip_custom_class searchTemplate">{{setting.text}}</div>
         <!-- <div class="tab-name">Search Experience</div>
         <div class="tab-name">Live Search</div>
         <div class="tab-name active-tab">Search</div>
@@ -20,16 +20,16 @@
       <div class="search-interface-right-sec">  
         <div class="radio-section">
           <div class="main-title">Copy Configuration</div>
-          <div class="label-desc p-0">Choose whether to apply the same Configurations as per Previous settings</div>
+          <div class="label-desc p-0 mb-2">Choose whether to apply the same Configurations as per Previous settings</div>
          
           <div class="kr-sg-dropdowns">        
             <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input drop-enable" data-toggle="dropdown">{{selectedSettingResultsObj.referInterface || 'Select'}}</button>                                            
+                <button class="dropdown-toggle dropdown-input drop-enable" data-toggle="dropdown">{{selectedSettingResultsObj.referInterface ? getConfigurationName(selectedSettingResultsObj.referInterface) : 'Select'}}</button>                                            
                 <ul class="dropdown-menu content-menu">  
                   <li (click)="copyConfiguration('')"><a>Select</a></li>                                                 
-                  <li (click)="copyConfiguration('livesearch')" *ngIf="selectedSetting != 'liveSearch'"><a>Live Search</a></li>
-                  <li (click)="copyConfiguration('search')" *ngIf="selectedSetting != 'search'"><a>Search </a></li>
-                  <li (click)="copyConfiguration('fullsearch')" *ngIf="selectedSetting != 'fullSearch'"><a>Full Page Result</a></li>
+                  <li [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'livesearch'}" (click)="copyConfiguration('livesearch')" *ngIf="selectedSetting != 'liveSearch'"><a>Live Search</a></li>
+                  <li [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'search'}" (click)="copyConfiguration('search')" *ngIf="selectedSetting != 'search' && !searchTemplatesDisabled"><a>Conversational Search </a></li>
+                  <li [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'fullsearch'}" (click)="copyConfiguration('fullsearch')" *ngIf="selectedSetting != 'fullSearch'"><a>Full Page Result</a></li>
                 </ul>
             </div>
           </div>
@@ -102,7 +102,12 @@
                 <div class="input-name add-new">+ Add New</div>
               </div>
               <div cdkDropList (cdkDropListDropped)="drop($event,list)" class="input-left-sec" *ngIf= "!selectedSettingResultsObj.orderBasedOnRelevance">
-                <div cdkDrag *ngFor="let list of list" class="input-name" (click)="selectResultAppearnceList(list,'custom')" [ngClass]="{'active-input' : list.type == selectedSourceType}"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>{{list.type}}</span></div>
+                <div cdkDrag *ngFor="let list of list" class="input-name" (click)="selectResultAppearnceList(list,'custom')" [ngClass]="{'active-input' : list.type == selectedSourceType}">
+                  <img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>{{list.type}}</span>
+                  <div class="field_data" *cdkDragPreview>
+                    <div class="title text-truncate"></div>
+                  </div>
+                </div>
                 <!-- <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><spanlist>Actions</span></div>
                 <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>FAQs</span></div>
                 <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Pages</span></div>
@@ -149,8 +154,7 @@
                       <input type="checkbox" (change)= "facetEnableChange($event)" [checked] = "selectedSettingResultsObj.facets.isEnabled">
                       <div class="slider"><span class="enabled">Enabled</span><span class="disabled">Disabled</span></div>
                     </label> 
-
-                    <div class="group-radiobutton mt-4" *ngIf="selectedSettingResultsObj.facets.isEnabled">                  
+                    <div class="group-radiobutton mt-4" *ngIf="selectedSettingResultsObj.facets && selectedSettingResultsObj.facets.isEnabled">                  
                       <div class="kr-sg-radiobutton">
                           <input id="radio-24" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'left')" [checked] ="selectedSettingResultsObj.facets.aligned == 'left'">
                           <label for="radio-24" class="radio-custom-label">Left Aligned</label>
@@ -245,7 +249,8 @@
                       <div class="label-text">URL</div>
                       <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <img *ngIf="(!customizeTemplateObj.template.resultMapping.url.length) && submitted" id="headingFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
                         <ul class="dropdown-menu content-menu scroll-max-250">
                             <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
@@ -299,7 +304,8 @@
                       <div class="label-text">URL</div>
                       <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <img *ngIf="(!customizeTemplateObj.template.resultMapping.url.length) && submitted" id="headingFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
                         <ul class="dropdown-menu content-menu scroll-max-250">
                             <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
@@ -353,8 +359,9 @@
                       <div class="label-text">URL</div>
                       <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
-                        <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
+                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <img src="assets/icons/search-interface/search.svg" class="search-icon">
+                        <img *ngIf="(!customizeTemplateObj.template.resultMapping.url.length) && submitted" id="headingFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                         <ul class="dropdown-menu content-menu scroll-max-250">
                             <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
                               <div class="scroll-max-250">
@@ -401,7 +408,8 @@
                       <div class="label-text">URL</div>
                       <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <img *ngIf="(!customizeTemplateObj.template.resultMapping.url.length) && submitted" id="headingFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
                         <ul class="dropdown-menu content-menu scroll-max-250">
                             <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
@@ -426,7 +434,8 @@
               <div class="label-text">Heading</div>
               <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.heading">
+                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.heading.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.heading">
+                  <img *ngIf="(!customizeTemplateObj.template.resultMapping.heading.length) && submitted" id="headingFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                   <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
                   <ul class="dropdown-menu content-menu scroll-max-250">
                       <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
@@ -445,7 +454,8 @@
               <div class="label-text">Description</div>
               <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('description',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.description">
+                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.description.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('description',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.description">
+                  <img *ngIf="(!customizeTemplateObj.template.resultMapping.description.length) && submitted" id="descriptionFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                   <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
                   <ul class="dropdown-menu content-menu scroll-max-250">
                       <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
@@ -464,7 +474,8 @@
               <div class="label-text">Image</div>
               <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.image">
+                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.image.length) && submitted)"  data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.image">
+                  <img *ngIf="(!customizeTemplateObj.template.resultMapping.image.length) && submitted" id="imageFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                   <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
                   <ul class="dropdown-menu content-menu scroll-max-250">
                       <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">

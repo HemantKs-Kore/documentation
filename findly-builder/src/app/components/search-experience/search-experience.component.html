@@ -3,13 +3,13 @@
     <div class="header-title">Search Interface</div>
     <div class="tabs-sec">
         <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
+            <li class="nav-item" (click)="selectedTab='experience'">
               <a class="nav-link" [ngClass]="{'active':selectedTab==='experience'}" data-toggle="tab"><span class="active-steps" [ngStyle]="show_tab_color?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">1</span><span class="name">Experience</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" (click)="selectedTab='searchwidget'">
               <a class="nav-link" [ngClass]="{'active':selectedTab==='searchwidget'}" data-toggle="tab"><span class="active-steps" [ngStyle]="show_tab_color1?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">2</span><span class="name">Search Widget</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" (click)="selectedTab='interactions'">
               <a class="nav-link" [ngClass]="{'active':selectedTab==='interactions'}" data-toggle="tab" ><span class="active-steps" [ngStyle]="show_tab_color2?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">3</span><span class="name">Interactions</span></a>
             </li>
         </ul>
@@ -19,12 +19,12 @@
                 <div class="experience-tab">
                     <div class="left-sec">
                         <div class="kr-sg-radiobutton d-block plr-0 mb-4">
-                            <input id="radio-2" name="topdown" value='top' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition" (click)="changeSlider('top-down')">
+                            <input id="radio-2" name="topdown" value='top' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition" (click)="changeSlider('top')">
                             <label for="radio-2" class="radio-custom-label">Top Down</label>
                             <div class="desc-tect">Search Bar at the top</div>
                         </div>   
                         <div class="kr-sg-radiobutton d-block plr-0 mb-4">
-                            <input id="radio-22" name="bottomup" value='bottom' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition" (click)="changeSlider('bottom-up')">
+                            <input id="radio-22" name="bottomup" value='bottom' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition" (click)="changeSlider('bottom')">
                             <label for="radio-22" class="radio-custom-label">Bottom Up</label>
                             <div class="desc-tect">Search Bar at the bottom</div>
                         </div>   
@@ -42,7 +42,7 @@
                         <div class="kr-sg-input-search" [ngClass]="{'added-tour':tourGuide==='step1'||tourGuide==='step2'||tourGuide==='step3'}">                               
                             <input type="text" class="input-search" [ngClass]="{'activeBox':selectSearch=='inputBox'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" (click)="selectSearchBox('inputBox');$event.stopPropagation();" readonly>
                             <img [src]="searchIcon" class="search-icon" [ngClass]="{'activeBox':selectSearch=='inputIcon'}" (click)="selectSearchBox('inputIcon');$event.stopPropagation();" height="15" width="15">
-                            <input #elasticInput class="placeholder-custom-search" value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}" placeholder="search" (click)="selectSearchBox('placeholderText');$event.stopPropagation()" [ngClass]="{'activeBox':selectSearch=='placeholderText'}" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor,'width.px': width}" #data (change)="onEventLog('placeholderText',data.value);" (input)="resize()"> 
+                            <input #elasticInput class="placeholder-custom-search" value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}" placeholder="search" (click)="selectSearchBox('placeholderText');$event.stopPropagation()" [ngClass]="{'activeBox':selectSearch=='placeholderText'}" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor,'width.px': width,'background':'none'}" #data (change)="onEventLog('placeholderText',data.value);" (input)="resize()"> 
                             <span #hiddenText style="visibility: hidden; white-space: pre;">{{elasticInput.value}}</span>
                             <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn"  (click)="selectSearchBox('button')" [ngClass]="{'activeBox':selectSearch=='button','added-tour':tourGuide==='step4'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled" *ngIf="(searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='inside')||searchObject.searchExperienceConfig.searchBarPosition==='bottom'">
                                 <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
@@ -129,7 +129,7 @@
                                     <div class="box-color-content" *ngIf="inputBox1">
                                         <div class="header-title-close">
                                             <div class="title-name">Choose Color</div>
-                                            <div class="close-color" (click)="toggle=false;inputBox1=false;;">
+                                            <div class="close-color" (click)="toggle=false;inputBox1=false;">
                                                 <img src="assets/icons/close.svg">
                                             </div>
                                         </div>
@@ -138,7 +138,7 @@
                                                 <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('inputbox1', col);color=col;"></div>
                                             </ng-container>                                           
                                         </div>
-                                        <div class="save-switch" (click)="searchObject.searchWidgetConfig.userSelectedColors.push(color)">Save Color</div>
+                                        <div class="save-switch" (click)="saveColor(color)">Save Color</div>
                                      </div>
                                 </div>
                             </div>
@@ -170,7 +170,7 @@
                                                 <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('inputBox2', col);color1=col;"></div>
                                             </ng-container>                                           
                                         </div>
-                                        <div class="save-switch" (click)="searchObject.searchWidgetConfig.userSelectedColors.push(color1)">Save Color</div>
+                                        <div class="save-switch" (click)="saveColor(color1)">Save Color</div>
                                      </div>
                                 </div>
                             </div>
@@ -210,7 +210,7 @@
                                                 <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('placeholder', col);color2=col;"></div>
                                             </ng-container>                                           
                                         </div>
-                                        <div class="save-switch" (click)="searchObject.searchWidgetConfig.userSelectedColors.push(color2)">Save Color</div>
+                                        <div class="save-switch" (click)="saveColor(color2)">Save Color</div>
                                      </div>
                                 </div>
                             </div>
@@ -237,7 +237,8 @@
                             
                             <div class="kr-sg-input-text">
                                 <div class="label-text">Button Text</div>
-                                <input type="text" maxlength="6" #butttonText (keyup)="0" placeholder="Enter Name" class="input-text" [(ngModel)]="searchObject.searchWidgetConfig.buttonText" [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)">                            
+                                <input type="text" maxlength="6" #butttonText (keyup)="0" placeholder="Enter Name" class="input-text" [(ngModel)]="searchObject.searchWidgetConfig.buttonText" [class.err-block]="(searchObject.searchWidgetConfig.searchButtonEnabled && !searchObject.searchWidgetConfig.buttonText.length) && submitted" [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)">
+                                <img *ngIf="(searchObject.searchWidgetConfig.searchButtonEnabled && !searchObject.searchWidgetConfig.buttonText.length) && submitted" id="facetNameWarning" src="assets/icons/warning_escalation.svg" style="top: 57%; position: absolute; right: 4.5%; display: block;" height="12" width="12" />
                                 <div class="button-text-count">{{butttonText.value.length}}/6</div>
                             </div>
                             <div class="fill-colors-block">
@@ -268,7 +269,7 @@
                                                     <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('buttonTextColor', col);color3=col;"></div>
                                                 </ng-container>                                           
                                             </div>
-                                            <div class="save-switch" (click)="searchObject.searchWidgetConfig.userSelectedColors.push(color3)">Save Color</div>
+                                            <div class="save-switch" (click)="saveColor(color3)">Save Color</div>
                                          </div>
                                     </div>
                                 </div>
@@ -299,7 +300,7 @@
                                                     <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('buttonFill', col);color4=col;"></div>
                                                 </ng-container>                                           
                                             </div>
-                                            <div class="save-switch" (click)="searchObject.searchWidgetConfig.userSelectedColors.push(color4)">Save Color</div>
+                                            <div class="save-switch" (click)="saveColor(color4)">Save Color</div>
                                          </div>
                                     </div>
                                 </div>
@@ -331,7 +332,7 @@
                                                     <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('buttonBorder', col);color5=col;"></div>
                                                 </ng-container>                                           
                                             </div>
-                                            <div class="save-switch" (click)="searchObject.searchWidgetConfig.userSelectedColors.push(color5)">Save Color</div>
+                                            <div class="save-switch" (click)="saveColor(color5)">Save Color</div>
                                          </div>
                                     </div>
                                 </div>
@@ -363,8 +364,14 @@
                                                    <div class="close-btn" (click)="closeEmojiPicker()">
                                                        <img src="assets/icons/search-experience/emojis/close.svg">
                                                    </div>
-                                                    <li class="emoji-type" *ngFor="let emoji of emojiList" (click)="emojiIcon = emoji.img_src; emojiIconUpload('update')">
-                                                        <img [src]="emoji.img_src" [alt]="emoji.value">
+                                                    <li class="emoji-type" *ngFor="let emoji of emojiList">
+                                                        <img [src]="emoji.img_src" *ngIf="!emoji.multiple" [alt]="emoji.value" (click)="emojiIcon = emoji.img_src; emojiIconUpload('update')">
+                                                        <img [src]="emoji.selected" *ngIf="emoji.multiple" [alt]="emoji.value" (click)="emojiIcon = emoji.selected; emojiIconUpload('update')">
+                                                        <div class="nestead-emojies" *ngIf="emoji.multiple">
+                                                            <div class="img-block" *ngFor="let emoji_varient of emoji.emoji_set">
+                                                                <img [src]="emoji_varient" [alt]="emoji.value" (click)="emojiIcon = emoji_varient; emoji.selected = emoji_varient;emojiIconUpload('update')">
+                                                            </div>
+                                                        </div>
                                                     </li>
                                                </div>
                                             </ul>
@@ -398,7 +405,7 @@
                                                         <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('msgColor', col);color6=col;"></div>
                                                     </ng-container>                                           
                                                 </div>
-                                                <div class="save-switch" (click)="searchObject.searchWidgetConfig.userSelectedColors.push(color6)">Save Color</div>
+                                                <div class="save-switch" (click)="saveColor(color6)">Save Color</div>
                                             </div>
                                         </div>
                                     </div>
@@ -411,7 +418,7 @@
                             <div class="search-widget-if-bottom-up" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">                               
                                 <div class="greeting-block">
                                     <img [src]="emojiIcon">
-                                    <span class="greeting-title">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
+                                    <span class="greeting-title" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
                                 </div>
                                 <div class="d-flex search-customization-input">
                                     <div class="kr-sg-input-search">                               
@@ -451,7 +458,7 @@
                                 </div>
                                 <div class="greeting-block">
                                     <img [src]="emojiIcon">
-                                    <span class="greeting-title">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
+                                    <span class="greeting-title" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
                                 </div>
                             </div>
                         </div>
@@ -498,17 +505,17 @@
                                     </div>
                                 </div>
         
-                                <div class="border-with-padding group-checkbox">
+                                <!-- <div class="border-with-padding group-checkbox">
                                     <div class="heading-title">Feedback Experience </div>
                                     <div class="kr-sg-checkbox">
                                         <input id="checkbox_grpb" class="checkbox-custom" type="checkbox" [checked]="searchObject.searchInteractionsConfig.feedbackExperience.resultLevel" [(ngModel)]="searchObject.searchInteractionsConfig.feedbackExperience.resultLevel">
                                         <label for="checkbox_grpb" class="checkbox-custom-label">Result Level</label>
                                     </div>
-                                    <!-- <div class="kr-sg-checkbox">
+                                    <div class="kr-sg-checkbox">
                                         <input id="checkbox_grpc" class="checkbox-custom" type="checkbox" disabled>
                                         <label for="checkbox_grpc" class="checkbox-custom-label">Query Level</label>
-                                    </div> -->
-                                </div>
+                                    </div>
+                                </div> -->
                             </div>
                         </div>                        
                     </div>                                       
@@ -533,7 +540,7 @@
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
       <div class="modal-body" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
-        <div class="main-title">Hi Ankit,</div>
+        <div class="main-title">Hi {{userName}},</div>
         <div class="main-title">It is recommended to go through this guide before customizing interactions.</div>
         <div class="guide-data">
             <div class="layer-img">
