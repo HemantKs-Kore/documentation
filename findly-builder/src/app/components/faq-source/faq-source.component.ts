@@ -52,6 +52,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   faqUpdate: Subject<void> = new Subject<void>();
   filterObject = {};
   manualFilterSelected = false;
+  showResponse :boolean;
   faqSelectionObj: any = {
     selectAll: false,
     selectedItems: {},
@@ -935,6 +936,8 @@ this.selectAll();
         if (queuedJobs && queuedJobs.length) {
           console.log(queuedJobs);
         } else {
+          this.selectTab('draft');
+          this.getStats();
           this.pollingSubscriber.unsubscribe();
         }
       }, errRes => {

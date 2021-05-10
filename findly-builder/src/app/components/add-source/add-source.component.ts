@@ -22,6 +22,7 @@ import { RangySelectionService } from '../annotool/services/rangy-selection.serv
 import { DockStatusService } from '../../services/dock.status.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -380,6 +381,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
+    
     this.redirectTo();
     this.cancleSourceAddition();
     this.closeCrawlModalPop();
@@ -389,6 +391,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     const self = this;
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
+    }
+    if(this.crawlModalPopRef && this.crawlModalPopRef.close){
+      this.crawlModalPopRef.close();
     }
     this.closeCrawlModalPop();
     this.redirectTo();
@@ -607,6 +612,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (payload.hasOwnProperty('url')) delete payload.url;
     this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
       this.annotationModal();
+      console.log(res);
+      this.workflowService.selectedJobId(res._id);
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -698,6 +705,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
+   
 
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic";
@@ -810,6 +818,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.poling(res._id, 'scheduler');
           }
           this.extract_sourceId = res._id;
+       
           //this.crwal_jobId = res.jobId
           console.log("this.statusObject", this.statusObject)
         }, errRes => {
@@ -1014,6 +1023,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.openStatusModal();
         this.poling(this.anntationObj._id);
       }
+   
+
     });
   }
   cancelExtraction() {
@@ -1311,6 +1322,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.notificationService.notify('Failed', 'error');
       }
     )
+  }
+  checkValue(value){
+    console.log()
+    if(value <= -1){
+     this.crawlDepth = 0 ;
+    }
   }
 }
 

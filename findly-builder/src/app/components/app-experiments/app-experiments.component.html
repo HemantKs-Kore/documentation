@@ -376,7 +376,7 @@
       <div class="duration-sec">
         <div class="kr-sg-input-text">
           <div class="label-text">Duration</div>
-          <input type="number" autocomplete="off" class="input-text text-center" min="30" max="90"
+          <input type="number" autocomplete="off" class="input-text text-center" min="30" max="90" (keyup)="checkDuration(experimentObj?.duration.days)"
             [(ngModel)]="experimentObj?.duration.days" [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")?"#EFF0F1":"#ffffff","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}' />
           <img src="assets/icons/minus.svg" class="minus" [hidden]="exp_status !== 'configured' && form_type === 'edit'"
             (click)="

@@ -141,6 +141,7 @@
           *ngIf="(statusObject && statusObject.validation && statusObject.validation.validated)">
             <h1><strong>Validation Successful</strong></h1>
           </div>
+        
         </div>       
         <div class="error-check" *ngIf="(statusObject.status==='failed')">
           <img src="assets/images/exclamationCircle-Red.svg">
@@ -158,6 +159,7 @@
               <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected" *ngIf="statusObject.validation.validated===true">
               <span>Initial URL validation</span>
             </div>
+            <div class="content-description"> Now you can choose to crawl immediately or later</div>
           </div>
         </ng-container>
         <div class="progressNote"
@@ -606,7 +608,7 @@
                       </span>
                     </div>
                     </div>
-                    <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
+                    <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0" (keyup)="checkValue(crawlDepth)"
                       [(ngModel)]="crawlDepth" class="input-text" >
                   </div>
                 </div>
