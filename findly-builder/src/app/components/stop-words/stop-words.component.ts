@@ -393,6 +393,9 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.updateStopWords();
       this.submitted = false;
     }
+    else{
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;

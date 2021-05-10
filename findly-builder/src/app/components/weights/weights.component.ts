@@ -253,6 +253,9 @@ export class WeightsComponent implements OnInit, OnDestroy {
       }
       this.addOrUpddate(weights, null, 'add');
     }
+    else{
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
   }
   getWeightsPayload(weights) {
     const tempweights = [];

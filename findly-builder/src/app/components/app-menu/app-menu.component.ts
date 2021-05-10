@@ -261,6 +261,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         }
       );
     }
+    else{
+      this.notify.notify('Enter the required fields to proceed', 'error');
+    }
   }
   validateSearchConfig(){
     if(this.newConfigObj && this.newConfigObj.name.length){
@@ -319,6 +322,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           }
         }
       );
+    }
+    else{
+      this.notify.notify('Enter the required fields to proceed', 'error');
     }
   }
   selectQueryPipelineId(queryConfigs, event?, type?) {

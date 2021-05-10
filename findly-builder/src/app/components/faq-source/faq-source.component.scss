@@ -113,7 +113,27 @@
                     margin-right: 30px;
                 }
                 .exportdropdown{
+                    &.show{
+                        .dropdown-open {
+                            .three-dots{
+                                width: 24px;
+                                height: 24px;
+                                left: 1322px;
+                                top: 74px;
+                                background: #EFF0F1 !important;
+                                border-radius: 2px;
+                            } 
+                        }
+                    }
                     .dropdown-open {
+                        .three-dots{
+                            width: 24px;
+                            height: 24px;
+                            left: 1322px;
+                            top: 74px;
+                            border-radius: 2px;
+                            background: transparent;
+                        }
                         .dropdown-input{
                             background-color: transparent;
                         }
@@ -217,6 +237,17 @@
                                 .dropdown-open{
                                     .dropdown-input{
                                         background: #E4E5E7;
+                                    }
+                                    .three-dots{
+                                        width: 24px;
+                                        height: 24px;
+                                        left: 1322px;
+                                        top: 74px;
+
+
+                                        background: #EFF0F1;
+                                        border-radius: 2px;
+                                        background: #EFF0F1;
                                     }
                                 }
                             }
