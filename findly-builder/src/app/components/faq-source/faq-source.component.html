@@ -599,11 +599,14 @@
                             </div>
                             <ng-container *ngIf="selectedFaq._source.alternateQuestions?.length">
                             <div class="added-questions-list" *ngFor="let alternateQuestion of selectedFaq._source?.alternateQuestions">
-                                <div class="question-name text-truncate">{{alternateQuestion.question}}</div>
-                                <div class="added-tags text-truncate">
-                                    <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
+                                <div class="content-body-question row" >
+                                <div class="col-12 group-name question-name text-truncate">{{alternateQuestion.question}}</div>
                                 </div>
-                                <!-- <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}"> -->
+                                <!-- <div class="added-tags text-truncate">
+                                    <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
+                                </div> -->
+                                <!-- 
+                                    <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}"> -->
                             </div>
                            </ng-container>
                             <!-- <div class="add-alternative-questions row followup_questions">

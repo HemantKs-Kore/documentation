@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, ElementRef, Input, Output } from '@angular/core';
 import { AuthService } from '@kore.services/auth.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { NotificationService } from '../../../services/notification.service';
@@ -25,7 +25,9 @@ export class AddAlternateQuestionComponent implements OnInit {
     question: ''
   };
   @Input() faqServ: any;
-
+  @Input() isFromFaqsForm: boolean;
+ @Output() cancelAltQuestion  = new EventEmitter();
+ @Output() saveAltQuestion  = new EventEmitter();
   constructor(private authService: AuthService,
               private kgService: KgDataService,
               private notify: NotificationService,
