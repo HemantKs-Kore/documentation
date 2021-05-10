@@ -694,7 +694,7 @@ this.selectAll();
   }
   selectTab(tab) {
     this.loadingTab = true;
-    // this.selectedFaq = null
+    this.selectedFaq = null
     this.searchFaq = '';
     this.selectedtab = tab;
     this.getFaqsOnSelection();
