@@ -328,7 +328,7 @@
 
 <kr-modal modalType="center" modalClass="sliderComponent modal_popups_" #statusModalPop id="sourceSlider">
   <div class="modal-header">
-    <div class="title">{{selectedSource.name}}</div>
+    <div class="title" title="{{selectedSource.name}}">{{selectedSource.name}}</div>
     <div class="close_icon"><img (click)="sliderStep?sliderBack():closeStatusModal();" src="assets/icons/modal-close.svg"></div>
   </div>
   <div class="modal-body source-modal-popup ">
@@ -444,19 +444,19 @@
                       </header>
                       <ng-container>
                         <div class="content-body">
-                          <div class="col_ col-1" *ngIf="!editTitleFlag" title="{{selectedSource.name}}">{{selectedSource.name}}</div>
-                          <div class="col_ col-2" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.title"></div>
-                          <div class="col_ col-3" title="{{selectedSource.url}}">{{selectedSource.url}}</div>
+                          <div class="col_ col-1 text-truncate" *ngIf="!editTitleFlag" title="{{selectedSource.name}}">{{selectedSource.name}}</div>
+                          <div class="col_ col-2 text-truncate" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.title"></div>
+                          <div class="col_ col-3 text-truncate" title="{{selectedSource.url}}">{{selectedSource.url}}</div>
                           <!-- <div class="col_ col-3" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.url"></div> -->
-                          <div class="col_ col-2" *ngIf="!editTitleFlag" title="{{selectedSource.desc}}">{{selectedSource.desc}}</div>
+                          <div class="col_ col-2 text-truncate" *ngIf="!editTitleFlag" title="{{selectedSource.desc}}">{{selectedSource.desc}}</div>
                           <div class="col_ col-2" *ngIf="editTitleFlag">
                             <div class="kr-sg-input-text-area min-ht">
                               <textarea class="wid min-ht" [(ngModel)] = "editConfObj.desc"></textarea>
                             </div>
                           </div>
-                          <div class="col_ col-2" >{{selectedSource.userDetails.firstName}}
+                          <div class="col_ col-2 text-truncate" >{{selectedSource.userDetails.firstName}}
                           </div>
-                          <div class="col_ col-2" >{{selectedSource.lMod | date:'mediumDate'}}
+                          <div class="col_ col-2 text-truncate" >{{selectedSource.lMod | date:'mediumDate'}}
                           </div>
                           <!--<div class="col_ col-2" >{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}
                           </div>
