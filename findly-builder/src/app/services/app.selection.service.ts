@@ -208,10 +208,25 @@ export class AppSelectionService {
         this.currentsubscriptionPlanDetails = res;
         this.currentSubscription.next(res);
       }, errRes => {
-        this.errorToaster(errRes, 'failed to get plans');
+        this.errorToaster(errRes, 'failed to get current subscription data');
       });
     }
   }
+  //get last active subscription data
+  // getLastActiveSubscriptionData() {
+  //   const data = this.workflowService.selectedApp();
+  //   if (data != undefined) {
+  //     const payload = {
+  //       streamId: data._id
+  //     };
+  //     const appObserver = this.service.invoke('get.lastActiveSubscription', payload);
+  //     appObserver.subscribe(res => {
+  //       this.currentSubscription.next(res);
+  //     }, errRes => {
+  //       this.errorToaster(errRes, 'failed to get last active subscription data');
+  //     });
+  //   }
+  // }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
