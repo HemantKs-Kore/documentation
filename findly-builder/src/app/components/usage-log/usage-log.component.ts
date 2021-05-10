@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import * as moment from 'moment';
 import { of, interval, Subject, Subscription } from 'rxjs';
 @Component({
   selector: 'app-usage-log',
@@ -77,10 +78,13 @@ export class UsageLogComponent implements OnInit {
       skip: offset || 0,
       limit: 10
     };
+    let serviceId = 'get.allUsageLogs';
     if (quary) {
       quaryparms.searchQuary = quary;
+      serviceId = 'get.usageLogs.search';
     }
-    this.service.invoke('get.allUsageLogs', quaryparms).subscribe(res => {
+
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
       this.usageLogs = res.data || [];
       this.totalRecord = res.total;
       if(this.usageLogs.length){
@@ -237,8 +241,61 @@ exportUsageLog(){
   }
   this.service.invoke('post.exportUsageLog', quaryparms,payload).subscribe(res => {
     this.notificationService.notify('Export to CSV is in progress. You can check the status in the Status Docker', 'success');
+  this.checkExportUsagelog()
   }, errRes => {
-    this.errorToaster(errRes, 'Failed to export usage logs');
+    if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else {
+      this.notificationService.notify('Failed ', 'error');
+    }
   });
+}
+
+checkExportUsagelog() {
+  const queryParms = {
+    searchIndexId: this.workflowService.selectedSearchIndexId
+  }
+  this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
+    if (res && res.dockStatuses) {
+      res.dockStatuses.forEach((record: any) => {
+        record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
+        if (record.status === 'SUCCESS' && record.fileId && !(record.store ||{}).toastSeen) {
+          if (record.action === 'EXPORT') {
+            this.downloadDockFile(record.fileId, (record.store ||{}).urlParams, record.streamId, record._id);
+            return;
+          }
+        }
+      })
+      
+    }
+  }, errRes => {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else {
+      this.notificationService.notify('Failed to get Status of Docker.', 'error');
+    }
+  });
+}
+
+downloadDockFile(fileId, fileName, streamId, dockId) {
+  const params = {
+    fileId,
+    streamId: streamId,
+    dockId: dockId
+  }
+  let payload = {
+    "store": {
+      "toastSeen": true,
+      "urlParams": fileName,
+    }
+  }
+  this.service.invoke('attachment.file', params).subscribe(res => {
+    let hrefURL = res.fileUrl + (fileName?fileName:'');
+    window.open(hrefURL, '_self');
+    this.service.invoke('put.dockStatus', params, payload).subscribe(res => { });
+  }, err => { console.log(err) });
+}
+
+ngOnDestroy() {
 }
 }
