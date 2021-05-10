@@ -34,6 +34,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   @ViewChild('createImagePop') createImagePop: KRModalComponent;
   @ViewChild('createLinkPop') createLinkPop: KRModalComponent;
   @ViewChild('externalResponsePop') externalResponsePop: KRModalComponent;
+  @ViewChild('previewImageModalPop') previewImageModalPop: KRModalComponent;
   @Input() inputClass: string;
   @Input() isFollowUp: boolean;
   @Input() faqData: any;
@@ -43,9 +44,12 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   @Output() editFaq = new EventEmitter();
   eventsSubscription: Subscription;
   currentEditIndex:any = null;
+  showImagePreview=false;
+  showResponsePreview=false;
   createLinkPopRef
   createImagePopRef
   externalResponsePopRef
+  previewImageModalPopRef
   faqs:any = {}
   anwerPayloadObj:any = {};
   ruleOptions = {
@@ -565,6 +569,9 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     });
   }
   save() {
+    if(this.imgInfo.url && this.imgInfo.url.length){
+      this.addImage();
+    }
     $('#addAlternateFaq').click();
     this.prpaerFaqsResponsePayload();
     if(this.anwerPayloadObj.defaultAnswers && this.anwerPayloadObj.defaultAnswers.length){
@@ -948,6 +955,30 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
         })
     // this.faqData._source.alternateQuestions = _.without(this.faqData._source.alternateQuestions, _.findWhere(this.faqData._source.alternateQuestions, { _id: ques._id }));
   }
+  ngAfterViewInit() {
+    $('.text-area-editor').click(function (event) {
+      // if(!$('.editResponseMode').hasClass('focusedEdit')){
+        $('.editResponseMode').addClass('focusedEdit');
+        // }
+    });
+      $(document).off('click').on('click', function(event) {
+      if (!$(event.target).closest('.text-area-editor').length && !$(event.target).closest('.provideLinkPopup').length &&  $('.editResponseMode').hasClass('focusedEdit')) {
+        $('.editResponseMode').addClass('d-none');
+        $('.previewResponseMode').removeClass('d-none');
+        $('.editResponseMode').removeClass('focusedEdit');
+        $('.text-area-editor').click();
+
+      }
+    });
+    
+    $('.responsePreviewBlock').click(function(){
+      setTimeout(()=>{
+        $('.editResponseMode').removeClass('d-none');
+      $('.previewResponseMode').addClass('d-none');
+      $('.editResponseMode').addClass('focusedEdit');
+      },100)
+    });
+  }
   ngOnDestroy() {
     this.eventsSubscription? this.eventsSubscription.unsubscribe(): false;
     this.altAddSub?this.altAddSub.unsubscribe(): false;
@@ -958,5 +989,13 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     this.altInpQuesSub?this.altInpQuesSub.unsubscribe():false;
     this.groupAddSub?this.groupAddSub.unsubscribe():false;
   }
-}
 
+  openPreviewImgModal() {
+    this.previewImageModalPopRef = this.previewImageModalPop.open();
+  }
+  closePreviewImgModal() {
+    if (this.previewImageModalPopRef && this.previewImageModalPopRef.close) {
+      this.previewImageModalPopRef.close();
+    }
+  }
+}
