@@ -208,7 +208,7 @@ var width = ctx.measureText(t.traitName +', ').width;
   };
   saveTraits(traitsGroup?, byTraitId?) {
     this.submitted = true;
-    if (!this.traits.addEditTraits.groupName.trim()) {
+    if ( !this.traits.addEditTraits.groupName || !this.traits.addEditTraits.groupName.trim()) {
       this.notificationService.notify('Please provide a valid trait group', 'error');
       return;
     }

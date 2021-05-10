@@ -246,6 +246,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         }
       );
     }
+    else{
+      this.notify.notify('Enter the required fields to proceed', 'error');
+    }
   }
 
   validateSearchConfig(){
@@ -300,6 +303,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           this.errorToaster(errRes, 'Failed to Create searchconfig');
         }
       );
+    }
+    else{
+      this.notify.notify('Enter the required fields to proceed', 'error');
     }
   }
   selectQueryPipelineId(queryConfigs, event?, type?) {
