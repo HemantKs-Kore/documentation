@@ -155,4 +155,18 @@
             
         }       
     }
+    .empty-usage-log{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: calc(100vh - 140px);
+        .empty-text{
+            color: #3C4043;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 20px;
+            margin-top: -34px;
+        }
+    }
 }

@@ -157,4 +157,20 @@
             }
         }
     }
+    .empty-invoice{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: calc(100vh - 140px);
+        width: 410px;
+        margin: 0 auto;
+        text-align: center;
+        .empty-text{
+            color: #3C4043;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 22px;
+        }
+    }
 }
