@@ -57,6 +57,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   editNameVal: String = "";
   editIndexName: boolean = false;
   editIndexNameVal: String = "";
+  submitted : boolean = false;
   public showStatusDocker: boolean = false;
   public statusDockerLoading: boolean = false;
   public dockersList: Array<any> = [];
@@ -195,65 +196,117 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       this.notify.notify('Somthing went worng', 'error');
     }
   }
-  createIndexConfig() {
-    let payload: any = {
-      method: this.newIndexConfigObj.method,
-      name: this.newIndexConfigObj.name,
-    }
-    if (this.newIndexConfigObj.method === 'clone') {
-      payload = { ...payload, sourceIndexPipelineId: this.newIndexConfigObj.index_config_id }
-    }
-    const queryParms = {
-      searchIndexId: this.searchIndexId
-    }
-    this.service.invoke('post.newIndexPipeline', queryParms, payload).subscribe(
-      res => {
-        if (res && res._id) {
-          if (this.newIndexConfigObj.method === 'clone') {
-            this.notify.notify('New Index config cloned successfully', 'success');
-          } else {
-            this.notify.notify('New Index config created successfully', 'success');
-          }
-          this.selectIndexPipelineId(res);
-        }
-        this.closeIndexModalPopup();
-      },
-      errRes => {
-        this.errorToaster(errRes, 'Failed to Create indexPipeline');
+
+  validateIndexConfig(){
+    if(this.newIndexConfigObj && this.newIndexConfigObj.name.length){
+      if(this.newIndexConfigObj.method === 'clone' && this.newIndexConfigObj.index_config_name.length){
+        this.submitted = false;
+        return true;
       }
-    );
+      else if(this.newIndexConfigObj.method === 'clone' && !this.newIndexConfigObj.index_config_name.length){
+        return false;
+      }
+      else{
+        this.submitted = false;
+        return true;
+      }
+    }
+    else{
+      return false;
+    }
   }
-  createConfig() {
-    const payload: any = {
-      method: this.newConfigObj.method,
-      name: this.newConfigObj.name,
-    }
-    if (this.newConfigObj.method === 'clone') {
-      payload.sourceQueryPipelineId = this.newConfigObj.config_id
-    }
-    const queryParms = {
-      searchIndexId: this.searchIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
-    }
-    this.service.invoke('create.queryPipeline', queryParms, payload).subscribe(
-      res => {
-        console.log("search config", res)
-        this.appSelectionService.getQureryPipelineIds();
-        if (res && res._id) {
-          this.selectQueryPipelineId(res);
-        }
-        this.closeModalPopup();
-        if (this.newConfigObj.method === 'clone') {
-          this.notify.notify('New Search config cloned successfully', 'success');
-        }
-        else {
-          this.notify.notify('New Search config created successfully', 'success');
-        }
-      },
-      errRes => {
-        this.errorToaster(errRes, 'Failed to Create searchconfig');
+
+  createIndexConfig() {
+    this.submitted = true;
+    if(this.validateIndexConfig()){
+      let payload: any = {
+        method: this.newIndexConfigObj.method,
+        name: this.newIndexConfigObj.name,
       }
-    );
+      if (this.newIndexConfigObj.method === 'clone') {
+        payload = { ...payload, sourceIndexPipelineId: this.newIndexConfigObj.index_config_id }
+      }
+      const queryParms = {
+        searchIndexId: this.searchIndexId
+      }
+      this.service.invoke('post.newIndexPipeline', queryParms, payload).subscribe(
+        res => {
+          if (res && res._id) {
+            if (this.newIndexConfigObj.method === 'clone') {
+              this.notify.notify('New Index config cloned successfully', 'success');
+            } else {
+              this.notify.notify('New Index config created successfully', 'success');
+            }
+            this.selectIndexPipelineId(res);
+          }
+          this.closeIndexModalPopup();
+        },
+        errRes => {
+          this.errorToaster(errRes, 'Failed to Create indexPipeline');
+        }
+      );
+    }
+    else{
+      this.notify.notify('Enter the required fields to proceed', 'error');
+    }
+  }
+
+  validateSearchConfig(){
+    if(this.newConfigObj && this.newConfigObj.name.length){
+      if(this.newConfigObj.method === 'clone' && this.newConfigObj.config_name.length){
+        this.submitted = false;
+        return true;
+      }
+      else if(this.newConfigObj.method === 'clone' && !this.newConfigObj.config_name.length){
+        return false;
+      }
+      else{
+        this.submitted = false;
+        return true;
+      }
+    }
+    else{
+      return false;
+    }
+  }
+
+  createConfig() {
+    this.submitted = true;
+    if(this.validateSearchConfig()){
+      const payload: any = {
+        method: this.newConfigObj.method,
+        name: this.newConfigObj.name,
+      }
+      if (this.newConfigObj.method === 'clone') {
+        payload.sourceQueryPipelineId = this.newConfigObj.config_id
+      }
+      const queryParms = {
+        searchIndexId: this.searchIndexId,
+        indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
+      }
+      this.service.invoke('create.queryPipeline', queryParms, payload).subscribe(
+        res => {
+          console.log("search config", res)
+          this.appSelectionService.getQureryPipelineIds();
+          if (res && res._id) {
+            this.selectQueryPipelineId(res);
+          }
+          this.closeModalPopup();
+          if (this.newConfigObj.method === 'clone') {
+            this.notify.notify('New Search config cloned successfully', 'success');
+          }
+          else {
+            this.notify.notify('New Search config created successfully', 'success');
+          }
+        },
+        errRes => {
+          this.errorToaster(errRes, 'Failed to Create searchconfig');
+        }
+      );
+    }
+    else{
+      this.notify.notify('Enter the required fields to proceed', 'error');
+    }
   }
   selectQueryPipelineId(queryConfigs, event?, type?) {
     console.log("queryConfigs", queryConfigs)
@@ -361,6 +414,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.trainingMenu === false ? this.trainingMenu = true : this.trainingMenu = false;
   }
   closeModalPopup() {
+    this.submitted = false;
     this.addFieldModalPopRef.close();
     this.newConfigObj = {
       method: 'default',
@@ -370,6 +424,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     };
   }
   closeIndexModalPopup() {
+    this.submitted = false;
     this.addIndexFieldModalPopRef.close();
     this.newIndexConfigObj = {
       method: 'default',
@@ -385,6 +440,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       config_name: config !== undefined ? config.name : '',
       config_id: config !== undefined ? config._id : ''
     };
+    this.submitted = false;
     this.addFieldModalPopRef = this.addFieldModalPop.open();
     setTimeout(() => {
       $('#createQueryConfig').blur();
@@ -397,6 +453,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       index_config_name: config !== undefined ? config.name : '',
       index_config_id: config !== undefined ? config._id : ''
     };
+    this.submitted = false;
     this.addIndexFieldModalPopRef = this.addIndexFieldModalPop.open();
     setTimeout(() => {
       $('#createIndexConfig').blur();

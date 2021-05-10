@@ -36,6 +36,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   showAddStopWordsContainer: boolean = false;
   subscription: Subscription;
   componentType: string = 'configure';
+  submitted : boolean = false;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -370,13 +371,31 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+
+  validateAddStopWord(){
+    if(!this.newStopWord || !this.newStopWord.length){
+      return false;
+    }
+    else{
+      this.submitted = false;
+      return true;
+    }
+  }
+
   addStopWord(event) {
-    const stopwords = (this.newStopWord || '').split(',');
-    this.stopwords = _.uniq(this.stopwords.concat(stopwords)).sort();
-    this.stopwords = _.filter(this.stopwords, (stopword) => {
-      return stopword !== '';
-    })
-    this.updateStopWords();
+    this.submitted = true;
+    if(this.validateAddStopWord()){
+      const stopwords = (this.newStopWord || '').split(',');
+      this.stopwords = _.uniq(this.stopwords.concat(stopwords)).sort();
+      this.stopwords = _.filter(this.stopwords, (stopword) => {
+        return stopword !== '';
+      })
+      this.updateStopWords();
+      this.submitted = false;
+    }
+    else{
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;

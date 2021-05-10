@@ -91,12 +91,15 @@
                         <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                       </mat-chip>
                       <input
+                        id="teamInput"
                         placeholder="Type and Enter To Add"
                         #fruitInput
                         [formControl]="teamCtrl"                        
                         [matChipInputFor]="chipList"
+                        [matChipInputAddOnBlur]="addOnBlur"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                        (matChipInputTokenEnd)="add($event)">
+                        (matChipInputTokenEnd)="add($event)"
+                        autocomplete="off">
                     </mat-chip-list>
                     <!--[matAutocomplete]="auto" <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
                       <mat-option *ngFor="let membersug of filteredFruits | async" [value]="membersug">

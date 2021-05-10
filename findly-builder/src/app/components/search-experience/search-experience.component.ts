@@ -239,6 +239,7 @@ export class SearchExperienceComponent implements OnInit {
     { img_src: 'assets/icons/search-experience/emojis/monkey-1.png', value: 'monkey-1' },
     { img_src: 'assets/icons/search-experience/emojis/monkey-2.png', value: 'monkey-2' }
   ];
+  submitted : boolean = false;
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('guideModalPop') guideModalPop: KRModalComponent;
@@ -304,6 +305,7 @@ export class SearchExperienceComponent implements OnInit {
   }
   //sequential tabs method
   nextTab(type) {
+    this.submitted = false;
     if (type === 'pre') {
       if (this.selectedTab === 'searchwidget') {
         this.show_tab_color = false;
@@ -323,10 +325,28 @@ export class SearchExperienceComponent implements OnInit {
         this.selectedTab = 'searchwidget';
       }
       else if (this.selectedTab === 'searchwidget') {
-        this.show_tab_color1 = true;
-        this.show_tab_color2 = false;
-        this.selectedTab = 'interactions';
+        this.submitted = true;
+        if(this.validateSearchWidget()){
+          this.show_tab_color1 = true;
+          this.show_tab_color2 = false;
+          this.selectedTab = 'interactions';
+        }
+        else{
+          this.notificationService.notify('Enter the required fields to proceed', 'error');
+        }
       }
+    }
+  }
+
+  validateSearchWidget(){
+    if(this.searchObject.searchWidgetConfig.searchButtonEnabled && this.searchObject.searchWidgetConfig.buttonText.length){
+      return true;
+    }
+    else if(this.searchObject.searchWidgetConfig.searchButtonEnabled && !this.searchObject.searchWidgetConfig.buttonText.length){
+      return false;
+    }
+    else {
+      return true;
     }
   }
   // //change button placement
