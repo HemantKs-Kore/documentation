@@ -361,7 +361,7 @@
         </div>
       </div>
     </div>
-    <div class="responseEditorContainer" *ngIf="currentEditIndex === index">
+    <div class="responseEditorContainer" [hidden]="currentEditIndex !== index">
       <div class="bottom_sec ">
         <div class="col-12 left_sec editResponseMode">        
           <div class="content-data">
@@ -428,8 +428,12 @@
         </div>
       </div>   
     </div>
-    <div class="col-12 p-0 pointer body_sec" title="Click to edit this response" *ngIf="currentEditIndex !== index">
-       <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+    <div class="col-12 p-0 pointer body_sec" title="Click to edit this response" [hidden]="currentEditIndex == index">
+      <div class="previewResponseMod">
+      <div class="responsePreviewBlock">
+      <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+    </div>
+  </div>
     </div>
   </ng-container>
   <div class="btn-sec">

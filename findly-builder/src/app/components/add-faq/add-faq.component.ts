@@ -957,9 +957,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   }
   ngAfterViewInit() {
     $('.text-area-editor').click(function (event) {
-      // if(!$('.editResponseMode').hasClass('focusedEdit')){
         $('.editResponseMode').addClass('focusedEdit');
-        // }
     });
       $(document).off('click').on('click', function(event) {
       if (!$(event.target).closest('.text-area-editor').length && !$(event.target).closest('.provideLinkPopup').length &&  $('.editResponseMode').hasClass('focusedEdit')) {
@@ -970,7 +968,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
 
       }
     });
-    
+    setTimeout(()=>{
     $('.responsePreviewBlock').click(function(){
       setTimeout(()=>{
         $('.editResponseMode').removeClass('d-none');
@@ -978,6 +976,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       $('.editResponseMode').addClass('focusedEdit');
       },100)
     });
+  },1000)
   }
   ngOnDestroy() {
     this.eventsSubscription? this.eventsSubscription.unsubscribe(): false;
