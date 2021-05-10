@@ -17650,7 +17650,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             </div>\
             <!-- All type -->\
             {{if view == "preview"}}\
-              <div id="fullResultAllTypeId"></div>\
+              <div id="fullResultAllTypeId" style="height:100%"></div>\
             {{/if}}\
             <!-- All type -->\
             <!-- Result Ranking -->\
@@ -18598,7 +18598,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.fullResultAllType = function () {
       var template = '<script type="text/x-jqury-tmpl">\
-      <div>\
+      <div style="height:100%">\
       <div id="loaderDIV" class="loader-container">Loading...</div>\
         <div class="data-body-sec {{if facetPosition == `top`}}iffilteristop{{/if}}">\
         <div class="faqs-full-search-container matched-structured-data-contaniers">\
