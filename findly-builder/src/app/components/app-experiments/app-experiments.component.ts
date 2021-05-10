@@ -786,6 +786,16 @@ export class AppExperimentsComponent implements OnInit {
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
+  checkDuration(value){
+    // if(parseInt(event.target.value) > 90){
+    //   event.target.value = ''
+    //   // event.preventDefault();
+    // }
+    if(value > 90){
+      console.log(value, this.experimentObj.duration.days)
+      this.experimentObj.duration.days = 90
+    }
+  }
   // ngOnDestroy() {
   //   this.indexSubscription.unsubscribe();
   //   this.searchSubscription.unsubscribe();

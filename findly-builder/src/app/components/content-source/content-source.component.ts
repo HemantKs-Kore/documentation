@@ -1519,7 +1519,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.searchSources = '';
     }
     this.showSearch = !this.showSearch
-  };
+  }
+ 
 }
 
 // class CrwalObj{  

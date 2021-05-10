@@ -472,7 +472,7 @@
                           <div class="col_ col-2 p-0 text-right actions-images">
                             <img src="assets/icons/return.svg" *ngIf="selectedSource.extractionType == 'webdomain'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl" ngbTooltip='Recrawl'  container="body">
                             <img src="assets/icons/content/edit_black.svg" (click)="editTitle($event)" title="Edit" ngbTooltip='Edit'  container="body">
-                            <img src="assets/icons/content/delete.svg" (click)="deletePages('source',page ,$event)" title="Delete" ngbTooltip='Delete'  container="body">
+                            <img src="assets/icons/content/delete.svg" (click)="deleteDocument('source',selectedSource ,$event)" title="Delete" ngbTooltip='Delete'  container="body">
                           </div>
                         </div>
                       </ng-container>
@@ -692,11 +692,11 @@
                         <img src="assets/icons/info.svg">
                         <span class="tooltiptext">
                           <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
-                          <div class="v-text">Value = 0 (No limit)</div>
+                          <div class="v-text">Value = 0 (No limit)</div> 
                         </span>
                       </div> 
                     </div>
-                    <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
+                    <input type="text" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0" min="0" 
                       [(ngModel)]="crawlDepth" class="input-text" >
                   </div>
                 </div>
