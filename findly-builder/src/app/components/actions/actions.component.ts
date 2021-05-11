@@ -13,7 +13,8 @@ declare const $: any;
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',
-  styleUrls: ['./actions.component.scss']
+  styleUrls: ['./actions.component.scss'],
+  animations: [fadeInOutAnimation],
 })
 export class ActionsComponent implements OnInit {
  
@@ -30,6 +31,7 @@ export class ActionsComponent implements OnInit {
   topActionsTop = false;
   associatedBots: any = [];
   topActionsBottom : boolean;
+  loader:boolean;
   bottomActionsTop = false;
   bottomActionsBottom = false;
   previewTopBottom = 'top';
@@ -61,10 +63,10 @@ export class ActionsComponent implements OnInit {
       this.streamId = null;
     }
     this.LinkABot = this.workflowService.linkedBot;
-    // this. botLinkedOrUnlinked();
     console.log(this.LinkABot)
     this.userInfo = this.authService.getUserInfo() || {};
-    this.getAssociatedBots()
+    // this.getAssociatedBots()
+    this.checkLoadingContent()
     // streamId: this.selectedApp._id
     this.previewTopBottom = this.workflowService.topDownOrBottomUp
     this.topDownOrBottomUp('showTop')
@@ -78,15 +80,24 @@ export class ActionsComponent implements OnInit {
     // this.headerService.updateMainMenuInHeader('/settings');
 } 
   botLinkedOrUnlinked() {
-    // this.LinkABot = this.workflowService.linkBot()
-    // this.botLinked  = this.LinkABot?true:false;
     if (this.LinkABot) {
-      this.botLinked = true; 
+      this.botLinked = true;
     }
-    else if (!this.LinkABot){
+    else if (!this.LinkABot) {
       this.botLinked = false;
     }
     this.getAssociatedBots()
+  }
+  checkLoadingContent() {
+    if (this.streamId == null) {
+      this.loader = true
+      this.getAssociatedBots();
+    }
+    else if (this.streamId != null) {
+      this.loader = true
+      this.getAssociatedBots();
+    }
+
   }
     getAssociatedBots() {
       if (this.userInfo.id) {
@@ -100,18 +111,16 @@ export class ActionsComponent implements OnInit {
           if (element.type == "default" || element.type == "universalbot") {
             this.associatedBots.push(element)
           }
-
           if (this.streamId == element._id) {
             if (this.loadingBotContent1 = true) {
-              // this.linkedBotID = element._id
-              // if(this.linkedBotID == element._id){
               this.LinkABot = element._id
               this.loadingBotContent = true
               this.botLinked = true;
+              // this.linkedBotID = element._id
+              // if(this.linkedBotID == element._id){
               // }
             }
           }
-
           else if (this.streamId == null) {
             if (this.loadingBotContent = true) {
               this.LinkABot != element._id

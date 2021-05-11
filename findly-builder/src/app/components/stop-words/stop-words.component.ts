@@ -20,7 +20,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   newStopWord: any = '';
   showSearch = false;
   checkStopwords =false;
-  enabled = false;
+  enabled = true;
   validation: any = {
     duplicate: false,
     spaceFound: false
@@ -119,16 +119,16 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
       this.pipeline = res.pipeline || {};
-      if (res.options) {
-        this.enabled = res.options.stopWordsRemovalEnabled;
-      }
+      // if (res.pipeline.stages[2].options) {
+      //   this.enabled = res.pipeline.stages[2].options.stopWordsRemovalEnabled;
+      // }
       if (this.pipeline.stages && this.pipeline.stages.length) {
         this.pipeline.stages.forEach(stage => {
           if (stage && stage.type === 'stopwords') {
             this.stopwords = stage.stopwords || [];
-            if (stage.options) {
-              this.enabled = stage.options.stopWordsRemovalEnabled;
-            }
+            // if (stage.options) {
+            //   this.enabled = stage.options.stopWordsRemovalEnabled;
+            // }
           }
         });
       }
@@ -140,6 +140,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         this.loadingContent1 = true;
       }
       this.loadingContent = false;
+      res.pipeline.stages[2].options.stopWordsRemovalEnabled = this.enabled ;
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get stop words');
@@ -200,8 +201,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
             if (!(this.stopwords && this.stopwords.length) && !dialogRef) {
               this.notificationService.notify('No default stop words available', 'error');
             } else  {
-              this.checkStopwords = false;
-              this.notificationService.notify('Reset Successful', 'success');
               if (this.stopwords.length === 0) this.appSelectionService.updateTourConfig(this.componentType);
             }
           }
@@ -236,7 +235,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.restore(dialogRef)
+          this.restore(dialogRef);
+          this.notificationService.notify('Reset Successful', 'success');
         } else if (result === 'no') {
           dialogRef.close();
         }
