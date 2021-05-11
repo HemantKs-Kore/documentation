@@ -64,6 +64,7 @@ export class AppExperimentsComponent implements OnInit {
   loadingContent1: boolean;
   indexSubscription: Subscription;
   searchSubscription: Subscription;
+  ctrTooltip: string = 'Click Through Rate is the percentage of searches which got at least one click of all the searches performed';
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
