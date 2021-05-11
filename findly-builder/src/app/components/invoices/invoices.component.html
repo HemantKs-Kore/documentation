@@ -1,4 +1,8 @@
 <div class="invoice-container">
+    <div class="mainLoadingSpinner" *ngIf="loading" >
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
+    </div>
     <div class="header-sec">
         <div class="title">Invoices</div>
         <!-- <div class="d-flex align-items-center">
@@ -13,38 +17,50 @@
             </div> 
         </div> -->
     </div>
-    <div class="plan-type">
-        <div class="current-plan">Current Plan</div>
-        <div class="type">Free</div>
-    </div>
-    <perfect-scrollbar class="scroll-invoice-content if-pagination">
-        <div class="invoice-table-data">
-            <div class="invoice-table-header row col-12">
-                <div class="title col-2">INVOICE ID</div>
-                <div class="title col-3">BILLING period</div>
-                <div class="title col-2">INVOICE AMOUNT</div>
-                <div class="title col-2">SUBSCRIPTION</div>
-                <div class="title col-3 col_ d-flex align-items-center" (click)="sortBy('invoiceCreatedDate')">
-                    <span class="d-flex align-items-center flex-column mr-1">
-                        <img  [ngClass]="getSortIconVisibility('invoiceCreatedDate', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                        <img  [ngClass]="getSortIconVisibility('invoiceCreatedDate', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                      </span>
-                    INVOICE DATE</div>
+
+    <ng-container *ngIf="!invoices.length && !loading">
+        <div class="empty-invoice">
+            <div class="img-block">
+                <img src="assets/icons/invoices/empty-log.svg">
             </div>
-            <div class="invoice-table-body row col-12" *ngFor="let invoice of invoices | fieldsFilter: [ searchInvoice, '_id']">
-                <div class="title col-2">{{invoice._id}}</div>
-                <div class="title col-3">{{invoice.subscriptionDetails.startDate  | dateFormatPipe: 'DD MMM YYYY'}} - {{invoice.subscriptionDetails.endDate  | dateFormatPipe: 'DD MMM YYYY'}}</div>
-                <div class="title col-2">$ {{invoice.amount}}</div>
-                <div class="title col-2">{{invoice.subscriptionType}}</div>
-                <div class="title col-3">{{invoice.invoiceCreatedDate  | dateFormatPipe: 'DD MMM YYYY'}}</div>
-                <div class="actions-invoice">
-                    <!-- <div class="view"> <a href="{{invoice.viewInvoice}}" target="_blank"><img src="assets/icons/usage-log/view.svg"></a></div> -->
-                    <div class="download-invoice"><a type="button" (click)="downloadInvoice(invoice.viewInvoice,invoice._id)"><img src="assets/icons/usage-log/download.svg"></a></div>
+            <!-- <div class="empty-text">After subscribing to any of the plans offered, your invoices will appear here</div> -->
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="invoices.length && !loading">
+        <div class="plan-type">
+            <div class="current-plan">Current Plan</div>
+            <div class="type">Free</div>
+        </div>
+        <perfect-scrollbar class="scroll-invoice-content if-pagination">
+            <div class="invoice-table-data">
+                <div class="invoice-table-header row col-12">
+                    <div class="title col-2">INVOICE ID</div>
+                    <div class="title col-3">BILLING period</div>
+                    <div class="title col-2">INVOICE AMOUNT</div>
+                    <div class="title col-2">SUBSCRIPTION</div>
+                    <div class="title col-3 col_ d-flex align-items-center" (click)="sortBy('invoiceCreatedDate')">
+                        <span class="d-flex align-items-center flex-column mr-1">
+                            <img  [ngClass]="getSortIconVisibility('invoiceCreatedDate', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                            <img  [ngClass]="getSortIconVisibility('invoiceCreatedDate', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                          </span>
+                        INVOICE DATE</div>
+                </div>
+                <div class="invoice-table-body row col-12" *ngFor="let invoice of invoices | fieldsFilter: [ searchInvoice, '_id']">
+                    <div class="title col-2">{{invoice._id}}</div>
+                    <div class="title col-3">{{invoice.subscriptionDetails.startDate  | dateFormatPipe: 'DD MMM YYYY'}} - {{invoice.subscriptionDetails.endDate  | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                    <div class="title col-2">$ {{invoice.amount}}</div>
+                    <div class="title col-2">{{invoice.subscriptionType}}</div>
+                    <div class="title col-3">{{invoice.invoiceCreatedDate  | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                    <div class="actions-invoice">
+                        <!-- <div class="view"> <a href="{{invoice.viewInvoice}}" target="_blank"><img src="assets/icons/usage-log/view.svg"></a></div> -->
+                        <div class="download-invoice"><a type="button" (click)="downloadInvoice(invoice.viewInvoice,invoice._id)"><img src="assets/icons/usage-log/download.svg"></a></div>
+                    </div>
                 </div>
             </div>
+        </perfect-scrollbar>
+        <div class="px-4">
+            <app-record-pagination *ngIf="invoices && invoices.length" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
         </div>
-    </perfect-scrollbar>
-    <div class="px-4">
-        <app-record-pagination *ngIf="invoices && invoices.length" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
-    </div>
+    </ng-container>    
 </div>
