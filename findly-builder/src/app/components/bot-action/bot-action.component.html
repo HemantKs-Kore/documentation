@@ -177,7 +177,7 @@
             </div>
             <div class="col-2 owner-name">{{bot.createdBy.firstName}} {{bot.createdBy.lastName}}</div>
             <div class="col-4 link-bot-actions">
-              <div class="link-bot-btn" (click)="linkBot(bot._id)" *ngIf="streamId !== bot._id">
+              <div class="link-bot-btn" (click)="openBotsConfigurationModalElement(bot)" *ngIf="streamId !== bot._id">
                 <img src="assets/icons/actions/link-bot.svg">Link Bot
               </div>
               <div class="link-bot-btn" (click)="unlinkBot(bot._id,'bulk_unlink')" *ngIf="streamId == bot._id">
@@ -190,4 +190,61 @@
         </div>
     </div>
   </perfect-scrollbar>
+</kr-modal>
+
+<kr-modal modalType="center" #botsConfigurationModalElement modalClass="modal_popups_ linkExistingBotsModal">
+  <div class="modal-header">
+    <div class="title"> <span class="gray-text-link"> Link Bot </span><img src="assets/icons/carrotright.svg"> Configuration | {{this.selectedLinkBotConfig?.name}}</div>
+    <div class="close_icon" (click)="closeBotsConfigurationModalElement()"><img src="assets/icons/modal-close.svg"></div>
+  </div>
+  <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="modal-body">
+       <div class="">
+        <div class="info-link-text lh-20">You can link a Virtual Assistant built on the Kore.ai Platform with your SearchAssist app. To link, you will need to enable the Webhook channel on the Virtual Assistant and complete the integration.<a (click)="showMore=!showMore" class="show-how-btn"> {{showMore?'Show less':'Show how'}}</a> </div>
+        <div class="more-info-link-text" *ngIf="showMore">
+            <div class="more-info-data"><span class="step-text">Step 1:</span>  Enable Webhook channel for your Virtual Assistant using the Access Token & Post URL provided below.</div>
+            <div class="more-info-data"><span  class="step-text">Step 2:</span>  Get the Client ID & Secret ID from the Channel configuration page of the Virtual Assistant and provide here.</div>
+            <div class="more-info-data"><span  class="step-text">Step 3:</span>  The SearchAssist app can interact with the Virtual Assistant only after the Webhook channel is published.</div>
+        </div>
+        <div class="kr-sg-input-text"> 
+          <label class="label-text label-text-bot-link">Access Token</label>         
+          <input type="text"placeholder="Enter access token" [(ngModel)]="configurationLink.accessToken" name="accessToken" class="input-text bot-link-input" readonly> 
+          <div class="copy-btn" (click)="copy(accessToken,clipAppName)"><img src="assets/images/icons/copy.svg">Copy</div>
+        </div>
+        <div class="kr-sg-input-text"> 
+          <label class="label-text label-text-bot-link">Post URL</label>         
+          <input type="text"placeholder="Enter post url" [(ngModel)]="configurationLink.postUrl" name="postUrl" class="input-text bot-link-input" readonly> 
+          <div class="copy-btn" (click)="copy(accessToken,clipAppName)"><img src="assets/images/icons/copy.svg">Copy</div>
+        </div>
+        <div class="kr-sg-input-text"> 
+          <div class="w-75 position-relative">
+            <label class="label-text label-text-bot-link">Webhook URL</label>         
+            <input type="text"placeholder="https://" [(ngModel)]="configurationLink.webhookUrl" name="webhookUrl" class="input-text bot-link-input w-100" [ngClass]="{'err-block' : (!configurationLink.webhookUrl.length && submitted)}"> 
+            <img *ngIf="!configurationLink.webhookUrl.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+        </div>
+      </div>
+        <div class="kr-sg-input-text"> 
+          <div class="w-75 position-relative">
+          <label class="label-text label-text-bot-link">Bot Client ID</label>         
+          <input type="text"placeholder="Enter bot client ID" [(ngModel)]="configurationLink.clientId" name="botClientId" class="input-text bot-link-input w-100" [ngClass]="{'err-block' : (!configurationLink.clientId.length && submitted)}" > 
+          <img *ngIf="!configurationLink.clientId.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+        </div>
+      </div>
+
+        <div class="kr-sg-input-text"> 
+          <label class="label-text label-text-bot-link">Bot Secret ID</label>    
+          <div class="w-75 position-relative">
+            <input type="password" id="password" placeholder="Enter bot secret ID" [(ngModel)]="configurationLink.clientSecret" name="botSecreatId" class="input-text bot-link-input w-100" [ngClass]="{'err-block' : (!configurationLink.clientSecret.length && submitted)}"> 
+            <img  (click)="showPasword()" *ngIf="!showPassword && configurationLink.clientSecret.length" src="assets/images/icons/eye.svg" class="eye" type="eye" >
+            <img  (click)="showPasword()"   *ngIf="showPassword && configurationLink.clientSecret.length" src="assets/images/icons/viewPw.svg.svg"class="eye" type="eye" >
+            <img *ngIf="!configurationLink.clientSecret.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 31%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+          </div>     
+        </div>
+       </div>
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer">
+    <button   type="button" class="btn kr-btn-primary"  data-dismiss="modal" (click)='saveLink()' >Link</button>
+    <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeBotsConfigurationModalElement()">Back</button>
+  </div>
 </kr-modal>

@@ -357,9 +357,12 @@
                 align-items: center;
                 justify-content: space-between !important;
                 .title{
-                    font-weight: 500;
-                    font-size: 18px;
-                    line-height: 22px;
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 17px;
+                    .gray-text-link{
+                        color: #9AA0A6;
+                    }
                 }
             }
             .modal-body{
@@ -368,11 +371,71 @@
                     font-weight: 500;
                     font-size: 12px;
                     line-height: 15px;
+                    .show-how-btn{
+                        cursor: pointer;
+                        color: #0D6EFD;
+                    }
+                }
+                .info-link-text.lh-20{
+                    line-height: 20px;
+                    width: 75%;
+                }
+                .more-info-link-text{
+                    background: #FFFFFF;
+                    border: 1px solid #E7F1FF;
+                    box-sizing: border-box;
+                    border-radius: 6px;
+                    padding: 12px 19px;
+                    margin-top: 16px;
+                    width: 75%;
+                    .more-info-data{
+                        font-size: 12px;
+                        line-height: 17px;
+                        margin: 5px 0px;
+                        padding: 5px 0px;
+                        .step-text{
+                            color: #9AA0A6;
+                            font-size: 12px;
+                            font-weight: 600;
+                        }
+                    }
                 }
                 .kr-sg-input-text{
                     margin: 25px 0;
                     input{
                         padding-left: 35px;
+                    }
+                    .bot-link-input{
+                        padding-left: 10px;
+                        width: 75%;
+                    }
+                    .copy-btn{
+                        display: inline;
+                        background: #0d6efd;
+                        border-radius: 4px;
+                        width: 81px;
+                        height: 34px;
+                        text-align: center;
+                        padding: 7px;
+                        color: #fff;
+                        font-weight: 500;
+                        font-size: 14px;
+                        line-height: 20px;
+                        cursor: pointer;
+                        margin-left: 10px;
+                        img{
+                            margin-right: 5px;
+                            position: relative;
+                            top: -1px;
+                        }
+                    }
+                    .eye{
+                        position: absolute;
+                        right: 10px;
+                        top: 10px;
+                    }
+                    .label-text-bot-link{
+                        display: block;
                     }
                     .search-icon{
                         position: absolute;

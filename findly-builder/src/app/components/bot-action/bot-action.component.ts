@@ -34,11 +34,25 @@ export class BotActionComponent implements OnInit {
   linkedBotDescription: any;
   islinked = false;
   botToBeUnlinked = '';
+  selectedLinkBotConfig:any;
   // associatedBotArr = [];
   userInfo: any;
   botsModalRef: any;
+  botsConfigurationModalRef: any;
   searchAssociatedBots = '';
+  accessToken:any;
+  showPassword=false;
+  showMore = false;
+  configurationLink:any={
+    postUrl:'',
+    accessToken:'',
+    webhookUrl:'',
+    clientSecret:'',
+    clientId:''
+  }
+  submitted = false;
   @ViewChild('botsModalElement') botsModalElement: KRModalComponent;
+  @ViewChild('botsConfigurationModalElement') botsConfigurationModalElement: KRModalComponent;
   searchBots: string;
   searchSources: string;
   associatedBots: any = [];
@@ -173,7 +187,7 @@ export class BotActionComponent implements OnInit {
     if (this.workflowService.selectedApp()?.configuredBots[0]) {
       this.streamId = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
     }
-    else if (this.workflowService.selectedApp()?.publishedBots[0]) {
+    else if ((this.workflowService.selectedApp()?.publishedBots || []).length && this.workflowService.selectedApp()?.publishedBots[0]) {
       this.streamId = this.workflowService.selectedApp()?.publishedBots[0]?._id ?? null
     }
     else {
@@ -373,7 +387,37 @@ export class BotActionComponent implements OnInit {
       this.botsModalRef.close();
     }
   }
+  openBotsConfigurationModalElement(bot) {
+    this.selectedLinkBotConfig = bot;
+    const queryParams = {
+      searchIndexId: this.searchIndexId
+    }
+    // this.service.invoke('get.generateChannelCreds', queryParams).subscribe(
+    //   res => {
+    //     if(res && res.length){
+    //       this.configurationLink.postUrl =res.postUrl; 
+    //       this.configurationLink.accessToken =res.accessToken;
+    //       this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
+    //     }
+    //   },
+    //   errRes => {
+    //     if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+    //       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    //     } else {
+    //       this.notificationService.notify('Failed to geneerate channel credentials', 'error');
+    //     }
+    //   }
+    // );
+    this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
 
+  }
+
+  closeBotsConfigurationModalElement() {
+    if (this.botsConfigurationModalRef && this.botsConfigurationModalRef.close) {
+      this.botsConfigurationModalRef.close();
+      this.submitted = false;
+    }
+  }
   modifyStyles(elementRef, isActive) {
     console.log(elementRef);
     let element = document.getElementById(elementRef);
@@ -1210,6 +1254,81 @@ export class BotActionComponent implements OnInit {
         }
         //  this.notificationService.notify("Linked Bot Synced, Successfully", 'success')
       })
+    }
+  }
+  validateBotConfiguration(){
+    if(!this.configurationLink.clientId || !this.configurationLink.clientSecret || this.configurationLink.webhookUrl || !this.configurationLink.postUrl || !this.configurationLink.accessToken){
+      return false
+    }else{
+      return true;
+    }
+  }
+  saveLink(){
+    this.submitted = true;
+    if(!this.validateBotConfiguration()){
+      return;
+    }
+    const queryParams = {
+      searchIndexId: this.searchIndexId
+    }
+    let payload = {
+      "linkBotId":this.selectedLinkBotConfig._id,
+   "linkBotName": this.selectedLinkBotConfig.name,
+   "channels": [
+          {
+           "type": "ivr",
+           "app": {
+               "clientId": this.configurationLink.clientId,
+               "name": "app1",
+               "clientSecret": this.configurationLink.clientSecret
+              },
+          "webhookUrl": this.configurationLink.webhookUrl,
+          "postUrl": this.configurationLink.postUrl,
+          "accessToken": this.configurationLink.accessToken
+          }
+      ]
+   
+    }
+    this.service.invoke('put.configLinkbot', queryParams, payload).subscribe(
+      res => {
+        this.selectedLinkBotConfig = null;
+        this.closeBotsConfigurationModalElement();
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to geneerate channel credentials', 'error');
+        }
+      }
+    );
+  }
+
+  copy(val, elementID) {
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+    this.notificationService.notify('Copied to clipboard', 'success')
+
+  }
+
+  showPasword() {
+    var show: any = document.getElementById("password");
+    if (show.type === "password") {
+      this.showPassword=true;
+      show.type = "text";
+
+    } else {
+      this.showPassword= false;
+      show.type = "password";
     }
   }
 }

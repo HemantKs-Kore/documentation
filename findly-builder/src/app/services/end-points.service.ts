@@ -379,6 +379,14 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/allTasks',
       method: 'get'
     }
+    this.serviceList['get.generateChannelCreds'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/searchbot/linkbot/generateChannelCreds',
+      method: 'get'
+    }
+    this.serviceList['put.configLinkbot'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/searchbot/linkbot',
+      method: 'put'
+    }
     this.serviceList['put.LinkBot'] = {
       // endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails',
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/searchbot/linkbot',
