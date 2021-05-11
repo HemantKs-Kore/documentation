@@ -4861,6 +4861,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           success: function (data) {
             console.log(data);
             _self.vars.searchObject.recents = data.recentSearches;
+            if(_self.vars.searchObject.recents.length){
+              if (!$('.search-container').hasClass('active')) {
+                $('.search-container').addClass('active');
+              }
+            }
             if ($('body').hasClass('top-down')) {
               var freqDataTop = {
                 // searchResults: searchResults,
@@ -5122,9 +5127,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (!_self.customSearchResult) {
             // var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
             // $('.search-body').html(freqData);
-            if (!$('body').hasClass('top-down')) {
-              _self.pubSub.publish('sa-generate-recent-search');
-            }
+            // if (!$('body').hasClass('top-down')) {
+            //   _self.pubSub.publish('sa-generate-recent-search');
+            // }
           } else {
             _self.pubSub.publish('sa-freq-data', tmplData);
             _self.pubSub.publish('sa-show-freq-data', tmplData);
@@ -13449,12 +13454,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $('.refresh-sdk').off('click').on('click', function (e) {
         $('#show-all-results-container').hide();
+        $('.search-container').removeClass('active');
         _self.vars.selectedFacetFromSearch = "all results"
         var responseObject = { 'type': 'refreshSearchContainer', data: false, query: _self.vars.searchObject.searchText, bottomUp: true }
         _self.parentEvent(responseObject);
       });
       $('.kore-search-container-close-icon').off('click').on('click', function (e) {
         $('#show-all-results-container').hide();
+        $('.search-container').removeClass('active');
         _self.vars.selectedFacetFromSearch = "all results"
         var responseObject = { 'type': 'closeSearchContainer', data: false, query: _self.vars.searchObject.searchText, bottomUp: true }
         _self.parentEvent(responseObject);
