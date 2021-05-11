@@ -74,6 +74,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Extract FAQs from Webdomain', routeId: '/source', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'FAQs', routeId: '/faqs', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'Content', routeId: '/content', quaryParms: { sourceType: 'faqWeb' } },
+    { displayName: 'Structured Data', routeId: '/structuredData', quaryParms: {} },
   ]
   public dockersList: Array<any> = [];
   public pollingSubscriber: any;
@@ -223,6 +224,7 @@ export class AppHeaderComponent implements OnInit {
         if (slectedRoute && slectedRoute.length) {
           queryParams = slectedRoute[0].quaryParms || {};
           this.router.navigate([slectedRoute[0].routeId], { skipLocationChange: true, queryParams });
+          this.analyticsClick(slectedRoute[0].routeId, true);
         }
       }, 100)
     } else if (routObj && routObj.routeId) {

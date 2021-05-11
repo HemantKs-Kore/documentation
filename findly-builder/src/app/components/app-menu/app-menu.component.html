@@ -56,28 +56,28 @@
 			<div class="default-index-title">				
 				<div class="kr-sg-dropdowns" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom'">
 					<div class="dropdown dropdown-open">
-						<button class="dropdown-toggle dropdown-input" title="{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name:'Loading..'}}" ngbDropdownToggle>
-							<span class="text-truncate">{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name:'Loading..'}}</span>
+						<button class="dropdown-toggle dropdown-input" title="{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name=='Default'?'Default Index':indexConfigObj[selectedIndexConfig].name:'Loading..'}}" ngbDropdownToggle>
+							<span class="text-truncate">{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name=='Default'?'Default Index':indexConfigObj[selectedIndexConfig].name:'Loading..'}}</span>
 						</button>
 						<ul class="dropdown-menu content-menu queryPipelineDefault" ngbDropdownMenu>
 							<perfect-scrollbar>
-								<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectIndexPipelineId(config,selectIndexConfigDrop)" *ngFor="let config of indexConfigs">
-									<img src="assets/icons/star.svg" *ngIf="config.default" class="star" [container]="'body'" ngbTooltip='Default' placement="top-center">
+								<li class="list-name text-truncate" [ngClass]="{'nostars': config.default || !(config.default)}" (click)="selectIndexPipelineId(config,selectIndexConfigDrop)" *ngFor="let config of indexConfigs">
+									<img src="assets/icons/star.svg" *ngIf="config.default" class="star" [container]="'body'" ngbTooltip='Default Index' placement="top-center">
 									<img src="assets/icons/start-black.svg" [container]="'body'" (click)="$event.stopPropagation();markAsDefaultIndex(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-center">
 									<span *ngIf="selectedIndexConfig == config._id && editIndexName; else indexName">
 										<input type ="text" class="edit-name" name="editIndexName" [(ngModel)]="editIndexNameVal" id="editIndexNameID" (click)="$event.stopPropagation()" (keypress)="onKeypressIndexEvent($event,config)">
 									</span>
 									<ng-template #indexName>
-										<span class="config_name text-truncate" title="{{config.name}}">{{config.name}}</span>
+										<span class="config_name text-truncate" title="{{config.name=='Default'?'Default Index':config.name}}">{{config.name=='Default'?'Default Index':config.name}}</span>
 									</ng-template>
 									<div class="action-icons-data">
 										<div class="clone" *ngIf="!editIndexName" (click)="$event.stopPropagation();openIndexModalPopup('clone',config);selectIndexConfigDrop.close();" ngbTooltip='Clone' placement="top-center" [container]="'body'">
 											<img src="assets/icons/clone.svg">
 										</div>
-										<div class="edit-black" *ngIf="!editIndexName" (click)="$event.stopPropagation();editIndexConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
+										<div class="edit-black" *ngIf="!editIndexName&&!(config.default)" (click)="$event.stopPropagation();editIndexConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
 											<img src="assets/icons/edit-pencil.svg">
 										</div>																
-										<div class="delete" *ngIf="!editIndexName" ngbTooltip='Delete' placement="top-center" [container]="'body'" (click)="$event.stopPropagation();deleteIndexConfig(config)">
+										<div class="delete" *ngIf="!editIndexName&&!(config.default)" ngbTooltip='Delete' placement="top-center" [container]="'body'" (click)="$event.stopPropagation();deleteIndexConfig(config)">
 											<img src="assets/icons/delete.svg">
 										</div>											
 									</div>
@@ -123,7 +123,7 @@
 				<div class="search-config-title">Search Configuration</div>
 
 				<div class="search-config-elipse-block">
-					<div class="title text-truncate" title="{{configObj[selectedConfig]?configObj[selectedConfig].name:'Loading..'}}">{{configObj[selectedConfig]?configObj[selectedConfig].name:'Loading..'}} </div>
+					<div class="title text-truncate" title="{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}}">{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}} </div>
 					<div class="kr-sg-dropdowns kr_sg_dropdowns" #selectSearchConfigDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-left'">
 						<div class="dropdown dropdown-open">
 							<button class="dropdown-toggle dropdown-input before-none" ngbDropdownToggle>
@@ -131,20 +131,20 @@
 							</button>
 							<ul class="dropdown-menu content-menu queryPipelineConfig" ngbDropdownMenu>
 								<perfect-scrollbar>
-									<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectQueryPipelineId(config,selectSearchConfigDrop)" *ngFor="let config of queryConfigs">
+									<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default|| (config.default)}" (click)="selectQueryPipelineId(config,selectSearchConfigDrop)" *ngFor="let config of queryConfigs">
 										<img src="assets/icons/star.svg" *ngIf="config.default" class="star" [container]="'body'" ngbTooltip='Default' placement="top-center">
 										<img src="assets/icons/start-black.svg" [container]="'body'" (click)="$event.stopPropagation();markAsDefault(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-center" [container]="'body'">
 										<span *ngIf="selectedConfig == config._id && editName; else name">
 											<input type ="text" class="edit-name" name="editName" [(ngModel)]="editNameVal" id="editNameID" (click)="$event.stopPropagation()" (keypress)="onKeypressEvent($event,config)">
 										</span>
 										<ng-template #name>
-											<span class="config_name text-truncate" title="{{config.name}}">{{config.name}}</span>
+											<span class="config_name text-truncate" title="{{config.name=='Default'?'Default Search':config.name}}">{{config.name=='Default'?'Default Search':config.name}}</span>
 										</ng-template>
 										<div class="action-icons-data">
 											<div class="clone" *ngIf="!editName" (click)="$event.stopPropagation();openModalPopup('clone',config);selectSearchConfigDrop.close();" ngbTooltip='Clone' placement="top-center" [container]="'body'">
 												<img src="assets/icons/clone.svg">
 											</div>
-											<div class="edit-black" *ngIf="!editName" (click)="$event.stopPropagation();editConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
+											<div class="edit-black" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();editConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
 												<img src="assets/icons/edit-pencil.svg">
 											</div>																
 											<!-- <div class="delete" *ngIf="!editName">
