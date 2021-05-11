@@ -1265,7 +1265,9 @@ div.divBlockEmptylastChild:first-child {
         border-bottom: 0px solid #BDC1C6 !important;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
         background: #fff !important;
-        display: block !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between !important;
         margin-bottom: 4px;
         &.noShadow{
             box-shadow: none;
@@ -1276,6 +1278,11 @@ div.divBlockEmptylastChild:first-child {
             font-size: 14px;
             float: left;
             font-weight: 400;
+            word-break: break-word;
+            width: 95%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .close_icon{
             cursor: pointer;

@@ -331,6 +331,9 @@ export class SearchExperienceComponent implements OnInit {
           this.show_tab_color2 = false;
           this.selectedTab = 'interactions';
         }
+        else{
+          this.notificationService.notify('Enter the required fields to proceed', 'error');
+        }
       }
     }
   }

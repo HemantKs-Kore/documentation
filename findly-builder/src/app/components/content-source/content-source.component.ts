@@ -266,9 +266,27 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.resources = res;
       this.resources.forEach(element => {
         if (element.advanceSettings && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time) {
-          element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' at ' +
+          if(element.advanceSettings.scheduleOpts.interval.intervalType !="Custom"){
+            element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' at ' +
             element.advanceSettings.scheduleOpts.time.hour + ':' + element.advanceSettings.scheduleOpts.time.minute + ' ' +
             element.advanceSettings.scheduleOpts.time.timeOpt + ' ' + element.advanceSettings.scheduleOpts.time.timezone;
+          }else{
+            let repeatOn = "";
+            let schedulePeriod = "";
+            let every = ""
+            if(element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod){
+              schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
+            }
+            if(element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn){
+              repeatOn = "on " + element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
+            }
+            if(element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1){
+              every = element.advanceSettings.scheduleOpts.interval.intervalValue.every;
+            }
+            element['schedule_title'] = 'Runs once every' + every + schedulePeriod + repeatOn
+           
+          }
+          
         }
         if (element.jobInfo.createdOn && element.jobInfo.createdOn != "--") {
           element['schedule_createdOn'] = moment(element.jobInfo.createdOn).fromNow();
@@ -1519,7 +1537,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.searchSources = '';
     }
     this.showSearch = !this.showSearch
-  };
+  }
+ 
 }
 
 // class CrwalObj{  

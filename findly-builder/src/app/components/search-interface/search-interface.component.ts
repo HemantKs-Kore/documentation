@@ -705,6 +705,9 @@ export class SearchInterfaceComponent implements OnInit {
         this.errorToaster(errRes, 'Failed to get fields');
       });
     }
+    else{
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
   }
   getFieldAutoComplete() {
     let query: any = '';

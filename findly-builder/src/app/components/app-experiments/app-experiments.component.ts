@@ -66,7 +66,10 @@ export class AppExperimentsComponent implements OnInit {
   loadingContent1: boolean;
   currentSubscriptionPlan: any;
   currentSubsciptionData: Subscription;
-  async ngOnInit() {
+  indexSubscription: Subscription;
+  searchSubscription: Subscription;
+  ctrTooltip: string = 'Click Through Rate is the percentage of searches which got at least one click of all the searches performed';
+  async ngOnInit(){
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     //this.currentsubscriptionPlan(this.selectedApp)
@@ -815,6 +818,17 @@ export class AppExperimentsComponent implements OnInit {
   //upgrade plan
   upgrade() {
     this.plans.openChoosePlanPopup('choosePlans');
+  }
+  
+  checkDuration(value){
+    // if(parseInt(event.target.value) > 90){
+    //   event.target.value = ''
+    //   // event.preventDefault();
+    // }
+    if(value > 90){
+      console.log(value, this.experimentObj.duration.days)
+      this.experimentObj.duration.days = 90
+    }
   }
   // ngOnDestroy() {
   //   this.indexSubscription.unsubscribe();

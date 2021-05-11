@@ -580,6 +580,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
         this.createFacet();
       }
     }
+    else{
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
   }
   openModal() {
     this.submitted = false;

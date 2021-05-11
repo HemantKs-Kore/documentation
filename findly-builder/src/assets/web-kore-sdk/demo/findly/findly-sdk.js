@@ -14079,7 +14079,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    {{if isTopdown == false}}Show All{{/if}}\
+                    {{if isTopdown == true}} Show All \
+                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                    {{/if}}\
+                  </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <ul class="tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}} {{if isFullResults == true}}results-wrap{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14273,7 +14278,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    {{if isTopdown == false}}Show All{{/if}}\
+                    {{if isTopdown == true}} Show All \
+                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                    {{/if}}\
+                  </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14355,7 +14365,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    {{if isTopdown == false}}Show All{{/if}}\
+                    {{if isTopdown == true}} Show All \
+                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                    {{/if}}\
+                  </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14452,7 +14467,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    {{if isTopdown == false}}Show All{{/if}}\
+                    {{if isTopdown == true}} Show All \
+                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                    {{/if}}\
+                  </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14517,7 +14537,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    {{if isTopdown == false}}Show All{{/if}}\
+                    {{if isTopdown == true}} Show All \
+                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                    {{/if}}\
+                  </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-text-parent template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14593,7 +14618,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    {{if isTopdown == false}}Show All{{/if}}\
+                    {{if isTopdown == true}} Show All \
+                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                    {{/if}}\
+                  </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14675,7 +14705,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    {{if isTopdown == false}}Show All{{/if}}\
+                    {{if isTopdown == true}} Show All \
+                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                    {{/if}}\
+                  </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14761,7 +14796,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    {{if isTopdown == false}}Show All{{/if}}\
+                    {{if isTopdown == true}} Show All \
+                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                    {{/if}}\
+                  </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14826,7 +14866,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    {{if isTopdown == false}}Show All{{/if}}\
+                    {{if isTopdown == true}} Show All \
+                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                    {{/if}}\
+                  </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-text-parent template-3 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14902,7 +14947,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    {{if isTopdown == false}}Show All{{/if}}\
+                    {{if isTopdown == true}} Show All \
+                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                    {{/if}}\
+                  </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent template-3 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -14984,7 +15034,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    {{if isTopdown == false}}Show All{{/if}}\
+                    {{if isTopdown == true}} Show All \
+                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                    {{/if}}\
+                  </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent template-e tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -15070,7 +15125,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    {{if isTopdown == false}}Show All{{/if}}\
+                    {{if isTopdown == true}} Show All \
+                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                    {{/if}}\
+                  </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header template-3 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -15135,7 +15195,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if appearanceType == "document"}}\
                       Documents\
                     {{/if}}\
-                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                      {{if isTopdown == false}}Show All{{/if}}\
+                      {{if isTopdown == true}} Show All \
+                        {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{/if}}\
+                    </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile-with-text-parent grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial  mb-15 {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -15188,7 +15253,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    {{if isTopdown == false}}Show All{{/if}}\
+                    {{if isTopdown == true}} Show All \
+                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                    {{/if}}\
+                  </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial  mb-15 {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -15246,7 +15316,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    {{if isTopdown == false}}Show All{{/if}}\
+                    {{if isTopdown == true}} Show All \
+                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                    {{/if}}\
+                  </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial  mb-15  {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -15304,7 +15379,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "document"}}\
                     Documents\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    {{if isTopdown == false}}Show All{{/if}}\
+                    {{if isTopdown == true}} Show All \
+                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                    {{/if}}\
+                  </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial mb-15 {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
@@ -15354,7 +15434,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if appearanceType == "document"}}\
                       Documents\
                     {{/if}}\
-                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                      {{if isTopdown == false}}Show All{{/if}}\
+                      {{if isTopdown == true}} Show All \
+                        {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{/if}}\
+                    </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="carousel tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
@@ -15409,7 +15494,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if appearanceType == "document"}}\
                       Documents\
                     {{/if}}\
-                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                      {{if isTopdown == false}}Show All{{/if}}\
+                      {{if isTopdown == true}} Show All \
+                        {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{/if}}\
+                    </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="carousel tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
@@ -15469,7 +15559,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if appearanceType == "document"}}\
                       Documents\
                     {{/if}}\
-                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                      {{if isTopdown == false}}Show All{{/if}}\
+                      {{if isTopdown == true}} Show All \
+                        {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{/if}}\
+                    </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="carousel tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
@@ -15529,7 +15624,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if appearanceType == "document"}}\
                       Documents\
                     {{/if}}\
-                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">Show All</div>\
+                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                      {{if isTopdown == false}}Show All{{/if}}\
+                      {{if isTopdown == true}} Show All \
+                        {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{/if}}\
+                    </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="carousel tile-with-image-parent structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
@@ -15894,8 +15994,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         var isDropdownEnabled = true;
+        var isTopDown = false;
         if ($('body').hasClass('top-down')) {
           isDropdownEnabled = false;
+          isTopDown = true;
         }
 
         var dataHTML = $(finalTemplate).tmplProxy({
@@ -15911,7 +16013,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'appearanceType': 'object',
           'maxSearchResultsAllowed': maxSearchResultsAllowed,
           'isDropdownEnabled': isDropdownEnabled,
-          'tour': _self.vars.customTourResultRank
+          'tour': _self.vars.customTourResultRank,
+          'isTopdown' : isTopDown
         });
         // _self.vars.customizeView = true;
         if (data && data.container && data.container.length) {
@@ -16456,8 +16559,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         var isDropdownEnabled = true;
+        var isTopDown = false;
         if ($('body').hasClass('top-down')) {
           isDropdownEnabled = false;
+          isTopDown = true;
         }
 
         var dataHTML = $(finalTemplate).tmplProxy({
@@ -16473,7 +16578,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'appearanceType': 'faq',
           'maxSearchResultsAllowed': maxSearchResultsAllowed,
           'isDropdownEnabled': isDropdownEnabled,
-          'tour': _self.vars.customTourResultRank
+          'tour': _self.vars.customTourResultRank,
+          'isTopdown' : isTopDown
         });
         if (data && data.container && data.container.length) {
           container = data.container;
@@ -16885,8 +16991,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         /** Sunil - resultRanking test */
 
         var isDropdownEnabled = true;
+        var isTopDown = false;
         if ($('body').hasClass('top-down')) {
           isDropdownEnabled = false;
+          isTopDown = true;
         }
 
         var dataHTML = $(finalTemplate).tmplProxy({
@@ -16902,7 +17010,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'appearanceType': 'page',
           'maxSearchResultsAllowed': maxSearchResultsAllowed,
           'isDropdownEnabled': isDropdownEnabled,
-          'tour': _self.vars.customTourResultRank
+          'tour': _self.vars.customTourResultRank,
+          'isTopdown' : isTopDown
         });
         if (data && data.container && data.container.length) {
           container = data.container;
@@ -17326,8 +17435,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         var isDropdownEnabled = true;
+        var isTopDown = false;
         if ($('body').hasClass('top-down')) {
           isDropdownEnabled = false;
+          isTopDown = true;
         }
 
         var dataHTML = $(finalTemplate).tmplProxy({
@@ -17343,7 +17454,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'appearanceType': 'document',
           'maxSearchResultsAllowed': maxSearchResultsAllowed,
           'isDropdownEnabled': isDropdownEnabled,
-          'tour': _self.vars.customTourResultRank
+          'tour': _self.vars.customTourResultRank,
+          'isTopdown' : isTopDown
         });
         // _self.vars.customizeView = true;
         if (data && data.container && data.container.length) {
@@ -17548,7 +17660,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             </div>\
             <!-- All type -->\
             {{if view == "preview"}}\
-              <div id="fullResultAllTypeId"></div>\
+              <div id="fullResultAllTypeId" style="height:100%"></div>\
             {{/if}}\
             <!-- All type -->\
             <!-- Result Ranking -->\
@@ -18496,7 +18608,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.fullResultAllType = function () {
       var template = '<script type="text/x-jqury-tmpl">\
-      <div>\
+      <div style="height:100%">\
       <div id="loaderDIV" class="loader-container">Loading...</div>\
         <div class="data-body-sec {{if facetPosition == `top`}}iffilteristop{{/if}}">\
         <div class="faqs-full-search-container matched-structured-data-contaniers">\

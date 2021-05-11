@@ -580,6 +580,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         }
       });
     }
+    else{
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
   }
   getFieldAutoComplete(event, outcomeObj) {
     let query: any = '';

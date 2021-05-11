@@ -1,87 +1,43 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
 	<ng-container *ngIf="!settingMainMenu && !sourceMenu || sourceMenu">
-	<div class="upgrade_your_plan_price" [hidden]="!showUpgrade">
-		<div class="upgrade-plan-btn" (click)="upgrade()">Upgrade Your Plan<img src="assets/icons/pricing/carrotright.svg"></div>
-		<div class="document-limit">{{usageDetails.ingestDocs}}%  document limit reached
-			<ngb-progressbar height="10px" type="primary" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
-		</div>		
-		<div class="document-limit">{{usageDetails.searchQueries}}%  query limit reached
-			<ngb-progressbar class="query-limited-reached" height="10px" type="primary" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
-		</div>		
-	</div></ng-container>
-	<perfect-scrollbar class="perfect-scroll">
+		<div class="upgrade_your_plan_price" [hidden]="!showUpgrade">
+			<div class="upgrade-plan-btn" (click)="upgrade()">Upgrade Your Plan<img src="assets/icons/pricing/carrotright.svg"></div>
+			<div class="document-limit">{{usageDetails.ingestDocs}}%  document limit reached
+				<ngb-progressbar height="10px" type="primary" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
+			</div>		
+			<div class="document-limit">{{usageDetails.searchQueries}}%  query limit reached
+				<ngb-progressbar class="query-limited-reached" height="10px" type="primary" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
+			</div>		
+		</div>
+	</ng-container>
+	<perfect-scrollbar class="perfect-scroll" [ngClass]='{"if-upgrade-plan":showUpgrade==true}'>
 		<div class="list-group list-group-flush" *ngIf="!settingMainMenu && !sourceMenu">					
-
-			<!-- <div class="sources-block-nav-items">
-				<div class="link-side-menu">
-					<div class="source_title">Sources</div>
-					<div class="add-sources" [routerLink]="['/source']" skipLocationChange routerLinkActive="active" (click)="preview('Source')">
-						<img src="assets/icons/sidemenu/source-add.svg">
-					</div>
-				</div>
-
-				<div [routerLink]="['/faqs']" mat-button class="mat-button" skipLocationChange routerLinkActive="active" (click)="preview('Faqs')" mat-button>
-					<span class="inlineIconBox">
-						<img src="assets/icons/sidemenu/new-icons/faq.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/faq.svg" class="activeIcon">
-					</span>
-					<span class="linkTitle">FAQs</span>
-				</div>
-
-				<div mat-button class="mat-button" [routerLink]="['/content']" skipLocationChange routerLinkActive="active" (click)="preview('Content')" mat-button>
-					<span class="inlineIconBox">
-						<img src="assets/icons/sidemenu/new-icons/page.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/page.svg" class="activeIcon">
-					</span>
-					<span class="linkTitle">Content</span>
-				</div>
-
-
-				<div mat-button class="mat-button" id="botActionsTab" [routerLink]="['/botActions']" skipLocationChange routerLinkActive="active" (click)="preview('Bot Actions')" mat-button>
-					<span class="inlineIconBox">
-						<img src="assets/icons/sidemenu/new-icons/actions.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/actions.svg" class="activeIcon">
-					</span>
-					<span class="linkTitle">Actions</span>
-				</div>
-
-
-				<div mat-button class="mat-button" [routerLink]="['/structuredData']" skipLocationChange routerLinkActive="active" (click)="preview('Structured Data')" mat-button>
-					<span class="inlineIconBox">
-						<img src="assets/icons/sidemenu/structured_data.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/structured_data.svg" class="activeIcon">
-					</span>
-					<span class="linkTitle">{{'structuredData.structured_data' | translate}}</span>
-				</div>
-
-			</div> -->
-
 			<div class="default-index-title">				
 				<div class="kr-sg-dropdowns" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom'">
 					<div class="dropdown dropdown-open">
-						<button class="dropdown-toggle dropdown-input" title="{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name:'Loading..'}}" ngbDropdownToggle>
-							<span class="text-truncate">{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name:'Loading..'}}</span>
+						<button class="dropdown-toggle dropdown-input" title="{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name=='Default'?'Default Index':indexConfigObj[selectedIndexConfig].name:'Loading..'}}" ngbDropdownToggle>
+							<span class="text-truncate">{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name=='Default'?'Default Index':indexConfigObj[selectedIndexConfig].name:'Loading..'}}</span>
 						</button>
 						<ul class="dropdown-menu content-menu queryPipelineDefault" ngbDropdownMenu>
 							<perfect-scrollbar>
-								<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectIndexPipelineId(config,selectIndexConfigDrop)" *ngFor="let config of indexConfigs">
-									<img src="assets/icons/star.svg" *ngIf="config.default" class="star" [container]="'body'" ngbTooltip='Default' placement="top-center">
+								<li class="list-name text-truncate" [ngClass]="{'nostars': config.default || !(config.default)}" (click)="selectIndexPipelineId(config,selectIndexConfigDrop)" *ngFor="let config of indexConfigs">
+									<img src="assets/icons/star.svg" *ngIf="config.default" class="star" [container]="'body'" ngbTooltip='Default Index' placement="top-center">
 									<img src="assets/icons/start-black.svg" [container]="'body'" (click)="$event.stopPropagation();markAsDefaultIndex(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-center">
 									<span *ngIf="selectedIndexConfig == config._id && editIndexName; else indexName">
 										<input type ="text" class="edit-name" name="editIndexName" [(ngModel)]="editIndexNameVal" id="editIndexNameID" (click)="$event.stopPropagation()" (keypress)="onKeypressIndexEvent($event,config)">
 									</span>
 									<ng-template #indexName>
-										<span class="config_name text-truncate" title="{{config.name}}">{{config.name}}</span>
+										<span class="config_name text-truncate" title="{{config.name=='Default'?'Default Index':config.name}}">{{config.name=='Default'?'Default Index':config.name}}</span>
 									</ng-template>
 									<div class="action-icons-data">
 										<div class="clone" *ngIf="!editIndexName" (click)="$event.stopPropagation();openIndexModalPopup('clone',config);selectIndexConfigDrop.close();" ngbTooltip='Clone' placement="top-center" [container]="'body'">
 											<img src="assets/icons/clone.svg">
 										</div>
-										<div class="edit-black" *ngIf="!editIndexName" (click)="$event.stopPropagation();editIndexConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
+										<div class="edit-black" *ngIf="!editIndexName&&!(config.default)" (click)="$event.stopPropagation();editIndexConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
 											<img src="assets/icons/edit-pencil.svg">
 										</div>																
-										<div class="delete" *ngIf="!editIndexName" ngbTooltip='Delete' placement="top-center" [container]="'body'" (click)="$event.stopPropagation();deleteIndexConfig(config)">
+										<div class="delete" *ngIf="!editIndexName&&!(config.default)" ngbTooltip='Delete' placement="top-center" [container]="'body'" (click)="$event.stopPropagation();deleteIndexConfig(config)">
 											<img src="assets/icons/delete.svg">
 										</div>											
 									</div>
@@ -127,7 +83,7 @@
 				<div class="search-config-title">Search Configuration</div>
 
 				<div class="search-config-elipse-block">
-					<div class="title text-truncate" title="{{configObj[selectedConfig]?configObj[selectedConfig].name:'Loading..'}}">{{configObj[selectedConfig]?configObj[selectedConfig].name:'Loading..'}} </div>
+					<div class="title text-truncate" title="{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}}">{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}} </div>
 					<div class="kr-sg-dropdowns kr_sg_dropdowns" #selectSearchConfigDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-left'">
 						<div class="dropdown dropdown-open">
 							<button class="dropdown-toggle dropdown-input before-none" ngbDropdownToggle>
@@ -135,20 +91,20 @@
 							</button>
 							<ul class="dropdown-menu content-menu queryPipelineConfig" ngbDropdownMenu>
 								<perfect-scrollbar>
-									<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectQueryPipelineId(config,selectSearchConfigDrop)" *ngFor="let config of queryConfigs">
+									<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default|| (config.default)}" (click)="selectQueryPipelineId(config,selectSearchConfigDrop)" *ngFor="let config of queryConfigs">
 										<img src="assets/icons/star.svg" *ngIf="config.default" class="star" [container]="'body'" ngbTooltip='Default' placement="top-center">
 										<img src="assets/icons/start-black.svg" [container]="'body'" (click)="$event.stopPropagation();markAsDefault(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-center" [container]="'body'">
 										<span *ngIf="selectedConfig == config._id && editName; else name">
 											<input type ="text" class="edit-name" name="editName" [(ngModel)]="editNameVal" id="editNameID" (click)="$event.stopPropagation()" (keypress)="onKeypressEvent($event,config)">
 										</span>
 										<ng-template #name>
-											<span class="config_name text-truncate" title="{{config.name}}">{{config.name}}</span>
+											<span class="config_name text-truncate" title="{{config.name=='Default'?'Default Search':config.name}}">{{config.name=='Default'?'Default Search':config.name}}</span>
 										</ng-template>
 										<div class="action-icons-data">
 											<div class="clone" *ngIf="!editName" (click)="$event.stopPropagation();openModalPopup('clone',config);selectSearchConfigDrop.close();" ngbTooltip='Clone' placement="top-center" [container]="'body'">
 												<img src="assets/icons/clone.svg">
 											</div>
-											<div class="edit-black" *ngIf="!editName" (click)="$event.stopPropagation();editConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
+											<div class="edit-black" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();editConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
 												<img src="assets/icons/edit-pencil.svg">
 											</div>																
 											<!-- <div class="delete" *ngIf="!editName">
@@ -375,90 +331,94 @@
 			</div>
 
 		</div>
+	</perfect-scrollbar>
+</div>
 
-	<!-- Sidebar -->
+<!-- Sidebar -->
 
-	<kr-modal modalType="center" modalClass="modal_popups_ add-experment-popup smallModal"  #addFieldModalPop>   
-		<div class="modal-header">
-			<div class="title">{{newConfigObj.method==='default'?'New':'Clone'}} Search Configuration</div>
-			<div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
-		</div>
-		<perfect-scrollbar class="perfect-scroll-modal-body">
-		<div class="modal-body textAlignLeft">
-			<div class="group-radiobutton">
-				<div class="kr-sg-radiobutton">
-					<input id="createQueryConfig" [(ngModel)]="newConfigObj.method" name="default" value='default' class="radio-custom" type="radio">
-					<label for="createQueryConfig" class="radio-custom-label">Create New</label>
-				</div>
-				<div class="kr-sg-radiobutton">
-					<input id="cloneQueryConfig" [(ngModel)]="newConfigObj.method" (change)='selectDefault()' name="clone" value='clone' class="radio-custom" type="radio">
-					<label for="cloneQueryConfig" class="radio-custom-label">Clone Configuration</label>
-				</div>
+<kr-modal modalType="center" modalClass="modal_popups_ add-experment-popup smallModal"  #addFieldModalPop>   
+	<div class="modal-header">
+		<div class="title">{{newConfigObj.method==='default'?'New':'Clone'}} Search Configuration</div>
+		<div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
+	</div>
+	<perfect-scrollbar class="perfect-scroll-modal-body">
+	<div class="modal-body textAlignLeft">
+		<div class="group-radiobutton">
+			<div class="kr-sg-radiobutton">
+				<input id="createQueryConfig" [(ngModel)]="newConfigObj.method" name="default" value='default' class="radio-custom" type="radio">
+				<label for="createQueryConfig" class="radio-custom-label">Create New</label>
 			</div>
-			<ng-container *ngIf="newConfigObj.method === 'clone'">
-				<div class="kr-sg-dropdowns kr_sg_dropdowns mb-2 pb-1 pt-4">
-					<div class="label-text">Search Configuration</div>
-					<div class="dropdown dropdown-open">
-						<button class="dropdown-toggle dropdown-input" [ngClass]="{'err-block' : (!newConfigObj.config_name.length && submitted)}" data-toggle="dropdown">{{newConfigObj.config_name===''?'Select Search Configuration to be cloned':newConfigObj.config_name}}</button>
-						<img *ngIf="(newConfigObj.method === 'clone') && !newConfigObj.config_name.length && submitted" id="searchConfigWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
-						<ul class="dropdown-menu content-menu">
-						<li *ngFor="let config of queryConfigs" (click)="selectConfig(config)"><a>{{config.name}}</a></li>                                              
-						</ul>
-					</div>                   
-				</div> 
-			</ng-container> 
-			<div class="kr-sg-input-text pt-3">
-				<div class="label-text">{{newConfigObj.method==='clone'?'Search Configuration Name':'Configuration Name'}}</div>
-				<input type="text" [ngClass]="{'err-block' : (!newConfigObj.name.length && submitted)}" placeholder="{{newConfigObj.method==='clone'?'Name the New Search Configuration':'Enter Name'}}" [(ngModel)]="newConfigObj.name" class="input-text">
-				<img *ngIf="!newConfigObj.name.length && submitted" id="searchNameWarning" src="assets/icons/warning_escalation.svg" style="top: 70%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
-			</div>	
-		</div>
-		</perfect-scrollbar> 
-		<div class="modal-footer text-left">
-			<button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="createConfig()">{{newConfigObj.method==='clone'?'Clone':'Add'}}</button><!-- [disabled]="!newConfigObj.name" -->
-			<button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
-		</div>    
-	</kr-modal>
-	<!--index config popup-->
-	<kr-modal modalType="center" modalClass="modal_popups_ add-experment-popup smallModal"  #addIndexFieldModalPop>   
-		<div class="modal-header">
-			<div class="title">{{newIndexConfigObj.method==='default'?'New':'Clone'}} Index Configuration</div>
-			<div class="close_icon" (click)="closeIndexModalPopup()"><img src="assets/icons/modal-close.svg"></div>
-		</div>
-		<perfect-scrollbar class="perfect-scroll-modal-body">
-		<div class="modal-body textAlignLeft">
-			<div class="group-radiobutton">
-				<div class="kr-sg-radiobutton">
-					<input id="createIndexConfig" [(ngModel)]="newIndexConfigObj.method" name="creationType" value='default' class="radio-custom" type="radio">
-					<label for="createIndexConfig" class="radio-custom-label">Create New</label>
-				</div>
-				<div class="kr-sg-radiobutton">
-					<input id="cloneIndexConfig" [(ngModel)]="newIndexConfigObj.method" (change)='selectDefault()' name="creationType" value='clone' class="radio-custom" type="radio">
-					<label for="cloneIndexConfig" class="radio-custom-label">Clone Configuration</label>
-				</div>
+			<div class="kr-sg-radiobutton">
+				<input id="cloneQueryConfig" [(ngModel)]="newConfigObj.method" (change)='selectDefault()' name="clone" value='clone' class="radio-custom" type="radio">
+				<label for="cloneQueryConfig" class="radio-custom-label">Clone Configuration</label>
 			</div>
-			<ng-container *ngIf="newIndexConfigObj.method === 'clone'">
-				<div class="kr-sg-dropdowns kr_sg_dropdowns mb-2 pb-1 pt-4">
-					<div class="label-text">Index Configuration</div>                            
-					<div class="dropdown dropdown-open">
-						<button class="dropdown-toggle dropdown-input" [ngClass]="{'err-block' : (!newIndexConfigObj.index_config_name.length && submitted)}" data-toggle="dropdown">{{newIndexConfigObj.index_config_name===''?'Select Index Configuration to be cloned':newIndexConfigObj.index_config_name}}</button>
-						<img *ngIf="(newIndexConfigObj.method === 'clone') && !newIndexConfigObj.index_config_name.length && submitted" id="indexNameWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
-						<ul class="dropdown-menu content-menu">
-						<li *ngFor="let config of indexConfigs" (click)="selectIndexConfig(config)"><a>{{config.name}}</a></li>                                              
-						</ul>
-					</div>                               
-				</div>
-			</ng-container> 
-			<div class="kr-sg-input-text pt-4">
-				<div class="label-text">{{newIndexConfigObj.method==='clone'?'Index Configuration Name':'Name of Index Configuration'}}</div>
-				<input type="text" [ngClass]="{'err-block' : (!newIndexConfigObj.name.length && submitted)}" placeholder="{{newIndexConfigObj.method==='clone'?'Name the New Index Configuration':'Enter Name'}}" [(ngModel)]="newIndexConfigObj.name" class="input-text">
-				<img *ngIf="!newIndexConfigObj.name.length && submitted" id="indexNameWarning" src="assets/icons/warning_escalation.svg" style="top: 72%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
-			</div>	
 		</div>
-		</perfect-scrollbar> 
-		<div class="modal-footer text-left">
-			<button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="createIndexConfig()">{{newIndexConfigObj.method==='clone'?'Clone':'Add'}}</button> <!-- [disabled]="!newIndexConfigObj.name" -->
-			<button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeIndexModalPopup()">Cancel</button>
-		</div>    
-	</kr-modal>
-	<app-upgrade-plan #plans></app-upgrade-plan>
+		<ng-container *ngIf="newConfigObj.method === 'clone'">
+			<div class="kr-sg-dropdowns kr_sg_dropdowns mb-2 pb-1 pt-4">
+				<div class="label-text">Search Configuration</div>
+				<div class="dropdown dropdown-open">
+					<button class="dropdown-toggle dropdown-input" [ngClass]="{'err-block' : (!newConfigObj.config_name.length && submitted)}" data-toggle="dropdown">{{newConfigObj.config_name===''?'Select Search Configuration to be cloned':newConfigObj.config_name}}</button>
+					<img *ngIf="(newConfigObj.method === 'clone') && !newConfigObj.config_name.length && submitted" id="searchConfigWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+					<ul class="dropdown-menu content-menu">
+					<li *ngFor="let config of queryConfigs" (click)="selectConfig(config)"><a>{{config.name}}</a></li>                                              
+					</ul>
+				</div>                   
+			</div> 
+		</ng-container> 
+		<div class="kr-sg-input-text pt-3">
+			<div class="label-text">{{newConfigObj.method==='clone'?'Search Configuration Name':'Configuration Name'}}</div>
+			<input type="text" [ngClass]="{'err-block' : (!newConfigObj.name.length && submitted)}" placeholder="{{newConfigObj.method==='clone'?'Name the New Search Configuration':'Enter Name'}}" [(ngModel)]="newConfigObj.name" class="input-text">
+			<img *ngIf="!newConfigObj.name.length && submitted" id="searchNameWarning" src="assets/icons/warning_escalation.svg" style="top: 70%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+		</div>	
+	</div>
+	</perfect-scrollbar> 
+	<div class="modal-footer text-left">
+		<button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="createConfig()">{{newConfigObj.method==='clone'?'Clone':'Add'}}</button><!-- [disabled]="!newConfigObj.name" -->
+		<button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
+	</div>    
+</kr-modal>
+<!--index config popup-->
+<kr-modal modalType="center" modalClass="modal_popups_ add-experment-popup smallModal"  #addIndexFieldModalPop>   
+	<div class="modal-header">
+		<div class="title">{{newIndexConfigObj.method==='default'?'New':'Clone'}} Index Configuration</div>
+		<div class="close_icon" (click)="closeIndexModalPopup()"><img src="assets/icons/modal-close.svg"></div>
+	</div>
+	<perfect-scrollbar class="perfect-scroll-modal-body">
+	<div class="modal-body textAlignLeft">
+		<div class="group-radiobutton">
+			<div class="kr-sg-radiobutton">
+				<input id="createIndexConfig" [(ngModel)]="newIndexConfigObj.method" name="creationType" value='default' class="radio-custom" type="radio">
+				<label for="createIndexConfig" class="radio-custom-label">Create New</label>
+			</div>
+			<div class="kr-sg-radiobutton">
+				<input id="cloneIndexConfig" [(ngModel)]="newIndexConfigObj.method" (change)='selectDefault()' name="creationType" value='clone' class="radio-custom" type="radio">
+				<label for="cloneIndexConfig" class="radio-custom-label">Clone Configuration</label>
+			</div>
+		</div>
+		<ng-container *ngIf="newIndexConfigObj.method === 'clone'">
+			<div class="kr-sg-dropdowns kr_sg_dropdowns mb-2 pb-1 pt-4">
+				<div class="label-text">Index Configuration</div>                            
+				<div class="dropdown dropdown-open">
+					<button class="dropdown-toggle dropdown-input" [ngClass]="{'err-block' : (!newIndexConfigObj.index_config_name.length && submitted)}" data-toggle="dropdown">{{newIndexConfigObj.index_config_name===''?'Select Index Configuration to be cloned':newIndexConfigObj.index_config_name}}</button>
+					<img *ngIf="(newIndexConfigObj.method === 'clone') && !newIndexConfigObj.index_config_name.length && submitted" id="indexNameWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+					<ul class="dropdown-menu content-menu">
+					<li *ngFor="let config of indexConfigs" (click)="selectIndexConfig(config)"><a>{{config.name}}</a></li>                                              
+					</ul>
+				</div>                               
+			</div>
+		</ng-container> 
+		<div class="kr-sg-input-text pt-4">
+			<div class="label-text">{{newIndexConfigObj.method==='clone'?'Index Configuration Name':'Name of Index Configuration'}}</div>
+			<input type="text" [ngClass]="{'err-block' : (!newIndexConfigObj.name.length && submitted)}" placeholder="{{newIndexConfigObj.method==='clone'?'Name the New Index Configuration':'Enter Name'}}" [(ngModel)]="newIndexConfigObj.name" class="input-text">
+			<img *ngIf="!newIndexConfigObj.name.length && submitted" id="indexNameWarning" src="assets/icons/warning_escalation.svg" style="top: 72%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+		</div>	
+	</div>
+	</perfect-scrollbar> 
+	<div class="modal-footer text-left">
+		<button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="createIndexConfig()">{{newIndexConfigObj.method==='clone'?'Clone':'Add'}}</button> <!-- [disabled]="!newIndexConfigObj.name" -->
+		<button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeIndexModalPopup()">Cancel</button>
+	</div>    
+</kr-modal>
+
+
+<app-upgrade-plan #plans></app-upgrade-plan>
