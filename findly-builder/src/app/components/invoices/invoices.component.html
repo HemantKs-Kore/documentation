@@ -1,4 +1,8 @@
 <div class="invoice-container">
+    <div class="mainLoadingSpinner" *ngIf="loading" >
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
+    </div>
     <div class="header-sec">
         <div class="title">Invoices</div>
         <!-- <div class="d-flex align-items-center">
@@ -14,16 +18,16 @@
         </div> -->
     </div>
 
-    <ng-container *ngIf="false">
+    <ng-container *ngIf="!invoices.length && !loading">
         <div class="empty-invoice">
             <div class="img-block">
-                <img src="assets/icons/usage-log/empty-log.svg">
+                <img src="assets/icons/invoices/empty-log.svg">
             </div>
-            <div class="empty-text">After subscribing to any of the plans offered, your invoices will appear here</div>
+            <!-- <div class="empty-text">After subscribing to any of the plans offered, your invoices will appear here</div> -->
         </div>
     </ng-container>
 
-    <ng-container *ngIf="true">
+    <ng-container *ngIf="invoices.length && !loading">
         <div class="plan-type">
             <div class="current-plan">Current Plan</div>
             <div class="type">Free</div>

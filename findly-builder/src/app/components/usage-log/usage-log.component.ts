@@ -31,6 +31,7 @@ export class UsageLogComponent implements OnInit {
     'requestSourceFilter': 'all',
     'resultsFilter': 'all'
   }
+  loading=false;
   selectedSort = '';
   isAsc = true;
   beforeFilterUsageLogs: any = [];
@@ -73,6 +74,7 @@ export class UsageLogComponent implements OnInit {
     }
   }
   getUsageLogs(offset?,quary?) {
+    this.loading= true;
     const quaryparms: any = {
       streamId : this.selectedApp._id,
       skip: offset || 0,
@@ -97,8 +99,9 @@ export class UsageLogComponent implements OnInit {
         this.requestSourceArr = [...new Set(this.requestSourceArr)];
         this.resultsArr = [...new Set(this.resultsArr)];
       }
-
+      this.loading= false;
     }, errRes => {
+      this.loading= false;
       this.errorToaster(errRes, 'Failed to get usage logs');
     });
   }

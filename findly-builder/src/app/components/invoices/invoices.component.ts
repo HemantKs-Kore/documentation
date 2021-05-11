@@ -26,6 +26,7 @@ export class InvoicesComponent implements OnInit {
   subscription: Subscription;
   totalRecord:number;
   selectedSort = '';
+  loading=false;
   isAsc = true;
   constructor(
     public workflowService: WorkflowService,
@@ -59,6 +60,7 @@ export class InvoicesComponent implements OnInit {
   }
   searchItems(){}
   getInvoices(offset?) {
+    this.loading= true;
     const quaryparms: any = {
       streamId : this.selectedApp._id,
       skip: offset || 0,
@@ -67,7 +69,9 @@ export class InvoicesComponent implements OnInit {
     this.service.invoke('get.allInvoices', quaryparms).subscribe(res => {
       this.invoices = res.data || [];
       this.totalRecord = res.total;
+      this.loading= false;
     }, errRes => {
+      this.loading= false;
       this.errorToaster(errRes, 'Failed to get invoices');
     });
   }

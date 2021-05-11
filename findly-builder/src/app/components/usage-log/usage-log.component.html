@@ -1,4 +1,8 @@
 <div class="invoice-container">
+    <div class="mainLoadingSpinner" *ngIf="loading" >
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
+    </div>
     <div class="header-sec">
         <div class="title">Usage Log</div>
         <!-- <div class="d-flex align-items-center">
@@ -17,7 +21,7 @@
         </div> -->
     </div>
 
-    <ng-container *ngIf="false">
+    <ng-container *ngIf="!usageLogs.length && !loading">
         <div class="empty-usage-log">
             <div class="img-block">
                 <img src="assets/icons/usage-log/empty-log.svg">
@@ -25,7 +29,7 @@
             <div class="empty-text">Usage log will appear once the app is active!!</div>
         </div>
     </ng-container>
-    <ng-container *ngIf="true">
+    <ng-container *ngIf="usageLogs.length && !loading">
         <div class="plan-type">
             <div class="current-plan">Current Plan</div>
             <div class="type">Free</div>
