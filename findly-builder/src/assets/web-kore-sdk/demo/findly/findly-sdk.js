@@ -951,7 +951,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEYSURBVHgBlVLLUcMwEN1VKEBAA3I+Z1wClEAFuAQ6yFBBoIKYCmiBEsQZMt4KwLkTK7tSNI4tJTPZGVuzv/f2h5ARYxYlP2XQHBH9fI5jcJRQAXZLcKwotCHPBQAHL0SbOmWZzpemmDXGzO8zFVTexzF5BwucEPGFmFnVG0cGYTXTxZrf1TGYt3Os79GXhm5NzaaIyIBXzYDOwUMcEBOwTz0qyQWHX33U5DmpU+FTr8jQulJBKjqxdN02weLPAuLdEWKdJMLutXfLepAU0bdQQ1yD78X9F7y/NwasQ39EoT/ec4yJhkvXMZFf2/5arW+vmWGl9c22bf/sMEkmjx88xHe+Hl92/uS85/zJYb4s6RfNQbVhDkPZA7YFdnerG1SJAAAAAElFTkSuQmCC">\
                 <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBzVLBEYJADNxD/FtCdPg7doAlWIKVCJVYgiWoHeCf0etACwDOvRyMfphRfGBmCJlNdi+XCzC2Ge9kkezgkH1DJDOz1zLXWOaJE5HZp1xf6zk+jl+K8Z0gBlmnNoQT4UcbX0CHaG+l4WSFg9zDVRtgyrg5wNUrYvxXW0vr7SCQJ0fuwpl1D6AROHPRmJjPaU2fgJ4Mw/oya/GU30m7U8zYUNMnwBbpRDdSBc2SvtDuFHMSaoK9L10UTuH9XL1Gg7RNpkBVaEzM57oZ6Ptz6Xi1HH9hT/FGV798NRUBAAAAAElFTkSuQmCC">\
                 <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADgSURBVHgBzZJBEsFAEEX/jNhzg0bs3UCcgBvgJOImnMAROII9KX2E7IPRnYhKqVkkZRFvM9M183/1TH+gbUy5IRpPgIyFlCiM5WTjlziGRcxJsv8Y0DDcwCGW7RnuPpO1B3Qjv8EzgjFzvl37WgUVsTKBCY5qwnzZ+eTSqXaxLGsL51Zfd+QpnQg1CfiWDHLnQejEbM2c7NAAix9p3yCoe5FotJDxHWQCRa1/Jplo0MHjBM1JFWf21Q5SWDst5uwjO+Uh05zoqB22zNe4EuXRqoivIa/+LSAiTSlJ0M74C16gMU0xa7sy7wAAAABJRU5ErkJggg==">\
-                <img class="help-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE1SURBVHgBhVI7TsNAEH27cY8VOMA6OBJlcgLMCeAGNhUl4STACZLcAEoq3NG6RQTFXCCYjsJ4eJs48ieOMtJIo5k3b74KLTFmOAIkoOlSM0DFafqR1DGqAhsD5UxpjiAyZ4gJQh/OaaeQ/DqlNNiNd7o0xp+gQ6x/E7ddkGJTofcKUWRaxLUWr6jk/pyViQGUTCF/457rnkTQ+jddLh6rNvUbE97Z2o3bPzbZ9+oly1ap6/bHQO9MMxCisDNsxYk40x0rTCwrBFFtBTPiL2E8X7BHbEt2loaPeGdvwsC/X1cRfdGOaWqyHrItBX64Zq9+oxKXaLI9Q6uwqxpXlzU9EhI/Z6X8AVIEndXQnI9LICZ/Kh0HjjsY3jaOWzFt38i+jo55hi+6j4jgMsC5qjdSu20cfth/n92EMGjOb2IAAAAASUVORK5CYII=">\
+                <img class="help-icon display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE1SURBVHgBhVI7TsNAEH27cY8VOMA6OBJlcgLMCeAGNhUl4STACZLcAEoq3NG6RQTFXCCYjsJ4eJs48ieOMtJIo5k3b74KLTFmOAIkoOlSM0DFafqR1DGqAhsD5UxpjiAyZ4gJQh/OaaeQ/DqlNNiNd7o0xp+gQ6x/E7ddkGJTofcKUWRaxLUWr6jk/pyViQGUTCF/457rnkTQ+jddLh6rNvUbE97Z2o3bPzbZ9+oly1ap6/bHQO9MMxCisDNsxYk40x0rTCwrBFFtBTPiL2E8X7BHbEt2loaPeGdvwsC/X1cRfdGOaWqyHrItBX64Zq9+oxKXaLI9Q6uwqxpXlzU9EhI/Z6X8AVIEndXQnI9LICZ/Kh0HjjsY3jaOWzFt38i+jo55hi+6j4jgMsC5qjdSu20cfth/n92EMGjOb2IAAAAASUVORK5CYII=">\
                 <img class="elipse-overflow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAADCAYAAABI4YUMAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABUSURBVHgBhcrBDYAgEETRiW4BSCzAo11YgpZgCZZgJ1qClmBDQgEkMFzgBPxkD/sy/cSUHi816Nma/wNrWQfIBo94J1KyV+wQwD2Elc+bB+6mLSULWI0gebajC9UAAAAASUVORK5CYII=">\
                 <img class="close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
               </div>\
@@ -1126,7 +1126,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEYSURBVHgBlVLLUcMwEN1VKEBAA3I+Z1wClEAFuAQ6yFBBoIKYCmiBEsQZMt4KwLkTK7tSNI4tJTPZGVuzv/f2h5ARYxYlP2XQHBH9fI5jcJRQAXZLcKwotCHPBQAHL0SbOmWZzpemmDXGzO8zFVTexzF5BwucEPGFmFnVG0cGYTXTxZrf1TGYt3Os79GXhm5NzaaIyIBXzYDOwUMcEBOwTz0qyQWHX33U5DmpU+FTr8jQulJBKjqxdN02weLPAuLdEWKdJMLutXfLepAU0bdQQ1yD78X9F7y/NwasQ39EoT/ec4yJhkvXMZFf2/5arW+vmWGl9c22bf/sMEkmjx88xHe+Hl92/uS85/zJYb4s6RfNQbVhDkPZA7YFdnerG1SJAAAAAElFTkSuQmCC">\
                 <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBzVLBEYJADNxD/FtCdPg7doAlWIKVCJVYgiWoHeCf0etACwDOvRyMfphRfGBmCJlNdi+XCzC2Ge9kkezgkH1DJDOz1zLXWOaJE5HZp1xf6zk+jl+K8Z0gBlmnNoQT4UcbX0CHaG+l4WSFg9zDVRtgyrg5wNUrYvxXW0vr7SCQJ0fuwpl1D6AROHPRmJjPaU2fgJ4Mw/oya/GU30m7U8zYUNMnwBbpRDdSBc2SvtDuFHMSaoK9L10UTuH9XL1Gg7RNpkBVaEzM57oZ6Ptz6Xi1HH9hT/FGV798NRUBAAAAAElFTkSuQmCC">\
                 <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADgSURBVHgBzZJBEsFAEEX/jNhzg0bs3UCcgBvgJOImnMAROII9KX2E7IPRnYhKqVkkZRFvM9M183/1TH+gbUy5IRpPgIyFlCiM5WTjlziGRcxJsv8Y0DDcwCGW7RnuPpO1B3Qjv8EzgjFzvl37WgUVsTKBCY5qwnzZ+eTSqXaxLGsL51Zfd+QpnQg1CfiWDHLnQejEbM2c7NAAix9p3yCoe5FotJDxHWQCRa1/Jplo0MHjBM1JFWf21Q5SWDst5uwjO+Uh05zoqB22zNe4EuXRqoivIa/+LSAiTSlJ0M74C16gMU0xa7sy7wAAAABJRU5ErkJggg==">\
-                <img class="help-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE1SURBVHgBhVI7TsNAEH27cY8VOMA6OBJlcgLMCeAGNhUl4STACZLcAEoq3NG6RQTFXCCYjsJ4eJs48ieOMtJIo5k3b74KLTFmOAIkoOlSM0DFafqR1DGqAhsD5UxpjiAyZ4gJQh/OaaeQ/DqlNNiNd7o0xp+gQ6x/E7ddkGJTofcKUWRaxLUWr6jk/pyViQGUTCF/457rnkTQ+jddLh6rNvUbE97Z2o3bPzbZ9+oly1ap6/bHQO9MMxCisDNsxYk40x0rTCwrBFFtBTPiL2E8X7BHbEt2loaPeGdvwsC/X1cRfdGOaWqyHrItBX64Zq9+oxKXaLI9Q6uwqxpXlzU9EhI/Z6X8AVIEndXQnI9LICZ/Kh0HjjsY3jaOWzFt38i+jo55hi+6j4jgMsC5qjdSu20cfth/n92EMGjOb2IAAAAASUVORK5CYII=">\
+                <img class="help-icon display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE1SURBVHgBhVI7TsNAEH27cY8VOMA6OBJlcgLMCeAGNhUl4STACZLcAEoq3NG6RQTFXCCYjsJ4eJs48ieOMtJIo5k3b74KLTFmOAIkoOlSM0DFafqR1DGqAhsD5UxpjiAyZ4gJQh/OaaeQ/DqlNNiNd7o0xp+gQ6x/E7ddkGJTofcKUWRaxLUWr6jk/pyViQGUTCF/457rnkTQ+jddLh6rNvUbE97Z2o3bPzbZ9+oly1ap6/bHQO9MMxCisDNsxYk40x0rTCwrBFFtBTPiL2E8X7BHbEt2loaPeGdvwsC/X1cRfdGOaWqyHrItBX64Zq9+oxKXaLI9Q6uwqxpXlzU9EhI/Z6X8AVIEndXQnI9LICZ/Kh0HjjsY3jaOWzFt38i+jo55hi+6j4jgMsC5qjdSu20cfth/n92EMGjOb2IAAAAASUVORK5CYII=">\
                 <img class="telephone-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAV1JREFUKBWF0TFIAlEYB/Dve3dekkK2REK7Jw613NUSSIPEqShOlTUYzS4NDUG4RTQ1OEW4FBUN0mDQpFvRzVIQRFNJQtZgdHTvfT0pgkiub3k83v/H9773AGTpRjIXMayjeLyk9vZexWRwVhBsyRB/6NrH/yEmgzvIlPmbq9oiArw9du0Dzw5EODIQGrq2rKIGQCYjqHoCQDh1Op2VYLDlAqEAhd17AYwZ1qhLeCnvlkIGw5xgT1UHp5oXJ8/9IGvaZy1gbJkDVH0K3gFg+cPt1ibi2VA/IOf8Kt1MLwji6xpTZ1zBlwRQwQeQ5whROWc2HDDyjUbJ/QE9FjFSBQJaRU1JMBdiQvCyfAiSXW25+sMBc+4X+EZ5ALFBqpIZH/PfttsBX71ecXQzuS/PlT+gh/TJdIK42EWG21pouOK8vEZJ8EOGsNYX9FB0Ohfm784mEGQQ6QkRi/Jzzz8BvMZ7XKjblkAAAAAASUVORK5CYII=">\
                 <img class="elipse-overflow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAADCAYAAABI4YUMAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABUSURBVHgBhcrBDYAgEETRiW4BSCzAo11YgpZgCZZgJ1qClmBDQgEkMFzgBPxkD/sy/cSUHi816Nma/wNrWQfIBo94J1KyV+wQwD2Elc+bB+6mLSULWI0gebajC9UAAAAASUVORK5CYII=">\
                 <img class="close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
@@ -1420,7 +1420,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{/if}}\
               {{if tasks && tasks.length && !customSearchResult}}\
               <div class="resultsButtons asstTask" >\
-                  <span class="search-heads">${taskPrefix} ACTIONS</span>\
+                  <span class="search-heads">ACTIONS</span>\
                   <div class="faqBtnContainer suggestion_actions_container">\
                       <div class="tasks-wrp action-wrp btn_block_actions main-content-title-grid-data">\
                         {{each(key, task) tasks}}\
@@ -5444,7 +5444,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.search-container').addClass('active');
             if (_self.showGreetingMsg) {
               _self.showGreetingMsg = false;
-              _self.sendMessageToSearch('bot', '&#128075; Hello! How can I help you today?');
+              // _self.sendMessageToSearch('bot', '&#128075; Hello! How can I help you today?');
             }
             _self.closeGreetingMsg();
             if (_self.customSearchResult) {
@@ -7218,7 +7218,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (key.toLowerCase() === 'faq') {
         return "FAQs"
       } else if (key.toLowerCase() === 'page') {
-        return "Pages"
+        return "Web"
       } else if (key.toLowerCase() === 'task') {
         return "Actions"
       } else if (key.toLowerCase() === 'document') {
@@ -14061,10 +14061,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
                   {{if appearanceType == "page"}}\
-                    PAGES\
+                    Web\
                   {{/if}}\
                   {{if appearanceType == "document"}}\
                     Documents\
@@ -14260,10 +14260,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
                   {{if appearanceType == "page"}}\
-                    PAGES\
+                    Web\
                   {{/if}}\
                   {{if appearanceType == "document"}}\
                     Documents\
@@ -14347,10 +14347,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
                   {{if appearanceType == "page"}}\
-                    PAGES\
+                    Web\
                   {{/if}}\
                   {{if appearanceType == "document"}}\
                     Documents\
@@ -14449,10 +14449,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
                   {{if appearanceType == "page"}}\
-                    PAGES\
+                    Web\
                   {{/if}}\
                   {{if appearanceType == "document"}}\
                     Documents\
@@ -14519,10 +14519,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
                   {{if appearanceType == "page"}}\
-                    PAGES\
+                    Web\
                   {{/if}}\
                   {{if appearanceType == "document"}}\
                     Documents\
@@ -14600,10 +14600,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
                   {{if appearanceType == "page"}}\
-                    PAGES\
+                    Web\
                   {{/if}}\
                   {{if appearanceType == "document"}}\
                     Documents\
@@ -14687,10 +14687,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
                   {{if appearanceType == "page"}}\
-                    PAGES\
+                    Web\
                   {{/if}}\
                   {{if appearanceType == "document"}}\
                     Documents\
@@ -14778,10 +14778,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
                   {{if appearanceType == "page"}}\
-                    PAGES\
+                    Web\
                   {{/if}}\
                   {{if appearanceType == "document"}}\
                     Documents\
@@ -14848,10 +14848,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
                   {{if appearanceType == "page"}}\
-                    PAGES\
+                    Web\
                   {{/if}}\
                   {{if appearanceType == "document"}}\
                     Documents\
@@ -14929,10 +14929,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
                   {{if appearanceType == "page"}}\
-                    PAGES\
+                    Web\
                   {{/if}}\
                   {{if appearanceType == "document"}}\
                     Documents\
@@ -15016,10 +15016,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
                   {{if appearanceType == "page"}}\
-                    PAGES\
+                    Web\
                   {{/if}}\
                   {{if appearanceType == "document"}}\
                     Documents\
@@ -15107,10 +15107,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
                   {{if appearanceType == "page"}}\
-                    PAGES\
+                    Web\
                   {{/if}}\
                   {{if appearanceType == "document"}}\
                     Documents\
@@ -15177,10 +15177,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       DATA\
                     {{/if}}\
                     {{if appearanceType == "faq"}}\
-                      FAQS\
+                      FAQs\
                     {{/if}}\
                     {{if appearanceType == "page"}}\
-                      PAGES\
+                      Web\
                     {{/if}}\
                     {{if appearanceType == "document"}}\
                       Documents\
@@ -15235,10 +15235,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
                   {{if appearanceType == "page"}}\
-                    PAGES\
+                    Web\
                   {{/if}}\
                   {{if appearanceType == "document"}}\
                     Documents\
@@ -15298,10 +15298,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
                   {{if appearanceType == "page"}}\
-                    PAGES\
+                    Web\
                   {{/if}}\
                   {{if appearanceType == "document"}}\
                     Documents\
@@ -15361,10 +15361,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
                   {{if appearanceType == "page"}}\
-                    PAGES\
+                    Web\
                   {{/if}}\
                   {{if appearanceType == "document"}}\
                     Documents\
@@ -15416,10 +15416,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       DATA\
                     {{/if}}\
                     {{if appearanceType == "faq"}}\
-                      FAQS\
+                      FAQs\
                     {{/if}}\
                     {{if appearanceType == "page"}}\
-                      PAGES\
+                      Web\
                     {{/if}}\
                     {{if appearanceType == "document"}}\
                       Documents\
@@ -15476,10 +15476,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       DATA\
                     {{/if}}\
                     {{if appearanceType == "faq"}}\
-                      FAQS\
+                      FAQs\
                     {{/if}}\
                     {{if appearanceType == "page"}}\
-                      PAGES\
+                      Web\
                     {{/if}}\
                     {{if appearanceType == "document"}}\
                       Documents\
@@ -15541,10 +15541,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       DATA\
                     {{/if}}\
                     {{if appearanceType == "faq"}}\
-                      FAQS\
+                      FAQs\
                     {{/if}}\
                     {{if appearanceType == "page"}}\
-                      PAGES\
+                      Web\
                     {{/if}}\
                     {{if appearanceType == "document"}}\
                       Documents\
@@ -15606,10 +15606,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       DATA\
                     {{/if}}\
                     {{if appearanceType == "faq"}}\
-                      FAQS\
+                      FAQs\
                     {{/if}}\
                     {{if appearanceType == "page"}}\
-                      PAGES\
+                      Web\
                     {{/if}}\
                     {{if appearanceType == "document"}}\
                       Documents\
@@ -15957,15 +15957,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          // if(selectedLiveSearchTemplateType === 'grid'){
-          //   maxSearchResultsAllowed = 4;
-          // }
-          // else if (selectedLiveSearchTemplateType === 'carousel'){
-          //   maxSearchResultsAllowed = structuredData ? structuredData.length : 1;
-          // }
-          // else{
-          //   maxSearchResultsAllowed = 2;
-          // }
           maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
@@ -15978,6 +15969,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           else {
             maxSearchResultsAllowed = 2;
           }
+        }
+        else if(data.isFullResults && _self.vars.selectedFacetFromSearch == 'all results'){
+          maxSearchResultsAllowed = 5;
         }
         else {
           maxSearchResultsAllowed = structuredData ? structuredData.length : 1;
@@ -16522,15 +16516,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          // if(selectedLiveSearchTemplateType === 'grid'){
-          //   maxSearchResultsAllowed = 4;
-          // }
-          // else if (selectedLiveSearchTemplateType === 'carousel'){
-          //   maxSearchResultsAllowed = faqs ? faqs.length : 1;
-          // }
-          // else{
-          //   maxSearchResultsAllowed = 2;
-          // }
           maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
@@ -16543,6 +16528,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           else {
             maxSearchResultsAllowed = 2;
           }
+        }
+        else if(data.isFullResults && _self.vars.selectedFacetFromSearch == 'all results'){
+          maxSearchResultsAllowed = 5;
         }
         else {
           maxSearchResultsAllowed = faqs ? faqs.length : 1;
@@ -16946,15 +16934,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          // if(selectedLiveSearchTemplateType === 'grid'){
-          //   maxSearchResultsAllowed = 4;
-          // }
-          // else if (selectedLiveSearchTemplateType === 'carousel'){
-          //   maxSearchResultsAllowed = pages ? pages.length : 1;
-          // }
-          // else{
-          //   maxSearchResultsAllowed = 2;
-          // }
           maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
@@ -16967,6 +16946,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           else {
             maxSearchResultsAllowed = 2;
           }
+        }
+        else if(data.isFullResults && _self.vars.selectedFacetFromSearch == 'all results'){
+          maxSearchResultsAllowed = 5;
         }
         else {
           maxSearchResultsAllowed = pages ? pages.length : 1;
@@ -17398,15 +17380,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          // if(selectedLiveSearchTemplateType === 'grid'){
-          //   maxSearchResultsAllowed = 4;
-          // }
-          // else if (selectedLiveSearchTemplateType === 'carousel'){
-          //   maxSearchResultsAllowed = documents ? documents.length : 1;
-          // }
-          // else{
-          //   maxSearchResultsAllowed = 2;
-          // }
           maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
@@ -17420,7 +17393,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             maxSearchResultsAllowed = 2;
           }
         }
-        else {
+        else if(data.isFullResults && _self.vars.selectedFacetFromSearch == 'all results'){
+          maxSearchResultsAllowed = 5;
+        }
+        else{
           maxSearchResultsAllowed = documents ? documents.length : 1;
         }
 
@@ -17563,7 +17539,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       <!-- Facet left-->\
                       <div class="tab-name see-all-result-nav active-tab" classification="all results">All <span class="count sdk-facet-count">(${facet.all})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="faq">FAQs <span class="count sdk-facet-count">(${facet.faq})</span></div>\
-                      <div class="tab-name see-all-result-nav " classification="page">Pages<span class="count sdk-facet-count">(${facet.page})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="page">Web<span class="count sdk-facet-count">(${facet.page})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="task">Actions <span class="count sdk-facet-count">(${facet.task})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="object">Data <span class="count sdk-facet-count">(${facet.object})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="document"> Files <span class="count sdk-facet-count">(${facet.document})</span></div>\
@@ -17576,7 +17552,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       {{if count > 0 }}\
                       <div class="filter-updated-count">\
                         <span class="length-count">${count}</span>\
-                        <span class="title">Filters applied</span>\
+                        <span class="title"> {{if count && (count == 1)}}Filter{{else}}Filters{{/if}} applied</span>\
                         <span class="clsoe-filter"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBbZHRDcIwDERju+zTSizSCWgl8sFM+Ug26AwsUDIGO9A05AChprV/osjPd2eZLtfbg2gZg3PRKDUMts3SeAaUV5kGa1sVYpkoLaPEeX525+4OGC/+FbSmPgQX6T9dFAETp968jNlC6FNl9YNNLo0NhOIqVFEC9Bk/1Xn5ELwowX6/oGjBtQVpD2mZ4cBZ2GsQCkf4xmj8GzsLeh0gnVcbAAAAAElFTkSuQmCC"></span>\
                       </div>\
                       {{/if}}\
@@ -19285,6 +19261,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     // top-search-template --start///
     FindlySDK.prototype.initializeTopSearchTemplate = function () {
       var _self = this;
+      _self.vars.selectedFacetFromSearch = "all results"
       if ($('.topdown-search-main-container').length) {
         $('#search-box-container').off('keydown', '#search').on('keydown', '#search', function (e) {
           // if ($('body').hasClass('top-down')) {

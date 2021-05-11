@@ -13308,7 +13308,7 @@ padding-right: 0;
 }
 
 .suggestion-search-data-parent {
-    border: 0px solid #E4E5E7;
+    border: 1px solid #E4E5E7;
     border-radius: 8px 8px 0px 0px;
     position: absolute;
     width: 100%;
@@ -13639,7 +13639,7 @@ button.search-button:disabled {
     border-radius: 2px;
 }
 
-.quick-actions-full-search-container {
+.action-results-container {
     margin-bottom: 23px;
 }
 #actions-full-search-container .quick-actions{
