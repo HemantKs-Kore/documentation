@@ -11,7 +11,7 @@
 			</div>		
 		</div>
 	</ng-container>
-	<perfect-scrollbar class="perfect-scroll">
+	<perfect-scrollbar class="perfect-scroll" [ngClass]='{"if-upgrade-plan":showUpgrade==true}'>
 		<div class="list-group list-group-flush" *ngIf="!settingMainMenu && !sourceMenu">					
 			<div class="default-index-title">				
 				<div class="kr-sg-dropdowns" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom'">
