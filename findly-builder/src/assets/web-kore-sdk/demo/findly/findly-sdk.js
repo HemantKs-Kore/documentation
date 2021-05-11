@@ -368,7 +368,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // var baseAPIServer = 'https://app.findly.ai';
 
       //var baseAPIServer =   _self.config.botOptions ? _self.config.botOptions.baseAPIServer : 'https://dev.findly.ai'; // For XHR calls in QA
-      var baseAPIServer = 'https://dev.findly.ai/searchassistapi/'; // For XHR calls in DEV
+      // var baseAPIServer = 'https://dev.findly.ai/searchassistapi/'; // For XHR calls in DEV
+      var baseAPIServer = _self.config.botOptions.koreAPIUrl;
       //var baseAPIServer = 'https://pilot.searchassist.ai'; // For XHR calls in PILOT
 
 
@@ -6703,6 +6704,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       payload.userId = this.bot.userInfo.userInfo.userId;
 
       payload.streamId = this.bot.options.botInfo.taskBotId;
+      // if (!$('body').hasClass('demo')) {
+      //   payload.indexPipelineId = _self.API.indexpipelineId;
+      //   payload.queryPipelineId = _self.API.pipelineId;
+      // }
+
       var _self = this;
       if (!$('body').hasClass('demo')) {
         payload.indexPipelineId = _self.API.indexpipelineId;
@@ -7159,7 +7165,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.isDev = true;
       }*/
       if (window.appConfig.API_SERVER_URL) {
-        _self.baseAPIServer = window.appConfig.API_SERVER_URL;
+        _self.baseAPIServer = window.appConfig.API_SERVER_URL + '/searchassistapi/';
       }
       if (findlyConfig.autoConnect) {
         _self.initWebKitSpeech();
@@ -8087,6 +8093,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (msgObject && msgObject.nlmeta) {
         messageToBot["message"].nlmeta = msgObject.nlmeta;
+      }
+      if (!$('body').hasClass('demo')) {
+        messageToBot.indexPipelineId = _self.API.indexpipelineId;
+        messageToBot.queryPipelineId = _self.API.pipelineId;
       }
 
       if (!$('body').hasClass('demo')) {
@@ -19919,7 +19929,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     // Configuraition of Interface //
     FindlySDK.prototype.configureSearchInterface = function (botOptions, JWTResponse) {
-      var baseAPIServer = botOptions.koreAPIUrl ? botOptions.koreAPIUrl : 'https://app.findly.ai/api/'
+      var baseAPIServer = botOptions.koreAPIUrl ? botOptions.koreAPIUrl : 'https://app.findly.ai/searchassistapi/'
       var searchExperienceAPIUrl = baseAPIServer + 'public/searchAssist/stream/' + botOptions.botInfo.taskBotId + '/' + botOptions.searchIndexID + '/searchInterface';
       console.log('config', searchExperienceAPIUrl);
       var type = 'GET';
