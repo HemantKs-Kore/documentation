@@ -52,6 +52,8 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   previewImageModalPopRef
   faqs:any = {}
   anwerPayloadObj:any = {};
+  editAltQuestionIndex:any;
+  altQuestionEdit:any;
   ruleOptions = {
     searchContext:['recentSearches','currentSearch', 'traits', 'entity','keywords'],
     pageContext:['device', 'browser', 'currentPage' , 'recentPages'],
@@ -412,6 +414,37 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
      this.faqResponse.defaultAnswers.push(tempResponseObj);
      this.currentEditIndex = this.faqResponse.defaultAnswers.length - 1;
    }
+   this.initializeEditResponselayoutEvents();
+  }
+  initializeEditResponselayoutEvents(){
+    if( $('.text-area-editor').length){
+      $('.text-area-editor').off('click').on('click',function (event) {
+        $('.editResponseMode').addClass('focusedEdit');
+    });
+    }
+    
+    $(document).off('click').on('click', function(event) {
+    if (!$(event.target).closest('.text-area-editor').length && !$(event.target).closest('.provideLinkPopup').length &&  $('.editResponseMode').hasClass('focusedEdit')) {
+      $('.editResponseMode').addClass('d-none');
+      $('.previewResponseMode').removeClass('d-none');
+      $('.editResponseMode').removeClass('focusedEdit');
+      $('.text-area-editor').click();
+
+    }
+  });
+
+  if( $('.responsePreviewBlock').length){
+    setTimeout(()=>{
+      $('.responsePreviewBlock').click(function(){
+        setTimeout(()=>{
+          $('.editResponseMode').removeClass('d-none');
+        $('.previewResponseMode').addClass('d-none');
+        $('.editResponseMode').addClass('focusedEdit');
+        },100);
+      })
+    },1000);
+  }
+
   }
   remove(tag): void {
     const index = this.tags.indexOf(tag);
@@ -932,7 +965,19 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       }
     });
   }
-  delAltQues(ques,index) {
+  editAltQuestion(altQuestion,index){
+    this.editAltQuestionIndex = index;
+    this.altQuestionEdit = altQuestion;
+  }
+  closeAltQuestion(){
+    this.altQuestionEdit='';
+    this.editAltQuestionIndex = null;
+  }
+  delAltQues(ques,index,event) {
+    if (event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         width: '530px',
         height: 'auto',
@@ -956,28 +1001,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     // this.faqData._source.alternateQuestions = _.without(this.faqData._source.alternateQuestions, _.findWhere(this.faqData._source.alternateQuestions, { _id: ques._id }));
   }
   ngAfterViewInit() {
-    $('.text-area-editor').click(function (event) {
-      // if(!$('.editResponseMode').hasClass('focusedEdit')){
-        $('.editResponseMode').addClass('focusedEdit');
-        // }
-    });
-      $(document).off('click').on('click', function(event) {
-      if (!$(event.target).closest('.text-area-editor').length && !$(event.target).closest('.provideLinkPopup').length &&  $('.editResponseMode').hasClass('focusedEdit')) {
-        $('.editResponseMode').addClass('d-none');
-        $('.previewResponseMode').removeClass('d-none');
-        $('.editResponseMode').removeClass('focusedEdit');
-        $('.text-area-editor').click();
-
-      }
-    });
-    
-    $('.responsePreviewBlock').click(function(){
-      setTimeout(()=>{
-        $('.editResponseMode').removeClass('d-none');
-      $('.previewResponseMode').addClass('d-none');
-      $('.editResponseMode').addClass('focusedEdit');
-      },100)
-    });
+    this.initializeEditResponselayoutEvents();
   }
   ngOnDestroy() {
     this.eventsSubscription? this.eventsSubscription.unsubscribe(): false;
