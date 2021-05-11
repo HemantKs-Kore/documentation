@@ -15,6 +15,10 @@
                 <div class="info-desc">The Bot results will be positioned at the bottom in the chat and Full page result view</div>
             </div> 
         </div> 
+        <div class="mainLoadingSpinner" *ngIf="loader" [@fadeInOutAnimation]>
+            <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+            <span class="please-wait-message">Please Wait</span>
+        </div>
         <ng-container *ngIf="loadingBotContent">
             <div class="info-link-bot-notification" *ngIf="!botLinked">
                 <img src="assets/icons/actions/info.svg">

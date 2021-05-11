@@ -1677,3 +1677,22 @@
     margin-left: 45px;
 
 }
+
+
+.added-questions-list{
+    .content-body-question {
+        padding: 5px 0;
+        min-height: 50px;
+        background: #fff;
+        box-shadow: 0 1px 0 rgb(0 0 0 / 20%);
+        align-items: center;
+        transition: all .3s ease-in;
+        margin: 0 0 1px;
+        .group-name {
+            color: #202124;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 17px;
+        }
+    }
+}

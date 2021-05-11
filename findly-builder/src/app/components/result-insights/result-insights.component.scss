@@ -206,6 +206,9 @@
             line-height: 14px;
             color: #202124;   
             cursor: default;
+            &.search-results{
+                padding: 0 50px 5px 0px;
+            }
             img{
                 cursor: pointer;
             } 
@@ -249,7 +252,7 @@
             position: relative;
             height: auto !important;
             box-shadow: none;
-            margin-bottom: 25px;
+            margin-bottom: 10px;
             .small-title{
                 color: #9AA0A6;
                 font-weight: 500;

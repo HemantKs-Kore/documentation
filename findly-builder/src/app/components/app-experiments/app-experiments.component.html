@@ -195,7 +195,7 @@
                     <div class="col-1 title">users</div>
                     <div class="col-1 title">Searches</div>
                     <div class="col-1 title">Clicks</div>
-                    <div class="col-2 title">CTR (goal)</div>
+                    <div class="col-2 title">CTR (goal)  <span placement="top-center" [ngbTooltip]="ctrTooltip" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span></div>
                   </div>
                   <div class="row m-0 col-12 acc-row-body align-items-center" *ngFor="let expCol of exp.variants">
                     <div class="col-2 d-flex varient-data align-items-center">
@@ -322,7 +322,7 @@
             </button>
             <ul class="dropdown-menu content-menu" >
               <li *ngFor="let index of indexConfig" (click)="fetchVariant(varIndex, index, 'indexid');getQueryPipeline(index._id)" [ngStyle]="{'font-weight':vari.indexPipelineId===index._id?'bold':''}">
-                {{ index.name }}
+                {{ index.name=='Default'?"Default Index":index.name }}
               </li>
             </ul>
           </div>
@@ -340,7 +340,7 @@
             </button>
             <ul class="dropdown-menu content-menu"  *ngIf="vari.indexPipelineName!==undefined">
               <li *ngFor="let query of queryPipeline" (click)="fetchVariant(varIndex, query, 'queryid')"  [ngStyle]="{'font-weight':vari.queryPipelineId===query._id?'bold':''}">
-                {{ query.name }}
+                {{ query.name=='Default'?"Default Search":query.name }}
               </li>
             </ul>
           </div>
@@ -376,7 +376,7 @@
       <div class="duration-sec">
         <div class="kr-sg-input-text">
           <div class="label-text">Duration</div>
-          <input type="number" autocomplete="off" class="input-text text-center" min="30" max="90"
+          <input type="number" autocomplete="off" class="input-text text-center" min="30" max="90" (keyup)="checkDuration(experimentObj?.duration.days)"
             [(ngModel)]="experimentObj?.duration.days" [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")?"#EFF0F1":"#ffffff","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}' />
           <img src="assets/icons/minus.svg" class="minus" [hidden]="exp_status !== 'configured' && form_type === 'edit'"
             (click)="

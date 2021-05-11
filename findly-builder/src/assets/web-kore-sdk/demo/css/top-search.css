@@ -595,6 +595,7 @@ body.top-down .top-down-wrapper{
   /* overflow: hidden; */
   font-family: Inter;
   color: #202124;
+  height : 100%;
 }
 
 button:focus{
