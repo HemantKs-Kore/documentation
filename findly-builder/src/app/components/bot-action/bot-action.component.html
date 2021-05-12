@@ -1,7 +1,7 @@
 
 <div class="bot-actions-container">
 
-  <div class="mainLoadingSpinner" *ngIf="loadingContent">
+  <div class="mainLoadingSpinner" *ngIf="loadingContent || !loadingContent1">
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">Please Wait!</span>
   </div>
@@ -16,7 +16,7 @@
   </div>
 
 
-  <ng-container *ngIf="!linkedBotID && !loadingContent">
+  <ng-container *ngIf="!linkedBotID && !loadingContent && !loadingContent1">
     <perfect-scrollbar class="empty-scroll">
     <div  class="empty-landing-screen">
       <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/botactions-empty.svg"></div>
