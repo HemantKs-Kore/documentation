@@ -136,7 +136,7 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/jobs/:jobId/status',
       method: 'put'
     }
-    
+
     this.serviceList['put.EditConfig'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/webdomain/:webdomainId',
       method: 'put'
@@ -900,6 +900,10 @@ export class EndPointsService {
     }
     this.serviceList['delete.indexPipeline'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId',
+      method: 'delete'
+    }
+    this.serviceList['delete.queryPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPIpelineId',
       method: 'delete'
     }
     /** APIs for search experience and tour guide */

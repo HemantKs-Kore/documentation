@@ -77,7 +77,7 @@
 										<div class="edit-black" *ngIf="!editIndexName&&!(config.default)" (click)="$event.stopPropagation();editIndexConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
 											<img src="assets/icons/edit-pencil.svg">
 										</div>																
-										<div class="delete" *ngIf="!editIndexName&&!(config.default)" ngbTooltip='Delete' placement="top-center" [container]="'body'" (click)="$event.stopPropagation();deleteIndexConfig(config)">
+										<div class="delete" *ngIf="!editIndexName&&!(config.default)" ngbTooltip='Delete' placement="top-center" [container]="'body'" (click)="$event.stopPropagation();deleteIndexConfig(config,'index')">
 											<img src="assets/icons/delete.svg">
 										</div>											
 									</div>
@@ -147,9 +147,9 @@
 											<div class="edit-black" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();editConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
 												<img src="assets/icons/edit-pencil.svg">
 											</div>																
-											<!-- <div class="delete" *ngIf="!editName">
+											<div class="delete" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();deleteIndexConfig(config,'search')">
 												<img src="assets/icons/delete.svg">
-											</div>											 -->
+											</div>											
 										</div>
 									</li>
 								</perfect-scrollbar>
