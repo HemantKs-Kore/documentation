@@ -902,6 +902,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId',
       method: 'delete'
     }
+    this.serviceList['delete.queryPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPIpelineId',
+      method: 'delete'
+    }
     /** APIs for search experience and tour guide */
     this.serviceList['get.searchexperience.list'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/searchInterface',

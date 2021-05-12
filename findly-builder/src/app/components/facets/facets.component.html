@@ -261,7 +261,7 @@
             <div class="row-content row">
                 <div class="kr-sg-input-text col-8 pl-0">
                     <div class="label-text">{{'facets.facet_name'| translate}}</div>
-                    <input type="text" placeholder="Asset Class" class="input-text" [class.err-block]="((!addEditFacetObj.facetName.length) && submitted)" [(ngModel)]="addEditFacetObj.facetName">
+                    <input type="text" placeholder="Enter Name" class="input-text" [class.err-block]="((!addEditFacetObj.facetName.length) && submitted)" [(ngModel)]="addEditFacetObj.facetName">
                     <img *ngIf="(!addEditFacetObj.facetName.length) && submitted" id="facetNameWarning" src="assets/icons/warning_escalation.svg" style="top: 57%; position: absolute; right: 4.5%; display: block;" height="12" width="12" />
                 </div>
                 <div class="kr-sg-dropdowns col-4 pl-2">
@@ -361,7 +361,7 @@
                             {{'facets.facet_size'| translate}}
                             <img container="body" ngbTooltip="{{'facets.facet_size_info' | translate}}" tooltipClass="metrics_tooltips m-0" class="pl-1" src="assets/icons/info.svg" />
                         </div>
-                        <input type="number" placeholder="Please Enter" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">
+                        <input type="number" placeholder="Please Enter" min="0" max="10" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">
                     </div>
                 </div>
                 <div class="multi-select mt-3">
