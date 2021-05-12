@@ -209,12 +209,12 @@
         <div class="kr-sg-input-text"> 
           <label class="label-text label-text-bot-link">Access Token</label>         
           <input type="text"placeholder="Enter access token" [(ngModel)]="configurationLink.accessToken" name="accessToken" class="input-text bot-link-input" readonly> 
-          <div class="copy-btn" (click)="copy(accessToken,clipAppName)"><img src="assets/images/icons/copy.svg">Copy</div>
+          <div class="copy-btn" (click)="copy(configurationLink.accessToken)"><img src="assets/images/icons/copy.svg">Copy</div>
         </div>
         <div class="kr-sg-input-text"> 
           <label class="label-text label-text-bot-link">Post URL</label>         
           <input type="text"placeholder="Enter post url" [(ngModel)]="configurationLink.postUrl" name="postUrl" class="input-text bot-link-input" readonly> 
-          <div class="copy-btn" (click)="copy(accessToken,clipAppName)"><img src="assets/images/icons/copy.svg">Copy</div>
+          <div class="copy-btn" (click)="copy(configurationLink.postUrl)"><img src="assets/images/icons/copy.svg">Copy</div>
         </div>
         <div class="kr-sg-input-text"> 
           <div class="w-75 position-relative">

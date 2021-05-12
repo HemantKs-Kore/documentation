@@ -1304,7 +1304,7 @@ export class BotActionComponent implements OnInit {
     );
   }
 
-  copy(val, elementID) {
+  copy(val) {
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
