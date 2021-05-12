@@ -207,7 +207,10 @@ export class UpgradePlanComponent implements OnInit {
     this.paymentGatewayModelPopRef = this.paymentGatewayModel.open();
   }
   //payment plan for upgrade/downgrade
-  paymentPlan(show) {
+  paymentPlan(show?) {
+    if (show == undefined) {
+      show = this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free ? true : false;
+    }
     if (show) {
       this.buyOveragePayment();
     }
@@ -219,7 +222,6 @@ export class UpgradePlanComponent implements OnInit {
         const payload = { "streamId": this.selectedApp._id, "targetPlanId": this.orderConfirmData._id };
         const upgradePlan = this.service.invoke('put.planChange', {}, payload);
         upgradePlan.subscribe(res => {
-          console.log("upgrade", res);
           if (res.status == 'success') {
             this.openSuccessFailurePopup(true);
             this.closeChoosePlanPopup();
@@ -233,6 +235,8 @@ export class UpgradePlanComponent implements OnInit {
           else {
             this.errorToaster(errRes, 'failed upgrade');
             this.openSuccessFailurePopup(false);
+            this.closeChoosePlanPopup();
+            this.closeOrderConfPopup();
           }
         });
       }
