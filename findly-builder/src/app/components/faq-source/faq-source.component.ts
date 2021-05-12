@@ -1086,15 +1086,21 @@ this.selectAll();
     } else {
       const selectedElements = $('.selectEachfaqInput:checkbox:checked');
       const sekectedFaqsCollection: any = [];
-      if (selectedElements && selectedElements.length) {
-        $.each(selectedElements, (i, ele) => {
-          const faqId = $(ele)[0].id.split('_')[1];
-          const tempobj = {
-            _id: faqId
-          }
-          sekectedFaqsCollection.push(tempobj);
-        })
-      }
+      Object.keys(this.faqSelectionObj.selectedItems).forEach((key)=>{
+        const tempobj = {
+                _id: key
+              }
+        sekectedFaqsCollection.push(tempobj);
+      });
+      // if (selectedElements && selectedElements.length) {
+      //   $.each(selectedElements, (i, ele) => {
+      //     const faqId = $(ele)[0].id.split('_')[1];
+      //     const tempobj = {
+      //       _id: faqId
+      //     }
+      //     sekectedFaqsCollection.push(tempobj);
+      //   })
+      // }
       payload.faqs = sekectedFaqsCollection;
     }
     const quaryparms: any = {
