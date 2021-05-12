@@ -155,15 +155,15 @@
                   </div>
 
                   <div class="delete-table">
-                    <img src="assets/icons/pause.svg" *ngIf="exp.state === 'active'"
+                    <img src="assets/icons/pause.svg" ngbTooltip='Pause' *ngIf="exp.state === 'active'"
                       (click)="runExperiment(exp._id, 'paused', $event)" />
-                    <img src="assets/icons/End.svg" *ngIf="exp.state === 'active'"
+                    <img src="assets/icons/End.svg" ngbTooltip='Stop' *ngIf="exp.state === 'active'"
                       (click)="runExperiment(exp._id, 'stopped', $event)" />
-                    <img src="assets/icons/play_black.svg" *ngIf="exp.state === 'paused'"
+                    <img src="assets/icons/play_black.svg"  ngbTooltip='Play'*ngIf="exp.state === 'paused'"
                       (click)="runExperiment(exp._id, 'active', $event)" />
                     <img src="assets/icons/return_black.svg" *ngIf="exp.state === 'stopped'"
                       (click)="runExperiment(exp._id, 'active', $event)" />
-                    <img src="assets/icons/delete-table.svg" *ngIf="
+                    <img src="assets/icons/delete-table.svg" ngbTooltip='Delete' *ngIf="
                         exp.state === 'completed' ||
                         exp.state === 'stopped' ||
                         exp.state === 'paused'
