@@ -215,30 +215,35 @@ export class UpgradePlanComponent implements OnInit {
       this.buyOveragePayment();
     }
     else {
-      if (this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free) {
-        this.openPaymentGatewayPopup()
+      if (this.currentSubscriptionPlan) {
+        if (this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free) {
+          this.openPaymentGatewayPopup()
+        }
+        else {
+          const payload = { "streamId": this.selectedApp._id, "targetPlanId": this.orderConfirmData._id };
+          const upgradePlan = this.service.invoke('put.planChange', {}, payload);
+          upgradePlan.subscribe(res => {
+            if (res.status == 'success') {
+              this.openSuccessFailurePopup(true);
+              this.closeChoosePlanPopup();
+              this.closeOrderConfPopup();
+            }
+          }, errRes => {
+            if (errRes && errRes.error && errRes.error.errors[0].code == 'ERR_FAILED_ACCESS_EXCEEDED') {
+              this.openChangePlanModel();
+              this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
+            }
+            else {
+              this.errorToaster(errRes, 'failed upgrade');
+              this.openSuccessFailurePopup(false);
+              this.closeChoosePlanPopup();
+              this.closeOrderConfPopup();
+            }
+          });
+        }
       }
-      else {
-        const payload = { "streamId": this.selectedApp._id, "targetPlanId": this.orderConfirmData._id };
-        const upgradePlan = this.service.invoke('put.planChange', {}, payload);
-        upgradePlan.subscribe(res => {
-          if (res.status == 'success') {
-            this.openSuccessFailurePopup(true);
-            this.closeChoosePlanPopup();
-            this.closeOrderConfPopup();
-          }
-        }, errRes => {
-          if (errRes && errRes.error && errRes.error.errors[0].code == 'ERR_FAILED_ACCESS_EXCEEDED') {
-            this.openChangePlanModel();
-            this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
-          }
-          else {
-            this.errorToaster(errRes, 'failed upgrade');
-            this.openSuccessFailurePopup(false);
-            this.closeChoosePlanPopup();
-            this.closeOrderConfPopup();
-          }
-        });
+      else if (this.selectedPlan) {
+        this.openPaymentGatewayPopup()
       }
     }
   }
