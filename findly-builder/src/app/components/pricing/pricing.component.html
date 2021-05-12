@@ -6,10 +6,10 @@
 <div class="pricing-container-wrapper">
   <div class="title-header d-flex align-items-center justify-content-between">
     <div>Plan Details</div>
-    <button class="kr-sg-button-primary btn_lg" *ngIf="showUpgradeBtn" (click)="currentSubscriptionPlan.subscription.changesScheduledFor=='none'?compare('choosePlans',currentSubscriptionPlan.subscription):revertCancel()">{{currentSubscriptionPlan.subscription.changesScheduledFor=='none'?'Upgrade':'Revert Cancellation'}}</button>  
+    <button class="kr-sg-button-primary btn_lg" *ngIf="showUpgradeBtn" (click)="currentSubscriptionPlan.subscription.changesScheduledFor=='none'||currentSubscriptionPlan.subscription.status=='expired'?compare('choosePlans',currentSubscriptionPlan.subscription):revertCancel()">{{currentSubscriptionPlan.subscription.changesScheduledFor=='none'?'Upgrade':(currentSubscriptionPlan.subscription.changesScheduledFor=='cancel'&&currentSubscriptionPlan.subscription.status!='expired')?'Revert Cancellation':'Reactivate'}}</button>  
   </div>
   <perfect-scrollbar class="pricing-scroll">
-    <div class="pricing-details-main-sec">
+    <div class="pricing-details-main-sec" [ngStyle]='{"opacity":currentSubscriptionPlan&&currentSubscriptionPlan.subscription&&currentSubscriptionPlan.subscription.status=="expired"?"0.3":null}'>
         <div class="row col-12 card-plans">
             <div class="col-6 current-plan">
               <div class="inner-content">
@@ -30,8 +30,8 @@
                     <div class="amount" *ngIf="currentSubscriptionPlan.subscription.planName != 'Free'">${{currentSubscriptionPlan.subscription.planAmount}}<span>/ month</span></div>
                   </div>
                   <div class="plan-time">
-                    <div class="started-title">{{currentSubscriptionPlan.subscription.planName=='Free'?'Started On':currentSubscriptionPlan.subscription.changesScheduledFor=='none'?'Renewal Date':'Valid till'}}</div>
-                    <div class="started-date">{{ currentSubscriptionPlan.subscription.createdAt | date}}</div>
+                    <div class="started-title">{{currentSubscriptionPlan.subscription.planName=='Free'?'Started On':currentSubscriptionPlan.subscription.changesScheduledFor=='none'?'Renewal Date':currentSubscriptionPlan.subscription.status=='expired'?'End Date':'Valid till'}}</div>
+                    <div class="started-date">{{ (currentSubscriptionPlan.subscription.status=='expired'?currentSubscriptionPlan.subscription.expiredOn:currentSubscriptionPlan.subscription.createdAt) | date}}</div>
                   </div>
                 </div>
               </div>
