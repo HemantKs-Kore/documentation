@@ -8,8 +8,8 @@
         <div class="header-sec-stopwords">
             <div class="title">{{'weights.Weights'| translate}}</div>
             <div class="restore_text" *ngIf="weights.length">
-                <span class="lable_text" id="btn_openWeight" (click)="openAddNewWeight()"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{'weights.add_searchable_field'| translate}}</span>
-                <span class="lable_text" id="btn_restoreWeight" (click)="restoreWeights();"><img src="assets/icons/return_black.svg">{{'weights.reset_to_default' | translate}}</span>
+                <span class="lable_text mr-5" id="btn_openWeight" (click)="openAddNewWeight()"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{'weights.add_searchable_field'| translate}}</span>
+                <span class="lable_text mr-5" id="btn_restoreWeight" (click)="restoreWeights();"><img src="assets/icons/return_black.svg">{{'weights.reset_to_default' | translate}}</span>
                 <span class="clock_img d-none"><img src="assets/icons/clock.svg"></span>
 
             </div>
@@ -28,7 +28,7 @@
                             <div>
                                 <img class="pr-1" *ngIf="weightModal.showFieldWarning && (weightModal.showFieldWarning !== 'false')" src="assets/icons/info-blue.svg" [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip='{{fieldWarnings[weightModal.showFieldWarning] || weightModal.showFieldWarning}}'>                                {{weightModal.name}}
                             </div>
-                            <div class="pre_defined" *ngIf="!weightModal.isField">{{'weights.SYSTEM-DEFINED'| translate}}</div>
+                            <div class="pre_defined d-none" *ngIf="!weightModal.isField">{{'weights.SYSTEM-DEFINED'| translate}}</div>
                             <!-- <div class="pre_defined" *ngIf="!weightModal.isField">{{'weights.PRE-DEFINED'| translate}}</div> -->
                         </div>
                         <div class="col-6 desc text-truncate">
@@ -56,7 +56,7 @@
                 <div class="weightsFooter">
                     <!-- <div class="add_btn_sec">
                 </div> -->
-                    <div class="cancel_save_sec mr-5">
+                    <div class="cancel_save_sec">
                         <button [ngClass]="{'d-none':!weights.length}" class="kr-sg-button-secondary btn_lg" id="btn_discardWeightChanges" [disabled]="disableCancle" (click)="setDataToActual()">{{'weights.cancel'| translate}}</button>
                         <button [ngClass]="{'d-none':!weights.length}" class="kr-sg-button-primary btn_lg" id="btn_confirmWeightChanges" (click)="addOrUpddate(weights,null,'edit')">{{'weights.save_weights' | translate}}</button>
                     </div>
@@ -122,7 +122,7 @@
     </perfect-scrollbar>
     <div class="modal-footer text-left" *ngIf="addEditWeighObj">
         <button id="btn_weightsSave" type="button" class="kr-sg-button-danger btn_lg float-left" *ngIf="currentEditIndex>-1" (click)="deleteWeight(addEditWeighObj,$event,currentEditIndex)">{{'weights.delete' | translate}}</button>
-        <button id="btn_weightseditSave" type="button" class="kr-sg-button-primary btn_lg mr-0 float-right" (click)="addEditWeight()">{{(currentEditIndex>-1)?'Update':'Add to List'}}</button> <!-- [disabled]="!addEditWeighObj.name" -->
+        <button id="btn_weightseditSave" type="button" class="kr-sg-button-primary btn_lg mr-0 float-right" (click)="addEditWeight()">{{(currentEditIndex>-1)?'Update':'Add'}}</button> <!-- [disabled]="!addEditWeighObj.name" -->
         <button id="btn_weightsClose" type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeAddEditWeight()">{{'weights.cancel'| translate}}</button>
     </div>
 </kr-modal>
