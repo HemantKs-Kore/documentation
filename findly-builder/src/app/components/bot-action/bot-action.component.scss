@@ -2,7 +2,30 @@
 
 .bot-actions-container{
     height: calc(100vh - 62px);
-
+    .info-link-bot-notification {
+            background: #F3F8FF;
+            border: 1px solid #85B7FE;
+            box-sizing: border-box;
+            border-radius: 4px;
+            padding: 10px 12px;
+            width: 75%;
+            font-size: 12px;
+            line-height: 18px;
+            color: #07377F;
+            margin: 0px 25px;
+            display: flex!important;
+            position: relative;
+            .link-ext-link{
+                position: absolute;
+                right: 15px;
+                img{
+                    margin-right:5px;
+                }
+                span{
+                    color: #0D6EFD;
+                }
+            }
+    }
     .empty-bot-actions{
         display: flex;
         align-items: center;
@@ -169,20 +192,20 @@
                 .tab-name{
                     .name-task{
                         display: inline-block;
-                        color: #0D6EFD;
+                        color: #9AA0A6;
                         text-transform: capitalize;
-                        font-weight: 600;
-                        font-size: 14px;
-                        line-height: 17px;
+                        font-weight: 500;
+                        font-size: 12px;
+                        line-height: 15px;
                         position: relative;
-                        &::before{
-                            content: "";
-                            position: absolute;
-                            width: 100%;
-                            height: 2px;
-                            background: #0D6EFD;
-                            bottom: -18px;
-                        }
+                        // &::before{
+                        //     content: "";
+                        //     position: absolute;
+                        //     width: 100%;
+                        //     height: 2px;
+                        //     background: #0D6EFD;
+                        //     bottom: -18px;
+                        // }
                     }
                 }
                 .search-block{
@@ -278,7 +301,7 @@
                         }                                             
                     }
                     .content-sec{
-                        padding-left: 14px;
+                        padding-left: 7px;
                         .primary-title{
                             color: #202124;
                             font-weight: 600;
@@ -303,6 +326,7 @@
                     font-size: 10px;
                     line-height: 20px;
                     padding: 0 10px;
+                    text-transform: capitalize;
                 }
                 .enable-title{
                     color: #9AA0A6;
@@ -407,7 +431,6 @@
                     }
                     .bot-link-input{
                         padding-left: 10px;
-                        width: 75%;
                     }
                     .copy-btn{
                         display: inline;

@@ -6,6 +6,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
@@ -35,6 +36,7 @@ export class BotActionComponent implements OnInit {
   islinked = false;
   botToBeUnlinked = '';
   selectedLinkBotConfig:any;
+  linkedBotData:any={};
   // associatedBotArr = [];
   userInfo: any;
   botsModalRef: any;
@@ -50,6 +52,7 @@ export class BotActionComponent implements OnInit {
     clientSecret:'',
     clientId:''
   }
+  editConfigMode = false;
   submitted = false;
   @ViewChild('botsModalElement') botsModalElement: KRModalComponent;
   @ViewChild('botsConfigurationModalElement') botsConfigurationModalElement: KRModalComponent;
@@ -75,6 +78,7 @@ export class BotActionComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
+    private appSelectionService: AppSelectionService,
     private router: Router,
     public dialog: MatDialog,
   ) { }
@@ -390,31 +394,30 @@ export class BotActionComponent implements OnInit {
   openBotsConfigurationModalElement(bot) {
     this.selectedLinkBotConfig = bot;
     const queryParams = {
-      searchIndexId: this.searchIndexId
+      searchIndexID: this.searchIndexId
     }
-    // this.service.invoke('get.generateChannelCreds', queryParams).subscribe(
-    //   res => {
-    //     if(res && res.length){
-    //       this.configurationLink.postUrl =res.postUrl; 
-    //       this.configurationLink.accessToken =res.accessToken;
-    //       this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
-    //     }
-    //   },
-    //   errRes => {
-    //     if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-    //       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-    //     } else {
-    //       this.notificationService.notify('Failed to geneerate channel credentials', 'error');
-    //     }
-    //   }
-    // );
-    this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
+    this.service.invoke('get.generateChannelCreds', queryParams).subscribe(
+      res => {
+          this.configurationLink.postUrl =res.postUrl; 
+          this.configurationLink.accessToken =res.accessToken;
+          this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to geneerate channel credentials', 'error');
+        }
+      }
+    );
+    // this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
 
   }
 
   closeBotsConfigurationModalElement() {
     if (this.botsConfigurationModalRef && this.botsConfigurationModalRef.close) {
       this.botsConfigurationModalRef.close();
+      this.editConfigMode = true;
       this.submitted = false;
     }
   }
@@ -446,6 +449,17 @@ export class BotActionComponent implements OnInit {
                 this.linkedBotName = element.name;
                 this.linkedBotDescription = element.description;
                 this.linkedBotID = element._id;
+                if (this.workflowService.selectedApp()?.configuredBots[0]) {
+                  this.streamId = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+                }
+                this.linkedBotData = {
+                  botName : element.name,
+                  botId:element._id,
+                  botType:element.type,
+                  botDescription:element.description,
+                  channels:this.workflowService.selectedApp()?.configuredBots[0]?.channels,
+                  approvedChannels:element.approvedChannels
+                }
               }
               if (res.length > 0) {
                 this.loadingContent = false;
@@ -814,24 +828,24 @@ export class BotActionComponent implements OnInit {
         }
         this.allBotArray.push(obj);
       });
-      res.unpublishedBots.forEach(element => {
-        let obj = {
-          "_id": element._id,
-          "state": "delete"
-        }
-        this.allBotArray.push(obj);
-      });
-      if(this.allBotArray.length > 0){
-        this.universalPublish();
-      }
+      // res.unpublishedBots.forEach(element => {
+      //   let obj = {
+      //     "_id": element._id,
+      //     "state": "delete"
+      //   }
+      //   this.allBotArray.push(obj);
+      // });
+      // if(this.allBotArray.length > 0){
+      //   this.universalPublish();
+      // }
        // Universal Bot Publish here.
         selectedApp = this.workflowService.selectedApp();
         if (selectedApp.configuredBots[0]) {
           selectedApp.configuredBots[0]._id = null;
         }
-        else {
-          selectedApp.publishedBots[0]._id = null;
-        }
+        // else {
+        //   selectedApp.publishedBots[0]._id = null;
+        // }
         this.linkedBotID = null;
         this.linkedBotName = null;
         this.linkedBotDescription = null;
@@ -862,51 +876,46 @@ export class BotActionComponent implements OnInit {
       this.islinked = true;
       if (this.searchIndexId) {
         const queryParams: any = {
-          searchIndexID: this.searchIndexId
+          streamId: botID
         };
         this.loading= true;
-        this.service.invoke('get.AssociatedBotTasks', queryParams, null, { "state": "published" }).subscribe(res => {
-
-          
-          console.log("getAllTasks API response payload", res);
-
+        this.service.invoke('get.allTasks', queryParams, null, { "state": "published" }).subscribe(res => {
           this.linkedBotTasks = [];
           let taskEnable = true;
-          if (res.tasks.length > 0) {
-            res.tasks.forEach(element => {
+          if ((((res.tasks ||{}).published ||{}).items ||[]).length > 0) {
+            res.tasks.published.items.forEach(element => {
               if (element.state == "published") {
-                if (element.isHidden == false) {
-                  $("#enableOrDisable").prop('checked', false);
-                  element.taskStatus = "Enabled";
-                  taskEnable = false;
-                }
-                else {
-                  element.taskStatus = "Disabled";
-                }
-                element.type = element.type ?? "Dialog";
+                // if (element.isHidden == false) {
+                //   $("#enableOrDisable").prop('checked', false);
+                //   element.taskStatus = "Enabled";
+                //   taskEnable = false;
+                // }
+                // else {
+                //   element.taskStatus = "Disabled";
+                // }
+                // element.type = element.type ?? "Dialog";
                 this.linkedBotTasks.push(element);
               }
             });
-            if(taskEnable){
-              $("#enableOrDisable").prop('checked', true);
-            }
-            console.log("Linked Bot, Tasks", this.linkedBotTasks);
+            // if(taskEnable){
+            //   $("#enableOrDisable").prop('checked', true);
+            // }
           }
           else {
             this.linkedBotTasks = []
           }
 
-          if (res.faqs.length > 0) {
-            res.faqs.forEach(element => {
-              if (element.faqs == "published") {
-                this.linkedBotFAQs.push(element);
-              }
-            });
-            console.log("Linked Bot, FAQs", this.linkedBotFAQs);
-          }
-          else {
-            this.linkedBotFAQs = [];
-          }
+          // if (res.faqs.length > 0) {
+          //   res.faqs.forEach(element => {
+          //     if (element.faqs == "published") {
+          //       this.linkedBotFAQs.push(element);
+          //     }
+          //   });
+          //   console.log("Linked Bot, FAQs", this.linkedBotFAQs);
+          // }
+          // else {
+          //   this.linkedBotFAQs = [];
+          // }
           this.loading= false;
           this.loadingContent = false;
         },
@@ -1225,13 +1234,13 @@ export class BotActionComponent implements OnInit {
           this.linkedBotTasks = [];
           res.tasks.forEach(element => {
             if (element.state == "published") {
-              if (element.isHidden == false) {
-                element.taskStatus = "Enabled";
-              }
-              else {
-                element.taskStatus = "Disabled";
-              }
-              element.type = element.type ?? "Dialog";
+              // if (element.isHidden == false) {
+              //   element.taskStatus = "Enabled";
+              // }
+              // else {
+              //   element.taskStatus = "Disabled";
+              // }
+              // element.type = element.type ?? "Dialog";
               this.linkedBotTasks.push(element);
             }
           });
@@ -1240,24 +1249,24 @@ export class BotActionComponent implements OnInit {
         else {
           this.linkedBotTasks = [];
         }
-        if (res.faqs.length > 0) {
-          this.linkedBotFAQs = []
-          res.faqs.forEach(element => {
-            if (element.faqs == "published") {
-              this.linkedBotFAQs.push(element);
-            }
-          });
-          console.log("Linked Bot, FAQs", this.linkedBotFAQs);
-        }
-        else {
-          this.linkedBotFAQs = [];
-        }
+        // if (res.faqs.length > 0) {
+        //   this.linkedBotFAQs = []
+        //   res.faqs.forEach(element => {
+        //     if (element.faqs == "published") {
+        //       this.linkedBotFAQs.push(element);
+        //     }
+        //   });
+        //   console.log("Linked Bot, FAQs", this.linkedBotFAQs);
+        // }
+        // else {
+        //   this.linkedBotFAQs = [];
+        // }
         //  this.notificationService.notify("Linked Bot Synced, Successfully", 'success')
       })
     }
   }
   validateBotConfiguration(){
-    if(!this.configurationLink.clientId || !this.configurationLink.clientSecret || this.configurationLink.webhookUrl || !this.configurationLink.postUrl || !this.configurationLink.accessToken){
+    if(!this.configurationLink.clientId || !this.configurationLink.clientSecret || !this.configurationLink.webhookUrl || !this.configurationLink.postUrl || !this.configurationLink.accessToken){
       return false
     }else{
       return true;
@@ -1269,17 +1278,21 @@ export class BotActionComponent implements OnInit {
       return;
     }
     const queryParams = {
-      searchIndexId: this.searchIndexId
+      searchIndexID: this.searchIndexId
+    }
+    let channelType = 'ivr';
+    if(this.configurationLink.webhookUrl.split('/').indexOf('hookInstance')>-1){
+      channelType = this.configurationLink.webhookUrl.split('/')[this.configurationLink.webhookUrl.split('/').indexOf('hookInstance') +1]
     }
     let payload = {
       "linkBotId":this.selectedLinkBotConfig._id,
    "linkBotName": this.selectedLinkBotConfig.name,
    "channels": [
           {
-           "type": "ivr",
+           "type": channelType,
            "app": {
                "clientId": this.configurationLink.clientId,
-               "name": "app1",
+               "name": this.selectedLinkBotConfig.channels[0].app.name,
                "clientSecret": this.configurationLink.clientSecret
               },
           "webhookUrl": this.configurationLink.webhookUrl,
@@ -1293,6 +1306,15 @@ export class BotActionComponent implements OnInit {
       res => {
         this.selectedLinkBotConfig = null;
         this.closeBotsConfigurationModalElement();
+        if (this.workflowService.selectedApp()) {
+          this.appSelectionService.getStreamData(this.workflowService.selectedApp())
+        }
+        this.getAssociatedTasks(this.streamId)
+        this.getAssociatedBots();
+        this.workflowService.linkBot(this.streamId);
+        // this.workflowService.smallTalkEnable(res.stEnabled);
+        this.notificationService.notify("Bot Linked Successfully", 'success');
+        this.syncLinkedBot();
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1330,5 +1352,23 @@ export class BotActionComponent implements OnInit {
       this.showPassword= false;
       show.type = "password";
     }
+  }
+
+  editConfiguration(linkedBotData){
+    this.editConfigMode = true;
+    this.selectedLinkBotConfig = {
+      _id:linkedBotData.botId,
+      name:linkedBotData.botName,
+      channels:linkedBotData.channels
+    }
+    this.configurationLink ={
+        accessToken : linkedBotData.channels[0].accessToken,
+        webhookUrl : linkedBotData.channels[0].webhookUrl,
+        postUrl : linkedBotData.channels[0].postUrl,
+        clientId : linkedBotData.channels[0].app.clientId,
+        clientSecret : linkedBotData.channels[0].app.clientSecret
+    }
+    
+    this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
   }
 }

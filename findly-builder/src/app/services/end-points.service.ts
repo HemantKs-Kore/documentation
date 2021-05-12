@@ -282,7 +282,7 @@ export class EndPointsService {
       method: 'delete'
     };
     this.serviceList['get.bots'] = {
-      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks?allTasks=true?',
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks',
       method: 'get'
     };
     this.serviceList['get.traitgroup'] = {
@@ -377,6 +377,10 @@ export class EndPointsService {
     this.serviceList['get.AssociatedBotTasks'] = {
       // endpoint: this.API_SERVER_URL + '/builder/streams/:botID/dialogs',
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/allTasks',
+      method: 'get'
+    }
+    this.serviceList['get.allTasks'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks',
       method: 'get'
     }
     this.serviceList['get.generateChannelCreds'] = {
