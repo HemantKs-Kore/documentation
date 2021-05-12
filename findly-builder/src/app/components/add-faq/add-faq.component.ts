@@ -590,6 +590,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
           conditionAnswerObj.answers.push(answerObj1);
           conditionalAnswers.push(conditionAnswerObj);
         }
+
       })
     }
     this.anwerPayloadObj.defaultAnswers = defaultAnswers;
@@ -611,6 +612,12 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       const oneValidRespone = _.filter(this.anwerPayloadObj.defaultAnswers,(answer) =>{
          return ((answer.payload !== '') && (answer.payload !== undefined) && ( answer.payload !==null ));
       })
+      let defaultAns = [...this.anwerPayloadObj.defaultAnswers];
+      for (let k = defaultAns.length - 1 ; k >= 0 ; k--) {
+        if (defaultAns[k].payload.trim() == "") {
+          this.anwerPayloadObj.defaultAnswers.splice(k, 1);
+        }
+      }
        if(!(oneValidRespone && oneValidRespone.length)){
         this.notify.notify('Default answer is required','error');
         return;
@@ -640,6 +647,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       cb: (res => { this.loading = false })
     }
     emmiter.emit(payload);
+
   }
 
   cancel() {
