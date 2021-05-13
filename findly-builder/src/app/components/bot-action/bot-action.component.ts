@@ -422,7 +422,7 @@ export class BotActionComponent implements OnInit {
   closeBotsConfigurationModalElement() {
     if (this.botsConfigurationModalRef && this.botsConfigurationModalRef.close) {
       this.botsConfigurationModalRef.close();
-      this.editConfigMode = true;
+      this.editConfigMode = false;
       this.submitted = false;
     }
   }
@@ -439,6 +439,7 @@ export class BotActionComponent implements OnInit {
       const queryParams: any = {
         userID: this.userInfo.id
       };
+      this.loading=true;
       this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
         console.log("Stream API, response payload", res);
         this.associatedBots = [];
@@ -506,8 +507,10 @@ export class BotActionComponent implements OnInit {
             this.notificationService.notify("Invalid request", 'error')
           }
         }
+        this.loading=false;
       },
         (err) => {
+          this.loading=false;
         console.log(err); this.notificationService.notify("Error in loading associated bots", 'error') },
 
         () => { console.log("XHR Call Complete") }
@@ -769,7 +772,6 @@ export class BotActionComponent implements OnInit {
       this.service.invoke('put.UnlinkBot', queryParams, requestBody).subscribe(res => {
         console.log(res);
         // this.linkAfterUnlink(linkingBotID);
-        this.saveLink();
         selectedApp = this.workflowService.selectedApp();
         if (selectedApp.configuredBots[0]) {
           selectedApp.configuredBots[0]._id = null;
@@ -780,10 +782,11 @@ export class BotActionComponent implements OnInit {
         this.linkedBotID = null;
         this.linkedBotName = null;
         this.linkedBotDescription = null;
-
+        this.botToBeUnlinked =null;
+        this.islinked = false;
         this.workflowService.selectedApp(selectedApp);
         this.streamId = null;
-
+        this.saveLink();
         //this.getAssociatedBots();
         //this.getAssociatedTasks(this.streamId);
         this.notificationService.notify("Bot Unlinked Successfully.", 'success')
@@ -860,11 +863,11 @@ export class BotActionComponent implements OnInit {
 
         this.workflowService.selectedApp(selectedApp);
         this.streamId = null;
-
+        this.linkedBotData = {};
         this.getAssociatedBots();
         this.getAssociatedTasks(this.streamId);
         this.workflowService.linkBot('');
-        this.syncLinkedBot();
+        // this.syncLinkedBot();
         this.notificationService.notify("Bot Unlinked Successfully.", 'success')
 
         // this.notificationService.notify("Bot unlinked, successfully. Please publish to reflect", 'success');
@@ -886,7 +889,8 @@ export class BotActionComponent implements OnInit {
         const queryParams: any = {
           streamId: botID
         };
-        this.loading= true;
+        // this.loading= true;
+        this.loadingContent= false;
         this.service.invoke('get.allTasks', queryParams, null, { "state": "published" }).subscribe(res => {
           this.linkedBotTasks = [];
           let taskEnable = true;
@@ -924,12 +928,12 @@ export class BotActionComponent implements OnInit {
           // else {
           //   this.linkedBotFAQs = [];
           // }
-          this.loading= false;
+          // this.loading= false;
           this.loadingContent = false;
         },
           (err) => { 
             this.loadingContent = false;
-            this.loading= false;
+            // this.loading= false;
             console.log(err) 
           },
           () => { console.log("XHR Call Completed") }
@@ -940,6 +944,7 @@ export class BotActionComponent implements OnInit {
       this.linkedBotTasks = [];
       this.linkedBotFAQs = [];
       this.loadingContent = false;
+      // this.loading = false;
       this.islinked = false;
     }
   }
@@ -1285,7 +1290,7 @@ export class BotActionComponent implements OnInit {
     if(!this.validateBotConfiguration()){
       return;
     }
-    if(this.botToBeUnlinked && this.islinked){
+    if(this.botToBeUnlinked && this.islinked && !this.editConfigMode){
       this.unlinkBotWhithPublish(this.selectedLinkBotConfig._id);
       this.workflowService.linkBot(this.selectedLinkBotConfig._id);
     }else{
@@ -1327,9 +1332,9 @@ export class BotActionComponent implements OnInit {
           this.allBotArray.push(obj);
         });
 
-        if(this.allBotArray.length > 0){
-          this.universalPublish();
-        }
+        // if(this.allBotArray.length > 0){
+        //   this.universalPublish();
+        // }
          // Universal Bot Publish here.
         console.log(res);
         selectedApp = this.workflowService.selectedApp();
@@ -1340,7 +1345,6 @@ export class BotActionComponent implements OnInit {
           this.linkedBotName = res.configuredBots[0].botName;
         }
         this.linkedBotDescription = res.description;
-          this.selectedLinkBotConfig = null;
           this.closeBotsConfigurationModalElement();
           if (selectedApp.configuredBots[0]) {
             this.streamId = selectedApp.configuredBots[0]._id;
@@ -1352,13 +1356,14 @@ export class BotActionComponent implements OnInit {
             this.appSelectionService.getStreamData(this.workflowService.selectedApp())
           }
           this.botToBeUnlinked = this.selectedLinkBotConfig._id;
+          this.selectedLinkBotConfig = null;
           this.islinked = true;
           this.getAssociatedTasks(this.streamId)
           this.getAssociatedBots();
           this.workflowService.linkBot(this.streamId);
           this.workflowService.smallTalkEnable(res.stEnabled);
           this.notificationService.notify("Bot Linked Successfully", 'success');
-          this.syncLinkedBot();
+          // this.syncLinkedBot();
           this.loadingContent = false;
         },
         errRes => {

@@ -16,7 +16,7 @@
   </div>
 
 
-  <ng-container *ngIf="!linkedBotID && !loadingContent && !loadingContent1">
+  <ng-container *ngIf="!linkedBotID && !loadingContent && !loading">
     <perfect-scrollbar class="empty-scroll">
     <div  class="empty-landing-screen">
       <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/botactions-empty.svg"></div>
