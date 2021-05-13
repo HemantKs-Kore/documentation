@@ -13915,15 +13915,76 @@ button.search-button:disabled {
         margin-bottom: 10px;
     }
 
-    .kore-sdk-pagination-div{
-        display: none;
-    }
-    
-    .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-first, .kore-sdk-bottom-up-previous, .kore-sdk-bottom-up-next, .kore-sdk-bottom-up-last{
-        cursor: pointer;
-    }
 
-    .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-first.disabled, .kore-sdk-bottom-up-previous.disabled, .kore-sdk-bottom-up-next.disabled, .kore-sdk-bottom-up-last.disabled{
+
+    /* Pagination UI */
+    .kore-sdk-pagination-div .kore-sdk-custom-pagination {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+   }
+    .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-first {
+        padding: 7px;
+        cursor: pointer;
+   }
+    .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-first.disabled {
         cursor: not-allowed;
         opacity: 0.5;
-    }
+   }
+    .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-previous {
+        padding: 7px;
+        cursor: pointer;
+   }
+    .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-previous.disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+   }
+    .kore-sdk-pagination-div .kore-sdk-custom-pagination .input-text-data {
+        display: flex;
+        align-items: center;
+   }
+    .kore-sdk-pagination-div .kore-sdk-custom-pagination .input-text-data .title {
+        color: #9AA0A6;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 20px;
+        padding: 0 13px;
+   }
+    .kore-sdk-pagination-div .kore-sdk-custom-pagination .input-text-data .kore-current-page-number {
+        background: #FFFFFF;
+        border: 1px solid #BDC1C6;
+        box-sizing: border-box;
+        border-radius: 4px;
+        height: 34px;
+        min-width: auto;
+        width: 50px;
+        text-align: center;
+        padding: 3px;
+   }
+    .kore-sdk-pagination-div .kore-sdk-custom-pagination .input-text-data .kore-total-page-number {
+        color: #202124;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 20px;
+        padding-right: 15px;
+   }
+    .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-next {
+        padding: 9px;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        cursor: pointer;
+   }
+    .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-next.disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+   }
+    .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-last {
+        padding: 7px;
+        cursor: pointer;
+   }
+    .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-last.disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+   }
+    
