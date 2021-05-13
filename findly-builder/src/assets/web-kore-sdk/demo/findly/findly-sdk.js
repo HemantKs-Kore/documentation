@@ -1088,7 +1088,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         </div>\
         <div class="filters-body">\
           {{each(i, searchFacet) searchFacets}}\
-            <div class="filters-content" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+            <div class="filters-content" data-facetType="${searchFacet.facetType}" data-facetName="${searchFacet.facetName}" data-fieldName="${searchFacet.fieldName}">\
               <div class="filters-content-heading">${searchFacet.facetName}</div>\
               {{each(j, bucket) searchFacet.buckets}}\
                 {{if searchFacet.facetType == "value"}}\
@@ -4382,6 +4382,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var fieldName = _filterContainer.attr('data-fieldName');
       var facetType = _filterContainer.attr('data-facetType');
+      var facetName = _filterContainer.attr('data-facetName');
       var key = $(event.target).attr('name');
       if ($('.topdown-search-main-container').length) {
         if ($('.sdk-filter-radio-top-down').length) {
@@ -4395,6 +4396,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (facetType == 'value') {
         responsePayload.fieldName = fieldName,
           responsePayload.facetType = facetType,
+          responsePayload.facetName = facetName,
           responsePayload.facetValue = [];
 
         responsePayload.facetValue[0] = key;
@@ -4405,6 +4407,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         responsePayload.fieldName = fieldName,
           responsePayload.facetType = facetType,
+          responsePayload.facetName = facetName,
           responsePayload.facetRange = [];
 
         // key = { 'from': 0, 'to': 100 };
@@ -4511,6 +4514,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       var fieldName = _filterContainer.attr('data-fieldName');
       var facetType = _filterContainer.attr('data-facetType');
+      var facetName = _filterContainer.attr('data-facetName');
       var key = $(event.target).attr('name');
       if ($('.topdown-search-main-container').length) {
         if ($('.sdk-filter-radio-top-down').length) {
@@ -4524,6 +4528,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (facetType == 'value') {
         responsePayload.fieldName = fieldName,
           responsePayload.facetType = facetType,
+          responsePayload.facetName = facetName,
           responsePayload.facetValue = [];
 
         responsePayload.facetValue[0] = key;
@@ -4534,6 +4539,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         responsePayload.fieldName = fieldName,
           responsePayload.facetType = facetType,
+          responsePayload.facetName = facetName,
           responsePayload.facetRange = [];
 
         // key = { 'from': 0, 'to': 100 };
@@ -17910,21 +17916,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "filters" : []
       }
 
+      var contentTypeFilter  = {
+        "fieldName": "__contentType",
+        "facetName": "facetContentType",
+        "facetType": "value",
+        "isMultiSelect": false,
+        "buckets": []
+      }
+
       if (_self.vars.filterObject.length > 0) {
         payload.filters = JSON.parse(JSON.stringify(_self.vars.filterObject));
       }
 
       if(selectedFacet !== 'all results'){
-        _self.vars.searchFacetFilters.forEach((facet) => {
-          if(facet.fieldName === "__contentType"){
-            selectedTopFacet = {
-              "fieldName" : facet.fieldName,
-              "facetType" : facet.facetType,
-              "facetValue" : [selectedFacet],
-              "facetName" : facet.facetName
-            }
-          }
-        })
+        selectedTopFacet = {
+          "fieldName" : contentTypeFilter.fieldName,
+          "facetType" : contentTypeFilter.facetType,
+          "facetValue" : [selectedFacet],
+          "facetName" : contentTypeFilter.facetName
+        }
         if(Object.values(selectedTopFacet).length){
           if(!payload.filters || !payload.filters.length){
             payload.filters = [];
@@ -18546,7 +18556,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         </div>\
             <div class="scroll-data">\
             {{each(i, searchFacet) searchFacets}}\
-                <div class="group-checkbox filters-content" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+                <div class="group-checkbox filters-content" data-facetType="${searchFacet.facetType}" data-facetName="${searchFacet.facetName}" data-fieldName="${searchFacet.fieldName}">\
                   <div class="heading-title">${searchFacet.facetName}</div>\
                   {{each(j, bucket) searchFacet.buckets}}\
                   {{if searchFacet.isMultiSelect}}\
@@ -18599,7 +18609,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       {{each(i, searchFacet) searchFacets}}\
       <div class="dropdown_custom_filter">\
       <div  class="openDropdownFacets dropbtn">${searchFacet.facetName}{{if searchFacet.selectedFieldsCount && searchFacet.selectedFieldsCount>0}} <span class="count">${searchFacet.selectedFieldsCount}</span> {{/if}}\ <img class="down-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBbY6xDYMwEEX/yQuc5QUOmfRZIRskEyQjZJyU6VJmBGoqREcHJVT2AsiAhQRGvO7+vdM/JVleMevBe9fgBBF7Z21+itmUIPzZ6N47VyeStU+APgj0WK8uV8lsK5K/99Lc5pbdMtNWIQJSBYi+MQjhhTDeuplETOQobhLOn4/wMZ8As5kn7D+3/a0AAAAASUVORK5CYII=">\<img class="up-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACQSURBVHgBhY7BDYJQDIb/ggM8wgI14llXYBJ1A48e3YAVvHpyBHUC4gCYTmDeAGrpAw48LnxJk+bv16aEEczskKRV6OXdHMazJJJocccfFIqXRd1lAxRJqi+RZt9nqwuINtBvKSKeTGKTbiY9TTrGrxRnkO6gvzJ1WV5D6WrSCRO8/zycyzO7XNnWeosZgtMCupEtrTPwmiYAAAAASUVORK5CYII=">\</div>\
-      <div id="myDropdown" class="dropdown-content filters-content-top-down myDropdown-${i}" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+      <div id="myDropdown" class="dropdown-content filters-content-top-down myDropdown-${i}" data-facetType="${searchFacet.facetType}" data-facetName="${searchFacet.facetName}" data-fieldName="${searchFacet.fieldName}">\
       {{each(j, bucket) searchFacet.buckets}}\
       <div class="option-text">\
       {{if searchFacet.facetType == "value"&& searchFacet.isMultiSelect }}\
@@ -18668,7 +18678,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <img class="down-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBbY6xDYMwEEX/yQuc5QUOmfRZIRskEyQjZJyU6VJmBGoqREcHJVT2AsiAhQRGvO7+vdM/JVleMevBe9fgBBF7Z21+itmUIPzZ6N47VyeStU+APgj0WK8uV8lsK5K/99Lc5pbdMtNWIQJSBYi+MQjhhTDeuplETOQobhLOn4/wMZ8As5kn7D+3/a0AAAAASUVORK5CYII=">\
                   <img class="up-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACQSURBVHgBhY7BDYJQDIb/ggM8wgI14llXYBJ1A48e3YAVvHpyBHUC4gCYTmDeAGrpAw48LnxJk+bv16aEEczskKRV6OXdHMazJJJocccfFIqXRd1lAxRJqi+RZt9nqwuINtBvKSKeTGKTbiY9TTrGrxRnkO6gvzJ1WV5D6WrSCRO8/zycyzO7XNnWeosZgtMCupEtrTPwmiYAAAAASUVORK5CYII=">\
                 </div>\
-                  <div id="myDropdown" class="dropdown-content filters-content sdk-top-facet-option myDropdown-${i}" id="sdk-top-facet-option-${i}" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+                  <div id="myDropdown" class="dropdown-content filters-content sdk-top-facet-option myDropdown-${i}" id="sdk-top-facet-option-${i}" data-facetType="${searchFacet.facetType}" data-facetName="${searchFacet.facetName}" data-fieldName="${searchFacet.fieldName}">\
                   <!--<div class="kr-sg-input-search">\
                   <input type="text" placeholder="Search" class="input-search sdk-bottomup-search-facet" id="sdk-bottomup-search-facet-${i}" data-bucket="${searchFacet[i]}" >\
                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAulBMVEUAAAAAAAAAAIAAVVUrK1UkN0kiM0QgMFAtLUskMUkiM00pMUopNEsoM0olNUomNUglNEokM0koMksnNUomNEkmNEglM0skNUkmNkwnM0snNUomNEklM0onNUolNUslNEonNEkmNUomNUsmNEolM0snNUomNEomNEomNEslNUkmNUomNEomNUomNEolNEomNEsmNEomNEomNEomM0omNEomNEomNEomNEomNEomNEomNEomNEomNEr///9hPe5QAAAAPXRSTlMAAQIDBg4PEBEVHh8sLTBDRUZHSElKS01RVVZeaG90dXZ5fqGkpaittbi9xMfL09TW2d7f4uPq7e/x8vf4F8v60AAAAAFiS0dEPdBtUVkAAACASURBVBgZBcGLIoNQAADQ05WWipZ5brGH0JDXZu7w/9/lHAAAgPJ4BICk3fx8/fUVQHL3Vgf5MtaA9vUQXO5y4LMGPC5AsQ+AWQ+qLcDFM8h+M8BtB6znQPpxBZzEU0i7lwA4+76fNjfvQxwDHK2ehofrcB4bAMAkFgCA8gAAgH/ZSQkFmhv26gAAAABJRU5ErkJggg==" class="search-icon">\
@@ -19746,7 +19756,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 	</div>\
   {{each(i, searchFacet) searchFacets}}\
 	<div class="category-wise-container">\
-		<div class="group-checkbox filters-content-top-down" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+		<div class="group-checkbox filters-content-top-down" data-facetType="${searchFacet.facetType}" data-facetName="${searchFacet.facetName}" data-fieldName="${searchFacet.fieldName}">\
 			<div class="heading-title {{if searchFacet.showSearch == true}}d-none{{/if}}"">\${searchFacet.facetName}<span class="float-right d-none  {{if searchFacet.maxCount && searchFacet.buckets.length > searchFacet.maxCount}}d-block{{/if}}"><img class="facet-search-icon display-none" facetFacetName="${searchFacet.facetName}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBrVNLUsJAEO2eiLoTbhBuQE6g3gC3UJSZhViUi8gJ9AaWCyuFLhqLApbiCcQbcAM5QtiJMmk7VsoKDPFT8jZdk+735r3MDMA/gXmNkMgF2HJ3YTHRWke/Fri97wfAcJm2E6IrQ+MFz3VL6+nqvFoid4cEjL7h+Kjp10tNv1Yu8LwUMz87uPPSoUE110FIfd9BvBCCt85ySL0DB50H6Zez/S8HCdmw0Xl5W7oxljJ+g+1zK0JIQ1dKMR3KhWF+ZFAVS8CB16KUCH5EPHWQ9yyBAsBUiktExe/oCrBiGGeWQJrbyrcKRBUoiEeWQIJ35jYiBjfUr6wj33UHV1Kipq53l0Sziw71qrILie6I5YfFYKLEtnw7TgZZYspGh2e6PrEcJDjVjZFh5QHzTCEEcu4k5H1ZX5/4NU9OoV1AfMq6zH0LeUgvHIkTL+vkjyKf92Yz+ADa8Y5Ak9HPCwAAAABJRU5ErkJggg==">\<span>\</div>\
       <div class="input-div {{if searchFacet.showSearch !== true}}d-none{{/if}}"><input type="text" class="searchFacetInput" id="${searchFacet.facetName}">\ <span class="float-right d-none" id="${searchFacet.facetName}-close">\<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACGSURBVHgB3ZK9DYAgEIURjY2RWVzFEWgtYBvXcBTcwClsFIg5osmZgEjoeNVxx/v4ySOkLDFpVTcdQ2gOMyaswj2KF+bUnDb14oNAD2ZGa06+BBt7YTYM8fUeVSEInGa1Gd0173qf2/UXAEOgDpkdnGQq+wlec8onRs1JEAhJNEjyHaQCdAGUc1yB6RityQAAAABJRU5ErkJggg==">\</span>\</div>\
       {{each(j, bucket) searchFacet.buckets.slice(0, (searchFacet.maxCount?searchFacet.maxCount:searchFacet.buckets.length))}}\
@@ -19795,7 +19805,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       {{each(i, searchFacet) searchFacets}}\
       <div class="dropdown_custom_filter">\
       <div  class="openDropdownFacets dropbtn">${searchFacet.facetName}{{if searchFacet.selectedFieldsCount && searchFacet.selectedFieldsCount>0}} <span class="count">${searchFacet.selectedFieldsCount}</span> {{/if}}\ <img class="down-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBbY6xDYMwEEX/yQuc5QUOmfRZIRskEyQjZJyU6VJmBGoqREcHJVT2AsiAhQRGvO7+vdM/JVleMevBe9fgBBF7Z21+itmUIPzZ6N47VyeStU+APgj0WK8uV8lsK5K/99Lc5pbdMtNWIQJSBYi+MQjhhTDeuplETOQobhLOn4/wMZ8As5kn7D+3/a0AAAAASUVORK5CYII=">\<img class="up-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACQSURBVHgBhY7BDYJQDIb/ggM8wgI14llXYBJ1A48e3YAVvHpyBHUC4gCYTmDeAGrpAw48LnxJk+bv16aEEczskKRV6OXdHMazJJJocccfFIqXRd1lAxRJqi+RZt9nqwuINtBvKSKeTGKTbiY9TTrGrxRnkO6gvzJ1WV5D6WrSCRO8/zycyzO7XNnWeosZgtMCupEtrTPwmiYAAAAASUVORK5CYII=">\</div>\
-      <div id="myDropdown" class="dropdown-content filters-content-top-down myDropdown-${i}" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+      <div id="myDropdown" class="dropdown-content filters-content-top-down myDropdown-${i}" data-facetType="${searchFacet.facetType}" data-facetName="${searchFacet.facetName}" data-fieldName="${searchFacet.fieldName}">\
       {{each(j, bucket) searchFacet.buckets}}\
       <div class="option-text">\
       {{if searchFacet.facetType == "value"&& searchFacet.isMultiSelect }}\
@@ -20055,7 +20065,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var selectedFacetTemplate = '<script id="selected_facet_tmpl" type="text/x-jqury-tmpl"> \
       {{if selectedFacets.length}} \
       {{each(index, facet) selectedFacets}} \
-      <div class="filter-tag-content filters-content-top-down" data-facetType="${facet.fieldType}" data-fieldName="${facet.fieldName}">\
+      <div class="filter-tag-content filters-content-top-down" data-facetType="${facet.fieldType}" data-facetName="${facet.facetName}" data-fieldName="${facet.fieldName}">\
        <span class="filter-tag-name">${facet.name}</span>\
          <span class="close-filter-tag" id="${facet.id}" >\
             <img name="${facet.name}" value="${facet.name}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBbZHRDcIwDERju+zTSizSCWgl8sFM+Ug26AwsUDIGO9A05AChprV/osjPd2eZLtfbg2gZg3PRKDUMts3SeAaUV5kGa1sVYpkoLaPEeX525+4OGC/+FbSmPgQX6T9dFAETp968jNlC6FNl9YNNLo0NhOIqVFEC9Bk/1Xn5ELwowX6/oGjBtQVpD2mZ4cBZ2GsQCkf4xmj8GzsLeh0gnVcbAAAAAElFTkSuQmCC">\
