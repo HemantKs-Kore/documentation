@@ -190,10 +190,10 @@
 </kr-modal>
 
 
-<kr-modal modalType="center" modalClass="modal_popups_" #addManualFaqModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addManualFaqModalPop>
   <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'manual'">
     <div class="modal-header">
-      <div class="title">Add FAQs</div>
+      <div class="title">Add FAQ</div>
       <div class="close_icon"><img (click)="cancleSourceAddition()"
           src="assets/icons/modal-close.svg"></div>
     </div>
@@ -209,7 +209,7 @@
     </div>
   </ng-container>
 </kr-modal>
-<kr-modal modalType="center" modalClass="modal_popups_" #addSourceModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addSourceModalPop>
   <ng-container *ngIf="selectedSourceType">
     <form #sourceCreation="ngForm">
       <div class="modal-header">
@@ -847,7 +847,7 @@
   </ng-container>
 </kr-modal>
 
-<kr-modal modalType="center" modalClass="modal_popups_" #addStructuredDataModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_  addfaq" #addStructuredDataModalPop>
   <app-add-structured-data [selectedSourceType]="selectedSourceType" (closeStructuredDataModal)="cancleSourceAddition($event)"></app-add-structured-data>
 </kr-modal>
 
