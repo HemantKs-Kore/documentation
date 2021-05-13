@@ -237,10 +237,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     else {
       this.streamID = null;
     }
-    this.getAssociatedBots();
+    if (this.resourceIDToOpen == undefined) {
+      this.getAssociatedBots();
+    }
+    // this.getAssociatedBots();
 
     if (this.route && this.route.snapshot && this.route.snapshot.queryParams) {
-      this.receivedQuaryparms = this.route.snapshot.queryParams
+      this.receivedQuaryparms = this.route.snapshot.queryParams;
       if (this.receivedQuaryparms && this.receivedQuaryparms.sourceType || this.resourceIDToOpen) {
         const resourceType = this.resourceIDToOpen || this.receivedQuaryparms.sourceType;
         this.availableSources.forEach(catagory => {
@@ -383,7 +386,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
-    
+
     this.redirectTo();
     this.cancleSourceAddition();
     this.closeCrawlModalPop();
@@ -394,7 +397,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
-    if(this.crawlModalPopRef && this.crawlModalPopRef.close){
+    if (this.crawlModalPopRef && this.crawlModalPopRef.close) {
       this.crawlModalPopRef.close();
     }
     this.closeCrawlModalPop();
@@ -707,7 +710,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
-   
+
 
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic";
@@ -820,7 +823,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.poling(res._id, 'scheduler');
           }
           this.extract_sourceId = res._id;
-       
+
           //this.crwal_jobId = res.jobId
           console.log("this.statusObject", this.statusObject)
         }, errRes => {
@@ -1033,7 +1036,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.openStatusModal();
         this.poling(this.anntationObj._id);
       }
-   
+
 
     });
   }
@@ -1333,10 +1336,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     )
   }
-  checkValue(value){
+  checkValue(value) {
     console.log()
-    if(value <= -1){
-     this.crawlDepth = 0 ;
+    if (value <= -1) {
+      this.crawlDepth = 0;
     }
   }
 }
