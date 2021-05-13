@@ -296,19 +296,19 @@ export class PricingComponent implements OnInit, OnDestroy {
     let xAxisDocumentData = [];
     let yAxisQueryData = [];
     let yAxisDocumentData = [];
-    if(this.currentSubscriptionPlan && this.currentSubscriptionPlan.search){
+    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.search) {
       this.currentSubscriptionPlan.search.forEach(element => {
         xAxisQueryData.push(element.month)
         yAxisQueryData.push(element.total)
       });
     }
-    if(this.currentSubscriptionPlan && this.currentSubscriptionPlan.content){
+    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.content) {
       this.currentSubscriptionPlan.content.forEach(element => {
         xAxisDocumentData.push(element.month)
         yAxisDocumentData.push(element.total)
       });
     }
-    xAxisQueryData.length ? this.monthRange = xAxisQueryData[0] +  xAxisQueryData[xAxisQueryData.length-1] : this.monthRange = "Jan - June";
+    xAxisQueryData.length ? this.monthRange = xAxisQueryData[0] + xAxisQueryData[xAxisQueryData.length - 1] : this.monthRange = "Jan - June";
     this.queryGraph = {
 
       tooltip: {
@@ -541,8 +541,10 @@ export class PricingComponent implements OnInit, OnDestroy {
       streamId: this.selectedApp._id
     }
     this.service.invoke('get.renewSubscribtion', queryParam).subscribe(res => {
-      this.appSelectionService.getCurrentSubscriptionData();
       dialogRef.close();
+      setTimeout(() => {
+        this.appSelectionService.getCurrentSubscriptionData();
+      }, 2000)
       // this.notificationService.notify('Cancel Subscription', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'failed to renew subscription');
