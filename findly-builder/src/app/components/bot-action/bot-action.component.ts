@@ -173,9 +173,9 @@ export class BotActionComponent implements OnInit {
     if (this.workflowService.selectedApp()?.configuredBots[0]) {
       this.streamId = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
     }
-    else if (this.workflowService.selectedApp()?.publishedBots[0]) {
-      this.streamId = this.workflowService.selectedApp()?.publishedBots[0]?._id ?? null
-    }
+    // else if (this.workflowService.selectedApp()?.publishedBots[0]) {
+    //   this.streamId = this.workflowService.selectedApp()?.publishedBots[0]?._id ?? null
+    // }
     else {
       this.streamId = null;
     }
