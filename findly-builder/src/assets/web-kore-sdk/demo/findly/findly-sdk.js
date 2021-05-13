@@ -1425,19 +1425,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       <div class="tasks-wrp action-wrp btn_block_actions main-content-title-grid-data">\
                         {{each(key, task) tasks}}\
                           <div class="task-wrp action-wrp title-box-data">\
-                          <button id="${key}" class="faq search-task title-name text-truncate " title="${task.taskName}" boost="${task.config.boost}" pinIndex="${task.config.pinIndex}" visible="${task.config.visible}" contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                          <button id="${key}" class="faq search-task title-name text-truncate " title="${task.taskName}" contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
                           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
                           ${task.taskName}\
                       </button>\
                             <div class="faqs-bottom-actions background-white display-none">\
-                              <span class="appearences display-none">\
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                                <span class="custom-appearences-content">${task.feedback.appearance} VIEWS</span>&nbsp;\
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                                <span class="custom-appearences-content>${task.feedback.click} CLICKS</span>\
-                                <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
-                                <span class="appearences-count display-none">${task.feedback.appearance} Appearances - ${task.feedback.click} Clicks</span>\
-                              </span>\
                               <span class="actions display-none">\
                                 <span class="img-action  dont-show">\
                                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
@@ -5233,6 +5225,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   }
                   _self.hideAutoSuggestion();
                 } else {
+                  if(!$('body').hasClass('top-down')){ // bottomUp
+                    _self.hideBottomUpAllResults();
+                  }
                   _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
                    if(_self.vars.enterIsClicked){
                      return;
@@ -17526,6 +17521,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
 
+    FindlySDK.prototype.hideBottomUpAllResults = function () {
+      var _self = this;
+      $('#show-all-results-container').css('display', 'none');
+      $('#searchChatContainer').removeClass('bgfocus');
+      _self.vars.selectedFacetFromSearch = "all results"
+    }
 
     FindlySDK.prototype.showAllResults = function () {
       var _self = this;
@@ -17944,7 +17945,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       if(_self.vars.filterObject && _self.vars.filterObject.length){
-        _self.vars.scrollPageNumber = 0;
+        if(!_self.vars.isPriorfiltersApplied){
+          _self.vars.scrollPageNumber = 0;
+        }
       }
 
       console.log(payload);
@@ -18067,6 +18070,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if( selectedFacet == 'all results'){
           $('.kore-sdk-pagination-div').hide();
           _self.vars.searchCallWithSelectedFacet = false;
+          if(_self.vars.filterObject.length){
+            _self.vars.isPriorfiltersApplied = true;
+          }
+          else{
+            _self.vars.isPriorfiltersApplied = false;
+          }
           _self.pubSub.publish('sa-st-data-search', {
             container: '.structured-data-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
           });
@@ -18083,6 +18092,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else{
           $('#loaderDIV').show();
+          _self.vars.isPriorfiltersApplied = false;
           _self.vars.searchCallWithSelectedFacet = true;
           _self.invokeSpecificSearch(selectedFacet);
           // $('.kore-sdk-pagination-div').show();
@@ -18228,6 +18238,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
       $('.see-all-result-nav').off('click').on('click', function (event) {
         console.log(event)
+        _self.vars.scrollPageNumber = 0;
         selectClass(event, 'target')
       });
       selectClass = function (event, related) {
