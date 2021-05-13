@@ -283,7 +283,7 @@ export class EndPointsService {
       method: 'delete'
     };
     this.serviceList['get.bots'] = {
-      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks?allTasks=true?',
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks',
       method: 'get'
     };
     this.serviceList['get.traitgroup'] = {
@@ -379,6 +379,18 @@ export class EndPointsService {
       // endpoint: this.API_SERVER_URL + '/builder/streams/:botID/dialogs',
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/allTasks',
       method: 'get'
+    }
+    this.serviceList['get.allTasks'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks',
+      method: 'get'
+    }
+    this.serviceList['get.generateChannelCreds'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/searchbot/linkbot/generateChannelCreds',
+      method: 'get'
+    }
+    this.serviceList['put.configLinkbot'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/searchbot/linkbot',
+      method: 'put'
     }
     this.serviceList['put.LinkBot'] = {
       // endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails',
