@@ -12,7 +12,7 @@ import { NotificationService } from './notification.service';
 export class AppSelectionService {
   queryList: any = [];
   indexList: any = [];
-  configSelected : any = {}
+  configSelected: any = {}
   public queryConfigs = new Subject<any>();
   public appSelectedConfigs = new Subject<any>();
   public queryConfigSelected = new Subject<any>();
@@ -74,7 +74,7 @@ export class AppSelectionService {
     };
     const appObserver = this.service.invoke('get.queryPipelines', payload);
     const subject = new ReplaySubject(1);
-    subject.subscribe((res : any)=> {
+    subject.subscribe((res: any) => {
       this.queryList = res || [];
       let length = this.queryList.length;
       if (this.queryList) {
@@ -93,17 +93,17 @@ export class AppSelectionService {
             this.selectQueryConfig(data[0]);
           }
           else {
-            if(this.configSelected && this.configSelected['_id']){
+            if (this.configSelected && this.configSelected['_id']) {
               const data = res.filter(element => element._id == this.configSelected['_id']);
-              if(data.length){
+              if (data.length) {
                 this.selectQueryConfig(data[0]);
-              }else{
+              } else {
                 this.selectQueryConfig(res[length - 1]);
               }
-            }else{
+            } else {
               this.selectQueryConfig(res[length - 1]);
             }
-            
+
           }
         } else {
           this.selectQueryConfig({});
@@ -208,7 +208,26 @@ export class AppSelectionService {
         this.currentsubscriptionPlanDetails = res;
         this.currentSubscription.next(res);
       }, errRes => {
-        this.errorToaster(errRes, 'failed to get plans');
+        if (errRes && errRes.error && errRes.error.errors[0].code == 'NoActiveSubscription') {
+          this.getLastActiveSubscriptionData();
+          this.errorToaster(errRes, 'failed to get current subscription data');
+        }
+      });
+    }
+  }
+  //get last active subscription data
+  getLastActiveSubscriptionData() {
+    const data = this.workflowService.selectedApp();
+    if (data != undefined) {
+      const payload = {
+        streamId: data._id
+      };
+      const appObserver = this.service.invoke('get.lastActiveSubscription', payload);
+      appObserver.subscribe(res => {
+        console.log("res last active", res);
+        this.currentSubscription.next(res);
+      }, errRes => {
+        this.errorToaster(errRes, 'failed to get last active subscription data');
       });
     }
   }

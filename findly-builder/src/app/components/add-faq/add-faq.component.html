@@ -128,23 +128,110 @@
     </div> -->
   </form>
   <!-- <hr> -->
-  <div class="text">
+  <!-- <div class="text">
     <div class="heading">Answer(s)</div>
     <div class="desc">Reorder the conditioned responses to execute in specific order</div>
-  </div>
+  </div> -->
   <ng-container *ngFor="let faqObj of faqResponse.defaultAnswers ; let index = index">
     <div class="body-top-content pointer" title="Click to edit this response" (click)="currentEditIndex = index">
       <div class="question-content">
-        <div class="conditionalBlock bot-response-view-mode">
-          <div class="bot-response-title">Response <span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span> <span *ngIf="faqObj.answerType !== 'condition'">(DEFAULT)</span>
-            <div class="advanced_mode_faq">
-              <label class="kr-sg-toggle with-label" *ngIf="(currentEditIndex === index)">
-                <input type="checkbox" [checked]='(faqObj.answerType === "condition")' (click)="changeResponseType(faqObj,index)">
-                <div class="slider"><span class="disabled">Conditions</span><span class="enabled">Conditions</span></div>
-              </label>
-            </div>
-            <div class="deleteResponseDiv red" (click)="$event.stopPropagation();delete(index)" ngbTooltip="Delete"><img src="assets/images/delete_response.svg">Delete</div>
+        <div class="label-text" *ngIf="index==0">Response <span *ngIf="faqData && faqResponse.defaultAnswers.length>1">({{faqResponse.defaultAnswers.length}})</span></div>
+        <div class="conditionalBlock bot-response-view-mode" [ngClass]="{'pl-2':faqResponse.defaultAnswers.length>1}">
+          <div class="bot-response-title"  *ngIf="faqResponse.defaultAnswers.length > 1" [ngClass]="{'text-black':currentEditIndex == index}">Response <span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span>
+            <!-- <div class="deleteResponseDiv red" (click)="$event.stopPropagation();delete(index)" ngbTooltip="Delete"><img src="assets/images/delete_response.svg">Delete</div> -->
           </div>
+         
+        </div>
+      </div>
+    </div>
+    <div class="responseEditorContainer" [ngClass]="{'bg-transparent px-0 py-0':currentEditIndex !== index, 'ml-2':faqResponse.defaultAnswers.length>1}">
+    <div  [hidden]="currentEditIndex !== index">
+      <div class="bottom_sec ">
+        <div class="col-12 left_sec editResponseMode">        
+          <div class="content-data">
+              <ng-container    *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+          </div>
+        </div>  
+        <div class="col-12 right_sec previewResponseMode d-none"> 
+          <div class="content-data">
+              <div class="preview-response-title"> Response Preview </div>
+            <div class="responsePreviewBlock">
+              <perfect-scrollbar>
+                <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+              </perfect-scrollbar>
+            </div>
+          </div>  
+        </div>
+      </div>   
+      <div class="bottom_sec d-flex">
+        <div class="col-6 left_sec">  
+          <!--          
+          <div class="multi-select mb-2">         
+
+            <label class="kr-sg-toggle">                                       
+              <input type="checkbox" class="h-auto" [(ngModel)]="uploadImage.slide">
+              <div class="slider">
+                <span class="enabled">Yes</span>
+                <span class="disabled">No</span>
+              </div>
+            </label>
+          </div> -->
+          <div class="kr-sg-input-text mb-2 mt-3"> 
+             <!-- image optional preview related changes -->
+             <div class="d-flex justify-content-between align-items-center">
+              <div class="label-text w-100">Image (Optional)</div>
+              <div class="know-more-data" (click)="addImage();openPreviewImgModal();">Preview</div>
+            </div>
+            <!-- image optional preview related changes -->
+            <input type="text" autocomplete="off" placeholder="http(s)//" class="input-text" (keydown.enter)="addImage()" [(ngModel)]="imgInfo.url" name="appName">         
+          </div>
+          <!-- <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div> -->
+        </div>
+        <div class="col-6 right_sec">        
+          <div class="content-data p-0 bg-transparent mt-4 h-auto">
+            <!-- <ng-container *ngIf="image && image.url">
+              <div class="preview-title mt-3 pt-1">IMAGE</div>
+              <div class="responsePreviewBlock adjust-height">
+                <perfect-scrollbar>
+                    <img [src]="image.url">
+                </perfect-scrollbar>
+              </div>  
+            </ng-container>              -->
+              <div class="info-bubble-faq my-0">
+                <div class="w-100 d-flex">
+                  <div class="info_img">
+                    <img src="assets/icons/faq/Info.svg">
+                  </div>
+                  <div class="bubnle-info">
+                    The end-users will see the response as per the template you select in the Search Experience
+                  </div>
+                </div>
+                <!-- <div class="know-more-data">Know more</div> -->
+            </div>
+          </div>
+        </div>
+      </div>   
+    </div>
+    <div class="col-12 p-0 pointer body_sec" title="Click to edit this response" [hidden]="currentEditIndex == index">
+      <div class="previewResponseMod">
+      <div class="responsePreviewBlock">
+      <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+    </div>
+  </div>
+    </div>
+    <div class="d-flex mt-2" *ngIf="(currentEditIndex === index)">
+      <label>Add Conditions</label>
+      <div>
+        <label class="kr-sg-toggle with-label" >
+          <input type="checkbox" [checked]='(faqObj.answerType === "condition")' (click)="changeResponseType(faqObj,index)">
+          <div class="slider"><span class="disabled"></span><span class="enabled"></span></div>
+        </label>
+      </div>
+    </div>
+    
+    <div class="body-top-content">
+      <div class="question-content">
+        <div class="conditionalBlock">
           <div class="condition-view-mode" *ngIf="(faqObj && faqObj.answerType === 'condition') && (currentEditIndex !== index)">
             <div class="label_text">Conditions</div>
             <ng-container *ngFor="let item of faqObj.conditions;  let index = index">
@@ -159,7 +246,7 @@
           </div>
           <ng-container *ngIf="(faqObj && faqObj.answerType === 'condition') && (currentEditIndex === index)">
            <div class="conditional-sec-new">
-              <div class="label-text mb-2">Conditions</div>
+              <!-- <div class="label-text mb-2">Conditions</div> -->
               <div class="input-conditions col-12">
                 <ng-container *ngFor="let ruleObj of faqObj.conditions; let conditionIndex = index">
                     <div class="d-flex align-items-center w-100 mb-13">
@@ -169,11 +256,11 @@
                                     Select Context
                                 </div>
                                 <div class="col-4 pr-0">
-                                    <div class="kr-sg-dropdowns w-auto">                           
+                                    <div class="kr-sg-dropdowns w-auto" ngbDropdown (click)="currentEditInex = index" >                           
                                         <div class="dropdown dropdown-open">
-                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{'businessRules.' +  ruleObj.contextType | translate}}</button>                                            
-                                            <ul class="dropdown-menu content-menu">                                                                          
-                                            <li *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj,contextType,'contextType')"><a>{{'businessRules.' + contextType | translate}}</a></li>
+                                            <button class="dropdown-toggle dropdown-input"  data-toggle="dropdown" ngbDropdownToggle>{{'businessRules.' +  ruleObj.contextType | translate}}</button>                                            
+                                            <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>                                                                          
+                                            <li ngbDropdownItem *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj,contextType,'contextType')"  [ngClass]="{'active':ruleObj.contextType===contextType}"><a>{{'businessRules.' + contextType | translate}}</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -223,47 +310,7 @@
                                       </ul>
                                   </div>
                               </div>
-                                <!-- <div class="tags row m-0 col-10">
-                                    <div class="chip-sys-data">                      
-                                    <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
-                                        <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
-                                        <ng-container>
-                                            <mat-chip  [selectable]="selectable" class="dropdownDiv" [ngClass]="{'activeDrop': currentEditInex === index}">                                       
-                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown (click)='currentEditInex = index'>
-                                                    <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{'businessRules.' + ruleObj.contextCategory | translate}}</button>
-                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                                            <li ngbDropdownItem *ngFor="let contextCategory of ruleOptions[ruleObj.contextType]" (click)="ruleSelection(ruleObj,contextCategory,'contextCategory')">{{'businessRules.' +  contextCategory | translate}}</li>
-                                                        </ul>
-                                                    </div>                                            
-                                                </div>
-                                            </mat-chip> 
-                                        </ng-container>
-                                        <ng-container>
-                                            <mat-chip [selectable]="selectable" class="dropdownDiv" [ngClass]="{'activeDrop': currentEditInex === index}">
-                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown (click)='currentEditInex = index'>
-                                                    <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{'businessRules.' + ruleObj.operator | translate}}</button>
-                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="ruleSelection(ruleObj,operator,'operator')">{{'businessRules.' + operator | translate}}</li>
-                                                        </ul>
-                                                    </div>                                            
-                                                </div>                             
-                                            </mat-chip> 
-                                        </ng-container>
-                                        <ng-container *ngFor="let value of ruleObj.value">
-                                            <mat-chip  [selectable]="selectable" (removed)="removeTag(ruleObj.value,tag)"><span class="mat-val" *ngIf="value">{{value}}</span>
-                                                    <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-                                            </mat-chip> 
-                                        </ng-container>
-                                        <input placeholder="Type Alternatives and Press Enter"
-                                                [matChipInputFor]="chipList"
-                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                                (matChipInputTokenEnd)="addRules($event,ruleObj,i)"  #suggestedInput>
-                                        </mat-chip-list>
-                                    </mat-form-field>
-                                    </div>
-                                </div>                     -->
+                             
                             </div>
                         </div>
                         <div class="row m-0 setparameetres-sec">
@@ -272,7 +319,7 @@
                               <div class="chip-sys-data ">
                                   <mat-form-field class="example-chip-list" [ngClass]="{'date-chip': ruleObj.dataType == 'date'}">
                                       <mat-chip-list #chipList [attr.aria-label]="'tag selection'" class="date-range-picker-right-d-none">
-
+    
                                           <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType !== 'date') && (ruleObj.dataType !== 'number')">
                                               <ng-container *ngFor="let value of ruleObj.value; let index = index">
                                                   <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
@@ -305,7 +352,7 @@
                                                   <span>OR</span>
                                               </ng-container>
                                           </ng-container>
-
+    
                                           <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator === 'between')">
                                               <ng-container *ngFor="let value of ruleObj.value; let index = index">
                                                   <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
@@ -319,11 +366,11 @@
                                                   <span>OR</span>
                                               </ng-container>
                                           </ng-container>
-
+    
                                           <ng-container *ngIf="(ruleObj.dataType != 'date') && (ruleObj.dataType != 'number')">
                                               <input placeholder="Type Keyword" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" suggestedInput/>
                                           </ng-container>
-
+    
                                           <ng-container *ngIf="ruleObj.dataType == 'date'">
                                               <ng-container *ngIf="ruleObj.operator === 'between'">
                                                   <span class="select_data_placeholder w-120 py-1" (click)="openDateTimePicker(ruleObj,conditionIndex)">Select Range </span>
@@ -336,7 +383,7 @@
                                                      (datesUpdated)="onDatesUpdated($event,ruleObj)" />
                                               </ng-container>
                                           </ng-container>
-
+    
                                           <ng-container *ngIf="ruleObj.dataType == 'number'">
                                               <input [placeholder]="ruleObj.operator == 'between' ? 'Type Range' : 'Type Keyword'" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" />
                                           </ng-container>
@@ -361,130 +408,12 @@
         </div>
       </div>
     </div>
-    <div class="responseEditorContainer" *ngIf="currentEditIndex === index">
-      <div class="top-sec d-flex">
-        <div class="col-6 left_sec">
-          <div class="tabs-sec">
-            <span class="tab-title " (click)="faqObj.type='string'" [ngClass]="{'active': faqObj.type === 'string'}">Editor</span>
-            <!-- <span class="tab-title" (click)="faqObj.type='javascript'" [ngClass]="{'active': faqObj.type==='javascript'}">&lt;/&gt; CODE</span> -->
-            <span class="tab-title d-none" (click)="faqObj.type='external'" [ngClass]="{'active': faqObj.type==='external'}">External</span>
-          </div>
-        </div>
       
-        <div class="col-6 right-sec">
-          <div class="tabs-sec border-0">
-            <span class="tab-title pl-0">preview</span>
-          </div>
-        </div>
-      </div>
-      <div class="bottom_sec d-flex">
-        <div class="col-6 left_sec">        
-          <div class="content-data">
-            <!-- <div class="bot_rsponse_advance_mode">
-              <div class="layout-select">
-                <div class="d-flex align-items-center m-0 col-10 p-0">
-                  <div class="title">Select Layout</div>
-                  <div class="img-block" (click)="setResponseType('default',faqObj)" [ngClass]="{'active': (faqObj.responseType === 'default') || (!faqObj.responseType)}">
-                    <img *ngIf="(faqObj.responseType !== 'default')" src="assets/icons/editor/no-image.svg">
-                    <img  *ngIf="(faqObj.responseType === 'default')" src="assets/icons/editor/no-image-active.svg">
-                  </div>
-                  <div class="img-block" (click)="setResponseType('horizontalSplit',faqObj)"  [ngClass]="{'active': (faqObj.responseType === 'horizontalSplit')}">
-                    <img *ngIf="(faqObj.responseType !== 'horizontalSplit')" src="assets/icons/editor/image-horizantal.svg">
-                    <img *ngIf="(faqObj.responseType === 'horizontalSplit')" src="assets/icons/editor/image-horizantal-active.svg" >
-                  </div>
-                  <div class="img-block" (click)="setResponseType('verticalSplit',faqObj)"  [ngClass]="{'active': (faqObj.responseType === 'verticalSplit')}">
-                    <img *ngIf="(faqObj.responseType !== 'verticalSplit')" src="assets/icons/editor/image-vertical.svg">
-                    <img *ngIf="(faqObj.responseType == 'verticalSplit')" src="assets/icons/editor/image-vertical-active.svg" >
-                  </div>
-                </div>
-              </div>
-              <img src="assets/icons/sidemenu/delete-table.svg" class="delete-response hide">
-            </div>     -->
-            <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
-          </div>
-          <div class="label_text mt-2">Upload Image</div>
-          <!-- <div class="push-notify"> </div> -->
-          <div class="multi-select mb-2">         
-
-            <label class="kr-sg-toggle">                                       
-              <input type="checkbox" class="h-auto" [(ngModel)]="uploadImage.slide">
-              <div class="slider">
-                <span class="enabled">Yes</span>
-                <span class="disabled">No</span>
-              </div>
-            </label>
-          </div>
-          <div class="kr-sg-input-text mb-2"> 
-            <div class="label-text">URL</div>
-            <input type="text" autocomplete="off" placeholder="http(s)//" class="input-text" (keydown.enter)="addImage()" [(ngModel)]="imgInfo.url" name="appName" [ngClass]="{'readonly': !uploadImage.slide}">         
-          </div>
-          <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div>
-          <!-- <div class="multi-select mb-2">
-            <{{uploadImage.slide | json}} -->
-            <!-- <div class="row ml-1">
-                <label class="kr-sg-toggle">                                           
-                    <input type="checkbox" [(ngModel)]="uploadImage.slide">
-                    <div class="slider"></div>
-                </label>  
-                <div class="response ml-1">
-                    <span *ngIf="!uploadImage.slide">No</span>
-                    <span *ngIf="uploadImage.slide">Yes</span>
-                </div>
-            </div>
-        </div> -->
-        <!-- <div class="kr-sg-input-text mb-3">
-        <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName" readonly>
-        <div class="label-text">URL</div>
-      </div> -->
-        <!-- <div class="kr-sg-input-text mb-3"> 
-          <div class="label-text">URL</div>
-          <div *ngIf="!uploadImage.slide">
-          <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName" readonly>
-        </div>
-          <div *ngIf="uploadImage.slide">
-          <input maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName">
-        </div>
-        </div>  -->
-        </div>
-       
-        <div class="col-6 right_sec">        
-          <div class="content-data">
-            <div class="preview-title">response </div>
-            <div class="responsePreviewBlock" [ngClass]="{'adjust-height': image && image.url}">
-              <perfect-scrollbar>
-                <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
-              </perfect-scrollbar>
-            </div>
-            <ng-container *ngIf="image && image.url">
-              <div class="preview-title mt-3 pt-1">IMAGE</div>
-              <div class="responsePreviewBlock adjust-height">
-                <perfect-scrollbar>
-                    <img [src]="image.url">
-                </perfect-scrollbar>
-              </div>  
-            </ng-container>             
-              <div class="info-bubble-faq">
-                <div class="w-100 d-flex">
-                  <div class="info_img">
-                    <img src="assets/icons/faq/Info.svg">
-                  </div>
-                  <div class="bubnle-info">
-                    Response layout will be based on the template you select in Search Interface Customization
-                  </div>
-                </div>
-                <div class="know-more-data">Know more</div>
-            </div>
-          </div>
-        </div>
-      </div>      
-    </div>
-    <div class="col-12 p-0 pointer body_sec" title="Click to edit this response" *ngIf="currentEditIndex !== index">
-       <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
     </div>
   </ng-container>
   <div class="btn-sec">
     <div class="left-btns">
-      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Add  Response</button>
+      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Response</button>
     </div>
   </div>
   <div class="btn-sec" *ngIf="!faqData && false">
@@ -500,32 +429,44 @@
   </div>
   <hr>
   <div class="add-alternative-questions row" *ngIf="!isFollowUp && faqData"> 
-    <div class="col-10 pl-0 pr-2">
-        <div class="question-name text-truncate">Alternate Questions
+    <div class="col-8 pl-0 pr-2">
+        <div class="label-text text-truncate">Alternate Questions
             <span *ngIf="faqData">{{faqData._source.alternateQuestions?.length>0?'('+faqData._source.alternateQuestions?.length+')':''}}</span>
             <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
         </div>
         <div class="added-tags text-truncate">Add alternate forms of the question.</div>
     </div>
-    <div class="col-2 p-0 text-right" *ngIf="!isAdd">
+    <div class=" col-4 text-right pr-0" *ngIf="faqData._source.alternateQuestions?.length>0 || isAdd">
+        <button class="kr-sg-button-ghost" (click)="addAltQues();"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Alternate Question</button>
+    </div>
+    <div class="col-12 p-0 " *ngIf="!faqData._source.alternateQuestions?.length && !isAdd">
         <button class="kr-sg-button-primary btn_lg" (click)="addAltQues()">Add</button>
     </div>
   </div>
   <div *ngIf="isAdd" class="alternative-question-results">
-      <app-add-alternate-question [faqServ]="faqServiceAlt"></app-add-alternate-question>
+      <app-add-alternate-question (cancelAltQuestion)="isAdd=false;" (saveAltQuestion)="addAnotherAlternate()" [faqServ]="faqServiceAlt" [isFromFaqsForm]="true"></app-add-alternate-question>
   </div>
-  <div class="btn-sec mt-0" *ngIf="isAdd">
-    <div class="left-btns another_question_btn">
-      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherAlternate()"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Another Question</button>
-    </div>
-  </div>
+  
   <ng-container *ngIf="faqData && faqData._source && faqData._source.alternateQuestions?.length">
-  <div class="added-questions-list mt-2" *ngFor="let alternateQuestion of faqData._source?.alternateQuestions; let alterIndex = index">
-      <div class="question-name text-truncate">{{alternateQuestion.question}}</div>
-      <div class="added-tags text-truncate">
+  <div class="added-questions-list mt-2" *ngFor="let alternateQuestion of faqData._source?.alternateQuestions; let alterIndex = index" >
+     <div class="pointer content-body-question row" *ngIf="editAltQuestionIndex !== alterIndex" (click)="editAltQuestion(alternateQuestion.question,alterIndex);">
+      
+      <div class=" col-10 group-name question-name text-truncate" title="{{alternateQuestion.question}}">{{alternateQuestion.question}}</div>
+      <!-- <div class="added-tags text-truncate">
           <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
+      </div> -->
+      <div class="col-2 action-btns pr-1">
+        <img src="assets/icons/delete-table.svg"  (click)="delAltQues(alternateQuestion,alterIndex,$event)">
       </div>
-      <img src="assets/icons/delete-table.svg"  (click)="delAltQues(alternateQuestion,alterIndex)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}">
+     </div>
+     <div *ngIf="editAltQuestionIndex === alterIndex">
+      <div class="d-flex">
+        <div class="input-alter-text">
+          <input autocomplete="off" type="text" placeholder="Enter question" [attr.id]="faqServ?.addVariation?.alternate?'alt':'follow'" class="input-text w-100" [(ngModel)]='alternateQuestion.question' (keyup.enter)="closeAltQuestion();">
+        </div>
+        <img class="ml-4" src="assets/icons/modal-close.svg" (click)="alternateQuestion.question = altQuestionEdit;closeAltQuestion(alternateQuestion.question);">
+      </div>
+     </div>
   </div>
   </ng-container>
 </div>
@@ -549,7 +490,7 @@
         <!-- <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeImgApp()">Close</button> -->
       </div>
 </kr-modal>
-<kr-modal modalType="default" #createLinkPop>
+<kr-modal modalType="default" modalClass="provideLinkPopup" #createLinkPop>
   <div class="modal-header">
         <h4 class="modal-title">Provide link URL</h4>
       </div>
@@ -583,3 +524,21 @@
       <button class="kr-sg-button-secondary btn_lg" (click)="closeExternalPopUpRef()">Close</button>
   </div>
 </kr-modal>
+
+<!-- preview image modal popup start from here -->
+<kr-modal id="previewImageModalPop" modalType="default" #previewImageModalPop modalClass="modal_popups_ previewImageModalPop">
+  <div class="modal-header previewImageModalPopHeader">
+    <div class="title"></div>
+    <div class="close_icon" (click)="closePreviewImgModal();"><img src="assets/icons/modal-close.svg"></div>
+  </div>
+ 
+    <div class="modal-body">
+      <div class="previewImageBlock">
+        <perfect-scrollbar>
+          <img [src]="image.url">
+      </perfect-scrollbar>
+      </div>
+    </div>
+ 
+</kr-modal> 
+<!-- preview image modal popup start from here -->

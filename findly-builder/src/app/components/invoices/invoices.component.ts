@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
@@ -14,8 +14,8 @@ const FileSaver = require('file-saver');
   templateUrl: './invoices.component.html',
   styleUrls: ['./invoices.component.scss']
 })
-export class InvoicesComponent implements OnInit {
-  invoices=[];
+export class InvoicesComponent implements OnInit, OnDestroy {
+  invoices = [];
   showSearch;
   searchInvoice = '';
   searchImgSrc: any = 'assets/icons/search_gray.svg';
@@ -24,8 +24,9 @@ export class InvoicesComponent implements OnInit {
   serachIndexId;
   indexPipelineId;
   subscription: Subscription;
-  totalRecord:number;
+  totalRecord: number;
   selectedSort = '';
+  loading = false;
   isAsc = true;
   constructor(
     public workflowService: WorkflowService,
@@ -41,9 +42,9 @@ export class InvoicesComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.loadInvoices();
-    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
-      this.loadInvoices();
-    })
+    // this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+    //   this.loadInvoices();
+    // })
   }
   toggleSearch() {
     if (this.showSearch && this.searchInvoice) {
@@ -57,17 +58,20 @@ export class InvoicesComponent implements OnInit {
       this.getInvoices();
     }
   }
-  searchItems(){}
+  searchItems() { }
   getInvoices(offset?) {
+    this.loading = true;
     const quaryparms: any = {
-      streamId : this.selectedApp._id,
+      streamId: this.selectedApp._id,
       skip: offset || 0,
       limit: 10
     };
     this.service.invoke('get.allInvoices', quaryparms).subscribe(res => {
       this.invoices = res.data || [];
       this.totalRecord = res.total;
+      this.loading = false;
     }, errRes => {
+      this.loading = false;
       this.errorToaster(errRes, 'Failed to get invoices');
     });
   }
@@ -82,13 +86,13 @@ export class InvoicesComponent implements OnInit {
     }
   }
 
-  paginate(event){
+  paginate(event) {
     this.getInvoices(event.skip)
   }
 
-  downloadInvoice(url,invoiceId){
+  downloadInvoice(url, invoiceId) {
     // FileSaver.saveAs("https://httpbin.org/image", "image.jpg");
-    FileSaver.saveAs(url+'&DownloadPdf=true', 'invoice_'+invoiceId+'.pdf');
+    FileSaver.saveAs(url + '&DownloadPdf=true', 'invoice_' + invoiceId + '.pdf');
   }
 
   getSortIconVisibility(sortingField: string, type: string) {
@@ -125,5 +129,8 @@ export class InvoicesComponent implements OnInit {
       }
     });
     this.invoices = sortedData;
+  }
+  ngOnDestroy() {
+    //this.subscription ? this.subscription.unsubscribe : false;
   }
 }

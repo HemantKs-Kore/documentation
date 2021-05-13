@@ -231,6 +231,9 @@ export class FieldManagementComponent implements OnInit {
         this.errorToaster(errRes, 'Failed to create field');
       });
     }
+    else{
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
   }
   getFileds(offset?) {
     const quaryparms: any = {

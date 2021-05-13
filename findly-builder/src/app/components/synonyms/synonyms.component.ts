@@ -187,6 +187,9 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.synonymData.push(obj);
       this.addOrUpddate(this.synonymData);
     }
+    else{
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
   }
   synonymChanged() {
     this.newSynonymObj.values = [];

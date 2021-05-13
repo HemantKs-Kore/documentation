@@ -52,6 +52,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   faqUpdate: Subject<void> = new Subject<void>();
   filterObject = {};
   manualFilterSelected = false;
+  showResponse :boolean;
   faqSelectionObj: any = {
     selectAll: false,
     selectedItems: {},
@@ -935,6 +936,8 @@ this.selectAll();
         if (queuedJobs && queuedJobs.length) {
           console.log(queuedJobs);
         } else {
+          this.selectTab('draft');
+          this.getStats();
           this.pollingSubscriber.unsubscribe();
         }
       }, errRes => {
@@ -1083,15 +1086,21 @@ this.selectAll();
     } else {
       const selectedElements = $('.selectEachfaqInput:checkbox:checked');
       const sekectedFaqsCollection: any = [];
-      if (selectedElements && selectedElements.length) {
-        $.each(selectedElements, (i, ele) => {
-          const faqId = $(ele)[0].id.split('_')[1];
-          const tempobj = {
-            _id: faqId
-          }
-          sekectedFaqsCollection.push(tempobj);
-        })
-      }
+      Object.keys(this.faqSelectionObj.selectedItems).forEach((key)=>{
+        const tempobj = {
+                _id: key
+              }
+        sekectedFaqsCollection.push(tempobj);
+      });
+      // if (selectedElements && selectedElements.length) {
+      //   $.each(selectedElements, (i, ele) => {
+      //     const faqId = $(ele)[0].id.split('_')[1];
+      //     const tempobj = {
+      //       _id: faqId
+      //     }
+      //     sekectedFaqsCollection.push(tempobj);
+      //   })
+      // }
       payload.faqs = sekectedFaqsCollection;
     }
     const quaryparms: any = {

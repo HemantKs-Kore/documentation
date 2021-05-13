@@ -61,7 +61,7 @@
                         <div id="querieswithresults" class="tab-pane tab-data-content " [ngClass]="{'active show': querieswithresults }">
                             <div class="table_data_content">
                                 <div class="table_header row m-0">
-                                    <div class="col-8 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_query'| translate}} </div>
+                                    <div class="col-8 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_results'| translate}} </div>
                                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Count'| translate}} <span class="info-icon" placement="top-center" ngbTooltip="Number of times the query was searched for by the end-users" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
                                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.No_of_Clicks'| translate}} <span class="info-icon" placement="top-center" ngbTooltip="Number of times where at least one result of the query was clicked on by the end-users" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
                                 </div>
@@ -82,7 +82,7 @@
                         <div id="querieswithoutresults" class="tab-pane fade tab-data-content" [ngClass]="{'active show': !querieswithresults }">
                             <div class="table_data_content">
                                 <div class="table_header row m-0">
-                                    <div class="col-10 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_query'| translate}}</div>
+                                    <div class="col-10 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_results'| translate}}</div>
                                     <!-- <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Appearances <span class="info-icon" placement="top-center" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div> -->
                                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Count'| translate}} <span class="info-icon" placement="top-center" ngbTooltip="Number of times the query was searched for by the end-users" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
                                 </div>
@@ -115,7 +115,7 @@
         <div>
             <div class="small-title">{{'metrics.search_insights.Search_Results_for'| translate}}</div>
             <div class="title-small">{{selectedQuery}}</div>
-            <div class="response">FAQ Response</div>
+            <!-- <div class="response">FAQ Response</div> -->
         </div>
         <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
     </div>
@@ -144,7 +144,7 @@
                     <div class="col-1 title">{{result.negativeFeedback}}</div> -->
                 </div>
             </div>
-            <div *ngIf='getSearchQueriesResults?.length' style="margin : 15px"><app-record-pagination [totalRecord]='SQR_totalRecord' [limitpage]='SQR_limitPage' (pageChanged)="paginate($event,'SQR')"></app-record-pagination></div>
+            <div *ngIf='getSearchQueriesResults?.length && (SQR_limitPage < SQR_totalRecord)' style="margin : 15px"><app-record-pagination [totalRecord]='SQR_totalRecord' [limitpage]='SQR_limitPage' (pageChanged)="paginate($event,'SQR')"></app-record-pagination></div>
         </div>
     </perfect-scrollbar>
     <!-- <div class="modal-footer">

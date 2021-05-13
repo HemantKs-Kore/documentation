@@ -36,6 +36,7 @@ export class UpgradePlanComponent implements OnInit {
   payementSuccess: true;
   overageData: any;
   listPlanFeaturesData: any;
+  paymentStatusInterval: any;
   payementResponse: any = {
     hostedPage: {
       transactionId: "",
@@ -43,7 +44,7 @@ export class UpgradePlanComponent implements OnInit {
     }
   };
   plansIdList = {
-    free: 'free',
+    free: 'fp_free',
     standardMonth: 'standard_monthly',
     standardYear: 'standard_yearly',
     proMonth: 'pro_monthly',
@@ -89,7 +90,7 @@ export class UpgradePlanComponent implements OnInit {
     });
   }
   poling() {
-    setTimeout(() => {
+    this.paymentStatusInterval = setInterval(() => {
       this.getPayementStatus();
     }, 3000)
   }
@@ -100,11 +101,11 @@ export class UpgradePlanComponent implements OnInit {
     };
     this.service.invoke('get.payementStatus', queryParams).subscribe(res => {
       if (res.state == 'success') {
-        this.openSuccessFailurePopup(true)
+        this.openSuccessFailurePopup(true);
+        clearInterval(this.paymentStatusInterval);
       } else if (res.state == 'failed') {
-        this.openSuccessFailurePopup(false)
-      } else {
-        this.poling();
+        this.openSuccessFailurePopup(false);
+        clearInterval(this.paymentStatusInterval);
       }
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
@@ -163,6 +164,7 @@ export class UpgradePlanComponent implements OnInit {
   closeChoosePlanPopup() {
     if (this.choosePlanModalPopRef && this.choosePlanModalPopRef.close) {
       this.choosePlanModalPopRef.close();
+      this.gotoDetails('')
     }
   }
   //open payment gateway popup
@@ -196,7 +198,7 @@ export class UpgradePlanComponent implements OnInit {
       // }
       let url = this.payementResponse.hostedPage.url;
       this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-      this.getPayementStatus()
+      this.poling();
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });
@@ -205,40 +207,52 @@ export class UpgradePlanComponent implements OnInit {
     this.paymentGatewayModelPopRef = this.paymentGatewayModel.open();
   }
   //payment plan for upgrade/downgrade
-  paymentPlan(show) {
+  paymentPlan(show?) {
+    if (show == undefined) {
+      show = this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free ? true : false;
+    }
     if (show) {
       this.buyOveragePayment();
     }
     else {
-      if (this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free) {
-        this.openPaymentGatewayPopup()
+      if (this.currentSubscriptionPlan) {
+        if (this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free) {
+          this.openPaymentGatewayPopup()
+        }
+        else {
+          const payload = { "streamId": this.selectedApp._id, "targetPlanId": this.orderConfirmData._id };
+          const upgradePlan = this.service.invoke('put.planChange', {}, payload);
+          upgradePlan.subscribe(res => {
+            if (res.status == 'success') {
+              this.openSuccessFailurePopup(true);
+              this.closeChoosePlanPopup();
+              this.closeOrderConfPopup();
+            }
+          }, errRes => {
+            if (errRes && errRes.error && errRes.error.errors[0].code == 'ERR_FAILED_ACCESS_EXCEEDED') {
+              this.openChangePlanModel();
+              this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
+            }
+            else {
+              this.errorToaster(errRes, 'failed upgrade');
+              this.openSuccessFailurePopup(false);
+              this.closeChoosePlanPopup();
+              this.closeOrderConfPopup();
+            }
+          });
+        }
       }
-      else {
-        const payload = { "streamId": this.selectedApp._id, "targetPlanId": this.orderConfirmData._id };
-        const upgradePlan = this.service.invoke('put.planChange', {}, payload);
-        upgradePlan.subscribe(res => {
-          console.log("upgrade", res);
-          if (res.status == 'success') {
-            this.openSuccessFailurePopup(true);
-            this.closeChoosePlanPopup();
-            this.closeOrderConfPopup();
-          }
-        }, errRes => {
-          if (errRes && errRes.error && errRes.error.errors[0].code == 'ERR_FAILED_ACCESS_EXCEEDED') {
-            this.openChangePlanModel();
-            this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
-          }
-          else {
-            this.errorToaster(errRes, 'failed upgrade');
-            this.openSuccessFailurePopup(false);
-          }
-        });
+      else if (this.selectedPlan) {
+        this.openPaymentGatewayPopup()
       }
     }
   }
   //close payment gateway popup
   closePaymentGatewayPopup() {
     if (this.paymentGatewayModelPopRef && this.paymentGatewayModelPopRef.close) {
+      if (this.paymentStatusInterval) {
+        clearInterval(this.paymentStatusInterval);
+      }
       this.paymentGatewayModelPopRef.close();
     }
   }
@@ -272,7 +286,7 @@ export class UpgradePlanComponent implements OnInit {
       Object.values(data.featureAccess);
       Object.entries(data.featureAccess);
       /** Pick only the Month Plans */
-      if (data.type == this.plansIdList.free || data.type == this.plansIdList.standardMonth || data.type == this.plansIdList.proMonth || data.type == this.plansIdList.enterpriceMonth) {
+      if (data.planId == this.plansIdList.free || data.type == this.plansIdList.standardMonth || data.type == this.plansIdList.proMonth || data.type == this.plansIdList.enterpriceMonth) {
         listDataMonthlyFeature.push(Object.entries(data.featureAccess))
       }
     })
@@ -293,10 +307,8 @@ export class UpgradePlanComponent implements OnInit {
   //based on choosePlanType in order confirm popup
   choosePlanType(type) {
     for (let plan of this.totalPlansData) {
-      if (plan.type == this.orderConfirmData.type) {
-        if (plan.billingUnit == type) {
-          this.orderConfirmData = plan;
-        }
+      if (plan.name == this.orderConfirmData.name && plan.billingUnit == type) {
+        this.orderConfirmData = plan;
       }
     }
   }
