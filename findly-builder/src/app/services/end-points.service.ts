@@ -57,7 +57,8 @@ export class EndPointsService {
     };
     this.serviceList['get.appData'] = {
       //endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId',
-      endpoint: this.API_SERVER_URL + 'findly/users/:userId/builder/streams/:streamId',
+      //endpoint: this.API_SERVER_URL + 'findly/users/:userId/builder/streams/:streamId',
+      endpoint: this.API_SERVER_URL + 'findly/apps/:streamId',
       method: 'get'
     };
     this.serviceList['jwt.grunt.generate'] = {
@@ -914,6 +915,10 @@ export class EndPointsService {
     }
     this.serviceList['delete.indexPipeline'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId',
+      method: 'delete'
+    }
+    this.serviceList['delete.queryPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPIpelineId',
       method: 'delete'
     }
     /** APIs for search experience and tour guide */

@@ -14,9 +14,9 @@
       <div class="modal-body">
         <!-- <div class="mian-title-desc">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div> -->
         <div class="upgrade-details-prices row col-12 p-0" *ngIf="selectedPlan">          
-          <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData' [ngClass]='{"current-plan":selectedPlan.planName===plan.name,"d-none":plan.type=="free"}'>
+          <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData' [ngClass]='{"current-plan":(selectedPlan.status!="expired"&&selectedPlan.planName===plan.name),"d-none":plan.type=="free"}'>
             <div class="main-content">
-              <div class="inner-content">
+              <div class="inner-content"  [ngStyle]="{'background':(selectedPlan.status=='expired'&&selectedPlan.planName===plan.name)?'#F1E9FB':null}">
                 <img src="assets/icons/pricing/standard.svg" class="standard-img" *ngIf="plan.name == 'Standard'"> 
                 <img src="assets/icons/pricing/pro.svg" class="pro-img" *ngIf="plan.name == 'Pro'">
                 <img src="assets/icons/pricing/enterprise.svg" class="enterprise-img" *ngIf="plan.name == 'Enterprise'">
@@ -24,10 +24,10 @@
                     <div class="title">{{plan.name}}</div>
                     <div class="price" [ngClass]='{"d-none":selectedPlan.planName===plan.name||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?'month':'year'}}</span></div>
                     <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise"}'>Custom</div>
-                    <div class="current-plan-title" *ngIf="selectedPlan.planName===plan.name"><img src="assets/icons/pricing/check-round.svg">Current Plan</div>
+                    <div class="current-plan-title" *ngIf="selectedPlan.planName===plan.name"><img [src]="selectedPlan.status!='expired'?'assets/icons/pricing/check-round.svg':'assets/icons/pricing/Vector.svg'">{{selectedPlan.status!="expired"?'Current Plan':'Last Active Plan'}}</div>
                   </div>
                   <div class="card-desc" *ngFor="let info of plan.featureData" [hidden]="!(info.displayOnBanner)">{{info.displayText}}</div>
-                  <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
+                  <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':(selectedPlan.status=="expired"&&selectedPlan.planName===plan.name)?'Reactivate':'Choose Plan'}}</button>
               </div>
               <div class="goto_details" (click)="gotoDetails(plan.name)">Go to Details</div>
             </div>
@@ -49,7 +49,7 @@
 
           <div class="body-content-plan" *ngIf="listPlanFeaturesData">
             <div class="body-table-plan row" *ngFor="let feature of listPlanFeaturesData[0]">
-              <div class="title width-24 pl-4">{{feature[1].name}} <img src="assets/icons/pricing/info.svg"></div>
+              <div class="title width-24 pl-4">{{feature[1].name}}  <span placement="top-center" [ngbTooltip]="feature[1].desc" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span></div>
               <div class="title width-19" *ngIf="feature[1].fullDisplayText!=undefined">{{feature[1].fullDisplayText}}</div>
              <div class="title width-19" *ngIf="feature[2].fullDisplayText!=undefined">{{feature[2].fullDisplayText}}</div>
               <div class="title width-19" *ngIf="feature[3].fullDisplayText!=undefined">{{feature[3].fullDisplayText}}</div>
@@ -150,7 +150,7 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg mr-3" (click)="openSuccessFailurePopup()">Proceed</button>
+    <!-- <button class="kr-sg-button-primary btn_lg mr-3" (click)="openSuccessFailurePopup()">Proceed</button> -->
     <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePaymentGatewayPopup()">Back</button>
   </div>
 </kr-modal>
@@ -176,7 +176,7 @@
           <div class="img-block col-7 p-0"><img src="assets/icons/pricing/payment-failed.svg"></div>
           <div class="payment-success-message col-5 p-0">
             <div class="title">Oops! Payment Failed!!</div>
-            <button class="kr-sg-button-primary btn_lg" (click)="openPaymentGatewayPopup();closeSuccessFailurePopup()">Retry Payment</button>
+            <button class="kr-sg-button-primary btn_lg" (click)="paymentPlan();closeSuccessFailurePopup()">Retry Payment</button>
           </div>
         </div>
     </div>

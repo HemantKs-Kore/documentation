@@ -460,7 +460,7 @@ export class SettingsComponent implements OnInit {
         this.workflowService.selectedApp(this.selectedApp);
         this.notificationService.notify('Credential Configured', 'success');
         this.prepareChannelData();
-        this.standardPublish();
+        //this.standardPublish();
         this.configFlag = true;
 
         console.log(res);
