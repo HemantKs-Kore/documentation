@@ -49,6 +49,9 @@
           <div class="content-sec">
             <div class="bot-name-sec">
               Bot Name: <span class="bot-name-title">{{linkedBotName}}</span>
+               <span>
+                <a href="https://dev.findly.ai/botbuilder"> <img src="assets/icons/actions/external-link.svg" class="pl-2"></a>
+              </span>
             </div>
             <div class="bot-desc">{{linkedBotDescription}}</div>
             <div class="bot_type" *ngIf="linkedBotData?.botType === 'universalbot'">Universal Bot</div>
@@ -81,8 +84,10 @@
           <img src="assets/icons/actions/info.svg">
           <div class="title-text pl-2">The App can interact with the linked bot only after the Webhook channel is published</div>
             <div class="link-ext-link">
+              <a href="https://dev.findly.ai/botbuilder">
               <img src="assets/icons/actions/external-link.svg" class="ext-link">
                 <span >Go to Platform</span>
+              </a>
           </div>
       </div>
   </ng-container>
@@ -204,7 +209,7 @@
               <div class="link-bot-btn" (click)="unlinkBot(bot._id,'bulk_unlink')" *ngIf="streamId == bot._id">
                 <img src="assets/icons/actions/link-bot.svg">Unlink Bot
               </div>
-              <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12">
+              <!-- <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12"> -->
             </div>
           </div>
           
