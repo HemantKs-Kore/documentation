@@ -17690,29 +17690,32 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           setTimeout(() => {
             _self.bindPerfectScroll(showAllHTML, '.data-body-sec', null, 'y', 'see-all-results');
             console.log(_self.vars['see-all-results']);
-            let data_body_sec_element = document.querySelector('.data-body-sec');
-            data_body_sec_element.addEventListener('ps-y-reach-end', () => {
-              console.log("ps-y-reach-end");
-              if (_self.vars.scrollPageNumber >= 0) {
-                if (_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 10)) {
+            if(false){
+              // disabling the infiniteScroll for now
+              let data_body_sec_element = document.querySelector('.data-body-sec');
+              data_body_sec_element.addEventListener('ps-y-reach-end', () => {
+                console.log("ps-y-reach-end");
+                if (_self.vars.scrollPageNumber >= 0) {
+                  if (_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 10)) {
+                    if(_self.vars.selectedFacetFromSearch && (_self.vars.selectedFacetFromSearch !== 'all results')){
+                      $('#loaderDIV').show()
+                      _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
+                      _self.seeAllResultsInifiteScroll();
+                    }
+                  }
+                }
+              });
+              data_body_sec_element.addEventListener('ps-y-reach-start', () => {
+                console.log("ps-y-reach-start");
+                if (_self.vars.scrollPageNumber > 0) {
                   if(_self.vars.selectedFacetFromSearch && (_self.vars.selectedFacetFromSearch !== 'all results')){
                     $('#loaderDIV').show()
-                    _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
+                    _self.vars.scrollPageNumber = _self.vars.scrollPageNumber - 1;
                     _self.seeAllResultsInifiteScroll();
                   }
                 }
-              }
-            });
-            data_body_sec_element.addEventListener('ps-y-reach-start', () => {
-              console.log("ps-y-reach-start");
-              if (_self.vars.scrollPageNumber > 0) {
-                if(_self.vars.selectedFacetFromSearch && (_self.vars.selectedFacetFromSearch !== 'all results')){
-                  $('#loaderDIV').show()
-                  _self.vars.scrollPageNumber = _self.vars.scrollPageNumber - 1;
-                  _self.seeAllResultsInifiteScroll();
-                }
-              }
-            });
+              });
+            }
           }, 100);
         };
         $('#show-all-results-container').css('display', 'block');
@@ -17883,6 +17886,130 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       this.invokeSearch();
     }
 
+    FindlySDK.prototype.invokeSpecificSearch = function (selectedFacet) {
+      var _self = this;
+      var url = _self.API.searchUrl;
+      var currentDate = new Date();
+      var dateTime = currentDate.getDate() + "/"
+        + (currentDate.getMonth() + 1) + "/"
+        + currentDate.getFullYear() + ", "
+        + currentDate.getHours() + ":"
+        + currentDate.getMinutes() + ":"
+        + currentDate.getSeconds();
+      var selectedTopFacet = {};
+
+      var payload = {
+        "query": _self.vars.searchObject.searchText,
+        // "maxNumOfResults": 9,
+        "maxNumOfResults": 10,
+        "userId": _self.API.uuid,
+        "streamId": _self.API.streamId,
+        "lang": "en",
+        // "isDev": true,
+        "isDev": _self.isDev,
+        "filters" : []
+      }
+
+      if (_self.vars.filterObject.length > 0) {
+        payload.filters = JSON.parse(JSON.stringify(_self.vars.filterObject));
+      }
+
+      if(selectedFacet !== 'all results'){
+        _self.vars.searchFacetFilters.forEach((facet) => {
+          if(facet.fieldName === "__contentType"){
+            selectedTopFacet = {
+              "fieldName" : facet.fieldName,
+              "facetType" : facet.facetType,
+              "facetValue" : [selectedFacet],
+              "facetName" : facet.facetName
+            }
+          }
+        })
+        if(Object.values(selectedTopFacet).length){
+          if(!payload.filters || !payload.filters.length){
+            payload.filters = [];
+          }
+          payload.filters.push(selectedTopFacet); 
+        }
+      }
+
+      if(_self.vars.filterObject && _self.vars.filterObject.length){
+        _self.vars.scrollPageNumber = 0;
+      }
+
+      console.log(payload);
+
+      _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
+        $('#loaderDIV').hide();
+        $('.kore-sdk-pagination-div').show();
+        if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+          var responseObject = { 'type': 'fullResult', data: true, query: _self.vars.searchObject.searchText }
+          console.log(responseObject);
+          _self.parentEvent(responseObject);
+        }
+
+        $(".custom-insights-control-container").hide();
+        var faqs = [], pages = [], tasks = [], documents = [], facets = {}, object = {}, searchFacets = [];
+
+        console.log(response.template);
+
+        if (response.template) {
+          faqs = response.template.results.faq;
+          pages = response.template.results.page;
+          tasks = response.template.results.task;
+          documents = response.template.results.document;
+          facets = response.template.facets;
+          object = response.template.results.object;
+          searchFacets = response.template.searchFacets;
+
+          facets['all results'] = response.template.totalNumOfResults;
+          _self.vars.totalNumOfResults = response.template.totalNumOfResults
+
+          _self.vars.searchObject.liveData = {
+            faqs: faqs,
+            pages: pages,
+            tasks: tasks,
+            facets: facets,
+            documents: documents,
+            object: object,
+            originalQuery: response.template.originalQuery || '',
+            // searchFacets: searchFacets,
+          }
+          console.log(_self.vars.searchObject.liveData);
+          var dataObj = _self.vars.searchObject.liveData;
+          var facetdata = _self.vars.searchFacetFilters;
+          $(".data-body-sec").scrollTop(0);
+          _self.calculatePageNumber(selectedFacet, dataObj);
+          if(!$('body').hasClass('top-down')){
+            _self.handlePaginationUI(selectedFacet, dataObj);
+            _self.pubSub.publish('sa-st-data-search', {
+              container: '.structured-data-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+            });
+            _self.pubSub.publish('sa-faq-search', {
+              container: '.faqs-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+            });
+            _self.pubSub.publish('sa-page-search', {
+              container: '.pages-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+            });
+            _self.pubSub.publish('sa-document-search', {
+              container: '.documents-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+            });
+            _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: selectedFacet, isLiveSearch: false, isSearch: false, dataObj });
+          }
+        }
+      })
+
+    }
+
+    FindlySDK.prototype.handlePaginationUI = function(selectedFacet,data){
+      if(selectedFacet && data.facets[selectedFacet] > 0){
+        $('.kore-sdk-pagination-div').show();
+      }
+      else{
+        $('.kore-sdk-pagination-div').hide();
+      }
+    }
+
     FindlySDK.prototype.facetReset = function (facetObj, facetData) {
       var _self = this;
       // _self.pubSub.subscribe('sa-search-facets', (msg, data) => {
@@ -17916,7 +18043,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       _self.markSelectedFilters();
     }
-    FindlySDK.prototype.bindShowAllResultsTrigger = function (showAllHTML, facetData, data) {
+    FindlySDK.prototype.bindShowAllResultsTrigger = function (showAllHTML, facetData, data, restrictSelectFacet) {
       var _self = this;
       //_self.pubSub.publish('sa-full-data-search')
       var selectedFacet = $('.active-tab').attr('classification') ? $('.active-tab').attr('classification') : 'all results';
@@ -17927,21 +18054,34 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       slecetFacetFunc = function (selectedFacet) {
         var selectedFacet_temp = selectedFacet ? selectedFacet : "all results";
         var dataObj = data ? data.dataObj : _self.vars.searchObject.liveData;
-        _self.pubSub.publish('sa-st-data-search', {
-          container: '.structured-data-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
-        });
-        _self.pubSub.publish('sa-faq-search', {
-          container: '.faqs-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
-        });
-        _self.pubSub.publish('sa-page-search', {
-          container: '.pages-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
-        });
-        _self.pubSub.publish('sa-document-search', {
-          container: '.documents-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
-        });
-        _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: selectedFacet_temp, isLiveSearch: false, isSearch: false, dataObj });
+        if( selectedFacet == 'all results'){
+          $('.kore-sdk-pagination-div').hide();
+          _self.vars.searchCallWithSelectedFacet = false;
+          _self.pubSub.publish('sa-st-data-search', {
+            container: '.structured-data-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+          });
+          _self.pubSub.publish('sa-faq-search', {
+            container: '.faqs-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+          });
+          _self.pubSub.publish('sa-page-search', {
+            container: '.pages-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+          });
+          _self.pubSub.publish('sa-document-search', {
+            container: '.documents-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+          });
+          _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: selectedFacet_temp, isLiveSearch: false, isSearch: false, dataObj });
+        }
+        else{
+          $('#loaderDIV').show();
+          _self.vars.searchCallWithSelectedFacet = true;
+          _self.invokeSpecificSearch(selectedFacet);
+          // $('.kore-sdk-pagination-div').show();
+        }
+        // handle pagination UI from here
       }
-      slecetFacetFunc(selectedFacet)
+      if(!restrictSelectFacet){
+        slecetFacetFunc(selectedFacet)
+      }
       setTimeout(() => {
         var arr = [];
         if (document.getElementsByClassName('filter-sec-tab').length) {
@@ -18009,7 +18149,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //   }
         // }
         _self.facetReset(facetObj, facetData);
-        _self.bindShowAllResultsTrigger(showAllHTML, facetData);
+        _self.bindShowAllResultsTrigger(showAllHTML, facetData, null, true);
       });
 
       $('.sdk-clear-all-facet-top').off('click').on('click', function (event) {
@@ -18308,8 +18448,75 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //var bucket = $(event.target).closest('.sdk-bottomup-search-face').attr('data-bucket');
       });
 
+      $(showAllHTML).off('click', '.kore-sdk-bottom-up-first').on('click', '.kore-sdk-bottom-up-first', function (){
+        $('#loaderDIV').show();
+        _self.vars.scrollPageNumber = 0;
+        _self.invokeSpecificSearch(_self.vars.selectedFacetFromSearch);
+      });
+      $(showAllHTML).off('click', '.kore-sdk-bottom-up-last').on('click', '.kore-sdk-bottom-up-last', function (){
+        $('#loaderDIV').show();
+        _self.invokeSpecificSearch(_self.vars.selectedFacetFromSearch);
+      });
+      $(showAllHTML).off('click', '.kore-sdk-bottom-up-next').on('click', '.kore-sdk-bottom-up-next', function (){
+        if(_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 10)){
+          _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
+          $('#loaderDIV').show();
+          _self.invokeSpecificSearch(_self.vars.selectedFacetFromSearch);
+        }
+      });
+      $(showAllHTML).off('click', '.kore-sdk-bottom-up-previous').on('click', '.kore-sdk-bottom-up-previous', function (){
+        if (_self.vars.scrollPageNumber > 0) {
+          _self.vars.scrollPageNumber = _self.vars.scrollPageNumber - 1;
+          $('#loaderDIV').show();
+          _self.invokeSpecificSearch(_self.vars.selectedFacetFromSearch);
+        }
+      });
       // Search Facet
     }
+
+    FindlySDK.prototype.calculatePageNumber = function (selectedFacet, data) {
+      var _self = this;
+      var totalPages = 1;
+      if(data && data.facets){
+        totalPages = data.facets[selectedFacet] / (10);
+        if(totalPages){
+          var temp_totalPages;
+          temp_totalPages = Math.round(totalPages);
+          if(totalPages > temp_totalPages){
+            totalPages = temp_totalPages + 1;
+          }
+          else{
+            totalPages = temp_totalPages;
+          }
+        }
+        else{
+          totalPages = 1;
+        }
+        $('#kore-current-page-number').text(_self.vars.scrollPageNumber + 1);
+        $('#kore-total-page-number').text(totalPages);
+      }
+      else{
+        $('#kore-current-page-number').text(1);
+        $('#kore-total-page-number').text(1);
+      }
+      if(_self.vars.scrollPageNumber == 0){
+        $('.kore-sdk-bottom-up-previous').addClass('disabled');
+        $('.kore-sdk-bottom-up-first').addClass('disabled');
+      }
+      else{
+        $('.kore-sdk-bottom-up-previous').removeClass('disabled');
+        $('.kore-sdk-bottom-up-first').removeClass('disabled');
+      }
+      if(_self.vars.totalNumOfResults < ((_self.vars.scrollPageNumber + 1) * 10)){
+        $('.kore-sdk-bottom-up-next').addClass('disabled');
+        $('.kore-sdk-bottom-up-last').addClass('disabled');
+      }
+      else{
+        $('.kore-sdk-bottom-up-next').removeClass('disabled');
+        $('.kore-sdk-bottom-up-last').removeClass('disabled');
+      }
+    }
+
     FindlySDK.prototype.facetTemplateTopIcon = function () {
       var facet =
         '<script type="text/x-jqury-tmpl">\
@@ -18591,6 +18798,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <div class="structured-data-full-search-container matched-structured-data-contaniers">\
         </div>\
         <div class="documents-full-search-container matched-structured-data-contaniers">\
+        </div>\
+        <div class="kore-sdk-pagination-div">\
+          <div class="kore-sdk-custom-pagination">\
+              <div class="kore-sdk-bottom-up-first"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAAQABADAREAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD+zn9pz9o/XPhre6B8H/gxpfhzxb+0d8Q9H1XxB4esPF8t9B8MfhH8OtBmjh8WfH74+6vpdzZXXh34V+Et722l6XFqWk+IPin4vFt4F8I3th/xUvirwe0r77fi/JeYiT9mv49eP/2j9X8SfEbRPCulaJ+y3/ZVjpXwe8b61p+taZ49+POsxXLtrnxc8OaBd33keEPgTfQKlj8NW1221DxV8RoXm8cW0ujeDG8M3PjAat69fLy9e4LX0Iv2m/2bda+JWoaD8Yvg1q2g+Ef2jvh9oupeHdAvvFYvZfhj8Xfh1rU4uPFPwB+PujafZ6nL4g+FXi9g89jqtvpOp+Jvhj4qa38beD7e7ceIfDPisT6Pb8vNef5g/wAST9mv4C/ED9nDV/Enw50XxVpWufst/wBlWOq/B7wRrWo61qfj74DazLcuuufCLw5r93YeR4v+BNjAyXvw0Gu3On+KvhzAk3ge3i1nwYnhm38IDaevXr2fn5PuMP/Z"></div>\
+              <div class="kore-sdk-bottom-up-previous"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACuSURBVHgB3VKxDcIwEDwTD2AEA3xk0zMCbMAGrMAIGYWSjhFQJgipEcIlnTMAknloaPImSZecZMnS3+nuTw+MAkRk+FHbbNZBTFBZBegd+uLrnLuKyBUSR6XEUPqCGEvv7weJJ6+g9JnFdUoM2d0Vn+hduEKC1xGI3Lzr7/5Lwcjtg6zdp3iZNGgYxixL/p7MYv5sQqgxLMlqzX0EXmfTNv97SN7frohqy50Qpok3s14tS5MeJgUAAAAASUVORK5CYII="></div>\
+              <span>Page<span id="kore-current-page-number" class="kore-current-page-number">1</span>of<span id="kore-total-page-number" class="kore-total-page-number">1</span></span>\
+              <div class="kore-sdk-bottom-up-next"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAALCAYAAABcUvyWAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBXY+xDQIxEAT3bAIiZEQD99gf4xKgEuiEkDY+JUJUQEoGxAjhCsAhwUvmEHqw/8LZW2lWM9femNEwyiE7BaQ5SB+Y2eSBjvFxNGYyBqmNNLdSfH0C6j6YbQOiGVK7CCFE1QUh3FZI6QIa7IrGr1m5ExL2qoBTtxYZkWibP7R2yZW9ix33oHuWUAZ+Ye17A+GRSBSv5zx4A80eMIB299aVAAAAAElFTkSuQmCC"></div>\
+              <div class="kore-sdk-bottom-up-last"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC8SURBVHgB3ZKxEcIwDEUVZwAEWUCJnJ5R2AA2YAQYIRswAkdJyQRQ0kEJTewFOBBxjos5QkI68htbOn//d7YA+iWK9Z4oHb9q4owSvfjmCasF4vAKAawRo621+QVxcAQIMhxFaE2+g1YUxDMhMSRytSjmUx1J+N6w1hwciVoJweYseq4dSPSySCZCj4R5Wj2nam9QcC936PVv8kqN6Uk6L9PJSxeqZrMgdjcTT9wPuFn4yVwYPg1SW/P/6gGaqz4/5BlCXQAAAABJRU5ErkJggg=="></div>\
+          </div>\
         </div>\
         <div class="custom-add-result-container {{if devMode== false || viewType != "Customize"}}display-none{{/if}}">\
           <div class="custom-add-new-result-content">\
@@ -19124,7 +19340,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.refreshFullResultsPage = function() {
       var _self = this;
-      _self.vars.selectedFacetFromSearch = "all results"
+      // _self.vars.selectedFacetFromSearch = "all results"
         _self.invokeSearch();
         $('#loaderDIV').show()
     }

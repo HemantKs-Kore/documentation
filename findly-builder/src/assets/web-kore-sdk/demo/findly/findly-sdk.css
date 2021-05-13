@@ -13914,3 +13914,16 @@ button.search-button:disabled {
    .structured-data-outer-wrap {
         margin-bottom: 10px;
     }
+
+    .kore-sdk-pagination-div{
+        display: none;
+    }
+    
+    .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-first, .kore-sdk-bottom-up-previous, .kore-sdk-bottom-up-next, .kore-sdk-bottom-up-last{
+        cursor: pointer;
+    }
+
+    .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-first.disabled, .kore-sdk-bottom-up-previous.disabled, .kore-sdk-bottom-up-next.disabled, .kore-sdk-bottom-up-last.disabled{
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
