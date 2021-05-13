@@ -1047,7 +1047,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.closeStatusModal()
   }
   /* Annotation Modal end */
-
   getAssociatedBots() {
     if (this.userInfo.id) {
       const queryParams: any = {
