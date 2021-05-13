@@ -78,13 +78,12 @@
                 font-weight: 500;
                 font-size: 12px;
                 line-height: 14px;
-                margin-right: 30px;
                 cursor: pointer;
             }        
         }
     }
     .linked-bot-data{
-        margin: 20px 25px;
+        margin: 20px 25px 0 25px;
         background: #F8F9FA;
         border: 1px solid #E4E5E7;
         box-sizing: border-box;
@@ -95,10 +94,11 @@
             padding: 0 5px;
             .left-sec{
                 display: flex;
-                align-items: center;
+                // align-items: center;
                 .img-block{
                     width: 40px;
                     height: 40px;
+                    padding-top: 4px;
                     img{
                         width: 40px;
                         height: 40px;
@@ -108,6 +108,9 @@
                     padding-left: 20px;
                     .bot-name-sec{
                         color: #5F6368;
+                        font-weight: 500;
+                        font-size: 16px;
+                        line-height: 19px;
                         .bot-name-title{
                             color: #3C4043;
                             font-weight: bold;
@@ -120,6 +123,7 @@
                         font-weight: normal;
                         font-size: 12px;
                         line-height: 15px;
+                        margin-top: 2px;
                     }
                     .bot_type{
                         color: #07377F;
@@ -130,62 +134,86 @@
                         border-radius: 100px;
                         display: inline-block;
                         padding: 4px 13px;
-                        margin-top: 9px;
+                        margin-top: 8px;
                     }
                 }
             }
-            .righ-sec{
-                display: flex;
-                align-items: center;
-                justify-content: flex-end;
-                .sync-btn{
-                    border: 1px solid #0D6EFD;
-                    border-radius: 4px;
-                    height: 34px;
-                    padding: 5px 12px;
-                    color: #0D6EFD;
-                    font-weight: 500;
-                    font-size: 14px;
-                    line-height: 20px;
-                    display: flex;
-                    align-items: center;
-                    cursor: pointer;
-                    margin-right: 25px;
+           .elipse-action-dropdown{
+                width: 24px;
+                height: 24px;
+                text-align: center;                
+                border-radius: 2px;
+                float: right;
+                cursor: pointer;
+                .linked-task-status-control{
                     img{
-                        margin-right: 6px;
+                        position: relative;
+                        top: 2px;
                     }
                 }
-                .unlink-btn{
-                    border: 1px solid #FF281B;
-                    border-radius: 4px;
-                    height: 34px;
-                    padding: 5px 12px;
-                    color: #FF281B;
-                    font-weight: 500;
-                    font-size: 14px;
-                    line-height: 20px;
-                    display: flex;
-                    align-items: center;
-                    cursor: pointer;
-                    img{
-                        margin-right: 7px;
-                    }
+                &:hover{
+                    background: #EFF0F1;
                 }
-            }
+                &.show{
+                    background: #EFF0F1;
+                }
+                .content-menu{
+                    margin-top: 4px;
+                    li{
+                        font-weight: normal;
+                        font-size: 14px;
+                        line-height: 20px;
+                        padding: 8px 10px;
+                    }
+                }                
+           }
         }
     }
 
     .scroll-task-data{
-        height: calc(100vh - 330px);
+        height: calc(100vh - 280px);
     }
     .task-list-data{
+        .info-data-links{
+            display: flex;
+            align-items: center;
+            background: #F3F8FF;
+            border: 1px solid #85B7FE;
+            box-sizing: border-box;
+            border-radius: 4px;
+            width: 780px;
+            padding: 8px 10px;
+            margin: 19px 0px 13px 25px;
+            justify-content: space-between;
+            .info-text{
+                span{
+                    color: #07377F;
+                    font-weight: normal;
+                    font-size: 12px;
+                    line-height: 18px;
+                    padding-left: 10px;
+                }
+            }
+            .ext_link{
+                color: #0D6EFD;
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 14px;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                img{
+                    margin-right: 6px;
+                }
+            }
+        }
         .header-sec-tab-checked{
-            margin: 20px 25px;
+            margin: 0px 25px 15px 25px;
             box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.15);
             padding-bottom: 1px;
             .tab-sec-task{
                 margin: 0;
-                padding: 0;
+                padding: 0 10px;
                 height: 53px;
                 align-items: center;
                 background: #FFFFFF;                
@@ -198,6 +226,7 @@
                         font-size: 12px;
                         line-height: 15px;
                         position: relative;
+                        text-transform: uppercase;
                         // &::before{
                         //     content: "";
                         //     position: absolute;
@@ -267,12 +296,13 @@
             padding: 0 25px;
             .data-container-sec{
                 margin: 0 0 5px 0;
-                padding: 10px 0;
+                padding: 7px 5px;                
+                align-items: center;
                 background: #FFFFFF;
                 border: 1px solid #EFF0F1;
                 box-sizing: border-box;
+                box-shadow: inset 0px -1px 0px #E4E5E7;
                 border-radius: 4px;
-                align-items: center;
                 &.checked-item{
                     .checkbox-info-data{
                         .kr-sg-checkbox{
@@ -403,6 +433,9 @@
                 .info-link-text.lh-20{
                     line-height: 20px;
                     width: 75%;
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 20px;
                 }
                 .more-info-link-text{
                     background: #FFFFFF;
@@ -411,16 +444,19 @@
                     border-radius: 6px;
                     padding: 12px 19px;
                     margin-top: 16px;
-                    width: 75%;
+                    width: auto;
+                    display: inline-block;
                     .more-info-data{
-                        font-size: 12px;
+                        font-size: 14px;
                         line-height: 17px;
                         margin: 5px 0px;
                         padding: 5px 0px;
+                        color: #000000;
                         .step-text{
-                            color: #9AA0A6;
-                            font-size: 12px;
+                            color: #9AA0A6;                                                        
                             font-weight: 600;
+                            font-size: 14px;
+                            line-height: 17px;
                         }
                     }
                 }
@@ -433,19 +469,18 @@
                         padding-left: 10px;
                     }
                     .copy-btn{
-                        display: inline;
-                        background: #0d6efd;
-                        border-radius: 4px;
-                        width: 81px;
-                        height: 34px;
-                        text-align: center;
-                        padding: 7px;
-                        color: #fff;
                         font-weight: 500;
                         font-size: 14px;
                         line-height: 20px;
+                        background: #0D6EFD;
+                        border-radius: 4px;
+                        padding: 8px 12px;
+                        height: 34px;
+                        display: inline-block;
+                        width: auto;
                         cursor: pointer;
                         margin-left: 10px;
+                        color: #fff;
                         img{
                             margin-right: 5px;
                             position: relative;
@@ -487,6 +522,7 @@
                         margin: 0 0 0px 0;
                         padding: 8px 0 8px 0;
                         height: 60px;
+                        box-shadow: inset 0px -1px 0px #E4E5E7;
                         .bot-name-data{
                             align-items: center;
                             .name-with-type{
@@ -524,19 +560,17 @@
                             display: flex;
                             align-items: center;
                             justify-content: flex-end;
-                            padding-right: 30px;
+                            padding-right: 22px;
                             .link-bot-btn{
-                                border: 1px solid #85B7FE;
+                                background: #FFFFFF;
+                                border: 1px solid #BDC1C6;
+                                box-sizing: border-box;
                                 border-radius: 4px;
-                                height: 34px;
-                                display: flex;
-                                align-items: center;
-                                padding: 7px 10px;
-                                color: #0D6EFD;
                                 font-weight: normal;
                                 font-size: 14px;
                                 line-height: 20px;
-                                margin-right: 30px;
+                                color: #202124;
+                                padding: 6px 20px;                                
                                 cursor: pointer;
                                 img{
                                     margin-right: 12px;
