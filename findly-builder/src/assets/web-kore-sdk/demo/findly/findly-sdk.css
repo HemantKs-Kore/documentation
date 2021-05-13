@@ -12903,11 +12903,15 @@ padding-right: 0;
 }
 .show-all-results-outer-wrap .customization .customization-tile .appearences-count.bg-data {
     float: left;
-    background: #EFF0F1;
+    background: #E7F1FF;
     border-radius: 4px;
     padding: 2px 7px;
     margin-left: 10px;
     position: relative;
+}
+.show-all-results-outer-wrap .customization .customization-tile .appearences-count.customize-chips .count{
+    color: #0D6EFD;
+    font-weight: 400;
 }
 .show-all-results-outer-wrap .customization .customization-tile .appearences-count.bg-data::before {
     content: "";
