@@ -503,7 +503,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       panelClass: 'delete-popup',
       data: {
         newTitle: 'Are you sure you want to delete ?',
-        body: `Selected ${type == 'index' ? 'Index' : 'Search'} Configuration will be deleted from the app.`,
+        body: `Selected ${type == 'index' ? 'Index' : 'Search'} will be deleted from the app.`,
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
