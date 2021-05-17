@@ -302,3 +302,7 @@ img.logo-img{
   position: fixed;
   bottom: 30px;
 }
+
+.kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-next {
+  padding: 4px;
+}
