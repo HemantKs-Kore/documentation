@@ -35,7 +35,7 @@ export class SettingsComponent implements OnInit {
     name: "",
     anonymus: true,
     register: true,
-    awt: 'Select Signing Algorithm',
+    awt: 'HS256',
     enabled: false
   };
   channels = [

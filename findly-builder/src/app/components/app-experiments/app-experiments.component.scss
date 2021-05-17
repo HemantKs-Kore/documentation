@@ -434,6 +434,9 @@
             text-align: right;
             span {
               cursor: pointer;
+              &:hover{
+                color: #0d6efd;
+              }
             }
           }
         }

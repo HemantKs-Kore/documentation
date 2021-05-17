@@ -13,7 +13,7 @@
             </div>
             <!-- <div class="seach-block"><img src="assets/icons/search.svg">{{'search' | translate}}
             </div> -->
-            <div class="clock"><img src="assets/icons/clock.svg"></div>
+            <div class="clock d-none"><img src="assets/icons/clock.svg"></div>
         </div>
     </div>
     <div class="header-sec row m-0 col-12" *ngIf="slider!==0" >
@@ -30,7 +30,7 @@
     <div class="body-sec" *ngIf="slider==0">
         <div class="info-data">
             <div class="img-block"><img src="assets/icons/Info_gray.svg"></div>
-            <div class="info-title">Configure destinations for your bot to communicate with one or more of the channel
+            <div class="info-title">Configure destinations for your app to communicate with one or more of the channel
                 selection below. Each channel may have a unique process to enable it but the instructions are provided.
             </div>
         </div>
@@ -40,8 +40,8 @@
                     <div class="dropdown-toggle" id="menu1" data-toggle="dropdown"><img class="action_icon"
                             src="assets/icons/elipse-black.svg"></div>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                        <li><a (click)="enableConfiguration = !enableConfiguration">{{enableConfiguration?'Disable':'Enable'}} Configuration</a></li>
-                        <li><a>Delete Configuration</a></li>
+                        <li><a (click)="enableConfiguration = !enableConfiguration">{{enableConfiguration?'Disable':'Enable'}}</a></li>
+                        <li><a>Delete </a></li>
                     </ul>
                 </div>
                 <div class="main" (click)="proceedChannel(channel)">
@@ -77,8 +77,8 @@
                 <div class="card_list">
                     <div class="step-title">STEP 1</div>
                     <div class="img-block"><img src="assets/images/icons/sdkdownload.svg"></div>
-                    <div class="title-main">Download FindlyKit SDK</div>
-                    <div class="desc-text">Download the Kore.ai FindlyKit SDK from our GitHub Repo</div>
+                    <div class="title-main">Download SearchAssist Kit SDK</div>
+                    <div class="desc-text">Download the Kore.ai SearchAssist Kit SDK from our GitHub Repo</div>
                 </div>
                 <div class="card_list">
                     <div class="step-title">STEP 2</div>
@@ -90,7 +90,7 @@
                     <div class="step-title">STEP 3</div>
                     <div class="img-block"><img src="assets/images/icons/callback.svg"></div>
                     <div class="title-main">Define Callback URL</div>
-                    <div class="desc-text">Define the callback URL of your credential to be invoked for FindlyKit SDK
+                    <div class="desc-text">Define the callback URL of your credential to be invoked for SearchAssist Kit SDK
                         events.</div>
                 </div>
                 <div class="card_list">
@@ -109,31 +109,32 @@
                     <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
 
                 </div>
-                <div class="kr-sg-checkbox d-block p-0">
+                <div class="kr-sg-checkbox p-0 d-none ">
                     <input id="checkbox-1" class="checkbox-custom" type="checkbox" [(ngModel)]="credntial.anonymus"
                         checked>
                     <label for="checkbox-1" class="checkbox-custom-label">Allow anonymous users to chat with the
                         bot</label>
                 </div>
-                <div class="kr-sg-checkbox d-block p-0">
+                <div class="kr-sg-checkbox  p-0 d-none">
                     <input id="checkbox-2" class="checkbox-custom" type="checkbox" [(ngModel)]="credntial.register"
                         checked>
                     <label for="checkbox-2" class="checkbox-custom-label">Auto register new users on Kore.ai Bots
                         Platform</label>
                 </div>
                 <div class="kr-sg-dropdowns">
-                    <div class="label-text">JWT Signing Algorithm Used For Client App Authentication</div>
+                    <div class="label-text mb-2">JWT Signing Algorithm Used For Client App Authentication</div>
                     <div class="dropdown dropdown-open" >
-                        <button class="dropdown-toggle dropdown-input"  data-toggle="dropdown"  required>
-                            {{ credntial.awt ? credntial.awt: 'Select Signing Algorithm'}}</button>
-                            <!-- <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" /> -->
+                        <button class="dropdown-toggle dropdown-input" required>
+                            {{ credntial.awt }}</button>
+                        <!-- ? credntial.awt: 'Select Signing Algorithm' -->
+                        <!-- <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" /> -->
                         <ul class="dropdown-menu content-menu">
                             <li (click)="jwtAuth('RS256')"><a>RS256</a></li>
                             <li (click)="jwtAuth('HS256')"><a>HS256</a></li>
                         </ul>
                     </div>
                 </div>
-                <label class="kr-sg-toggle">
+                <label class="kr-sg-toggle d-none">
                     <input type="checkbox" >
                     <div class="slider"><span class="enabled">Push Notifications Enabled</span><span
                             class="disabled">Push Notifications Enabled</span></div>
@@ -213,7 +214,7 @@
                     </div>
 
                     <div class="border-line"></div>
-                    <div class="accordion-sec">View JSON Web Encryption Public Key <img
+                    <div class="accordion-sec d-none">View JSON Web Encryption Public Key <img
                             src="assets/images/icons/carrot_up.svg"></div>
                 </div>
                 <div class="group-radiobutton">
@@ -267,20 +268,22 @@
                 class="input-text">
                 <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
         </div>
-        <div class="kr-sg-checkbox d-block p-0">
+        <div class="kr-sg-checkbox d-none p-0">
             <input id="checkbox_1" class="checkbox-custom" type="checkbox" [(ngModel)]="credntial.anonymus">
             <label for="checkbox_1" class="checkbox-custom-label">Allow anonymous users to chat with bot</label>
         </div>
-        <div class="kr-sg-checkbox d-block p-0">
+        <div class="kr-sg-checkbox d-none p-0">
             <input id="checkbox_2" class="checkbox-custom" type="checkbox" [(ngModel)]="credntial.register">
             <label for="checkbox_2" class="checkbox-custom-label">Auto register new user Kore.ai Bots Platform</label>
         </div>
         <hr>
 
-        <div class="label-text">JWT Signing Algorithm Used For Client App Authentication</div>
+        <div class="label-text mb-2">JWT Signing Algorithm Used For Client App Authentication</div>
         <div class="kr-sg-dropdowns">
             <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><span class="select-placeholder">
+                <button class="dropdown-toggle dropdown-input"> 
+                    <!-- data-toggle="dropdown" -->
+                    <span class="select-placeholder">
                         {{credntial.awt}}</span> </button>
                 <ul class="dropdown-menu content-menu">
                     <li (click)="jwtAuth('RS256')"><a>RS256</a></li>
@@ -288,7 +291,7 @@
                 </ul>
             </div>
         </div>
-        <div class="switch-toggle mt-4">
+        <div class="switch-toggle mt-4 d-none">
             <label class="kr-sg-toggle">
                 <input type="checkbox" [(ngModel)]="credntial.enabled">
                 <div class="slider"><span class="enabled">Push Notifications Enabled</span><span class="disabled">Push
