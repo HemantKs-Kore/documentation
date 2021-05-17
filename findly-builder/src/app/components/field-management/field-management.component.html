@@ -156,8 +156,8 @@
                             <div class="col-2 title">{{field.isStored?'Yes':'No'}}</div>
                             <div class="col-2 title">{{field.isIndexed?'Yes':'No'}}
                                 <div class=" action_links text-right" style="margin-top:-15px;" *ngIf="!field.auto">
-                                    <img src="assets/images/edit-pencil.svg" (click)="addEditFiled(field)">
-                                    <img src="assets/icons/delete-table.svg" class="ml-3" (click)="deleteFieldPop(field)">
+                                    <img src="assets/images/edit-pencil.svg" ngbTooltip='Edit' (click)="addEditFiled(field)">
+                                    <img src="assets/icons/delete-table.svg" ngbTooltip='Delete' class="ml-3" (click)="deleteFieldPop(field)">
                                 </div>
                             </div>
                            
