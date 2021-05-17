@@ -4,7 +4,7 @@
 
     var botOptionsFindly = {};
     botOptionsFindly.logLevel = 'debug';
-    //botOptionsFindly.koreAPIUrl = "https://dev.findly.ai/api/";
+    botOptionsFindly.koreAPIUrl = "https://dev.findly.ai/searchassistapi/";
     // botOptionsFindly.koreAPIUrl = "https://pilot.findly.ai/api/";
     botOptionsFindly.baseAPIServer = "https://qa.findly.ai";
     function koreGenerateUUID() {
