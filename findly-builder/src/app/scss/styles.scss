@@ -1484,16 +1484,16 @@ div.divBlockEmptylastChild:first-child {
     font-size: 12px;
     position: relative;
     white-space: normal;
-    &::before{
-        display: none;
+    &::before{    
+        display: none;    
         content: "";
         position: absolute;
-        top: 100%;
-        left: 50%;
-        margin-left: -5px;
+        top: 50%;
+        left: -18px;
+        margin-left: 0;
         border-width: 9px;
         border-style: solid;
-        border-color: #fff transparent transparent transparent;
+        border-color: transparent #fff transparent transparent;
     }
     .main-title{
         font-size: 12px;

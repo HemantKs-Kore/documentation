@@ -110,20 +110,20 @@
     </div>
     <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
   </div>
+  <div class="table_header no-scroll row">
+    <div class="col-3 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Search_Results'| translate}}</div>
+    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Appearances'| translate}}</div>
+    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.No_of_Clicks'| translate}}</div>
+    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Click-Through_Rate'| translate}}</div>
+    <div class="col-2 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Avg_Position'| translate}}</span></div>
+    <!-- <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Positive_Feedback'| translate}}</span></div>
+    <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Negative_Feedback'| translate}}</span></div> -->
+</div>
   <perfect-scrollbar class="perfect-scroll-modal-body">
     <div class="modal-body">
-        <div class="table_data_content">
-            <div class="table_header row m-0">
-                <div class="col-4 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Search_Results'| translate}}</div>
-                <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Appearances'| translate}}</div>
-                <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.No_of_Clicks'| translate}}</div>
-                <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Click-Through_Rate'| translate}}</div>
-                <div class="col-2 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Avg_Position'| translate}}</span></div>
-                <!-- <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Positive_Feedback'| translate}}</span></div>
-                <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Negative_Feedback'| translate}}</span></div> -->
-            </div>
+        <div class="table_data_content">            
             <div class="table_body row m-0" *ngFor="let result of resultsSearchData">
-                <div class="col-4 title d-flex align-items-center search-results">
+                <div class="col-3 title d-flex align-items-center search-results">
                     <!-- <span class="img-sec"><img src="assets/icons/question-box.svg"></span> -->
                     <span class="results pl-3">{{result.query}}</span>
                 </div>
