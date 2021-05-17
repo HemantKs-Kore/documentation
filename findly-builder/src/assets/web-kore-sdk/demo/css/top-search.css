@@ -1614,8 +1614,9 @@ float: right;
 .topdown-search-main-container  .horizantal-filter-sec {
   display: inline-block;
   width: calc(100% - 40px);
-  margin: 0 20px;
-  border-bottom: 1px solid #E4E5E7;
+  margin: 0px;
+  padding-bottom: 8px;
+  /* border-bottom: 1px solid #E4E5E7; */
   }
   .topdown-search-main-container .horizantal-filter-sec .dropdown_custom_filter {
   position: relative;
