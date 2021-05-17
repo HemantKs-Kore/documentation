@@ -164,7 +164,7 @@
                                                                         <img src="assets/icons/docker/return.svg" *ngIf="task.status === 'HALTED'" (click)="recrawl(task)">
                                                                         <!-- <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')"> -->
                                                                         <img src="assets/icons/docker/check.svg" *ngIf="(task.status === 'SUCCESS')">
-                                                                        <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq')) || (task.jobType == 'STRUCTURED_DATA_INGESTION')">                        
+                                                                        <!-- <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq')) || (task.jobType == 'STRUCTURED_DATA_INGESTION')">                         -->
                                                                     </div>
                                                                     <div class="status-blcok">                        
                                                                         <img src="assets/icons/ringLoading.svg" class="inProgress" *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED'" placement="top" container='body'>
