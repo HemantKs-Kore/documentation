@@ -5,10 +5,10 @@
         </div>
         <div class="col-4 lef-sec p-0" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">
             <div class="selected-count" *ngIf="!selcectionObj.selectAll">
-                <span class="outer-border">
+                <span class="outer-border" (click)="selectAll(false,true)">
           <span class="inner-bg"></span>
                 </span>
-                {{ selcectionObj.selectedCount }} {{ "businessRules.rules_selected" | translate }}
+                {{ selcectionObj.selectedCount }} {{ (selcectionObj.selectedCount ==1 ?"businessRules.rule_selected":"businessRules.rules_selected") | translate }}
             </div>
             <div class="kr-sg-checkbox m-0" *ngIf="selcectionObj.selectAll">
                 <input id="checkbox-1" class="checkbox-custom" type="checkbox" [(ngModel)]="selcectionObj.selectAll" (change)="selectAll()"/>
@@ -31,7 +31,7 @@
                 <!-- <img *ngIf="showSearch" src="assets/images/close.svg" /> -->
                 {{ "search" | translate }}
             </div>
-            <div class="add_feild" (click)="createNewRule()" *ngIf=" rules && rules.length">
+            <div class="add_feild mr-0" (click)="createNewRule()" *ngIf=" rules && rules.length">
                 <img src="assets/icons/add_plus.svg" />{{ "businessRules.add_rule" | translate }}
             </div>
             <div class="clock d-none"><img src="assets/icons/clock.svg" /></div>
@@ -125,7 +125,7 @@
                 </div>
                 <div class="col-3 content">
                     <ng-container *ngFor="let outcome of ruleObj.outcomes">
-                        <span class="tags-input mr-1 mb-1"><span *ngIf=" outcome.outcomeType === 'boost' ||  outcome.outcomeType === 'lower'">{{ outcome.scale }}x </span> {{"businessRules.action" + outcome.outcomeType | translate}}
+                        <span class="tags-input mr-1 mb-1"><span *ngIf=" outcome.outcomeType === 'boost' ||  outcome.outcomeType === 'lower'">{{ outcome.scale }}x</span>{{"businessRules.action" + outcome.outcomeType | translate}}Result
                         </span><br/>
                         <span class="outer-name mr-1 mb-1">{{"businessRules." + outcome.outcomeOperator | translate }}</span>
                         <span class="tags-input mr-1 mb-1">{{ outcome.fieldName }}:
