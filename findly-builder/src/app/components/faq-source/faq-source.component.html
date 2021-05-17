@@ -818,7 +818,7 @@
 <ng-container *ngIf="showSourceAddition">
     <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
 </ng-container>
-<kr-modal modalType="center" modalClass="modal_popups_" #addfaqSourceModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addfaqSourceModalPop>
     <ng-container  *ngIf="selectedFaq && selectedFaq.isAddFollow">
         <div class="modal-header">
           <div class="title">Add Follow Up FAQ</div>

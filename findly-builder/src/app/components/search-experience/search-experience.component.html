@@ -345,10 +345,10 @@
             <div class="col-12 pr-0" *ngSwitchCase="'interactions'">
                 <div class="interactins-content col-12 p-0 row m-0">
                     <div class="left-sec col-12 p-0">
-                        <div class="greeting-message border-with-padding border-0 col-7 pb-0">
+                        <div class="greeting-message border-with-padding border-0 col-7 pb-0 pt-0">
                             <div class="kr-sg-input-text-area">
                                 <div class="label-text">Customize Launch Greeting Message</div>
-                                <textarea class="input-text" maxlength="40" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}"></textarea>
+                                <textarea class="input-text" maxlength="60" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}"></textarea>
                             </div>
                             <div class="emojis-block">
                                 <!-- <div class="emoji-img"><label for="myFileInput"><img [src]="emojiIcon" width="18" height="18">
@@ -411,7 +411,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="count-length">{{box.value.length}} / 40</div>
+                                <div class="count-length">{{box.value.length}} / 60</div>
                             </div>
                         </div>
 
