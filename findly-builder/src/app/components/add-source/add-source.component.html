@@ -141,6 +141,7 @@
           *ngIf="(statusObject && statusObject.validation && statusObject.validation.validated)">
             <h1><strong>Validation Successful</strong></h1>
           </div>
+        
         </div>       
         <div class="error-check" *ngIf="(statusObject.status==='failed')">
           <img src="assets/images/exclamationCircle-Red.svg">
@@ -158,6 +159,7 @@
               <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected" *ngIf="statusObject.validation.validated===true">
               <span>Initial URL validation</span>
             </div>
+            <div class="content-description"> Now you can choose to crawl immediately or later</div>
           </div>
         </ng-container>
         <div class="progressNote"
@@ -188,10 +190,10 @@
 </kr-modal>
 
 
-<kr-modal modalType="center" modalClass="modal_popups_" #addManualFaqModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addManualFaqModalPop>
   <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'manual'">
     <div class="modal-header">
-      <div class="title">Add FAQs</div>
+      <div class="title">Add FAQ</div>
       <div class="close_icon"><img (click)="cancleSourceAddition()"
           src="assets/icons/modal-close.svg"></div>
     </div>
@@ -207,7 +209,7 @@
     </div>
   </ng-container>
 </kr-modal>
-<kr-modal modalType="center" modalClass="modal_popups_" #addSourceModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addSourceModalPop>
   <ng-container *ngIf="selectedSourceType">
     <form #sourceCreation="ngForm">
       <div class="modal-header">
@@ -606,7 +608,7 @@
                       </span>
                     </div>
                     </div>
-                    <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
+                    <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0" (keyup)="checkValue(crawlDepth)"
                       [(ngModel)]="crawlDepth" class="input-text" >
                   </div>
                 </div>
@@ -799,7 +801,7 @@
           <h4>Please add bots</h4>
         </div>
         <ng-container *ngIf="!noAssociatedBots">
-          <p class="bots-modal-list-text">Choose any one bot from the list below to link into your Findly app. You can
+          <p class="bots-modal-list-text">Choose any one bot from the list below to link into your SearchAssist app. You can
             only link bots
             that you have the rights to access.</p>
           <div class="bots-modal-search-input-container">
@@ -845,7 +847,7 @@
   </ng-container>
 </kr-modal>
 
-<kr-modal modalType="center" modalClass="modal_popups_" #addStructuredDataModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_  addfaq" #addStructuredDataModalPop>
   <app-add-structured-data [selectedSourceType]="selectedSourceType" (closeStructuredDataModal)="cancleSourceAddition($event)"></app-add-structured-data>
 </kr-modal>
 

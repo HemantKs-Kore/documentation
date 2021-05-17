@@ -34,6 +34,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   @ViewChild('createImagePop') createImagePop: KRModalComponent;
   @ViewChild('createLinkPop') createLinkPop: KRModalComponent;
   @ViewChild('externalResponsePop') externalResponsePop: KRModalComponent;
+  @ViewChild('previewImageModalPop') previewImageModalPop: KRModalComponent;
   @Input() inputClass: string;
   @Input() isFollowUp: boolean;
   @Input() faqData: any;
@@ -43,11 +44,16 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   @Output() editFaq = new EventEmitter();
   eventsSubscription: Subscription;
   currentEditIndex:any = null;
+  showImagePreview=false;
+  showResponsePreview=false;
   createLinkPopRef
   createImagePopRef
   externalResponsePopRef
+  previewImageModalPopRef
   faqs:any = {}
   anwerPayloadObj:any = {};
+  editAltQuestionIndex:any;
+  altQuestionEdit:any;
   ruleOptions = {
     searchContext:['recentSearches','currentSearch', 'traits', 'entity','keywords'],
     pageContext:['device', 'browser', 'currentPage' , 'recentPages'],
@@ -408,6 +414,37 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
      this.faqResponse.defaultAnswers.push(tempResponseObj);
      this.currentEditIndex = this.faqResponse.defaultAnswers.length - 1;
    }
+   this.initializeEditResponselayoutEvents();
+  }
+  initializeEditResponselayoutEvents(){
+    if( $('.text-area-editor').length){
+      $('.text-area-editor').off('click').on('click',function (event) {
+        $('.editResponseMode').addClass('focusedEdit');
+    });
+    }
+    
+    $('.add-faq-modal-popup').off('click').on('click', function(event) {
+    if (!$(event.target).closest('.text-area-editor').length && !$(event.target).closest('.provideLinkPopup').length &&  $('.editResponseMode').hasClass('focusedEdit')) {
+      $('.editResponseMode').addClass('d-none');
+      $('.previewResponseMode').removeClass('d-none');
+      $('.editResponseMode').removeClass('focusedEdit');
+      $('.text-area-editor').click();
+
+    }
+  });
+
+  if( $('.responsePreviewBlock').length){
+    setTimeout(()=>{
+      $('.responsePreviewBlock').click(function(){
+        setTimeout(()=>{
+          $('.editResponseMode').removeClass('d-none');
+        $('.previewResponseMode').addClass('d-none');
+        $('.editResponseMode').addClass('focusedEdit');
+        },100);
+      })
+    },1000);
+  }
+
   }
   remove(tag): void {
     const index = this.tags.indexOf(tag);
@@ -553,6 +590,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
           conditionAnswerObj.answers.push(answerObj1);
           conditionalAnswers.push(conditionAnswerObj);
         }
+
       })
     }
     this.anwerPayloadObj.defaultAnswers = defaultAnswers;
@@ -565,12 +603,21 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     });
   }
   save() {
+    if(this.imgInfo.url && this.imgInfo.url.length){
+      this.addImage();
+    }
     $('#addAlternateFaq').click();
     this.prpaerFaqsResponsePayload();
     if(this.anwerPayloadObj.defaultAnswers && this.anwerPayloadObj.defaultAnswers.length){
       const oneValidRespone = _.filter(this.anwerPayloadObj.defaultAnswers,(answer) =>{
          return ((answer.payload !== '') && (answer.payload !== undefined) && ( answer.payload !==null ));
       })
+      let defaultAns = [...this.anwerPayloadObj.defaultAnswers];
+      for (let k = defaultAns.length - 1 ; k >= 0 ; k--) {
+        if (defaultAns[k].payload.trim() == "") {
+          this.anwerPayloadObj.defaultAnswers.splice(k, 1);
+        }
+      }
        if(!(oneValidRespone && oneValidRespone.length)){
         this.notify.notify('Default answer is required','error');
         return;
@@ -600,6 +647,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       cb: (res => { this.loading = false })
     }
     emmiter.emit(payload);
+
   }
 
   cancel() {
@@ -925,7 +973,19 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       }
     });
   }
-  delAltQues(ques,index) {
+  editAltQuestion(altQuestion,index){
+    this.editAltQuestionIndex = index;
+    this.altQuestionEdit = altQuestion;
+  }
+  closeAltQuestion(){
+    this.altQuestionEdit='';
+    this.editAltQuestionIndex = null;
+  }
+  delAltQues(ques,index,event) {
+    if (event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         width: '530px',
         height: 'auto',
@@ -948,6 +1008,9 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
         })
     // this.faqData._source.alternateQuestions = _.without(this.faqData._source.alternateQuestions, _.findWhere(this.faqData._source.alternateQuestions, { _id: ques._id }));
   }
+  ngAfterViewInit() {
+    this.initializeEditResponselayoutEvents();
+  }
   ngOnDestroy() {
     this.eventsSubscription? this.eventsSubscription.unsubscribe(): false;
     this.altAddSub?this.altAddSub.unsubscribe(): false;
@@ -958,5 +1021,13 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     this.altInpQuesSub?this.altInpQuesSub.unsubscribe():false;
     this.groupAddSub?this.groupAddSub.unsubscribe():false;
   }
-}
 
+  openPreviewImgModal() {
+    this.previewImageModalPopRef = this.previewImageModalPop.open();
+  }
+  closePreviewImgModal() {
+    if (this.previewImageModalPopRef && this.previewImageModalPopRef.close) {
+      this.previewImageModalPopRef.close();
+    }
+  }
+}

@@ -161,7 +161,7 @@
                       [ngClass]="{'hide': filterSystem.statusFilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                   <li *ngFor="let status of statusArr"
                     (click)="statusFilter.close();filterTable(status,'recentStatus')"><span
-                      class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : (status == 'queued' ? 'Queued' :'In Progress'))}}</span>
+                      class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : (status == 'queued' ? 'Queued' :(status == 'configured' ? 'Validated' :(status == 'halted' ? 'Stopped' :'In-progress'))))}}</span>
                       <img
                       [ngClass]="{'hide': filterSystem.statusFilter !== status}" src="assets/icons/check-blue.svg">
                   </li>
@@ -382,7 +382,7 @@
             <div class="tabs-sec">
               <span class="tabname active" [ngClass] = "{'active' : page}" (click)="swapSlider('page')">Pages</span>
               <span class="tabname" [ngClass] = "{'active' : isConfig}"(click)="swapSlider('config')">Configuration</span>
-              <span class="tabname" *ngIf="executionHistoryData" [ngClass] = "{'active' : execution}" (click)="swapSlider('execution')">Execution</span>
+              <span class="tabname" *ngIf="executionHistoryData" [ngClass] = "{'active' : execution}" (click)="swapSlider('execution')">Executions</span>
             </div>
             <div class="right-side">
               <div class="kr-sg-input-search" *ngIf="page">
@@ -472,7 +472,7 @@
                           <div class="col_ col-2 p-0 text-right actions-images">
                             <img src="assets/icons/return.svg" *ngIf="selectedSource.extractionType == 'webdomain'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl" ngbTooltip='Recrawl'  container="body">
                             <img src="assets/icons/content/edit_black.svg" (click)="editTitle($event)" title="Edit" ngbTooltip='Edit'  container="body">
-                            <img src="assets/icons/content/delete.svg" (click)="deletePages('source',page ,$event)" title="Delete" ngbTooltip='Delete'  container="body">
+                            <img src="assets/icons/content/delete.svg" (click)="deleteDocument('source',selectedSource ,$event)" title="Delete" ngbTooltip='Delete'  container="body">
                           </div>
                         </div>
                       </ng-container>
@@ -661,7 +661,7 @@
               </div>
 
               <!-- Cookies -->
-                <div class=" group-checkbox">
+                <div class=" group-checkbox" [ngStyle]='{"padding-top":crwalOptionLabel!="Crawl Everything"?"17px":"0px"}'>
                   <!-- <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "blockHttpsMsgs" [checked]="blockHttpsMsgs" [(ngModel)] = "blockHttpsMsgs" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Block HTTPS Pages</label>
@@ -692,11 +692,11 @@
                         <img src="assets/icons/info.svg">
                         <span class="tooltiptext">
                           <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
-                          <div class="v-text">Value = 0 (No limit)</div>
+                          <div class="v-text">Value = 0 (No limit)</div> 
                         </span>
                       </div> 
                     </div>
-                    <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
+                    <input type="text" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0" min="0" 
                       [(ngModel)]="crawlDepth" class="input-text" >
                   </div>
                 </div>

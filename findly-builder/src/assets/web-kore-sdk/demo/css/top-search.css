@@ -595,6 +595,7 @@ body.top-down .top-down-wrapper{
   /* overflow: hidden; */
   font-family: Inter;
   color: #202124;
+  height : 100%;
 }
 
 button:focus{
@@ -1995,11 +1996,15 @@ body.top-down .top-down-search-background-div .top-down-wrapper{
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec .customization .customization-tile .appearences-count.bg-data {
   float: left;
-  background: #EFF0F1;
+  background: #E7F1FF;
   border-radius: 4px;
   padding: 2px 7px;
   margin-left: 10px;
   position: relative;
+}
+.topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec .customization .customization-tile .appearences-count.customize-chips .count{
+  color: #0D6EFD;
+  font-weight: 400;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec .customization .customization-tile .appearences-count.bg-data::before {
   content: "";

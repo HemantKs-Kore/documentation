@@ -234,6 +234,7 @@
                     display: flex;
                     align-items: center;
                     .kr-sg-checkbox {
+                        visibility: hidden;
                         .checkbox-custom {
                             height: auto;
                             position: absolute;
@@ -338,6 +339,11 @@
                 background: #F8F9FA;
                 transition: 0.3s all ease-in;
                 .content {
+                    &.withcheckbox {
+                        .kr-sg-checkbox {
+                            visibility: visible;
+                        }
+                    }
                     &.actions {
                         .actions-icons {
                             display: block;
@@ -482,9 +488,9 @@
                                     }
                                     .slider-horizontal {
                                         width: 100%;
-                                        .tooltip-main {
-                                            display: none;
-                                        }
+                                        // .tooltip-main {
+                                        //     display: none;
+                                        // }
                                         .slider-tick,
                                         .slider-handle {
                                             background: #0D6EFD !important;
@@ -565,6 +571,10 @@
                     .mat-chip-list-wrapper {
                         .mat-chip {
                             margin: 3px;
+                        }
+                        .mat-chip.firstChip{
+                            background-color: #d3d4d6;
+                           
                         }
                     }
                 }

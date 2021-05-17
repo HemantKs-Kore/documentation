@@ -73,6 +73,7 @@ export class TraitsComponent implements OnInit {
   currentTraitEditIndex;
   editedContent;
   traitsCount = false;
+  submitted = false;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -206,7 +207,8 @@ var width = ctx.measureText(t.traitName +', ').width;
     }
   };
   saveTraits(traitsGroup?, byTraitId?) {
-    if (!this.traits.addEditTraits.groupName.trim()) {
+    this.submitted = true;
+    if ( !this.traits.addEditTraits.groupName || !this.traits.addEditTraits.groupName.trim()) {
       this.notificationService.notify('Please provide a valid trait group', 'error');
       return;
     }
@@ -522,6 +524,7 @@ var width = ctx.measureText(t.traitName +', ').width;
     this.statusModalPopRef = this.statusModalPop.open();
   }
   closeStatusModal() {
+    this.submitted=false;
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }

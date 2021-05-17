@@ -156,8 +156,8 @@
                             <div class="col-2 title">{{field.isStored?'Yes':'No'}}</div>
                             <div class="col-2 title">{{field.isIndexed?'Yes':'No'}}
                                 <div class=" action_links text-right" style="margin-top:-15px;" *ngIf="!field.auto">
-                                    <img src="assets/images/edit-pencil.svg" (click)="addEditFiled(field)">
-                                    <img src="assets/icons/delete-table.svg" class="ml-3" (click)="deleteFieldPop(field)">
+                                    <img src="assets/images/edit-pencil.svg" ngbTooltip='Edit' (click)="addEditFiled(field)">
+                                    <img src="assets/icons/delete-table.svg" ngbTooltip='Delete' class="ml-3" (click)="deleteFieldPop(field)">
                                 </div>
                             </div>
                            
@@ -187,12 +187,13 @@
                     <div class="label-text">Field Name</div>
                     <div class="kr-sg-dropdowns col-8 pl-0">
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                            <input type="text" placeholder="Enter Field Name" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown"  [(ngModel)]="newFieldObj.fieldName" (keyup)="getFieldAutoComplete(newFieldObj.fieldName)">
+                            <input type="text" placeholder="Enter Field Name" class="input-search dropdown-toggle dropdown-input" [ngClass]="{'err-block' : (!newFieldObj.fieldName.length && submitted)}" data-toggle="dropdown"  [(ngModel)]="newFieldObj.fieldName" (keyup)="getFieldAutoComplete(newFieldObj.fieldName)">
                             <ul class="dropdown-menu content-menu" [hidden]="!newFieldObj.fieldName">
                                 <perfect-scrollbar class="scroll-search-field">
                                     <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="newFieldObj.fieldName = suggesition.fieldName; "><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
                                 </perfect-scrollbar>
                             </ul>
+                            <img *ngIf="!newFieldObj.fieldName.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 31%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
                         </div>
                         <div class="kr-sg-inline-notification" *ngIf="selectedFieldId === selectedField?.fieldId && addEditFacetObj?.showFieldWarning && addEditFacetObj?.showFieldWarning === 'NOT_INDEXED'">
                             <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
@@ -265,7 +266,7 @@
     </div>
     </perfect-scrollbar> 
     <div class="modal-footer text-left">
-        <button type="button" [disabled]="!(newFieldObj.fieldName) || !(newFieldObj.fieldDataType)" class="kr-sg-button-primary btn_lg float-right" (click)="addField()">{{newFieldObj._id?'Save':'Add'}}</button>                   
+        <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addField()">{{newFieldObj._id?'Save':'Add'}}</button> <!-- [disabled]="!(newFieldObj.fieldName) || !(newFieldObj.fieldDataType)" -->
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
     </div>    
 </ng-container>
