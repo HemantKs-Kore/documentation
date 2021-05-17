@@ -39,7 +39,8 @@ export class AppExperimentsComponent implements OnInit {
   @ViewChild('addExperiments') addExperiments: KRModalComponent;
   @ViewChild('sliderref') sliderref;
   @ViewChild('plans') plans: UpgradePlanComponent;
-  variantList = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }];
+  // variantList = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }];
+  variantList = [{ color: '#7027E5', code: 'A' }, { color: '#28A745', code: 'B' }, { color: '#EF9AA3', code: 'C' }, { color: '#0D6EFD', code: 'D' }];
   // add Experiment
   form_type;
   exp_id;
@@ -820,12 +821,12 @@ export class AppExperimentsComponent implements OnInit {
     this.plans.openChoosePlanPopup('choosePlans');
   }
   
-  checkDuration(value){
+  checkDuration(value) {
     // if(parseInt(event.target.value) > 90){
     //   event.target.value = ''
     //   // event.preventDefault();
     // }
-    if(value > 90){
+    if (value > 90) {
       console.log(value, this.experimentObj.duration.days)
       this.experimentObj.duration.days = 90
     }
