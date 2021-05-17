@@ -1380,8 +1380,19 @@ float: right;
 
 
 /* chat conversation  */
-
-.sdk-top-down-interface .conversation-container {
+.sdk-top-down-interface .conversation-container{
+  position: absolute;
+  height: auto;
+  right: 25px;
+  top: 130px;
+  z-index: 999990;
+  background: #FFFFFF;
+  box-shadow: -7px 4px 30px rgb(18 61 101 / 10%), inset -8px -6px 80px rgb(255 255 255 / 18%);
+  border-radius: 4px;
+  width: 420px;
+  display: none;
+}
+.sdk-top-down-interface .top-down-search-background-div .conversation-container {
   position: absolute;
   height: auto;
   right: 25px;
@@ -2285,4 +2296,19 @@ display: none !important;
 
 .top-down-search-background-div .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-next {
   padding: 4px;
+}
+
+.sdk-top-down-interface .search-container.conversation .search-body {
+  display: none !important;
+}
+
+.sdk-top-down-interface .custom-header-container-left.searchAssist .searchAssistHeader{
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 14px;
+  color: #202124;
+}
+
+.sdk-top-down-interface .custom-header-container-left{
+  top: 31% !important;
 }
