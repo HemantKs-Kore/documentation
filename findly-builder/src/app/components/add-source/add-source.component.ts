@@ -708,7 +708,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     payload = this.newSourceObj;
     let endPoint = 'add.sourceMaterialFaq';
-    let resourceType = this.selectedSourceType.resourceType;
+    let resourceType = this.selectedSourceType.resourceType == 'webdomain' ? 'web' : this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
 
 
@@ -742,13 +742,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         payload.resourceType = resourceType;
       } else {
         if (this.fileObj.fileAdded) {
-          resourceType = 'document';
+          resourceType = 'file';
         } else if (this.newSourceObj.url) {
-          resourceType = 'webdomain';
+          resourceType = 'web';
         }
         quaryparms.faqType = resourceType;
       }
-      if (resourceType === 'webdomain') {
+      if (resourceType === 'web') {
         crawler.name = this.newSourceObj.name;
         crawler.url = this.newSourceObj.url;
         crawler.desc = this.newSourceObj.desc || '';
@@ -786,7 +786,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         quaryparms.resourceType = resourceType;
       }
 
-      if (resourceType === 'document') {
+      if (resourceType === 'file') {
         payload.fileId = this.fileObj.fileId;
         if (this.selectedSourceType.sourceType === 'faq') {
           payload.extractionType = "basic";

@@ -132,7 +132,7 @@
                       [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                   <li *ngFor="let docType of docTypeArr" (click)="sourceFilter.close();filterTable(docType,'extractionType')">
                     <span
-                      class="list-name">{{docType == 'webdomain' ? 'Web' :(docType == 'document'? 'Doc': '')}}</span><img
+                      class="list-name">{{docType == 'web' ? 'Web' :(docType == 'document'? 'Doc': '')}}</span><img
                       [ngClass]="{'hide': filterSystem.typefilter !== docType}" src="assets/icons/check-blue.svg"></li>
                 </ul>
               </div>
@@ -192,7 +192,7 @@
             <div class="content-body" *ngFor="let source of resources" (click)="openStatusSlider(source)"  [ngClass]="{'cursor-pointer':statusObj[source.recentStatus]?.name == 'Success' }">
               <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name}} <span class ="ml-2" *ngIf="source.advanceSettings"> <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg"></span></div>
               <div class="col_ col-2 pr-0">
-                {{(source.extractionType == 'webdomain' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) |  titlecase }}</div>
+                {{(source.extractionType == 'web' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) |  titlecase }}</div>
               <div class="col_ col-3">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
                   [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}"> {{statusObj[source.recentStatus]?.name}}
@@ -225,8 +225,8 @@
               </div>
               <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
               <div class="col_ col-1 text-right p-0">
-                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && statusObj[source.recentStatus]?.name != 'In Progress' && source.recentStatus !== 'configured'&&source.recentStatus !== 'failed'&&source.recentStatus != 'queued'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span>
-                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && source.recentStatus == 'configured'||source.recentStatus == 'failed'&&source.recentStatus != 'queued'"  (click)="jobOndemand(source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" [ngbTooltip]='source.recentStatus==="failed"?"Validate":"Crawl"' container="body"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' && source.recentStatus !== 'configured'&&source.recentStatus !== 'failed'&&source.recentStatus != 'queued'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'||source.recentStatus == 'failed'&&source.recentStatus != 'queued'"  (click)="jobOndemand(source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" [ngbTooltip]='source.recentStatus==="failed"?"Validate":"Crawl"' container="body"></span>
                 <span class="actions-links" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'" (click)="stopCrwaling(source,$event)"><img class="action_icon"
                   src="assets/icons/content/stop.svg" ngbTooltip='Stop' container="body"></span>
                 <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
@@ -285,7 +285,7 @@
               <div class="card_sec">
                 <div class="titles-sec">
                   <span class="name text-truncate"  placement="top-center"  container='body' ngbTooltip='{{source.title || source.name}}'>{{source.title || source.name}}</span><span class="type-data" [ngClass]="{'doc': (source.extractionType==='document')}" >
-                    {{(source.extractionType == 'webdomain' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) | uppercase }}</span>
+                    {{(source.extractionType == 'web' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) | uppercase }}</span>
                 </div>
                 <div class="row col-12 p-0 m-0 align-items-center justify-content-between">
                   <div class="timestamp" *ngIf="statusObj[source.recentStatus]?.name == ('In Progress' || 'Queued'); else executed">Started - {{source.schedule_createdOn}}</div>
@@ -309,8 +309,8 @@
                   </div>
                 </div>
                 <div class="delete-refresh">
-                  <img src="assets/icons/refresh-table.svg" *ngIf="source.extractionType == 'webdomain' && statusObj[source.recentStatus]?.name != 'In Progress' && source.recentStatus !== 'configured'&&source.recentStatus !== 'failed'&&source.recentStatus != 'queued'" ngbTooltip='Recrawl' container="body" (click)="recrwal('source',source,$event)">
-                  <img src="assets/icons/refresh-table.svg" *ngIf="source.extractionType == 'webdomain' && source.recentStatus == 'configured'||source.recentStatus == 'failed'&&source.recentStatus != 'queued'" [ngbTooltip]='source.recentStatus==="failed"?"Validate":"Crawl"' container="body" (click)="jobOndemand(source,$event)">
+                  <img src="assets/icons/refresh-table.svg" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' && source.recentStatus !== 'configured'&&source.recentStatus !== 'failed'&&source.recentStatus != 'queued'" ngbTooltip='Recrawl' container="body" (click)="recrwal('source',source,$event)">
+                  <img src="assets/icons/refresh-table.svg" *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'||source.recentStatus == 'failed'&&source.recentStatus != 'queued'" [ngbTooltip]='source.recentStatus==="failed"?"Validate":"Crawl"' container="body" (click)="jobOndemand(source,$event)">
                   <img src="assets/icons/content/stop.svg" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'" ngbTooltip='Stop' container="body" (click)="stopCrwaling(source,$event)"> 
                   <img src="assets/icons/content/delete.svg" (click)="deletePages('source',source,$event)" ngbTooltip='Delete'>
                 </div>
