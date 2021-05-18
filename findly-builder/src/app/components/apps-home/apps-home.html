@@ -22,7 +22,7 @@
     </div> -->
 
 
-    <div *ngIf="emptyApp">
+    <div *ngIf="!emptyApp">
       <div class="onboarding-welcome-screen">
           <div class="img-block">
             <img src="assets/icons/onboarding-welcome.svg">
@@ -34,7 +34,7 @@
     </div>
 
 
-    <div class="findly-dashboard" *ngIf="!emptyApp">
+    <div class="findly-dashboard" *ngIf="emptyApp">
       <div class="main-heading d-none" role="doc-introduction">{{'WelcometoFindly' | translate}}</div>
       <div class="header-sec">
           <div class="row m-0 adjust-width">
