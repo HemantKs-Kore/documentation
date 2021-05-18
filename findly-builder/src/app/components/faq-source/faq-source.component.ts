@@ -45,14 +45,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   noManulaRecords: boolean = false;
   selectedApp: any = {};
   fileName: ' ';
-  extractedResources: any =[];
+  extractedResources: any = [];
   resources: any = [];
-  filters:  any =[];
+  filters: any = [];
   polingObj: any = {};
   faqUpdate: Subject<void> = new Subject<void>();
   filterObject = {};
   manualFilterSelected = false;
-  showResponse :boolean;
+  showResponse: boolean;
   faqSelectionObj: any = {
     selectAll: false,
     selectedItems: {},
@@ -154,7 +154,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getStats(null,true);
+    this.getStats(null, true);
     // this.getfaqsBy();
     this.getSourceList();
     this.userInfo = this.authService.getUserInfo() || {};
@@ -286,7 +286,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.faqSelectionObj.selectedCount = Object.keys(this.faqSelectionObj.selectedItems).length;
     }
   }
-  resetCheckboxSelect(){
+  resetCheckboxSelect() {
     this.faqSelectionObj = {
       selectAll: false,
       selectedItems: {},
@@ -295,19 +295,19 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       loadingStats: true
     }
   }
-  selectAllPartially(){
-  
+  selectAllPartially() {
+
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
     if (selectedElements.length !== this.faqs.length) {
       this.faqSelectionObj.selectAll = true;
       this.selectAll();
-      setTimeout(()=>{
+      setTimeout(() => {
         this.faqSelectionObj.selectAll = false;
-      },100)
-    }else{
+      }, 100)
+    } else {
       this.selectAll(true);
     }
-    if((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount== this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved )){
+    if ((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved)) {
       $('#selectAllFaqs')[0].checked = true;
       this.faqSelectionObj.selectAll = true;
     } else {
@@ -315,11 +315,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.faqSelectionObj.selectAll = false;
     }
   }
-  headerSelectAll(){
+  headerSelectAll() {
     this.selectAll();
-    if((this.selectedtab === 'draft' && this.faqs.length == this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqs.length == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqs.length == this.faqSelectionObj.stats.approved )){
+    if ((this.selectedtab === 'draft' && this.faqs.length == this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqs.length == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqs.length == this.faqSelectionObj.stats.approved)) {
       this.faqSelectionObj.selectAll = true;
-    }else{
+    } else {
       this.faqSelectionObj.selectAll = false;
     }
   }
@@ -340,9 +340,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
   }
-  selectAllRecords(){
-this.faqSelectionObj.selectAll = true;
-this.selectAll();
+  selectAllRecords() {
+    this.faqSelectionObj.selectAll = true;
+    this.selectAll();
   }
   checkUncheckfaqs(faq) {
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
@@ -351,7 +351,7 @@ this.selectAll();
     const element = $('#selectFaqCheckBox_' + faq._id);
     const addition = element[0].checked
     this.addRemoveFaqFromSelection(faq._id, addition);
-    if((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount== this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved )){
+    if ((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved)) {
       $('#selectAllFaqs')[0].checked = true;
       this.faqSelectionObj.selectAll = true;
     } else {
@@ -361,7 +361,7 @@ this.selectAll();
     this.singleSelectedFaq = faq;
   }
 
-  markSelectedFaqs(faqs){
+  markSelectedFaqs(faqs) {
     if (this.faqSelectionObj.selectAll) {
       faqs.forEach((e) => {
         $('#selectFaqCheckBox_' + e._id)[0].checked = true;
@@ -517,7 +517,7 @@ this.selectAll();
     }, errRes => {
     });
   }
-  getStats(resourceId?,isInitialFaqCall?) {
+  getStats(resourceId?, isInitialFaqCall?) {
     console.log("resourceId", resourceId)
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -541,9 +541,9 @@ this.selectAll();
         }
         else {
           this.noManulaRecords = false;
-        } 
+        }
       }
-      if(isInitialFaqCall){
+      if (isInitialFaqCall) {
         if (this.faqSelectionObj.stats.draft) {
           this.selectTab('draft')
         } else if (this.faqSelectionObj.stats.in_review) {
@@ -631,13 +631,13 @@ this.selectAll();
       if (serviceId === 'get.allFaqs') {
         this.faqsAvailable = res.length ? true : false;
       }
-      setTimeout(()=> {
+      setTimeout(() => {
         this.markSelectedFaqs(this.faqs);
       }, 100)
       // setTimeout(()=> {
       //   this.selectAll()
       // }, 1)
-    
+
       this.editfaq = null
       this.apiLoading = false;
       this.loadingFaqs = false;
@@ -712,17 +712,17 @@ this.selectAll();
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = [...res];
-      if(res &&res.length){
-        res.forEach((d:any)=>{
-        if(d.extractedFaqsCount === 0){
-        let index = this.resources.findIndex((f)=>f._id == d._id);
-        if(index>-1){
-        this.resources.splice(index,1);
-        }
-        }
-      });
-    }
-    res = [...this.resources];
+      if (res && res.length) {
+        res.forEach((d: any) => {
+          if (d.extractedFaqsCount === 0) {
+            let index = this.resources.findIndex((f) => f._id == d._id);
+            if (index > -1) {
+              this.resources.splice(index, 1);
+            }
+          }
+        });
+      }
+      res = [...this.resources];
       this.resources.forEach(element => {
         if (element.advanceSettings && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time) {
           element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' at ' +
@@ -953,11 +953,11 @@ this.selectAll();
   }
   faqUpdateEvent() {
     this.faqUpdate.next();
-    setTimeout(() =>{
+    setTimeout(() => {
       this.selectTab('draft');
-    this.faqCancle();
-     },500);
-     
+      this.faqCancle();
+    }, 500);
+
   }
   editThisQa() {
     this.showSourceAddition = false
@@ -1017,6 +1017,7 @@ this.selectAll();
     }
   }
   updateFaq(faq, action, params, isFollowUpUpdate?) {
+    console.log("faq, action, params", faq, action, params)
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       faqId: faq._id,
@@ -1058,7 +1059,7 @@ this.selectAll();
       this.editfaq = false;
       this.closeEditFAQModal();
       this.closeAddsourceModal();
-      
+
     }, errRes => {
       this.errorToaster(errRes, 'Somthing went worng');
     });
@@ -1086,10 +1087,10 @@ this.selectAll();
     } else {
       const selectedElements = $('.selectEachfaqInput:checkbox:checked');
       const sekectedFaqsCollection: any = [];
-      Object.keys(this.faqSelectionObj.selectedItems).forEach((key)=>{
+      Object.keys(this.faqSelectionObj.selectedItems).forEach((key) => {
         const tempobj = {
-                _id: key
-              }
+          _id: key
+        }
         sekectedFaqsCollection.push(tempobj);
       });
       // if (selectedElements && selectedElements.length) {
@@ -1117,13 +1118,13 @@ this.selectAll();
       }
       this.getStats();
       this.editfaq = null
-      if(state !='in_review' && state !='approved'){
+      if (state != 'in_review' && state != 'approved') {
         this.notificationService.notify(custSucessMsg, 'success');
       }
-      if(state ==  'in_review'){
+      if (state == 'in_review') {
         this.notificationService.notify('Sent for Review', 'success');
       }
-      else if(state ==  'approved'){
+      else if (state == 'approved') {
         this.notificationService.notify('Approved', 'success');
       }
       if (dialogRef) {
@@ -1159,7 +1160,7 @@ this.selectAll();
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       contentId: faq._id,
-      sourceId : Math.random().toString(36).substr(7)
+      sourceId: Math.random().toString(36).substr(7)
     }
     this.service.invoke('delete.structuredData', quaryparms).subscribe(res => {
       dialogRef.close();
@@ -1289,7 +1290,7 @@ this.selectAll();
           console.log('deleted')
         }
       })
-       
+
   }
   addFollowUp(faq, event) {
     this.editfaq = false;
@@ -1419,19 +1420,19 @@ this.selectAll();
       if (conditions.length > 2) {
         return true;
       } else {
-        for(let i=0;i<conditions.length;i++) {
-           if((conditions[0].value.length>4 && i==0) || (conditions.length ==2 && conditions[1].value.length>2 && i==1)|| (conditions[0].value.length==2 && i==0 && (conditions[0].value[0].length + (conditions[0].value.length==2?(conditions[0].value[1].length):0))>14 && conditions.length !==1 )||(conditions[0].value.length>2 && i==0 && conditions[0].operator=='between')){
-             return true
-           }
+        for (let i = 0; i < conditions.length; i++) {
+          if ((conditions[0].value.length > 4 && i == 0) || (conditions.length == 2 && conditions[1].value.length > 2 && i == 1) || (conditions[0].value.length == 2 && i == 0 && (conditions[0].value[0].length + (conditions[0].value.length == 2 ? (conditions[0].value[1].length) : 0)) > 14 && conditions.length !== 1) || (conditions[0].value.length > 2 && i == 0 && conditions[0].operator == 'between')) {
+            return true
+          }
         }
       }
     }
     return false;
   }
-  showConditions(conditions, ruleIndex){
-    if((conditions[0].value.length<3 && ruleIndex==1 &&  (conditions[0].value[0].length + (conditions[0].value.length==2?(conditions[0].value[1].length):0)<14)) ||ruleIndex==0 ){
+  showConditions(conditions, ruleIndex) {
+    if ((conditions[0].value.length < 3 && ruleIndex == 1 && (conditions[0].value[0].length + (conditions[0].value.length == 2 ? (conditions[0].value[1].length) : 0) < 14)) || ruleIndex == 0) {
       return true;
-    }else{
+    } else {
       return false;
     }
     return true;

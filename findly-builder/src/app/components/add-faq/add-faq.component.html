@@ -46,7 +46,7 @@
       <div *ngIf="responseObj.type==='javascript'" class="-ml-20">
          <ngx-codemirror #codemirror [options]="codeMirrorOptions" [(ngModel)]="responseObj.payload" (ngModelChange)="setEditorContent($event,responseObj,type,index)"> </ngx-codemirror>
       </div>
-      <textarea [perfectScrollbar]="config" *ngIf="responseObj.type==='string'"   (focus)="selectCurrentFocusedResponse(id,responseObj,type,index)"  [(ngModel)]="responseObj.payload" class="input-text" style="padding-bottom: 40px;" id="mainChatInputContainer{{type}}_{{index}}"></textarea>
+      <textarea [perfectScrollbar]="config" *ngIf="responseObj.type==='string'"   (focus)="selectCurrentFocusedResponse(id,responseObj,type,index)"  [(ngModel)]="responseObj.text" class="input-text" style="padding-bottom: 40px;" id="mainChatInputContainer{{type}}_{{index}}"></textarea>
       <div *ngIf="responseObj.type==='external'" class="external-tab-content" >
         <div class="kr-sg-dropdowns mb-3">
           <div class="label-text">Source</div>
@@ -84,7 +84,7 @@
           </div>
           <ng-container>
             <div class="desc-info" *ngIf="responseObj.type==='string'"
-              [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(responseObj.payload)'></div>
+              [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(responseObj.text)'></div>
             <div class="desc-info desc-info-javascript-message" *ngIf="responseObj.type==='javascript'">
               </div>
           </ng-container>
@@ -149,7 +149,7 @@
       <div class="bottom_sec ">
         <div class="col-12 left_sec editResponseMode">        
           <div class="content-data">
-              <ng-container    *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+              <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
           </div>
         </div>  
         <div class="col-12 right_sec previewResponseMode d-none"> 

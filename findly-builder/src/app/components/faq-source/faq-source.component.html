@@ -147,8 +147,8 @@
                                                     <label [attr.for]="'selectFaqCheckBox_' + faq._id" class="checkbox-custom-label"></label>
                                                 </div>
                                                 <div class="title-desc-sec">
-                                                    <div class="title">{{faq._source.question}}</div>
-                                                    <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq._source.defaultAnswers[0].payload)'></div>
+                                                    <div class="title">{{faq._source.faqQuestion}}</div>
+                                                    <div class="desc" *ngIf="faq && faq._source.faqAnswer && faq._source.faqAnswer.length && faq._source.faqAnswer[0]" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq._source.faqAnswer[0].text)'></div>
                                                     <!-- <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='javascript'">Javascript message</div> -->
                                                 </div>
                                             </div>
@@ -158,7 +158,7 @@
                                             <div class="cardbody">
                                                 <ng-container  *ngIf="faq._meta.followupQuestions && faq._meta.followupQuestions.length">
                                                     <div class="acc-inner-que" (click)="selectedFaqToTrain(followUpQuestion, $event);$event.stopImmediatePropagation();"  [ngClass]="{'is-checked':(selectedFaq && selectedFaq._id===followUpQuestion._id) ||  ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" *ngFor="let followUpQuestion of faq._meta.followupQuestions">
-                                                        <div class="title">{{followUpQuestion._source.question}}</div>
+                                                        <div class="title">{{followUpQuestion._source.faqQuestion}}</div>
                                                         <ng-container *ngIf="followUpQuestion._source && followUpQuestion._source.defaultAnswers && followUpQuestion._source.defaultAnswers.length">
                                                             <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(followUpQuestion._source.defaultAnswers[0].payload)'></div>
                                                            <!-- <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='javascript'">Javascript message</div> -->
@@ -450,7 +450,7 @@
                                 <div class="question-content">
                                     <div class="shadow-div">
                                         <div class="title-que">
-                                            <span class="">{{selectedFaq._source.question}}</span>                                       
+                                            <span class="">{{selectedFaq._source.faqQuestion}}</span>                                       
                                             <button  class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
                                         </div>
                                         <div class="keywords">
@@ -460,12 +460,12 @@
                                     </div> 
                                     <div class="pad-div">
                                         <div class="bot-response-view-mode" >
-                                            <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.defaultAnswers && selectedFaq._source.defaultAnswers.length">
-                                                <ng-container *ngFor="let answer of selectedFaq._source.defaultAnswers ;let i = index;">
+                                            <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.faqAnswer && selectedFaq._source.faqAnswer.length">
+                                                <ng-container *ngFor="let answer of selectedFaq._source.faqAnswer ;let i = index;">
                                                     
 
                                                     <div class="response-title-bg row">
-                                                        <div class="bot-response-title col-6">Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div>
+                                                        <div class="bot-response-title col-6">Response <span *ngIf="(selectedFaq._source.faqAnswer.length > 1) || (selectedFaq._source.faqCondAnswers && selectedFaq._source.faqCondAnswers.length)">{{ ' ' + (i + 1)}}</span></div>
                                                         <div class="response-likes-views-sec d-flex col-6">
                                                             <div class="count-sec" >
                                                                 <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{(selectedFaq.stats.appearances || []).length ?selectedFaq.stats.appearances[0][0]: 0}}
@@ -486,18 +486,18 @@
                                                     <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
                                                         <img src="{{answer.multimedia.url}}">
                                                     </div>
-                                                    <div class="desc-info" *ngIf="answer.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.payload)'></div>
+                                                    <div class="desc-info" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.text)'></div>
                                                     <!-- <div class="desc-info desc-info-javascript-message" *ngIf="answer.type==='javascript'">Javascript message</div> -->
                                                 </ng-container> 
                                             </ng-container>   
                                         </div>
                                         <div class="conditionalBlock bot-response-view-mode" >
-                                            <ng-container *ngIf="selectedFaq && selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length">
-                                            <ng-container *ngFor="let consitionalAnswer of selectedFaq._source.conditionalAnswers; let i = index;">
+                                            <ng-container *ngIf="selectedFaq && selectedFaq._source.faqCondAnswers && selectedFaq._source.faqCondAnswers.length">
+                                            <ng-container *ngFor="let consitionalAnswer of selectedFaq._source.faqCondAnswers; let i = index;">
 
                                                 
                                                 <div class="response-title-bg row">
-                                                    <div class="bot-response-title col-6">Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.defaultAnswers?selectedFaq._source.defaultAnswers.length:0))}}</span></div>
+                                                    <div class="bot-response-title col-6">Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.faqAnswer?selectedFaq._source.faqAnswer.length:0))}}</span></div>
                                                     <div class="response-likes-views-sec d-flex col-6">
                                                         <div class="count-sec" >
                                                             <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{selectedFaq.stats.appearances?selectedFaq.stats.appearances[0][0]: 0}}
@@ -712,7 +712,7 @@
                                     <li *ngFor="let docType of docTypeArr" 
                                     (click)="sourceFilter.close();filterTable(docType,'contentSource')">
                                       <span
-                                        class="list-name">{{ docType == 'webdomain' ? 'WEB' : 'DOC' }}</span><img
+                                        class="list-name">{{ docType == 'web' ? 'WEB' : 'DOC' }}</span><img
                                         [ngClass]="{'hide': filterSystem.typefilter !== docType}"  src="assets/icons/check-blue.svg">
                                     </li>
                                   </ul>
@@ -752,7 +752,7 @@
                     <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
                     <div class="content-body" *ngFor="let source of extractedResources | filter: [ searchSources, 'name']">
                         <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name | titlecase}}</div>
-                        <div class="col_ col-2">{{contentTypes[source.contentSource] | titlecase}}</div>
+                        <div class="col_ col-2">{{source.contentSource | titlecase}}</div>
                         <div class="col_ col-3">
                             <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}
                                 <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
