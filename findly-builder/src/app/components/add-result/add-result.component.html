@@ -16,7 +16,7 @@
                       <li (click) = "resultClick('faq')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'FAQ'}">FAQ</a></li>
                       <li (click) = "resultClick('content')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Content'}">Content</a></li>
                       <li (click) = "resultClick('task')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Bot Action'}">Bot Action</a></li>
-                      <li (click) = "resultClick('structuredData')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Structured Data'}">Structured Data</a></li>
+                      <li (click) = "resultClick('data')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Structured Data'}">Structured Data</a></li>
                       <li (click) = "resultClick('all')"><a [ngClass]="{'sel-bold' : searchRadioTypeTxt == 'Any'}">Any</a></li>
                     </ul>
                   </div>
@@ -66,7 +66,7 @@
                                         <label [attr.for]="i" class="checkbox-custom-label"></label>
                                     </div>
                                     <div class="title-desc-sec" *ngIf="searchType == 'faq'">
-                                        <div class="title">{{ result.question}}</div>
+                                        <div class="title">{{ result.faqQuestion}}</div>
                                         <div class="desc" >{{ result.answer}}</div>
                                     </div>
                                 </div>
@@ -95,15 +95,15 @@
                                         <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
                                         <label [attr.for]="i" class="checkbox-custom-label"></label>
                                     </div>
-                                    <div class="title-desc-sec" *ngIf="result.__contentType == 'page'">
+                                    <div class="title-desc-sec" *ngIf="result.sysContentType == 'content'">
                                         <div class="title">{{ result.pageTitle}}</div>
                                         <div class="desc" >{{ result.searchResultPreview}}</div>
                                     </div>
-                                    <div class="title-desc-sec" *ngIf="result.__contentType == 'faq'">
-                                        <div class="title">{{ result.question}}</div>
+                                    <div class="title-desc-sec" *ngIf="result.sysContentType == 'faq'">
+                                        <div class="title">{{ result.faqQuestion}}</div>
                                         <div class="desc" >{{ result.answer}}</div>
                                     </div>
-                                    <div class="title-desc-sec" *ngIf="result.__contentType == 'task'">
+                                    <div class="title-desc-sec" *ngIf="result.sysContentType == 'task'">
                                         <div class="title">{{ result.title}}</div>
                                         <div class="desc" >{{ result.searchResultPreview}}</div>
                                     </div>
@@ -123,7 +123,7 @@
                                             <div class="title-desc-sec">
                                                 <!-- <div class="title">{{ data._source.pageTitle}}</div> -->
                                                 <div class="title">{{ result.pageTitle }}</div>
-                                                <div class="desc" *ngIf="result.pageSearchResultPreview;else body">{{ result.pageSearchResultPreview}}</div>
+                                                <div class="desc" *ngIf="result.pagePreview;else body">{{ result.pagePreview}}</div>
                                                 <ng-template #body>
                                                     <div class="desc">{{result.searchResultPreview}}</div>
                                                 </ng-template>
@@ -190,7 +190,7 @@
                       <li (click) = "resultClick('faq')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'FAQ'}">FAQ</a></li>
                       <li (click) = "resultClick('content')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Content'}">Content</a></li>
                       <li (click) = "resultClick('task')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Bot Action'}">Bot Action</a></li>
-                      <li (click) = "resultClick('object')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Structured Data'}">Structured Data</a></li>
+                      <li (click) = "resultClick('data')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Structured Data'}">Structured Data</a></li>
                       <li (click) = "resultClick('all')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Any'}">Any</a></li>
                     </ul>
                   </div>
@@ -216,7 +216,7 @@
                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
                             </div>
                             <div class="tiltles-sec">
-                                <div class="primary-tiitle">{{ result.question}}</div>
+                                <div class="primary-tiitle">{{ result.faqQuestion}}</div>
                                 <div class="secondary-title">{{ result.answer}}</div>
                             </div>                                                
                         </div>
@@ -235,15 +235,15 @@
                                 <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
                             </div>                                                          
-                            <div class="tiltles-sec" *ngIf="result.__contentType == 'page'">
+                            <div class="tiltles-sec" *ngIf="result.sysContentType == 'content'">
                                 <div class="primary-tiitle">{{ result.pageTitle}}</div>
                                 <div class="secondary-title" >{{ result.searchResultPreview}}</div>
                             </div>
-                            <div class="tiltles-sec" *ngIf="result.__contentType == 'faq'">
-                                <div class="primary-tiitle">{{ result.question}}</div>
+                            <div class="tiltles-sec" *ngIf="result.sysContentType == 'faq'">
+                                <div class="primary-tiitle">{{ result.faqQuestion}}</div>
                                 <div class="secondary-title" >{{ result.answer}}</div>
                             </div>
-                            <div class="tiltles-sec" *ngIf="result.__contentType == 'task'">
+                            <div class="tiltles-sec" *ngIf="result.sysContentType == 'task'">
                                 <div class="primary-tiitle">{{ result.title}}</div>
                                 <div class="secondary-title" >{{ result.searchResultPreview}}</div>
                             </div>
@@ -255,7 +255,7 @@
                             </div>
                             <div class="tiltles-sec">
                                 <div class="primary-tiitle">{{ result.pageTitle }}</div>
-                                <div class="secondary-title" *ngIf="result.pageSearchResultPreview;else body">{{ result.pageSearchResultPreview}}</div>                               
+                                <div class="secondary-title" *ngIf="result.pagePreview;else body">{{ result.pagePreview}}</div>                               
                                 <ng-template #body>
                                     <div class="secondary-title">{{result.searchResultPreview}}</div>
                                 </ng-template>

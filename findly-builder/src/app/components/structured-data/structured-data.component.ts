@@ -29,7 +29,7 @@ export class StructuredDataComponent implements OnInit {
       description: 'Import from JSON or CSV',
       icon: 'assets/icons/content/database-Import.svg',
       id: 'contentStucturedDataImport',
-      sourceType: 'object',
+      sourceType: 'data',
       resourceType: 'structuredData'
     },
     {
@@ -37,7 +37,7 @@ export class StructuredDataComponent implements OnInit {
       description: 'Add structured data manually',
       icon: 'assets/icons/content/database-add.svg',
       id: 'contentStucturedDataAdd',
-      sourceType: 'object',
+      sourceType: 'data',
       resourceType: 'structuredDataManual'
     }
   ];

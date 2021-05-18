@@ -7142,7 +7142,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return false;
       }
     }
-    FindlySDK.prototype.initialize = function (findlyConfig) {
+    FindlySDK.prototype.initialize = function (findlyConfig, fromTopDown) {
       var _self = this;
       var _findlyConfig = findlyConfig;
       if (findlyConfig.botOptions) {
@@ -7166,6 +7166,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.isDev = true;
       }*/
       if (window.appConfig.API_SERVER_URL) {
+        _self.baseAPIServer = window.appConfig.API_SERVER_URL;
+      }
+      if(fromTopDown) {
         _self.baseAPIServer = window.appConfig.API_SERVER_URL + '/searchassistapi/';
       }
       if (findlyConfig.autoConnect) {
@@ -15961,7 +15964,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
 
     FindlySDK.prototype.designStructuredDataWithMappings = function (data, mapping) {
-      var data = [];
+      var dataArr = [];
       if (data && data.length && mapping && Object.values(mapping).length) {
         data.forEach(obj => {
           var item = {};
@@ -15995,9 +15998,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.sysContentType = obj.sysContentType;
           item.contentId = obj.contentId;
           item.addedResult = (obj.addedResult || (obj.addedResult == false)) ? obj.addedResult : false;
-          data.push(item);
+          dataArr.push(item);
         });
-        return data;
+        return dataArr;
       }
     }
 
@@ -20335,7 +20338,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('#conversation-container').hide();
       $('.show-result').hide();
       findlyConfig.autoConnect = true;
-      _self.initialize(findlyConfig);
+      _self.initialize(findlyConfig, _self.isDev);
       _self.initializeTopSearchTemplate();
       if ($('.search-background-div').length) {
         $('.search-background-div').remove();

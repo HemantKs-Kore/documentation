@@ -4,9 +4,11 @@
 
     var botOptionsFindly = {};
     botOptionsFindly.logLevel = 'debug';
-    botOptionsFindly.koreAPIUrl = "https://dev.findly.ai/searchassistapi/";
+    botOptionsFindly.koreAPIUrl = "https://app.findly.ai/searchassistapi/";
     // botOptionsFindly.koreAPIUrl = "https://pilot.findly.ai/api/";
-    botOptionsFindly.baseAPIServer = "https://qa.findly.ai";
+    //botOptionsFindly.koreAPIUrl = "https://qa.findly.ai/api/";
+
+    botOptionsFindly.baseAPIServer = "https://app.findly.ai";
     function koreGenerateUUID() {
         console.info("generating UUID");
         var d = new Date().getTime();
@@ -37,47 +39,58 @@
     botOptionsFindly.userIdentity = koreGenerateUUID();// Provide users email id here
 
     // DEV Bot
-    /*botOptionsFindly.botInfo = { chatBot: "test dec 3", "taskBotId": "st-7ef118e7-a43f-5bed-97a7-f2b4727587fc" }; // bot name is case sensitive
-    botOptionsFindly.clientId = "cs-f5a88d48-db4d-5763-9ec8-fe2aa66ae39f";
-    botOptionsFindly.clientSecret = "wJ2Gu/nL54XJmT4dNIc3X74jsXuEoxl78SQFA4aoa3I=";
-    botOptionsFindly.searchIndexID = 'sidx-99a5826d-2fa0-5490-b989-1757c74a4b83';*/
+    // botOptionsFindly.botInfo = { chatBot: "test dec 3", "taskBotId": "st-7ef118e7-a43f-5bed-97a7-f2b4727587fc" }; // bot name is case sensitive
+    // botOptionsFindly.clientId = "cs-f5a88d48-db4d-5763-9ec8-fe2aa66ae39f";
+    // botOptionsFindly.clientSecret = "wJ2Gu/nL54XJmT4dNIc3X74jsXuEoxl78SQFA4aoa3I=";
+    // botOptionsFindly.searchIndexID = 'sidx-99a5826d-2fa0-5490-b989-1757c74a4b83';
+
 
     // APP BOT
-    botOptionsFindly.botInfo = { chatBot: "Dec_28", "taskBotId": "st-df349c43-cf62-5830-afdb-cfccca5cb140" }; // bot name is case sensitive
-    botOptionsFindly.clientId = "cs-a347ca42-5806-5b8b-9abe-21ff270d37d7";
-    botOptionsFindly.clientSecret = "gKcxfWMzLjn/azqb6H93PzIyEhD7nU0tJ36N8fgSbTQ=";
-    botOptionsFindly.searchIndexID = 'sidx-687fcd01-bd24-5de3-bdba-3ee58f7e8cfd';
-    
-    // PILOT Bot
-    /*botOptionsFindly.botInfo = { chatBot: "Future Bank Copy", "taskBotId": "st-c877d8bd-8383-5472-ab69-8410ac17cd4d" };
-    botOptionsFindly.clientId = "cs-b63967bb-0599-5ec2-8e84-8af15028f86f";
-    botOptionsFindly.clientSecret = "Q9W/R5t2V03/aUtZ1O/M25ObJP5k/rQhHZPjC977o7o=";
-    botOptionsFindly.searchIndexID = "sidx-a0d5b74c-ef8d-51df-8cf0-d32617d3e66e";*/
+    // botOptionsFindly.botInfo = { chatBot: "Dec_28", "taskBotId": "st-df349c43-cf62-5830-afdb-cfccca5cb140" }; // bot name is case sensitive
+    // botOptionsFindly.clientId = "cs-a347ca42-5806-5b8b-9abe-21ff270d37d7";
+    // botOptionsFindly.clientSecret = "gKcxfWMzLjn/azqb6H93PzIyEhD7nU0tJ36N8fgSbTQ=";
+    // botOptionsFindly.searchIndexID = 'sidx-687fcd01-bd24-5de3-bdba-3ee58f7e8cfd';
+    botOptionsFindly.botInfo = { chatBot: "May 18 _new App", "taskBotId": "st-a95f1110-084b-5896-ab38-d3d388d1cdfa" };
+    botOptionsFindly.clientId = "cs-b8d3d909-8a88-5ad0-a4a8-b48e1cdf7aff";
+    botOptionsFindly.clientSecret = "CFwHe+U4J5Mvp8ou9t007HevMuUPq5sZP/O2BGIHZCA=";
+    botOptionsFindly.searchIndexID = "sidx-6fe3a445-bdad-505d-a356-7aec3f4fc422";
 
-    // To modify the web socket url use the following option
+    // PILOT Bot
+    // botOptionsFindly.botInfo = { chatBot: "Future Bank Copy", "taskBotId": "st-c877d8bd-8383-5472-ab69-8410ac17cd4d" };
+    // botOptionsFindly.clientId = "cs-b63967bb-0599-5ec2-8e84-8af15028f86f";
+    // botOptionsFindly.clientSecret = "Q9W/R5t2V03/aUtZ1O/M25ObJP5k/rQhHZPjC977o7o=";
+    // botOptionsFindly.searchIndexID = "sidx-a0d5b74c-ef8d-51df-8cf0-d32617d3e66e";
 
     // QA Bot
-    botOptionsFindly.botInfo = { chatBot: "Banking", "taskBotId": "st-d5c37122-f0c3-5333-8589-edf28f72cdf2" }; // bot name is case sensitive
-    botOptionsFindly.clientId = "cs-ad613458-d1b9-5769-8cef-5cbe59736275";
-    botOptionsFindly.clientSecret = "hosn1S33tpQa0IYdSSCwKCC0oMcapBUscFe8sqD/kUk=";
-    botOptionsFindly.searchIndexID = 'sidx-c663e4eb-7f90-5ce3-b96e-1b55640d96f1'; 
+    // botOptionsFindly.botInfo = { chatBot: "Banking", "taskBotId": "st-d5c37122-f0c3-5333-8589-edf28f72cdf2" }; // bot name is case sensitive
+    // botOptionsFindly.clientId = "cs-ad613458-d1b9-5769-8cef-5cbe59736275";
+    // botOptionsFindly.clientSecret = "hosn1S33tpQa0IYdSSCwKCC0oMcapBUscFe8sqD/kUk=";
+    // botOptionsFindly.searchIndexID = 'sidx-c663e4eb-7f90-5ce3-b96e-1b55640d96f1'; 
+    // To modify the web socket url use the following option
+
+    //For Socket Connection in APP
+    // botOptionsFindly.reWriteSocketURL = {
+    //     protocol: 'wss',
+    //     hostname: 'app.findly.ai'
+    // }; 
 
     // For Socket Connection in DEV
-    /*botOptionsFindly.reWriteSocketURL = {
-        protocol: 'wss',
-        hostname: 'dev.findly.ai'
-    };*/
-
-    // For Socket Connection in PILOT
-    /*botOptionsFindly.reWriteSocketURL = {
-        protocol: 'wss',
-        hostname: 'pilot.findly.ai'
-    };*/
-    // For Socket Connection in QA
     botOptionsFindly.reWriteSocketURL = {
         protocol: 'wss',
-        hostname: 'qa.findly.ai'
-    };
+        hostname: 'app.findly.ai'
+    }; 
+
+    // For Socket Connection in PILOT
+    // botOptionsFindly.reWriteSocketURL = {
+    //     protocol: 'wss',
+    //     hostname: 'pilot.searchassist.ai'
+    // };
+
+    // For Socket Connection in QA
+    // botOptionsFindly.reWriteSocketURL = {
+    //     protocol: 'wss',
+    //     hostname: 'qa.findly.ai'
+    // };
     // CVS Caremark configs //
     if (window.location && window.location.href && window.location.href.includes('#cvs')) {
         botOptionsFindly.botInfo = { chatBot: "careMark", "taskBotId": "st-bd231a03-1ab7-58fb-8862-c19416471cdb" };
