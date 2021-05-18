@@ -1098,7 +1098,7 @@ input:focus{
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .tab-sec {
   display: inline-block;
-  padding: 20px 30px;
+  padding: 20px 20px;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .tab-sec .tab-name {
   float: left;
@@ -1119,11 +1119,16 @@ input:focus{
   height: 2px;
 }
 
-
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .filters-added-data{
-  padding: 20px 20px 0px 20px;
+  padding: 0px 4px 0px 10px;
   display: inline-block;
   width: 100%;
+}
+.topdown-search-main-container .all-result-container .full-results-data-container .all-product-details #top-down-tab-sec{
+  padding-bottom: 22px;
+}
+.topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .filters-added-data .facets-padding{
+  padding: 0px 0px 0px 11px;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .filters-added-data .filter-tag-content{
   /* float: left; */
@@ -1209,7 +1214,7 @@ input:focus{
     position: relative;
   }
   .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .tab-sec{
-    padding: 20px 10px;
+    padding: 20px 10px 0px;
   }
 
   .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .content-data-sec{
@@ -1615,15 +1620,15 @@ float: right;
 .topdown-search-main-container  .horizantal-filter-sec {
   display: inline-block;
   width: calc(100% - 40px);
-  margin: 0px;
+  margin: 0px 5px;
   padding-bottom: 8px;
   /* border-bottom: 1px solid #E4E5E7; */
   }
   .topdown-search-main-container .horizantal-filter-sec .dropdown_custom_filter {
   position: relative;
   float: left;
-  width: 20%;
-  margin: 12px 5px;
+  width: 165px;
+  margin: 0px 5px 10px;
   }
   .topdown-search-main-container .horizantal-filter-sec .dropdown_custom_filter .dropbtn {
   cursor: pointer;
@@ -1697,8 +1702,8 @@ float: right;
   cursor: pointer;
   }
   .sdk-top-down-interface .action-bar{
-  padding:13px 16px !important;
-  height: 59px;
+    padding: 12px 16px !important;
+    height: 58px;
 }
 .sdk-top-down-interface .apply-btn{
     font-size: 12px;
@@ -1721,6 +1726,10 @@ float: right;
     color: #FFFFFF;
     float: right;
     border: none !important;
+  }
+  .sdk-top-down-interface .top-down-top-facets-list{
+    width: 90%;
+    display: inline-block;
   }
   .sdk-top-down-interface .up-arrow{
     display: none;

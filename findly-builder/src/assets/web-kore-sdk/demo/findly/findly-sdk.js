@@ -2813,7 +2813,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.pubSub.publish('sa-search-result', tmplData);
         _self.pubSub.publish('sa-source-type', facets);
       }
-      if(_self.vars.selectedFacetFromSearch == 'all results'){
+      if(_self.vars.selectedFacetFromSearch == 'all results' || selectedFacet === "all results" || !selectedFacet || !_self.vars.selectedFacetFromSearch){
         $('.kore-sdk-pagination-div').hide();
       }else{
         $('.kore-sdk-pagination-div').show();
@@ -20260,14 +20260,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var selectedFacetTemplate = '<script id="selected_facet_tmpl" type="text/x-jqury-tmpl"> \
       {{if selectedFacets.length}} \
-      {{each(index, facet) selectedFacets}} \
-      <div class="filter-tag-content filters-content-top-down" data-facetType="${facet.fieldType}" data-facetName="${facet.facetName}" data-fieldName="${facet.fieldName}">\
-       <span class="filter-tag-name">${facet.name}</span>\
-         <span class="close-filter-tag" id="${facet.id}" >\
-            <img name="${facet.name}" value="${facet.name}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBbZHRDcIwDERju+zTSizSCWgl8sFM+Ug26AwsUDIGO9A05AChprV/osjPd2eZLtfbg2gZg3PRKDUMts3SeAaUV5kGa1sVYpkoLaPEeX525+4OGC/+FbSmPgQX6T9dFAETp968jNlC6FNl9YNNLo0NhOIqVFEC9Bk/1Xn5ELwowX6/oGjBtQVpD2mZ4cBZ2GsQCkf4xmj8GzsLeh0gnVcbAAAAAElFTkSuQmCC">\
-              </span>\
-              </div>\
-      {{/each}} \
+        <div class="{{if isTopFacets}}top-down-top-facets-list {{/if}} {{if !isTopFacets}}facets-padding{{/if}}">\
+        {{each(index, facet) selectedFacets}} \
+        <div class="filter-tag-content filters-content-top-down" data-facetType="${facet.fieldType}" data-facetName="${facet.facetName}" data-fieldName="${facet.fieldName}">\
+        <span class="filter-tag-name">${facet.name}</span>\
+          <span class="close-filter-tag" id="${facet.id}" >\
+              <img name="${facet.name}" value="${facet.name}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBbZHRDcIwDERju+zTSizSCWgl8sFM+Ug26AwsUDIGO9A05AChprV/osjPd2eZLtfbg2gZg3PRKDUMts3SeAaUV5kGa1sVYpkoLaPEeX525+4OGC/+FbSmPgQX6T9dFAETp968jNlC6FNl9YNNLo0NhOIqVFEC9Bk/1Xn5ELwowX6/oGjBtQVpD2mZ4cBZ2GsQCkf4xmj8GzsLeh0gnVcbAAAAAElFTkSuQmCC">\
+                </span>\
+                </div>\
+        {{/each}} \
+        </div>\
+        {{if isTopFacets}}\
+        <div class="filters-reset" style="padding: 4px 10px;">\
+              <div class="filters-reset-anchor">Clear all</div>\
+        </div>\
+        {{/if}}\
       {{/if}} \
       </script>';
       return selectedFacetTemplate;
@@ -20275,7 +20282,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.searchFacetsList = function (selectedFacetsList) {
       var _self = this;
       var dataHTML = $(_self.getSelectedFactedListTopDownTemplate()).tmplProxy({
-        selectedFacets: selectedFacetsList
+        selectedFacets: selectedFacetsList,
+        isTopFacets: _self.vars.filterConfiguration.aligned === 'top' ? true : false
       });
       $('#show-filters-added-data').empty().append(dataHTML);
       if ((selectedFacetsList || []).length) {
@@ -20289,6 +20297,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('#show-filters-added-data').addClass('display-none');
         $('.content-data-sec').removeClass('filter-added');
       }
+     
+
     }
     FindlySDK.prototype.sdkFiltersCheckboxClick = function () {
       var _self = this;
