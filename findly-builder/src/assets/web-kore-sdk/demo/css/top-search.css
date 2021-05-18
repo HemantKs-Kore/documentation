@@ -1191,7 +1191,7 @@ input:focus{
   }
 
   .topdown-search-main-container .all-result-container.right-align-filter .full-results-data-container .all-product-details .filters-added-data{
-    padding: 30px 10px 0px 10px;
+    padding: 0px 10px 0px 0px;
   }
 
   .topdown-search-main-container .all-result-container.right-align-filter .full-results-data-container .all-product-details .tab-sec{
