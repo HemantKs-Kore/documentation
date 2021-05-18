@@ -952,7 +952,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEYSURBVHgBlVLLUcMwEN1VKEBAA3I+Z1wClEAFuAQ6yFBBoIKYCmiBEsQZMt4KwLkTK7tSNI4tJTPZGVuzv/f2h5ARYxYlP2XQHBH9fI5jcJRQAXZLcKwotCHPBQAHL0SbOmWZzpemmDXGzO8zFVTexzF5BwucEPGFmFnVG0cGYTXTxZrf1TGYt3Os79GXhm5NzaaIyIBXzYDOwUMcEBOwTz0qyQWHX33U5DmpU+FTr8jQulJBKjqxdN02weLPAuLdEWKdJMLutXfLepAU0bdQQ1yD78X9F7y/NwasQ39EoT/ec4yJhkvXMZFf2/5arW+vmWGl9c22bf/sMEkmjx88xHe+Hl92/uS85/zJYb4s6RfNQbVhDkPZA7YFdnerG1SJAAAAAElFTkSuQmCC">\
                 <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBzVLBEYJADNxD/FtCdPg7doAlWIKVCJVYgiWoHeCf0etACwDOvRyMfphRfGBmCJlNdi+XCzC2Ge9kkezgkH1DJDOz1zLXWOaJE5HZp1xf6zk+jl+K8Z0gBlmnNoQT4UcbX0CHaG+l4WSFg9zDVRtgyrg5wNUrYvxXW0vr7SCQJ0fuwpl1D6AROHPRmJjPaU2fgJ4Mw/oya/GU30m7U8zYUNMnwBbpRDdSBc2SvtDuFHMSaoK9L10UTuH9XL1Gg7RNpkBVaEzM57oZ6Ptz6Xi1HH9hT/FGV798NRUBAAAAAElFTkSuQmCC">\
                 <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADgSURBVHgBzZJBEsFAEEX/jNhzg0bs3UCcgBvgJOImnMAROII9KX2E7IPRnYhKqVkkZRFvM9M183/1TH+gbUy5IRpPgIyFlCiM5WTjlziGRcxJsv8Y0DDcwCGW7RnuPpO1B3Qjv8EzgjFzvl37WgUVsTKBCY5qwnzZ+eTSqXaxLGsL51Zfd+QpnQg1CfiWDHLnQejEbM2c7NAAix9p3yCoe5FotJDxHWQCRa1/Jplo0MHjBM1JFWf21Q5SWDst5uwjO+Uh05zoqB22zNe4EuXRqoivIa/+LSAiTSlJ0M74C16gMU0xa7sy7wAAAABJRU5ErkJggg==">\
-                <img class="help-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE1SURBVHgBhVI7TsNAEH27cY8VOMA6OBJlcgLMCeAGNhUl4STACZLcAEoq3NG6RQTFXCCYjsJ4eJs48ieOMtJIo5k3b74KLTFmOAIkoOlSM0DFafqR1DGqAhsD5UxpjiAyZ4gJQh/OaaeQ/DqlNNiNd7o0xp+gQ6x/E7ddkGJTofcKUWRaxLUWr6jk/pyViQGUTCF/457rnkTQ+jddLh6rNvUbE97Z2o3bPzbZ9+oly1ap6/bHQO9MMxCisDNsxYk40x0rTCwrBFFtBTPiL2E8X7BHbEt2loaPeGdvwsC/X1cRfdGOaWqyHrItBX64Zq9+oxKXaLI9Q6uwqxpXlzU9EhI/Z6X8AVIEndXQnI9LICZ/Kh0HjjsY3jaOWzFt38i+jo55hi+6j4jgMsC5qjdSu20cfth/n92EMGjOb2IAAAAASUVORK5CYII=">\
+                <img class="help-icon display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE1SURBVHgBhVI7TsNAEH27cY8VOMA6OBJlcgLMCeAGNhUl4STACZLcAEoq3NG6RQTFXCCYjsJ4eJs48ieOMtJIo5k3b74KLTFmOAIkoOlSM0DFafqR1DGqAhsD5UxpjiAyZ4gJQh/OaaeQ/DqlNNiNd7o0xp+gQ6x/E7ddkGJTofcKUWRaxLUWr6jk/pyViQGUTCF/457rnkTQ+jddLh6rNvUbE97Z2o3bPzbZ9+oly1ap6/bHQO9MMxCisDNsxYk40x0rTCwrBFFtBTPiL2E8X7BHbEt2loaPeGdvwsC/X1cRfdGOaWqyHrItBX64Zq9+oxKXaLI9Q6uwqxpXlzU9EhI/Z6X8AVIEndXQnI9LICZ/Kh0HjjsY3jaOWzFt38i+jo55hi+6j4jgMsC5qjdSu20cfth/n92EMGjOb2IAAAAASUVORK5CYII=">\
                 <img class="elipse-overflow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAADCAYAAABI4YUMAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABUSURBVHgBhcrBDYAgEETRiW4BSCzAo11YgpZgCZZgJ1qClmBDQgEkMFzgBPxkD/sy/cSUHi816Nma/wNrWQfIBo94J1KyV+wQwD2Elc+bB+6mLSULWI0gebajC9UAAAAASUVORK5CYII=">\
                 <img class="close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
               </div>\
@@ -1089,7 +1089,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         </div>\
         <div class="filters-body">\
           {{each(i, searchFacet) searchFacets}}\
-            <div class="filters-content" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+            <div class="filters-content" data-facetType="${searchFacet.facetType}" data-facetName="${searchFacet.facetName}" data-fieldName="${searchFacet.fieldName}">\
               <div class="filters-content-heading">${searchFacet.facetName}</div>\
               {{each(j, bucket) searchFacet.buckets}}\
                 {{if searchFacet.facetType == "value"}}\
@@ -1127,7 +1127,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEYSURBVHgBlVLLUcMwEN1VKEBAA3I+Z1wClEAFuAQ6yFBBoIKYCmiBEsQZMt4KwLkTK7tSNI4tJTPZGVuzv/f2h5ARYxYlP2XQHBH9fI5jcJRQAXZLcKwotCHPBQAHL0SbOmWZzpemmDXGzO8zFVTexzF5BwucEPGFmFnVG0cGYTXTxZrf1TGYt3Os79GXhm5NzaaIyIBXzYDOwUMcEBOwTz0qyQWHX33U5DmpU+FTr8jQulJBKjqxdN02weLPAuLdEWKdJMLutXfLepAU0bdQQ1yD78X9F7y/NwasQ39EoT/ec4yJhkvXMZFf2/5arW+vmWGl9c22bf/sMEkmjx88xHe+Hl92/uS85/zJYb4s6RfNQbVhDkPZA7YFdnerG1SJAAAAAElFTkSuQmCC">\
                 <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBzVLBEYJADNxD/FtCdPg7doAlWIKVCJVYgiWoHeCf0etACwDOvRyMfphRfGBmCJlNdi+XCzC2Ge9kkezgkH1DJDOz1zLXWOaJE5HZp1xf6zk+jl+K8Z0gBlmnNoQT4UcbX0CHaG+l4WSFg9zDVRtgyrg5wNUrYvxXW0vr7SCQJ0fuwpl1D6AROHPRmJjPaU2fgJ4Mw/oya/GU30m7U8zYUNMnwBbpRDdSBc2SvtDuFHMSaoK9L10UTuH9XL1Gg7RNpkBVaEzM57oZ6Ptz6Xi1HH9hT/FGV798NRUBAAAAAElFTkSuQmCC">\
                 <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADgSURBVHgBzZJBEsFAEEX/jNhzg0bs3UCcgBvgJOImnMAROII9KX2E7IPRnYhKqVkkZRFvM9M183/1TH+gbUy5IRpPgIyFlCiM5WTjlziGRcxJsv8Y0DDcwCGW7RnuPpO1B3Qjv8EzgjFzvl37WgUVsTKBCY5qwnzZ+eTSqXaxLGsL51Zfd+QpnQg1CfiWDHLnQejEbM2c7NAAix9p3yCoe5FotJDxHWQCRa1/Jplo0MHjBM1JFWf21Q5SWDst5uwjO+Uh05zoqB22zNe4EuXRqoivIa/+LSAiTSlJ0M74C16gMU0xa7sy7wAAAABJRU5ErkJggg==">\
-                <img class="help-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE1SURBVHgBhVI7TsNAEH27cY8VOMA6OBJlcgLMCeAGNhUl4STACZLcAEoq3NG6RQTFXCCYjsJ4eJs48ieOMtJIo5k3b74KLTFmOAIkoOlSM0DFafqR1DGqAhsD5UxpjiAyZ4gJQh/OaaeQ/DqlNNiNd7o0xp+gQ6x/E7ddkGJTofcKUWRaxLUWr6jk/pyViQGUTCF/457rnkTQ+jddLh6rNvUbE97Z2o3bPzbZ9+oly1ap6/bHQO9MMxCisDNsxYk40x0rTCwrBFFtBTPiL2E8X7BHbEt2loaPeGdvwsC/X1cRfdGOaWqyHrItBX64Zq9+oxKXaLI9Q6uwqxpXlzU9EhI/Z6X8AVIEndXQnI9LICZ/Kh0HjjsY3jaOWzFt38i+jo55hi+6j4jgMsC5qjdSu20cfth/n92EMGjOb2IAAAAASUVORK5CYII=">\
+                <img class="help-icon display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE1SURBVHgBhVI7TsNAEH27cY8VOMA6OBJlcgLMCeAGNhUl4STACZLcAEoq3NG6RQTFXCCYjsJ4eJs48ieOMtJIo5k3b74KLTFmOAIkoOlSM0DFafqR1DGqAhsD5UxpjiAyZ4gJQh/OaaeQ/DqlNNiNd7o0xp+gQ6x/E7ddkGJTofcKUWRaxLUWr6jk/pyViQGUTCF/457rnkTQ+jddLh6rNvUbE97Z2o3bPzbZ9+oly1ap6/bHQO9MMxCisDNsxYk40x0rTCwrBFFtBTPiL2E8X7BHbEt2loaPeGdvwsC/X1cRfdGOaWqyHrItBX64Zq9+oxKXaLI9Q6uwqxpXlzU9EhI/Z6X8AVIEndXQnI9LICZ/Kh0HjjsY3jaOWzFt38i+jo55hi+6j4jgMsC5qjdSu20cfth/n92EMGjOb2IAAAAASUVORK5CYII=">\
                 <img class="telephone-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAV1JREFUKBWF0TFIAlEYB/Dve3dekkK2REK7Jw613NUSSIPEqShOlTUYzS4NDUG4RTQ1OEW4FBUN0mDQpFvRzVIQRFNJQtZgdHTvfT0pgkiub3k83v/H9773AGTpRjIXMayjeLyk9vZexWRwVhBsyRB/6NrH/yEmgzvIlPmbq9oiArw9du0Dzw5EODIQGrq2rKIGQCYjqHoCQDh1Op2VYLDlAqEAhd17AYwZ1qhLeCnvlkIGw5xgT1UHp5oXJ8/9IGvaZy1gbJkDVH0K3gFg+cPt1ibi2VA/IOf8Kt1MLwji6xpTZ1zBlwRQwQeQ5whROWc2HDDyjUbJ/QE9FjFSBQJaRU1JMBdiQvCyfAiSXW25+sMBc+4X+EZ5ALFBqpIZH/PfttsBX71ecXQzuS/PlT+gh/TJdIK42EWG21pouOK8vEZJ8EOGsNYX9FB0Ohfm784mEGQQ6QkRi/Jzzz8BvMZ7XKjblkAAAAAASUVORK5CYII=">\
                 <img class="elipse-overflow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAADCAYAAABI4YUMAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABUSURBVHgBhcrBDYAgEETRiW4BSCzAo11YgpZgCZZgJ1qClmBDQgEkMFzgBPxkD/sy/cSUHi816Nma/wNrWQfIBo94J1KyV+wQwD2Elc+bB+6mLSULWI0gebajC9UAAAAASUVORK5CYII=">\
                 <img class="close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
@@ -1244,7 +1244,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="notification-div"></div>\
                 <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                 <div class="faqs-wrp-content">\
-                  <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.__contentType}">\
+                  <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.sysContentType}">\
                       <span class="accordion" id="${key}">{{html faq.question}}<span class="desc-info">{{html getHTMLForSearch(faq.answer)}}</span>\</span>\
                       <div class="panel">\
                         {{if faq.multimedia}}\
@@ -1332,12 +1332,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     </div>\
               </div>\
               {{/if}}\
-              {{if pages && pages.length && !customSearchResult}}\
+              {{if web && web.length && !customSearchResult}}\
               <div class="matched-faq-containers matched-pages-container display-none">\
-              <div class="search-heads">${taskPrefix} PAGES</div>\
+              <div class="search-heads">${taskPrefix} WEB</div>\
               <div class="faqs-shadow tasks-wrp">\
-              {{each(key, pageInfo) pages}}\
-              <div class="faqs-shadow task-wrp matched_pages {{if viewType=="Preview"&&pageInfo.config.visible==false}}display-none{{/if}} {{if pageInfo.config.visible==false}}hide-actions{{/if}} {{if pageInfo.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${pageInfo.config.boost}" pinIndex="${pageInfo.config.pinIndex}" visible="${pageInfo.config.visible}" contentId="${pageInfo.contentId}" contentType="${pageInfo.__contentType}" id="${key}">\
+              {{each(key, pageInfo) web}}\
+              <div class="faqs-shadow task-wrp matched_pages {{if viewType=="Preview"&&pageInfo.config.visible==false}}display-none{{/if}} {{if pageInfo.config.visible==false}}hide-actions{{/if}} {{if pageInfo.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${pageInfo.config.boost}" pinIndex="${pageInfo.config.pinIndex}" visible="${pageInfo.config.visible}" contentId="${pageInfo.contentId}" contentType="${pageInfo.sysContentType}" id="${key}">\
               <div class="notification-div"></div>\
               <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                 <a class="faqs-wrp-content" href="${pageInfo.url}" target="_blank">\
@@ -1421,24 +1421,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{/if}}\
               {{if tasks && tasks.length && !customSearchResult}}\
               <div class="resultsButtons asstTask" >\
-                  <span class="search-heads">${taskPrefix} ACTIONS</span>\
+                  <span class="search-heads">ACTIONS</span>\
                   <div class="faqBtnContainer suggestion_actions_container">\
                       <div class="tasks-wrp action-wrp btn_block_actions main-content-title-grid-data">\
                         {{each(key, task) tasks}}\
                           <div class="task-wrp action-wrp title-box-data">\
-                          <button id="${key}" class="faq search-task title-name text-truncate " title="${task.taskName}" boost="${task.config.boost}" pinIndex="${task.config.pinIndex}" visible="${task.config.visible}" contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                          <button id="${key}" class="faq search-task title-name text-truncate " title="${task.taskName}" contentId="${task.taskId}" contentType="${task.sysContentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
                           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
                           ${task.taskName}\
                       </button>\
                             <div class="faqs-bottom-actions background-white display-none">\
-                              <span class="appearences display-none">\
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                                <span class="custom-appearences-content">${task.feedback.appearance} VIEWS</span>&nbsp;\
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                                <span class="custom-appearences-content>${task.feedback.click} CLICKS</span>\
-                                <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
-                                <span class="appearences-count display-none">${task.feedback.appearance} Appearances - ${task.feedback.click} Clicks</span>\
-                              </span>\
                               <span class="actions display-none">\
                                 <span class="img-action  dont-show">\
                                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
@@ -1465,9 +1457,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{if taskPrefix !== "SUGGESTED"}}\
                 <div class="faqs-data-container">\
                 </div>\
-                <div class="pages-data-container">\
+                <div class="web-data-container">\
                 </div>\
-                <div class="documents-data-container">\
+                <div class="files-data-container">\
                 </div>\
                 <div class="structured-data-container">\
                 </div>\
@@ -1475,9 +1467,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{if taskPrefix === "SUGGESTED"}}\
                 <div class="faqs-live-data-container">\
                 </div>\
-                <div class="pages-live-data-container">\
+                <div class="web-live-data-container">\
                 </div>\
-                <div class="documents-live-data-container">\
+                <div class="files-live-data-container">\
                 </div>\
                 <div class="structured-live-data-container">\
                 </div>\
@@ -1561,7 +1553,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         <div class="creditCardIconDiv">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card">\
                             </div>\
-                            <div class="creditCardDetails search-task" title="${task.taskName}" contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" id="${key}" payload="${task.payload}">\
+                            <div class="creditCardDetails search-task" title="${task.taskName}" contentId="${task.taskId}" contentType="${task.sysContentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" id="${key}" payload="${task.payload}">\
                                 <p class="title">${task.taskName}</p>\
                                 <p class="desc">${task.text}</p>\
                             </div>\
@@ -1569,12 +1561,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         {{/each}}\
                     </div>\
                 {{/if}}\
-                {{if pages.length && (selectedFacet === "page" || selectedFacet === "all results")}}\
+                {{if web.length && (selectedFacet === "web" || selectedFacet === "all results")}}\
                 <div class="matched-faq-containers matched-pages-container ksa-relatedPages fullAsstPage">\
-                  <div class="relatedPagesTitle">MATCHED PAGES</div>\
+                  <div class="relatedPagesTitle">MATCHED WEB</div>\
                   <div class="pages-wrp results-wrp">\
-                    {{each(key, pageInfo) selectedFacet === "all results" ? pages.slice(0,5) : pages }}\
-                    <div class="faqs-shadow {{if viewType=="Preview"&&pageInfo.config.visible==false}}display-none{{/if}} {{if pageInfo.config.visible==false}}hide-actions{{/if}} {{if pageInfo.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${pageInfo.config.boost}" pinIndex="${pageInfo.config.pinIndex}" visible="${pageInfo.config.visible}" contentId="${pageInfo.contentId}" contentType="${pageInfo.__contentType}" id="${key}">\
+                    {{each(key, pageInfo) selectedFacet === "all results" ? web.slice(0,5) : web }}\
+                    <div class="faqs-shadow {{if viewType=="Preview"&&pageInfo.config.visible==false}}display-none{{/if}} {{if pageInfo.config.visible==false}}hide-actions{{/if}} {{if pageInfo.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${pageInfo.config.boost}" pinIndex="${pageInfo.config.pinIndex}" visible="${pageInfo.config.visible}" contentId="${pageInfo.contentId}" contentType="${pageInfo.sysContentType}" id="${key}">\
                     <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                       <div class="notification-div fullscreen"></div>\
                       <a class="faqs-wrp-content" href="${pageInfo.url}" target="_blank">\
@@ -1666,7 +1658,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   </div>\
                 {{/each}}\
                 </div>\
-                {{if selectedFacet !== "page" && pages.length>5}}\
+                {{if selectedFacet !== "web" && web.length>5}}\
                   <div class="ksa-showMore custom-show-more-container">Show More</div>\
                 {{/if}}\
               </div>\
@@ -1676,7 +1668,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="mostlyAskedTitle">MATCHED FAQS</div>\
                 <div class="tasks-wrp results-wrp">\
                   {{each(key, faq) selectedFacet === "all results" ? faqs.slice(0,5) : faqs  }}\
-                  <div class="faqs-shadow custom-position-relative {{if viewType=="Preview"&&faq.config.visible==false}}display-none{{/if}} {{if faq.config.visible==false}}hide-actions{{/if}} {{if faq.config.pinIndex>-1}}hide-visibility-control{{/if}}"" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.__contentType}" id="${key}">\
+                  <div class="faqs-shadow custom-position-relative {{if viewType=="Preview"&&faq.config.visible==false}}display-none{{/if}} {{if faq.config.visible==false}}hide-actions{{/if}} {{if faq.config.pinIndex>-1}}hide-visibility-control{{/if}}"" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.sysContentType}" id="${key}">\
                   <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                     <div class="notification-div fullscreen"></div>\
                     <div class="faqs-wrp-content">\
@@ -1782,31 +1774,31 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{/if}}\
               <div class="faqs-full-search-container matched-structured-data-contaniers">\
               </div>\
-              <div class="pages-full-search-container matched-structured-data-contaniers">\
+              <div class="web-full-search-container matched-structured-data-contaniers">\
               </div>\
-              <div class="documents-full-search-container matched-structured-data-contaniers">\
+              <div class="files-full-search-container matched-structured-data-contaniers">\
               </div>\
               <div class="structured-data-full-search-container matched-structured-data-contaniers">\
               </div>\
-              {{if documents.length && (selectedFacet === "document" || selectedFacet === "all results")}}\
+              {{if files.length && (selectedFacet === "file" || selectedFacet === "all results")}}\
                 <div class="matched-faq-containers matched-pages-container ksa-relatedPages fullAsstPage">\
-                  <div class="relatedPagesTitle">MATCHED DOCUMENTS</div>\
+                  <div class="relatedPagesTitle">MATCHED FILES</div>\
                   <div class="pages-wrp results-wrp">\
-                    {{each(key, document) selectedFacet === "all results" ? documents.slice(0,5) : documents }}\
-                    <div class="faqs-shadow {{if viewType=="Preview"&&document.config.visible==false}}display-none{{/if}} {{if document.config.visible==false}}hide-actions{{/if}} {{if document.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${document.config.boost}" pinIndex="${document.config.pinIndex}" visible="${document.config.visible}" contentId="${document.contentId}" contentType="${document.__contentType}">\
+                    {{each(key, file) selectedFacet === "all results" ? files.slice(0,5) : files }}\
+                    <div class="faqs-shadow {{if viewType=="Preview"&&file.config.visible==false}}display-none{{/if}} {{if file.config.visible==false}}hide-actions{{/if}} {{if file.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${file.config.boost}" pinIndex="${file.config.pinIndex}" visible="${file.config.visible}" contentId="${file.contentId}" contentType="${file.sysContentType}">\
                     <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                       <div class="notification-div fullscreen"></div>\
-                      <a class="faqs-wrp-content" href="${document.externalFileURL}" target="_blank" id=${key}>\
+                      <a class="faqs-wrp-content" href="${file.externalFileURL}" target="_blank" id=${key}>\
                         <div class="image-url-sec">\
-                          <img src="${document.imageUrl}"></img>\
+                          <img src="${file.imageUrl}"></img>\
                         </div>\
                         <div class="pages-content">\
-                          <div class="title" title="${document.docTitle}">${document.docTitle}\
+                          <div class="title" title="${file.docTitle}">${file.docTitle}\
                           <span class="custom-external-link-show-container display-none">\
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABnSURBVHgBnZHdDYAgDIRPJ3GEbqSb6EaOpBvgBgimSNPwf8k9FO67EDqhLItBkfMVClZnw4P0ocIUAD8slWaST7SN4SKgwzs01dKcA04VrgIp/ZkZnfLAg/y3gu9uebAhbjFlw5lPL9CZJwJeTcCIAAAAAElFTkSuQmCC">\
                           </span>\
                           </div>\
-                          <div class="desc-info">${document.docSearchResultPreview}</div>\
+                          <div class="desc-info">${file.docSearchResultPreview}</div>\
                           <div class="custom-matched-results-container">\
                             <div class="custom-matched-results-page-icon">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACeSURBVHgBjZDNDQIhEIXZyR44agfagS1YgiVwJBShWwQhnCjBEixBO5AO3CMndJ4JyYb9Ce8yMPPNe4HOe3/NOd/EXCP3z8aYFy6dc+4rpdwrpcYphT6XyPAFMKFZQ0WAiOhurT31Yl2RoScOXB8lYlNgSDSqrzbfXA4lWmt9XASng1bHWC81O/4fE0LYrQFlBschpfTh2EWQZ/j44QdAT0c3vu2rHAAAAABJRU5ErkJggg==">\
@@ -1814,9 +1806,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="custom-matched-results-page-summary">\
                               <span class="custom-matched-results-page-summary-content">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                                <span class="pr_15">${document.feedback.appearance} Views</span>\
+                                <span class="pr_15">${file.feedback.appearance} Views</span>\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                                <span>${document.feedback.click} Clicks</span>\
+                                <span>${file.feedback.click} Clicks</span>\
                               </span>\
                             </div>\
                           </div>\
@@ -1824,19 +1816,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <span class="custom-actions">\
                               <span class="img-action dont-show visibility" data-viewMode="full">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
-                                {{if document.config.visible==true}}\
+                                {{if file.config.visible==true}}\
                                   <span class="custom-actions-content">HIDE</span>\
                                 {{/if}}\
-                                {{if document.config.visible==false}}\
+                                {{if file.config.visible==false}}\
                                   <span class="custom-actions-content">UNHIDE</span>\
                                 {{/if}}\
                               </span>\
                               <span class="img-action pin pinning" data-viewMode="full">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
-                                {{if document.config.pinIndex==-1}}\
+                                {{if file.config.pinIndex==-1}}\
                                   <span class="custom-actions-content">PIN</span>\
                                 {{/if}}\
-                                {{if document.config.pinIndex>-1}}\
+                                {{if file.config.pinIndex>-1}}\
                                   <span class="custom-actions-content">UNPIN</span>\
                                 {{/if}}\
                               </span>\
@@ -1877,7 +1869,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   </div>\
                 {{/each}}\
                 </div>\
-                {{if selectedFacet !== "document" && documents.length>5}}\
+                {{if selectedFacet !== "file" && files.length>5}}\
                   <div class="ksa-showMore custom-show-more-container">Show More</div>\
                 {{/if}}\
               </div>\
@@ -2738,11 +2730,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         search: _self.vars.searchObject.liveData.originalQuery,
         totalResultsCount: totalResultsCount,
         tasks: _self.vars.searchObject.liveData.tasks,
-        pages: _self.vars.searchObject.liveData.pages,
+        web: _self.vars.searchObject.liveData.web,
         selectedFacet: selectedFacet ? selectedFacet : "all results",
         faqs: _self.vars.searchObject.liveData.faqs,
 
-        documents: _self.vars.searchObject.liveData.documents,
+        files: _self.vars.searchObject.liveData.files,
         searchFacets: _self.vars.searchFacetFilters,
         viewType: viewType,
 
@@ -2765,19 +2757,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.pubSub.publish('sa-faq-search', {
           container: '.faqs-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
         });
-        _self.pubSub.publish('sa-page-search', {
-          container: '.pages-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+        _self.pubSub.publish('sa-web-search', {
+          container: '.web-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
         });
-        _self.pubSub.publish('sa-document-search', {
-          container: '.documents-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+        _self.pubSub.publish('sa-file-search', {
+          container: '.files-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
         });
       }
       else {
         //top-down-search-start//
         _self.pubSub.publish('sa-st-data-search', { container: '.structured-search-data-container', isFullResults: true, selectedFacet: selectedFacet_temp, isLiveSearch: false, isSearch: false, dataObj, isShowAllBtn: false });
         _self.pubSub.publish('sa-faq-search', { container: '.faqs-search-data-container', isFullResults: true, selectedFacet: selectedFacet_temp, isLiveSearch: false, isSearch: false, dataObj, isShowAllBtn: false });
-        _self.pubSub.publish('sa-page-search', { container: '.pages-search-data-container', isFullResults: true, selectedFacet: selectedFacet_temp, isLiveSearch: false, isSearch: false, dataObj, isShowAllBtn: false });
-        _self.pubSub.publish('sa-document-search', { container: '.documents-search-data-container', isFullResults: true, selectedFacet: selectedFacet_temp, isLiveSearch: false, isSearch: false, dataObj, isShowAllBtn: false });
+        _self.pubSub.publish('sa-web-search', { container: '.web-search-data-container', isFullResults: true, selectedFacet: selectedFacet_temp, isLiveSearch: false, isSearch: false, dataObj, isShowAllBtn: false });
+        _self.pubSub.publish('sa-file-search', { container: '.files-search-data-container', isFullResults: true, selectedFacet: selectedFacet_temp, isLiveSearch: false, isSearch: false, dataObj, isShowAllBtn: false });
         if (_self.isDev) {
           $('.custom-header-container-center').removeClass('display-none');
           if(_self.vars.customizeView){
@@ -2886,7 +2878,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //top-down-searc-facets active -start//
         _self.pubSub.publish('facet-selected', { selectedFacet: selectedFacet });
         //top-down-search-facets active -end//
-        if (selectedFacet === 'page') {
+        if (selectedFacet === 'web') {
           if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
             $('#viewTypeCheckboxControl').prop('checked', true);
             $(".pages-wrp").sortable({
@@ -3106,28 +3098,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
 
           $(".custom-insights-control-container").hide();
-          var faqs = [], pages = [], tasks = [], documents = [], facets = {}, object = {}, searchFacets = [];
+          var faqs = [], web = [], tasks = [], files = [], facets = {}, data = {}, searchFacets = [];
 
           console.log(response.template);
 
           if (response.template) {
             faqs = response.template.results.faq;
-            pages = response.template.results.page;
+            web = response.template.results.web;
             tasks = response.template.results.task;
-            documents = response.template.results.document;
+            files = response.template.results.file;
             facets = response.template.facets;
-            object = response.template.results.object;
+            data = response.template.results.data;
             searchFacets = response.template.searchFacets;
 
             facets['all results'] = response.template.totalNumOfResults;
 
             _self.vars.searchObject.liveData = {
               faqs: faqs,
-              pages: pages,
+              web: web,
               tasks: tasks,
               facets: facets,
-              documents: documents,
-              object: object,
+              files: files,
+              data: data,
               originalQuery: response.template.originalQuery || '',
               // searchFacets: searchFacets,
             }
@@ -3198,8 +3190,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             // _self.pubSub.publish('sa-faq-search', {
             //   container : '.faqs-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet : selectedFacet_temp,isFullResults : true, isSearch : false, isLiveSearch : false, dataObj
             // });
-            // _self.pubSub.publish('sa-page-search', {
-            //   container : '.pages-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet : selectedFacet_temp,isFullResults : true, isSearch : false, isLiveSearch : false, dataObj
+            // _self.pubSub.publish('sa-web-search', {
+            //   container : '.web-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet : selectedFacet_temp,isFullResults : true, isSearch : false, isLiveSearch : false, dataObj
             // });
           }
         })
@@ -3464,7 +3456,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
 
       $('.ksa-showMore').off('click').on('click', function (e) {
-        var selectedFacet = "page"
+        var selectedFacet = "web"
         _self.prepAllSearchData(selectedFacet);
       })
 
@@ -4383,6 +4375,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var fieldName = _filterContainer.attr('data-fieldName');
       var facetType = _filterContainer.attr('data-facetType');
+      var facetName = _filterContainer.attr('data-facetName');
       var key = $(event.target).attr('name');
       if ($('.topdown-search-main-container').length) {
         if ($('.sdk-filter-radio-top-down').length) {
@@ -4396,6 +4389,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (facetType == 'value') {
         responsePayload.fieldName = fieldName,
           responsePayload.facetType = facetType,
+          responsePayload.facetName = facetName,
           responsePayload.facetValue = [];
 
         responsePayload.facetValue[0] = key;
@@ -4406,6 +4400,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         responsePayload.fieldName = fieldName,
           responsePayload.facetType = facetType,
+          responsePayload.facetName = facetName,
           responsePayload.facetRange = [];
 
         // key = { 'from': 0, 'to': 100 };
@@ -4512,6 +4507,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       var fieldName = _filterContainer.attr('data-fieldName');
       var facetType = _filterContainer.attr('data-facetType');
+      var facetName = _filterContainer.attr('data-facetName');
       var key = $(event.target).attr('name');
       if ($('.topdown-search-main-container').length) {
         if ($('.sdk-filter-radio-top-down').length) {
@@ -4525,6 +4521,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (facetType == 'value') {
         responsePayload.fieldName = fieldName,
           responsePayload.facetType = facetType,
+          responsePayload.facetName = facetName,
           responsePayload.facetValue = [];
 
         responsePayload.facetValue[0] = key;
@@ -4535,6 +4532,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         responsePayload.fieldName = fieldName,
           responsePayload.facetType = facetType,
+          responsePayload.facetName = facetName,
           responsePayload.facetRange = [];
 
         // key = { 'from': 0, 'to': 100 };
@@ -4706,25 +4704,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // payload.isDev = _self.isDev;
 
       _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
-        var faqs = [], pages = [], tasks = [], documents = [], facets = {};
+        var faqs = [], web = [], tasks = [], files = [], facets = {};
 
         console.log(response.template);
 
         if (response.template) {
           faqs = response.template.results.faq;
-          pages = response.template.results.page;
+          web = response.template.results.web;
           tasks = response.template.results.task;
-          documents = response.template.results.document;
+          files = response.template.results.file;
           facets = response.template.facets;
           facets["all results"] = response.template.totalNumOfResults;
           _self.vars.totalNumOfResults = response.template.totalNumOfResults
 
           _self.vars.searchObject.liveData = {
             faqs: faqs,
-            pages: pages,
+            web: web,
             tasks: tasks,
             facets: facets,
-            documents: documents,
+            files: files,
             originalQuery: response.template.originalQuery || '',
             customSearchResult: _self.customSearchResult
             // searchFacets: searchFacets,
@@ -4750,8 +4748,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var dataObj = _self.vars.searchObject.liveData;
           if (!$('body').hasClass('top-down')) {
             _self.pubSub.publish('sa-faq-search', { container: '.faqs-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            _self.pubSub.publish('sa-page-search', { container: '.pages-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            _self.pubSub.publish('sa-document-search', { container: '.documents-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
+            _self.pubSub.publish('sa-web-search', { container: '.web-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
+            _self.pubSub.publish('sa-file-search', { container: '.files-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
             _self.pubSub.publish('sa-st-data-search', { container: 'structured-data-full-search-container', isFullResults: true, selectedFacet: 'all results', isSearch: false, dataObj });
             // Sea all Results 
             $('#loaderDIV').show();
@@ -4762,8 +4760,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           else {
             _self.pubSub.publish('sa-faq-search', { container: '.faqs-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-            _self.pubSub.publish('sa-page-search', { container: '.pages-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-            _self.pubSub.publish('sa-document-search', { container: '.documents-search-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
+            _self.pubSub.publish('sa-web-search', { container: '.web-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+            _self.pubSub.publish('sa-file-search', { container: '.files-search-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
             _self.pubSub.publish('sa-st-data-search', { container: '.structured-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
             if (_self.isDev) {
               $('.custom-header-container-center').removeClass('display-none');
@@ -4800,7 +4798,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "isDev": _self.isDev,
       }
 
-      if (resultType == "page" || resultType == "faq") {
+      if (resultType == "web" || resultType == "faq") {
         var experimentObjectProps = Object.getOwnPropertyNames(_self.vars.experimentsObject);
         payload.answerInfo = {};
 
@@ -4862,6 +4860,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           success: function (data) {
             console.log(data);
             _self.vars.searchObject.recents = data.recentSearches;
+            if(_self.vars.searchObject.recents.length){
+              if (!$('.search-container').hasClass('active')) {
+                $('.search-container').addClass('active');
+              }
+            }
             if ($('body').hasClass('top-down')) {
               var freqDataTop = {
                 // searchResults: searchResults,
@@ -5123,9 +5126,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (!_self.customSearchResult) {
             // var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
             // $('.search-body').html(freqData);
-            if (!$('body').hasClass('top-down')) {
-              _self.pubSub.publish('sa-generate-recent-search');
-            }
+            // if (!$('body').hasClass('top-down')) {
+            //   _self.pubSub.publish('sa-generate-recent-search');
+            // }
           } else {
             _self.pubSub.publish('sa-freq-data', tmplData);
             _self.pubSub.publish('sa-show-freq-data', tmplData);
@@ -5223,6 +5226,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   }
                   _self.hideAutoSuggestion();
                 } else {
+                  if(!$('body').hasClass('top-down')){ // bottomUp
+                    _self.hideBottomUpAllResults();
+                  }
                   _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
                    if(_self.vars.enterIsClicked){
                      return;
@@ -5238,37 +5244,37 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       $('.search-body').show();
                       $('#searchChatContainer').removeClass('bgfocus-override');
                       res = res.template;
-                      var faqs = [], pages = [], tasks = [], documents = [], facets, viewType = "Preview";
+                      var faqs = [], web = [], tasks = [], files = [], facets, viewType = "Preview";
                       if (!$('.search-container').hasClass('active')) {
                         $('.search-container').addClass('active');
                       }
                       // if (res && res.results && res.results.length) {
-                      if (res && res.results && (res.results.document.length || res.results.faq.length || res.results.object.length || res.results.page.length || res.results.task.length)) {
+                      if (res && res.results && (res.results.file.length || res.results.faq.length || res.results.data.length || res.results.web.length || res.results.task.length)) {
                         _self.closeGreetingMsg();
                         // var liveResult = res.results;
 
                         // liveResult.forEach(function (result) {
-                        //   if (result.__contentType === "faq") {
+                        //   if (result.sysContentType === "faq") {
                         //     faqs.push(result);
-                        //   } else if (result.__contentType === "page") {
-                        //     pages.push(result);
-                        //   } else if (result.__contentType === "document") {
-                        //     documents.push(result);
-                        //   } else if (result.__contentType === "task") {
+                        //   } else if (result.sysContentType === "web") {
+                        //     web.push(result);
+                        //   } else if (result.sysContentType === "file") {
+                        //     files.push(result);
+                        //   } else if (result.sysContentType === "task") {
                         //     tasks.push(result);
                         //   }
                         // })
                         faqs = res.results.faq;
-                        pages = res.results.page;
+                        web = res.results.web;
                         tasks = res.results.task;
-                        documents = res.results.document;
+                        files = res.results.file;
 
                         facets = res.facets;
                         var dataObj = {
                           faqs: faqs,
-                          pages: pages,
+                          web: web,
                           tasks: tasks,
-                          documents: documents,
+                          files: files,
                           facets: facets,
                           originalQuery: res.originalQuery,
                           customSearchResult: _self.customSearchResult
@@ -5276,9 +5282,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         //livesearch
                         var tmplData = {
                           faqs: faqs.slice(0, 2),
-                          pages: pages.slice(0, 2),
+                          web: web.slice(0, 2),
                           tasks: tasks.slice(0, 2),
-                          documents: documents.slice(0, 2),
+                          files: files.slice(0, 2),
                           showAllResults: true,
                           noResults: false,
                           taskPrefix: 'SUGGESTED',
@@ -5291,8 +5297,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           container: '.structured-live-data-container', /*  start with '.' if class or '#' if id of the element*/ isFullResults: false, selectedFacet: 'all results', isSearch: false, isLiveSearch: true, dataObj
                         });
                         _self.pubSub.publish('sa-faq-search', { container: '.faqs-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
-                        _self.pubSub.publish('sa-page-search', { container: '.pages-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
-                        _self.pubSub.publish('sa-document-search', { container: '.documents-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
+                        _self.pubSub.publish('sa-web-search', { container: '.web-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
+                        _self.pubSub.publish('sa-file-search', { container: '.files-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
                         $(searchData).data(dataObj);
                         $('.search-body').html(searchData);
                         setTimeout(function () {
@@ -5315,7 +5321,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         var scoreArray = [
                           {
                             name: 'asstPage',
-                            score: pages.length && pages[0].score
+                            score: web.length && web[0].score
                           },
                           {
                             name: 'asstTask',
@@ -5343,17 +5349,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         if ($('#search').val()) {
                           var dataObj = {
                             faqs: faqs,
-                            pages: pages,
+                            web: web,
                             tasks: tasks,
-                            documents: documents,
+                            files: files,
                             facets: facets,
                             customSearchResult: _self.customSearchResult
                           }
                           var tmplData = {
                             faqs: faqs,
-                            pages: pages,
+                            web: web,
                             tasks: tasks,
-                            documents: documents,
+                            files: files,
                             showAllResults: false,
                             noResults: true,
                             taskPrefix: 'MATCHED',
@@ -5378,9 +5384,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       }
                       _self.vars.searchObject.liveData = {
                         faqs: faqs,
-                        pages: pages,
+                        web: web,
                         tasks: tasks,
-                        documents: documents,
+                        files: files,
                         facets: facets,
                         originalQuery: res.originalQuery || '',
                       }
@@ -5445,7 +5451,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.search-container').addClass('active');
             if (_self.showGreetingMsg) {
               _self.showGreetingMsg = false;
-              _self.sendMessageToSearch('bot', '&#128075; Hello! How can I help you today?');
+              // _self.sendMessageToSearch('bot', '&#128075; Hello! How can I help you today?');
             }
             _self.closeGreetingMsg();
             if (_self.customSearchResult) {
@@ -5750,7 +5756,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       } catch (err) {
 
       }
-      var faqs = [], pages = [], tasks = [], documents = [], facets, searchFacets = []; object = []; totalSearchResults = 0;
+      var faqs = [], web = [], tasks = [], files = [], facets, searchFacets = []; data = []; totalSearchResults = 0;
 
       var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
 
@@ -5828,7 +5834,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 "doc_count": 55
               },
               {
-                "key": "page",
+                "key": "web",
                 "doc_count": 3
               },
               {
@@ -5839,18 +5845,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         ]*/
         // liveResult.forEach(function (result) {
-        //   if (result.__contentType === "faq") {
+        //   if (result.sysContentType === "faq") {
         //     faqs.push(result);
-        //   } else if (result.__contentType === "page") {
-        //     pages.push(result);
-        //   } else if (result.__contentType === "task") {
+        //   } else if (result.sysContentType === "web") {
+        //     web.push(result);
+        //   } else if (result.sysContentType === "task") {
         //     tasks.push(result);
         //   }
         // });
-        /*res.results.document = [
+        /*res.results.file = [
           {
             "contentId": "doc-8b6d95d7-f2ff-4523-a11c-cc63e65e5f5f",
-            "contentType": "document",
+            "contentType": "file",
             "score": 8.208443,
             "searchResultPreview": "Can I perform transactions in my <span class = \"highlightText\">Dormant</span> <span class = \"highlightText\">Account</span>?",
             "config": {
@@ -5874,7 +5880,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         ]*/
 
         faqs = res.results.faq;
-        pages = res.results.page;
+        web = res.results.web;
         tasks = res.results.task;
         facets = res.facets;
         totalSearchResults = res.totalNumOfResults ? res.totalNumOfResults : 0;
@@ -5886,14 +5892,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           facets['task'] = res.results.task.length;
         }
 
-        object = res.results.object;
+        data = res.results.data;
 
-        if (res.results.document !== undefined) {
-          documents = res.results.document;
+        if (res.results.file !== undefined) {
+          files = res.results.file;
         }
         else {
-          documents = [];
-          res.facets.document = 0;
+          files = [];
+          res.facets.file = 0;
         }
 
         if (res.searchFacets !== undefined) {
@@ -5946,17 +5952,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var dataObj = {
           faqs: faqs,
-          pages: pages,
+          web: web,
           tasks: tasks,
           facets: facets,
 
-          documents: documents,
+          files: files,
 
           searchFacets: searchFacets,
 
           originalQuery: res.originalQuery || '',
           customSearchResult: _self.customSearchResult,
-          object: object
+          data: data
         }
         if ($('body').hasClass('top-down')) {
           _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true} });
@@ -5967,14 +5973,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
         if (!$('body').hasClass('top-down')) {
           _self.pubSub.publish('sa-faq-search', { container: '.faqs-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-          _self.pubSub.publish('sa-page-search', { container: '.pages-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
+          _self.pubSub.publish('sa-web-search', { container: '.web-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
           _self.pubSub.publish('sa-st-data-search', { container: '.structured-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-          _self.pubSub.publish('sa-document-search', { container: '.documents-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
+          _self.pubSub.publish('sa-file-search', { container: '.files-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
         }
         else {
           _self.pubSub.publish('sa-faq-search', { container: '.faqs-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-          _self.pubSub.publish('sa-page-search', { container: '.pages-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-          _self.pubSub.publish('sa-document-search', { container: '.documents-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+          _self.pubSub.publish('sa-web-search', { container: '.web-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
+          _self.pubSub.publish('sa-file-search', { container: '.files-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
           _self.pubSub.publish('sa-st-data-search', { container: '.structured-search-data-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
           if (_self.isDev) {
             $('.custom-header-container-center').removeClass('display-none');
@@ -5992,7 +5998,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // if(!_self.isDev){
         //   dataObj = {
         //     faqs: faqs.slice(0,2),
-        //     pages: pages.slice(0,2),
+        //     web: web.slice(0,2),
         //     tasks: tasks.slice(0,2),
         //     facets: facets,
         //     originalQuery: res.originalQuery || '',
@@ -6000,25 +6006,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // }
         _self.vars.searchObject.liveData = {
           faqs: faqs,
-          pages: pages,
+          web: web,
           tasks: tasks,
           facets: facets,
 
-          documents: documents,
+          files: files,
 
           searchFacets: searchFacets,
 
           originalQuery: res.originalQuery || '',
 
-          object: object
+          data: data
         }
         // if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(res.originalQuery.toLowerCase()) == -1)) {
         //   _self.vars.searchObject.recents.unshift(res.originalQuery.toLowerCase());
         // }
         // window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
         if (dataObj.faqs.length ||
-          dataObj.pages.length ||
-          dataObj.tasks.length || dataObj.smallTalk || dataObj.object.length) {
+          dataObj.web.length ||
+          dataObj.tasks.length || dataObj.smallTalk || dataObj.data.length) {
           if (_self.isDev) {
             var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true }
             _self.parentEvent(responseObject);
@@ -6029,7 +6035,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var _botMessage = 'Sure, please find the matched results below';
             searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
               faqs: dataObj.faqs,
-              pages: dataObj.pages,
+              web: dataObj.web,
               tasks: dataObj.tasks,
               showAllResults: true,
               noResults: false,
@@ -6704,11 +6710,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       payload.userId = this.bot.userInfo.userInfo.userId;
 
       payload.streamId = this.bot.options.botInfo.taskBotId;
-      // if (!$('body').hasClass('demo')) {
-      //   payload.indexPipelineId = _self.API.indexpipelineId;
-      //   payload.queryPipelineId = _self.API.pipelineId;
-      // }
-
       var _self = this;
       if (!$('body').hasClass('demo')) {
         payload.indexPipelineId = _self.API.indexpipelineId;
@@ -7141,7 +7142,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return false;
       }
     }
-    FindlySDK.prototype.initialize = function (findlyConfig) {
+    FindlySDK.prototype.initialize = function (findlyConfig, fromTopDown) {
       var _self = this;
       var _findlyConfig = findlyConfig;
       if (findlyConfig.botOptions) {
@@ -7165,6 +7166,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.isDev = true;
       }*/
       if (window.appConfig.API_SERVER_URL) {
+        _self.baseAPIServer = window.appConfig.API_SERVER_URL;
+      }
+      if(fromTopDown) {
         _self.baseAPIServer = window.appConfig.API_SERVER_URL + '/searchassistapi/';
       }
       if (findlyConfig.autoConnect) {
@@ -7223,13 +7227,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     function getFacetDisplayName(key) {
       if (key.toLowerCase() === 'faq') {
         return "FAQs"
-      } else if (key.toLowerCase() === 'page') {
-        return "Pages"
+      } else if (key.toLowerCase() === 'web') {
+        return "Web"
       } else if (key.toLowerCase() === 'task') {
         return "Actions"
-      } else if (key.toLowerCase() === 'document') {
-        return "Documents"
-      } else if (key.toLowerCase() === 'object') {
+      } else if (key.toLowerCase() === 'file') {
+        return "Files"
+      } else if (key.toLowerCase() === 'data') {
         return "Data"
       } else {
         return key;
@@ -7362,7 +7366,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (actionsPosition == 'top') {
           $('.content-data-sec').prepend(actionParentContainer);
         } else {
-          $('.documents-search-data-container').after(actionParentContainer);
+          $('.files-search-data-container').after(actionParentContainer);
         }
       }
       _self.pubSub.unsubscribe('sa-search-result');
@@ -7372,24 +7376,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('facet-selected', { selectedFacet: 'all results' });
         }
         if (data.selectedFacet && data.selectedFacet === 'faq') {
-          data.pages = [];
-          data.documents = [];
+          data.web = [];
+          data.files = [];
           data.tasks = [];
         }
-        if (data.selectedFacet && data.selectedFacet === 'page') {
+        if (data.selectedFacet && data.selectedFacet === 'web') {
           data.faqs = [];
-          data.documents = [];
+          data.files = [];
           data.tasks = [];
         }
-        if (data.selectedFacet && data.selectedFacet === 'document') {
+        if (data.selectedFacet && data.selectedFacet === 'file') {
           data.faqs = [];
-          data.pages = [];
+          data.web = [];
           data.tasks = [];
         }
         if (data.selectedFacet && data.selectedFacet === 'task') {
           data.faqs = [];
-          data.pages = [];
-          data.documents = [];
+          data.web = [];
+          data.files = [];
         }
         var pageContainer = ''; var faqContainer = ''; var actionContainer = '';
         if (config.container) {
@@ -8093,10 +8097,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (msgObject && msgObject.nlmeta) {
         messageToBot["message"].nlmeta = msgObject.nlmeta;
-      }
-      if (!$('body').hasClass('demo')) {
-        messageToBot.indexPipelineId = _self.API.indexpipelineId;
-        messageToBot.queryPipelineId = _self.API.pipelineId;
       }
 
       if (!$('body').hasClass('demo')) {
@@ -13459,12 +13459,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $('.refresh-sdk').off('click').on('click', function (e) {
         $('#show-all-results-container').hide();
+        $('.search-container').removeClass('active');
         _self.vars.selectedFacetFromSearch = "all results"
         var responseObject = { 'type': 'refreshSearchContainer', data: false, query: _self.vars.searchObject.searchText, bottomUp: true }
         _self.parentEvent(responseObject);
       });
       $('.kore-search-container-close-icon').off('click').on('click', function (e) {
         $('#show-all-results-container').hide();
+        $('.search-container').removeClass('active');
         _self.vars.selectedFacetFromSearch = "all results"
         var responseObject = { 'type': 'closeSearchContainer', data: false, query: _self.vars.searchObject.searchText, bottomUp: true }
         _self.parentEvent(responseObject);
@@ -13511,7 +13513,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             },
             {
-              "type": "page",
+              "type": "web",
               "templateId": "fsrt-7162e7e0-7387-5264-be88-dddfd0fb5342",
               "template": {
                 "_id": "fsrt-4bad8f4a-d9e5-5382-96f0-895636dbf405",
@@ -13530,7 +13532,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             },
             {
-              "type": "document",
+              "type": "file",
               "templateId": "fsrt-4bad8f4a-d9e5-5382-96f0-895636dbf405",
               "template": {
                 "_id": "fsrt-4bad8f4a-d9e5-5382-96f0-895636dbf405",
@@ -13631,7 +13633,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             },
             {
-              "type": "page",
+              "type": "web",
               "templateId": "fsrt-7162e7e0-7387-5264-be88-dddfd0fb5342",
               "template": {
                 "_id": "fsrt-4bad8f4a-d9e5-5382-96f0-895636dbf405",
@@ -13650,7 +13652,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             },
             {
-              "type": "document",
+              "type": "file",
               "templateId": "fsrt-4bad8f4a-d9e5-5382-96f0-895636dbf405",
               "template": {
                 "_id": "fsrt-4bad8f4a-d9e5-5382-96f0-895636dbf405",
@@ -13728,7 +13730,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             },
             {
-              "type": "page",
+              "type": "web",
               "templateId": "fsrt-7162e7e0-7387-5264-be88-dddfd0fb5342",
               "template": {
                 "_id": "fsrt-4bad8f4a-d9e5-5382-96f0-895636dbf405",
@@ -13747,7 +13749,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             },
             {
-              "type": "document",
+              "type": "file",
               "templateId": "fsrt-4bad8f4a-d9e5-5382-96f0-895636dbf405",
               "template": {
                 "_id": "fsrt-4bad8f4a-d9e5-5382-96f0-895636dbf405",
@@ -14067,29 +14069,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 </div>\
                 {{/if}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion acc-active{{/if}}" id="1">\
-                  {{if appearanceType == "object"}}\
+                  {{if appearanceType == "data"}}\
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
-                  {{if appearanceType == "page"}}\
-                    PAGES\
+                  {{if appearanceType == "web"}}\
+                    Web\
                   {{/if}}\
-                  {{if appearanceType == "document"}}\
-                    Documents\
+                  {{if appearanceType == "file"}}\
+                    Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                     {{if isTopdown == false}}Show All{{/if}}\
                     {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     {{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <ul class="tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}} {{if isFullResults == true}}results-wrap{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <li class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize" && isFullResults == true}}{{if data.config.visible == false || (data.config.visible == true && !data.addedResult && (data.config.pinIndex < 0))}}ui-state-disabled{{/if}}{{/if}} {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" manuallyAdded="${data.addedResult}" id="${key}">\
+                      <li class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize" && isFullResults == true}}{{if data.config.visible == false || (data.config.visible == true && !data.addedResult && (data.config.pinIndex < 0))}}ui-state-disabled{{/if}}{{/if}} {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" manuallyAdded="${data.addedResult}" id="${key}">\
                           {{if isClickable == true}}\
                             {{if viewType!="Customize" && (isFullResults == true ||  isSearch == true || isLiveSearch == true)}}\
                               <a class="tile-with-text structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
@@ -14104,7 +14106,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               </a>\
                             {{/if}}\
                             {{if viewType=="Customize" && isFullResults == true}}\
-                              <div class="data-wrap" index="${i}" contentType="${data.__contentType}" contentId="${data.contentId}" score="${data.score}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}">\
+                              <div class="data-wrap" index="${i}" contentType="${data.sysContentType}" contentId="${data.contentId}" score="${data.score}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}">\
                                 <div class="customization-tile{{if data.config.visible == false}} disable_hidden{{/if}}{{if data.config.pinIndex >= 0}} disable_pinned{{/if}}">\
                                     <div class="drag-content {{if data.config.visible == false || (data.config.visible == true && !data.addedResult && (data.config.pinIndex < 0))}}display-none{{/if}}"></div>\
                                     {{if !data.addedResult || data.addedResult == false}}\
@@ -14176,20 +14178,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                     <span class="count">${data.feedback.click}</span>\
                                     </div>\
                                     {{if !data.addedResult || data.addedResult == false}}\
-                                      <div class="appearences-count bg-data record-status-pinned" style="display : {{if data.config.pinIndex >= 0}}block{{else}}none{{/if}}">\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                                      <div class="appearences-count customize-chips bg-data record-status-pinned" style="display : {{if data.config.pinIndex >= 0}}block{{else}}none{{/if}}">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD7SURBVHgBhZB/asJQDMeTZy0dW0eP0N1Aj9ATjJ1A9p8MVnYEvcFgMPxTT6A38Aj2BnqEgojSviYm/oAnvmLg8SD5fpNPgtASyQ8nDdGqrqrsMHnaXPMG2iORl3bDcBkN9+lDAxG8I2IBzGPXFPjEcc4DBhpR3WS7/7CIvy2oCYb7DF1eF4fsWfz8VfVM0JlfEMsTUvmLpXScaZKJPjvGvKlYGqWmK2LBkuX7ku+ji/KS1yMEM9DLRFFUNixTicfbv2DqXZotL3SK8lpre8AArvjGcGVVdsVDY+aee5yv5Ig/lF1SheCB4t05VBznzVp/X+3O8JrTyltoiSM5w31qLIEkiwAAAABJRU5ErkJggg==">\
                                         <span class="count">PINNED</span>\
                                       </div>\
-                                      <div class="appearences-count bg-data record-status-hidden" style="display : {{if data.config.visible == false}}block{{else}}none{{/if}}">\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                                      <div class="appearences-count customize-chips bg-data record-status-hidden" style="display : {{if data.config.visible == false}}block{{else}}none{{/if}}">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEgSURBVHgB3VLRTcNADLUv4VREI90IYQPYACagnaDwh1ALHaGZAFQkxF9H6AjABGSEbEBQQaDcnc25JSgqCPWvVS1Z8vme37MtA6zbcDnR7tsjiNQJMnTCM12AMGfm3Noq+7zfLZp49YtSqWtgerVVdTwbRyjunTsD4KdY66kZsoHNM5l776I6WBUfxkiTvpMdLXYQlmSiOJ6sSuCZHkKR+SEgooIhsA7o3yXJX3LlJ8BgyFM+F5ekJ3om57sYYwdB9YA5E8D7nZ6DWucfqdatHgMNiX0GHh5VHE0jpQ6xZi5vsJRYFJg4BUSD33fAAEUgLQN5ObtV3WYNLrcYunkJN7AvB9O+tCPJv413RnWnolqL/WnSbh0nA3cq3hSA7bMvciOL7FwWG34AAAAASUVORK5CYII=">\
                                         <span class="count">HIDDEN</span>\
                                       </div>\
-                                      <div class="appearences-count bg-data record-status-boosted {{if data.config.boost > 1}}display-block{{/if}}">\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                                      <div class="appearences-count customize-chips bg-data record-status-boosted {{if data.config.boost > 1}}display-block{{/if}}">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBfY/BCcJAEEVnNiKKrGgHKSElmA7swBxFJEkHYgfRg3jTTtKCHSQdKIIoMTtjNhgI65o5fh5//gMwbhxyJNfl3MyFAW0YKAaBJxnywgp+oeBdFD6VygegxIRrSIYqGyyfbpONVoVXZdcGxnbT6zjM2wUaFj0nrR7Hglh5Nkjf49C/1DOYZmCz1l/MHC3WgU6Rxfm+x22ntYPCZ6Tgp9lmPYnZlZHKGrjTWsOKKUWCnSAop/+sbwnmeoYCBR8N24MPhSbzYAAAAABJRU5ErkJggg==">\
                                         <span class="count boosted">${data.config.boost}X BOOSTED</span>\
                                       </div>\
-                                      <div class="appearences-count bg-data record-status-lowered {{if data.config.boost < 1}}display-block{{/if}}">\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                                      <div class="appearences-count customize-chips bg-data record-status-lowered {{if data.config.boost < 1}}display-block{{/if}}">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADJSURBVHgBdZDRDYIwEIZbEFKDTRiBEVzBSfDRmBRxA11BX3xTJ3AE4ghOgE7ggyaalvbskZCUWP633n253neUC31USm6/h/GdeJKWkDXG5AFQ84jiuGKLT+aDNJiKEEPbwqRQG17o2oUR4itdYw/ftGtggZIgV1LOGGMEJwGY83sX9UEXxqoLeYNwImT51+DCXHwiXZKlnOJlrLW+DVkjFIxCaw3XQet2UqGfXDTzQeswCNN2EsD6tR+demDP2p7RhfzLW+PuOzc/5PRxOXt0QzUAAAAASUVORK5CYII=">\
                                         <span class="count lowered">${data.config.boost}X LOWERED</span>\
                                       </div>\
                                     {{/if}}\
@@ -14205,14 +14207,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                     {{if appearanceType === "faq"}}\
                                       <div class="tag-ref">FAQ Response</div>\
                                     {{/if}}\
-                                    {{if appearanceType === "page"}}\
-                                      <div class="tag-ref">PAGE Response</div>\
+                                    {{if appearanceType === "web"}}\
+                                      <div class="tag-ref">WEB Response</div>\
                                     {{/if}}\
-                                    {{if appearanceType === "document"}}\
-                                      <div class="tag-ref">DOCUMENT Response</div>\
+                                    {{if appearanceType === "file"}}\
+                                      <div class="tag-ref">FILE Response</div>\
                                     {{/if}}\
-                                    {{if appearanceType === "object"}}\
-                                      <div class="tag-ref">OBJECT Response</div>\
+                                    {{if appearanceType === "data"}}\
+                                      <div class="tag-ref">DATA Response</div>\
                                     {{/if}}\
                                 </div>\
                               </div>\
@@ -14266,29 +14268,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                  {{if appearanceType == "object"}}\
+                  {{if appearanceType == "data"}}\
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
-                  {{if appearanceType == "page"}}\
-                    PAGES\
+                  {{if appearanceType == "web"}}\
+                    Web\
                   {{/if}}\
-                  {{if appearanceType == "document"}}\
-                    Documents\
+                  {{if appearanceType == "file"}}\
+                    Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                     {{if isTopdown == false}}Show All{{/if}}\
                     {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     {{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                           {{if isClickable == true}}\
                             <a class="tile-with-image faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
@@ -14353,29 +14355,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                  {{if appearanceType == "object"}}\
+                  {{if appearanceType == "data"}}\
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
-                  {{if appearanceType == "page"}}\
-                    PAGES\
+                  {{if appearanceType == "web"}}\
+                    Web\
                   {{/if}}\
-                  {{if appearanceType == "document"}}\
-                    Documents\
+                  {{if appearanceType == "file"}}\
+                    Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                     {{if isTopdown == false}}Show All{{/if}}\
                     {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     {{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                           {{if isClickable == true}}\
                             <a class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
@@ -14455,29 +14457,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                  {{if appearanceType == "object"}}\
+                  {{if appearanceType == "data"}}\
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
-                  {{if appearanceType == "page"}}\
-                    PAGES\
+                  {{if appearanceType == "web"}}\
+                    Web\
                   {{/if}}\
-                  {{if appearanceType == "document"}}\
-                    Documents\
+                  {{if appearanceType == "file"}}\
+                    Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                     {{if isTopdown == false}}Show All{{/if}}\
                     {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     {{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                           {{if isClickable == true}}\
                             <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
@@ -14525,29 +14527,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                  {{if appearanceType == "object"}}\
+                  {{if appearanceType == "data"}}\
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
-                  {{if appearanceType == "page"}}\
-                    PAGES\
+                  {{if appearanceType == "web"}}\
+                    Web\
                   {{/if}}\
-                  {{if appearanceType == "document"}}\
-                    Documents\
+                  {{if appearanceType == "file"}}\
+                    Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                     {{if isTopdown == false}}Show All{{/if}}\
                     {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     {{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-text-parent template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                           {{if isClickable == true}}\
                             <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
@@ -14606,29 +14608,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                  {{if appearanceType == "object"}}\
+                  {{if appearanceType == "data"}}\
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
-                  {{if appearanceType == "page"}}\
-                    PAGES\
+                  {{if appearanceType == "web"}}\
+                    Web\
                   {{/if}}\
-                  {{if appearanceType == "document"}}\
-                    Documents\
+                  {{if appearanceType == "file"}}\
+                    Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                     {{if isTopdown == false}}Show All{{/if}}\
                     {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     {{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                           {{if isClickable == true}}\
                             <a class="tile-with-image faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
@@ -14693,29 +14695,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                  {{if appearanceType == "object"}}\
+                  {{if appearanceType == "data"}}\
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
-                  {{if appearanceType == "page"}}\
-                    PAGES\
+                  {{if appearanceType == "web"}}\
+                    Web\
                   {{/if}}\
-                  {{if appearanceType == "document"}}\
-                    Documents\
+                  {{if appearanceType == "file"}}\
+                    Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                     {{if isTopdown == false}}Show All{{/if}}\
                     {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     {{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                           {{if isClickable == true}}\
                             <a class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
@@ -14784,29 +14786,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                  {{if appearanceType == "object"}}\
+                  {{if appearanceType == "data"}}\
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
-                  {{if appearanceType == "page"}}\
-                    PAGES\
+                  {{if appearanceType == "web"}}\
+                    Web\
                   {{/if}}\
-                  {{if appearanceType == "document"}}\
-                    Documents\
+                  {{if appearanceType == "file"}}\
+                    Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                     {{if isTopdown == false}}Show All{{/if}}\
                     {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     {{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header template-2 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                           {{if isClickable == true}}\
                             <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
@@ -14854,29 +14856,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                  {{if appearanceType == "object"}}\
+                  {{if appearanceType == "data"}}\
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
-                  {{if appearanceType == "page"}}\
-                    PAGES\
+                  {{if appearanceType == "web"}}\
+                    Web\
                   {{/if}}\
-                  {{if appearanceType == "document"}}\
-                    Documents\
+                  {{if appearanceType == "file"}}\
+                    Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                     {{if isTopdown == false}}Show All{{/if}}\
                     {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     {{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-text-parent template-3 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                           {{if isClickable == true}}\
                             <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
@@ -14935,29 +14937,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                  {{if appearanceType == "object"}}\
+                  {{if appearanceType == "data"}}\
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
-                  {{if appearanceType == "page"}}\
-                    PAGES\
+                  {{if appearanceType == "web"}}\
+                    Web\
                   {{/if}}\
-                  {{if appearanceType == "document"}}\
-                    Documents\
+                  {{if appearanceType == "file"}}\
+                    Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                     {{if isTopdown == false}}Show All{{/if}}\
                     {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     {{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent template-3 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                           {{if isClickable == true}}\
                             <a class="tile-with-image faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
@@ -15022,29 +15024,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                  {{if appearanceType == "object"}}\
+                  {{if appearanceType == "data"}}\
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
-                  {{if appearanceType == "page"}}\
-                    PAGES\
+                  {{if appearanceType == "web"}}\
+                    Web\
                   {{/if}}\
-                  {{if appearanceType == "document"}}\
-                    Documents\
+                  {{if appearanceType == "file"}}\
+                    Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                     {{if isTopdown == false}}Show All{{/if}}\
                     {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     {{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent template-e tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                           {{if isClickable == true}}\
                             <a class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
@@ -15113,29 +15115,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                  {{if appearanceType == "object"}}\
+                  {{if appearanceType == "data"}}\
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
-                  {{if appearanceType == "page"}}\
-                    PAGES\
+                  {{if appearanceType == "web"}}\
+                    Web\
                   {{/if}}\
-                  {{if appearanceType == "document"}}\
-                    Documents\
+                  {{if appearanceType == "file"}}\
+                    Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                     {{if isTopdown == false}}Show All{{/if}}\
                     {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     {{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header template-3 tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}} {{if isClickable == false}}with-accordion{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                           {{if isClickable == true}}\
                             <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
@@ -15183,29 +15185,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
                   <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                    {{if appearanceType == "object"}}\
+                    {{if appearanceType == "data"}}\
                       DATA\
                     {{/if}}\
                     {{if appearanceType == "faq"}}\
-                      FAQS\
+                      FAQs\
                     {{/if}}\
-                    {{if appearanceType == "page"}}\
-                      PAGES\
+                    {{if appearanceType == "web"}}\
+                      Web\
                     {{/if}}\
-                    {{if appearanceType == "document"}}\
-                      Documents\
+                    {{if appearanceType == "file"}}\
+                      Files\
                     {{/if}}\
                     <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                       {{if isTopdown == false}}Show All{{/if}}\
                       {{if isTopdown == true}} Show All \
-                        {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                        {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                       {{/if}}\
                     </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile-with-text-parent grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial  mb-15 {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                       {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                          <a href="${data.url}" target="_blank" class="tile-with-text faqs-shadow structured-data-wrp-content {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                          <a href="${data.url}" target="_blank" class="tile-with-text faqs-shadow structured-data-wrp-content {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                             <div class="tile-heading">{{html data.heading}}</div>\
                             <div class="tile-description">{{html data.description}}</div>\
                           </a>\
@@ -15241,29 +15243,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                  {{if appearanceType == "object"}}\
+                  {{if appearanceType == "data"}}\
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
-                  {{if appearanceType == "page"}}\
-                    PAGES\
+                  {{if appearanceType == "web"}}\
+                    Web\
                   {{/if}}\
-                  {{if appearanceType == "document"}}\
-                    Documents\
+                  {{if appearanceType == "file"}}\
+                    Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                     {{if isTopdown == false}}Show All{{/if}}\
                     {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     {{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial  mb-15 {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                        <a href="${data.url}" target="_blank" class="tile-with-image faqs-shadow structured-data-wrp-content {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                        <a href="${data.url}" target="_blank" class="tile-with-image faqs-shadow structured-data-wrp-content {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                             <div class="img-with-content">\
                                 <div class="g-img-block">\
                                   <img src="${data.img}">\
@@ -15304,29 +15306,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                  {{if appearanceType == "object"}}\
+                  {{if appearanceType == "data"}}\
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
-                  {{if appearanceType == "page"}}\
-                    PAGES\
+                  {{if appearanceType == "web"}}\
+                    Web\
                   {{/if}}\
-                  {{if appearanceType == "document"}}\
-                    Documents\
+                  {{if appearanceType == "file"}}\
+                    Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                     {{if isTopdown == false}}Show All{{/if}}\
                     {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     {{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial  mb-15  {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                        <a class="tile-with-centered-content faqs-shadow structured-data-wrp-content {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}" href="${data.url}" target="_blank">\
+                        <a class="tile-with-centered-content faqs-shadow structured-data-wrp-content {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}" href="${data.url}" target="_blank">\
                           <div class="img-block">\
                               <img src="${data.img}">\
                           </div>\
@@ -15367,29 +15369,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                  {{if appearanceType == "object"}}\
+                  {{if appearanceType == "data"}}\
                     DATA\
                   {{/if}}\
                   {{if appearanceType == "faq"}}\
-                    FAQS\
+                    FAQs\
                   {{/if}}\
-                  {{if appearanceType == "page"}}\
-                    PAGES\
+                  {{if appearanceType == "web"}}\
+                    Web\
                   {{/if}}\
-                  {{if appearanceType == "document"}}\
-                    Documents\
+                  {{if appearanceType == "file"}}\
+                    Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                     {{if isTopdown == false}}Show All{{/if}}\
                     {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     {{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial mb-15 {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                        <a class="tile-title faqs-shadow structured-data-wrp-content {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}" href="${data.url}" target="_blank">{{html data.heading}}</a>\
+                        <a class="tile-title faqs-shadow structured-data-wrp-content {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}" href="${data.url}" target="_blank">{{html data.heading}}</a>\
                     {{/each}}\
                   </div>\
                   <!-- <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div> -->\
@@ -15422,22 +15424,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
                   <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                    {{if appearanceType == "object"}}\
+                    {{if appearanceType == "data"}}\
                       DATA\
                     {{/if}}\
                     {{if appearanceType == "faq"}}\
-                      FAQS\
+                      FAQs\
                     {{/if}}\
-                    {{if appearanceType == "page"}}\
-                      PAGES\
+                    {{if appearanceType == "web"}}\
+                      Web\
                     {{/if}}\
-                    {{if appearanceType == "document"}}\
-                      Documents\
+                    {{if appearanceType == "file"}}\
+                      Files\
                     {{/if}}\
                     <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                       {{if isTopdown == false}}Show All{{/if}}\
                       {{if isTopdown == true}} Show All \
-                        {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                        {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                       {{/if}}\
                     </div>\
                   </div>\
@@ -15445,7 +15447,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <div class="carousel tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
                       {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                         <div class="slide tile-with-text-parent slide-parent-tile-with-text {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}">\
-                          <a href="${data.url}" target="_blank" class="tile-with-text faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                          <a href="${data.url}" target="_blank" class="tile-with-text faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                             <div class="tile-heading">{{html data.heading}}</div>\
                             <div class="tile-description">{{html data.description}}</div>\
                           </a>\
@@ -15482,22 +15484,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
                   <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                    {{if appearanceType == "object"}}\
+                    {{if appearanceType == "data"}}\
                       DATA\
                     {{/if}}\
                     {{if appearanceType == "faq"}}\
-                      FAQS\
+                      FAQs\
                     {{/if}}\
-                    {{if appearanceType == "page"}}\
-                      PAGES\
+                    {{if appearanceType == "web"}}\
+                      Web\
                     {{/if}}\
-                    {{if appearanceType == "document"}}\
-                      Documents\
+                    {{if appearanceType == "file"}}\
+                      Files\
                     {{/if}}\
                     <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                       {{if isTopdown == false}}Show All{{/if}}\
                       {{if isTopdown == true}} Show All \
-                        {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                        {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                       {{/if}}\
                     </div>\
                   </div>\
@@ -15505,7 +15507,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <div class="carousel tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
                       {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                         <div class="slide tile-with-image-parent grid_view_template grid-view-carousel-tile-with-image {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}">\
-                          <a href="${data.url}" target="_blank" class="tile-with-image faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                          <a href="${data.url}" target="_blank" class="tile-with-image faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                               <div class="img-with-content">\
                                   <div class="g-img-block">\
                                     <img src="${data.img}">\
@@ -15547,22 +15549,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
                   <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                    {{if appearanceType == "object"}}\
+                    {{if appearanceType == "data"}}\
                       DATA\
                     {{/if}}\
                     {{if appearanceType == "faq"}}\
-                      FAQS\
+                      FAQs\
                     {{/if}}\
-                    {{if appearanceType == "page"}}\
-                      PAGES\
+                    {{if appearanceType == "web"}}\
+                      Web\
                     {{/if}}\
-                    {{if appearanceType == "document"}}\
-                      Documents\
+                    {{if appearanceType == "file"}}\
+                      Files\
                     {{/if}}\
                     <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                       {{if isTopdown == false}}Show All{{/if}}\
                       {{if isTopdown == true}} Show All \
-                        {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                        {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                       {{/if}}\
                     </div>\
                   </div>\
@@ -15570,7 +15572,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <div class="carousel tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
                       {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                         <div class="slide tile-with-centered-content-parent grid_view_template gride-view-carousel-with-centered-content-parent {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}">\
-                          <a href="${data.url}" target="_blank" class="tile-with-centered-content faqs-shadow  structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                          <a href="${data.url}" target="_blank" class="tile-with-centered-content faqs-shadow  structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}">\
                             <div class="img-block">\
                                 <img src="${data.img}">\
                             </div>\
@@ -15612,22 +15614,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
                   <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
-                    {{if appearanceType == "object"}}\
+                    {{if appearanceType == "data"}}\
                       DATA\
                     {{/if}}\
                     {{if appearanceType == "faq"}}\
-                      FAQS\
+                      FAQs\
                     {{/if}}\
-                    {{if appearanceType == "page"}}\
-                      PAGES\
+                    {{if appearanceType == "web"}}\
+                      Web\
                     {{/if}}\
-                    {{if appearanceType == "document"}}\
-                      Documents\
+                    {{if appearanceType == "file"}}\
+                      Files\
                     {{/if}}\
                     <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
                       {{if isTopdown == false}}Show All{{/if}}\
                       {{if isTopdown == true}} Show All \
-                        {{if appearanceType == "object"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "page"}}Pages{{/if}}{{if appearanceType == "document"}}Documents{{/if}}\
+                        {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                       {{/if}}\
                     </div>\
                   </div>\
@@ -15635,7 +15637,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <div class="carousel tile-with-image-parent structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
                       {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                         <div class="slide tile_with_header grid_view_template grid-view-carousel-tile-with-header {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}">\
-                          <a  href="${data.url}" target="_blank" class="tile-title faqs-shadow structured-data-wrp-content" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}" title="${data.heading}">{{html data.heading}}</a>\
+                          <a  href="${data.url}" target="_blank" class="tile-title faqs-shadow structured-data-wrp-content" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sysContentType}" id="${key}" title="${data.heading}">{{html data.heading}}</a>\
                         </div>\
                       {{/each}}\
                     </div>\
@@ -15810,110 +15812,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       // Search call back
       _self.pubSub.subscribe('sa-st-data-search', (msg, data) => {
-        // data.dataObj.object = [
-        //   {
-        //     "contentId": "fc-1cbc40e9-2b17-571b-b05c-b676f6bebf3a",
-        //     "contentType": "object",
-        //     "score": 19.169224,
-        //     "config": {
-        //       "pinIndex": -1,
-        //       "boost": 1,
-        //       "visible": true
-        //     },
-        //     "feedback": {
-        //       "thumbsup": 0,
-        //       "thumbsdown": 0,
-        //       "click": 0,
-        //       "expand": 0,
-        //       "appearance": 0
-        //     },
-        //     "role": "developer",
-        //     "streamId": "st-5fa10208-775d-5184-ab6f-956135169ac6",
-        //     "org": "ps",
-        //     "docId": "d-8f540966-7f02-5024-b1d8-234850f6bd8d",
-        //     "searchIndexId": "sidx-5938b0c5-3394-5a0e-a4d6-9f9be6535071",
-        //     "message": "The text to close the settings Menu.",
-        //     "createdOn": "2021-02-04T12:51:04.249000",
-        //     "jobId": null,
-        //     "extractionSourceId": "fs-bd7dbf31-7919-5249-8c3e-7b4193fd44c1",
-        //     "from": "aditya",
-        //     "default_pipeline": "Yes",
-        //     "to": [
-        //       "girish",
-        //       "rv",
-        //       "thirupathi",
-        //       "hari"
-        //     ]
-        //   },
-        //   {
-        //     "contentId": "fc-1cbc40e9-2b17-571b-b05c-b676f6bebf3a",
-        //     "contentType": "object",
-        //     "score": 19.169224,
-        //     "config": {
-        //       "pinIndex": -1,
-        //       "boost": 1,
-        //       "visible": true
-        //     },
-        //     "feedback": {
-        //       "thumbsup": 0,
-        //       "thumbsdown": 0,
-        //       "click": 0,
-        //       "expand": 0,
-        //       "appearance": 0
-        //     },
-        //     "role": "developer",
-        //     "streamId": "st-5fa10208-775d-5184-ab6f-956135169ac6",
-        //     "org": "ps",
-        //     "docId": "d-8f540966-7f02-5024-b1d8-234850f6bd8d",
-        //     "searchIndexId": "sidx-5938b0c5-3394-5a0e-a4d6-9f9be6535071",
-        //     "message": "The text to close the settings Menu.",
-        //     "createdOn": "2021-02-04T12:51:04.249000",
-        //     "jobId": null,
-        //     "extractionSourceId": "fs-bd7dbf31-7919-5249-8c3e-7b4193fd44c1",
-        //     "from": "aditya",
-        //     "default_pipeline": "Yes",
-        //     "to": [
-        //       "girish",
-        //       "rv",
-        //       "thirupathi",
-        //       "hari"
-        //     ]
-        //   },
-        //   {
-        //     "contentId": "fc-1cbc40e9-2b17-571b-b05c-b676f6bebf3a",
-        //     "contentType": "object",
-        //     "score": 19.169224,
-        //     "config": {
-        //       "pinIndex": -1,
-        //       "boost": 1,
-        //       "visible": true
-        //     },
-        //     "feedback": {
-        //       "thumbsup": 0,
-        //       "thumbsdown": 0,
-        //       "click": 0,
-        //       "expand": 0,
-        //       "appearance": 0
-        //     },
-        //     "role": "developer",
-        //     "streamId": "st-5fa10208-775d-5184-ab6f-956135169ac6",
-        //     "org": "ps",
-        //     "docId": "d-8f540966-7f02-5024-b1d8-234850f6bd8d",
-        //     "searchIndexId": "sidx-5938b0c5-3394-5a0e-a4d6-9f9be6535071",
-        //     "message": "The text to close the settings Menu.",
-        //     "createdOn": "2021-02-04T12:51:04.249000",
-        //     "jobId": null,
-        //     "extractionSourceId": "fs-bd7dbf31-7919-5249-8c3e-7b4193fd44c1",
-        //     "from": "aditya",
-        //     "default_pipeline": "Yes",
-        //     "to": [
-        //       "girish",
-        //       "rv",
-        //       "thirupathi",
-        //       "hari"
-        //     ]
-        //   }
-        // ];
         var _self = this;
         var container;
         var structuredData = [];
@@ -15922,7 +15820,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         if (data.isLiveSearch) {
           finalTemplate = liveSearchTemplate;
-          structuredData = _self.designStructuredDataWithMappings(data.dataObj.object, templateConfig.liveSearchInterface.mapping);
+          structuredData = _self.designStructuredDataWithMappings(data.dataObj.data, templateConfig.liveSearchInterface.mapping);
           if (templateConfig.liveSearchInterface && templateConfig.liveSearchInterface.layout) {
             data['isClickable'] = templateConfig.liveSearchInterface.layout.isClickable;
             config = templateConfig.liveSearchInterface;
@@ -15930,7 +15828,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else if (data.isSearch) {
           finalTemplate = searchTemplate;
-          structuredData = _self.designStructuredDataWithMappings(data.dataObj.object, templateConfig.searchInterface.mapping);
+          structuredData = _self.designStructuredDataWithMappings(data.dataObj.data, templateConfig.searchInterface.mapping);
           if (templateConfig.searchInterface && templateConfig.searchInterface.layout) {
             data['isClickable'] = templateConfig.searchInterface.layout.isClickable;
             config = templateConfig.searchInterface;
@@ -15938,7 +15836,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else if (data.isFullResults) {
           finalTemplate = fullSearchTemplate;
-          structuredData = _self.designStructuredDataWithMappings(data.dataObj.object, templateConfig.fullSearchInterface.mapping);
+          structuredData = _self.designStructuredDataWithMappings(data.dataObj.data, templateConfig.fullSearchInterface.mapping);
           if (templateConfig.fullSearchInterface && templateConfig.fullSearchInterface.layout) {
             data['isClickable'] = templateConfig.fullSearchInterface.layout.isClickable;
             config = templateConfig.fullSearchInterface;
@@ -15967,15 +15865,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          // if(selectedLiveSearchTemplateType === 'grid'){
-          //   maxSearchResultsAllowed = 4;
-          // }
-          // else if (selectedLiveSearchTemplateType === 'carousel'){
-          //   maxSearchResultsAllowed = structuredData ? structuredData.length : 1;
-          // }
-          // else{
-          //   maxSearchResultsAllowed = 2;
-          // }
           maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
@@ -15988,6 +15877,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           else {
             maxSearchResultsAllowed = 2;
           }
+        }
+        else if(data.isFullResults && _self.vars.selectedFacetFromSearch == 'all results'){
+          maxSearchResultsAllowed = 5;
         }
         else {
           maxSearchResultsAllowed = structuredData ? structuredData.length : 1;
@@ -16010,7 +15902,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'isSearch': data.isSearch,
           'devMode': devMode,
           'isLiveSearch': data.isLiveSearch,
-          'appearanceType': 'object',
+          'appearanceType': 'data',
           'maxSearchResultsAllowed': maxSearchResultsAllowed,
           'isDropdownEnabled': isDropdownEnabled,
           'tour': _self.vars.customTourResultRank,
@@ -16071,11 +15963,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       console.log("self", _self.vars);
     }
 
-    FindlySDK.prototype.designStructuredDataWithMappings = function (object, mapping) {
-      // console.log("object", "mapping", object, mapping);
-      var data = [];
-      if (object && object.length && mapping && Object.values(mapping).length) {
-        object.forEach(obj => {
+    FindlySDK.prototype.designStructuredDataWithMappings = function (data, mapping) {
+      var dataArr = [];
+      if (data && data.length && mapping && Object.values(mapping).length) {
+        data.forEach(obj => {
           var item = {};
           if (obj[mapping.heading]) {
             item.heading = obj[mapping.heading];
@@ -16104,12 +15995,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.config = obj.config;
           item.feedback = obj.feedback;
           item.customization = null;
-          item.__contentType = obj.__contentType;
+          item.sysContentType = obj.sysContentType;
           item.contentId = obj.contentId;
           item.addedResult = (obj.addedResult || (obj.addedResult == false)) ? obj.addedResult : false;
-          data.push(item);
+          dataArr.push(item);
         });
-        return data;
+        return dataArr;
       }
     }
 
@@ -16161,11 +16052,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (appearanceType === 'faq') {
               $('#faq').trigger("click");
             }
-            if (appearanceType === 'object') {
-              $('#object').trigger("click");
+            if (appearanceType === 'data') {
+              $('#data').trigger("click");
             }
-            if (appearanceType == 'page') {
-              $('#page').trigger("click");
+            if (appearanceType == 'web') {
+              $('#web').trigger("click");
             }
           }
         }, 3000);
@@ -16185,11 +16076,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //     if(appearanceType === 'faq'){
       //       selectedFacet = 'faq';
       //     }
-      //     if(appearanceType === 'object'){
-      //       selectedFacet = 'object';
+      //     if(appearanceType === 'data'){
+      //       selectedFacet = 'data';
       //     }
-      //     if(appearanceType == 'page'){
-      //       selectedFacet = 'page';
+      //     if(appearanceType == 'web'){
+      //       selectedFacet = 'web';
       //     }
       //     _self.prepAllSearchData(selectedFacet);
       //   }
@@ -16224,11 +16115,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (appearanceType === 'faq') {
             selectedFacet = 'faq';
           }
-          if (appearanceType === 'object') {
-            selectedFacet = 'object';
+          if (appearanceType === 'data') {
+            selectedFacet = 'data';
           }
-          if (appearanceType == 'page') {
-            selectedFacet = 'page';
+          if (appearanceType == 'web') {
+            selectedFacet = 'web';
           }
           if (appearanceType == 'all results') {
             selectedFacet = 'all results';
@@ -16236,8 +16127,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (appearanceType == 'task') {
             selectedFacet = 'task';
           }
-          if (appearanceType == 'document') {
-            selectedFacet = 'document';
+          if (appearanceType == 'file') {
+            selectedFacet = 'file';
           }
           _self.vars['selectedFacetFromSearch'] = selectedFacet
           // _self.showAllResults();
@@ -16532,15 +16423,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          // if(selectedLiveSearchTemplateType === 'grid'){
-          //   maxSearchResultsAllowed = 4;
-          // }
-          // else if (selectedLiveSearchTemplateType === 'carousel'){
-          //   maxSearchResultsAllowed = faqs ? faqs.length : 1;
-          // }
-          // else{
-          //   maxSearchResultsAllowed = 2;
-          // }
           maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
@@ -16553,6 +16435,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           else {
             maxSearchResultsAllowed = 2;
           }
+        }
+        else if(data.isFullResults && _self.vars.selectedFacetFromSearch == 'all results'){
+          maxSearchResultsAllowed = 5;
         }
         else {
           maxSearchResultsAllowed = faqs ? faqs.length : 1;
@@ -16666,7 +16551,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.config = faq.config;
           item.feedback = faq.feedback;
           item.customization = null;
-          item.__contentType = faq.__contentType;
+          item.sysContentType = faq.sysContentType;
           item.contentId = faq.contentId;
           item.addedResult = (faq.addedResult || (faq.addedResult == false)) ? faq.addedResult : false;
           data.push(item);
@@ -16675,7 +16560,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
 
-    // Pages New Approach
+    // Web New Approach
 
     FindlySDK.prototype.designPageConfig = function (config, customConfig) {
       var _self = this;
@@ -16684,7 +16569,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         config.appearance.forEach((appearance) => {
           var _self1 = _self;
           var template = appearance.template;
-          if (appearance.type === 'page') {
+          if (appearance.type === 'web') {
             // writing conditions only for StructuredData
             if (template && template.layout) {
               _self.pageConfig.searchInterface = template;
@@ -16709,7 +16594,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (config.interface === 'fullSearch') {
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
-          if (appearance.type === 'page') {
+          if (appearance.type === 'web') {
             // writing conditions only for StructuredData
             if (template && template.layout) {
               _self.pageConfig.fullSearchInterface = template;
@@ -16734,7 +16619,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (config.interface === 'liveSearch') {
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
-          if (appearance.type === 'page') {
+          if (appearance.type === 'web') {
             // writing conditions only for StructuredData
             if (template && template.layout) {
               _self.pageConfig.liveSearchInterface = template;
@@ -16799,7 +16684,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       // Custom templateType and layoutType by user from index.html - overrides the AJAX config
       if (customTemplateConfig && Object.keys(customTemplateConfig).length) {
-        if (customTemplateConfig.appearanceType == "page") {
+        if (customTemplateConfig.appearanceType == "web") {
           if (customTemplateConfig.interface === 'search') {
             selectedSearchTemplateType = customTemplateConfig.templateType ? customTemplateConfig.templateType : selectedSearchTemplateType; // assign defalt in false case
             selectedSearchLayoutType = customTemplateConfig.layoutType ? customTemplateConfig.layoutType : selectedSearchLayoutType; // assign defalt in false case
@@ -16903,17 +16788,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // From now, the container and data will be managed.
 
       // Search call back
-      _self.pubSub.unsubscribe('sa-page-search');
-        _self.pubSub.subscribe('sa-page-search', (msg, data) => {
+      _self.pubSub.unsubscribe('sa-web-search');
+        _self.pubSub.subscribe('sa-web-search', (msg, data) => {
         var _self = this;
         var container;
-        var pages = [];
+        var web = [];
         var config = {};
         var finalTemplate = '';
 
         if (data.isLiveSearch) {
           finalTemplate = liveSearchTemplate;
-          pages = _self.designPageWithMappings(data.dataObj.pages, templateConfig.liveSearchInterface.mapping);
+          web = _self.designPageWithMappings(data.dataObj.web, templateConfig.liveSearchInterface.mapping);
           if (templateConfig.liveSearchInterface && templateConfig.liveSearchInterface.layout) {
             data['isClickable'] = templateConfig.liveSearchInterface.layout.isClickable;
             config = templateConfig.liveSearchInterface;
@@ -16921,7 +16806,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else if (data.isSearch) {
           finalTemplate = searchTemplate;
-          pages = _self.designPageWithMappings(data.dataObj.pages, templateConfig.searchInterface.mapping);
+          web = _self.designPageWithMappings(data.dataObj.web, templateConfig.searchInterface.mapping);
           if (templateConfig.searchInterface && templateConfig.searchInterface.layout) {
             data['isClickable'] = templateConfig.searchInterface.layout.isClickable;
             config = templateConfig.searchInterface;
@@ -16929,7 +16814,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else if (data.isFullResults) {
           finalTemplate = fullSearchTemplate;
-          pages = _self.designPageWithMappings(data.dataObj.pages, templateConfig.fullSearchInterface.mapping);
+          web = _self.designPageWithMappings(data.dataObj.web, templateConfig.fullSearchInterface.mapping);
           if (templateConfig.fullSearchInterface && templateConfig.fullSearchInterface.layout) {
             data['isClickable'] = templateConfig.fullSearchInterface.layout.isClickable;
             config = templateConfig.fullSearchInterface;
@@ -16940,7 +16825,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         // this should only be applied for 'search' interface
         data['structuredData'] = [];
-        data['structuredData'] = pages;
+        data['structuredData'] = web;
         var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
         var devMode = _self.isDev ? true : false;
 
@@ -16951,20 +16836,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (!data.selectedFacet) {
           viewType = 'Preview';
         }
-        if (!pages || !pages.length) {
-          pages = [];
+        if (!web || !web.length) {
+          web = [];
         }
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          // if(selectedLiveSearchTemplateType === 'grid'){
-          //   maxSearchResultsAllowed = 4;
-          // }
-          // else if (selectedLiveSearchTemplateType === 'carousel'){
-          //   maxSearchResultsAllowed = pages ? pages.length : 1;
-          // }
-          // else{
-          //   maxSearchResultsAllowed = 2;
-          // }
           maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
@@ -16972,14 +16848,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             maxSearchResultsAllowed = 4;
           }
           else if (selectedSearchTemplateType === 'carousel') {
-            maxSearchResultsAllowed = pages ? pages.length : 1;
+            maxSearchResultsAllowed = web ? web.length : 1;
           }
           else {
             maxSearchResultsAllowed = 2;
           }
         }
+        else if(data.isFullResults && _self.vars.selectedFacetFromSearch == 'all results'){
+          maxSearchResultsAllowed = 5;
+        }
         else {
-          maxSearchResultsAllowed = pages ? pages.length : 1;
+          maxSearchResultsAllowed = web ? web.length : 1;
         }
         /** Sunil - resultRanking test */
         var resultRanking = $(_self.fullResultRanking()).tmpl({
@@ -16999,7 +16878,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var dataHTML = $(finalTemplate).tmplProxy({
           'isClickable': data.isClickable,
-          'structuredData': pages,
+          'structuredData': web,
           'config': config,
           'viewType': viewType,
           'isFullResults': data.isFullResults,
@@ -17007,7 +16886,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'isSearch': data.isSearch,
           'devMode': devMode,
           'isLiveSearch': data.isLiveSearch,
-          'appearanceType': 'page',
+          'appearanceType': 'web',
           'maxSearchResultsAllowed': maxSearchResultsAllowed,
           'isDropdownEnabled': isDropdownEnabled,
           'tour': _self.vars.customTourResultRank,
@@ -17028,13 +16907,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         if (!container && data.isSearch) {
-          container = '.pages-data-container';
+          container = '.web-data-container';
         }
         else if (!container && data.isLiveSearch) {
-          container = '.pages-data-container';
+          container = '.web-data-container';
         }
         else if (!container && data.isFullResults) {
-          container = '.pages-full-search-container';
+          container = '.web-full-search-container';
         }
         if (data.isLiveSearch) {
           $(container).empty().append(dataHTML);
@@ -17084,23 +16963,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     }
 
-    FindlySDK.prototype.designPageWithMappings = function (pages, mapping) {
-      // console.log("pages", "mapping", pages, mapping);
+    FindlySDK.prototype.designPageWithMappings = function (web, mapping) {
       var data = [];
-      if ((pages || []).length && mapping && Object.values(mapping).length) {
-        pages.forEach(page => {
+      if ((web || []).length && mapping && Object.values(mapping).length) {
+        web.forEach(_web => {
           var item = {};
-          if (page[mapping.heading]) {
-            item.heading = page[mapping.heading];
+          if (_web[mapping.heading]) {
+            item.heading = _web[mapping.heading];
           }
-          if (page[mapping.description]) {
-            item.description = page[mapping.description];
+          if (_web[mapping.description]) {
+            item.description = _web[mapping.description];
           }
-          if (page[mapping.img]) {
-            item.img = page[mapping.img];
+          if (_web[mapping.img]) {
+            item.img = _web[mapping.img];
           }
-          if (page[mapping.url]) {
-            item.url = page[mapping.url];
+          if (_web[mapping.url]) {
+            item.url = _web[mapping.url];
           }
           if (!item.heading || !item.heading.length) {
             item.heading = '';
@@ -17114,19 +16992,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (!item.url || !item.url.length) {
             item.url = '';
           }
-          item.config = page.config;
-          item.feedback = page.feedback;
+          item.config = _web.config;
+          item.feedback = _web.feedback;
           item.customization = null;
-          item.__contentType = page.__contentType;
-          item.contentId = page.contentId;
-          item.addedResult = (page.addedResult || (page.addedResult == false)) ? page.addedResult : false;
+          item.sysContentType = _web.sysContentType;
+          item.contentId = _web.contentId;
+          item.addedResult = (_web.addedResult || (_web.addedResult == false)) ? _web.addedResult : false;
           data.push(item);
         });
         return data;
       }
     }
 
-    // Documents New Approach
+    // Files New Approach
 
     FindlySDK.prototype.designDocumentConfig = function (config, customConfig) {
       var _self = this;
@@ -17135,7 +17013,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         config.appearance.forEach((appearance) => {
           var _self1 = _self;
           var template = appearance.template;
-          if (appearance.type === 'document') {
+          if (appearance.type === 'file') {
             // writing conditions only for StructuredData
             if (template && template.layout) {
               _self.documentConfig.searchInterface = template;
@@ -17160,7 +17038,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (config.interface === 'fullSearch') {
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
-          if (appearance.type === 'document') {
+          if (appearance.type === 'file') {
             // writing conditions only for StructuredData
             if (template && template.layout) {
               _self.documentConfig.fullSearchInterface = template;
@@ -17185,7 +17063,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (config.interface === 'liveSearch') {
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
-          if (appearance.type === 'document') {
+          if (appearance.type === 'file') {
             // writing conditions only for StructuredData
             if (template && template.layout) {
               _self.documentConfig.liveSearchInterface = template;
@@ -17250,7 +17128,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       // Custom templateType and layoutType by user from index.html - overrides the AJAX config
       if (customTemplateConfig && Object.keys(customTemplateConfig).length) {
-        if (customTemplateConfig.appearanceType == "document") {
+        if (customTemplateConfig.appearanceType == "file") {
           if (customTemplateConfig.interface === 'search') {
             selectedSearchTemplateType = customTemplateConfig.templateType ? customTemplateConfig.templateType : selectedSearchTemplateType; // assign defalt in false case
             selectedSearchLayoutType = customTemplateConfig.layoutType ? customTemplateConfig.layoutType : selectedSearchLayoutType; // assign defalt in false case
@@ -17354,16 +17232,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // From now, the container and data will be managed.
 
       // Search call back
-      _self.pubSub.subscribe('sa-document-search', (msg, data) => {
+      _self.pubSub.subscribe('sa-file-search', (msg, data) => {
         var _self = this;
         var container;
-        var documents = [];
+        var files = [];
         var config = {};
         var finalTemplate = '';
 
         if (data.isLiveSearch) {
           finalTemplate = liveSearchTemplate;
-          documents = _self.designDocumentWithMappings(data.dataObj.document, templateConfig.liveSearchInterface.mapping);
+          files = _self.designDocumentWithMappings(data.dataObj.files, templateConfig.liveSearchInterface.mapping);
           if (templateConfig.liveSearchInterface && templateConfig.liveSearchInterface.layout) {
             data['isClickable'] = templateConfig.liveSearchInterface.layout.isClickable;
             config = templateConfig.liveSearchInterface;
@@ -17371,7 +17249,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else if (data.isSearch) {
           finalTemplate = searchTemplate;
-          documents = _self.designDocumentWithMappings(data.dataObj.document, templateConfig.searchInterface.mapping);
+          files = _self.designDocumentWithMappings(data.dataObj.files, templateConfig.searchInterface.mapping);
           if (templateConfig.searchInterface && templateConfig.searchInterface.layout) {
             data['isClickable'] = templateConfig.searchInterface.layout.isClickable;
             config = templateConfig.searchInterface;
@@ -17379,7 +17257,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else if (data.isFullResults) {
           finalTemplate = fullSearchTemplate;
-          documents = _self.designDocumentWithMappings(data.dataObj.document, templateConfig.fullSearchInterface.mapping);
+          files = _self.designDocumentWithMappings(data.dataObj.files, templateConfig.fullSearchInterface.mapping);
           if (templateConfig.fullSearchInterface && templateConfig.fullSearchInterface.layout) {
             data['isClickable'] = templateConfig.fullSearchInterface.layout.isClickable;
             config = templateConfig.fullSearchInterface;
@@ -17390,8 +17268,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         // this should only be applied for 'search' interface
         data['structuredData'] = [];
-        data['structuredData'] = documents;
-        // for documents no Customize option
+        data['structuredData'] = files;
+        // for files no Customize option
         var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
         var devMode = _self.isDev ? true : false;
 
@@ -17402,21 +17280,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (!data.selectedFacet) {
           viewType = 'Preview';
         }
-        if (!documents || !documents.length) {
-          documents = [];
+        if (!files || !files.length) {
+          files = [];
         }
 
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          // if(selectedLiveSearchTemplateType === 'grid'){
-          //   maxSearchResultsAllowed = 4;
-          // }
-          // else if (selectedLiveSearchTemplateType === 'carousel'){
-          //   maxSearchResultsAllowed = documents ? documents.length : 1;
-          // }
-          // else{
-          //   maxSearchResultsAllowed = 2;
-          // }
           maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
@@ -17424,14 +17293,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             maxSearchResultsAllowed = 4;
           }
           else if (selectedSearchTemplateType === 'carousel') {
-            maxSearchResultsAllowed = documents ? documents.length : 1;
+            maxSearchResultsAllowed = files ? files.length : 1;
           }
           else {
             maxSearchResultsAllowed = 2;
           }
         }
-        else {
-          maxSearchResultsAllowed = documents ? documents.length : 1;
+        else if(data.isFullResults && _self.vars.selectedFacetFromSearch == 'all results'){
+          maxSearchResultsAllowed = 5;
+        }
+        else{
+          maxSearchResultsAllowed = files ? files.length : 1;
         }
 
         var isDropdownEnabled = true;
@@ -17443,7 +17315,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var dataHTML = $(finalTemplate).tmplProxy({
           'isClickable': data.isClickable,
-          'structuredData': documents,
+          'structuredData': files,
           'config': config,
           'viewType': viewType,
           'isFullResults': data.isFullResults,
@@ -17451,7 +17323,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'isSearch': data.isSearch,
           'devMode': devMode,
           'isLiveSearch': data.isLiveSearch,
-          'appearanceType': 'document',
+          'appearanceType': 'file',
           'maxSearchResultsAllowed': maxSearchResultsAllowed,
           'isDropdownEnabled': isDropdownEnabled,
           'tour': _self.vars.customTourResultRank,
@@ -17473,13 +17345,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         if (!container && data.isSearch) {
-          container = '.documents-data-container';
+          container = '.files-data-container';
         }
         else if (!container && data.isLiveSearch) {
-          container = '.documents-data-container';
+          container = '.files-data-container';
         }
         else if (!container && data.isFullResults) {
-          container = '.documents-full-search-container';
+          container = '.files-full-search-container';
         }
 
         if (data.isLiveSearch) {
@@ -17505,23 +17377,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       console.log("self", _self.vars);
     }
 
-    FindlySDK.prototype.designDocumentWithMappings = function (documents, mapping) {
-      // console.log("documents", "mapping", documents, mapping);
+    FindlySDK.prototype.designDocumentWithMappings = function (files, mapping) {
+      // console.log("files", "mapping", files, mapping);
       var data = [];
-      if (documents && documents.length && mapping && Object.values(mapping).length) {
-        documents.forEach(document => {
+      if (files && files.length && mapping && Object.values(mapping).length) {
+        files.forEach(file => {
           var item = {};
-          if (document[mapping.heading]) {
-            item.heading = document[mapping.heading];
+          if (file[mapping.heading]) {
+            item.heading = file[mapping.heading];
           }
-          if (document[mapping.description]) {
-            item.description = document[mapping.description];
+          if (file[mapping.description]) {
+            item.description = file[mapping.description];
           }
-          if (document[mapping.img]) {
-            item.img = document[mapping.img];
+          if (file[mapping.img]) {
+            item.img = file[mapping.img];
           }
-          if (document[mapping.url]) {
-            item.url = document[mapping.url];
+          if (file[mapping.url]) {
+            item.url = file[mapping.url];
           }
           if (!item.heading || !item.heading.length) {
             item.heading = '';
@@ -17535,18 +17407,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (!item.iurlmg || !item.url.length) {
             item.url = '';
           }
-          item.config = document.config;
-          item.feedback = document.feedback;
+          item.config = file.config;
+          item.feedback = file.feedback;
           item.customization = null;
-          item.__contentType = document.__contentType;
-          item.contentId = document.contentId;
-          item.addedResult = (document.addedResult || (document.addedResult == false)) ? document.addedResult : false;
+          item.sysContentType = file.sysContentType;
+          item.contentId = file.contentId;
+          item.addedResult = (file.addedResult || (file.addedResult == false)) ? file.addedResult : false;
           data.push(item);
         });
         return data;
       }
     }
 
+    FindlySDK.prototype.hideBottomUpAllResults = function () {
+      var _self = this;
+      $('#show-all-results-container').css('display', 'none');
+      $('#searchChatContainer').removeClass('bgfocus');
+      _self.vars.selectedFacetFromSearch = "all results"
+    }
 
     FindlySDK.prototype.showAllResults = function () {
       var _self = this;
@@ -17573,10 +17451,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       <!-- Facet left-->\
                       <div class="tab-name see-all-result-nav active-tab" classification="all results">All <span class="count sdk-facet-count">(${facet.all})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="faq">FAQs <span class="count sdk-facet-count">(${facet.faq})</span></div>\
-                      <div class="tab-name see-all-result-nav " classification="page">Pages<span class="count sdk-facet-count">(${facet.page})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="web">Web<span class="count sdk-facet-count">(${facet.web})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="task">Actions <span class="count sdk-facet-count">(${facet.task})</span></div>\
-                      <div class="tab-name see-all-result-nav " classification="object">Data <span class="count sdk-facet-count">(${facet.object})</span></div>\
-                      <div class="tab-name see-all-result-nav " classification="document"> Files <span class="count sdk-facet-count">(${facet.document})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="data">Data <span class="count sdk-facet-count">(${facet.data})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="file"> Files <span class="count sdk-facet-count">(${facet.file})</span></div>\
                       <!-- Facet right-->\
                       <div  id="rightFacetFilterId" class="{{if isFilterEnabled == false}}display-none{{/if}}"> </div>\
                       <!-- Facet right Icon -->\
@@ -17586,7 +17464,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       {{if count > 0 }}\
                       <div class="filter-updated-count">\
                         <span class="length-count">${count}</span>\
-                        <span class="title">Filters applied</span>\
+                        <span class="title"> {{if count && (count == 1)}}Filter{{else}}Filters{{/if}} applied</span>\
                         <span class="clsoe-filter"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBbZHRDcIwDERju+zTSizSCWgl8sFM+Ug26AwsUDIGO9A05AChprV/osjPd2eZLtfbg2gZg3PRKDUMts3SeAaUV5kGa1sVYpkoLaPEeX525+4OGC/+FbSmPgQX6T9dFAETp968jNlC6FNl9YNNLo0NhOIqVFEC9Bk/1Xn5ELwowX6/oGjBtQVpD2mZ4cBZ2GsQCkf4xmj8GzsLeh0gnVcbAAAAAElFTkSuQmCC"></span>\
                       </div>\
                       {{/if}}\
@@ -17717,29 +17595,32 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           setTimeout(() => {
             _self.bindPerfectScroll(showAllHTML, '.data-body-sec', null, 'y', 'see-all-results');
             console.log(_self.vars['see-all-results']);
-            let data_body_sec_element = document.querySelector('.data-body-sec');
-            data_body_sec_element.addEventListener('ps-y-reach-end', () => {
-              console.log("ps-y-reach-end");
-              if (_self.vars.scrollPageNumber >= 0) {
-                if (_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 10)) {
+            if(false){
+              // disabling the infiniteScroll for now
+              let data_body_sec_element = document.querySelector('.data-body-sec');
+              data_body_sec_element.addEventListener('ps-y-reach-end', () => {
+                console.log("ps-y-reach-end");
+                if (_self.vars.scrollPageNumber >= 0) {
+                  if (_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 10)) {
+                    if(_self.vars.selectedFacetFromSearch && (_self.vars.selectedFacetFromSearch !== 'all results')){
+                      $('#loaderDIV').show()
+                      _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
+                      _self.seeAllResultsInifiteScroll();
+                    }
+                  }
+                }
+              });
+              data_body_sec_element.addEventListener('ps-y-reach-start', () => {
+                console.log("ps-y-reach-start");
+                if (_self.vars.scrollPageNumber > 0) {
                   if(_self.vars.selectedFacetFromSearch && (_self.vars.selectedFacetFromSearch !== 'all results')){
                     $('#loaderDIV').show()
-                    _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
+                    _self.vars.scrollPageNumber = _self.vars.scrollPageNumber - 1;
                     _self.seeAllResultsInifiteScroll();
                   }
                 }
-              }
-            });
-            data_body_sec_element.addEventListener('ps-y-reach-start', () => {
-              console.log("ps-y-reach-start");
-              if (_self.vars.scrollPageNumber > 0) {
-                if(_self.vars.selectedFacetFromSearch && (_self.vars.selectedFacetFromSearch !== 'all results')){
-                  $('#loaderDIV').show()
-                  _self.vars.scrollPageNumber = _self.vars.scrollPageNumber - 1;
-                  _self.seeAllResultsInifiteScroll();
-                }
-              }
-            });
+              });
+            }
           }, 100);
         };
         $('#show-all-results-container').css('display', 'block');
@@ -17910,6 +17791,139 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       this.invokeSearch();
     }
 
+    FindlySDK.prototype.invokeSpecificSearch = function (selectedFacet) {
+      var _self = this;
+      var url = _self.API.searchUrl;
+      var currentDate = new Date();
+      var dateTime = currentDate.getDate() + "/"
+        + (currentDate.getMonth() + 1) + "/"
+        + currentDate.getFullYear() + ", "
+        + currentDate.getHours() + ":"
+        + currentDate.getMinutes() + ":"
+        + currentDate.getSeconds();
+      var selectedTopFacet = {};
+
+      var payload = {
+        "query": _self.vars.searchObject.searchText,
+        // "maxNumOfResults": 9,
+        "maxNumOfResults": 10,
+        "userId": _self.API.uuid,
+        "streamId": _self.API.streamId,
+        "lang": "en",
+        // "isDev": true,
+        "isDev": _self.isDev,
+        "filters" : []
+      }
+
+      var contentTypeFilter  = {
+        "fieldName": "sysContentType",
+        "facetName": "facetContentType",
+        "facetType": "value",
+        "isMultiSelect": false,
+        "buckets": []
+      }
+
+      if (_self.vars.filterObject.length > 0) {
+        payload.filters = JSON.parse(JSON.stringify(_self.vars.filterObject));
+      }
+
+      if(selectedFacet !== 'all results'){
+        selectedTopFacet = {
+          "fieldName" : contentTypeFilter.fieldName,
+          "facetType" : contentTypeFilter.facetType,
+          "facetValue" : [selectedFacet],
+          "facetName" : contentTypeFilter.facetName
+        }
+        if(Object.values(selectedTopFacet).length){
+          if(!payload.filters || !payload.filters.length){
+            payload.filters = [];
+          }
+          payload.filters.push(selectedTopFacet); 
+        }
+      }
+
+      if(_self.vars.filterObject && _self.vars.filterObject.length){
+        if(!_self.vars.isPriorfiltersApplied){
+          _self.vars.scrollPageNumber = 0;
+        }
+      }
+
+      console.log(payload);
+
+      _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
+        $('#loaderDIV').hide();
+        $('.kore-sdk-pagination-div').show();
+        if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+          var responseObject = { 'type': 'fullResult', data: true, query: _self.vars.searchObject.searchText }
+          console.log(responseObject);
+          _self.parentEvent(responseObject);
+        }
+
+        $(".custom-insights-control-container").hide();
+        var faqs = [], web = [], tasks = [], files = [], facets = {}, data = {}, searchFacets = [];
+
+        console.log(response.template);
+
+        if (response.template) {
+          faqs = response.template.results.faq;
+          web = response.template.results.web;
+          tasks = response.template.results.task;
+          files = response.template.results.file;
+          facets = response.template.facets;
+          data = response.template.results.data;
+          searchFacets = response.template.searchFacets;
+
+          facets['all results'] = response.template.totalNumOfResults;
+          _self.vars.totalNumOfResults = response.template.totalNumOfResults
+
+          _self.vars.searchObject.liveData = {
+            faqs: faqs,
+            web: web,
+            tasks: tasks,
+            facets: facets,
+            files: files,
+            data: data,
+            originalQuery: response.template.originalQuery || '',
+            // searchFacets: searchFacets,
+          }
+          console.log(_self.vars.searchObject.liveData);
+          var dataObj = _self.vars.searchObject.liveData;
+          var facetdata = _self.vars.searchFacetFilters;
+          $(".data-body-sec").scrollTop(0);
+          _self.calculatePageNumber(selectedFacet, dataObj);
+          if(!$('body').hasClass('top-down')){
+            _self.handlePaginationUI(selectedFacet, dataObj);
+            _self.pubSub.publish('sa-st-data-search', {
+              container: '.structured-data-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+            });
+            _self.pubSub.publish('sa-faq-search', {
+              container: '.faqs-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+            });
+            _self.pubSub.publish('sa-web-search', {
+              container: '.web-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+            });
+            _self.pubSub.publish('sa-file-search', {
+              container: '.files-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+            });
+            _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: selectedFacet, isLiveSearch: false, isSearch: false, dataObj });
+          }
+          setTimeout( () => {
+            _self.checkBoostAndLowerTimes();
+          }, 400);
+        }
+      })
+
+    }
+
+    FindlySDK.prototype.handlePaginationUI = function(selectedFacet,data){
+      if(selectedFacet && data.facets[selectedFacet] > 0){
+        $('.kore-sdk-pagination-div').show();
+      }
+      else{
+        $('.kore-sdk-pagination-div').hide();
+      }
+    }
+
     FindlySDK.prototype.facetReset = function (facetObj, facetData) {
       var _self = this;
       // _self.pubSub.subscribe('sa-search-facets', (msg, data) => {
@@ -17943,7 +17957,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       _self.markSelectedFilters();
     }
-    FindlySDK.prototype.bindShowAllResultsTrigger = function (showAllHTML, facetData, data) {
+    FindlySDK.prototype.bindShowAllResultsTrigger = function (showAllHTML, facetData, data, restrictSelectFacet) {
       var _self = this;
       //_self.pubSub.publish('sa-full-data-search')
       var selectedFacet = $('.active-tab').attr('classification') ? $('.active-tab').attr('classification') : 'all results';
@@ -17954,21 +17968,41 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       slecetFacetFunc = function (selectedFacet) {
         var selectedFacet_temp = selectedFacet ? selectedFacet : "all results";
         var dataObj = data ? data.dataObj : _self.vars.searchObject.liveData;
-        _self.pubSub.publish('sa-st-data-search', {
-          container: '.structured-data-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
-        });
-        _self.pubSub.publish('sa-faq-search', {
-          container: '.faqs-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
-        });
-        _self.pubSub.publish('sa-page-search', {
-          container: '.pages-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
-        });
-        _self.pubSub.publish('sa-document-search', {
-          container: '.documents-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
-        });
-        _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: selectedFacet_temp, isLiveSearch: false, isSearch: false, dataObj });
+        if( selectedFacet == 'all results'){
+          $('.kore-sdk-pagination-div').hide();
+          _self.vars.searchCallWithSelectedFacet = false;
+          if(_self.vars.filterObject.length){
+            _self.vars.isPriorfiltersApplied = true;
+          }
+          else{
+            _self.vars.isPriorfiltersApplied = false;
+          }
+          _self.pubSub.publish('sa-st-data-search', {
+            container: '.structured-data-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+          });
+          _self.pubSub.publish('sa-faq-search', {
+            container: '.faqs-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+          });
+          _self.pubSub.publish('sa-web-search', {
+            container: '.web-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+          });
+          _self.pubSub.publish('sa-file-search', {
+            container: '.files-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
+          });
+          _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: selectedFacet_temp, isLiveSearch: false, isSearch: false, dataObj });
+        }
+        else{
+          $('#loaderDIV').show();
+          _self.vars.isPriorfiltersApplied = false;
+          _self.vars.searchCallWithSelectedFacet = true;
+          _self.invokeSpecificSearch(selectedFacet);
+          // $('.kore-sdk-pagination-div').show();
+        }
+        // handle pagination UI from here
       }
-      slecetFacetFunc(selectedFacet)
+      if(!restrictSelectFacet){
+        slecetFacetFunc(selectedFacet)
+      }
       setTimeout(() => {
         var arr = [];
         if (document.getElementsByClassName('filter-sec-tab').length) {
@@ -18036,7 +18070,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //   }
         // }
         _self.facetReset(facetObj, facetData);
-        _self.bindShowAllResultsTrigger(showAllHTML, facetData);
+        _self.bindShowAllResultsTrigger(showAllHTML, facetData, null, true);
       });
 
       $('.sdk-clear-all-facet-top').off('click').on('click', function (event) {
@@ -18105,6 +18139,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
       $('.see-all-result-nav').off('click').on('click', function (event) {
         console.log(event)
+        _self.vars.scrollPageNumber = 0;
         selectClass(event, 'target')
       });
       selectClass = function (event, related) {
@@ -18122,9 +18157,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $(event.target.parentNode).addClass('active-tab')
           }
           //_self.performRankActions(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
-        } else if (classificationselected == "page") {
+        } else if (classificationselected == "web") {
           removeActive(selectedFacet)
-          selectedFacet = 'page'
+          selectedFacet = 'web'
           slecetFacetFunc(selectedFacet)
           $(event.target).addClass('active-tab')
           if (related == 'child') {
@@ -18146,17 +18181,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (related == 'child') {
             $(event.target.parentNode).addClass('active-tab')
           }
-        } else if (classificationselected == "document") {
+        } else if (classificationselected == "file") {
           removeActive(selectedFacet)
-          selectedFacet = 'document'
+          selectedFacet = 'file'
           slecetFacetFunc(selectedFacet)
           $(event.target).addClass('active-tab')
           if (related == 'child') {
             $(event.target.parentNode).addClass('active-tab')
           }
-        } else if (classificationselected == "object") {
+        } else if (classificationselected == "data") {
           removeActive(selectedFacet)
-          selectedFacet = 'object'
+          selectedFacet = 'data'
           slecetFacetFunc(selectedFacet)
           $(event.target).addClass('active-tab')
           if (related == 'child') {
@@ -18335,8 +18370,99 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //var bucket = $(event.target).closest('.sdk-bottomup-search-face').attr('data-bucket');
       });
 
+      $(showAllHTML).off('click', '.kore-sdk-bottom-up-first').on('click', '.kore-sdk-bottom-up-first', function (){
+        $('#loaderDIV').show();
+        _self.vars.scrollPageNumber = 0;
+        _self.invokeSpecificSearch(_self.vars.selectedFacetFromSearch);
+      });
+      $(showAllHTML).off('click', '.kore-sdk-bottom-up-last').on('click', '.kore-sdk-bottom-up-last', function (){
+        $('#loaderDIV').show();
+        var totalPages;
+        totalPages = $('#kore-total-page-number').text();
+        if(totalPages){
+          _self.vars.scrollPageNumber = totalPages - 1;
+        }
+        _self.invokeSpecificSearch(_self.vars.selectedFacetFromSearch);
+      });
+      $(showAllHTML).off('click', '.kore-sdk-bottom-up-next').on('click', '.kore-sdk-bottom-up-next', function (){
+        if(_self.vars.totalNumOfResults > ((_self.vars.scrollPageNumber + 1) * 10)){
+          _self.vars.scrollPageNumber = _self.vars.scrollPageNumber + 1;
+          $('#loaderDIV').show();
+          _self.invokeSpecificSearch(_self.vars.selectedFacetFromSearch);
+        }
+      });
+      $(showAllHTML).off('click', '.kore-sdk-bottom-up-previous').on('click', '.kore-sdk-bottom-up-previous', function (){
+        if (_self.vars.scrollPageNumber > 0) {
+          _self.vars.scrollPageNumber = _self.vars.scrollPageNumber - 1;
+          $('#loaderDIV').show();
+          _self.invokeSpecificSearch(_self.vars.selectedFacetFromSearch);
+        }
+      });
+      $(showAllHTML).off('keyup', '.kore-current-page-number').on('keyup', '.kore-current-page-number', function (event){
+        var totalPages;
+        totalPages = $('#kore-total-page-number').text();
+        if(event.keyCode == 13 || event.which == 13){
+          if(parseInt(event.target.value) > 0){
+            if(parseInt(event.target.value) > parseInt(totalPages)){
+              _self.vars.scrollPageNumber = parseInt(totalPages) - 1;
+            }
+            else{
+              _self.vars.scrollPageNumber = parseInt(event.target.value) - 1;
+            }
+          }
+          else{
+            $('#kore-current-page-number').val(_self.vars.scrollPageNumber + 1);
+          }
+          $('#loaderDIV').show();
+          _self.invokeSpecificSearch(_self.vars.selectedFacetFromSearch);
+        }
+      });
       // Search Facet
     }
+
+    FindlySDK.prototype.calculatePageNumber = function (selectedFacet, data) {
+      var _self = this;
+      var totalPages = 1;
+      if(data && data.facets){
+        totalPages = data.facets[selectedFacet] / (10);
+        if(totalPages){
+          var temp_totalPages;
+          temp_totalPages = Math.round(totalPages);
+          if(totalPages > temp_totalPages){
+            totalPages = temp_totalPages + 1;
+          }
+          else{
+            totalPages = temp_totalPages;
+          }
+        }
+        else{
+          totalPages = 1;
+        }
+        $('#kore-current-page-number').val(_self.vars.scrollPageNumber + 1);
+        $('#kore-total-page-number').text(totalPages);
+      }
+      else{
+        $('#kore-current-page-number').val(1);
+        $('#kore-total-page-number').text(1);
+      }
+      if(_self.vars.scrollPageNumber == 0){
+        $('.kore-sdk-bottom-up-previous').addClass('disabled');
+        $('.kore-sdk-bottom-up-first').addClass('disabled');
+      }
+      else{
+        $('.kore-sdk-bottom-up-previous').removeClass('disabled');
+        $('.kore-sdk-bottom-up-first').removeClass('disabled');
+      }
+      if(_self.vars.totalNumOfResults < ((_self.vars.scrollPageNumber + 1) * 10)){
+        $('.kore-sdk-bottom-up-next').addClass('disabled');
+        $('.kore-sdk-bottom-up-last').addClass('disabled');
+      }
+      else{
+        $('.kore-sdk-bottom-up-next').removeClass('disabled');
+        $('.kore-sdk-bottom-up-last').removeClass('disabled');
+      }
+    }
+
     FindlySDK.prototype.facetTemplateTopIcon = function () {
       var facet =
         '<script type="text/x-jqury-tmpl">\
@@ -18366,7 +18492,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         </div>\
             <div class="scroll-data">\
             {{each(i, searchFacet) searchFacets}}\
-                <div class="group-checkbox filters-content" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+                <div class="group-checkbox filters-content" data-facetType="${searchFacet.facetType}" data-facetName="${searchFacet.facetName}" data-fieldName="${searchFacet.fieldName}">\
                   <div class="heading-title">${searchFacet.facetName}</div>\
                   {{each(j, bucket) searchFacet.buckets}}\
                   {{if searchFacet.isMultiSelect}}\
@@ -18419,7 +18545,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       {{each(i, searchFacet) searchFacets}}\
       <div class="dropdown_custom_filter">\
       <div  class="openDropdownFacets dropbtn">${searchFacet.facetName}{{if searchFacet.selectedFieldsCount && searchFacet.selectedFieldsCount>0}} <span class="count">${searchFacet.selectedFieldsCount}</span> {{/if}}\ <img class="down-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBbY6xDYMwEEX/yQuc5QUOmfRZIRskEyQjZJyU6VJmBGoqREcHJVT2AsiAhQRGvO7+vdM/JVleMevBe9fgBBF7Z21+itmUIPzZ6N47VyeStU+APgj0WK8uV8lsK5K/99Lc5pbdMtNWIQJSBYi+MQjhhTDeuplETOQobhLOn4/wMZ8As5kn7D+3/a0AAAAASUVORK5CYII=">\<img class="up-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACQSURBVHgBhY7BDYJQDIb/ggM8wgI14llXYBJ1A48e3YAVvHpyBHUC4gCYTmDeAGrpAw48LnxJk+bv16aEEczskKRV6OXdHMazJJJocccfFIqXRd1lAxRJqi+RZt9nqwuINtBvKSKeTGKTbiY9TTrGrxRnkO6gvzJ1WV5D6WrSCRO8/zycyzO7XNnWeosZgtMCupEtrTPwmiYAAAAASUVORK5CYII=">\</div>\
-      <div id="myDropdown" class="dropdown-content filters-content-top-down myDropdown-${i}" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+      <div id="myDropdown" class="dropdown-content filters-content-top-down myDropdown-${i}" data-facetType="${searchFacet.facetType}" data-facetName="${searchFacet.facetName}" data-fieldName="${searchFacet.fieldName}">\
       {{each(j, bucket) searchFacet.buckets}}\
       <div class="option-text">\
       {{if searchFacet.facetType == "value"&& searchFacet.isMultiSelect }}\
@@ -18488,7 +18614,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <img class="down-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBbY6xDYMwEEX/yQuc5QUOmfRZIRskEyQjZJyU6VJmBGoqREcHJVT2AsiAhQRGvO7+vdM/JVleMevBe9fgBBF7Z21+itmUIPzZ6N47VyeStU+APgj0WK8uV8lsK5K/99Lc5pbdMtNWIQJSBYi+MQjhhTDeuplETOQobhLOn4/wMZ8As5kn7D+3/a0AAAAASUVORK5CYII=">\
                   <img class="up-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACQSURBVHgBhY7BDYJQDIb/ggM8wgI14llXYBJ1A48e3YAVvHpyBHUC4gCYTmDeAGrpAw48LnxJk+bv16aEEczskKRV6OXdHMazJJJocccfFIqXRd1lAxRJqi+RZt9nqwuINtBvKSKeTGKTbiY9TTrGrxRnkO6gvzJ1WV5D6WrSCRO8/zycyzO7XNnWeosZgtMCupEtrTPwmiYAAAAASUVORK5CYII=">\
                 </div>\
-                  <div id="myDropdown" class="dropdown-content filters-content sdk-top-facet-option myDropdown-${i}" id="sdk-top-facet-option-${i}" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+                  <div id="myDropdown" class="dropdown-content filters-content sdk-top-facet-option myDropdown-${i}" id="sdk-top-facet-option-${i}" data-facetType="${searchFacet.facetType}" data-facetName="${searchFacet.facetName}" data-fieldName="${searchFacet.fieldName}">\
                   <!--<div class="kr-sg-input-search">\
                   <input type="text" placeholder="Search" class="input-search sdk-bottomup-search-facet" id="sdk-bottomup-search-facet-${i}" data-bucket="${searchFacet[i]}" >\
                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAulBMVEUAAAAAAAAAAIAAVVUrK1UkN0kiM0QgMFAtLUskMUkiM00pMUopNEsoM0olNUomNUglNEokM0koMksnNUomNEkmNEglM0skNUkmNkwnM0snNUomNEklM0onNUolNUslNEonNEkmNUomNUsmNEolM0snNUomNEomNEomNEslNUkmNUomNEomNUomNEolNEomNEsmNEomNEomNEomM0omNEomNEomNEomNEomNEomNEomNEomNEomNEr///9hPe5QAAAAPXRSTlMAAQIDBg4PEBEVHh8sLTBDRUZHSElKS01RVVZeaG90dXZ5fqGkpaittbi9xMfL09TW2d7f4uPq7e/x8vf4F8v60AAAAAFiS0dEPdBtUVkAAACASURBVBgZBcGLIoNQAADQ05WWipZ5brGH0JDXZu7w/9/lHAAAgPJ4BICk3fx8/fUVQHL3Vgf5MtaA9vUQXO5y4LMGPC5AsQ+AWQ+qLcDFM8h+M8BtB6znQPpxBZzEU0i7lwA4+76fNjfvQxwDHK2ehofrcB4bAMAkFgCA8gAAgH/ZSQkFmhv26gAAAABJRU5ErkJggg==" class="search-icon">\
@@ -18613,11 +18739,35 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <div class="data-body-sec {{if facetPosition == `top`}}iffilteristop{{/if}}">\
         <div class="faqs-full-search-container matched-structured-data-contaniers">\
         </div>\
-        <div class="pages-full-search-container matched-structured-data-contaniers">\
+        <div class="web-full-search-container matched-structured-data-contaniers">\
         </div>\
         <div class="structured-data-full-search-container matched-structured-data-contaniers">\
         </div>\
-        <div class="documents-full-search-container matched-structured-data-contaniers">\
+        <div class="files-full-search-container matched-structured-data-contaniers">\
+        </div>\
+        <div class="kore-sdk-pagination-div">\
+          <div class="kore-sdk-custom-pagination">\
+            <div class="kore-sdk-bottom-up-first">\
+              <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAAQABADAREAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD+zn9pz9o/XPhre6B8H/gxpfhzxb+0d8Q9H1XxB4esPF8t9B8MfhH8OtBmjh8WfH74+6vpdzZXXh34V+Et722l6XFqWk+IPin4vFt4F8I3th/xUvirwe0r77fi/JeYiT9mv49eP/2j9X8SfEbRPCulaJ+y3/ZVjpXwe8b61p+taZ49+POsxXLtrnxc8OaBd33keEPgTfQKlj8NW1221DxV8RoXm8cW0ujeDG8M3PjAat69fLy9e4LX0Iv2m/2bda+JWoaD8Yvg1q2g+Ef2jvh9oupeHdAvvFYvZfhj8Xfh1rU4uPFPwB+PujafZ6nL4g+FXi9g89jqtvpOp+Jvhj4qa38beD7e7ceIfDPisT6Pb8vNef5g/wAST9mv4C/ED9nDV/Enw50XxVpWufst/wBlWOq/B7wRrWo61qfj74DazLcuuufCLw5r93YeR4v+BNjAyXvw0Gu3On+KvhzAk3ge3i1nwYnhm38IDaevXr2fn5PuMP/Z">\
+            </div>\
+            <div class="kore-sdk-bottom-up-previous">\
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACuSURBVHgB3VKxDcIwEDwTD2AEA3xk0zMCbMAGrMAIGYWSjhFQJgipEcIlnTMAknloaPImSZecZMnS3+nuTw+MAkRk+FHbbNZBTFBZBegd+uLrnLuKyBUSR6XEUPqCGEvv7weJJ6+g9JnFdUoM2d0Vn+hduEKC1xGI3Lzr7/5Lwcjtg6zdp3iZNGgYxixL/p7MYv5sQqgxLMlqzX0EXmfTNv97SN7frohqy50Qpok3s14tS5MeJgUAAAAASUVORK5CYII=">\
+            </div>\
+            <div class="input-text-data">\
+              <div class="title">Page</div>\
+              <div>\
+                <input id="kore-current-page-number" class="kore-current-page-number" type="text" value="1">\
+              </div>\
+              <div class="title">of</div>\
+              <div id="kore-total-page-number" class="kore-total-page-number">15</div>\
+            </div>\
+            <div class="kore-sdk-bottom-up-next">\
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAALCAYAAABcUvyWAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBXY+xDQIxEAT3bAIiZEQD99gf4xKgEuiEkDY+JUJUQEoGxAjhCsAhwUvmEHqw/8LZW2lWM9femNEwyiE7BaQ5SB+Y2eSBjvFxNGYyBqmNNLdSfH0C6j6YbQOiGVK7CCFE1QUh3FZI6QIa7IrGr1m5ExL2qoBTtxYZkWibP7R2yZW9ix33oHuWUAZ+Ye17A+GRSBSv5zx4A80eMIB299aVAAAAAElFTkSuQmCC">\
+            </div>\
+            <div class="kore-sdk-bottom-up-last">\
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC8SURBVHgB3ZKxEcIwDEUVZwAEWUCJnJ5R2AA2YAQYIRswAkdJyQRQ0kEJTewFOBBxjos5QkI68htbOn//d7YA+iWK9Z4oHb9q4owSvfjmCasF4vAKAawRo621+QVxcAQIMhxFaE2+g1YUxDMhMSRytSjmUx1J+N6w1hwciVoJweYseq4dSPSySCZCj4R5Wj2nam9QcC936PVv8kqN6Uk6L9PJSxeqZrMgdjcTT9wPuFn4yVwYPg1SW/P/6gGaqz4/5BlCXQAAAABJRU5ErkJggg==">\
+            </div>\
+          </div>\
         </div>\
         <div class="custom-add-result-container {{if devMode== false || viewType != "Customize"}}display-none{{/if}}">\
           <div class="custom-add-new-result-content">\
@@ -18686,8 +18836,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div class="data-body-sec customization {{if facetPosition == `top`}}iffilteristop{{/if}}">\
           {{if !data}} <p>test</p>{{/if}}\
           <div class="results-wrap">\
-            {{each(i, record) data.pages}}\
-              <div class="data-wrap" index="${i}" contentType="${record.__contentType}" contentId="${record.contentId}" score="${record.score}" boost="${record.config.boost}" pinIndex="${record.config.pinIndex}" visible="${record.config.visible}">\
+            {{each(i, record) data.web}}\
+              <div class="data-wrap" index="${i}" contentType="${record.sysContentType}" contentId="${record.contentId}" score="${record.score}" boost="${record.config.boost}" pinIndex="${record.config.pinIndex}" visible="${record.config.visible}">\
                 <div class="customization-tile">\
                     <div class="drag-content"></div>\
                     <div class="actions-content">\
@@ -19151,7 +19301,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.refreshFullResultsPage = function() {
       var _self = this;
-      _self.vars.selectedFacetFromSearch = "all results"
+      // _self.vars.selectedFacetFromSearch = "all results"
         _self.invokeSearch();
         $('#loaderDIV').show()
     }
@@ -19295,6 +19445,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     // top-search-template --start///
     FindlySDK.prototype.initializeTopSearchTemplate = function () {
       var _self = this;
+      _self.vars.selectedFacetFromSearch = "all results"
       if ($('.topdown-search-main-container').length) {
         $('#search-box-container').off('keydown', '#search').on('keydown', '#search', function (e) {
           // if ($('body').hasClass('top-down')) {
@@ -19556,7 +19707,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 	</div>\
   {{each(i, searchFacet) searchFacets}}\
 	<div class="category-wise-container">\
-		<div class="group-checkbox filters-content-top-down" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+		<div class="group-checkbox filters-content-top-down" data-facetType="${searchFacet.facetType}" data-facetName="${searchFacet.facetName}" data-fieldName="${searchFacet.fieldName}">\
 			<div class="heading-title {{if searchFacet.showSearch == true}}d-none{{/if}}"">\${searchFacet.facetName}<span class="float-right d-none  {{if searchFacet.maxCount && searchFacet.buckets.length > searchFacet.maxCount}}d-block{{/if}}"><img class="facet-search-icon display-none" facetFacetName="${searchFacet.facetName}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBrVNLUsJAEO2eiLoTbhBuQE6g3gC3UJSZhViUi8gJ9AaWCyuFLhqLApbiCcQbcAM5QtiJMmk7VsoKDPFT8jZdk+735r3MDMA/gXmNkMgF2HJ3YTHRWke/Fri97wfAcJm2E6IrQ+MFz3VL6+nqvFoid4cEjL7h+Kjp10tNv1Yu8LwUMz87uPPSoUE110FIfd9BvBCCt85ySL0DB50H6Zez/S8HCdmw0Xl5W7oxljJ+g+1zK0JIQ1dKMR3KhWF+ZFAVS8CB16KUCH5EPHWQ9yyBAsBUiktExe/oCrBiGGeWQJrbyrcKRBUoiEeWQIJ35jYiBjfUr6wj33UHV1Kipq53l0Sziw71qrILie6I5YfFYKLEtnw7TgZZYspGh2e6PrEcJDjVjZFh5QHzTCEEcu4k5H1ZX5/4NU9OoV1AfMq6zH0LeUgvHIkTL+vkjyKf92Yz+ADa8Y5Ak9HPCwAAAABJRU5ErkJggg==">\<span>\</div>\
       <div class="input-div {{if searchFacet.showSearch !== true}}d-none{{/if}}"><input type="text" class="searchFacetInput" id="${searchFacet.facetName}">\ <span class="float-right d-none" id="${searchFacet.facetName}-close">\<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACGSURBVHgB3ZK9DYAgEIURjY2RWVzFEWgtYBvXcBTcwClsFIg5osmZgEjoeNVxx/v4ySOkLDFpVTcdQ2gOMyaswj2KF+bUnDb14oNAD2ZGa06+BBt7YTYM8fUeVSEInGa1Gd0173qf2/UXAEOgDpkdnGQq+wlec8onRs1JEAhJNEjyHaQCdAGUc1yB6RityQAAAABJRU5ErkJggg==">\</span>\</div>\
       {{each(j, bucket) searchFacet.buckets.slice(0, (searchFacet.maxCount?searchFacet.maxCount:searchFacet.buckets.length))}}\
@@ -19605,7 +19756,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       {{each(i, searchFacet) searchFacets}}\
       <div class="dropdown_custom_filter">\
       <div  class="openDropdownFacets dropbtn">${searchFacet.facetName}{{if searchFacet.selectedFieldsCount && searchFacet.selectedFieldsCount>0}} <span class="count">${searchFacet.selectedFieldsCount}</span> {{/if}}\ <img class="down-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBbY6xDYMwEEX/yQuc5QUOmfRZIRskEyQjZJyU6VJmBGoqREcHJVT2AsiAhQRGvO7+vdM/JVleMevBe9fgBBF7Z21+itmUIPzZ6N47VyeStU+APgj0WK8uV8lsK5K/99Lc5pbdMtNWIQJSBYi+MQjhhTDeuplETOQobhLOn4/wMZ8As5kn7D+3/a0AAAAASUVORK5CYII=">\<img class="up-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACQSURBVHgBhY7BDYJQDIb/ggM8wgI14llXYBJ1A48e3YAVvHpyBHUC4gCYTmDeAGrpAw48LnxJk+bv16aEEczskKRV6OXdHMazJJJocccfFIqXRd1lAxRJqi+RZt9nqwuINtBvKSKeTGKTbiY9TTrGrxRnkO6gvzJ1WV5D6WrSCRO8/zycyzO7XNnWeosZgtMCupEtrTPwmiYAAAAASUVORK5CYII=">\</div>\
-      <div id="myDropdown" class="dropdown-content filters-content-top-down myDropdown-${i}" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+      <div id="myDropdown" class="dropdown-content filters-content-top-down myDropdown-${i}" data-facetType="${searchFacet.facetType}" data-facetName="${searchFacet.facetName}" data-fieldName="${searchFacet.fieldName}">\
       {{each(j, bucket) searchFacet.buckets}}\
       <div class="option-text">\
       {{if searchFacet.facetType == "value"&& searchFacet.isMultiSelect }}\
@@ -19865,7 +20016,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var selectedFacetTemplate = '<script id="selected_facet_tmpl" type="text/x-jqury-tmpl"> \
       {{if selectedFacets.length}} \
       {{each(index, facet) selectedFacets}} \
-      <div class="filter-tag-content filters-content-top-down" data-facetType="${facet.fieldType}" data-fieldName="${facet.fieldName}">\
+      <div class="filter-tag-content filters-content-top-down" data-facetType="${facet.fieldType}" data-facetName="${facet.facetName}" data-fieldName="${facet.fieldName}">\
        <span class="filter-tag-name">${facet.name}</span>\
          <span class="close-filter-tag" id="${facet.id}" >\
             <img name="${facet.name}" value="${facet.name}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBbZHRDcIwDERju+zTSizSCWgl8sFM+Ug26AwsUDIGO9A05AChprV/osjPd2eZLtfbg2gZg3PRKDUMts3SeAaUV5kGa1sVYpkoLaPEeX525+4OGC/+FbSmPgQX6T9dFAETp968jNlC6FNl9YNNLo0NhOIqVFEC9Bk/1Xn5ELwowX6/oGjBtQVpD2mZ4cBZ2GsQCkf4xmj8GzsLeh0gnVcbAAAAAElFTkSuQmCC">\
@@ -20091,9 +20242,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         <!-- </div> -->
                         <div class="faqs-live-data-container">
                         </div>
-                        <div class="pages-live-data-container">
+                        <div class="web-live-data-container">
                         </div>
-                        <div class="documents-live-data-container">
+                        <div class="files-live-data-container">
                         </div>
                         <div class="structured-data-container">
                         </div>
@@ -20142,11 +20293,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         <div class="content-data-sec">
                             <div class="faqs-search-data-container">
                             </div>
-                            <div class="pages-search-data-container">
+                            <div class="web-search-data-container">
                             </div>
                             <div class="structured-search-data-container">
                             </div>
-                            <div class="documents-search-data-container">\
+                            <div class="files-search-data-container">\
                             </div>\
                             <div class="custom-add-result-container display-none">\
                               <div class="custom-add-new-result-content">\
@@ -20187,7 +20338,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('#conversation-container').hide();
       $('.show-result').hide();
       findlyConfig.autoConnect = true;
-      _self.initialize(findlyConfig);
+      _self.initialize(findlyConfig, _self.isDev);
       _self.initializeTopSearchTemplate();
       if ($('.search-background-div').length) {
         $('.search-background-div').remove();
@@ -20243,7 +20394,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.addCustomTemplateConfig();
       var searchText = "";
       function searchHandler(data) {
-        var size = data.documents.length + data.pages.length + data.faqs.length + data.tasks.length;
+        var size = data.files.length + data.web.length + data.faqs.length + data.tasks.length;
         if (data.originalQuery) {
           searchText = data.originalQuery;
         }
@@ -20283,7 +20434,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if(_self.vars.enterIsClicked){
           return;
         }
-        if ((data.faqs || []).length || (data.pages || []).length || (data.document || []).length) {
+        if ((data.faqs || []).length || (data.web || []).length || (data.files || []).length) {
           $('#live-search-result-box').show();
         }
       });
@@ -20363,7 +20514,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                     <div class="action-results-container btn_block_actions main-content-title-grid-data">\
                                         {{each(key, task) tasks}}\
                                         <div class="action-content title-box-data">\
-                                            <button id="${key}" class="action-btns search-task title-name text-truncate" title="${task.taskName}"  contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                                            <button id="${key}" class="action-btns search-task title-name text-truncate" title="${task.taskName}"  contentId="${task.taskId}" contentType="${task.sysContentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
                                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
                                             ${task.titleText}\
                                             </button>\
@@ -20447,11 +20598,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (appearanceType === 'faq') {
             selectedFacet = 'faq';
           }
-          if (appearanceType === 'object') {
-            selectedFacet = 'object';
+          if (appearanceType === 'data') {
+            selectedFacet = 'data';
           }
-          if (appearanceType == 'page') {
-            selectedFacet = 'page';
+          if (appearanceType == 'web') {
+            selectedFacet = 'web';
           }
           if (appearanceType == 'all results') {
             selectedFacet = 'all results';
@@ -20459,8 +20610,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (appearanceType == 'task') {
             selectedFacet = 'task';
           }
-          if (appearanceType == 'document') {
-            selectedFacet = 'document';
+          if (appearanceType == 'file') {
+            selectedFacet = 'file';
           }
           _self.vars['selectedFacetFromSearch'] = selectedFacet;
           _self.prepAllSearchData(selectedFacet);

@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service'
-
+import { environment } from '@kore.environment';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 declare const $: any;
@@ -73,6 +73,7 @@ export class BotActionComponent implements OnInit {
   };
   isEnabledAll = "disable";
   loading:boolean=true;
+  botBulilderUrl = environment.API_SERVER_URL;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,

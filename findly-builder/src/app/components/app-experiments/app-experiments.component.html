@@ -150,7 +150,7 @@
                         Run
                       </button>
                       <span (click)="addExperiment('edit', exp)" style="padding-left: 2px; font-size: 9px"
-                        *ngIf="!status_active">View search configuration</span>
+                        *ngIf="!status_active">View configuration</span>
                     </div>
                   </div>
 
@@ -189,7 +189,7 @@
                 <div class="bg-sec">
                   <div class="row m-0 col-12 acc-row-header">
                     <div class="col-2 title">Variant</div>
-                    <div class="col-2 title">INDEX CONFIG</div>
+                    <div class="col-2 title">INDEX</div>
                     <div class="col-2 title">SEARCH CONFIG</div>
                     <div class="col-1 title">Traffic</div>
                     <div class="col-1 title">users</div>
@@ -224,7 +224,7 @@
                     </div>
                   </div>
                   <div class="v-search-config">
-                    <span (click)="addExperiment('edit', exp)">View search configuration</span>
+                    <span (click)="addExperiment('edit', exp)">View configuration</span>
                   </div>
                 </div>
               </div>
@@ -259,7 +259,7 @@
 <div class="no-experiments" *ngIf="filterExperiments.length!=0&&listOfExperiments.length===0">
         <div>No results found</div>
       </div>
-      <div *ngIf='listOfExperiments.length>0' style="margin-right:45px;"><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='exp_limitPage' (pageChanged)="paginate($event)"></app-record-pagination></div>
+      <!-- <div *ngIf='listOfExperiments.length>0' style="margin-right:45px;"><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='exp_limitPage' (pageChanged)="paginate($event)"></app-record-pagination></div> -->
     </perfect-scrollbar>
   </div>
 </div> 
