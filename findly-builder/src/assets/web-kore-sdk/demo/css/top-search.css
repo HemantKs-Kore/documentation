@@ -904,6 +904,7 @@ input:focus{
 }
 .topdown-search-main-container .search-input-box .search-box-container-data .search-bar .search-input#suggestion {
   color: #8a959f;
+  box-shadow: none !important;
 }
 .topdown-search-main-container .search-input-box .live_search_result_box::before,.topdown-search-main-container .search-input-box .frequently_searched_box::before{
   content: "";
