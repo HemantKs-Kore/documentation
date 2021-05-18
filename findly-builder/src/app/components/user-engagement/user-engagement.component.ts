@@ -80,6 +80,7 @@ export class UserEngagementComponent implements OnInit {
   }
   type = '';
   refElement: any;
+  geoEmpty = false;
   @Output() updatedRanges = new EventEmitter();
   /**slider */
   maxHeatValue = 0;
@@ -489,6 +490,7 @@ var valueList2 = totaldata.map(function (item) {
     let xAxisData = [];
     let yAxisRepeatUser = [];
     let yAxisNewUsers = [];
+    let splitNumber = 1;
     if(this.group == 'date'){ // 7 days
       this.usersChart.forEach(element => {
         let date = new Date(element.date);
@@ -514,10 +516,20 @@ var valueList2 = totaldata.map(function (item) {
           yAxisNewUsers.push(element.newUsers);
       });
     }
+    let sumArray = [];
+    yAxisRepeatUser.forEach((element,index) => {
+      sumArray.push(element + yAxisNewUsers[index]);
+     // console.log(element , yAxisNewUsers[index] , element + yAxisNewUsers[index])
+    });
+    if(Math.max(...sumArray) < 5){
+      splitNumber = Math.max(...sumArray) +1;
+    }else{
+      splitNumber = 5;
+    }
     this.userEngagementChartData = {
       
       tooltip: {
-        trigger: 'axis',
+       trigger: 'axis',
         axisPointer: {            
           type: 'none'        
       },
@@ -550,6 +562,12 @@ var valueList2 = totaldata.map(function (item) {
       },
       xAxis: {
           type: 'category',
+          axisLine: {
+            show: false, // Hide full Line
+            },
+            axisTick: {
+                show: false, // Hide Ticks,
+            },
           data: xAxisData, //['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] //data//
           axisLabel:{
             //margin: 20,
@@ -558,18 +576,22 @@ var valueList2 = totaldata.map(function (item) {
             fontSize: 12,
             fontFamily: "Inter"
           },
+          nameLocation: 'left',
+          nameGap: 50,
       },
       yAxis: {
-           type: 'value',
+        type: 'value',
            name: 'Number of Users',
            nameLocation: 'middle',
-           nameGap: 50,
+           nameGap: 30,
+          // minInterval: 2,
            nameTextStyle: {
             color: "#9AA0A6",
             fontWeight: "normal",
             fontSize: 12,
-            fontFamily: "Inter"
+            fontFamily: "Inter",
           },
+          //splitNumber: splitNumber,
            axisLabel:{
             //margin: 20,
             color: "#9AA0A6",
@@ -577,6 +599,12 @@ var valueList2 = totaldata.map(function (item) {
             fontSize: 12,
             fontFamily: "Inter"
           },
+          axisLine: {
+            show: false, // Hide full Line
+            },
+            axisTick: {
+                show: false, // Hide Ticks,
+            },
       },
       series: [
         //barMinWidth = 10;
@@ -711,12 +739,24 @@ var valueList2 = totaldata.map(function (item) {
           xAxis: {
               type: 'value',
               axisLabel: {
-                formatter: '{value}'
+                formatter: '{value} %'
             },
+            axisLine: {
+              show: false, // Hide full Line
+              },
+              axisTick: {
+                  show: false, // Hide Ticks,
+              },
            // name: "Number  of  Clicks"
           },
           yAxis: {
             type: 'category',
+            axisLine: {
+              show: false, // Hide full Line
+              },
+              axisTick: {
+                  show: false, // Hide Ticks,
+              },
               data: y_axis,//['Desktop_Image', 'Tablet_Image', 'Mobile_Image'],
               inverse: true,
               axisLabel: {
@@ -777,6 +817,8 @@ var valueList2 = totaldata.map(function (item) {
     }
     mostUsedBrowser(){
       let graphData = [];
+      let gridWidth = "0%";
+      let mostUsedBrowserNumberOfuserObj = {}
       let y_axis = [];
       y_axis = this.mostUsedDev_bro_geo_sen.filter(function (e) { 
         return e.name; 
@@ -795,12 +837,22 @@ var valueList2 = totaldata.map(function (item) {
             y = name ||'';
             element.name = name;
             graphData.push(element.percentOfUsers);
+            mostUsedBrowserNumberOfuserObj[name] = element.usersCount
           }else{
-            graphData.push('')
+           // graphData.push('')
           }
         });
         
       });
+      // if(y_axis.length == 1){
+      //   y_axis.push("");
+      //   y_axis.push("");
+      //   y_axis.reverse();
+      //   graphData.push("");
+      //   graphData.push("");
+      //   graphData.reverse();
+        
+      // }
     //   <div class="metrics-tooltips-hover agent_drop_tolltip">
     //   <div class="split-sec">
     //     <div class="main-title">{c0} Users are using {b0} to search</div>
@@ -812,33 +864,60 @@ var valueList2 = totaldata.map(function (item) {
           axisPointer: {            
             type: 'none'        
         },
-          formatter: `
-            <div class="metrics-tooltips-hover agent_drop_tolltip">
-            <div class="">
-              <div class="main-title">{c0} Users are using </div>
-              <div class="main-title">{b0} to search</div>
-            </div> 
-          </div>
+        formatter:  (params) => `
+        <div class="metrics-tooltips-hover agent_drop_tolltip">
+        <div class="">
+          <div class="main-title">${mostUsedBrowserNumberOfuserObj[params[0].axisValue]} Users in</div>
+          <div class="main-title">${params[0].axisValue} to search</div>
+        </div> 
+      </div>
+        `,
+          // formatter: `
+          //   <div class="metrics-tooltips-hover agent_drop_tolltip ">
+          //   <div class="">
+          //     <div class="main-title">{c0} Users are using </div>
+          //     <div class="main-title">{b0} to search</div>
+          //   </div> 
+          // </div>
           
-          `,
+          // `,
           position: 'top',
           padding: 0
          
         },
         xAxis: {
             type: 'value',
+            min: 0,
+            max : 100,
             axisLabel: {
-              formatter: '{value}'
+              formatter: '{value} %'
           },
+          axisLine: {
+            show: false, // Hide full Line
+            },
+            axisTick: {
+                show: false, // Hide Ticks,
+            },
          // name: "Number  of  Clicks"
         },
         yAxis: {
           type: 'category',
+          axisLine: {
+            show: false, // Hide full Line
+            },
+            axisTick: {
+                show: false, // Hide Ticks,
+            },
             data: y_axis,//['Chrome', 'Safari', 'IE'],
             inverse: true,
             axisLabel: {
               formatter: function (value) {
-                return '{' + value + '| }\n{value|' + value + '}';
+                if(value != ""){
+                  return '{' + value + '| }\n{value|' + value + '}';
+                }else{
+                  return "";
+                }
+                
               },
             rich: {
               value: {
@@ -876,8 +955,8 @@ var valueList2 = totaldata.map(function (item) {
                 backgroundColor: {
                   image : 'assets/icons/opera_logo.svg'
                   //image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAAZCAYAAACo79dmAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAM5SURBVHgB7ZddUtpQFMfPCWjwoyPdQZx2OtSXpjvAx+q0wgrEFVRXoK4AXIG4AmA66KO4AnlSWtshroDMVEUjuafnBiMhCQglTmc6/maA+5V7/5x7zrk3AC88DwgRkvr2Ow2KkkagJAGaiKTZHSz/+DJXhgiIRKwrEoCMW2uubGTRfOyrXu/cWlbByL42YULiow5MldoaqnaGMPYBCTQWpgFBVwBCkkjsgnVf8wqV2EDlmenkAhcnFvukZZeqLZ0wkWdxaRgB3vriza215VpyqXqln63O1yEClGGdqaP2OqF66golgBr/DPU/IszNqOppqtTSZF1YsYkt6jLQsu8OrzMxwNJD1eDt3IojrEkxMAoE9bZ1txyFr7qE+mzqqKUhYf6hWkb2xxgo+2xZnSPdFAR7MpiQfRUI13nv9cAkCPqcqm5zaQsGoGlaEjBeQrBzzWbzUlt8exwYRHRgGL+KA8WCmErzYiyYdoVi8UBVTqI5XXfKx0Z2xvCMLrw/vJE7kAlMA7CplVq7Q6yb5E/aU+d1scgPnvSa8NHfQ8Ui4Fcp9IZTjvQ/Vyj31OS3zAx948muECqZsLkS01OyvQijIsSJa0k/AbF6qZW0ACpnq3M7bLF8T6iE0qhC0/8MDYlTDgodIiLUslJoqnqV4+ImTAgpsYWxHkDMa4tvtj0TZA3jwnGFgNg6+1c3wJTt4MpQJ6AKjIHo0Hg5lgOKFXvS473hlgacYIl154Tyg2g2VmZ3/M3yzzlBGYJl39dgPOqG8bMW1hEPW5iDKwehUFreAxqfX9W8rQpN5wkxLMCMBCTk2DFyrbLAKU3zNJiGYZihYt20NWgqjMVKS0fXZSHoxMmzEFujwUfxni/NPQ1SgWUVenVOZQAbTtE/NnXYPkZnccHJXMnDXyMOzlfmcxAhfTnHcQFHKNZ4oYIYcvoMJ3qhkv4E2Ylr3UI34r+vzBbYFxfp4TB4CnkU81Vx4zmESvp81lbQ9Dtx45Pjc8t8A+OIFzn2mzU+rUzsZYs63xUuUdjlc1/gRU3AZ/nUaspLdQfExgXfQ/lsTybicd19E2iszhfhHxEMMGlBgn2v5XhrK/7XlRf+J/4AZ2hd+H+2OEcAAAAASUVORK5CYII='
-                }
-            },
+                },
+              },
             'Firefox': {
               height: 40,
               align: 'center',
@@ -885,9 +964,9 @@ var valueList2 = totaldata.map(function (item) {
                 image : 'assets/icons/firefox_logo.svg'
                 //image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAAZCAYAAACo79dmAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAM5SURBVHgB7ZddUtpQFMfPCWjwoyPdQZx2OtSXpjvAx+q0wgrEFVRXoK4AXIG4AmA66KO4AnlSWtshroDMVEUjuafnBiMhCQglTmc6/maA+5V7/5x7zrk3AC88DwgRkvr2Ow2KkkagJAGaiKTZHSz/+DJXhgiIRKwrEoCMW2uubGTRfOyrXu/cWlbByL42YULiow5MldoaqnaGMPYBCTQWpgFBVwBCkkjsgnVf8wqV2EDlmenkAhcnFvukZZeqLZ0wkWdxaRgB3vriza215VpyqXqln63O1yEClGGdqaP2OqF66golgBr/DPU/IszNqOppqtTSZF1YsYkt6jLQsu8OrzMxwNJD1eDt3IojrEkxMAoE9bZ1txyFr7qE+mzqqKUhYf6hWkb2xxgo+2xZnSPdFAR7MpiQfRUI13nv9cAkCPqcqm5zaQsGoGlaEjBeQrBzzWbzUlt8exwYRHRgGL+KA8WCmErzYiyYdoVi8UBVTqI5XXfKx0Z2xvCMLrw/vJE7kAlMA7CplVq7Q6yb5E/aU+d1scgPnvSa8NHfQ8Ui4Fcp9IZTjvQ/Vyj31OS3zAx948muECqZsLkS01OyvQijIsSJa0k/AbF6qZW0ACpnq3M7bLF8T6iE0qhC0/8MDYlTDgodIiLUslJoqnqV4+ImTAgpsYWxHkDMa4tvtj0TZA3jwnGFgNg6+1c3wJTt4MpQJ6AKjIHo0Hg5lgOKFXvS473hlgacYIl154Tyg2g2VmZ3/M3yzzlBGYJl39dgPOqG8bMW1hEPW5iDKwehUFreAxqfX9W8rQpN5wkxLMCMBCTk2DFyrbLAKU3zNJiGYZihYt20NWgqjMVKS0fXZSHoxMmzEFujwUfxni/NPQ1SgWUVenVOZQAbTtE/NnXYPkZnccHJXMnDXyMOzlfmcxAhfTnHcQFHKNZ4oYIYcvoMJ3qhkv4E2Ylr3UI34r+vzBbYFxfp4TB4CnkU81Vx4zmESvp81lbQ9Dtx45Pjc8t8A+OIFzn2mzU+rUzsZYs63xUuUdjlc1/gRU3AZ/nUaspLdQfExgXfQ/lsTybicd19E2iszhfhHxEMMGlBgn2v5XhrK/7XlRf+J/4AZ2hd+H+2OEcAAAAASUVORK5CYII='
               }
-          }
-            }
-          }
+            },
+           }
+         }
         },
         barWidth: 40,
         series: [{
@@ -898,7 +977,7 @@ var valueList2 = totaldata.map(function (item) {
                 color : '#202124',
                 //textBorderColor: '#202124',
                 //textBorderWidth: 1
-            }
+            },
         },
           itemStyle: {
             normal: {
@@ -906,13 +985,15 @@ var valueList2 = totaldata.map(function (item) {
             },
           },
             data: graphData,//[120, 200, 150],
-            type: 'bar'
+            type: 'bar',
+            barWidth: '90%',
         }]
     };
     }
     geo(){
       let graphData = [];
       let y_axis = [];//['US','India','UK','Japan'];
+      let geoNumberOfuserObj = {};
       y_axis = this.mostUsedDev_bro_geo_sen.filter(function (e) { 
         return e.name; 
     }).map(function (g) { 
@@ -924,42 +1005,82 @@ var valueList2 = totaldata.map(function (item) {
           if(y == element.name){
             y = element.name;
             graphData.push(element.percentOfUsers);
+            geoNumberOfuserObj[element.name] = element.usersCount;
           }else{
-            graphData.push('')
+            //graphData.push('')
           }
         });
         
       });
+      if(!graphData.length){
+        y_axis = ['US','India','UK','Japan'];
+        graphData = [120, 200, 150,122];
+        this.geoEmpty = true;
+      }else{
+        this.geoEmpty = false;
+      }
+      // if(y_axis.length == 1){
+      //   y_axis.push("");
+      //   y_axis.push("");
+      //   y_axis.reverse();
+      //   graphData.push("");
+      //   graphData.push("");
+      //   graphData.reverse();
+        
+      // }
       this.geoBar  = {
         tooltip: {
           trigger: 'axis',
           axisPointer: {            
             type: 'none'        
         },
-          formatter: `
-            <div class="metrics-tooltips-hover agent_drop_tolltip">
-            <div class="split-sec">
-              <div class="main-title">{c0} Users in {b0}</div>
-            </div> 
-          </div>
+        //<div class="title total">${params[0].value + params[1].value}</div>
+        formatter:  (params) => `
+        <div class="metrics-tooltips-hover agent_drop_tolltip">
+        <div class="">
+          <div class="main-title">No .of Users : ${geoNumberOfuserObj[params[0].axisValue]} </div>
+          <div class="main-title">Percentage of users :  ${params[0].axisValue}</div>
+        </div> 
+      </div>
+        `,
+          // formatter: `
+          //   <div class="metrics-tooltips-hover agent_drop_tolltip">
+          //   <div class="split-sec">
+          //     <div class="main-title">{c0} Users in {b0}</div>
+          //   </div> 
+          // </div>
           
-          `,
+          // `,
           position: 'top',
           padding: 0
          
         },
         xAxis: {
             type: 'value',
+            min: 0,
+            max : 100,
             axisLabel: {
-              formatter: '{value}'
+              formatter: '{value} %'
           },
+          axisLine: {
+            show: false, // Hide full Line
+            },
+            axisTick: {
+                show: false, // Hide Ticks,
+            },
          // name: "Number  of  Clicks"
         },
         yAxis: {
           inverse: true,
           type: 'category',
-            data: y_axis//['US', 'India', 'UK'],
+            data: y_axis,//['US', 'India', 'UK'],
             //inverse: true,
+            axisLine: {
+              show: false, // Hide full Line
+              },
+              axisTick: {
+                  show: false, // Hide Ticks,
+              },
         },
         barWidth: 40,
         series: [{
@@ -978,7 +1099,8 @@ var valueList2 = totaldata.map(function (item) {
             },
           },
             data: graphData,//[120, 200, 150],
-            type: 'bar'
+            type: 'bar',
+            barWidth: '90%',
         }]
     };
     }
@@ -1033,8 +1155,8 @@ var valueList2 = totaldata.map(function (item) {
     
     busyHours(){
       const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      const hourConversion = ['1 am','2 am','3 am','4 am','5 am','6 am','7 am','8 am','9 am','10 am','11 am','12 pm',
-      '1 pm','2 pm','3 pm','4 pm','5 pm','6 pm','7 pm','8 pm','9pm','10 pm','11 pm','0 am']
+      const hourConversion = ['0 am','1 am','2 am','3 am','4 am','5 am','6 am','7 am','8 am','9 am','10 am','11 am','12 pm',
+      '1 pm','2 pm','3 pm','4 pm','5 pm','6 pm','7 pm','8 pm','9 pm','10 pm','11 pm','0 am']
       let busyChartArrayData :any = []
       let yAxisData = [];
       let xAxisData = [];
@@ -1183,7 +1305,8 @@ var valueList2 = totaldata.map(function (item) {
             color: "#9AA0A6",
             fontWeight: "normal",
             fontSize: 12,
-            fontFamily: "Inter"
+            fontFamily: "Inter",
+            align: "right"
           },
           axisTick: {
             show: false
@@ -1231,17 +1354,15 @@ var valueList2 = totaldata.map(function (item) {
         },
   
         visualMap: {
-          show: false,
-          // min: 0,
-          // max: this.maxHeatValue,
-          // calculable: true,
-          // orient: 'horizontal',
-          // right: 'right',
-          // bottom: '0',
+          //show: false,
+            calculable: true,
+            orient: 'horizontal',
+            bottom: '0%',
+            right : '20%',
           min: 0,
           max: this.maxHeatValue,
-        splitNumber: 5,
-        color: ['#07377F', '#F3F8FF' ],
+          splitNumber: 5,
+          color: ['#07377F', '#F3F8FF' ],
           // inRange : {   
           //   color: ['#E7F1FF', '#07377F' ] //From smaller to bigger value ->
           // }
@@ -1317,14 +1438,40 @@ var valueList2 = totaldata.map(function (item) {
     }
     tooltipHoverN(e , x,y){
       let loopDIV : any = '';
+      let tempIncrementalData = {
+        '0 am' : ' - 1 am',
+        '1 am' : ' - 2 am',
+        '2 am' : ' - 3 am',
+        '3 am' : ' - 4 am',
+        '4 am' : ' - 5 am',
+        '5 am' : ' - 6 am',
+        '6 am' : ' - 7 am',
+        '7 am' : ' - 8 am',
+        '8 am' : ' - 9 am',
+        '9 am' : ' - 10 am',
+        '10 am' : ' - 11 am',
+        '11 am' : ' - 12 am',
+        '12 pm': ' - 1 pm',
+      '1 pm' : ' - 2 pm',
+      '2 pm' : ' - 3 pm',
+      '3 pm' : ' - 4 pm',
+      '4 pm' : ' - 5 pm',
+      '5 pm' : ' - 6 pm',
+      '6 pm' : ' - 7 pm',
+      '7 pm' : ' - 8 pm',
+      '8 pm' : ' - 9 pm',
+      '9 pm' : ' - 10 pm',
+      '10 pm' : ' - 11 pm',
+      '11 pm' : ' - 0 am',
+      }
       let dataDIV = 
         `
         <div class="metrics-tooltips-hover agent_drop_tolltip">
         <div class="split-sec">
           <div class="main-title">${y[e.value[1]]}</div>
-          <div class="data-content"><span class="main-title">${x[e.value[0]]}</span></div>
+          <div class="data-content"><span class="main-title">${x[e.value[0]] + tempIncrementalData[e.name]}</span></div>
         </div>    
-        <div class="indication_text">Number of Total Users <b>${e.value[2]}</b></div>
+        <div class="indication_text">Total Users : <b>${e.value[2]}</b></div>
       </div> 
         `
         return dataDIV;

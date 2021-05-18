@@ -107,8 +107,8 @@
                                     <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="Volume of users that performed at different hours of the day" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"> <span class="toatlsearches"></span></div>
                             </div>
                         </div>
-                        <div echarts [options]="heatMapChartOption" class="demo-chart-graphMode"></div>
-                        <div class="d-flex justify-content-between mt-1">
+                        <div echarts [options]="heatMapChartOption" class="demo-chart-graphMode" style="z-index : 1"></div>
+                        <div class="d-flex justify-content-between mt-1" style="margin-top:-2% !important">
                             <!-- <ng5-slider [(value)]="durationRange1" [(highValue)]="durationRange2" [options]="durationOptions" class="double_slider slider1" (userChangeEnd)="onUserChangeEnd('duration', $event, 'slider1')" (userChange)="onUserChange($event, 'slider1', true)"></ng5-slider> -->
                             <div class="row m-0 bottom-row col-12 ">
                                 <div class="slider-sec col-6 p-0">
@@ -120,7 +120,7 @@
                                 </div>
                                 <div class="legend-sec col-6 p-0">
                                     <div class="title">{{'metrics.user_engagement.Volume_Of_Users'| translate}}</div>
-                                    <div class="legends-info">
+                                    <!-- <div class="legends-info">
                                         <div class="one">
                                             <div class="bg-color"></div>
                                             <div class="numbers">{{4* maxHeatValue/5}} - {{maxHeatValue}}</div>
@@ -141,7 +141,7 @@
                                             <div class="bg-color"></div>
                                             <div class="numbers">{{minHeatValue}} - {{maxHeatValue/5}}</div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>

@@ -386,6 +386,12 @@ export class DashboardComponent implements OnInit {
         minInterval : 8,
          boundaryGap:false,
         show: true,
+        axisLine: {
+          show: false, // Hide full Line
+          },
+          axisTick: {
+              show: false, // Hide Ticks,
+          },
         //data: ['1st Aug', '2nd Aug' , '3rd Aug', '4th Aug', '5th Aug', '6th Aug', '7th Aug']
         //splitLine: {show: true}
     }],
@@ -400,6 +406,12 @@ export class DashboardComponent implements OnInit {
             fontSize: 12,
             fontFamily: "Inter"
           },
+          axisLine: {
+            show: false, // Hide full Line
+            },
+            axisTick: {
+                show: false, // Hide Ticks,
+            },
         splitLine: {show: true}
     }],
     
@@ -592,6 +604,8 @@ export class DashboardComponent implements OnInit {
           if(element.position > 2 )yAxisData.push(Number(element.position+1) + " th");
           xAxisData.push(element.clicks)
         });
+        // xAxisData = [120];
+        // yAxisData= ['1st']
       }else{
         xAxisData = [120, 200, 150];
         yAxisData= ['1st','2nd','3rd']
@@ -617,6 +631,12 @@ export class DashboardComponent implements OnInit {
           },
           xAxis: {
               type: 'value',
+              axisLine: {
+                show: false, // Hide full Line
+                },
+                axisTick: {
+                    show: false, // Hide Ticks,
+                },
             //   axisLabel: {
             //     formatter: '{value}'
             // },
@@ -624,8 +644,13 @@ export class DashboardComponent implements OnInit {
           },
           yAxis: {
             type: 'category',
-              data: yAxisData
-              
+              data: yAxisData,
+              axisLine: {
+                show: false, // Hide full Line
+                },
+                axisTick: {
+                    show: false, // Hide Ticks,
+                },
           },
           barWidth: 40,
           series: [{
