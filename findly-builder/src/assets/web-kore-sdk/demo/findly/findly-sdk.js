@@ -20857,8 +20857,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.vars.showingMatchedResults = true;
         _self.searchFacetsList([]);
         // _self.invokeSearch();
-        var event = $.Event("keydown", { which: 13 });
-        $('#search').trigger(event);
+        // var event = $.Event("keydown", { which: 13 });
+        // $('#search').trigger(event);
         if (_self.isDev) {
           if ($('.top-down-search-background-div')) {
             $('.top-down-search-background-div').addClass('if-full-results');
@@ -20894,7 +20894,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             selectedFacet = 'document';
           }
           _self.vars['selectedFacetFromSearch'] = selectedFacet;
-          _self.prepAllSearchData(selectedFacet);
+          _self.invokeSpecificSearch(selectedFacet)
+          // _self.prepAllSearchData(selectedFacet);
+          $(".content-data-sec").scrollTop(0);
           _self.pubSub.publish('facet-selected', { selectedFacet: selectedFacet });
 
         }
