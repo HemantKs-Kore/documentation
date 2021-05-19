@@ -109,6 +109,7 @@ export class ActionsComponent implements OnInit {
       this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
           let bots = JSON.parse(JSON.stringify(res))
           this.associatedBots =[];
+          this.loader = false;
         bots.forEach(element => {
           if (element.type == "default" || element.type == "universalbot") {
             this.associatedBots.push(element)
@@ -118,7 +119,7 @@ export class ActionsComponent implements OnInit {
               this.LinkABot = element._id
               this.loadingBotContent = true
               this.botLinked = true;
-              this.loader = false;
+             
               // this.linkedBotID = element._id
               // if(this.linkedBotID == element._id){
               // }
@@ -132,7 +133,11 @@ export class ActionsComponent implements OnInit {
             }
 
           }
-        });
+        },
+        errRes => {
+          this.loader = false;
+          this.notificationService.notify('Unable to find bot', 'error')
+        } );
       },
       )
       }
