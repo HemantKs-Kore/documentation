@@ -70,12 +70,13 @@ export class PricingComponent implements OnInit, OnDestroy {
   @ViewChild('plans') plans: UpgradePlanComponent;
 
   async ngOnInit() {
-    this.pricingChart()
+    //this.pricingChart()
     this.getPlan();
     await this.appSelectionService.getCurrentSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.currentSubscriptionPlan = res;
       this.updateUsageDetails();
+      this.pricingChart()
       // this.getOverage(overageRes);
       this.showUpgradeBtn = this.currentSubscriptionPlan.subscription.planName != 'Free' ? true : false;
     });
@@ -301,14 +302,14 @@ export class PricingComponent implements OnInit, OnDestroy {
     let xAxisDocumentData = [];
     let yAxisQueryData = [];
     let yAxisDocumentData = [];
-    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.search) {
-      this.currentSubscriptionPlan.search.forEach(element => {
+    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.analytics && this.currentSubscriptionPlan.analytics.search) {
+      this.currentSubscriptionPlan.analytics.search.forEach(element => {
         xAxisQueryData.push(element.month)
         yAxisQueryData.push(element.total)
       });
     }
-    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.content) {
-      this.currentSubscriptionPlan.content.forEach(element => {
+    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.analytics && this.currentSubscriptionPlan.analytics.content) {
+      this.currentSubscriptionPlan.analytics.content.forEach(element => {
         xAxisDocumentData.push(element.month)
         yAxisDocumentData.push(element.total)
       });
