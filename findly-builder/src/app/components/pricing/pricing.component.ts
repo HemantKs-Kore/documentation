@@ -54,7 +54,9 @@ export class PricingComponent implements OnInit, OnDestroy {
   currentSubsciptionData: Subscription;
   showUpgradeBtn: boolean;
   usageDetails: any = {};
-  monthRange = "Jan - June"
+  monthRange = "Jan - June";
+  isyAxisDocumentdata: boolean = true;
+  isyAxisQuerydata: boolean = true;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -311,7 +313,21 @@ export class PricingComponent implements OnInit, OnDestroy {
         yAxisDocumentData.push(element.total)
       });
     }
-    xAxisQueryData.length ? this.monthRange = xAxisQueryData[0] + xAxisQueryData[xAxisQueryData.length - 1] : this.monthRange = "Jan - June";
+    if (xAxisDocumentData.length == 0) {
+      xAxisDocumentData = ['Jan', 'Feb', 'Apr', 'May', 'Jun'];
+    }
+    if (yAxisDocumentData.length == 0) {
+      yAxisDocumentData = [120, 200, 150, 80, 70, 110, 130];
+      this.isyAxisDocumentdata = false;
+    }
+    if (xAxisQueryData.length == 0) {
+      xAxisQueryData = ['Jan', 'Feb', 'Apr', 'May', 'Jun'];
+    }
+    if (yAxisQueryData.length == 0) {
+      yAxisQueryData = [120, 200, 150, 80, 70, 110, 130];
+      this.isyAxisQuerydata = false;
+    }
+    xAxisQueryData.length ? this.monthRange = xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1] : this.monthRange = "Jan - June";
     this.queryGraph = {
 
       tooltip: {

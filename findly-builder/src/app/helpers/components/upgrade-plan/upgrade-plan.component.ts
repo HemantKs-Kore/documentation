@@ -9,6 +9,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { AuthService } from '@kore.services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import * as FileSaver from 'file-saver';
 declare const $: any;
 @Component({
   selector: 'app-upgrade-plan',
@@ -348,5 +349,20 @@ export class UpgradePlanComponent implements OnInit {
     setTimeout(() => {
       this.directiveScroll.directiveRef.scrollTo(420)
     }, 500)
+  }
+  //download invoice
+  downloadInvoice() {
+    const queryParams = {
+      "streamId": this.selectedApp._id,
+      "transactionId": this.payementResponse.hostedPage.transactionId
+    }
+    const getInvoice = this.service.invoke('get.getInvoiceDownload', queryParams);
+    getInvoice.subscribe(res => {
+      console.log("res", res);
+      FileSaver.saveAs(res.viewInvoice + '&DownloadPdf=true', 'invoice_' + res._id + '.pdf');
+      this.notificationService.notify(res.status, 'success');
+    }, errRes => {
+      this.errorToaster(errRes, 'failed buy overage');
+    });
   }
 }

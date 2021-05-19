@@ -169,7 +169,7 @@
           <div class="img-block"><img src="assets/icons/pricing/payment-success.svg"></div>
           <div class="payment-success-message">
             <div class="title">Yay! Payment Successfull...</div>
-            <button class="kr-sg-buttonicon-secondary btn_lg"><img src="assets/icons/pricing/download.svg">Download Invoice</button>
+            <button class="kr-sg-buttonicon-secondary btn_lg" (click)="downloadInvoice()"><img src="assets/icons/pricing/download.svg">Download Invoice</button>
           </div>
         </div>
         <div class="payment-confiramtion-data pl-0 pr-0 m-0 row pt-5" *ngIf="!payementSuccess">
