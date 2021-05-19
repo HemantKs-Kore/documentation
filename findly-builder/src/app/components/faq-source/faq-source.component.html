@@ -10,7 +10,7 @@
             <div class="col-6 left-sec p-0 faq-title" >FAQs</div>
             <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
                 <div class="kr-sg-dropdowns add w-auto"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved)">                                        
-                    <div class="dropdown dropdown-open mr-4">
+                    <div class="dropdown dropdown-open mr-4 cursor-pointer">
                         <div _ngcontent-rjr-c36="" class="dropdown-toggle" data-identifyelement="1" ngbDropdownToggle><img _ngcontent-rjr-c36="" class="mr-2 mb-1" src="assets/icons/add_plus.svg">Add FAQ</div>
                         <!-- <button class="dropdown-toggle kr-sg-button-primary btn_lg text-left" ngbDropdownToggle>Add FAQ</button>                                             -->
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
@@ -135,7 +135,7 @@
                         </div>
                         <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer': faqSelectionObj.selectedCount}" (psYReachEnd)="onScrolledEnd($event)" *ngIf="faqSelectionObj.stats[selectedtab]">
                             <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab" >
-                            <div class="selected-all-questions" *ngIf="faqSelectionObj.selectedCount" id="selectAllFaqs" (click)="selectAllRecords()" >Select all {{(selectedtab === 'draft' ? faqSelectionObj.stats.draft: (selectedtab === 'in_review' ? faqSelectionObj.stats.in_review:(selectedtab === 'approved' ? faqSelectionObj.stats.approved:'' )))}}  questions?</div>
+                            <div class="selected-all-questions" *ngIf="faqSelectionObj.selectedCount && !faqSelectionObj.selectAll " id="selectAllFaqs" (click)="selectAllRecords()" >Select all {{(selectedtab === 'draft' ? faqSelectionObj.stats.draft: (selectedtab === 'in_review' ? faqSelectionObj.stats.in_review:(selectedtab === 'approved' ? faqSelectionObj.stats.approved:'' )))}}  questions?</div>
                             <div id="accordion" class="accordion-content">
                                 <div *ngFor="let faq of faqs">
                                     <div class="card-content" *ngIf="faq.action!=='delete'">

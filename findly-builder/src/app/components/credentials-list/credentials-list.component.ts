@@ -42,7 +42,7 @@ export class CredentialsListComponent implements OnInit {
     name: '',
     anonymus: true,
     register: true,
-    awt: 'Select Signing Algorithm',
+    awt: 'HS256',
     enabled: true
   };
   @ViewChild('addCredential') addCredential: KRModalComponent;

@@ -8,8 +8,8 @@
         <div class="header-sec-stopwords">
             <div class="title">{{'weights.Weights'| translate}}</div>
             <div class="restore_text" *ngIf="weights.length">
-                <span class="lable_text mr-5" id="btn_openWeight" (click)="openAddNewWeight()"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{'weights.add_searchable_field'| translate}}</span>
-                <span class="lable_text mr-5" id="btn_restoreWeight" (click)="restoreWeights();"><img src="assets/icons/return_black.svg">{{'weights.reset_to_default' | translate}}</span>
+                <span class="lable_text mr-4" id="btn_openWeight" (click)="openAddNewWeight()"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{'weights.add_searchable_field'| translate}}</span>
+                <span class="lable_text mr-2" id="btn_restoreWeight" (click)="restoreWeights();"><img src="assets/icons/return_black.svg">{{'weights.reset_to_default' | translate}}</span>
                 <span class="clock_img d-none"><img src="assets/icons/clock.svg"></span>
 
             </div>
@@ -68,7 +68,7 @@
 </div>
 <kr-modal modalType="center" modalClass="addWeightModalComponent modal_popups_" #addDditWeightPop>
     <div class="modal-header">
-        <div class="title">{{currentEditIndex>-1?'Edit':'Add'}} Weight</div>
+        <div class="title">{{currentEditIndex>-1?'Edit':'Add'}} Searchable Field</div>
         <div class="close_icon"><img id="btn_closeWeightModal" (click)="closeAddEditWeight()" src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">

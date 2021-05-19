@@ -251,7 +251,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         title: 'Restore Customization',
         text: 'Are you sure you want to Reset',
         newTitle: 'Are you sure you want to Reset?',
-        body: 'Selected customizations will be Reset once you proceed.',
+        body: 'All the customizations done on the selected queries will be removed.',
         buttons: [{ key: 'yes', label: 'Reset', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true,
       }

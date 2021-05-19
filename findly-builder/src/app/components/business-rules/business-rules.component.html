@@ -13,7 +13,7 @@
             <div class="kr-sg-checkbox m-0" *ngIf="selcectionObj.selectAll">
                 <input id="checkbox-1" class="checkbox-custom" type="checkbox" [(ngModel)]="selcectionObj.selectAll" (change)="selectAll()"/>
                 <label for="checkbox-1" class="checkbox-custom-label"></label>
-                <span class="allselected">{{"businessRules.all_rules_selected" | translate}}</span>
+                <span class="allselected">{{ selcectionObj.selectedCount }} {{ (selcectionObj.selectedCount ==1 ?"businessRules.rule_selected":"businessRules.rules_selected") | translate }}</span>
             </div>
         </div>
         <div class="col-8 right-sec p-0" *ngIf=" !(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)">
@@ -115,7 +115,8 @@
                             </div>
                             <div class="d-inline-block">
                                 <ng-container *ngFor="let value of rule.value; let valueIndex = index">
-                                    <span class="tags-input mr-1 mb-1">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
+                                    <span class="tags-input mr-1 mb-1" *ngIf="value && !checkIsArray(value)">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
+                                    <span class="tags-input mr-1 mb-1" *ngIf="value && value.length && checkIsArray(value)" style="padding:1px 5px !important"><span *ngFor="let num of value; let numIndex = index">{{num | dateFormatPipe: 'DD MMM YYYY'}}<span *ngIf="!numIndex"> - </span></span></span>
                                     <span class="divider mr-1 mb-1" *ngIf="valueIndex < rule.value.length - 1">{{ "or_caps" | translate
                         }}</span>
                                 </ng-container>
@@ -125,8 +126,8 @@
                 </div>
                 <div class="col-3 content">
                     <ng-container *ngFor="let outcome of ruleObj.outcomes">
-                        <span class="tags-input mr-1 mb-1"><span *ngIf=" outcome.outcomeType === 'boost' ||  outcome.outcomeType === 'lower'">{{ outcome.scale }}x</span>{{"businessRules.action" + outcome.outcomeType | translate}}Result
-                        </span><br/>
+                        <div><span class="tags-input mr-1 mb-1"><span *ngIf=" outcome.outcomeType === 'boost' ||  outcome.outcomeType === 'lower'">{{ outcome.scale }}x</span>{{"businessRules.action" + outcome.outcomeType | translate}}Result
+                        </span></div>
                         <span class="outer-name mr-1 mb-1">{{"businessRules." + outcome.outcomeOperator | translate }}</span>
                         <span class="tags-input mr-1 mb-1">{{ outcome.fieldName }}:
               <span *ngFor="let value of outcome.outcomeValue;let valueIndex = index">{{ value }}
@@ -316,7 +317,7 @@
                                                         </ng-container>
                                                     </ng-container>
                                                     <ng-container *ngIf="(ruleObj.dataType != 'date') && (ruleObj.dataType != 'number')">
-                                                        <input placeholder="Type Keyword" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" suggestedInput/>
+                                                        <input placeholder="Type Keyword and Enter" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" suggestedInput/>
                                                     </ng-container>
 
                                                     <ng-container *ngIf="ruleObj.dataType == 'date'">
@@ -333,7 +334,7 @@
                                                     </ng-container>
 
                                                     <ng-container *ngIf="ruleObj.dataType == 'number'">
-                                                        <input [placeholder]="ruleObj.operator == 'between' ? 'Type Range' : 'Type Keyword'" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" />
+                                                        <input [placeholder]="ruleObj.operator == 'between' ? 'Type Range' : 'Type Keyword and Enter'" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" />
                                                     </ng-container>
                                                 </mat-chip-list>
                                             </mat-form-field>
@@ -391,7 +392,7 @@
                                             <div class="col-4 pr-0 text-right">
                                                 <span class="result-slider-title" *ngIf="outcomeObj.outcomeType === 'boost'">{{"businessRules.boostResults" | translate }}</span>
                                                 <span class="result-slider-title" *ngIf="outcomeObj.outcomeType === 'lower'">{{"businessRules.lowerResults" | translate }}</span>
-                                                <span class="slider-count">{{ outcomeObj.scale }}X</span>
+                                                <span class="slider-count">{{ outcomeObj.scale }}x</span>
                                             </div>
                                         </ng-container>
                                     </div>
@@ -457,7 +458,7 @@
                                                         </mat-chip>
                                                         <span>OR</span>
                                                     </ng-container>
-                                                    <input #contextSuggestedImput [placeholder]="'Type and Press Enter'" (click)='buildCurrentContextSuggetions(outcomeObj)' [(ngModel)]="outcomeObj.newValue" (keyup)='buildCurrentContextSuggetions(outcomeObj)' [matChipInputFor]="chipList" [matAutocomplete]="auto"
+                                                    <input #contextSuggestedImput [placeholder]="'Type Keyword and Enter'" (click)='buildCurrentContextSuggetions(outcomeObj)' [(ngModel)]="outcomeObj.newValue" (keyup)='buildCurrentContextSuggetions(outcomeObj)' [matChipInputFor]="chipList" [matAutocomplete]="auto"
                                                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addOutcome($event, outcomeObj, i)" />
                                                 </mat-chip-list>
                                                 <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown" (optionSelected)="selected($event,outcomeObj,index)">

@@ -473,6 +473,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       res => {
         if (type == 'searchIcon') {
           this.searchObject.searchWidgetConfig.searchBarIcon = res.fileId;
+          this.selectSearchBox('');
           if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '' && icon === 'manual') {
             this.emojiIconUpload();
           }

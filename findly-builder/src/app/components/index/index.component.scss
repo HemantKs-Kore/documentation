@@ -613,6 +613,12 @@
     height: 80% !important;
   }
 }
+::ng-deep .addFieldCheckBox{
+  .kr-sg-checkbox .checkbox-custom:checked:disabled + .checkbox-custom-label::before {
+    background-color: gainsboro !important;
+    border: solid 1px #BDC1C6 !important;
+}
+}
 ::ng-deep.add_Field_ModalPop{
   .modal-dialog{
     height: 478px !important;
