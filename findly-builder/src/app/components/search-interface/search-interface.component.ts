@@ -348,7 +348,7 @@ export class SearchInterfaceComponent implements OnInit {
         this.customList.push(obj)
       } else if (element.type == 'page') {
         let obj = {
-          type: "Pages",
+          type: "Web",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
@@ -362,7 +362,7 @@ export class SearchInterfaceComponent implements OnInit {
         this.customList.push(obj)
       } else if (element.type == 'document') {
         let obj = {
-          type: "Document",
+          type: "File",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
@@ -656,10 +656,12 @@ export class SearchInterfaceComponent implements OnInit {
         appearnce = 'action';
       } else if (this.selectedSourceType == 'FAQs') {
         appearnce = 'faq';
-      } else if (this.selectedSourceType == 'Pages') {
+      } else if (this.selectedSourceType == 'Pages' || this.selectedSourceType == 'Web') {
         appearnce = 'page';
       } else if (this.selectedSourceType == 'Structured Data') {
         appearnce = 'structuredData';
+      }else if (this.selectedSourceType == 'Document' || this.selectedSourceType == 'File') {
+        appearnce = 'document';
       }
       payload = {
         "type": this.customizeTemplateObj.template.typeId,
