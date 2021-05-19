@@ -13,7 +13,7 @@
             <div class="kr-sg-checkbox m-0" *ngIf="selcectionObj.selectAll">
                 <input id="checkbox-1" class="checkbox-custom" type="checkbox" [(ngModel)]="selcectionObj.selectAll" (change)="selectAll()"/>
                 <label for="checkbox-1" class="checkbox-custom-label"></label>
-                <span class="allselected">{{"businessRules.all_rules_selected" | translate}}</span>
+                <span class="allselected">{{ selcectionObj.selectedCount }} {{ (selcectionObj.selectedCount ==1 ?"businessRules.rule_selected":"businessRules.rules_selected") | translate }}</span>
             </div>
         </div>
         <div class="col-8 right-sec p-0" *ngIf=" !(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)">
