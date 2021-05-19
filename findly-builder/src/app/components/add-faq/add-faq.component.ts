@@ -422,16 +422,25 @@ export class AddFaqComponent implements OnInit, OnDestroy {
         $('.editResponseMode').addClass('focusedEdit');
       });
     }
-
-    $(document).off('click').on('click', function (event) {
+    
+    $('.add-faq-modal-popup').off('click').on('click', function (event) {
       if (!$(event.target).closest('.text-area-editor').length && !$(event.target).closest('.provideLinkPopup').length && $('.editResponseMode').hasClass('focusedEdit')) {
         $('.editResponseMode').addClass('d-none');
         $('.previewResponseMode').removeClass('d-none');
         $('.editResponseMode').removeClass('focusedEdit');
         $('.text-area-editor').click();
-
       }
     });
+
+    // $(document).off('click').on('click', function (event) {
+    //   if (!$(event.target).closest('.text-area-editor').length && !$(event.target).closest('.provideLinkPopup').length && $('.editResponseMode').hasClass('focusedEdit')) {
+    //     $('.editResponseMode').addClass('d-none');
+    //     $('.previewResponseMode').removeClass('d-none');
+    //     $('.editResponseMode').removeClass('focusedEdit');
+    //     $('.text-area-editor').click();
+
+    //   }
+    // });
 
     if ($('.responsePreviewBlock').length) {
       setTimeout(() => {

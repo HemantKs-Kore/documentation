@@ -227,3 +227,42 @@ perfect-scrollbar .ps--active-y{
         }
     }
 }
+
+::ng-deep .modal_popups_.fieldsAddModalPopup .modal-header {
+    height: 54px !important;
+    padding: 18px 30px !important;
+}
+::ng-deep .modal_popups_.fieldsAddModalPopup .modal-header .close_icon {
+    width: 21px !important;
+    height: 21px !important;
+    line-height: 18px !important;
+}
+::ng-deep .modal_popups_.fieldsAddModalPopup .modal-body {
+    padding: 20px 28px !important;
+}
+::ng-deep .fieldsAddModalPopup .modal-dialog .modal-content .modal-body .top_sec{
+    padding-bottom: 20px !important;
+    margin-bottom: 20px !important;
+}
+
+::ng-deep .fieldsAddModalPopup.modal_popups_ .modal-footer {
+    padding: 11px 30px !important;
+    height: 56px !important;
+}
+
+::ng-deep .kr-modal{
+    &.kr-center{
+        &.smallModal{
+            &.fieldsAddModalPopup{
+                .modal-dialog{
+                    max-width: 625px !important;
+                    height: 85% !important;
+                    .modal-content{
+                        border-radius: 8px !important;
+                    }
+                }
+            }
+        }
+    }
+
+}
