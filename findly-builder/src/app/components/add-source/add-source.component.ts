@@ -789,6 +789,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (resourceType === 'file') {
         if (this.fileObj.fileId) {
           payload.fileId = this.fileObj.fileId;
+          if (payload.url == '') delete payload.url;
         }
         if (this.selectedSourceType.sourceType === 'faq') {
           payload.extractionType = "basic";
