@@ -648,7 +648,6 @@ export class AddFaqComponent implements OnInit, OnDestroy {
       cb: (res => { this.loading = false })
     }
     emmiter.emit(payload);
-
   }
 
   cancel() {

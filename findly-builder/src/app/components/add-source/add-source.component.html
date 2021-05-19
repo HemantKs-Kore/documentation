@@ -134,7 +134,7 @@
             <img src="assets/icons/successCheck.svg">
           </div>
           <div class="configInProgress"
-          *ngIf="!(statusObject && statusObject.validation && statusObject.validation.validated) && !(selectedSourceType.resourceType === 'document')">
+          *ngIf="!(statusObject && statusObject.validation && statusObject.validation.validated) && !(selectedSourceType.resourceType === 'file')">
             <h1><strong>Validation in Progress...</strong></h1>
           </div>
           <div class="configInProgress"
@@ -159,7 +159,7 @@
               <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected" *ngIf="statusObject.validation.validated===true">
               <span>Initial URL validation</span>
             </div>
-            <div class="content-description"> Now you can choose to crawl immediately or later</div>
+            <div class="content-description" *ngIf="selectedSourceType.resourceType!='file'"> Now you can choose to crawl immediately or later</div>
           </div>
         </ng-container>
         <div class="progressNote"
@@ -171,7 +171,7 @@
           </div>
         </div>
         <div class="configInProgress"
-        *ngIf="statusObject.validation.validated&&selectedSourceType.sourceType === 'webdomain'||selectedSourceType.sourceType === 'document'">
+        *ngIf="statusObject.validation.validated&&selectedSourceType.sourceType === 'web'||selectedSourceType.sourceType === 'file'">
           <h4>Now you can choose to Crawl immediately or later</h4>
         </div>
       </div>
@@ -183,7 +183,7 @@
         <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
           (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='content'">Close</button>
           <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-          (click)="jobOndemand()" *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'webdomain'" [disabled]="crawlOkDisable">Crawl</button>
+          (click)="jobOndemand()" *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'" [disabled]="crawlOkDisable">Crawl</button>
          </div>
     </div>
   </div>
@@ -232,7 +232,7 @@
               <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc"
                 placeholder="Enter Description" class="input-text"></textarea>
             </div>
-            <div *ngIf= "(selectedSourceType.resourceType === 'webdomain')">
+            <div *ngIf= "(selectedSourceType.resourceType === 'web')">
               <div class="kr-sg-input-text mb-4">
                 <div class="label-text">Source URL</div>
                 <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
@@ -245,7 +245,7 @@
             </div>
             <!-- File uploader with Drag & Drop START HERE -->
 
-            <div class="browse-file-tabs-container" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='document')">
+            <div class="browse-file-tabs-container" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='file')">
                 <ul class="nav nav-tabs" *ngIf=" (selectedSourceType.id !='faqDoc')" role="tablist">
                   <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#fromfile" (click)="selectExtract('file')">Extract from file</a>
@@ -347,7 +347,7 @@
             </div>
 
             <div class="kr-sg-input-text-area mb-4 d-none"
-              *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='document')">
+              *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='file')">
               <div class="kr-sg-file-drag-drop">
                 <div class="drag-drop-sec">
                   <input type="file" id="sourceFileUploader" class="custom-file-input"
@@ -412,7 +412,7 @@
             </div>
             </div>
           <!-- File uploader with Drag & Drop ENDS HERE -->
-          <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')">
+          <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'web')">
             <!-- <div class="kr-sg-input-text mb-4">
                 <div class="label-text">Source URL</div>
                 <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()" [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Url" [(ngModel)]="newSourceObj.url"
@@ -423,7 +423,7 @@
               *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')"
               data-toggle="collapse" data-target="#settings">Advance Settings</div> -->
 
-            <div *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')" id="settings" class=" advance-setttings">
+            <div *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'web')" id="settings" class=" advance-setttings">
 
               <div class="inner-content row m-0 schedule-data">
                 <div class="col-12 p-0 input-paddings">

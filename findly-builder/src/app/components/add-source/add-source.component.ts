@@ -98,7 +98,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           icon: 'assets/icons/content/webdomain.svg',
           id: 'contentWeb',
           sourceType: 'content',
-          resourceType: 'webdomain'
+          resourceType: 'web'
         },
         {
           name: 'Upload File',
@@ -106,7 +106,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           icon: 'assets/icons/content/fileupload.svg',
           id: 'contentDoc',
           sourceType: 'content',
-          resourceType: 'document'
+          resourceType: 'file'
         },
         // {
         //   name: 'Others',
@@ -640,7 +640,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //form validation
   validateSource() {
-    if (this.selectedSourceType.resourceType == "webdomain" || this.selectedSourceType.resourceType == "faq") {
+    if (this.selectedSourceType.resourceType == "web" || this.selectedSourceType.resourceType == "faq") {
       if (this.newSourceObj.name) {
         if (this.newSourceObj.url) {
           this.proceedSource()
@@ -657,7 +657,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.notificationService.notify('Enter the required fields to proceed', 'error');
       }
     }
-    else if (this.selectedSourceType.resourceType == "document" || this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
+    else if (this.selectedSourceType.resourceType == "file" || this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
       if (this.newSourceObj.name) {
         if (this.selectExtractType == 'file') {
           if (this.fileObj.fileId) {
@@ -708,7 +708,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     payload = this.newSourceObj;
     let endPoint = 'add.sourceMaterialFaq';
-    let resourceType = this.selectedSourceType.resourceType == 'webdomain' ? 'web' : this.selectedSourceType.resourceType;
+    let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
 
 
@@ -787,7 +787,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       if (resourceType === 'file') {
-        payload.fileId = this.fileObj.fileId;
+        if (this.fileObj.fileId) {
+          payload.fileId = this.fileObj.fileId;
+        }
         if (this.selectedSourceType.sourceType === 'faq') {
           payload.extractionType = "basic";
           if (payload.hasOwnProperty('url')) delete payload.url;
@@ -838,7 +840,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.notificationService.notify('Failed to add sources ', 'error');
           }
         });
-      } else if (resourceType == 'webdomain') {
+      } else if (resourceType == 'web') {
         this.notificationService.notify('Please fill Date and Time fields', 'error');
       }
       // this.callWebCraller(this.crwalObject,searchIndex)

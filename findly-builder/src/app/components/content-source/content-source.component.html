@@ -132,7 +132,7 @@
                       [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                   <li *ngFor="let docType of docTypeArr" (click)="sourceFilter.close();filterTable(docType,'extractionType')">
                     <span
-                      class="list-name">{{docType == 'web' ? 'Web' :(docType == 'document'? 'Doc': '')}}</span><img
+                      class="list-name">{{docType == 'web' ? 'Web' :(docType == 'file'? 'Doc': '')}}</span><img
                       [ngClass]="{'hide': filterSystem.typefilter !== docType}" src="assets/icons/check-blue.svg"></li>
                 </ul>
               </div>
@@ -192,7 +192,7 @@
             <div class="content-body" *ngFor="let source of resources" (click)="openStatusSlider(source)"  [ngClass]="{'cursor-pointer':statusObj[source.recentStatus]?.name == 'Success' }">
               <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name}} <span class ="ml-2" *ngIf="source.advanceSettings"> <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg"></span></div>
               <div class="col_ col-2 pr-0">
-                {{(source.extractionType == 'web' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) |  titlecase }}</div>
+                {{(source.extractionType == 'web' ? 'Web' :(source.extractionType == 'file'? 'Doc': '')) |  titlecase }}</div>
               <div class="col_ col-3">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
                   [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}"> {{statusObj[source.recentStatus]?.name}}
@@ -284,8 +284,8 @@
             (click)="openStatusSlider(source)">
               <div class="card_sec">
                 <div class="titles-sec">
-                  <span class="name text-truncate"  placement="top-center"  container='body' ngbTooltip='{{source.title || source.name}}'>{{source.title || source.name}}</span><span class="type-data" [ngClass]="{'doc': (source.extractionType==='document')}" >
-                    {{(source.extractionType == 'web' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) | uppercase }}</span>
+                  <span class="name text-truncate"  placement="top-center"  container='body' ngbTooltip='{{source.title || source.name}}'>{{source.title || source.name}}</span><span class="type-data" [ngClass]="{'doc': (source.extractionType==='file')}" >
+                    {{(source.extractionType == 'web' ? 'Web' :(source.extractionType == 'file'? 'Doc': '')) | uppercase }}</span>
                 </div>
                 <div class="row col-12 p-0 m-0 align-items-center justify-content-between">
                   <div class="timestamp" *ngIf="statusObj[source.recentStatus]?.name == ('In Progress' || 'Queued'); else executed">Started - {{source.schedule_createdOn}}</div>
@@ -470,7 +470,7 @@
                               (click)="swapSlider()">{{selectedSource.numPages}}</a>
                           </div> -->
                           <div class="col_ col-2 p-0 text-right actions-images">
-                            <img src="assets/icons/return.svg" *ngIf="selectedSource.extractionType == 'webdomain'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl" ngbTooltip='Recrawl'  container="body">
+                            <img src="assets/icons/return.svg" *ngIf="selectedSource.extractionType == 'web'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl" ngbTooltip='Recrawl'  container="body">
                             <img src="assets/icons/content/edit_black.svg" (click)="editTitle($event)" title="Edit" ngbTooltip='Edit'  container="body">
                             <img src="assets/icons/content/delete.svg" (click)="deleteDocument('source',selectedSource ,$event)" title="Delete" ngbTooltip='Delete'  container="body">
                           </div>
