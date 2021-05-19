@@ -109,7 +109,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   apiLoading = false;
   isAsc = true;
   selectedSort = '';
-  faqLimit = 20;
+  faqLimit = 10;
   selectedPage: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
