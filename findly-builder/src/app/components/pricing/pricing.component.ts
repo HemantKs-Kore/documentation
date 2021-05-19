@@ -9,6 +9,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+declare var $: any;
 @Component({
   selector: 'app-pricing',
   templateUrl: './pricing.component.html',
@@ -53,7 +54,9 @@ export class PricingComponent implements OnInit, OnDestroy {
   currentSubsciptionData: Subscription;
   showUpgradeBtn: boolean;
   usageDetails: any = {};
-  monthRange = "Jan - June"
+  monthRange = "Jan - June";
+  isyAxisDocumentdata: boolean = true;
+  isyAxisQuerydata: boolean = true;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -67,8 +70,6 @@ export class PricingComponent implements OnInit, OnDestroy {
   @ViewChild('plans') plans: UpgradePlanComponent;
 
   async ngOnInit() {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.pricingChart()
     this.getPlan();
     await this.appSelectionService.getCurrentSubscriptionData();
@@ -77,7 +78,9 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.updateUsageDetails();
       // this.getOverage(overageRes);
       this.showUpgradeBtn = this.currentSubscriptionPlan.subscription.planName != 'Free' ? true : false;
-    })
+    });
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
   }
   // currentsubscriptionPlan(app, overageRes?) {
   //   const payload = {
@@ -265,6 +268,8 @@ export class PricingComponent implements OnInit, OnDestroy {
   }
   closeCancelSubsPopup() {
     if (this.cancelSubscriptionModelPopRef && this.cancelSubscriptionModelPopRef.close) {
+      $("input:checkbox").prop('checked', false);
+      $("#text_area").val('');
       this.cancelSubscriptionModelPopRef.close();
     }
   }
@@ -308,7 +313,21 @@ export class PricingComponent implements OnInit, OnDestroy {
         yAxisDocumentData.push(element.total)
       });
     }
-    xAxisQueryData.length ? this.monthRange = xAxisQueryData[0] + xAxisQueryData[xAxisQueryData.length - 1] : this.monthRange = "Jan - June";
+    if (xAxisDocumentData.length == 0) {
+      xAxisDocumentData = ['Jan', 'Feb', 'Apr', 'May', 'Jun'];
+    }
+    if (yAxisDocumentData.length == 0) {
+      yAxisDocumentData = [120, 200, 150, 80, 70, 110, 130];
+      this.isyAxisDocumentdata = false;
+    }
+    if (xAxisQueryData.length == 0) {
+      xAxisQueryData = ['Jan', 'Feb', 'Apr', 'May', 'Jun'];
+    }
+    if (yAxisQueryData.length == 0) {
+      yAxisQueryData = [120, 200, 150, 80, 70, 110, 130];
+      this.isyAxisQuerydata = false;
+    }
+    xAxisQueryData.length ? this.monthRange = xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1] : this.monthRange = "Jan - June";
     this.queryGraph = {
 
       tooltip: {

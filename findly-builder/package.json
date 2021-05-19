@@ -27,6 +27,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "@tinkoff/angular-contenteditable-accessor": "^1.1.0",
+    "@types/file-saver": "^2.0.2",
     "bootstrap": "^4.5.0",
     "brace": "^0.11.1",
     "codemirror": "^5.57.0",

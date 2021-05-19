@@ -17,13 +17,13 @@ export class EndPointsService {
     if (environment.production) {
       this.SERVER_URL = window.location.protocol + '//' + window.location.host;
       this.API_SERVER_URL = this.SERVER_URL + this.API_URL_PREFIX //+ this.API_VERSION_PREFIX;
-      this.API_SERVER_URL_PLATFORM = this.SERVER_URL +  this.API_URL_PREFIX  //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
+      this.API_SERVER_URL_PLATFORM = this.SERVER_URL + this.API_URL_PREFIX  //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
       window.appConfig.API_SERVER_URL = this.SERVER_URL;
-      } else {
+    } else {
       this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX;
-      this.API_SERVER_URL_PLATFORM = environment.API_SERVER_URL +  this.API_URL_PREFIX //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
+      this.API_SERVER_URL_PLATFORM = environment.API_SERVER_URL + this.API_URL_PREFIX //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
       //this.API_SERVER_URL = "http://b10c83bc1944.ngrok.io" + "/api/1.1"
-      }
+    }
     this.init();
   }
 
@@ -1005,6 +1005,10 @@ export class EndPointsService {
     }
     this.serviceList['get.lastActiveSubscription'] = {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/lastactive',
+      method: 'get'
+    }
+    this.serviceList['get.getInvoiceDownload'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/transactions/:transactionId/invoice',
       method: 'get'
     }
   }

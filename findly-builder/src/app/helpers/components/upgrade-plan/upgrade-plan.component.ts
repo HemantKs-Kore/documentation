@@ -9,6 +9,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { AuthService } from '@kore.services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import * as FileSaver from 'file-saver';
 declare const $: any;
 @Component({
   selector: 'app-upgrade-plan',
@@ -70,13 +71,13 @@ export class UpgradePlanComponent implements OnInit {
   @Output() overageModel = new EventEmitter<string>();
   @ViewChild(PerfectScrollbarComponent) public directiveScroll: PerfectScrollbarComponent;
   ngOnInit(): void {
+    this.getPlan();
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
     if (!this.currentSubscriptionPlan) {
       this.currentsubscriptionPlan(this.selectedApp)
     }
-    this.getPlan();
   }
   currentsubscriptionPlan(app) {
     const payload = {
@@ -208,6 +209,7 @@ export class UpgradePlanComponent implements OnInit {
   }
   //payment plan for upgrade/downgrade
   paymentPlan(show?) {
+    this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
     if (show == undefined) {
       show = this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free ? true : false;
     }
@@ -347,5 +349,20 @@ export class UpgradePlanComponent implements OnInit {
     setTimeout(() => {
       this.directiveScroll.directiveRef.scrollTo(420)
     }, 500)
+  }
+  //download invoice
+  downloadInvoice() {
+    const queryParams = {
+      "streamId": this.selectedApp._id,
+      "transactionId": this.payementResponse.hostedPage.transactionId
+    }
+    const getInvoice = this.service.invoke('get.getInvoiceDownload', queryParams);
+    getInvoice.subscribe(res => {
+      console.log("res", res);
+      FileSaver.saveAs(res.viewInvoice + '&DownloadPdf=true', 'invoice_' + res._id + '.pdf');
+      this.notificationService.notify(res.status, 'success');
+    }, errRes => {
+      this.errorToaster(errRes, 'failed buy overage');
+    });
   }
 }
