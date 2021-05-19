@@ -41,7 +41,7 @@
             </div>
             <div class="type-title width-19"  *ngFor="let plan of filterPlansData">
               <div class="title">{{plan.name}}</div>  
-              <div class="plan-duration" *ngIf="plan.name!='Enterprise'&&plan.type!='free'">${{plan.planAmount}} / month</div>
+              <div class="plan-duration" *ngIf="plan.name!='Enterprise'&&plan.type!='free'">${{plan.planAmount}} / {{termPlan==='Monthly'?'month':'year'}}</div>
               <div class="plan-duration" *ngIf="plan.name=='Enterprise'">Custom Pricing</div>
               <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
             </div>

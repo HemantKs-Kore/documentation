@@ -9,6 +9,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+declare var $: any;
 @Component({
   selector: 'app-pricing',
   templateUrl: './pricing.component.html',
@@ -67,8 +68,6 @@ export class PricingComponent implements OnInit, OnDestroy {
   @ViewChild('plans') plans: UpgradePlanComponent;
 
   async ngOnInit() {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.pricingChart()
     this.getPlan();
     await this.appSelectionService.getCurrentSubscriptionData();
@@ -77,7 +76,9 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.updateUsageDetails();
       // this.getOverage(overageRes);
       this.showUpgradeBtn = this.currentSubscriptionPlan.subscription.planName != 'Free' ? true : false;
-    })
+    });
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
   }
   // currentsubscriptionPlan(app, overageRes?) {
   //   const payload = {
@@ -265,6 +266,8 @@ export class PricingComponent implements OnInit, OnDestroy {
   }
   closeCancelSubsPopup() {
     if (this.cancelSubscriptionModelPopRef && this.cancelSubscriptionModelPopRef.close) {
+      $("input:checkbox").prop('checked', false);
+      $("#text_area").val('');
       this.cancelSubscriptionModelPopRef.close();
     }
   }

@@ -70,13 +70,13 @@ export class UpgradePlanComponent implements OnInit {
   @Output() overageModel = new EventEmitter<string>();
   @ViewChild(PerfectScrollbarComponent) public directiveScroll: PerfectScrollbarComponent;
   ngOnInit(): void {
+    this.getPlan();
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
     if (!this.currentSubscriptionPlan) {
       this.currentsubscriptionPlan(this.selectedApp)
     }
-    this.getPlan();
   }
   currentsubscriptionPlan(app) {
     const payload = {
@@ -208,6 +208,7 @@ export class UpgradePlanComponent implements OnInit {
   }
   //payment plan for upgrade/downgrade
   paymentPlan(show?) {
+    this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
     if (show == undefined) {
       show = this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free ? true : false;
     }

@@ -31,7 +31,7 @@
                   </div>
                   <div class="plan-time">
                     <div class="started-title">{{currentSubscriptionPlan.subscription.planName=='Free'?'Started On':currentSubscriptionPlan.subscription.changesScheduledFor=='none'?'Renewal Date':currentSubscriptionPlan.subscription.status=='expired'?'End Date':'Valid till'}}</div>
-                    <div class="started-date">{{ (currentSubscriptionPlan.subscription.status=='expired'?currentSubscriptionPlan.subscription.expiredOn:currentSubscriptionPlan.subscription.createdAt) | date}}</div>
+                    <div class="started-date">{{ (currentSubscriptionPlan.subscription.status=='expired'?currentSubscriptionPlan.subscription.expiredOn:currentSubscriptionPlan.subscription.createdAt) | dateFormatPipe:'d MMMM YYYY'}}</div>
                   </div>
                 </div>
               </div>
@@ -286,7 +286,7 @@
   <div class="modal-header">
     <div class="title">Cancel Subscription</div>
     <div class="close_icon">
-      <img (click)="closeCancelSubsPopup()"src="assets/icons/modal-close.svg">
+      <img (click)="closeCancelSubsPopup()" src="assets/icons/modal-close.svg">
     </div>
   </div>
   <perfect-scrollbar>
@@ -324,7 +324,7 @@
           </div>
           <div class="kr-sg-input-text-area">
             <div class="label-text">Comments</div>
-            <textarea placeholder="Optional" class="input-text"></textarea>                                
+            <textarea placeholder="Optional" id="text_area" class="input-text"></textarea>                                
           </div>
         </div>
       </div>
@@ -332,7 +332,7 @@
   </perfect-scrollbar>
   <div class="modal-footer text-right">    
     <button class="kr-sg-button-primary btn_lg" (click)="cancelSubscription()">Cancel Subscription</button>     
-    <button class="kr-sg-button-secondary btn_lg">Later</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="closeCancelSubsPopup()">Later</button>
   </div>
 </kr-modal>
 
