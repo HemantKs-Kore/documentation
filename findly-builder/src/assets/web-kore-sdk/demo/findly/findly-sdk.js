@@ -247,7 +247,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.filterObject = [];
       vars.searchFacetFilters = [];
       vars.enterIsClicked = false;
-      vars.previousDataobj = {};
+      vars.previousDataobj = '';
       vars.customizeView = false;
       vars.showingMatchedResults = false;
 
@@ -5804,7 +5804,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "lang": "en"
       }
       if (botAction) {
-        _self.vars.searchObject.searchText = "";
+        if($('body').hasClass('top-down')){
+          _self.vars.searchObject.searchText = _self.previousDataobj;
+        }else{
+          _self.vars.searchObject.searchText = "";
+        }
+        
         payload.isBotAction = true;
       }
       payload.smallTalk = true;
@@ -6054,7 +6059,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           object: object
         }
         if ($('body').hasClass('top-down')) {
-          _self.previousDataobj = dataObj;
+          _self.previousDataobj = $('#search').val();
           _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true} });
         } else {
           _self.pubSub.publish('sa-search-result', dataObj);
