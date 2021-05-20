@@ -2817,6 +2817,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.kore-sdk-pagination-div').hide();
       }else{
         $('.kore-sdk-pagination-div').show();
+        _self.handlePaginationUI(selectedFacet || _self.vars.selectedFacetFromSearch, dataObj);
       }
      
       if (!selectedFacet || selectedFacet === "all results") {
