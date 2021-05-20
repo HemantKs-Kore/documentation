@@ -74,10 +74,10 @@ export class UpgradePlanComponent implements OnInit {
     this.getPlan();
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
-    if (!this.currentSubscriptionPlan) {
-      this.currentsubscriptionPlan(this.selectedApp)
-    }
+    // this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+    // if (!this.currentSubscriptionPlan) {
+    //   this.currentsubscriptionPlan(this.selectedApp)
+    // }
   }
   currentsubscriptionPlan(app) {
     const payload = {
@@ -158,6 +158,7 @@ export class UpgradePlanComponent implements OnInit {
   }
   //open popup1
   openChoosePlanPopup(data?) {
+    this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
     this.selectedPlan = data;
     this.choosePlanModalPopRef = this.choosePlanModel.open();
   }
