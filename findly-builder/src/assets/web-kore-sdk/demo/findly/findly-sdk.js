@@ -6801,10 +6801,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       payload.userId = this.bot.userInfo.userInfo.userId;
 
       payload.streamId = this.bot.options.botInfo.taskBotId;
-      // if (!$('body').hasClass('demo')) {
-      //   payload.indexPipelineId = _self.API.indexpipelineId;
-      //   payload.queryPipelineId = _self.API.pipelineId;
-      // }
 
       var _self = this;
       if (!$('body').hasClass('demo')) {
@@ -7238,7 +7234,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return false;
       }
     }
-    FindlySDK.prototype.initialize = function (findlyConfig) {
+    FindlySDK.prototype.initialize = function (findlyConfig, fromTopDown) {
       var _self = this;
       var _findlyConfig = findlyConfig;
       if (findlyConfig.botOptions) {
@@ -7262,6 +7258,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.isDev = true;
       }*/
       if (window.appConfig.API_SERVER_URL) {
+        _self.baseAPIServer = window.appConfig.API_SERVER_URL;
+      }
+      if(fromTopDown) {
         _self.baseAPIServer = window.appConfig.API_SERVER_URL + '/searchassistapi/';
       }
       if (findlyConfig.autoConnect) {
@@ -18647,6 +18646,45 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       });
       // Search Facet
+
+      $(showAllHTML).off('click', '.search-task').on('click', '.search-task', function (e) {
+        e.stopPropagation();
+        _self.hideBottomUpAllResults();
+        var taskName = e.target.title.toLowerCase();
+        var payload = $(e.target).attr('payload');
+        if (!_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.indexOf(taskName.toLowerCase()) == -1)) {
+          _self.vars.searchObject.recentTasks.unshift(taskName.toLowerCase());
+        }
+        var recentItem = []
+        recentItem.push(taskName);
+        _self.vars.searchObject.recentTasks = _.uniq(recentItem.concat(_self.vars.searchObject.recentTasks));
+        if (_self.vars.searchObject.recentTasks && _self.vars.searchObject.recentTasks.length) {
+          _self.vars.searchObject.recentTasks = _.filter(_self.vars.searchObject.recentTasks, function (task) {
+            return task;
+          })
+        }
+        if (_self.vars.showingMatchedResults == true) {
+          console.log($(e.currentTarget).attr('contentType'), $(e.currentTarget).attr('contentId'));
+          _self.captureClickAnalytics(e, $(e.currentTarget).attr('contentType'), 'click', $(e.currentTarget).attr('contentId'), $(e.currentTarget).attr('id'), $(e.currentTarget).attr('title'));
+        }
+        window.localStorage.setItem("recentTasks", JSON.stringify(_self.vars.searchObject.recentTasks));
+        if (!$('body').hasClass('top-down')) {
+          _self.bindFrequentData();
+        }
+        console.log(payload);
+        if (_self.config.viaSocket) {
+          _self.sendMessage(payload);
+        }
+        if (_self.isDev || _self.vars.loggedInUser) {
+          _self.vars.searchObject.searchText = e.target.title.toLowerCase();
+          _self.sendMessageToSearch('botAction');
+        } else if ((e.target.title.toLowerCase() === 'pay bill') || (e.target.title.toLowerCase() === 'pay credit card bill')) {
+          _self.userLogin(e.target.title.toLowerCase());
+        } else {
+          //_self.userLogin(e.target.title.toLowerCase());
+        }
+
+      })
     }
 
     FindlySDK.prototype.calculatePageNumber = function (selectedFacet, data) {
@@ -20638,7 +20676,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('#conversation-container').hide();
       $('.show-result').hide();
       findlyConfig.autoConnect = true;
-      _self.initialize(findlyConfig);
+      _self.initialize(findlyConfig, _self.isDev);
       _self.initializeTopSearchTemplate();
       if ($('.search-background-div').length) {
         $('.search-background-div').remove();
