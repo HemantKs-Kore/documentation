@@ -110,6 +110,8 @@ export class AddAlternateQuestionComponent implements OnInit {
       params.followupQuestions.push(this.f.question);
       this.faqServ.addFollowQues.next(params);
     }
+    this.f.question ='';
+    this.cancelAltQuestion.emit();
   }
 
   cancelFaq() {

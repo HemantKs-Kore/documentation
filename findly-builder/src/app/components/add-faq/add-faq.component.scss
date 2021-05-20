@@ -1182,3 +1182,17 @@
         }
     }
 }
+::ng-deep .alter-add-btn{
+    .kr-sg-button-ghost{
+        color:#202124;
+        border:none !important;
+        font-weight: 500;
+        margin-bottom: 1px !important;
+    }
+    .kr-sg-button-ghost:hover{
+        color:#0D6EFD;
+    }
+}
+.alternate-add-plus-icon{
+    width: 12px;
+}

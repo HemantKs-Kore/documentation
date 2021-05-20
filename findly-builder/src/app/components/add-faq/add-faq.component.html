@@ -436,15 +436,15 @@
         </div>
         <div class="added-tags text-truncate">Add alternate forms of the question.</div>
     </div>
-    <div class=" col-4 text-right pr-0" *ngIf="faqData._source.faqAltQuestions?.length>0 || isAdd">
-        <button class="kr-sg-button-ghost" (click)="addAltQues();"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Alternate Question</button>
+    <div class=" col-4 text-right pr-0 alter-add-btn" *ngIf="faqData._source.faqAltQuestions?.length>0 || isAdd">
+        <button class="kr-sg-button-ghost" (click)="addAltQues();" (mouseout)="addSrc = 'assets/icons/add_plus.svg'" (mouseover)="addSrc = 'assets/icons/editor/plus-add.svg'"><img src="{{addSrc}}" class="mr-2" [ngClass]="{'alternate-add-plus-icon':(addSrc === 'assets/icons/editor/plus-add.svg')}">Alternate Question</button>
     </div>
     <div class="col-12 p-0 " *ngIf="!faqData._source.faqAltQuestions?.length && !isAdd">
         <button class="kr-sg-button-primary btn_lg" (click)="addAltQues()">Add</button>
     </div>
   </div>
   <div *ngIf="isAdd" class="alternative-question-results">
-      <app-add-alternate-question (cancelAltQuestion)="isAdd=false;" (saveAltQuestion)="addAnotherAlternate()" [faqServ]="faqServiceAlt" [isFromFaqsForm]="true"></app-add-alternate-question>
+      <app-add-alternate-question (cancelAltQuestion)="isAdd=false;" (saveAltQuestion)="addAnotherAlternate($event)" [faqServ]="faqServiceAlt" [isFromFaqsForm]="true"></app-add-alternate-question>
   </div>
   
   <ng-container *ngIf="faqData && faqData._source && faqData._source.faqAltQuestions?.length">

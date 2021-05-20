@@ -160,6 +160,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
       }
     }
   }
+  addSrc = 'assets/icons/add_plus.svg';
   public config: PerfectScrollbarConfigInterface = {};
   constructor(private fb: FormBuilder,
     config: NgbTooltipConfig,
@@ -605,10 +606,12 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     this.anwerPayloadObj.defaultAnswers = defaultAnswers;
     this.anwerPayloadObj.conditionalAnswers = conditionalAnswers;
   }
-  addAnotherAlternate() {
+  addAnotherAlternate(isHideInput?) {
     $('#addAlternateFaq').click();
     setTimeout(() => {
-      this.isAdd = true;
+      if(!isHideInput){
+        this.isAdd = true;
+      }
     });
   }
   save() {
@@ -961,6 +964,9 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   }
 
   addAltQues() {
+    if(this.isAdd){
+      this.addAnotherAlternate();
+    }
     this.faqServiceAlt.updateVariation('alternate');
     this.faqServiceAlt.updateFaqData(this.faqData);
     this.isAdd = true;
