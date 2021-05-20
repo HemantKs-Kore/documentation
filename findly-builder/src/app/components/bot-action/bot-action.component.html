@@ -73,26 +73,17 @@
         </div>
       </div>      
     </div>
-    <ng-container *ngIf="!linkedBotData?.approvedChannels?.length">
-      <div class="info-link-bot-notification" >
-          <img src="assets/icons/actions/info.svg">
-          <div class="title-text pl-2">The App can interact with the linked bot only after the Webhook channel is published</div>
-            <div class="link-ext-link">
-              <a href="{{botBulilderUrl}}/botbuilder">
-              <img src="assets/icons/actions/external-link.svg" class="ext-link">
-                <span >Go to Platform</span>
-              </a>
-          </div>
-      </div>
-  </ng-container>
+
     <div class="task-list-data">
-      <div class="info-data-links">
+      <div class="info-data-links"  *ngIf="!linkedBotData?.approvedChannels?.length">
         <div class="info-text">
           <img src="assets/icons/actions/info-blue.svg">
           <span class="">The App can interact with the linked bot only after the Webhook channel is published</span>
         </div>
         <div class="ext_link">
+          <a href="{{botBulilderUrl}}/botbuilder">
           <img src="assets/icons/actions/external-link.svg">Go to Platform
+          </a>
         </div>
       </div>
       <div class="header-sec-tab-checked">
@@ -185,7 +176,7 @@
   </div>
   <perfect-scrollbar class="perfect-scroll-modal-body">
     <div class="modal-body">
-        <div class="info-link-text">Choose any bot from the list to link it to your Findly app.</div>
+        <div class="info-link-text">Choose any bot from the list to link it to your SearchAssist app.</div>
         <div class="kr-sg-input-text">          
           <input type="text"placeholder="Search" [(ngModel)]="searchAssociatedBots" name="searchAssociatedBots" class="input-text"> 
           <img class="search-icon" src="assets/images/search_gray.svg">        
