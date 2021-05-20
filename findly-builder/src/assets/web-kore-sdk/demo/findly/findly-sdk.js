@@ -18637,6 +18637,45 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       });
       // Search Facet
+
+      $(showAllHTML).off('click', '.search-task').on('click', '.search-task', function (e) {
+        e.stopPropagation();
+        _self.hideBottomUpAllResults();
+        var taskName = e.target.title.toLowerCase();
+        var payload = $(e.target).attr('payload');
+        if (!_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.indexOf(taskName.toLowerCase()) == -1)) {
+          _self.vars.searchObject.recentTasks.unshift(taskName.toLowerCase());
+        }
+        var recentItem = []
+        recentItem.push(taskName);
+        _self.vars.searchObject.recentTasks = _.uniq(recentItem.concat(_self.vars.searchObject.recentTasks));
+        if (_self.vars.searchObject.recentTasks && _self.vars.searchObject.recentTasks.length) {
+          _self.vars.searchObject.recentTasks = _.filter(_self.vars.searchObject.recentTasks, function (task) {
+            return task;
+          })
+        }
+        if (_self.vars.showingMatchedResults == true) {
+          console.log($(e.currentTarget).attr('contentType'), $(e.currentTarget).attr('contentId'));
+          _self.captureClickAnalytics(e, $(e.currentTarget).attr('contentType'), 'click', $(e.currentTarget).attr('contentId'), $(e.currentTarget).attr('id'), $(e.currentTarget).attr('title'));
+        }
+        window.localStorage.setItem("recentTasks", JSON.stringify(_self.vars.searchObject.recentTasks));
+        if (!$('body').hasClass('top-down')) {
+          _self.bindFrequentData();
+        }
+        console.log(payload);
+        if (_self.config.viaSocket) {
+          _self.sendMessage(payload);
+        }
+        if (_self.isDev || _self.vars.loggedInUser) {
+          _self.vars.searchObject.searchText = e.target.title.toLowerCase();
+          _self.sendMessageToSearch('botAction');
+        } else if ((e.target.title.toLowerCase() === 'pay bill') || (e.target.title.toLowerCase() === 'pay credit card bill')) {
+          _self.userLogin(e.target.title.toLowerCase());
+        } else {
+          //_self.userLogin(e.target.title.toLowerCase());
+        }
+
+      })
     }
 
     FindlySDK.prototype.calculatePageNumber = function (selectedFacet, data) {
