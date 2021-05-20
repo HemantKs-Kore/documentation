@@ -1010,5 +1010,9 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/lastactive',
       method: 'get'
     }
+    this.serviceList['get.getInvoiceDownload'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/transactions/:transactionId/invoice',
+      method: 'get'
+    }
   }
 }
