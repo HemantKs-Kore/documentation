@@ -6333,9 +6333,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.suggestion-search-data-parent').css('visibility', 'hidden');
           }
         }
-        console.log($(event.target).closest('#search').length, $(event.target).closest('#search-box-container').length, $(event.target).closest('#frequently-searched-box').length, $(event.target).closest('#live-search-result-box').length);
         if (!($(event.target).closest('#search-box-container').length || $(event.target).closest('#frequently-searched-box').length || $(event.target).closest('#live-search-result-box').length)) {
-
           $('#frequently-searched-box').hide();
           $('#live-search-result-box').hide();
         }
@@ -19964,7 +19962,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('#auto-query-box').empty();
         $('#live-search-result-box').hide();
       }
-
+      // out side click for live search and frequent search dropdown close//
+      $('#live-search-result-box').off('click').on('click', function (event) {
+        if($(event.target).closest('#live-search-result-box').length){
+          if($('#live-search-result-box').height()<event.offsetY || event.offsetX<0 || event.offsetX>$('#live-search-result-box').width()){
+            $('#live-search-result-box').hide();
+          }
+        }
+      });
+      $('#frequently-searched-box').off('click').on('click', function (event) {
+        if($(event.target).closest('#frequently-searched-box').length){
+          if($('#frequently-searched-box').height()<event.offsetY || event.offsetX<0 || event.offsetX>$('#frequently-searched-box').width()){
+            $('#frequently-searched-box').hide();
+          }
+        }
+      });
     }
     FindlySDK.prototype.getSuggestionTemplate = function () {
       if ($("#auto-query-box").find(".suggestion-box").length) {
