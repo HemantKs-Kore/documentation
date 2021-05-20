@@ -38,6 +38,8 @@ export class UpgradePlanComponent implements OnInit {
   overageData: any;
   listPlanFeaturesData: any;
   paymentStatusInterval: any;
+  showText: boolean;
+  btnDisable: boolean;
   payementResponse: any = {
     hostedPage: {
       transactionId: "",
@@ -102,6 +104,7 @@ export class UpgradePlanComponent implements OnInit {
     };
     this.service.invoke('get.payementStatus', queryParams).subscribe(res => {
       if (res.state == 'success') {
+        this.btnDisable = false;
         this.openSuccessFailurePopup(true);
         clearInterval(this.paymentStatusInterval);
       } else if (res.state == 'failed') {
@@ -144,6 +147,7 @@ export class UpgradePlanComponent implements OnInit {
   closeOrderConfPopup() {
     if (this.orderConfirmModelPopRef && this.orderConfirmModelPopRef.close) {
       this.orderConfirmModelPopRef.close();
+      this.btnDisable = false;
     }
   }
   //open changePlanModel popup
@@ -154,6 +158,7 @@ export class UpgradePlanComponent implements OnInit {
   closeChangePlanModel() {
     if (this.changePlanModelPopRef && this.changePlanModelPopRef.close) {
       this.changePlanModelPopRef.close();
+      this.btnDisable = false;
     }
   }
   //open popup1
@@ -171,6 +176,7 @@ export class UpgradePlanComponent implements OnInit {
   }
   //open payment gateway popup
   openPaymentGatewayPopup() {
+    this.showText = true;
     this.userInfo = this.authService.getUserInfo() || {};
     const queryParams = {
       planId: this.orderConfirmData._id
@@ -208,8 +214,13 @@ export class UpgradePlanComponent implements OnInit {
     this.closeOrderConfPopup();
     this.paymentGatewayModelPopRef = this.paymentGatewayModel.open();
   }
+  //load iframe
+  showSpinner() {
+    this.showText = false;
+  }
   //payment plan for upgrade/downgrade
   paymentPlan(show?) {
+    this.btnDisable = true;
     this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
     if (show == undefined) {
       show = this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free ? true : false;
@@ -218,7 +229,7 @@ export class UpgradePlanComponent implements OnInit {
       this.buyOveragePayment();
     }
     else {
-      if (this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free || this.selectedPlan && this.selectedPlan.status == 'expired') {
+      if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free || this.selectedPlan && this.selectedPlan.status == 'expired') {
         this.openPaymentGatewayPopup()
       }
       else {
@@ -229,6 +240,7 @@ export class UpgradePlanComponent implements OnInit {
             this.openSuccessFailurePopup(true);
             this.closeChoosePlanPopup();
             this.closeOrderConfPopup();
+            this.btnDisable = false;
           }
         }, errRes => {
           if (errRes && errRes.error && errRes.error.errors[0].code == 'ERR_FAILED_ACCESS_EXCEEDED') {
@@ -236,6 +248,7 @@ export class UpgradePlanComponent implements OnInit {
             this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
           }
           else {
+            this.btnDisable = false;
             this.errorToaster(errRes, 'failed upgrade');
             this.openSuccessFailurePopup(false);
             this.closeChoosePlanPopup();
@@ -359,7 +372,6 @@ export class UpgradePlanComponent implements OnInit {
     }
     const getInvoice = this.service.invoke('get.getInvoiceDownload', queryParams);
     getInvoice.subscribe(res => {
-      console.log("res", res);
       FileSaver.saveAs(res.viewInvoice + '&DownloadPdf=true', 'invoice_' + res._id + '.pdf');
       this.notificationService.notify(res.status, 'success');
     }, errRes => {

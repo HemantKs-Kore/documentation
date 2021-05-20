@@ -28,6 +28,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   selectedSort = '';
   loading = false;
   isAsc = true;
+  current_plan_name;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -45,6 +46,8 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     // this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
     //   this.loadInvoices();
     // })
+    let subscription_data = this.appSelectionService.currentsubscriptionPlanDetails;
+    this.current_plan_name = subscription_data.subscription.planName;
   }
   toggleSearch() {
     if (this.showSearch && this.searchInvoice) {

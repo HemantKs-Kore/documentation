@@ -454,10 +454,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     const payload = { "features": ["ingestDocs", "searchQueries"] };
     this.service.invoke('post.usageData', queryParms, payload).subscribe(
       res => {
-        let docs = Number.isInteger(res.ingestDocs.percentageUsed) ? (res.ingestDocs.percentageUsed) : (res.ingestDocs.percentageUsed).toFixed(2);
-        let queries = Number.isInteger(res.searchQueries.percentageUsed) ? (res.searchQueries.percentageUsed) : (res.searchQueries.percentageUsed).toFixed(2);
+        let docs = Number.isInteger(res.ingestDocs.percentageUsed) ? (res.ingestDocs.percentageUsed) : parseFloat(res.ingestDocs.percentageUsed).toFixed(2);
+        let queries = Number.isInteger(res.searchQueries.percentageUsed) ? (res.searchQueries.percentageUsed) : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
         this.usageDetails = { ingestDocs: docs, searchQueries: queries };
-
       },
       errRes => {
         this.errorToaster(errRes, 'Failed to get current data.');

@@ -30,7 +30,7 @@
     <ng-container *ngIf="invoices.length && !loading">
         <div class="plan-type">
             <div class="current-plan">Current Plan</div>
-            <div class="type">Free</div>
+            <div class="type">{{current_plan_name}}</div>
         </div>
         <perfect-scrollbar class="scroll-invoice-content if-pagination">
             <div class="invoice-table-data">
