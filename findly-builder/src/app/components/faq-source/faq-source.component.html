@@ -582,10 +582,10 @@
                                     </div> -->
                                 </div>
                             </div>
-                            <div class="add-alternative-questions row bg-white"  *ngIf="selectedFaq._source.alternateQuestions?.length">
+                            <div class="add-alternative-questions row bg-white"  *ngIf="selectedFaq._source.faqAltQuestions?.length">
                                 <div class="col-10 pl-0 pr-2">
                                     <div class="question-name text-truncate">Alternate Questions
-                                        <span>{{selectedFaq._source.alternateQuestions?.length>0?'('+selectedFaq._source.alternateQuestions?.length+')':''}}</span>
+                                        <span>{{selectedFaq._source.faqAltQuestions?.length>0?'('+selectedFaq._source.faqAltQuestions?.length+')':''}}</span>
                                         <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
                                     </div>
                                     <div class="que-desc text-truncate">Add alternate forms of the question.</div>
@@ -597,10 +597,10 @@
                             <div *ngIf="selectedFaq.isAlt" class="alternate-question-bg">
                                 <app-add-alternate-question [faqServ]="faqServiceAlt"></app-add-alternate-question>
                             </div>
-                            <ng-container *ngIf="selectedFaq._source.alternateQuestions?.length">
-                            <div class="added-questions-list" *ngFor="let alternateQuestion of selectedFaq._source?.alternateQuestions">
+                            <ng-container *ngIf="selectedFaq._source.faqAltQuestions?.length">
+                            <div class="added-questions-list" *ngFor="let alternateQuestion of selectedFaq._source?.faqAltQuestions">
                                 <div class="content-body-question row" >
-                                <div class="col-12 group-name question-name text-truncate">{{alternateQuestion.question}}</div>
+                                <div class="col-12 group-name question-name text-truncate">{{alternateQuestion}}</div>
                                 </div>
                                 <!-- <div class="added-tags text-truncate">
                                     <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>

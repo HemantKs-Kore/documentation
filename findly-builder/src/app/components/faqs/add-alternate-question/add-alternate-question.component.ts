@@ -97,16 +97,17 @@ export class AddAlternateQuestionComponent implements OnInit {
       question: this.faqServ.faqData.question,
       answer: this.faqServ.faqData.answer,
       _source:{
-        alternateQuestions: this.faqServ.faqData._source.alternateQuestions || []
+        faqAltQuestions: this.faqServ.faqData._source.faqAltQuestions || []
       },
       followupQuestions: this.faqServ.faqData.followupQuestions || []
     };
     if(this.faqServ.addVariation.alternate) {
-      params._source.alternateQuestions.push({question: this.f.question, keywords: _.map(this.tags, o=>{return {keyword: o}})});
+      // params._source.faqAltQuestions.push({question: this.f.question, keywords: _.map(this.tags, o=>{return {keyword: o}})});
+      params._source.faqAltQuestions.push(this.f.question);
       this.faqServ.addAltQues.next(params);
     }
     else if(this.faqServ.addVariation.followUp) {
-      params.followupQuestions.push({question: this.f.question, keywords: _.map(this.tags, o=>{return {keyword: o}})});
+      params.followupQuestions.push(this.f.question);
       this.faqServ.addFollowQues.next(params);
     }
   }
