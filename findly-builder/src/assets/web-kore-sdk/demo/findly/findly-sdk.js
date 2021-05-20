@@ -3102,7 +3102,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if($('body').hasClass('top-down')){
         var contentTypeFilter = {
-          "fieldName": "__contentType",
+          "fieldName": "sysContentType",
           "facetName": "facetContentType",
           "facetType": "value",
           "isMultiSelect": false,
@@ -4752,7 +4752,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         payload.filters = JSON.parse(JSON.stringify(filterObject));
       }
       var contentTypeFilter = {
-        "fieldName": "__contentType",
+        "fieldName": "sysContentType",
         "facetName": "facetContentType",
         "facetType": "value",
         "isMultiSelect": false,
@@ -16664,7 +16664,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         config.appearance.forEach((appearance) => {
           var _self1 = _self;
           var template = appearance.template;
-          if (appearance.type === 'web') {
+          if (appearance.type === 'page') {
             // writing conditions only for StructuredData
             if (template && template.layout) {
               _self.pageConfig.searchInterface = template;
@@ -16689,7 +16689,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (config.interface === 'fullSearch') {
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
-          if (appearance.type === 'web') {
+          if (appearance.type === 'page') {
             // writing conditions only for StructuredData
             if (template && template.layout) {
               _self.pageConfig.fullSearchInterface = template;
@@ -16714,7 +16714,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (config.interface === 'liveSearch') {
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
-          if (appearance.type === 'web') {
+          if (appearance.type === 'page') {
             // writing conditions only for StructuredData
             if (template && template.layout) {
               _self.pageConfig.liveSearchInterface = template;
@@ -16779,7 +16779,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       // Custom templateType and layoutType by user from index.html - overrides the AJAX config
       if (customTemplateConfig && Object.keys(customTemplateConfig).length) {
-        if (customTemplateConfig.appearanceType == "web") {
+        if (customTemplateConfig.appearanceType == "page") {
           if (customTemplateConfig.interface === 'search') {
             selectedSearchTemplateType = customTemplateConfig.templateType ? customTemplateConfig.templateType : selectedSearchTemplateType; // assign defalt in false case
             selectedSearchLayoutType = customTemplateConfig.layoutType ? customTemplateConfig.layoutType : selectedSearchLayoutType; // assign defalt in false case
@@ -17108,7 +17108,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         config.appearance.forEach((appearance) => {
           var _self1 = _self;
           var template = appearance.template;
-          if (appearance.type === 'file') {
+          if (appearance.type === 'document') {
             // writing conditions only for StructuredData
             if (template && template.layout) {
               _self.documentConfig.searchInterface = template;
@@ -17133,7 +17133,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (config.interface === 'fullSearch') {
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
-          if (appearance.type === 'file') {
+          if (appearance.type === 'document') {
             // writing conditions only for StructuredData
             if (template && template.layout) {
               _self.documentConfig.fullSearchInterface = template;
@@ -17158,7 +17158,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (config.interface === 'liveSearch') {
         config.appearance.forEach((appearance) => {
           var template = appearance.template;
-          if (appearance.type === 'file') {
+          if (appearance.type === 'document') {
             // writing conditions only for StructuredData
             if (template && template.layout) {
               _self.documentConfig.liveSearchInterface = template;
@@ -17223,7 +17223,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       // Custom templateType and layoutType by user from index.html - overrides the AJAX config
       if (customTemplateConfig && Object.keys(customTemplateConfig).length) {
-        if (customTemplateConfig.appearanceType == "file") {
+        if (customTemplateConfig.appearanceType == "document") {
           if (customTemplateConfig.interface === 'search') {
             selectedSearchTemplateType = customTemplateConfig.templateType ? customTemplateConfig.templateType : selectedSearchTemplateType; // assign defalt in false case
             selectedSearchLayoutType = customTemplateConfig.layoutType ? customTemplateConfig.layoutType : selectedSearchLayoutType; // assign defalt in false case
@@ -17941,7 +17941,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if ($('body').hasClass('top-down')) {
           let filters = payload.filters;
           for (let i = (filters || []).length - 1; i >= 0; i--) {
-            if (filters[i].facetValue[0] == 'faq' || filters[i].facetValue[0] == 'task' || filters[i].facetValue[0] == 'web' || filters[i].facetValue[0] == 'data' || filters[i].facetValue[0] == 'file') {
+            if (filters[i].facetValue[0] == 'faq' || filters[i].facetValue[0] == 'task' || filters[i].facetValue[0] == 'web' || filters[i].facetValue[0] == 'file' || filters[i].facetValue[0] == 'data') {
               payload.filters.splice(i, 1);
             }
           }
