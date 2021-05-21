@@ -25,7 +25,7 @@
     <div *ngIf="emptyApp">
       <div class="onboarding-welcome-screen">
           <div class="img-block">
-            <img src="assets/icons/onboarding-welcome.svg">
+            <img  (load)="imageLoad()" src="assets/icons/onboarding-welcome.svg">
           </div>
           <div class="welocme-user-name">{{'Hi'| translate}}{{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}},</div>
           <div class="welocme-user-name">Let’s start by Creating an App</div>
