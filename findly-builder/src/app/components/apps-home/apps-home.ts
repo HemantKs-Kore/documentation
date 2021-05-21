@@ -114,6 +114,10 @@ export class AppsListingComponent implements OnInit {
       console.log(errRes);
     });
   }
+  imageLoad() {
+    console.log("image loaded now")
+    this.emptyApp = true;
+  }
   //create app
   createFindlyApp() {
     const self = this;
@@ -149,6 +153,9 @@ export class AppsListingComponent implements OnInit {
         this.headerService.toggle(toogleObj);
         self.creatingInProgress = false;
         $('.toShowAppHeader').removeClass('d-none');
+        if(res.length > 0){
+          this.emptyApp = true;
+        }
         // this.callStream();
       },
       errRes => {
