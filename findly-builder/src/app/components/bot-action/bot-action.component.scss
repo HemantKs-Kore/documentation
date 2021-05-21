@@ -395,9 +395,10 @@
 
 
 
-::ng-deep.linkExistingBotsModal{
+::ng-deep .linkExistingBotsModal{
     .modal-dialog{
-        height: 90% !important;
+        height: 100% !important;
+        width: 80% !important;
         border-radius: 4px;
         .modal-content{
             border-radius: 4px !important;
