@@ -20580,7 +20580,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         </div>
                         <div class="documents-live-data-container">
                         </div>
-                        <div class="structured-data-container">
+                        <div class="structured-live-data-container">
                         </div>
                         
                     </div>
@@ -20793,7 +20793,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.vars.enterIsClicked) {
           return;
         }
-        if ((data.faqs || []).length || (data.pages || []).length || (data.document || []).length) {
+        if ((data.object || []).length || (data.faqs || []).length || (data.pages || []).length || (data.document || []).length) {
           $('#live-search-result-box').show();
         }
       });
