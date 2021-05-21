@@ -10,6 +10,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import * as _ from 'underscore';
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',
@@ -57,7 +58,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   editNameVal: String = "";
   editIndexName: boolean = false;
   editIndexNameVal: String = "";
-  submitted : boolean = false;
+  submitted: boolean = false;
   public showStatusDocker: boolean = false;
   public statusDockerLoading: boolean = false;
   public dockersList: Array<any> = [];
@@ -197,28 +198,28 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     }
   }
 
-  validateIndexConfig(){
-    if(this.newIndexConfigObj && this.newIndexConfigObj.name.length){
-      if(this.newIndexConfigObj.method === 'clone' && this.newIndexConfigObj.index_config_name.length){
+  validateIndexConfig() {
+    if (this.newIndexConfigObj && this.newIndexConfigObj.name.length) {
+      if (this.newIndexConfigObj.method === 'clone' && this.newIndexConfigObj.index_config_name.length) {
         this.submitted = false;
         return true;
       }
-      else if(this.newIndexConfigObj.method === 'clone' && !this.newIndexConfigObj.index_config_name.length){
+      else if (this.newIndexConfigObj.method === 'clone' && !this.newIndexConfigObj.index_config_name.length) {
         return false;
       }
-      else{
+      else {
         this.submitted = false;
         return true;
       }
     }
-    else{
+    else {
       return false;
     }
   }
 
   createIndexConfig() {
     this.submitted = true;
-    if(this.validateIndexConfig()){
+    if (this.validateIndexConfig()) {
       let payload: any = {
         method: this.newIndexConfigObj.method,
         name: this.newIndexConfigObj.name,
@@ -246,33 +247,33 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         }
       );
     }
-    else{
+    else {
       this.notify.notify('Enter the required fields to proceed', 'error');
     }
   }
 
-  validateSearchConfig(){
-    if(this.newConfigObj && this.newConfigObj.name.length){
-      if(this.newConfigObj.method === 'clone' && this.newConfigObj.config_name.length){
+  validateSearchConfig() {
+    if (this.newConfigObj && this.newConfigObj.name.length) {
+      if (this.newConfigObj.method === 'clone' && this.newConfigObj.config_name.length) {
         this.submitted = false;
         return true;
       }
-      else if(this.newConfigObj.method === 'clone' && !this.newConfigObj.config_name.length){
+      else if (this.newConfigObj.method === 'clone' && !this.newConfigObj.config_name.length) {
         return false;
       }
-      else{
+      else {
         this.submitted = false;
         return true;
       }
     }
-    else{
+    else {
       return false;
     }
   }
 
   createConfig() {
     this.submitted = true;
-    if(this.validateSearchConfig()){
+    if (this.validateSearchConfig()) {
       const payload: any = {
         method: this.newConfigObj.method,
         name: this.newConfigObj.name,
@@ -304,7 +305,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         }
       );
     }
-    else{
+    else {
       this.notify.notify('Enter the required fields to proceed', 'error');
     }
   }
@@ -323,15 +324,28 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.selectedConfig = queryConfigs._id;
     this.reloadCurrentRoute()
   }
-  deleteIndexPipeLine(indexConfigs, dialogRef) {
+  deleteIndexPipeLine(indexConfigs, dialogRef, type) {
     console.log("index query", indexConfigs)
-    const queryParms = {
+    let queryParms = {
       searchIndexId: this.searchIndexId,
-      indexPipelineId: indexConfigs._id
+      indexPipelineId: type == 'index' ? indexConfigs._id : this.workflowService.selectedIndexPipeline()
     }
-    this.service.invoke('delete.indexPipeline', queryParms).subscribe(
+    if (type == 'search') {
+      queryParms = Object.assign(queryParms, { queryPIpelineId: indexConfigs._id });
+    }
+    const url = type == 'index' ? 'delete.indexPipeline' : 'delete.queryPipeline';
+    this.service.invoke(url, queryParms).subscribe(
       res => {
         dialogRef.close();
+        const deleteIndex = _.findIndex(type == 'index' ? this.indexConfigs : this.queryConfigs, (pg) => {
+          return pg._id === indexConfigs._id;
+        })
+        if (type == 'index') {
+          this.indexConfigs.splice(deleteIndex, 1);
+        }
+        else {
+          this.queryConfigs.splice(deleteIndex, 1);
+        }
         this.notify.notify('deleted successfully', 'success');
       },
       errRes => {
@@ -482,14 +496,14 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       }
     );
   }
-  deleteIndexConfig(config) {
+  deleteIndexConfig(config, type) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
         newTitle: 'Are you sure you want to delete ?',
-        body: 'Selected Index Configuration will be deleted from the app.',
+        body: `Selected ${type == 'index' ? 'Index' : 'Search'} will be deleted from the app.`,
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -498,7 +512,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.deleteIndexPipeLine(config, dialogRef)
+          this.deleteIndexPipeLine(config, dialogRef, type)
         } else if (result === 'no') {
           dialogRef.close();
         }

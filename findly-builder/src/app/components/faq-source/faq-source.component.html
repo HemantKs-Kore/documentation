@@ -10,7 +10,7 @@
             <div class="col-6 left-sec p-0 faq-title" >FAQs</div>
             <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
                 <div class="kr-sg-dropdowns add w-auto"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved)">                                        
-                    <div class="dropdown dropdown-open mr-4">
+                    <div class="dropdown dropdown-open mr-4 cursor-pointer">
                         <div _ngcontent-rjr-c36="" class="dropdown-toggle" data-identifyelement="1" ngbDropdownToggle><img _ngcontent-rjr-c36="" class="mr-2 mb-1" src="assets/icons/add_plus.svg">Add FAQ</div>
                         <!-- <button class="dropdown-toggle kr-sg-button-primary btn_lg text-left" ngbDropdownToggle>Add FAQ</button>                                             -->
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
@@ -135,7 +135,7 @@
                         </div>
                         <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer': faqSelectionObj.selectedCount}" (psYReachEnd)="onScrolledEnd($event)" *ngIf="faqSelectionObj.stats[selectedtab]">
                             <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab" >
-                            <div class="selected-all-questions" *ngIf="faqSelectionObj.selectedCount" id="selectAllFaqs" (click)="selectAllRecords()" >Select all {{(selectedtab === 'draft' ? faqSelectionObj.stats.draft: (selectedtab === 'in_review' ? faqSelectionObj.stats.in_review:(selectedtab === 'approved' ? faqSelectionObj.stats.approved:'' )))}}  questions?</div>
+                            <div class="selected-all-questions" *ngIf="faqSelectionObj.selectedCount && !faqSelectionObj.selectAll " id="selectAllFaqs" (click)="selectAllRecords()" >Select all {{(selectedtab === 'draft' ? faqSelectionObj.stats.draft: (selectedtab === 'in_review' ? faqSelectionObj.stats.in_review:(selectedtab === 'approved' ? faqSelectionObj.stats.approved:'' )))}}  questions?</div>
                             <div id="accordion" class="accordion-content">
                                 <div *ngFor="let faq of faqs">
                                     <div class="card-content" *ngIf="faq.action!=='delete'">
@@ -234,7 +234,7 @@
                                     </div>                             
                                     <div class="kr-sg-dropdowns comments_header_dropdown"  #commentBox='ngbDropdown' ngbDropdown  [container]="'body'" [placement]="'bottom-right'" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved') || (selectedtab === 'in_review')">                                        
                                         <div class="dropdown dropdown-open">                                        
-                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                                                                      
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg" ngbTooltip='Comment'></button>                                                                                      
                                             <ul class="dropdown-menu content-menu comments_header_dropdown_content" ngbDropdownMenu>
                                                 <div class="c-section-data">
                                                     <perfect-scrollbar>
@@ -290,7 +290,7 @@
                                 <div class="col-7 p-0 actions-sec">
                                     <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-center'">                                        
                                         <div class="dropdown dropdown-open">                                        
-                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg" ngbTooltip='Info'  [container]="'body'"></button>                                            
                                             <ul class="dropdown-menu content-menu info_header_dropdown_content w-274px" ngbDropdownMenu>
                                                 <div class="row m-0 col-12 p-0">
                                                     <div class="col-5 inner-data-column"> 
@@ -316,7 +316,7 @@
                                     <div class="kr-sg-dropdowns comments_header_dropdown" 
                                     #commentBox='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                         <div class="dropdown dropdown-open">                                        
-                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                                                                      
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg" ngbTooltip='Comment'  [container]="'body'"></button>                                                                                      
                                             <ul class="dropdown-menu content-menu comments_header_dropdown_content" ngbDropdownMenu>
                                                 <div class="c-section-data">
                                                     <perfect-scrollbar>
@@ -468,7 +468,7 @@
                                                         <div class="bot-response-title col-6">Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div>
                                                         <div class="response-likes-views-sec d-flex col-6">
                                                             <div class="count-sec" >
-                                                                <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{selectedFaq.stats.appearances?selectedFaq.stats.appearances[0][0]: 0}}
+                                                                <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{(selectedFaq.stats.appearances || []).length ?selectedFaq.stats.appearances[0][0]: 0}}
                                                             </div>
                                                             <div class="count-sec" >
                                                                 <img src="assets/icons/faq/hand.svg" placement="top" container='body' ngbTooltip="Clicks">{{selectedFaq.stats.clicks ||0}}
@@ -670,8 +670,8 @@
                 </div>                                      
             </div>
             <div>
-                <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"><img src="assets/icons/grid-view.svg"></div>
-                <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg"></div>                
+                <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"><img src="assets/icons/grid-view.svg" ngbTooltip='Grid'></div>
+                <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg" ngbTooltip='List'></div>                
             </div>
         </div>      
     </div>
@@ -766,7 +766,7 @@
                         <div class="col_ col-2" *ngIf="source && source.userDetails" >{{source.userDetails.fullName || source.userDetails.firstName + ' ' + source.userDetails.lastName }}</div>
                         <!-- <div class="col" title="{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div> -->
                         <div class="col text-right last-child">
-                            <span class="actions-links" (click)="deleteSource(source,$event)" title="Delete"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
+                            <span class="actions-links" (click)="deleteSource(source,$event)" title="Delete"><img class="action_icon" ngbTooltip='Delete' src="assets/icons/sidemenu/delete-table.svg"></span>
                             <!-- <span class="actions-links" (click)="reAnnotateDocument(source)"  ngbTooltip='Re-Annotate'><img class="action_icon" src="assets/images/list.svg"></span> -->
                         </div>
                         <!-- <div class="col text-right last-child re-annotate">
@@ -818,7 +818,7 @@
 <ng-container *ngIf="showSourceAddition">
     <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
 </ng-container>
-<kr-modal modalType="center" modalClass="modal_popups_" #addfaqSourceModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addfaqSourceModalPop>
     <ng-container  *ngIf="selectedFaq && selectedFaq.isAddFollow">
         <div class="modal-header">
           <div class="title">Add Follow Up FAQ</div>

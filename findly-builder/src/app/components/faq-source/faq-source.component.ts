@@ -109,7 +109,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   apiLoading = false;
   isAsc = true;
   selectedSort = '';
-  faqLimit = 20;
+  faqLimit = 10;
   selectedPage: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
@@ -302,18 +302,27 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.faqSelectionObj.selectAll = true;
       this.selectAll();
       setTimeout(()=>{
-        this.faqSelectionObj.selectAll = false;
+        if((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount== this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved )){
+          $('#selectAllFaqs')[0].checked = true;
+          this.faqSelectionObj.selectAll = true;
+        } else {
+          $('#selectAllFaqs')[0].checked = false;
+          this.faqSelectionObj.selectAll = false;
+        }
       },100)
     }else{
       this.selectAll(true);
     }
-    if((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount== this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved )){
-      $('#selectAllFaqs')[0].checked = true;
-      this.faqSelectionObj.selectAll = true;
-    } else {
-      $('#selectAllFaqs')[0].checked = false;
-      this.faqSelectionObj.selectAll = false;
-    }
+    setTimeout(()=>{
+      if((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount== this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved )){
+        $('#selectAllFaqs')[0].checked = true;
+        this.faqSelectionObj.selectAll = true;
+      } else {
+        $('#selectAllFaqs')[0].checked = false;
+        this.faqSelectionObj.selectAll = false;
+      }
+    },150)
+    
   }
   headerSelectAll(){
     this.selectAll();
@@ -1086,15 +1095,21 @@ this.selectAll();
     } else {
       const selectedElements = $('.selectEachfaqInput:checkbox:checked');
       const sekectedFaqsCollection: any = [];
-      if (selectedElements && selectedElements.length) {
-        $.each(selectedElements, (i, ele) => {
-          const faqId = $(ele)[0].id.split('_')[1];
-          const tempobj = {
-            _id: faqId
-          }
-          sekectedFaqsCollection.push(tempobj);
-        })
-      }
+      Object.keys(this.faqSelectionObj.selectedItems).forEach((key)=>{
+        const tempobj = {
+                _id: key
+              }
+        sekectedFaqsCollection.push(tempobj);
+      });
+      // if (selectedElements && selectedElements.length) {
+      //   $.each(selectedElements, (i, ele) => {
+      //     const faqId = $(ele)[0].id.split('_')[1];
+      //     const tempobj = {
+      //       _id: faqId
+      //     }
+      //     sekectedFaqsCollection.push(tempobj);
+      //   })
+      // }
       payload.faqs = sekectedFaqsCollection;
     }
     const quaryparms: any = {

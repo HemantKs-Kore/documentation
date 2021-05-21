@@ -540,6 +540,22 @@
     }
 }
 
+.kr-modal.add-utterances-modal .modal-body .add-traits-input .input-text.err-block {
+    background-color: white;
+    border: 1px solid #dd3646 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    box-shadow: none !important;
+}
+.kr-modal.add-utterances-modal .modal-body .add-traits-input input.input-text.err-block:focus {
+    border: solid 1px #0D6EFD !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    box-shadow: none !important;
+}
+
 
 
 

@@ -556,9 +556,12 @@
                     width: 337px;
                     height: 116px;
                     padding: 15px 20px;
-                    position: absolute;
-                    right: 0;
-                    top: 30px;
+                    // position: absolute;
+                    // right: 0;
+                    // top: 30px;
+                    position: fixed;
+                    right: 30px;
+                    top: 50%;
                     .title-text{
                         color: #3C4043;
                         font-weight: normal;
@@ -601,10 +604,16 @@
                         display: flex;
                         align-items: center;      
                         .kr-sg-input-text-area{
+                            width: 501px;
                             textarea{                                                        
                                 box-sizing: border-box;
                                 border-radius: 4px;
-                                min-height: 58px;
+                                min-height: 81px;
+                                background: #FFFFFF;
+                                border: 1px solid #BDC1C6;
+                                box-sizing: border-box;
+                                border-radius: 4px;
+                                padding: 10px;
                             }
                         }
                         .emojis-block{
@@ -842,7 +851,7 @@
                     }                    
                     .preview-search-ex{
                         border-bottom: 1px solid #EFF0F1;  
-                        padding: 0 0 35px 0;
+                        padding: 0 0 20px 0;
                         .greeting-block{
                             background: #F8F9FA;
                             border: 1px solid #E0E1E9;

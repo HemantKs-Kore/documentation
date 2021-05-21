@@ -37,7 +37,7 @@ export class AppExperimentsComponent implements OnInit {
   someRangeconfig: any = null;
   @ViewChild('addExperiments') addExperiments: KRModalComponent;
   @ViewChild('sliderref') sliderref;
-  variantList = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }];
+  variantList = [{ color: '#7027E5', code: 'A' }, { color: '#28A745', code: 'B' }, { color: '#EF9AA3', code: 'C' }, { color: '#0D6EFD', code: 'D' }];
   // add Experiment
   form_type;
   exp_id;
@@ -64,6 +64,7 @@ export class AppExperimentsComponent implements OnInit {
   loadingContent1: boolean;
   indexSubscription: Subscription;
   searchSubscription: Subscription;
+  ctrTooltip: string = 'Click Through Rate is the percentage of searches which got at least one click of all the searches performed';
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -786,12 +787,12 @@ export class AppExperimentsComponent implements OnInit {
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-  checkDuration(value){
+  checkDuration(value) {
     // if(parseInt(event.target.value) > 90){
     //   event.target.value = ''
     //   // event.preventDefault();
     // }
-    if(value > 90){
+    if (value > 90) {
       console.log(value, this.experimentObj.duration.days)
       this.experimentObj.duration.days = 90
     }

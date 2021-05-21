@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { RangeSlider } from '../../helpers/models/range-slider.model';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -11,12 +11,13 @@ import { SideBarService } from './../../services/header.service';
 import { Subscription } from 'rxjs';
 import { LocalStoreService } from './../../services/localstore.service';
 import { NgbDropdown, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+declare const $: any;
 @Component({
   selector: 'app-search-experience',
   templateUrl: './search-experience.component.html',
   styleUrls: ['./search-experience.component.scss']
 })
-export class SearchExperienceComponent implements OnInit {
+export class SearchExperienceComponent implements OnInit, OnDestroy {
   selectedTab: string = 'experience';
   selectSearch: string;
   selectedApp: any = {};
@@ -53,13 +54,20 @@ export class SearchExperienceComponent implements OnInit {
       "liveSearchResultsLimit": 4
     }
   };
-  inputBox1: boolean;
+  inputBox1: boolean = false;
   inputBox2: boolean = false;
   placeholBox: boolean = false;
   buttonFill: boolean = false;
   buttonBorder: boolean = false;
   buttonTextColor: boolean = false;
   msgColor: boolean = false;
+  toggle: boolean = false;
+  toggle1: boolean = false;
+  toggle2: boolean = false;
+  toggle3: boolean = false;
+  toggle4: boolean = false;
+  toggle5: boolean = false;
+  toggle6: boolean = false;
   searchIcon: any = 'assets/images/search_gray.png';
   emojiIcon: any = 'assets/icons/search-experience/emojis/hand.png';
   //search button disabled
@@ -78,7 +86,6 @@ export class SearchExperienceComponent implements OnInit {
   show_tab_color: boolean = false;
   show_tab_color1: boolean = false;
   show_tab_color2: boolean = false;
-  toggle: boolean = false;
   minWidth: number = 200;
   width: number = this.minWidth;
   componentType: string = 'designing';
@@ -239,7 +246,8 @@ export class SearchExperienceComponent implements OnInit {
     { img_src: 'assets/icons/search-experience/emojis/monkey-1.png', value: 'monkey-1' },
     { img_src: 'assets/icons/search-experience/emojis/monkey-2.png', value: 'monkey-2' }
   ];
-  submitted : boolean = false;
+  submitted: boolean = false;
+  searchSDKSubscription: Subscription;
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('guideModalPop') guideModalPop: KRModalComponent;
@@ -261,8 +269,52 @@ export class SearchExperienceComponent implements OnInit {
       this.tourGuide = res.searchExperienceVisited ? '' : 'step1';
     });
     this.userName = this.localstore.getAuthInfo() ? this.localstore.getAuthInfo().currentAccount.userInfo.fName : '';
+    this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
+      if (res) {
+        this.closeAllBoxs('all');
+      }
+    });
   }
-
+  closeAllBoxs(type) {
+    if (type == 'all') {
+      this.inputBox1 = false;
+      this.inputBox2 = false;
+      this.placeholBox = false;
+      this.buttonFill = false;
+      this.buttonBorder = false;
+      this.buttonTextColor = false;
+      this.msgColor = false;
+      this.toggle = false;
+      this.toggle1 = false;
+      this.toggle2 = false;
+      this.toggle3 = false;
+      this.toggle4 = false;
+      this.toggle5 = false;
+      this.toggle6 = false;
+    }
+    if (type == "toggle") {
+      this.toggle1 = false;
+      this.inputBox2 = false;
+    }
+    if (type == "toggle3") {
+      this.toggle4 = false;
+      this.toggle5 = false;
+      this.buttonFill = false;
+      this.buttonBorder = false;
+    }
+    if (type == "toggle4") {
+      this.toggle3 = false;
+      this.toggle5 = false;
+      this.buttonTextColor = false;
+      this.buttonBorder = false;
+    }
+    if (type == "toggle5") {
+      this.toggle3 = false;
+      this.toggle4 = false;
+      this.buttonFill = false;
+      this.buttonTextColor = false;
+    }
+  }
   loadSearchExperience() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
@@ -326,23 +378,23 @@ export class SearchExperienceComponent implements OnInit {
       }
       else if (this.selectedTab === 'searchwidget') {
         this.submitted = true;
-        if(this.validateSearchWidget()){
+        if (this.validateSearchWidget()) {
           this.show_tab_color1 = true;
           this.show_tab_color2 = false;
           this.selectedTab = 'interactions';
         }
-        else{
+        else {
           this.notificationService.notify('Enter the required fields to proceed', 'error');
         }
       }
     }
   }
 
-  validateSearchWidget(){
-    if(this.searchObject.searchWidgetConfig.searchButtonEnabled && this.searchObject.searchWidgetConfig.buttonText.length){
+  validateSearchWidget() {
+    if (this.searchObject.searchWidgetConfig.searchButtonEnabled && this.searchObject.searchWidgetConfig.buttonText.length) {
       return true;
     }
-    else if(this.searchObject.searchWidgetConfig.searchButtonEnabled && !this.searchObject.searchWidgetConfig.buttonText.length){
+    else if (this.searchObject.searchWidgetConfig.searchButtonEnabled && !this.searchObject.searchWidgetConfig.buttonText.length) {
       return false;
     }
     else {
@@ -421,6 +473,7 @@ export class SearchExperienceComponent implements OnInit {
       res => {
         if (type == 'searchIcon') {
           this.searchObject.searchWidgetConfig.searchBarIcon = res.fileId;
+          this.selectSearchBox('');
           if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '' && icon === 'manual') {
             this.emojiIconUpload();
           }
@@ -550,6 +603,7 @@ export class SearchExperienceComponent implements OnInit {
   }
   //based on searchicon and emoji send data method
   addSearchExperience() {
+    this.closeAllBoxs('all');
     this.show_tab_color2 = true;
     let obj = { "experienceConfig": this.searchObject.searchExperienceConfig, "widgetConfig": this.searchObject.searchWidgetConfig, "interactionsConfig": this.searchObject.searchInteractionsConfig };
     console.log("obj", obj);
@@ -595,6 +649,7 @@ export class SearchExperienceComponent implements OnInit {
   ngOnDestroy() {
     this.appSubscription ? this.appSubscription.unsubscribe() : false;
     this.subscription ? this.subscription.unsubscribe() : false;
+    this.searchSDKSubscription ? this.searchSDKSubscription.unsubscribe() : false;
   }
 
   closeEmojiPicker() {

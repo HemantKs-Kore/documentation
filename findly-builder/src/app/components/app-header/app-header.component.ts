@@ -74,6 +74,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Extract FAQs from Webdomain', routeId: '/source', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'FAQs', routeId: '/faqs', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'Content', routeId: '/content', quaryParms: { sourceType: 'faqWeb' } },
+    { displayName: 'Structured Data', routeId: '/structuredData', quaryParms: {} },
   ]
   public dockersList: Array<any> = [];
   public pollingSubscriber: any;
@@ -223,6 +224,7 @@ export class AppHeaderComponent implements OnInit {
         if (slectedRoute && slectedRoute.length) {
           queryParams = slectedRoute[0].quaryParms || {};
           this.router.navigate([slectedRoute[0].routeId], { skipLocationChange: true, queryParams });
+          this.analyticsClick(slectedRoute[0].routeId, true);
         }
       }, 100)
     } else if (routObj && routObj.routeId) {
@@ -304,19 +306,19 @@ export class AppHeaderComponent implements OnInit {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
         this.statusDockerLoading = false;
         this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
+        if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
+          this.trainingInitiated = false;
+          this.training = false;
+          this.notificationService.notify('Training Completed', 'success');
+        }
+        if (this.trainingInitiated && this.dockersList[0].status === 'FAILURE' && this.dockersList[0].action === "TRAIN") {
+          this.trainingInitiated = false;
+          this.training = false;
+          this.notificationService.notify(this.dockersList[0].message, 'error');
+        }
         this.dockersList.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
-          if (this.trainingInitiated && record.status === 'SUCCESS' && record.action === "TRAIN") {
-            this.trainingInitiated = false;
-            this.notificationService.notify('Training Completed', 'success');
-            this.training = false;
-            this.notificationService.notify('Training Completed', 'success');
-          }
-          if (this.trainingInitiated && record.status === 'FAILURE' && record.action === "TRAIN") {
-            this.trainingInitiated = false;
-            this.training = false;
-            this.notificationService.notify(record.message, 'error');
-          }
+         
           if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
             if (record.action === 'EXPORT') {
               this.downloadDockFile(record.fileId, record.store.urlParams, record.streamId, record._id);

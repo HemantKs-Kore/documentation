@@ -158,7 +158,10 @@
           </div>       
       </div>
       <div class="table-data-content col-6">
-        <div class="content-sec">
+        <div class="content-sec active_experments"  *ngIf="activities.length===0">       
+          <div class="img-block center-image" (click) = "openExp()"><img src="assets/icons/overview/no-activites.svg"></div>
+        </div>
+        <div class="content-sec" *ngIf="activities.length>0">
           <div class="title-sec d-flex justify-content-between">
             <div class="title">Activities</div> 
             <div class="create_new_link">Show all activities</div>
@@ -167,7 +170,7 @@
             <div class="col-9 title">{{activity.faqInReviewCount}} Faq's Pending Approval</div>
             <div class="col-3 title time-stamp">{{activity.time_format}} ago</div>           
           </div>
-          </div>       
+        </div>       
       </div>
     </div>
     <div class="row col-12 row table-data m-0" >

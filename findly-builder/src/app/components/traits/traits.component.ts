@@ -74,6 +74,7 @@ export class TraitsComponent implements OnInit {
   editedContent;
   traitsCount = false;
   submitted = false;
+  uttSubmitted = false
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -546,6 +547,7 @@ var width = ctx.measureText(t.traitName +', ').width;
     this.currentUtteranceIndex = null;
     this.currentTraitKey = null;
     this.utteranceList = [];
+    this.uttSubmitted = false;
     if (this.addUtteranceModalPopRef && this.addUtteranceModalPopRef.close) {
       this.addUtteranceModalPopRef.close();
     }
@@ -751,6 +753,11 @@ var width = ctx.measureText(t.traitName +', ').width;
 
   addNewUtterance( key, traitsGroup, index){
     const utteranceData = [];
+    this.uttSubmitted = true;
+    if(!this.utteranceList || !this.utteranceList.length){
+      this.notificationService.notify('Please provide a valid utterance', 'error');
+      return
+    }
     if (traitsGroup && this.utteranceList.length) {
       this.traits.addEditTraits.traits[key].data = this.utteranceList;
       if (index > -1) {

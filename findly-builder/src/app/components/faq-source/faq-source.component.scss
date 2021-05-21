@@ -1349,8 +1349,16 @@
     background: #F8F9FA;
 }
 ::ng-deep .editfaqSourceModalPop{
+     .modal-header{
+        height: 43px !important;
+        padding: 11px 30px;
+         .close_icon{
+            height: 26px !important;
+            line-height: 22px !important;
+        }
+    }
     .modal-body{
-
+        padding: 15px 30px !important;
         .add-questions-form{
             padding: 0 !important;
    
@@ -1484,7 +1492,19 @@
         display: none !important;
     }
 }
-
+::ng-deep .addfaq{
+     .modal-header{
+        height: 43px !important;
+        padding: 11px 30px;
+         .close_icon{
+            height: 26px !important;
+            line-height: 22px !important;
+        }
+    }
+    .modal-body{
+        padding: 15px 30px !important;
+    }
+}
 .footer-btns{
     background: #FFFFFF;
     box-shadow: 0px -2px 5px rgba(32, 33, 36, 0.2);

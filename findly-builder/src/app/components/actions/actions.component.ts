@@ -96,7 +96,9 @@ export class ActionsComponent implements OnInit {
     else if (this.streamId != null) {
       this.loader = true
       this.getAssociatedBots();
+     
     }
+   
 
   }
     getAssociatedBots() {
@@ -116,6 +118,7 @@ export class ActionsComponent implements OnInit {
               this.LinkABot = element._id
               this.loadingBotContent = true
               this.botLinked = true;
+              this.loader = false;
               // this.linkedBotID = element._id
               // if(this.linkedBotID == element._id){
               // }
@@ -125,6 +128,7 @@ export class ActionsComponent implements OnInit {
             if (this.loadingBotContent = true) {
               this.LinkABot != element._id
               this.botLinked = false;
+              this.loader = false;
             }
 
           }
