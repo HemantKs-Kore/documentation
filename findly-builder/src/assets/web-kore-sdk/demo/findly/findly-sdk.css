@@ -8364,7 +8364,7 @@ html , body{
     top: 3px;
 }
 .finalResults .resultsOfSearch .resultsButtons .faqBtnContainer{
-    display: block;
+    display: block !important;
 }
 .finalResults .resultsOfSearch .resultsButtons .faqBtnContainer{
     display: inline-block;

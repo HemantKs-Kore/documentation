@@ -14,7 +14,7 @@
       </div>        
     </div> -->
     
-    <div class="editor-actons" *ngIf="responseObj.type==='string'">
+    <div class="editor-actons" >
       <!-- <span class="edit-action">
         <img src="assets/icons/editor/alphabits.svg">
       </span> -->
@@ -47,7 +47,7 @@
       <div *ngIf="responseObj.type==='javascript'" class="-ml-20">
          <ngx-codemirror #codemirror [options]="codeMirrorOptions" [(ngModel)]="responseObj.payload" (ngModelChange)="setEditorContent($event,responseObj,type,index)"> </ngx-codemirror>
       </div>
-      <textarea [perfectScrollbar]="config" *ngIf="responseObj.type==='string'"   (focus)="selectCurrentFocusedResponse(id,responseObj,type,index)"  [(ngModel)]="responseObj.text" class="input-text" style="padding-bottom: 40px;" id="mainChatInputContainer{{type}}_{{index}}"></textarea>
+      <textarea [perfectScrollbar]="config"  (focus)="selectCurrentFocusedResponse(id,responseObj,type,index)"  [(ngModel)]="responseObj.text" class="input-text" style="padding-bottom: 40px;" id="mainChatInputContainer{{type}}_{{index}}"></textarea>
       <div *ngIf="responseObj.type==='external'" class="external-tab-content" >
         <div class="kr-sg-dropdowns mb-3">
           <div class="label-text">Source</div>
@@ -80,8 +80,8 @@
     <div class="question-content">
       <div class="conditionalBlock bot-response-view-mode">
         <div class="split_mode" [ngClass]="{'split_mode_verticle': responseObj.responseType ==='verticalSplit'}">
-          <div class="img-view-mode" *ngIf="responseObj.responseType !== 'default' && responseObj.image && responseObj.image.url">
-            <img src="{{responseObj.image.url}}">
+          <div class="img-view-mode" *ngIf="responseObj.imgurl && responseObj.imgurl">
+            <img src="{{responseObj.imgurl}}">
           </div>
           <ng-container>
             <div class="desc-info" *ngIf="responseObj.type==='string'"

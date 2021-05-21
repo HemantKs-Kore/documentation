@@ -483,8 +483,8 @@
                                                     </div>
 
 
-                                                    <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
-                                                        <img src="{{answer.multimedia.url}}">
+                                                    <div class="img-view-mode" *ngIf="answer && answer.imgurl">
+                                                        <img src="{{answer.imgurl}}">
                                                     </div>
                                                     <div class="desc-info" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.text)'></div>
                                                     <!-- <div class="desc-info desc-info-javascript-message" *ngIf="answer.type==='javascript'">Javascript message</div> -->
@@ -548,8 +548,8 @@
                                                 <!-- <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div> -->
                                                 <div *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.answers.length">
                                                     <div *ngFor="let ans of consitionalAnswer.answers">
-                                                        <div class="img-view-mode" *ngIf="ans.multimedia && ans.multimedia.url">
-                                                            <img src="{{ans.multimedia.url}}">
+                                                        <div class="img-view-mode" *ngIf="ans.imgurl">
+                                                            <img src="{{ans.imgurl}}">
                                                         </div>
                                                         <ng-container>
                                                             <div class="desc-info" *ngIf="ans.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(ans.payload)'></div>

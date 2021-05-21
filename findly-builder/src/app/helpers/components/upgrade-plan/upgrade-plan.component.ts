@@ -38,7 +38,7 @@ export class UpgradePlanComponent implements OnInit {
   overageData: any;
   listPlanFeaturesData: any;
   paymentStatusInterval: any;
-  showText: boolean;
+  showLoader: boolean;
   btnDisable: boolean;
   payementResponse: any = {
     hostedPage: {
@@ -176,7 +176,8 @@ export class UpgradePlanComponent implements OnInit {
   }
   //open payment gateway popup
   openPaymentGatewayPopup() {
-    this.showText = true;
+    this.selectedApp = this.workflowService.selectedApp();
+    this.showLoader = true;
     this.userInfo = this.authService.getUserInfo() || {};
     const queryParams = {
       planId: this.orderConfirmData._id
@@ -216,11 +217,12 @@ export class UpgradePlanComponent implements OnInit {
   }
   //load iframe
   showSpinner() {
-    this.showText = false;
+    this.showLoader = false;
   }
   //payment plan for upgrade/downgrade
   paymentPlan(show?) {
     this.btnDisable = true;
+    this.selectedApp = this.workflowService.selectedApp();
     this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
     if (show == undefined) {
       show = this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free ? true : false;
@@ -230,7 +232,7 @@ export class UpgradePlanComponent implements OnInit {
     }
     else {
       if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free || this.selectedPlan && this.selectedPlan.status == 'expired') {
-        this.openPaymentGatewayPopup()
+        this.openPaymentGatewayPopup();
       }
       else {
         const payload = { "streamId": this.selectedApp._id, "targetPlanId": this.orderConfirmData._id };
@@ -334,6 +336,7 @@ export class UpgradePlanComponent implements OnInit {
   }
   //buy overage payment
   buyOveragePayment() {
+    this.selectedApp = this.workflowService.selectedApp();
     let overage = [];
     if (this.overageData.docCount != null) {
       overage.push({ "feature": "ingestDocs", "quantity": this.overageData.docCount })
@@ -366,6 +369,7 @@ export class UpgradePlanComponent implements OnInit {
   }
   //download invoice
   downloadInvoice() {
+    this.selectedApp = this.workflowService.selectedApp();
     const queryParams = {
       "streamId": this.selectedApp._id,
       "transactionId": this.payementResponse.hostedPage.transactionId
