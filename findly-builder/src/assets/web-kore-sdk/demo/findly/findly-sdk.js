@@ -5334,7 +5334,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       $('.search-body').show();
                       $('#searchChatContainer').removeClass('bgfocus-override');
                       res = res.template;
-                      var faqs = [], pages = [], tasks = [], documents = [], facets, viewType = "Preview";
+                      var faqs = [], pages = [], tasks = [], documents = [], objects = [], facets, viewType = "Preview";
                       if (!$('.search-container').hasClass('active')) {
                         $('.search-container').addClass('active');
                       }
@@ -5358,6 +5358,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         pages = res.results.page;
                         tasks = res.results.task;
                         documents = res.results.document;
+                        objects = res.results.object;
 
                         facets = res.facets;
                         var dataObj = {
@@ -5365,6 +5366,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           pages: pages,
                           tasks: tasks,
                           documents: documents,
+                          object : objects,
                           facets: facets,
                           originalQuery: res.originalQuery,
                           customSearchResult: _self.customSearchResult
@@ -5443,6 +5445,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             tasks: tasks,
                             documents: documents,
                             facets: facets,
+                            object : objects,
                             customSearchResult: _self.customSearchResult
                           }
                           var tmplData = {
@@ -16180,10 +16183,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (obj[mapping.url]) {
             item.url = obj[mapping.url];
           }
-          if (!item.heading || !item.heading.length) {
+          if (!item.heading || !item.heading.toString().length) {
             item.heading = '';
           }
-          if (!item.description || !item.description.length) {
+          if (!item.description || !item.description.toString().length) {
             item.description = '';
           }
           if (!item.img || !item.img.length) {
@@ -16736,10 +16739,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (faq[mapping.url]) {
             item.url = faq[mapping.url];
           }
-          if (!item.heading || !item.heading.length) {
+          if (!item.heading || !item.heading.toString().length) {
             item.heading = '';
           }
-          if (!item.description || !item.description.length) {
+          if (!item.description || !item.description.toString().length) {
             item.description = '';
           }
           if (!item.img || !item.img.length) {
@@ -17181,10 +17184,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (page[mapping.url]) {
             item.url = page[mapping.url];
           }
-          if (!item.heading || !item.heading.length) {
+          if (!item.heading || !item.heading.toString().length) {
             item.heading = '';
           }
-          if (!item.description || !item.description.length) {
+          if (!item.description || !item.description.toString().length) {
             item.description = '';
           }
           if (!item.img || !item.img.length) {
@@ -17596,10 +17599,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (document[mapping.url]) {
             item.url = document[mapping.url];
           }
-          if (!item.heading || !item.heading.length) {
+          if (!item.heading || !item.heading.toString().length) {
             item.heading = '';
           }
-          if (!item.description || !item.description.length) {
+          if (!item.description || !item.description.toString().length) {
             item.description = '';
           }
           if (!item.img || !item.img.length) {
