@@ -261,7 +261,7 @@ export class PricingComponent implements OnInit, OnDestroy {
     this.service.invoke('put.cancelSubscribtion', queryParam, payload).subscribe(res => {
       this.appSelectionService.getCurrentSubscriptionData();
       //this.currentsubscriptionPlan(this.selectedApp)
-      // this.notificationService.notify('Cancel Subscription', 'success');
+      this.notificationService.notify('Cancellation request submitted', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'failed to Cancel subscription');
     });
