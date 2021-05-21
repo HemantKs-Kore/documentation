@@ -183,7 +183,7 @@
           <!-- Full results Facet-->
       </div>
       <div class="footer-btns">
-        <button class="kr-sg-button-secondary btn_lg ml-3">Back</button>
+        <!-- <button class="kr-sg-button-secondary btn_lg ml-3">Back</button> -->
         <button class="kr-sg-button-primary btn_lg ml-3" (click) = "saveResultSettings()">Save</button>        
       </div>
   </perfect-scrollbar>
@@ -193,7 +193,7 @@
 
 <kr-modal modalType="center" #customModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
   <div class="modal-header">
-    <div class="title">Customize Template</div>
+    <div class="title breadcrum">Customize Template <img src="assets/icons/search-interface/carrot_right.svg"> <span> {{selectedSourceType}} | {{selectedSettingText}}</span> </div>
     <div class="close_icon" (click)="closeCustomModal()"><img src="assets/icons/modal-close.svg"></div>
   </div>
   <perfect-scrollbar class="customize-scroll-left">

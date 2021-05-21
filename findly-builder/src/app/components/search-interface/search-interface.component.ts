@@ -51,6 +51,7 @@ export class SearchInterfaceComponent implements OnInit {
   //   },
   // ]
   selectedSetting = 'search';
+  selectedSettingText = 'Conversational Search'
   selectedSourceType = "Structured Data"
   preview_title = "Field Mapped for heading will appear here"
   preview_desc = "Field mapped for Description will appear here";
@@ -223,6 +224,7 @@ export class SearchInterfaceComponent implements OnInit {
       return false;
     }
     this.selectedSetting = setting ? setting.id : 'search';
+    this.selectedSettingText = setting ? setting.text : 'Conversational Search';
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId : this.indexPipelineId

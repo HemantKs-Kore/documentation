@@ -678,7 +678,17 @@
         pointer-events: none !important;
     }
 }
-
+.search-interface-modal {
+    .breadcrum {
+        img{
+            margin: 0px 10px;
+        }
+        span{
+            font-weight: 500;
+            font-size: 14px;
+        }
+    }
+}
 .ful-page-facet{
     margin: 15px 0 0 0;
     .label-text{
