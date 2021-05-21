@@ -117,7 +117,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "": [
+              "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
@@ -141,7 +141,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "": [
+              "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
@@ -165,7 +165,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "": [
+              "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
