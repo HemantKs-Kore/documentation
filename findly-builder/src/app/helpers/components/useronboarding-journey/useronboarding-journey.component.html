@@ -35,7 +35,7 @@
         <span class="title-info">{{prevStep.name}}</span>
         <span class="state-type">Completed</span>
       </div>
-        <button class="kr-sg-button-primary btn_lg mt-3" [routerLink]="[nextStep.path]" routerLinkActive="active" skipLocationChange>{{nextStep.name}} Now</button>
+        <button class="kr-sg-button-primary btn_lg mt-3" (click)="gotoRoutes(nextStep.path)">{{nextStep.name}} Now</button>
       </ul>
     </div>
   </div>
