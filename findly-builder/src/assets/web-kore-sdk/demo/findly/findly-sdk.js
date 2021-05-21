@@ -17617,7 +17617,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (!item.img || !item.img.length) {
             item.img = '';
           }
-          if (!item.iurlmg || !item.url.length) {
+          if (!item.url || !item.url.length) {
             item.url = '';
           }
           item.config = document.config;
