@@ -51,7 +51,7 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
   ngOnChanges() {
     if (this.componentType != '' && this.componentType != undefined && this.tourConfigData && this.componentType != 'summary') {
       if (this.componentType == 'overview') {
-        this.appSelectionService.updateTourConfig('overview');
+        this.appSelectionService.updateTourConfig('overview')
         this.openOnBoardingModal();
       }
     }
