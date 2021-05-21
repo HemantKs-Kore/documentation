@@ -138,16 +138,18 @@
     <div class="title">Payment Details</div>
     <div class="d-flex align-items-center justify-content-end">
       <div class="close_icon ml-4">
-        <img (click)="closePaymentGatewayPopup()" src="assets/icons/modal-close.svg">
+        <img src="assets/icons/modal-close.svg" (click)="closePaymentGatewayPopup()" />
       </div>
     </div>      
   </div>
   <perfect-scrollbar>
     <div class="modal-body">
-      <h3 *ngIf="showText">Please wait....</h3>
+      <div class="loaderContainer iframe-loader" *ngIf="showLoader"> 
+        <img src="assets/images/logoIcon.png" class="loaderLogoImage">
+      </div>
       <!-- <div class="mian-title-desc">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div> -->
       <!-- <iframe src="{{ payementResponse.hostedPage.url }}" width="100%" height="100%" frameborder="0"></iframe> -->
-      <iframe width="100%" height="100%" frameBorder="0" [src]="urlSafe" (load)="showSpinner()"></iframe>
+      <iframe width="100%" height="100%" frameBorder="0" [src]="urlSafe" [class.d-none]="showLoader" (load)="showSpinner()"></iframe>
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
