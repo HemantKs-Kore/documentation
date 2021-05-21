@@ -348,7 +348,8 @@ export class SearchInterfaceComponent implements OnInit {
       }
       this.list.forEach(listElement => {
         if (element.type == listElement.type && element.templateId != listElement.id) {
-          listElement.id = element.templateId
+          listElement.id = element.templateId;
+          
           // let obj = {
           //   type: "Action",
           //   id: element.templateId ? element.templateId : ""
