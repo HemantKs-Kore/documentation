@@ -20468,7 +20468,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         </div>
                         <div class="files-live-data-container">
                         </div>
-                        <div class="structured-data-container">
+                        <div class="structured-live-data-container">
                         </div>
                         
                     </div>
@@ -20681,7 +20681,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.vars.enterIsClicked) {
           return;
         }
-        if ((data.faqs || []).length || (data.web || []).length || (data.files || []).length) {
+        if ((data.data || []).length || (data.faqs || []).length || (data.web || []).length || (data.files || []).length) {
           $('#live-search-result-box').show();
         }
       });

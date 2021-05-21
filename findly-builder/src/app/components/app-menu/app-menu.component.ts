@@ -416,6 +416,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       this.showUpgrade = res.subscription.planId == 'fp_free' ? true : false;
     })
     this.appSelectionService.appSelectedConfigs.subscribe(res => {
+      this.getCurrentUsage();
       this.indexConfigs = res;
       this.indexConfigs.forEach(element => {
         this.indexConfigObj[element._id] = element;
@@ -444,10 +445,11 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     //   this.indexConfigObj[element._id] = element;
     // });
     // this.selectedConfig = 'fip-29dee24c-0be2-5ca3-9340-b3fcb9ea965a';
-    this.getCurrentUsage();
+    // this.getCurrentUsage();
   }
   //get current usage data of search and queries
   getCurrentUsage() {
+    this.selectedApp = this.workflowService.selectedApp();
     const queryParms = {
       streamId: this.selectedApp._id
     }
