@@ -134,10 +134,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   defaultAnsInterface: any = {
     answerType: 'default', // default/conditional
     responseType: 'default',
-    multimedia: {
-      type: '',
-      url: ''
-    },
+    imageUrl: '',
     payload: '',
     conditions: [],
     type: 'string',
@@ -480,7 +477,8 @@ export class AddFaqComponent implements OnInit, OnDestroy {
             answerType: 'default',
             responseType: 'default',
             conditions: [],
-            image: answer.multimedia
+            image: answer.imgurl,
+            imgurl: (answer||{}).imgurl
           }
           if (answer.type === 'javascript' && answer.payload) {
             try {
@@ -489,12 +487,9 @@ export class AddFaqComponent implements OnInit, OnDestroy {
               console.log('Bad JSON');
             }
           }
-          if (answer && answer.multimedia && answer.multimedia.url) {
-            answerObj.image = {
-              type: 'image',
-              url: answer.multimedia.url,
-            }
-            answerObj.responseType = answer.multimedia.position
+          if (answer && answer.imgurl && answer.imgurl) {
+            answerObj.imgurl = answer.imgurl;
+            // answerObj.responseType = answer.multimedia.position
           }
           this.faqResponse.defaultAnswers.push(answerObj);
         })
@@ -524,8 +519,8 @@ export class AddFaqComponent implements OnInit, OnDestroy {
               console.log('Bad JSON');
             }
           }
-          if (answer && answer.answers.length && answer.answers[0].multimedia && answer.answers[0].multimedia.url) {
-            const media = answer.answers[0].multimedia;
+          if (answer && answer.answers.length && answer.answers[0].imgurl) {
+            const media = answer.answers[0].imgurl;
             answerObj.image = {
               type: 'image',
               url: media.url,
@@ -553,22 +548,12 @@ export class AddFaqComponent implements OnInit, OnDestroy {
           if (answer.type === 'javascript' && answer.payload) {
             answerObj.payload = JSON.stringify(answer.payload);
           }
-          if (answer.multimedia && answer.multimedia.url) {
-            answerObj.multimedia = {
-              type: 'image',
-              url: answer.multimedia.url,
-              // position:'horizontalSplit'
-              // position: answer.responseType
-            }
+          if (answer.imgurl && answer.imgurl) {
+            answerObj.imgurl = answer.imgurl;
           }
-          // if(answer && answer.image && answer.image.url){
-          //   answerObj.multimedia = {
-          //     type:'image',
-          //     url:answer.image.url,
-          //     // position:'horizontalSplit'
-          //     position: answer.responseType
-          //   }
-          // }
+          if(answer && answer.image && answer.image.url){
+            answerObj.imgurl = answer.image.url
+          }
           defaultAnswers.push(answerObj);
         }
         if (answer.answerType === 'condition') {
@@ -579,13 +564,11 @@ export class AddFaqComponent implements OnInit, OnDestroy {
           if (answer.type === 'javascript' && answer.payload) {
             answerObj1.payload = JSON.stringify(answer.payload);
           }
+          if (answer && answer.imgurl) {
+            answerObj1.imgurl =  answer.imgurl;
+          }
           if (answer && answer.image && answer.image.url) {
-            answerObj1.multimedia = {
-              type: 'image',
-              url: answer.image.url,
-              // position:'horizontalSplit'
-              position: answer.responseType
-            }
+            answerObj1.imgurl =  answer.image.url;
           }
           const _conditions = [];
           if (answer.conditions) {
@@ -739,7 +722,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     // this.imgInfo && this.imgInfo.url ? this.defaultAnsInterface.multimedia.url = this.imgInfo.url : ''
     this.faqResponse.defaultAnswers.forEach((element, index) => {
       if (this.faqResponse.defaultAnswers.length - 1 == index) {
-        element.multimedia.url = this.imgInfo && this.imgInfo.url ? this.imgInfo.url : ''
+        (element||{})['imgurl'] = this.imgInfo && this.imgInfo.url ? this.imgInfo.url : ''
       }
     });
     this.image = JSON.parse(JSON.stringify(this.imgInfo));

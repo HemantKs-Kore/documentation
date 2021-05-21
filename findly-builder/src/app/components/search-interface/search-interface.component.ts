@@ -52,7 +52,7 @@ export class SearchInterfaceComponent implements OnInit {
   // ]
   selectedSetting = 'search';
   selectedSettingText = 'Conversational Search'
-  selectedSourceType = "Structured Data"
+  selectedSourceType = "File"
   preview_title = "Field Mapped for heading will appear here"
   preview_desc = "Field mapped for Description will appear here";
   selectedTemplatedId: any;
@@ -163,7 +163,7 @@ export class SearchInterfaceComponent implements OnInit {
     if (this.indexPipelineId) {
       this.getFieldAutoComplete();
       this.defaultTemplate();
-      this.getSettings('search');
+      //this.getSettings('search');
       this.getAllSettings();
     }
   }
@@ -213,6 +213,7 @@ export class SearchInterfaceComponent implements OnInit {
     this.service.invoke('get.SI_settingInterface', quaryparms).subscribe(res => {
       if (res) {
         this.selectedSettingResultsObj = res;
+        this.sourceElementlist(res)
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch Setting Informations');
@@ -326,43 +327,79 @@ export class SearchInterfaceComponent implements OnInit {
         this.customizeTemplateObj.template.resultMapping.url = element.fieldName;
       }
     });
-
+    this.resultLayoutChange(res.layout.layoutType)
     if(modal == 'openModal'){
       this.submitted = false;
       this.customModalRef = this.customModal.open();
     }
   }
+  sourceElementlist(settingObj){
+    settingObj.appearance.forEach(element => {
+      if(element.type == 'action' || element.type == 'Action'){
+        element.type = "Action"
+      }else if(element.type == 'faq' || element.type == 'FAQs'){
+        element.type = "FAQs"
+      }else if(element.type == 'page' || element.type == 'Web'){
+        element.type = "Web"
+      }else if(element.type == 'structuredData' || element.type == 'Structured Data'){
+        element.type = "Structured Data"
+      }else if(element.type == 'document' || element.type == 'File'){
+        element.type = "File"
+      }
+      this.list.forEach(listElement => {
+        if (element.type == listElement.type && element.templateId != listElement.id) {
+          listElement.id = element.templateId
+          // let obj = {
+          //   type: "Action",
+          //   id: element.templateId ? element.templateId : ""
+          // }
+          // this.list.push(obj)
+          // this.customList.push(obj)
+        }
+      });
+    });
+    this.list.forEach(element => {
+      if(element.type === this.selectedSourceType){
+        if(element.id){
+          this.selectedTemplatedId = element.id;
+          if (this.selectedTemplatedId) {
+            this.getTemplate(this.selectedTemplatedId);
+          }
+        }
+      }
+    });
+  }
   sourcelist(settingObj) {
     settingObj.appearance.forEach(element => {
-      if (element.type == 'action') {
+      if (element.type == 'action' || element.type == 'Action') {
         let obj = {
           type: "Action",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
-      } else if (element.type == 'faq') {
+      } else if (element.type == 'faq' || element.type == 'FAQs') {
         let obj = {
           type: "FAQs",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
-      } else if (element.type == 'page') {
+      } else if (element.type == 'page' || element.type == 'Web') {
         let obj = {
           type: "Web",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
-      } else if (element.type == 'structuredData') {
+      } else if (element.type == 'structuredData' || element.type == 'Structured Data') {
         let obj = {
           type: "Structured Data",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
-      } else if (element.type == 'document') {
+      } else if (element.type == 'document' || element.type == 'File') {
         let obj = {
           type: "File",
           id: element.templateId ? element.templateId : ""
@@ -405,7 +442,7 @@ export class SearchInterfaceComponent implements OnInit {
     this.customizeTemplateObj.template.searchResultlayout = new searchResultlayout();
     //this.customizeTemplateObj.template.resultMapping = new resultMapping();
     this.customizeTemplateObj.template.searchResultlayout.layout = layout;
-    if (layout == 'titleWithHeader') {
+    if (layout == 'tileWithHeader') {
       this.showDescription = false;
     } else {
       this.showDescription = true;
@@ -786,7 +823,7 @@ export class SearchInterfaceComponent implements OnInit {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe : false;
+    this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe() : false;
   }
 
 }

@@ -310,7 +310,7 @@
                         </div>
                       </div>
                       <!-- Annotation Start Here -->
-                      <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId && selectedSourceType.resourceType != 'importfaq'" >
+                      <div class="pt2 annotation" *ngIf="selectedSourceType.resourceType != 'importfaq'" >
                         <div class="kr-sg-checkbox">
                           <input id="checkbox-1" class="checkbox-custom" type="checkbox" (change)="annotateChange($event)">
                           <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract

@@ -24,6 +24,7 @@ import * as moment from 'moment';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { D, F } from '@angular/cdk/keycodes';
 import { SideBarService } from './../../services/header.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-faq-source',
@@ -107,6 +108,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     faqs: []
   }
   apiLoading = false;
+  extractedFaqs =false;
   isAsc = true;
   selectedSort = '';
   faqLimit = 10;
@@ -156,7 +158,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getStats(null, true);
     // this.getfaqsBy();
-    this.getSourceList();
+    this.getSourceList(true);
     this.userInfo = this.authService.getUserInfo() || {};
     this.altAddSub = this.faqServiceAlt.addAltQues.subscribe(params => {
       this.selectedFaq.isAlt = false;
@@ -222,10 +224,16 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.statusModalPopRef = this.statusModalPop.open();
     this.getJobStatusForMessages();
   }
-  closeStatusModal() {
+  closeStatusModal(extractedFaqs?) { 
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
+      this.extractedFaqs
     }
+    if(extractedFaqs){
+      this.getStats();
+      this.getSourceList();
+      this.selectTab('draft');
+      }   
   }
   openAddSourceModal(edit?) {
     if (!edit) {
@@ -250,6 +258,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.closeAddsourceModal();
     this.getSourceList();
     this.closeStatusModal();
+    if((this.faqs && this.faqs.length) === 0){
+      this.openStatusModal();
+      this.extractedFaqs=true
+      this.getJobStatusForMessages();
+    }
     // this.getfaqsBy();
     this.selectTab('draft')
     this.getStats();
@@ -552,7 +565,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           this.noManulaRecords = false;
         }
       }
-      if (isInitialFaqCall) {
+      if (isInitialFaqCall ) {
         if (this.faqSelectionObj.stats.draft) {
           this.selectTab('draft')
         } else if (this.faqSelectionObj.stats.in_review) {
@@ -712,7 +725,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addRemoveFaqFromSelection(null, null, true);
     this.getfaqsBy(null, this.selectedtab);
   }
-  getSourceList() {
+  getSourceList(initializePoling?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       type: 'faq',
@@ -757,8 +770,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
 
       }
       this.resources = res.reverse();
-      if (this.resources && this.resources.length) {
+      if (this.resources && this.resources.length && !initializePoling) {
         this.poling()
+      }
+      else if (!initializePoling){
+           this.poling()
       }
       this.filterResourcesBack = [...this.resources];
       this.filterTable(this.filterTableSource, this.filterTableheaderOption)
