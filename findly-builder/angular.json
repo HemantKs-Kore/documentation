@@ -73,7 +73,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                  "maximumError": "10mb"
+                 "maximumError": "12mb"
                 }
               ]
             },
@@ -96,8 +96,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "4mb",
-                  "maximumError": "20mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "12mb"
                 }
               ]
             },
@@ -117,11 +117,11 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "budgets": [
+              "": [
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                  "maximumError": "10mb"
+                 "maximumError": "12mb"
                 }
               ]
             },
@@ -141,11 +141,11 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "budgets": [
+              "": [
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                  "maximumError": "10mb"
+                 "maximumError": "12mb"
                 }
               ]
             },
@@ -165,11 +165,11 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "budgets": [
+              "": [
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                  "maximumError": "10mb"
+                 "maximumError": "12mb"
                 }
               ]
             },
@@ -193,7 +193,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                  "maximumError": "10mb"
+                 "maximumError": "12mb"
                 }
               ]
             },
@@ -217,7 +217,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                  "maximumError": "10mb"
+                 "maximumError": "12mb"
                 }
               ]
             },
@@ -241,7 +241,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                  "maximumError": "10mb"
+                 "maximumError": "12mb"
                 }
               ]
             },
@@ -265,7 +265,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                  "maximumError": "10mb"
+                 "maximumError": "12mb"
                 }
               ]
             }
