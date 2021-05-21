@@ -349,7 +349,7 @@ export class SearchInterfaceComponent implements OnInit {
       this.list.forEach(listElement => {
         if (element.type == listElement.type && element.templateId != listElement.id) {
           listElement.id = element.templateId;
-          
+
           // let obj = {
           //   type: "Action",
           //   id: element.templateId ? element.templateId : ""
@@ -609,6 +609,21 @@ export class SearchInterfaceComponent implements OnInit {
       searchIndexId: this.serachIndexId,
       indexPipelineId : this.indexPipelineId
     };
+    
+    this.selectedSettingResultsObj.appearance.forEach(element => {
+      if (element.type == 'Action') {
+        element.type= 'action';
+      } else if (element.type == 'FAQs') {
+        element.type = 'faq';
+      } else if (element.type == 'Pages' || element.type == 'Web') {
+        element.type = 'page';
+      } else if (element.type == 'Structured Data') {
+        element.type = 'structuredData';
+      }else if (element.type == 'Document' || element.type == 'File') {
+        element.type = 'document';
+      }
+    });
+    
     let payload = {
       "_id": this.selectedSettingResultsObj._id,
       "resultClassification": {
