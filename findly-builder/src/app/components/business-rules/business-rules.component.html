@@ -142,8 +142,8 @@
                     <span class="active-status" *ngIf="ruleObj.isRuleActive"><span class="indication"></span>{{ "businessRules.active" | translate }}</span>
                     <span class="in-active-status" *ngIf="!ruleObj.isRuleActive"><span class="indication"></span>{{ "businessRules.In-Active" | translate }}</span>
                     <div class="actions-icons">
-                        <img src="assets/images/edit-pencil.svg" (click)="editRule(ruleObj)" />
-                        <img src="assets/icons/delete-table.svg" (click)="deleteRulePop(ruleObj, ruleIndex)" />
+                        <img src="assets/images/edit-pencil.svg" (click)="editRule(ruleObj)" ngbTooltip='Edit' [container]="'body'" />
+                        <img src="assets/icons/delete-table.svg" (click)="deleteRulePop(ruleObj, ruleIndex)" ngbTooltip='Delete' [container]="'body'"  />
                     </div>
                 </div>
             </div>
