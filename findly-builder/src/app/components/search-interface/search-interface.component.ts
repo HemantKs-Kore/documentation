@@ -474,9 +474,14 @@ export class SearchInterfaceComponent implements OnInit {
     this.selectedTemplatedId = templateId;
     if (templateId) {
       this.getTemplate(templateId);
+    }else{
+      this.defaultTemplate()
     }
   }
   openCustomModal() {
+    this.customModel('openModal');
+  }
+  customModel(modalSwitch?){
     let templateId;
     this.list.forEach(element => {
       if (element.type == this.selectedSourceType) {
@@ -485,16 +490,20 @@ export class SearchInterfaceComponent implements OnInit {
     });
     this.selectedTemplatedId = templateId;
     if (templateId) {
-      this.getTemplate(templateId,'openModal');
+      this.getTemplate(templateId,modalSwitch);
     } else {
       this.customizeTemplateObj = new customizeTemplate();
       this.defaultTemplate();
       this.submitted = false;
-      this.customModalRef = this.customModal.open();
+      if(modalSwitch != 'closeModal'){
+        this.customModalRef = this.customModal.open();
+      }
+      
     }
   }
   closeCustomModal() {
     if (this.customModalRef && this.customModalRef.close) {
+      this.customModel('closeModal')
       this.customModalRef.close();
       this.submitted = false;
     }
