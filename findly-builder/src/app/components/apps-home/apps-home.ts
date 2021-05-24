@@ -22,6 +22,7 @@ export class AppsListingComponent implements OnInit {
   toShowAppHeader: boolean;
   appsData: any;
   createAppPopRef: any;
+  onboardingpopupjourneyRef: any;
   creatingInProgress = false;
   searchApp = '';
   apps: any = [];
@@ -35,6 +36,7 @@ export class AppsListingComponent implements OnInit {
   userId: any;
   recentApps: any;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
+  @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
   constructor(
     public localstore: LocalStoreService,
     private service: ServiceInvokerService,
@@ -58,6 +60,7 @@ export class AppsListingComponent implements OnInit {
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
+    this.onboardingpopupjourneyRef = this.createBoardingJourney.open();    
   }
   prepareApps(apps) {
     this.recentApps = apps.slice(0, 4);
@@ -73,8 +76,16 @@ export class AppsListingComponent implements OnInit {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     this.appSelectionService.openApp(app);
   }
+  openBoradingJourney() {
+    this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
+  }
+  closeBoradingJourney() {
+    this.onboardingpopupjourneyRef.close();
+  }
+
   openCreateApp() {
     this.createAppPopRef = this.createAppPop.open();
+    this.onboardingpopupjourneyRef.close();
   }
   closeCreateApp() {
     this.createAppPopRef.close();

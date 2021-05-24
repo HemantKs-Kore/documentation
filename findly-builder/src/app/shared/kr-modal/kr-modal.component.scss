@@ -561,6 +561,166 @@
         }
     }
     /*--Regular Modal Basic Styles Ends Here--*/
+    &.onboardingJourney-landing-popup{
+        .modal-dialog{
+            width: 875px !important;
+            max-width: 875px !important;
+            height: calc(100% - 80px);
+            max-height: 617px;
+            .modal-content{
+                background: #FFFFFF;
+                border-radius: 6px;
+                .modal-header{
+                    height: auto;
+                    padding: 8px 20px;
+                    border: 0;
+                    box-shadow: none;
+                    margin: 0;
+                }
+                .modal-body{
+                    padding: 0 70px !important;
+                    .carousel{
+                        margin: 0;
+                        width: 100%;
+                        height: 100%;
+                        img{
+                            width: auto;
+                            float: none;
+                        }
+                        .sliders-sec{  
+                            .learn-more{
+                                color: #0D6EFD;
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 20px;   
+                                display: block;
+                                margin: 12px 0 0 0;                             
+                                span{
+                                    cursor: pointer;
+                                }
+                            }                      
+                            .u-name{
+                                color: #3C4043;
+                                font-weight: 600;
+                                font-size: 16px;
+                                line-height: 19px;
+                                margin-bottom: 2px;
+                                text-align: left;
+                            }
+                            .desc-text{
+                                color: #5F6368;
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 20px;
+                                text-align: center;
+                                margin: 30px 0;
+                            }
+                            &.slider-one{
+                                text-align: center;
+                                transition: 0.4s ease-in-out;
+                                -webkit-transition: 0.4s ease-in-out;
+                                &.move-right{
+                                    transform: translateX(-115%);
+                                    -webkit-transform:translateX(-115%);
+                                }                           
+                                .wel-text{
+                                    color: #3C4043;
+                                    font-weight: 600;
+                                    font-size: 16px;
+                                    line-height: 19px;
+                                    text-align: left;
+                                }
+                                .img-block{
+                                    text-align: center;
+                                    margin: 30px 0;
+                                }                                
+                            }
+                            &.slider-two{
+                                text-align: center;
+                                .what-can-do-sec{
+                                    position: relative;
+                                    padding-bottom: 7px;
+                                    border-bottom: 1px solid #E7F1FF;
+                                    .left-img{
+                                        position: absolute;
+                                        left: 6px;
+                                        z-index: 0;
+                                        bottom: 0;
+                                    }
+                                    .right-img{
+                                        position: absolute;
+                                        right: 20px;
+                                        z-index: 1;
+                                        bottom: 0;
+                                    }
+                                    .box-content{                                        
+                                        box-sizing: border-box;
+                                        border-radius: 8px;
+                                        width: 422px;
+                                        height: 185px;
+                                        display: flex;
+                                        flex-wrap: wrap;
+                                        padding: 10px;
+                                        margin: 40px auto;
+                                        position: relative;
+                                        text-align: left;
+                                        .box_{
+                                            background: #FFFFFF;
+                                            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+                                            margin: 6px;
+                                            width: 186px;
+                                            display: flex;
+                                            align-items: center;
+                                            padding: 0 10px;
+                                            height: 40px;
+                                            .img-block{
+                                                img{
+                                                    width: 36px;
+                                                    height: 36px;
+                                                }
+                                            }
+                                            .title{
+                                                font-weight: 500;
+                                                font-size: 12px;
+                                                line-height: 22px;
+                                                color: #3C4043;
+                                                padding-left: 15px;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+    
+                        }  
+
+                    }                                      
+                }
+                .modal-footer{
+                    height: auto;
+                    padding: 20px !important;
+                    margin: 0;
+                    box-shadow: none;
+                    .indicator-icons{
+                        margin: 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        .indicator-sliders{
+                            width: 8px;
+                            height: 8px;     
+                            background: #E4E5E7;                       
+                            border-radius: 100%;
+                            margin: 0 5px;
+                            transition: 0.3s all ease;
+                            &.active-state{
+                                background: #5F6368;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 .modal{
     &.property-data-modal{
