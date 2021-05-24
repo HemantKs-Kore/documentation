@@ -148,14 +148,14 @@
                     </div>
                 </div>
                 <div class="col-12 row m-0 p-0">
-                    <div class="col-6 box-content">
-                        <div class="full-card">
+                    <div class="col-6 box-content" >
+                        <div class="full-card"  [ngStyle]="{'opacity':isyAxisGeodata?'none':'0.3','pointer-events':isyAxisGeodata?'auto':'none'}">
                             <div class="title-card">{{'metrics.user_engagement.GEO'| translate}}</div>
                             <div echarts [options]="geoBar" class="demo-chart-graphMode"></div>
                         </div>
                     </div>
                     <div class="col-6 box-content">
-                        <div class="full-card">
+                        <div class="full-card"  [ngStyle]="{'opacity':isyAxismostUsedBrowserdata?'none':'0.3','pointer-events':isyAxismostUsedBrowserdata?'auto':'none'}">
                             <div class="title-card">{{'metrics.user_engagement.Most_Used_Browsers'| translate}}</div>
                             <div echarts [options]="mostUsedBrowserBar" class="demo-chart-graphMode"></div>
                         </div>

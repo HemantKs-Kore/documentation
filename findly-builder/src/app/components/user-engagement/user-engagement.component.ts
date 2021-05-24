@@ -80,7 +80,6 @@ export class UserEngagementComponent implements OnInit {
   }
   type = '';
   refElement: any;
-  geoEmpty = false;
   @Output() updatedRanges = new EventEmitter();
   /**slider */
   maxHeatValue = 0;
@@ -114,6 +113,8 @@ export class UserEngagementComponent implements OnInit {
   repeatUserProgress = 0;
   highValue = 24;
   lowValue = 0;
+  isyAxismostUsedBrowserdata = false;
+  isyAxisGeodata = false;
   startDate:any = moment().subtract({ days: 7 });
   endDate: any = moment();
   minDate: any= moment().subtract({days: 95});
@@ -844,6 +845,14 @@ var valueList2 = totaldata.map(function (item) {
         });
         
       });
+      if(graphData.length > 0){
+        this.isyAxismostUsedBrowserdata = true;
+      }else{
+        y_axis = ['Chrome', 'Safari', 'IE'];
+        graphData = [82, 9, 9 ] ;
+        this.isyAxismostUsedBrowserdata = false;
+      }
+      
       // if(y_axis.length == 1){
       //   y_axis.push("");
       //   y_axis.push("");
@@ -1014,11 +1023,12 @@ var valueList2 = totaldata.map(function (item) {
       });
       if(!graphData.length){
         y_axis = ['US','India','UK','Japan'];
-        graphData = [120, 200, 150,122];
-        this.geoEmpty = true;
+        graphData = [10, 80, 5,5];
+        this.isyAxisGeodata = false;
       }else{
-        this.geoEmpty = false;
+        this.isyAxisGeodata = true;
       }
+      
       // if(y_axis.length == 1){
       //   y_axis.push("");
       //   y_axis.push("");
