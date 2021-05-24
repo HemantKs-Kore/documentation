@@ -1109,20 +1109,19 @@
       <section class="table-content">
         <!-- <header class="table-header"> -->
           <div class="title-text">Title</div>
-          <div class="title-desc-text" *ngIf="!isEditDoc"><span>{{selectedSource.name}}</span></div>
+          <div class="title-desc-text" *ngIf="!isEditDoc"><span>{{resourcesDoc.fileName}}</span></div>
           <div class="title-text">Description</div>
           <div class="title-desc-text" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div>
-
+        
           <div class="title-text">Document</div>
-
-          <div class="title-desc-text" *ngIf="selectedSource.fileMeta">{{selectedSource.fileMeta.fileName || '---'}}</div>
+          <div class="title-desc-text" *ngIf="selectedSource.fileMeta">{{docContent.fileTitle || '---'}}</div>
           <div class="title-text">No. Of. Pages</div>
-          <div class="title-desc-text">{{selectedSource.numPages}}</div>
+          <div class="title-desc-text">{{docContentType.pageCount}}</div>
 
           <div class="title-text">Last Updated</div>
           <div class="title-desc-text">{{selectedSource.createdOn | dateFormatPipe: 'd MMMM YYYY , hh:mm A'}}</div>
           <div class="title-text">Results Preview</div>
-          <div class="title-desc-text"></div>
+          <div class="title-desc-text">{{docContent.filePreview || '---'}}</div>
 
           <!-- <div class="title-text">STATUS</div>
           <div class="title-desc-text" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"

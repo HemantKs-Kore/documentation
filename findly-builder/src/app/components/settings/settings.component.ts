@@ -337,7 +337,7 @@ export class SettingsComponent implements OnInit {
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+          // this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed to get LInked BOT', 'error');
         }
@@ -430,7 +430,7 @@ export class SettingsComponent implements OnInit {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
-          this.notificationService.notify('Failed get DialogID', 'error');
+          // this.notificationService.notify('Failed get DialogID', 'error');
         }
       }
     );

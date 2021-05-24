@@ -132,6 +132,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   sliderStep = 0;
   selectedPage: any = {};
   selectedSource: any = {};
+  docContent:any={};
+  docContentType:any={};
+  resourcesDoc:any={};
   currentStatusFailed: any = false;
   userInfo: any = {};
   contentModaltype: any;
@@ -264,6 +267,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = res;
+       this.resourcesDoc=this.resources[0].fileMeta;
       this.resources.forEach(element => {
         if (element.advanceSettings && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time) {
           if (element.advanceSettings.scheduleOpts.interval.intervalType != "Custom") {
@@ -446,6 +450,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
       this.selectedSource.pages = res;
+      this.docContent = this.selectedSource.pages[0]._source;
+      this.docContentType=this.selectedSource.pages[0]._meta;
+      
       /** Paging */
 
       const data = [...res]

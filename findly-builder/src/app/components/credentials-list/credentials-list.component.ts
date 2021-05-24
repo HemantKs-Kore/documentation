@@ -97,7 +97,7 @@ newCredential() {
 }
 closeModalPopup() {
   this.credntial.name=[];
-  this.credntial.awt = 'Select Signing Algorithm';
+  this.credntial.awt = 'HS256';
   this.addCredentialRef.close();
 }
 editnewCredential(event,data){
