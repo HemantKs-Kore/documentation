@@ -46,10 +46,10 @@
               <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
             </div>
           </div>
-
+          <!-- <span placement="top-center" [ngbTooltip]="feature[1].desc" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span> -->
           <div class="body-content-plan" *ngIf="listPlanFeaturesData">
             <div class="body-table-plan row" *ngFor="let feature of listPlanFeaturesData[0]">
-              <div class="title width-24 pl-4">{{feature[1].name}}  <span placement="top-center" [ngbTooltip]="feature[1].desc" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span></div>
+              <div class="title width-24 pl-4">{{feature[1].name}}</div>
               <div class="title width-19" *ngIf="feature[1].fullDisplayText!=undefined">{{feature[1].fullDisplayText}}</div>
              <div class="title width-19" *ngIf="feature[2].fullDisplayText!=undefined">{{feature[2].fullDisplayText}}</div>
               <div class="title width-19" *ngIf="feature[3].fullDisplayText!=undefined">{{feature[3].fullDisplayText}}</div>
@@ -154,7 +154,7 @@
   </perfect-scrollbar>
   <div class="modal-footer text-right">
     <!-- <button class="kr-sg-button-primary btn_lg mr-3" (click)="openSuccessFailurePopup()">Proceed</button> -->
-    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePaymentGatewayPopup()">Back</button>
+    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePaymentGatewayPopup()">Cancel</button>
   </div>
 </kr-modal>
 
