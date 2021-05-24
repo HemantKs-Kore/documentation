@@ -724,6 +724,18 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.facets = JSON.parse(JSON.stringify(tempFacets));
   }
 
+  validateFacetSize(event){
+    if(event.target.value && event.target.value > 0){
+      if(event.target.value > 20){
+        this.addEditFacetObj.facetValue.size = 20;
+      }
+    }
+    else{
+      this.addEditFacetObj.facetValue.size = 1;
+      return;
+    }
+  }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
