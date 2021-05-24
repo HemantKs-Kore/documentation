@@ -93,12 +93,14 @@
                             </div>
                         </div> 
                         <!-- <div class="seach_add_feild"> -->
-                            <div class="kr-sg-input-search"  *ngIf="showSearch" [ngClass]="{'active':showSearch}">                               
-                                <input type="text" placeholder="Search" [(ngModel)]="searchFaq" id="searchFaqs" name='faqsSearch' (keyup)="searchFaqs()" autocomplete="off">                                  
+                            <div class="kr-sg-input-search"  [ngClass]="{'d-none': !showSearch}">                               
+                                <input type="text" placeholder="Search" class="input-search" (keyup)="searchFaqs()" [ngClass]="{'pl-33':!searchFaq}" autocomplete="off" [(ngModel)]="searchFaq" (focusout)="focusoutSearch($event);showSearch= !showSearch;" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                                (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+                            <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFaq">
+                            <img class="close-icon" *ngIf="searchFaq" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFaq}" (click)="serachTraits='';toggleSearch(false)"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
                             </div>
-                            <div class="seach-block" (click)="toggleSearch()">
-                                <img *ngIf="!showSearch" src="assets/icons/search.svg">
-                                <img *ngIf="showSearch" src="assets/images/close.svg">Search
+                            <div class="seach-block" >
+                                <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch()"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                             </div>
                         <!-- </div> -->
 

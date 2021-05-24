@@ -129,6 +129,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   followCancelSub: Subscription;
   componentType: string = 'addData';
   openExtractsSubs: Subscription;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   @ViewChild('editQaScrollContainer', { static: true }) editQaScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('fqasScrollContainer', { static: true }) fqasScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('addfaqSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -1535,5 +1537,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   };
 
 
-
+  focusoutSearch(event){
+console.log(event.target.attr('id'));
+  }
 }

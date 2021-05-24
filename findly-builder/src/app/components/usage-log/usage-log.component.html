@@ -40,7 +40,7 @@
                     <div class="col_ col-4 title d-flex align-items-center">
                         Search Query
                     </div>
-                    <div class="col_ col-2 title d-flex align-items-center"  (click)="sortBy('queryType')">
+                    <div class="col_ col-3 title d-flex align-items-center"  (click)="sortBy('queryType')">
                         <span class="d-flex align-items-center flex-column mr-1">
                             <img  [ngClass]="getSortIconVisibility('queryType', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                             <img  [ngClass]="getSortIconVisibility('queryType', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
@@ -63,7 +63,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col_ col-2 title d-flex align-items-center" (click)="sortBy('requestSource')">
+                    <!-- <div class="col_ col-2 title d-flex align-items-center" (click)="sortBy('requestSource')">
                         <span class="d-flex align-items-center flex-column mr-1">
                             <img  [ngClass]="getSortIconVisibility('requestSource', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                             <img  [ngClass]="getSortIconVisibility('requestSource', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
@@ -85,8 +85,8 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                    <div class="col_ col-2 title d-flex align-items-center" (click)="sortBy('results')">
+                    </div> -->
+                    <div class="col_ col-3 title d-flex align-items-center" (click)="sortBy('results')">
                         <span class="d-flex align-items-center flex-column mr-1">
                             <img  [ngClass]="getSortIconVisibility('results', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                             <img  [ngClass]="getSortIconVisibility('results', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
@@ -126,14 +126,14 @@
                             </div>
                             <div class="content-sec">{{usageLog.query}}</div>
                         </div>
-                        <div class="col-2 title pl-3">{{usageLog.queryType}}</div>
-                        <div class="col-2 title pl-3">{{usageLog.requestSource}}</div>
-                        <div class="col-2 title pl-3">{{usageLog.results?'Yes':'No'}}</div>
+                        <div class="col-3 title pl-3">{{usageLog.queryType}}</div>
+                        <!-- <div class="col-2 title pl-3">{{usageLog.requestSource}}</div> -->
+                        <div class="col-3 title pl-3">{{usageLog.results?'Yes':'No'}}</div>
                         <div class="col-2 title pl-3">{{usageLog.createdOn  | dateFormatPipe: 'DD MMM YYYY h:mm a'}}</div>                             
                     </div>    
                 </ng-container>
                 
-                <app-record-pagination *ngIf="usageLogs && usageLogs.length" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
+                <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
             </div>
         </perfect-scrollbar>
     </ng-container>    
