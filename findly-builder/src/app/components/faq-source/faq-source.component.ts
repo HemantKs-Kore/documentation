@@ -1538,6 +1538,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   focusoutSearch(event){
-console.log(event.target.attr('id'));
+// console.log(event.target.attr('id'));
   }
 }
