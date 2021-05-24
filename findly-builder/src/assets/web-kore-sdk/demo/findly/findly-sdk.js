@@ -387,6 +387,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var liveSearchAPIURL = baseAPIServer + "searchsdk/stream/";
       console.log(baseUrl);
       var businessTooBaseURL = baseAPIServer + "findly/";
+      var businessTooBaseURLForPinning = baseAPIServer.split('businessapp')[0] + "findly/";
       var searchResultsConfigAPIURL = baseAPIServer + "searchsdk/stream/";
       console.log(businessTooBaseURL);
       _self.API = {
@@ -400,7 +401,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         popularSearchesUrl: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/popularSearches",
         newSearchFeedbackUrl: businessTooBaseURL + SearchIndexID + "/search/feedback",
         // queryConfig: businessTooBaseURL + SearchIndexID +"/search/queryConfig",
-        queryConfig: businessTooBaseURL + SearchIndexID + '/indexPipeline/' + indexpipelineId + '/queryPipeline/' + pipelineId + '/rankingAndPinning',
+        queryConfig: businessTooBaseURLForPinning + SearchIndexID + '/indexPipeline/' + indexpipelineId + '/queryPipeline/' + pipelineId + '/rankingAndPinning',
         SearchIndexID: SearchIndexID,
         // streamId: 'st-a4a4fabe-11d3-56cc-801d-894ddcd26c51',
         streamId: _self.config.botOptions.botInfo.taskBotId,
