@@ -214,8 +214,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   getTraitGroups(initial?) {
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: (this.selectedApp || {})._id
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId
     }
     this.service.invoke('get.traits', quaryparms).subscribe(res => {
       const allTraitskeys: any = [];

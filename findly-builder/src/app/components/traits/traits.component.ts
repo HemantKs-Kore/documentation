@@ -246,6 +246,13 @@ var width = ctx.measureText(t.traitName +', ').width;
       if (traitsGroup && traitsGroup._id && !byTraitId) {
         this.updateTraitsApi(traitsGroup._id, payload);
       } else if (!byTraitId) {
+        if(this.traits.traitGroups &&  this.traits.traitGroups.length){
+          let index = this.traits.traitGroups.findIndex((d)=> d.groupName == payload.groupName);
+          if(index>-1){
+            this.notificationService.notify('Trait group name is already added', 'error');
+            return;
+          }
+        }
         this.createTraitsApi(payload);
       } else if (byTraitId) {
         this.updateTraitsById(this.traits.addEditTraits.traits[this.traits.selectedtrait].traitId, traitsGroup._id, payload);
