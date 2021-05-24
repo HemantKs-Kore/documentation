@@ -377,7 +377,7 @@ export class UpgradePlanComponent implements OnInit {
     const getInvoice = this.service.invoke('get.getInvoiceDownload', queryParams);
     getInvoice.subscribe(res => {
       FileSaver.saveAs(res.viewInvoice + '&DownloadPdf=true', 'invoice_' + res._id + '.pdf');
-      this.notificationService.notify(res.status, 'success');
+      this.notificationService.notify('res.status', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'failed buy overage');
     });

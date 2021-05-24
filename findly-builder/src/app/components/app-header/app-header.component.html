@@ -95,7 +95,7 @@
                                     <div class="apps-block">
                                         <div class="title-secondary">Recent Apps</div>
                                         <div class="app-name-block" *ngFor='let app of recentApps' (click)="openApp(app);myDrop.close()">
-                                            <div class="app-name">{{app.name|titlecase}}</div>
+                                            <div class="app-name">{{app.name}}</div>
                                             <div class="shared-name d-none">{{app.createdBy===userId?'My App':'Shared by '+app.userDetails.fullName}}</div>
                                         </div>                                                       
                                     </div>
