@@ -203,7 +203,7 @@
                             <div class="row m-0 col-12 p-0">
                                 <div class="col-5 p-0 lef-info">
                                     <div class="approved_title">SENT FOR REVIEW ON</div>
-                                    <div class="approved_date" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.lMod | dateFormatPipe:'hh:mm:ss A'}}</span></div>
+                                    <div class="approved_date" ngbTooltip="{{selectedFaq.lMod  | date:'d MMMM yyyy | hh:mm a'}}" placement="top-left">{{selectedFaq.lMod  | date:'d MMMM yyyy | hh:mm a'}}</div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
                                     <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-center'" >                                        
@@ -285,7 +285,7 @@
                             <div class="row m-0 col-12 p-0">
                                 <div class="col-5 p-0 lef-info">
                                     <div class="approved_title">EDITED ON</div>
-                                    <div class="approved_date" ngbTooltip="{{selectedFaq.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
+                                    <div class="approved_date" ngbTooltip="{{selectedFaq.createdOn  | date:'d MMMM yyyy | hh:mm a'}}" placement="top-left">{{selectedFaq.createdOn  | date:'d MMMM yyyy | hh:mm a'}}</div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
                                     <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-center'">                                        
@@ -366,7 +366,7 @@
                         <div class="row m-0 col-12 p-0">
                             <div class="col-5 p-0 lef-info">
                                 <div class="approved_title">Approved ON</div>
-                                <div class="approved_date" ngbTooltip="{{selectedFaq.lMod | dateFormatPipe:'d MMMM YYYY , hh:mm A'}}" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'d MMMM YYYY | hh:mm A'}}</div>
+                                <div class="approved_date" ngbTooltip="{{selectedFaq.lMod | date:'d MMMM yyyy | hh:mm a'}}" placement="top-left">{{selectedFaq.lMod | date:'d MMMM yyyy | hh:mm a'}}</div>
                             </div>
                             <div class="col-7 p-0 actions-sec">
                                 <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-right'">                                        
