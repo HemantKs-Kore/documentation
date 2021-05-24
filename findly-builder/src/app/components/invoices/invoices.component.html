@@ -60,7 +60,7 @@
             </div>
         </perfect-scrollbar>
         <div class="px-4">
-            <app-record-pagination *ngIf="invoices && invoices.length" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
+            <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
         </div>
     </ng-container>    
 </div>
