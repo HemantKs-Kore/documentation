@@ -19827,13 +19827,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         });
         $('#auto-query-box').append(template);
         $('#live-search-result-box').show();
-        $('#live-search-result-box').off('click', '.sugg-query-box').on('click', '.sugg-query-box', function (e) {
+        $('#auto-query-box').off('click').on('click', '.sugg-query-box', function (e) {
           var queryText = $(this).attr('id');
           $("#search").val(queryText);
           $("#suggestion").val(queryText);
           //$('#search').trigger("keyup");
           $('#live-search-result-box').hide();
-          $('#loaderDIV').show();
+          // $('#loaderDIV').show();
           $('.all-result-container').show();
           if (_self.isDev) {
             if ($('.top-down-search-background-div')) {
