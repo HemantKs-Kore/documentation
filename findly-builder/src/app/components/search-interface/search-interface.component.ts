@@ -535,6 +535,7 @@ export class SearchInterfaceComponent implements OnInit {
       this.submitted = false;
       if(modalSwitch != 'closeModal'){
         this.customModalRef = this.customModal.open();
+        this.resultLayoutChange('tileWithText')
       }
       
     }
