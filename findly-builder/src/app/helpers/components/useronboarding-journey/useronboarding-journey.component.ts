@@ -35,6 +35,7 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourConfigData = res;
       this.tourData = res.onBoardingChecklist;
+      console.log("this.tourData", this.tourData)
       this.trackChecklist();
     })
     this.subscription1 = this.appSelectionService.tourConfigCancel.subscribe(res => {

@@ -2089,10 +2089,10 @@ nouislider{
     }
     .noUi-connect{
         background: red;
-        &.c-1-color { background: rgb(255, 0, 0); }
-        &.c-2-color { background: rgb(0, 0, 255); }
-        &.c-3-color { background: rgb(140, 255, 26); }
-        &.c-4-color { background: rgb(255, 255, 0); }
+        &.c-1-color { background: #7027E5 }
+        &.c-2-color { background: #28A745 }
+        &.c-3-color { background: #EF9AA3}
+        &.c-4-color { background: #0D6EFD}
       }
 }
 .date-tooltip{
