@@ -1110,7 +1110,7 @@
       <section class="table-content">
         <!-- <header class="table-header"> -->
           <div class="title-text">Title</div>
-          <div class="title-desc-text" *ngIf="!isEditDoc"><span>{{resourcesDoc.fileName}}</span></div>
+          <div class="title-desc-text" *ngIf="!isEditDoc && selectedSource.fileMeta"><span>{{selectedSource.fileMeta.fileName}}</span></div>
           <div class="title-text">Description</div>
           <div class="title-desc-text" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div>
         
