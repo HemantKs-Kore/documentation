@@ -285,7 +285,7 @@
                             <label for="sourceFileUploader" class="drag-label adjust_z_index">
                               <span class="browse">Browse File</span>
                             </label><br/>
-                            <div class="info_help_text" *ngIf="(selectedSourceType.resourceType !='importfaq')"> <img src="assets/icons/info.svg"> Supports: pdf, docx, ppt, xlsx, txt file types</div>
+                            <div class="info_help_text" *ngIf="(selectedSourceType.sourceType=='content'&&selectedSourceType.resourceType =='file')"> <img src="assets/icons/info.svg"> Supports: pdf, docx, ppt, xlsx, txt file types</div>
                           </ng-container>
 
                           <ng-container *ngIf="fileObj.fileName">
@@ -311,7 +311,7 @@
                         </div>
                       </div>
                       <!-- Annotation Start Here -->
-                      <div class="pt2 annotation" *ngIf="selectedSourceType.resourceType == 'importfaq'" >
+                      <div class="pt2 annotation" *ngIf="selectedSourceType.resourceType == ''" >
                         <div class="kr-sg-checkbox">
                           <input id="checkbox-1" class="checkbox-custom" type="checkbox" (change)="annotateChange($event)">
                           <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract
