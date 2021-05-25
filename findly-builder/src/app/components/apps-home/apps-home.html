@@ -1,7 +1,7 @@
 <div class="emptyStateContainer" aria-live="polite">
   <perfect-scrollbar class="dashboard-perfect-scroll">
   <div class="scrollContainer">
-
+<!-- 
     <div *ngIf="!emptyApp">
       <div class="onboarding-welcome-screen">
           <div class="img-block">
@@ -11,10 +11,10 @@
           <div class="welocme-user-name">Let’s start by Creating an App</div>
           <button class="kr-sg-button-primary btn_lg" [disabled]="saveInProgress" (click)="openBoradingJourney()"><i *ngIf="saveInProgress" class="fa fa-spinner fa-spin"></i>{{saveInProgress? 'Creating App' :'Let’s Get started'}}</button>
       </div>
-    </div>
+    </div> -->
 
 
-    <div class="findly-dashboard" *ngIf="emptyApp">
+    <div class="findly-dashboard" *ngIf="!showBoarding">
       <div class="main-heading d-none" role="doc-introduction">{{'WelcometoFindly' | translate}}</div>
       <div class="header-sec">
           <div class="row m-0 adjust-width">
@@ -60,18 +60,17 @@
       </div>      
       <div class="body-sec">
         <div class="row m-0 appsListingContainer">
-          <ng-container *ngIf="true">
+          <ng-container *ngIf="emptyApp">
             <div class="m-title col-12">My Apps</div>
-            <div class="empty-data-app">
+            <div class="empty-data-app" (click)="openCreateApp()">
               <div class="img-block">
                 <img src="assets/icons/landing/round-plus.svg">
               </div>
               <div class="e-title">Create your first app</div>
             </div>
           </ng-container>          
-          <ng-container *ngIf="false">          
+          <ng-container *ngIf="!emptyApp">          
               <div class="m-title col-12">Recently Visited</div>
-
               <div class="cards-content d-none" (click)="openApp(app)" *ngFor="let app of recentApps | filter: [ searchApp, 'name']">
                 <div class="box">
                   <div class="img-block">
@@ -196,13 +195,13 @@
         <div class="carousel-inner">
           <div class="carousel-item active">
             <div class="sliders-sec slider-one">
-              <div class="u-name">Hi Ankit,</div>
+              <div class="u-name">{{'Hi'| translate}}{{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}},</div>
               <div class="wel-text">Welcome to SearchAssist</div>
               <div class="img-block">
                 <img src="assets/icons/landing/welcome-slider.svg">
               </div>
               <div class="desc-text">SearchAssist helps you build a conversational search assistant that combines cognitive search and virtual assistant competencies. Powered with AI and Coversation UI, the search assistant can not only answer the search users' queries and but also perform tasks for them</div>
-              <button class="kr-sg-button-primary btn_lg" href="#createBoardingJourney" data-slide="next">Tell me more</button>              
+              <button class="kr-sg-button-primary btn_lg" href="#createBoardingJourney" data-slide="next" (click)="currentPage=2">Tell me more</button>              
             </div>
           </div>
           <div class="carousel-item">
@@ -253,8 +252,8 @@
               </div>
     
               <div class="desc-text">You can start with adding data to your SearchAssist app to enable the search users of your website to access the accurate information. You can design search interface and optimize the search results based on various contexts and analytics data to enhance the users' search experience.</div>
-              <button class="kr-sg-button-secondary btn_lg mr-3" href="#createBoardingJourney" data-slide="prev">Previous</button>
-              <button class="kr-sg-button-primary btn_lg" href="#createBoardingJourney" data-slide="next">Next</button>
+              <button class="kr-sg-button-secondary btn_lg mr-3" href="#createBoardingJourney" data-slide="prev" (click)="currentPage=1">Previous</button>
+              <button class="kr-sg-button-primary btn_lg" href="#createBoardingJourney" data-slide="next" (click)="currentPage=3">Next</button>
           </div>
           </div>
           <div class="carousel-item">
@@ -264,7 +263,7 @@
                 <img src="assets/icons/landing/slider-3.svg">
               </div>
               <div class="desc-text">App creation is the first step towards designing a seamless and efficient search engine for your platform. Search users can interact with the application once it is deployed on any of the channels. You can have different applications for different environments, business purposes, regions, etc. </div>
-              <button class="kr-sg-button-secondary btn_lg mr-3" href="#createBoardingJourney" data-slide="prev">Previous</button>              
+              <button class="kr-sg-button-secondary btn_lg mr-3" href="#createBoardingJourney" data-slide="prev" (click)="currentPage=2">Previous</button>              
               <button class="kr-sg-button-primary btn_lg" (click)="openCreateApp()">Let’s Get Started</button>
               <div class="learn-more"><span>Learn More</span></div>
             </div>
@@ -275,10 +274,11 @@
   </perfect-scrollbar>
   <div class="modal-footer"> 
       <div class="indicator-icons">
-        <div class="indicator-sliders active-state"></div>
-        <div class="indicator-sliders"></div>
-        <div class="indicator-sliders"></div>
+        <div class="indicator-sliders" [ngClass]="{'active-state':currentPage==1}"></div>
+        <div class="indicator-sliders" [ngClass]="{'active-state':currentPage==2}"></div>
+        <div class="indicator-sliders" [ngClass]="{'active-state':currentPage==3}"></div>
       </div>
   </div>
+  {{currentPage}}
 </kr-modal> 
 
