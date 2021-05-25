@@ -45,7 +45,7 @@
     </div> 
     <div class="kr-sg-input-text-area"> 
       <div *ngIf="responseObj.type==='javascript'" class="-ml-20">
-         <ngx-codemirror #codemirror [options]="codeMirrorOptions" [(ngModel)]="responseObj.payload" (ngModelChange)="setEditorContent($event,responseObj,type,index)"> </ngx-codemirror>
+         <ngx-codemirror #codemirror [options]="codeMirrorOptions" [(ngModel)]="responseObj.text" (ngModelChange)="setEditorContent($event,responseObj,type,index)"> </ngx-codemirror>
       </div>
       <textarea [perfectScrollbar]="config"  (focus)="selectCurrentFocusedResponse(id,responseObj,type,index)"  [(ngModel)]="responseObj.text" class="input-text" style="padding-bottom: 40px;" id="mainChatInputContainer{{type}}_{{index}}"></textarea>
       <div *ngIf="responseObj.type==='external'" class="external-tab-content" >
@@ -67,24 +67,24 @@
      </div>
     </div>
   </div>
-  <div *ngIf="(responseObj.responseType !== 'default')" class="add_image_button_sec">
+  <!-- <div *ngIf="(responseObj.responseType !== 'default')" class="add_image_button_sec">
    <button class="kr-sg-button-secondary btn_lg" (click)="openImgApp(responseObj,index,type)">Add Image</button>
-   <span class="imageUrlAdded" *ngIf="responseObj && responseObj.image && responseObj.image.url" title="{{responseObj.image.url}}">{{responseObj.image.url}}</span>
-   <span class="dec-info-text" *ngIf="(responseObj.responseType ==='verticalSplit') && (!(responseObj.image && responseObj.image.url))">Add Image with Dimensions of 200px by 400px </span>
-   <span class="dec-info-text" *ngIf="(responseObj.responseType ==='horizontalSplit') && (!(responseObj.image && responseObj.image.url))">Add Image with Dimensions of 400px by 200px </span>
-  </div>
+   <span class="imageUrlAdded" *ngIf="responseObj && responseObj.imgurl" title="{{responseObj.imgurl}}">{{responseObj.imgurl}}</span>
+   <span class="dec-info-text" *ngIf="(responseObj.responseType ==='verticalSplit') && (!( responseObj.imgurl))">Add Image with Dimensions of 200px by 400px </span>
+   <span class="dec-info-text" *ngIf="(responseObj.responseType ==='horizontalSplit') && (!(responseObj.imgurl))">Add Image with Dimensions of 400px by 200px </span>
+  </div> -->
 </ng-template>
 <ng-template #botResponsePreview let-responses="responses" let-responseObj='responseObj' let-type="reponseType"
   let-id='id' let-index='index'>
   <div class="body-top-content" (click)="currentEditIndex = index">
     <div class="question-content">
       <div class="conditionalBlock bot-response-view-mode">
-        <div class="split_mode" [ngClass]="{'split_mode_verticle': responseObj.responseType ==='verticalSplit'}">
-          <div class="img-view-mode" *ngIf="responseObj.imgurl && responseObj.imgurl">
+        <div class="split_mode">
+          <div class="img-view-mode" *ngIf="responseObj.imgurl">
             <img src="{{responseObj.imgurl}}">
           </div>
           <ng-container>
-            <div class="desc-info" *ngIf="responseObj.type==='string'"
+            <div class="desc-info" 
               [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(responseObj.text)'></div>
             <div class="desc-info desc-info-javascript-message" *ngIf="responseObj.type==='javascript'">
               </div>
@@ -180,10 +180,10 @@
              <!-- image optional preview related changes -->
              <div class="d-flex justify-content-between align-items-center">
               <div class="label-text w-100">Image (Optional)</div>
-              <div class="know-more-data" (click)="addImage();openPreviewImgModal();">Preview</div>
+              <div class="know-more-data" (click)="openPreviewImgModal(faqObj.imgurl);">Preview</div>
             </div>
             <!-- image optional preview related changes -->
-            <input type="text" autocomplete="off" placeholder="http(s)//" class="input-text" (keydown.enter)="addImage()" [(ngModel)]="imgInfo.url" name="appName">         
+            <input type="text" autocomplete="off" placeholder="http(s)://" class="input-text"  [(ngModel)]="faqObj.imgurl" name="appName">         
           </div>
           <!-- <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div> -->
         </div>

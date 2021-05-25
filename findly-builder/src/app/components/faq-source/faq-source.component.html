@@ -94,13 +94,13 @@
                         </div> 
                         <!-- <div class="seach_add_feild"> -->
                             <div class="kr-sg-input-search"  [ngClass]="{'d-none': !showSearch}">                               
-                                <input type="text" placeholder="Search" class="input-search" (keyup)="searchFaqs()" [ngClass]="{'pl-33':!searchFaq}" autocomplete="off" [(ngModel)]="searchFaq" (focusout)="focusoutSearch($event);showSearch= !showSearch;" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                                <input type="text" placeholder="Search" class="input-search" (keyup)="searchFaqs()" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq" (focusout)="showSearch= !showSearch;" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFaq">
-                            <img class="close-icon" *ngIf="searchFaq" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFaq}" (click)="serachTraits='';toggleSearch(false)"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            <img class="close-icon" *ngIf="searchFaq" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFaq}" (click)="searchFaq='';searchFaqs()"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
                             </div>
-                            <div class="seach-block" >
-                                <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch()"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                            <div class="seach-block" (click)="showSearch=!showSearch;">
+                                <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                             </div>
                         <!-- </div> -->
 
@@ -162,7 +162,7 @@
                                                     <div class="acc-inner-que" (click)="selectedFaqToTrain(followUpQuestion, $event);$event.stopImmediatePropagation();"  [ngClass]="{'is-checked':(selectedFaq && selectedFaq._id===followUpQuestion._id) ||  ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" *ngFor="let followUpQuestion of faq._meta.followupQuestions">
                                                         <div class="title">{{followUpQuestion._source.faqQuestion}}</div>
                                                         <ng-container *ngIf="followUpQuestion._source && followUpQuestion._source.defaultAnswers && followUpQuestion._source.defaultAnswers.length">
-                                                            <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(followUpQuestion._source.defaultAnswers[0].payload)'></div>
+                                                            <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(followUpQuestion._source.defaultAnswers[0].text)'></div>
                                                            <!-- <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='javascript'">Javascript message</div> -->
                                                         </ng-container>
                                                     </div>
@@ -470,10 +470,10 @@
                                                         <div class="bot-response-title col-6">Response <span *ngIf="(selectedFaq._source.faqAnswer.length > 1) || (selectedFaq._source.faqCondAnswers && selectedFaq._source.faqCondAnswers.length)">{{ ' ' + (i + 1)}}</span></div>
                                                         <div class="response-likes-views-sec d-flex col-6">
                                                             <div class="count-sec" >
-                                                                <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{(selectedFaq.stats.appearances || []).length ?selectedFaq.stats.appearances[0][0]: 0}}
+                                                                <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{(selectedFaq?.stats?.appearances || []).length ?selectedFaq?.stats?.appearances[0][0]: 0}}
                                                             </div>
                                                             <div class="count-sec" >
-                                                                <img src="assets/icons/faq/hand.svg" placement="top" container='body' ngbTooltip="Clicks">{{selectedFaq.stats.clicks ||0}}
+                                                                <img src="assets/icons/faq/hand.svg" placement="top" container='body' ngbTooltip="Clicks">{{selectedFaq?.stats?.clicks ||0}}
                                                             </div>
                                                             <!-- <div class="count-sec">
                                                                 <img src="assets/icons/faq/likes.svg">{{selectedFaq.stats.thumbsup ||0}}
@@ -502,10 +502,10 @@
                                                     <div class="bot-response-title col-6">Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.faqAnswer?selectedFaq._source.faqAnswer.length:0))}}</span></div>
                                                     <div class="response-likes-views-sec d-flex col-6">
                                                         <div class="count-sec" >
-                                                            <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{selectedFaq.stats.appearances?selectedFaq.stats.appearances[0][0]: 0}}
+                                                            <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{selectedFaq?.stats?.appearances?selectedFaq?.stats?.appearances[0][0]: 0}}
                                                         </div>
                                                         <div class="count-sec">
-                                                            <img src="assets/icons/faq/hand.svg"  placement="top" container='body' ngbTooltip="Clicks">{{selectedFaq.stats.clicks ||0}}
+                                                            <img src="assets/icons/faq/hand.svg"  placement="top" container='body' ngbTooltip="Clicks">{{selectedFaq?.stats?.clicks ||0}}
                                                         </div>
                                                         <!-- <div class="count-sec">
                                                             <img src="assets/icons/faq/likes.svg">{{selectedFaq.stats.thumbsup ||0}}
@@ -554,7 +554,7 @@
                                                             <img src="{{ans.imgurl}}">
                                                         </div>
                                                         <ng-container>
-                                                            <div class="desc-info" *ngIf="ans.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(ans.payload)'></div>
+                                                            <div class="desc-info"  [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(ans.text)'></div>
                                                              <!-- <div class="desc-info desc-info-javascript-message" *ngIf="ans.type==='javascript'">Javascript message</div> -->
                                                         </ng-container> 
                                                     </div>
@@ -568,11 +568,11 @@
                                 <div class="appearences-info row" *ngIf="selectedFaq && selectedFaq.feedback">
                                     <div class="col-4 p-0">
                                         <span class="source">Appearances:</span>
-                                        <span class="count">{{selectedFaq.feedback.expand}}</span>
+                                        <span class="count">{{selectedFaq?.feedback?.expand}}</span>
                                     </div>
                                     <div class="col-3 p-0">
                                         <span class="source">Clicks:</span>
-                                        <span class="count">{{selectedFaq.feedback.click}}</span>
+                                        <span class="count">{{selectedFaq?.feedback?.click}}</span>
                                     </div>
                                     <!-- <div class="col-2 p-0">
                                         <span class="source cursor-pointer"><img src="assets/icons/like.svg"></span>
