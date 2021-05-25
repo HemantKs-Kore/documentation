@@ -252,25 +252,25 @@
                         <div class="title-card">{{'metrics.dash_board_view.Top_Search_Results'| translate}} </div>
                         <div class="table-content-data">
                             <div class="table_header row m-0">
-                                <div class="col-6 header-title"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Searched_Intent'| translate}}</div>
-                                <div class="col-1 header-title text-right"><img src="assets/icons/sort_up_down.svg"></div>
-                                <div class="col-1 header-title text-center">{{'metrics.dash_board_view.Appearances'| translate}}</div>
-                                <div class="col-1 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Clicks'| translate}}</div>
+                                <div class="col-4 header-title"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Searched_Intent'| translate}}</div>
+                                <!-- <div class="col-1 header-title text-right"><img src="assets/icons/sort_up_down.svg"></div> -->
+                                <div class="col-2 header-title text-center"><img src="assets/icons/sort_up_down.svg"> {{'metrics.dash_board_view.Appearances'| translate}}</div>
+                                <div class="col-2 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Clicks'| translate}}</div>
                                 <div class="col-2 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.ctr'| translate}}</div>
                                 <!--  ngbTooltip='Click-Through Rate' -->
-                                <div class="col-1 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Avg_Position'| translate}}</div>
+                                <div class="col-2 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Avg_Position'| translate}}</div>
                                 <!-- <div class="col-1 header-title text-center"><img src="assets/icons/pos-thumb.svg"></div>
                                 <div class="col-1 header-title text-center"><img src="assets/icons/neg-thumb.svg"></div> -->
                                 <!-- <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
                                     Count</div> -->
                             </div>
                             <div class="table_body row m-0" *ngFor="let topSearchResult of topSearchResults;let i = index">
-                                <div class="col-6 body-title ">{{topSearchResult.answer}}</div>
-                                <div class="col-1 header-title text-right"></div>
-                                <div class="col-1 body-title text-center">{{topSearchResult.appearances}}</div>
-                                <div class="col-1 body-title text-center">{{topSearchResult.clicks}}</div>
+                                <div class="col-4 body-title ">{{topSearchResult.answer}}</div>
+                                <!-- <div class="col-1 header-title text-right"></div> -->
+                                <div class="col-2 body-title text-center">{{topSearchResult.appearances}}</div>
+                                <div class="col-2 body-title text-center">{{topSearchResult.clicks}}</div>
                                 <div class="col-2 body-title text-center">{{topSearchResult.clickThroughRate | number : '1.2-2'}}%</div>
-                                <div class="col-1 body-title text-center">{{topSearchResult.avgPosition | number : '1.2-2'}}</div>
+                                <div class="col-2 body-title text-center">{{topSearchResult.avgPosition | number : '1.2-2'}}</div>
                                 <!-- <div class="col-1 body-title text-center">{{topSearchResult.positiveFeedback}}</div>
                                 <div class="col-1 body-title text-center">{{topSearchResult.negativeFeedback}}</div> -->
                             </div>
@@ -329,7 +329,7 @@
             </div>
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-6 box-content">
-                    <div class="full-card pb-4">
+                    <div class="full-card pb-4"  [ngStyle]="{'opacity':isyAxisMostClickPostiondata?'none':'0.3','pointer-events':isyAxisMostClickPostiondata?'auto':'none'}">
                         <div class="title-card">{{'metrics.dash_board_view.Most_Clicked_Position'| translate}}
                             <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="Position at which the search results were clicked on by the end - users most number of times." [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
                         </div>
