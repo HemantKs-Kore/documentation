@@ -59,7 +59,7 @@
         </div>
         <div id="accordion">
           <div class="acc-card" *ngFor="
-              let exp of listOfExperiments | filter: [searchFields, 'name']
+              let exp of listOfExperiments | filter: [searchFields, 'name'];let exp_index=index;
             ">
             <div class="acc-card-header">
               <div class="acc-card-link collapsed" data-toggle="collapse" attr.data-target="#{{ exp._id }}">
@@ -69,7 +69,7 @@
                     <div class="variants-block left">
                       <span class="v-name" *ngFor="let vari of exp.variants; let index = index" [style.background-color]="vari.color" [hidden]="index === 3">
                         <span *ngIf="(index < 2)">{{vari.code }}</span>
-                        <span *ngIf="(index > 1) && (index === 2)"> + 2</span>
+                        <span *ngIf="(index > 1) && (index === 2)">{{exp_index==2?'+ 1 ':'+ 2 '}}</span>
                       </span>
                     </div>
                     <div class="variants-block right">

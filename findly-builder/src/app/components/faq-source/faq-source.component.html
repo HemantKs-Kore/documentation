@@ -93,12 +93,14 @@
                             </div>
                         </div> 
                         <!-- <div class="seach_add_feild"> -->
-                            <div class="kr-sg-input-search"  *ngIf="showSearch" [ngClass]="{'active':showSearch}">                               
-                                <input type="text" placeholder="Search" [(ngModel)]="searchFaq" id="searchFaqs" name='faqsSearch' (keyup)="searchFaqs()" autocomplete="off">                                  
+                            <div class="kr-sg-input-search"  [ngClass]="{'d-none': !showSearch}">                               
+                                <input type="text" placeholder="Search" class="input-search" (keyup)="searchFaqs()" [ngClass]="{'pl-33':!searchFaq}" autocomplete="off" [(ngModel)]="searchFaq" (focusout)="focusoutSearch($event);showSearch= !showSearch;" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                                (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+                            <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFaq">
+                            <img class="close-icon" *ngIf="searchFaq" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFaq}" (click)="serachTraits='';toggleSearch(false)"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
                             </div>
-                            <div class="seach-block" (click)="toggleSearch()">
-                                <img *ngIf="!showSearch" src="assets/icons/search.svg">
-                                <img *ngIf="showSearch" src="assets/images/close.svg">Search
+                            <div class="seach-block" >
+                                <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch()"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                             </div>
                         <!-- </div> -->
 
@@ -203,7 +205,7 @@
                             <div class="row m-0 col-12 p-0">
                                 <div class="col-5 p-0 lef-info">
                                     <div class="approved_title">SENT FOR REVIEW ON</div>
-                                    <div class="approved_date" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.lMod | dateFormatPipe:'hh:mm:ss A'}}</span></div>
+                                    <div class="approved_date" ngbTooltip="{{selectedFaq.lMod  | date:'d MMMM yyyy | hh:mm a'}}" placement="top-left">{{selectedFaq.lMod  | date:'d MMMM yyyy | hh:mm a'}}</div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
                                     <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-center'" >                                        
@@ -285,7 +287,7 @@
                             <div class="row m-0 col-12 p-0">
                                 <div class="col-5 p-0 lef-info">
                                     <div class="approved_title">EDITED ON</div>
-                                    <div class="approved_date" ngbTooltip="{{selectedFaq.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
+                                    <div class="approved_date" ngbTooltip="{{selectedFaq.createdOn  | date:'d MMMM yyyy | hh:mm a'}}" placement="top-left">{{selectedFaq.createdOn  | date:'d MMMM yyyy | hh:mm a'}}</div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
                                     <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-center'">                                        
@@ -366,7 +368,7 @@
                         <div class="row m-0 col-12 p-0">
                             <div class="col-5 p-0 lef-info">
                                 <div class="approved_title">Approved ON</div>
-                                <div class="approved_date" ngbTooltip="{{selectedFaq.lMod | dateFormatPipe:'d MMMM YYYY , hh:mm A'}}" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'d MMMM YYYY | hh:mm A'}}</div>
+                                <div class="approved_date" ngbTooltip="{{selectedFaq.lMod | date:'d MMMM yyyy | hh:mm a'}}" placement="top-left">{{selectedFaq.lMod | date:'d MMMM yyyy | hh:mm a'}}</div>
                             </div>
                             <div class="col-7 p-0 actions-sec">
                                 <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-right'">                                        
@@ -789,7 +791,7 @@
                         (click)="openStatusSlider(source)">
                         <div class="box">
                           <div class="title">{{source.title || source.name}}</div>
-                          <div class="type" [ngClass]="{'doc': (source.type==='document')}">{{contentTypes[source.contentSource] | titlecase}}</div>
+                          <div class="type" [ngClass]="{'doc': (source.type==='file')}">{{contentTypes[source.contentSource] | titlecase}}</div>
                           <div class="status-data">
                             <div class="count-pages" *ngIf="statusObj[source.recentStatus].name == 'Success'"><span class="pagelength">{{source.extractedFaqsCount}}</span> FAQs</div>
                             <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') " [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
