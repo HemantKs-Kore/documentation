@@ -73,7 +73,7 @@ export class SettingsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
 
     // this.getCredential();
-    this.getdialog();
+    // this.getdialog();
     this.getLinkedBot();
     this.prepareChannelData();
 
@@ -316,24 +316,28 @@ export class SettingsComponent implements OnInit {
       streamId: this.selectedApp._id
     }
 
-    this.service.invoke('get.linkedBot', queryParams).subscribe(
+    this.service.invoke('get.streamData', queryParams).subscribe(
       res => {
         if (res.configuredBots.length) this.configuredBot_streamId = res.configuredBots[0]._id
         console.log(res);
-        res.configuredBots.forEach(element => {
-          let obj = {
-            "_id": element._id,
-            "state": "new"
-          }
-          this.allBotArray.push(obj);
-        });
-        res.unpublishedBots.forEach(element => {
-          let obj = {
-            "_id": element._id,
-            "state": "delete"
-          }
-          this.allBotArray.push(obj);
-        });
+        if( res && res.configuredBots){
+          res.configuredBots.forEach(element => {
+            let obj = {
+              "_id": element._id,
+              "state": "new"
+            }
+            this.allBotArray.push(obj);
+          });
+        }
+        if(res && res.unpublishedBots) {
+          res.unpublishedBots.forEach(element => {
+            let obj = {
+              "_id": element._id,
+              "state": "delete"
+            }
+            this.allBotArray.push(obj);
+          });
+        } 
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

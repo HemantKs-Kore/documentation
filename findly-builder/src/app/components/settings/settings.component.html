@@ -19,9 +19,9 @@
     <div class="header-sec row m-0 col-12" *ngIf="slider!==0" >
         <div class="bread-cum-sec col-12 p-0 d-flex align-items-center">
             <div class="bread-name">Channels</div>
-            <img
+            <img 
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
-            <div class="bread-name active-name">Web/Mobile Client</div>
+            <div class="bread-name active-name" >Web/Mobile Client</div>
             <!-- <img src="assets/icons/viewinstruction.svg">
          <div class="bread-name active-name1"  *ngIf="existingCredential">View Instructions</div> -->
         </div>
@@ -54,7 +54,7 @@
                     </ul>
                 </div> -->
                 <div class="main" (click)="proceedChannel(channel)">
-                    <div class="img-block"><img src="{{channel.icon}}"></div>
+                    <div class="img-block cursor-pointer"><img src="{{channel.icon}}"></div>
                     <div class="main-title">{{channel.name}}</div>
                     <div class="configuration" *ngIf="channel.enable">CONFIGURED</div>
                 </div>
