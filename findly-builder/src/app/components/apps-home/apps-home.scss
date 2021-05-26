@@ -175,6 +175,34 @@
                     width: 250px;
                 }
             }
+            .kr-sg-input-search{
+                width: 300px;
+                right: 10px;
+                position: relative;
+                &.active{
+                    display: block;
+                    width: 300px;
+                }
+                .close-icon{
+                    position: absolute;
+                    right: 11px;
+                    top: 12px;
+                    cursor: pointer;
+                }
+                .input-search{
+                    border: 1px solid #E4E5E7;                            
+                    border-radius: 4px;
+                    padding-left: 36px;
+                    padding-right: 15px;
+                    font-size: 14px;
+                    &:focus{
+                        border: 1px solid #1372ff;
+                    }
+                    &::placeholder{
+                        color: #BDC1C6;
+                    }
+                }
+            }
             .seach-block{
                 color: #202124;
                 font-style: normal;

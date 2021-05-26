@@ -25,7 +25,9 @@ export class AppsListingComponent implements OnInit {
   creatingInProgress = false;
   searchApp = '';
   apps: any = [];
-  showSearch: any = '';
+  showSearch = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   newApp: any = {
     name: '',
     description: ''

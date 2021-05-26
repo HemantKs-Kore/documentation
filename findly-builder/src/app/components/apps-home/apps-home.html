@@ -65,13 +65,15 @@
               </span>
             </div>          -->
          <div class="col-8 right-sec p-0 row justify-content-end align-items-center text-right m-0">
-            <div class="kr-sg-input-text m-0" role="searchbox" [ngClass]="{'active': showSearch}">                               
-              <input type="text" placeholder="Search" id="serachInputBox" class="input-search" maxlength="128" [(ngModel)]="searchApp" autocomplete="off">           
-            </div> 
-            <div class="seach-block m-0" (click)="toggleSearch()">
-                <img src="assets/icons/search.svg" *ngIf="!showSearch">
-                <img src="assets/images/close.svg" *ngIf="showSearch">Search
-            </div>
+            <div class="kr-sg-input-search m-0" role="searchbox" [ngClass]="{'d-none': !showSearch}">                               
+              <input type="text" placeholder="Search" class="input-search"  [ngClass]="{'pl-33':!searchApp,'pl-2':searchApp}" autocomplete="off" [(ngModel)]="searchApp" (focusout)="showSearch= !showSearch;" maxlength="128" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+              (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+          <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchApp">
+          <img class="close-icon" *ngIf="searchApp" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchApp}" (click)="searchApp='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+          </div> 
+            <div class="seach-block" (click)="showSearch=!showSearch;">
+              <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+          </div>
             <div class="add_feild" (click)="openCreateApp()">
                 <img src="assets/icons/add_plus.svg">Add Application
             </div>            
