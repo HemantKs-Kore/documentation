@@ -1040,7 +1040,7 @@
           </div>
           <div class="view-details-data">
             <div class="title">URL</div>
-            <div class="desc-info">{{selectedPage._source.pageImageUrl}}<img class="external_link"
+            <div class="desc-info">{{selectedPage._source.pageUrl || selectedPage._source.pageImageUrl }}<img class="external_link"
                 (click)="openImageLink(selectedPage.imageUrl)" src="assets/icons/sidemenu/external-link.svg"></div>
           </div>
           <div class="view-details-data">

@@ -78,7 +78,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     running: { name: 'In Progress', color: '#0D6EFD' },
     inprogress: { name: 'In Progress', color: '#0D6EFD' },
     validation: { name: 'Queued', color: '#0D6EFD' },
-    scheduled: { name: 'Queued', color: '#0D6EFD' },
+    scheduled: { name: 'Configured', color: '#0D6EFD' },
     halted: { name: 'Stopped', color: '#DD3646' },
     configured: { name: 'Validated', color: '#202124' }
   };
@@ -856,7 +856,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       contentId: page._id
     }
     const payload: any = {
-      url: page._source.url
+      url: page._source.pageUrl
     }
     this.service.invoke('check.forUpdates', quaryparms, payload).subscribe(res => {
       this.loadingcheckForUpdate = false;
