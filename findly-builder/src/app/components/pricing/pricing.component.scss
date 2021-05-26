@@ -152,6 +152,38 @@
                 }
             }
         }
+        .info-note{
+            display: flex;
+            align-items: center;
+            margin: 0 30px;
+            padding: 8px 10px;
+            background: #F3F8FF;
+            border: 1px solid #85B7FE;
+            box-sizing: border-box;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            .info-text{
+                color: #07377F;
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 18px;
+                padding-left: 10px;
+            }
+            .close-info{
+                text-align: right;
+                padding: 0;
+                span{
+                    color: #0D6EFD;
+                    font-weight: normal;
+                    font-size: 12px;
+                    line-height: 14px;
+                    padding-right: 16px;
+                }
+                img{
+                    cursor: pointer;
+                }
+            }
+        }
 
         .upgrade-details-prices{
             margin: 0 0 60px 0;
