@@ -77,8 +77,7 @@
   </div>
   <perfect-scrollbar>
     <div class="modal-body" *ngIf="orderConfirmData&&overageData">
-      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan.planName=='Free'">You are Subscribing to <span>{{orderConfirmData.name}} Plan</span>. Please find the order summary below.</div>
-      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan.planName=='Standard'">You are changing from  <span>{{selectedPlan.planName}} to</span> <span> {{orderConfirmData.name}} Plan</span>. Please find the order summary below.</div>
+      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&selectedPlan.planName=='Free'">You are Subscribing to <span>{{orderConfirmData.name}} Plan</span>. Please find the order summary below.</div>
       <div class="plan-desc" *ngIf="overageData.overageShow">You have added additional <span *ngIf="overageData.docCount>=1">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}} documents </span><span *ngIf="overageData.queryCount>=1">, {{overageData.overageDeatils.searchQueries.limit | valueFormat}} queries </span> to your plan. Please find the order summary below.</div>
       <div class="order-confirmation-table">
         <div class="order-confirmation-table-header row col-12 m-0">
@@ -125,7 +124,6 @@
           <div class="amount col-3">$ {{overageData.overageShow?overageData.overageDeatils.ingestDocs.amount * overageData.docCount+overageData.overageDeatils.searchQueries.amount * overageData.queryCount:orderConfirmData.planAmount}}</div>
         </div>
       </div><br/>
-      <div class="plan-note" *ngIf="!overageData.overageShow&&selectedPlan.planName!='Free'"><span class="plan-head">Note:</span> We will use the same payment method as your previous transaction.</div>
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
@@ -173,7 +171,7 @@
         <div class="payment-confiramtion-data" *ngIf="payementSuccess">
           <div class="img-block"><img src="assets/icons/pricing/payment-success.svg"></div>
           <div class="payment-success-message">
-            <div class="title">Yay! {{orderConfirmData.name=='Pro'?'You are a Pro member now':'Payment Successfull...'}}</div>
+            <div class="title">Yay! {{orderConfirmData.name=='Pro'&&!(overageData.overageShow)?'You are a Pro member now':'Payment Successfull...'}}</div>
             <button class="kr-sg-buttonicon-secondary btn_lg" (click)="downloadInvoice()"><img src="assets/icons/pricing/download.svg">Download Invoice</button>
           </div>
         </div>

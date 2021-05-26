@@ -40,6 +40,7 @@ export class UpgradePlanComponent implements OnInit {
   paymentStatusInterval: any;
   showLoader: boolean;
   btnDisable: boolean;
+  invoiceOrderId: any;
   payementResponse: any = {
     hostedPage: {
       transactionId: "",
@@ -206,6 +207,7 @@ export class UpgradePlanComponent implements OnInit {
       //   }
       // }
       let url = this.payementResponse.hostedPage.url;
+      this.invoiceOrderId = this.payementResponse.hostedPage.transactionId;
       this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url);
       this.poling();
     }, errRes => {
@@ -239,6 +241,7 @@ export class UpgradePlanComponent implements OnInit {
         const upgradePlan = this.service.invoke('put.planChange', {}, payload);
         upgradePlan.subscribe(res => {
           if (res.status == 'success') {
+            this.invoiceOrderId = res.orderId;
             this.openSuccessFailurePopup(true);
             this.closeChoosePlanPopup();
             this.closeOrderConfPopup();
@@ -267,6 +270,7 @@ export class UpgradePlanComponent implements OnInit {
         clearInterval(this.paymentStatusInterval);
       }
       this.paymentGatewayModelPopRef.close();
+      this.overageData = {};
     }
   }
   //open payment success/failure popup
@@ -280,6 +284,7 @@ export class UpgradePlanComponent implements OnInit {
   closeSuccessFailurePopup() {
     if (this.successFailureModelPopRef && this.successFailureModelPopRef.close) {
       this.successFailureModelPopRef.close();
+      this.overageData = {};
     }
   }
   //select type plan like monthly or yearly
@@ -315,7 +320,6 @@ export class UpgradePlanComponent implements OnInit {
       }
     }
     this.listPlanFeaturesData = listDataMonthlyFeature;
-    console.log("this.listPlanFeaturesData", this.listPlanFeaturesData)
   }
   //based on choosePlanType in order confirm popup
   choosePlanType(type) {
@@ -351,8 +355,8 @@ export class UpgradePlanComponent implements OnInit {
     const payload = { "overages": overage };
     const buyOverage = this.service.invoke('put.buyOverage', queryParams, payload);
     buyOverage.subscribe(res => {
+      this.invoiceOrderId = res.transactionId;
       this.notificationService.notify(res.status, 'success');
-      this.overageData = {};
       this.overageModel.emit();
       this.closeOrderConfPopup();
       this.openSuccessFailurePopup(true);
@@ -370,16 +374,22 @@ export class UpgradePlanComponent implements OnInit {
   //download invoice
   downloadInvoice() {
     this.selectedApp = this.workflowService.selectedApp();
-    const queryParams = {
-      "streamId": this.selectedApp._id,
-      "transactionId": this.payementResponse.hostedPage.transactionId
+    let queryParams = { "streamId": this.selectedApp._id };
+    let url;
+    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free || this.overageData.overageShow) {
+      queryParams = Object.assign({ ...queryParams, "transactionId": this.invoiceOrderId });
+      url = 'get.getInvoiceDownload';
     }
-    const getInvoice = this.service.invoke('get.getInvoiceDownload', queryParams);
+    else {
+      queryParams = Object.assign({ ...queryParams, "orderId": this.invoiceOrderId });
+      url = 'get.paidInvoiceDownload';
+    }
+    const getInvoice = this.service.invoke(url, queryParams);
     getInvoice.subscribe(res => {
       FileSaver.saveAs(res.viewInvoice + '&DownloadPdf=true', 'invoice_' + res._id + '.pdf');
       // this.notificationService.notify('res.status', 'success');
     }, errRes => {
-      this.errorToaster(errRes, 'failed buy overage');
+      this.errorToaster(errRes, 'Downloading Invoice failed');
     });
   }
 }
