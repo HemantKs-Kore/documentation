@@ -58,6 +58,18 @@
             </div>
         </div>
 
+        <ng-container>
+          <div class="info-note">
+            <div class="col-10 d-flex align-items-center p-0">
+              <img src="assets/icons/Info-pdf.svg">
+              <span class="info-text">Your plan will be changed from Pro to Standard by the end of the billing cycle i.e. 18th April 2021</span>
+            </div>
+            <div class="close-info col-2 p-0 text-right">            
+              <span>Cancel request</span>
+              <img src="assets/icons/close-small.svg">
+            </div>
+          </div>
+        </ng-container>
         <div class="upgrade-details-prices row col-12" *ngIf ="currentSubscriptionPlan&&currentSubscriptionPlan.subscription.planName =='Free'">
           <div class="row col-12 upgrade-header-sec">
             <div class="title col-5 p-0">Upgrade to</div>

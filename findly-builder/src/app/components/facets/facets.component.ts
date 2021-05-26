@@ -726,9 +726,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
 
   validateFacetSize(event){
     if(event.target.value && event.target.value > 0){
-      if(event.target.value > 20){
-        this.addEditFacetObj.facetValue.size = 20;
-      }
+      // if(event.target.value > 20){
+      //   this.addEditFacetObj.facetValue.size = 20;
+      // }
     }
     else{
       this.addEditFacetObj.facetValue.size = 1;

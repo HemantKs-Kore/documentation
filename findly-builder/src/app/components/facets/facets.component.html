@@ -361,7 +361,7 @@
                             {{'facets.facet_size'| translate}}
                             <img container="body" ngbTooltip="{{'facets.facet_size_info' | translate}}" tooltipClass="metrics_tooltips m-0" class="pl-1" src="assets/icons/info.svg" />
                         </div>
-                        <input type="number" placeholder="Please Enter" (keyup)="validateFacetSize($event)" min="1" max="20" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">
+                        <input type="number" placeholder="Please Enter" (keyup)="validateFacetSize($event)" min="1" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">
                     </div>
                 </div>
                 <div class="multi-select mt-3">
