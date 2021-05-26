@@ -18,7 +18,7 @@ declare const $: any;
   styleUrls: ['./field-management.component.scss']
 })
 export class FieldManagementComponent implements OnInit {
-  showSearch;
+  showSearch = false;
   selectedApp;
   serachIndexId;
   indexPipelineId;
@@ -52,6 +52,8 @@ export class FieldManagementComponent implements OnInit {
   firstFilter: any = { 'header': '', 'source': '' };
   componentType: string = 'indexing';
   submitted : boolean = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   constructor(
     public workflowService: WorkflowService,

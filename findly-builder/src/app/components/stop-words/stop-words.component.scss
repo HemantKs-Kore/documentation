@@ -186,12 +186,26 @@
             padding: 8px 0;
             min-height: 50px;
             .kr-sg-input-search{
-                display: inline-block;
-                width: 0px;
-                display: none;                
-                &.active{
-                    display: block;
-                    width: 300px;
+                width: 215px;
+                position: relative;
+                .close-icon{
+                    position: absolute;
+                    right: 11px;
+                    top: 12px;
+                    cursor: pointer;
+                }
+                .input-search{
+                    border: 1px solid #E4E5E7;                            
+                    border-radius: 4px;
+                    padding-left: 36px;
+                    padding-right: 15px;
+                    font-size: 14px;
+                    &:focus{
+                        border: 1px solid #1372ff;
+                    }
+                    &::placeholder{
+                        color: #BDC1C6;
+                    }
                 }
             } 
             .searchBlock{   
@@ -203,7 +217,8 @@
                     line-height: 20px;
                 }        
                 .search-icon{
-                    margin: 0 10px;
+                    left: 12px;
+                    top: 10px;
                 }
             }
             .restoreDefaults{  
