@@ -386,7 +386,7 @@
                                             </div>
                                         </div>
                                         <ng-container *ngIf="outcomeObj.outcomeType === 'boost' || outcomeObj.outcomeType === 'lower'">
-                                            <div class="col-4 pr-0">
+                                            <div class="col-4 pr-0 business-rules-outcome-slider">
                                                 <app-range-slider [customClass]="'weightsSlider'" [allData]="outcomeObj.sliderObj" [addTextToTooltip]="'X'" (valueEvent)="valueEvent($event, outcomeObj)"></app-range-slider>
                                             </div>
                                             <div class="col-4 pr-0 text-right">
