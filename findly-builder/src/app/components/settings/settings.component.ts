@@ -23,7 +23,9 @@ export class SettingsComponent implements OnInit {
   addCredentialRef: any;
   listData: any;
   firstlistData;
-  showSearch;
+  showSearch = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   searchchannel: any = '';
   isAlertsEnabled: boolean;
   showError: boolean = false;
