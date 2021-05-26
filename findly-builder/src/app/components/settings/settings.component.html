@@ -4,12 +4,14 @@
     <div class="header-sec-breadcums col-12 row m-0 " *ngIf="slider==0">
         <div class="col-4 lef-sec p-0"><span class="title">Channels</span></div>
         <div class="col-8 right-sec p-0">
-            <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">
-                <input type="text" placeholder="Search" id='searchInput' autocomplete="off" class="input-search"
-                    placeholder="Search" [(ngModel)]="searchchannel">
-            </div>
-            <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch"
-                    src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search
+            <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">                               
+                <input type="text" placeholder="Search" class="input-search"  [ngClass]="{'pl-33':!searchchannel,'pl-2':searchchannel}" autocomplete="off" [(ngModel)]="searchchannel" (focusout)="showSearch= !showSearch;" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+            <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchchannel">
+            <img class="close-icon" *ngIf="searchchannel" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchchannel}" (click)="searchchannel='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+            </div> 
+              <div class="seach-block" (click)="showSearch=!showSearch;">
+                <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
             </div>
             <!-- <div class="seach-block"><img src="assets/icons/search.svg">{{'search' | translate}}
             </div> -->

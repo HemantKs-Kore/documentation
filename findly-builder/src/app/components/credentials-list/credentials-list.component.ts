@@ -27,7 +27,9 @@ export class CredentialsListComponent implements OnInit {
   listData: any;
   configuredBot_streamId = '';
   searchcredential=''
-  showSearch;
+  showSearch = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   botID = '';
   data;
   isAlertsEnabled: boolean;

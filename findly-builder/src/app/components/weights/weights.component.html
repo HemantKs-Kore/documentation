@@ -112,7 +112,7 @@
             <div class="kr-sg-input-text">
                 <div class="label-text">{{'weights.set_weight'| translate}}</div>
                 <div class="d-flex m-0 slider_sec">
-                    <div class="range_slider">
+                    <div class="range_slider add-searchable-feild-range-slider">
                         <app-range-slider [customClass]='"weightsSlider"'  [allData]='addEditWeighObj.sliderObj' (valueEvent)="valueEvent($event,addEditWeighObj)"></app-range-slider>
                     </div>
                     <div class="sliderVal" >{{addEditWeighObj.sliderObj.default}}</div>

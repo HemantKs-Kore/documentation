@@ -3250,3 +3250,28 @@ app-useronboarding-journey{
 .scroll-max-250{
     max-height: 250px;
 }
+
+.business-rules-outcome-slider{
+    app-range-slider{
+        .custom-created-range-slider{
+            .slider-horizontal{
+                .tooltip-main{
+                    top: -2px !important;
+                    margin-left: -18px !important;
+                }
+            }
+        }
+    }
+}
+.add-searchable-feild-range-slider{
+    app-range-slider{
+        .custom-created-range-slider{
+            .slider-horizontal{
+                .tooltip-main{
+                    top: -8px !important;
+                    margin-left: -16px !important;
+                }
+            }
+        }
+    }
+}
