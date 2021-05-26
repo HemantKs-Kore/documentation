@@ -79,6 +79,13 @@
     <div class="modal-body" *ngIf="orderConfirmData&&overageData">
       <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&selectedPlan.planName=='Free'">You are Subscribing to <span>{{orderConfirmData.name}} Plan</span>. Please find the order summary below.</div>
       <div class="plan-desc" *ngIf="overageData.overageShow">You have added additional <span *ngIf="overageData.docCount>=1">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}} documents </span><span *ngIf="overageData.queryCount>=1">, {{overageData.overageDeatils.searchQueries.limit | valueFormat}} queries </span> to your plan. Please find the order summary below.</div>
+      <ng-container>
+        <ul class="order-plan-details">
+          <li>You are changing from <span>Pro to Standard Plan</span>.</li>
+          <li>Your plan will be changed at the end of billing cycle of current plan i.e. 13 Oct 2021</li>
+        </ul>
+        <div class="s-text">Please find the order summary below.</div>
+      </ng-container>
       <div class="order-confirmation-table">
         <div class="order-confirmation-table-header row col-12 m-0">
           <div class="title col-9">PLAN</div>
@@ -123,7 +130,8 @@
           <div class="col-9 total-amount text-right">Total Amount</div>
           <div class="amount col-3">$ {{overageData.overageShow?overageData.overageDeatils.ingestDocs.amount * overageData.docCount+overageData.overageDeatils.searchQueries.amount * overageData.queryCount:orderConfirmData.planAmount}}</div>
         </div>
-      </div><br/>
+      </div>
+      <div class="note-text"><span>Note:</span> We will use the same payment method as your previous transaction.</div>
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">

@@ -594,9 +594,9 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     });
   }
   save() {
-    if (this.imgInfo.url && this.imgInfo.url.length) {
-      this.addImage();
-    }
+    // if (this.imgInfo.url && this.imgInfo.url.length) {
+    //   this.addImage();
+    // }
     $('#addAlternateFaq').click();
     this.prpaerFaqsResponsePayload();
     if (this.anwerPayloadObj.defaultAnswers && this.anwerPayloadObj.defaultAnswers.length) {
@@ -1017,7 +1017,8 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     this.groupAddSub ? this.groupAddSub.unsubscribe() : false;
   }
 
-  openPreviewImgModal() {
+  openPreviewImgModal(imgurl) {
+    this.image.url = imgurl;
     this.previewImageModalPopRef = this.previewImageModalPop.open();
   }
   closePreviewImgModal() {

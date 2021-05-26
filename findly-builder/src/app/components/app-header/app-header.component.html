@@ -119,8 +119,9 @@
                     </div>
                     <div class="global-searc-container" *ngIf='showSearch'>
                         <div class="kr-sg-input-search">     
-                            <input type="text" placeholder="Search" class="input-search" (keyup.enter)="triggerRoute(searchText)" autocomplete="off" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">                                                      
-                            <img src="assets/icons/search_gray.svg" class="search-icon">
+                            <input type="text" placeholder="Search" class="input-search"  [ngClass]="{'pl-2':searchText}" (keyup.enter)="triggerRoute(searchText)" autocomplete="off" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')" (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+                            <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchText">
+                            <img class="close-icon" *ngIf="searchText" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}" (click)="searchText='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
                         </div>
                     </div>
                 </li>

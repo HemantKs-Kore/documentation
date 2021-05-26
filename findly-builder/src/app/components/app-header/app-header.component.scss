@@ -440,7 +440,20 @@
                             box-sizing: border-box;
                             border-radius: 4px;
                             padding-left: 30px;
+                            &:focus{
+                                border: 1px solid #1372ff;
+                            }
+                            &::placeholder{
+                                color: #BDC1C6;
+                            }
                         }
+                        .close-icon{
+                            position: absolute;
+                            right: 11px;
+                            top: 12px;
+                            cursor: pointer;
+                        }
+
                     }
                 }
             }

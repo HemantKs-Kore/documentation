@@ -180,10 +180,10 @@
              <!-- image optional preview related changes -->
              <div class="d-flex justify-content-between align-items-center">
               <div class="label-text w-100">Image (Optional)</div>
-              <div class="know-more-data" (click)="addImage();openPreviewImgModal();">Preview</div>
+              <div class="know-more-data" (click)="openPreviewImgModal(faqObj.imgurl);">Preview</div>
             </div>
             <!-- image optional preview related changes -->
-            <input type="text" autocomplete="off" placeholder="http(s)//" class="input-text" (keydown.enter)="addImage()" [(ngModel)]="imgInfo.url" name="appName">         
+            <input type="text" autocomplete="off" placeholder="http(s)://" class="input-text"  [(ngModel)]="faqObj.imgurl" name="appName">         
           </div>
           <!-- <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div> -->
         </div>
