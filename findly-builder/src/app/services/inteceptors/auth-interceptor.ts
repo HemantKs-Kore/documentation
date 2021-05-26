@@ -31,8 +31,14 @@ export class AuthInterceptor implements HttpInterceptor {
       , url: this.resolveUrl(req.url, { userId: this.auth.getUserId() }, false)// setting userid if URL has empty userId
     };
 
-    // setting AccountId header
-    const selectedAccount = this.localStoreService.getSelectedAccount() || this.auth.getSelectedAccount();
+   // setting AccountId header
+   let selectedAccount = this.localStoreService.getSelectedAccount() 
+   if(!selectedAccount){
+     const defaultAccounts = this.auth.getSelectedAccount();
+     if(defaultAccounts && defaultAccounts.associatedAccounts && defaultAccounts.associatedAccounts.length ){
+       selectedAccount = defaultAccounts.associatedAccounts[0];
+     }
+   }
     let skipAccountHeaders = false;
     if(req && req.url && req.url.includes('/AppControlList')){
       skipAccountHeaders = true
