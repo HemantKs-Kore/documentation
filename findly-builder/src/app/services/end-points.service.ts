@@ -361,7 +361,7 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['PdfAnno.get.userguide'] = {
-      endpoint: this.API_SERVER_URL + '/builder/:streamId/getSavedAnnotatedDataForStream',
+      endpoint: this.API_SERVER_URL + '/findly/:streamId/getSavedAnnotatedDataForStream',
       method: 'get'
     };
     this.serviceList['PdfAnno.faq.annotate'] = {
