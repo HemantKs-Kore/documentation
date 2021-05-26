@@ -1312,7 +1312,7 @@ export class BotActionComponent implements OnInit {
              "type": channelType,
              "app": {
                  "clientId": this.configurationLink.clientId,
-                 "name": this.selectedLinkBotConfig.channels[0].app.name,
+                 "name": (this.selectedLinkBotConfig.channels[0].app||{}).name||(this.selectedLinkBotConfig.channels[0].app||{}).appName ||'',
                  "clientSecret": this.configurationLink.clientSecret
                 },
             "webhookUrl": this.configurationLink.webhookUrl,
