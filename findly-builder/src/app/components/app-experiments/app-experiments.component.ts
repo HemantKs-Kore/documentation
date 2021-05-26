@@ -21,7 +21,9 @@ export class AppExperimentsComponent implements OnInit {
   addExperimentsRef: any;
   selectedApp: any;
   serachIndexId: any;
-  showSearch;
+  showSearch = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   select_config: any;
   searchFields: any = '';
   variantsArray: any = [];
