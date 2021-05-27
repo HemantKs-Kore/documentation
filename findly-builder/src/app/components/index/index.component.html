@@ -195,7 +195,7 @@
               class="input-text" [(ngModel)]="selectedStage.condition" />
               <!-- <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div> -->
           </div>
-          <div class="add-condition-example-text">Eg: ctx.contentType=="faq"</div>
+          <div class="add-condition-example-text">Eg: ctx.__contentType=="faq"</div>
           <div class="add-condition-info" *ngIf="selectedStage.type === 'exclude_document'">
             <img src="assets/icons/Info_blue.svg">It is mandatory to add conditions for defining the Exclude Document stage.
           </div>
@@ -452,7 +452,7 @@
                 <div *cdkDragPreview class="drag_drop">
                 
                 </div>
-                <div class="drag_drop">
+                <div class="drag_drop  pl-3">
                   <img src="assets/icons/drog_drop.svg" />
                 </div>
                 <div class="kr-sg-input-text col-4 input-box">
@@ -764,19 +764,20 @@
         <div class="dropdown dropdown-open">
           <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
             {{
-            (simulteObj.sourceType
-            ? (simulteObj.sourceType == 'faq'? 'FAQs': (simulteObj.sourceType =='object'?'Structure Data':simulteObj.sourceType))
-            : "choose_an_option"
-            ) | translate
-            }}
+              (simulteObj.sourceType
+              ? (simulteObj.sourceType == 'faq'? 'FAQs': (simulteObj.sourceType =='object'?'Structure Data':(simulteObj.sourceType =='all'?'All':simulteObj.sourceType)))
+              : "choose_an_option"
+              ) | translate
+              }}
           </button>
           <ul class="dropdown-menu content-menu">
             <!-- <li (click)="changeSimulate('page', 'source')"><a>Page</a></li> -->
+            <li (click)="changeSimulate('all', 'source')"><a>All</a></li>
             <li (click)="changeSimulate('faq', 'source')"><a>FAQs</a></li>
             <li (click)="changeSimulate('content', 'source')">
               <a>Content</a>
             </li>
-            <li (click)="changeSimulate('object', 'source')"><a>Structure Data</a></li>
+            <li (click)="changeSimulate('data', 'source')"><a>Structure Data</a></li>
           </ul>
         </div>
       </div>
@@ -807,7 +808,7 @@
     </perfect-scrollbar>
   </div>
 </div>
-<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop" #addFieldModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop addFieldCheckBox" #addFieldModalPop>
   <div class="modal-header">
     <div class="title">
       Choose the fields you would like to add and define properties
@@ -846,10 +847,10 @@
             </div>
               </div>
               <div class="col">Type</div>
-              <div class="col">Multi-Value</div>
-              <div class="col">Required</div>
-              <div class="col">Stored</div>
-              <div class="col">Indexed</div>
+              <div class="col text-center">Multi-Value</div>
+              <div class="col text-center">Required</div>
+              <div class="col text-center">Stored</div>
+              <div class="col text-center">Indexed</div>
             </header>
             <div class="content-body" *ngFor="let field of newfieldsData; let i = index">
               <div class="col">
@@ -860,30 +861,30 @@
                 </div>
               </div>
               <div class="col">{{ field.fieldDataType | translate }}</div>
-              <div class="col">
+              <div class="col text-center">
                 <div class="kr-sg-checkbox">
-                  <input id="fieldMultiValue{{ i }}" class="checkbox-custom" [(ngModel)]="field.isMultiValued"  [disabled]='!field.isActive'
+                  <input id="fieldMultiValue{{ i }}" class="checkbox-custom" [(ngModel)]="field.isMultiValued"  [disabled]="!field.isActive"
                     type="checkbox" />
                   <label for="fieldMultiValue{{ i }}" class="checkbox-custom-label" [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
               </div>
-              <div class="col">
+              <div class="col text-center">
                 <div class="kr-sg-checkbox">
-                  <input id="field.isRequired{{ i }}" class="checkbox-custom" [(ngModel)]="field.isRequired"  [disabled]='!field.isActive'
+                  <input id="field.isRequired{{ i }}" class="checkbox-custom" [(ngModel)]="field.isRequired"  [disabled]="!field.isActive"
                     type="checkbox" />
                   <label for="field.isRequired{{ i }}" class="checkbox-custom-label" [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
               </div>
-              <div class="col">
+              <div class="col text-center">
                 <div class="kr-sg-checkbox">
-                  <input id="field.isStored{{ i }}" class="checkbox-custom" [disabled]='field.isIndexed || !field.isActive' [(ngModel)]="field.isStored"
+                  <input id="field.isStored{{ i }}" class="checkbox-custom"  [(ngModel)]="field.isStored" [disabled]="!field.isActive" (change)='(field.isStored)?field.isIndexed = true:field.isIndexed = false'
                     type="checkbox" />
                   <label for="field.isStored{{ i }}" class="checkbox-custom-label" [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
               </div>
-              <div class="col">
+              <div class="col text-center">
                 <div class="kr-sg-checkbox">
-                  <input id="field.isIndexed{{ i }}" class="checkbox-custom"  [disabled]='!field.isActive' (change)='(field.isIndexed)?field.isStored = true:false' [(ngModel)]="field.isIndexed"
+                  <input id="field.isIndexed{{ i }}" class="checkbox-custom"  (change)='(field.isIndexed)?field.isStored = true:false' [(ngModel)]="field.isIndexed" [disabled]="!field.isActive"
                     type="checkbox" />
                   <label for="field.isIndexed{{ i }}" class="checkbox-custom-label" [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>

@@ -205,6 +205,10 @@ export class AppHeaderComponent implements OnInit {
     this.showMenu.emit(this.showMainMenu)
     this.settingMenu.emit(this.menuFlag)
     this.showSourceMenu.emit(this.sourcesFlag);
+    let currentPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+    if ((menu == '/content' || menu == "/index") && currentPlan.subscription.planId == 'fp_free') {
+      this.appSelectionService.currentDocumentLimit.next('callApi');
+    }
   }
   logoutClick() {
     this.authService.logout();
@@ -318,7 +322,7 @@ export class AppHeaderComponent implements OnInit {
         }
         this.dockersList.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
-         
+
           if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
             if (record.action === 'EXPORT') {
               this.downloadDockFile(record.fileId, record.store.urlParams, record.streamId, record._id);

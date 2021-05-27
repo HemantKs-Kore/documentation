@@ -594,7 +594,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     this.extractionLoader = true;
     this.service.invoke(
       'PdfAnno.faq.annotate',
-      { searchIndexId: this.searchIndexId, sourceType: "document" },
+      { searchIndexId: this.searchIndexId, sourceType: "file" },
       payloadResponse
     ).subscribe((res: any) => {
       this.extractionLoader = false;
@@ -646,7 +646,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     };
     this.service.invoke(
       'PdfAnno.faq.annotate',
-      { searchIndexId: this.searchIndexId, sourceType: "document" },
+      { searchIndexId: this.searchIndexId, sourceType: "file" },
       payloadResponse
     ).subscribe((res: any) => {
       // console.log(res);

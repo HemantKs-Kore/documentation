@@ -22,7 +22,7 @@ declare const $: any;
 export class SynonymsComponent implements OnInit, OnDestroy {
   selectedApp: any = {};
   synonymSearch: any = '';
-  showSearch;
+  showSearch=false;
   synonyms: any = [];
   serachIndexId
   loadingContent = true;
@@ -59,6 +59,8 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   componentType: string = 'configure';
   submitted : boolean = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,

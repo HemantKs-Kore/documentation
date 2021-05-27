@@ -1069,7 +1069,7 @@
                         .row_data{
                             .remove-btn-sec{
                                 visibility: visible;
-                                // background: rgba(249, 250, 251, 0.89);
+                                background: rgba(249, 250, 251, 0.89);
                             }                           
                         }
                     }
@@ -1134,7 +1134,6 @@
                         flex-wrap: wrap;
                         padding-left: 18px;
                         margin-top: 12px;
-                        width: 100%;
                         .pinned{
                             background: #E7F1FF;
                             border-radius: 4px;
@@ -1170,9 +1169,9 @@
                    }
                    .remove-btn-sec{
                         position: absolute;
-                        right: -11px;                        
+                        right: 0;                        
                         height: 100%;
-                        top: 0px;
+                        top: -8px;
                         width: 181px;                   
                         visibility: visible;
                         text-align: right;

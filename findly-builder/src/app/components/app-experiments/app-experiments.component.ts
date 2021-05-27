@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
 import * as moment from 'moment';
 declare const $: any;
+import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { Subscription } from 'rxjs';
 @Component({
@@ -20,7 +21,9 @@ export class AppExperimentsComponent implements OnInit {
   addExperimentsRef: any;
   selectedApp: any;
   serachIndexId: any;
-  showSearch;
+  showSearch = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   select_config: any;
   searchFields: any = '';
   variantsArray: any = [];
@@ -37,6 +40,8 @@ export class AppExperimentsComponent implements OnInit {
   someRangeconfig: any = null;
   @ViewChild('addExperiments') addExperiments: KRModalComponent;
   @ViewChild('sliderref') sliderref;
+  @ViewChild('plans') plans: UpgradePlanComponent;
+  // variantList = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }];
   variantList = [{ color: '#7027E5', code: 'A' }, { color: '#28A745', code: 'B' }, { color: '#EF9AA3', code: 'C' }, { color: '#0D6EFD', code: 'D' }];
   // add Experiment
   form_type;
@@ -62,22 +67,48 @@ export class AppExperimentsComponent implements OnInit {
   exp_skipPage: number = 0;
   test = 33.33;
   loadingContent1: boolean;
+  currentSubscriptionPlan: any;
+  currentSubsciptionData: Subscription;
   indexSubscription: Subscription;
   searchSubscription: Subscription;
   ctrTooltip: string = 'Click Through Rate is the percentage of searches which got at least one click of all the searches performed';
-  ngOnInit(): void {
+  async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getExperiments();
-    this.setSliderDefaults();
-    this.getIndexPipeline();
-    // this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
-    //   this.indexConfig = res;
-    // })
-    // this.searchSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
-    //   this.queryPipeline = res;
-    // })
+    //this.currentsubscriptionPlan(this.selectedApp)
+    await this.appSelectionService.getCurrentSubscriptionData();
+    this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
+      this.currentSubscriptionPlan = res.subscription;
+      if (this.currentSubscriptionPlan.planId != 'fp_free') {
+        this.getExperiments();
+        this.setSliderDefaults();
+        this.getIndexPipeline();
+      }
+      else if (this.currentSubscriptionPlan.planId == 'fp_free') {
+        this.loadingContent1 = true;
+      }
+    })
   }
+  //get current subscription data
+  // currentsubscriptionPlan(app) {
+  //   const payload = {
+  //     streamId: app._id
+  //   };
+  //   const appObserver = this.service.invoke('get.currentPlans', payload);
+  //   appObserver.subscribe(res => {
+  //     this.currentSubscriptionPlan = res.subscription;
+  //     if (this.currentSubscriptionPlan.planId != 'fp_free') {
+  //       this.getExperiments();
+  //       this.setSliderDefaults();
+  //       this.getIndexPipeline();
+  //     }
+  //     else if (this.currentSubscriptionPlan.planId == 'fp_free') {
+  //       this.loadingContent1 = true;
+  //     }
+  //   }, errRes => {
+  //     console.log('failed to get plans');
+  //   });
+  // }
   loadImageText: boolean = false;
   imageLoaded() {
     this.loadingContent = false;
@@ -787,6 +818,11 @@ export class AppExperimentsComponent implements OnInit {
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
+  //upgrade plan
+  upgrade() {
+    this.plans.openChoosePlanPopup('choosePlans');
+  }
+
   checkDuration(value) {
     // if(parseInt(event.target.value) > 90){
     //   event.target.value = ''

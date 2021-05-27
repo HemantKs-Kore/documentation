@@ -132,6 +132,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   sliderStep = 0;
   selectedPage: any = {};
   selectedSource: any = {};
+  docContent:any={};
+  docContentType:any={};
+  resourcesDoc:any={};
   currentStatusFailed: any = false;
   userInfo: any = {};
   contentModaltype: any;
@@ -243,10 +246,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if (min > 0 && sec <= 0) return duration = hr + "h " + min + "m";
         if (min <= 0 && sec <= 0) return duration = hr + "h ";
       } else if (min > 0) {
-        if (sec > 0) return duration = min + "m " + sec + "s" ;
+        if (sec > 0) return duration = min + "m " + sec + "s";
         if (sec <= 0) return duration = min + "m";
       } else if (sec > 0) {
-         return duration = sec + "s";
+        return duration = sec + "s";
       } else if (milisec > 0) {
         return duration = milisec + 'ms';
       } else {
@@ -264,29 +267,30 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = res;
+      //  this.resourcesDoc=this.resources[0].fileMeta;
       this.resources.forEach(element => {
         if (element.advanceSettings && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time) {
-          if(element.advanceSettings.scheduleOpts.interval.intervalType !="Custom"){
+          if (element.advanceSettings.scheduleOpts.interval.intervalType != "Custom") {
             element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' at ' +
-            element.advanceSettings.scheduleOpts.time.hour + ':' + element.advanceSettings.scheduleOpts.time.minute + ' ' +
-            element.advanceSettings.scheduleOpts.time.timeOpt + ' ' + element.advanceSettings.scheduleOpts.time.timezone;
-          }else{
+              element.advanceSettings.scheduleOpts.time.hour + ':' + element.advanceSettings.scheduleOpts.time.minute + ' ' +
+              element.advanceSettings.scheduleOpts.time.timeOpt + ' ' + element.advanceSettings.scheduleOpts.time.timezone;
+          } else {
             let repeatOn = "";
             let schedulePeriod = "";
             let every = ""
-            if(element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod){
+            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod) {
               schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
-            if(element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn){
+            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
               repeatOn = "on " + element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
-            if(element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1){
+            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1) {
               every = element.advanceSettings.scheduleOpts.interval.intervalValue.every;
             }
             element['schedule_title'] = 'Runs once every' + every + schedulePeriod + repeatOn
-           
+
           }
-          
+
         }
         if (element.jobInfo.createdOn && element.jobInfo.createdOn != "--") {
           element['schedule_createdOn'] = moment(element.jobInfo.createdOn).fromNow();
@@ -438,14 +442,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       skip,
       sourceType: this.selectedSource.type
     };
-    if (quaryparms.sourceType === 'webdomain') {
+    if (quaryparms.sourceType === 'web') {
       quaryparms.contentType = 'pages'
     }
-    if (quaryparms.sourceType === 'document') {
+    if (quaryparms.sourceType === 'file') {
       quaryparms.contentType = 'docContent'
     }
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
       this.selectedSource.pages = res;
+      this.docContent = this.selectedSource.pages[0]._source;
+      this.docContentType=this.selectedSource.pages[0]._meta;
+      
       /** Paging */
 
       const data = [...res]
@@ -592,7 +599,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.selectedSource = source;
     this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
     //this.pageination(source.numPages, 10)
-    if (source.extractionType === 'webdomain') {
+    if (source.extractionType === 'web') {
       if (source.advanceSettings) {
         this.useCookies = source.advanceSettings.useCookies;
         this.respectRobotTxtDirectives = source.advanceSettings.respectRobotTxtDirectives;
@@ -620,7 +627,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       //   this.page = false;
       // }
     }
-    else if (source.extractionType === 'document') {
+    else if (source.extractionType === 'file') {
       this.openDocumentModal();
       this.getCrawledPages(this.limitpage, 0);
     }
@@ -937,10 +944,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       contentId: page._id,
       sourceType: this.selectedSource.type
     }
-    if (quaryparms.sourceType === 'webdomain') {
+    if (quaryparms.sourceType === 'web') {
       quaryparms.contentType = 'pages'
     }
-    if (quaryparms.sourceType === 'document') {
+    if (quaryparms.sourceType === 'file') {
       quaryparms.contentType = 'docContent'
     }
     this.service.invoke('delete.content.page', quaryparms).subscribe(res => {
@@ -1397,7 +1404,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
     crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
     crawler.advanceOpts.allowedURLs.length > 0 || crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.crawlEverything = false : crawler.advanceOpts.crawlEverything = true;
-    if (resourceType != 'webdomain') {
+    if (resourceType != 'web') {
       crawler.resourceType = resourceType;
     }
     else {
@@ -1538,7 +1545,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.showSearch = !this.showSearch
   }
- 
+
 }
 
 // class CrwalObj{  

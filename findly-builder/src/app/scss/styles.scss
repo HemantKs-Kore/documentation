@@ -1265,7 +1265,9 @@ div.divBlockEmptylastChild:first-child {
         border-bottom: 0px solid #BDC1C6 !important;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
         background: #fff !important;
-        display: block !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between !important;
         margin-bottom: 4px;
         &.noShadow{
             box-shadow: none;
@@ -1276,6 +1278,11 @@ div.divBlockEmptylastChild:first-child {
             font-size: 14px;
             float: left;
             font-weight: 400;
+            word-break: break-word;
+            width: 95%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .close_icon{
             cursor: pointer;
@@ -1477,16 +1484,16 @@ div.divBlockEmptylastChild:first-child {
     font-size: 12px;
     position: relative;
     white-space: normal;
-    &::before{    
-        display: none;    
+    &::before{
+        display: none;
         content: "";
         position: absolute;
-        top: 50%;
-        left: -18px;
-        margin-left: 0;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
         border-width: 9px;
         border-style: solid;
-        border-color: transparent #fff transparent transparent;
+        border-color: #fff transparent transparent transparent;
     }
     .main-title{
         font-size: 12px;
@@ -2082,10 +2089,10 @@ nouislider{
     }
     .noUi-connect{
         background: red;
-        &.c-1-color { background: rgb(255, 0, 0); }
-        &.c-2-color { background: rgb(0, 0, 255); }
-        &.c-3-color { background: rgb(140, 255, 26); }
-        &.c-4-color { background: rgb(255, 255, 0); }
+        &.c-1-color { background: #7027E5 }
+        &.c-2-color { background: #28A745 }
+        &.c-3-color { background: #EF9AA3}
+        &.c-4-color { background: #0D6EFD}
       }
 }
 .date-tooltip{
@@ -3242,4 +3249,29 @@ app-useronboarding-journey{
 
 .scroll-max-250{
     max-height: 250px;
+}
+
+.business-rules-outcome-slider{
+    app-range-slider{
+        .custom-created-range-slider{
+            .slider-horizontal{
+                .tooltip-main{
+                    top: -2px !important;
+                    margin-left: -18px !important;
+                }
+            }
+        }
+    }
+}
+.add-searchable-feild-range-slider{
+    app-range-slider{
+        .custom-created-range-slider{
+            .slider-horizontal{
+                .tooltip-main{
+                    top: -8px !important;
+                    margin-left: -16px !important;
+                }
+            }
+        }
+    }
 }

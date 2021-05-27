@@ -8,10 +8,20 @@
             <div class="seach_add_feild">
                 <div class="title">Fields</div>
                 <div class="d-flex align-items-center">
-                    <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
-                        <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="searchFields">           
-                    </div> 
-                    <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
+                    <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
+                        <input type="text" placeholder="Search" class="input-search" [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}"
+                            autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (focusout)="showSearch= !showSearch;"
+                            (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                            (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
+                            (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+                        <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields">
+                        <img class="close-icon" *ngIf="searchFields" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}"
+                            (click)="searchFields='';showSearch=!showSearch;" placement="top-center" container='body' ngbTooltip="Cancel"
+                            tooltipClass="ngb_tooltip_custom_class sampleJson">
+                    </div>
+                    <div class="seach-block" (click)="showSearch=!showSearch;">
+                        <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                    </div>
                     <div class="add_feild" (click)="addEditFiled()"><img src="assets/icons/add_plus.svg">Add Field</div>
                 </div>
             </div> 
@@ -148,7 +158,7 @@
                         </div>
                     </div>
                     <perfect-scrollbar class="table_body_content">
-                        <div class="table_body row m-0" *ngFor="let field of filelds | fieldsFilter: [ searchFields, 'fieldName']">
+                        <div class="table_body row m-0" *ngFor="let field of filelds | fieldsFilter: [ searchFields, 'fieldName'];let i=index">
                             <div class="col-2 title">{{field.fieldName}}</div>
                             <div class="col-2 title">{{field.fieldDataType | translate}}</div>
                             <div class="col-2 title">{{field.isMultiValued?'Yes':'No'}}</div>
@@ -156,8 +166,8 @@
                             <div class="col-2 title">{{field.isStored?'Yes':'No'}}</div>
                             <div class="col-2 title">{{field.isIndexed?'Yes':'No'}}
                                 <div class=" action_links text-right" style="margin-top:-15px;" *ngIf="!field.auto">
-                                    <img src="assets/images/edit-pencil.svg" ngbTooltip='Edit' (click)="addEditFiled(field)">
-                                    <img src="assets/icons/delete-table.svg" ngbTooltip='Delete' class="ml-3" (click)="deleteFieldPop(field)">
+                                    <img src="assets/images/edit-pencil.svg" ngbTooltip='Edit' placement="{{i==0?'bottom':'top'}}" (click)="addEditFiled(field)">
+                                    <img src="assets/icons/delete-table.svg" ngbTooltip='Delete' placement="{{i==0?'bottom':'top'}}" class="ml-3" (click)="deleteFieldPop(field)">
                                 </div>
                             </div>
                            
@@ -173,7 +183,7 @@
      </div>
 </div>
 
-<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop smallModal"  #addFieldModalPop>   
+<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop fieldsAddModalPopup smallModal"  #addFieldModalPop>   
     <div class="modal-header">
         <div class="title">{{(newFieldObj && newFieldObj._id)?'Edit Field':'Add Field'}}</div>
         <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
@@ -185,7 +195,7 @@
             <div class="row m-0 mb-20">
                 <div class="kr-sg-input-text col-12 p-0">
                     <div class="label-text">Field Name</div>
-                    <div class="kr-sg-dropdowns col-8 pl-0">
+                    <div class="kr-sg-dropdowns col-12 p-0">
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                             <input type="text" placeholder="Enter Field Name" class="input-search dropdown-toggle dropdown-input" [ngClass]="{'err-block' : (!newFieldObj.fieldName.length && submitted)}" data-toggle="dropdown"  [(ngModel)]="newFieldObj.fieldName" (keyup)="getFieldAutoComplete(newFieldObj.fieldName)">
                             <ul class="dropdown-menu content-menu" [hidden]="!newFieldObj.fieldName">
@@ -207,7 +217,7 @@
                     <!-- <input type="text" placeholder="Enter Field Name" class="input-text" [(ngModel)]="newFieldObj.fieldName"> -->
                 </div>
             </div>
-            <div class="label-text col-12 p-0">Field Type</div>
+            <div class="label-text col-12 p-0 mb-1">Field Type</div>
             <div class="row m-0 align-items-center">                         
                 <div class="kr-sg-dropdowns col-12 p-0">                    
                     <div class="dropdown dropdown-open">
@@ -235,19 +245,19 @@
                 <div class="label-text mb-2">Select ones that apply</div>
                 <div class="kr-sg-checkbox">
                     <input id="checkbox_grpfd" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isMultiValued">
-                    <label for="checkbox_grpfd" class="checkbox-custom-label">Multi-Valued</label><span  placement="bottom" ngbTooltip="Document might contain multiple values for this field" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img class="ml-2" src="assets/icons/Info_gray.svg"></span>
+                    <label for="checkbox_grpfd" class="checkbox-custom-label">Multi-Valued</label><span  placement="bottom" ngbTooltip="Document might contain multiple values for this field" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class=""><img class="ml-2" src="assets/icons/Info_gray.svg"></span>
                 </div>
                 <div class="kr-sg-checkbox">
                     <input id="checkbox_grpf" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isRequired">
-                    <label for="checkbox_grpf" class="checkbox-custom-label">Required</label><span  placement="bottom" ngbTooltip="Documents that do not contain value for this field will be rejected" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img class="ml-2" src="assets/icons/Info_gray.svg"></span>
+                    <label for="checkbox_grpf" class="checkbox-custom-label">Required</label><span  placement="bottom" ngbTooltip="Documents that do not contain value for this field will be rejected" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class=""><img class="ml-2" src="assets/icons/Info_gray.svg"></span>
                 </div>
                 <div class="kr-sg-checkbox">
                     <input id="checkbox_grpd"  class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isStored" (change)="newFieldObj.isIndexed = newFieldObj.isStored;">
-                    <label for="checkbox_grpd" class="checkbox-custom-label">Stored</label><span  placement="bottom" ngbTooltip="Value of the field can be fetched by the search queries" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img class="ml-2" src="assets/icons/Info_gray.svg"></span>
+                    <label for="checkbox_grpd" class="checkbox-custom-label">Stored</label><span  placement="bottom" ngbTooltip="Value of the field can be fetched by the search queries" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class=""><img class="ml-2" src="assets/icons/Info_gray.svg"></span>
                 </div>
                 <div class="kr-sg-checkbox">
                     <input id="checkbox_grpe" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isIndexed" (change)="newFieldObj.isIndexed?(newFieldObj.isStored=true):return">
-                    <label for="checkbox_grpe" class="checkbox-custom-label">Indexed</label><span  placement="bottom" ngbTooltip="Value of the field can be used in search queries to fetch matched documents" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img class="ml-2" src="assets/icons/Info_gray.svg"></span>
+                    <label for="checkbox_grpe" class="checkbox-custom-label">Indexed</label><span  placement="bottom" ngbTooltip="Value of the field can be used in search queries to fetch matched documents" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class=""><img class="ml-2" src="assets/icons/Info_gray.svg"></span>
                 </div>
             </div>
             <div class="kr-sg-input-text col-10 p-0  d-none">

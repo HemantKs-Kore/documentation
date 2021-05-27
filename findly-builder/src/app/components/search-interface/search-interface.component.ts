@@ -51,7 +51,8 @@ export class SearchInterfaceComponent implements OnInit {
   //   },
   // ]
   selectedSetting = 'search';
-  selectedSourceType = "Structured Data"
+  selectedSettingText = 'Conversational Search'
+  selectedSourceType = "File"
   preview_title = "Field Mapped for heading will appear here"
   preview_desc = "Field mapped for Description will appear here";
   selectedTemplatedId: any;
@@ -162,7 +163,7 @@ export class SearchInterfaceComponent implements OnInit {
     if (this.indexPipelineId) {
       this.getFieldAutoComplete();
       this.defaultTemplate();
-      this.getSettings('search');
+      //this.getSettings('search');
       this.getAllSettings();
     }
   }
@@ -212,6 +213,7 @@ export class SearchInterfaceComponent implements OnInit {
     this.service.invoke('get.SI_settingInterface', quaryparms).subscribe(res => {
       if (res) {
         this.selectedSettingResultsObj = res;
+        this.sourceElementlist(res)
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch Setting Informations');
@@ -223,6 +225,7 @@ export class SearchInterfaceComponent implements OnInit {
       return false;
     }
     this.selectedSetting = setting ? setting.id : 'search';
+    this.selectedSettingText = setting ? setting.text : 'Conversational Search';
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId : this.indexPipelineId
@@ -324,45 +327,82 @@ export class SearchInterfaceComponent implements OnInit {
         this.customizeTemplateObj.template.resultMapping.url = element.fieldName;
       }
     });
-
+    this.resultLayoutChange(res.layout.layoutType)
     if(modal == 'openModal'){
       this.submitted = false;
       this.customModalRef = this.customModal.open();
     }
   }
+  sourceElementlist(settingObj){
+    settingObj.appearance.forEach(element => {
+      if(element.type == 'action' || element.type == 'Action'){
+        element.type = "Action"
+      }else if(element.type == 'faq' || element.type == 'FAQs'){
+        element.type = "FAQs"
+      }else if(element.type == 'page' || element.type == 'Web'){
+        element.type = "Web"
+      }else if(element.type == 'structuredData' || element.type == 'Structured Data'){
+        element.type = "Structured Data"
+      }else if(element.type == 'document' || element.type == 'File'){
+        element.type = "File"
+      }
+      this.list.forEach(listElement => {
+        if (element.type == listElement.type && element.templateId != listElement.id) {
+          listElement.id = element.templateId;
+
+          // let obj = {
+          //   type: "Action",
+          //   id: element.templateId ? element.templateId : ""
+          // }
+          // this.list.push(obj)
+          // this.customList.push(obj)
+        }
+      });
+    });
+    this.list.forEach(element => {
+      if(element.type === this.selectedSourceType){
+        if(element.id){
+          this.selectedTemplatedId = element.id;
+          if (this.selectedTemplatedId) {
+            this.getTemplate(this.selectedTemplatedId);
+          }
+        }
+      }
+    });
+  }
   sourcelist(settingObj) {
     settingObj.appearance.forEach(element => {
-      if (element.type == 'action') {
+      if (element.type == 'action' || element.type == 'Action') {
         let obj = {
           type: "Action",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
-      } else if (element.type == 'faq') {
+      } else if (element.type == 'faq' || element.type == 'FAQs') {
         let obj = {
           type: "FAQs",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
-      } else if (element.type == 'page') {
+      } else if (element.type == 'page' || element.type == 'Web') {
         let obj = {
-          type: "Pages",
+          type: "Web",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
-      } else if (element.type == 'structuredData') {
+      } else if (element.type == 'structuredData' || element.type == 'Structured Data') {
         let obj = {
           type: "Structured Data",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
-      } else if (element.type == 'document') {
+      } else if (element.type == 'document' || element.type == 'File') {
         let obj = {
-          type: "Document",
+          type: "File",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
@@ -403,7 +443,7 @@ export class SearchInterfaceComponent implements OnInit {
     this.customizeTemplateObj.template.searchResultlayout = new searchResultlayout();
     //this.customizeTemplateObj.template.resultMapping = new resultMapping();
     this.customizeTemplateObj.template.searchResultlayout.layout = layout;
-    if (layout == 'titleWithHeader') {
+    if (layout == 'tileWithHeader') {
       this.showDescription = false;
     } else {
       this.showDescription = true;
@@ -472,9 +512,14 @@ export class SearchInterfaceComponent implements OnInit {
     this.selectedTemplatedId = templateId;
     if (templateId) {
       this.getTemplate(templateId);
+    }else{
+      this.defaultTemplate()
     }
   }
   openCustomModal() {
+    this.customModel('openModal');
+  }
+  customModel(modalSwitch?){
     let templateId;
     this.list.forEach(element => {
       if (element.type == this.selectedSourceType) {
@@ -483,16 +528,21 @@ export class SearchInterfaceComponent implements OnInit {
     });
     this.selectedTemplatedId = templateId;
     if (templateId) {
-      this.getTemplate(templateId,'openModal');
+      this.getTemplate(templateId,modalSwitch);
     } else {
       this.customizeTemplateObj = new customizeTemplate();
       this.defaultTemplate();
       this.submitted = false;
-      this.customModalRef = this.customModal.open();
+      if(modalSwitch != 'closeModal'){
+        this.customModalRef = this.customModal.open();
+        this.resultLayoutChange('tileWithText')
+      }
+      
     }
   }
   closeCustomModal() {
     if (this.customModalRef && this.customModalRef.close) {
+      this.customModel('closeModal')
       this.customModalRef.close();
       this.submitted = false;
     }
@@ -560,6 +610,21 @@ export class SearchInterfaceComponent implements OnInit {
       searchIndexId: this.serachIndexId,
       indexPipelineId : this.indexPipelineId
     };
+    
+    this.selectedSettingResultsObj.appearance.forEach(element => {
+      if (element.type == 'Action') {
+        element.type= 'action';
+      } else if (element.type == 'FAQs') {
+        element.type = 'faq';
+      } else if (element.type == 'Pages' || element.type == 'Web') {
+        element.type = 'page';
+      } else if (element.type == 'Structured Data') {
+        element.type = 'structuredData';
+      }else if (element.type == 'Document' || element.type == 'File') {
+        element.type = 'document';
+      }
+    });
+    
     let payload = {
       "_id": this.selectedSettingResultsObj._id,
       "resultClassification": {
@@ -605,9 +670,25 @@ export class SearchInterfaceComponent implements OnInit {
   }
   validateTemplate(){
     if(this.selectedSourceType == 'Structured Data'){
-      if(this.customizeTemplateObj.template.resultMapping.headingId.length && this.customizeTemplateObj.template.resultMapping.descriptionId.length){
-        if(this.customizeTemplateObj.template.searchResultlayout.clickable && this.customizeTemplateObj.template.resultMapping.urlId.length){
-          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.imageId.length)){
+      if(this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader'){
+        if(this.customizeTemplateObj.template.resultMapping.heading.length){
+          if(this.customizeTemplateObj.template.searchResultlayout.clickable && this.customizeTemplateObj.template.resultMapping.url.length){
+            return true;
+          }
+          else if(!this.customizeTemplateObj.template.searchResultlayout.clickable){
+            return true;
+          }
+          else{
+            return false;
+          }
+        }
+        else{
+          return false;
+        }
+      }
+      else if(this.customizeTemplateObj.template.resultMapping.heading.length && this.customizeTemplateObj.template.resultMapping.description.length){
+        if(this.customizeTemplateObj.template.searchResultlayout.clickable && this.customizeTemplateObj.template.resultMapping.url.length){
+          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)){
             return true;
           }
           else if ((this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText') || (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader')){
@@ -617,11 +698,11 @@ export class SearchInterfaceComponent implements OnInit {
             return false;
           }
         }
-        else if (this.customizeTemplateObj.template.searchResultlayout.clickable && !this.customizeTemplateObj.template.resultMapping.urlId.length){
+        else if (this.customizeTemplateObj.template.searchResultlayout.clickable && !this.customizeTemplateObj.template.resultMapping.url.length){
           return false;
         }
         else{
-          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.imageId.length)){
+          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)){
             return true;
           }
           else if ((this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText') || (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader')){
@@ -632,15 +713,60 @@ export class SearchInterfaceComponent implements OnInit {
           }
         }
       }
+      else {
+        return false;
+      }
     }
-    else if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.imageId.length)){
-      return true;
+    else if (this.customizeTemplateObj.template.searchResultlayout.clickable && this.customizeTemplateObj.template.resultMapping.url.length){
+      if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && this.customizeTemplateObj.template.resultMapping.heading.length){
+        return true;
+      }
+      else if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && !this.customizeTemplateObj.template.resultMapping.heading.length){
+        return false;
+      }
+      else{
+        if(this.customizeTemplateObj.template.resultMapping.heading.length && this.customizeTemplateObj.template.resultMapping.description.length){
+          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)){
+            return true;
+          }
+          else if((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (!this.customizeTemplateObj.template.resultMapping.image.length)){
+            return false;
+          }
+          else{
+            return true;
+          }
+        }
+        else {
+          return false;
+        }
+      }
     }
-    else if((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (!this.customizeTemplateObj.template.resultMapping.imageId.length)){
+    else if(!this.customizeTemplateObj.template.searchResultlayout.clickable){
+      if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && this.customizeTemplateObj.template.resultMapping.heading.length){
+        return true;
+      }
+      else if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && !this.customizeTemplateObj.template.resultMapping.heading.length){
+        return false;
+      }
+      else{
+        if(this.customizeTemplateObj.template.resultMapping.heading.length && this.customizeTemplateObj.template.resultMapping.description.length){
+          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)){
+            return true;
+          }
+          else if((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (!this.customizeTemplateObj.template.resultMapping.image.length)){
+            return false;
+          }
+          else{
+            return true;
+          }
+        }
+        else {
+          return false;
+        }
+      }
+    }
+    else if (this.customizeTemplateObj.template.searchResultlayout.clickable && !this.customizeTemplateObj.template.resultMapping.url.length){
       return false;
-    }
-    else {
-      return true;
     }
   }
 
@@ -656,10 +782,12 @@ export class SearchInterfaceComponent implements OnInit {
         appearnce = 'action';
       } else if (this.selectedSourceType == 'FAQs') {
         appearnce = 'faq';
-      } else if (this.selectedSourceType == 'Pages') {
+      } else if (this.selectedSourceType == 'Pages' || this.selectedSourceType == 'Web') {
         appearnce = 'page';
       } else if (this.selectedSourceType == 'Structured Data') {
         appearnce = 'structuredData';
+      }else if (this.selectedSourceType == 'Document' || this.selectedSourceType == 'File') {
+        appearnce = 'document';
       }
       payload = {
         "type": this.customizeTemplateObj.template.typeId,
@@ -773,7 +901,7 @@ export class SearchInterfaceComponent implements OnInit {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe : false;
+    this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe() : false;
   }
 
 }

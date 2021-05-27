@@ -10,7 +10,7 @@
             <div class="col-6 left-sec p-0 faq-title" >FAQs</div>
             <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
                 <div class="kr-sg-dropdowns add w-auto"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved)">                                        
-                    <div class="dropdown dropdown-open mr-4">
+                    <div class="dropdown dropdown-open mr-4 cursor-pointer">
                         <div _ngcontent-rjr-c36="" class="dropdown-toggle" data-identifyelement="1" ngbDropdownToggle><img _ngcontent-rjr-c36="" class="mr-2 mb-1" src="assets/icons/add_plus.svg">Add FAQ</div>
                         <!-- <button class="dropdown-toggle kr-sg-button-primary btn_lg text-left" ngbDropdownToggle>Add FAQ</button>                                             -->
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
@@ -40,7 +40,7 @@
                 <div class="close-notification"><img src="assets/icons/close.svg"></div>
             </div>
         </div>
-        <ng-container *ngIf="(!(faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) && !faqSelectionObj.loadingStats) && !(faqs && faqs.length)">
+        <ng-container *ngIf="(!(faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) && !faqSelectionObj.loadingStats) && !(faqs && faqs.length)  && !extractedFaqs">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
           <div class="img-block" id ="imageLoad"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/faq-empty.svg"></div>
@@ -65,7 +65,7 @@
       </div>
     </perfect-scrollbar>
 </ng-container>
-        <div class="faq-content-boxes"  *ngIf="(faqs && faqs.length || faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved)">
+        <div class="faq-content-boxes"  *ngIf="((faqs && faqs.length) || faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) ||  extractedFaqs">
             <div class="content left-content">
                 <div class="content-boxes faq_tasks_list">
                     <div class="tab-sec d-flex" *ngIf="faqSelectionObj.selectedCount == 0">
@@ -93,12 +93,14 @@
                             </div>
                         </div> 
                         <!-- <div class="seach_add_feild"> -->
-                            <div class="kr-sg-input-search"  *ngIf="showSearch" [ngClass]="{'active':showSearch}">                               
-                                <input type="text" placeholder="Search" [(ngModel)]="searchFaq" id="searchFaqs" name='faqsSearch' (keyup)="searchFaqs()" autocomplete="off">                                  
+                            <div class="kr-sg-input-search"  [ngClass]="{'d-none': !showSearch}">                               
+                                <input type="text" placeholder="Search" class="input-search" (keyup)="searchFaqs()" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"  (focusout)="showSearch= !showSearch;" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                                (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+                            <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFaq">
+                            <img class="close-icon" *ngIf="searchFaq" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFaq}" (click)="searchFaq='';searchFaqs();showSearch= !showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
                             </div>
-                            <div class="seach-block" (click)="toggleSearch()">
-                                <img *ngIf="!showSearch" src="assets/icons/search.svg">
-                                <img *ngIf="showSearch" src="assets/images/close.svg">Search
+                            <div class="seach-block" (click)="showSearch=!showSearch;">
+                                <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                             </div>
                         <!-- </div> -->
 
@@ -119,10 +121,10 @@
                             <div class="title">{{(faqSelectionObj.selectAll)?'All':faqSelectionObj.selectedCount}} Selected</div>
                         </div>
                         <div class="col-8 p-0 d-flex align-items-center justify-content-end">
-                            <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
+                            <button class="kr-sg-button-secondary btn_lg ml-0" [ngClass]="{'px-12px':selectedtab === 'approved'}" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
                             <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
                             <button class="kr-sg-button-danger btn_lg" *ngIf="(selectedtab === 'draft')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
+                            <button class="kr-sg-button-primary btn_lg" [ngClass]="{'px-12px':selectedtab === 'approved'}" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
                          
                             
                         </div>
@@ -135,11 +137,11 @@
                         </div>
                         <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer': faqSelectionObj.selectedCount}" (psYReachEnd)="onScrolledEnd($event)" *ngIf="faqSelectionObj.stats[selectedtab]">
                             <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab" >
-                            <div class="selected-all-questions" *ngIf="faqSelectionObj.selectedCount" id="selectAllFaqs" (click)="selectAllRecords()" >Select all {{(selectedtab === 'draft' ? faqSelectionObj.stats.draft: (selectedtab === 'in_review' ? faqSelectionObj.stats.in_review:(selectedtab === 'approved' ? faqSelectionObj.stats.approved:'' )))}}  questions?</div>
+                            <div class="selected-all-questions" *ngIf="faqSelectionObj.selectedCount && !faqSelectionObj.selectAll " id="selectAllFaqs" (click)="selectAllRecords()" >Select all {{(selectedtab === 'draft' ? faqSelectionObj.stats.draft: (selectedtab === 'in_review' ? faqSelectionObj.stats.in_review:(selectedtab === 'approved' ? faqSelectionObj.stats.approved:'' )))}}  questions?</div>
                             <div id="accordion" class="accordion-content">
                                 <div *ngFor="let faq of faqs">
                                     <div class="card-content" *ngIf="faq.action!=='delete'">
-                                        <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq, $event)" title="{{(faq && faq._source)?faq._source.question:''}}"  class="card_link collapsed" [ngClass]="{'is-checked':(selectedFaq && selectedFaq._id===faq._id) ||  ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
+                                        <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq, $event)" title="{{(faq && faq._source)?faq._source.question:''}}"  class="card_link collapsed" [ngClass]="{'is-selected':(selectedFaq && selectedFaq._id===faq._id) ,'is-checked': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
                                             <span class="published-que" *ngIf="(faq.state==='published')" [ngClass]="{'reverted': (faq.state==='reverted')}">{{faq.state | titlecase}}</span>
                                             <div class="d-flex align-items-center">
                                                 <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
@@ -147,8 +149,8 @@
                                                     <label [attr.for]="'selectFaqCheckBox_' + faq._id" class="checkbox-custom-label"></label>
                                                 </div>
                                                 <div class="title-desc-sec">
-                                                    <div class="title">{{faq._source.question}}</div>
-                                                    <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq._source.defaultAnswers[0].payload)'></div>
+                                                    <div class="title">{{faq._source.faqQuestion}}</div>
+                                                    <div class="desc" *ngIf="faq && faq._source.faqAnswer && faq._source.faqAnswer.length && faq._source.faqAnswer[0]" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq._source.faqAnswer[0].text)'></div>
                                                     <!-- <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='javascript'">Javascript message</div> -->
                                                 </div>
                                             </div>
@@ -158,9 +160,9 @@
                                             <div class="cardbody">
                                                 <ng-container  *ngIf="faq._meta.followupQuestions && faq._meta.followupQuestions.length">
                                                     <div class="acc-inner-que" (click)="selectedFaqToTrain(followUpQuestion, $event);$event.stopImmediatePropagation();"  [ngClass]="{'is-checked':(selectedFaq && selectedFaq._id===followUpQuestion._id) ||  ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" *ngFor="let followUpQuestion of faq._meta.followupQuestions">
-                                                        <div class="title">{{followUpQuestion._source.question}}</div>
+                                                        <div class="title">{{followUpQuestion._source.faqQuestion}}</div>
                                                         <ng-container *ngIf="followUpQuestion._source && followUpQuestion._source.defaultAnswers && followUpQuestion._source.defaultAnswers.length">
-                                                            <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(followUpQuestion._source.defaultAnswers[0].payload)'></div>
+                                                            <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(followUpQuestion._source.defaultAnswers[0].text)'></div>
                                                            <!-- <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='javascript'">Javascript message</div> -->
                                                         </ng-container>
                                                     </div>
@@ -203,12 +205,12 @@
                             <div class="row m-0 col-12 p-0">
                                 <div class="col-5 p-0 lef-info">
                                     <div class="approved_title">SENT FOR REVIEW ON</div>
-                                    <div class="approved_date" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.lMod | dateFormatPipe:'hh:mm:ss A'}}</span></div>
+                                    <div class="approved_date" ngbTooltip="{{selectedFaq.lMod  | date:'d MMMM yyyy | hh:mm a'}}" placement="top-left">{{selectedFaq.lMod  | date:'d MMMM yyyy | hh:mm a'}}</div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
                                     <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-center'" >                                        
                                         <div class="dropdown dropdown-open">                                        
-                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg" ngbTooltip='Info'  [container]="'body'"></button>                                            
                                             <ul class="dropdown-menu content-menu info_header_dropdown_content w-274px" ngbDropdownMenu>
                                                 <div class="row m-0 col-12 p-0">
                                                     <div class="col-5 inner-data-column">
@@ -234,7 +236,7 @@
                                     </div>                             
                                     <div class="kr-sg-dropdowns comments_header_dropdown"  #commentBox='ngbDropdown' ngbDropdown  [container]="'body'" [placement]="'bottom-right'" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved') || (selectedtab === 'in_review')">                                        
                                         <div class="dropdown dropdown-open">                                        
-                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg" ngbTooltip='Comment'></button>                                                                                      
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg" ngbTooltip='Comment'  [container]="'body'"></button>                                                                                      
                                             <ul class="dropdown-menu content-menu comments_header_dropdown_content" ngbDropdownMenu>
                                                 <div class="c-section-data">
                                                     <perfect-scrollbar>
@@ -285,7 +287,7 @@
                             <div class="row m-0 col-12 p-0">
                                 <div class="col-5 p-0 lef-info">
                                     <div class="approved_title">EDITED ON</div>
-                                    <div class="approved_date" ngbTooltip="{{selectedFaq.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
+                                    <div class="approved_date" ngbTooltip="{{selectedFaq.createdOn  | date:'d MMMM yyyy | hh:mm a'}}" placement="top-left">{{selectedFaq.createdOn  | date:'d MMMM yyyy | hh:mm a'}}</div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
                                     <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-center'">                                        
@@ -366,12 +368,12 @@
                         <div class="row m-0 col-12 p-0">
                             <div class="col-5 p-0 lef-info">
                                 <div class="approved_title">Approved ON</div>
-                                <div class="approved_date" ngbTooltip="{{selectedFaq.lMod | dateFormatPipe:'d MMMM YYYY , hh:mm A'}}" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'d MMMM YYYY | hh:mm A'}}</div>
+                                <div class="approved_date" ngbTooltip="{{selectedFaq.lMod | date:'d MMMM yyyy | hh:mm a'}}" placement="top-left">{{selectedFaq.lMod | date:'d MMMM yyyy | hh:mm a'}}</div>
                             </div>
                             <div class="col-7 p-0 actions-sec">
                                 <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [placement]="'bottom-right'">                                        
                                     <div class="dropdown dropdown-open">                                        
-                                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
+                                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg" ngbTooltip='Info'  [container]="'body'"></button>                                            
                                         <ul class="dropdown-menu content-menu info_header_dropdown_content ml-58" ngbDropdownMenu>
                                             <div class="row m-0 col-12 p-0">
                                                 <div class="col-3 inner-data-column">
@@ -396,7 +398,7 @@
                                 </div>                             
                                 <div class="kr-sg-dropdowns comments_header_dropdown"  #commentBox='ngbDropdown' ngbDropdown   [container]="'body'" [placement]="'bottom-right'">                                        
                                     <div class="dropdown dropdown-open">                                        
-                                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                                                                      
+                                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg" ngbTooltip='Comment'  [container]="'body'"></button>                                                                                      
                                         <ul class="dropdown-menu content-menu comments_header_dropdown_content" ngbDropdownMenu>
                                             <div class="c-section-data">
                                                 <perfect-scrollbar>
@@ -450,7 +452,7 @@
                                 <div class="question-content">
                                     <div class="shadow-div">
                                         <div class="title-que">
-                                            <span class="">{{selectedFaq._source.question}}</span>                                       
+                                            <span class="">{{selectedFaq._source.faqQuestion}}</span>                                       
                                             <button  class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
                                         </div>
                                         <div class="keywords">
@@ -460,18 +462,18 @@
                                     </div> 
                                     <div class="pad-div">
                                         <div class="bot-response-view-mode" >
-                                            <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.defaultAnswers && selectedFaq._source.defaultAnswers.length">
-                                                <ng-container *ngFor="let answer of selectedFaq._source.defaultAnswers ;let i = index;">
+                                            <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.faqAnswer && selectedFaq._source.faqAnswer.length">
+                                                <ng-container *ngFor="let answer of selectedFaq._source.faqAnswer ;let i = index;">
                                                     
 
                                                     <div class="response-title-bg row">
-                                                        <div class="bot-response-title col-6">Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div>
+                                                        <div class="bot-response-title col-6">Response <span *ngIf="(selectedFaq._source.faqAnswer.length > 1) || (selectedFaq._source.faqCondAnswers && selectedFaq._source.faqCondAnswers.length)">{{ ' ' + (i + 1)}}</span></div>
                                                         <div class="response-likes-views-sec d-flex col-6">
                                                             <div class="count-sec" >
-                                                                <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{(selectedFaq.stats.appearances || []).length ?selectedFaq.stats.appearances[0][0]: 0}}
+                                                                <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{(selectedFaq?.stats?.appearances || []).length ?selectedFaq?.stats?.appearances[0][0]: 0}}
                                                             </div>
                                                             <div class="count-sec" >
-                                                                <img src="assets/icons/faq/hand.svg" placement="top" container='body' ngbTooltip="Clicks">{{selectedFaq.stats.clicks ||0}}
+                                                                <img src="assets/icons/faq/hand.svg" placement="top" container='body' ngbTooltip="Clicks">{{selectedFaq?.stats?.clicks ||0}}
                                                             </div>
                                                             <!-- <div class="count-sec">
                                                                 <img src="assets/icons/faq/likes.svg">{{selectedFaq.stats.thumbsup ||0}}
@@ -483,27 +485,27 @@
                                                     </div>
 
 
-                                                    <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
-                                                        <img src="{{answer.multimedia.url}}">
+                                                    <div class="img-view-mode" *ngIf="answer && answer.imgurl">
+                                                        <img src="{{answer.imgurl}}">
                                                     </div>
-                                                    <div class="desc-info" *ngIf="answer.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.payload)'></div>
+                                                    <div class="desc-info" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.text)'></div>
                                                     <!-- <div class="desc-info desc-info-javascript-message" *ngIf="answer.type==='javascript'">Javascript message</div> -->
                                                 </ng-container> 
                                             </ng-container>   
                                         </div>
                                         <div class="conditionalBlock bot-response-view-mode" >
-                                            <ng-container *ngIf="selectedFaq && selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length">
-                                            <ng-container *ngFor="let consitionalAnswer of selectedFaq._source.conditionalAnswers; let i = index;">
+                                            <ng-container *ngIf="selectedFaq && selectedFaq._source.faqCondAnswers && selectedFaq._source.faqCondAnswers.length">
+                                            <ng-container *ngFor="let consitionalAnswer of selectedFaq._source.faqCondAnswers; let i = index;">
 
                                                 
                                                 <div class="response-title-bg row">
-                                                    <div class="bot-response-title col-6">Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.defaultAnswers?selectedFaq._source.defaultAnswers.length:0))}}</span></div>
+                                                    <div class="bot-response-title col-6">Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.faqAnswer?selectedFaq._source.faqAnswer.length:0))}}</span></div>
                                                     <div class="response-likes-views-sec d-flex col-6">
                                                         <div class="count-sec" >
-                                                            <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{selectedFaq.stats.appearances?selectedFaq.stats.appearances[0][0]: 0}}
+                                                            <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{selectedFaq?.stats?.appearances?selectedFaq?.stats?.appearances[0][0]: 0}}
                                                         </div>
                                                         <div class="count-sec">
-                                                            <img src="assets/icons/faq/hand.svg"  placement="top" container='body' ngbTooltip="Clicks">{{selectedFaq.stats.clicks ||0}}
+                                                            <img src="assets/icons/faq/hand.svg"  placement="top" container='body' ngbTooltip="Clicks">{{selectedFaq?.stats?.clicks ||0}}
                                                         </div>
                                                         <!-- <div class="count-sec">
                                                             <img src="assets/icons/faq/likes.svg">{{selectedFaq.stats.thumbsup ||0}}
@@ -548,11 +550,11 @@
                                                 <!-- <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div> -->
                                                 <div *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.answers.length">
                                                     <div *ngFor="let ans of consitionalAnswer.answers">
-                                                        <div class="img-view-mode" *ngIf="ans.multimedia && ans.multimedia.url">
-                                                            <img src="{{ans.multimedia.url}}">
+                                                        <div class="img-view-mode" *ngIf="ans.imgurl">
+                                                            <img src="{{ans.imgurl}}">
                                                         </div>
                                                         <ng-container>
-                                                            <div class="desc-info" *ngIf="ans.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(ans.payload)'></div>
+                                                            <div class="desc-info"  [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(ans.text)'></div>
                                                              <!-- <div class="desc-info desc-info-javascript-message" *ngIf="ans.type==='javascript'">Javascript message</div> -->
                                                         </ng-container> 
                                                     </div>
@@ -566,11 +568,11 @@
                                 <div class="appearences-info row" *ngIf="selectedFaq && selectedFaq.feedback">
                                     <div class="col-4 p-0">
                                         <span class="source">Appearances:</span>
-                                        <span class="count">{{selectedFaq.feedback.expand}}</span>
+                                        <span class="count">{{selectedFaq?.feedback?.expand}}</span>
                                     </div>
                                     <div class="col-3 p-0">
                                         <span class="source">Clicks:</span>
-                                        <span class="count">{{selectedFaq.feedback.click}}</span>
+                                        <span class="count">{{selectedFaq?.feedback?.click}}</span>
                                     </div>
                                     <!-- <div class="col-2 p-0">
                                         <span class="source cursor-pointer"><img src="assets/icons/like.svg"></span>
@@ -582,10 +584,10 @@
                                     </div> -->
                                 </div>
                             </div>
-                            <div class="add-alternative-questions row bg-white"  *ngIf="selectedFaq._source.alternateQuestions?.length">
+                            <div class="add-alternative-questions row bg-white"  *ngIf="selectedFaq._source.faqAltQuestions?.length">
                                 <div class="col-10 pl-0 pr-2">
                                     <div class="question-name text-truncate">Alternate Questions
-                                        <span>{{selectedFaq._source.alternateQuestions?.length>0?'('+selectedFaq._source.alternateQuestions?.length+')':''}}</span>
+                                        <span>{{selectedFaq._source.faqAltQuestions?.length>0?'('+selectedFaq._source.faqAltQuestions?.length+')':''}}</span>
                                         <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
                                     </div>
                                     <div class="que-desc text-truncate">Add alternate forms of the question.</div>
@@ -597,10 +599,10 @@
                             <div *ngIf="selectedFaq.isAlt" class="alternate-question-bg">
                                 <app-add-alternate-question [faqServ]="faqServiceAlt"></app-add-alternate-question>
                             </div>
-                            <ng-container *ngIf="selectedFaq._source.alternateQuestions?.length">
-                            <div class="added-questions-list" *ngFor="let alternateQuestion of selectedFaq._source?.alternateQuestions">
+                            <ng-container *ngIf="selectedFaq._source.faqAltQuestions?.length">
+                            <div class="added-questions-list" *ngFor="let alternateQuestion of selectedFaq._source?.faqAltQuestions">
                                 <div class="content-body-question row" >
-                                <div class="col-12 group-name question-name text-truncate">{{alternateQuestion.question}}</div>
+                                <div class="col-12 group-name question-name text-truncate">{{alternateQuestion}}</div>
                                 </div>
                                 <!-- <div class="added-tags text-truncate">
                                     <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
@@ -643,19 +645,28 @@
 <kr-modal modalType="center" modalClass="addSourceModalComponent modal_popups_" #statusModalPop>
     <div class="modal-header">
         <div class="title">Extracts</div>
-        <div class="close_icon"  (click)='closeStatusModal()'><img  src="assets/icons/modal-close.svg"></div>
+        <div class="close_icon"  (click)='closeStatusModal(extractedFaqs)'><img  src="assets/icons/modal-close.svg"></div>
       </div>
     
       <div class="modal-table-actions">               
         <div class="table-action-header d-flex justify-content-between align-items-center">                           
             <div>                            
                 <div class="seach_add_feild">
-                    <div class="kr-sg-input-search"  *ngIf="showSearch" [ngClass]="{'active':showSearch}">                               
+                    <!-- <div class="kr-sg-input-search"  *ngIf="showSearch" [ngClass]="{'active':showSearch}">                               
                         <input type="text" name='searchSources' placeholder="Search" id="searchFaqSources" class="input-search pl-2" [(ngModel)]="searchSources" autocomplete="off">                                   
                     </div>
                     <div class="seach-block" (click)="toggleSearch()">
                         <img *ngIf="!showSearch" src="assets/icons/search.svg">
                         <img *ngIf="showSearch" src="assets/images/close.svg">Search
+                    </div> -->
+                    <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">                               
+                        <input type="text" placeholder="Search" class="input-search"  [ngClass]="{'pl-33':!searchSources,'pl-2':searchSources}" autocomplete="off" [(ngModel)]="searchSources" (focusout)="showSearch= !showSearch;" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                        (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+                    <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
+                    <img class="close-icon" *ngIf="searchSources" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (click)="searchSources='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                    </div> 
+                      <div class="searchBlock" (click)="showSearch=!showSearch;">
+                        <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                     </div>
                 </div>
 
@@ -676,16 +687,16 @@
         </div>      
     </div>
    
-    <div *ngIf="!(resources && resources.length)"  class="empty-source-modal">
+    <div *ngIf="!( extractedResources &&  extractedResources.length)"  class="empty-source-modal">
         <div class="empty-sources">
             <img src="assets/images/icons/empty_ill.svg">
             <div class="heading">No FAQ sources are available</div>
         </div>
     </div>
-    <div class="modal-body source-modal-popup" *ngIf="resources && resources.length">
+    <div class="modal-body source-modal-popup" *ngIf="extractedResources &&  extractedResources.length">
         <ng-container  *ngIf="currentView === 'list'">
             <div class="table-list-content">
-                <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length">
+                <div class="kr-sg-data-table with-checkbox"  *ngIf=" extractedResources &&  extractedResources.length">
                 <section class="table-content">
                     <header class="table-header">
                         <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('name')">
@@ -712,7 +723,7 @@
                                     <li *ngFor="let docType of docTypeArr" 
                                     (click)="sourceFilter.close();filterTable(docType,'contentSource')">
                                       <span
-                                        class="list-name">{{ docType == 'webdomain' ? 'WEB' : 'DOC' }}</span><img
+                                        class="list-name">{{ docType == 'web' ? 'WEB' : 'DOC' }}</span><img
                                         [ngClass]="{'hide': filterSystem.typefilter !== docType}"  src="assets/icons/check-blue.svg">
                                     </li>
                                   </ul>
@@ -752,7 +763,7 @@
                     <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
                     <div class="content-body" *ngFor="let source of extractedResources | filter: [ searchSources, 'name']">
                         <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name | titlecase}}</div>
-                        <div class="col_ col-2">{{contentTypes[source.contentSource] | titlecase}}</div>
+                        <div class="col_ col-2">{{source.contentSource | titlecase}}</div>
                         <div class="col_ col-3">
                             <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}
                                 <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
@@ -766,7 +777,7 @@
                         <div class="col_ col-2" *ngIf="source && source.userDetails" >{{source.userDetails.fullName || source.userDetails.firstName + ' ' + source.userDetails.lastName }}</div>
                         <!-- <div class="col" title="{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div> -->
                         <div class="col text-right last-child">
-                            <span class="actions-links" (click)="deleteSource(source,$event)" title="Delete"><img class="action_icon" ngbTooltip='Delete' src="assets/icons/sidemenu/delete-table.svg"></span>
+                            <span class="actions-links" (click)="deleteSource(source,$event)" title="Delete"><img class="action_icon" ngbTooltip='Delete'  [container]="'body'" src="assets/icons/sidemenu/delete-table.svg"></span>
                             <!-- <span class="actions-links" (click)="reAnnotateDocument(source)"  ngbTooltip='Re-Annotate'><img class="action_icon" src="assets/images/list.svg"></span> -->
                         </div>
                         <!-- <div class="col text-right last-child re-annotate">
@@ -789,7 +800,7 @@
                         (click)="openStatusSlider(source)">
                         <div class="box">
                           <div class="title">{{source.title || source.name}}</div>
-                          <div class="type" [ngClass]="{'doc': (source.type==='document')}">{{contentTypes[source.contentSource] | titlecase}}</div>
+                          <div class="type" [ngClass]="{'doc': (source.type==='file')}">{{contentTypes[source.contentSource] | titlecase}}</div>
                           <div class="status-data">
                             <div class="count-pages" *ngIf="statusObj[source.recentStatus].name == 'Success'"><span class="pagelength">{{source.extractedFaqsCount}}</span> FAQs</div>
                             <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') " [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">

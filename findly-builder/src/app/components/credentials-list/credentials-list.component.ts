@@ -27,7 +27,9 @@ export class CredentialsListComponent implements OnInit {
   listData: any;
   configuredBot_streamId = '';
   searchcredential=''
-  showSearch;
+  showSearch = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   botID = '';
   data;
   isAlertsEnabled: boolean;
@@ -97,7 +99,7 @@ newCredential() {
 }
 closeModalPopup() {
   this.credntial.name=[];
-  this.credntial.awt = 'Select Signing Algorithm';
+  this.credntial.awt = 'HS256';
   this.addCredentialRef.close();
 }
 editnewCredential(event,data){

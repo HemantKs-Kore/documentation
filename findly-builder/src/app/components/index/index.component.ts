@@ -59,7 +59,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedMapping: any = {};
   actionItmes: any = [{ type: 'set' }, { type: 'rename' }, { type: 'copy' }, { type: 'Delete' }];
   newMappingObj: any = {}
-  sourceType =  'faq';
+  sourceType =  'all';
   defaultStageTypesObj: any = {
     field_mapping: {
       name: 'Field Mapping',
@@ -214,8 +214,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   getTraitGroups(initial?) {
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: (this.selectedApp || {})._id
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId
     }
     this.service.invoke('get.traits', quaryparms).subscribe(res => {
       const allTraitskeys: any = [];
@@ -841,7 +841,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.service.invoke(api, quaryparms, payload).subscribe(res => {
       //this.notificationService.notify('Fields added successfully','success');
-      this.notificationService.notify('New Fields have been added. Please train to re-index the configuration', 'info');
+      this.notificationService.notify('New Fields have been added. Please train to re-index the configuration', 'success');
       this.closeModalPopup();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to create field');

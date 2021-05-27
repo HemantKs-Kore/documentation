@@ -170,24 +170,6 @@
     }
 }
 
-.table_header{
-    &.no-scroll{
-        padding: 16px 15px;   
-        align-items: center;
-        box-shadow: inset 0px -1px 0px #E4E5E7;  
-        margin: 0 30px;               
-        .title{
-            padding: 0 5px;
-            font-style: normal;
-            font-weight: 500;
-            font-size: 12px;
-            line-height: 14px;
-            text-transform: capitalize;
-            color: #9AA0A6;
-            word-break: break-word;
-        }
-    }                        
-}
 .table_data_content {
     padding: 0;
     .table_header {

@@ -1,17 +1,140 @@
-<div class="usage-log-container">
+<div class="invoice-container">
+    <div class="mainLoadingSpinner" *ngIf="loading" >
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
+    </div>
     <div class="header-sec">
         <div class="title">Usage Log</div>
-        <div class="d-flex align-items-center">
-            <div class="kr-sg-input-search">
-                <input type="text" placeholder="Search" class="input-search"  autocomplete="off">
-                <img src="assets/icons/search_gray.svg" class="search-icon">               
+        <!-- <div class="d-flex align-items-center">
+            <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
+                <input type="text" placeholder="Search" class="input-search"  [ngClass]="{'pl-33':!searchUsageLog, 'pl-2':searchUsageLog}" autocomplete="off" [(ngModel)]="searchUsageLog" (keyup)="searchUsageLogs()" (focusout)="showSearch= !showSearch" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+                <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchUsageLog">
+                <img class="close-icon" *ngIf="searchUsageLog" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchUsageLog}" (click)="searchUsageLog='';searchUsageLogs();toggleSearch();">
             </div>           
             <div class="seach-block">
-                <img src="assets/icons/search.svg">{{'search' | translate}}             
+                <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch()"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
             </div> 
-            <div class="download-icon">
+            <div class="download-icon" tooltipClass="tooltip_custom margin-10" placement="bottom-right" container='body' ngbTooltip="Download Log" (click)="exportUsageLog()">
                 <img src="assets/icons/usage-log/download.svg">
-            </div>           
-        </div>
+            </div>
+        </div> -->
     </div>
+
+    <ng-container *ngIf="!usageLogs.length && !loading">
+        <div class="empty-usage-log">
+            <div class="img-block">
+                <img src="assets/icons/usage-log/empty-log.svg">
+            </div>
+            <div class="empty-text">Usage log will appear once the app is active!!</div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="usageLogs.length && !loading">
+        <div class="plan-type">
+            <div class="current-plan">Current Plan</div>
+            <div class="type">Free</div>
+        </div>
+        <perfect-scrollbar class="scroll-invoice-content">
+            <div class="table_data_content">
+                <div class="table_header row m-0">
+                    <div class="col_ col-4 title d-flex align-items-center">
+                        Search Query
+                    </div>
+                    <div class="col_ col-3 title d-flex align-items-center"  (click)="sortBy('queryType')">
+                        <span class="d-flex align-items-center flex-column mr-1">
+                            <img  [ngClass]="getSortIconVisibility('queryType', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                            <img  [ngClass]="getSortIconVisibility('queryType', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                          </span>
+                        Type 
+                        <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #queryTypeFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">                 
+                                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                                </button>
+                                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                                    <li  (click)="queryTypeFilter.close();filterTable('all','queryType')">
+                                        <span class="list-name" >All</span>
+                                        <img [ngClass]="{'hide': filterSystem.queryTypeFilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
+                                        <li *ngFor="let queryType of queryTypeArr" (click)="queryTypeFilter.close();filterTable(queryType,'queryType')">
+                                            <span
+                                              class="list-name">{{queryType}}</span><img
+                                              [ngClass]="{'hide': filterSystem.queryTypeFilter !== queryType}" src="assets/icons/check-blue.svg"></li>                        
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col_ col-2 title d-flex align-items-center" (click)="sortBy('requestSource')">
+                        <span class="d-flex align-items-center flex-column mr-1">
+                            <img  [ngClass]="getSortIconVisibility('requestSource', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                            <img  [ngClass]="getSortIconVisibility('requestSource', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                          </span>
+                          Channel 
+                          <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">                 
+                                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                                </button>
+                                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                                    <li  (click)="sourceFilter.close();filterTable('all','requestSource')">
+                                        <span class="list-name">All</span>
+                                        <img [ngClass]="{'hide': filterSystem.requestSourceFilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
+                                        <li *ngFor="let requestSource of requestSourceArr" (click)="sourceFilter.close();filterTable(requestSource,'requestSource')">
+                                            <span
+                                              class="list-name">{{requestSource}}</span><img
+                                              [ngClass]="{'hide': filterSystem.requestSourceFilter !== requestSource}" src="assets/icons/check-blue.svg"></li>                      
+                                </ul>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col_ col-3 title d-flex align-items-center" (click)="sortBy('results')">
+                        <span class="d-flex align-items-center flex-column mr-1">
+                            <img  [ngClass]="getSortIconVisibility('results', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                            <img  [ngClass]="getSortIconVisibility('results', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                          </span>
+                          RESULTS 
+                          <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #resultsFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">                 
+                                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                                </button>
+                                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                                    <li (click)="resultsFilter.close();filterTable('all','results')">
+                                        <span class="list-name">All</span>
+                                        <img [ngClass]="{'hide': filterSystem.resultsFilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
+                                        <li *ngFor="let docType of resultsArr" (click)="resultsFilter.close();filterTable(docType,'results')">
+                                            <span
+                                                class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes': '')}}</span><img
+                                                [ngClass]="{'hide': filterSystem.resultsFilter !== docType}" src="assets/icons/check-blue.svg"></li>                       
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col_ col-2 title d-flex align-items-center" (click)="sortBy('createdOn')">
+                        <span class="d-flex align-items-center flex-column mr-1">
+                            <img  [ngClass]="getSortIconVisibility('createdOn', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                            <img  [ngClass]="getSortIconVisibility('createdOn', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                          </span>
+                          Date & Time 
+                    </div>                
+                </div>
+    
+                <ng-container  *ngFor="let usageLog of usageLogs">
+                    <div class="table_body row">
+                        <div class="col-4 title search-query-data">
+                            <div class="img-block">
+                                <img src="assets/icons/usage-logs/info-img.svg">
+                            </div>
+                            <div class="content-sec">{{usageLog.query}}</div>
+                        </div>
+                        <div class="col-3 title pl-4">{{usageLog.queryType}}</div>
+                        <!-- <div class="col-2 title pl-3">{{usageLog.requestSource}}</div> -->
+                        <div class="col-3 title pl-4">{{usageLog.results?'Yes':'No'}}</div>
+                        <div class="col-2 title pl-4">{{usageLog.createdOn  | dateFormatPipe: 'DD MMM YYYY h:mm a'}}</div>                             
+                    </div>    
+                </ng-container>
+                
+                <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
+            </div>
+        </perfect-scrollbar>
+    </ng-container>    
 </div>

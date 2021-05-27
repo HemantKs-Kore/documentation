@@ -22,6 +22,7 @@ import { RangySelectionService } from '../annotool/services/rangy-selection.serv
 import { DockStatusService } from '../../services/dock.status.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'app-add-source',
@@ -97,7 +98,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           icon: 'assets/icons/content/webdomain.svg',
           id: 'contentWeb',
           sourceType: 'content',
-          resourceType: 'webdomain'
+          resourceType: 'web'
         },
         {
           name: 'Upload File',
@@ -105,7 +106,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           icon: 'assets/icons/content/fileupload.svg',
           id: 'contentDoc',
           sourceType: 'content',
-          resourceType: 'document'
+          resourceType: 'file'
         },
         // {
         //   name: 'Others',
@@ -216,6 +217,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
   @ViewChild('crawlModalPop') crawlModalPop: KRModalComponent;
+  @ViewChild('plans') plans: UpgradePlanComponent;
   ngOnInit() {
     const _self = this
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
@@ -229,16 +231,19 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.workflowService.selectedApp()?.configuredBots[0]) {
       this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
     }
-    else if (this.workflowService.selectedApp()?.publishedBots[0]) {
+    else if (this.workflowService.selectedApp()?.publishedBots && this.workflowService.selectedApp()?.publishedBots[0]) {
       this.streamID = this.workflowService.selectedApp()?.publishedBots[0]?._id ?? null
     }
     else {
       this.streamID = null;
     }
-    this.getAssociatedBots();
+    if (this.resourceIDToOpen == undefined) {
+      this.getAssociatedBots();
+    }
+    // this.getAssociatedBots();
 
     if (this.route && this.route.snapshot && this.route.snapshot.queryParams) {
-      this.receivedQuaryparms = this.route.snapshot.queryParams
+      this.receivedQuaryparms = this.route.snapshot.queryParams;
       if (this.receivedQuaryparms && this.receivedQuaryparms.sourceType || this.resourceIDToOpen) {
         const resourceType = this.resourceIDToOpen || this.receivedQuaryparms.sourceType;
         this.availableSources.forEach(catagory => {
@@ -381,7 +386,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
-    
+
     this.redirectTo();
     this.cancleSourceAddition();
     this.closeCrawlModalPop();
@@ -392,7 +397,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
-    if(this.crawlModalPopRef && this.crawlModalPopRef.close){
+    if (this.crawlModalPopRef && this.crawlModalPopRef.close) {
       this.crawlModalPopRef.close();
     }
     this.closeCrawlModalPop();
@@ -635,7 +640,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //form validation
   validateSource() {
-    if (this.selectedSourceType.resourceType == "webdomain" || this.selectedSourceType.resourceType == "faq") {
+    if (this.selectedSourceType.resourceType == "web" || this.selectedSourceType.resourceType == "faq") {
       if (this.newSourceObj.name) {
         if (this.newSourceObj.url) {
           this.proceedSource()
@@ -652,7 +657,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.notificationService.notify('Enter the required fields to proceed', 'error');
       }
     }
-    else if (this.selectedSourceType.resourceType == "document" || this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
+    else if (this.selectedSourceType.resourceType == "file" || this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
       if (this.newSourceObj.name) {
         if (this.selectExtractType == 'file') {
           if (this.fileObj.fileId) {
@@ -705,7 +710,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
-   
+
 
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic";
@@ -713,7 +718,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       schdVal = false;
     }
     if (this.selectedSourceType.annotate && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
-      quaryparms.faqType = 'document';
+      quaryparms.faqType = 'file';
       payload.isNew = true;
       payload.fileId = this.fileObj.fileId;
       payload.extractionType = "annotation"
@@ -722,7 +727,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       return
     }
     if (this.selectedSourceType.annotate && this.selectedSourceType.sourceType === 'faq' && resourceType != 'importfaq' && this.selectedSourceType.id != 'faqDoc') {
-      quaryparms.faqType = 'document';
+      quaryparms.faqType = 'file';
       payload.isNew = true;
       payload.fileId = this.fileObj.fileId;
       if (this.selectedSourceType.annotate) {
@@ -737,13 +742,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         payload.resourceType = resourceType;
       } else {
         if (this.fileObj.fileAdded) {
-          resourceType = 'document';
+          resourceType = 'file';
         } else if (this.newSourceObj.url) {
-          resourceType = 'webdomain';
+          resourceType = 'web';
         }
         quaryparms.faqType = resourceType;
       }
-      if (resourceType === 'webdomain') {
+      if (resourceType === 'web') {
         crawler.name = this.newSourceObj.name;
         crawler.url = this.newSourceObj.url;
         crawler.desc = this.newSourceObj.desc || '';
@@ -781,8 +786,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         quaryparms.resourceType = resourceType;
       }
 
-      if (resourceType === 'document') {
-        payload.fileId = this.fileObj.fileId;
+      if (resourceType === 'file') {
+        if (this.fileObj.fileId) {
+          payload.fileId = this.fileObj.fileId;
+          if (payload.url == '') delete payload.url;
+        }
         if (this.selectedSourceType.sourceType === 'faq') {
           payload.extractionType = "basic";
           if (payload.hasOwnProperty('url')) delete payload.url;
@@ -818,22 +826,30 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.poling(res._id, 'scheduler');
           }
           this.extract_sourceId = res._id;
-       
+
           //this.crwal_jobId = res.jobId
           console.log("this.statusObject", this.statusObject)
         }, errRes => {
+          if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
+            this.addSourceModalPopRef.close();
+            this.errorToaster(errRes, errRes.error.errors[0].msg);
+            this.upgrade();
+          }
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
             this.notificationService.notify(errRes.error.errors[0].msg, 'error');
           } else {
             this.notificationService.notify('Failed to add sources ', 'error');
           }
         });
-      } else if (resourceType == 'webdomain') {
+      } else if (resourceType == 'web') {
         this.notificationService.notify('Please fill Date and Time fields', 'error');
       }
       // this.callWebCraller(this.crwalObject,searchIndex)
     }
-
+  }
+  //upgrade plan
+  upgrade() {
+    this.plans.openChoosePlanPopup('choosePlans');
   }
   callWebCraller(crawler, searchIndex) {
     let payload = {}
@@ -1023,7 +1039,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.openStatusModal();
         this.poling(this.anntationObj._id);
       }
-   
+
 
     });
   }
@@ -1034,7 +1050,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.closeStatusModal()
   }
   /* Annotation Modal end */
-
   getAssociatedBots() {
     if (this.userInfo.id) {
       const queryParams: any = {
@@ -1150,7 +1165,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.workflowService.selectedApp()?.configuredBots[0] && this.workflowService.selectedApp()?.configuredBots[0]?._id) {
           this.workflowService.selectedApp().configuredBots[0]._id = null;
         }
-        else if (this.workflowService.selectedApp()?.publishedBots[0] && this.workflowService.selectedApp()?.publishedBots[0]?._id) {
+        else if (this.workflowService.selectedApp()?.publishedBots && this.workflowService.selectedApp()?.publishedBots[0] && this.workflowService.selectedApp()?.publishedBots[0]?._id) {
           this.workflowService.selectedApp().publishedBots[0]._id = null;
         }
 
@@ -1323,10 +1338,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     )
   }
-  checkValue(value){
+  checkValue(value) {
     console.log()
-    if(value <= -1){
-     this.crawlDepth = 0 ;
+    if (value <= -1) {
+      this.crawlDepth = 0;
     }
   }
 }

@@ -26,7 +26,9 @@ export class AppsListingComponent implements OnInit {
   creatingInProgress = false;
   searchApp = '';
   apps: any = [];
-  showSearch: any = '';
+  showSearch = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   newApp: any = {
     name: '',
     description: ''
@@ -57,7 +59,7 @@ export class AppsListingComponent implements OnInit {
     $('.krFindlyAppComponent').removeClass('appSelected');
     //const apps = this.workflowService.findlyApps();
     //this.prepareApps(apps);
-    this.getAllApps();
+      this.getAllApps();
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
@@ -132,6 +134,10 @@ export class AppsListingComponent implements OnInit {
       console.log(errRes);
     });
   }
+  imageLoad() {
+    console.log("image loaded now")
+    this.emptyApp = true;
+  }
   //create app
   createFindlyApp() {
     const self = this;
@@ -167,6 +173,9 @@ export class AppsListingComponent implements OnInit {
         this.headerService.toggle(toogleObj);
         self.creatingInProgress = false;
         $('.toShowAppHeader').removeClass('d-none');
+        if(res.length > 0){
+          this.emptyApp = true;
+        }
         // this.callStream();
       },
       errRes => {

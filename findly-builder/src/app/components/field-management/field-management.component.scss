@@ -40,8 +40,6 @@
             }  
             .kr-sg-input-search{
                 display: inline-block;
-                width: 0px;
-                display: none;  
                 width: 300px;
                 height: 20px;
                 position: relative;
@@ -50,6 +48,30 @@
                 &.active{
                     display: block;
                     width: 300px;
+                }
+                .close-icon{
+                    position: absolute;
+                    right: 11px;
+                    top: 12px;
+                    cursor: pointer;
+                }
+                .input-search{
+                    border: 1px solid #E4E5E7;                            
+                    border-radius: 4px;
+                    padding-left: 36px;
+                    padding-right: 15px;
+                    font-size: 14px;
+                    &:focus{
+                        border: 1px solid #1372ff;
+                    }
+                    &::placeholder{
+                        color: #BDC1C6;
+                    }
+                }
+                .search-icon{
+                    left: 12px;
+                    top: 10px;
+                    position: absolute;
                 }
             } 
             .seach-block{
@@ -226,4 +248,43 @@ perfect-scrollbar .ps--active-y{
             border-color: rgb(221, 54, 70);
         }
     }
+}
+
+::ng-deep .modal_popups_.fieldsAddModalPopup .modal-header {
+    height: 54px !important;
+    padding: 18px 30px !important;
+}
+::ng-deep .modal_popups_.fieldsAddModalPopup .modal-header .close_icon {
+    width: 21px !important;
+    height: 21px !important;
+    line-height: 18px !important;
+}
+::ng-deep .modal_popups_.fieldsAddModalPopup .modal-body {
+    padding: 20px 28px !important;
+}
+::ng-deep .fieldsAddModalPopup .modal-dialog .modal-content .modal-body .top_sec{
+    padding-bottom: 20px !important;
+    margin-bottom: 20px !important;
+}
+
+::ng-deep .fieldsAddModalPopup.modal_popups_ .modal-footer {
+    padding: 11px 30px !important;
+    height: 56px !important;
+}
+
+::ng-deep .kr-modal{
+    &.kr-center{
+        &.smallModal{
+            &.fieldsAddModalPopup{
+                .modal-dialog{
+                    max-width: 625px !important;
+                    height: 85% !important;
+                    .modal-content{
+                        border-radius: 8px !important;
+                    }
+                }
+            }
+        }
+    }
+
 }

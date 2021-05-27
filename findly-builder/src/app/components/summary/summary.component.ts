@@ -125,7 +125,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
     // this.getChannel();
-    this.getLinkedBot();
+    //this.getLinkedBot();
     this.getAllOverview();
     this.componentType = 'summary';
   }
@@ -228,7 +228,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
-          this.notificationService.notify('Failed to get LInked BOT', 'error');
+          // this.notificationService.notify('Failed to get LInked BOT', 'error');
         }
       }
     );

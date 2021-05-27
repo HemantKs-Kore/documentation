@@ -21,7 +21,7 @@ export class ActionsComponent implements OnInit {
   searchIndexId:any;
   selectedApp: any;
   LinkABot:any;
-  botLinked=false;
+  botLinked= false;
   checkTopBottom=false;
   checkBottomTop=false;
   showTop = false;
@@ -56,7 +56,7 @@ export class ActionsComponent implements OnInit {
     if (this.workflowService.selectedApp()?.configuredBots[0]) {
       this.streamId = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
     }
-    else if (this.workflowService.selectedApp()?.publishedBots[0]) {
+    else if (this.workflowService.selectedApp()?.publishedBots && this.workflowService.selectedApp()?.publishedBots[0]) {
       this.streamId = this.workflowService.selectedApp()?.publishedBots[0]?._id ?? null
     }
     else {
@@ -109,30 +109,47 @@ export class ActionsComponent implements OnInit {
       this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
           let bots = JSON.parse(JSON.stringify(res))
           this.associatedBots =[];
-        bots.forEach(element => {
-          if (element.type == "default" || element.type == "universalbot") {
-            this.associatedBots.push(element)
-          }
-          if (this.streamId == element._id) {
-            if (this.loadingBotContent1 = true) {
-              this.LinkABot = element._id
-              this.loadingBotContent = true
-              this.botLinked = true;
+          this.loader = false;
+          // this.botLinked = false;
+          if(bots.length){
+            bots.forEach(element => {
+              if (element.type == "default" || element.type == "universalbot") {
+                this.associatedBots.push(element)
+              }
+              if (this.streamId == element._id) {
+                if (this.loadingBotContent1 = true) {
+                  this.LinkABot = element._id
+                  this.loadingBotContent = true
+                  this.botLinked = true;
+                 
+                  // this.linkedBotID = element._id
+                  // if(this.linkedBotID == element._id){
+                  // }
+                }
+              }
+              else if (this.streamId == null) {
+                if (this.loadingBotContent = true) {
+                  this.LinkABot != element._id
+                  this.botLinked = false;
+                  this.loader = false;
+                }
+    
+              }
+            },
+            errRes => {
               this.loader = false;
-              // this.linkedBotID = element._id
-              // if(this.linkedBotID == element._id){
-              // }
-            }
+              this.notificationService.notify('Unable to find bot', 'error')
+            } );
           }
-          else if (this.streamId == null) {
+          else {
             if (this.loadingBotContent = true) {
-              this.LinkABot != element._id
+              this.LinkABot = null;
               this.botLinked = false;
               this.loader = false;
             }
-
           }
-        });
+       
+       
       },
       )
       }

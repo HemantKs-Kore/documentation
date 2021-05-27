@@ -86,7 +86,7 @@
         }
     } 
     .body-top-content{
-        padding: 10px 0 10px;
+        // padding: 10px 0 10px;
         .question-content{
             .title-que{
                 color: #202124;
@@ -1181,4 +1181,23 @@
             }
         }
     }
+}
+::ng-deep .alter-add-btn{
+    .kr-sg-button-ghost{
+        color:#202124;
+        border:none !important;
+        font-weight: 500;
+        margin-bottom: 1px !important;
+    }
+    .kr-sg-button-ghost:hover{
+        color:#0D6EFD;
+    }
+}
+.alternate-add-plus-icon{
+    width: 12px;
+}
+.question-content .bot-response-view-mode .desc-info {
+    padding: 0 0 15px!important;
+    margin-bottom: 15px!important;
+    border-bottom: 1px solid #bdc1c6!important;
 }

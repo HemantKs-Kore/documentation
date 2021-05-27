@@ -19,6 +19,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   searchStopwords: any = '';
   newStopWord: any = '';
   showSearch = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   checkStopwords =false;
   enabled = true;
   validation: any = {

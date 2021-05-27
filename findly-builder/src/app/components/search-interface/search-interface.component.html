@@ -151,40 +151,40 @@
                     <div class="label-text">Facets</div>
                     <div class="helper-text">Helper Text here</div>
                     <label class="kr-sg-toggle">                                       
-                      <input type="checkbox" (change)= "facetEnableChange($event)" [checked] = "selectedSettingResultsObj.facets.isEnabled">
+                      <input type="checkbox" (change)= "facetEnableChange($event)" [checked] = "selectedSettingResultsObj && selectedSettingResultsObj.facets && selectedSettingResultsObj.facets.isEnabled">
                       <div class="slider"><span class="enabled">Enabled</span><span class="disabled">Disabled</span></div>
                     </label> 
-                    <div class="group-radiobutton mt-4" *ngIf="selectedSettingResultsObj.facets && selectedSettingResultsObj.facets.isEnabled">                  
+                    <div class="group-radiobutton mt-4" *ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.isEnabled">                  
                       <div class="kr-sg-radiobutton">
-                          <input id="radio-24" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'left')" [checked] ="selectedSettingResultsObj.facets.aligned == 'left'">
+                          <input id="radio-24" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'left')" [checked] ="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'left'">
                           <label for="radio-24" class="radio-custom-label">Left Aligned</label>
                       </div>
                       <div class="kr-sg-radiobutton">
-                          <input id="radio-25" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'right')" [checked] ="selectedSettingResultsObj.facets.aligned == 'right'">
+                          <input id="radio-25" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'right')" [checked] ="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'right'">
                           <label for="radio-25" class="radio-custom-label">Right Aligned</label>
                       </div>
                       <div class="kr-sg-radiobutton">
-                          <input id="radio-26" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'top')" [checked] ="selectedSettingResultsObj.facets.aligned == 'top'">
+                          <input id="radio-26" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'top')" [checked] ="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'top'">
                           <label for="radio-26" class="radio-custom-label">Top Aligned</label>
                       </div>
                     </div>
 
-                    <div class="left-aligned mt-3"  *ngIf="selectedSettingResultsObj.facets.isEnabled">
-                      <img src="assets/icons/search-interface/left-aligned.svg" *ngIf="selectedSettingResultsObj.facets.aligned == 'left'">
+                    <div class="left-aligned mt-3"  *ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets && selectedSettingResultsObj.facets.isEnabled">
+                      <img src="assets/icons/search-interface/left-aligned.svg" *ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'left'">
                     </div>
                     <div class="right-aligned mt-3">
-                      <img src="assets/icons/search-interface/right-aligned.svg" *ngIf="selectedSettingResultsObj.facets.aligned == 'right'">
+                      <img src="assets/icons/search-interface/right-aligned.svg" *ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'right'">
                     </div>
                     <div class="left-aligned mt-3">
-                      <img src="assets/icons/search-interface/top-aligned.svg" *ngIf="selectedSettingResultsObj.facets.aligned == 'top'" >
+                      <img src="assets/icons/search-interface/top-aligned.svg" *ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'top'" >
                     </div>
                 </div>
             </ng-container>   
           <!-- Full results Facet-->
       </div>
       <div class="footer-btns">
-        <button class="kr-sg-button-secondary btn_lg ml-3">Back</button>
-        <button class="kr-sg-button-primary btn_lg ml-3" (click) = "saveResultSettings()">Save</button>        
+        <!-- <button class="kr-sg-button-secondary btn_lg ml-3">Back</button> -->
+        <!-- <button class="kr-sg-button-primary btn_lg ml-3" (click) = "saveResultSettings()">Save</button>         -->
       </div>
   </perfect-scrollbar>
   </div>
@@ -193,7 +193,7 @@
 
 <kr-modal modalType="center" #customModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
   <div class="modal-header">
-    <div class="title">Customize Template</div>
+    <div class="title breadcrum">Customize Template <img src="assets/icons/search-interface/carrot_right.svg"> <span> {{selectedSourceType}} | {{selectedSettingText}}</span> </div>
     <div class="close_icon" (click)="closeCustomModal()"><img src="assets/icons/modal-close.svg"></div>
   </div>
   <perfect-scrollbar class="customize-scroll-left">
