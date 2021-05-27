@@ -89,7 +89,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   };
   contentTypes = {
     webdomain: 'WEB',
-    document: 'DOC',
+    document: 'File',
     manual: 'Manual'
   }
   filterSystem: any = {
@@ -603,6 +603,17 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.service.invoke('get.source.list', quaryparms).subscribe(res => { //get.job.status
       this.resources = [...res];
       this.extractedResources = [...res];
+      if (this.extractedResources.length) {
+        this.extractedResources.forEach(element => {
+          this.statusArr.push(element.recentStatus);
+          this.docTypeArr.push(element.contentSource);
+        });
+        this.statusArr = [...new Set(this.statusArr)]
+        this.docTypeArr = [...new Set(this.docTypeArr)]
+
+      }
+      this.filterResourcesBack = [...this.extractedResources];
+      this.filterTable(this.filterTableSource, this.filterTableheaderOption)
       if (res && res.length) {
         res.forEach((d: any) => {
           if (d.extractedFaqsCount === 0) {
@@ -762,15 +773,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
       });
-      if (this.resources.length) {
-        this.resources.forEach(element => {
-          this.statusArr.push(element.recentStatus);
-          this.docTypeArr.push(element.contentSource);
-        });
-        this.statusArr = [...new Set(this.statusArr)]
-        this.docTypeArr = [...new Set(this.docTypeArr)]
+      // if (this.resources.length) {
+      //   this.resources.forEach(element => {
+      //     this.statusArr.push(element.recentStatus);
+      //     this.docTypeArr.push(element.contentSource);
+      //   });
+      //   this.statusArr = [...new Set(this.statusArr)]
+      //   this.docTypeArr = [...new Set(this.docTypeArr)]
 
-      }
+      // }
       this.resources = res.reverse();
       if (this.resources && this.resources.length && !initializePoling) {
         this.poling()
@@ -778,8 +789,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       else if (!initializePoling){
            this.poling()
       }
-      this.filterResourcesBack = [...this.resources];
-      this.filterTable(this.filterTableSource, this.filterTableheaderOption)
+    
       if (res.length > 0) {
         this.loadingFaqs = false;
         this.loadingFaqs1 = true;
@@ -852,7 +862,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.filterSystem.statusFilter = source;
     }
     if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all") {
-      this.resources = [...this.filterResourcesBack];
+      this.extractedResources = [...this.filterResourcesBack];
       this.firstFilter = { 'header': '', 'source': '' };
     }
     else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter == "all") {
@@ -863,7 +873,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       const resourceData = firstFilterDataBack.filter((data) => {
         return data[this.filterSystem.typeHeader].toLocaleLowerCase() === this.filterSystem.typefilter.toLocaleLowerCase();
       })
-      if (resourceData.length) this.resources = [...resourceData];
+      if (resourceData.length) this.extractedResources = [...resourceData];
     }
     else if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter != "all") {
       if (!this.firstFilter['header']) {
@@ -873,7 +883,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       const resourceData = firstFilterDataBack.filter((data) => {
         return data[this.filterSystem.statusHeader].toLocaleLowerCase() === this.filterSystem.statusFilter.toLocaleLowerCase();
       })
-      if (resourceData.length) this.resources = [...resourceData];
+      if (resourceData.length) this.extractedResources = [...resourceData];
 
     }
     else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter != "all") {
@@ -885,7 +895,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.firstFilter = { 'header': this.filterSystem.typeHeader, 'source': this.filterSystem.typefilter };
       }
-      const firstResourceData = this.resources.filter((data) => {
+      const firstResourceData = this.extractedResources.filter((data) => {
         console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
         return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
       })
