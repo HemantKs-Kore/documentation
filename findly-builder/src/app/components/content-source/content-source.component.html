@@ -1036,7 +1036,10 @@
           </div>
           <div class="view-details-data">
             <div class="title">Body</div>
+            <perfect-scrollbar class="scroll-table-sourceContent-pageBody" #perfectScroll
+            [scrollIndicators]="true">
             <div class="desc-info" [innerHtml]="selectedPage._source.pageBody"></div>
+            </perfect-scrollbar>
           </div>
           <div class="view-details-data">
             <div class="title">URL</div>

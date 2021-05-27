@@ -1085,7 +1085,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
       this.getStats();
-      this.selectTab('draft');
       this.editfaq = false;
       this.closeEditFAQModal();
       this.closeAddsourceModal();
