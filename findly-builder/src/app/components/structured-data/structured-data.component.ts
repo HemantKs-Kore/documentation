@@ -104,7 +104,7 @@ export class StructuredDataComponent implements OnInit {
   enableSearchBlock : boolean = false;
   indexPipelineId : any;
   subscription : Subscription;
-
+  activeClose = false;
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
   @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
@@ -837,7 +837,19 @@ export class StructuredDataComponent implements OnInit {
     this.headerService.updateShowHideSettingsMenu(false);
     this.headerService.updateShowHideSourceMenu(false);
   }
-
+  focusoutSearch(){
+    if(this.activeClose){
+      this.searchText='';
+      this.activeClose = false;
+      this.searchItems();
+     }
+ this.searchActive= !this.searchActive;
+}
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+    },100)
+  }
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();

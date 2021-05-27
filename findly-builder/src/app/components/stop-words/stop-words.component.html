@@ -82,12 +82,12 @@
         </div>         
         <div class="col-7 p-0 d-flex align-items-center justify-content-end"> 
           <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">                               
-            <input type="text" placeholder="Search" class="input-search"  [ngClass]="{'pl-33':!searchStopwords,'pl-2':searchStopwords}" autocomplete="off" [(ngModel)]="searchStopwords" (focusout)="showSearch= !showSearch;" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+            <input type="text" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchStopwords,'pl-2':searchStopwords}" autocomplete="off" [(ngModel)]="searchStopwords" (focusout)="focusoutSearch();" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
         <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchStopwords">
-        <img class="close-icon" *ngIf="searchStopwords" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchStopwords}" (click)="searchStopwords='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+        <img class="close-icon" *ngIf="searchStopwords" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchStopwords}" (mouseover)="activeClose=true" (mouseout)="activeClose=false"  (click)="searchStopwords='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
         </div> 
-          <div class="searchBlock" (click)="showSearch=!showSearch;" *ngIf="(stopwords && stopwords.length)">
+          <div class="searchBlock" (click)="showSearch=!showSearch;focusinSearch('inputSearch')" *ngIf="(stopwords && stopwords.length)">
             <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
         </div>
           <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
