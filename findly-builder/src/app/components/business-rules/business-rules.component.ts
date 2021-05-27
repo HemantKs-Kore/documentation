@@ -43,6 +43,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     selectAll: false,
     selectedItems: [],
   };
+  activeClose= false;
   sortObj: any = {}
   showSearch = false;
   searchRules = '';
@@ -830,5 +831,17 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     } else {
       return false;
     }
+  }
+  focusoutSearch(){
+    if(this.activeClose){
+      this.searchRules='';
+      this.activeClose = false;
+     }
+ this.showSearch= !this.showSearch;
+}
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+    },100)
   }
 }

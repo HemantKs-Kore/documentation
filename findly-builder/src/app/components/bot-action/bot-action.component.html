@@ -93,11 +93,12 @@
             </div>
             <div class="col-6 search-block">
               <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
-                <input type="text" autofocus="true" placeholder="Search" class="input-search" autocomplete="off"  [ngClass]="{'pl-2':searchTasks}" [(ngModel)]="searchTasks" (focusout)="showSearch= !showSearch">
+                <input type="text" autofocus="true" placeholder="Search" class="input-search" autocomplete="off"  [ngClass]="{'pl-2':searchTasks}" [(ngModel)]="searchTasks" (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" id="inputSearch" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                 <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchTasks">
-                <img class="close-icon" *ngIf="searchTasks" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchTasks}" (click)="searchTasks='';toggleSearch(false)">
+                <img class="close-icon" *ngIf="searchTasks" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchTasks}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="searchTasks='';toggleSearch(false)">
              </div>
-             <div class="seach-block-name" *ngIf="(linkedBotTasks && linkedBotTasks?.length)" (click)="toggleSearch(true)" [ngClass]="{'d-none': showSearch}" >
+             <div class="seach-block-name" *ngIf="(linkedBotTasks && linkedBotTasks?.length)" (click)="showSearch=!showSearch;focusinSearch('inputSearch')" [ngClass]="{'d-none': showSearch}" >
                 <img src="assets/icons/search.svg"  >{{'search' | translate}}
               </div>
             </div>

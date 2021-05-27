@@ -21,6 +21,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   showSearch = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
+  activeClose = false;
   checkStopwords =false;
   enabled = true;
   validation: any = {
@@ -401,5 +402,17 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
+  }
+  focusoutSearch(){
+    if(this.activeClose){
+      this.searchStopwords='';
+      this.activeClose = false;
+     }
+ this.showSearch= !this.showSearch;
+}
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+    },100)
   }
 }

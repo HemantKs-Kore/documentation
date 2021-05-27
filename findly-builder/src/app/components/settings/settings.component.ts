@@ -26,6 +26,7 @@ export class SettingsComponent implements OnInit {
   showSearch = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
+  activeClose = false;
   searchchannel: any = '';
   isAlertsEnabled: boolean;
   showError: boolean = false;
@@ -506,7 +507,17 @@ export class SettingsComponent implements OnInit {
       show.type = "password";
     }
   }
-
-
+  focusoutSearch(){
+    if(this.activeClose){
+      this.searchchannel='';
+      this.activeClose = false;
+     }
+ this.showSearch= !this.showSearch;
+}
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+    },100)
+  }
 }
 

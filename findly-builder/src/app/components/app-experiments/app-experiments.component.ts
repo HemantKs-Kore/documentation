@@ -32,6 +32,7 @@ export class AppExperimentsComponent implements OnInit {
     variants: this.variantsArray,
     duration: { days: 30 }
   }
+  activeClose=false;
   conn: any = [true, true];
   tool: any = [true];
   star: any = [100];
@@ -822,7 +823,18 @@ export class AppExperimentsComponent implements OnInit {
   upgrade() {
     this.plans.openChoosePlanPopup('choosePlans');
   }
-
+  focusoutSearch(){
+    if(this.activeClose){
+      this.searchFields='';
+      this.activeClose = false;
+     }
+ this.showSearch= !this.showSearch;
+}
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+    },100)
+  }
   checkDuration(value) {
     // if(parseInt(event.target.value) > 90){
     //   event.target.value = ''

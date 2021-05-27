@@ -39,7 +39,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   allowUrl: AllowUrl = new AllowUrl()
   blockUrl: BlockUrl = new BlockUrl();
   allowUrlArr: AllowUrl[] = [];
-  blockUrlArr: BlockUrl[] = []
+  blockUrlArr: BlockUrl[] = [];
+  activeClose= false;
   filterSystem: any = {
     'typeHeader': 'type',
     'statusHeader': 'status',
@@ -1545,7 +1546,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.showSearch = !this.showSearch
   }
-
+  focusoutSearch(){
+    if(this.activeClose){
+      this.searchSources='';
+      this.activeClose = false;
+     }
+ this.showSearch= !this.showSearch;
+}
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+    },100)
+  }
 }
 
 // class CrwalObj{  

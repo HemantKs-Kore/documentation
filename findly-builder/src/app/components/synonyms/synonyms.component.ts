@@ -48,6 +48,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     addNew: false,
     values: []
   }
+  activeClose = false;
   selectedFilter: any;
   createFromScratch: any;
   synonymObj;
@@ -427,6 +428,18 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     }
     this.showSearch = !this.showSearch
   };
+  focusoutSearch(){
+    if(this.activeClose){
+      this.synonymSearch='';
+      this.activeClose = false;
+     }
+ this.showSearch= !this.showSearch;
+}
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+    },100)
+  }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
   }

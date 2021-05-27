@@ -12,12 +12,12 @@
 
         <div class="col-8 right-sec p-0">
           <div class="kr-sg-input-text m-0"  [ngClass]="{'d-none': !showSearch}">
-              <input type="text" placeholder="Search" class="input-search" [ngClass]="{'pl-33':!synonymSearch,'pl-2':synonymSearch}" autocomplete="off" [(ngModel)]="synonymSearch" (focusout)="showSearch= !showSearch;" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+              <input type="text" placeholder="Search" id="inputSearch" class="input-search" [ngClass]="{'pl-33':!synonymSearch,'pl-2':synonymSearch}" autocomplete="off" [(ngModel)]="synonymSearch" (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
               (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
           <img [src]="searchImgSrc" class="search-icon" *ngIf="!synonymSearch">
-          <img class="close-icon" *ngIf="synonymSearch" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':synonymSearch}" (click)="synonymSearch='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+          <img class="close-icon" *ngIf="synonymSearch" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':synonymSearch}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="synonymSearch='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
           </div>
-          <div class="seach-block" *ngIf="!emptyItems && (synonymData && synonymData.length) && !loadingContent"  (click)="showSearch=!showSearch;">
+          <div class="seach-block" *ngIf="!emptyItems && (synonymData && synonymData.length) && !loadingContent"  (click)="showSearch=!showSearch;focusinSearch('inputSearch')">
               <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
           </div>
           <div class="add_feild" *ngIf="!emptyItems && (synonymData && synonymData.length) && !loadingContent" (click)='enableAddNewSynonymBtn()'><img src="assets/icons/add_plus.svg">Add Synonym
