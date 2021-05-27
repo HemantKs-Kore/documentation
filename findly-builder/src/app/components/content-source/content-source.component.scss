@@ -1097,6 +1097,9 @@
     .scroll-table-sourceContent{
         height: calc(100vh - 180px);
     }
+    .scroll-table-sourceContent-pageBody{
+        height: calc(100vh - 80px);
+    }
     .schedule-comp{
         position: relative;
         margin-top: 20px;

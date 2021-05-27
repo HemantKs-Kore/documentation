@@ -593,6 +593,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.getfaqsBy(null, null, null, this.searchFaq);
     } else {
       this.getfaqsBy();
+      this.searchFaq=''
     }
   }
   getJobStatusForMessages() {
