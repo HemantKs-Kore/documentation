@@ -4903,6 +4903,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         payload.clickRank = payload.clickRank + 1;
 
         if (experimentObjectProps.length > 0) {
+          payload.indexPipelineId = _self.vars.experimentsObject ? _self.vars.experimentsObject.indexPipelineId : "";
           payload.queryPipelineId = _self.vars.experimentsObject ? _self.vars.experimentsObject.queryPipelineId : "";
           payload.relay = _self.vars.experimentsObject ? _self.vars.experimentsObject.relay : "";
           if (_self.vars.experimentsObject.experimentId) {
@@ -5906,7 +5907,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.vars.experimentsObject['experimentId'] = res.experimentId;
             }
           }
-
+          _self.vars.experimentsObject['indexPipelineId'] = res.indexPipelineId;
           _self.vars.experimentsObject['queryPipelineId'] = res.queryPipelineId;
           _self.vars.experimentsObject['relay'] = res.relay;
 
@@ -20957,7 +20958,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.custom-add-result-container').after(actionParentContainer);
       }
     }
-
     FindlySDK.prototype.frequentlySearchedRecentTextClickEvent = function (){
       var _self = this;
       $('#frequently-searched-box').off('click', '.recentText').on('click', '.recentText', function (e) {
