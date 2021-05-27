@@ -197,7 +197,7 @@
         <div class="carousel-inner">
           <div class="carousel-item active">
             <div class="sliders-sec slider-one">
-              <div class="u-name">{{'Hi'| translate}}{{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}},</div>
+              <div class="u-name">Hi {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}},</div>
               <div class="wel-text">Welcome to SearchAssist</div>
               <div class="img-block">
                 <img src="assets/icons/landing/welcome-slider.svg">
@@ -281,6 +281,5 @@
         <div class="indicator-sliders" [ngClass]="{'active-state':currentPage==3}"></div>
       </div>
   </div>
-  {{currentPage}}
 </kr-modal> 
 

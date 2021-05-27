@@ -16,7 +16,7 @@
         <div class="upgrade-details-prices row col-12 p-0" *ngIf="selectedPlan">          
           <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData' [ngClass]='{"current-plan":(selectedPlan.status!="expired"&&selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan),"d-none":plan.type=="free"}'>
             <div class="main-content">
-              <div class="inner-content"  [ngStyle]="{'background':(selectedPlan.status=='expired'&&selectedPlan.planName===plan.name)?'#F1E9FB':null}">
+              <div class="inner-content"  [ngStyle]="{'background':(selectedPlan.status=='expired'&&selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan)?'#F1E9FB':null}">
                 <img src="assets/icons/pricing/standard.svg" class="standard-img" *ngIf="plan.name == 'Standard'"> 
                 <img src="assets/icons/pricing/pro.svg" class="pro-img" *ngIf="plan.name == 'Pro'">
                 <img src="assets/icons/pricing/enterprise.svg" class="enterprise-img" *ngIf="plan.name == 'Enterprise'">
@@ -27,7 +27,7 @@
                     <div class="current-plan-title" *ngIf="selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan"><img [src]="selectedPlan.status!='expired'?'assets/icons/pricing/check-round.svg':'assets/icons/pricing/Vector.svg'">{{selectedPlan.status!="expired"?'Current Plan':'Last Active Plan'}}</div>
                   </div>
                   <div class="card-desc" *ngFor="let info of plan.featureData" [hidden]="!(info.displayOnBanner)">{{info.displayText}}</div>
-                  <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':(selectedPlan.status=="expired"&&selectedPlan.planName===plan.name)?'Reactivate':'Choose Plan'}}</button>
+                  <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':(selectedPlan.status=="expired"&&selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan)?'Reactivate':'Choose Plan'}}</button>
               </div>
               <div class="goto_details" (click)="gotoDetails(plan.name)">Go to Details</div>
             </div>

@@ -576,6 +576,7 @@
                     border: 0;
                     box-shadow: none;
                     margin: 0;
+                    display: block !important;
                 }
                 .modal-body{
                     padding: 0 70px !important;
@@ -697,7 +698,7 @@
                 }
                 .modal-footer{
                     height: auto;
-                    padding: 20px !important;
+                    //padding: 20px !important;
                     margin: 0;
                     box-shadow: none;
                     .indicator-icons{
