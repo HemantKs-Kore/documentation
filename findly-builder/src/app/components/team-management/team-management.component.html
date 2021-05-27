@@ -18,10 +18,20 @@
             </div>
            </div>
             <div class="col-8 p-0 d-flex align-items-center justify-content-end p-0" *ngIf="!selcectionObj.selectedCount">
-                <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
+                <!-- <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">                               
                     <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="searchteam">           
                 </div> 
-                <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
+                <div class="seach-block" (click)="toggleSearch();focusinSearch('fieldSearchId')"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
+             -->
+             <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">                               
+                <input type="text" placeholder="Search" id="fieldSearchId" class="input-search"  [ngClass]="{'pl-33':!searchteam,'pl-2':searchteam}" autocomplete="off" [(ngModel)]="searchteam" (focusout)="focusoutSearch();" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+            <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchteam">
+            <img class="close-icon" *ngIf="searchteam" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchteam}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="searchteam='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+            </div> 
+              <div class="searchBlock" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')">
+                <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+            </div>
                 <div class="add_feild" (click)="createNewMember()"><img src="assets/icons/add_plus.svg">Add Members</div>
             </div>
 
