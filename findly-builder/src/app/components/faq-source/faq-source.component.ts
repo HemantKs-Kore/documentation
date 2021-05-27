@@ -64,6 +64,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   newCommentObj = {
     comment: ''
   }
+  activeClose=false;
   faqComments: any = [];
   pollingSubscriber;
   showSearch;
@@ -1539,9 +1540,24 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   };
 
 
-  focusoutSearch(event){
-    if (event) {
-      event.stopImmediatePropagation();
+  focusoutSearch(isPopup?){
+    if(isPopup){
+      if(this.activeClose){
+        this.searchSources='';
+        this.activeClose = false;
+       }
+    }else{
+      if(this.activeClose){
+        this.searchFaq='';
+        this.activeClose = false;
+        this.searchFaqs();
+       }
     }
+   this.showSearch= !this.showSearch;
+  }
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+    },100)
   }
 }
