@@ -27,6 +27,7 @@ export class AppsListingComponent implements OnInit {
   searchApp = '';
   apps: any = [];
   showSearch = false;
+  activeClose=false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   newApp: any = {
@@ -266,6 +267,18 @@ export class AppsListingComponent implements OnInit {
         // return (this.order) ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
       });
     }
+  }
+  focusoutSearch(){
+    if(this.activeClose){
+      this.searchApp='';
+      this.activeClose = false;
+     }
+ this.showSearch= !this.showSearch;
+}
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+    },100)
   }
   // callStream(){
   //   this.service.invoke('get.credential').subscribe(
