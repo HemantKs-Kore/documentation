@@ -361,7 +361,7 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['PdfAnno.get.userguide'] = {
-      endpoint: this.API_SERVER_URL + '/builder/:streamId/getSavedAnnotatedDataForStream',
+      endpoint: this.API_SERVER_URL + '/findly/:streamId/getSavedAnnotatedDataForStream',
       method: 'get'
     };
     this.serviceList['PdfAnno.faq.annotate'] = {
@@ -1012,6 +1012,11 @@ export class EndPointsService {
     }
     this.serviceList['get.getInvoiceDownload'] = {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/transactions/:transactionId/invoice',
+      method: 'get'
+    }
+    //download invoice for paid plans
+    this.serviceList['get.paidInvoiceDownload'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/invoices/:orderId',
       method: 'get'
     }
   }

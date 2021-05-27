@@ -344,6 +344,16 @@
             }
             .modal-body{
                 padding: 15px 24px !important;
+                .plan-note{
+                    font-family: Inter;
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 14px;
+                    line-height: 30px;
+                    .plan-head{
+                        color:#0D6EFD;
+                    }
+                }
                 .plan-desc{
                     color: #202124;
                     font-weight: normal;
