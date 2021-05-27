@@ -66,6 +66,7 @@ export class BotActionComponent implements OnInit {
   showSearch;
   searchImgSrc:any='assets/icons/search_gray.svg';
   searchFocusIn=false;
+  activeClose = false;
   searchTasks = '';
   selcectionObj: any = {
     selectAll: false,
@@ -1426,4 +1427,16 @@ export class BotActionComponent implements OnInit {
     
     this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
   }
+  focusoutSearch(){
+    if(this.activeClose){
+      this.searchTasks='';
+      this.activeClose = false;
+     }
+ this.showSearch= !this.showSearch;
+}
+focusinSearch(inputSearch){
+  setTimeout(()=>{
+    document.getElementById(inputSearch).focus();
+  },100)
+}
 }
