@@ -51,6 +51,7 @@ export class PricingComponent implements OnInit, OnDestroy {
     enterpriceMonth: 'fp_enterprise_custom_monthly',
     enterpriceYear: 'fp_enterprise_custom_yearly'
   };
+  proInfo: boolean = false;
   currentSubsciptionData: Subscription;
   showUpgradeBtn: boolean;
   usageDetails: any = {};

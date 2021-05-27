@@ -166,6 +166,10 @@ export class UpgradePlanComponent implements OnInit {
   openChoosePlanPopup(data?) {
     this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
     this.selectedPlan = data;
+    if (this.currentSubscriptionPlan.subscription.billingUnit) {
+      this.termPlan = this.currentSubscriptionPlan.subscription.billingUnit;
+      this.typeOfPlan(this.termPlan);
+    }
     this.choosePlanModalPopRef = this.choosePlanModel.open();
   }
   //close popup1
