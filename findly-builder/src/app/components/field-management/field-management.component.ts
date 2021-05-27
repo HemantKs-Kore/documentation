@@ -44,6 +44,7 @@ export class FieldManagementComponent implements OnInit {
     'isStoredFilter': 'all',
     'isIndexedFilter': 'all'
   }
+  activeClose = false
   beforeFilterFields: any = [];
   filterTableheaderOption = "";
   filterResourcesBack: any;
@@ -524,6 +525,18 @@ getFieldAutoComplete(query) {
   }, errRes => {
     this.errorToaster(errRes, 'Failed to get fields');
   });
+}
+focusoutSearch(){
+  if(this.activeClose){
+    this.searchFields='';
+    this.activeClose = false;
+   }
+this.showSearch= !this.showSearch;
+}
+focusinSearch(inputSearch){
+  setTimeout(()=>{
+    document.getElementById(inputSearch).focus();
+  },100)
 }
   ngOnDestroy() {
     const self = this;
