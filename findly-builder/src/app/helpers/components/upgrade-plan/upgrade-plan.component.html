@@ -14,20 +14,20 @@
       <div class="modal-body">
         <!-- <div class="mian-title-desc">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div> -->
         <div class="upgrade-details-prices row col-12 p-0" *ngIf="selectedPlan">          
-          <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData' [ngClass]='{"current-plan":(selectedPlan.status!="expired"&&selectedPlan.planName===plan.name),"d-none":plan.type=="free"}'>
+          <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData' [ngClass]='{"current-plan":(selectedPlan.status!="expired"&&selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan),"d-none":plan.type=="free"}'>
             <div class="main-content">
-              <div class="inner-content"  [ngStyle]="{'background':(selectedPlan.status=='expired'&&selectedPlan.planName===plan.name)?'#F1E9FB':null}">
+              <div class="inner-content"  [ngStyle]="{'background':(selectedPlan.status=='expired'&&selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan)?'#F1E9FB':null}">
                 <img src="assets/icons/pricing/standard.svg" class="standard-img" *ngIf="plan.name == 'Standard'"> 
                 <img src="assets/icons/pricing/pro.svg" class="pro-img" *ngIf="plan.name == 'Pro'">
                 <img src="assets/icons/pricing/enterprise.svg" class="enterprise-img" *ngIf="plan.name == 'Enterprise'">
                   <div class="title-sec">
                     <div class="title">{{plan.name}}</div>
-                    <div class="price" [ngClass]='{"d-none":selectedPlan.planName===plan.name||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?'month':'year'}}</span></div>
+                    <div class="price" [ngClass]='{"d-none":(selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan)||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?'month':'year'}}</span></div>
                     <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise"}'>Custom</div>
-                    <div class="current-plan-title" *ngIf="selectedPlan.planName===plan.name"><img [src]="selectedPlan.status!='expired'?'assets/icons/pricing/check-round.svg':'assets/icons/pricing/Vector.svg'">{{selectedPlan.status!="expired"?'Current Plan':'Last Active Plan'}}</div>
+                    <div class="current-plan-title" *ngIf="selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan"><img [src]="selectedPlan.status!='expired'?'assets/icons/pricing/check-round.svg':'assets/icons/pricing/Vector.svg'">{{selectedPlan.status!="expired"?'Current Plan':'Last Active Plan'}}</div>
                   </div>
                   <div class="card-desc" *ngFor="let info of plan.featureData" [hidden]="!(info.displayOnBanner)">{{info.displayText}}</div>
-                  <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':(selectedPlan.status=="expired"&&selectedPlan.planName===plan.name)?'Reactivate':'Choose Plan'}}</button>
+                  <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':(selectedPlan.status=="expired"&&selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan)?'Reactivate':'Choose Plan'}}</button>
               </div>
               <div class="goto_details" (click)="gotoDetails(plan.name)">Go to Details</div>
             </div>
@@ -77,8 +77,15 @@
   </div>
   <perfect-scrollbar>
     <div class="modal-body" *ngIf="orderConfirmData&&overageData">
-      <div class="plan-desc" *ngIf="!overageData.overageShow">You are Subscribing to <span>{{orderConfirmData.name}} Plan</span>. Please find the order summary below.</div>
+      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Free','Standard']).includes(selectedPlan.planName)">You are changing from <span>{{selectedPlan&&selectedPlan.planName}} to</span> <span> {{orderConfirmData.name}} Plan</span>. Please find the order summary below.</div>
       <div class="plan-desc" *ngIf="overageData.overageShow">You have added additional <span *ngIf="overageData.docCount>=1">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}} documents </span><span *ngIf="overageData.queryCount>=1">, {{overageData.overageDeatils.searchQueries.limit | valueFormat}} queries </span> to your plan. Please find the order summary below.</div>
+      <ng-container *ngIf="!overageData.overageShow&&selectedPlan&&selectedPlan.planName=='Pro'&&orderConfirmData&&orderConfirmData.name=='Standard'">
+        <ul class="order-plan-details">
+          <li>You are changing from <span>{{selectedPlan&&selectedPlan.planName}} to {{orderConfirmData&&orderConfirmData.name}} Plan</span>.</li>
+          <li>Your plan will be changed at the end of billing cycle of current plan i.e. {{selectedPlan&&selectedPlan.endDate|dateFormatPipe:'D MMMM YYYY'}}</li>
+        </ul>
+        <div class="s-text">Please find the order summary below.</div>
+      </ng-container>
       <div class="order-confirmation-table">
         <div class="order-confirmation-table-header row col-12 m-0">
           <div class="title col-9">PLAN</div>
@@ -121,13 +128,14 @@
         </div>
         <div class="order-confirmation-table-body row col-12 m-0">
           <div class="col-9 total-amount text-right">Total Amount</div>
-          <div class="amount col-3">$ {{overageData.overageShow?overageData.overageDeatils.ingestDocs.amount * overageData.docCount+overageData.overageDeatils.searchQueries.amount * overageData.queryCount:orderConfirmData.planAmount}}</div>
+          <div class="amount col-3">$ {{overageData&&overageData.overageShow?overageData.overageDeatils.ingestDocs.amount * overageData.docCount+overageData.overageDeatils.searchQueries.amount * overageData.queryCount:orderConfirmData.planAmount}}</div>
         </div>
       </div>
+      <div class="note-text" *ngIf="overageData&&!overageData.overageShow&&selectedPlan&&selectedPlan.planName!='Free'"><span>Note:</span> We will use the same payment method as your previous transaction.</div>
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="paymentPlan(overageData.overageShow)" [disabled]="btnDisable">Pay</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="paymentPlan(overageData.overageShow)" [disabled]="btnDisable">{{overageData&&!overageData.overageShow&&selectedPlan&&selectedPlan.planName!='Free'?'Confirm':'Pay'}}</button>
     <button class="kr-sg-button-secondary backbtn btn_md" (click)="closeOrderConfPopup()">Cancel</button>
   </div>
 </kr-modal>
@@ -171,7 +179,7 @@
         <div class="payment-confiramtion-data" *ngIf="payementSuccess">
           <div class="img-block"><img src="assets/icons/pricing/payment-success.svg"></div>
           <div class="payment-success-message">
-            <div class="title">Yay! Payment Successfull...</div>
+            <div class="title">Yay! {{(orderConfirmData.name=='Pro'&&!(overageData.overageShow))?'You are a Pro member now':'Payment Successfull...'}}</div>
             <button class="kr-sg-buttonicon-secondary btn_lg" (click)="downloadInvoice()"><img src="assets/icons/pricing/download.svg">Download Invoice</button>
           </div>
         </div>

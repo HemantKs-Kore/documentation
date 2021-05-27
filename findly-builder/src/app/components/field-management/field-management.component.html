@@ -10,16 +10,16 @@
                 <div class="d-flex align-items-center">
                     <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
                         <input type="text" placeholder="Search" class="input-search" [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}"
-                            autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (focusout)="showSearch= !showSearch;"
+                            autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (focusout)="focusoutSearch();"
                             (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                             (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                         <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields">
-                        <img class="close-icon" *ngIf="searchFields" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}"
+                        <img class="close-icon" *ngIf="searchFields" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" 
                             (click)="searchFields='';showSearch=!showSearch;" placement="top-center" container='body' ngbTooltip="Cancel"
                             tooltipClass="ngb_tooltip_custom_class sampleJson">
                     </div>
-                    <div class="seach-block" (click)="showSearch=!showSearch;">
+                    <div class="seach-block" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')">
                         <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                     </div>
                     <div class="add_feild" (click)="addEditFiled()"><img src="assets/icons/add_plus.svg">Add Field</div>

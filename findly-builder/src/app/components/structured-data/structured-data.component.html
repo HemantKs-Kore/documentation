@@ -4,16 +4,16 @@
         <div class="d-flex align-items-center" *ngIf="enableSearchBlock">
             <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !searchActive}">
                 <input type="text" placeholder="Search" class="input-search" (keyup.enter)="searchItems()" [ngClass]="{'pl-33':!searchText,'pl-2':searchText}" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter"
-                    autocomplete="off" id="fieldSearchId" [(ngModel)]="searchText" (focusout)="searchActive= !searchActive;"
+                    autocomplete="off" id="inputSearch" [(ngModel)]="searchText" (focusout)="focusoutSearch();"
                     (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                     (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                     (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                 <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchText">
-                <img class="close-icon" *ngIf="searchText" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}"
+                <img class="close-icon" *ngIf="searchText" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}" (mouseover)="activeClose=true" (mouseout)="activeClose=false"
                     (click)="searchText='';searchActive= !searchActive;searchItems()" placement="top-center" container='body' ngbTooltip="Cancel"
                     tooltipClass="ngb_tooltip_custom_class sampleJson">
             </div>
-            <div class="seach-block" (click)="searchActive=!searchActive;">
+            <div class="seach-block" (click)="searchActive=!searchActive;focusinSearch('inputSearch')">
                 <span [ngClass]="{'d-none': searchActive}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': searchActive}">{{'search' | translate}}</span>
             </div>
 

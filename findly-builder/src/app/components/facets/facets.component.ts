@@ -27,7 +27,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   indexPipelineId;
   loadingContent = true;
   addEditFacetObj: any = null;
-  showSearch;
+  showSearch=false;
+  activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   // serachTraits: any = '';
@@ -726,16 +727,27 @@ export class FacetsComponent implements OnInit, OnDestroy {
 
   validateFacetSize(event){
     if(event.target.value && event.target.value > 0){
-      if(event.target.value > 20){
-        this.addEditFacetObj.facetValue.size = 20;
-      }
+      // if(event.target.value > 20){
+      //   this.addEditFacetObj.facetValue.size = 20;
+      // }
     }
     else{
       this.addEditFacetObj.facetValue.size = 1;
       return;
     }
   }
-
+  focusoutSearch(){
+    if(this.activeClose){
+      this.searchfacet='';
+      this.activeClose = false;
+     }
+ this.showSearch= !this.showSearch;
+}
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+    },100)
+  }
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();

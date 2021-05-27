@@ -70,18 +70,18 @@
         </div>
         <div>
           <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">
-            <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search"
+            <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" [ngClass]="{'pl-2':searchSources}"
               id="searchContentSources" [(ngModel)]="searchSources" 
-              autocomplete="off"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')" (focusout)="showSearch = !showSearch"
+              autocomplete="off"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')" (focusout)="focusoutSearch();"
               (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
               <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
-              <img class="close-icon" *ngIf="searchSources" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (click)="searchSources='';showSearch = !showSearch">
+              <img class="close-icon" *ngIf="searchSources" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="searchSources='';showSearch = !showSearch">
               <!-- <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
             <img *ngIf="!searchSources" class="search-icon" src="assets/images/search_gray.svg"> -->
           </div>
 
           <div class="search-block">
-            <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="showSearch = !showSearch"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+            <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="showSearch = !showSearch;focusinSearch('searchContentSources')"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
           </div>
 
           <div class="kr-sg-dropdowns">
@@ -1036,11 +1036,14 @@
           </div>
           <div class="view-details-data">
             <div class="title">Body</div>
+            <perfect-scrollbar class="scroll-table-sourceContent-pageBody" #perfectScroll
+            [scrollIndicators]="true">
             <div class="desc-info" [innerHtml]="selectedPage._source.pageBody"></div>
+            </perfect-scrollbar>
           </div>
           <div class="view-details-data">
             <div class="title">URL</div>
-            <div class="desc-info">{{selectedPage._source.pageImageUrl}}<img class="external_link"
+            <div class="desc-info">{{selectedPage._source.pageUrl || selectedPage._source.pageImageUrl }}<img class="external_link"
                 (click)="openImageLink(selectedPage.imageUrl)" src="assets/icons/sidemenu/external-link.svg"></div>
           </div>
           <div class="view-details-data">

@@ -27,7 +27,7 @@
                 <div class="plan-details" *ngIf="currentSubscriptionPlan">
                   <div class="type-plan-sec">
                     <div class="type-plan">{{ currentSubscriptionPlan.subscription.planName || 'Free' }} </div>
-                    <div class="amount" *ngIf="currentSubscriptionPlan.subscription.planName != 'Free'">${{currentSubscriptionPlan.subscription.planAmount}}<span>/ month</span></div>
+                    <div class="amount" *ngIf="currentSubscriptionPlan.subscription.planName != 'Free'">${{currentSubscriptionPlan.subscription.planAmount}}<span>/ {{currentSubscriptionPlan.subscription.billingUnit=='Monthly'?'month':'year'}}</span></div>
                   </div>
                   <div class="plan-time">
                     <div class="started-title">{{currentSubscriptionPlan.subscription.planName=='Free'?'Started On':currentSubscriptionPlan.subscription.changesScheduledFor=='none'?'Renewal Date':currentSubscriptionPlan.subscription.status=='expired'?'End Date':'Valid till'}}</div>
@@ -58,6 +58,18 @@
             </div>
         </div>
 
+        <ng-container *ngIf="currentSubscriptionPlan&&currentSubscriptionPlan.subscription.planName=='Pro'&&currentSubscriptionPlan.subscription.changesScheduledFor=='downgrade'">
+          <div class="info-note" [ngClass]='{"d-none":proInfo}'>
+            <div class="col-10 d-flex align-items-center p-0">
+              <img src="assets/icons/Info-pdf.svg">
+              <span class="info-text">Your plan will be changed from Pro to Standard by the end of the billing cycle i.e. {{(currentSubscriptionPlan&&currentSubscriptionPlan.subscription.endDate)| dateFormatPipe:'D MMMM YYYY'}}</span>
+            </div>
+            <div class="close-info col-2 p-0 text-right">            
+              <span>Cancel request</span>
+              <img src="assets/icons/close-small.svg" (click)="proInfo=true">
+            </div>
+          </div>
+        </ng-container>
         <div class="upgrade-details-prices row col-12" *ngIf ="currentSubscriptionPlan&&currentSubscriptionPlan.subscription.planName =='Free'">
           <div class="row col-12 upgrade-header-sec">
             <div class="title col-5 p-0">Upgrade to</div>

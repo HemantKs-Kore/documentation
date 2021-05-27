@@ -66,6 +66,7 @@ export class BotActionComponent implements OnInit {
   showSearch;
   searchImgSrc:any='assets/icons/search_gray.svg';
   searchFocusIn=false;
+  activeClose = false;
   searchTasks = '';
   selcectionObj: any = {
     selectAll: false,
@@ -1312,7 +1313,7 @@ export class BotActionComponent implements OnInit {
              "type": channelType,
              "app": {
                  "clientId": this.configurationLink.clientId,
-                 "name": this.selectedLinkBotConfig.channels[0].app.name,
+                 "name": (this.selectedLinkBotConfig.channels[0].app||{}).name||(this.selectedLinkBotConfig.channels[0].app||{}).appName ||'',
                  "clientSecret": this.configurationLink.clientSecret
                 },
             "webhookUrl": this.configurationLink.webhookUrl,
@@ -1426,4 +1427,16 @@ export class BotActionComponent implements OnInit {
     
     this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
   }
+  focusoutSearch(){
+    if(this.activeClose){
+      this.searchTasks='';
+      this.activeClose = false;
+     }
+ this.showSearch= !this.showSearch;
+}
+focusinSearch(inputSearch){
+  setTimeout(()=>{
+    document.getElementById(inputSearch).focus();
+  },100)
+}
 }

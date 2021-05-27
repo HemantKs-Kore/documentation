@@ -27,8 +27,10 @@
                     <div class="title-card col-4 p-0">{{'metrics.result_insights.Top_Search_Results'| translate}}</div>
                     <div class="col-8 d-flex justify-content-end p-0 search-filter-block">
                         <div class="kr-sg-input-search">                               
-                            <input type="text" placeholder="Search" class="input-search"  name="searchSources" [(ngModel)]="searchSources">
-                            <img src="assets/icons/search_gray.svg" class="search-icon">
+                            <input type="text" placeholder="Search" class="input-search" [ngClass]="{'pl-2':searchSources}"  name="searchSources" [(ngModel)]="searchSources"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                            (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+                            <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
+                            <img class="close-icon" *ngIf="searchSources" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (click)="searchSources='';"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
                         </div>
                         <!-- <div class="kr-sg-dropdowns filter-dropdown" ngbDropdown [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
@@ -67,7 +69,7 @@
                         <!-- <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Positive_Feedback'| translate}}</span></div>-->
                         <!-- <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Negative_Feedback'| translate}}</span></div>  -->
                     </div>
-                    <div class="table_body row m-0" *ngFor="let result of resultsData | filter: [ searchSources , 'answer'];let i = index">
+                    <div class="table_body row m-0" *ngFor="let result of resultsData | filter: [ searchSources , 'answer']">
                         <div class="col-4 title d-flex align-items-center search-results">
                             <span class="img-sec" *ngIf="result.answerType =='faq'"><img src="assets/icons/question-box.svg" ></span>
                             <span class="img-sec" *ngIf="result.answerType =='page'"><img src="assets/icons/sidemenu/new-icons/page.svg" ></span>

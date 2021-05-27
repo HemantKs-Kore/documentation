@@ -72,7 +72,8 @@ export class ResultInsightsComponent implements OnInit {
   totalRecord:number=0;
   limitPage : number = 10;
   skipPage:number = 0;
-
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   Q_totalRecord:number=0;
   Q_limitPage : number = 10;
   Q_skipPage:number = 0;

@@ -39,6 +39,7 @@ export class TraitsComponent implements OnInit {
   traitCounts;
   showSearch;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
+  activeClose = false;
   searchFocusIn = false;
   serachTraits: any = '';
   traits: any = {
@@ -882,7 +883,18 @@ var width = ctx.measureText(t.traitName +', ').width;
     }
     this.showEditTraitInput=index;
   }
-
+  focusoutSearch(){
+    if(this.activeClose){
+      this.serachTraits='';
+      this.activeClose = false;
+     }
+ this.showSearch= !this.showSearch;
+}
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+    },100)
+  }
   ngOnDestroy() {
     const self = this;
     if (this.subscription) {

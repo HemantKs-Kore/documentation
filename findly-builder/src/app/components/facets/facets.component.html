@@ -27,17 +27,17 @@
             <div class="title">{{'facets.facets'| translate}}</div>
             <div class="d-flex align-items-center" *ngIf="!noItems || emptySearchResults">
                 <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
-                    <input type="text" placeholder="Search" class="input-search" (keyup.enter)="searchItems()" [ngClass]="{'pl-33':!searchfacet}" autocomplete="off" [(ngModel)]="searchfacet" (focusout)="showSearch= !showSearch" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                    <input type="text" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchfacet,'pl-2':searchfacet}" autocomplete="off" [(ngModel)]="searchfacet" (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                         (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                     <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchfacet">
-                    <img class="close-icon" *ngIf="searchfacet" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchfacet}" (click)="searchfacet='';toggleSearch(false)">
+                    <img class="close-icon" *ngIf="searchfacet" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchfacet}" (click)="searchfacet='';toggleSearch(false)">
                 </div>
                 <!-- <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
                     <img src="assets/icons/search_gray.svg" class="search-icon">
                     <input type="text" id="direct-search" [(ngModel)]="searchfacet" (keyup.enter)="searchItems()" placeholder="Search" autocomplete="off" class="input-search pl-2" placeholder="Search">
                 </div>-->
                 <div class="seach-block" *ngIf="(facets && facets.length)">
-                    <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                    <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch(true);focusinSearch('inputSearch')"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                     <!-- <img [ngClass]="{'d-none': !showSearch}" id="btn_close_search_structured_data" src="assets/images/close.svg" (click)="toggleSearch(false)"> -->
                 </div>
                 <button id='btn_addFacet' *ngIf="(facets && facets.length)" class="kr-sg-button-primary btn_lg" (click)="createNewFacet()"><img src="assets/icons/add_plus.svg">{{'facets.add_facet'| translate}}</button>
@@ -361,7 +361,7 @@
                             {{'facets.facet_size'| translate}}
                             <img container="body" ngbTooltip="{{'facets.facet_size_info' | translate}}" tooltipClass="metrics_tooltips m-0" class="pl-1" src="assets/icons/info.svg" />
                         </div>
-                        <input type="number" placeholder="Please Enter" (keyup)="validateFacetSize($event)" min="1" max="20" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">
+                        <input type="number" placeholder="Please Enter" (keyup)="validateFacetSize($event)" min="1" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">
                     </div>
                 </div>
                 <div class="multi-select mt-3">

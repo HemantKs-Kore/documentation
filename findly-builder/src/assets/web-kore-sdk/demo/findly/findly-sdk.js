@@ -349,6 +349,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       // var SearchIndexID = 'sidx-99a5826d-2fa0-5490-b989-1757c74a4b83'; // DEV SearchIndexID
       var SearchIndexID = _self.config.botOptions ? _self.config.botOptions.searchIndexID : 'sidx-a0d5b74c-ef8d-51df-8cf0-d32617d3e66e';
+      var streamId = _self.config.botOptions ? _self.config.botOptions.botInfo.taskBotId : '';
       var indexpipelineId = '';
       // var SearchIndexID = 'sidx-a0d5b74c-ef8d-51df-8cf0-d32617d3e66e' // PILOT SearchIndexID
       var pipelineId = '';
@@ -375,41 +376,42 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
       if (_self.isDev) {
-        baseAPIServer = window.appConfig.API_SERVER_URL + '/searchassistapi/';
+        baseAPIServer = window.appConfig.API_SERVER_URL + '/searchassistapi/businessapp/';
       }
 
       if (_self.baseAPIServer) {
         baseAPIServer = _self.baseAPIServer;
       }
       var baseUrl = baseAPIServer;
-      var searchAPIURL = baseAPIServer + "findly/";
-      var liveSearchAPIURL = baseAPIServer + "searchAssist/";
+      var searchAPIURL = baseAPIServer + "searchsdk/stream/";
+      var liveSearchAPIURL = baseAPIServer + "searchsdk/stream/";
       console.log(baseUrl);
       var businessTooBaseURL = baseAPIServer + "findly/";
-      var searchResultsConfigAPIURL = baseAPIServer + "findly/";
+      var businessTooBaseURLForPinning = baseAPIServer.split('businessapp')[0] + "findly/";
+      var searchResultsConfigAPIURL = baseAPIServer + "searchsdk/stream/";
       console.log(businessTooBaseURL);
       _self.API = {
         baseUrl: baseUrl,
         // livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
-        livesearchUrl: liveSearchAPIURL + SearchIndexID + "/liveSearch",
+        livesearchUrl: liveSearchAPIURL + streamId + '/' + SearchIndexID + "/liveSearch",
         // searchUrl: baseUrl + "/search/" + SearchIndexID,
-        searchUrl: searchAPIURL + SearchIndexID + "/search",
-        metricsUrl: baseAPIServer + "/findlymetrics/logs", /*/api/1.1/ */
+        searchUrl: searchAPIURL + streamId + '/' + SearchIndexID + "/search",
+        metricsUrl: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/metrics/logs", /*/api/1.1/ */
         // popularSearchesUrl: "https://app.findly.ai/searchAssist/" + SearchIndexID + "/popularSearches",
-        popularSearchesUrl: baseAPIServer + "searchAssist/" + SearchIndexID + "/popularSearches",
+        popularSearchesUrl: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/popularSearches",
         newSearchFeedbackUrl: businessTooBaseURL + SearchIndexID + "/search/feedback",
         // queryConfig: businessTooBaseURL + SearchIndexID +"/search/queryConfig",
-        queryConfig: businessTooBaseURL + SearchIndexID + '/indexPipeline/' + indexpipelineId + '/queryPipeline/' + pipelineId + '/rankingAndPinning',
+        queryConfig: businessTooBaseURLForPinning + SearchIndexID + '/indexPipeline/' + indexpipelineId + '/queryPipeline/' + pipelineId + '/rankingAndPinning',
         SearchIndexID: SearchIndexID,
         // streamId: 'st-a4a4fabe-11d3-56cc-801d-894ddcd26c51',
         streamId: _self.config.botOptions.botInfo.taskBotId,
         jstBarrer: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM",
         //jstBarrer: "bearer " + _self.bot.options.accessToken,
-        searchResultsConfigURL: searchResultsConfigAPIURL + SearchIndexID + "/getresultviewsettings",
-        recentSearchUrl: baseAPIServer + "findly/" + SearchIndexID + "/recentSearches",
+        searchResultsConfigURL: searchResultsConfigAPIURL + streamId + '/' + SearchIndexID + "/getresultviewsettings",
+        recentSearchUrl: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/recentSearches",
         indexpipelineId: indexpipelineId,
         pipelineId: pipelineId,
-        autoSuggestionsURL: baseAPIServer + "searchAssist/" + SearchIndexID + "/autoSuggestions"
+        autoSuggestionsURL: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/autoSuggestions"
       };
       _self.API.uuid = uuid.v4();
       var botIntigrationUrl = businessTooBaseURL + SearchIndexID + '/linkedbotdetails';
@@ -4901,6 +4903,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         payload.clickRank = payload.clickRank + 1;
 
         if (experimentObjectProps.length > 0) {
+          payload.indexPipelineId = _self.vars.experimentsObject ? _self.vars.experimentsObject.indexPipelineId : "";
           payload.queryPipelineId = _self.vars.experimentsObject ? _self.vars.experimentsObject.queryPipelineId : "";
           payload.relay = _self.vars.experimentsObject ? _self.vars.experimentsObject.relay : "";
           if (_self.vars.experimentsObject.experimentId) {
@@ -4939,13 +4942,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       _self.pubSub.subscribe('sa-generate-recent-search', data => {
         var bearer = this.API.jstBarrer;
+        var headers = {
+          "Authorization": 'bearer ' + this.bot.options.accessToken,
+          "Content-Type": "application/json"
+        };
+        if(!_self.isDev) {
+          if(_self.config.botOptions.assertion){
+            headers.auth = _self.config.botOptions.assertion;
+          }
+        }
         $.ajax({
           url: url,
           type: type,
-          headers: {
-            "Authorization": 'bearer ' + this.bot.options.accessToken,
-            "Content-Type": "application/json"
-          },
+          headers: headers,
           data: {},
           success: function (data) {
             console.log(data);
@@ -5205,7 +5214,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
         }
         })
-        initPopularSearchList();
+        var handle = setInterval(function () {
+          if (_self.bot.options.accessToken) {
+            initPopularSearchList();
+            clearInterval(handle);
+            handle = 0;
+          }
+        }, 1000);
         function initPopularSearchList() {
           _self.vars.searchObject.popularSearches = [];
           var popSearchUrl = _self.API.popularSearchesUrl;
@@ -5892,7 +5907,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.vars.experimentsObject['experimentId'] = res.experimentId;
             }
           }
-
+          _self.vars.experimentsObject['indexPipelineId'] = res.indexPipelineId;
           _self.vars.experimentsObject['queryPipelineId'] = res.queryPipelineId;
           _self.vars.experimentsObject['relay'] = res.relay;
 
@@ -6871,6 +6886,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       payload = JSON.stringify(payload);
 
+      if(!_self.isDev) {
+        if(_self.config.botOptions.assertion){
+          headers.auth = _self.config.botOptions.assertion;
+        }
+      }
+
       return $.ajax({
         url: url,
         type: type,
@@ -6892,13 +6913,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getPopularSearchList = function (url, type) {
       var bearer = this.API.jstBarrer;
+      var _self = this;
+      var headers = {
+        "Authorization": 'bearer ' + this.bot.options.accessToken,
+        "Content-Type": "application/json"
+      };
+      if(!_self.isDev) {
+        if(_self.config.botOptions.assertion){
+          headers.auth = _self.config.botOptions.assertion;
+        }
+      }
       return $.ajax({
         url: url,
         type: type,
-        headers: {
-          // "Authorization": bearer,
-          "Content-Type": "application/json"
-        },
+        headers: headers,
         data: {},
         success: function (data) {
           // console.log(data);
@@ -6949,15 +6977,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.dumpClickAnalyticsData = function (url, type, payload) {
       var bearer = this.API.jstBarrer;
-
+      var _self = this;
+      var headers = {
+        "Authorization": bearer,
+        "Content-Type": "application/json"
+      };
+      if(!_self.isDev) {
+        if(_self.config.botOptions.assertion){
+          headers.auth = _self.config.botOptions.assertion;
+        }
+      }
       return $.ajax({
         url: url,
         type: type,
         dataType: 'json',
-        headers: {
-          "Authorization": bearer,
-          "Content-Type": "application/json",
-        },
+        headers: headers,
         data: payload,
         success: function (data) {
           console.log(data);
@@ -7268,7 +7302,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.baseAPIServer = window.appConfig.API_SERVER_URL;
       }
       if(fromTopDown) {
-        _self.baseAPIServer = window.appConfig.API_SERVER_URL + '/searchassistapi/';
+        _self.baseAPIServer = window.appConfig.API_SERVER_URL + '/searchassistapi/businessapp/';
       }
       if (findlyConfig.autoConnect) {
         _self.initWebKitSpeech();
@@ -13912,6 +13946,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       headers["Authorization"] = bearer;
       headers["Content-Type"] = "application/json";
 
+      if(!_self.isDev) {
+        if(_self.config.botOptions.assertion){
+          headers.auth = _self.config.botOptions.assertion;
+        }
+      }
+
       return $.ajax({
         url: url,
         type: type,
@@ -19537,18 +19577,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       var bearer = "bearer " + this.bot.options.accessToken || this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
       var headers = {};
+      headers['Authorization'] = bearer;
 
-      // headers["Authorization"] = bearer;
-      // headers["Content-Type"] = "application/json";
-
-      // if (url == this.API.livesearchUrl) {
-      //   if (this.isDev == true) {
-      //     headers["state"] = "configured";
-      //   }
-      //   else {
-      //     headers["state"] = "published";
-      //   }
-      // }
+      if(!_self.isDev) {
+        if(_self.config.botOptions.assertion){
+          headers.auth = _self.config.botOptions.assertion;
+        }
+      }
 
       $.ajax({
         url: url,
@@ -20418,7 +20453,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     // Configuraition of Interface //
     FindlySDK.prototype.configureSearchInterface = function (botOptions, JWTResponse) {
       var baseAPIServer = botOptions.koreAPIUrl ? botOptions.koreAPIUrl : 'https://app.findly.ai/searchassistapi/'
-      var searchExperienceAPIUrl = baseAPIServer + 'public/searchAssist/stream/' + botOptions.botInfo.taskBotId + '/' + botOptions.searchIndexID + '/searchInterface';
+      var searchExperienceAPIUrl = baseAPIServer + 'searchsdk/stream/' + botOptions.botInfo.taskBotId + '/' + botOptions.searchIndexID + '/searchInterface';
       console.log('config', searchExperienceAPIUrl);
       var type = 'GET';
 
@@ -20923,7 +20958,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.custom-add-result-container').after(actionParentContainer);
       }
     }
-
     FindlySDK.prototype.frequentlySearchedRecentTextClickEvent = function (){
       var _self = this;
       $('#frequently-searched-box').off('click', '.recentText').on('click', '.recentText', function (e) {
