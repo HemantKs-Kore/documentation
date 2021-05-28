@@ -471,9 +471,9 @@
                               (click)="swapSlider()">{{selectedSource.numPages}}</a>
                           </div> -->
                           <div class="col_ col-2 p-0 text-right actions-images">
-                            <img src="assets/icons/return.svg" *ngIf="selectedSource.extractionType == 'web'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl" ngbTooltip='Recrawl'  container="body">
-                            <img src="assets/icons/content/edit_black.svg" (click)="editTitle($event)" title="Edit" ngbTooltip='Edit'  container="body">
-                            <img src="assets/icons/content/delete.svg" (click)="deleteDocument('source',selectedSource ,$event)" title="Delete" ngbTooltip='Delete'  container="body">
+                            <img src="assets/icons/return.svg" *ngIf="selectedSource.extractionType == 'web'" (click)="recrwal('config',selectedSource,$event)"  ngbTooltip='Recrawl'  container="body">
+                            <img src="assets/icons/content/edit_black.svg" (click)="editTitle($event)"  ngbTooltip='Edit'  container="body">
+                            <img src="assets/icons/content/delete.svg" (click)="deleteDocument('source',selectedSource ,$event)"  ngbTooltip='Delete'  container="body">
                           </div>
                         </div>
                       </ng-container>

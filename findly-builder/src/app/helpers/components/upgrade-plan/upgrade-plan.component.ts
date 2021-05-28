@@ -142,6 +142,10 @@ export class UpgradePlanComponent implements OnInit {
   openOrderConfPopup(data?, obj?) {
     this.overageData = obj == undefined ? { overageShow: false } : obj;
     this.orderConfirmData = data;
+    if (this.appSelectionService.currentsubscriptionPlanDetails) {
+      this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+      this.selectedPlan = this.currentSubscriptionPlan.subscription;
+    }
     this.orderConfirmModelPopRef = this.orderConfirmModel.open();
   }
   //close order confirm popup
@@ -164,13 +168,15 @@ export class UpgradePlanComponent implements OnInit {
   }
   //open popup1
   openChoosePlanPopup(data?) {
-    this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
     this.selectedPlan = data;
-    if (this.currentSubscriptionPlan.subscription.billingUnit) {
-      this.termPlan = this.currentSubscriptionPlan.subscription.billingUnit;
-      this.typeOfPlan(this.termPlan);
-    }
     this.choosePlanModalPopRef = this.choosePlanModel.open();
+    if (this.appSelectionService.currentsubscriptionPlanDetails) {
+      this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+      if (this.currentSubscriptionPlan.subscription.billingUnit) {
+        this.termPlan = this.currentSubscriptionPlan.subscription.billingUnit;
+        this.typeOfPlan(this.termPlan);
+      }
+    }
   }
   //close popup1
   closeChoosePlanPopup() {
@@ -274,7 +280,7 @@ export class UpgradePlanComponent implements OnInit {
         clearInterval(this.paymentStatusInterval);
       }
       this.paymentGatewayModelPopRef.close();
-      this.overageData = {};
+      //this.overageData = {};
     }
   }
   //open payment success/failure popup

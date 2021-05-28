@@ -225,7 +225,6 @@ export class AppSelectionService {
       };
       const appObserver = this.service.invoke('get.lastActiveSubscription', payload);
       appObserver.subscribe(res => {
-        console.log("res last active", res);
         this.currentSubscription.next(res);
       }, errRes => {
         this.errorToaster(errRes, 'failed to get last active subscription data');

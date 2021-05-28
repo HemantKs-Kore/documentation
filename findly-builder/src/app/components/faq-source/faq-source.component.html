@@ -723,7 +723,7 @@
                                     <li *ngFor="let docType of docTypeArr" 
                                     (click)="sourceFilter.close();filterTable(docType,'contentSource')">
                                       <span
-                                        class="list-name">{{ docType == 'web' ? 'WEB' : 'DOC' }}</span><img
+                                        class="list-name">{{ docType == 'web' ? 'WEB' : 'File' }}</span><img
                                         [ngClass]="{'hide': filterSystem.typefilter !== docType}"  src="assets/icons/check-blue.svg">
                                     </li>
                                   </ul>
@@ -748,7 +748,7 @@
                                         class="list-name">All</span><img   [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                                     <li *ngFor="let status of statusArr"
                                       (click)="statusFilter.close();filterTable(status,'recentStatus')"><span
-                                        class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : (status == 'queued' ? 'Queued' :'In Progress'))}}<img
+                                        class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Failed' : (status == 'queued' ? 'Queued' :'In Progress'))}}<img
                                           class="hide" src="assets/icons/check-blue.svg"></span>
                                     </li>
                                   </ul>
