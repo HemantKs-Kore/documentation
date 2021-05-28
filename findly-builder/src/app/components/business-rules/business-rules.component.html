@@ -423,13 +423,15 @@
                                                 <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
                           {{outcomeObj.fieldName? outcomeObj.fieldName : "Choose field"}}
                         </button>
-                                                <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                                <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu style="overflow-y: hidden;">
+                                                    <perfect-scrollbar class="empty-scroll">
                                                     <li class="search-box">
                                                         <input type="text" (keydown)="$event.stopPropagation()" (keyup)="getFieldAutoComplete($event,outcomeObj)" placeholder="Search" class="seach-input" />
                                                     </li>
                                                     <ng-container *ngIf="fieldAutoSuggestion && fieldAutoSuggestion.length">
                                                         <li ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion" (click)="selectField(suggestion, outcomeObj)" [ngClass]="{'active':outcomeObj.fieldName===suggestion.fieldName}">{{ suggestion.fieldName }}</li>
                                                     </ng-container>
+                                                    </perfect-scrollbar>
                                                 </ul>
                                             </div>
                                         </div>
