@@ -7369,6 +7369,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return "Files"
       } else if (key.toLowerCase() === 'data') {
         return "Data"
+      } else if (key.toLowerCase() === 'all results') {
+        return "All"
       } else {
         return key;
       }
