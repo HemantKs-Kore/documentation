@@ -40,7 +40,7 @@
                 <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="channel.enable">                                        
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle  p-0 border-0" ngbDropdownToggle><img src="assets/icons/elipse.svg"></button>                                            
-                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                        <ul class="dropdown-menu content-menu faq-filter-add p-0" ngbDropdownMenu>
                             <li><a (click)="enableConfiguration = !enableConfiguration">{{enableConfiguration?'Disable':'Enable'}}</a></li>
                             <li><a>{{"settings.delete" | translate}} </a></li>               
                         </ul>
@@ -128,16 +128,26 @@
                         checked>
                     <label for="checkbox-2" class="checkbox-custom-label">{{"settings.instructions" | translate}} </label>
                 </div>
-                <div class="kr-sg-dropdowns">
+                <!-- <div class="kr-sg-dropdowns">
                     <div class="label-text mb-2"> {{"settings.jwt_algorithm" | translate}} </div>
                     <div class="dropdown dropdown-open" >
                         <button class="dropdown-toggle dropdown-input" required>
                             {{ credntial.awt }}</button>
-                        <!-- ? credntial.awt: 'Select Signing Algorithm' -->
-                        <!-- <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" /> -->
+                        ? credntial.awt: 'Select Signing Algorithm'
+                        <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
                         <ul class="dropdown-menu content-menu">
                             <li (click)="jwtAuth('RS256')"><a> {{"settings.RS256" | translate}}</a></li>
                             <li (click)="jwtAuth('HS256')"><a> {{"settings.HS256" | translate}}</a></li>
+                        </ul>
+                    </div>
+                </div> -->
+                <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'">    
+                    <div class="label-text mb-1"> {{"settings.jwt_algorithm" | translate}} </div>                                    
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{ credntial.awt }}</button>                                            
+                        <ul class="dropdown-menu content-menu faq-filter-add mw-100 w-100 p-0" ngbDropdownMenu>
+                            <li (click)="jwtAuth('RS256')"><a>{{"settings.RS256" | translate}}</a></li>
+                            <li (click)="jwtAuth('HS256')"><a>{{"settings.HS256" | translate}}</a></li>            
                         </ul>
                     </div>
                 </div>
@@ -259,18 +269,20 @@
         </div>
     </div>
 </div>
-<kr-modal modalType="center" #addCredential modalClass="modal_popups_ view-query-modal">
+
+
+
+
+
+<kr-modal modalType="center" #addCredential modalClass="modal_popups_ add-credentials-popup">
     <div class="modal-header">
         <span> {{"settings.add_credential" | translate}} </span>
         <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
-    </div>
-    <!-- <perfect-scrollbar class="perfect-scroll-modal-body"> -->
+    </div>    
     <div class="modal-body">
         <div class="kr-sg-input-text mb-4">
             <div class="label-text"> {{"settings.credential_name" | translate}}</div>
-            <input type="text" id="addSourceTitleInput" autocomplete="off" name="credname" placeholder="Enter Name" [(ngModel)]="credntial.name" (change)="inputChanged('title')"
-                class="input-text">
-                <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
+            <input type="text" id="addSourceTitleInput" autocomplete="off" name="credname" placeholder="Enter Name" [(ngModel)]="credntial.name" (change)="inputChanged('title')" class="input-text">                
         </div>
         <div class="kr-sg-checkbox d-none p-0">
             <input id="checkbox_1" class="checkbox-custom" type="checkbox" [(ngModel)]="credntial.anonymus">
@@ -281,20 +293,19 @@
             <label for="checkbox_2" class="checkbox-custom-label">{{"settings.auto_register_new_user_Kore.ai_bots_platform" | translate}} </label>
         </div>
         <hr>
-
-        <div class="label-text mb-2">{{"settings.jwt_algorithm" | translate}} </div>
+        
         <div class="kr-sg-dropdowns">
-            <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input"> 
-                    <!-- data-toggle="dropdown" -->
-                    <span class="select-placeholder">
-                        {{credntial.awt}}</span> </button>
-                <ul class="dropdown-menu content-menu">
-                    <li (click)="jwtAuth('RS256')"><a>{{"settings.RS256" | translate}}</a></li>
-                    <li (click)="jwtAuth('HS256')"><a>{{"settings.HS256" | translate}}</a></li>
-                </ul>
+            <div class="label-text mb-1">{{"settings.jwt_algorithm" | translate}} </div>
+            <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'">                                        
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{credntial.awt}}</button>                                            
+                    <ul class="dropdown-menu content-menu faq-filter-add mw-100 w-100 p-0" ngbDropdownMenu>
+                        <li (click)="jwtAuth('RS256')"><a>{{"settings.RS256" | translate}}</a></li>
+                        <li (click)="jwtAuth('HS256')"><a>{{"settings.HS256" | translate}}</a></li>            
+                    </ul>
+                </div>
             </div>
-        </div>
+        </div>        
         <div class="switch-toggle mt-4 d-none">
             <label class="kr-sg-toggle">
                 <input type="checkbox" [(ngModel)]="credntial.enabled">
@@ -303,13 +314,16 @@
         </div>
 
 
-    </div>
-    <!-- </perfect-scrollbar> -->
+    </div>    
     <div class="modal-footer">
         <button class="kr-sg-button-primary btn_lg" (click)=" validateSource()">{{"settings.add" | translate}}</button>
         <button class="kr-sg-button-secondary btn_lg" (click)="closeModalPopup()">{{"settings.cancel" | translate}}</button>
     </div>
 </kr-modal>
+
+
+
+
 
 <!-- Instruction slider -->
 <div class="instructions-slide d-none ">
