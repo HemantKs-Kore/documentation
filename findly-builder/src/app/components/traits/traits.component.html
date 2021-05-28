@@ -4,34 +4,14 @@
         <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
     </div>
     <ng-container *ngIf="loadingTraits1">  
-    <!-- NO DATA FOUND -->
-        <ng-container *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)">
-            <perfect-scrollbar class="empty-scroll">
-                <div  class="empty-landing-screen" >
-                <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/traits-empty.svg"></div>
-                <ng-container *ngIf="loadImageText">
-                    <div class="empty-title">You haven’t added any Traits yet!</div>
-                    <div class="desc-text"> Traits are specific entities, attributes or details that the users express in their conversations.  Traits present in the utterance can be used in driving the intent detection and bot conversation flows. SearchAssist allows you to define Traits and train the utterances.
-                    </div>
-                    <div class="kr-sg-dropdowns" #selectSourceDrop='ngbDropdown' ngbDropdown [container]="'body'">                                         
-                        <div class="dropdown dropdown-open">
-                            <button class='kr-sg-button-primary btn_lg px-3' (click)='createNewTraits()'>Add Traits</button>
-                        </div>                                    
-                    </div>
-                </ng-container>
-                <ng-container *ngIf="noItems && emptySearchResults">
-                    <div class="desc-text">Your Search Query doesn't match with any record.</div>
-                </ng-container>
-                </div>
-            </perfect-scrollbar>
-        </ng-container>
+    
     <!-- TABLE CONTENT -->
-    <div class="traits" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
+    <div class="traits">
         
-        <div class="table-list-content" *ngIf="traits.traitGroups &&  traits.traitGroups.length">                         
+        <div class="table-list-content" >                         
             <div class="seach_add_feild">
                 <div class="title">Traits</div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
                     <!-- <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
                         <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="serachTraits">           
                     </div>  -->
@@ -49,11 +29,11 @@
                     <!-- <button class="kr-sg-button-primary btn_lg" (click)="trainIndex()">Train Index</button> -->
                 </div>
             </div>  
-            <div class="trailts-table-header row">
+            <div class="trailts-table-header row" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
                 <div class="col-3 title">TRAIT GROUP</div>
                 <div class="col-8 title">TRAITS</div>
             </div>                 
-            <perfect-scrollbar class="traits-scroll-data">
+            <perfect-scrollbar class="traits-scroll-data" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
                 <div class="traits-body-sec">
                     <div class="content-body row col-12 m-0" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">
                         <div class="col-3 traitGroup-name" title="{{traitGroup.groupName || '---'}}">{{traitGroup.groupName || '---'}}</div>
@@ -93,6 +73,27 @@
         </div>
 
     </div>
+    <!-- NO DATA FOUND -->
+    <ng-container *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)">
+        <perfect-scrollbar class="empty-scroll">
+            <div  class="empty-landing-screen" >
+            <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/traits-empty.svg"></div>
+            <ng-container *ngIf="loadImageText">
+                <div class="empty-title">You haven’t added any Traits yet!</div>
+                <div class="desc-text"> Traits are specific entities, attributes or details that the users express in their conversations.  Traits present in the utterance can be used in driving the intent detection and bot conversation flows. SearchAssist allows you to define Traits and train the utterances.
+                </div>
+                <div class="kr-sg-dropdowns" #selectSourceDrop='ngbDropdown' ngbDropdown [container]="'body'">                                         
+                    <div class="dropdown dropdown-open">
+                        <button class='kr-sg-button-primary btn_lg px-3' (click)='createNewTraits()'>Add Traits</button>
+                    </div>                                    
+                </div>
+            </ng-container>
+            <ng-container *ngIf="noItems && emptySearchResults">
+                <div class="desc-text">Your Search Query doesn't match with any record.</div>
+            </ng-container>
+            </div>
+        </perfect-scrollbar>
+    </ng-container>
     <!-- CREATE NEW TRAIT MODAL-->
     </ng-container>
 </div>
