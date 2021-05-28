@@ -702,10 +702,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit),
         outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit)
       }
-      if (!payload.rules.length) {
-        this.errorToaster(null, 'Atleast one condition is required');
-        return;
-      }
+      // if (!payload.rules.length) {
+      //   this.errorToaster(null, 'Atleast one condition is required');
+      //   return;
+      // }
       if (!payload.outcomes.length) {
         this.errorToaster(null, 'Atleast one outcome is required');
         return;
