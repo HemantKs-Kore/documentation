@@ -1,7 +1,7 @@
 <div class="business-rules-wrapper">
     <div class="header-sec col-12 row m-0">
         <div class="col-4 lef-sec p-0" *ngIf="!(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)">
-            <span class="title">Rules</span>
+            <span class="title">Business Rules</span>
         </div>
         <div class="col-4 lef-sec p-0" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">
             <div class="selected-count" *ngIf="!selcectionObj.selectAll">
@@ -82,9 +82,25 @@
             <div class="col-3 content">
                 {{ "businessRules.outcome_caps" | translate }}
             </div>
-            <div class="col-3 content cursor-pointer" (click)="sortBy('isRuleActive')">
+            <div class="col-3 content cursor-pointer d-flex align-items-center" (click)="sortBy('isRuleActive')">
+                <span class="d-flex align-items-center flex-column mr-1">
                 <img *ngIf="!(selectedSort && selectedSort === 'isRuleActive')" src="assets/icons/sort_up_down.svg" class="pr-1" />
-                <img *ngIf="selectedSort && selectedSort === 'isRuleActive'" [ngClass]="{ upArrow: isAsc }" src="assets/icons/caretDown.svg" class="pr-1" /> {{ "businessRules.status_caps" | translate }}
+                <img *ngIf="selectedSort && selectedSort === 'isRuleActive'" [ngClass]="{ upArrow: isAsc }" src="assets/icons/caretDown.svg" class="pr-1" /></span> {{ "businessRules.status_caps" | translate }}
+                <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isRuleActiveFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">
+                            <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                        </button>
+                        <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                            <li (click)="isRuleActiveFilter.close();filterTable('all','isRuleActive')">
+                                <span class="list-name">All</span>
+                                <img [ngClass]="{'hide': filterSystem.isRuleActiveFilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
+                                <li *ngFor="let docType of isRuleActiveArr" (click)="isRuleActiveFilter.close();filterTable(docType,'isRuleActive')">
+                                    <span
+                                        class="list-name">{{docType == false ? 'Inactive' :(docType == true? 'Active': '')}}</span><img
+                                        [ngClass]="{'hide': filterSystem.isRuleActiveFilter !== docType}" src="assets/icons/check-blue.svg"></li>                       
+                        </ul>
+                    </div>
             </div>
         </div>
         <perfect-scrollbar class="scroll_table">

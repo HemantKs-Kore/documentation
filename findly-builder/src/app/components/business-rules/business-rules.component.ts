@@ -36,8 +36,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   submitted = false;
   rules = [];
   currentSugg: any = [];
-  selectedSort;
-  isAsc;
+  selectedSort='';
+  isAsc = true;
   loadingContent = true;
   selcectionObj: any = {
     selectAll: false,
@@ -100,6 +100,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     NOT_INDEXED: 'Indexed property has been set to False for this field',
     NOT_EXISTS: 'Associated field has been deleted'
   }
+  filterSystem: any = {
+    'isRuleActiveFilter': 'all'
+  }
+  beforeFilterRules: any = [];
+  isRuleActiveArr:any = [];
   private contextSuggestedImput: ElementRef;
   autoSuggestInputItems: any;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -339,6 +344,34 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     } else {
       this.currentSugg = mainContext;
     }
+  }
+  filterTable(source, headerOption) {
+    console.log(this.rules, source, headerOption);
+    this.filterSystem.isRuleActiveFilter = 'all';
+
+    this.filterRules(source, headerOption);
+    switch (headerOption) {
+      case 'isRuleActive': { this.filterSystem.isRuleActiveFilter = source; return; };
+    };
+  }
+  filterRules(source, headerOption) {
+    if (!this.beforeFilterRules.length) {
+      this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
+    }
+    let tempRules = this.beforeFilterRules.filter((field: any) => {
+      if (source !== 'all') {
+        if (headerOption === 'isRuleActive') {
+          if (field.isRuleActive === source) {
+            return field;
+          }
+        }
+      }
+      else {
+        return field;
+      }
+    });
+
+    this.rules = JSON.parse(JSON.stringify(tempRules));
   }
   selected(event: MatAutocompleteSelectedEvent, ruleObj, index): void {
     const newSelectedValue = event.option.viewValue;
@@ -616,6 +649,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.service.invoke('get.businessRules', quaryparms).subscribe(res => {
       this.rules = res.rules || [];
       this.loadingContent = false;
+      if (this.rules.length) {
+        this.rules.forEach(element => {
+          this.isRuleActiveArr.push(element.isRuleActive);
+        });
+        this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
+      }
       this.addRemoveRuleFromSelection(null, null, true);
       if (res.length > 0) {
         this.loadingContent = false;
