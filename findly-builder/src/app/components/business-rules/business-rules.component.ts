@@ -554,6 +554,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
     }
   }
+  selectAllFromPartial(){
+    this.selcectionObj.selectAll = true;
+    $('#selectAllFacets')[0].checked = true;
+    this.selectAll();
+  }
   selectAll(unselectAll?) {
     const allfacets = $('.selectRuleCheckBoxDiv');
     if (allfacets && allfacets.length) {
