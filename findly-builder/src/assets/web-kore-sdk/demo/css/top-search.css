@@ -1421,6 +1421,7 @@ float: right;
   border-radius: 4px;
   width: 420px;
   display: none;
+  min-height: 578px;
 }
 .sdk-top-down-interface .top-down-search-background-div .conversation-container {
   position: absolute;
@@ -1434,6 +1435,18 @@ float: right;
   width: 420px;
   display: none;
 }
+
+.sdk-top-down-interface .conversation-container::before {
+  content: "";
+  position: fixed;
+  background: rgba(255, 255, 255, 0.7);
+  width: 100%;
+  height: 100%;
+  left: 0;
+  z-index: -1;
+  top: 58px;
+}
+
 .sdk-top-down-interface .conversation-container .conversation-title {
   position: relative;
   width: 100%;
