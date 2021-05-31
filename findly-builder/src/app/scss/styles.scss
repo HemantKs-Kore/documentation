@@ -606,10 +606,10 @@ div.divBlockEmptylastChild:first-child {
     background: #FFFFFF;
     box-shadow: 0px 10px 35px rgba(32, 33, 36, 0.2);
     border-radius: 8px;
-    padding: 17px 15px;
+    padding: 17px 10px;
     border: 0;
     margin: 11px 0 0 0;
-    width: 471px; 
+    width: 325px; 
     &.ml-58{
         margin-left: 58px;
     }
@@ -624,21 +624,21 @@ div.divBlockEmptylastChild:first-child {
         transform: rotate(-45deg);
     }     
     &.w-274px{
-        width: 274px;
+        width: 230px;
         &::before{
             content: "";
             position: absolute;
             width: 12px;
             height: 12px;
             right: auto;
-            left: 133px;
+            left: 48%;
             top: -5px;
             background: #FFFFFF;
             transform: rotate(-45deg);
         }  
     }
     .inner-data-column{
-        padding: 0 0 0 6px;
+        padding: 0 10px;
         .heading{
             color: #9AA0A6;
             font-size: 12px;
@@ -3274,4 +3274,8 @@ app-useronboarding-journey{
             }
         }
     }
+}
+
+.ml--10{
+    margin-left: -10px !important;
 }
