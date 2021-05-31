@@ -19568,7 +19568,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var payload = {
         "query": $('#search').val(),
         // "maxNumOfResults": 9,
-        "maxNumOfResults": 3,
+        "maxNumOfResults": 5,
         "userId": _self.API.uuid,
         "streamId": _self.API.streamId,
         "lang": "en",

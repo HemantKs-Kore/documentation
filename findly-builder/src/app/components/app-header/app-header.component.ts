@@ -434,9 +434,12 @@ export class AppHeaderComponent implements OnInit {
       else if (status === 'IN_PROGRESS' || status === 'validation') {
         return 'In-progress';
       }
+      else if (status === 'FAILURE') {
+        return 'Failed'
+      }
     }
     else {
-      if (status === 'SUCCESS' || status === 'FAILURE') {
+      if (status === 'SUCCESS') {
         return true;
       }
       else {
