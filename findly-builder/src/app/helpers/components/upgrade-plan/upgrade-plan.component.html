@@ -78,6 +78,7 @@
   <perfect-scrollbar>
     <div class="modal-body" *ngIf="orderConfirmData&&overageData">
       <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Free','Standard']).includes(selectedPlan.planName)">You are changing from <span>{{selectedPlan&&selectedPlan.planName}} to</span> <span> {{orderConfirmData.name}} Plan</span>. Please find the order summary below.</div>
+      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Pro']).includes(selectedPlan.planName)&&orderConfirmData&&orderConfirmData.name=='Pro'">You are changing from <span>{{selectedPlan&&selectedPlan.planName}} to</span> <span> {{orderConfirmData.name}} Plan</span>. Please find the order summary below.</div>
       <div class="plan-desc" *ngIf="overageData.overageShow">You have added additional <span *ngIf="overageData.docCount>=1">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}} documents </span><span *ngIf="overageData.queryCount>=1">, {{overageData.overageDeatils.searchQueries.limit | valueFormat}} queries </span> to your plan. Please find the order summary below.</div>
       <ng-container *ngIf="!overageData.overageShow&&selectedPlan&&selectedPlan.planName=='Pro'&&orderConfirmData&&orderConfirmData.name=='Standard'">
         <ul class="order-plan-details">

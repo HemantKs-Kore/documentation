@@ -830,10 +830,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           //this.crwal_jobId = res.jobId
           console.log("this.statusObject", this.statusObject)
         }, errRes => {
-          if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
-            this.addSourceModalPopRef.close();
-            this.errorToaster(errRes, errRes.error.errors[0].msg);
+          if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessDenied') {
             this.upgrade();
+            this.errorToaster(errRes, errRes.error.errors[0].msg);
           }
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
             this.notificationService.notify(errRes.error.errors[0].msg, 'error');
