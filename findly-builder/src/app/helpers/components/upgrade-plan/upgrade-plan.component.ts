@@ -41,6 +41,7 @@ export class UpgradePlanComponent implements OnInit {
   showLoader: boolean;
   btnDisable: boolean;
   invoiceOrderId: any;
+  featuresExceededUsage: any;
   payementResponse: any = {
     hostedPage: {
       transactionId: "",
@@ -256,6 +257,10 @@ export class UpgradePlanComponent implements OnInit {
             this.closeChoosePlanPopup();
             this.closeOrderConfPopup();
             this.btnDisable = false;
+          }
+          else if (res.status == 'failed') {
+            this.openChangePlanModel();
+            this.featuresExceededUsage = res.featuresExceededUsage;
           }
         }, errRes => {
           if (errRes && errRes.error && errRes.error.errors[0].code == 'ERR_FAILED_ACCESS_EXCEEDED') {
