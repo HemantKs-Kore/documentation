@@ -1435,8 +1435,17 @@ float: right;
   width: 420px;
   display: none;
 }
-
 .sdk-top-down-interface .conversation-container::before {
+  content: "";
+  position: fixed;
+  background: rgba(255, 255, 255, 0.7);
+  width: 100%;
+  height: 100%;
+  left: 0;
+  z-index: -1;
+  top: 0px;
+}
+.sdk-top-down-interface .top-down-search-background-div .conversation-container::before {
   content: "";
   position: fixed;
   background: rgba(255, 255, 255, 0.7);
@@ -1446,7 +1455,6 @@ float: right;
   z-index: -1;
   top: 58px;
 }
-
 .sdk-top-down-interface .conversation-container .conversation-title {
   position: relative;
   width: 100%;
