@@ -396,6 +396,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         livesearchUrl: liveSearchAPIURL + streamId + '/' + SearchIndexID + "/liveSearch",
         // searchUrl: baseUrl + "/search/" + SearchIndexID,
         searchUrl: searchAPIURL + streamId + '/' + SearchIndexID + "/search",
+        unlockbotUrl: searchAPIURL + streamId + '/' + SearchIndexID + "/unlockbot",
         metricsUrl: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/metrics/logs", /*/api/1.1/ */
         // popularSearchesUrl: "https://app.findly.ai/searchAssist/" + SearchIndexID + "/popularSearches",
         popularSearchesUrl: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/popularSearches",
@@ -7653,9 +7654,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (config.searchHandler) {
           config.searchHandler(data)
         }
-        setTimeout( () => {
-          _self.checkBoostAndLowerTimes();
-        }, 400);
+        // setTimeout( () => {
+        //   _self.checkBoostAndLowerTimes();
+        // }, 400);
       });
       if (config.structuredDataContainer) {
         structuredDataContainer = config.structuredDataContainer;
@@ -17818,9 +17819,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'facetPosition': _self.vars.filterConfiguration.aligned
         });
         $('#resultRankingId').append(resultRanking);
-        setTimeout( () => {
-          _self.checkBoostAndLowerTimes();
-        }, 400);
+        // setTimeout( () => {
+        //   _self.checkBoostAndLowerTimes();
+        // }, 400);
         _self.bindAllResultRankingOperations();
         _self.bindShowAllResultsTrigger(showAllHTML, facetData, data);
         setTimeout(() => {
@@ -18096,9 +18097,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results'});
         }, 500);
           }
-          setTimeout( () => {
-            _self.checkBoostAndLowerTimes();
-          }, 400);
+          // setTimeout( () => {
+          //   _self.checkBoostAndLowerTimes();
+          // }, 400);
         }
       })
 
@@ -20721,6 +20722,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $(".close-conv-icon").off('click').on('click', function (e) {
         closeConversation();
+        _self.unlockBot();
       });
       function closeConversation() {
         $('#conversation-container').hide();
@@ -21027,6 +21029,47 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#live-search-result-box').hide();
         }
       });
+    }
+    FindlySDK.prototype.unlockBot = function () {
+      var _self = this;
+      var payload  = {
+        "userId": _self.API.uuid,
+        "streamId": _self.API.streamId,
+        "lang": "en"
+      }
+      var url = _self.API.unlockbotUrl;
+      var bearer = "bearer " + this.bot.options.accessToken || this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
+      var headers = {};
+
+      
+
+      headers["Authorization"] = bearer;
+      headers["Content-Type"] = "application/json";
+      payload.userId = this.bot.userInfo.userInfo.userId;
+      payload.streamId = this.bot.options.botInfo.taskBotId;
+      payload.botInfo = this.bot.options.botInfo;
+      if(!_self.isDev) {
+        if(_self.config.botOptions.assertion){
+          headers.auth = _self.config.botOptions.assertion;
+        }
+        payload['client']= "sdk";
+      }else{
+        payload['client']= "botbuilder";
+      }
+      payload = JSON.stringify(payload);
+      return $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'json',
+        headers: headers,
+        data: payload,
+        success: function (data) {
+          // console.log(data);
+        },
+        error: function (err) {
+          console.log(err)
+        }
+      })
     }
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
