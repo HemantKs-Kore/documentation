@@ -76,10 +76,10 @@
                 <li class="nav-item autoSearchTools d-none">
                     <img src="assets/icons/sidemenu/search.svg" (click)="toggleSearch(true)" [ngClass]="{'d-none': searchActive}">                   
                     <div class="kr-sg-input-search" [ngClass]="{'d-none': !searchActive}">
-                        <input type="text" placeholder="Search" class="input-search" (keyup.enter)="triggerRoute(searchText)" [ngClass]="{'pl-33':!searchText}" autocomplete="off" [(ngModel)]="searchText" (focusout)="toggleSearch(false)" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                        <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup.enter)="triggerRoute(searchText)" [ngClass]="{'pl-33':!searchText}" autocomplete="off" [(ngModel)]="searchText" (focusout)="focusoutSearch()" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
                         <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchText">
-                        <img class="close-icon" *ngIf="searchText" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}" (click)="searchText ='';toggleSearch(false)">
+                        <img class="close-icon" *ngIf="searchText" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="searchText ='';toggleSearch(false)">
                     </div>
                 </li>
                 <!-- <div class="text-right nav-item trainBlock d-none">
@@ -115,13 +115,13 @@
                 </li>
                 <li class="nav-item search-block show-search1">
                     <div class="search_icon" [ngClass]="{'active-search-top' : showSearch}">
-                        <img src="assets/icons/sidemenu/search.svg" (click)="showSearch=!showSearch;searchText=''">
+                        <img src="assets/icons/sidemenu/search.svg" (click)="focusinSearch()" (mouseover)="activeSearch=true" (mouseout)="activeSearch=false">
                     </div>
                     <div class="global-searc-container" *ngIf='showSearch'>
                         <div class="kr-sg-input-search">     
-                            <input type="text" class="input-search"  [ngClass]="{'pl-2':searchText}" (keyup.enter)="triggerRoute(searchText)" autocomplete="off" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')" (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'" autofocus>
+                            <input type="text" class="input-search" id="globalSearch"  [ngClass]="{'pl-2':searchText}" (focusout)="focusoutSearch();"  (keyup.enter)="triggerRoute(searchText)" autocomplete="off" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')" (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'" autofocus>
                             <!-- <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchText"> -->
-                            <img class="close-icon" *ngIf="searchText" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}" (click)="searchText='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            <img class="close-icon" *ngIf="searchText" src="assets/icons/close_icon.svg"  [ngClass]="{'pr-22':searchText}" (click)="searchText='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
                         </div>
                     </div>
                 </li>
