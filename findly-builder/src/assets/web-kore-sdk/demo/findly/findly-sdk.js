@@ -7653,9 +7653,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (config.searchHandler) {
           config.searchHandler(data)
         }
-        setTimeout( () => {
-          _self.checkBoostAndLowerTimes();
-        }, 400);
+        // setTimeout( () => {
+        //   _self.checkBoostAndLowerTimes();
+        // }, 400);
       });
       if (config.structuredDataContainer) {
         structuredDataContainer = config.structuredDataContainer;
@@ -17818,9 +17818,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'facetPosition': _self.vars.filterConfiguration.aligned
         });
         $('#resultRankingId').append(resultRanking);
-        setTimeout( () => {
-          _self.checkBoostAndLowerTimes();
-        }, 400);
+        // setTimeout( () => {
+        //   _self.checkBoostAndLowerTimes();
+        // }, 400);
         _self.bindAllResultRankingOperations();
         _self.bindShowAllResultsTrigger(showAllHTML, facetData, data);
         setTimeout(() => {
@@ -18096,9 +18096,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results'});
         }, 500);
           }
-          setTimeout( () => {
-            _self.checkBoostAndLowerTimes();
-          }, 400);
+          // setTimeout( () => {
+          //   _self.checkBoostAndLowerTimes();
+          // }, 400);
         }
       })
 
