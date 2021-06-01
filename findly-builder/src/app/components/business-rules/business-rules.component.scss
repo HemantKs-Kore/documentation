@@ -232,6 +232,7 @@
                     display: flex;
                     align-items: center;
                     .kr-sg-checkbox {
+                        visibility: hidden !important;
                         .checkbox-custom {
                             height: auto;
                             position: absolute;
@@ -336,6 +337,9 @@
                 background: #F8F9FA;
                 transition: 0.3s all ease-in;
                 .content {
+                    .kr-sg-checkbox {
+                        visibility: visible !important;
+                    }
                     &.actions {
                         .actions-icons {
                             display: block;
