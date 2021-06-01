@@ -1202,6 +1202,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.workflowService.selectedApp(selectedApp);
         this.streamID = null;
+        this.linkedBotID = null;
+        this.linkedBotName = null;
+        this.linkedBotDescription = null;
+        this.botToBeUnlinked =null;
+        this.islinked = false;
         this.getAssociatedBots();
         this.notificationService.notify('Bot unlinked, successfully', 'success');
       },
