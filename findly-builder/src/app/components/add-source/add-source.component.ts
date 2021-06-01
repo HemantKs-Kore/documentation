@@ -36,6 +36,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   crawlOkDisable = false;
   crwalObject: CrwalObj = new CrwalObj();
   allowUrl: AllowUrl = new AllowUrl();
+  allBotArray:any= [];
+  @ViewChild('botsConfigurationModalElement') botsConfigurationModalElement: KRModalComponent;
   blockUrl: BlockUrl = new BlockUrl();
   sampleJsonPath: any = '/home/assets/sample-data/sample.json';
   sampleCsvPath: any = '/home/assets/sample-data/sample.csv';
@@ -53,7 +55,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   doesntContains = 'Doesn\'t Contains';
   dataFromScheduler: scheduleOpts
   loadFullComponent = true;
-
+  linkedBotID: any;
+  linkedBotName: any;
+  linkedBotDescription: any;
+  linkedBotData:any={};
+  islinked = false;
+  botToBeUnlinked = '';
   useCookies = true;
   respectRobotTxtDirectives = true;
   crawlBeyondSitemaps = false;
@@ -62,6 +69,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   crwalOptionLabel = "Crawl Everything";
   crawlDepth: number;
   maxUrlLimit: number;
+  botsConfigurationModalRef: any;
+  submitted = false;
+  showPassword = false;
+  configurationLink:any={
+    postUrl:'',
+    accessToken:'',
+    webhookUrl:'',
+    clientSecret:'',
+    clientId:''
+  }
+  selectedLinkBotConfig:any;
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
@@ -1068,11 +1086,25 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         //this.associatedBots = [...bots]
         console.log(this.associatedBots);
         console.log(bots);
-        // this.associatedBots.forEach(element => {
-        // if (this.streamID == element._id) {
-        //   this.linkedBotName = element.name;
-        // }
-        // })
+        this.associatedBots.forEach(element => {
+        if (this.streamID == element._id) {
+          this.linkedBotName = element.name;
+          this.linkedBotID = element._id;
+                this.botToBeUnlinked = element._id;
+                this.islinked = true;
+                if (this.workflowService.selectedApp()?.configuredBots[0]) {
+                  this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+                }
+                this.linkedBotData = {
+                  botName : element.name,
+                  botId:element._id,
+                  botType:element.type,
+                  botDescription:element.description,
+                  channels:this.workflowService.selectedApp()?.configuredBots[0]?.channels,
+                  approvedChannels:element.approvedChannels
+                }
+        }
+        })
         /*this.associatedBotArr = [];
         if (this.associatedBots.length > 0) {
           this.associatedBots.forEach(element => {
@@ -1342,6 +1374,210 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (value <= -1) {
       this.crawlDepth = 0;
     }
+  }
+  copy(val) {
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+    this.notificationService.notify('Copied to clipboard', 'success')
+
+  }
+
+  showPasword() {
+    var show: any = document.getElementById("password");
+    if (show.type === "password") {
+      this.showPassword=true;
+      show.type = "text";
+
+    } else {
+      this.showPassword= false;
+      show.type = "password";
+    }
+  }
+  closeBotsConfigurationModalElement() {
+    if (this.botsConfigurationModalRef && this.botsConfigurationModalRef.close) {
+      this.botsConfigurationModalRef.close();
+      this.submitted = false;
+    }
+  }
+  openBotsConfigurationModalElement(bot) {
+    this.selectedLinkBotConfig = bot;
+    const queryParams = {
+      searchIndexID: this.searchIndexId
+    }
+    this.service.invoke('get.generateChannelCreds', queryParams).subscribe(
+      res => {
+        this.configurationLink={
+          postUrl:res.postUrl,
+          accessToken:res.accessToken,
+          webhookUrl:'',
+          clientSecret:'',
+          clientId:''
+        }
+          this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to geneerate channel credentials', 'error');
+        }
+      }
+    );
+    // this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
+
+  }
+  validateBotConfiguration(){
+    if(!this.configurationLink.clientId || !this.configurationLink.clientSecret || !this.configurationLink.webhookUrl || !this.configurationLink.postUrl || !this.configurationLink.accessToken){
+      return false
+    }else{
+      return true;
+    }
+  }
+  unlinkBotWhithPublish(linkingBotID){
+    let requestBody: any = {};
+    let selectedApp: any;
+    if (this.searchIndexId) {
+      // this.loadingContent = true;
+      const queryParams = {
+        searchIndexID: this.searchIndexId
+      }
+      requestBody['linkedBotId'] = this.streamID//this.botToBeUnlinked;
+      console.log(requestBody);
+
+      this.service.invoke('put.UnlinkBot', queryParams, requestBody).subscribe(res => {
+        console.log(res);
+        // this.linkAfterUnlink(linkingBotID);
+        selectedApp = this.workflowService.selectedApp();
+        if (selectedApp.configuredBots[0]) {
+          selectedApp.configuredBots[0]._id = null;
+        }
+        else {
+          selectedApp.publishedBots[0]._id = null;
+        }
+        this.linkedBotID = null;
+        this.linkedBotName = null;
+        this.linkedBotDescription = null;
+        this.botToBeUnlinked =null;
+        this.islinked = false;
+        this.workflowService.selectedApp(selectedApp);
+        this.streamID = null;
+        this.saveLink();
+        //this.getAssociatedBots();
+        //this.getAssociatedTasks(this.streamId);
+        this.notificationService.notify("Bot Unlinked Successfully.", 'success')
+        // this.notificationService.notify("Bot unlinked Successfully. Please publish to reflect", 'success');
+        
+      },
+        (err) => { 
+          console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error'); 
+          // this.loadingContent = false;
+          //this.getAssociatedTasks(this.streamId);
+        }
+       )
+     }
+  }
+  saveLink(){
+    this.submitted = true;
+    if(!this.validateBotConfiguration()){
+      return;
+    }
+    if(this.botToBeUnlinked && this.islinked){
+      this.unlinkBotWhithPublish(this.selectedLinkBotConfig._id);
+      this.workflowService.linkBot(this.selectedLinkBotConfig._id);
+    }else{
+      // this.loadingContent = true;
+      let selectedApp: any;
+      const queryParams = {
+        searchIndexID: this.searchIndexId
+      }
+      let channelType = 'ivr';
+      if(this.configurationLink.webhookUrl.split('/').indexOf('hookInstance')>-1){
+        channelType = this.configurationLink.webhookUrl.split('/')[this.configurationLink.webhookUrl.split('/').indexOf('hookInstance') +1]
+      }
+      let payload = {
+        "linkBotId":this.selectedLinkBotConfig._id,
+     "linkBotName": this.selectedLinkBotConfig.name,
+     "channels": [
+            {
+             "type": channelType,
+             "app": {
+                 "clientId": this.configurationLink.clientId,
+                 "name": (this.selectedLinkBotConfig.channels[0].app||{}).name||(this.selectedLinkBotConfig.channels[0].app||{}).appName ||'',
+                 "clientSecret": this.configurationLink.clientSecret
+                },
+            "webhookUrl": this.configurationLink.webhookUrl,
+            "postUrl": this.configurationLink.postUrl,
+            "accessToken": this.configurationLink.accessToken
+            }
+        ]
+     
+      }
+      this.service.invoke('put.configLinkbot', queryParams, payload).subscribe(
+        res => {
+          this.allBotArray =[];
+        res.configuredBots.forEach(element => {
+          let obj = {
+            "_id": element._id,
+            "state": "new"
+          }
+          this.allBotArray.push(obj);
+        });
+
+        // if(this.allBotArray.length > 0){
+        //   this.universalPublish();
+        // }
+         // Universal Bot Publish here.
+        console.log(res);
+        selectedApp = this.workflowService.selectedApp();
+        if (res.configuredBots[0]) {
+          selectedApp.configuredBots[0] = {};
+          selectedApp.configuredBots[0]._id = res.configuredBots[0]._id;
+          this.linkedBotID = res.configuredBots[0]._id;
+          this.linkedBotName = res.configuredBots[0].botName;
+        }
+        this.linkedBotDescription = res.description;
+          this.closeBotsConfigurationModalElement();
+          if (selectedApp.configuredBots[0]) {
+            this.streamID = selectedApp.configuredBots[0]._id;
+          }
+          else {
+            this.streamID = selectedApp.publishedBots[0]._id;
+          }
+          if (this.workflowService.selectedApp()) {
+            this.appSelectionService.getStreamData(this.workflowService.selectedApp())
+          }
+          this.botToBeUnlinked = this.selectedLinkBotConfig._id;
+          this.selectedLinkBotConfig = null;
+          this.islinked = true;
+          // this.getAssociatedTasks(this.streamID)
+          this.getAssociatedBots();
+          this.workflowService.linkBot(this.streamID);
+          this.workflowService.smallTalkEnable(res.stEnabled);
+          this.notificationService.notify("Bot Linked Successfully", 'success');
+          // this.syncLinkedBot();
+          // this.loadingContent = false;
+        },
+        errRes => {
+          // this.loadingContent = false;
+          if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+            this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+          } else {
+            this.notificationService.notify('Failed to geneerate channel credentials', 'error');
+          }
+        }
+      );
+      
+    }
+   
   }
 }
 
