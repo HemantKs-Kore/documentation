@@ -37,6 +37,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   crwalObject: CrwalObj = new CrwalObj();
   allowUrl: AllowUrl = new AllowUrl();
   allBotArray:any= [];
+  showMore = false;
   @ViewChild('botsConfigurationModalElement') botsConfigurationModalElement: KRModalComponent;
   blockUrl: BlockUrl = new BlockUrl();
   sampleJsonPath: any = '/home/assets/sample-data/sample.json';
