@@ -34,6 +34,7 @@ export class UsageLogComponent implements OnInit {
   loading = false;
   selectedSort = '';
   isAsc = true;
+  componentType: string = 'addData';
   beforeFilterUsageLogs: any = [];
   constructor(
     public workflowService: WorkflowService,

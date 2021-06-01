@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation,OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
@@ -20,16 +20,16 @@ declare const $: any;
 export class TraitsComponent implements OnInit {
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('addUtteranceModalPop') addUtteranceModalPop: KRModalComponent;
-  currentUtteranceIndex:number;
-  currentTraitKey:string;
-  newUtterance:any;
-  tempUtterance:string;
+  currentUtteranceIndex: number;
+  currentTraitKey: string;
+  newUtterance: any;
+  tempUtterance: string;
   statusModalPopRef: any = [];
   addUtteranceModalPopRef: any = [];
   utteranceList = [];
   showUtteranceInput = false;
-  showEditUtteranceInput:any;
-  showEditTraitInput:any;
+  showEditUtteranceInput: any;
+  showEditTraitInput: any;
   traitsObj: any = [];
   traitType: string;
   traitsTableData: any = [];
@@ -81,7 +81,8 @@ export class TraitsComponent implements OnInit {
   subscription: Subscription;
 
   submitted = false;
-  uttSubmitted = false
+  uttSubmitted = false;
+  componentType: string = 'indexing';
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -101,14 +102,14 @@ export class TraitsComponent implements OnInit {
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadFileds();
     })
-    
-    
+
+
   }
   loadingTraits1: boolean;
   loadImageText: boolean = false;
-  imageLoad(){
+  imageLoad() {
     console.log("image loaded now")
-    this.loadingTraits=false;
+    this.loadingTraits = false;
     this.loadingTraits1 = true;
     this.loadImageText = true;
   }
@@ -118,30 +119,30 @@ export class TraitsComponent implements OnInit {
       this.getTraitsGroupsApi(true);
     }
   }
-  trainIndex(){
+  trainIndex() {
     $('#trainId').click();
   }
-getTraitsSliceValue(traits){
-  let sliceValue = 0;
-  if(traits.length){
-  let columnWidth =document.getElementsByClassName('traits-groups')[0].clientWidth-65;
-    let traitsLength = 0;
-    traits.forEach((t)=>{
-      var canvas = document.createElement('canvas');
-var ctx = canvas.getContext("2d");
-ctx.font = "400 14px Roboto";        
-var width = ctx.measureText(t.traitName +', ').width;
-      traitsLength = width+ traitsLength;
-      if(columnWidth<traitsLength){
-        return sliceValue;
-      }else{
-        sliceValue = sliceValue +1;
-      }
-    })
-  }
+  getTraitsSliceValue(traits) {
+    let sliceValue = 0;
+    if (traits.length) {
+      let columnWidth = document.getElementsByClassName('traits-groups')[0].clientWidth - 65;
+      let traitsLength = 0;
+      traits.forEach((t) => {
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext("2d");
+        ctx.font = "400 14px Roboto";
+        var width = ctx.measureText(t.traitName + ', ').width;
+        traitsLength = width + traitsLength;
+        if (columnWidth < traitsLength) {
+          return sliceValue;
+        } else {
+          sliceValue = sliceValue + 1;
+        }
+      })
+    }
 
-  return sliceValue;
-}
+    return sliceValue;
+  }
   getTraitsGroupsApi(initial?) {
     if (initial) {
       this.loadingTraits = true;
@@ -229,7 +230,7 @@ var width = ctx.measureText(t.traitName +', ').width;
   };
   saveTraits(traitsGroup?, byTraitId?) {
     this.submitted = true;
-    if ( !this.traits.addEditTraits.groupName || !this.traits.addEditTraits.groupName.trim()) {
+    if (!this.traits.addEditTraits.groupName || !this.traits.addEditTraits.groupName.trim()) {
       this.notificationService.notify('Please provide a valid trait group', 'error');
       return;
     }
@@ -247,9 +248,9 @@ var width = ctx.measureText(t.traitName +', ').width;
       if (traitsGroup && traitsGroup._id && !byTraitId) {
         this.updateTraitsApi(traitsGroup._id, payload);
       } else if (!byTraitId) {
-        if(this.traits.traitGroups &&  this.traits.traitGroups.length){
-          let index = this.traits.traitGroups.findIndex((d)=> d.groupName == payload.groupName);
-          if(index>-1){
+        if (this.traits.traitGroups && this.traits.traitGroups.length) {
+          let index = this.traits.traitGroups.findIndex((d) => d.groupName == payload.groupName);
+          if (index > -1) {
             this.notificationService.notify('Trait group name is already added', 'error');
             return;
           }
@@ -560,16 +561,16 @@ var width = ctx.measureText(t.traitName +', ').width;
     this.statusModalPopRef = this.statusModalPop.open();
   }
   closeStatusModal() {
-    this.submitted=false;
+    this.submitted = false;
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
   }
-  openAddUtteranceModel(index,key,utteranceList,isView=false) {
-    if(isView && !utteranceList.length){
+  openAddUtteranceModel(index, key, utteranceList, isView = false) {
+    if (isView && !utteranceList.length) {
       return;
     }
-    this.showUtteranceInput = isView?false:true;
+    this.showUtteranceInput = isView ? false : true;
     this.showEditUtteranceInput = null;
     this.newUtterance = '';
     this.utteranceList = [];
@@ -637,7 +638,7 @@ var width = ctx.measureText(t.traitName +', ').width;
   };
   addNewUtter(utter, event) {
     const utteranceData = [];
-    if (event && (event.keyCode === 13 || event.type=='click') && utter !== '') {
+    if (event && (event.keyCode === 13 || event.type == 'click') && utter !== '') {
       let utternaceIndex = -1;
       const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
         if (utter === utterance) {
@@ -786,10 +787,10 @@ var width = ctx.measureText(t.traitName +', ').width;
     this.showSearch = !this.showSearch
   };
 
-  addNewUtterance( key, traitsGroup, index){
+  addNewUtterance(key, traitsGroup, index) {
     const utteranceData = [];
     this.uttSubmitted = true;
-    if(!this.utteranceList || !this.utteranceList.length){
+    if (!this.utteranceList || !this.utteranceList.length) {
       this.notificationService.notify('Please provide a valid utterance', 'error');
       return
     }
@@ -803,7 +804,7 @@ var width = ctx.measureText(t.traitName +', ').width;
     this.closeUtteranceModal();
   }
 
-  deleteUtterance = function (deletedutternace,event) {
+  deleteUtterance = function (deletedutternace, event) {
     if (event) {
       event.preventDefault();
       event.stopImmediatePropagation();
@@ -841,9 +842,9 @@ var width = ctx.measureText(t.traitName +', ').width;
         }
       });
   }
- 
-  editUtter(event,utter,index){
-    if(event && (event.keyCode === 13  || event.type=='click') && utter !== ''){
+
+  editUtter(event, utter, index) {
+    if (event && (event.keyCode === 13 || event.type == 'click') && utter !== '') {
       let utternaceIndex = -1;
       const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
         if (utter === utterance && index !== i) {
@@ -857,18 +858,18 @@ var width = ctx.measureText(t.traitName +', ').width;
       }
       this.showEditUtteranceInput = null;
       this.showUtteranceInput = false;
-      this.utteranceList[index]=utter;
+      this.utteranceList[index] = utter;
     }
   }
 
   editTraits(trait, event, displayName) {
-    if (event && (event.keyCode === 13 || event.type=='click') && trait !== '') {
+    if (event && (event.keyCode === 13 || event.type == 'click') && trait !== '') {
       if (!this.traits.addEditTraits.traits[trait]) {
         this.showEditTraitInput = null;
         this.traits.addEditTraits.traits[displayName].displayName = trait;
         this.traits.addEditTraits.traits[trait] = this.traits.addEditTraits.traits[displayName];
         delete this.traits.addEditTraits.traits[displayName];
-      } else if(this.traits.addEditTraits.traits[trait] && displayName == trait){
+      } else if (this.traits.addEditTraits.traits[trait] && displayName == trait) {
         this.showEditTraitInput = null;
       } else {
         this.notificationService.notify(trait + ' is already added', 'error');
@@ -876,30 +877,30 @@ var width = ctx.measureText(t.traitName +', ').width;
     }
   }
 
-  showEditTrait(index, event){
+  showEditTrait(index, event) {
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
-    this.showEditTraitInput=index;
+    this.showEditTraitInput = index;
   }
-  focusoutSearch(){
-    if(this.activeClose){
-      this.serachTraits='';
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.serachTraits = '';
       this.activeClose = false;
-     }
- this.showSearch= !this.showSearch;
-}
-  focusinSearch(inputSearch){
-    setTimeout(()=>{
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    },100)
+    }, 100)
   }
   ngOnDestroy() {
     const self = this;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    
+
   }
 }

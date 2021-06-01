@@ -15,8 +15,8 @@ export class SettingsComponent implements OnInit {
   slider = 0;
   refId = "";
   botID = '';
-  enableConfiguration=true;
-  showPassword:boolean;
+  enableConfiguration = true;
+  showPassword: boolean;
   configuredBot_streamId = "";
   selectedApp: any;
   serachIndexId: any;
@@ -41,6 +41,7 @@ export class SettingsComponent implements OnInit {
     awt: 'HS256',
     enabled: false
   };
+  componentType: string = 'addData';
   channels = [
     {
       id: 'rtm',
@@ -323,7 +324,7 @@ export class SettingsComponent implements OnInit {
       res => {
         if (res.configuredBots.length) this.configuredBot_streamId = res.configuredBots[0]._id
         console.log(res);
-        if( res && res.configuredBots){
+        if (res && res.configuredBots) {
           res.configuredBots.forEach(element => {
             let obj = {
               "_id": element._id,
@@ -332,7 +333,7 @@ export class SettingsComponent implements OnInit {
             this.allBotArray.push(obj);
           });
         }
-        if(res && res.unpublishedBots) {
+        if (res && res.unpublishedBots) {
           res.unpublishedBots.forEach(element => {
             let obj = {
               "_id": element._id,
@@ -340,7 +341,7 @@ export class SettingsComponent implements OnInit {
             }
             this.allBotArray.push(obj);
           });
-        } 
+        }
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -499,25 +500,25 @@ export class SettingsComponent implements OnInit {
   showPasword() {
     var show: any = document.getElementById("password");;
     if (show.type === "password") {
-      this.showPassword=true;
+      this.showPassword = true;
       show.type = "text";
 
     } else {
-      this.showPassword= false;
+      this.showPassword = false;
       show.type = "password";
     }
   }
-  focusoutSearch(){
-    if(this.activeClose){
-      this.searchchannel='';
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchchannel = '';
       this.activeClose = false;
-     }
- this.showSearch= !this.showSearch;
-}
-  focusinSearch(inputSearch){
-    setTimeout(()=>{
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    },100)
+    }, 100)
   }
 }
 

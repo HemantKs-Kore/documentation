@@ -21,6 +21,7 @@
                     border-radius: 0;
                     display: flex;
                     align-items: center;
+                    cursor: pointer;
                     &.active{
                         .active-steps{
                             border: 1px solid #0D6EFD;
@@ -809,11 +810,12 @@
                                         width: 270px;
                                         margin-top: 5px;
                                         .bg-color-selected{
+                                            background: #0D6EFD;
                                             border: 1px solid rgba(0, 0, 0, 0.1);
                                             box-sizing: border-box;
                                             border-radius: 1px;
-                                            width: 32px;
-                                            height: 32px;
+                                            width: 22px;
+                                            height: 22px;
                                             margin: 5px;
                                         }                            
                                     }

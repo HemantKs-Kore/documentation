@@ -1,4 +1,5 @@
 <div class="structured-data-container-web" [ngClass]="{'disableContainer' : disableContainer}">
+    <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="header-sec">
         <div class="title">{{'structuredData.structuredData' | translate}}</div>
         <div class="d-flex align-items-center" *ngIf="enableSearchBlock">

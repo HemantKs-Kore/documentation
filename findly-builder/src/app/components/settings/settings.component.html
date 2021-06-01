@@ -2,6 +2,7 @@
 
 <div class="channels-main-container">
     <div class="header-sec-breadcums col-12 row m-0 " *ngIf="slider==0">
+        <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <div class="col-4 lef-sec p-0"><span class="title">{{"settings.channels" | translate}}</span></div>
         <div class="col-8 right-sec p-0">
             <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">                               

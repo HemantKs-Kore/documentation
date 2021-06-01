@@ -29,6 +29,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   loading = false;
   isAsc = true;
   current_plan_name;
+  componentType: string = 'addData';
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,

@@ -1,6 +1,7 @@
 <div class="business-rules-wrapper">
     <div class="header-sec col-12 row m-0">
         <div class="col-4 lef-sec p-0" *ngIf="!(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)">
+            <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
             <span class="title">Business Rules</span>
         </div>
         <div class="col-4 lef-sec p-0" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">

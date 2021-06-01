@@ -27,8 +27,8 @@ export class TeamManagementComponent implements OnInit {
   serachIndexId;
   indexPipelineId;
   loadingContent = true;
-  showSearch=false;
-  activeClose=false;
+  showSearch = false;
+  activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   // serachTraits: any = '';
@@ -50,6 +50,7 @@ export class TeamManagementComponent implements OnInit {
   allMembers: string[] = [];
   allMembersCount: number;
   addOnBlur = true;
+  componentType: string = 'addData';
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
   @ViewChild('teamModalPouup') teamModalPouup: KRModalComponent;
@@ -195,17 +196,17 @@ export class TeamManagementComponent implements OnInit {
     }
     this.members = [];
   }
-  focusoutSearch(){
-      if(this.activeClose){
-        this.searchteam='';
-        this.activeClose = false;
-       }
-   this.showSearch= !this.showSearch;
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchteam = '';
+      this.activeClose = false;
+    }
+    this.showSearch = !this.showSearch;
   }
-  focusinSearch(inputSearch){
-    setTimeout(()=>{
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    },100)
+    }, 100)
   }
   toggleSearch() {
     if (this.showSearch && this.searchteam) {

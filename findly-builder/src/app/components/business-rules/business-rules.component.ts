@@ -36,14 +36,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   submitted = false;
   rules = [];
   currentSugg: any = [];
-  selectedSort='';
+  selectedSort = '';
   isAsc = true;
   loadingContent = true;
   selcectionObj: any = {
     selectAll: false,
     selectedItems: [],
   };
-  activeClose= false;
+  activeClose = false;
   sortObj: any = {}
   showSearch = false;
   searchRules = '';
@@ -104,10 +104,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     'isRuleActiveFilter': 'all'
   }
   beforeFilterRules: any = [];
-  isRuleActiveArr:any = [];
+  isRuleActiveArr: any = [];
   private contextSuggestedImput: ElementRef;
   autoSuggestInputItems: any;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  componentType: string = 'configure';
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -485,7 +486,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
     }
     if (key === 'operator') {
-      if(ruleObj.operator !== value){
+      if (ruleObj.operator !== value) {
         ruleObj.value = [];
       }
       ruleObj.operator = value;
@@ -554,7 +555,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
     }
   }
-  selectAllFromPartial(){
+  selectAllFromPartial() {
     this.selcectionObj.selectAll = true;
     $('#selectAllFacets')[0].checked = true;
     this.selectAll();
@@ -574,12 +575,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     //   $('#selectAllRules')[0].checked = false;
     // }
   }
-  validateRules(){
-    if(this.addEditRuleObj && this.addEditRuleObj.ruleName.length){
+  validateRules() {
+    if (this.addEditRuleObj && this.addEditRuleObj.ruleName.length) {
       this.submitted = false;
       return true;
     }
-    else{
+    else {
       return false;
     }
   }
@@ -619,7 +620,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         }
       });
     }
-    else{
+    else {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
@@ -876,16 +877,16 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       return false;
     }
   }
-  focusoutSearch(){
-    if(this.activeClose){
-      this.searchRules='';
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchRules = '';
       this.activeClose = false;
-     }
- this.showSearch= !this.showSearch;
-}
-  focusinSearch(inputSearch){
-    setTimeout(()=>{
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    },100)
+    }, 100)
   }
 }

@@ -58,6 +58,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   monthRange = "Jan - June";
   isyAxisDocumentdata: boolean = true;
   isyAxisQuerydata: boolean = true;
+  componentType: string = 'addData';
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,

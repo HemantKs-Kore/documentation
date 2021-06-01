@@ -8,6 +8,7 @@
 
 
   <div class="header-sec col-12 row m-0" *ngIf="!loadingContent">
+    <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="col-4 p-0 title-header">Bot Actions</div>
     <div class="col-8 right-sec p-0">
       <div *ngIf="linkedBotID" class="view-all-bots m-0" (click)="openBotsModalElement()">View All Bots</div>
