@@ -833,6 +833,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
       }
+      if(resourceType === 'web' && this.selectedSourceType.sourceType !== 'content'){
+        delete payload.advanceOpts;
+      }
       if (schdVal) {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
           this.openStatusModal();

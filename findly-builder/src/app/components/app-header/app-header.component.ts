@@ -448,7 +448,7 @@ export class AppHeaderComponent implements OnInit {
         return 'Stopped';
       }
       else if (status === 'QUEUED') {
-        return 'QUEUED';
+        return 'In-Queue';
       }
       else if (status === 'IN_PROGRESS' || status === 'validation') {
         return 'In-progress';
