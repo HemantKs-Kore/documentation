@@ -27,11 +27,11 @@ export class SearchInsightsComponent implements OnInit {
   dateType = "hour";
   group = "week";
   QWR_totalRecord:number;
-  QWR_limitPage : number = 4;
+  QWR_limitPage : number = 10;
   QWR_skipPage:number = 0;
 
   QWNR_totalRecord : number;
-  QWNR_limitPage : number = 4;
+  QWNR_limitPage : number = 10;
   QWNR_skipPage:number = 0;
 
   SQR_totalRecord : number;
@@ -133,7 +133,7 @@ export class SearchInsightsComponent implements OnInit {
       queryparams = {
         ...queryparams,
         offset: this.QWNR_skipPage || 0,
-        limit:this.QWNR_limitPage || 4
+        limit:this.QWNR_limitPage || 10
       };
     }
     else if(type == 'QueriesWithResults'){
