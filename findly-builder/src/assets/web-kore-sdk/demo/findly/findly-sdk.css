@@ -7861,7 +7861,7 @@ html , body{
     color: #161928;
     /* padding-left: 24px; */
     margin-bottom: 10px;    
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 .Search-BG-Copy .recentContainer .recentSearch.tile_with_header .tile-title{
     font-weight: 400 !important;

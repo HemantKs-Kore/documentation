@@ -559,8 +559,8 @@
                
                 <div class="allow-urls-sec row allow-urlBox pl-0 pr-0"
                   *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
-                  <div class="col-2 p-0 title">Allow URLs</div>
-                  <div class="col-10 p-0 d-flex align-items-center">
+                  <div class="col-1 p-0 title">Allow URLs</div>
+                  <div class="col-11 p-0 d-flex align-items-center">
                     <div class="kr-sg-dropdowns">
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input"
@@ -586,8 +586,8 @@
                 <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
                   <div *ngFor="let allow of selectedSource.advanceSettings.allowedURLs;let i = index"
                     class="allow-urls-sec row allow-urlBox m1010 pl-0 pr-0">
-                    <div class="col-2 p-0 title"></div>
-                        <div class="col-10 p-0 d-flex align-items-center">
+                    <div class="col-1 p-0 title"></div>
+                        <div class="col-11 p-0 d-flex align-items-center">
                           <div class="kr-sg-dropdowns">
                             <div class="dropdown dropdown-open">
                               <button class="dropdown-toggle dropdown-input"
@@ -612,8 +612,8 @@
                 
                 <div class="allow-urls-sec row allow-urlBox pl-0 pr-0"
                   *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
-                  <div class="col-2 p-0 title">Block URLs</div>
-                  <div class="col-10 p-0 d-flex align-items-center">
+                  <div class="col-1 p-0 title">Block URLs</div>
+                  <div class="col-11 p-0 d-flex align-items-center">
                     <div class="kr-sg-dropdowns">
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input"
@@ -638,8 +638,8 @@
                 <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
                   <div *ngFor="let allow of selectedSource.advanceSettings.blockedURLs;let i = index"
                     class="allow-urls-sec row allow-urlBox m1010 pl-0 pr-0">
-                    <div class="col-2 p-0 title"></div>
-                    <div class="col-10 p-0 d-flex align-items-center">
+                    <div class="col-1 p-0 title"></div>
+                    <div class="col-11 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
                           <button class="dropdown-toggle dropdown-input"
@@ -662,7 +662,7 @@
               </div>
 
               <!-- Cookies -->
-                <div class=" group-checkbox" [ngStyle]='{"padding-top":crwalOptionLabel!="Crawl Everything"?"17px":"0px"}'>
+                <div class=" group-checkbox">
                   <!-- <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "blockHttpsMsgs" [checked]="blockHttpsMsgs" [(ngModel)] = "blockHttpsMsgs" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Block HTTPS Pages</label>

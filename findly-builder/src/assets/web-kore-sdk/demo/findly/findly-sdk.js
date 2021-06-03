@@ -396,6 +396,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         livesearchUrl: liveSearchAPIURL + streamId + '/' + SearchIndexID + "/liveSearch",
         // searchUrl: baseUrl + "/search/" + SearchIndexID,
         searchUrl: searchAPIURL + streamId + '/' + SearchIndexID + "/search",
+        unlockbotUrl: searchAPIURL + streamId + '/' + SearchIndexID + "/unlockbot",
         metricsUrl: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/metrics/logs", /*/api/1.1/ */
         // popularSearchesUrl: "https://app.findly.ai/searchAssist/" + SearchIndexID + "/popularSearches",
         popularSearchesUrl: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/popularSearches",
@@ -6278,7 +6279,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       } else if (res.templateType === 'liveSearchEmpty') {
         _self.sendMessageToSearch('bot', 'No results found');
       }
-
+      if($('body').hasClass('top-down')){
+        var conversationContainerHtml = $('#conversation-container');
+        _self.bindPerfectScroll(conversationContainerHtml, '#searchChatContainer', null, 'y', 'conversationContainer');
+      }
+      
     }
 
     FindlySDK.prototype.bindFrequentData = function () {
@@ -6393,6 +6398,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             viewType: viewType
           });
           $('#searchChatContainer').append(template);
+          if($('body').hasClass('top-down')){
+            $('#searchChatContainer').scrollTop($('#searchChatContainer').height());
+          }
         }
       }
       if (type === 'user-conversation' && ($('#sa-conversation-box').val() !== null) && ($('#sa-conversation-box').val() !== undefined)) {
@@ -6405,6 +6413,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             viewType: viewType
           });
           $('#searchChatContainer').append(template);
+          if($('body').hasClass('top-down')){
+            $('#searchChatContainer').scrollTop($('#searchChatContainer').height());
+          }
         }
       }
       if (type === 'bot') {
@@ -7369,6 +7380,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return "Files"
       } else if (key.toLowerCase() === 'data') {
         return "Data"
+      } else if (key.toLowerCase() === 'all results') {
+        return "All"
       } else {
         return key;
       }
@@ -7641,9 +7654,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (config.searchHandler) {
           config.searchHandler(data)
         }
-        setTimeout( () => {
-          _self.checkBoostAndLowerTimes();
-        }, 400);
+        // setTimeout( () => {
+        //   _self.checkBoostAndLowerTimes();
+        // }, 400);
       });
       if (config.structuredDataContainer) {
         structuredDataContainer = config.structuredDataContainer;
@@ -7722,6 +7735,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           config.focusHandler();
           if (!$("#search").val()) {
             if ($("#search").is(":focus")) {
+              if ($('#greeting-msg-top-down').length) {
+                $('#greeting-msg-top-down').hide();
+              }
             } else {
               $('#frequently-searched-box').hide();
             }
@@ -8095,7 +8111,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           console.log('on bot message event observed');
           if ((tempData || {}).message && (tempData || {}).message[0].component.payload) {
             console.log(tempData.message[0].component.payload);
-            _self.handleSearchRes(tempData.message[0].component.payload);
+              _self.handleSearchRes(tempData.message[0].component.payload);
+            if ($('body').hasClass('top-down')) {
+              if(((tempData.message[0].component.payload ||{}).template ||{}).originalQuery){
+                $('#search').val(((tempData.message[0].component.payload ||{}).template ||{}).originalQuery);
+                $('#conversation-container').hide();
+                $('#action-title').empty();
+                $("#searchChatContainer").empty();
+              }
+            }
           }
         }
         else if (tempData.from === "self" && tempData.type === "user_message") {
@@ -17795,9 +17819,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           'facetPosition': _self.vars.filterConfiguration.aligned
         });
         $('#resultRankingId').append(resultRanking);
-        setTimeout( () => {
-          _self.checkBoostAndLowerTimes();
-        }, 400);
+        // setTimeout( () => {
+        //   _self.checkBoostAndLowerTimes();
+        // }, 400);
         _self.bindAllResultRankingOperations();
         _self.bindShowAllResultsTrigger(showAllHTML, facetData, data);
         setTimeout(() => {
@@ -18073,9 +18097,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results'});
         }, 500);
           }
-          setTimeout( () => {
-            _self.checkBoostAndLowerTimes();
-          }, 400);
+          // setTimeout( () => {
+          //   _self.checkBoostAndLowerTimes();
+          // }, 400);
         }
       })
 
@@ -19566,7 +19590,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var payload = {
         "query": $('#search').val(),
         // "maxNumOfResults": 9,
-        "maxNumOfResults": 3,
+        "maxNumOfResults": 5,
         "userId": _self.API.uuid,
         "streamId": _self.API.streamId,
         "lang": "en",
@@ -20698,6 +20722,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $(".close-conv-icon").off('click').on('click', function (e) {
         closeConversation();
+        _self.unlockBot();
       });
       function closeConversation() {
         $('#conversation-container').hide();
@@ -20775,6 +20800,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       var resultsContainerHtml = $('.all-product-details');
         _self.bindPerfectScroll(resultsContainerHtml, '#show-filters-added-data', null, 'y', 'facetsListContainer');
+        var conversationContainerHtml = $('#conversation-container');
+        _self.bindPerfectScroll(conversationContainerHtml, '#conversations', null, 'y', 'conversationContainer');
+        
     }
     FindlySDK.prototype.getTopDownFacetsTabs = function () {
       var topDownFacetsTabs = '<script id="top-down-tabs-template" type="text/x-jqury-tmpl">\
@@ -21001,6 +21029,47 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#live-search-result-box').hide();
         }
       });
+    }
+    FindlySDK.prototype.unlockBot = function () {
+      var _self = this;
+      var payload  = {
+        "userId": _self.API.uuid,
+        "streamId": _self.API.streamId,
+        "lang": "en"
+      }
+      var url = _self.API.unlockbotUrl;
+      var bearer = "bearer " + this.bot.options.accessToken || this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
+      var headers = {};
+
+      
+
+      headers["Authorization"] = bearer;
+      headers["Content-Type"] = "application/json";
+      payload.userId = this.bot.userInfo.userInfo.userId;
+      payload.streamId = this.bot.options.botInfo.taskBotId;
+      payload.botInfo = this.bot.options.botInfo;
+      if(!_self.isDev) {
+        if(_self.config.botOptions.assertion){
+          headers.auth = _self.config.botOptions.assertion;
+        }
+        payload['client']= "sdk";
+      }else{
+        payload['client']= "botbuilder";
+      }
+      payload = JSON.stringify(payload);
+      return $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'json',
+        headers: headers,
+        data: payload,
+        success: function (data) {
+          // console.log(data);
+        },
+        error: function (err) {
+          console.log(err)
+        }
+      })
     }
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);

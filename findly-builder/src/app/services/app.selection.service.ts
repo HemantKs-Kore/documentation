@@ -211,6 +211,7 @@ export class AppSelectionService {
       }, errRes => {
         if (errRes && errRes.error && errRes.error.errors[0].code == 'NoActiveSubscription') {
           this.getLastActiveSubscriptionData();
+          this.currentsubscriptionPlanDetails = undefined;
           //this.errorToaster(errRes, 'failed to get current subscription data');
         }
       });

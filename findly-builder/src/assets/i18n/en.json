@@ -92,6 +92,7 @@
     },
     "businessRules": {
         "rules_selected": "Rules Selected",
+        "rule_selected": "Rule Selected",
         "all_rules_selected": "All Rules Selected",
         "status_caps": "STATUS",
         "outcome_caps": "OUTCOME",

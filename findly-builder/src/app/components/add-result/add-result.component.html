@@ -95,7 +95,7 @@
                                         <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
                                         <label [attr.for]="i" class="checkbox-custom-label"></label>
                                     </div>
-                                    <div class="title-desc-sec" *ngIf="result.sysContentType == 'content'">
+                                    <div class="title-desc-sec" *ngIf="result.sysContentType == 'web'">
                                         <div class="title">{{ result.pageTitle}}</div>
                                         <div class="desc" >{{ result.searchResultPreview}}</div>
                                     </div>
@@ -180,7 +180,8 @@
             <div class="close-results" (click)="cancelRecord()">
                 <img src="assets/images/close.svg">
             </div>
-        </div>   
+        </div>
+        <span class="info-new-result"><img src="assets/icons/Info_blue.svg"><span>Results will be pinned at the top </span></span>   
         <div class="result-type-content">
             <div class="kr-sg-dropdowns mb-20">
                 <div class="label-text">Result Type</div>
@@ -235,7 +236,7 @@
                                 <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
                             </div>                                                          
-                            <div class="tiltles-sec" *ngIf="result.sysContentType == 'content'">
+                            <div class="tiltles-sec" *ngIf="result.sysContentType == 'web'">
                                 <div class="primary-tiitle">{{ result.pageTitle}}</div>
                                 <div class="secondary-title" >{{ result.searchResultPreview}}</div>
                             </div>
@@ -288,10 +289,10 @@
         </div>  -->
 
         <div class="footer-info">
-            <div class="selected-length">{{ recordArray.length }} results selected</div>
+            <div class="selected-length"><span *ngIf="recordArray.length > 0">{{ recordArray.length }} results selected </span></div>
             <div class="btns-sec">
-                <button class="kr-sg-button-primary btn_lg" [ngClass] = "{'add' : recordArray.length > 0}" (click) = "pushRecord()" [disabled] = "!recordArray.length">Add</button>
                 <button class="kr-sg-button-secondary btn_lg" (click) = "cancelRecord()">Cancel</button>
+                <button class="kr-sg-button-primary btn_lg" [ngClass] = "{'add' : recordArray.length > 0}" (click) = "pushRecord()" [disabled] = "!recordArray.length">Pin Results</button>
             </div>
         </div>
     </div>

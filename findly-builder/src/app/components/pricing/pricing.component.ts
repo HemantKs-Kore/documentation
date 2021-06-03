@@ -58,6 +58,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   monthRange = "Jan - June";
   isyAxisDocumentdata: boolean = true;
   isyAxisQuerydata: boolean = true;
+  componentType: string = 'addData';
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -250,8 +251,30 @@ export class PricingComponent implements OnInit, OnDestroy {
   openPopup5() {
     this.cancelSubscriptionModelPopRef = this.cancelSubscriptionModel.open();
   }
+  //cancel subscription dialog(pro to standard)
+  cancelProSubscription() {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Are you sure you want to Cancel?',
+        body: 'Your change plan request from Pro to Standard will be cancelled and current plan will be retained',
+        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.cancelSubscription(dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+  }
   //close popup1
-  cancelSubscription() {
+  cancelSubscription(dialogRef?) {
     const queryParam = {
       streamId: this.selectedApp._id
     }
@@ -263,6 +286,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.appSelectionService.getCurrentSubscriptionData();
       //this.currentsubscriptionPlan(this.selectedApp)
       this.notificationService.notify('Cancellation request submitted', 'success');
+      if (dialogRef) dialogRef.close();
     }, errRes => {
       this.errorToaster(errRes, 'failed to Cancel subscription');
     });

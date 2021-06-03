@@ -30,8 +30,8 @@
                         </div>   
                     </div>
                     <div class="right-sec">                       
-                        <img src="assets/icons/search-experience/top-down.svg" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">
-                        <img src="assets/icons/search-experience/bottom-up.svg" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
+                        <img src="assets/icons/search-experience/top-down-mini.jpg" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">
+                        <img src="assets/icons/search-experience/bottum-up-mini.jpg" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
                     </div>
                 </div>
             </div>
@@ -121,7 +121,7 @@
                                         [(colorPicker)]="color"
                                         [cpOutputFormat]="'hex'"
                                         [cpAlphaChannel]="'always'"
-                                        (colorPickerClose)="onEventLog('inputbox1', $event)"
+                                        (colorPickerChange)="selectedColor=$event"
                                         [cpCloseClickOutside]="false"
                                         [(cpToggle)]='toggle'
                                         readonly
@@ -135,10 +135,11 @@
                                         </div>
                                         <div class="selected-previous-colors flex-wrap">
                                             <ng-container *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
-                                                <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('inputbox1', col);color=col;"></div>
+                                                <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;applyColor('inputbox1');color=col;"></div>
                                             </ng-container>                                           
                                         </div>
-                                        <div class="save-switch" (click)="saveColor(color)">Save & Apply</div>
+                                        <div class="save-switch" (click)="applyColor('inputbox1','save')">Save & Apply</div>
+                                        <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('inputbox1')">Apply</button>
                                      </div>
                                 </div>
                             </div>
@@ -151,8 +152,7 @@
                                         [(colorPicker)]="color1"
                                         [cpOutputFormat]="'hex'"
                                         [cpAlphaChannel]="'always'"
-                                        (colorPickerOpen)="onEventLog('inputbox2', $event)"
-                                        (colorPickerClose)="onEventLog('inputbox2', $event)"        
+                                        (colorPickerChange)="selectedColor=$event"        
                                         [cpCloseClickOutside]="false"
                                         [(cpToggle)]='toggle1'                              
                                         readonly
@@ -167,10 +167,11 @@
                                         </div>
                                         <div class="selected-previous-colors flex-wrap">
                                             <ng-container *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
-                                                <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('inputBox2', col);color1=col;"></div>
+                                                <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;applyColor('inputbox2');color1=col;"></div>
                                             </ng-container>                                           
                                         </div>
-                                        <div class="save-switch" (click)="saveColor(color1)">Save & Apply</div>
+                                        <div class="save-switch" (click)="applyColor('inputbox2','save')">Save & Apply</div>
+                                        <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('inputbox2')">Apply</button>
                                      </div>
                                 </div>
                             </div>
@@ -192,7 +193,7 @@
                                         [(colorPicker)]="color2"
                                         [cpOutputFormat]="'hex'"
                                         [cpAlphaChannel]="'always'"
-                                        (colorPickerClose)="onEventLog('placeholder', $event)"
+                                        (colorPickerChange)="selectedColor=$event"   
                                         [cpCloseClickOutside]="false"
                                         [(cpToggle)]='toggle2'
                                         readonly
@@ -208,10 +209,11 @@
                                         </div>
                                         <div class="selected-previous-colors flex-wrap">
                                             <ng-container *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
-                                                <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('placeholder', col);color2=col;"></div>
+                                                <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;applyColor('placeholder');color2=col;"></div>
                                             </ng-container>                                           
                                         </div>
-                                        <div class="save-switch" (click)="saveColor(color2)">Save & Apply</div>
+                                        <div class="save-switch" (click)="applyColor('placeholder','save')">Save & Apply</div>
+                                        <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('placeholder')">Apply</button>
                                      </div>
                                 </div>
                             </div>
@@ -251,7 +253,7 @@
                                             [(colorPicker)]="color3"
                                             [cpOutputFormat]="'hex'"
                                             [cpAlphaChannel]="'always'"
-                                            (colorPickerClose)="onEventLog('buttonTextColor', $event)"
+                                            (colorPickerChange)="selectedColor=$event" 
                                             [cpCloseClickOutside]="false"
                                             [(cpToggle)]='toggle3'
                                             readonly                                            
@@ -267,10 +269,11 @@
                                             </div>
                                             <div class="selected-previous-colors flex-wrap">
                                                 <ng-container *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
-                                                    <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('buttonTextColor', col);color3=col;"></div>
+                                                    <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;applyColor('buttonTextColor');color3=col;"></div>
                                                 </ng-container>                                           
                                             </div>
-                                            <div class="save-switch" (click)="saveColor(color3)">Save & Apply</div>
+                                            <div class="save-switch" (click)="applyColor('buttonTextColor','save')">Save & Apply</div>
+                                            <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('buttonTextColor')">Apply</button>
                                          </div>
                                     </div>
                                 </div>
@@ -282,7 +285,7 @@
                                             [(colorPicker)]="color4"
                                             [cpOutputFormat]="'hex'"
                                             [cpAlphaChannel]="'always'"
-                                            (colorPickerClose)="onEventLog('buttonFill', $event)"
+                                            (colorPickerChange)="selectedColor=$event" 
                                             [cpCloseClickOutside]="false"
                                             [(cpToggle)]='toggle4'
                                             readonly
@@ -298,10 +301,11 @@
                                             </div>
                                             <div class="selected-previous-colors flex-wrap">
                                                 <ng-container *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
-                                                    <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('buttonFill', col);color4=col;"></div>
+                                                    <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;applyColor('buttonFill');color4=col;"></div>
                                                 </ng-container>                                           
                                             </div>
-                                            <div class="save-switch" (click)="saveColor(color4)">Save & Apply</div>
+                                            <div class="save-switch" (click)="applyColor('buttonFill','save')">Save & Apply</div>
+                                            <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('buttonFill')">Apply</button>
                                          </div>
                                     </div>
                                 </div>
@@ -314,7 +318,7 @@
                                             [(colorPicker)]="color5"
                                             [cpOutputFormat]="'hex'"
                                             [cpAlphaChannel]="'always'"
-                                            (colorPickerClose)="onEventLog('buttonBorder', $event)"
+                                            (colorPickerChange)="selectedColor=$event" 
                                             [cpCloseClickOutside]="false"
                                             [(cpToggle)]='toggle5'
                                             readonly
@@ -330,10 +334,11 @@
                                             </div>
                                             <div class="selected-previous-colors flex-wrap">
                                                 <ng-container *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
-                                                    <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('buttonBorder', col);color5=col;"></div>
+                                                    <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;applyColor('buttonBorder');color5=col;"></div>
                                                 </ng-container>                                           
                                             </div>
-                                            <div class="save-switch" (click)="saveColor(color5)">Save & Apply</div>
+                                            <div class="save-switch" (click)="applyColor('buttonBorder','save')">Save & Apply</div>
+                                            <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('buttonBorder')">Apply</button>
                                          </div>
                                     </div>
                                 </div>
@@ -348,7 +353,7 @@
                         <div class="greeting-message border-with-padding border-0 col-7 pb-0">
                             <div class="kr-sg-input-text-area">
                                 <div class="label-text">Customize Launch Greeting Message</div>
-                                <textarea class="input-text" maxlength="40" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}"></textarea>
+                                <textarea class="input-text" maxlength="60" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}"></textarea>
                             </div>
                             <div class="emojis-block">
                                 <!-- <div class="emoji-img"><label for="myFileInput"><img [src]="emojiIcon" width="18" height="18">
@@ -388,7 +393,7 @@
                                                 [(colorPicker)]="color6"
                                                 [cpOutputFormat]="'hex'"
                                                 [cpAlphaChannel]="'always'"
-                                                (colorPickerClose)="onEventLog('msgColor', $event)"
+                                                (colorPickerChange)="selectedColor=$event" 
                                                 [cpCloseClickOutside]="false"
                                                 [(cpToggle)]='toggle6'
                                                 readonly
@@ -403,15 +408,16 @@
                                                 </div>
                                                 <div class="selected-previous-colors flex-wrap">
                                                     <ng-container *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
-                                                        <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="onEventLog('msgColor', col);color6=col;"></div>
+                                                        <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;applyColor('msgColor');color6=col;"></div>
                                                     </ng-container>                                           
                                                 </div>
-                                                <div class="save-switch" (click)="saveColor(color6)">Save & Apply</div>
+                                                <div class="save-switch" (click)="applyColor('msgColor','save')">Save & Apply</div>
+                                                <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('msgColor')">Apply</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="count-length">{{box.value.length}} / 40</div>
+                                <div class="count-length">{{box.value.length}} / 60</div>
                             </div>
                         </div>
 

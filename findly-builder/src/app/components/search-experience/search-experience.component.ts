@@ -93,6 +93,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   appSubscription: Subscription;
   tourData: any = [];
   userName: any = '';
+  selectedColor: string = '';
   emojiList = [
     { img_src: 'assets/icons/search-experience/emojis/smile.png', value: "smile" },
     { img_src: 'assets/icons/search-experience/emojis/smile-2.png', value: 'smile-2' },
@@ -502,34 +503,54 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       }
     );
   }
-  //on mouse hover in color pallete button
-  onEventLog(type, event) {
-    if (type == 'inputbox1') {
-      this.searchObject.searchWidgetConfig.searchBarFillColor = event;
-    }
-    else if (type == 'inputbox2') {
-      this.searchObject.searchWidgetConfig.searchBarBorderColor = event;
-    }
-    else if (type == 'placeholder') {
-      this.searchObject.searchWidgetConfig.searchBarPlaceholderTextColor = event;
-    }
-    else if (type == 'placeholderText') {
-      this.searchObject.searchWidgetConfig.searchBarPlaceholderText = event;
-    }
-    else if (type == 'buttonFill') {
-      this.searchObject.searchWidgetConfig.buttonFillColor = event;
-    }
-    else if (type == 'buttonBorder') {
-      this.searchObject.searchWidgetConfig.buttonBorderColor = event;
-    }
-    else if (type == "buttonEnable") {
-      this.searchObject.searchWidgetConfig.searchButtonEnabled = event;
-    }
-    else if (type == 'buttonTextColor') {
-      this.searchObject.searchWidgetConfig.buttonTextColor = event;
-    }
-    else if (type == 'msgColor') {
-      this.searchObject.searchInteractionsConfig.welcomeMsgColor = event;
+  //apply color based on save button 
+  applyColor(type, save) {
+    if (this.selectedColor != '') {
+      if (save) {
+        this.saveColor(this.selectedColor);
+      }
+      if (type == 'inputbox1') {
+        this.searchObject.searchWidgetConfig.searchBarFillColor = this.selectedColor;
+        this.toggle = false;
+        this.inputBox1 = false;
+      }
+      else if (type == 'inputbox2') {
+        this.searchObject.searchWidgetConfig.searchBarBorderColor = this.selectedColor;
+        this.toggle1 = false;
+        this.inputBox2 = false;
+      }
+      else if (type == 'placeholder') {
+        this.searchObject.searchWidgetConfig.searchBarPlaceholderTextColor = this.selectedColor;
+        this.toggle2 = false;
+        this.placeholBox = false;
+      }
+      else if (type == 'placeholderText') {
+        this.searchObject.searchWidgetConfig.searchBarPlaceholderText = this.selectedColor;
+      }
+      else if (type == 'buttonFill') {
+        this.searchObject.searchWidgetConfig.buttonFillColor = this.selectedColor;
+        this.toggle4 = false;
+        this.buttonFill = false;
+      }
+      else if (type == 'buttonBorder') {
+        this.searchObject.searchWidgetConfig.buttonBorderColor = this.selectedColor;
+        this.toggle5 = false;
+        this.buttonBorder = false;
+      }
+      else if (type == "buttonEnable") {
+        this.searchObject.searchWidgetConfig.searchButtonEnabled = this.selectedColor;
+      }
+      else if (type == 'buttonTextColor') {
+        this.searchObject.searchWidgetConfig.buttonTextColor = this.selectedColor;
+        this.toggle3 = false;
+        this.buttonTextColor = false;
+      }
+      else if (type == 'msgColor') {
+        this.searchObject.searchInteractionsConfig.welcomeMsgColor = this.selectedColor;
+        this.toggle6 = false;
+        this.msgColor = false;
+      }
+      this.selectedColor = '';
     }
   }
   //select search box widget

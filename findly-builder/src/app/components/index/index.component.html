@@ -195,7 +195,7 @@
               class="input-text" [(ngModel)]="selectedStage.condition" />
               <!-- <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div> -->
           </div>
-          <div class="add-condition-example-text">Eg: ctx.__contentType=="faq"</div>
+          <div class="add-condition-example-text">Eg: ctx.sysContentType=="faq"</div>
           <div class="add-condition-info" *ngIf="selectedStage.type === 'exclude_document'">
             <img src="assets/icons/Info_blue.svg">It is mandatory to add conditions for defining the Exclude Document stage.
           </div>
@@ -765,19 +765,17 @@
           <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
             {{
               (simulteObj.sourceType
-              ? (simulteObj.sourceType == 'faq'? 'FAQs': (simulteObj.sourceType =='object'?'Structure Data':(simulteObj.sourceType =='all'?'All':simulteObj.sourceType)))
+              ? (simulteObj.sourceType == 'faq'? 'FAQ': (simulteObj.sourceType =='data'?'Data':(simulteObj.sourceType =='all'?'All':(simulteObj.sourceType =='file'?'File':(simulteObj.sourceType =='web'?'Web':simulteObj.sourceType)))))
               : "choose_an_option"
               ) | translate
               }}
           </button>
           <ul class="dropdown-menu content-menu">
-            <!-- <li (click)="changeSimulate('page', 'source')"><a>Page</a></li> -->
             <li (click)="changeSimulate('all', 'source')"><a>All</a></li>
-            <li (click)="changeSimulate('faq', 'source')"><a>FAQs</a></li>
-            <li (click)="changeSimulate('content', 'source')">
-              <a>Content</a>
-            </li>
-            <li (click)="changeSimulate('data', 'source')"><a>Structure Data</a></li>
+            <li (click)="changeSimulate('faq', 'source')"><a>FAQ</a></li>
+            <li (click)="changeSimulate('web', 'source')"><a>Web</a></li>
+            <li (click)="changeSimulate('file', 'source')"><a>File</a></li>
+            <li (click)="changeSimulate('data', 'source')"><a>Data</a></li>
           </ul>
         </div>
       </div>

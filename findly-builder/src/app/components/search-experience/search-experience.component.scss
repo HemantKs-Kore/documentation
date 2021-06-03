@@ -21,6 +21,7 @@
                     border-radius: 0;
                     display: flex;
                     align-items: center;
+                    cursor: pointer;
                     &.active{
                         .active-steps{
                             border: 1px solid #0D6EFD;
@@ -523,25 +524,37 @@
                             float: right;
                             display: flex;
                             width: 270px;
+                            margin-top: 5px;
                             .bg-color-selected{
                                 background: #0D6EFD;
                                 border: 1px solid rgba(0, 0, 0, 0.1);
                                 box-sizing: border-box;
-                                border-radius: 4px;
+                                border-radius: 1px;
                                 width: 22px;
                                 height: 22px;
-                                margin: 10px;
+                                margin: 5px;
                             }                            
                         }
                         .save-switch{
                             position: absolute;
-                            right: 16px;
-                            bottom: 25px;
-                            color: #0D6EFD;
-                            font-weight: normal;
-                            font-size: 14px;
-                            line-height: 20px;
+                            right: 110px;
+                            bottom: 22px;
                             cursor: pointer;
+                            color: #202124;
+                            font-weight: normal;
+                            font-size: 12px;
+                            line-height: 20px;
+                        }
+                        .btn_apply_save{
+                            position: absolute;
+                            right: 16px;
+                            bottom: 20px;
+                            cursor: pointer;                                        
+                            border-radius: 4px;
+                            height: 24px;
+                            font-weight: normal;
+                            font-size: 12px;
+                            line-height: 20px;
                         }
                     }
                 }
@@ -795,24 +808,37 @@
                                         float: right;
                                         display: flex;
                                         width: 270px;
+                                        margin-top: 5px;
                                         .bg-color-selected{
+                                            background: #0D6EFD;
                                             border: 1px solid rgba(0, 0, 0, 0.1);
                                             box-sizing: border-box;
-                                            border-radius: 4px;
-                                            width: 32px;
-                                            height: 32px;
-                                            margin: 10px;
+                                            border-radius: 1px;
+                                            width: 22px;
+                                            height: 22px;
+                                            margin: 5px;
                                         }                            
                                     }
                                     .save-switch{
                                         position: absolute;
-                                        right: 16px;
-                                        bottom: 25px;
-                                        color: #0D6EFD;
-                                        font-weight: normal;
-                                        font-size: 14px;
-                                        line-height: 20px;
+                                        right: 110px;
+                                        bottom: 22px;
                                         cursor: pointer;
+                                        color: #202124;
+                                        font-weight: normal;
+                                        font-size: 12px;
+                                        line-height: 20px;
+                                    }
+                                    .btn_apply_save{
+                                        position: absolute;
+                                        right: 16px;
+                                        bottom: 20px;
+                                        cursor: pointer;                                        
+                                        border-radius: 4px;
+                                        height: 24px;
+                                        font-weight: normal;
+                                        font-size: 12px;
+                                        line-height: 20px;
                                     }
                                 }
                             }

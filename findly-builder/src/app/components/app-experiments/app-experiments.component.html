@@ -5,6 +5,7 @@
   </div>
   <div *ngIf="loadingContent1">
     <div class="header-sec row"  *ngIf='listOfExperiments.length>0||filterExperiments.length>0'>
+      <!-- <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey> -->
       <div class="col-6 left-sec p-0">
         <div class="tab-sec d-flex">
           <b>Experiments</b>
@@ -261,7 +262,7 @@
 <div class="no-experiments" *ngIf="filterExperiments.length!=0&&listOfExperiments.length===0">
         <div>No results found</div>
       </div>
-      <!-- <div *ngIf='listOfExperiments.length>0' style="margin-right:45px;"><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='exp_limitPage' (pageChanged)="paginate($event)"></app-record-pagination></div> -->
+      <div *ngIf='exp_totalRecord && exp_totalRecord > 10' style="margin-right:45px;"><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='exp_limitPage' (pageChanged)="paginate($event)"></app-record-pagination></div>
     </perfect-scrollbar>
   </div>
 </div> 

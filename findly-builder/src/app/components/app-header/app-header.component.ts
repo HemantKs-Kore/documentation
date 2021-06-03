@@ -35,7 +35,9 @@ export class AppHeaderComponent implements OnInit {
   searchActive = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
-  searchText: any;
+  searchText: any='';
+  activeClose = false;
+  activeSearch = false;
   search: any;
   formatter: any;
   appName = '';
@@ -75,6 +77,29 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'FAQs', routeId: '/faqs', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'Content', routeId: '/content', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'Structured Data', routeId: '/structuredData', quaryParms: {} },
+    { displayName: 'Experiments', routeId: '/experiments', quaryParms: {} },
+    { displayName: 'Actions', routeId: '/botActions', quaryParms: {} },
+    { displayName: 'Workbench', routeId: '/index', quaryParms: {} },
+    { displayName: 'Fields', routeId: '/FieldManagementComponent', quaryParms: {} },
+    { displayName: 'Traits', routeId: '/traits', quaryParms: {} },
+    { displayName: 'Weights', routeId: '/weights', quaryParms: {} },
+    { displayName: 'Synonyms', routeId: '/synonyms', quaryParms: {} },
+    { displayName: 'StopWords', routeId: '/stopWords', quaryParms: {} },
+    { displayName: 'Facets', routeId: '/facets', quaryParms: {} },
+    { displayName: 'Rules', routeId: '/rules', quaryParms: {} },
+    { displayName: 'Search Interface', routeId: '/search-experience', quaryParms: {} },
+    { displayName: 'Result Templates', routeId: '/searchInterface', quaryParms: {} },
+    { displayName: 'Dashboard', routeId: '/dashboard', quaryParms: {} },
+    { displayName: 'User Engagement Metrics', routeId: '/userEngagement', quaryParms: {} },
+    { displayName: 'Search Insights', routeId: '/searchInsights', quaryParms: {} },
+    { displayName: 'Result Insights', routeId: '/resultInsights', quaryParms: {} },
+    { displayName: 'General Settings', routeId: '/generalSettings', quaryParms: {} },
+    { displayName: 'Channels', routeId: '/settings', quaryParms: {} },
+    { displayName: 'Credentials', routeId: '/credentials-list', quaryParms: {} },
+    { displayName: 'Team', routeId: '/team-management', quaryParms: {} },
+    { displayName: 'Plan Details', routeId: '/pricing', quaryParms: {} },
+    { displayName: 'Usage Log', routeId: '/usageLog', quaryParms: {} },
+    { displayName: 'Invoices', routeId: '/invoices', quaryParms: {} },
   ]
   public dockersList: Array<any> = [];
   public pollingSubscriber: any;
@@ -219,6 +244,23 @@ export class AppHeaderComponent implements OnInit {
       this.searchText = '';
     }
   }
+  focusinSearch(){
+    if(this.activeClose){
+      this.activeClose = false;
+      return;
+    }
+    this.showSearch= !this.showSearch;
+    setTimeout(()=>{
+      document.getElementById('globalSearch').focus();
+    },100)
+  }
+  focusoutSearch(){
+      this.searchText='';
+      if(this.activeSearch){
+        this.activeClose = true;
+      }
+ this.showSearch= !this.showSearch;
+}
   triggerRoute(type, routObj?) {
     const self = this;
     let queryParams: any = {};
@@ -406,14 +448,17 @@ export class AppHeaderComponent implements OnInit {
         return 'Stopped';
       }
       else if (status === 'QUEUED') {
-        return 'In-queue';
+        return 'In-Queue';
       }
       else if (status === 'IN_PROGRESS' || status === 'validation') {
         return 'In-progress';
       }
+      else if (status === 'FAILURE') {
+        return 'Failed'
+      }
     }
     else {
-      if (status === 'SUCCESS' || status === 'FAILURE') {
+      if (status === 'SUCCESS') {
         return true;
       }
       else {

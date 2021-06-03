@@ -36,14 +36,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   submitted = false;
   rules = [];
   currentSugg: any = [];
-  selectedSort;
-  isAsc;
+  selectedSort = '';
+  isAsc = true;
   loadingContent = true;
   selcectionObj: any = {
     selectAll: false,
     selectedItems: [],
   };
-  activeClose= false;
+  activeClose = false;
   sortObj: any = {}
   showSearch = false;
   searchRules = '';
@@ -100,9 +100,15 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     NOT_INDEXED: 'Indexed property has been set to False for this field',
     NOT_EXISTS: 'Associated field has been deleted'
   }
+  filterSystem: any = {
+    'isRuleActiveFilter': 'all'
+  }
+  beforeFilterRules: any = [];
+  isRuleActiveArr: any = [];
   private contextSuggestedImput: ElementRef;
   autoSuggestInputItems: any;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  componentType: string = 'configure';
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -340,6 +346,34 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.currentSugg = mainContext;
     }
   }
+  filterTable(source, headerOption) {
+    console.log(this.rules, source, headerOption);
+    this.filterSystem.isRuleActiveFilter = 'all';
+
+    this.filterRules(source, headerOption);
+    switch (headerOption) {
+      case 'isRuleActive': { this.filterSystem.isRuleActiveFilter = source; return; };
+    };
+  }
+  filterRules(source, headerOption) {
+    if (!this.beforeFilterRules.length) {
+      this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
+    }
+    let tempRules = this.beforeFilterRules.filter((field: any) => {
+      if (source !== 'all') {
+        if (headerOption === 'isRuleActive') {
+          if (field.isRuleActive === source) {
+            return field;
+          }
+        }
+      }
+      else {
+        return field;
+      }
+    });
+
+    this.rules = JSON.parse(JSON.stringify(tempRules));
+  }
   selected(event: MatAutocompleteSelectedEvent, ruleObj, index): void {
     const newSelectedValue = event.option.viewValue;
     const text = this.autoSuggestInputItems._results[index].nativeElement.value;
@@ -452,7 +486,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
     }
     if (key === 'operator') {
-      if(ruleObj.operator !== value){
+      if (ruleObj.operator !== value) {
         ruleObj.value = [];
       }
       ruleObj.operator = value;
@@ -521,6 +555,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
     }
   }
+  selectAllFromPartial() {
+    this.selcectionObj.selectAll = true;
+    $('#selectAllFacets')[0].checked = true;
+    this.selectAll();
+  }
   selectAll(unselectAll?) {
     const allfacets = $('.selectRuleCheckBoxDiv');
     if (allfacets && allfacets.length) {
@@ -536,12 +575,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     //   $('#selectAllRules')[0].checked = false;
     // }
   }
-  validateRules(){
-    if(this.addEditRuleObj && this.addEditRuleObj.ruleName.length){
+  validateRules() {
+    if (this.addEditRuleObj && this.addEditRuleObj.ruleName.length) {
       this.submitted = false;
       return true;
     }
-    else{
+    else {
       return false;
     }
   }
@@ -581,7 +620,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         }
       });
     }
-    else{
+    else {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
@@ -616,6 +655,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.service.invoke('get.businessRules', quaryparms).subscribe(res => {
       this.rules = res.rules || [];
       this.loadingContent = false;
+      if (this.rules.length) {
+        this.rules.forEach(element => {
+          this.isRuleActiveArr.push(element.isRuleActive);
+        });
+        this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
+      }
       this.addRemoveRuleFromSelection(null, null, true);
       if (res.length > 0) {
         this.loadingContent = false;
@@ -658,10 +703,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit),
         outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit)
       }
-      if (!payload.rules.length) {
-        this.errorToaster(null, 'Atleast one condition is required');
-        return;
-      }
+      // if (!payload.rules.length) {
+      //   this.errorToaster(null, 'Atleast one condition is required');
+      //   return;
+      // }
       if (!payload.outcomes.length) {
         this.errorToaster(null, 'Atleast one outcome is required');
         return;
@@ -832,16 +877,16 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       return false;
     }
   }
-  focusoutSearch(){
-    if(this.activeClose){
-      this.searchRules='';
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchRules = '';
       this.activeClose = false;
-     }
- this.showSearch= !this.showSearch;
-}
-  focusinSearch(inputSearch){
-    setTimeout(()=>{
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    },100)
+    }, 100)
   }
 }

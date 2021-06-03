@@ -5,6 +5,7 @@
     </div>
     <div *ngIf="!loadingContent">
         <div class="seach_add_feild">
+            <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
             <div class="title col-4 p-0" *ngIf="!(selcectionObj && selcectionObj.selectedCount)">{{'teams.team'| translate}}</div>
             <div class="title col-4 p-0" *ngIf="selcectionObj && selcectionObj.selectedCount">  
                 <div class="kr-sg-checkbox p-0 m-0" *ngIf="selcectionObj.selectedCount == allMembersCount">

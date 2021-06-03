@@ -32,7 +32,7 @@ export class AppExperimentsComponent implements OnInit {
     variants: this.variantsArray,
     duration: { days: 30 }
   }
-  activeClose=false;
+  activeClose = false;
   conn: any = [true, true];
   tool: any = [true];
   star: any = [100];
@@ -70,8 +70,7 @@ export class AppExperimentsComponent implements OnInit {
   loadingContent1: boolean;
   currentSubscriptionPlan: any;
   currentSubsciptionData: Subscription;
-  indexSubscription: Subscription;
-  searchSubscription: Subscription;
+  // componentType: string = 'addData';
   ctrTooltip: string = 'Click Through Rate is the percentage of searches which got at least one click of all the searches performed';
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
@@ -90,26 +89,6 @@ export class AppExperimentsComponent implements OnInit {
       }
     })
   }
-  //get current subscription data
-  // currentsubscriptionPlan(app) {
-  //   const payload = {
-  //     streamId: app._id
-  //   };
-  //   const appObserver = this.service.invoke('get.currentPlans', payload);
-  //   appObserver.subscribe(res => {
-  //     this.currentSubscriptionPlan = res.subscription;
-  //     if (this.currentSubscriptionPlan.planId != 'fp_free') {
-  //       this.getExperiments();
-  //       this.setSliderDefaults();
-  //       this.getIndexPipeline();
-  //     }
-  //     else if (this.currentSubscriptionPlan.planId == 'fp_free') {
-  //       this.loadingContent1 = true;
-  //     }
-  //   }, errRes => {
-  //     console.log('failed to get plans');
-  //   });
-  // }
   loadImageText: boolean = false;
   imageLoaded() {
     this.loadingContent = false;
@@ -823,17 +802,17 @@ export class AppExperimentsComponent implements OnInit {
   upgrade() {
     this.plans.openChoosePlanPopup('choosePlans');
   }
-  focusoutSearch(){
-    if(this.activeClose){
-      this.searchFields='';
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchFields = '';
       this.activeClose = false;
-     }
- this.showSearch= !this.showSearch;
-}
-  focusinSearch(inputSearch){
-    setTimeout(()=>{
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    },100)
+    }, 100)
   }
   checkDuration(value) {
     // if(parseInt(event.target.value) > 90){
@@ -845,8 +824,4 @@ export class AppExperimentsComponent implements OnInit {
       this.experimentObj.duration.days = 90
     }
   }
-  // ngOnDestroy() {
-  //   this.indexSubscription.unsubscribe();
-  //   this.searchSubscription.unsubscribe();
-  // }
 }
