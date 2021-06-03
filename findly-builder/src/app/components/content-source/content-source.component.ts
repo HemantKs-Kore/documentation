@@ -40,7 +40,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   blockUrl: BlockUrl = new BlockUrl();
   allowUrlArr: AllowUrl[] = [];
   blockUrlArr: BlockUrl[] = [];
-  activeClose= false;
+  activeClose = false;
   filterSystem: any = {
     'typeHeader': 'type',
     'statusHeader': 'status',
@@ -133,9 +133,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   sliderStep = 0;
   selectedPage: any = {};
   selectedSource: any = {};
-  docContent:any={};
-  docContentType:any={};
-  resourcesDoc:any={};
+  docContent: any = {};
+  docContentType: any = {};
+  resourcesDoc: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
   contentModaltype: any;
@@ -451,22 +451,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
       this.selectedSource.pages = res;
+      this.loadingSliderContent = false;
       this.docContent = this.selectedSource.pages[0]._source;
-      this.docContentType=this.selectedSource.pages[0]._meta;
-      
+      this.docContentType = this.selectedSource.pages[0]._meta;
       /** Paging */
-
       const data = [...res]
       this.pagingData = data.slice(0, this.limitpage);
       this.pagingData.forEach(element => {
         element['url_display'] = element._source.url;
       });
-
       /** Paging */
       this.sliderStep = 0;
-
-
-      this.loadingSliderContent = false;
       //this.selectedSource.advanceSettings.scheduleOpts = new scheduleOpts();
       this.allowUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.allowedURLs : [];
       this.blockUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.blockedURLs : [];
@@ -484,8 +479,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       // }
       // this.isConfig = false;
     }, errRes => {
-      this.loadingSliderContent = false;
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.loadingSliderContent = false;
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
       } else {
         this.notificationService.notify('Failed to crawl web page', 'error');
@@ -1546,17 +1541,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.showSearch = !this.showSearch
   }
-  focusoutSearch(){
-    if(this.activeClose){
-      this.searchSources='';
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchSources = '';
       this.activeClose = false;
-     }
- this.showSearch= !this.showSearch;
-}
-  focusinSearch(inputSearch){
-    setTimeout(()=>{
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    },100)
+    }, 100)
   }
 }
 
