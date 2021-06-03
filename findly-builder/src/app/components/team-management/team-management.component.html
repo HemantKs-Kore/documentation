@@ -5,16 +5,16 @@
     </div>
     <div *ngIf="!loadingContent">
         <div class="seach_add_feild">
-            <div class="title col-4 p-0" *ngIf="!(selcectionObj && selcectionObj.selectedCount)">Team</div>
+            <div class="title col-4 p-0" *ngIf="!(selcectionObj && selcectionObj.selectedCount)">{{'teams.team'| translate}}</div>
             <div class="title col-4 p-0" *ngIf="selcectionObj && selcectionObj.selectedCount">  
                 <div class="kr-sg-checkbox p-0 m-0" *ngIf="selcectionObj.selectedCount == allMembersCount">
                 <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()"  [(ngModel)]="selcectionObj.selectAll">
                 <label for="selectAllFacets" class="checkbox-custom-label"></label>   
-                <span class="selected_count">{{selcectionObj.selectedCount}} Selected</span>          
+                <span class="selected_count">{{selcectionObj.selectedCount}} {{'teams.selected'| translate}}</span>          
             </div>
             <div class="kr-sg-checkbox p-0 m-0" *ngIf="selcectionObj.selectedCount != allMembersCount">
                 <img (click)="selectAllFromPartial()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
-                <span class="selected_count">{{selcectionObj.selectedCount}} Selected</span>
+                <span class="selected_count">{{selcectionObj.selectedCount}} {{'teams.selected'| translate}}</span>
             </div>
            </div>
             <div class="col-8 p-0 d-flex align-items-center justify-content-end p-0" *ngIf="!selcectionObj.selectedCount">
@@ -32,11 +32,11 @@
               <div class="searchBlock" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')">
                 <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
             </div>
-                <div class="add_feild" (click)="createNewMember()"><img src="assets/icons/add_plus.svg">Add Members</div>
+                <div class="add_feild" (click)="createNewMember()"><img src="assets/icons/add_plus.svg">{{'teams.add_members'| translate}}</div>
             </div>
 
             <div class="col-8 title text-right delete-action p-0" *ngIf="selcectionObj && selcectionObj.selectedCount">
-                <button id='btn_delete' class="kr-sg-button-danger btn_lg" (click)="deleteFacets(null,true)">Remove</button>
+                <button id='btn_delete' class="kr-sg-button-danger btn_lg" (click)="deleteFacets(null,true)">{{'teams.remove'| translate}}</button>
             </div> 
         </div>
         <div class="table-container-data-teams">
@@ -46,9 +46,9 @@
                         <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()"  [(ngModel)]="selcectionObj.selectAll">
                         <label for="selectAllFacets" class="checkbox-custom-label"></label>
                     </div>
-                    <div class="title p-0">MEMBERS</div>
+                    <div class="title p-0">{{'teams.members'| translate}}</div>
                 </div>
-                <div class="col-8 title">ROLE</div>                              
+                <div class="col-8 title">{{'teams.role'| translate}}</div>                              
             </div>
             <ng-container *ngIf="(membersList && membersList.length)">
                 <perfect-scrollbar class="scroll-table-data">
@@ -70,7 +70,7 @@
                 </perfect-scrollbar>
             </ng-container>
             <div class="divBlockEmptylastChild text-center">         
-                <div class="desc">No results found</div>
+                <div class="desc">{{'teams.no_results_found'| translate}}</div>
             </div>
         </div> 
     </div>    
@@ -78,7 +78,7 @@
 
 <kr-modal modalType="center" modalClass="modal_popups_ smallModal add-members-modal-popup"  #teamModalPouup>   
     <div class="modal-header">
-        <div class="title">Add Members</div>
+        <div class="title">{{'teams.add_members'| translate}}</div>
         <div class="close_icon" (click)="closeModal()"><img src="assets/icons/modal-close.svg"></div>
     </div>
     <ng-container>
@@ -87,7 +87,7 @@
         <div class="row m-0 mb-20">
             <div class="kr-sg-input-text col-12 p-0">
                 
-                <div class="label-text">App Members</div>
+                <div class="label-text">{{'teams.app_members'| translate}}</div>
                 <mat-form-field class="example-chip-list">
                     <mat-chip-list #chipList aria-label="Fruit selection">
                       <mat-chip
@@ -122,8 +122,8 @@
     </div>
     </perfect-scrollbar> 
     <div class="modal-footer text-left">
-        <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addMember()">Add</button>                   
-        <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModal()">Cancel</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addMember()">{{'teams.add'| translate}}</button>                   
+        <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModal()">{{'teams.cancel'| translate}}</button>
     </div>    
 </ng-container>
 </kr-modal>

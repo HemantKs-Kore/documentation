@@ -487,5 +487,29 @@
         "add":"Add",
         "cancel":"Cancel",
         "save":"Save"
+    },
+    "actions":{
+        "actions":"Actions",
+        "choose_position":"Choose the Position of Bot Action Results",
+        "actions_at_top":"Show Actions at the Top",
+        "top_bot_result_info":"The Bot results will be positioned at the top in the chat and Full page result view",
+        "actions_at_bottom":"Show Actions at the Bottom",
+        "bottom_bot_result_info":"The Bot results will be positioned at the bottom in the chat and Full page result view",
+        "link_bot_to_customize_actions":"You need to Link Bot to Customize Actions",
+        "link_a_bot":"Link a Bot",
+        "preview":"Preview"
+    },
+    "teams":{
+        "team":"Team",
+        "selected":"Selected",
+        "add_members":"Add Members",
+        "remove":"Remove",
+        "members":"MEMBERS",
+        "role":"ROLE",
+        "app_members":"App Members",
+        "no_results_found":"No results found",
+        "add":"Add",
+        "cancel":"Cancel"
     }
+   
 }

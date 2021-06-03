@@ -1260,9 +1260,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     const quaryparms: any = {
       searchIndexId: this.searchIndexId,
     };
-    const payload = {
+    const payload = { 
       fileId: this.fileObj.fileId,
       fileType: this.fileObj.file_ext,
+      name : this.newSourceObj.name
       // streamId: this.streamId,
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
