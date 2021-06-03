@@ -178,7 +178,7 @@
                             </div>
                     </ng-container>
                 </div>
-                <app-record-pagination *ngIf="structuredDataItemsList.length" id="pagination_structured_data" class="pagination" [totalRecord]='totalCount' [limitpage]='20' (pageChanged)="paginate($event)"></app-record-pagination>
+                <app-record-pagination *ngIf="totalCount && totalCount > 10" id="pagination_structured_data" class="pagination" [totalRecord]='totalCount' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
             <!-- <div class="empty_records d-flex text-center col-12 row d-none" *ngIf="noItems">
                 <div class="col-12">
                     <img class="action_icon" src="assets/images/structured-data-empty.svg" >
