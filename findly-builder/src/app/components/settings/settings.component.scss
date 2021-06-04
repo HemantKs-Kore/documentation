@@ -373,6 +373,17 @@
                 margin:30px 0 23px 0;
                
             }
+            .jwt-signing-alg-dropdown{
+                .dropdown-open {
+                    .dropdown-input{
+                        border: solid 1px #EFF0F1 !important;
+                        background: #EFF0F1;
+                        &::before{
+                            opacity: 0.4;
+                        }
+                    }
+                }
+            }
             // .border{
             //     border-color: red;
             // }

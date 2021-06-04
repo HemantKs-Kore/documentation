@@ -1354,9 +1354,9 @@ and open the template in the editor.
             &:hover{               
                 border: solid 1px #ccd1d7;
             }
-            &:focus{
-                border: solid 1px #1372ff;
-            }
+            // &:focus{
+            //     border: solid 1px #1372ff;
+            // }
             &:disabled{
                 // border: solid 1px #f3f3f4;
                 color: $primaryColor;	

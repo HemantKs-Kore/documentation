@@ -1,10 +1,10 @@
 <!--choose plan popup-->
 <kr-modal modalType="center" modalClass="modal_popups_ chooseplan-price" #choosePlanModel>
     <div class="modal-header">
-      <div class="title">Choose Plan</div>
+      <div class="title">{{"plan.choose_plan"| translate}}</div>
       <div class="d-flex align-items-center justify-content-end">
-        <div class="btn-monthly"  [ngClass]="{'active-btn' : termPlan == 'Monthly'}" (click)="typeOfPlan('Monthly')">Monthly</div>
-        <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'Yearly' }" (click)="typeOfPlan('Yearly')">Annually</div>
+        <div class="btn-monthly"  [ngClass]="{'active-btn' : termPlan == 'Monthly'}" (click)="typeOfPlan('Monthly')">{{"plan.monthly"| translate}}</div>
+        <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'Yearly' }" (click)="typeOfPlan('Yearly')">{{"plan.yearly"| translate}}</div>
         <div class="close_icon ml-4">
           <img  (click)="closeChoosePlanPopup()" src="assets/icons/modal-close.svg">
         </div>
@@ -22,14 +22,14 @@
                 <img src="assets/icons/pricing/enterprise.svg" class="enterprise-img" *ngIf="plan.name == 'Enterprise'">
                   <div class="title-sec">
                     <div class="title">{{plan.name}}</div>
-                    <div class="price" [ngClass]='{"d-none":(selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan)||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?'month':'year'}}</span></div>
-                    <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise"}'>Custom</div>
-                    <div class="current-plan-title" *ngIf="selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan"><img [src]="selectedPlan.status!='expired'?'assets/icons/pricing/check-round.svg':'assets/icons/pricing/Vector.svg'">{{selectedPlan.status!="expired"?'Current Plan':'Last Active Plan'}}</div>
+                    <div class="price" [ngClass]='{"d-none":(selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan)||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</span></div>
+                    <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise"}'>{{"plan.custom"| translate}}</div>
+                    <div class="current-plan-title" *ngIf="selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan"><img [src]="selectedPlan.status!='expired'?'assets/icons/pricing/check-round.svg':'assets/icons/pricing/Vector.svg'">{{selectedPlan.status!="expired"?("plan.current_plan"| translate):("plan.last_active_plan"| translate)}}</div>
                   </div>
                   <div class="card-desc" *ngFor="let info of plan.featureData" [hidden]="!(info.displayOnBanner)">{{info.displayText}}</div>
-                  <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':(selectedPlan.status=="expired"&&selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan)?'Reactivate':'Choose Plan'}}</button>
+                  <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):(selectedPlan.status=="expired"&&selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan)?("plan.reactivate_btn"| translate):("plan.choose_plan"| translate)}}</button>
               </div>
-              <div class="goto_details" (click)="gotoDetails(plan.name)">Go to Details</div>
+              <div class="goto_details" (click)="gotoDetails(plan.name)">{{"plan.go_to_details"| translate}}</div>
             </div>
           </div>
         </div>
@@ -41,9 +41,9 @@
             </div>
             <div class="type-title width-19"  *ngFor="let plan of filterPlansData">
               <div class="title">{{plan.name}}</div>  
-              <div class="plan-duration" *ngIf="plan.name!='Enterprise'&&plan.type!='free'">${{plan.planAmount}} / {{termPlan==='Monthly'?'month':'year'}}</div>
-              <div class="plan-duration" *ngIf="plan.name=='Enterprise'">Custom Pricing</div>
-              <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
+              <div class="plan-duration" *ngIf="plan.name!='Enterprise'&&plan.type!='free'">${{plan.planAmount}} / {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</div>
+              <div class="plan-duration" *ngIf="plan.name=='Enterprise'">{{"plan.custom_pricing"| translate}}</div>
+              <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):("plan.choose_plan"| translate)}}</button>
             </div>
           </div>
           <!-- <span placement="top-center" [ngbTooltip]="feature[1].desc" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span> -->
@@ -72,31 +72,31 @@
 <!--order confirm popup-->
 <kr-modal modalType="center" modalClass="modal_popups_ order-confirmation" #orderConfirmModel>
   <div class="modal-header">
-    <div class="title">Order Confirmation</div>
+    <div class="title">{{"plan.order_confirmation"| translate}}</div>
     <div class="close_icon"><img (click)="closeOrderConfPopup()" src="assets/icons/modal-close.svg"></div>
   </div>
   <perfect-scrollbar>
     <div class="modal-body" *ngIf="orderConfirmData&&overageData">
-      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Free','Standard']).includes(selectedPlan.planName)">You are changing from <span>{{selectedPlan&&selectedPlan.planName}} to</span> <span> {{orderConfirmData.name}} Plan</span>. Please find the order summary below.</div>
-      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Pro']).includes(selectedPlan.planName)&&orderConfirmData&&orderConfirmData.name=='Pro'">You are changing from <span>{{selectedPlan&&selectedPlan.planName}} to</span> <span> {{orderConfirmData.name}} Plan</span>. Please find the order summary below.</div>
-      <div class="plan-desc" *ngIf="overageData.overageShow">You have added additional <span *ngIf="overageData.docCount>=1">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}} documents </span><span *ngIf="overageData.queryCount>=1">, {{overageData.overageDeatils.searchQueries.limit | valueFormat}} queries </span> to your plan. Please find the order summary below.</div>
+      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Free','Standard']).includes(selectedPlan.planName)">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
+      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Pro']).includes(selectedPlan.planName)&&orderConfirmData&&orderConfirmData.name=='Pro'">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>.{{"plan.please_find_the_order"| translate}}.</div>
+      <div class="plan-desc" *ngIf="overageData.overageShow">{{"plan.you_have_added_additional"| translate}} <span *ngIf="overageData.docCount>=1">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}} {{"plan.plan_documents"| translate}} </span><span *ngIf="overageData.queryCount>=1">, {{overageData.overageDeatils.searchQueries.limit | valueFormat}} {{"plan.plan_queries"| translate}} </span> {{"plan.to_your_plan"| translate}}. {{"plan.please_find_the_order"| translate}}.</div>
       <ng-container *ngIf="!overageData.overageShow&&selectedPlan&&selectedPlan.planName=='Pro'&&orderConfirmData&&orderConfirmData.name=='Standard'">
         <ul class="order-plan-details">
-          <li>You are changing from <span>{{selectedPlan&&selectedPlan.planName}} to {{orderConfirmData&&orderConfirmData.name}} Plan</span>.</li>
-          <li>Your plan will be changed at the end of billing cycle of current plan i.e. {{selectedPlan&&selectedPlan.endDate|dateFormatPipe:'D MMMM YYYY'}}</li>
+          <li>{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}} {{orderConfirmData&&orderConfirmData.name}} {{"plan.plan"| translate}}</span>.</li>
+          <li>{{"plan.your_plan_will_charged"| translate}}. {{selectedPlan&&selectedPlan.endDate|dateFormatPipe:'D MMMM YYYY'}}</li>
         </ul>
-        <div class="s-text">Please find the order summary below.</div>
+        <div class="s-text">{{"plan.please_find_the_order"| translate}}.</div>
       </ng-container>
       <div class="order-confirmation-table">
         <div class="order-confirmation-table-header row col-12 m-0">
-          <div class="title col-9">PLAN</div>
-          <div class="title col-3">AMOUNT</div>
+          <div class="title col-9">{{"plan.PLAN"| translate}}</div>
+          <div class="title col-3">{{"plan.Amount"| translate}}</div>
         </div>
          <div class="order-confirmation-table-body row col-12 m-0"  *ngIf="!overageData.overageShow">
           <div class="col-9 plan_details">
-            <div class="plan-type">{{orderConfirmData.name}} Subscription</div>
-            <div class="btn-monthly"  [ngClass]="{'active-btn' : orderConfirmData.billingUnit == 'Monthly'}" (click)="choosePlanType('Monthly')">Monthly</div>
-            <div class="btn-monthly" [ngClass]="{ 'active-btn' : orderConfirmData.billingUnit == 'Yearly' }" (click)="choosePlanType('Yearly')">Annually</div>
+            <div class="plan-type">{{orderConfirmData.name}} {{"plan.subscription"| translate}}</div>
+            <div class="btn-monthly"  [ngClass]="{'active-btn' : orderConfirmData.billingUnit == 'Monthly'}" (click)="choosePlanType('Monthly')">{{"plan.monthly"| translate}}</div>
+            <div class="btn-monthly" [ngClass]="{ 'active-btn' : orderConfirmData.billingUnit == 'Yearly' }" (click)="choosePlanType('Yearly')">{{"plan.yearly"| translate}}</div>
           </div>            
 
           <div class="amount col-3">$ {{orderConfirmData.planAmount}}</div>
@@ -104,7 +104,7 @@
          <div class="order-confirmation-table-body row col-12 m-0"  *ngIf="overageData&&overageData.overageShow&&overageData.overageDeatils">            
           <ng-container *ngIf="overageData.docCount>=1">
             <div class="col-9 plan_details">
-              <div class="plan-type col-5 p-0 m-0">Document Overage</div>
+              <div class="plan-type col-5 p-0 m-0">{{"plan.document_overage"| translate}}</div>
               <div class="add-doc-btn-sec">
                 <div class="minus" (click)="count('doc','minus')"><img src="assets/icons/pricing/minus-small.svg"></div>
                 <div class="increase-num">{{overageData.docCount}}</div>
@@ -116,7 +116,7 @@
           </ng-container>
           <ng-container *ngIf="overageData.queryCount>=1">
             <div class="col-9 plan_details">
-              <div class="plan-type col-5 p-0 m-0">Query Overage</div>
+              <div class="plan-type col-5 p-0 m-0">{{"plan.query_overage"| translate}}</div>
               <div class="add-doc-btn-sec">
                 <div class="minus" (click)="count('query','minus')"><img src="assets/icons/pricing/minus-small.svg"></div>
                 <div class="increase-num">{{overageData.queryCount}}</div>
@@ -128,23 +128,23 @@
           </ng-container>
         </div>
         <div class="order-confirmation-table-body row col-12 m-0">
-          <div class="col-9 total-amount text-right">Total Amount</div>
+          <div class="col-9 total-amount text-right">{{"plan.total_amount"| translate}}</div>
           <div class="amount col-3">$ {{overageData&&overageData.overageShow?overageData.overageDeatils.ingestDocs.amount * overageData.docCount+overageData.overageDeatils.searchQueries.amount * overageData.queryCount:orderConfirmData.planAmount}}</div>
         </div>
       </div>
-      <div class="note-text" *ngIf="overageData&&!overageData.overageShow&&selectedPlan&&selectedPlan.planName!='Free'"><span>Note:</span> We will use the same payment method as your previous transaction.</div>
+      <div class="note-text" *ngIf="overageData&&!overageData.overageShow&&selectedPlan&&selectedPlan.planName!='Free'"><span>{{"plan.note"| translate}}:</span> {{"plan.same_payment_method"| translate}}.</div>
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="paymentPlan(overageData.overageShow)" [disabled]="btnDisable">{{overageData&&!overageData.overageShow&&selectedPlan&&selectedPlan.planName!='Free'?'Confirm':'Pay'}}</button>
-    <button class="kr-sg-button-secondary backbtn btn_md" (click)="closeOrderConfPopup()">Cancel</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="paymentPlan(overageData.overageShow)" [disabled]="btnDisable">{{overageData&&!overageData.overageShow&&selectedPlan&&selectedPlan.planName!='Free'?("plan.confirm"| translate):("plan.pay"| translate)}}</button>
+    <button class="kr-sg-button-secondary backbtn btn_md" (click)="closeOrderConfPopup()">{{"plan.cancel"| translate}}</button>
   </div>
 </kr-modal>
 
 <!--payment gateway iframe-->
 <kr-modal modalType="center" modalClass="modal_popups_ chooseplan-price" #paymentGatewayModel>
   <div class="modal-header">
-    <div class="title">Payment Details</div>
+    <div class="title">{{"plan.payment_details"| translate}}</div>
     <div class="d-flex align-items-center justify-content-end">
       <div class="close_icon ml-4">
         <img src="assets/icons/modal-close.svg" (click)="closePaymentGatewayPopup()" />
@@ -163,14 +163,14 @@
   </perfect-scrollbar>
   <div class="modal-footer text-right">
     <!-- <button class="kr-sg-button-primary btn_lg mr-3" (click)="openSuccessFailurePopup()">Proceed</button> -->
-    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePaymentGatewayPopup()">Cancel</button>
+    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closePaymentGatewayPopup()">{{"plan.cancel"| translate}}</button>
   </div>
 </kr-modal>
 
 <!--payment success/failure popup-->
 <kr-modal modalType="center" modalClass="modal_popups_ payment-confirmation-price" #successFailureModel>
   <div class="modal-header">
-    <div class="title">Payment Confirmation</div>
+    <div class="title">{{"plan.payment_confirmation"| translate}}</div>
     <div class="close_icon">
       <img (click)="closeSuccessFailurePopup()" src="assets/icons/modal-close.svg">
     </div>
@@ -180,15 +180,15 @@
         <div class="payment-confiramtion-data" *ngIf="payementSuccess">
           <div class="img-block"><img src="assets/icons/pricing/payment-success.svg"></div>
           <div class="payment-success-message">
-            <div class="title">Yay! {{(orderConfirmData.name=='Pro'&&!(overageData.overageShow))?'You are a Pro member now':'Payment Successfull...'}}</div>
-            <button class="kr-sg-buttonicon-secondary btn_lg" (click)="downloadInvoice()"><img src="assets/icons/pricing/download.svg">Download Invoice</button>
+            <div class="title">{{"plan.yay"| translate}} {{(orderConfirmData.name=='Pro'&&!(overageData.overageShow))?("plan.you_are_Pro_member"| translate):("plan.payment_successfull"| translate)}}</div>
+            <button class="kr-sg-buttonicon-secondary btn_lg" (click)="downloadInvoice()"><img src="assets/icons/pricing/download.svg">{{"plan.download_invoice"| translate}}</button>
           </div>
         </div>
         <div class="payment-confiramtion-data pl-0 pr-0 m-0 row pt-5" *ngIf="!payementSuccess">
           <div class="img-block col-7 p-0"><img src="assets/icons/pricing/payment-failed.svg"></div>
           <div class="payment-success-message col-5 p-0">
-            <div class="title">Oops! Payment Failed!!</div>
-            <button class="kr-sg-button-primary btn_lg" (click)="paymentPlan();closeSuccessFailurePopup()">Retry Payment</button>
+            <div class="title">{{"plan.payment_failed"| translate}}</div>
+            <button class="kr-sg-button-primary btn_lg" (click)="paymentPlan();closeSuccessFailurePopup()">{{"plan.retry_payment"| translate}}</button>
           </div>
         </div>
     </div>
@@ -201,24 +201,24 @@
 <!--change plan/excess data show popup-->
 <kr-modal modalType="center" modalClass="modal_popups_ order-confirmation excess-modal-data" #changePlanModel>
   <div class="modal-header">
-    <div class="title">Change Plan</div>
+    <div class="title">{{"plan.change_plan"| translate}}</div>
     <div class="close_icon"><img (click)="closeChangePlanModel()" src="assets/icons/modal-close.svg"></div>
   </div>
   <perfect-scrollbar>
     <div class="modal-body">
       <div class="desc-text-info">
-        I see, you want to choose another plan. Please <span>delete the excess document & Index</span> to change the plan. Rules, Workbench stages & Experiments added in your application will be automatically deactivated. 
+        {{"plan.choose_another_plan"| translate}} <span>{{"plan.delete_excess"| translate}}</span> {{"plan.automatically_deactivated"| translate}}. 
       </div>
         <div class="excess-table-data">
-          <div class="excess-header">FEATURES</div>
+          <div class="excess-header">{{"plan.features"| translate}}</div>
           <div class="excess-table-body col-12 row" *ngFor="let feature of featuresExceededUsage">
             <div class="excess-type col-6">{{feature}}</div>
-            <div class="excess-name col-6">Excess</div>
+            <div class="excess-name col-6">{{"plan.excess"| translate}}</div>
           </div>
         </div>
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg" (click)="closeChangePlanModel()">Okay</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="closeChangePlanModel()">{{"plan.okay"| translate}}</button>
   </div>
 </kr-modal>

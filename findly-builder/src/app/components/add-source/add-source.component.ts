@@ -37,7 +37,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   crawlOkDisable = false;
   crwalObject: CrwalObj = new CrwalObj();
   allowUrl: AllowUrl = new AllowUrl();
-  allBotArray:any= [];
+  allBotArray: any = [];
   showMore = false;
   @ViewChild('botsConfigurationModalElement') botsConfigurationModalElement: KRModalComponent;
   blockUrl: BlockUrl = new BlockUrl();
@@ -60,7 +60,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   linkedBotID: any;
   linkedBotName: any;
   linkedBotDescription: any;
-  linkedBotData:any={};
+  linkedBotData: any = {};
   islinked = false;
   botToBeUnlinked = '';
   useCookies = true;
@@ -74,14 +74,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   botsConfigurationModalRef: any;
   submitted = false;
   showPassword = false;
-  configurationLink:any={
-    postUrl:'',
-    accessToken:'',
-    webhookUrl:'',
-    clientSecret:'',
-    clientId:''
+  configurationLink: any = {
+    postUrl: '',
+    accessToken: '',
+    webhookUrl: '',
+    clientSecret: '',
+    clientId: ''
   }
-  selectedLinkBotConfig:any;
+  selectedLinkBotConfig: any;
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
@@ -732,7 +732,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
     
-
+    this.dockService.trigger(true)
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic";
       this.importFaq();
@@ -1097,23 +1097,23 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(this.associatedBots);
         console.log(bots);
         this.associatedBots.forEach(element => {
-        if (this.streamID == element._id) {
-          this.linkedBotName = element.name;
-          this.linkedBotID = element._id;
-                this.botToBeUnlinked = element._id;
-                this.islinked = true;
-                if (this.workflowService.selectedApp()?.configuredBots[0]) {
-                  this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
-                }
-                this.linkedBotData = {
-                  botName : element.name,
-                  botId:element._id,
-                  botType:element.type,
-                  botDescription:element.description,
-                  channels:this.workflowService.selectedApp()?.configuredBots[0]?.channels,
-                  approvedChannels:element.approvedChannels
-                }
-        }
+          if (this.streamID == element._id) {
+            this.linkedBotName = element.name;
+            this.linkedBotID = element._id;
+            this.botToBeUnlinked = element._id;
+            this.islinked = true;
+            if (this.workflowService.selectedApp()?.configuredBots[0]) {
+              this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+            }
+            this.linkedBotData = {
+              botName: element.name,
+              botId: element._id,
+              botType: element.type,
+              botDescription: element.description,
+              channels: this.workflowService.selectedApp()?.configuredBots[0]?.channels,
+              approvedChannels: element.approvedChannels
+            }
+          }
         })
         /*this.associatedBotArr = [];
         if (this.associatedBots.length > 0) {
@@ -1215,7 +1215,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.linkedBotID = null;
         this.linkedBotName = null;
         this.linkedBotDescription = null;
-        this.botToBeUnlinked =null;
+        this.botToBeUnlinked = null;
         this.islinked = false;
         this.getAssociatedBots();
         this.notificationService.notify('Bot unlinked, successfully', 'success');
@@ -1410,11 +1410,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   showPasword() {
     var show: any = document.getElementById("password");
     if (show.type === "password") {
-      this.showPassword=true;
+      this.showPassword = true;
       show.type = "text";
 
     } else {
-      this.showPassword= false;
+      this.showPassword = false;
       show.type = "password";
     }
   }
@@ -1431,14 +1431,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.service.invoke('get.generateChannelCreds', queryParams).subscribe(
       res => {
-        this.configurationLink={
-          postUrl:res.postUrl,
-          accessToken:res.accessToken,
-          webhookUrl:'',
-          clientSecret:'',
-          clientId:''
+        this.configurationLink = {
+          postUrl: res.postUrl,
+          accessToken: res.accessToken,
+          webhookUrl: '',
+          clientSecret: '',
+          clientId: ''
         }
-          this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
+        this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1451,14 +1451,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     // this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
 
   }
-  validateBotConfiguration(){
-    if(!this.configurationLink.clientId || !this.configurationLink.clientSecret || !this.configurationLink.webhookUrl || !this.configurationLink.postUrl || !this.configurationLink.accessToken){
+  validateBotConfiguration() {
+    if (!this.configurationLink.clientId || !this.configurationLink.clientSecret || !this.configurationLink.webhookUrl || !this.configurationLink.postUrl || !this.configurationLink.accessToken) {
       return false
-    }else{
+    } else {
       return true;
     }
   }
-  unlinkBotWhithPublish(linkingBotID){
+  unlinkBotWhithPublish(linkingBotID) {
     let requestBody: any = {};
     let selectedApp: any;
     if (this.searchIndexId) {
@@ -1482,7 +1482,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.linkedBotID = null;
         this.linkedBotName = null;
         this.linkedBotDescription = null;
-        this.botToBeUnlinked =null;
+        this.botToBeUnlinked = null;
         this.islinked = false;
         this.workflowService.selectedApp(selectedApp);
         this.streamID = null;
@@ -1491,76 +1491,76 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         //this.getAssociatedTasks(this.streamId);
         this.notificationService.notify("Bot Unlinked Successfully.", 'success')
         // this.notificationService.notify("Bot unlinked Successfully. Please publish to reflect", 'success');
-        
+
       },
-        (err) => { 
-          console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error'); 
+        (err) => {
+          console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error');
           // this.loadingContent = false;
           //this.getAssociatedTasks(this.streamId);
         }
-       )
-     }
+      )
+    }
   }
-  saveLink(){
+  saveLink() {
     this.submitted = true;
-    if(!this.validateBotConfiguration()){
+    if (!this.validateBotConfiguration()) {
       return;
     }
-    if(this.botToBeUnlinked && this.islinked){
+    if (this.botToBeUnlinked && this.islinked) {
       this.unlinkBotWhithPublish(this.selectedLinkBotConfig._id);
       this.workflowService.linkBot(this.selectedLinkBotConfig._id);
-    }else{
+    } else {
       // this.loadingContent = true;
       let selectedApp: any;
       const queryParams = {
         searchIndexID: this.searchIndexId
       }
       let channelType = 'ivr';
-      if(this.configurationLink.webhookUrl.split('/').indexOf('hookInstance')>-1){
-        channelType = this.configurationLink.webhookUrl.split('/')[this.configurationLink.webhookUrl.split('/').indexOf('hookInstance') +1]
+      if (this.configurationLink.webhookUrl.split('/').indexOf('hookInstance') > -1) {
+        channelType = this.configurationLink.webhookUrl.split('/')[this.configurationLink.webhookUrl.split('/').indexOf('hookInstance') + 1]
       }
       let payload = {
-        "linkBotId":this.selectedLinkBotConfig._id,
-     "linkBotName": this.selectedLinkBotConfig.name,
-     "channels": [
-            {
-             "type": channelType,
-             "app": {
-                 "clientId": this.configurationLink.clientId,
-                 "name": (this.selectedLinkBotConfig.channels[0].app||{}).name||(this.selectedLinkBotConfig.channels[0].app||{}).appName ||'',
-                 "clientSecret": this.configurationLink.clientSecret
-                },
+        "linkBotId": this.selectedLinkBotConfig._id,
+        "linkBotName": this.selectedLinkBotConfig.name,
+        "channels": [
+          {
+            "type": channelType,
+            "app": {
+              "clientId": this.configurationLink.clientId,
+              "name": (this.selectedLinkBotConfig.channels[0].app || {}).name || (this.selectedLinkBotConfig.channels[0].app || {}).appName || '',
+              "clientSecret": this.configurationLink.clientSecret
+            },
             "webhookUrl": this.configurationLink.webhookUrl,
             "postUrl": this.configurationLink.postUrl,
             "accessToken": this.configurationLink.accessToken
-            }
+          }
         ]
-     
+
       }
       this.service.invoke('put.configLinkbot', queryParams, payload).subscribe(
         res => {
-          this.allBotArray =[];
-        res.configuredBots.forEach(element => {
-          let obj = {
-            "_id": element._id,
-            "state": "new"
-          }
-          this.allBotArray.push(obj);
-        });
+          this.allBotArray = [];
+          res.configuredBots.forEach(element => {
+            let obj = {
+              "_id": element._id,
+              "state": "new"
+            }
+            this.allBotArray.push(obj);
+          });
 
-        // if(this.allBotArray.length > 0){
-        //   this.universalPublish();
-        // }
-         // Universal Bot Publish here.
-        console.log(res);
-        selectedApp = this.workflowService.selectedApp();
-        if (res.configuredBots[0]) {
-          selectedApp.configuredBots[0] = {};
-          selectedApp.configuredBots[0]._id = res.configuredBots[0]._id;
-          this.linkedBotID = res.configuredBots[0]._id;
-          this.linkedBotName = res.configuredBots[0].botName;
-        }
-        this.linkedBotDescription = res.description;
+          // if(this.allBotArray.length > 0){
+          //   this.universalPublish();
+          // }
+          // Universal Bot Publish here.
+          console.log(res);
+          selectedApp = this.workflowService.selectedApp();
+          if (res.configuredBots[0]) {
+            selectedApp.configuredBots[0] = {};
+            selectedApp.configuredBots[0]._id = res.configuredBots[0]._id;
+            this.linkedBotID = res.configuredBots[0]._id;
+            this.linkedBotName = res.configuredBots[0].botName;
+          }
+          this.linkedBotDescription = res.description;
           this.closeBotsConfigurationModalElement();
           if (selectedApp.configuredBots[0]) {
             this.streamID = selectedApp.configuredBots[0]._id;
@@ -1591,9 +1591,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
       );
-      
+
     }
-   
+
   }
 }
 

@@ -35,7 +35,7 @@ export class AppHeaderComponent implements OnInit {
   searchActive = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
-  searchText: any='';
+  searchText: any = '';
   activeClose = false;
   activeSearch = false;
   search: any;
@@ -244,23 +244,23 @@ export class AppHeaderComponent implements OnInit {
       this.searchText = '';
     }
   }
-  focusinSearch(){
-    if(this.activeClose){
+  focusinSearch() {
+    if (this.activeClose) {
       this.activeClose = false;
       return;
     }
-    this.showSearch= !this.showSearch;
-    setTimeout(()=>{
+    this.showSearch = !this.showSearch;
+    setTimeout(() => {
       document.getElementById('globalSearch').focus();
-    },100)
+    }, 100)
   }
-  focusoutSearch(){
-      this.searchText='';
-      if(this.activeSearch){
-        this.activeClose = true;
-      }
- this.showSearch= !this.showSearch;
-}
+  focusoutSearch() {
+    this.searchText = '';
+    if (this.activeSearch) {
+      this.activeClose = true;
+    }
+    this.showSearch = !this.showSearch;
+  }
   triggerRoute(type, routObj?) {
     const self = this;
     let queryParams: any = {};
@@ -612,6 +612,7 @@ export class AppHeaderComponent implements OnInit {
   openApp(app) {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     this.appSelectionService.openApp(app);
+    this.appSelectionService.refreshSummaryPage.next('changed');
   }
   //create new app
   openCreateApp() {
