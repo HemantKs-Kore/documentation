@@ -410,6 +410,7 @@ export class AppExperimentsComponent implements OnInit {
         this.loadingContent1 = true;
       }
       else {
+        this.loadingContent = false;
         this.loadingContent1 = true;
       }
     }, errRes => {

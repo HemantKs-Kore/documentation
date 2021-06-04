@@ -262,11 +262,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.closeAddsourceModal();
     this.getSourceList();
     this.closeStatusModal();
-    // if((this.faqs && this.faqs.length) === 0){
+    if(this.faqs && this.faqs.length === 0){
       this.openStatusModal();
       this.extractedFaqs=true
       this.getJobStatusForMessages();
-    // }
+    }
     this.selectTab('draft')
     this.getStats();
 
@@ -571,11 +571,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       if (isInitialFaqCall ) {
         if (this.faqSelectionObj.stats.draft) {
-          this.selectTab('draft')
+          this.selectTab('draft');
         } else if (this.faqSelectionObj.stats.in_review) {
-          this.selectTab('in_review')
+          this.selectTab('in_review');
         } else if (this.faqSelectionObj.stats.approved) {
-          this.selectTab('approved')
+          this.selectTab('approved');
+        }else{
+          this.selectTab('draft');
         }
       }
     }, errRes => {
@@ -753,7 +755,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = [...res];
       res.forEach(element => {
-        if(element.recentStatus == 'queued' || element.recentStatus == 'failed' || element.recentStatus == 'running' ){
+        if(element.recentStatus == 'queued' || element.recentStatus == 'failed' || element.recentStatus =='running' ){
         this.viewDetails =true;
           this.extractedFaqs=true;
           if(initializePoling){

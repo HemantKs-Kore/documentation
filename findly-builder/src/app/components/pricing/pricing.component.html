@@ -6,32 +6,32 @@
 <div class="pricing-container-wrapper">
   <div class="title-header d-flex align-items-center justify-content-between">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-    <div>Plan Details</div>
-    <button class="kr-sg-button-primary btn_lg" *ngIf="showUpgradeBtn" (click)="currentSubscriptionPlan.subscription.changesScheduledFor=='none'||currentSubscriptionPlan.subscription.status=='expired'||currentSubscriptionPlan.subscription.changesScheduledFor=='downgrade'?compare('choosePlans',currentSubscriptionPlan.subscription):revertCancel()">{{currentSubscriptionPlan.subscription.changesScheduledFor=='none'||currentSubscriptionPlan.subscription.changesScheduledFor=='downgrade'?'Upgrade':(currentSubscriptionPlan.subscription.changesScheduledFor=='cancel'&&currentSubscriptionPlan.subscription.status!='expired')?'Revert Cancellation':'Reactivate'}}</button>  
+    <div>{{"plan.plan_head"| translate}}</div>
+    <button class="kr-sg-button-primary btn_lg" *ngIf="showUpgradeBtn" (click)="currentSubscriptionPlan.subscription.changesScheduledFor=='none'||currentSubscriptionPlan.subscription.status=='expired'||currentSubscriptionPlan.subscription.changesScheduledFor=='downgrade'?compare('choosePlans',currentSubscriptionPlan.subscription):revertCancel()">{{currentSubscriptionPlan.subscription.changesScheduledFor=='none'||currentSubscriptionPlan.subscription.changesScheduledFor=='downgrade'?("plan.upgrade_btn"| translate):(currentSubscriptionPlan.subscription.changesScheduledFor=='cancel'&&currentSubscriptionPlan.subscription.status!='expired')?("plan.revert_cancellation_btn"| translate):("plan.reactivate_btn"| translate)}}</button>  
   </div>
   <perfect-scrollbar class="pricing-scroll">
     <div class="pricing-details-main-sec" [ngStyle]='{"opacity":currentSubscriptionPlan&&currentSubscriptionPlan.subscription&&currentSubscriptionPlan.subscription.status=="expired"?"0.3":null}'>
         <div class="row col-12 card-plans">
             <div class="col-6 current-plan">
               <div class="inner-content">
-                <div class="title">{{currentSubscriptionPlan&&currentSubscriptionPlan.subscription&&currentSubscriptionPlan.subscription.status=="expired"?'Subscription Cancelled':'Current Subscription Plan'}}</div>
+                <div class="title">{{currentSubscriptionPlan&&currentSubscriptionPlan.subscription&&currentSubscriptionPlan.subscription.status=="expired"?("plan.subscription_cancelled"| translate):("plan.current_subscription_plan"| translate)}}</div>
                 <div class="kr-sg-dropdowns" [hidden]="currentSubscriptionPlan&&currentSubscriptionPlan.subscription.changesScheduledFor=='cancel'">                
                   <div class="dropdown dropdown-open">
                       <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/pricing/overflow.svg"></button>                                            
                       <ul class="dropdown-menu content-menu" *ngIf="currentSubscriptionPlan">                                                                    
-                        <li (click)="addOverage()" [hidden]="currentSubscriptionPlan.subscription.planName=='Free'"><a>Add Overage</a></li>
-                        <li (click)="compare('choosePlans',currentSubscriptionPlan.subscription)"><a>Change Plan</a></li>
-                        <li (click)="openPopup5()" [hidden]="currentSubscriptionPlan.subscription.planName=='Free'"><a>Cancel Subscription</a></li>
+                        <li (click)="addOverage()" [hidden]="currentSubscriptionPlan.subscription.planName=='Free'"><a>{{"plan.add_overage"| translate}}</a></li>
+                        <li (click)="compare('choosePlans',currentSubscriptionPlan.subscription)"><a>{{"plan.change_plan"| translate}}</a></li>
+                        <li (click)="openPopup5()" [hidden]="currentSubscriptionPlan.subscription.planName=='Free'"><a>{{"plan.cancel_subscription"| translate}}</a></li>
                       </ul>
                     </div>
                 </div>
                 <div class="plan-details" *ngIf="currentSubscriptionPlan">
                   <div class="type-plan-sec">
                     <div class="type-plan">{{ currentSubscriptionPlan.subscription.planName || 'Free' }} </div>
-                    <div class="amount" *ngIf="currentSubscriptionPlan.subscription.planName != 'Free'">${{currentSubscriptionPlan.subscription.planAmount}}<span>/ {{currentSubscriptionPlan.subscription.billingUnit=='Monthly'?'month':'year'}}</span></div>
+                    <div class="amount" *ngIf="currentSubscriptionPlan.subscription.planName != 'Free'">${{currentSubscriptionPlan.subscription.planAmount}}<span>/ {{currentSubscriptionPlan.subscription.billingUnit=='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</span></div>
                   </div>
                   <div class="plan-time">
-                    <div class="started-title">{{currentSubscriptionPlan.subscription.planName=='Free'?'Started On':currentSubscriptionPlan.subscription.changesScheduledFor=='none'?'Renewal Date':currentSubscriptionPlan.subscription.status=='expired'?'End Date':'Valid till'}}</div>
+                    <div class="started-title">{{currentSubscriptionPlan.subscription.planName=='Free'?("plan.started_on"| translate):currentSubscriptionPlan.subscription.changesScheduledFor=='none'?("plan.renewal_date"| translate):currentSubscriptionPlan.subscription.status=='expired'?("plan.end_date"| translate):("plan.valid_till"| translate)}}</div>
                     <div class="started-date">{{(currentSubscriptionPlan.subscription.planName=='Free'?currentSubscriptionPlan.subscription.createdAt:currentSubscriptionPlan.subscription.changesScheduledFor=='none'?currentSubscriptionPlan.subscription.endDate:currentSubscriptionPlan.subscription.status=='expired'?currentSubscriptionPlan.subscription.expiredOn:currentSubscriptionPlan.subscription.endDate)| dateFormatPipe:'D MMMM YYYY'}}</div>
                   </div>
                 </div>
@@ -40,16 +40,16 @@
 
             <div class="col-6 current-plan usage-plan">
               <div class="inner-content">
-                <div class="title">Usage</div>
+                <div class="title">{{"plan.usage"| translate}}</div>
                 <div class="queries">
-                  <div class="queries-title">Queries</div>
+                  <div class="queries-title">{{"plan.queries"| translate}}</div>
                   <div class="queries-count"><span class="">{{(usageDetails.searchQueries?.used)| valueFormat}}</span> / {{(usageDetails.searchQueries?.limit)|valueFormat}}</div>
                 </div>
                 <!-- <div class="bg_queries"></div> -->
                 <ngb-progressbar class="mt-3" height="10px" [type]="usageDetails.searchQueries?.type" [value]="usageDetails.searchQueries?.used" [max]="usageDetails.searchQueries?.limit">
                 </ngb-progressbar>
                 <div class="queries">
-                  <div class="queries-title">Documents</div>
+                  <div class="queries-title">{{"plan.documents"| translate}}</div>
                   <div class="queries-count"><span class="">{{usageDetails.ingestDocs?.used | valueFormat}}</span> / {{(usageDetails.ingestDocs?.limit)| valueFormat}}</div>
                 </div>
                 <!-- <div class="bg_queries"></div> -->
@@ -63,21 +63,21 @@
           <div class="info-note" [ngClass]='{"d-none":proInfo}'>
             <div class="col-10 d-flex align-items-center p-0">
               <img src="assets/icons/Info-pdf.svg">
-              <span class="info-text">Your plan will be changed from Pro to Standard by the end of the billing cycle i.e. {{(currentSubscriptionPlan&&currentSubscriptionPlan.subscription.endDate)| dateFormatPipe:'D MMMM YYYY'}}</span>
+              <span class="info-text">{{"plan.your_plan_will_changed"| translate}} {{(currentSubscriptionPlan&&currentSubscriptionPlan.subscription.endDate)| dateFormatPipe:'D MMMM YYYY'}}</span>
             </div>
             <div class="close-info col-2 p-0 text-right">            
-              <span (click)="cancelProSubscription()">Cancel request</span>
+              <span (click)="cancelProSubscription()">{{"plan.cancel_request"| translate}}</span>
               <img src="assets/icons/close-small.svg" (click)="proInfo=true">
             </div>
           </div>
         </ng-container>
         <div class="upgrade-details-prices row col-12" *ngIf ="currentSubscriptionPlan&&currentSubscriptionPlan.subscription.planName =='Free'">
           <div class="row col-12 upgrade-header-sec">
-            <div class="title col-5 p-0">Upgrade to</div>
+            <div class="title col-5 p-0">{{"plan.upgrade_to"| translate}}</div>
             <div class="upgrader-btn-sec col-7 p-0">
-              <div class="btn-monthly" [ngClass]="{'active-btn' : termPlan == 'Monthly'}" (click)="typeOfPlan('Monthly')">Monthly</div>
-              <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'Yearly' }" (click)="typeOfPlan('Yearly')">Annually</div>
-              <div class="compare-plan" (click)="compare('choosePlans',currentSubscriptionPlan.subscription)">Compare Plans</div>
+              <div class="btn-monthly" [ngClass]="{'active-btn' : termPlan == 'Monthly'}" (click)="typeOfPlan('Monthly')">{{"plan.monthly"| translate}}</div>
+              <div class="btn-monthly" [ngClass]="{ 'active-btn' : termPlan == 'Yearly' }" (click)="typeOfPlan('Yearly')">{{"plan.yearly"| translate}}</div>
+              <div class="compare-plan" (click)="compare('choosePlans',currentSubscriptionPlan.subscription)">{{"plan.compare_plans"| translate}}</div>
             </div>
           </div>
           <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData'>
@@ -87,15 +87,15 @@
               <img src="assets/icons/pricing/enterprise.svg" class="enterprise-img" *ngIf="plan.name == 'Enterprise'">
                 <div class="title-sec">
                   <div class="title">{{plan.name}}</div>
-                  <div class="price" [ngClass]='{"d-none":currentPlan===plan.name||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?'month':'year'}}</span></div>
-                  <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise"}'>Custom</div>
+                  <div class="price" [ngClass]='{"d-none":currentPlan===plan.name||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</span></div>
+                  <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise"}'>{{"plan.custom"| translate}}</div>
                 </div>
                 <div class="card-desc" *ngFor="let info of plan.featureData" [hidden]="!(info.displayOnBanner)">{{info.displayText}}</div>
                 <!-- <div class="card-desc">50k Queries per month</div>
                 <div class="card-desc">Scheduled Crawling</div>
                 <div class="card-desc">Experiments</div>
                 <div class="card-desc">Community Support</div> -->
-                <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':compare('order',plan)">{{plan.name==='Enterprise'?'Contact Us':'Choose Plan'}}</button>
+                <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':compare('order',plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):("plan.choose_plan"| translate)}}</button>
             </div>
           </div>
 
@@ -132,17 +132,17 @@
         </div>
 
         <div class="usage-metrics-sec row col-12 m-0">
-          <div class="col-12 main-title">Usage Metrics</div>
+          <div class="col-12 main-title">{{"plan.usage_metrics"| translate}}</div>
           <div class="row col-12 m-0 p-0 cards-usage-metrics">
               <div class="col-6 metrics-data">
                 <div class="inner-content" [ngStyle]="{'opacity':isyAxisDocumentdata?'none':'0.5','pointer-events':isyAxisDocumentdata?'auto':'none'}"> <!-- [ngStyle]="{'opacity':isyAxisDocumentdata?'0':'0.5','pointer-events':isyAxisDocumentdata?'auto':'none'}"-->
-                    <div class="title">Document Ingestion Analytics <span>| {{monthRange}} (Last 6 Months)</span></div>
+                    <div class="title">{{"plan.document_ingestion_analytics"| translate}} <span>| {{monthRange}} ({{"plan.last_6_months"| translate}})</span></div>
                     <div echarts [options]="documentGraph" class="demo-chart-graphMode" style="height: 320px;"></div>
                 </div>
               </div>
               <div class="col-6 metrics-data">
                 <div class="inner-content" [ngStyle]="{'opacity':isyAxisQuerydata?'none':'0.5','pointer-events':isyAxisQuerydata?'auto':'none'}"> <!-- [ngStyle]="{'opacity':isyAxisQuerydata?'0':'0.5','pointer-events':isyAxisQuerydata?'auto':'none'}" -->
-                    <div class="title">Query Usage Analytics <span>| {{monthRange}} (Last 6 Months)</span></div>
+                    <div class="title">{{"plan.query_usage_analytics"| translate}} <span>| {{monthRange}} ({{"plan.last_6_months"| translate}})</span></div>
                     <div echarts [options]="queryGraph" class="demo-chart-graphMode" style="height: 320px;"></div>
                 </div>
               </div>
@@ -237,26 +237,24 @@
 
 <kr-modal modalType="center" modalClass="modal_popups_ overage_plan" #addOverageModel>
   <div class="modal-header">
-    <div class="title">Overage Plan</div>
+    <div class="title">{{"plan.overage_plan"| translate}}</div>
     <div class="close_icon">
       <img  (click)="closeOveragePopup()" src="assets/icons/modal-close.svg">
     </div>     
   </div>
   <perfect-scrollbar>
     <div class="modal-body">
-      <div class="mian-title-desc">The document/query is reaching maximum limit for your current plan. No worries, We got you covered!!</div>
-      
-      
-      <div class="col-12 p-0 mian-title">Add Overage</div>
+      <div class="mian-title-desc">{{"plan.overage_desc"| translate}}</div>
+      <div class="col-12 p-0 mian-title">{{"plan.add_overage"| translate}}</div>
       <div class="add_overage_data">        
         <div class="overage_card">
           <div class="titles-sec">
-            <div class="title">Documents</div>
-            <div class="price">${{overageDeatils.ingestDocs.amount}} <span>/ month</span></div>
+            <div class="title">{{"plan.documents"| translate}}</div>
+            <div class="price">${{overageDeatils.ingestDocs.amount}} <span>/ {{"plan.month"| translate}}</span></div>
           </div>
-          <div class="info-card-overage">Add <span>Additional {{overageDeatils.ingestDocs.limit | valueFormat}}</span> documents to your plan</div>
+          <div class="info-card-overage">{{"plan.add"| translate}} <span>{{"plan.additional"| translate}} {{overageDeatils.ingestDocs.limit | valueFormat}}</span> {{"plan.documents_to_your_plan"| translate}}</div>
           <div class="btn_add_doc text-right">
-            <button class="kr-sg-button-secondary btn_lg" [ngClass] = "{'d-none': addDocOver}" (click) = "addDocument()">Add Documents </button>
+            <button class="kr-sg-button-secondary btn_lg" [ngClass] = "{'d-none': addDocOver}" (click) = "addDocument()">{{"plan.add_documents"| translate}}</button>
             <div class="add-doc-block" [ngClass] = "{'d-none': !addDocOver}">
               <div class="minus-btn" (click)="count('doc','minus')"><img src="assets/icons/pricing/minus.svg"></div>
               <div class="number-doc">{{numberDoc}}</div>
@@ -266,12 +264,12 @@
         </div>
         <div class="overage_card">
           <div class="titles-sec">
-            <div class="title">Queries</div>
-            <div class="price">${{overageDeatils.searchQueries.amount}} <span>/ month</span></div>
+            <div class="title">{{"plan.queries"| translate}}</div>
+            <div class="price">${{overageDeatils.searchQueries.amount}} <span>/ {{"plan.month"| translate}}</span></div>
           </div>
-          <div class="info-card-overage">Add <span>Additional {{overageDeatils.searchQueries.limit | valueFormat}}</span> queries to your plan</div>
+          <div class="info-card-overage">{{"plan.add"| translate}} <span>{{"plan.additional"| translate}} {{overageDeatils.searchQueries.limit | valueFormat}}</span> {{"plan.queries_to_your_plan"| translate}}</div>
           <div class="btn_add_doc text-right">
-            <button class="kr-sg-button-secondary btn_lg" [ngClass] = "{'d-none': addQueOver}" (click) = "addQuerry()">Add Queries</button>
+            <button class="kr-sg-button-secondary btn_lg" [ngClass] = "{'d-none': addQueOver}" (click) = "addQuerry()">{{"plan.add_queries"| translate}}</button>
             <div class="add-doc-block" [ngClass] = "{'d-none': !addQueOver}">
               <div class="minus-btn" (click)="count('query','minus')"><img src="assets/icons/pricing/minus.svg"></div>
               <div class="number-doc">{{numberQuery}}</div>
@@ -282,22 +280,22 @@
       </div>
 
       <div class="change-plan-container" *ngIf="currentSubscriptionPlan">
-        <button class="kr-sg-button-secondary btn_lg" (click)="compare('choosePlans',currentSubscriptionPlan.subscription)">Change Plan</button>
-        <div class="info-text">You can also choose to <span>Upgrade your Plan</span> </div>
-        <div class="info-text" *ngIf="currentSubscriptionPlan.subscription.planId == plansIdList.standardMonth">Upgrade to <u>Pro</u> to get <span>{{overageDeatils.ingestDocs.limit | valueFormat}} documents</span> and <span>{{overageDeatils.searchQueries.limit | valueFormat}} Queries</span> per month.</div>
-        <div class="info-text">Upgrade to <u>Enterprise</u> to get <span>custom</span> no. of documents and queries per month.  </div>
+        <button class="kr-sg-button-secondary btn_lg" (click)="compare('choosePlans',currentSubscriptionPlan.subscription)">{{"plan.change_plan"| translate}}</button>
+        <div class="info-text">{{"plan.you_can_also_choose_to"| translate}} <span>{{"plan.upgrade_your_plan"| translate}}</span> </div>
+        <div class="info-text" *ngIf="currentSubscriptionPlan.subscription.planId == plansIdList.standardMonth">{{"plan.upgrade_to"| translate}} <u>{{"plan.pro"| translate}}</u> {{"plan.to_get"| translate}} <span>{{overageDeatils.ingestDocs.limit | valueFormat}} {{"plan.plan_documents"| translate}}</span> {{"plan.and"| translate}} <span>{{overageDeatils.searchQueries.limit | valueFormat}} {{"plan.queries"| translate}}</span> {{"plan.per_month"| translate}}</div>
+        <div class="info-text">{{"plan.upgrade_to"| translate}} <u>{{"plan.enterprise"| translate}}</u> {{"plan.to_get"| translate}} <span>{{"plan.custom"| translate}}</span> {{"plan.no_of_documents_and_queries_per_month"| translate}}  </div>
       </div>
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg mr-3" [disabled] = "!addDocOver && !addQueOver" (click)="compare('orderOverage')">Proceed</button>
-    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closeOveragePopup()">Cancel</button>
-  </div>`1  
+    <button class="kr-sg-button-primary btn_lg mr-3" [disabled] = "!addDocOver && !addQueOver" (click)="compare('orderOverage')">{{"plan.proceed"| translate}}</button>
+    <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="closeOveragePopup()">{{"plan.cancel"| translate}}</button>
+  </div>  
 </kr-modal>
 
 <kr-modal modalType="center" modalClass="modal_popups_ cancel_subscription" #cancelSubscriptionModel>
   <div class="modal-header">
-    <div class="title">Cancel Subscription</div>
+    <div class="title">{{"plan.cancel_subscription"| translate}}</div>
     <div class="close_icon">
       <img (click)="closeCancelSubsPopup()" src="assets/icons/modal-close.svg">
     </div>
@@ -305,38 +303,38 @@
   <perfect-scrollbar>
     <div class="modal-body">
       <ul class="cancel-subscription-list">
-        <li>Your subscription is valid till the end of billing cycle i.e.  <span>{{(currentSubscriptionPlan&&currentSubscriptionPlan.subscription&&currentSubscriptionPlan.subscription.endDate)| dateFormatPipe:'D MMMM YYYY'}}</span>.</li>
-        <li>Post billing cycle your app will not respond to the end users.</li>
-        <li>However, you will have access to your app for 15 more days after cancellation to either reactivate or take a backup of your application. After 15 days your app will be permanently deleted.</li>
+        <li>{{"plan.end_of_billing_cycle"| translate}}.  <span>{{(currentSubscriptionPlan&&currentSubscriptionPlan.subscription&&currentSubscriptionPlan.subscription.endDate)| dateFormatPipe:'D MMMM YYYY'}}</span>.</li>
+        <li>{{"plan.post_billing_cycle"| translate}}.</li>
+        <li>{{"plan.access_to_your_app_for_15_more_days"| translate}}.</li>
       </ul>      
       <div class="cancel-subscription-data row m-0">
         <div class="img-block col-8"><img src="assets/icons/pricing/cancel_subscription.svg"></div>
         <div class="cancel-subscription-reasons col-4 p-0">
           <div class="group-checkbox">
-            <div class="heading-title">What is the Reason you want to Cancel?</div>
+            <div class="heading-title">{{"plan.reason_you_want_cancel"| translate}}</div>
             <div class="kr-sg-checkbox d-block">
                 <input id="checkbox_grp3" class="checkbox-custom" type="checkbox">
-                <label for="checkbox_grp3" class="checkbox-custom-label">It’s too costly</label>
+                <label for="checkbox_grp3" class="checkbox-custom-label">{{"plan.it’s_too_costly"| translate}}</label>
             </div>
             <div class="kr-sg-checkbox d-block">
               <input id="checkbox_grp1" class="checkbox-custom" type="checkbox">
-              <label for="checkbox_grp1" class="checkbox-custom-label">I found another product that fulfils my needs</label>
+              <label for="checkbox_grp1" class="checkbox-custom-label">{{"plan.found_another_product"| translate}}</label>
             </div>
             <div class="kr-sg-checkbox d-block">
                 <input id="checkbox_grp4" class="checkbox-custom" type="checkbox">
-                <label for="checkbox_grp4" class="checkbox-custom-label">I don’t use it enough</label>
+                <label for="checkbox_grp4" class="checkbox-custom-label">{{"plan.don’t_use_it_enough"| translate}}</label>
             </div>
             <div class="kr-sg-checkbox d-block">
                 <input id="checkbox_grp5" class="checkbox-custom" type="checkbox">
-                <label for="checkbox_grp5" class="checkbox-custom-label">I don’t need it now</label>
+                <label for="checkbox_grp5" class="checkbox-custom-label">{{"plan.don’t_need_it_now"| translate}}</label>
             </div>
             <div class="kr-sg-checkbox d-block">
               <input id="checkbox_grp15" class="checkbox-custom" type="checkbox">
-              <label for="checkbox_grp15" class="checkbox-custom-label">Other</label>
+              <label for="checkbox_grp15" class="checkbox-custom-label">{{"plan.other"| translate}}</label>
             </div>              
           </div>
           <div class="kr-sg-input-text-area">
-            <div class="label-text">Comments</div>
+            <div class="label-text">{{"plan.comments"| translate}}</div>
             <textarea placeholder="Optional" id="text_area" class="input-text"></textarea>                                
           </div>
         </div>
@@ -344,8 +342,8 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">    
-    <button class="kr-sg-button-primary btn_lg" (click)="cancelSubscription()">Cancel Subscription</button>     
-    <button class="kr-sg-button-secondary btn_lg" (click)="closeCancelSubsPopup()">Later</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="cancelSubscription()">{{"plan.cancel_subscription"| translate}}</button>     
+    <button class="kr-sg-button-secondary btn_lg" (click)="closeCancelSubsPopup()">{{"plan.later"| translate}}</button>
   </div>
 </kr-modal>
 

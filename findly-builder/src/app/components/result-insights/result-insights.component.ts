@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
@@ -14,7 +14,7 @@ import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
   styleUrls: ['./result-insights.component.scss']
 })
 export class ResultInsightsComponent implements OnInit {
-  viewQueriesRef:any;
+  viewQueriesRef: any;
   selectedApp;
   serachIndexId;
   // pageLimit = 5;
@@ -40,7 +40,7 @@ export class ResultInsightsComponent implements OnInit {
   // tsqNoRPtotalRecord = 100;
   // tsqNoRPlimitpage = 10;
   // tsqNoRPrecordEnd = 10;
-  
+
   // tsqNoCPtotalRecord = 100;
   // tsqNoCPlimitpage = 10;
   // tsqNoCPrecordEnd = 10;
@@ -62,47 +62,48 @@ export class ResultInsightsComponent implements OnInit {
   // userEngagementChartData : EChartOption;
   isAsc = true;
   slider = 2;
-  resultsData : any;
-  resultsSearchData : any;
+  resultsData: any;
+  resultsSearchData: any;
   searchQueryanswerType = '';
   resultQueryAnswer = '';
-  searchSources : any = '';
+  searchSources: any = '';
   dateType = "hour"
   group = "week";
-  totalRecord:number=0;
-  limitPage : number = 10;
-  skipPage:number = 0;
+  totalRecord: number = 0;
+  limitPage: number = 10;
+  skipPage: number = 0;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
-  Q_totalRecord:number=0;
-  Q_limitPage : number = 10;
-  Q_skipPage:number = 0;
-  startDate:any = moment().subtract({ days: 7 });
+  Q_totalRecord: number = 0;
+  Q_limitPage: number = 10;
+  Q_skipPage: number = 0;
+  startDate: any = moment().subtract({ days: 7 });
   endDate: any = moment();
   defaultSelectedDay = 7;
   showDateRange: boolean = false;
+  componentType: string = 'addData';
   selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
   @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService) { }
-    @ViewChild('viewQueries') viewQueries: KRModalComponent;
+  @ViewChild('viewQueries') viewQueries: KRModalComponent;
 
-    openModalPopup(result){
-      this.searchQueryanswerType = result.answerType;
-      this.resultQueryAnswer = result.answer;
-      this.getQueries('SearchQueriesForResult')
-      this.viewQueriesRef = this.viewQueries.open();
-    }
-    closeModalPopup(){
-      this.viewQueriesRef.close();
-    }
+  openModalPopup(result) {
+    this.searchQueryanswerType = result.answerType;
+    this.resultQueryAnswer = result.answer;
+    this.getQueries('SearchQueriesForResult')
+    this.viewQueriesRef = this.viewQueries.open();
+  }
+  closeModalPopup() {
+    this.viewQueriesRef.close();
+  }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    
+
     this.getQueries("Results");
   }
   openDateTimePicker(e) {
@@ -110,7 +111,7 @@ export class ResultInsightsComponent implements OnInit {
       this.pickerDirective.open(e);
     })
   }
-  onDatesUpdated($event){
+  onDatesUpdated($event) {
     this.startDate = this.selected.startDate;
     this.endDate = this.selected.endDate;
     this.dateLimt('custom');
@@ -136,85 +137,85 @@ export class ResultInsightsComponent implements OnInit {
       this.showDateRange = false;
     }
   }
-  dateLimt(type){
+  dateLimt(type) {
     this.dateType = type;
     this.getQueries('Results');
   }
-  getQueries(type){
+  getQueries(type) {
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
     var week = new Date(Date.now() - (6 * 864e5));
     var custom = new Date(Date.now() - (29 * 864e5));
     let from = new Date();
-    if(this.dateType == 'hour'){
+    if (this.dateType == 'hour') {
       from = yesterday;
       this.group = "hour";
-    }else if(this.dateType == 'week'){
+    } else if (this.dateType == 'week') {
       from = week;
       this.group = "date";
-    }else if(this.dateType == 'custom'){
+    } else if (this.dateType == 'custom') {
       from = custom;
       var duration = moment.duration(Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()), 'milliseconds');
       var days = duration.asDays();
       console.log(days);
-      if(days > 28){
+      if (days > 28) {
         this.group = "week";
-      }else if(days == 1){
+      } else if (days == 1) {
         this.group = "hour";
-      }else{
+      } else {
         this.group = "date";
       }
     }
-    const header : any= {
+    const header: any = {
       'x-timezone-offset': '-330'
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       offset: this.skipPage,
-      limit:this.limitPage
+      limit: this.limitPage
     };
-    let payload : any = {
-      type : type,
-      group:this.group,
+    let payload: any = {
+      type: type,
+      group: this.group,
       filters: {
-        from:  this.startDate.toJSON(),//from.toJSON(),
+        from: this.startDate.toJSON(),//from.toJSON(),
         to: this.endDate.toJSON()
       },
     }
-    if(type == 'SearchQueriesForResult'){
+    if (type == 'SearchQueriesForResult') {
       payload.result = this.resultQueryAnswer;
     }
-    this.service.invoke('get.queries', quaryparms,payload,header).subscribe(res => {
-      if(type == 'Results'){
+    this.service.invoke('get.queries', quaryparms, payload, header).subscribe(res => {
+      if (type == 'Results') {
         this.resultsData = res.results;
         this.totalRecord = res.totalCount;
       }
-      else if(type == 'SearchQueriesForResult'){
+      else if (type == 'SearchQueriesForResult') {
         this.resultsSearchData = res.results;
         this.Q_totalRecord = res.totalCount;
-        console.log("Q_totalRecord",this.Q_totalRecord)
+        console.log("Q_totalRecord", this.Q_totalRecord)
       }
-     }, errRes => {
-       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-       } else {
-         this.notificationService.notify('Failed ', 'error');
-       }
-     });
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
   }
-  
+
   //pagination method
-  paginate(event,type){
-    if(type==='Results'){
+  paginate(event, type) {
+    if (type === 'Results') {
       this.limitPage = event.limit;
       this.skipPage = event.skip;
       this.getQueries('Results');
     }
-      else if(type==='QRESULT'){
-        this.Q_limitPage = event.limit;
-        this.Q_skipPage = event.skip;
-        this.getQueries('SearchQueriesForResult');
-      }
+    else if (type === 'QRESULT') {
+      this.Q_limitPage = event.limit;
+      this.Q_skipPage = event.skip;
+      this.getQueries('SearchQueriesForResult');
+    }
   }
   // pagination(data,type){
   //   if(type == 'MostSearchedQuries'){
@@ -242,5 +243,5 @@ export class ResultInsightsComponent implements OnInit {
 
   //   }
   // }
-  
+
 }

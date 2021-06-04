@@ -16,7 +16,7 @@
                         <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="serachTraits">           
                     </div>  -->
                     <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
-                        <input type="text" placeholder="Search" maxlength="20" id="inputSearch" class="input-search" [ngClass]="{'pl-33':!serachTraits,'pl-2':serachTraits}" autocomplete="off" [(ngModel)]="serachTraits" (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                        <input type="text" placeholder="Search" maxlength="60" id="inputSearch" class="input-search" [ngClass]="{'pl-33':!serachTraits,'pl-2':serachTraits}" autocomplete="off" [(ngModel)]="serachTraits" (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                         <img [src]="searchImgSrc" class="search-icon" *ngIf="!serachTraits">
                         <img class="close-icon" *ngIf="serachTraits" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':serachTraits}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="serachTraits='';"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
@@ -36,7 +36,7 @@
             <perfect-scrollbar class="traits-scroll-data" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
                 <div class="traits-body-sec">
                     <div class="content-body row col-12 m-0" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">
-                        <div class="col-3 traitGroup-name" title="{{traitGroup.groupName || '---'}}">{{traitGroup.groupName || '---'}}</div>
+                        <div class="col-3 traitGroup-name text-truncate" ngbTooltip="{{traitGroup.groupName || '---'}}" placement="top-center" container='body' tooltipClass="ngb_tooltip_custom_class sampleJson">{{traitGroup.groupName || '---'}}</div>
                         <div class="col-7 traits-groups row m-0 align-items-center pr-0">
                             <span *ngFor="let trait of traitGroup.traits| slice:0:getTraitsSliceValue(traitGroup.traits); let i=index;" class="trait-more">
                                 {{i!==0 ?', ':''}}{{trait.traitName || '---'}}
@@ -51,7 +51,7 @@
                                                 <img src="assets/icons/close-dropdown.svg">
                                             </div>
                                             <perfect-scrollbar class="more-traits-scroll">
-                                                <li *ngFor="let trait of traitGroup.traits| slice:getTraitsSliceValue(traitGroup.traits):(traitGroup.traits.length);" title="{{trait.traitName || '---'}}" class="text-truncate">
+                                                <li *ngFor="let trait of traitGroup.traits| slice:getTraitsSliceValue(traitGroup.traits):(traitGroup.traits.length);" ngbTooltip="{{trait.traitName || '---'}}" placement="left" container='body' tooltipClass="ngb_tooltip_custom_class sampleJson" class="text-truncate">
                                                     {{trait.traitName || '---'}}
                                                 </li>
                                             </perfect-scrollbar>
@@ -108,7 +108,7 @@
         <div class="modal-body">
             <div class="kr-sg-input-text trait-group-name">
                 <div class="label-text">Trait Group Name</div>
-                <input type="text" autocomplete="off" maxlength="20" placeholder="Enter Trait Group" class="input-text" [(ngModel)]="traits.addEditTraits.groupName" [ngClass]="{'err-block' : (!traits.addEditTraits.groupName && submitted)}">
+                <input type="text" autocomplete="off" maxlength="60" placeholder="Enter Trait Group" class="input-text" [(ngModel)]="traits.addEditTraits.groupName" [ngClass]="{'err-block' : (!traits.addEditTraits.groupName && submitted)}">
                 <div class="eg-text">Eg: Vehicle type, Class</div>
                 <img *ngIf="!traits.addEditTraits.groupName && submitted" id="traitGroupNameWarning" src="assets/icons/warning_escalation.svg" style="top: 39%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
             </div>
@@ -119,7 +119,7 @@
 
             <ng-container *ngIf="traits.addEditTraits && traits.addEditTraits.traitsArray && traits.addEditTraits.traitsArray.length">
                 <div class="content-body-traits row col-12" *ngFor="let item of traits.addEditTraits.traitsArray;let index = index;"  (click)="openAddUtteranceModel(index,item.key,item.data,true)" [ngClass]="{'pointer':item.data.length}">
-                    <div class="col-4 group-name" title="{{item.key}}" *ngIf="showEditTraitInput !== index"> {{item.key}}</div>
+                    <div class="col-4 group-name text-truncate" ngbTooltip="{{item.key}}" placement="top-center" container='body'  tooltipClass="ngb_tooltip_custom_class sampleJson" *ngIf="showEditTraitInput !== index"> {{item.key}}</div>
                     <div class="col-6 m-0 align-items-center" *ngIf="showEditTraitInput !== index">
                         <div class="utterances-count" *ngIf="item.data.length">{{item.data.length}} {{item.data.length>1?'Utterances':'Utterance'}}</div>
                         <div class="add-utt-title" *ngIf="!item.data.length" (click)="openAddUtteranceModel(index,item.key,item.data)">
