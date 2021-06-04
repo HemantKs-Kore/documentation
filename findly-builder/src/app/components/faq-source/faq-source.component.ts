@@ -753,7 +753,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = [...res];
       res.forEach(element => {
-        if(element.recentStatus == 'queued' || element.recentStatus == 'failed' ){
+        if(element.recentStatus == 'queued' || element.recentStatus == 'failed' || element.recentStatus == 'running' ){
         this.viewDetails =true;
           this.extractedFaqs=true;
           if(initializePoling){

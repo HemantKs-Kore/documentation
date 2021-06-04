@@ -732,7 +732,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
     
-
+    this.dockService.trigger(true)
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic";
       this.importFaq();
