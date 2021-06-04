@@ -1,7 +1,7 @@
 <div class="contentContainer p-0">
   <div class="mainLoadingSpinner" *ngIf="loadingContent" [@fadeInOutAnimation]>
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-    <span class="please-wait-message">Please Wait!</span>
+    <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
   </div>
   <!-- <div class="table-list-content">
     <div class="kr-sg-data-table" *ngIf="!loadingContent">
@@ -12,25 +12,25 @@
   </div> -->
   <ng-container *ngIf="!(resources && resources.length) && loadingContent1">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-    <div class="title-content">Content</div>
+    <div class="title-content">{{"contentSource.content" | translate}}</div>
     <perfect-scrollbar class="scoll-empty-screen">
       <div class="empty-landing-screen">
         <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/contentmanag-empty.svg"></div>   
         <ng-container *ngIf="loadImageText">
-        <div class="empty-title">You haven’t added any content data yet!</div>
-        <div class="desc-text"> The Content is the data ingested into SearchAssist that are indexed to answer search user queries. SearchAssist allows you to add content by crawling web domain and uploading documents.</div>
+        <div class="empty-title">{{"contentSource.no_content" | translate}}</div>
+        <div class="desc-text"> {{"contentSource.no_content_info" | translate}}</div>
         <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
           <div class="dropdown dropdown-open">
-            <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Add Content</button>                                            
+            <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>{{"contentSource.add_content" | translate}}</button>                                            
             <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-            <li class="webDomain" (click)="addNewContentSource('contentWeb')">Crawl Web Domain</li>
-            <li class="webDomain" (click)="addNewContentSource('contentDoc')">Upload File</li>                  
+            <li class="webDomain" (click)="addNewContentSource('contentWeb')">{{"contentSource.craw_web_domain" | translate}}</li>
+            <li class="webDomain" (click)="addNewContentSource('contentDoc')">{{"contentSource.upload_file" | translate}}</li>                  
             </ul>
           </div>                                    
         </div>
       </ng-container>
         <ng-container *ngIf="noItems && emptySearchResults">
-            <div class="desc-text">Your Search Query doesn't match with any record.</div>
+            <div class="desc-text">{{"contentSource.no_search_query" | translate}}</div>
         </ng-container>
       </div>
     </perfect-scrollbar>  
@@ -66,7 +66,7 @@
     <div class="kr-sg-data-table with-checkbox">
       <div class="table-action-header">
         <div class="title-main">
-          Content Management
+          {{"contentSource.content_management" | translate}}
         </div>
         <div>
           <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">
@@ -87,10 +87,10 @@
           <div class="kr-sg-dropdowns">
             <div class="dropdown dropdown-open">
               <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img
-                  src="assets/icons/sidemenu/plus-table.svg">Add Content</button>
+                  src="assets/icons/sidemenu/plus-table.svg">{{"contentSource.add_content" | translate}}</button>
               <ul class="dropdown-menu content-menu">
-                <li (click)="addNewContentSource('contentWeb')">Crawl Web Domain</li>
-                <li (click)="addNewContentSource('contentDoc')">Upload File</li>
+                <li (click)="addNewContentSource('contentWeb')">{{"contentSource.craw_web_domain" | translate}}</li>
+                <li (click)="addNewContentSource('contentDoc')">{{"contentSource.upload_file" | translate}}</li>
               </ul>
             </div>
           </div>
@@ -110,7 +110,7 @@
                 <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                 <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
               </span>
-            SOURCE TITLE
+              {{"contentSource.source_title_caps" | translate}}
           </div>
           <div class="col_ col-2 d-flex align-items-center pr-0" (click)="sortBy('type')"><span
               class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
@@ -118,7 +118,7 @@
                 <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                 <img [ngClass]="getSortIconVisibility('type', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
               </span>
-            TYPE
+             {{"contentSource.type_caps" | translate}}
             <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
               [autoClose]="true" [placement]="'bottom-right'">
               <div class="dropdown dropdown-open">
@@ -146,7 +146,7 @@
                 <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                 <img [ngClass]="getSortIconVisibility('recentStatus', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
               </span>
-            STATUS
+             {{"contentSource.status_caps" | translate}}
             <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'"
               [autoClose]="true" [placement]="'bottom-right'">
               <div class="dropdown dropdown-open">
@@ -175,7 +175,7 @@
               <img [ngClass]="getSortIconVisibility('numPages', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
               <img [ngClass]="getSortIconVisibility('numPages', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
             </span>
-               NO OF PAGES
+                {{"contentSource.no_of_pages_caps" | translate}}
           </div>
           <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('createdOn')">
             <!-- <img src="assets/icons/caretDown.svg"
@@ -185,7 +185,7 @@
                 <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                 <img [ngClass]="getSortIconVisibility('recentStatus', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
               </span>
-              TRIGGERED BY
+              {{"contentSource.triggered_by_caps" | translate}}
           </div>
         </header>
         <perfect-scrollbar class="table-scroll-perfect">
@@ -236,7 +236,7 @@
               </div>
             </div>
           </ng-container>
-          <div class="empty">No Results found</div>
+          <div class="empty">{{"contentSource.no_results_found" | translate}}</div>
         </perfect-scrollbar>
       </section>
       <ng-container *ngIf="currentView === 'grid'">
@@ -291,7 +291,7 @@
                 <div class="row col-12 p-0 m-0 align-items-center justify-content-between">
                   <div class="timestamp" *ngIf="statusObj[source.recentStatus]?.name == ('In Progress' || 'Queued'); else executed">Started - {{source.schedule_createdOn}}</div>
                   <ng-template #executed>
-                    <div class="timestamp" >Last Updated on {{source.lMod | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
+                    <div class="timestamp" > {{"contentSource.last_updated_on" | translate}} {{source.lMod | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
                   </ng-template>
                   <div class="status text-right" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'">
                     <span class="img-block"><img
@@ -299,14 +299,14 @@
                       *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" placement="top" container='body'
                       ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:statusObj[source.recentStatus]?.name}}"></span>
                       <span *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" class="run-percentageDoneGrid" >{{ (resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].executionStats) ? resourcesStatusObj[source.jobId].executionStats.percentageDone : ''}} </span>
-                    <span class="status-title">In-progress</span>
+                    <span class="status-title"> {{"contentSource.in_progress" | translate}}</span>
                   </div>
                   <div class="pages-count text-right" *ngIf="statusObj[source.recentStatus]?.name == 'Success'">
-                      <span class="count">{{source.numPages}}</span>Pages
+                      <span class="count">{{source.numPages}}</span>{{"contentSource.pages" | translate}}
                   </div>
                   <div class="status text-right" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'">
                     <span class="img-block"><img src="assets/icons/content/failed-status.svg"></span>
-                    <span class="status-title failed">Failed</span>
+                    <span class="status-title failed">{{"contentSource.failed" | translate}}</span>
                   </div>
                 </div>
                 <div class="delete-refresh">
@@ -337,7 +337,7 @@
     <div class="sliderBody call-history-filter">
       <div class="mainLoadingSpinner" *ngIf="loadingSliderContent" [@fadeInOutAnimation]>
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-        <span class="please-wait-message" style="margin-left:5%">Please Wait!</span>
+        <span class="please-wait-message" style="margin-left:5%">{{'Please Wait!' | translate}}</span>
       </div>
 
       <!-- <div class="info-content bg-color text-left" *ngIf="sliderStep! && !loadingSliderContent && selectedSource">
@@ -375,15 +375,15 @@
 
       <div class="content-accordion-sec" *ngIf="sliderStep === 0">
         <ng-container *ngIf="!(selectedSource && selectedSource.pages && selectedSource.pages.length)">
-          <div class="noPages" *ngIf="!loadingContent && isConfig">No Pages Available</div>
+          <div class="noPages" *ngIf="!loadingContent && isConfig">{{"contentSource.no_pages_available" | translate}}</div>
         </ng-container>
         <ng-container *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length">
 
           <div class="search-header">
             <div class="tabs-sec">
-              <span class="tabname active" [ngClass] = "{'active' : page}" (click)="swapSlider('page')">Pages</span>
-              <span class="tabname" [ngClass] = "{'active' : isConfig}"(click)="swapSlider('config')">Configuration</span>
-              <span class="tabname" *ngIf="executionHistoryData" [ngClass] = "{'active' : execution}" (click)="swapSlider('execution')">Executions</span>
+              <span class="tabname active" [ngClass] = "{'active' : page}" (click)="swapSlider('page')">{{"contentSource.pages" | translate}}</span>
+              <span class="tabname" [ngClass] = "{'active' : isConfig}"(click)="swapSlider('config')">{{"contentSource.configuration" | translate}}</span>
+              <span class="tabname" *ngIf="executionHistoryData" [ngClass] = "{'active' : execution}" (click)="swapSlider('execution')">{{"contentSource.executions" | translate}}</span>
             </div>
             <div class="right-side">
               <div class="kr-sg-input-search" *ngIf="page">
@@ -910,7 +910,7 @@
                   </div> -->
               <!-- <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
                 [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
-                <app-record-pagination [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
+                <app-record-pagination *ngIf = "totalRecord > limitpage" [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
               <!-- <div class="paginations-custon">
                 <div class="previous pre-arrow dis-arow"
                   (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)"> </div>
@@ -1020,7 +1020,7 @@
                 </div>
               </div>
             </div>
-            <app-record-pagination [totalRecord]='executionHistoryData.length' [limitpage]='25' (pageChanged)="paginate($event,'history')"></app-record-pagination>
+            <app-record-pagination *ngIf = "executionHistoryData.length > 10"[totalRecord]='executionHistoryData.length' [limitpage]='10' (pageChanged)="paginate($event,'history')"></app-record-pagination>
           </div>
           <!-- Execution -->
         </ng-container>
