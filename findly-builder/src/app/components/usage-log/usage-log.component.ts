@@ -31,6 +31,7 @@ export class UsageLogComponent implements OnInit {
     'requestSourceFilter': 'all',
     'resultsFilter': 'all'
   }
+  loadingLogs = false;
   loading = false;
   selectedSort = '';
   isAsc = true;
@@ -86,10 +87,13 @@ export class UsageLogComponent implements OnInit {
       quaryparms.searchQuary = quary;
       serviceId = 'get.usageLogs.search';
     }
-
+    if(!this.usageLogs.length){
+      this.loadingLogs = true;
+    }
     this.service.invoke(serviceId, quaryparms).subscribe(res => {
       this.usageLogs = res.data || [];
       this.totalRecord = res.total;
+      this.loadingLogs = false;
       if (this.usageLogs.length) {
         this.usageLogs.forEach(element => {
           this.queryTypeArr.push(element.queryType);
