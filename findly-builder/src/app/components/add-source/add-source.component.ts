@@ -216,7 +216,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   structuredDataStatusModalRef: any;
   structuredDataDocPayload: any;
   selectExtractType: string = 'file';
-  showMore: boolean;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
