@@ -83,6 +83,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   streamId: string = null;
   pdfSize: string = "0 KB";
   fileId: string = null;
+  sourceId: string = null;
   fileName: string = null;
   togglePage: boolean = false;
   removeAnnotationFlag: boolean = false;
@@ -148,6 +149,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       if (this.dialogData.pdfResponse) {
         this.fileId = this.dialogData.pdfResponse.fileId;
         this.fileName = this.dialogData.pdfResponse.sourceTitle;
+        this.sourceId = this.dialogData.pdfResponse.sourceId;
       }
       this.getAttachmentFile(this.fileId);
     }
@@ -577,8 +579,8 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // extract pdf
   extractPDF() {
     let payloadResponse = {
-      "streamId": this.pdfPayload.streamId,
-      "fileId": this.fileId,
+      // "streamId": this.pdfPayload.streamId,
+      // "fileId": this.fileId,
       "title": this.pdfPayload.title,
       "header": this.pdfPayload.header,
       "footer": this.pdfPayload.footer,
@@ -588,13 +590,13 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       "footerPageno": this.pdfPayload.footer_pageno,
       "ignoreTextPageno": this.pdfPayload.ignoreTextPageno,
       "ignorePages": this.pdfPayload.ignorePages,
-      'name': this.fileName,
-      'extractionType': 'annotation'
+      // 'name': this.fileName,
+      // 'extractionType': 'annotation'
     };
     this.extractionLoader = true;
     this.service.invoke(
-      'PdfAnno.faq.annotate',
-      { searchIndexId: this.searchIndexId, sourceType: "file" },
+      'PdfAnno.faq.annotateExtract',
+      { searchIndexId: this.searchIndexId, sourceType: "file",sourceId: this.sourceId },
       payloadResponse
     ).subscribe((res: any) => {
       this.extractionLoader = false;
@@ -628,8 +630,8 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       console.log(this.fileName, 'File name not found');
     }
     let payloadResponse = {
-      "streamId": this.pdfPayload.streamId,
-      "fileId": this.fileId,
+      // "streamId": this.pdfPayload.streamId,
+      // "fileId": this.fileId,
       "title": this.pdfPayload.title,
       "header": this.pdfPayload.header,
       "footer": this.pdfPayload.footer,
@@ -639,14 +641,14 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       "footerPageno": this.pdfPayload.footer_pageno,
       "ignoreTextPageno": this.pdfPayload.ignoreTextPageno,
       "ignorePages": this.pdfPayload.ignorePages,
-      'name': this.fileName,
-      'extractionType': 'annotation',
+      // 'name': this.fileName,
+      // 'extractionType': 'annotation',
       "serialization": this.pdfPayload.serialization,
-      "autoSave": true
+      // "autoSave": true
     };
     this.service.invoke(
       'PdfAnno.faq.annotate',
-      { searchIndexId: this.searchIndexId, sourceType: "file" },
+      { searchIndexId: this.searchIndexId, sourceType: "file",sourceId:this.sourceId },
       payloadResponse
     ).subscribe((res: any) => {
       // console.log(res);

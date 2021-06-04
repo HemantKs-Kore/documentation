@@ -40,6 +40,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   currentView = 'list'
   searchSources = '';
   pagesSearch = '';
+  viewDetails:boolean;
   selectedFaq: any = null;
   singleSelectedFaq: any = null;
   showAddFaqSection = false;
@@ -266,9 +267,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.extractedFaqs=true
       this.getJobStatusForMessages();
     }
-    // this.getfaqsBy();
     this.selectTab('draft')
     this.getStats();
+
     this.showSourceAddition = null;
   }
   addFaqSource(type) {
@@ -616,6 +617,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.filterResourcesBack = [...this.extractedResources];
       this.filterTable(this.filterTableSource, this.filterTableheaderOption)
+
+   
       if (res && res.length) {
         res.forEach((d: any) => {
           if (d.extractedFaqsCount === 0) {
@@ -749,6 +752,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = [...res];
+      res.forEach(element => {
+        if(element.recentStatus == 'queued' || element.recentStatus == 'failed' ){
+        this.viewDetails =true;
+          this.extractedFaqs=true;
+          this.selectTab('draft');
+          this.getStats();
+         }
+      });
       if (res && res.length) {
         res.forEach((d: any) => {
           if (d.extractedFaqsCount === 0) {
@@ -791,8 +802,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       else if (!initializePoling){
            this.poling()
       }
-    
-      if (res.length > 0) {
+            if (res.length > 0) {
         this.loadingFaqs = false;
         this.loadingFaqs1 = true;
       }
@@ -979,6 +989,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           this.getStats();
           this.pollingSubscriber.unsubscribe();
         }
+     
       }, errRes => {
         this.pollingSubscriber.unsubscribe();
         if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {

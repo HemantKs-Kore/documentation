@@ -181,21 +181,21 @@
                                                     <div class="row m-0 row_data">
                                                         <div class="main-title-text">                                                            
                                                             <div class="img-block">
-                                                                <img *ngIf="actLog.target.contentType == 'page'" container='body' ngbTooltip='Page' placement="top" src="assets/icons/resultranking/copy.svg" class="cursor-pointer">
+                                                                <img *ngIf="actLog.target.contentType == 'web'" container='body' ngbTooltip='Web' placement="top" src="assets/icons/resultranking/copy.svg" class="cursor-pointer">
                                                                 <img *ngIf="actLog.target.contentType == 'faq'" container='body' ngbTooltip='Faq' placement="top" src="assets/icons/resultranking/faq.svg" class="cursor-pointer">
                                                                 <img *ngIf="actLog.target.contentType == 'task'" container='body' ngbTooltip='Task' placement="top" src="assets/icons/resultranking/task.svg" class="cursor-pointer">
                                                             </div>                                                            
                                                             <ng-container *ngIf ="actLog.target.contentInfo._source">
-                                                                <div class="title">{{actLog.target.contentInfo._source.pageTitle || actLog.target.contentInfo._source.question}}</div>                                                                
+                                                                <div class="title">{{actLog.target.contentInfo._source.faqQuestion || actLog.target.contentInfo._source.pageTitle || actLog.target.contentInfo._source.fileTitle}}</div>                                                                
                                                             </ng-container>
                                                             <ng-container *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'">
                                                                 <div class="title">{{actLog.target.contentInfo.lname}}</div>                                                                
                                                             </ng-container>
                                                         </div>
-                                                        <ng-container *ngIf="actLog.target.contentInfo._source">
-                                                            <div class="desc-text-ranking">{{actLog.target.contentInfo._source.pageSearchResultPreview}}</div>
+                                                        <ng-container *ngIf="actLog.target.contentInfo && actLog.target.contentType != 'faq' && actLog.target.contentInfo._source">
+                                                            <div class="desc-text-ranking">{{actLog.target.contentInfo._source.pagePreview || actLog.target.contentInfo._source.filePreview}}</div>
                                                         </ng-container>
-                                                        <ng-container *ngIf="actLog.target.contentInfo.contentType == 'faq'">
+                                                        <ng-container *ngIf="actLog.target.contentType == 'faq'">
                                                             <div class="desc-text-ranking">{{faqDesc}}</div>
                                                         </ng-container>
                                                         <ng-container *ngIf="actLog.target.contentType && actLog.target.contentType == 'task'">

@@ -469,11 +469,15 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
         }
         if (this.actionLogData[i].target.contentType == 'faq') {
-          if (this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.split(/^\r\n/)) {
-            this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.replace(/\u21b5/g, '');
-          } else {
-            this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload
+          if(this.actionLogData[i].target.contentInfo._source.faqAnswer[0].text){
+            this.faqDesc = this.actionLogData[i].target.contentInfo._source.faqAnswer[0].text;
           }
+          
+          // if (this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.split(/^\r\n/)) {
+          //   this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.replace(/\u21b5/g, '');
+          // } else {
+          //   this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload
+          // }
 
         }
       }

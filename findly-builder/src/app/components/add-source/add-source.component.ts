@@ -635,7 +635,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   faqAnotate(payload, endPoint, quaryparms) {
     if (payload.hasOwnProperty('url')) delete payload.url;
     this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-      this.annotationModal();
+      this.annotationModal(res._id);
       console.log(res);
       this.workflowService.selectedJobId(res._id);
     }, errRes => {
@@ -816,8 +816,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         //payload.extractionType = resourceType;
         quaryparms.resourceType = resourceType;
+        if (this.selectedSourceType.sourceType !== 'faq') {
         payload.isNew = true;
         payload.resourceType = payload.fileId ? 'file' : 'url';
+        }
       }
       if (crawler.advanceOpts.scheduleOpt) {
         if (crawler.advanceOpts.scheduleOpts) {
@@ -832,6 +834,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             if (crawler.advanceOpts.scheduleOpts.time.timezone == "Time Zone") schdVal = false;
           }
         }
+      }
+      if(resourceType === 'web' && this.selectedSourceType.sourceType !== 'content'){
+        delete payload.advanceOpts;
       }
       if (schdVal) {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
@@ -1020,12 +1025,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   /* Annotation Modal */
-  annotationModal() {
+  annotationModal(sourceId) {
     if (this.newSourceObj && this.newSourceObj.name && this.fileObj.fileId) {
       const payload = {
         sourceTitle: this.newSourceObj.name,
         sourceDesc: this.newSourceObj.desc,
-        fileId: this.fileObj.fileId
+        fileId: this.fileObj.fileId,
+        sourceId:sourceId
       };
       const dialogRef = this.dialog.open(PdfAnnotationComponent, {
         data: { pdfResponse: payload, annotation: this.anntationObj },
@@ -1297,9 +1303,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     const quaryparms: any = {
       searchIndexId: this.searchIndexId,
     };
-    const payload = {
+    const payload = { 
       fileId: this.fileObj.fileId,
       fileType: this.fileObj.file_ext,
+      name : this.newSourceObj.name
       // streamId: this.streamId,
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
