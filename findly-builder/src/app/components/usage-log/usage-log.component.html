@@ -30,7 +30,7 @@
             <div class="empty-text">{{"ussageLog.usage_log_will_appear_once_the_app_is_active" | translate}}</div>
         </div>
     </ng-container>
-    <ng-container *ngIf="usageLogs.length && !loading">
+    <ng-container *ngIf="usageLogs.length && !loadingLogs">
         <div class="plan-type">
             <div class="current-plan">{{"ussageLog.current_plan"| translate}}</div>
             <div class="type">{{"ussageLog.free"| translate}}</div>

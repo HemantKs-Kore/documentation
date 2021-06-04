@@ -565,6 +565,44 @@
             "no_sitemaps":"No Sitemaps",
             "schedule":"Schedule"
     
-        }
+        },
+    "resultTemplate" :{
+        "resultTemplates":"Result Templates",
+        "preview": "Preview",
+        "settingToolTip" : "Conversational Search customization is not needed for Top Down Experience",
+        "Live Search" : "Live Search",
+        "Conversational Search" : "Conversational Search",
+        "Full Page Result" : "Full Page Result",
+        "copyConfiguration" : "Copy Configuration",
+        "copyConfigurationDec" : "Choose whether to apply the same Configurations as per Previous settings",
+        "select" : "Select",
+        "liveSearch" : "Live Search",
+        "conversationalSearch" : "Conversational Search",
+        "fullPageResult" : "Full Page Result",
+        "noOfRestDis" : "No. of Results to be Displayed",
+        "fitToViewport" : "Fit to Viewport",
+        "noOfRestDisViewportSize" : "Number of results to be displayed will depend on the Viewport size",
+        "custom" : "Custom",
+        "topMostResult":"Topmost results based on relevance",
+        "resultsClassification" : "Results Classification",
+        "resultsClassificationDesc" : "Customize the result templates and choose the order in which the results should be displayed to the end-user",
+        "yes" : "Yes",
+        "no" : "No",
+        "resultsAppearance" : "Results Appearance",
+        "resultsAppearanceDesc" : "Customize the result templates and choose the order in which the results should be displayed to the end-user.",
+        "orderBasedRelevance" : "Order based on relevance",
+        "orderBasedRelevanceToolTip": "Order will be decided based on the top matched result",
+        "customOrder" : "Custom order",
+        "addNew" : "Add New",
+        "customize" : "Customize",
+        "facets" : "Facets",
+        "helperTextHere" : "Helper Text here",
+        "enabled" :"Enabled",
+        "disabled" : "Disabled",
+        "leftAligned" : "Left Aligned",
+        "rightAligned" : "Right Aligned",
+        "topAligned" : "Top Aligned"
+
+    }
    
 }

@@ -19,7 +19,8 @@ import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pd
 import { MatDialog } from '@angular/material/dialog';
 import { ThrowStmt } from '@angular/compiler';
 import { RangySelectionService } from '../annotool/services/rangy-selection.service';
-import { DockStatusService } from '../../services/dock.status.service';
+//import { DockStatusService } from '../../services/dock.status.service';
+import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
@@ -222,10 +223,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private dock: DockStatusService,
+    //private dock: DockStatusService,
     public dialog: MatDialog,
     private rangyService: RangySelectionService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    public dockService: DockStatusService,
   ) { }
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -729,7 +731,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
-
+    
 
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic";
@@ -853,6 +855,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
           //this.crwal_jobId = res.jobId
           console.log("this.statusObject", this.statusObject)
+          //this.dockService.trigger(true)
         }, errRes => {
           if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessDenied') {
             this.upgrade();
@@ -1313,7 +1316,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log("imp faq res", res)
       this.openStatusModal();
       this.addSourceModalPopRef.close();
-      this.dock.trigger()
+      this.dockService.trigger(true)
     },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

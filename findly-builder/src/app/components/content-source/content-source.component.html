@@ -910,7 +910,7 @@
                   </div> -->
               <!-- <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
                 [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
-                <app-record-pagination [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
+                <app-record-pagination *ngIf = "totalRecord > limitpage" [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
               <!-- <div class="paginations-custon">
                 <div class="previous pre-arrow dis-arow"
                   (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)"> </div>
@@ -1020,7 +1020,7 @@
                 </div>
               </div>
             </div>
-            <app-record-pagination [totalRecord]='executionHistoryData.length' [limitpage]='25' (pageChanged)="paginate($event,'history')"></app-record-pagination>
+            <app-record-pagination *ngIf = "executionHistoryData.length > 10"[totalRecord]='executionHistoryData.length' [limitpage]='10' (pageChanged)="paginate($event,'history')"></app-record-pagination>
           </div>
           <!-- Execution -->
         </ng-container>

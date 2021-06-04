@@ -863,6 +863,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('check.forUpdates', quaryparms, payload).subscribe(res => {
       this.loadingcheckForUpdate = false;
+      this.dockService.trigger(true);
       if (res._meta.updateAvailable) {
         this.notificationService.notify('A new version of this page is available', 'success');
       } else {
@@ -1437,6 +1438,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.editTitleFlag = false;
         this.getSourceList();
         this.closeStatusModal();
+        this.dockService.trigger(true);
       }, errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -1527,6 +1529,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
       console.log(res);
       this.getSourceList();
+      this.dockService.trigger(true);
       //this.notificationService.notify('Bot linked, successfully', 'success');
     },
       (err) => {

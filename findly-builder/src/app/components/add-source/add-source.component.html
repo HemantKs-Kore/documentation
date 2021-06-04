@@ -945,7 +945,7 @@
       <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
           (click)="closeStatusModal()"></div>
       <div class="modal-body">
-        <ng-container *ngIf="!(statusObject.status==='success')">
+        <ng-container *ngIf="!(statusObject.status==='success' || statusObject.status==='failed')">
           <div class="progressNote">
           <div>Crawling In-progress</div>
           </div>
