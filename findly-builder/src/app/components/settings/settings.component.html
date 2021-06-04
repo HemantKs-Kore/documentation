@@ -142,10 +142,10 @@
                         </ul>
                     </div>
                 </div> -->
-                <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'">    
+                <div class="kr-sg-dropdowns jwt-signing-alg-dropdown" ngbDropdown [placement]="'bottom'">    
                     <div class="label-text mb-1"> {{"settings.jwt_algorithm" | translate}} </div>                                    
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{ credntial.awt }}</button>                                            
+                        <button class="dropdown-toggle dropdown-input" >{{ credntial.awt }}</button>                                            
                         <ul class="dropdown-menu content-menu faq-filter-add mw-100 w-100 p-0" ngbDropdownMenu>
                             <li (click)="jwtAuth('RS256')"><a>{{"settings.RS256" | translate}}</a></li>
                             <li (click)="jwtAuth('HS256')"><a>{{"settings.HS256" | translate}}</a></li>            
@@ -299,7 +299,7 @@
             <div class="label-text mb-1">{{"settings.jwt_algorithm" | translate}} </div>
             <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom'">                                        
                 <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{credntial.awt}}</button>                                            
+                    <button class="dropdown-toggle dropdown-input" >{{credntial.awt}}</button>                                            
                     <ul class="dropdown-menu content-menu faq-filter-add mw-100 w-100 p-0" ngbDropdownMenu>
                         <li (click)="jwtAuth('RS256')"><a>{{"settings.RS256" | translate}}</a></li>
                         <li (click)="jwtAuth('HS256')"><a>{{"settings.HS256" | translate}}</a></li>            
