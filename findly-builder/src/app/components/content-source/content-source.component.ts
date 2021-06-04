@@ -17,6 +17,7 @@ import { fromEvent } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
+import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 
 @Component({
   selector: 'app-content-source',
@@ -184,6 +185,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
+    public dockService: DockStatusService
   ) { }
 
   ngOnInit(): void {
@@ -887,6 +889,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       url: page._source.url
     }
     this.service.invoke('reCrwal.website', quaryparms, payload).subscribe(res => {
+      this.dockService.trigger(true);
       this.notificationService.notify('Re-Crawling Initiated', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Failed to Re-Crawl');
@@ -1290,6 +1293,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('recrwal', quaryparms).subscribe(res => {
       this.getSourceList();
+      this.dockService.trigger(true);
       this.notificationService.notify('Re-Crawling Initiated', 'success');
       this.closeStatusModal();
       //this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');

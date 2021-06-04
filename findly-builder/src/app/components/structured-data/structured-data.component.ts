@@ -814,18 +814,18 @@ export class StructuredDataComponent implements OnInit {
       console.log("res", res);
       if (res.settings) {
         res.settings.forEach((_interface) => {
-          if (_interface.interface === 'search') {
             _interface.appearance.forEach(element => {
-              if (element.type === 'structuredData') {
-                if (element.templateId && element.templateId.length) {
-                  this.isResultTemplate = true;
-                }
-                else {
-                  this.isResultTemplate = false;
+              if(!this.isResultTemplate){
+                if (element.type === 'structuredData') {
+                  if (element.templateId && element.templateId.length) {
+                    this.isResultTemplate = true;
+                  }
+                  else {
+                    this.isResultTemplate = false;
+                  }
                 }
               }
             });
-          }
         });
       }
     }, errRes => {
