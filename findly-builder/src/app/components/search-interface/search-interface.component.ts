@@ -177,6 +177,7 @@ export class SearchInterfaceComponent implements OnInit {
     this.customizeTemplateObj.template.searchResultlayout.textAlignment = "left";
     this.preview_title = "Field Mapped for heading will appear here"
     this.preview_desc = "Field mapped for Description will appear here";
+    this.selectedSourceType = "File";
   }
   copyConfiguration(interfaceType) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -221,6 +222,7 @@ export class SearchInterfaceComponent implements OnInit {
     });
   }
   getAllSettings(setting?) {
+    this.selectedSourceType = "File";
     if((setting && setting.id == 'search') && this.searchTemplatesDisabled){
       return false;
     }
