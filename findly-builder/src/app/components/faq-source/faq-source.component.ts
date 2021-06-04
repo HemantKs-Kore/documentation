@@ -262,11 +262,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.closeAddsourceModal();
     this.getSourceList();
     this.closeStatusModal();
-    if((this.faqs && this.faqs.length) === 0){
+    // if((this.faqs && this.faqs.length) === 0){
       this.openStatusModal();
       this.extractedFaqs=true
       this.getJobStatusForMessages();
-    }
+    // }
     this.selectTab('draft')
     this.getStats();
 
@@ -756,8 +756,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         if(element.recentStatus == 'queued' || element.recentStatus == 'failed' ){
         this.viewDetails =true;
           this.extractedFaqs=true;
-          this.selectTab('draft');
-          this.getStats();
+          if(initializePoling){
+            this.getStats(null, true);
+          }else{
+            this.selectTab('draft');
+            this.getStats();
+          }
+          
          }
       });
       if (res && res.length) {
