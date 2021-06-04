@@ -5,7 +5,7 @@
     </div>
     <div class="header-sec">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-        <div class="title">Usage Log</div>
+        <div class="title">{{"ussageLog.ussageLog"| translate}} </div>
         <!-- <div class="d-flex align-items-center">
             <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
                 <input type="text" placeholder="Search" class="input-search"  [ngClass]="{'pl-33':!searchUsageLog, 'pl-2':searchUsageLog}" autocomplete="off" [(ngModel)]="searchUsageLog" (keyup)="searchUsageLogs()" (focusout)="showSearch= !showSearch" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
@@ -27,26 +27,26 @@
             <div class="img-block">
                 <img src="assets/icons/usage-log/empty-log.svg">
             </div>
-            <div class="empty-text">Usage log will appear once the app is active!!</div>
+            <div class="empty-text">{{"ussageLog.usage_log_will_appear_once_the_app_is_active" | translate}}</div>
         </div>
     </ng-container>
     <ng-container *ngIf="usageLogs.length && !loadingLogs">
         <div class="plan-type">
-            <div class="current-plan">Current Plan</div>
-            <div class="type">Free</div>
+            <div class="current-plan">{{"ussageLog.current_plan"| translate}}</div>
+            <div class="type">{{"ussageLog.free"| translate}}</div>
         </div>
         <perfect-scrollbar class="scroll-invoice-content">
             <div class="table_data_content">
                 <div class="table_header row m-0">
                     <div class="col_ col-4 title d-flex align-items-center">
-                        Search Query
+                        {{"ussageLog.search_query"| translate}}
                     </div>
                     <div class="col_ col-3 title d-flex align-items-center"  (click)="sortBy('queryType')">
                         <span class="d-flex align-items-center flex-column mr-1">
                             <img  [ngClass]="getSortIconVisibility('queryType', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                             <img  [ngClass]="getSortIconVisibility('queryType', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                           </span>
-                        Type 
+                          {{"ussageLog.type"| translate}}
                         <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #queryTypeFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">                 
@@ -54,7 +54,7 @@
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                     <li  (click)="queryTypeFilter.close();filterTable('all','queryType')">
-                                        <span class="list-name" >All</span>
+                                        <span class="list-name" >{{"ussageLog.all"| translate}}</span>
                                         <img [ngClass]="{'hide': filterSystem.queryTypeFilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                                         <li *ngFor="let queryType of queryTypeArr" (click)="queryTypeFilter.close();filterTable(queryType,'queryType')">
                                             <span
@@ -92,7 +92,7 @@
                             <img  [ngClass]="getSortIconVisibility('results', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                             <img  [ngClass]="getSortIconVisibility('results', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                           </span>
-                          RESULTS 
+                          {{"ussageLog.results_caps"| translate}}
                           <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #resultsFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">                 
@@ -100,7 +100,7 @@
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                     <li (click)="resultsFilter.close();filterTable('all','results')">
-                                        <span class="list-name">All</span>
+                                        <span class="list-name">{{"ussageLog.all"| translate}}</span>
                                         <img [ngClass]="{'hide': filterSystem.resultsFilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                                         <li *ngFor="let docType of resultsArr" (click)="resultsFilter.close();filterTable(docType,'results')">
                                             <span
@@ -115,7 +115,7 @@
                             <img  [ngClass]="getSortIconVisibility('createdOn', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                             <img  [ngClass]="getSortIconVisibility('createdOn', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                           </span>
-                          Date & Time 
+                          {{"ussageLog.date_&_time"| translate}}   
                     </div>                
                 </div>
     

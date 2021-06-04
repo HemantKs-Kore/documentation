@@ -191,9 +191,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     this.service.invoke('post.restoreStopWord', quaryparms).subscribe(res => {
       this.newStopWord = '';
       this.pipeline = res.pipeline || {};
-      if (res.options) {
-        this.enabled = res.options.stopWordsRemovalEnabled;
-      }
+      res.pipeline.stages[2].options.stopWordsRemovalEnabled = true
       if (this.pipeline.stages && this.pipeline.stages.length) {
         this.pipeline.stages.forEach(stage => {
           if (stage && stage.type === 'stopwords') {
