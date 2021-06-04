@@ -67,7 +67,7 @@
                                     </div>
                                     <div class="title-desc-sec" *ngIf="searchType == 'faq'">
                                         <div class="title">{{ result.faqQuestion}}</div>
-                                        <div class="desc" >{{ result.answer}}</div>
+                                        <div class="desc" >{{ result.faqAnswer}}</div>
                                     </div>
                                 </div>
                                 
@@ -101,7 +101,7 @@
                                     </div>
                                     <div class="title-desc-sec" *ngIf="result.sysContentType == 'faq'">
                                         <div class="title">{{ result.faqQuestion}}</div>
-                                        <div class="desc" >{{ result.answer}}</div>
+                                        <div class="desc" >{{ result.faqAnswer}}</div>
                                     </div>
                                     <div class="title-desc-sec" *ngIf="result.sysContentType == 'task'">
                                         <div class="title">{{ result.title}}</div>
@@ -218,7 +218,7 @@
                             </div>
                             <div class="tiltles-sec">
                                 <div class="primary-tiitle">{{ result.faqQuestion}}</div>
-                                <div class="secondary-title">{{ result.answer}}</div>
+                                <div class="secondary-title">{{ result.faqAnswer}}</div>
                             </div>                                                
                         </div>
                         <div class="row-with-checkbox selected" *ngIf="searchType == 'task'">                                                                                            
@@ -242,7 +242,7 @@
                             </div>
                             <div class="tiltles-sec" *ngIf="result.sysContentType == 'faq'">
                                 <div class="primary-tiitle">{{ result.faqQuestion}}</div>
-                                <div class="secondary-title" >{{ result.answer}}</div>
+                                <div class="secondary-title" >{{ result.faqAnswer}}</div>
                             </div>
                             <div class="tiltles-sec" *ngIf="result.sysContentType == 'task'">
                                 <div class="primary-tiitle">{{ result.title}}</div>

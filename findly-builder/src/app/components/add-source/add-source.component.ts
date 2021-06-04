@@ -174,7 +174,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           description: 'Import from JSON or CSV',
           icon: 'assets/icons/content/database-Import.svg',
           id: 'contentStucturedDataImport',
-          sourceType: 'object',
+          sourceType: 'data',
           resourceType: 'structuredData'
         },
         {
@@ -182,7 +182,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           description: 'Add structured data manually',
           icon: 'assets/icons/content/database-add.svg',
           id: 'contentStucturedDataAdd',
-          sourceType: 'object',
+          sourceType: 'data',
           resourceType: 'structuredDataManual'
         }
       ]
@@ -635,7 +635,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   faqAnotate(payload, endPoint, quaryparms) {
     if (payload.hasOwnProperty('url')) delete payload.url;
     this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-      this.annotationModal();
+      this.annotationModal(res._id);
       console.log(res);
       this.workflowService.selectedJobId(res._id);
     }, errRes => {
@@ -816,8 +816,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         //payload.extractionType = resourceType;
         quaryparms.resourceType = resourceType;
+        if (this.selectedSourceType.sourceType !== 'faq') {
         payload.isNew = true;
         payload.resourceType = payload.fileId ? 'file' : 'url';
+        }
       }
       if (crawler.advanceOpts.scheduleOpt) {
         if (crawler.advanceOpts.scheduleOpts) {
@@ -1023,12 +1025,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   /* Annotation Modal */
-  annotationModal() {
+  annotationModal(sourceId) {
     if (this.newSourceObj && this.newSourceObj.name && this.fileObj.fileId) {
       const payload = {
         sourceTitle: this.newSourceObj.name,
         sourceDesc: this.newSourceObj.desc,
-        fileId: this.fileObj.fileId
+        fileId: this.fileObj.fileId,
+        sourceId:sourceId
       };
       const dialogRef = this.dialog.open(PdfAnnotationComponent, {
         data: { pdfResponse: payload, annotation: this.anntationObj },
