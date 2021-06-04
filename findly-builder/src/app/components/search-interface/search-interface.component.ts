@@ -493,6 +493,7 @@ export class SearchInterfaceComponent implements OnInit {
   facetTypeChange(event, value) {
     if (event && value) {
       this.selectedSettingResultsObj.facets.aligned = value;
+      this.saveResultSettings();
     }
   }
   selectResultAppearnceList(list,type){
