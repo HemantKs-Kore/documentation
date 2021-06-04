@@ -460,7 +460,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       const data = [...res]
       this.pagingData = data.slice(0, this.limitpage);
       this.pagingData.forEach(element => {
-        element['url_display'] = element._source.url;
+        element['url_display'] = element._source.pageUrl;
       });
       /** Paging */
       this.sliderStep = 0;

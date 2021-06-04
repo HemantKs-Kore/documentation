@@ -487,6 +487,10 @@ export class SearchInterfaceComponent implements OnInit {
       this.selectedSettingResultsObj.facets.isEnabled = event.target.checked;
       if (!event.target.checked) {
         this.selectedSettingResultsObj.facets.aligned = "left";
+        this.saveResultSettings();
+      }else{
+        this.selectedSettingResultsObj.facets.aligned ? this.selectedSettingResultsObj.facets.aligned  : "left";
+        this.saveResultSettings();
       }
     }
   }
