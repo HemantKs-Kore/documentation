@@ -95,6 +95,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
     'Drop offs': 'Number of conversation sessions where the users have dropped-off from the conversation.'
   };
   subscription: Subscription;
+  showActivity: boolean;
+  routeRefresh: Subscription;
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
   @ViewChild('onboard') onboard: UseronboardingJourneyComponent;
   constructor(
@@ -109,6 +111,23 @@ export class SummaryComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    this.initialCall();
+    this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
+      this.showOverview = res.findlyOverviewVisited;
+    })
+    this.routeRefresh = this.appSelectionService.refreshSummaryPage.subscribe(res => {
+      if (res == 'changed') {
+        this.initialCall();
+        this.onboard.initialCall();
+      }
+    })
+  }
+  // closeOverview() {
+  //   this.subscription.unsubscribe();
+  //   this.showOverview = true
+  // }
+  //initial ngoninit method call
+  initialCall() {
     const toogleObj = {
       title: 'Summary',
       toShowWidgetNavigation: this.workflowService.showAppCreationHeader()
@@ -117,22 +136,12 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
-    //this.appSelectionService.getTourConfig()
-    this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
-      this.showOverview = res.findlyOverviewVisited;
-    })
     this.getSummary();
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
-    // this.getChannel();
-    //this.getLinkedBot();
     this.getAllOverview();
     this.componentType = 'summary';
   }
-  // closeOverview() {
-  //   this.subscription.unsubscribe();
-  //   this.showOverview = true
-  // }
   getSummary() {
     this.loading = false;
     // this.loading = true;
@@ -239,32 +248,11 @@ export class SummaryComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('get.overview', queryParams).subscribe(
       res => {
-        console.log("res latest", res);
         this.experiments = res.experiments
         this.activities = res.activities;
         this.indices = res.indices;
         this.indexPipeLineCount = this.indices[0].indexPipeLineCount;
-        // this.experiments.forEach(element => {
-        //   if (element.variants) {
-        //     element.variants.forEach(res => {
-        //       if (res.leader) {
-        //         element['winner'] = true;
-        //       }
-        //     });
-        //   }
-        // });
-        // this.activities.forEach(element => {
-        //   element.date = moment(element.date).fromNow();
-        //   console.log(this.activities)
-        // });
-
-        //  this.activities.createdOn = moment(this.activities.createdOn).fromNow();
-        //  this.getChannel();
-        //  this.channels.forEach(channel => {
-        //   if(res.apps.length > 0){
-        //     this.channelExist = true;
-        //   }
-        // });
+        this.showActivity = this.activities.length > 0 ? this.activities.some(act => act.faqInReviewCount > 0) ? true : false : false;
         this.activities = this.activities.map(item => {
           let hours = moment().diff(moment(item.time), 'hours');
           let days = moment().diff(moment(item.time), 'days');
@@ -275,7 +263,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
           let hours = moment().diff(moment(data.end), 'hours');
           let days = moment().diff(moment(data.end), 'days');
           let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
-          return { ...data, total_days: days_result, time_result: hours };
+          return { ...data, total_days: days_result + ' more to go', time_result: hours };
         })
       },
       errRes => {
@@ -332,5 +320,6 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.routeRefresh.unsubscribe();
   }
 }

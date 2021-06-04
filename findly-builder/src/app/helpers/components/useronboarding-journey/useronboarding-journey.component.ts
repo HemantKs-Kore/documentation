@@ -31,8 +31,7 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
   constructor(private router: Router, private appSelectionService: AppSelectionService, private service: ServiceInvokerService, private notificationService: NotificationService, private authService: AuthService) { }
   ngOnInit(): void {
-    this.userInfo = this.authService.getUserInfo() || {};
-    this.appSelectionService.getTourConfig();
+    this.initialCall();
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourConfigData = res;
       this.tourData = res.onBoardingChecklist;
@@ -48,6 +47,11 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
         this.showSteps = true;
       }
     })
+  }
+  //initial call
+  initialCall() {
+    this.userInfo = this.authService.getUserInfo() || {};
+    this.appSelectionService.getTourConfig();
   }
   ngOnChanges() {
     if (this.componentType != '' && this.componentType != undefined && this.tourConfigData && this.componentType != 'summary') {
