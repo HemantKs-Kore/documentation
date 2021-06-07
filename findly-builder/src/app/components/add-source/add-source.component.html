@@ -130,15 +130,18 @@
           <img src="assets/icons/successCheck.svg">
         </div>
         <div *ngIf="selectedSourceType.sourceType === 'content'&&statusObject.status!=='failed'">
-          <div class="success-check  pb-4">
+          <div class="success-check  pb-4" *ngIf="(statusObject && statusObject.validation && statusObject.validation.url?.validated)">
             <img src="assets/icons/successCheck.svg">
           </div>
-          <div class="configInProgress"
-          *ngIf="!(statusObject && statusObject.validation && statusObject.validation.validated) && !(selectedSourceType.resourceType === 'file')">
-            <h1><strong>Validation in Progress...</strong></h1>
+          <div class="success-check  pb-4" *ngIf="!(statusObject && statusObject.validation && statusObject.validation.url?.validated)">
+            <img src="assets/images/source-icos/failed-icon.svg">
           </div>
           <div class="configInProgress"
-          *ngIf="(statusObject && statusObject.validation && statusObject.validation.validated)">
+          *ngIf="!(statusObject && statusObject.validation && statusObject.validation.url?.validated) && !(selectedSourceType.resourceType === 'file')">
+            <h1><strong>Validation Failed</strong></h1>
+          </div>
+          <div class="configInProgress"
+          *ngIf="(statusObject && statusObject.validation && statusObject.validation.url?.validated)">
             <h1><strong>Validation Successful</strong></h1>
           </div>
         
@@ -155,11 +158,11 @@
         <ng-container *ngIf="selectedSourceType.sourceType !== 'faq'&&statusObject.status!=='success'">
           <div class="status-identification-content">
             <div class="content-title">
-              <img src="assets/images/exclamationCircle-Red.svg" *ngIf="statusObject.validation.validated===false">
-              <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected" *ngIf="statusObject.validation.validated===true">
+              <img src="assets/images/exclamationCircle-Red.svg" *ngIf="statusObject&&statusObject.validation&&statusObject.validation.url?.validated===false">
+              <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected" *ngIf="statusObject&&statusObject.validation&&statusObject.validation.url?.validated===true">
               <span>Initial URL validation</span>
             </div>
-            <div class="content-description" *ngIf="selectedSourceType.resourceType!='file'"> Now you can choose to crawl immediately or later</div>
+            <div class="content-description" *ngIf="selectedSourceType.resourceType!='file'&&statusObject&&statusObject.validation&&statusObject.validation.url?.validated===true"> Now you can choose to crawl immediately or later</div>
           </div>
         </ng-container>
         <div class="progressNote"
@@ -171,7 +174,7 @@
           </div>
         </div>
         <div class="configInProgress"
-        *ngIf="statusObject.validation.validated&&selectedSourceType.sourceType === 'web'||selectedSourceType.sourceType === 'file'">
+        *ngIf="statusObject&&statusObject.validation&&statusObject.validation.url?.validated&&selectedSourceType.sourceType === 'web'||selectedSourceType.sourceType === 'file'">
           <h4>Now you can choose to Crawl immediately or later</h4>
         </div>
       </div>
