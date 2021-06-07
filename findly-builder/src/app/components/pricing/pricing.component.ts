@@ -184,7 +184,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.plans.openOrderConfPopup(data);
     } else if (type == 'orderOverage') {
       let planData = this.totalPlansData.filter(plan => plan._id == this.currentSubscriptionPlan.subscription.planId);
-      let obj = { overageShow: true, docCount: this.addDocOver ? this.numberDoc : null, queryCount: this.addQueOver ? this.numberQuery : null, overageDeatils: this.overageDeatils }
+      let obj = { overageShow: true, docCount: this.addDocOver ? this.numberDoc > 0 ? this.numberDoc : null : null, queryCount: this.addQueOver ? this.numberQuery > 0 ? this.numberQuery : null : null, overageDeatils: this.overageDeatils }
       this.plans.openOrderConfPopup(planData[0], obj);
       // for (let data of this.totalPlansData) {
       //   if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription && this.currentSubscriptionPlan.subscription.planName) {
@@ -301,22 +301,25 @@ export class PricingComponent implements OnInit, OnDestroy {
   }
   addDocument() {
     this.addDocOver = true
+    this.numberDoc = 1;
   }
   addQuerry() {
     this.addQueOver = true;
+    this.numberQuery = 1;
   }
   count(type, operation) {
     if (type == 'doc') {
       if (operation == 'plus') {
         this.numberDoc = this.numberDoc + 1;
       } else {
-        this.numberDoc > 1 ? this.numberDoc = this.numberDoc - 1 : this.numberDoc = 1;
+
+        this.numberDoc > 1 ? this.numberDoc = this.numberDoc - 1 : (this.numberDoc = 0, this.addDocOver = false);
       }
     } else {
       if (operation == 'plus') {
         this.numberQuery = this.numberQuery + 1;
       } else {
-        this.numberQuery > 1 ? this.numberQuery = this.numberQuery - 1 : this.numberQuery = 1;
+        this.numberQuery > 1 ? this.numberQuery = this.numberQuery - 1 : (this.numberQuery = 0, this.addQueOver = false);
       }
     }
   }

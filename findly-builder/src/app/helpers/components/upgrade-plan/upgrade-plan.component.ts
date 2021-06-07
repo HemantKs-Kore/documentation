@@ -105,12 +105,13 @@ export class UpgradePlanComponent implements OnInit {
       transactionId: this.payementResponse.hostedPage.transactionId
     };
     this.service.invoke('get.payementStatus', queryParams).subscribe(res => {
-      this.closeChoosePlanPopup();
       if (res.state == 'success') {
         this.btnDisable = false;
+        this.closeChoosePlanPopup();
         this.openSuccessFailurePopup(true);
         clearInterval(this.paymentStatusInterval);
       } else if (res.state == 'failed') {
+        this.closeChoosePlanPopup();
         this.openSuccessFailurePopup(false);
         clearInterval(this.paymentStatusInterval);
       }
