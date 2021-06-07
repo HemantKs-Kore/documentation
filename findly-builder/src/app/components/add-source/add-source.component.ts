@@ -11,7 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
 import { of, interval, Subject } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import { startWith, take } from 'rxjs/operators';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 
@@ -1060,11 +1060,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   // Check poling from annoation tool
   checkAnnotationPolling() {
-    this.rangyService.getPolling().subscribe(res => {
+    this.rangyService.getPolling().pipe(take(1)).subscribe(res => {
       if (res) {
         console.log(this.anntationObj);
-        this.openStatusModal();
-        this.poling(this.anntationObj._id);
+        if(this.anntationObj._id){
+          this.openStatusModal();
+          this.poling(this.anntationObj._id);
+        }
       }
 
 
@@ -1281,6 +1283,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
+    this.anntationObj = null;
     console.log('PolingDistroyed');
     this.fileObj.fileAdded = false;
   }
