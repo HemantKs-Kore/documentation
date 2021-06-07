@@ -105,6 +105,7 @@ export class UpgradePlanComponent implements OnInit {
       transactionId: this.payementResponse.hostedPage.transactionId
     };
     this.service.invoke('get.payementStatus', queryParams).subscribe(res => {
+      this.closeChoosePlanPopup();
       if (res.state == 'success') {
         this.btnDisable = false;
         this.openSuccessFailurePopup(true);
@@ -224,7 +225,7 @@ export class UpgradePlanComponent implements OnInit {
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });
-    this.closeChoosePlanPopup();
+    // this.closeChoosePlanPopup();
     this.closeOrderConfPopup();
     this.paymentGatewayModelPopRef = this.paymentGatewayModel.open();
   }
@@ -253,10 +254,16 @@ export class UpgradePlanComponent implements OnInit {
         upgradePlan.subscribe(res => {
           if (res.status == 'success') {
             this.invoiceOrderId = res.orderId;
-            this.openSuccessFailurePopup(true);
             this.closeChoosePlanPopup();
             this.closeOrderConfPopup();
             this.btnDisable = false;
+            if (res.type == 'downgrade') {
+              this.notificationService.notify('Current plan Downgraded success', 'success');
+              this.appSelectionService.getCurrentSubscriptionData();
+            }
+            else {
+              this.openSuccessFailurePopup(true);
+            }
           }
           else if (res.status == 'failed') {
             this.openChangePlanModel();
