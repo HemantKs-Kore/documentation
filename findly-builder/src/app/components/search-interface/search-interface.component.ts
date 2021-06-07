@@ -442,7 +442,7 @@ export class SearchInterfaceComponent implements OnInit {
     //this.customizeTemplate.
     this.submitted = false;
 
-    this.customizeTemplateObj.template.searchResultlayout = new searchResultlayout();
+    //this.customizeTemplateObj.template.searchResultlayout = new searchResultlayout();
     //this.customizeTemplateObj.template.resultMapping = new resultMapping();
     this.customizeTemplateObj.template.searchResultlayout.layout = layout;
     if (layout == 'tileWithHeader') {

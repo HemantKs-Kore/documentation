@@ -155,7 +155,7 @@
         <ng-container *ngIf="selectedSourceType.sourceType !== 'faq'&&statusObject.status!=='success'">
           <div class="status-identification-content">
             <div class="content-title">
-              <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="statusObject.validation.validated===false">
+              <img src="assets/images/exclamationCircle-Red.svg" *ngIf="statusObject.validation.validated===false">
               <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected" *ngIf="statusObject.validation.validated===true">
               <span>Initial URL validation</span>
             </div>

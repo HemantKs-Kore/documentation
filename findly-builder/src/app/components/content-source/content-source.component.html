@@ -375,9 +375,9 @@
 
       <div class="content-accordion-sec" *ngIf="sliderStep === 0">
         <ng-container *ngIf="!(selectedSource && selectedSource.pages && selectedSource.pages.length)">
-          <div class="noPages" *ngIf="!loadingContent && isConfig">{{"contentSource.no_pages_available" | translate}}</div>
+          <!-- <div class="noPages" *ngIf="!loadingContent && isConfig">{{"contentSource.no_pages_available" | translate}}</div> -->
         </ng-container>
-        <ng-container *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length">
+        <ng-container *ngIf="selectedSource "> <!--&& selectedSource.pages && selectedSource.pages.length -->
 
           <div class="search-header">
             <div class="tabs-sec">
