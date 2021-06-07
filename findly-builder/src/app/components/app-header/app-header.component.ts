@@ -663,8 +663,27 @@ export class AppHeaderComponent implements OnInit {
     );
   }
   openOrCloseSearchSDK() {
-    this.headerService.openSearchSDK(true);
     this.loadHeader();
+    if(this.queryPipelineId){
+      this.headerService.openSearchSDK(true);
+      //this.loadHeader();
+      this.getcustomizeList(20, 0);
+      this.displayToolTip();
+    }else{
+      this.notificationService.notify('Fetching queryPipeline ID...', 'warning');
+      this.loadHeader();
+      setTimeout(()=>{
+        if(this.queryPipelineId){
+          this.openSDKwithQuery();
+        }else{
+          this.openOrCloseSearchSDK();
+        }
+      },500)
+    }
+    
+  }
+  openSDKwithQuery(){
+    this.headerService.openSearchSDK(true);
     this.getcustomizeList(20, 0);
     this.displayToolTip();
   }
