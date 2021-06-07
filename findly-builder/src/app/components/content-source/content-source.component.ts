@@ -93,6 +93,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       tooltip: "",
       icon: "assets/icons/content/failed.svg"
     },
+    'Execution failed': {
+      tooltip: "",
+      icon: "assets/icons/content/failed.svg"
+    },
     'Execution Stopped': {
       tooltip: "Sitemap Validation failed due to timeout",
       icon: "assets/icons/content/stopped.svg"
@@ -454,8 +458,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
       this.selectedSource.pages = res;
       this.loadingSliderContent = false;
-      this.docContent = this.selectedSource.pages[0]._source;
+      if(this.selectedSource.pages.length > 0){
+        this.docContent = this.selectedSource.pages[0]._source;
       this.docContentType = this.selectedSource.pages[0]._meta;
+      }
+      
       /** Paging */
       const data = [...res]
       this.pagingData = data.slice(0, this.limitpage);
