@@ -109,6 +109,19 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         }
       });
     }
+    this.synonymData.forEach(element => {
+      if(element.type != 'oneWaySynonym'){
+        this.filteroneWaySynonym = false;
+      }
+      else{
+        this.filteroneWaySynonym = true;
+      }
+      // else if(element.type != 'synonym'){
+      //   this.filterSynonym = false;
+       
+      // }
+      
+    });
   }
   getSynonyms() {
     const quaryparms: any = {
@@ -137,10 +150,6 @@ export class SynonymsComponent implements OnInit, OnDestroy {
           }
           
         });
-    
-      
-     
-    
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get stop words');
@@ -186,7 +195,6 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       else if (this.newSynonymObj.type === 'synonym') {
         this.filterSynonym = true;
       }
-  
       this.synonymData.push(obj);
       this.addOrUpddate(this.synonymData);
     }
@@ -240,6 +248,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.prepareSynonyms();
       this.cancleAddEdit();
 
+     
       if (dialogRef && dialogRef.close) {
         dialogRef.close();
       }

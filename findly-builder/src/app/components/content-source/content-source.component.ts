@@ -541,6 +541,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
       }
     }
+    this.editTitleFlag = false;
     // $('.tabname').toggleClass("active");
     // if (this.isConfig) {
     //   this.isConfig = false;
@@ -596,6 +597,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   openStatusSlider(source) {
     console.log("sourec opned", source)
+    this.pagesSearch = '';
     // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
     //   this.notificationService.notify('Source extraction is still in progress', 'error');
     //   return;
@@ -1180,12 +1182,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   };
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
+    this.editTitleFlag = false;
   }
   closeStatusModal() {
     this.swapSlider('page') // Just to redirect to 1st page
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
+    this.editTitleFlag = false;
   }
   openAddSourceModal() {
     this.addSourceModalPopRef = this.addSourceModalPop.open();
@@ -1557,9 +1561,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.showSearch = !this.showSearch
   }
-  focusoutSearch() {
+  focusoutSearch(isSearchSource?) {
     if (this.activeClose) {
-      this.searchSources = '';
+      if(isSearchSource){
+        this.searchSources = '';
+      }else{
+        this.pagesSearch = '';
+      }
       this.activeClose = false;
     }
     this.showSearch = !this.showSearch;
