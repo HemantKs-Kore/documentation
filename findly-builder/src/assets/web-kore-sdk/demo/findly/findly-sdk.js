@@ -18109,7 +18109,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
 
     FindlySDK.prototype.handlePaginationUI = function(selectedFacet,data){
-      if(selectedFacet && data.facets[selectedFacet] > 0){
+      if(selectedFacet && data.facets[selectedFacet] > 10){
         $('.kore-sdk-pagination-div').show();
       }
       else{

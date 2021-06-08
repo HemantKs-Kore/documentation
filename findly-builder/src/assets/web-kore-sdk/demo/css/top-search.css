@@ -1252,7 +1252,7 @@ input:focus{
   /*search-data-container-styles-start */
   .sdk-top-down-interface .faqs-search-data-container .search-heads {
     font-size: 12px;
-    font-weight: bold;
+    /* font-weight: bold; */
     color: #9AA0A6;
     text-transform: uppercase;
     margin: 11px 0;
@@ -2273,7 +2273,8 @@ display: none !important;
     margin-top: 12px;
     height: auto;
     padding: 14px 12px;
-    width: 347px;
+    /* width: 347px; */
+    display: inline-block;
 }
 
 .topdown-search-main-container .all-result-container .conversation-container .conversations .search-container.conversation #searchChatContainer .sdk-query-retry-icon{
@@ -2344,7 +2345,7 @@ display: none !important;
     max-height: calc(100vh - 458px) !important;
 }
 .sdk-top-down-interface .content-data-sec .total-structured-data-wrap {
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
 }
 .sdk-top-down-interface .kore-sdk-pagination-div {
   margin-bottom: 30px;
