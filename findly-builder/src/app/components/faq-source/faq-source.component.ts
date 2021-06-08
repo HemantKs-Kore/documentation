@@ -87,6 +87,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     success: { name: 'Success', color: 'green' },
     queued: { name: 'Queued', color: 'blue' },
     running: { name: 'In Progress', color: 'blue' },
+    configured: { name: 'Configured', color: 'blue' },
     inProgress: { name: 'In Progress', color: 'blue' },
   };
   contentTypes = {
@@ -262,7 +263,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.closeAddsourceModal();
     this.getSourceList();
     this.closeStatusModal();
-    if(this.faqs && this.faqs.length === 0){
+    if(this.faqs && this.faqs.length === 0 && this.showSourceAddition != 'manual'){
       this.openStatusModal();
       this.extractedFaqs=true
       this.getJobStatusForMessages();
