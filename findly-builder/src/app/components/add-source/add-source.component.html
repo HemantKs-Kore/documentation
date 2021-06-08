@@ -242,7 +242,7 @@
               <div class="kr-sg-input-text mb-4">
                 <div class="label-text">Source URL</div>
                 <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="http(s)//"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="http(s)://"
                   [(ngModel)]="newSourceObj.url" class="input-text">
               </div>
             </div>
@@ -909,7 +909,7 @@
       <div class="kr-sg-input-text"> 
         <div class="w-75 position-relative">
           <label class="label-text label-text-bot-link">Webhook URL</label>         
-          <input type="text"placeholder="https://" [(ngModel)]="configurationLink.webhookUrl" name="webhookUrl" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.webhookUrl?.length && submitted)}"> 
+          <input type="text"placeholder="http(s)://" [(ngModel)]="configurationLink.webhookUrl" name="webhookUrl" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.webhookUrl?.length && submitted)}"> 
           <img *ngIf="!configurationLink?.webhookUrl?.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
       </div>
       </div>
