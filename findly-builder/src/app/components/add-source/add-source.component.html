@@ -123,8 +123,7 @@
 <kr-modal modalType="default"  #statusModalPop>
   <div class="status-modal-popup">
     <div class="modal_content" *ngIf="selectedSourceType">
-      <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
-          (click)="closeStatusModal()"></div>
+      <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg" (click)="closeStatusModal()"></div>
       <div class="modal-body">
         <div class="success-check  pb-4" *ngIf="statusObject.status==='success'">
           <img src="assets/icons/successCheck.svg">
@@ -133,19 +132,14 @@
           <img src="assets/images/exclamationCircle-Red.svg">
         </div>
         <div *ngIf="selectedSourceType.sourceType === 'content'&&statusObject.status!=='failed'">
-          <div class="success-check  pb-4" *ngIf="(statusObject?.validation?.url?.validated)">
+          <div class="success-check  pb-4" *ngIf="(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType === 'file')">
             <img src="assets/icons/successCheck.svg">
           </div>
-          <div class="error-check pb-4" *ngIf="!(statusObject?.validation?.url?.validated)">
+          <div class="error-check pb-4" *ngIf="!(statusObject?.validation?.url?.validated)&&!(selectedSourceType.resourceType === 'file')">
             <img src="assets/icons/failed-status.svg">
           </div>
-          <div class="configInProgress"
-          *ngIf="!(statusObject?.validation?.url?.validated) && !(selectedSourceType.resourceType === 'file')">
-            <h1><strong>Validation Failed</strong></h1>
-          </div>
-          <div class="configInProgress"
-          *ngIf="(statusObject?.validation?.url?.validated)">
-            <h1><strong>Validation Successful</strong></h1>
+          <div class="configInProgress" *ngIf="!(selectedSourceType.resourceType === 'file')">
+            <h1><strong>{{(statusObject?.validation?.url?.validated)?"Validation Successful":"Validation Failed"}}</strong></h1>
           </div>
         
         </div>       
@@ -164,16 +158,14 @@
             <div class="content-description" *ngIf="selectedSourceType.resourceType!='file'&&(statusObject?.validation?.url?.validated)"> Now you can choose to crawl immediately or later</div>
           </div>
         </ng-container>
-        <div class="progressNote"
-          *ngIf="selectedSourceType.sourceType === 'faq'&&!((statusObject.status==='success') || (statusObject.status==='failed'))">
+        <div class="progressNote" *ngIf="selectedSourceType.sourceType === 'faq'&&!((statusObject.status==='success') || (statusObject.status==='failed'))">
           <div>Faq Extraction In Progress</div>
           <div class="text-center">
             <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
             <div class="relaxNote">You will be notified when the extraction progress is done</div>
           </div>
         </div>
-        <div class="configInProgress"
-        *ngIf="statusObject?.validation?.url?.validated&&selectedSourceType.sourceType === 'web'||selectedSourceType.sourceType === 'file'">
+        <div class="configInProgress" *ngIf="statusObject?.validation?.url?.validated&&selectedSourceType.sourceType === 'web'">
           <h4>Now you can choose to Crawl immediately or later</h4>
         </div>
       </div>
@@ -183,13 +175,13 @@
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='faq'">Ok</button>
         <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-          (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='content'&&(statusObject?.validation?.url?.validated)">Close</button>
+          (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='content'&&(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType === 'file')">Close</button>
           <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
           (click)="jobOndemand()" *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&(statusObject?.validation?.url?.validated)" [disabled]="crawlOkDisable">Crawl</button>
           <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-          (click)="jobOndemand()" *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&!(statusObject?.validation?.url?.validated)">Retry</button>
-          <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-          (click)="jobOndemand()" *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&!(statusObject?.validation?.url?.validated)">Edit Configuration</button>
+           *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&!(statusObject?.validation?.url?.validated)">Retry</button>
+          <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" (click)="editConfiguration()"
+           *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&!(statusObject?.validation?.url?.validated)">Edit Configuration</button>
          </div>
     </div>
   </div>
@@ -517,7 +509,7 @@
                   </div>
 
                   <!--Block-->
-                  <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0" *ngIf="crwalObject.advanceOpts.blockedOpt">
+                  <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0" *ngIf="crwalObject?.advanceOpts?.blockedOpt">
                     <div class="col-1 p-0 title">Block If URL</div>
                     <div class="col-11 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
@@ -957,11 +949,14 @@
           </div>
           <div class="text-center">
             <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
-            <div class="relaxNote">You will be notified when the extraction progress is done</div>
+            <div class="relaxNote">You will be notified when the extraction process is done.</div>
           </div>
         </ng-container>
         <div class="success-check  pb-4" *ngIf="(statusObject.status==='success')">
           <img src="assets/icons/successCheck.svg">
+        </div>
+        <div class="error-check" *ngIf="(statusObject.status==='failed')">
+          <img src="assets/images/exclamationCircle-Red.svg">
         </div>
         <div class="message-success text-center" *ngIf="(statusObject.status==='success')">
           Source added Successfully

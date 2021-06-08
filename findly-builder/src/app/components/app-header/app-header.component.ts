@@ -230,8 +230,8 @@ export class AppHeaderComponent implements OnInit {
     this.showMenu.emit(this.showMainMenu)
     this.settingMenu.emit(this.menuFlag)
     this.showSourceMenu.emit(this.sourcesFlag);
-    let currentPlan = this.appSelectionService.currentsubscriptionPlanDetails;
-    if ((menu == '/content' || menu == "/index") && currentPlan.subscription.planId == 'fp_free') {
+    let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+    if ((menu == '/content' || menu == "/index") && currentPlan?.subscription?.planId == 'fp_free') {
       this.appSelectionService.currentDocumentLimit.next('callApi');
     }
   }
@@ -664,25 +664,25 @@ export class AppHeaderComponent implements OnInit {
   }
   openOrCloseSearchSDK() {
     this.loadHeader();
-    if(this.queryPipelineId){
+    if (this.queryPipelineId) {
       this.headerService.openSearchSDK(true);
       //this.loadHeader();
       this.getcustomizeList(20, 0);
       this.displayToolTip();
-    }else{
+    } else {
       this.notificationService.notify('Fetching queryPipeline ID...', 'warning');
       this.loadHeader();
-      setTimeout(()=>{
-        if(this.queryPipelineId){
+      setTimeout(() => {
+        if (this.queryPipelineId) {
           this.openSDKwithQuery();
-        }else{
+        } else {
           this.openOrCloseSearchSDK();
         }
-      },500)
+      }, 500)
     }
-    
+
   }
-  openSDKwithQuery(){
+  openSDKwithQuery() {
     this.headerService.openSearchSDK(true);
     this.getcustomizeList(20, 0);
     this.displayToolTip();
