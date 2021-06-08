@@ -93,6 +93,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       tooltip: "",
       icon: "assets/icons/content/failed.svg"
     },
+    'Execution failed': {
+      tooltip: "",
+      icon: "assets/icons/content/failed.svg"
+    },
     'Execution Stopped': {
       tooltip: "Sitemap Validation failed due to timeout",
       icon: "assets/icons/content/stopped.svg"
@@ -274,8 +278,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.resources.forEach(element => {
         if (element.advanceSettings && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time) {
           if (element.advanceSettings.scheduleOpts.interval.intervalType != "Custom") {
+            let hour = (element.advanceSettings.scheduleOpts.time.hour).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.hour : '0' + element.advanceSettings.scheduleOpts.time.hour;
+            let minute = (element.advanceSettings.scheduleOpts.time.minute).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.minute : '0' + element.advanceSettings.scheduleOpts.time.minute;
             element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' at ' +
-              element.advanceSettings.scheduleOpts.time.hour + ':' + element.advanceSettings.scheduleOpts.time.minute + ' ' +
+              hour + ':' + minute + ' ' +
               element.advanceSettings.scheduleOpts.time.timeOpt + ' ' + element.advanceSettings.scheduleOpts.time.timezone;
           } else {
             let repeatOn = "";
@@ -454,13 +460,16 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
       this.selectedSource.pages = res;
       this.loadingSliderContent = false;
-      this.docContent = this.selectedSource.pages[0]._source;
+      if(this.selectedSource.pages.length > 0){
+        this.docContent = this.selectedSource.pages[0]._source;
       this.docContentType = this.selectedSource.pages[0]._meta;
+      }
+      
       /** Paging */
       const data = [...res]
       this.pagingData = data.slice(0, this.limitpage);
       this.pagingData.forEach(element => {
-        element['url_display'] = element._source.url;
+        element['url_display'] = element._source.pageUrl;
       });
       /** Paging */
       this.sliderStep = 0;

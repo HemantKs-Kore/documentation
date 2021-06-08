@@ -43,7 +43,7 @@
               <div class="title">{{plan.name}}</div>  
               <div class="plan-duration" *ngIf="plan.name!='Enterprise'&&plan.type!='free'">${{plan.planAmount}} / {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</div>
               <div class="plan-duration" *ngIf="plan.name=='Enterprise'">{{"plan.custom_pricing"| translate}}</div>
-              <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):("plan.choose_plan"| translate)}}</button>
+              <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'" (click)="(plan.name==='Enterprise'||(plan.name==selectedPlan.planName&&termPlan==selectedPlan.billingUnit))?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):("plan.choose_plan"| translate)}}</button>
             </div>
           </div>
           <!-- <span placement="top-center" [ngbTooltip]="feature[1].desc" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span> -->
@@ -77,7 +77,8 @@
   </div>
   <perfect-scrollbar>
     <div class="modal-body" *ngIf="orderConfirmData&&overageData">
-      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Free','Standard']).includes(selectedPlan.planName)">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
+      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Free']).includes(selectedPlan.planName)">{{"plan.you_are_subscribing_to"| translate}} <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
+      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Standard']).includes(selectedPlan.planName)">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
       <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Pro']).includes(selectedPlan.planName)&&orderConfirmData&&orderConfirmData.name=='Pro'">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>.{{"plan.please_find_the_order"| translate}}.</div>
       <div class="plan-desc" *ngIf="overageData.overageShow">{{"plan.you_have_added_additional"| translate}} <span *ngIf="overageData.docCount>=1">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}} {{"plan.plan_documents"| translate}} </span><span *ngIf="overageData.queryCount>=1">, {{overageData.overageDeatils.searchQueries.limit | valueFormat}} {{"plan.plan_queries"| translate}} </span> {{"plan.to_your_plan"| translate}}. {{"plan.please_find_the_order"| translate}}.</div>
       <ng-container *ngIf="!overageData.overageShow&&selectedPlan&&selectedPlan.planName=='Pro'&&orderConfirmData&&orderConfirmData.name=='Standard'">

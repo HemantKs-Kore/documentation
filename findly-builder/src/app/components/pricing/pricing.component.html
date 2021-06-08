@@ -66,7 +66,7 @@
               <span class="info-text">{{"plan.your_plan_will_changed"| translate}} {{(currentSubscriptionPlan&&currentSubscriptionPlan.subscription.endDate)| dateFormatPipe:'D MMMM YYYY'}}</span>
             </div>
             <div class="close-info col-2 p-0 text-right">            
-              <span (click)="cancelProSubscription()">{{"plan.cancel_request"| translate}}</span>
+              <!-- <span (click)="cancelProSubscription()">{{"plan.cancel_request"| translate}}</span> -->
               <img src="assets/icons/close-small.svg" (click)="proInfo=true">
             </div>
           </div>

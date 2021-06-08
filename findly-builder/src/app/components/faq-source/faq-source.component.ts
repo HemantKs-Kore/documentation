@@ -235,9 +235,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.extractedFaqs
     }
     if(extractedFaqs){
-      this.getStats();
+      this.getStats(null, true);
       this.getSourceList();
-      this.selectTab('draft');
+      }else{
+        this.getStats(null, true);
       }   
   }
   openAddSourceModal(edit?) {
@@ -263,14 +264,12 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.closeAddsourceModal();
     this.getSourceList();
     this.closeStatusModal();
-    if(this.faqs && this.faqs.length === 0 && this.showSourceAddition != 'manual'){
+    if(this.faqs && this.faqs.length === 0){
+      if(this.showSourceAddition !== 'manual')
       this.openStatusModal();
       this.extractedFaqs=true
       this.getJobStatusForMessages();
     }
-    this.selectTab('draft')
-    this.getStats();
-
     this.showSourceAddition = null;
   }
   addFaqSource(type) {
@@ -574,7 +573,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.faqSelectionObj.stats.draft) {
           this.selectTab('draft');
         } else if (this.faqSelectionObj.stats.in_review) {
-          this.selectTab('in_review');
+          if(this.selectedtab =='approved' && this.faqSelectionObj.stats.approved){
+            this.selectTab('approved');
+          }else{
+            this.selectTab('in_review');
+          }
         } else if (this.faqSelectionObj.stats.approved) {
           this.selectTab('approved');
         }else{
@@ -759,12 +762,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         if(element.recentStatus == 'queued' || element.recentStatus == 'failed' || element.recentStatus =='running' ){
         this.viewDetails =true;
           this.extractedFaqs=true;
-          if(initializePoling){
             this.getStats(null, true);
-          }else{
-            this.selectTab('draft');
-            this.getStats();
-          }
           
          }
       });
@@ -993,8 +991,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         if (queuedJobs && queuedJobs.length) {
           console.log(queuedJobs);
         } else {
-          this.selectTab('draft');
-          this.getStats();
+          this.getStats(null,true);
           this.pollingSubscriber.unsubscribe();
         }
      
@@ -1114,7 +1111,16 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
       this.getStats();
-      this.selectTab(params||'draft');
+      if( this.editfaq){
+        this.selectTab('draft');
+      }else{
+        if(action === 'stateUpdate'){
+          this.selectTab(params||'draft');
+        }else{
+          this.selectTab((params ||{}).state||'draft');
+        }
+        
+      }
       this.editfaq = false;
       this.closeEditFAQModal();
       this.closeAddsourceModal();

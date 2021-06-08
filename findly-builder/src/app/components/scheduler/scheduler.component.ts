@@ -113,12 +113,12 @@ export class SchedulerComponent implements OnInit {
     //   } 
       if(this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue){
         this.endsFreq(this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endType,'set');
-        this.repeatEvery = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.every;
-        this.custFreq = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod;
-        this.weeKDay = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn;
+        this.repeatEvery = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.every ? this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.every : this.repeatEvery;
+        this.custFreq = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod ? this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod : this.custFreq;
+        this.weeKDay = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn ? this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn : this.weeKDay;
         //this.weeKDay = this.weeKDay.charAt(0).toUpperCase() + this.weeKDay.slice(1);
-        this.endDate  = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate;
-        this.occurence = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.occurrences;
+        this.endDate  = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate ? this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate : this.endDate;
+        this.occurence = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.occurrences ? this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.occurrences : this.occurence;
         
       } 
     } 

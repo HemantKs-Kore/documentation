@@ -167,7 +167,7 @@ export class SearchInterfaceComponent implements OnInit {
       this.getAllSettings();
     }
   }
-  defaultTemplate() {
+  defaultTemplate(appearencType?) {
     this.customizeTemplateObj.template.type = "List Template 1";
     this.customizeTemplateObj.template.typeId = "listTemplate1"
     this.customizeTemplateObj.template.searchResultlayout.layout = "tileWithText";
@@ -178,6 +178,9 @@ export class SearchInterfaceComponent implements OnInit {
     this.preview_title = "Field Mapped for heading will appear here"
     this.preview_desc = "Field mapped for Description will appear here";
     this.selectedSourceType = "File";
+    if(appearencType){
+      this.selectedSourceType = appearencType;
+    }
   }
   copyConfiguration(interfaceType) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -442,7 +445,7 @@ export class SearchInterfaceComponent implements OnInit {
     //this.customizeTemplate.
     this.submitted = false;
 
-    this.customizeTemplateObj.template.searchResultlayout = new searchResultlayout();
+    //this.customizeTemplateObj.template.searchResultlayout = new searchResultlayout();
     //this.customizeTemplateObj.template.resultMapping = new resultMapping();
     this.customizeTemplateObj.template.searchResultlayout.layout = layout;
     if (layout == 'tileWithHeader') {
@@ -487,6 +490,10 @@ export class SearchInterfaceComponent implements OnInit {
       this.selectedSettingResultsObj.facets.isEnabled = event.target.checked;
       if (!event.target.checked) {
         this.selectedSettingResultsObj.facets.aligned = "left";
+        this.saveResultSettings();
+      }else{
+        this.selectedSettingResultsObj.facets.aligned ? this.selectedSettingResultsObj.facets.aligned  : "left";
+        this.saveResultSettings();
       }
     }
   }
@@ -516,7 +523,7 @@ export class SearchInterfaceComponent implements OnInit {
     if (templateId) {
       this.getTemplate(templateId);
     }else{
-      this.defaultTemplate()
+      this.defaultTemplate('Structured Data')
     }
   }
   openCustomModal() {

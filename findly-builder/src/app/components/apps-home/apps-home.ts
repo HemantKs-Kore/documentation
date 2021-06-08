@@ -27,7 +27,7 @@ export class AppsListingComponent implements OnInit {
   searchApp = '';
   apps: any = [];
   showSearch = false;
-  activeClose=false;
+  activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   newApp: any = {
@@ -60,7 +60,7 @@ export class AppsListingComponent implements OnInit {
     $('.krFindlyAppComponent').removeClass('appSelected');
     //const apps = this.workflowService.findlyApps();
     //this.prepareApps(apps);
-      this.getAllApps();
+    this.getAllApps();
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
@@ -174,7 +174,7 @@ export class AppsListingComponent implements OnInit {
         this.headerService.toggle(toogleObj);
         self.creatingInProgress = false;
         $('.toShowAppHeader').removeClass('d-none');
-        if(res.length > 0){
+        if (res.length > 0) {
           this.emptyApp = true;
         }
         // this.callStream();
@@ -268,17 +268,17 @@ export class AppsListingComponent implements OnInit {
       });
     }
   }
-  focusoutSearch(){
-    if(this.activeClose){
-      this.searchApp='';
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchApp = '';
       this.activeClose = false;
-     }
- this.showSearch= !this.showSearch;
-}
-  focusinSearch(inputSearch){
-    setTimeout(()=>{
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    },100)
+    }, 100)
   }
   // callStream(){
   //   this.service.invoke('get.credential').subscribe(

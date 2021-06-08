@@ -11,7 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
 import { of, interval, Subject } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import { startWith, take } from 'rxjs/operators';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 
@@ -731,7 +731,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
-    
+
     this.dockService.trigger(true)
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic";
@@ -819,8 +819,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         //payload.extractionType = resourceType;
         quaryparms.resourceType = resourceType;
         if (this.selectedSourceType.sourceType !== 'faq') {
-        payload.isNew = true;
-        payload.resourceType = payload.fileId ? 'file' : 'url';
+          payload.isNew = true;
+          payload.resourceType = payload.fileId ? 'file' : 'url';
         }
       }
       if (crawler.advanceOpts.scheduleOpt) {
@@ -837,7 +837,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
       }
-      if(resourceType === 'web' && this.selectedSourceType.sourceType !== 'content'){
+      if (resourceType === 'web' && this.selectedSourceType.sourceType !== 'content') {
         delete payload.advanceOpts;
       }
       if (schdVal) {
@@ -846,7 +846,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.appSelectionService.updateTourConfig('addData');
           this.addSourceModalPopRef.close();
           if (this.selectedSourceType.sourceType === 'content') {
-            this.statusObject = { ...this.statusObject, validation: { validated: true } };
+            this.statusObject = { ...this.statusObject, validation: res.validations };
           }
           if (this.selectedSourceType.sourceType === 'faq') {
             this.poling(res._id, 'scheduler');
@@ -1034,7 +1034,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         sourceTitle: this.newSourceObj.name,
         sourceDesc: this.newSourceObj.desc,
         fileId: this.fileObj.fileId,
-        sourceId:sourceId
+        sourceId: sourceId
       };
       const dialogRef = this.dialog.open(PdfAnnotationComponent, {
         data: { pdfResponse: payload, annotation: this.anntationObj },
@@ -1060,11 +1060,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   // Check poling from annoation tool
   checkAnnotationPolling() {
-    this.rangyService.getPolling().subscribe(res => {
+    this.rangyService.getPolling().pipe(take(1)).subscribe(res => {
       if (res) {
         console.log(this.anntationObj);
-        this.openStatusModal();
-        this.poling(this.anntationObj._id);
+        if (this.anntationObj._id) {
+          this.openStatusModal();
+          this.poling(this.anntationObj._id);
+        }
       }
 
 
@@ -1281,6 +1283,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
+    this.anntationObj = null;
     console.log('PolingDistroyed');
     this.fileObj.fileAdded = false;
   }
@@ -1306,10 +1309,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     const quaryparms: any = {
       searchIndexId: this.searchIndexId,
     };
-    const payload = { 
+    const payload = {
       fileId: this.fileObj.fileId,
       fileType: this.fileObj.file_ext,
-      name : this.newSourceObj.name
+      name: this.newSourceObj.name
       // streamId: this.streamId,
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {

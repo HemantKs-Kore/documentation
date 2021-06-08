@@ -232,11 +232,11 @@
                         top: -5px;                        
                         box-sizing: border-box;
                         border-radius: 4px;
-                        z-index: 1;
+                        z-index: 0;
                     }
                     .header-table-plan{
                         padding: 25px 15px;
-                        background: #FFFFFF;
+                        // background: #FFFFFF;
                         box-shadow: 0px 4px 4px rgba(13, 110, 253, 0.1);
                         position: sticky;
                         .type-title{
