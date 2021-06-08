@@ -386,10 +386,19 @@
               <span class="tabname" *ngIf="executionHistoryData" [ngClass] = "{'active' : execution}" (click)="swapSlider('execution')">{{"contentSource.executions" | translate}}</span>
             </div>
             <div class="right-side">
-              <div class="kr-sg-input-search" *ngIf="page">
-                <input type="text" placeholder="Search" class="input-search" [(ngModel)]="pagesSearch"
-                  autocomplete="off" >
-                <img src="assets/images/search-input.svg" class="search-icon">
+              <div  *ngIf="page">
+                <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">
+                  <input type="text" placeholder="Search" class="input-search" name='pagesSearch' placeholder="Search" [ngClass]="{'pl-2':pagesSearch}"
+                    id="searchInput" [(ngModel)]="pagesSearch" 
+                    autocomplete="off"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')" (focusout)="focusoutSearch();"
+                    (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+                    <img [src]="searchImgSrc" class="search-icon" *ngIf="!pagesSearch">
+                    <img class="close-icon" *ngIf="pagesSearch" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':pagesSearch}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="pagesSearch='';showSearch = !showSearch">
+                </div>
+      
+                <div class="search-block">
+                  <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="showSearch = !showSearch;focusinSearch('searchInput')"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                </div>
               </div>
               <div class="" *ngIf="!page && !execution">
                 <button class="kr-sg-button-secondary btn_lg" (click) = "recrwal('source',selectedSource ,null)">Crawl</button>

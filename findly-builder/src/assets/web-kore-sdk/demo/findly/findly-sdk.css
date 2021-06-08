@@ -8452,7 +8452,7 @@ html , body{
     border-radius: 8px;
     height: auto;
     padding: 14px 12px;
-    width: 347px;
+    /* width: 347px; */
 }
 .search-greeting-box .greeting-img{
     position: relative;
