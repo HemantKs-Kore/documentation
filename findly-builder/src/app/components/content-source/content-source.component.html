@@ -217,7 +217,7 @@
               <div class="col_ col-2">
                 <span>{{source.recentStatus==='configured'?'--':source.numPages}}</span>
               </div>
-              <div class="col_ col-2" *ngIf="source.advanceSettings">
+              <div class="col_ col-2" *ngIf="source?.advanceSettings">
                 <span *ngIf="!source.advanceSettings.scheduleOpt" >{{source.jobInfo.userDetails.fullName || source.userDetails.fullName}}</span>
                 <span *ngIf="source.advanceSettings.scheduleOpt" >{{source.jobInfo.userDetails.fullName}}</span>
               </div>
@@ -464,7 +464,7 @@
                               <textarea class="wid min-ht" [(ngModel)] = "editConfObj.desc"></textarea>
                             </div>
                           </div>
-                          <div class="col_ col-2 text-truncate" >{{selectedSource.userDetails.firstName}}
+                          <div class="col_ col-2 text-truncate" >{{selectedSource?.userDetails?.firstName}}
                           </div>
                           <div class="col_ col-2 text-truncate" >{{selectedSource.lMod | date:'d MMM yyyy'}}
                           </div>
@@ -510,12 +510,12 @@
                   <div class="row m-0 row_data">
                     <div class="col-10 title pl-pr-10">Schedule</div>
                     <div class="toggle-label col-2 pl-pr-10 text-right">
-                      <label *ngIf="selectedSource.advanceSettings" class="kr-sg-toggle">
+                      <label *ngIf="selectedSource?.advanceSettings" class="kr-sg-toggle">
                         <input type="checkbox" name="scheduleOpts"
                           [(ngModel)]="selectedSource.advanceSettings.scheduleOpt">
                         <div class="slider"></div>
                       </label>
-                      <label *ngIf="!selectedSource.advanceSettings" class="kr-sg-toggle">
+                      <label *ngIf="!selectedSource?.advanceSettings" class="kr-sg-toggle">
                         <input type="checkbox">
                         <div class="slider"></div>
                       </label>
@@ -525,7 +525,7 @@
                   <!-- <div class="schedule-comp" *ngIf="selectedSource.advanceSettings.scheduleOpt"> -->
                     <!-- *ngIf="selectedSource.advanceSettings.scheduleOpt"  -->
                     <div class="schedule-box">
-                      <app-scheduler [scheduleFlag] = "selectedSource.advanceSettings.scheduleOpt" [crwalObject]="selectedSource" [schedule]="'get'"
+                      <app-scheduler [scheduleFlag] = "selectedSource?.advanceSettings?.scheduleOpt" [crwalObject]="selectedSource" [schedule]="'get'"
                       (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)"></app-scheduler>
                     </div>
                     
@@ -617,7 +617,7 @@
                 </div>
               </div>
 
-              <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
+              <div *ngIf="selectedSource?.advanceSettings && !selectedSource?.advanceSettings?.crawlEverything">
                 
                 <div class="allow-urls-sec row allow-urlBox pl-0 pr-0"
                   *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
@@ -940,8 +940,8 @@
                 <div class="kr-sg-data-table with-checkbox">
                   <section class="table-content">
                     <header class="table-header">
-                      <div class="col_ col-3">EXECUTION STATUS</div>
-                      <div class="col_ col-3">DURATION</div>
+                      <div class="col_ col-4">EXECUTION STATUS</div>
+                      <div class="col_ col-2">DURATION</div>
                       <div class="col_ col-3">TRIGGERED BY</div>
                       <div class="col_ col-3">EXECUTED ON</div>
                     </header>
@@ -997,7 +997,7 @@
                               </div> -->
                             </div>
                           </div>
-                          <div class="col_ col-3 d-flex">
+                          <div class="col_ col-4 d-flex">
                             <span class="execute-success mr-2" ngbTooltip='{{ history.executionStats.tooltip || ""}}' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
                               <img src="{{executionObj[history.executionStats.executionStatusMessage].icon}}">
                               <span *ngIf="history.executionStats.executionStatusMessage =='Execution In Progress'"style="position: absolute;left: 4px;top: 4px;font-size: 10px;font-weight: 600">{{history.executionStats.percentageDone || 0}}%</span>
@@ -1016,7 +1016,7 @@
                               {{executionObj[history.executionStats.executionStatusMessage]}}
                             </div> -->                            
                           </div>
-                          <div class="col_ col-3">{{history.executionStats.duration}}</div>
+                          <div class="col_ col-2">{{history.executionStats.duration}}</div>
                           <div class="col_ col-3">{{history.executionStats.triggeredBy}}</div>
                           <div class="col_ col-3">{{history.createdOn}}</div>
                         </div> 

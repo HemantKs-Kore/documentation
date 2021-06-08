@@ -541,6 +541,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
       }
     }
+    this.editTitleFlag = false;
     // $('.tabname').toggleClass("active");
     // if (this.isConfig) {
     //   this.isConfig = false;
@@ -1181,12 +1182,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   };
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
+    this.editTitleFlag = false;
   }
   closeStatusModal() {
     this.swapSlider('page') // Just to redirect to 1st page
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
+    this.editTitleFlag = false;
   }
   openAddSourceModal() {
     this.addSourceModalPopRef = this.addSourceModalPop.open();

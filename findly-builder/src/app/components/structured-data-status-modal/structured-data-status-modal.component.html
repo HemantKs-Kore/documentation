@@ -9,11 +9,14 @@
         <div class="error-check" *ngIf="(docStatusObject.status==='FAILURE')">
           <img src="assets/images/exclamationCircle-Red.svg">
         </div>
-        <div class="message-success text-center" *ngIf="(docStatusObject.status==='IN_PROGRESS')">
+        <div class="message-success text-center" *ngIf="(docStatusObject.status==='IN_PROGRESS' && (docStatusObject.validation && !docStatusObject.validation.fileValidation))">
             {{'structuredData.validation_progress' | translate}}
         </div>
-        <div class="message-success text-center" *ngIf="(docStatusObject.status==='SUCCESS')">
+        <div class="message-success text-center" *ngIf="(docStatusObject.status==='IN_PROGRESS' && (docStatusObject.validation && docStatusObject.validation.fileValidation))">
           {{'structuredData.validation_success' | translate}}
+        </div>
+        <div class="message-success text-center" *ngIf="(docStatusObject.status==='SUCCESS')">
+          {{'structuredData.imported_success' | translate}}
         </div>
         <div class="message-success text-center" *ngIf="(docStatusObject.status==='FAILURE' && (docStatusObject.validation && docStatusObject.validation.fileValidation))">
           {{'structuredData.configuration_failed' | translate}}
@@ -23,7 +26,7 @@
         </div>
         <ng-container *ngIf="docStatusObject && (docStatusObject.validation && docStatusObject.validation.fileValidation) && !(docStatusObject.status==='FAILURE')">
           <div class="status-identification-content"
-            *ngIf="!(docStatusObject.status==='FAILURE')">
+            *ngIf="!(docStatusObject.status==='FAILURE') && !(docStatusObject.status==='SUCCESS')">
             <div class="content-title text-center">
               <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
               <span>{{'structuredData.initial_file_validation' | translate}} </span> <!--  <span >done</span> -->

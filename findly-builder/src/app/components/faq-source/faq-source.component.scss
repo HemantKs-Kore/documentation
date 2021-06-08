@@ -994,7 +994,7 @@
                             }
                         }
                         .add-alternative-questions{
-                            padding: 14px 30px;
+                            padding: 14px 30px 10px;
                             align-items: center;
                             background:transparent;
                             margin: 40px 0 0 0;
@@ -1433,7 +1433,7 @@
                 }
             }
             .added-questions-list{
-                padding: 12px 0px !important;
+                // padding: 12px 0px !important;
                 background: #FFFFFF !important;
                 // box-shadow: inset 0px -1px 0px #E4E5E7;
                 position: relative !important;
@@ -1737,8 +1737,8 @@
     .content-body-question {
         padding: 5px 0;
         min-height: 50px;
-        background: #fff;
-        box-shadow: 0 1px 0 rgb(0 0 0 / 20%);
+        background: #FFFFFF;
+        box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
         align-items: center;
         transition: all .3s ease-in;
         margin: 0 0 1px;

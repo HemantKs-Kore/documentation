@@ -3,11 +3,17 @@
 	<ng-container *ngIf="!settingMainMenu && !sourceMenu || sourceMenu">
 		<div class="upgrade_your_plan_price" [hidden]="!showUpgrade">
 			<div class="upgrade-plan-btn" (click)="upgrade()">Upgrade Your Plan<img src="assets/icons/pricing/carrotright.svg"></div>
-			<div class="document-limit">{{usageDetails.ingestDocs}}%  document limit reached
+			<div class="document-limit" *ngIf="usageDetails?.ingestDocs<80">{{usageDetails.ingestDocs}}%  document limit reached
 				<ngb-progressbar height="10px" type="primary" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
 			</div>		
-			<div class="document-limit">{{usageDetails.searchQueries}}%  query limit reached
+			<div class="document-limit" *ngIf="usageDetails?.searchQueries<80">{{usageDetails.searchQueries}}%  query limit reached
 				<ngb-progressbar class="query-limited-reached" height="10px" type="primary" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
+			</div>	
+			<div class="document-limit" *ngIf="usageDetails?.ingestDocs>80">{{usageDetails.ingestDocs}}%  document limit reached
+				<ngb-progressbar class="limit-exceed" height="10px" type="danger" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
+			</div>		
+			<div class="document-limit" *ngIf="usageDetails?.searchQueries>80">{{usageDetails.searchQueries}}%  query limit reached
+				<ngb-progressbar class="limit-exceed" height="10px" type="danger" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
 			</div>		
 		</div>
 	</ng-container>

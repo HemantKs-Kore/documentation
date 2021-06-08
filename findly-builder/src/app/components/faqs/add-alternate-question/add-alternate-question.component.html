@@ -38,6 +38,7 @@
     <div class="input-alter-text">
       <input autocomplete="off" type="text" placeholder="Enter question" [attr.id]="faqServ?.addVariation?.alternate?'alt':'follow'" class="input-text w-100" [(ngModel)]='f.question' (keyup.enter)="saveAltQuestion.emit(true);">
     </div>
-    <img id="cancel-alternate-question" class="ml-4" src="assets/icons/modal-close.svg" (click)="cancelAltQuestion.emit();">
+    <div class="img-cancel-block"><img id="cancel-alternate-question" class="ml-4" src="assets/icons/modal-close.svg" (click)="cancelAltQuestion.emit();"></div>
+    
   </div>
 </div>
