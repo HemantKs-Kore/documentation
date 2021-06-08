@@ -129,26 +129,26 @@
         <div class="success-check  pb-4" *ngIf="statusObject.status==='success'">
           <img src="assets/icons/successCheck.svg">
         </div>
+        <div class="error-check" *ngIf="(statusObject.status==='failed')">
+          <img src="assets/images/exclamationCircle-Red.svg">
+        </div>
         <div *ngIf="selectedSourceType.sourceType === 'content'&&statusObject.status!=='failed'">
-          <div class="success-check  pb-4" *ngIf="(statusObject && statusObject.validation && statusObject.validation.url?.validated)">
+          <div class="success-check  pb-4" *ngIf="(statusObject?.validation?.url?.validated)">
             <img src="assets/icons/successCheck.svg">
           </div>
-          <div class="success-check  pb-4" *ngIf="!(statusObject && statusObject.validation && statusObject.validation.url?.validated)">
-            <img src="assets/images/source-icos/failed-icon.svg">
+          <div class="error-check pb-4" *ngIf="!(statusObject?.validation?.url?.validated)">
+            <img src="assets/icons/failed-status.svg">
           </div>
           <div class="configInProgress"
-          *ngIf="!(statusObject && statusObject.validation && statusObject.validation.url?.validated) && !(selectedSourceType.resourceType === 'file')">
+          *ngIf="!(statusObject?.validation?.url?.validated) && !(selectedSourceType.resourceType === 'file')">
             <h1><strong>Validation Failed</strong></h1>
           </div>
           <div class="configInProgress"
-          *ngIf="(statusObject && statusObject.validation && statusObject.validation.url?.validated)">
+          *ngIf="(statusObject?.validation?.url?.validated)">
             <h1><strong>Validation Successful</strong></h1>
           </div>
         
         </div>       
-        <div class="error-check" *ngIf="(statusObject.status==='failed')">
-          <img src="assets/images/exclamationCircle-Red.svg">
-        </div>
         <div class="message-success text-center" *ngIf="(statusObject.status==='success')">
           Source added Successfully
         </div>
@@ -158,11 +158,10 @@
         <ng-container *ngIf="selectedSourceType.sourceType !== 'faq'&&statusObject.status!=='success'">
           <div class="status-identification-content">
             <div class="content-title">
-              <img src="assets/images/exclamationCircle-Red.svg" *ngIf="statusObject&&statusObject.validation&&statusObject.validation.url?.validated===false">
-              <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected" *ngIf="statusObject&&statusObject.validation&&statusObject.validation.url?.validated===true">
+              <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
               <span>Initial URL validation</span>
             </div>
-            <div class="content-description" *ngIf="selectedSourceType.resourceType!='file'&&statusObject&&statusObject.validation&&statusObject.validation.url?.validated===true"> Now you can choose to crawl immediately or later</div>
+            <div class="content-description" *ngIf="selectedSourceType.resourceType!='file'&&(statusObject?.validation?.url?.validated)"> Now you can choose to crawl immediately or later</div>
           </div>
         </ng-container>
         <div class="progressNote"
@@ -174,7 +173,7 @@
           </div>
         </div>
         <div class="configInProgress"
-        *ngIf="statusObject&&statusObject.validation&&statusObject.validation.url?.validated&&selectedSourceType.sourceType === 'web'||selectedSourceType.sourceType === 'file'">
+        *ngIf="statusObject?.validation?.url?.validated&&selectedSourceType.sourceType === 'web'||selectedSourceType.sourceType === 'file'">
           <h4>Now you can choose to Crawl immediately or later</h4>
         </div>
       </div>
@@ -184,9 +183,13 @@
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='faq'">Ok</button>
         <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-          (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='content'">Close</button>
+          (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='content'&&(statusObject?.validation?.url?.validated)">Close</button>
           <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-          (click)="jobOndemand()" *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'" [disabled]="crawlOkDisable">Crawl</button>
+          (click)="jobOndemand()" *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&(statusObject?.validation?.url?.validated)" [disabled]="crawlOkDisable">Crawl</button>
+          <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          (click)="jobOndemand()" *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&!(statusObject?.validation?.url?.validated)">Retry</button>
+          <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          (click)="jobOndemand()" *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&!(statusObject?.validation?.url?.validated)">Edit Configuration</button>
          </div>
     </div>
   </div>
@@ -239,7 +242,7 @@
               <div class="kr-sg-input-text mb-4">
                 <div class="label-text">Source URL</div>
                 <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="http(s)//"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="http(s)://"
                   [(ngModel)]="newSourceObj.url" class="input-text">
               </div>
             </div>
@@ -906,7 +909,7 @@
       <div class="kr-sg-input-text"> 
         <div class="w-75 position-relative">
           <label class="label-text label-text-bot-link">Webhook URL</label>         
-          <input type="text"placeholder="https://" [(ngModel)]="configurationLink.webhookUrl" name="webhookUrl" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.webhookUrl?.length && submitted)}"> 
+          <input type="text"placeholder="http(s)://" [(ngModel)]="configurationLink.webhookUrl" name="webhookUrl" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.webhookUrl?.length && submitted)}"> 
           <img *ngIf="!configurationLink?.webhookUrl?.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
       </div>
       </div>

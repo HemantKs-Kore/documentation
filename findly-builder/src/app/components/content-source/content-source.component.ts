@@ -597,6 +597,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   openStatusSlider(source) {
     console.log("sourec opned", source)
+    this.pagesSearch = '';
     // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
     //   this.notificationService.notify('Source extraction is still in progress', 'error');
     //   return;
@@ -1560,9 +1561,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.showSearch = !this.showSearch
   }
-  focusoutSearch() {
+  focusoutSearch(isSearchSource?) {
     if (this.activeClose) {
-      this.searchSources = '';
+      if(isSearchSource){
+        this.searchSources = '';
+      }else{
+        this.pagesSearch = '';
+      }
       this.activeClose = false;
     }
     this.showSearch = !this.showSearch;
