@@ -6996,7 +6996,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
 
     FindlySDK.prototype.dumpClickAnalyticsData = function (url, type, payload) {
-      var bearer = this.API.jstBarrer;
+      var bearer = 'bearer ' + this.bot.options.accessToken;
       var _self = this;
       var headers = {
         "Authorization": bearer,
