@@ -1155,8 +1155,8 @@
     .content-body-question {
         padding: 5px 0;
         min-height: 50px;
-        background: #fff;
-        box-shadow: 0 1px 0 rgb(0 0 0 / 20%);
+        background: #FFFFFF;
+        box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
         align-items: center;
         transition: all .3s ease-in;
         margin: 0 0 1px;
@@ -1200,4 +1200,12 @@
     padding: 0 0 15px!important;
     margin-bottom: 15px!important;
     border-bottom: 1px solid #bdc1c6!important;
+}
+.img-cancel-block{
+    width: 6%;
+    text-align: right;
+    margin: auto;
+}
+.lh-50{
+    line-height: 50px;
 }

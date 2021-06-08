@@ -437,7 +437,7 @@
         <div class="added-tags text-truncate">Add alternate forms of the question.</div>
     </div>
     <div class=" col-4 text-right pr-0 alter-add-btn" *ngIf="faqData._source.faqAltQuestions?.length>0 || isAdd">
-        <button class="kr-sg-button-ghost" (click)="addAltQues();" (mouseout)="addSrc = 'assets/icons/add_plus.svg'" (mouseover)="addSrc = 'assets/icons/editor/plus-add.svg'"><img src="{{addSrc}}" class="mr-2" [ngClass]="{'alternate-add-plus-icon':(addSrc === 'assets/icons/editor/plus-add.svg')}">Alternate Question</button>
+        <button class="kr-sg-button-ghost px-0" (click)="addAltQues();" (mouseout)="addSrc = 'assets/icons/add_plus.svg'" (mouseover)="addSrc = 'assets/icons/editor/plus-add.svg'"><img src="{{addSrc}}" class="mr-2" [ngClass]="{'alternate-add-plus-icon':(addSrc === 'assets/icons/editor/plus-add.svg')}">Alternate Question</button>
     </div>
     <div class="col-12 p-0 " *ngIf="!faqData._source.faqAltQuestions?.length && !isAdd">
         <button class="kr-sg-button-primary btn_lg" (click)="addAltQues()">Add</button>
@@ -448,7 +448,7 @@
   </div>
   
   <ng-container *ngIf="faqData && faqData._source && faqData._source.faqAltQuestions?.length">
-  <div class="added-questions-list mt-2" *ngFor="let alternateQuestion of faqData._source?.faqAltQuestions; let alterIndex = index" >
+  <div class="added-questions-list py-0" *ngFor="let alternateQuestion of faqData._source?.faqAltQuestions; let alterIndex = index" >
      <div class="pointer content-body-question row" *ngIf="editAltQuestionIndex !== alterIndex" (click)="editAltQuestion(alternateQuestion,alterIndex);">
       
       <div class=" col-10 group-name question-name text-truncate" title="{{alternateQuestion}}">{{alternateQuestion}}</div>
@@ -459,12 +459,14 @@
         <img src="assets/icons/delete-table.svg"  (click)="delAltQues(alternateQuestion,alterIndex,$event)">
       </div>
      </div>
-     <div *ngIf="editAltQuestionIndex === alterIndex">
+     <div *ngIf="editAltQuestionIndex === alterIndex" class="lh-50">
       <div class="d-flex">
         <div class="input-alter-text">
-          <input autocomplete="off" type="text" placeholder="Enter question" [attr.id]="faqServ?.addVariation?.alternate?'alt':'follow'" class="input-text w-100" [(ngModel)]='alternateQuestion.question' (keyup.enter)="closeAltQuestion();">
+          <input autocomplete="off" type="text" placeholder="Enter question" [attr.id]="faqServ?.addVariation?.alternate?'alt':'follow'" class="input-text w-100" [(ngModel)]='alternateQuestion' (keyup.enter)="closeAltQuestion();">
         </div>
-        <img class="ml-4" src="assets/icons/modal-close.svg" (click)="alternateQuestion.question = altQuestionEdit;closeAltQuestion(alternateQuestion.question);">
+        <div class="img-cancel-block">
+          <img class="" src="assets/icons/modal-close.svg" (click)="alternateQuestion = altQuestionEdit;closeAltQuestion();">
+        </div>
       </div>
      </div>
   </div>
