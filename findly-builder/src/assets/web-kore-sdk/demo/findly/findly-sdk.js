@@ -2624,7 +2624,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(evet.target).next().parent().next().hide();
           if (_self.vars.showingMatchedResults == true) {
             //_self.captureClickAnalytics(evet, $(evet.target).parent().attr('contenttype'), 'expand')
-            _self.captureClickAnalytics(evet, $(evet.currentTarget).closest('.faqs-shadow').attr('contenttype'), 'expand', $(evet.currentTarget).closest('.faqs-shadow').attr('contentId'), $(evet.currentTarget).closest('.faqs-shadow').attr('id'), $(evet.currentTarget).closest('.accordion').text());
+            _self.captureClickAnalytics(evet, $(evet.currentTarget).closest('.faqs-shadow').attr('contenttype'), 'click', $(evet.currentTarget).closest('.faqs-shadow').attr('contentId'), $(evet.currentTarget).closest('.faqs-shadow').attr('id'), $(evet.currentTarget).closest('.accordion').text());
           }
         } else {
           $(evet.target).next().parent().next().show();
@@ -5564,7 +5564,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
             e.stopPropagation();
           }
-          if ((_self.vars.searchObject.recentTasks.length || _self.vars.searchObject.recents.length || _self.vars.searchObject.popularSearches.length) && !$('#search').val()) {
+          if ((_self.vars.searchObject.recentTasks.length || _self.vars.searchObject.recents.length || (_self.vars.searchObject.popularSearches && _self.vars.searchObject.popularSearches.length)) && !$('#search').val()) {
             $('.search-container').addClass('active');
             if (_self.showGreetingMsg) {
               _self.showGreetingMsg = false;
@@ -14259,10 +14259,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                    {{if isTopdown == false}}Show All{{/if}}\
-                    {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                    {{/if}}\
+                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -14458,10 +14455,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                    {{if isTopdown == false}}Show All{{/if}}\
-                    {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                    {{/if}}\
+                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -14545,10 +14539,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                    {{if isTopdown == false}}Show All{{/if}}\
-                    {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                    {{/if}}\
+                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -14647,10 +14638,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                    {{if isTopdown == false}}Show All{{/if}}\
-                    {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                    {{/if}}\
+                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -14717,10 +14705,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                    {{if isTopdown == false}}Show All{{/if}}\
-                    {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                    {{/if}}\
+                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -14798,10 +14783,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                    {{if isTopdown == false}}Show All{{/if}}\
-                    {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                    {{/if}}\
+                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -14885,10 +14867,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                    {{if isTopdown == false}}Show All{{/if}}\
-                    {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                    {{/if}}\
+                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -14976,10 +14955,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                    {{if isTopdown == false}}Show All{{/if}}\
-                    {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                    {{/if}}\
+                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15046,10 +15022,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                    {{if isTopdown == false}}Show All{{/if}}\
-                    {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                    {{/if}}\
+                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15127,10 +15100,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                    {{if isTopdown == false}}Show All{{/if}}\
-                    {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                    {{/if}}\
+                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15214,10 +15184,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                    {{if isTopdown == false}}Show All{{/if}}\
-                    {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                    {{/if}}\
+                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15305,10 +15272,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                    {{if isTopdown == false}}Show All{{/if}}\
-                    {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                    {{/if}}\
+                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15375,10 +15339,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       Files\
                     {{/if}}\
                     <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                      {{if isTopdown == false}}Show All{{/if}}\
-                      {{if isTopdown == true}} Show All \
-                        {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                      {{/if}}\
+                      Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15433,10 +15394,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                    {{if isTopdown == false}}Show All{{/if}}\
-                    {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                    {{/if}}\
+                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15496,10 +15454,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                    {{if isTopdown == false}}Show All{{/if}}\
-                    {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                    {{/if}}\
+                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15559,10 +15514,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                    {{if isTopdown == false}}Show All{{/if}}\
-                    {{if isTopdown == true}} Show All \
-                      {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                    {{/if}}\
+                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15614,10 +15566,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       Files\
                     {{/if}}\
                     <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                      {{if isTopdown == false}}Show All{{/if}}\
-                      {{if isTopdown == true}} Show All \
-                        {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                      {{/if}}\
+                      Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15674,10 +15623,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       Files\
                     {{/if}}\
                     <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                      {{if isTopdown == false}}Show All{{/if}}\
-                      {{if isTopdown == true}} Show All \
-                        {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                      {{/if}}\
+                      Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15739,10 +15685,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       Files\
                     {{/if}}\
                     <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                      {{if isTopdown == false}}Show All{{/if}}\
-                      {{if isTopdown == true}} Show All \
-                        {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                      {{/if}}\
+                      Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15804,10 +15747,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       Files\
                     {{/if}}\
                     <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
-                      {{if isTopdown == false}}Show All{{/if}}\
-                      {{if isTopdown == true}} Show All \
-                        {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}Web{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
-                      {{/if}}\
+                      Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}Faqs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -19629,9 +19569,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             suggestions: data.autoComplete.querySuggestions,
             querySuggestionsLimit: searchConfigurationCopy.querySuggestionsLimit ? searchConfigurationCopy.querySuggestionsLimit : 2
           });
-          console.log(searchConfigurationCopy)
-
-          $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
+          if($('.search-body').find('.resultsOfSearch').length){
+            $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
+          }
           _self.pubSub.publish('sa-auto-suggest', data.autoComplete.typeAheads);
           _self.bindAutoSuggestionTriggerOptions(autoSuggestionHTML);
           if ($('body').hasClass('top-down')) {
