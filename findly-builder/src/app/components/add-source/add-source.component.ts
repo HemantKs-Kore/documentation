@@ -319,6 +319,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.linkBotsModalPopRef.close();
     }
   }
+  editConfiguration() {
+    this.closeStatusModal();
+    //this.openAddSourceModal();
+    // this.newSourceObj = 
+  }
   datainc = 0;
   poling(jobId, schedule?) {
     console.log("JobId", jobId)

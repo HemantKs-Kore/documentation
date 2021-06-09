@@ -217,7 +217,7 @@
               <div class="col_ col-2">
                 <span>{{source.recentStatus==='configured'?'--':source.numPages}}</span>
               </div>
-              <div class="col_ col-2" *ngIf="source.advanceSettings">
+              <div class="col_ col-2" *ngIf="source?.advanceSettings">
                 <span *ngIf="!source.advanceSettings.scheduleOpt" >{{source.jobInfo.userDetails.fullName || source.userDetails.fullName}}</span>
                 <span *ngIf="source.advanceSettings.scheduleOpt" >{{source.jobInfo.userDetails.fullName}}</span>
               </div>
@@ -464,9 +464,9 @@
                               <textarea class="wid min-ht" [(ngModel)] = "editConfObj.desc"></textarea>
                             </div>
                           </div>
-                          <div class="col_ col-2 text-truncate" >{{selectedSource.userDetails.firstName}}
+                          <div class="col_ col-2 text-truncate" >{{selectedSource?.userDetails?.firstName}}
                           </div>
-                          <div class="col_ col-2 text-truncate" >{{selectedSource.lMod | date:'mediumDate'}}
+                          <div class="col_ col-2 text-truncate" >{{selectedSource.lMod | date:'d MMMM yyyy'}}
                           </div>
                           <!--<div class="col_ col-2" >{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}
                           </div>
@@ -510,12 +510,12 @@
                   <div class="row m-0 row_data">
                     <div class="col-10 title pl-pr-10">Schedule</div>
                     <div class="toggle-label col-2 pl-pr-10 text-right">
-                      <label *ngIf="selectedSource.advanceSettings" class="kr-sg-toggle">
+                      <label *ngIf="selectedSource?.advanceSettings" class="kr-sg-toggle">
                         <input type="checkbox" name="scheduleOpts"
                           [(ngModel)]="selectedSource.advanceSettings.scheduleOpt">
                         <div class="slider"></div>
                       </label>
-                      <label *ngIf="!selectedSource.advanceSettings" class="kr-sg-toggle">
+                      <label *ngIf="!selectedSource?.advanceSettings" class="kr-sg-toggle">
                         <input type="checkbox">
                         <div class="slider"></div>
                       </label>
@@ -525,7 +525,7 @@
                   <!-- <div class="schedule-comp" *ngIf="selectedSource.advanceSettings.scheduleOpt"> -->
                     <!-- *ngIf="selectedSource.advanceSettings.scheduleOpt"  -->
                     <div class="schedule-box">
-                      <app-scheduler [scheduleFlag] = "selectedSource.advanceSettings.scheduleOpt" [crwalObject]="selectedSource" [schedule]="'get'"
+                      <app-scheduler [scheduleFlag] = "selectedSource?.advanceSettings?.scheduleOpt" [crwalObject]="selectedSource" [schedule]="'get'"
                       (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)"></app-scheduler>
                     </div>
                     
@@ -617,7 +617,7 @@
                 </div>
               </div>
 
-              <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
+              <div *ngIf="selectedSource?.advanceSettings && !selectedSource?.advanceSettings?.crawlEverything">
                 
                 <div class="allow-urls-sec row allow-urlBox pl-0 pr-0"
                   *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
@@ -863,10 +863,10 @@
                       <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
                         <div class="col-8 link-name p-0" title="{{page._source.pageUrl || selectedSource.url}}">
                           {{page._source.pageUrl || selectedSource.url}}</div>
-                        <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
+                        <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'd MMMM YYYY'}}</div>
                         <div class="col-2 actions p-0">
                           <img src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' (click)="reCrwalingWeb('pages',page ,$event)" placement="left">
-                          <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh' placement="left">
+                          <!-- <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh' placement="left"> -->
                           <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)"
                             ngbTooltip='Delete' placement="left">
                         </div>

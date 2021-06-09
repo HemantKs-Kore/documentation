@@ -522,6 +522,20 @@ app-mainmenu{
 				}
 			}
 		}
+		.limit-exceed{
+			.progress{
+				height: 2px !important;
+				position: absolute;
+				left: 0;
+				width: 100%;
+				bottom: 0;
+				background-color: transparent;
+				border-radius: 0;	
+				.progress-bar{
+					background: #DD3646 !important;
+				}		
+			}
+		}
 	}
 
 }
