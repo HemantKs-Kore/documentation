@@ -466,7 +466,7 @@
                           </div>
                           <div class="col_ col-2 text-truncate" >{{selectedSource?.userDetails?.firstName}}
                           </div>
-                          <div class="col_ col-2 text-truncate" >{{selectedSource.lMod | date:'mediumDate'}}
+                          <div class="col_ col-2 text-truncate" >{{selectedSource.lMod | date:'d MMMM yyyy'}}
                           </div>
                           <!--<div class="col_ col-2" >{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}
                           </div>
@@ -863,10 +863,10 @@
                       <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
                         <div class="col-8 link-name p-0" title="{{page._source.pageUrl || selectedSource.url}}">
                           {{page._source.pageUrl || selectedSource.url}}</div>
-                        <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
+                        <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'd MMMM YYYY'}}</div>
                         <div class="col-2 actions p-0">
                           <img src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' (click)="reCrwalingWeb('pages',page ,$event)" placement="left">
-                          <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh' placement="left">
+                          <!-- <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh' placement="left"> -->
                           <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)"
                             ngbTooltip='Delete' placement="left">
                         </div>
