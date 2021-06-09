@@ -33,7 +33,7 @@
     <ng-container *ngIf="usageLogs.length && !loadingLogs">
         <div class="plan-type">
             <div class="current-plan">{{"ussageLog.current_plan"| translate}}</div>
-            <div class="type">{{"ussageLog.free"| translate}}</div>
+            <div class="type">{{current_plan_name}}</div>
         </div>
         <perfect-scrollbar class="scroll-invoice-content">
             <div class="table_data_content">
