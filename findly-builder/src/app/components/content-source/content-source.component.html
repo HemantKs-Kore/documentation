@@ -1000,7 +1000,7 @@
                           <div class="col_ col-4 d-flex">
                             <span class="execute-success mr-2" ngbTooltip='{{ history.executionStats.tooltip || ""}}' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
                               <img src="{{executionObj[history.executionStats.executionStatusMessage].icon}}">
-                              <span *ngIf="history.executionStats.executionStatusMessage =='Execution In Progress'"style="position: absolute;left: 4px;top: 4px;font-size: 10px;font-weight: 600">{{history.executionStats.percentageDone || 0}}%</span>
+                              <span *ngIf="history.executionStats.executionStatusMessage =='Execution In Progress' && history.executionStats.percentageDone" style="position: absolute;left: 4px;top: 4px;font-size: 10px;font-weight: 600">{{history.executionStats.percentageDone || 0}}%</span>
                             </span>
                             <!-- <span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
                               <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Successful'" src="assets/icons/content/success.svg">
