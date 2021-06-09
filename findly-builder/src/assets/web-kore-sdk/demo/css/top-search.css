@@ -2274,7 +2274,8 @@ display: none !important;
     height: auto;
     padding: 14px 12px;
     /* width: 347px; */
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
 }
 
 .topdown-search-main-container .all-result-container .conversation-container .conversations .search-container.conversation #searchChatContainer .sdk-query-retry-icon{
