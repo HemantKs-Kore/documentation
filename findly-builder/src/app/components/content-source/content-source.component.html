@@ -226,8 +226,10 @@
               </div>
               <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
               <div class="col_ col-1 text-right p-0">
-                <span class="actions-links" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' && source.recentStatus !== 'configured'&&source.recentStatus !== 'failed'&&source.recentStatus != 'queued'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span>
-                <span class="actions-links" *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'||source.recentStatus == 'failed'&&source.recentStatus != 'queued'"  (click)="jobOndemand(source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" [ngbTooltip]='source.recentStatus==="failed"?"Validate":"Crawl"' container="body"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' && source.recentStatus !== 'configured'&&source.recentStatus !== 'failed'&&source.recentStatus != 'queued'"  (click)="recrwal('source',source,$event)">
+                  <img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'||source.recentStatus == 'failed'&&source.recentStatus != 'queued'"  (click)="jobOndemand(source,$event)">
+                  <img class="action_icon" src="assets/icons/refresh-table.svg" [ngbTooltip]='source.recentStatus==="failed"?"Revalidate":"Crawl"' container="body"></span>
                 <span class="actions-links" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'" (click)="stopCrwaling(source,$event)"><img class="action_icon"
                   src="assets/icons/content/stop.svg" ngbTooltip='Stop' container="body"></span>
                 <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
@@ -1122,7 +1124,7 @@
       <section class="table-content">
         <!-- <header class="table-header"> -->
           <div class="title-text">Title</div>
-          <div class="title-desc-text" *ngIf="!isEditDoc && selectedSource.fileMeta"><span>{{selectedSource.fileMeta.fileName}}</span></div>
+          <div class="title-desc-text" *ngIf="!isEditDoc && selectedSource.fileMeta"><span>{{docContent.sysSourceName}}</span></div>
           <div class="title-text">Description</div>
           <div class="title-desc-text" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div>
         
