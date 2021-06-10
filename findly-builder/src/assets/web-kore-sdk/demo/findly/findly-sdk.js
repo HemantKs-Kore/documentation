@@ -5475,7 +5475,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           $('.' + obj.name).css("order", index + 1);
                         })
                         if ($('body').hasClass('top-down')) {
-                          _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: true, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch | 'all results' } });
+                          _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: true, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' } });
                         } else {
                           _self.pubSub.publish('sa-search-result', dataObj);
                         }
@@ -17080,7 +17080,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (!$('body').hasClass('top-down')) {
           _self.bindStructuredDataTriggeringOptions();
         }
-        _self.bindAllResultRankingOperations();
+        setTimeout(()=> {
+          _self.bindAllResultRankingOperations();
+        },200);
         // if(data.isLiveSearch || data.isSearch){
         //   setTimeout(() => {
         //     var elements = $('.structured-data-header');

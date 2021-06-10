@@ -2409,3 +2409,7 @@ display: none !important;
   top: 24px;
   z-index: 8 !important;
 }
+
+.sdk-top-down-interface .topdown-search-main-container .structured-data-outer-wrap{
+  margin-bottom:30px !important;
+}
