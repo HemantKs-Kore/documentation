@@ -607,7 +607,16 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         return;
       }
       this.service.invoke('create.businessRules', quaryparms, payload).subscribe(res => {
-        this.rules.push(res);
+        if(this.filterSystem.isRuleActiveFilter == 'all'){
+          this.rules.push(res);
+        }
+        this.beforeFilterRules.push(res);
+        this.isRuleActiveArr = [];
+        this.beforeFilterRules.forEach(element => {
+          this.isRuleActiveArr.push(element.isRuleActive);
+        });
+        this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
+        this.filterTable(this.filterSystem.isRuleActiveFilter,'isRuleActive');
         this.closeModalPopup();
         this.notificationService.notify('Added successfully', 'success');
       }, errRes => {
@@ -654,6 +663,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.businessRules', quaryparms).subscribe(res => {
       this.rules = res.rules || [];
+      this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
       this.loadingContent = false;
       if (this.rules.length) {
         this.rules.forEach(element => {
@@ -716,6 +726,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           return pg._id === rule._id;
         })
         this.rules[editRule] = res;
+        this.beforeFilterRules[editRule] = res;
+        this.isRuleActiveArr = [];
+        this.beforeFilterRules.forEach(element => {
+          this.isRuleActiveArr.push(element.isRuleActive);
+        });
+        this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
+        this.filterTable(this.filterSystem.isRuleActiveFilter,'isRuleActive');
         this.notificationService.notify('Updated Successfully', 'success');
         this.closeModalPopup();
       }, errRes => {
@@ -817,6 +834,18 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         return pg._id === rule._id;
       })
       this.rules.splice(deleteIndex, 1);
+      const deleteIndex1 = _.findIndex(this.beforeFilterRules,(pg)=>{
+        return pg._id === rule._id;
+      })
+      this.beforeFilterRules.splice(deleteIndex1,1);
+      if(!this.rules.length){
+        this.isRuleActiveArr = [];
+        this.beforeFilterRules.forEach(element => {
+          this.isRuleActiveArr.push(element.isRuleActive);
+          this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
+          this.filterTable('all','isRuleActive');
+        });
+      }
       if (dilogRef && dilogRef.close) {
         dilogRef.close();
       }
