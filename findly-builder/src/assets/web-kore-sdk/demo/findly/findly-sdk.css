@@ -7009,6 +7009,12 @@ body, html{
     right: 30px !important;
     /* left: calc(50% - 250px); */
 }
+.search-logo{
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 14px;
+    color: #202124;
+}
 /* .hide {
     visibility: hidden;
 } */
@@ -8444,7 +8450,8 @@ html , body{
     display: none;
 }
 .search-greeting-box {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     margin-bottom: 50px;
     background: #F8F9FA;
     border: 1px solid #E0E1E9;
@@ -8456,7 +8463,7 @@ html , body{
 }
 .search-greeting-box .greeting-img{
     position: relative;
-    top: 3px;
+    top: 0px;
     margin-right: 6px;
 }
 .recentTasks{

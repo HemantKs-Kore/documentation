@@ -35,6 +35,7 @@ export class UsageLogComponent implements OnInit {
   loading = false;
   selectedSort = '';
   isAsc = true;
+  current_plan_name: string;
   componentType: string = 'addData';
   beforeFilterUsageLogs: any = [];
   constructor(
@@ -54,6 +55,8 @@ export class UsageLogComponent implements OnInit {
     // this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
     //   this.loadUsageLogs();
     // })
+    let subscription_data = this.appSelectionService.currentsubscriptionPlanDetails;
+    this.current_plan_name = subscription_data.subscription.planName;
   }
   toggleSearch() {
     if (this.showSearch && this.searchUsageLog) {
@@ -87,7 +90,7 @@ export class UsageLogComponent implements OnInit {
       quaryparms.searchQuary = quary;
       serviceId = 'get.usageLogs.search';
     }
-    if(!this.usageLogs.length){
+    if (!this.usageLogs.length) {
       this.loadingLogs = true;
     }
     this.service.invoke(serviceId, quaryparms).subscribe(res => {

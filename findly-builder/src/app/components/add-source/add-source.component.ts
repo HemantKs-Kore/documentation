@@ -320,8 +320,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   editConfiguration() {
-    this.closeStatusModal();
-    //this.openAddSourceModal();
+    //this.closeStatusModal();
+    if (this.statusModalPopRef && this.statusModalPopRef.close) {
+      this.statusModalPopRef.close();
+    }
+    this.openAddSourceModal();
     // this.newSourceObj = 
   }
   datainc = 0;

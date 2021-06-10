@@ -142,7 +142,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.loadRules();
     })
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.getFieldAutoComplete(null, null);
   }
   loadImageText: boolean = false;
   loadingContent1: boolean
@@ -157,6 +156,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       if (this.queryPipelineId) {
         this.getRules();
+        this.getFieldAutoComplete(null, null);
       }
     }
   }
