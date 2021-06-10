@@ -230,6 +230,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   drop(event: CdkDragDrop<string[]>, list) {
     moveItemInArray(list, event.previousIndex, event.currentIndex);
+    this.currentEditIndex = event.currentIndex
   }
   setRuleObj(configObj, key, value, type) {
     this.changesDetected = true;
@@ -737,7 +738,15 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       const stages = this.preparepayload();
       if (this.currentEditIndex > -1) {
-        payload.pipelineConfig = stages.slice(0, this.currentEditIndex + 1);
+        //payload.pipelineConfig = stages.slice(0, this.currentEditIndex + 1);
+        //payload.pipelineConfig = [stages[this.currentEditIndex]];
+        let activeStage = []
+        stages.forEach(element => {
+          if(element.enable){
+            activeStage.push(element)
+          }
+        });
+        payload.pipelineConfig = activeStage;
       } else {
         payload.pipelineConfig = stages
       }

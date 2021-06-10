@@ -118,9 +118,10 @@
                         <img src="assets/icons/sidemenu/search.svg" (click)="focusinSearch()" (mouseover)="activeSearch=true" (mouseout)="activeSearch=false">
                     </div>
                     <div class="global-searc-container" *ngIf='showSearch'>
-                        <div class="kr-sg-input-search">     
-                            <input type="text" class="input-search" id="globalSearch"  [ngClass]="{'pl-2':searchText}" (focusout)="focusoutSearch();"  (keyup.enter)="triggerRoute(searchText)" autocomplete="off" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')" (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'" autofocus>
-                            <!-- <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchText"> -->
+                        <div class="kr-sg-input-search">  
+    
+                            <input type="text" class="input-search" id="globalSearch"  searchImgSrc='assets/icons/search.svg' placeholder="Search" [ngClass]="{'pl-2':searchText}" (focusout)="focusoutSearch();"  (keyup.enter)="triggerRoute(searchText)" autocomplete="off" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')" (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'" autofocus>
+                            <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchText">
                             <img class="close-icon" *ngIf="searchText" src="assets/icons/close_icon.svg"  [ngClass]="{'pr-22':searchText}" (click)="searchText='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
                         </div>
                     </div>
@@ -155,7 +156,7 @@
                                                         <div class="docker-list" *ngIf="!statusDockerLoading">
                                                             <div class="row ml-0 mr-0 col-12 row-content" *ngFor="let task of dockersList; let index = index" [class.docUnRead]="checkRecordInDocs('unread', task)">
                                                                 <div class="col-9 pl-0 task_content">
-                                                                    <div class="heading text-truncate" [title]="task.name">{{task.name}}</div>
+                                                                    <div class="heading text-truncate" [class.external_link]="((task.extractionSourceId && (task.jobType == 'web' || task.jobType == 'faq')) || (task.jobType == 'STRUCTURED_DATA_INGESTION'))" (click)="((task.extractionSourceId && (task.jobType == 'web' || task.jobType == 'faq')) || (task.jobType == 'STRUCTURED_DATA_INGESTION')) && navigateTo(task)" [title]="task.name">{{task.name}}</div>
                                                                     <div class="desc" *ngIf="getStatusView(task.status)">{{task.status | titlecase}} <span class="tooltip-data" ngbTooltip='{{task.createdOn}}' tooltipClass="date-tooltip" placement="right-center" [container]="'body'"><img src="assets/icons/docker/clock.svg"></span></div>
                                                                     <div class="desc" *ngIf="!getStatusView(task.status)">{{getStatusView(task.status, 'other')}} <span class="tooltip-data" ngbTooltip='{{task.createdOn}}' tooltipClass="date-tooltip" placement="right-center" [container]="'body'"><img src="assets/icons/docker/clock.svg"></span></div>
                                                                 </div>
@@ -165,7 +166,7 @@
                                                                         <img src="assets/icons/docker/return.svg" *ngIf="task.status === 'HALTED'" (click)="recrawl(task)">
                                                                         <!-- <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')"> -->
                                                                         <img src="assets/icons/docker/check.svg" *ngIf="(task.status === 'SUCCESS')">
-                                                                        <!-- <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq')) || (task.jobType == 'STRUCTURED_DATA_INGESTION')">                         -->
+                                                                        <!-- <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType == 'web' || task.jobType == 'faq')) || (task.jobType == 'STRUCTURED_DATA_INGESTION')">                         -->
                                                                     </div>
                                                                     <div class="status-blcok">                        
                                                                         <img src="assets/icons/ringLoading.svg" class="inProgress" *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED'" placement="top" container='body'>

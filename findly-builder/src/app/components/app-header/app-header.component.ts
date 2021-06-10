@@ -473,14 +473,15 @@ export class AppHeaderComponent implements OnInit {
       setTimeout(() => {
         this.headerService.openFaqExtracts();
       }, 300);
-    } else if (task.jobType === 'webdomain') {
+    } else if (task.jobType === 'web') {
       this.router.navigate(['/content'], { skipLocationChange: true });
     }
     else if (task.jobType == 'STRUCTURED_DATA_INGESTION') {
       this.router.navigate(['/structuredData'], { skipLocationChange: true });
     }
-
     this.headerService.updateShowHideMainMenu(true);
+    this.headerService.updateShowHideSettingsMenu(false);
+    this.headerService.updateShowHideSourceMenu(true);
   }
 
   removeRecord(task, index) {

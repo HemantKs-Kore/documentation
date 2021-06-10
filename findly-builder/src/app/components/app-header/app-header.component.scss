@@ -437,9 +437,9 @@
                         input{
                             background: #FFFFFF;
                             border: 1px solid #E4E5E7;
+                            padding: 4px 10px 4px 35px;
                             box-sizing: border-box;
                             border-radius: 4px;
-                            padding-left: 10px;
                             &:focus{
                                 border: 1px solid #1372ff;
                             }
@@ -636,6 +636,7 @@
     }
     .docker-list{
        padding: 10px;
+       cursor: default;
         .row-content{
             // margin-bottom: 12px;
             padding: 0px 10px;
@@ -647,6 +648,9 @@
                 font-size: 12px;
                 line-height: 15px;
                 margin-bottom: 4px;
+                &.external_link{
+                    cursor: pointer;
+                }
             }
             .desc{
                 color: #9AA0A6;

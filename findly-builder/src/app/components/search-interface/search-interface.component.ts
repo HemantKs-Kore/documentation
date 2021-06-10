@@ -541,7 +541,7 @@ export class SearchInterfaceComponent implements OnInit {
       this.getTemplate(templateId,modalSwitch);
     } else {
       this.customizeTemplateObj = new customizeTemplate();
-      this.defaultTemplate();
+      this.defaultTemplate(this.selectedSourceType);
       this.submitted = false;
       if(modalSwitch != 'closeModal'){
         this.customModalRef = this.customModal.open();
