@@ -17080,7 +17080,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (!$('body').hasClass('top-down')) {
           _self.bindStructuredDataTriggeringOptions();
         }
-        _self.bindAllResultRankingOperations();
+        setTimeout(()=> {
+          _self.bindAllResultRankingOperations();
+        },200);
         // if(data.isLiveSearch || data.isSearch){
         //   setTimeout(() => {
         //     var elements = $('.structured-data-header');
