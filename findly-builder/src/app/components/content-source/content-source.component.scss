@@ -241,6 +241,10 @@
                     border-bottom: 1px solid #E4E5E7;
                     .col_{
                         padding: 0px 10px 0px 25px;
+                        .failed-img{
+                            width: 22px;
+                            height: 22px;
+                        }
                     }
                     .col{
                         color: #202124;
@@ -254,6 +258,7 @@
                         &.failed{
                             color: #DD3646;
                         }
+                        
                     }
                     .inProgress{
                         width: 20px;
@@ -1206,6 +1211,7 @@
                 padding: 16px 18px;   
                 transition: 0.2s all ease-in;
                 position: relative;
+               
                 .delete-refresh{
                     display: none;
                     position: absolute;
@@ -1222,7 +1228,7 @@
                     .delete-refresh{
                         display: inline-block;
                     }
-                }        
+                }       
                 .titles-sec{
                     margin-bottom: 19px;
                     padding-right: 40px;
@@ -1259,6 +1265,7 @@
                 }
                 .status{
                     text-align: right;
+
                     .status-title{                    
                         font-weight: normal;
                         font-size: 12px;
@@ -1289,6 +1296,7 @@
                         padding-right: 6px;
                     }
                 }
+               
             }
         }        
     }
@@ -1386,6 +1394,14 @@
         font-size: 13px;
         line-height: 10px;
         margin-bottom: 10px;
+        img{
+            display: none;
+        }
+        &:hover{
+            img{
+                display: inline-block;
+            }
+        }
         }
         
         .title-desc-text{
