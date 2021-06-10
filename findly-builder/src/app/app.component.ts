@@ -45,9 +45,9 @@ export class AppComponent implements OnInit, OnDestroy {
   searchSDKSubscription: Subscription;
   resultRankDataSubscription: Subscription
   showHideMainMenuSubscription: Subscription;
-  showHideSettingsMenuSubscription : Subscription;
-  showHideSourceMenuSubscription : Subscription;
-  closeSDKSubscription : Subscription;
+  showHideSettingsMenuSubscription: Subscription;
+  showHideSourceMenuSubscription: Subscription;
+  closeSDKSubscription: Subscription;
   searchExperienceSubscription: Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
@@ -57,7 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
   };
   topDownSearchInstance: any;
   searchExperienceConfig: any;
-  indexPipelineId : any;
+  indexPipelineId: any;
   @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(private router: Router,
     private authService: AuthService,
@@ -313,7 +313,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadSearchExperience(){
+  loadSearchExperience() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
       this.getSearchExperience();
@@ -391,7 +391,7 @@ export class AppComponent implements OnInit, OnDestroy {
       $('.search-container').addClass('add-new-result')
       this.initSearch();
       $('#test-btn-launch-sdk').addClass('active');
-      $('#open-chat-window-no-clicks').css({display : 'block'});
+      $('#open-chat-window-no-clicks').css({ display: 'block' });
       this.headerService.isSDKOpen = true;
     } else {
       $('.search-background-div').remove();
@@ -402,7 +402,7 @@ export class AppComponent implements OnInit, OnDestroy {
       _self.showInsightFull = false;
       this.distroySearch();
       $('#test-btn-launch-sdk').removeClass('active');
-      $('#open-chat-window-no-clicks').css({display : 'none'});
+      $('#open-chat-window-no-clicks').css({ display: 'none' });
       this.headerService.isSDKCached = false;
       this.headerService.isSDKOpen = false;
     }
@@ -456,7 +456,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.showHideTopDownSearch(false);
       }
     }
-    
+
     if (parms.type === 'refreshSearchContainer' && parms.data === false) {
       if (parms.bottomUp) {
         this.refreshSDK();
@@ -512,7 +512,7 @@ export class AppComponent implements OnInit, OnDestroy {
       $('.search-container').addClass('add-new-result');
       this.initTopDownSearch();
       $('#test-btn-launch-sdk').addClass('active');
-      $('#open-chat-window-no-clicks').css({display : 'block'});
+      $('#open-chat-window-no-clicks').css({ display: 'block' });
       this.headerService.isSDKOpen = true;
     } else {
       $('.top-down-search-background-div').remove();
@@ -523,7 +523,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.showInsightFull = false;
       this.distroyTopDownSearch();
       $('#test-btn-launch-sdk').removeClass('active');
-      $('#open-chat-window-no-clicks').css({display : 'none'});
+      $('#open-chat-window-no-clicks').css({ display: 'none' });
       this.headerService.isSDKOpen = false;
     }
   }
@@ -581,21 +581,19 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   getSearchExperience() {
-    console.log("getSearchExperience");
-    console.log(this.workflowService.selectedApp());
     let selectedApp: any;
     selectedApp = this.workflowService.selectedApp();
     const searchIndex = selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      indexPipelineId : this.workflowService.selectedIndexPipeline()
+      indexPipelineId: this.workflowService.selectedIndexPipeline()
     };
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
-      console.log("search experience data", res);
       this.searchExperienceConfig = res;
       this.headerService.updateSearchConfigurationValue(res);
       this.headerService.searchConfiguration = res;
     }, errRes => {
+      console.log("getSearchExperience failed happen");
       console.log(errRes);
     });
   }
@@ -615,7 +613,7 @@ export class AppComponent implements OnInit, OnDestroy {
         $('#show-all-results-container').css('display', 'block');
       }
       $('#test-btn-launch-sdk').addClass('active');
-      $('#open-chat-window-no-clicks').css({display : 'block'});
+      $('#open-chat-window-no-clicks').css({ display: 'block' });
       this.headerService.isSDKOpen = true;
     }
     else {
@@ -632,16 +630,16 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
       $('#test-btn-launch-sdk').removeClass('active');
-      $('#open-chat-window-no-clicks').css({display : 'none'});
+      $('#open-chat-window-no-clicks').css({ display: 'none' });
       this.headerService.isSDKCached = true;
       this.headerService.isSDKOpen = false;
     }
     this.addNewResult = true;
   }
 
-  refreshSDK(){
+  refreshSDK() {
     this.showHideSearch(false);
-    setTimeout(() =>{
+    setTimeout(() => {
       this.showHideSearch(true);
     }, 200);
   }

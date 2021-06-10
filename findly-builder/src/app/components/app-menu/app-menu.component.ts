@@ -63,9 +63,10 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   public showStatusDocker: boolean = false;
   public statusDockerLoading: boolean = false;
   public dockersList: Array<any> = [];
-  showUpgrade: boolean;
+  showUpgrade: boolean = true;
   currentSubsciptionData: Subscription;
   subscriptionDocumentLimit: Subscription;
+  currentPlan: any;
   @Input() show;
   @Input() settingMainMenu;
   @Input() sourceMenu;
@@ -414,12 +415,15 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     // Multiple INdex hardcoded
     await this.appSelectionService.getCurrentSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
-      this.showUpgrade = res.subscription.planId == 'fp_free' ? true : false;
+      this.showUpgrade = res.subscription.planId == 'fp_free' ? false : true;
+      this.currentPlan = res.subscription.planId;
     })
     this.subscriptionDocumentLimit = this.appSelectionService.currentDocumentLimit.subscribe(res => {
       this.getCurrentUsage();
     })
     this.appSelectionService.appSelectedConfigs.subscribe(res => {
+      this.showUpgrade = true;
+      this.appSelectionService.getCurrentSubscriptionData();
       this.getCurrentUsage();
       this.indexConfigs = res;
       this.indexConfigs.forEach(element => {
