@@ -133,7 +133,7 @@
                       [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                   <li *ngFor="let docType of docTypeArr" (click)="sourceFilter.close();filterTable(docType,'extractionType')">
                     <span
-                      class="list-name">{{docType == 'web' ? 'Web' :(docType == 'file'? 'Doc': '')}}</span><img
+                      class="list-name">{{docType == 'web' ? 'Web' :(docType == 'file'? 'File': '')}}</span><img
                       [ngClass]="{'hide': filterSystem.typefilter !== docType}" src="assets/icons/check-blue.svg"></li>
                 </ul>
               </div>
@@ -162,7 +162,7 @@
                       [ngClass]="{'hide': filterSystem.statusFilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                   <li *ngFor="let status of statusArr"
                     (click)="statusFilter.close();filterTable(status,'recentStatus')"><span
-                      class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : (status == 'queued' ? 'Queued' :(status == 'configured' ? 'Validated' :(status == 'halted' ? 'Stopped' :'In-progress'))))}}</span>
+                      class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Failed' : (status == 'queued' ? 'Queued' :(status == 'configured' ? 'Validated' :(status == 'halted' ? 'Stopped' :'In-progress'))))}}</span>
                       <img
                       [ngClass]="{'hide': filterSystem.statusFilter !== status}" src="assets/icons/check-blue.svg">
                   </li>
@@ -193,7 +193,7 @@
             <div class="content-body" *ngFor="let source of resources| filter: [ searchSources, 'name','title']" (click)="openStatusSlider(source)"  [ngClass]="{'cursor-pointer':statusObj[source.recentStatus]?.name == 'Success' }">
               <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name}} <span class ="ml-2" *ngIf="source.advanceSettings"> <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg"></span></div>
               <div class="col_ col-2 pr-0">
-                {{(source.extractionType == 'web' ? 'Web' :(source.extractionType == 'file'? 'Doc': '')) |  titlecase }}</div>
+                {{(source.extractionType == 'web' ? 'Web' :(source.extractionType == 'file'? 'File': '')) |  titlecase }}</div>
               <div class="col_ col-3">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
                   [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}"> {{statusObj[source.recentStatus]?.name}}
