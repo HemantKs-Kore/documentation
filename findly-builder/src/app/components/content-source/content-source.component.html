@@ -443,27 +443,27 @@
                 </div> -->
             <!-- Conf Configuration-->
             <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table-allowRow">
-              <div class="accordion-content-info text-left" *ngIf="isConfig">
+              <div class="accordion-content-info text-left mr-0" *ngIf="isConfig">
                 <div class="table-list-content">
                   <div class="kr-sg-data-table with-checkbox"  >
                     <section class="table-content">
                       <header class="table-header">
-                        <div class="col_ col-1">TITLE</div>
+                        <div class="col_ col-2">TITLE</div>
                         <div class="col_ col-3">URL</div>
                         <div class="col_ col-2">DESCRIPTION</div>
                         <div class="col_ col-2">CREATED BY</div>
                         <div class="col_ col-2">LAST UPDATED</div>
                       </header>
                       <ng-container>
-                        <div class="content-body">
-                          <div class="col_ col-1 text-truncate" *ngIf="!editTitleFlag" title="{{selectedSource.name}}">{{selectedSource.name}}</div>
+                        <div class="content-body align-items-start">
+                          <div class="col_ col-2 text-truncate" *ngIf="!editTitleFlag" title="{{selectedSource.name}}">{{selectedSource.name}}</div>
                           <div class="col_ col-2 text-truncate" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.title"></div>
-                          <div class="col_ col-3 text-truncate" title="{{selectedSource.url}}">{{selectedSource.url}}</div>
+                          <div class="col_ col-3 text-truncate" ngbTooltip="{{selectedSource.url}}"  container="body">{{selectedSource.url}}</div>
                           <!-- <div class="col_ col-3" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.url"></div> -->
-                          <div class="col_ col-2 text-truncate" *ngIf="!editTitleFlag" title="{{selectedSource.desc}}">{{selectedSource.desc}}</div>
+                          <div class="col_ col-2 text-truncate" *ngIf="!editTitleFlag" ngbTooltip="{{selectedSource.desc}}"  container="body">{{selectedSource.desc}}</div>
                           <div class="col_ col-2" *ngIf="editTitleFlag">
                             <div class="kr-sg-input-text-area min-ht">
-                              <textarea class="wid min-ht" [(ngModel)] = "editConfObj.desc"></textarea>
+                              <textarea class="wid min-ht" class="desc-text-area" [(ngModel)] = "editConfObj.desc" rows="2" (focusout)="editTitleFlag = false;selectedSource.desc=editConfObj.desc;"></textarea>
                             </div>
                           </div>
                           <div class="col_ col-2 text-truncate" >{{selectedSource?.userDetails?.firstName}}
@@ -481,8 +481,8 @@
                               *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length"
                               (click)="swapSlider()">{{selectedSource.numPages}}</a>
                           </div> -->
-                          <div class="col_ col-2 p-0 text-right actions-images">
-                            <img src="assets/icons/return.svg" *ngIf="selectedSource.extractionType == 'web'" (click)="recrwal('config',selectedSource,$event)"  ngbTooltip='Recrawl'  container="body">
+                          <div class="col_ col-1 p-0 text-right actions-images" *ngIf="!editTitleFlag">
+                            <img src="assets/icons/return.svg" class="ml-0" *ngIf="selectedSource.extractionType == 'web'" (click)="recrwal('config',selectedSource,$event)"  ngbTooltip='Recrawl'  container="body">
                             <img src="assets/icons/content/edit_black.svg" (click)="editTitle($event)"  ngbTooltip='Edit'  container="body">
                             <img src="assets/icons/content/delete.svg" (click)="deleteDocument('source',selectedSource ,$event)"  ngbTooltip='Delete'  container="body">
                           </div>

@@ -119,6 +119,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
       if (res == 'changed') {
         this.initialCall();
         this.onboard.initialCall();
+        this.appSelectionService.getTourConfig();
       }
     })
   }

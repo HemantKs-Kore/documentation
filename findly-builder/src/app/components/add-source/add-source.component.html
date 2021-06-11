@@ -138,8 +138,8 @@
           <div class="error-check pb-4" *ngIf="!(statusObject?.validation?.url?.validated)&&!(selectedSourceType.resourceType === 'file')">
             <img src="assets/icons/failed-status.svg">
           </div>
-          <div class="configInProgress" *ngIf="!(selectedSourceType.resourceType === 'file')">
-            <h1><strong>{{(statusObject?.validation?.url?.validated)?"Validation Successful":"Validation Failed"}}</strong></h1>
+          <div class="configInProgress">
+            <h1><strong>{{(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType === 'file')?"Validation Successful":"Validation Failed"}}</strong></h1>
           </div>
         
         </div>       

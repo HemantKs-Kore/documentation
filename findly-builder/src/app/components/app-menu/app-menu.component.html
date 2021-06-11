@@ -1,7 +1,7 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
 	<ng-container *ngIf="!settingMainMenu && !sourceMenu || sourceMenu">
-		<div class="upgrade_your_plan_price" [hidden]="!showUpgrade">
+		<div class="upgrade_your_plan_price" [ngClass]="{'d-none':showUpgrade}">
 			<div class="upgrade-plan-btn" (click)="upgrade()">Upgrade Your Plan<img src="assets/icons/pricing/carrotright.svg"></div>
 			<div class="document-limit" *ngIf="usageDetails?.ingestDocs<80">{{usageDetails.ingestDocs}}%  document limit reached
 				<ngb-progressbar height="10px" type="primary" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
@@ -17,7 +17,7 @@
 			</div>		
 		</div>
 	</ng-container>
-	<perfect-scrollbar class="perfect-scroll" [ngClass]='{"if-upgrade-plan":showUpgrade==true}'>
+	<perfect-scrollbar class="perfect-scroll" [ngClass]='{"if-upgrade-plan":!showUpgrade}'>
 		<div class="list-group list-group-flush" *ngIf="!settingMainMenu && !sourceMenu">					
 			<div class="default-index-title">				
 				<div class="kr-sg-dropdowns" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom'">
