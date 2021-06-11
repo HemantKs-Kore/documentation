@@ -1019,6 +1019,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/transactions/:transactionId/invoice',
       method: 'get'
     }
+    this.serviceList['post.downgradeCancellation'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/cancel/downgrade',
+      method: 'post'
+    }
     //download invoice for paid plans
     this.serviceList['get.paidInvoiceDownload'] = {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/invoices/:orderId',

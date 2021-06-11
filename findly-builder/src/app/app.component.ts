@@ -81,6 +81,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     self = this;
     this.onResize();
+
     this.previousState = this.appSelectionService.getPreviousState();
     this.showHideSearch(false);
     this.showHideTopDownSearch(false);
@@ -90,7 +91,8 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.SearchConfigurationSubscription = this.headerService.resetSearchConfiguration.subscribe(res => {
       this.distroySearch();
-      this.getSearchExperience();
+      this.loadSearchExperience();
+      //this.getSearchExperience();
     });
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       if (this.searchExperienceConfig) {
