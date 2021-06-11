@@ -1339,7 +1339,7 @@ input:focus{
 }
 .sdk-top-down-interface .structured-search-data-container{
   clear: both;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
 }
 .sdk-top-down-interface .structured-search-data-container .customizeEnabled:hover .custom-live-search-matched-results-actions {
   display: block;
@@ -2412,4 +2412,5 @@ display: none !important;
 
 .sdk-top-down-interface .topdown-search-main-container .structured-data-outer-wrap{
   margin-bottom:30px !important;
+  margin-top:5px !important;
 }
