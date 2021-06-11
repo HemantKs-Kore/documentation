@@ -29,12 +29,12 @@
             <!-- <div class="kr-sg-input-search m-0" [ngClass]="{ active: showSearch }">
                 <input type="text" placeholder="Search" id="searchInput" autocomplete="off" class="input-search" placeholder="Search" [(ngModel)]="searchRules" />
             </div> -->
-            <div *ngIf="!loadingContent && rules && rules.length && !showSearch" class="seach-block" (click)="toggleSearch();focusinSearch('inputSearch')">
+            <div *ngIf="!loadingContent && rules && beforeFilterRules.length && !showSearch" class="seach-block" (click)="toggleSearch();focusinSearch('inputSearch')">
                 <img src="assets/icons/search.svg" />
                 <!-- <img *ngIf="showSearch" src="assets/images/close.svg" /> -->
                 {{ "search" | translate }}
             </div>
-            <div class="add_feild" (click)="createNewRule()" *ngIf=" rules && rules.length">
+            <div class="add_feild" (click)="createNewRule()" *ngIf="rules && beforeFilterRules && beforeFilterRules.length">
                 <img src="assets/icons/add_plus.svg" />{{ "businessRules.add_rule" | translate }}
             </div>
             <div class="clock d-none"><img src="assets/icons/clock.svg" /></div>
@@ -49,7 +49,7 @@
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">Please Wait!</span>
     </div>
-    <ng-container *ngIf="loadingContent1 && !(rules && rules.length)">
+    <ng-container *ngIf="loadingContent1 && !(rules && beforeFilterRules && beforeFilterRules.length)">
         <perfect-scrollbar class="empty-scroll">
             <div class="empty-landing-screen">
                 <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/businessrules-empty.svg"></div>
@@ -67,7 +67,7 @@
             </div>
         </perfect-scrollbar>
     </ng-container>
-    <div class="table_section" *ngIf="!loadingContent && rules && rules.length">
+    <div class="table_section" *ngIf="!loadingContent && rules && beforeFilterRules && beforeFilterRules.length">
         <div class="header_sec row m-0">
             <div class="col-3 content withcheckbox ">
                 <!-- <div class="kr-sg-checkbox p-0 m-0">
@@ -106,72 +106,73 @@
                     </div>
             </div>
         </div>
-        <perfect-scrollbar class="scroll_table">
-            <div class="body_sec row m-0" *ngFor="let ruleObj of rules | filter: [searchRules, 'ruleName']" [ngClass]="{
-            selected:
-              selcectionObj &&
-              selcectionObj.selectedItems &&
-              selcectionObj.selectedItems[ruleObj._id]
-          }">
-                <div class="col-3 content withcheckbox align-items-start">
-                    <div class="kr-sg-checkbox p-0 m-0">
-                        <input id="{{ ruleObj._id }}" class="checkbox-custom selectRuleCheckBoxDiv" type="checkbox" (change)="checkUncheckfacets(ruleObj)" />
-                        <label for="{{ ruleObj._id }}" class="checkbox-custom-label"></label>
-                    </div>
-                    <div class="title text-truncate"  [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip="{{ ruleObj.ruleName }}">{{ ruleObj.ruleName }}</div>
-                </div>
-                <div class="col-3 content lh-5">
-                    <ng-container *ngFor="let rule of ruleObj.rules; let ruleIndex = index">
-                        <br *ngIf="ruleIndex > 0"><span class="divider mr-1 mb-1" *ngIf="ruleIndex > 0">{{
-              "and_caps" | translate
-              }}</span>
-                        <span class="tags-input mr-1 mb-1"><span class="small-text">{{ "businessRules." + rule.contextType | translate
-                }} :</span> {{ "businessRules." + rule.contextCategory | translate }}</span>
-                        <br>
-                        <div class="d-flex">
-                            <div class="d-inline-block">
-                                <span class="outer-name mr-1 mb-1 ml-4" [ngClass]="{'ml-4':ruleIndex > 0}">{{ rule.operator | titlecase}}</span>
-                            </div>
-                            <div class="d-inline-block">
-                                <ng-container *ngFor="let value of rule.value; let valueIndex = index">
-                                    <span class="tags-input mr-1 mb-1" *ngIf="value && !checkIsArray(value)">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
-                                    <span class="tags-input mr-1 mb-1" *ngIf="value && value.length && checkIsArray(value)" style="padding:1px 5px !important"><span *ngFor="let num of value; let numIndex = index">{{num | dateFormatPipe: 'DD MMM YYYY'}}<span *ngIf="!numIndex"> - </span></span></span>
-                                    <span class="divider mr-1 mb-1" *ngIf="valueIndex < rule.value.length - 1">{{ "or_caps" | translate
-                        }}</span>
-                                </ng-container>
-                            </div>
-                        </div>
-                    </ng-container>
-                </div>
-                <div class="col-3 content">
-                    <ng-container *ngFor="let outcome of ruleObj.outcomes">
-                        <div><span class="tags-input mr-1 mb-1"><span *ngIf=" outcome.outcomeType === 'boost' ||  outcome.outcomeType === 'lower'">{{ outcome.scale }}x</span>{{"businessRules.action" + outcome.outcomeType | translate}}Result
-                        </span></div>
-                        <span class="outer-name mr-1 mb-1">{{"businessRules." + outcome.outcomeOperator | translate }}</span>
-                        <span class="tags-input mr-1 mb-1">{{ outcome.fieldName }}:
-              <span *ngFor="let value of outcome.outcomeValue;let valueIndex = index">{{ value }}
-                <span *ngIf="valueIndex < outcome.outcomeValue.length - 1" class="divider mr-1 mb-1">{{ "or_caps" | translate }}</span>
-                        </span>
-                        </span>
-                        <img class="pl-1" *ngIf="outcome.showFieldWarning && outcome.showFieldWarning !== 'false'" src="assets/icons/info-blue.svg" [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip="{{fieldWarnings[outcome.showFieldWarning] || outcome.showFieldWarning}}"
-                        />
-                    </ng-container>
-                </div>
-                <div class="col-3 content actions">
-                    <span class="active-status" *ngIf="ruleObj.isRuleActive"><span class="indication"></span>{{ "businessRules.active" | translate }}</span>
-                    <span class="in-active-status" *ngIf="!ruleObj.isRuleActive"><span class="indication"></span>{{ "businessRules.In-Active" | translate }}</span>
-                    <div class="actions-icons">
-                        <img src="assets/images/edit-pencil.svg" (click)="editRule(ruleObj)" ngbTooltip='Edit' [container]="'body'" />
-                        <img src="assets/icons/delete-table.svg" (click)="deleteRulePop(ruleObj, ruleIndex)" ngbTooltip='Delete' [container]="'body'"  />
-                    </div>
-                </div>
-            </div>
-            <div class="divBlockEmptylastChild text-center">
-                <div class="desc">No search results found</div>
-            </div>
-        </perfect-scrollbar>
+        
     </div>
-    <div class="empty-rules" *ngIf="!loadingContent && !(rules && rules.length)">
+    <perfect-scrollbar class="scroll_table">
+        <div class="body_sec row m-0" *ngFor="let ruleObj of rules | filter: [searchRules, 'ruleName']" [ngClass]="{
+        selected:
+          selcectionObj &&
+          selcectionObj.selectedItems &&
+          selcectionObj.selectedItems[ruleObj._id]
+      }">
+            <div class="col-3 content withcheckbox align-items-start">
+                <div class="kr-sg-checkbox p-0 m-0">
+                    <input id="{{ ruleObj._id }}" class="checkbox-custom selectRuleCheckBoxDiv" type="checkbox" (change)="checkUncheckfacets(ruleObj)" />
+                    <label for="{{ ruleObj._id }}" class="checkbox-custom-label"></label>
+                </div>
+                <div class="title text-truncate"  [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip="{{ ruleObj.ruleName }}">{{ ruleObj.ruleName }}</div>
+            </div>
+            <div class="col-3 content lh-5">
+                <ng-container *ngFor="let rule of ruleObj.rules; let ruleIndex = index">
+                    <br *ngIf="ruleIndex > 0"><span class="divider mr-1 mb-1" *ngIf="ruleIndex > 0">{{
+          "and_caps" | translate
+          }}</span>
+                    <span class="tags-input mr-1 mb-1"><span class="small-text">{{ "businessRules." + rule.contextType | translate
+            }} :</span> {{ "businessRules." + rule.contextCategory | translate }}</span>
+                    <br>
+                    <div class="d-flex">
+                        <div class="d-inline-block">
+                            <span class="outer-name mr-1 mb-1 ml-4" [ngClass]="{'ml-4':ruleIndex > 0}">{{ rule.operator | titlecase}}</span>
+                        </div>
+                        <div class="d-inline-block">
+                            <ng-container *ngFor="let value of rule.value; let valueIndex = index">
+                                <span class="tags-input mr-1 mb-1" *ngIf="value && !checkIsArray(value)">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
+                                <span class="tags-input mr-1 mb-1" *ngIf="value && value.length && checkIsArray(value)" style="padding:1px 5px !important"><span *ngFor="let num of value; let numIndex = index">{{num | dateFormatPipe: 'DD MMM YYYY'}}<span *ngIf="!numIndex"> - </span></span></span>
+                                <span class="divider mr-1 mb-1" *ngIf="valueIndex < rule.value.length - 1">{{ "or_caps" | translate
+                    }}</span>
+                            </ng-container>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="col-3 content">
+                <ng-container *ngFor="let outcome of ruleObj.outcomes">
+                    <div><span class="tags-input mr-1 mb-1"><span *ngIf=" outcome.outcomeType === 'boost' ||  outcome.outcomeType === 'lower'">{{ outcome.scale }}x</span>{{"businessRules.action" + outcome.outcomeType | translate}}Result
+                    </span></div>
+                    <span class="outer-name mr-1 mb-1">{{"businessRules." + outcome.outcomeOperator | translate }}</span>
+                    <span class="tags-input mr-1 mb-1">{{ outcome.fieldName }}:
+          <span *ngFor="let value of outcome.outcomeValue;let valueIndex = index">{{ value }}
+            <span *ngIf="valueIndex < outcome.outcomeValue.length - 1" class="divider mr-1 mb-1">{{ "or_caps" | translate }}</span>
+                    </span>
+                    </span>
+                    <img class="pl-1" *ngIf="outcome.showFieldWarning && outcome.showFieldWarning !== 'false'" src="assets/icons/info-blue.svg" [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip="{{fieldWarnings[outcome.showFieldWarning] || outcome.showFieldWarning}}"
+                    />
+                </ng-container>
+            </div>
+            <div class="col-3 content actions">
+                <span class="active-status" *ngIf="ruleObj.isRuleActive"><span class="indication"></span>{{ "businessRules.active" | translate }}</span>
+                <span class="in-active-status" *ngIf="!ruleObj.isRuleActive"><span class="indication"></span>{{ "businessRules.In-Active" | translate }}</span>
+                <div class="actions-icons">
+                    <img src="assets/images/edit-pencil.svg" (click)="editRule(ruleObj)" ngbTooltip='Edit' [container]="'body'" />
+                    <img src="assets/icons/delete-table.svg" (click)="deleteRulePop(ruleObj, ruleIndex)" ngbTooltip='Delete' [container]="'body'"  />
+                </div>
+            </div>
+        </div>
+        <div class="divBlockEmptylastChild text-center">
+            <div class="desc">No search results found</div>
+        </div>
+    </perfect-scrollbar>
+    <div class="empty-rules" *ngIf="!loadingContent && !(rules && beforeFilterRules && beforeFilterRules.length)">
         <img src="assets/images/icons/empty_ill.svg" />
         <div class="heading">No Rules Available</div>
         <div class="desc">Please add rules</div>
@@ -425,10 +426,11 @@
                           {{outcomeObj.fieldName? outcomeObj.fieldName : "Choose field"}}
                         </button>
                                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu style="overflow-y: hidden;">
-                                                    <perfect-scrollbar class="empty-scroll">
+                                                    
                                                     <li class="search-box">
                                                         <input type="text" (keydown)="$event.stopPropagation()" (keyup)="getFieldAutoComplete($event,outcomeObj)" placeholder="Search" class="seach-input" />
                                                     </li>
+                                                    <perfect-scrollbar class="empty-scroll" style="max-height: 189px !important;">
                                                     <ng-container *ngIf="fieldAutoSuggestion && fieldAutoSuggestion.length">
                                                         <li ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion" (click)="selectField(suggestion, outcomeObj)" [ngClass]="{'active':outcomeObj.fieldName===suggestion.fieldName}">{{ suggestion.fieldName }}</li>
                                                     </ng-container>
