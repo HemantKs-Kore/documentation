@@ -22,10 +22,11 @@
                     display: flex;
                     align-items: center;
                     cursor: pointer;
+                  
                     &.active{
                         .active-steps{
                             border: 1px solid #0D6EFD;
-                        }
+                        }                    
                         .name{                            
                             &::before{
                                 content: "";                               
@@ -180,9 +181,13 @@
                                 left: 85px;
                             }
                         }
-                        &.button-tour{
+                        &.button-tour-top{
                             left: auto;
-                            right: 75px;
+                            right: 400px;
+                        }
+                        &.button-tour-bottom{
+                            left: auto;
+                            right: 520px;
                         }
                         &::before{
                             content: "";

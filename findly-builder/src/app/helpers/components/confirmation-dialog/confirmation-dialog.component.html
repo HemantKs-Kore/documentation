@@ -22,7 +22,7 @@
   <div class="btns-data">
     <!-- <button class="kr-sg-button-primary btn_lg mr-10">Confirm</button>
     <button class="kr-sg-button-secondary btn_lg mr-10">Cancel</button> -->
-    <button *ngFor="let item of data.buttons" [disabled]="isSelected" (click)="onClickOption(item)" class="kr-sg-button-primary btn_md" [ngClass]="{'kr-sg-button-secondary': (item.label==='Cancel') || (item.primaryBtn),'dangerBtn':item.label==='Delete'}">      
+    <button *ngFor="let item of data.buttons" [disabled]="isSelected || item.disabled" (click)="onClickOption(item)" class="kr-sg-button-primary btn_md" [ngClass]="{'kr-sg-button-secondary': (item.label==='Cancel') || (item.primaryBtn),'dangerBtn':item.label==='Delete'}">      
       <ng-template #cancel>
         {{item.label}} 
      </ng-template>

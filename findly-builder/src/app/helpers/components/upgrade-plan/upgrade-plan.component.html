@@ -12,7 +12,7 @@
     </div>
     <perfect-scrollbar>
       <div class="modal-body">
-        <!-- <div class="mian-title-desc">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div> -->
+        <div class="mian-title-desc" *ngIf="count_info">You can add maximum of 2 Business Rules in your current plan, Please Upgrade the plan to add more.</div>
         <div class="upgrade-details-prices row col-12 p-0" *ngIf="selectedPlan">          
           <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData' [ngClass]='{"current-plan":(selectedPlan.status!="expired"&&selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan),"d-none":plan.type=="free"}'>
             <div class="main-content">
@@ -77,11 +77,11 @@
   </div>
   <perfect-scrollbar>
     <div class="modal-body" *ngIf="orderConfirmData&&overageData">
-      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Free']).includes(selectedPlan.planName)">{{"plan.you_are_subscribing_to"| translate}} <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
-      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Standard']).includes(selectedPlan.planName)">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
-      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Pro']).includes(selectedPlan.planName)&&orderConfirmData&&orderConfirmData.name=='Pro'">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>.{{"plan.please_find_the_order"| translate}}.</div>
+      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Free']).includes(selectedPlan.planName)||selectedPlan?.status=='expired'">{{"plan.you_are_subscribing_to"| translate}} <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
+      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Standard']).includes(selectedPlan.planName)&&selectedPlan?.status!='expired'">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
+      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Pro']).includes(selectedPlan.planName)&&orderConfirmData?.name=='Pro'&&selectedPlan?.status!='expired'">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>.{{"plan.please_find_the_order"| translate}}.</div>
       <div class="plan-desc" *ngIf="overageData.overageShow">{{"plan.you_have_added_additional"| translate}} <span *ngIf="overageData.docCount>=1">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}} {{"plan.plan_documents"| translate}} </span><span *ngIf="overageData.queryCount>=1">, {{overageData.overageDeatils.searchQueries.limit | valueFormat}} {{"plan.plan_queries"| translate}} </span> {{"plan.to_your_plan"| translate}}. {{"plan.please_find_the_order"| translate}}.</div>
-      <ng-container *ngIf="!overageData.overageShow&&selectedPlan&&selectedPlan.planName=='Pro'&&orderConfirmData&&orderConfirmData.name=='Standard'">
+      <ng-container *ngIf="!overageData.overageShow&&selectedPlan?.planName=='Pro'&&orderConfirmData?.name=='Standard'&&selectedPlan?.status!='expired'">
         <ul class="order-plan-details">
           <li>{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}} {{orderConfirmData&&orderConfirmData.name}} {{"plan.plan"| translate}}</span>.</li>
           <li>{{"plan.your_plan_will_charged"| translate}}. {{selectedPlan&&selectedPlan.endDate|dateFormatPipe:'D MMMM YYYY'}}</li>
@@ -133,7 +133,7 @@
           <div class="amount col-3">$ {{overageData&&overageData.overageShow?overageData.overageDeatils.ingestDocs.amount * overageData.docCount+overageData.overageDeatils.searchQueries.amount * overageData.queryCount:orderConfirmData.planAmount}}</div>
         </div>
       </div>
-      <div class="note-text" *ngIf="overageData&&!overageData.overageShow&&selectedPlan&&selectedPlan.planName!='Free'"><span>{{"plan.note"| translate}}:</span> {{"plan.same_payment_method"| translate}}.</div>
+      <div class="note-text" *ngIf="!overageData?.overageShow&&selectedPlan?.planName!='Free'&&selectedPlan?.status!='expired'"><span>{{"plan.note"| translate}}:</span> {{"plan.same_payment_method"| translate}}.</div>
     </div>
   </perfect-scrollbar>
   <div class="modal-footer text-right">

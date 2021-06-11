@@ -267,11 +267,23 @@ export class PricingComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.cancelSubscription(dialogRef);
+          this.cancelDowngradeSubscription(dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
         }
       })
+  }//cancel downgrade subscription
+  cancelDowngradeSubscription(dialogRef?) {
+    const queryParam = {
+      streamId: this.selectedApp._id
+    }
+    this.service.invoke('post.downgradeCancellation', queryParam, {}).subscribe(res => {
+      this.appSelectionService.getCurrentSubscriptionData();
+      this.notificationService.notify('Cancellation request submitted', 'success');
+      if (dialogRef) dialogRef.close();
+    }, errRes => {
+      this.errorToaster(errRes, 'failed to Cancel subscription');
+    });
   }
   //close popup1
   cancelSubscription(dialogRef?) {

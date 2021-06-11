@@ -651,15 +651,16 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.apiLoading = true;
-    this.service.invoke(serviceId, params).subscribe(res => {
+    this.service.invoke(serviceId, params).subscribe((res:any) => {
       console.log("service res", res)
       if (concat) {
-        this.faqs = this.faqs.concat(res);
+        this.faqs = this.faqs.concat(res.faqs);
       } else {
-        this.faqs = _.filter(res, (faq) => {
+        this.faqs = _.filter(res.faqs, (faq) => {
           return faq.action !== 'delete';
         })
       }
+      this.faqSelectionObj.stats[this.selectedtab || 'draft'] = res.count;
       this.faqsObj.faqs = this.faqs;
       if (params.resourceId === 'manual' && this.faqs.length) {
         this.getStats(this.faqs[0].extractionSourceId)
@@ -675,7 +676,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 700);
       }
       if (serviceId === 'get.allFaqs') {
-        this.faqsAvailable = res.length ? true : false;
+        this.faqsAvailable = res.faqs.length ? true : false;
       }
       setTimeout(() => {
         this.markSelectedFaqs(this.faqs);
@@ -733,7 +734,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.faqsApiService(serviceId, quaryparms, concatResults);
   }
   paginate(event) {
-    this.getfaqsBy(null, null, event.skip)
+    this.getfaqsBy(null, null, event.skip,this.searchFaq ||'')
     // this.addRemoveFaqFromSelection(null, true,null);
     // this.perfectScroll.directiveRef.update();
     // this.perfectScroll.directiveRef.scrollToTop(2, 1000);
@@ -743,6 +744,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedFaq = null
     this.searchFaq = '';
     this.selectedtab = tab;
+    this.getStats();
     this.getFaqsOnSelection();
   }
   getFaqsOnSelection() {

@@ -5363,8 +5363,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     }
                     else{
                       window.isBotLocked = false;
-                      $('.search-body').removeClass('hide');
-                      $('#searchChatContainer').addClass('bgfocus');
+                      // $('.search-body').removeClass('hide');
+                      // $('#searchChatContainer').addClass('bgfocus');
                     }
                    if(_self.vars.enterIsClicked){
                      return;

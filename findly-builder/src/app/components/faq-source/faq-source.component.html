@@ -94,7 +94,7 @@
                         </div> 
                         <!-- <div class="seach_add_feild"> -->
                             <div class="kr-sg-input-search"  [ngClass]="{'d-none': !showSearch}">                               
-                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="searchFaqs()" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"  (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="searchFaqs()" (keydown)="searchFaqs()" (ngModelChange)="searchFaqs()" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"  (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFaq">
                             <img class="close-icon" *ngIf="searchFaq" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchFaq}" (click)="searchFaq='';searchFaqs();showSearch= !showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
@@ -180,7 +180,7 @@
                            </ng-container>
                         </perfect-scrollbar>
                        
-                        <app-record-pagination *ngIf="!loadingTab && !searchFaq && faqSelectionObj.stats[selectedtab]" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' (pageChanged)="paginate($event)"></app-record-pagination>
+                        <app-record-pagination *ngIf="!loadingTab && faqSelectionObj.stats[selectedtab] && faqSelectionObj.stats[selectedtab]>10" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' (pageChanged)="paginate($event)"></app-record-pagination>
                        <!-- <app-pagination *ngIf="!loadingTab && !searchFaq" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                         <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length) && !searchFaq">
                             <ng-container *ngIf="!loadingTab">
@@ -723,7 +723,7 @@
                                     <li *ngFor="let docType of docTypeArr" 
                                     (click)="sourceFilter.close();filterTable(docType,'contentSource')">
                                       <span
-                                        class="list-name">{{ docType == 'web' ? 'WEB' : 'File' }}</span><img
+                                        class="list-name">{{ docType == 'web' ? 'Web' : 'File' }}</span><img
                                         [ngClass]="{'hide': filterSystem.typefilter !== docType}"  src="assets/icons/check-blue.svg">
                                     </li>
                                   </ul>

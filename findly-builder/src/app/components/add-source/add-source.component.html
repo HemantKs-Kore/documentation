@@ -138,8 +138,8 @@
           <div class="error-check pb-4" *ngIf="!(statusObject?.validation?.url?.validated)&&!(selectedSourceType.resourceType === 'file')">
             <img src="assets/icons/failed-status.svg">
           </div>
-          <div class="configInProgress" *ngIf="!(selectedSourceType.resourceType === 'file')">
-            <h1><strong>{{(statusObject?.validation?.url?.validated)?"Validation Successful":"Validation Failed"}}</strong></h1>
+          <div class="configInProgress">
+            <h1><strong>{{(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType === 'file')?"Validation Successful":"Validation Failed"}}</strong></h1>
           </div>
         
         </div>       
@@ -153,7 +153,8 @@
           <div class="status-identification-content">
             <div class="content-title">
               <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
-              <span>Initial URL validation</span>
+              <span *ngIf="selectedSourceType.resourceType!='file'" >Initial URL validation</span>
+              <span *ngIf="selectedSourceType.resourceType=='file'" >File Validation</span>
             </div>
             <div class="content-description" *ngIf="selectedSourceType.resourceType!='file'&&(statusObject?.validation?.url?.validated)"> Now you can choose to crawl immediately or later</div>
           </div>

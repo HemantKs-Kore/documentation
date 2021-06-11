@@ -45,6 +45,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedStage;
   changesDetected;
   currentEditIndex: any = -1;
+  selectedStageIndex : any = -1;
   pollingSubscriber: any = null;
   showNewStageType: boolean = false;
   subscription: Subscription;
@@ -230,7 +231,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   drop(event: CdkDragDrop<string[]>, list) {
     moveItemInArray(list, event.previousIndex, event.currentIndex);
-    this.currentEditIndex = event.currentIndex
+    if(event.previousIndex == this.selectedStageIndex){
+      this.currentEditIndex = event.currentIndex;
+      this.selectedStageIndex = event.currentIndex;
+    }
   }
   setRuleObj(configObj, key, value, type) {
     this.changesDetected = true;
@@ -708,7 +712,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   closeSimulator() {
     this.simulteObj = {
-      sourceType: this.sourceType,
+      sourceType: 'all',//this.sourceType,
       docCount: 5,
       showSimulation: false,
     }
@@ -738,15 +742,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       const stages = this.preparepayload();
       if (this.currentEditIndex > -1) {
-        //payload.pipelineConfig = stages.slice(0, this.currentEditIndex + 1);
+        payload.pipelineConfig = stages.slice(0, this.currentEditIndex + 1);
         //payload.pipelineConfig = [stages[this.currentEditIndex]];
-        let activeStage = []
-        stages.forEach(element => {
-          if(element.enable){
-            activeStage.push(element)
-          }
-        });
-        payload.pipelineConfig = activeStage;
+        
       } else {
         payload.pipelineConfig = stages
       }
@@ -1012,6 +1010,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.confirmChangeDiscard(stage, i);
     } else {
       this.currentEditIndex = i;
+      this.selectedStageIndex = i;
       this.checkNewAddition();
       if (stage && stage.type === 'custom_script' && stage.config && stage.config.mappings && stage.config.mappings.length) {
         if (!this.newMappingObj.custom_script) {

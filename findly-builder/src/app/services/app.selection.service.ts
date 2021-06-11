@@ -181,7 +181,7 @@ export class AppSelectionService {
     };
     this.headerService.toggle(toogleObj);
     //this.headerService.closeSdk();
-    this.headerService.updateSearchConfiguration();
+    // this.headerService.updateSearchConfiguration();
     this.router.navigate(['/summary'], { skipLocationChange: true });
     //this.routeChanged.next({ name: undefined, path: '' });
   }
@@ -242,13 +242,14 @@ export class AppSelectionService {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-  setAppWorkFlowData(app, queryPipeline?) {
+  async setAppWorkFlowData(app, queryPipeline?) {
     // this.getStreamData(app);
     this.workflowService.selectedApp(app);
     const searchIndex = app.searchIndexes[0]._id;
     this.workflowService.selectedSearchIndex(searchIndex);
     //this.getQureryPipelineIds(queryPipeline);
-    this.getIndexPipelineIds();
+    await this.getIndexPipelineIds();
+    this.headerService.updateSearchConfiguration();
   }
   getStreamData(app) {
     const queryParams = {

@@ -276,6 +276,10 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       }
     });
   }
+  //select tab on number
+  selectTab(type) {
+    this.selectedTab = type;
+  }
   closeAllBoxs(type) {
     if (type == 'all') {
       this.inputBox1 = false;

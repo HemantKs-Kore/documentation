@@ -42,6 +42,7 @@ export class UpgradePlanComponent implements OnInit {
   btnDisable: boolean;
   invoiceOrderId: any;
   featuresExceededUsage: any;
+  count_info: boolean = false;
   payementResponse: any = {
     hostedPage: {
       transactionId: "",
@@ -170,15 +171,19 @@ export class UpgradePlanComponent implements OnInit {
     }
   }
   //open popup1
-  openChoosePlanPopup(data?) {
-    this.selectedPlan = data;
+  openChoosePlanPopup(data?, info?) {
+    this.count_info = info != undefined ? info : false;
     this.choosePlanModalPopRef = this.choosePlanModel.open();
     if (this.appSelectionService.currentsubscriptionPlanDetails) {
       this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
+      this.selectedPlan = this.currentSubscriptionPlan.subscription;
       if (this.currentSubscriptionPlan.subscription.billingUnit) {
         this.termPlan = this.currentSubscriptionPlan.subscription.billingUnit;
         this.typeOfPlan(this.termPlan);
       }
+    }
+    else {
+      this.selectedPlan = data;
     }
   }
   //close popup1
@@ -409,7 +414,14 @@ export class UpgradePlanComponent implements OnInit {
     }
     const getInvoice = this.service.invoke(url, queryParams);
     getInvoice.subscribe(res => {
-      FileSaver.saveAs(res.viewInvoice + '&DownloadPdf=true', 'invoice_' + res._id + '.pdf');
+      if (this.overageData.overageShow) {
+        for (let data of res) {
+          FileSaver.saveAs(data.viewInvoice + '&DownloadPdf=true', 'invoice_' + data._id + '.pdf');
+        }
+      }
+      else {
+        FileSaver.saveAs(res.viewInvoice + '&DownloadPdf=true', 'invoice_' + res._id + '.pdf');
+      }
       // this.notificationService.notify('res.status', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Downloading Invoice failed');
