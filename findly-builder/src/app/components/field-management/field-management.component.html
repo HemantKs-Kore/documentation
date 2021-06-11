@@ -266,11 +266,11 @@
             </div>
             <div class="kr-sg-inline-notification" *ngIf="!newFieldObj.isIndexed">
                 <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                <div class="tost-text">Indexed Property has been set to False. This will impact facet and Business Rules.</div>                                   
+                <div class="tost-text">Indexed Property has been set to False. {{indexedWarningMessage}}</div>                                   
             </div>
             <div class="kr-sg-inline-notification" *ngIf="newFieldObj._id && (newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType)">
                 <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                <div class="tost-text">The field type has been changed from {{newFieldObj.previousFieldDataType | translate}} to {{newFieldObj.fieldDataType | translate}}. This will impact the facet configuration.</div>                                   
+                <div class="tost-text">The field type has been changed from {{newFieldObj.previousFieldDataType | translate}} to {{newFieldObj.fieldDataType | translate}}. {{indexedWarningMessage}}</div>                                   
             </div>
         </div>
     </div>
