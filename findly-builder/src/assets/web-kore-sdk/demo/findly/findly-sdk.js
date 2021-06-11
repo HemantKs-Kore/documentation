@@ -18161,6 +18161,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else{
           $('#loaderDIV').show();
+          $('.kore-sdk-pagination-div').hide();
           _self.vars.isPriorfiltersApplied = false;
           _self.vars.searchCallWithSelectedFacet = true;
           _self.invokeSpecificSearch(selectedFacet);
