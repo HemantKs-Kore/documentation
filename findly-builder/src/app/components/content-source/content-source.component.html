@@ -1131,7 +1131,7 @@
           <div class="title-desc-text" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div>
         
           <div class="title-text">Document
-            <img class="dwnld-image" src="assets/images/download.svg">
+            <img class="dwnld-image" src="assets/images/download.svg" (click)="downloadDoc(docContent.fileUrl)">
           </div>
           <div class="title-desc-text" *ngIf="selectedSource.fileMeta">{{docContent.fileTitle || '---'}}</div>
           <div class="title-text">No. Of. Pages</div>
