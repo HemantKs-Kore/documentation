@@ -712,7 +712,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   closeSimulator() {
     this.simulteObj = {
-      sourceType: this.sourceType,
+      sourceType: 'all',//this.sourceType,
       docCount: 5,
       showSimulation: false,
     }

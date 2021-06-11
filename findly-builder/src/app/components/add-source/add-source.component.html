@@ -153,7 +153,8 @@
           <div class="status-identification-content">
             <div class="content-title">
               <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
-              <span>Initial URL validation</span>
+              <span *ngIf="selectedSourceType.resourceType!='file'" >Initial URL validation</span>
+              <span *ngIf="selectedSourceType.resourceType=='file'" >File Validation</span>
             </div>
             <div class="content-description" *ngIf="selectedSourceType.resourceType!='file'&&(statusObject?.validation?.url?.validated)"> Now you can choose to crawl immediately or later</div>
           </div>
