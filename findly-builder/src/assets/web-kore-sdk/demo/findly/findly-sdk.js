@@ -14256,7 +14256,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-txt">\
             <!-- <h1>Tile with Text</h1> -->\
-            <div class="total-structured-data-wrap {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customization{{/if}}{{/if}}{{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}} display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customization{{/if}}{{/if}}{{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}} display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
               {{if tour && isFullResults == true && viewType=="Customize"&&devMode==true}}\
                 <div class="tours-information sdk-tours-info-start">\
@@ -14480,7 +14480,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-img">\
             <!-- <h1>Tile with Image</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -14564,7 +14564,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-center">\
             <!-- <h1>Tile with Center</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -14663,7 +14663,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-txt">\
             <!-- <h1>Tile with Text</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -14730,7 +14730,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-2-tle-wt-txt">\
             <!-- <h1>Tile with Text</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -14808,7 +14808,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-img">\
             <!-- <h1>Tile with Image</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -14892,7 +14892,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-center">\
             <!-- <h1>Tile with Center</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -14980,7 +14980,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-txt">\
             <!-- <h1>Tile with Text</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15047,7 +15047,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-3-tle-wt-txt">\
             <!-- <h1>Tile with Text</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15125,7 +15125,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-img">\
             <!-- <h1>Tile with Image</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15209,7 +15209,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-center">\
             <!-- <h1>Tile with Center</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15297,7 +15297,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-hdr">\
             <!-- <h1>Tile with Header</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15364,7 +15364,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
             <div class="tpt-1-tle-wt-txt">\
               <!-- <h1>Tile with Text</h1> -->\
-              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
                   <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                     {{if appearanceType == "data"}}\
@@ -15419,7 +15419,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-img">\
             <!-- <h1>Tile with Image</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15479,7 +15479,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-img">\
             <!-- <h1>Tile with Image</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15539,7 +15539,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-img">\
             <!-- <h1>Tile with Image</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15591,7 +15591,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
             <div class="tpt-1-tle-wt-txt">\
               <!-- <h1>Tile with Text</h1> -->\
-              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
                   <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                     {{if appearanceType == "data"}}\
@@ -15648,7 +15648,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
             <div class="tpt-1-tle-wt-txt">\
               <!-- <h1>Tile with Text</h1> -->\
-              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
                   <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                     {{if appearanceType == "data"}}\
@@ -15710,7 +15710,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
             <div class="tpt-1-tle-wt-txt">\
               <!-- <h1>Tile with Text</h1> -->\
-              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
                   <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                     {{if appearanceType == "data"}}\
@@ -15772,7 +15772,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
             <div class="tpt-1-tle-wt-txt">\
               <!-- <h1>Tile with Text</h1> -->\
-              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
                   <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                     {{if appearanceType == "data"}}\
@@ -16023,7 +16023,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
+          maxSearchResultsAllowed = (searchConfigurationCopy.liveSearchResultsLimit || (searchConfigurationCopy.liveSearchResultsLimit == 0)) ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
           if (selectedSearchTemplateType === 'grid') {
@@ -16581,7 +16581,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
+          maxSearchResultsAllowed = (searchConfigurationCopy.liveSearchResultsLimit || (searchConfigurationCopy.liveSearchResultsLimit == 0)) ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
           if (selectedSearchTemplateType === 'grid') {
@@ -16999,7 +16999,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
+          maxSearchResultsAllowed = (searchConfigurationCopy.liveSearchResultsLimit || (searchConfigurationCopy.liveSearchResultsLimit == 0)) ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
           if (selectedSearchTemplateType === 'grid') {
@@ -17446,7 +17446,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
+          maxSearchResultsAllowed = (searchConfigurationCopy.liveSearchResultsLimit || (searchConfigurationCopy.liveSearchResultsLimit == 0)) ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
           if (selectedSearchTemplateType === 'grid') {
@@ -19612,7 +19612,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if(!data.isBotLocked){
             var autoSuggestionHTML = $(_self.getAutoSuggestionTemplate()).tmplProxy({
               suggestions: data.autoComplete.querySuggestions,
-              querySuggestionsLimit: searchConfigurationCopy.querySuggestionsLimit ? searchConfigurationCopy.querySuggestionsLimit : 2
+              querySuggestionsLimit: (searchConfigurationCopy.querySuggestionsLimit || (searchConfigurationCopy.querySuggestionsLimit == 0)) ? searchConfigurationCopy.querySuggestionsLimit : 2
             });
             if($('.search-body').find('.resultsOfSearch').length){
               $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
