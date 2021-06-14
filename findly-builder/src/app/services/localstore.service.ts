@@ -67,7 +67,7 @@ export class LocalStoreService {
       let _selectedSSOAccount = window[this.storageType].getItem('selectedSSOAccount');
       if (_selectedSSOAccount) {
         _selectedSSOAccount = JSON.parse(_selectedSSOAccount);
-        window[this.storageType].setItem('selectedSSOAccount',_selectedSSOAccount);
+        window[this.storageType].setItem('selectedAccount',_selectedSSOAccount);
         window[this.storageType].removeItem('selectedSSOAccount');
       } else {
         return false;

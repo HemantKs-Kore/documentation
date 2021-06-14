@@ -735,7 +735,7 @@
         "addNew": "Add New",
         "customize": "Customize",
         "facets": "Facets",
-        "helperTextHere": "Helper Text here",
+        "helperTextHere": "Select the position where the search users should see the Facet filters on the full results page",
         "enabled": "Enabled",
         "disabled": "Disabled",
         "leftAligned": "Left Aligned",

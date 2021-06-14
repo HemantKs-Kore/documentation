@@ -34,16 +34,18 @@ export class AuthInterceptor implements HttpInterceptor {
    // setting AccountId header
    let selectedAccount = this.localStoreService.getSelectedAccount()
    //let selectedSSOAccount = this.localStoreService.getSelectedSSOAccount();
-  
-   if(!selectedAccount){
+  if(!selectedAccount){
     selectedAccount = this.localStoreService.getSelectedSSOAccount();
+    console.log('SSO Login',this.localStoreService.getSelectedSSOAccount())
+  }
+    
     if(!selectedAccount){
       const defaultAccounts = this.auth.getSelectedAccount();
       if(defaultAccounts && defaultAccounts.associatedAccounts && defaultAccounts.associatedAccounts.length ){
         selectedAccount = defaultAccounts.associatedAccounts[0];
       }
     }
-   }
+   
     let skipAccountHeaders = false;
     if(req && req.url && req.url.includes('/AppControlList')){
       skipAccountHeaders = true
