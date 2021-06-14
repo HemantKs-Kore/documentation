@@ -12406,7 +12406,7 @@ padding-right: 0;
 }
 .structured-data-full-search-container{
     clear: both;
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
 }
 .moreStructredData{
     display: none;

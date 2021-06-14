@@ -85,7 +85,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     failed: { name: 'Failed', color: 'red' },
     successfull: { name: 'Successfull', color: 'green' },
     success: { name: 'Success', color: 'green' },
-    queued: { name: 'Queued', color: 'blue' },
+    queued: { name: 'In-Queue', color: 'blue' },
     running: { name: 'In Progress', color: 'blue' },
     configured: { name: 'Configured', color: 'blue' },
     inProgress: { name: 'In Progress', color: 'blue' },

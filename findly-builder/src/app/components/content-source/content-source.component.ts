@@ -18,7 +18,8 @@ import { map } from 'rxjs/operators';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
-
+declare var require: any
+const FileSaver = require('file-saver');
 @Component({
   selector: 'app-content-source',
   templateUrl: './content-source.component.html',
@@ -34,6 +35,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingcheckForUpdate = false;
   isEditDoc: boolean = false;
   editDocObj: any = {};
+  isEdittitle;
+  edit:any={};
   editConfObj: any = {};
   editTitleFlag: boolean = false;
   isConfig: boolean = false;
@@ -1578,6 +1581,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       document.getElementById(inputSearch).focus();
     }, 100)
+  }
+  downloadDoc(url){
+    FileSaver.saveAs(url + '&DownloadPdf=true');
   }
 }
 

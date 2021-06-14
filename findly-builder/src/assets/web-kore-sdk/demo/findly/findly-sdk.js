@@ -1024,7 +1024,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               src="${searchConfig.searchBarIcon}"> </div>\
               {{/if}}\
               {{if searchConfig.autocompleteOpt == true}}\
-            <input id="suggestion" name="search"  disabled="disabled" class="search \
+            <input id="suggestion" name="search"  disabled="disabled" class="top-down-suggestion search \
             {{if classes}}\
               ${classes}"\
             {{/if}}\
@@ -1034,7 +1034,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               style="position: absolute; bottom: 0px; color:#8a959f; padding-left:37px!important; background : ${searchConfig.searchBarFillColor} !important; color :  ${searchConfig.searchBarPlaceholderTextColor} !important;"> \
             {{/if}}\
             {{/if}}\
-            <input autocomplete="off" id="search" name="search"\
+            <input autocomplete="off" id="search" name="search-top-down search"\
             {{if searchConfig.searchBarPlaceholderText}}\
             placeholder="${searchConfig.searchBarPlaceholderText}" \
             {{else}}\
@@ -1182,7 +1182,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div class="search-bar">\
             <div class="widget-icon"><img src="${searchConfig.searchBarIcon}"> </div>\
             {{if searchConfig.autocompleteOpt == true}}\
-              <input id="suggestion"style="position: absolute; bottom: 0px;background : ${searchConfig.searchBarFillColor}; color : ${searchConfig.searchBarPlaceholderTextColor};" name="search" class="search" disabled="disabled">\
+              <input id="suggestion"style="position: absolute; bottom: 0px;background : ${searchConfig.searchBarFillColor}; color : ${searchConfig.searchBarPlaceholderTextColor};" name="search" class="bottom-up-suggestion search" disabled="disabled">\
             {{/if}}\
             <input autocomplete="off" style="position: absolute; bottom: 0px; border : solid 1px ${searchConfig.searchBarBorderColor} !important; color : ${searchConfig.searchBarPlaceholderTextColor};\
             {{if searchConfig.autocompleteOpt == true}}\
@@ -1190,7 +1190,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{else}}\
               background : ${searchConfig.searchBarFillColor} !important;" \
               {{/if}}\
-             id="search" name="search" class="search" placeholder="${searchConfig.searchBarPlaceholderText}">\
+             id="search" name="search" class="bottom-up-search search" placeholder="${searchConfig.searchBarPlaceholderText}">\
             <div class="ksa-SpeakIcon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAETSURBVHgBxVPbSsNAEN2d3XRVSvqQBwNNQwmpgn3xC/x7/0ETEpG2oGAeTKVJ3HXH3Qch1KQiKfTAsJc5c/YyM4QMBO1zhGEYAYwWdg6gn/I8T7p4rGtzPr/xOWcLKat7rdUzIXw5Hl+W2+1btc+FLgGA2kWUa4PKGmO4FuLT6+SSgTi9AG8voii6OkT+8bczctwnNA3stGYXTTMqzOVmQRCcW1OKzBDx3VBcANj1Cvj+5BWAepR+GBKsOD+7s0apk0spSzO6dV0X7ZhflTidxoEQcG2q79Gc/mL30jSdMCZuHYcmWZatDgpYxHHsSkmWjFFPa5SIpFSKJ5vNQ0H+A/vrf2WG9gWaNtkL/Er6GmoQvgHqBWZkE0i8BAAAAABJRU5ErkJggg=="></div>\
             {{if searchConfig.searchButtonEnabled}}\
               <button class="search-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}"{{/if}} disabled>${searchConfig.buttonText}</button>\
@@ -5351,6 +5351,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 if (code == '13') {
                   if (!($('.topdown-search-main-container').length)) {
                     $('#search').val('');
+                    $('#suggestion').val('');
+                    $('.bottom-up-search').val('');
+                    $('.bottom-up-suggestion').val('');
                   }
                   _self.hideAutoSuggestion();
                 } else {
@@ -5649,10 +5652,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var searchText = $('#search').val() || _self.vars.searchObject.searchText;
             if (!($('.topdown-search-main-container').length)) {
               $('#search').val('');
+              $('.bottom-up-search').val('');
+              $('.bottom-up-suggestion').val('');
+              $('#suggestion').val('');
             } else {
               _self.invokeSearch();
+              $('.top-down-suggestion').val('');
+              $('#suggestion').val('');
             }
-            $('#suggestion').val('');
+            
 
           }
           // if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
@@ -7817,6 +7825,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       $('.cancel-search').off('click').on('click', function (event) {
         $('#search').val(''); $('#suggestion').val('');
+        $('.top-down-search').val('');
+        $('.top-down-suggestion').val('');
         if ($('.topdown-search-main-container').length) {
           $('.cancel-search').hide();
           $('#live-search-result-box').hide();
@@ -8208,8 +8218,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // var _footerContainer = $(me.config.chatContainer).find('.kore-chat-footer');
       if (!($('.topdown-search-main-container').length)) {
         $('#search').val('');
+        $('.bottom-up-suggestion').val('');
+        $('.bottom-up-search').val('');
+      }else{
+        $('#suggestion').val('');
+        $('.top-down-suggestion').val('');
       }
-      $('#suggestion').val('');
       $('#frequently-searched-box').hide();
       $('#live-search-result-box').hide();
 
@@ -18161,6 +18175,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else{
           $('#loaderDIV').show();
+          $('.kore-sdk-pagination-div').hide();
           _self.vars.isPriorfiltersApplied = false;
           _self.vars.searchCallWithSelectedFacet = true;
           _self.invokeSpecificSearch(selectedFacet);
@@ -19607,9 +19622,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if ($('body').hasClass('top-down')) {
               if($("#suggestion").length){
                 $("#suggestion").val(data.autoComplete.typeAheads[0]);
+                $('.top-down-suggestion').val(data.autoComplete.typeAheads[0]);
               }
               if(searchConfigurationCopy.autocompleteOpt){
               _self.showSuggestionbox(data.autoComplete.querySuggestions);
+              }
+            }else{
+              if(searchConfigurationCopy.autocompleteOpt && $(".bottom-up-suggestion").length){
+                $("#suggestion").val(data.autoComplete.typeAheads[0]);
+                $('.bottom-up-suggestion').val(data.autoComplete.typeAheads[0]);
               }
             }
           }
@@ -19705,6 +19726,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var recentText = $(this).attr('id');
           $("#search").val(recentText);
           $("#suggestion").val(recentText);
+          $(".top-down-suggestion").val(recentText);
+          $(".search-top-down").val(recentText);
           $('#frequently-searched-box').hide();
           if (_self.isDev) {
             if ($('.top-down-search-background-div')) {
@@ -19873,6 +19896,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var queryText = $(this).attr('id');
           $("#search").val(queryText);
           $("#suggestion").val(queryText);
+          $(".top-down-suggestion").val(queryText);
+          $(".search-top-down").val(queryText);
           //$('#search').trigger("keyup");
           $('#live-search-result-box').hide();
           // $('#loaderDIV').show();
@@ -20868,6 +20893,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if ($('.topdown-search-main-container').length) {
         _self.vars.searchObject.searchText = $('#search').val();
         $("#suggestion").val($('#search').val());
+        $(".top-down-suggestion").val($('#search').val());
         _self.vars.scrollPageNumber = 0;
         _self.vars.showingMatchedResults = true;
         _self.searchFacetsList([]);
@@ -20972,6 +20998,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var recentText = $(this).attr('id');
         $("#search").val(recentText);
         $("#suggestion").val(recentText);
+        $(".top-down-suggestion").val(recentText);
+        $(".search-top-down").val(recentText);
         $('#frequently-searched-box').hide();
         if (_self.isDev) {
           if ($('.top-down-search-background-div')) {

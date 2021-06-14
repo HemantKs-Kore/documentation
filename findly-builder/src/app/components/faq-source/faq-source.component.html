@@ -151,7 +151,7 @@
                                                 </div>
                                                 <div class="title-desc-sec">
                                                     <div class="title">{{faq._source.faqQuestion}}</div>
-                                                    <div class="desc" *ngIf="faq && faq._source.faqAnswer && faq._source.faqAnswer.length && faq._source.faqAnswer[0]" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq._source.faqAnswer[0].text)'></div>
+                                                    <div class="desc" *ngIf="faq && faq?._source?.faqAnswer && faq._source.faqAnswer.length && faq._source.faqAnswer[0]" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq._source.faqAnswer[0].text)'></div>
                                                     <!-- <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='javascript'">Javascript message</div> -->
                                                 </div>
                                             </div>
@@ -456,10 +456,9 @@
                                             <span class="">{{selectedFaq._source.faqQuestion}}</span>                                       
                                             <button  class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
                                         </div>
-                                        <div class="keywords">
-                                            <!-- <span class="key-title">Key Terms :</span> -->
+                                        <!-- <div class="keywords">
                                             <span class="keys" *ngFor="let keyword of selectedFaq._source.keywords">{{keyword}}</span>
-                                        </div> 
+                                        </div>  -->
                                     </div> 
                                     <div class="pad-div">
                                         <div class="bot-response-view-mode" >
