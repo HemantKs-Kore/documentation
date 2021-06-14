@@ -200,6 +200,7 @@ export class SearchInterfaceComponent implements OnInit {
       .subscribe(result => {
         if (result === 'yes') {
           this.selectedSettingResultsObj.referInterface = interfaceType;
+          this.saveResultSettings();
           // this.saveResultSettings(); Inorder to reflect the configuretion, we need to save the current interface with reference
           dialogRef.close();
         } else if (result === 'no') {
@@ -673,6 +674,7 @@ export class SearchInterfaceComponent implements OnInit {
     this.service.invoke('put.SI_saveResultSettings', queryparams, payload).subscribe(res => {
       this.notificationService.notify('Result setting saved successfully', 'success');
       this.selectedTemplatedId = "";
+      this.selectedSettingResultsObj.referInterface = "";
       this.closeCustomModal();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to save result settings');
