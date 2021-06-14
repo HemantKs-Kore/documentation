@@ -484,15 +484,7 @@ export class SearchInterfaceComponent implements OnInit {
     }
     if (layout == 'tileWithHeader' || layout == 'tileWithText' || layout == 'tileWithImage') {
       if (this.customizeTemplateObj.template.type === 'Carousel') {
-        // setTimeout(() => {
-        //   this.carousel = new PureJSCarousel({
-        //     carousel: '.carousel',
-        //     slide: '.slide',
-        //     oneByOne: true,
-        //     jq: $,
-        //   });
-        // }, 100);
-        //console.log("PureJSCarousel", this.carousel);
+        this.buildCarousel();
       }
     }
   }
