@@ -70,7 +70,7 @@
 </kr-modal>
 
 <!--order confirm popup-->
-<kr-modal modalType="center" modalClass="modal_popups_ order-confirmation" #orderConfirmModel>
+<kr-modal modalType="above-modal-drop" modalClass="modal_popups_ order-confirmation" #orderConfirmModel>
   <div class="modal-header">
     <div class="title">{{"plan.order_confirmation"| translate}}</div>
     <div class="close_icon"><img (click)="closeOrderConfPopup()" src="assets/icons/modal-close.svg"></div>
@@ -200,7 +200,7 @@
 </kr-modal>
 
 <!--change plan/excess data show popup-->
-<kr-modal modalType="center" modalClass="modal_popups_ order-confirmation excess-modal-data" #changePlanModel>
+<kr-modal modalType="above-modal-drop" modalClass="modal_popups_ order-confirmation excess-modal-data" #changePlanModel>
   <div class="modal-header">
     <div class="title">{{"plan.change_plan"| translate}}</div>
     <div class="close_icon"><img (click)="closeChangePlanModel()" src="assets/icons/modal-close.svg"></div>

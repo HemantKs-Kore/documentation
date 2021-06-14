@@ -321,6 +321,7 @@
 
 
 ::ng-deep .order-confirmation{
+    z-index: 99999 !important;
     .modal-dialog{
         width: 625px;
         height: auto !important;

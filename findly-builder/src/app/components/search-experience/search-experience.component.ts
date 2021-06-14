@@ -278,7 +278,23 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   }
   //select tab on number
   selectTab(type) {
+    if (this.selectedTab === 'searchwidget') {
+      this.show_tab_color1 = true;
+    }
+    else if (this.selectedTab === 'interactions') {
+      this.show_tab_color2 = true;
+    }else if (this.selectedTab === 'experience') {
+      this.show_tab_color = true;
+    }
     this.selectedTab = type;
+    if (this.selectedTab === 'searchwidget') {
+      this.show_tab_color1 = false;
+    }
+    else if (this.selectedTab === 'interactions') {
+      this.show_tab_color2 = false;
+    }else if (this.selectedTab === 'experience') {
+      this.show_tab_color = false;
+    }
   }
   closeAllBoxs(type) {
     if (type == 'all') {

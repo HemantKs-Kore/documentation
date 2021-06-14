@@ -107,9 +107,10 @@ export class SearchInterfaceComponent implements OnInit {
   switchActive: boolean = true;
   customizeTemplateObj: customizeTemplate = new customizeTemplate();
   customizeTemplate: templateResponse = new templateResponse();
-  carousel: any;
+  carousel: any = [];
   componentType: string = 'designing';
   submitted : boolean = false;
+  carouselTemplateCount = 0;
   @ViewChild('customModal') customModal: KRModalComponent;
   @ViewChild('previewModal') previewModal: KRModalComponent;
 
@@ -200,6 +201,7 @@ export class SearchInterfaceComponent implements OnInit {
       .subscribe(result => {
         if (result === 'yes') {
           this.selectedSettingResultsObj.referInterface = interfaceType;
+          this.saveResultSettings();
           // this.saveResultSettings(); Inorder to reflect the configuretion, we need to save the current interface with reference
           dialogRef.close();
         } else if (result === 'no') {
@@ -439,8 +441,30 @@ export class SearchInterfaceComponent implements OnInit {
       this.customizeTemplateObj.template.searchResultlayout.textAlignment = "left"
     }
 
+    if (this.customizeTemplateObj.template.type === 'Carousel') {
+      this.buildCarousel();
+    }
+
     //this.
   }
+
+  buildCarousel(){
+    setTimeout(() => {
+      $('.carousel:last').addClass("carousel" + this.carouselTemplateCount);
+      var count = $(".carousel" + this.carouselTemplateCount).children().length;
+      if (count > 1) {
+        var carousel = new PureJSCarousel({
+          carousel: '.carousel' + this.carouselTemplateCount,
+          slide: '.slide',
+          oneByOne: true,
+          jq: $,
+        });
+        this.carousel.push(carousel);
+      }
+      this.carouselTemplateCount += 1;
+    }, 400);
+  }
+
   resultLayoutChange(layout) {
     //this.customizeTemplate.
     this.submitted = false;
@@ -460,15 +484,7 @@ export class SearchInterfaceComponent implements OnInit {
     }
     if (layout == 'tileWithHeader' || layout == 'tileWithText' || layout == 'tileWithImage') {
       if (this.customizeTemplateObj.template.type === 'Carousel') {
-        // setTimeout(() => {
-        //   this.carousel = new PureJSCarousel({
-        //     carousel: '.carousel',
-        //     slide: '.slide',
-        //     oneByOne: true,
-        //     jq: $,
-        //   });
-        // }, 100);
-        //console.log("PureJSCarousel", this.carousel);
+        this.buildCarousel();
       }
     }
   }
@@ -673,6 +689,7 @@ export class SearchInterfaceComponent implements OnInit {
     this.service.invoke('put.SI_saveResultSettings', queryparams, payload).subscribe(res => {
       this.notificationService.notify('Result setting saved successfully', 'success');
       this.selectedTemplatedId = "";
+      this.selectedSettingResultsObj.referInterface = "";
       this.closeCustomModal();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to save result settings');

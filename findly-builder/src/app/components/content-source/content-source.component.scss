@@ -1393,15 +1393,23 @@
         font-weight: 600;
         font-size: 13px;
         line-height: 10px;
-        margin-bottom: 10px;
-        img{
-            display: none;
-        }
-        &:hover{
-            img{
-                display: inline-block;
+        margin-bottom: 5px;
+        min-height: 30px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+            .dwnld-image{
+                display: inline-block !important;
             }
-        }
+            img{
+                display: none;
+                padding-left: 8px;
+            }
+            &:hover{
+                img{
+                    display: inline-block;
+                }
+            }
         }
         
         .title-desc-text{
@@ -1409,7 +1417,7 @@
         font-weight: normal;
         font-size: 14px;
         line-height: 17px;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         }
         .run-percentageDoneGrid{
             position: absolute;

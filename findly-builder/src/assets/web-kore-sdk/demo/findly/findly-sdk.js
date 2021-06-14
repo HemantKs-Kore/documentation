@@ -1024,7 +1024,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               src="${searchConfig.searchBarIcon}"> </div>\
               {{/if}}\
               {{if searchConfig.autocompleteOpt == true}}\
-            <input id="suggestion" name="search"  disabled="disabled" class="search \
+            <input id="suggestion" name="search"  disabled="disabled" class="top-down-suggestion search \
             {{if classes}}\
               ${classes}"\
             {{/if}}\
@@ -1040,7 +1040,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{else}}\
               placeholder="Search here"\
             {{/if}}\
-            class="search \
+            class="search-top-down search \
             {{if classes}}\
               ${classes}"\
             {{/if}}\
@@ -1182,7 +1182,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div class="search-bar">\
             <div class="widget-icon"><img src="${searchConfig.searchBarIcon}"> </div>\
             {{if searchConfig.autocompleteOpt == true}}\
-              <input id="suggestion"style="position: absolute; bottom: 0px;background : ${searchConfig.searchBarFillColor}; color : ${searchConfig.searchBarPlaceholderTextColor};" name="search" class="search" disabled="disabled">\
+              <input id="suggestion"style="position: absolute; bottom: 0px;background : ${searchConfig.searchBarFillColor}; color : ${searchConfig.searchBarPlaceholderTextColor};" name="search" class="bottom-up-suggestion search" disabled="disabled">\
             {{/if}}\
             <input autocomplete="off" style="position: absolute; bottom: 0px; border : solid 1px ${searchConfig.searchBarBorderColor} !important; color : ${searchConfig.searchBarPlaceholderTextColor};\
             {{if searchConfig.autocompleteOpt == true}}\
@@ -1190,7 +1190,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{else}}\
               background : ${searchConfig.searchBarFillColor} !important;" \
               {{/if}}\
-             id="search" name="search" class="search" placeholder="${searchConfig.searchBarPlaceholderText}">\
+             id="search" name="search" class="bottom-up-search search" placeholder="${searchConfig.searchBarPlaceholderText}">\
             <div class="ksa-SpeakIcon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAETSURBVHgBxVPbSsNAEN2d3XRVSvqQBwNNQwmpgn3xC/x7/0ETEpG2oGAeTKVJ3HXH3Qch1KQiKfTAsJc5c/YyM4QMBO1zhGEYAYwWdg6gn/I8T7p4rGtzPr/xOWcLKat7rdUzIXw5Hl+W2+1btc+FLgGA2kWUa4PKGmO4FuLT6+SSgTi9AG8voii6OkT+8bczctwnNA3stGYXTTMqzOVmQRCcW1OKzBDx3VBcANj1Cvj+5BWAepR+GBKsOD+7s0apk0spSzO6dV0X7ZhflTidxoEQcG2q79Gc/mL30jSdMCZuHYcmWZatDgpYxHHsSkmWjFFPa5SIpFSKJ5vNQ0H+A/vrf2WG9gWaNtkL/Er6GmoQvgHqBWZkE0i8BAAAAABJRU5ErkJggg=="></div>\
             {{if searchConfig.searchButtonEnabled}}\
               <button class="search-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}"{{/if}} disabled>${searchConfig.buttonText}</button>\
@@ -2492,9 +2492,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.getSuggestion = function (suggestions) {
       var _self = this;
-      var $suggest = $('#suggestion');
-      // some other key was pressed
-      var needle = $('#search').val();
+      var $suggest;
+      var needle;
+      if(!$('body').hasClass('top-down')){
+        $suggest = $('.bottom-up-suggestion');
+        // some other key was pressed
+        needle = $('.bottom-up-search').val();
+        // var $suggest = $('#suggestion');
+        // // some other key was pressed
+        // var needle = $('#search').val();
+      }else{
+        if(_self.vars.enterIsClicked){
+          return;
+        }
+        $suggest = $('.top-down-suggestion');
+        needle = $('.search-top-down').val();
+      }
+     
 
       // is the field empty?
       if (!$.trim(needle).length) {
@@ -5116,7 +5130,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (code == '9' || code == '39') {
             $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
             $('#search').focus();
-
+            if(!$('body').hasClass('top-down')){
+              $('.bottom-up-search').val(JSON.parse(JSON.stringify($('.bottom-up-suggestion').val())));
+              $('.bottom-up-search').focus();
+            }else{
+              $('.search-top-down').val(JSON.parse(JSON.stringify($('.top-down-suggestion').val())));
+              $('.search-top-down').focus();
+            }
           }
           if (code == '9') {
             e.preventDefault();
@@ -5149,8 +5169,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
 
             _self.vars.searchObject.searchText = $('#search').val();
-
+            
             if($('body').hasClass('top-down')){
+              $('.top-down-suggestion').val($('.search-top-down').val());
               $('.sdk-filter-checkbox-top-down').prop('checked', false);
               $('.sdk-filter-radio-top-down').prop('checked', false);
               _self.vars.filterObject = [];
@@ -5333,6 +5354,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if (code == '9' || code == '39') {
                 $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
                 $('#search').focus();
+                if(!$('body').hasClass('top-down')){
+                  $('.bottom-up-search').val(JSON.parse(JSON.stringify($('.bottom-up-suggestion').val())));
+                  $('.bottom-up-search').focus();
+                }else{
+                  $('.search-top-down').val(JSON.parse(JSON.stringify($('.top-down-suggestion').val())));
+                  $('.search-top-down').focus();
+                }
               }
               if (code == '9') {
                 e.preventDefault();
@@ -5351,11 +5379,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 if (code == '13') {
                   if (!($('.topdown-search-main-container').length)) {
                     $('#search').val('');
+                    $('#suggestion').val('');
+                    $('.bottom-up-search').val('');
+                    $('.bottom-up-suggestion').val('');
                   }
                   _self.hideAutoSuggestion();
                 } else {
                   if(!$('body').hasClass('top-down')){ // bottomUp
                     _self.hideBottomUpAllResults();
+                  }else{
+                    $(".top-down-suggestion").val($('#search').val());
+                    $('#live-search-result-box').hide();
                   }
                   _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
                     if(res.isBotLocked){
@@ -5649,10 +5683,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var searchText = $('#search').val() || _self.vars.searchObject.searchText;
             if (!($('.topdown-search-main-container').length)) {
               $('#search').val('');
+              $('.bottom-up-search').val('');
+              $('.bottom-up-suggestion').val('');
+              $('#suggestion').val('');
             } else {
               _self.invokeSearch();
+              $('.top-down-suggestion').val('');
+              $('#suggestion').val('');
             }
-            $('#suggestion').val('');
+            
 
           }
           // if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
@@ -7756,7 +7795,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       window.koreWidgetSDKInstance = _self;
 
       if (config && config.autoSuggest === true) {
-        _self.pubSub.subscribe('sa-auto-suggest', (msg, data) => {
+        _self.pubSub.unsubscribe('sa-auto-suggest');
+          _self.pubSub.subscribe('sa-auto-suggest', (msg, data) => {
           _self.getSuggestion(data);
         })
       }
@@ -7817,6 +7857,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       $('.cancel-search').off('click').on('click', function (event) {
         $('#search').val(''); $('#suggestion').val('');
+        $('.top-down-search').val('');
+        $('.top-down-suggestion').val('');
         if ($('.topdown-search-main-container').length) {
           $('.cancel-search').hide();
           $('#live-search-result-box').hide();
@@ -8150,7 +8192,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.handleSearchRes(tempData.message[0].component.payload);
             if ($('body').hasClass('top-down')) {
               if(((tempData.message[0].component.payload ||{}).template ||{}).originalQuery){
-                $('#search').val(((tempData.message[0].component.payload ||{}).template ||{}).originalQuery);
+                if($('#conversation-container').is(':visible')){
+                  $('#search').val(((tempData.message[0].component.payload ||{}).template ||{}).originalQuery);
+                }else{
+                  $(".top-down-suggestion").val($('#search').val());
+                  $('#live-search-result-box').hide();
+                }
                 $('#conversation-container').hide();
                 $('#action-title').empty();
                 $("#searchChatContainer").empty();
@@ -8208,8 +8255,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // var _footerContainer = $(me.config.chatContainer).find('.kore-chat-footer');
       if (!($('.topdown-search-main-container').length)) {
         $('#search').val('');
+        $('.bottom-up-suggestion').val('');
+        $('.bottom-up-search').val('');
+      }else{
+        $('#suggestion').val('');
+        $('.top-down-suggestion').val('');
       }
-      $('#suggestion').val('');
       $('#frequently-searched-box').hide();
       $('#live-search-result-box').hide();
 
@@ -14242,7 +14293,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-txt">\
             <!-- <h1>Tile with Text</h1> -->\
-            <div class="total-structured-data-wrap {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customization{{/if}}{{/if}}{{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}} display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customization{{/if}}{{/if}}{{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}} display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
               {{if tour && isFullResults == true && viewType=="Customize"&&devMode==true}}\
                 <div class="tours-information sdk-tours-info-start">\
@@ -14466,7 +14517,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-img">\
             <!-- <h1>Tile with Image</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -14550,7 +14601,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-center">\
             <!-- <h1>Tile with Center</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -14649,7 +14700,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-txt">\
             <!-- <h1>Tile with Text</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -14716,7 +14767,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-2-tle-wt-txt">\
             <!-- <h1>Tile with Text</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -14794,7 +14845,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-img">\
             <!-- <h1>Tile with Image</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -14878,7 +14929,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-center">\
             <!-- <h1>Tile with Center</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -14966,7 +15017,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-txt">\
             <!-- <h1>Tile with Text</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15033,7 +15084,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-3-tle-wt-txt">\
             <!-- <h1>Tile with Text</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15111,7 +15162,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-img">\
             <!-- <h1>Tile with Image</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15195,7 +15246,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-center">\
             <!-- <h1>Tile with Center</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15283,7 +15334,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-hdr">\
             <!-- <h1>Tile with Header</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15350,7 +15401,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
             <div class="tpt-1-tle-wt-txt">\
               <!-- <h1>Tile with Text</h1> -->\
-              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
                   <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                     {{if appearanceType == "data"}}\
@@ -15405,7 +15456,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-img">\
             <!-- <h1>Tile with Image</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15465,7 +15516,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-img">\
             <!-- <h1>Tile with Image</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15525,7 +15576,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
           <div class="tpt-1-tle-wt-img">\
             <!-- <h1>Tile with Image</h1> -->\
-            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+            <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
                 <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                   {{if appearanceType == "data"}}\
@@ -15577,7 +15628,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
             <div class="tpt-1-tle-wt-txt">\
               <!-- <h1>Tile with Text</h1> -->\
-              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
                   <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                     {{if appearanceType == "data"}}\
@@ -15634,7 +15685,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
             <div class="tpt-1-tle-wt-txt">\
               <!-- <h1>Tile with Text</h1> -->\
-              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
                   <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                     {{if appearanceType == "data"}}\
@@ -15696,7 +15747,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
             <div class="tpt-1-tle-wt-txt">\
               <!-- <h1>Tile with Text</h1> -->\
-              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
                   <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                     {{if appearanceType == "data"}}\
@@ -15758,7 +15809,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "template": '<script type="text/x-jqury-tmpl">\
             <div class="tpt-1-tle-wt-txt">\
               <!-- <h1>Tile with Text</h1> -->\
-              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
+              <div class="total-structured-data-wrap {{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}}display-none{{/if}}{{/if}} {{if maxSearchResultsAllowed ==0}}display-none{{/if}}" appearanceType="${appearanceType}">\
                 {{if structuredData.length}}\
                   <div class="structured-data-header {{if selectedFacet != "all results" && isFullResults == true}}display-none {{/if}} {{if isDropdownEnabled == true && isFullResults == false}}accordion  acc-active{{/if}}" id="1">\
                     {{if appearanceType == "data"}}\
@@ -16009,7 +16060,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
+          maxSearchResultsAllowed = (searchConfigurationCopy.liveSearchResultsLimit || (searchConfigurationCopy.liveSearchResultsLimit == 0)) ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
           if (selectedSearchTemplateType === 'grid') {
@@ -16567,7 +16618,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
+          maxSearchResultsAllowed = (searchConfigurationCopy.liveSearchResultsLimit || (searchConfigurationCopy.liveSearchResultsLimit == 0)) ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
           if (selectedSearchTemplateType === 'grid') {
@@ -16985,7 +17036,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
+          maxSearchResultsAllowed = (searchConfigurationCopy.liveSearchResultsLimit || (searchConfigurationCopy.liveSearchResultsLimit == 0)) ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
           if (selectedSearchTemplateType === 'grid') {
@@ -17432,7 +17483,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var maxSearchResultsAllowed = 2;
         if (data.isLiveSearch) {
-          maxSearchResultsAllowed = searchConfigurationCopy.liveSearchResultsLimit ? searchConfigurationCopy.liveSearchResultsLimit : 2;
+          maxSearchResultsAllowed = (searchConfigurationCopy.liveSearchResultsLimit || (searchConfigurationCopy.liveSearchResultsLimit == 0)) ? searchConfigurationCopy.liveSearchResultsLimit : 2;
         }
         else if (data.isSearch) {
           if (selectedSearchTemplateType === 'grid') {
@@ -19598,7 +19649,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if(!data.isBotLocked){
             var autoSuggestionHTML = $(_self.getAutoSuggestionTemplate()).tmplProxy({
               suggestions: data.autoComplete.querySuggestions,
-              querySuggestionsLimit: searchConfigurationCopy.querySuggestionsLimit ? searchConfigurationCopy.querySuggestionsLimit : 2
+              querySuggestionsLimit: (searchConfigurationCopy.querySuggestionsLimit || (searchConfigurationCopy.querySuggestionsLimit == 0)) ? searchConfigurationCopy.querySuggestionsLimit : 2
             });
             if($('.search-body').find('.resultsOfSearch').length){
               $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
@@ -19606,11 +19657,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.pubSub.publish('sa-auto-suggest', data.autoComplete.typeAheads);
             _self.bindAutoSuggestionTriggerOptions(autoSuggestionHTML);
             if ($('body').hasClass('top-down')) {
-              if($("#suggestion").length){
-                $("#suggestion").val(data.autoComplete.typeAheads[0]);
-              }
               if(searchConfigurationCopy.autocompleteOpt){
               _self.showSuggestionbox(data.autoComplete.querySuggestions);
+              $('.top-down-suggestion').show();
+              }else{
+                $('.top-down-suggestion').hide();
+              }
+            }else{
+              if(searchConfigurationCopy.autocompleteOpt){
+                $('.bottom-up-suggestion').show();
+              }else{
+                $('.bottom-up-suggestion').hide();
               }
             }
           }
@@ -19706,6 +19763,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var recentText = $(this).attr('id');
           $("#search").val(recentText);
           $("#suggestion").val(recentText);
+          $(".top-down-suggestion").val(recentText);
+          $(".search-top-down").val(recentText);
           $('#frequently-searched-box').hide();
           if (_self.isDev) {
             if ($('.top-down-search-background-div')) {
@@ -19869,11 +19928,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           maxCount: searchConfigurationCopy.querySuggestionsLimit ? searchConfigurationCopy.querySuggestionsLimit : 4
         });
         $('#auto-query-box').append(template);
-        $('#live-search-result-box').show();
+        if(_self.vars.enterIsClicked){
+          $('#live-search-result-box').hide();
+          return
+        }else{
+          $('#live-search-result-box').show();
+        }
         $('#auto-query-box').off('click').on('click', '.sugg-query-box', function (e) {
           var queryText = $(this).attr('id');
           $("#search").val(queryText);
           $("#suggestion").val(queryText);
+          $(".top-down-suggestion").val(queryText);
+          $(".search-top-down").val(queryText);
           //$('#search').trigger("keyup");
           $('#live-search-result-box').hide();
           // $('#loaderDIV').show();
@@ -20869,6 +20935,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if ($('.topdown-search-main-container').length) {
         _self.vars.searchObject.searchText = $('#search').val();
         $("#suggestion").val($('#search').val());
+        $(".top-down-suggestion").val($('#search').val());
         _self.vars.scrollPageNumber = 0;
         _self.vars.showingMatchedResults = true;
         _self.searchFacetsList([]);
@@ -20973,6 +21040,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var recentText = $(this).attr('id');
         $("#search").val(recentText);
         $("#suggestion").val(recentText);
+        $(".top-down-suggestion").val(recentText);
+        $(".search-top-down").val(recentText);
         $('#frequently-searched-box').hide();
         if (_self.isDev) {
           if ($('.top-down-search-background-div')) {

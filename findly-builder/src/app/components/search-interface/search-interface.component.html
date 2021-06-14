@@ -26,8 +26,8 @@
             <div class="dropdown dropdown-open">
               <!-- <button class="dropdown-toggle dropdown-input drop-enable" data-toggle="dropdown">{{selectedSettingResultsObj.referInterface ? 'resultTemplate.' + getConfigurationName(selectedSettingResultsObj.referInterface) | translate : 'resultTemplate.select' | translate}}</button>                                             -->
               <button class="dropdown-toggle dropdown-input drop-enable" data-toggle="dropdown">
-                <ng-container *ngIf="selectedSettingResultsObj.referInterface">{{'resultTemplate.' + getConfigurationName(selectedSettingResultsObj.referInterface) | translate}}</ng-container> 
-                <ng-container *ngIf="!selectedSettingResultsObj.referInterface">{{ 'resultTemplate.select' | translate }}</ng-container>
+                <!-- <ng-container *ngIf="selectedSettingResultsObj.referInterface">{{'resultTemplate.' + getConfigurationName(selectedSettingResultsObj.referInterface) | translate}}</ng-container>  -->
+                <ng-container>{{ 'resultTemplate.select' | translate }}</ng-container>
               </button>                                            
                 <ul class="dropdown-menu content-menu">  
                   <li (click)="copyConfiguration('')"><a>{{'resultTemplate.select' | translate}}</a></li>                                                 
