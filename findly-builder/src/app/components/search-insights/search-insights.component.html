@@ -78,7 +78,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div *ngIf='getQueriesWithResults?.length' style="margin : 15px"><app-record-pagination [totalRecord]='QWR_totalRecord' [limitpage]='QWR_limitPage' (pageChanged)="paginate($event,'QWR')"></app-record-pagination></div>
+                            <div *ngIf='getQueriesWithResults?.length && QWR_totalRecord>10' style="margin : 15px"><app-record-pagination [totalRecord]='QWR_totalRecord' [limitpage]='QWR_limitPage' (pageChanged)="paginate($event,'QWR')"></app-record-pagination></div>
                         </div>
                         <div id="querieswithoutresults" class="tab-pane fade tab-data-content" [ngClass]="{'active show': !querieswithresults }">
                             <div class="table_data_content">
