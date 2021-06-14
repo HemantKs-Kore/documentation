@@ -107,9 +107,10 @@ export class SearchInterfaceComponent implements OnInit {
   switchActive: boolean = true;
   customizeTemplateObj: customizeTemplate = new customizeTemplate();
   customizeTemplate: templateResponse = new templateResponse();
-  carousel: any;
+  carousel: any = [];
   componentType: string = 'designing';
   submitted : boolean = false;
+  carouselTemplateCount = 0;
   @ViewChild('customModal') customModal: KRModalComponent;
   @ViewChild('previewModal') previewModal: KRModalComponent;
 
@@ -439,8 +440,30 @@ export class SearchInterfaceComponent implements OnInit {
       this.customizeTemplateObj.template.searchResultlayout.textAlignment = "left"
     }
 
+    if (this.customizeTemplateObj.template.type === 'Carousel') {
+      this.buildCarousel();
+    }
+
     //this.
   }
+
+  buildCarousel(){
+    setTimeout(() => {
+      $('.carousel:last').addClass("carousel" + this.carouselTemplateCount);
+      var count = $(".carousel" + this.carouselTemplateCount).children().length;
+      if (count > 1) {
+        var carousel = new PureJSCarousel({
+          carousel: '.carousel' + this.carouselTemplateCount,
+          slide: '.slide',
+          oneByOne: true,
+          jq: $,
+        });
+        this.carousel.push(carousel);
+      }
+      this.carouselTemplateCount += 1;
+    }, 400);
+  }
+
   resultLayoutChange(layout) {
     //this.customizeTemplate.
     this.submitted = false;
