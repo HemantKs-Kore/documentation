@@ -917,7 +917,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.addConversationContainer = function (config) {
       console.log("this.customSearchResult", this.customSearchResult);
       var searchContainer = '<script type="text/x-jqury-tmpl">\
-        <div class="search-container conversation">\
+        <div class="search-container conversation kore-chat-window liteTheme-one">\
           <div id="searchBox" >\
               </div>\
             <div id="searchChatContainer" class="search-chat-container"></div>\
@@ -938,10 +938,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.addSearchContainer = function (config) {
       if (config.templateId) {
-        $('#' + config.templateId).addClass("search-container conversation");
+        $('#' + config.templateId).addClass("search-container conversation kore-chat-window liteTheme-one");
       } else {
         var searchContainer = '<script type="text/x-jqury-tmpl">\
-        <div id="sa-search-container" class="search-container conversation">\
+        <div id="sa-search-container" class="search-container conversation kore-chat-window liteTheme-one">\
           <div class="custom-insights-control-container">\
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBzZHNEcIgEIWfPwXYgZRAB1KCJdCB6SCWYAcpwRKkA8cK5OopdqC742YGHBJQPPhmvklgdx8Lu0C9dsQNlWqJB9GUJK8yJnsUmpyJK9ER5hsTBCaN/HNxP2bCp6qESSdFOthTYpp8k4OccCS2iFvX+EDckSVOiFu3qJCSDovGGWpWkGPk66biS+Rl8bqqm4iv55nid42+HRu1QZBHrpCXltzIyBCboBOFvIZJR0Y/0f8Z8fgvhJe1I+6Ckz0v6yHuE/H+Cfn+M6AXJD0vAAAAAElFTkSuQmCC">\
           </div>\
@@ -1117,7 +1117,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.getSearchTemplate = function (type) {
       var searchContainer = '<script type="text/x-jqury-tmpl">\
-        <div class="search-container conversation">\
+        <div class="search-container conversation kore-chat-window liteTheme-one">\
           <div class="custom-insights-control-container">\
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBzZHNEcIgEIWfPwXYgZRAB1KCJdCB6SCWYAcpwRKkA8cK5OopdqC742YGHBJQPPhmvklgdx8Lu0C9dsQNlWqJB9GUJK8yJnsUmpyJK9ER5hsTBCaN/HNxP2bCp6qESSdFOthTYpp8k4OccCS2iFvX+EDckSVOiFu3qJCSDovGGWpWkGPk66biS+Rl8bqqm4iv55nid42+HRu1QZBHrpCXltzIyBCboBOFvIZJR0Y/0f8Z8fgvhJe1I+6Ckz0v6yHuE/H+Cfn+M6AXJD0vAAAAAElFTkSuQmCC">\
           </div>\
@@ -2254,7 +2254,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
     }
-    FindlySDK.prototype.getListViewTemplate = function () {
+    FindlySDK.prototype.getListViewTemplate = function (messageData, helpers) {
       var listT =
         '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
             {{if msgData.message}} \
@@ -2302,10 +2302,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 </li> \
             {{/if}} \
           </script>';
-      return listT;
+          var template = $(listT).tmpl({
+            'msgData': messageData,
+            'helpers': helpers || this.helpers,
+            'extension': {}
+          });
+      return template;
     }
 
-    FindlySDK.prototype.getCarouselTemplate = function (type) {
+    FindlySDK.prototype.getCarouselTemplate = function (messageData, helpers) {
       var carouselTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
                     {{if msgData.message}} \
                       <div class="messageBubble">\
@@ -2342,10 +2347,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                     {{/if}}\
                 </script>';
-      return carouselTemplate;
+                var template = $(carouselTemplate).tmpl({
+                  'msgData': messageData,
+                  'helpers': helpers || this.helpers,
+                  'extension': {}
+                });
+      return template;
     }
 
-    FindlySDK.prototype.getQuickReplyTemplate = function (type) {
+    FindlySDK.prototype.getQuickReplyTemplate = function (messageData, helpers) {
       var quickReplyTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
                     {{if msgData.message}} \
                       <div class="messageBubble">\
@@ -2377,10 +2387,102 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div> \
                     {{/if}} \
                 </script>';
-      return quickReplyTemplate;
+                var template = $(quickReplyTemplate).tmpl({
+                  'msgData': messageData,
+                  'helpers': helpers || this.helpers,
+                  'extension': {}
+                });
+                setTimeout(function () {
+                  var evt = document.createEvent("HTMLEvents");
+                  evt.initEvent('resize', true, false);
+                  window.dispatchEvent(evt);
+                }, 150);
+    
+                $(template).off('click', '.quickreplyRightIcon').on('click', '.quickreplyRightIcon', function (event) {
+                  var _quickReplesDivs = event.currentTarget.parentElement.getElementsByClassName('buttonTmplContentChild');
+                  if (_quickReplesDivs.length) {
+                    var _scrollParentDiv = event.target.parentElement.getElementsByClassName('quick_replies_btn_parent');
+                    var _totalWidth = event.target.parentElement.offsetWidth;
+                    var _currWidth = 0;
+                    // calculation for moving element scroll
+                    for (var i = 0; i < _quickReplesDivs.length; i++) {
+                      _currWidth += (_quickReplesDivs[i].offsetWidth + 10);
+                      if (_currWidth > _totalWidth) {
+                        //_scrollParentDiv[0].scrollLeft = _currWidth;
+                        $(_scrollParentDiv).animate({
+                          scrollLeft: (_scrollParentDiv[0].scrollLeft + _quickReplesDivs[i].offsetWidth + 20)
+                        }, 'slow', function () {
+                          // deciding to enable left and right scroll icons
+                          var leftIcon = _scrollParentDiv[0].parentElement.querySelectorAll('.quickreplyLeftIcon');
+                          leftIcon[0].classList.remove('hide');
+                          if ((_scrollParentDiv[0].scrollLeft + _totalWidth + 10) >= _scrollParentDiv[0].scrollWidth) {
+                            var rightIcon = _scrollParentDiv[0].parentElement.querySelectorAll('.quickreplyRightIcon');
+                            rightIcon[0].classList.add('hide');
+                          }
+                        });
+                        break;
+                      }
+                    }
+                  }
+                });
+                $(template).off('click', '.quickreplyLeftIcon').on('click', '.quickreplyLeftIcon', function (event) {
+                  var _quickReplesDivs = event.currentTarget.parentElement.getElementsByClassName('buttonTmplContentChild');
+                  if (_quickReplesDivs.length) {
+                    var _scrollParentDiv = event.target.parentElement.getElementsByClassName('quick_replies_btn_parent');
+                    var _totalWidth = _scrollParentDiv[0].scrollLeft;
+                    var _currWidth = 0;
+                    for (var i = 0; i < _quickReplesDivs.length; i++) {
+                      _currWidth += (_quickReplesDivs[i].offsetWidth + 10);
+                      if (_currWidth > _totalWidth) {
+                        //_scrollParentDiv[0].scrollLeft = (_totalWidth - _quickReplesDivs[i].offsetWidth+20);
+                        $(_scrollParentDiv).animate({
+                          scrollLeft: (_totalWidth - _quickReplesDivs[i].offsetWidth - 50)
+                        }, 'slow', function () {
+                          // deciding to enable left and right scroll icons
+                          var rightIcon = _scrollParentDiv[0].parentElement.querySelectorAll('.quickreplyRightIcon');
+                          rightIcon[0].classList.remove('hide');
+                          if (_scrollParentDiv[0].scrollLeft <= 0) {
+                            var leftIcon = _scrollParentDiv[0].parentElement.querySelectorAll('.quickreplyLeftIcon');
+                            leftIcon[0].classList.add('hide');
+                          }
+                        });
+                        break;
+                      }
+                    }
+                  }
+                });
+                $(template).off('click', '.quickReply').on('click', '.quickReply', function (event) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  var type = $(this).attr('type');
+                  if (type) {
+                    type = type.toLowerCase();
+                  }
+                  if (type == "postback" || type == "text") {
+                    //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
+                    var _innerText = $(this).attr('value').trim();
+                    var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
+                    var messageData = {};
+                    messageData.text = _innerText;
+                    messageData.from = 'user';
+                    var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                      msgData: messageData,
+                      devMode: devMode,
+                      viewType: viewType
+                    });
+                    $('#searchChatContainer').append(templateMessageBubble);
+                    _self.sendMessage(_innerText);
+                  }
+                })
+    
+                var templateBotMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                  msgData: messageBotData
+                });
+                $('#searchChatContainer').append(templateBotMessageBubble);
+      return template;
     }
 
-    FindlySDK.prototype.getButtonTemplate = function () {
+    FindlySDK.prototype.getButtonTemplate = function (messageData, helpers) {
       var buttonTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
                               {{if msgData.message}} \
                                 <div class="messageBubble">\
@@ -2408,7 +2510,35 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                 </div>\
                               {{/if}} \
                             </script>';
-      return buttonTemplate;
+      var template = $(buttonTemplate).tmpl({
+        'msgData': messageData,
+        'helpers': helpers || this.helpers,
+        'extension': {}
+      });
+      $(template).off('click', '.buttonTmplContentBox li').on('click', '.buttonTmplContentBox li', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var type = $(this).attr('type');
+        if (type) {
+          type = type.toLowerCase();
+        }
+        if (type == "postback" || type == "text") {
+          //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
+          var _innerText = $(this).attr('value').trim();
+          var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
+          var messageData = {};
+          messageData.text = displayMessage;
+          messageData.from = 'user';
+          var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+            msgData: messageData,
+            devMode: devMode,
+            viewType: viewType
+          });
+          $('#searchChatContainer').append(templateMessageBubble);
+          _self.sendMessage(_innerText);
+        }
+      })
+      return template;
     }
 
     FindlySDK.prototype.getListTemplate = function () {
@@ -5961,6 +6091,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (res.templateType == undefined) {
         var botResponse;
         if (res.payload == undefined) {
+          if(res.cInfo){
+            res.text.cInfo = res.cInfo;
+          }
           botResponse = res.text;
           console.log("Bot Response", botResponse);
           _self.sendMessageToSearch('bot', botResponse);
@@ -6506,320 +6639,196 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         } catch (error) {
           messageData.text = mesageData;
         }
-        if (messageData && messageData.type && messageData.type === "template") {
-
-          if (messageData.payload && messageData.payload.template_type === "cardTemplate") {
-            var y = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": { "type": "template", "payload": { "template_type": "cardTemplate", "elements": [{ "biller_name": "REWARD AND SIGNATURE CARD", "card_type": "master_card", "card_number": "2313", "bill_amount": "95.20", "due_date": "03/07/2020" }, { "biller_name": "DINERS CARD", "card_type": "master_card", "card_number": "2313", "bill_amount": "64.45", "due_date": "13/07/2020" }] } }, "cInfo": { "body": "Here are your details" } }], "messageId": "ms-72023d22-2270-514c-9054-8af4c3408460", "botInfo": { "chatBot": "MyBank Virtual Assistant", "taskBotId": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1" }, "createdOn": "2020-09-08T18:39:24.689Z", "icon": "https://app.findly.ai:443/api/getMediaStream/market/f-6374e248-76ad-5fa9-bcc2-63cd116c4944.png?n=5797654043&s=IklOclpPZElVWWlEK2MzZFNKSTl2b1E5b3hiSWFuV3FtSGR4bElpT2dLaFU9Ig$$", "contextId": "dcx-5b5a373e-7e9b-5215-b074-671b616d4055", "usedtime": 395, "NLAnalysis": { "scoringModel": "original", "toneAnalysis": { "dialogTone": [{ "tone_name": "positive", "level": 2, "count": 1 }, { "tone_name": "joy", "level": 1, "count": 1 }] }, "nlProcessing": { "originalInput": "my balance", "canonical": "I balance", "wordAnalysis": [{ "word": "I", "ignored": true, "pos": "Pronoun_possessive ", "original": "my", "processedWord": "my" }, { "word": "balance", "ignored": false, "pos": "Noun_singular ", "role": "MAINSUBJECT ", "original": "balance", "processedWord": "balance" }] }, "noLabelMatch": ["st-d77caa4b-083a-533c-90d9-733c80ef1cb1"], "ml": { "possible": [{ "task": "CheckBalance", "state": "configured", "score": 0.9414263358151247, "scoringCriteria": "Probabilistic score", "matchType": "possible" }], "eliminated": [{ "task": "TransferMoney", "state": "configured", "score": 0.02181479727476244, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "MakePayment", "state": "configured", "score": 0.010900485239433579, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "ShowAccountDetails", "state": "configured", "score": 0.009582143296980096, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "Log In", "state": "configured", "score": 0.00538434196688181, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }], "namedEntityRecognition": [] }, "fm": { "definitive": [{ "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check } [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "task": "CheckBalance", "state": "configured", "foundVia": "pattern" }] }, "faq": { "demystify": { "SpellCorrectedInput": "my balance", "lemmatizer_used": "PATTERN", "normalizedQuery": "my balance", "OntologyTraits": [], "failed_questions": { "path_coverage": { "total_failures": 62, "questions": ["What is a term loan", "How can I contact customer service?", "What is a credit score", "How do I request a replacement card?", "Where can I find my ABA routing number on my check?"] }, "mandatory_node": { "total_failures": 0, "paths": [] }, "precondition_node": { "total_failures": 2, "paths": ["*locate atms", "*wire transfer"] } }, "SelectedPathCount": 25, "ExtractedEntities": ["balance"], "ContextEntities": [], "PreConditionNodes": [], "filtered_questions": { "score": [["What is the collected balance?", 0.5773502691896258], ["What is a CD?", 0], ["What is a traveler's check?", 0], ["what is individual retirement account", 0], ["What is a canceled check?", 0]], "traits": [] } } }, "finalResolver": { "ranking": [{ "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "intent": "CheckBalance", "activityType": "dialog", "state": "configured", "totalScore": 6450, "scoring": { "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check } [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "csMatch": true }, "identifyingEngines": { "fm": true }, "csMatch": true, "intentMatchVia": "pattern" }], "userInput": "my balance", "winningIntent": [{ "intent": "CheckBalance", "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "activityType": "dialog", "state": "configured", "score": 6450 }], "entities": [] } }, "traceId": "827bca70e1572629" };
-            var cardData = messageData.payload.elements;//y.message[0].component.payload.elements;
-
-            var template1 = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-              msgData: {
-                from: "bot",
-                text: "Choose the credit card to pay bill"
-              }
-            });
-            $('#searchChatContainer').append(template1);
-
-            var creditCard = $(_self.getSearchTemplate('payBillContainer')).tmplProxy({
-              selectedBiller: "XYZ",
-              data: cardData
-            });
-            $(creditCard).off('click', '.pay-button').on('click', '.pay-button', function (e) {
-              var payData = $(e.currentTarget).attr('msgData');
-
-              payData = JSON.parse(payData);
-              _self.vars.searchObject.searchText = payData.postback_value
-              messageData.text = payData.postback_value;//"Pay nowwww";
-              messageData.from = 'user';
-              var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-                msgData: messageData,
-                devMode: devMode,
-                viewType: viewType
-              });
-              $('#searchChatContainer').append(template);
-              _self.bindLiveDataToChat();
-              setTimeout(function () {
-                var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-                $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-              }, 200);
-
-            });
-            $('#searchChatContainer').append(creditCard);
-          } else if (messageData.payload && messageData.payload.template_type === "listView") {
-
-            var listDefaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": { "type": "template", "payload": { "template_type": "listView", "seeMore": true, "moreCount": 4, "text": "Here are your details", "heading": "Speed Analysis", "buttons": [{ "title": "See more", "type": "postback", "payload": "payload" }], "elements": [{ "title": "Checking", "subtitle": "XXXX192", "value": "$7,496.13", "default_action": { "title": "Checking", "type": "payload", "payload": "Checking" } }, { "title": "Trading", "subtitle": "XXXX045", "value": " $22,053.47", "default_action": { "title": "Trading", "type": "payload", "payload": "Trading" } }, { "title": "Credit Card", "subtitle": "XXXX100", "value": "$3,596.00", "default_action": { "title": "Credit Card", "type": "payload", "payload": "Credit Card" } }, { "title": "Savings", "subtitle": "XXXX277", "value": "$17,290.00", "default_action": { "title": "Savings", "type": "payload", "payload": "Savings" } }] } }, "cInfo": { "body": "Here are your details" } }], "messageId": "ms-72023d22-2270-514c-9054-8af4c3408460", "botInfo": { "chatBot": "MyBank Virtual Assistant", "taskBotId": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1" }, "createdOn": "2020-09-08T18:39:24.689Z", "icon": "https://app.findly.ai:443/api/getMediaStream/market/f-6374e248-76ad-5fa9-bcc2-63cd116c4944.png?n=5797654043&s=IklOclpPZElVWWlEK2MzZFNKSTl2b1E5b3hiSWFuV3FtSGR4bElpT2dLaFU9Ig$$", "contextId": "dcx-5b5a373e-7e9b-5215-b074-671b616d4055", "usedtime": 395, "NLAnalysis": { "scoringModel": "original", "toneAnalysis": { "dialogTone": [{ "tone_name": "positive", "level": 2, "count": 1 }, { "tone_name": "joy", "level": 1, "count": 1 }] }, "nlProcessing": { "originalInput": "my balance", "canonical": "I balance", "wordAnalysis": [{ "word": "I", "ignored": true, "pos": "Pronoun_possessive ", "original": "my", "processedWord": "my" }, { "word": "balance", "ignored": false, "pos": "Noun_singular ", "role": "MAINSUBJECT ", "original": "balance", "processedWord": "balance" }] }, "noLabelMatch": ["st-d77caa4b-083a-533c-90d9-733c80ef1cb1"], "ml": { "possible": [{ "task": "CheckBalance", "state": "configured", "score": 0.9414263358151247, "scoringCriteria": "Probabilistic score", "matchType": "possible" }], "eliminated": [{ "task": "TransferMoney", "state": "configured", "score": 0.02181479727476244, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "MakePayment", "state": "configured", "score": 0.010900485239433579, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "ShowAccountDetails", "state": "configured", "score": 0.009582143296980096, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "Log In", "state": "configured", "score": 0.00538434196688181, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }], "namedEntityRecognition": [] }, "fm": { "definitive": [{ "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check }   [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "task": "CheckBalance", "state": "configured", "foundVia": "pattern" }] }, "faq": { "demystify": { "SpellCorrectedInput": "my balance", "lemmatizer_used": "PATTERN", "normalizedQuery": "my balance", "OntologyTraits": [], "failed_questions": { "path_coverage": { "total_failures": 62, "questions": ["What is a term loan", "How can I contact customer service?", "What is a credit score", "How do I request a replacement card?", "Where can I find my ABA routing number on my check?"] }, "mandatory_node": { "total_failures": 0, "paths": [] }, "precondition_node": { "total_failures": 2, "paths": ["*locate atms", "*wire transfer"] } }, "SelectedPathCount": 25, "ExtractedEntities": ["balance"], "ContextEntities": [], "PreConditionNodes": [], "filtered_questions": { "score": [["What is the collected balance?", 0.5773502691896258], ["What is a CD?", 0], ["What is a traveler's check?", 0], ["what is individual retirement account", 0], ["What is a canceled check?", 0]], "traits": [] } } }, "finalResolver": { "ranking": [{ "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "intent": "CheckBalance", "activityType": "dialog", "state": "configured", "totalScore": 6450, "scoring": { "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check }   [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "csMatch": true }, "identifyingEngines": { "fm": true }, "csMatch": true, "intentMatchVia": "pattern" }], "userInput": "my balance", "winningIntent": [{ "intent": "CheckBalance", "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "activityType": "dialog", "state": "configured", "score": 6450 }], "entities": [] } }, "traceId": "827bca70e1572629" };
-            listDefaultMessage.message[0].component = messageData;
-            console.log(messageData.payload.text);
-            var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-              msgData: {
-                from: "bot",
-                text: messageData.payload.text
-              }
-            });
-            $('#searchChatContainer').append(template);
-
-
-            var template = $(_self.getListViewTemplate()).tmpl({
-              'msgData': listDefaultMessage,
-              'helpers': helpers,
-              'extension': {}
-            });
-            $('#searchChatContainer').append(template);
-          }
-          else if (messageData.payload && messageData.payload.template_type === "carousel") {
-
-            var defaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] }
-            defaultMessage.message[0].component = messageData;
-            var template = $(_self.getCarouselTemplate()).tmpl({
-              'msgData': defaultMessage,
-              'helpers': helpers,
-              'extension': {}
-            });
-            setTimeout(function () {
-              $('.carousel:last').addClass("carousel" + carouselTemplateCount);
-              var count = $(".carousel" + carouselTemplateCount).children().length;
-              if (count > 1) {
-                var carouselOneByOne = new PureJSCarousel({
-                  carousel: '.carousel' + carouselTemplateCount,
-                  slide: '.slide',
-                  oneByOne: true,
-                  jq: $,
-                });
-                $('.carousel' + carouselTemplateCount).parent().show();
-                // $('.carousel' + carouselTemplateCount).attr('style', 'height: inherit !important');
-                carouselEles.push(carouselOneByOne);
-              }
-              //window.dispatchEvent(new Event('resize'));
-              var evt = document.createEvent("HTMLEvents");
-              evt.initEvent('resize', true, false);
-              window.dispatchEvent(evt);
-              carouselTemplateCount += 1;
-              $('#searchChatContainer').animate({
-                scrollTop: $('#searchChatContainer').prop("scrollHeight")
-              }, 0);
-            });
-            $(template).off('click', '.carouselButton').on('click', '.carouselButton', function (event) {
-              event.preventDefault();
-              event.stopPropagation();
-              var type = $(this).attr('type');
-              if (type) {
-                type = type.toLowerCase();
-              }
-              if (type == "postback" || type == "text") {
-                //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
-                var _innerText = $(this).attr('value').trim();
-                var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
-                var messageData = {};
-                messageData.text = _innerText;
-                messageData.from = 'user';
-                var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-                  msgData: messageData,
-                  devMode: devMode,
-                  viewType: viewType
-                });
-                $('#searchChatContainer').append(templateMessageBubble);
-                _self.sendMessage(_innerText);
-              } else if (type == "url" || type == "web_url") {
-                var a_link = $(this).attr('url');
-                if (a_link.indexOf("http:") < 0 && a_link.indexOf("https:") < 0) {
-                  a_link = "http:////" + a_link;
-                }
-                var _tempWin = window.open(a_link, "_blank");
-              }
-            })
-            $('#searchChatContainer').append(template);
-          }
-          else if (messageData.payload && messageData.payload.template_type === "quick_replies") {
-            var defaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] }
-            defaultMessage.message[0].component = messageData;
-
-            var messageBotData = {};
-            messageBotData.text = defaultMessage.message[0].component.payload.text;
-            messageBotData.from = 'bot';
-
-            console.log(defaultMessage);
-            var template = $(_self.getQuickReplyTemplate("templatequickreply")).tmpl({
-              'msgData': defaultMessage,
-              'helpers': helpers,
-              'extension': {}
-            });
-
-            setTimeout(function () {
-              var evt = document.createEvent("HTMLEvents");
-              evt.initEvent('resize', true, false);
-              window.dispatchEvent(evt);
-            }, 150);
-
-            $(template).off('click', '.quickreplyRightIcon').on('click', '.quickreplyRightIcon', function (event) {
-              var _quickReplesDivs = event.currentTarget.parentElement.getElementsByClassName('buttonTmplContentChild');
-              if (_quickReplesDivs.length) {
-                var _scrollParentDiv = event.target.parentElement.getElementsByClassName('quick_replies_btn_parent');
-                var _totalWidth = event.target.parentElement.offsetWidth;
-                var _currWidth = 0;
-                // calculation for moving element scroll
-                for (var i = 0; i < _quickReplesDivs.length; i++) {
-                  _currWidth += (_quickReplesDivs[i].offsetWidth + 10);
-                  if (_currWidth > _totalWidth) {
-                    //_scrollParentDiv[0].scrollLeft = _currWidth;
-                    $(_scrollParentDiv).animate({
-                      scrollLeft: (_scrollParentDiv[0].scrollLeft + _quickReplesDivs[i].offsetWidth + 20)
-                    }, 'slow', function () {
-                      // deciding to enable left and right scroll icons
-                      var leftIcon = _scrollParentDiv[0].parentElement.querySelectorAll('.quickreplyLeftIcon');
-                      leftIcon[0].classList.remove('hide');
-                      if ((_scrollParentDiv[0].scrollLeft + _totalWidth + 10) >= _scrollParentDiv[0].scrollWidth) {
-                        var rightIcon = _scrollParentDiv[0].parentElement.querySelectorAll('.quickreplyRightIcon');
-                        rightIcon[0].classList.add('hide');
-                      }
-                    });
-                    break;
-                  }
-                }
-              }
-            });
-            $(template).off('click', '.quickreplyLeftIcon').on('click', '.quickreplyLeftIcon', function (event) {
-              var _quickReplesDivs = event.currentTarget.parentElement.getElementsByClassName('buttonTmplContentChild');
-              if (_quickReplesDivs.length) {
-                var _scrollParentDiv = event.target.parentElement.getElementsByClassName('quick_replies_btn_parent');
-                var _totalWidth = _scrollParentDiv[0].scrollLeft;
-                var _currWidth = 0;
-                for (var i = 0; i < _quickReplesDivs.length; i++) {
-                  _currWidth += (_quickReplesDivs[i].offsetWidth + 10);
-                  if (_currWidth > _totalWidth) {
-                    //_scrollParentDiv[0].scrollLeft = (_totalWidth - _quickReplesDivs[i].offsetWidth+20);
-                    $(_scrollParentDiv).animate({
-                      scrollLeft: (_totalWidth - _quickReplesDivs[i].offsetWidth - 50)
-                    }, 'slow', function () {
-                      // deciding to enable left and right scroll icons
-                      var rightIcon = _scrollParentDiv[0].parentElement.querySelectorAll('.quickreplyRightIcon');
-                      rightIcon[0].classList.remove('hide');
-                      if (_scrollParentDiv[0].scrollLeft <= 0) {
-                        var leftIcon = _scrollParentDiv[0].parentElement.querySelectorAll('.quickreplyLeftIcon');
-                        leftIcon[0].classList.add('hide');
-                      }
-                    });
-                    break;
-                  }
-                }
-              }
-            });
-            $(template).off('click', '.quickReply').on('click', '.quickReply', function (event) {
-              event.preventDefault();
-              event.stopPropagation();
-              var type = $(this).attr('type');
-              if (type) {
-                type = type.toLowerCase();
-              }
-              if (type == "postback" || type == "text") {
-                //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
-                var _innerText = $(this).attr('value').trim();
-                var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
-                var messageData = {};
-                messageData.text = _innerText;
-                messageData.from = 'user';
-                var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-                  msgData: messageData,
-                  devMode: devMode,
-                  viewType: viewType
-                });
-                $('#searchChatContainer').append(templateMessageBubble);
-                _self.sendMessage(_innerText);
-              }
-            })
-
-            var templateBotMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-              msgData: messageBotData
-            });
-            $('#searchChatContainer').append(templateBotMessageBubble);
-            $('#searchChatContainer').append(template);
-          }
-          else if (messageData.payload && messageData.payload.template_type === "button") {
-            var defaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] }
-            defaultMessage.message[0].component = messageData;
-            console.log(defaultMessage);
-
-            var template = $(_self.getButtonTemplate("templatebutton")).tmpl({
-              'msgData': defaultMessage,
-              'helpers': helpers,
-              'extension': {}
-            });
-            $(template).off('click', '.buttonTmplContentBox li').on('click', '.buttonTmplContentBox li', function (event) {
-              event.preventDefault();
-              event.stopPropagation();
-              var type = $(this).attr('type');
-              if (type) {
-                type = type.toLowerCase();
-              }
-              if (type == "postback" || type == "text") {
-                //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
-                var _innerText = $(this).attr('value').trim();
-                var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
-                var messageData = {};
-                messageData.text = displayMessage;
-                messageData.from = 'user';
-                var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-                  msgData: messageData,
-                  devMode: devMode,
-                  viewType: viewType
-                });
-                $('#searchChatContainer').append(templateMessageBubble);
-                _self.sendMessage(_innerText);
-              }
-            })
-            $('#searchChatContainer').append(template);
-          }
-          else if (messageData.payload && messageData.payload.template_type === "list") {
-            var defaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] }
-            defaultMessage.message[0].component = messageData;
-            console.log(defaultMessage);
-
-            var template = $(_self.getListTemplate()).tmpl({
-              'msgData': defaultMessage,
-              'helpers': helpers,
-              'extension': {}
-            });
-            $(template).off('click', '.listItemPath, .listRightContent').on('click', '.listItemPath, .listRightContent', function (event) {
-              event.preventDefault();
-              event.stopPropagation();
-              var type = $(this).attr('type');
-              if (type) {
-                type = type.toLowerCase();
-              }
-              if (type == "postback" || type == "text") {
-                //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
-                var _innerText = $(this).attr('value').trim();
-                var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
-                var messageData = {};
-                messageData.text = displayMessage;
-                messageData.from = 'user';
-                var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-                  msgData: messageData,
-                  devMode: devMode,
-                  viewType: viewType
-                });
-                $('#searchChatContainer').append(templateMessageBubble);
-                _self.sendMessage(_innerText);
-              } else if (type == "url" || type == "web_url") {
-                var a_link = $(this).attr('url');
-                if (a_link.indexOf("http:") < 0 && a_link.indexOf("https:") < 0) {
-                  a_link = "http:////" + a_link;
-                }
-                var _tempWin = window.open(a_link, "_blank");
-              }
-            })
-            $('#searchChatContainer').append(template);
+        var messagemessageHtmlHtml = '';
+        var defaultBotMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] };
+        if(messageData && typeof(messageData.text) == "object" && (messageData.text.type == 'image' || messageData.text.type == 'audio' || messageData.text.type == 'video' || messageData.text.type == 'link' || messageData.text.type == 'message')){
+          defaultBotMessage.message[0].component = messageData.text;
+          if(messageData.text.cInfo){
+            defaultBotMessage.message[0].cInfo = messageData.text.cInfo;
           }
         }
-        else {
-          //simple text message
-          if (isSearchResultsMessage) {
-            messageData.isSearchResultsMessage = true;
+        else{
+          defaultBotMessage.message[0].component = messageData;
+        }
+        defaultBotMessage.messageId = koreGenerateUUID();
+        messageHtml = _self.customTemplateObj.renderMessage(defaultBotMessage);
+        if(!messageHtml || !messageHtml.length){
+          if (messageData && messageData.type && messageData.type === "template") {
+
+            if (messageData.payload && messageData.payload.template_type === "cardTemplate") {
+              var y = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": { "type": "template", "payload": { "template_type": "cardTemplate", "elements": [{ "biller_name": "REWARD AND SIGNATURE CARD", "card_type": "master_card", "card_number": "2313", "bill_amount": "95.20", "due_date": "03/07/2020" }, { "biller_name": "DINERS CARD", "card_type": "master_card", "card_number": "2313", "bill_amount": "64.45", "due_date": "13/07/2020" }] } }, "cInfo": { "body": "Here are your details" } }], "messageId": "ms-72023d22-2270-514c-9054-8af4c3408460", "botInfo": { "chatBot": "MyBank Virtual Assistant", "taskBotId": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1" }, "createdOn": "2020-09-08T18:39:24.689Z", "icon": "https://app.findly.ai:443/api/getMediaStream/market/f-6374e248-76ad-5fa9-bcc2-63cd116c4944.png?n=5797654043&s=IklOclpPZElVWWlEK2MzZFNKSTl2b1E5b3hiSWFuV3FtSGR4bElpT2dLaFU9Ig$$", "contextId": "dcx-5b5a373e-7e9b-5215-b074-671b616d4055", "usedtime": 395, "NLAnalysis": { "scoringModel": "original", "toneAnalysis": { "dialogTone": [{ "tone_name": "positive", "level": 2, "count": 1 }, { "tone_name": "joy", "level": 1, "count": 1 }] }, "nlProcessing": { "originalInput": "my balance", "canonical": "I balance", "wordAnalysis": [{ "word": "I", "ignored": true, "pos": "Pronoun_possessive ", "original": "my", "processedWord": "my" }, { "word": "balance", "ignored": false, "pos": "Noun_singular ", "role": "MAINSUBJECT ", "original": "balance", "processedWord": "balance" }] }, "noLabelMatch": ["st-d77caa4b-083a-533c-90d9-733c80ef1cb1"], "ml": { "possible": [{ "task": "CheckBalance", "state": "configured", "score": 0.9414263358151247, "scoringCriteria": "Probabilistic score", "matchType": "possible" }], "eliminated": [{ "task": "TransferMoney", "state": "configured", "score": 0.02181479727476244, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "MakePayment", "state": "configured", "score": 0.010900485239433579, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "ShowAccountDetails", "state": "configured", "score": 0.009582143296980096, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "Log In", "state": "configured", "score": 0.00538434196688181, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }], "namedEntityRecognition": [] }, "fm": { "definitive": [{ "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check } [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "task": "CheckBalance", "state": "configured", "foundVia": "pattern" }] }, "faq": { "demystify": { "SpellCorrectedInput": "my balance", "lemmatizer_used": "PATTERN", "normalizedQuery": "my balance", "OntologyTraits": [], "failed_questions": { "path_coverage": { "total_failures": 62, "questions": ["What is a term loan", "How can I contact customer service?", "What is a credit score", "How do I request a replacement card?", "Where can I find my ABA routing number on my check?"] }, "mandatory_node": { "total_failures": 0, "paths": [] }, "precondition_node": { "total_failures": 2, "paths": ["*locate atms", "*wire transfer"] } }, "SelectedPathCount": 25, "ExtractedEntities": ["balance"], "ContextEntities": [], "PreConditionNodes": [], "filtered_questions": { "score": [["What is the collected balance?", 0.5773502691896258], ["What is a CD?", 0], ["What is a traveler's check?", 0], ["what is individual retirement account", 0], ["What is a canceled check?", 0]], "traits": [] } } }, "finalResolver": { "ranking": [{ "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "intent": "CheckBalance", "activityType": "dialog", "state": "configured", "totalScore": 6450, "scoring": { "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check } [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "csMatch": true }, "identifyingEngines": { "fm": true }, "csMatch": true, "intentMatchVia": "pattern" }], "userInput": "my balance", "winningIntent": [{ "intent": "CheckBalance", "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "activityType": "dialog", "state": "configured", "score": 6450 }], "entities": [] } }, "traceId": "827bca70e1572629" };
+              var cardData = messageData.payload.elements;//y.message[0].component.payload.elements;
+  
+              var template1 = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                msgData: {
+                  from: "bot",
+                  text: "Choose the credit card to pay bill"
+                }
+              });
+              $('#searchChatContainer').append(template1);
+  
+              var creditCard = $(_self.getSearchTemplate('payBillContainer')).tmplProxy({
+                selectedBiller: "XYZ",
+                data: cardData
+              });
+              $(creditCard).off('click', '.pay-button').on('click', '.pay-button', function (e) {
+                var payData = $(e.currentTarget).attr('msgData');
+  
+                payData = JSON.parse(payData);
+                _self.vars.searchObject.searchText = payData.postback_value
+                messageData.text = payData.postback_value;//"Pay nowwww";
+                messageData.from = 'user';
+                var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                  msgData: messageData,
+                  devMode: devMode,
+                  viewType: viewType
+                });
+                $('#searchChatContainer').append(template);
+                _self.bindLiveDataToChat();
+                setTimeout(function () {
+                  var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+                  $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+                }, 200);
+  
+              });
+              $('#searchChatContainer').append(creditCard);
+            }
+            else if (messageData.payload && messageData.payload.template_type === "carousel") {
+  
+              var defaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] }
+              defaultMessage.message[0].component = messageData;
+              // var template = $(_self.getCarouselTemplate()).tmpl({
+              //   'msgData': defaultMessage,
+              //   'helpers': helpers,
+              //   'extension': {}
+              // });
+              var template = _self.getCarouselTemplate(defaultMessage, this.helpers);
+              $('#searchChatContainer').append(template);
+              setTimeout(function () {
+                $('.carousel:last').addClass("carousel" + carouselTemplateCount);
+                var count = $(".carousel" + carouselTemplateCount).children().length;
+                if (count > 1) {
+                  var carouselOneByOne = new PureJSCarousel({
+                    carousel: '.carousel' + carouselTemplateCount,
+                    slide: '.slide',
+                    oneByOne: true,
+                    jq: $,
+                  });
+                  $('.carousel' + carouselTemplateCount).parent().show();
+                  // $('.carousel' + carouselTemplateCount).attr('style', 'height: inherit !important');
+                  carouselEles.push(carouselOneByOne);
+                }
+                //window.dispatchEvent(new Event('resize'));
+                var evt = document.createEvent("HTMLEvents");
+                evt.initEvent('resize', true, false);
+                window.dispatchEvent(evt);
+                carouselTemplateCount += 1;
+                $('#searchChatContainer').animate({
+                  scrollTop: $('#searchChatContainer').prop("scrollHeight")
+                }, 0);
+              });
+              $(template).off('click', '.carouselButton').on('click', '.carouselButton', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                var type = $(this).attr('type');
+                if (type) {
+                  type = type.toLowerCase();
+                }
+                if (type == "postback" || type == "text") {
+                  //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
+                  var _innerText = $(this).attr('value').trim();
+                  var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
+                  var messageData = {};
+                  messageData.text = _innerText;
+                  messageData.from = 'user';
+                  var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                    msgData: messageData,
+                    devMode: devMode,
+                    viewType: viewType
+                  });
+                  $('#searchChatContainer').append(templateMessageBubble);
+                  // var templateMessageBubble = _self.getSearchTemplate(defaultMessage, this.helpers);
+                  // $('#searchChatContainer').append(templateMessageBubble);
+                  _self.sendMessage(_innerText);
+                } else if (type == "url" || type == "web_url") {
+                  var a_link = $(this).attr('url');
+                  if (a_link.indexOf("http:") < 0 && a_link.indexOf("https:") < 0) {
+                    a_link = "http:////" + a_link;
+                  }
+                  var _tempWin = window.open(a_link, "_blank");
+                }
+              })
+              $('#searchChatContainer').append(template);
+            }
+            else if (messageData.payload && messageData.payload.template_type === "list") {
+              var defaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] }
+              defaultMessage.message[0].component = messageData;
+              console.log(defaultMessage);
+  
+              var template = $(_self.getListTemplate()).tmpl({
+                'msgData': defaultMessage,
+                'helpers': helpers,
+                'extension': {}
+              });
+              $(template).off('click', '.listItemPath, .listRightContent').on('click', '.listItemPath, .listRightContent', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                var type = $(this).attr('type');
+                if (type) {
+                  type = type.toLowerCase();
+                }
+                if (type == "postback" || type == "text") {
+                  //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
+                  var _innerText = $(this).attr('value').trim();
+                  var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
+                  var messageData = {};
+                  messageData.text = displayMessage;
+                  messageData.from = 'user';
+                  var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                    msgData: messageData,
+                    devMode: devMode,
+                    viewType: viewType
+                  });
+                  $('#searchChatContainer').append(templateMessageBubble);
+                  _self.sendMessage(_innerText);
+                } else if (type == "url" || type == "web_url") {
+                  var a_link = $(this).attr('url');
+                  if (a_link.indexOf("http:") < 0 && a_link.indexOf("https:") < 0) {
+                    a_link = "http:////" + a_link;
+                  }
+                  var _tempWin = window.open(a_link, "_blank");
+                }
+              })
+              $('#searchChatContainer').append(template);
+            }
           }
+          else {
+            //simple text message
+            if (isSearchResultsMessage) {
+              messageData.isSearchResultsMessage = true;
+            }
+            if(messageData.text && typeof(messageData.text) == "object"){
+              messageData.text = messageData.text.text;
+            }
+            messageHtml = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+              msgData: messageData
+            });
+            // $('#searchChatContainer').append(template);
+          }
+        }
+        if(messageData.payload && messageData.payload.text){
           var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-            msgData: messageData
+            msgData: {
+              from: "bot",
+              text: messageData.payload.text
+            }
           });
           $('#searchChatContainer').append(template);
         }
+        if($(messageHtml).find('.barchart').length || $(messageHtml).find('.linechart').length || $(messageHtml).find('.tableChart').length || $(messageHtml).find('.pieChart').length){
+          $(messageHtml).find('.messageBubble').addClass('hide')
+        }
+        $('#searchChatContainer').append(messageHtml);
       }
       if (type === 'botAction') {
         messageData.text = _self.vars.searchObject.searchText;
@@ -7368,9 +7377,39 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return false;
       }
     }
+    FindlySDK.prototype.initializeCustomTemplate = function (findlyConfig) {
+      var _self = this;
+      _self.customTemplateObj = new customTemplate(null, _self);
+      _self.customTemplateObj.helpers = helpers;
+      _self.customTemplateObj.config = findlyConfig;
+      _self.initializeCustomTemplateEvent();
+    }
+
+    FindlySDK.prototype.initializeCustomTemplateEvent = function() {
+      var _self = this;
+      _self.onPostback = function (data) {
+        var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
+        var devMode = _self.isDev ? true : false;
+        var messageData = {};
+        messageData.text = data.payload;
+        messageData.from = 'user';
+        var templateBotMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+					msgData: messageData,
+          devMode: devMode,
+			    viewType: viewType
+				});
+				$('#searchChatContainer').append(templateBotMessageBubble);
+        $('#searchChatContainer').animate({
+        	scrollTop: $('#searchChatContainer').prop("scrollHeight")
+        }, 0);
+        _self.sendMessage(data.payload);
+      };
+    }
+
     FindlySDK.prototype.initialize = function (findlyConfig, fromTopDown) {
       var _self = this;
       var _findlyConfig = findlyConfig;
+      _self.initializeCustomTemplate(findlyConfig);
       if (findlyConfig.botOptions) {
         _findlyConfig = findlyConfig.botOptions;
       }
@@ -7884,6 +7923,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('body').addClass('demo')
         }
       }
+      else{
+        this.initializeCustomTemplate(config);
+      }
       _self.isDev = false;
       if (!$('body').hasClass('demo')) {
         _self.isDev = true;
@@ -8196,6 +8238,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           console.log('on bot message event observed');
           if ((tempData || {}).message && (tempData || {}).message[0].component.payload) {
             console.log(tempData.message[0].component.payload);
+            if(tempData.message[0].cInfo){
+              tempData.message[0].component.payload.cInfo = tempData.message[0].cInfo;
+            }
               _self.handleSearchRes(tempData.message[0].component.payload);
             if ($('body').hasClass('top-down')) {
               if(((tempData.message[0].component.payload ||{}).template ||{}).originalQuery){
@@ -21089,6 +21134,465 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       });
     }
+
+    function xssAttack(txtStr) {
+      //   if (compObj && compObj[0] && compObj[0].componentType === "text") {
+
+      var textHasXSS;
+      if (txtStr) {
+          textHasXSS = txtStr.isNotAllowedHTMLTags();
+      }
+      if (textHasXSS && !textHasXSS.isValid) {
+          txtStr = txtStr.escapeHTML();
+      }
+      return txtStr;
+      //return compObj[0].componentBody;
+
+  }
+
+  var helpers = {
+      'nl2br': function (str, runEmojiCheck) {
+          if (runEmojiCheck && window.emojione) {
+              str = window.emojione.shortnameToImage(str);
+          }
+          str = str.replace(/(?:\r\n|\r|\n)/g, '<br />');
+          return str;
+      },
+      'br2nl': function (str) {
+          str = str.replace(/<br \/>/g, '\n');
+          return str;
+      },
+      'formatAMPM': function (date) {
+          var hours = date.getHours();
+          var minutes = date.getMinutes();
+          var seconds = date.getSeconds();
+          var ampm = hours >= 12 ? 'pm' : 'am';
+          hours = hours % 12;
+          hours = hours ? hours : 12; // the hour '0' should be '12'
+          minutes = minutes < 10 ? '0' + minutes : minutes;
+          var strTime = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+          return strTime;
+      },
+      'formatDate': function (date) {
+          var d = new Date(date);
+          if (isNaN(d.getTime())) {
+              var _tmpDate = new Date().getTime();
+              d = new Date(_tmpDate);
+          }
+          return d.toDateString() + " at " + helpers.formatAMPM(d);
+      },
+      'convertMDtoHTML': function (val, responseType,msgItem) {
+          var hyperLinksMap = {};
+          if(msgItem && msgItem.cInfo && msgItem.cInfo.ignoreCheckMark){
+              var ignoreCheckMark=msgItem.cInfo.ignoreCheckMark;
+          }
+          var mdre = {};
+          //mdre.date = new RegExp(/\\d\(\s*(.{10})\s*\)/g);
+          mdre.date = new RegExp(/\\d\(\s*(.{10})\s*(?:,\s*["'](.+?)["']\s*)?\)/g);
+          mdre.time = new RegExp(/\\t\(\s*(.{8}\.\d{0,3})\s*\)/g);
+          //mdre.datetime = new RegExp(/\\dt\(\s*(.{10})[T](.{12})([z]|[Z]|[+-]\d{4})\s*\)/g);
+          mdre.datetime = new RegExp(/\\(d|dt|t)\(\s*([-0-9]{10}[T][0-9:.]{12})([z]|[Z]|[+-]\d{4})[\s]*,[\s]*["']([a-zA-Z\W]+)["']\s*\)/g);
+          mdre.num = new RegExp(/\\#\(\s*(\d*.\d*)\s*\)/g);
+          mdre.curr = new RegExp(/\\\$\((\d*.\d*)[,](\s*[\"\']\s*\w{3}\s*[\"\']\s*)\)|\\\$\((\d*.\d*)[,](\s*\w{3}\s*)\)/g);
+
+          var regEx = {};
+          regEx.SPECIAL_CHARS = /[\=\`\~\!@#\$\%\^&\*\(\)_\-\+\{\}\:"\[\];\',\.\/<>\?\|\\]+/;
+          regEx.EMAIL = /^[-a-z0-9~!$%^&*_=+}{\']+(\.[-a-z0-9~!$%^&*_=+}{\']+)*@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,255})+$/i;
+          regEx.MENTION = /(^|\s|\\n|")@([^\s]*)(?:[\s]\[([^\]]*)\])?["]?/gi;
+          regEx.HASHTAG = /(^|\s|\\n)#(\S+)/g;
+          regEx.NEWLINE = /\n/g;
+          var _regExForLink = /((?:http\:\/\/|https\:\/\/|www\.)+\S*\.(?:(?:\.\S)*[^\,\s\.])*\/?)/gi;
+          // var _regExForMarkdownLink = /\[([^\]]+)\](|\s)+\(([^\)])+\)/g;
+          var _regExForMarkdownLink = /\[([^\]]+)\](|\s)\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)?/g;
+          var str = val || '';
+          var mmntns = {};
+          mmntns.sd = new RegExp(/^(d{1})[^d]|[^d](d{1})[^d]/g);
+          mmntns.dd = new RegExp(/^(d{2})[^d]|[^d](d{2})[^d]/g);
+          mmntns.fy = new RegExp(/(y{4})|y{2}/g);
+          var regexkeys = Object.keys(mdre);
+          function matchmap(regexval, stringval) {
+              var da;
+              var matches = [];
+              while ((da = regexval.exec(stringval)) !== null) {
+                  var keypair = {};
+                  keypair.index = da.index;
+                  keypair.matchexp = da[0];
+                  if (da.length > 1) {
+                      for (var n = 1; n < da.length; n++) {
+                          var mstr = "matchval" + n.toString();
+                          keypair[mstr] = da[n];
+                      }
+                  }
+                  matches.push(keypair);
+              }
+              return matches;
+          }
+          function ucreplacer(match) {
+              return match.toUpperCase();
+          }
+          for (var j = 0; j < regexkeys.length; j++) {
+              var k;
+              switch (regexkeys[j]) {
+                  case 'date':
+                      var strvald = str;
+                      var datematcharray = matchmap(mdre.date, strvald);
+                      if (datematcharray.length) {
+                          for (k = 0; k < datematcharray.length; k++) {
+                              //var fdate = moment(datematcharray[k].matchval).format('DD,dd,MM,YYY');
+                              var fdate = new Date(datematcharray[k].matchval1).toLocaleDateString();
+                              fdate = ' ' + fdate.toString() + ' ';
+                              str = str.replace(datematcharray[k].matchexp.toString(), fdate);
+                          }
+                      }
+                      break;
+                  case 'time':
+                      var strvalt = str;
+                      var timematcharray = matchmap(mdre.time, strvalt);
+                      if (timematcharray.length) {
+                          for (k = 0; k < timematcharray.length; k++) {
+                              var ftime = new Date(timematcharray[k].matchval1).toLocaleTimeString();
+                              ftime = ' ' + ftime.toString() + ' ';
+                              str = str.replace(timematcharray[k].matchexp.toString(), ftime);
+                          }
+                      }
+                      break;
+                  case 'datetime':
+                      var strvaldt = str;
+                      var dtimematcharray = matchmap(mdre.datetime, strvaldt);
+                      if (dtimematcharray.length) {
+                          for (k = 0; k < dtimematcharray.length; k++) {
+                              var ms = '';
+                              var mergekeylength = Object.keys(dtimematcharray[k]).length - 2;
+                              for (var l = 2; l < mergekeylength; l++) {
+                                  var keystr = "matchval" + l.toString();
+                                  ms += dtimematcharray[k][keystr];
+                              }
+                              var foptionstring = "matchval" + mergekeylength.toString();
+                              var fmtstr = dtimematcharray[k][foptionstring];
+                              fmtstr = fmtstr.replace(mmntns.fy, ucreplacer);
+                              fmtstr = fmtstr.replace(mmntns.dd, ucreplacer);
+                              fmtstr = fmtstr.replace(mmntns.sd, ucreplacer);
+                              //var fdtime = new Date(dtimematcharray[k].matchval).toLocaleString();
+                              var fdtime = moment(ms).format(fmtstr);
+                              fdtime = ' ' + fdtime.toString() + ' ';
+                              str = str.replace(dtimematcharray[k].matchexp.toString(), fdtime);
+                          }
+                      }
+                      break;
+                  case 'num':
+                      var strnumval = str;
+                      var nummatcharray = matchmap(mdre.num, strnumval);
+                      if (nummatcharray.length) {
+                          for (k = 0; k < nummatcharray.length; k++) {
+                              var fnum = Number(nummatcharray[k].matchval1).toLocaleString();
+                              fnum = ' ' + fnum.toString() + ' ';
+                              str = str.replace(nummatcharray[k].matchexp.toString(), fnum);
+                          }
+                      }
+                      break;
+                  case 'curr':
+                      var strcurval = str;
+                      var currmatcharray = matchmap(mdre.curr, strcurval);
+                      var browserLang = window.navigator.language || window.navigator.browserLanguage;
+                      var curcode = new RegExp(/\w{3}/);
+                      if (currmatcharray.length) {
+                          for (k = 0; k < currmatcharray.length; k++) {
+                              var currops = {}, fcode;
+                              currops.style = 'currency';
+                              if (currmatcharray[k].matchval2) {
+                                  fcode = curcode.exec(currmatcharray[k].matchval2);
+                              }
+                              currops.currency = fcode[0].toString();
+                              var fcurr = Number(currmatcharray[k].matchval1).toLocaleString(browserLang, currops);
+                              //check for browser support if browser doesnot suppor we get the same value back and we append the currency Code
+                              if (currmatcharray[k].matchval1.toString() === fcurr.toString()) {
+                                  fcurr = ' ' + fcurr.toString() + ' ' + currops.currency;
+                              } else {
+                                  fcurr = ' ' + fcurr.toString() + ' ';
+                              }
+                              str = str.replace(currmatcharray[k].matchexp.toString(), fcurr);
+                          }
+                      }
+                      break;
+              }
+          }
+          function nextLnReplacer(match, p1, offset, string) {
+              return "<br/>";
+          }
+          function ignoreWords(str) {
+              var _words = ['onclick', 'onmouse', 'onblur', 'onscroll', 'onStart'];
+              _words.forEach(function (word) {
+                  var regEx = new RegExp(word, "ig");
+                  str = str.replace(regEx, "");
+              });
+              return str;
+          }
+          var nextln = regEx.NEWLINE;
+          function linkreplacer(match, p1, offset, string) {
+              var dummyString = string.replace(_regExForMarkdownLink, '[]');
+              dummyString = ignoreWords(dummyString);
+              if (dummyString.indexOf(match) !== -1) {
+                  var _link = p1.indexOf('http') < 0 ? 'http://' + match : match, _target;
+                  //_link = encodeURIComponent(_link);
+                  target = "target='underscoreblank'";
+                  if (hyperLinksMap) {
+                      var _randomKey = "korerandom://" + Object.keys(hyperLinksMap).length;
+                      hyperLinksMap[_randomKey] = _link;
+                      _link = _randomKey;
+                  }
+                  return "<span class='isLink'><a " + _target + " href=\"" + _link + "\">" + match + "</a></span>";
+              } else {
+                  return match;
+              }
+          }
+          //check for whether to linkify or not
+          try {
+              str = decodeURIComponent(str);
+          } catch (e) {
+              str = str || '';
+          }
+          var newStr = '', wrapper1;
+          if (responseType === 'user') {
+              str = str.replace(/onerror=/gi, 'abc-error=');
+              wrapper1 = document.createElement('div');
+              newStr = str.replace(/“/g, '\"').replace(/”/g, '\"');
+              newStr = newStr.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+              wrapper1.innerHTML = xssAttack(newStr);
+              if ($(wrapper1).find('a').attr('href')) {
+                  str = newStr;
+              } else {
+                  str = newStr.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(_regExForLink, linkreplacer);
+              }
+          } else {
+              wrapper1 = document.createElement('div');
+              //str = str.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+              wrapper1.innerHTML = xssAttack(str);
+              if ($(wrapper1).find('a').attr('href')) {
+                  var linkArray = str.match(/<a[^>]*>([^<]+)<\/a>/g);
+                  for (var x = 0; x < linkArray.length; x++) {
+                      var _newLA = document.createElement('div');
+                      var _detectedLink=linkArray[x];
+                      _newLA.innerHTML = linkArray[x];
+                      //for mailto: links, new line character need to be repaced with %0A 
+                      if (_detectedLink.indexOf("href='mailto:") > -1 || _detectedLink.indexOf('href="mailto:') > -1) {
+                          _detectedLink = _detectedLink.split('\n').join("%0A")
+
+                      }
+                      var _randomKey = "korerandom://" + Object.keys(hyperLinksMap).length;
+                      _newLA.innerHTML = _detectedLink;
+
+                      var _aEle = _newLA.getElementsByTagName('a');
+                      if (_aEle && _aEle[0] && _aEle[0].href) {
+                          hyperLinksMap[_randomKey] = _aEle[0].href;
+                          _aEle[0].href = _randomKey;
+                      }
+                      $(_newLA).find('a').attr('target', 'underscoreblank');
+                      str = str.replace(linkArray[x], _newLA.innerHTML);
+                  }
+              } else {
+                  str = wrapper1.innerHTML.replace(_regExForLink, linkreplacer);
+              }
+          }
+          if(ignoreCheckMark){
+              str=val;
+          }else{
+          str = helpers.checkMarkdowns(str, hyperLinksMap);
+          }
+          var hrefRefs = Object.keys(hyperLinksMap);
+          if (hrefRefs && hrefRefs.length) {
+              hrefRefs.forEach(function (hrefRef) {
+                  function customStrReplacer() { //custom replacer is used as by default replace() replaces with '$' in place of '$$'
+                      return hyperLinksMap[hrefRef];
+                  }
+                  str = str.replace(hrefRef, customStrReplacer);
+              });
+          }
+          str = str.replaceAll('target="underscoreblank"', 'target="_blank"');
+          str = str.replaceAll("target='underscoreblank'", 'target="_blank"');
+          if (responseType === 'user') {
+              str = str.replace(/abc-error=/gi, 'onerror=');
+          }
+          return helpers.nl2br(str, true);
+      },
+      'checkMarkdowns': function (val, hyperLinksMap) {
+          if(val===''){
+              return val;
+          }
+          var txtArr = val.split(/\r?\n/);
+          for (var i = 0; i < txtArr.length; i++) {
+              var _lineBreakAdded = false;
+              if (txtArr[i].indexOf('#h6') === 0 || txtArr[i].indexOf('#H6') === 0) {
+                  txtArr[i] = '<h6>' + txtArr[i].substring(3) + '</h6>';
+                  _lineBreakAdded = true;
+              } else if (txtArr[i].indexOf('#h5') === 0 || txtArr[i].indexOf('#H5') === 0) {
+                  txtArr[i] = '<h5>' + txtArr[i].substring(3) + '</h5>';
+                  _lineBreakAdded = true;
+              } else if (txtArr[i].indexOf('#h4') === 0 || txtArr[i].indexOf('#H4') === 0) {
+                  txtArr[i] = '<h4>' + txtArr[i].substring(3) + '</h4>';
+                  _lineBreakAdded = true;
+              } else if (txtArr[i].indexOf('#h3') === 0 || txtArr[i].indexOf('#H3') === 0) {
+                  txtArr[i] = '<h3>' + txtArr[i].substring(3) + '</h3>';
+                  _lineBreakAdded = true;
+              } else if (txtArr[i].indexOf('#h2') === 0 || txtArr[i].indexOf('#H2') === 0) {
+                  txtArr[i] = '<h2>' + txtArr[i].substring(3) + '</h2>';
+                  _lineBreakAdded = true;
+              } else if (txtArr[i].indexOf('#h1') === 0 || txtArr[i].indexOf('#H1') === 0) {
+                  txtArr[i] = '<h1>' + txtArr[i].substring(3) + '</h1>';
+                  _lineBreakAdded = true;
+              } else if (txtArr[i].length === 0) {
+                  txtArr[i] = '\r\n';
+                  _lineBreakAdded = true;
+              } else if (txtArr[i].indexOf('*') === 0) {
+                  if (!isEven(txtArr[i].split('*').length - 1)) {
+                      txtArr[i] = '\r\n&#9679; ' + txtArr[i].substring(1);
+                      _lineBreakAdded = true;
+                  }
+              } else if (txtArr[i].indexOf('>>') === 0) {
+                  txtArr[i] = '<p class="indent">' + txtArr[i].substring(2) + '</p>';
+                  _lineBreakAdded = true;
+              } else if (txtArr[i].indexOf('&gt;&gt;') === 0) {
+                  txtArr[i] = '<p class="indent">' + txtArr[i].substring(8) + '</p>';
+                  _lineBreakAdded = true;
+              } else if (txtArr[i].indexOf('---') === 0 || txtArr[i].indexOf('___') === 0) {
+                  txtArr[i] = '<hr/>' + txtArr[i].substring(3);
+                  _lineBreakAdded = true;
+              }
+              var j;
+              // Matches Image markup ![test](http://google.com/image.png)
+              if (txtArr[i].indexOf(' ![') === -1) {// replace method trimming last'$' character, to handle this adding ' ![' extra space
+                  txtArr[i] = txtArr[i].replace('![', ' ![');
+              }
+              var _matchImage = txtArr[i].match(/\!\[([^\]]+)\](|\s)+\(([^\)])+\)/g);
+              if (_matchImage && _matchImage.length > 0) {
+                  for (j = 0; j < _matchImage.length; j++) {
+                      var _imgTxt = _matchImage[j].substring(2, _matchImage[j].indexOf(']'));
+                      var remainingString = _matchImage[j].substring(_matchImage[j].indexOf(']') + 1).trim();
+                      var _imgLink = remainingString.substring(1, remainingString.indexOf(')'));
+                      if (hyperLinksMap) {
+                          var _randomKey = "korerandom://" + Object.keys(hyperLinksMap).length;
+                          hyperLinksMap[_randomKey] = _imgLink;
+                          _imgLink = _randomKey;
+                      }
+                      _imgLink = '<img src="' + _imgLink + '" alt="' + _imgTxt + '">';
+                      var _tempImg = txtArr[i].split(' ');
+                      for (var k = 0; k < _tempImg.length; k++) {
+                          if (_tempImg[k] === _matchImage[j]) {
+                              _tempImg[k] = _imgLink;
+                          }
+                      }
+                      txtArr[i] = _tempImg.join(' ');
+                      txtArr[i] = txtArr[i].replace(_matchImage[j], _imgLink);
+                  }
+              }
+              // Matches link markup [test](http://google.com/)
+              //var _matchLink = txtArr[i].match(/\[([^\]]+)\](|\s)+\(([^\)])+\)/g);
+              var _matchLink = txtArr[i].match(/\[([^\]]+)\](|\s)\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)/g);
+              if (_matchLink && _matchLink.length > 0) {
+                  for (j = 0; j < _matchLink.length; j++) {
+                      var _linkTxt = _matchLink[j].substring(1, _matchLink[j].indexOf(']'));
+                      var remainingString = _matchLink[j].substring(_matchLink[j].indexOf(']') + 1).trim();
+                      var _linkLink = remainingString.substring(1, remainingString.lastIndexOf(')'));
+                      _linkLink = _linkLink.replace(/\\n/g, "%0A");
+                      if (hyperLinksMap) {
+                          var _randomKey = "korerandom://" + Object.keys(hyperLinksMap).length;
+                          hyperLinksMap[_randomKey] = _linkLink;
+                          _linkLink = _randomKey;
+                      }
+                      _linkLink = '<span class="isLink"><a href="' + _linkLink + '" target="_blank">' + helpers.checkMarkdowns(_linkTxt) + '</a></span>';
+                      txtArr[i] = txtArr[i].replace(_matchLink[j], _linkLink);
+                  }
+              }
+              // Matches bold markup *test*,* test *, * test*.
+              var _matchAstrik = txtArr[i].match(/(\*+)(\s*\b)([^\*]*)(\b\s*)(\*+)/g);
+              if (_matchAstrik && _matchAstrik.length > 0) {
+                  for (j = 0; j < _matchAstrik.length; j++) {
+                      var _boldTxt = _matchAstrik[j];
+                      _boldTxt = _boldTxt.substring(1, _boldTxt.length - 1);
+                      _boldTxt = '<b>' + _boldTxt.trim() + '</b>';
+                      txtArr[i] = txtArr[i].replace(_matchAstrik[j], _boldTxt);
+                  }
+              }
+              //For backward compatability who used ~ for Italics
+              //Matches italic markup ~test~ doesnot match ~ test ~, ~test ~, ~ test~. If all these are required then replace \S with \s
+              var _matchItalic = txtArr[i].match(/\~\S([^*]*?)\S\~/g);
+              if (_matchItalic && _matchItalic.length > 0) {
+                  for (j = 0; j < _matchItalic.length; j++) {
+                      var _italicTxt = _matchItalic[j];
+                      if (txtArr[i].indexOf(_italicTxt) === 0 || txtArr[i][txtArr[i].indexOf(_italicTxt) - 1] === ' ' || txtArr[i].indexOf(_italicTxt) !== -1) {
+                          _italicTxt = _italicTxt.substring(1, _italicTxt.length - 1);
+                          _italicTxt = '<i class="markdownItalic">' + _italicTxt + '</i>';
+                          txtArr[i] = txtArr[i].replace(_matchItalic[j], _italicTxt);
+                      }
+                  }
+              }
+              // Matches italic markup _test_ doesnot match _ test _, _test _, _ test_. If all these are required then replace \S with \s
+              var _matchItalic = txtArr[i].match(/\_\S([^*]*?)\S\_/g);
+              if (_matchItalic && _matchItalic.length > 0) {
+                  for (j = 0; j < _matchItalic.length; j++) {
+                      var _italicTxt = _matchItalic[j];
+                      if (txtArr[i].indexOf(_italicTxt) === 0 || txtArr[i][txtArr[i].indexOf(_italicTxt) - 1] === ' ' || txtArr[i].indexOf(_italicTxt) !== -1) {
+                          _italicTxt = _italicTxt.substring(1, _italicTxt.length - 1);
+                          _italicTxt = '<i class="markdownItalic">' + _italicTxt + '</i>';
+                          txtArr[i] = txtArr[i].replace(_matchItalic[j], _italicTxt);
+                      }
+                  }
+              }
+              // Matches bold markup ~test~ doesnot match ~ test ~, ~test ~, ~ test~. If all these are required then replace \S with \s
+              var _matchItalic = txtArr[i].match(/\~\S([^*]*?)\S\~/g);
+              if (_matchItalic && _matchItalic.length > 0) {
+                  for (j = 0; j < _matchItalic.length; j++) {
+                      var _italicTxt = _matchItalic[j];
+                      if (txtArr[i].indexOf(_italicTxt) === 0 || txtArr[i][txtArr[i].indexOf(_italicTxt) - 1] === ' ' || txtArr[i].indexOf(_italicTxt) !== -1) {
+                          _italicTxt = _italicTxt.substring(1, _italicTxt.length - 1);
+                          _italicTxt = '<i class="markdownItalic">' + _italicTxt + '</i>';
+                          txtArr[i] = txtArr[i].replace(_matchItalic[j], _italicTxt);
+                      }
+                  }
+              }
+              // Matches bold markup ~test~ doesnot match ~ test ~, ~test ~, ~ test~. If all these are required then replace \S with \s
+              var _matchPre = txtArr[i].match(/\`\`\`\S([^*]*?)\S\`\`\`/g);
+              var _matchPre1 = txtArr[i].match(/\'\'\'\S([^*]*?)\S\'\'\'/g);
+              if (_matchPre && _matchPre.length > 0) {
+                  for (j = 0; j < _matchPre.length; j++) {
+                      var _preTxt = _matchPre[j];
+                      _preTxt = _preTxt.substring(3, _preTxt.length - 3);
+                      _preTxt = '<pre>' + _preTxt + '</pre>';
+                      txtArr[i] = txtArr[i].replace(_matchPre[j], _preTxt);
+                  }
+                  _lineBreakAdded = true;
+              }
+              if (_matchPre1 && _matchPre1.length > 0) {
+                  for (j = 0; j < _matchPre1.length; j++) {
+                      var _preTxt = _matchPre1[j];
+                      _preTxt = _preTxt.substring(3, _preTxt.length - 3);
+                      _preTxt = '<pre>' + _preTxt + '</pre>';
+                      txtArr[i] = txtArr[i].replace(_matchPre1[j], _preTxt);
+                  }
+                  _lineBreakAdded = true;
+              }
+              if (!_lineBreakAdded && i > 0) {
+                  txtArr[i] = '\r\n' + txtArr[i];
+              }
+          }
+          val = txtArr.join('');
+          return val;
+      }
+  };
+
+    function koreGenerateUUID() {
+      console.info("generating UUID");
+      var d = new Date().getTime();
+      if (window.performance && typeof window.performance.now === "function") {
+        d += performance.now(); //use high-precision timer if available
+      }
+      var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      });
+      return uuid;
+    }
+  
     FindlySDK.prototype.unlockBot = function () {
       var _self = this;
       var payload  = {
