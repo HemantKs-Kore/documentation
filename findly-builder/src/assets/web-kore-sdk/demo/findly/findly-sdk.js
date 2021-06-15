@@ -5094,6 +5094,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getRecentSearches = function (url, type) {
       var _self = this;
+      _self.pubSub.unsubscribe('sa-generate-recent-search');
       _self.pubSub.subscribe('sa-generate-recent-search', data => {
         var bearer = this.API.jstBarrer;
         var headers = {
@@ -5131,7 +5132,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 if (freqDataTop.recents.length) {
                   $('#live-search-result-box').hide();
                   $('#frequently-searched-box').show();
-                  _self.frequentlySearchedRecentTextClickEvent();
+                  // _self.frequentlySearchedRecentTextClickEvent();
                 }
               } else {
                 if(searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled){
@@ -5411,7 +5412,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.pubSub.publish('sa-freq-data', tmplData);
             _self.pubSub.publish('sa-show-freq-data', tmplData);
           }
-
           _self.getPopularSearchList(popSearchUrl, 'GET').then(function (response) {
             _self.vars.searchObject.popularSearches = response;
             var recentSearchUrl = _self.API.recentSearchUrl;
@@ -5470,7 +5470,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.top-down-suggestion').val('');
               $('#live-search-result-box').hide();
               $('#frequently-searched-box').show();
-              _self.frequentlySearchedRecentTextClickEvent();
+              // _self.frequentlySearchedRecentTextClickEvent();
               if (((_self.vars.searchObject.recentTasks && !_self.vars.searchObject.recentTasks.length) || (_self.vars.searchObject.recents && !_self.vars.searchObject.recents.length)) && $('.search-container').hasClass('active')) {
                 // $('.search-container').removeClass('active');
               }
@@ -6519,7 +6519,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //   popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
         // });
         // $('.search-body').html(freqData);
-        _self.pubSub.publish('sa-generate-recent-search');
+        setTimeout(function () {
+          _self.pubSub.publish('sa-generate-recent-search');
+        }, 150);
       }
 
       setTimeout(function () {
@@ -7450,7 +7452,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.enableRecent = function () {
       var _self = this;
-      _self.pubSub.subscribe('sa-show-freq-data', (msg, data) => {
+      _self.pubSub.unsubscribe('sa-show-freq-data');
+        _self.pubSub.subscribe('sa-show-freq-data', (msg, data) => {
         var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(data);
         $('.search-body').html(freqData);
         _self.deleteRecents();
@@ -7458,7 +7461,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.addFrequentlyUsedControl = function (config) {
       var _self = this;
-
+      _self.pubSub.unsubscribe('sa-freq-data');
       _self.pubSub.subscribe('sa-freq-data', (msg, data) => {
         if (config.container) {
           if (config.templateId) {
@@ -7466,9 +7469,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               var dataHTML = $('#' + config.templateId).tmplProxy(data);
             } else {
               var dataHTML = $(_self.getFrequentlySearchTemplate()).tmplProxy({...data,...{searchConfig:config.searchConfig}});
-              if (data.recents && data.recents.length && !$('#search').val()) {
+              if (data.recents && data.recents.length && !$('.search-top-down').val()) {
                 $('#frequently-searched-box').show();
-                _self.frequentlySearchedRecentTextClickEvent();
+                setTimeout(()=>{
+                  _self.frequentlySearchedRecentTextClickEvent();
+                },150)
               } else {
                 $('#frequently-searched-box').hide();
               }
@@ -7866,13 +7871,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
               $('.top-down-suggestion').val('');
               $('#live-search-result-box').hide();
-              $('#frequently-searched-box').show();
-              _self.frequentlySearchedRecentTextClickEvent();
-              if (((_self.vars.searchObject.recentTasks && !_self.vars.searchObject.recentTasks.length) || (_self.vars.searchObject.recents && !_self.vars.searchObject.recents.length)) && $('.search-container').hasClass('active')) {
-                // $('.search-container').removeClass('active');
-              }
-              _self.bindFrequentData();
-              $('.custom-header-container-center').css('visibility', 'visible');
             } else {
               $('#frequently-searched-box').hide();
             }
@@ -20762,6 +20760,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.show-result').hide();
       findlyConfig.autoConnect = true;
       _self.initialize(findlyConfig, _self.isDev);
+      _self.getRecentSearches(_self.API.recentSearchUrl, 'GET');
       _self.initializeTopSearchTemplate();
       if ($('.search-background-div').length) {
         $('.search-background-div').remove();
@@ -20883,9 +20882,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         }, 600);
       });
-      _self.pubSub.unsubscribe('sa-generate-recent-search');
-      $('#search-box-container').off('focus', '#search').on('focus', '#search', function (e) {
-        if (!$('#search').val()) {
+      // _self.pubSub.unsubscribe('sa-generate-recent-search');
+      $('#search-box-container').off('focusin', '.search-top-down').on('focusin', '.search-top-down', function (e) {
+        if (!$('.search-top-down').val()) {
+          console.log('initialize focus');
           _self.bindFrequentData();
         }
         if ($('#greeting-msg-top-down').length) {
