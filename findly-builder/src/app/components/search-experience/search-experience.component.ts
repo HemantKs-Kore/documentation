@@ -283,7 +283,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     }
     else if (this.selectedTab === 'interactions') {
       this.show_tab_color2 = true;
-    }else if (this.selectedTab === 'experience') {
+    } else if (this.selectedTab === 'experience') {
       this.show_tab_color = true;
     }
     this.selectedTab = type;
@@ -292,7 +292,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     }
     else if (this.selectedTab === 'interactions') {
       this.show_tab_color2 = false;
-    }else if (this.selectedTab === 'experience') {
+    } else if (this.selectedTab === 'experience') {
       this.show_tab_color = false;
     }
   }
@@ -523,6 +523,12 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       }
     );
   }
+  //apply text based on input change
+  onEventLog(type, text) {
+    if (type == 'placeholderText') {
+      this.searchObject.searchWidgetConfig.searchBarPlaceholderText = text;
+    }
+  }
   //apply color based on save button 
   applyColor(type, save) {
     if (this.selectedColor != '') {
@@ -543,9 +549,6 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
         this.searchObject.searchWidgetConfig.searchBarPlaceholderTextColor = this.selectedColor;
         this.toggle2 = false;
         this.placeholBox = false;
-      }
-      else if (type == 'placeholderText') {
-        this.searchObject.searchWidgetConfig.searchBarPlaceholderText = this.selectedColor;
       }
       else if (type == 'buttonFill') {
         this.searchObject.searchWidgetConfig.buttonFillColor = this.selectedColor;

@@ -880,6 +880,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/extract/sources/:sourceId/init',
       method: 'get'
     }
+    this.serviceList['put.retryValidation'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/source/:sourceId/crawler/validateUrl',
+      method: 'put'
+    }
     //  this.serviceList['export.dockstatus'] = {
     //   endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/dockStatus/:notificationsId',
     //   method: 'post'      

@@ -10,6 +10,10 @@ export class ConfirmationDialogComponent implements OnInit {
   onSelect = new EventEmitter();
   isSelected: boolean;
   showLearnMore: boolean;
+  crossIconItem = {
+    "key": "no",
+    "label": ""
+  }
   constructor(
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
