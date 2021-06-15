@@ -44,7 +44,12 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   disableDiv = false;
   collectedRecord = [];
   permisionView = false;
+  showSearch=false;
+  activeClose = false;
+  searchSources='';
   componentType: string = 'optimize';
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -726,6 +731,20 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   closeLogs() {
     this.resultLogs = false;
+  }
+  focusoutSearch(){
+    if (this.activeClose) {
+      this.searchSources = '';
+      this.activeClose = false;
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch){
+    $('#inputSearch').focus();
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+      $('#inputSearch').focus();
+    },500)
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;

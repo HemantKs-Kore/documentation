@@ -8,6 +8,7 @@
     text-align: center;
     padding: 0!important;
     z-index: 10500;
+    overflow: hidden !important;
     &.width-700{
         .modal-dialog{
             max-width: 700px !important;
@@ -771,6 +772,10 @@
             }
         }
     }
+
+}
+.above-modal-drop-class{
+    z-index: 99999 !important;
 }
 .modal{
     &.property-data-modal{

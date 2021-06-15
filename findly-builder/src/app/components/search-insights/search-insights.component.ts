@@ -140,14 +140,14 @@ export class SearchInsightsComponent implements OnInit {
     else if (type == 'QueriesWithResults') {
       queryparams = {
         ...queryparams,
-        offset: this.QWR_skipPage,
+        offset: this.QWR_skipPage || 0,
         limit: this.QWR_limitPage
       };
     }
     else if (type == 'SearchQueryResults') {
       queryparams = {
         ...queryparams,
-        offset: this.SQR_skipPage,
+        offset: this.SQR_skipPage || 0,
         limit: this.SQR_limitPage
       };
     }
@@ -188,17 +188,17 @@ export class SearchInsightsComponent implements OnInit {
 
   paginate(event, type) {
     if (type === 'QWR') {
-      this.QWR_limitPage = event.limit;
+      // this.QWR_limitPage = event.limit;
       this.QWR_skipPage = event.skip;
       this.getQueries('QueriesWithResults');
     }
     else if (type === 'QWNR') {
-      this.QWNR_limitPage = event.limit;
+      // this.QWNR_limitPage = event.limit;
       this.QWNR_skipPage = event.skip;
       this.getQueries('QueriesWithNoResults');
     }
     else if (type === 'SQR') {
-      this.SQR_limitPage = event.limit;
+      // this.SQR_limitPage = event.limit;
       this.SQR_skipPage = event.skip;
       this.getQueries('SearchQueryResults');
     }

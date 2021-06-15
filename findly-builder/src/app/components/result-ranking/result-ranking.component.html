@@ -52,11 +52,14 @@
                                 <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" autocomplete="off" (click) = "selectAll()">
                                 <label for="selectAllFaqs" class="checkbox-custom-label"></label>
                             </div>
-                            <div class="kr-sg-input-search">                               
-                                <input type="text" placeholder="Search" class="input-search" 
+                            <div class="kr-sg-input-search"   [ngClass]="{'d-none': !showSearch}">                               
+                                <input type="text" id="inputSearch" placeholder="Search" class="input-search" (focusout)="focusoutSearch();"
                                 [(ngModel)]="searchSources" name='faqsSearch' autocomplete="off" [ngClass]="{'pl-33':!searchSources,'pl-2':searchSources}">
                                 <img src="assets/icons/search-gray.svg" class="search-icon" *ngIf="!searchSources">
-                                <img class="close-icon" *ngIf="searchSources" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (click)="searchSources='';">
+                                <img class="close-icon" *ngIf="searchSources" src="assets/icons/close_icon.svg" (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchSources}" (click)="searchSources='';">
+                            </div>
+                            <div class="search-block" (click)="showSearch=!showSearch;focusinSearch('inputSearch')">
+                                <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                             </div>
                         </ng-container>                            
                     </div>
@@ -73,7 +76,7 @@
                             <div id="accordion" class="accordion-content">
                                 <ng-container *ngIf="customizeList">
                                     <div class="card-content" *ngFor="let list of customizeList | filter: [ searchSources , 'searchQuery'];let i = index">
-                                        <div class="card_link collapsed" [ngClass]="{'is-checked': list.check == true || selectedRecord._id == list._id}" (click) ="clickCustomizeRecord(list,$event)">      
+                                        <div class="card_link collapsed" [ngClass]="{'is-checked': list.check == true, 'is-selected-list': selectedRecord._id == list._id}" (click) ="clickCustomizeRecord(list,$event)">      
                                             <div class="d-flex align-items-center w-100">
                                                 <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
                                                     <input  [attr.id]="'result'+i"  class="checkbox-custom selectEachfaqInput" type="checkbox"  autocomplete="off" [(ngModel)]="list.check" (click) ="multiSelect(list,!list.check,$event)">
