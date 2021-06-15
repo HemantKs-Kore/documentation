@@ -5337,6 +5337,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if ($("#auto-query-box").find(".suggestion-box").length) {
                 $('.suggestion-box').remove();
               }
+              $('.top-down-suggestion').val('');
               $('#live-search-result-box').hide();
               $('#frequently-searched-box').show();
               _self.frequentlySearchedRecentTextClickEvent();
@@ -7816,11 +7817,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.pubSub.unsubscribe('sa-search-focus');
         _self.pubSub.subscribe('sa-search-focus', data => {
           config.focusHandler();
-          if (!$("#search").val()) {
+          if (!$(".search-top-down").val()) {
             if ($("#search").is(":focus")) {
               if ($('#greeting-msg-top-down').length) {
                 $('#greeting-msg-top-down').hide();
               }
+              if ($("#auto-query-box").find(".suggestion-box").length) {
+                $('.suggestion-box').remove();
+              }
+              $('.top-down-suggestion').val('');
+              $('#live-search-result-box').hide();
+              $('#frequently-searched-box').show();
+              _self.frequentlySearchedRecentTextClickEvent();
+              if (((_self.vars.searchObject.recentTasks && !_self.vars.searchObject.recentTasks.length) || (_self.vars.searchObject.recents && !_self.vars.searchObject.recents.length)) && $('.search-container').hasClass('active')) {
+                // $('.search-container').removeClass('active');
+              }
+              _self.bindFrequentData();
+              $('.custom-header-container-center').css('visibility', 'visible');
             } else {
               $('#frequently-searched-box').hide();
             }
@@ -7864,7 +7877,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       $('.cancel-search').off('click').on('click', function (event) {
         $('#search').val(''); $('#suggestion').val('');
-        $('.top-down-search').val('');
+        $('.search-top-down').val('');
         $('.top-down-suggestion').val('');
         if ($('.topdown-search-main-container').length) {
           $('.cancel-search').hide();
@@ -19666,7 +19679,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.pubSub.publish('sa-auto-suggest', data.autoComplete.typeAheads);
             _self.bindAutoSuggestionTriggerOptions(autoSuggestionHTML);
             if ($('body').hasClass('top-down')) {
-              if(searchConfigurationCopy.autocompleteOpt){
+              if(searchConfigurationCopy.querySuggestionsLimit){
               _self.showSuggestionbox(data.autoComplete.querySuggestions);
               $('.top-down-suggestion').show();
               }else{
