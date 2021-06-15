@@ -283,7 +283,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     }
     else if (this.selectedTab === 'interactions') {
       this.show_tab_color2 = true;
-    }else if (this.selectedTab === 'experience') {
+    } else if (this.selectedTab === 'experience') {
       this.show_tab_color = true;
     }
     this.selectedTab = type;
@@ -292,7 +292,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     }
     else if (this.selectedTab === 'interactions') {
       this.show_tab_color2 = false;
-    }else if (this.selectedTab === 'experience') {
+    } else if (this.selectedTab === 'experience') {
       this.show_tab_color = false;
     }
   }
