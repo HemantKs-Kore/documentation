@@ -180,7 +180,7 @@
           <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
           (click)="jobOndemand()" *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&(statusObject?.validation?.url?.validated)" [disabled]="crawlOkDisable">Crawl</button>
           <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-           *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&!(statusObject?.validation?.url?.validated)">Retry</button>
+           *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&!(statusObject?.validation?.url?.validated)" (click)="retryValidation()">Retry</button>
           <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" (click)="editConfiguration()"
            *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&!(statusObject?.validation?.url?.validated)">Edit Configuration</button>
          </div>
@@ -779,8 +779,7 @@
       </perfect-scrollbar>
       <div class="modal-footer">
         <!-- [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" -->
-        <button class="kr-sg-button-primary btn_lg mr-3"
-          (click)="validateSource()">Proceed</button>
+        <button class="kr-sg-button-primary btn_lg mr-3" (click)="validateSource()">Proceed</button>
         <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition()">Cancel</button>
       </div>
     </form>

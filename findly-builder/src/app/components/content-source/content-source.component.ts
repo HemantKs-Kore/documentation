@@ -36,7 +36,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isEditDoc: boolean = false;
   editDocObj: any = {};
   isEdittitle;
-  edit:any={};
+  edit: any = {};
   editConfObj: any = {};
   editTitleFlag: boolean = false;
   isConfig: boolean = false;
@@ -463,11 +463,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
       this.selectedSource.pages = res;
       this.loadingSliderContent = false;
-      if(this.selectedSource.pages.length > 0){
+      if (this.selectedSource.pages.length > 0) {
         this.docContent = this.selectedSource.pages[0]._source;
-      this.docContentType = this.selectedSource.pages[0]._meta;
+        this.docContentType = this.selectedSource.pages[0]._meta;
       }
-      
+
       /** Paging */
       const data = [...res]
       this.pagingData = data.slice(0, this.limitpage);
@@ -584,7 +584,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             }
           } else if (element.executionStats.executionStatusMessage == 'Execution Stopped') {
             element.executionStats['tooltip'] = "Execution Stopped due to " + element.statusMessage || ' time out';
-          }else{
+          } else {
             element.executionStats['tooltip'] = element.statusMessage
           }
         });
@@ -898,7 +898,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       jobId: page.jobId
     }
     const payload: any = {
-      url: page._source.url
+      url: page._source.pageUrl
     }
     this.service.invoke('reCrwal.website', quaryparms, payload).subscribe(res => {
       this.dockService.trigger(true);
@@ -1528,9 +1528,32 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.selectedSource.advanceSettings.crawlEverything = true;
     }
   }
+  //retry failed url validation
+  retryValidation(source, event) {
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      sourceId: source._id
+    };
+    const payload = {
+      url: source.url
+    }
+    this.service.invoke('put.retryValidation', quaryparms, payload).subscribe(res => {
+      this.getSourceList();
+      this.dockService.trigger(true);
+    }, errRes => {
+      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed retry validation', 'error');
+      }
+    });
+  }
   //crawl job ondemand
   jobOndemand(source, event) {
-    console.log("jobOndemand", source)
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
@@ -1540,7 +1563,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       sourceId: source._id
     };
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
-      console.log(res);
       this.getSourceList();
       this.dockService.trigger(true);
       //this.notificationService.notify('Bot linked, successfully', 'success');
@@ -1568,9 +1590,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   focusoutSearch(isSearchSource?) {
     if (this.activeClose) {
-      if(isSearchSource){
+      if (isSearchSource) {
         this.searchSources = '';
-      }else{
+      } else {
         this.pagesSearch = '';
       }
       this.activeClose = false;
@@ -1582,7 +1604,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       document.getElementById(inputSearch).focus();
     }, 100)
   }
-  downloadDoc(url){
+  downloadDoc(url) {
     FileSaver.saveAs(url + '&DownloadPdf=true');
   }
 }

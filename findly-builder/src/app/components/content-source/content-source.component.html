@@ -226,15 +226,11 @@
               </div>
               <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
               <div class="col_ col-1 text-right p-0">
-                <span class="actions-links" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' && source.recentStatus !== 'configured'&&source.recentStatus != 'queued' || (source.recentStatus === 'failed' ||  source.recentStatus === 'failed')"  (click)="recrwal('source',source,$event)">
-                  <img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span>
-                <span class="actions-links" *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'"  (click)="jobOndemand(source,$event)">
-                  <img class="action_icon" src="assets/icons/validate.svg" ngbTooltip='Revalidate' container="body"></span>
-                <span class="actions-links" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'" (click)="stopCrwaling(source,$event)"><img class="action_icon"
-                  src="assets/icons/content/stop.svg" ngbTooltip='Stop' container="body"></span>
-                <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
-                    src="assets/icons/delete-table.svg" ngbTooltip='Delete' container="body"></span>
-                  
+                <span class="actions-links" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated)"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'"  (click)="jobOndemand(source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Crawl' container="body"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'web' && (source.recentStatus === 'failed'&&!(source?.validations?.url?.validated))"  (click)="retryValidation(source,$event)"><img class="action_icon" src="assets/icons/validate.svg" ngbTooltip='Retry' container="body"></span>
+                <span class="actions-links" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'" (click)="stopCrwaling(source,$event)"><img class="action_icon" src="assets/icons/content/stop.svg" ngbTooltip='Stop' container="body"></span>
+                <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon" src="assets/icons/delete-table.svg" ngbTooltip='Delete' container="body"></span>                  
               </div>
             </div>
           </ng-container>
@@ -403,7 +399,9 @@
                 </div>
               </div>
               <div class="" *ngIf="!page && !execution">
-                <button class="kr-sg-button-secondary btn_lg" (click) = "recrwal('source',selectedSource ,null)">Crawl</button>
+                <button class="kr-sg-button-secondary btn_lg" *ngIf="selectedSource.recentStatus == 'configured'"  (click)="jobOndemand(selectedSource,$event)">Crawl</button>
+                <button class="kr-sg-button-secondary btn_lg" *ngIf="(['success'].includes(selectedSource.recentStatus)) || (selectedSource.recentStatus === 'failed'&&selectedSource?.validations?.url?.validated)" (click)="recrwal('source',selectedSource ,null)">Recrawl</button>
+                <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedSource.recentStatus === 'failed'&&!(selectedSource?.validations?.url?.validated))" (click)="retryValidation(selectedSource,$event)">Retry</button>
               </div>
               <!-- <div class="add-page"><img src="assets/icons/sidemenu/plus-table.svg">Add Page</div> -->
             </div>
