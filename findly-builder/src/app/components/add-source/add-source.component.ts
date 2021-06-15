@@ -74,6 +74,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   botsConfigurationModalRef: any;
   submitted = false;
   showPassword = false;
+  url_failed: boolean = false;
   configurationLink: any = {
     postUrl: '',
     accessToken: '',
@@ -307,6 +308,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   closeAddSourceModal() {
     if (this.addSourceModalPopRef && this.addSourceModalPopRef.close) {
+      this.url_failed = false;
       this.addSourceModalPopRef.close();
     }
   }
@@ -324,12 +326,30 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
+    this.url_failed = true;
     this.openAddSourceModal();
-    // this.newSourceObj = 
+  }
+  //retry failed url validation
+  retryValidation() {
+    const quaryparms: any = {
+      searchIndexId: this.searchIndexId,
+      sourceId: this.extract_sourceId
+    };
+    const payload = {
+      url: this.newSourceObj.url
+    }
+    this.service.invoke('put.retryValidation', quaryparms, payload).subscribe(res => {
+      this.statusObject = { ...this.statusObject, validation: res.validations };
+    }, errRes => {
+      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed retry validation', 'error');
+      }
+    });
   }
   datainc = 0;
   poling(jobId, schedule?) {
-    console.log("JobId", jobId)
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
@@ -767,8 +787,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       return
     } else {
       if (this.selectedSourceType.sourceType === 'content') {
-        endPoint = 'add.sourceMaterial';
+        endPoint = this.url_failed ? 'update.contentPageSource' : 'add.sourceMaterial';
         payload.resourceType = resourceType;
+        if (this.url_failed) {
+          quaryparms.sourceId = this.extract_sourceId;
+        }
       } else {
         if (this.fileObj.fileAdded) {
           resourceType = 'file';
@@ -851,6 +874,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (schdVal) {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
           this.openStatusModal();
+          this.extract_sourceId = res._id;
           this.appSelectionService.updateTourConfig('addData');
           this.addSourceModalPopRef.close();
           if (this.selectedSourceType.sourceType === 'content') {
@@ -859,10 +883,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           if (this.selectedSourceType.sourceType === 'faq') {
             this.poling(res._id, 'scheduler');
           }
-          this.extract_sourceId = res._id;
-
-          //this.crwal_jobId = res.jobId
-          console.log("this.statusObject", this.statusObject)
           //this.dockService.trigger(true)
         }, errRes => {
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1293,7 +1313,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.pollingSubscriber.unsubscribe();
     }
     this.anntationObj = null;
-    console.log('PolingDistroyed');
     this.fileObj.fileAdded = false;
   }
 
