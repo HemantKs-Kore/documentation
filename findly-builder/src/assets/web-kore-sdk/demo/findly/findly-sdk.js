@@ -5392,192 +5392,196 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('#live-search-result-box').hide();
                   }
                   if((searchConfigurationCopy.liveSearchResultsLimit !== 0)){
-                    return;
-                  }
-                  _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
-                    if(res.isBotLocked){
-                      window.isBotLocked = true;
-                    }
-                    else{
-                      window.isBotLocked = false;
-                      // $('.search-body').removeClass('hide');
-                      // $('#searchChatContainer').addClass('bgfocus');
-                    }
-                    if(_self.vars.enterIsClicked){
-                      return;
-                    }
-                    if (res && res.requestId && res.template && res.template.originalQuery) {
-                      _self.vars.previousSearchObj = {};
-                      _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
-                      _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
-                    } else {
-                      console.log('Previous requestId or orinigal query is mising');
-                    }
-                    if (res.templateType === 'liveSearch') {
-                      $('.search-body').show();
-                      $('#searchChatContainer').removeClass('bgfocus-override');
-                      res = res.template;
-                      var faqs = [], web = [], tasks = [], files = [], data = [], facets, viewType = "Preview";
-                      if (!$('.search-container').hasClass('active')) {
-                        $('.search-container').addClass('active');
+                    _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
+                      if(res.isBotLocked){
+                        window.isBotLocked = true;
                       }
-                      // if (res && res.results && res.results.length) {
-                      if (res && res.results && (res.results.file.length || res.results.faq.length || res.results.data.length || res.results.web.length || res.results.task.length)) {
-                        _self.closeGreetingMsg();
-                        // var liveResult = res.results;
-
-                        // liveResult.forEach(function (result) {
-                        //   if (result.sysContentType === "faq") {
-                        //     faqs.push(result);
-                        //   } else if (result.sysContentType === "web") {
-                        //     web.push(result);
-                        //   } else if (result.sysContentType === "file") {
-                        //     files.push(result);
-                        //   } else if (result.sysContentType === "task") {
-                        //     tasks.push(result);
-                        //   }
-                        // })
-                        faqs = res.results.faq;
-                        web = res.results.web;
-                        tasks = res.results.task;
-                        files = res.results.file;
-                        data = res.results.data;
-                        facets = res.facets;
-                        var dataObj = {
-                          faqs: faqs,
-                          web: web,
-                          tasks: tasks,
-                          files: files,
-                          data: data,
-                          facets: facets,
-                          originalQuery: res.originalQuery,
-                          customSearchResult: _self.customSearchResult
-                        }
-                        //livesearch
-                        var tmplData = {
-                          faqs: faqs.slice(0, 2),
-                          web: web.slice(0, 2),
-                          tasks: tasks.slice(0, 2),
-                          files: files.slice(0, 2),
-                          showAllResults: true,
-                          noResults: false,
-                          taskPrefix: 'SUGGESTED',
-                          viewType: viewType,
-                          customSearchResult: _self.customSearchResult
-                        };
-
-                        searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
-                        _self.pubSub.publish('sa-st-data-search', {
-                          container: '.structured-live-data-container', /*  start with '.' if class or '#' if id of the element*/ isFullResults: false, selectedFacet: 'all results', isSearch: false, isLiveSearch: true, dataObj
-                        });
-                        _self.pubSub.publish('sa-faq-search', { container: '.faqs-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
-                        _self.pubSub.publish('sa-web-search', { container: '.web-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
-                        _self.pubSub.publish('sa-file-search', { container: '.files-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
-                        $(searchData).data(dataObj);
-                        $('.search-body').html(searchData);
-                        setTimeout(function () {
-                          $('.search-body').scrollTop(2);
-                        }, 100);
-                        _self.bindAllResultsView();
-                        if ($('body').hasClass('top-down')) {
-                          //top-down-search-live-search-suggestion box showing//
-                          setTimeout(function () {
-                            _self.bindStructuredDataTriggeringOptions();
-                          }, 100);
-                          _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
-
-                        }
-                        // res.autoComplete['querySuggestions']=['How to make online bill payment?', 'Citi - Online Bill Payment'];
-
-                        // _self.pubSub.publish('sa-auto-suggest', res.autoComplete.keywords);
-                        // tmplData['suggestions'] = res.autoComplete.keywords;
-                        //to sort rendering results based on score
-                        var scoreArray = [
-                          {
-                            name: 'asstPage',
-                            score: web.length && web[0].score
-                          },
-                          {
-                            name: 'asstTask',
-                            score: tasks.length && tasks[0].score
-                          },
-                          {
-                            name: 'asstFaq',
-                            score: faqs.length && faqs[0].score
-                          }
-                        ];
-                        scoreArray.sort((a, b) => { return b.score - a.score });
-                        //console.log("scoreArray", scoreArray);
-                        scoreArray.forEach((obj, index) => {
-                          $('.' + obj.name).css("order", index + 1);
-                        })
-                        if ($('body').hasClass('top-down')) {
-                          _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: true, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' } });
-                        } else {
-                          _self.pubSub.publish('sa-search-result', dataObj);
-                        }
-                        if (!$('body').hasClass('top-down')) {
-                          _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
-                        }
+                      else{
+                        window.isBotLocked = false;
+                        // $('.search-body').removeClass('hide');
+                        // $('#searchChatContainer').addClass('bgfocus');
+                      }
+                      if(_self.vars.enterIsClicked){
+                        return;
+                      }
+                      if (res && res.requestId && res.template && res.template.originalQuery) {
+                        _self.vars.previousSearchObj = {};
+                        _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
+                        _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
                       } else {
-                        if ($('#search').val()) {
+                        console.log('Previous requestId or orinigal query is mising');
+                      }
+                      if (res.templateType === 'liveSearch') {
+                        $('.search-body').show();
+                        $('#searchChatContainer').removeClass('bgfocus-override');
+                        res = res.template;
+                        var faqs = [], web = [], tasks = [], files = [], data = [], facets, viewType = "Preview";
+                        if (!$('.search-container').hasClass('active')) {
+                          $('.search-container').addClass('active');
+                        }
+                        // if (res && res.results && res.results.length) {
+                        if (res && res.results && (res.results.file.length || res.results.faq.length || res.results.data.length || res.results.web.length || res.results.task.length)) {
+                          _self.closeGreetingMsg();
+                          // var liveResult = res.results;
+
+                          // liveResult.forEach(function (result) {
+                          //   if (result.sysContentType === "faq") {
+                          //     faqs.push(result);
+                          //   } else if (result.sysContentType === "web") {
+                          //     web.push(result);
+                          //   } else if (result.sysContentType === "file") {
+                          //     files.push(result);
+                          //   } else if (result.sysContentType === "task") {
+                          //     tasks.push(result);
+                          //   }
+                          // })
+                          faqs = res.results.faq;
+                          web = res.results.web;
+                          tasks = res.results.task;
+                          files = res.results.file;
+                          data = res.results.data;
+                          facets = res.facets;
                           var dataObj = {
                             faqs: faqs,
                             web: web,
                             tasks: tasks,
                             files: files,
+                            data: data,
                             facets: facets,
-                            data : data,
+                            originalQuery: res.originalQuery,
                             customSearchResult: _self.customSearchResult
                           }
+                          //livesearch
                           var tmplData = {
-                            faqs: faqs,
-                            web: web,
-                            tasks: tasks,
-                            files: files,
-                            showAllResults: false,
-                            noResults: true,
-                            taskPrefix: 'MATCHED',
+                            faqs: faqs.slice(0, 2),
+                            web: web.slice(0, 2),
+                            tasks: tasks.slice(0, 2),
+                            files: files.slice(0, 2),
+                            showAllResults: true,
+                            noResults: false,
+                            taskPrefix: 'SUGGESTED',
                             viewType: viewType,
                             customSearchResult: _self.customSearchResult
-                          }
+                          };
 
                           searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
+                          _self.pubSub.publish('sa-st-data-search', {
+                            container: '.structured-live-data-container', /*  start with '.' if class or '#' if id of the element*/ isFullResults: false, selectedFacet: 'all results', isSearch: false, isLiveSearch: true, dataObj
+                          });
+                          _self.pubSub.publish('sa-faq-search', { container: '.faqs-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
+                          _self.pubSub.publish('sa-web-search', { container: '.web-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
+                          _self.pubSub.publish('sa-file-search', { container: '.files-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
                           $(searchData).data(dataObj);
-                          console.log("no results found");
                           $('.search-body').html(searchData);
                           setTimeout(function () {
                             $('.search-body').scrollTop(2);
                           }, 100);
+                          _self.bindAllResultsView();
                           if ($('body').hasClass('top-down')) {
-                            _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch | 'all results' } });
+                            //top-down-search-live-search-suggestion box showing//
+                            setTimeout(function () {
+                              _self.bindStructuredDataTriggeringOptions();
+                            }, 100);
+                            _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
+
+                          }
+                          // res.autoComplete['querySuggestions']=['How to make online bill payment?', 'Citi - Online Bill Payment'];
+
+                          // _self.pubSub.publish('sa-auto-suggest', res.autoComplete.keywords);
+                          // tmplData['suggestions'] = res.autoComplete.keywords;
+                          //to sort rendering results based on score
+                          var scoreArray = [
+                            {
+                              name: 'asstPage',
+                              score: web.length && web[0].score
+                            },
+                            {
+                              name: 'asstTask',
+                              score: tasks.length && tasks[0].score
+                            },
+                            {
+                              name: 'asstFaq',
+                              score: faqs.length && faqs[0].score
+                            }
+                          ];
+                          scoreArray.sort((a, b) => { return b.score - a.score });
+                          //console.log("scoreArray", scoreArray);
+                          scoreArray.forEach((obj, index) => {
+                            $('.' + obj.name).css("order", index + 1);
+                          })
+                          if ($('body').hasClass('top-down')) {
+                            _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: true, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' } });
                           } else {
                             _self.pubSub.publish('sa-search-result', dataObj);
-                          _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
+                          }
+                          if (!$('body').hasClass('top-down')) {
+                            _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
+                          }
+                        } else {
+                          if ($('#search').val()) {
+                            var dataObj = {
+                              faqs: faqs,
+                              web: web,
+                              tasks: tasks,
+                              files: files,
+                              facets: facets,
+                              data : data,
+                              customSearchResult: _self.customSearchResult
+                            }
+                            var tmplData = {
+                              faqs: faqs,
+                              web: web,
+                              tasks: tasks,
+                              files: files,
+                              showAllResults: false,
+                              noResults: true,
+                              taskPrefix: 'MATCHED',
+                              viewType: viewType,
+                              customSearchResult: _self.customSearchResult
+                            }
+
+                            searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
+                            $(searchData).data(dataObj);
+                            console.log("no results found");
+                            $('.search-body').html(searchData);
+                            setTimeout(function () {
+                              $('.search-body').scrollTop(2);
+                            }, 100);
+                            if ($('body').hasClass('top-down')) {
+                              _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch | 'all results' } });
+                            } else {
+                              _self.pubSub.publish('sa-search-result', dataObj);
+                            _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
+                            }
                           }
                         }
+                        _self.vars.searchObject.liveData = {
+                          faqs: faqs,
+                          web: web,
+                          tasks: tasks,
+                          files: files,
+                          facets: facets,
+                          originalQuery: res.originalQuery || '',
+                        }
+                        // if (res.searchResults.smallTalk && res.searchResults.smallTalk.isSmallTalk && res.searchResults.smallTalk.text) {
+                        //   _self.vars.searchObject.liveData.smallTalk = res.searchResults.smallTalk.text;
+                        // }
+                        _self.searchEventBinding(searchData, "livesearch", e, config);
+                      } else if (res.templateType === 'liveSearchEmpty') {
+                        $('.search-body').hide();
+                        $('#searchChatContainer').addClass('bgfocus-override');
                       }
-                      _self.vars.searchObject.liveData = {
-                        faqs: faqs,
-                        web: web,
-                        tasks: tasks,
-                        files: files,
-                        facets: facets,
-                        originalQuery: res.originalQuery || '',
+                      else {
+                        $('.search-body').hide();
+                        // $('#searchChatContainer').addClass('bgfocus-override');
                       }
-                      // if (res.searchResults.smallTalk && res.searchResults.smallTalk.isSmallTalk && res.searchResults.smallTalk.text) {
-                      //   _self.vars.searchObject.liveData.smallTalk = res.searchResults.smallTalk.text;
-                      // }
-                      _self.searchEventBinding(searchData, "livesearch", e, config);
-                    } else if (res.templateType === 'liveSearchEmpty') {
-                      $('.search-body').hide();
-                      $('#searchChatContainer').addClass('bgfocus-override');
-                    }
-                    else {
-                      $('.search-body').hide();
-                      // $('#searchChatContainer').addClass('bgfocus-override');
-                    }
-                  })
+                    })
+                  }
+                  else{
+                    $('.search-container').addClass('active');
+                    $('.search-body').removeClass('hide');
+                    $('.search-body').show();
+                  }
                 }
               } else {
                 $('.search-body').html('');
