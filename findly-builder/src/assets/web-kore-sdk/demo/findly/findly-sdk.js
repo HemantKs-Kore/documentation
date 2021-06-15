@@ -5391,6 +5391,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $(".top-down-suggestion").val($('#search').val());
                     $('#live-search-result-box').hide();
                   }
+                  if((searchConfigurationCopy.liveSearchResultsLimit !== 0)){
+                    return;
+                  }
                   _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
                     if(res.isBotLocked){
                       window.isBotLocked = true;
@@ -5400,9 +5403,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       // $('.search-body').removeClass('hide');
                       // $('#searchChatContainer').addClass('bgfocus');
                     }
-                   if(_self.vars.enterIsClicked){
-                     return;
-                   }
+                    if(_self.vars.enterIsClicked){
+                      return;
+                    }
                     if (res && res.requestId && res.template && res.template.originalQuery) {
                       _self.vars.previousSearchObj = {};
                       _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
@@ -19638,7 +19641,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           headers.auth = _self.config.botOptions.assertion;
         }
       }
-
+      if(searchConfigurationCopy.querySuggestionsLimit == 0){
+        return;
+      }
       $.ajax({
         url: url,
         type: type,
