@@ -519,6 +519,7 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       $('.top-down-search-background-div').remove();
       $('.close-top-down-search').remove();
+      $('body').removeClass('sdk-top-down-interface');
       $('.start-search-icon-div').removeClass('active');
       this.bridgeDataInsights = true;
       this.addNewResult = true;
