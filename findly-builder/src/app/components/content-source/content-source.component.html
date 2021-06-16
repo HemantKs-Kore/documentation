@@ -289,7 +289,7 @@
                 <div class="row col-12 p-0 m-0 align-items-center justify-content-between">
                   <div class="timestamp" *ngIf="statusObj[source.recentStatus]?.name == ('In Progress' || 'Queued'); else executed">Started - {{source.schedule_createdOn}}</div>
                   <ng-template #executed>
-                    <div class="timestamp" > {{"contentSource.last_updated_on" | translate}} {{source.lMod | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
+                    <div class="timestamp" > {{"contentSource.last_updated_on" | translate}} {{source.lMod | dateFormatPipe: 'D MMMM YYYY'}}</div>
                   </ng-template>
                   <div class="status text-right" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'">
                     <span class="img-block"><img
@@ -467,7 +467,7 @@
                           </div>
                           <div class="col_ col-2 text-truncate" >{{selectedSource?.userDetails?.firstName}}
                           </div>
-                          <div class="col_ col-2 text-truncate" >{{selectedSource.lMod | date:'d MMMM yyyy'}}
+                          <div class="col_ col-2 text-truncate" >{{selectedSource.lMod | dateFormatPipe:'D MMMM YYYY'}}
                           </div>
                           <!--<div class="col_ col-2" >{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}
                           </div>
@@ -864,7 +864,7 @@
                       <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
                         <div class="col-8 link-name p-0" title="{{page._source.pageUrl || selectedSource.url}}">
                           {{page._source.pageUrl || selectedSource.url}}</div>
-                        <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'd MMMM YYYY'}}</div>
+                        <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
                         <div class="col-2 actions p-0">
                           <img src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' (click)="reCrwalingWeb('pages',page ,$event)" placement="left">
                           <!-- <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh' placement="left"> -->
@@ -1139,7 +1139,7 @@
           <div class="title-desc-text">{{docContentType.pageCount}}</div>
 
           <div class="title-text">Last Updated</div>
-          <div class="title-desc-text">{{selectedSource.createdOn | dateFormatPipe: 'd MMMM YYYY , hh:mm A'}}</div>
+          <div class="title-desc-text">{{selectedSource.createdOn | dateFormatPipe: 'D MMMM YYYY , hh:mm A'}}</div>
           <div class="title-text">Results Preview</div>
           <div class="title-desc-text">{{docContent.filePreview || '---'}}</div>
 
