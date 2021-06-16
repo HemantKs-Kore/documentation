@@ -281,18 +281,21 @@ export class SummaryComponent implements OnInit, OnDestroy {
   userViewAll() {
     $('#dashboardTab').trigger('click');
     setTimeout(() => {
+      this.workflowService.mainMenuRouter$.next('/userEngagement');
       this.router.navigate(['/userEngagement'], { skipLocationChange: true });
     }, 100)
   }
   searchViewAll() {
     $('#dashboardTab').trigger('click');
     setTimeout(() => {
+      this.workflowService.mainMenuRouter$.next('/searchInsights');
       this.router.navigate(['/searchInsights'], { skipLocationChange: true });
     }, 100)
   }
   resultViewAll() {
     $('#dashboardTab').trigger('click');
     setTimeout(() => {
+      this.workflowService.mainMenuRouter$.next('/resultInsights');
       this.router.navigate(['/resultInsights'], { skipLocationChange: true });
     }, 100)
   }
