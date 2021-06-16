@@ -51,7 +51,7 @@ export class DashboardComponent implements OnInit {
   totalSearchesStats: any;
   topSearchResults: any;
   topQuriesWithNoResults: any;
-  mostSearchedQuries: any = {};
+  mostSearchedQuries: any = [];
   queriesWithNoClicks: any;
   searchHistogram: any;
   mostClickedPositions: any = [];
@@ -325,11 +325,12 @@ export class DashboardComponent implements OnInit {
     this.totalSearchSum = 0;
     for (var i = 0; i < this.searchHistogram.length; i++) {
       if (this.dateType == 'hour') {
-        totaldata.push([i + 'hr', this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks])
+        totaldata.push([i + 'hr', this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks,i + 'hr'])
       } else if (this.dateType == 'week' || this.dateType == 'custom') {
         let date = new Date(this.searchHistogram[i].date);
         // xAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
-        totaldata.push([date.getDate() + " " + monthNames[date.getMonth()], this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks])
+        // totaldata.push([date.getDate() + " " + monthNames[date.getMonth()], this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks, moment(date,"Do MMM, YYYY")])
+        totaldata.push([moment.utc(date).format("Do MMM"), this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks, moment.utc(date).format("Do MMM, YYYY")])
       }
       // else if(this.dateType == 'custom'){
       //   let date = new Date(this.searchHistogram[i].date);
@@ -357,6 +358,9 @@ export class DashboardComponent implements OnInit {
     var valueList2 = totaldata.map(function (item) {
       return item[3];
     });
+    var dateTooltipList = totaldata.map(function (item) {
+      return item[4];
+    });
     this.chartOption = {
       grid: {
         left: '3%',
@@ -369,7 +373,7 @@ export class DashboardComponent implements OnInit {
         trigger: 'axis',
         formatter: `
       <div class="metrics-tooltips-hover">
-      <div class="main-title">{b0}</div>
+      <div class="main-title">{c3}</div>
       <div class="data-content"><span class="indication searches"></span><span class="title">Total Searches
               :</span><span class="count-data">{c0}</span></div>
       <div class="data-content"><span class="indication result"></span><span class="title">Searches with Results
@@ -433,7 +437,12 @@ export class DashboardComponent implements OnInit {
         showSymbol: false,
         data: valueList2,
         lineStyle: { color: '#7027E5' }
-      }]
+        }, {
+          type: 'line',
+          showSymbol: false,
+          data: dateTooltipList,
+          lineStyle: { color: '#7027E5' }
+        }]
     };
     /** TEST */
     this.chartOption1 = {

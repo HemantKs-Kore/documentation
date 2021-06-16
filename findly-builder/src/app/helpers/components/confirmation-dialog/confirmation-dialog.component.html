@@ -16,7 +16,7 @@
 <div class="new-delete-popup" *ngIf="data.confirmationPopUp">
   <div class="header-sec row m-0">
     <div class="title col-10 pl-0 pr-3">{{data.newTitle || data.title}}</div>
-    <div class="col-2 p-0 close-popup"(click)="dialogRef.close()"><img src="assets/icons/close_field.svg"></div>
+    <div class="col-2 p-0 close-popup" (click)="onClickOption(crossIconItem)"><img src="assets/icons/close_field.svg"></div>
   </div>
   <div class="body-info">{{data.body}}</div>
   <div class="btns-data">
