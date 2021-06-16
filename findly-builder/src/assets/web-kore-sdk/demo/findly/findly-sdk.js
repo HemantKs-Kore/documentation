@@ -19784,6 +19784,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('sa-handel-submit-button');
           var code = e.keyCode || e.which;
           if (code == '13') {
+            if(!$('.search-top-down').val()){
+              return;
+            }
             if ($('body').hasClass('top-down')) {
               _self.vars.enterIsClicked = true;
             }
