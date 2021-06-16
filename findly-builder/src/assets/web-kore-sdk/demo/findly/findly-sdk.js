@@ -16200,13 +16200,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(container).last().empty().append(dataHTML);
         }
         if (data.isSearch && selectedSearchTemplateType === 'carousel') {
-          _self.bindCarouselActions();
+          _self.bindCarouselActions(dataHTML);
         }
         else if (data.isLiveSearch && selectedLiveSearchTemplateType === 'carousel') {
-          _self.bindCarouselActions();
+          _self.bindCarouselActions(dataHTML);
         }
         else if (data.isFullResults && selectedFullSearchTemplateType === 'carousel') {
-          _self.bindCarouselActions();
+          _self.bindCarouselActions(dataHTML);
         }
         if (!$('body').hasClass('top-down')) {
           _self.bindStructuredDataTriggeringOptions();
@@ -16267,11 +16267,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     var newCarouselTemplateCount = 0;
     var newCarouselEles = [];
-    FindlySDK.prototype.bindCarouselActions = function () {
+    FindlySDK.prototype.bindCarouselActions = function (dataHTML) {
       var _self = this;
       setTimeout(function () {
-        $('.carousel:last').addClass("carouselTemplate" + newCarouselTemplateCount);
-        var count = $(".carouselTemplate" + newCarouselTemplateCount).children().length;
+        dataHTML.find('.carousel:last').addClass("carouselTemplate" + newCarouselTemplateCount);
+        var count = dataHTML.find(".carouselTemplate" + newCarouselTemplateCount).children().length;
         if (count > 1) {
           var carouselOneByOne = new PureJSCarousel({
             carousel: '.carouselTemplate' + newCarouselTemplateCount,
@@ -16757,13 +16757,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(container).last().empty().append(dataHTML);
         }
         if (data.isSearch && selectedSearchTemplateType === 'carousel') {
-          _self.bindCarouselActions();
+          _self.bindCarouselActions(dataHTML);
         }
         else if (data.isLiveSearch && selectedLiveSearchTemplateType === 'carousel') {
-          _self.bindCarouselActions();
+          _self.bindCarouselActions(dataHTML);
         }
         else if (data.isFullResults && selectedFullSearchTemplateType === 'carousel') {
-          _self.bindCarouselActions();
+          _self.bindCarouselActions(dataHTML);
         }
         if (!$('body').hasClass('top-down')) {
           _self.bindStructuredDataTriggeringOptions();
@@ -17186,13 +17186,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //   _self.bindPerfectScroll(resultsContainerHtml,'.content-data-sec', null, null, 'resultsContainer');
         // }
         if (data.isSearch && selectedSearchTemplateType === 'carousel') {
-          _self.bindCarouselActions();
+          _self.bindCarouselActions(dataHTML);
         }
         else if (data.isLiveSearch && selectedLiveSearchTemplateType === 'carousel') {
-          _self.bindCarouselActions();
+          _self.bindCarouselActions(dataHTML);
         }
         else if (data.isFullResults && selectedFullSearchTemplateType === 'carousel') {
-          _self.bindCarouselActions();
+          _self.bindCarouselActions(dataHTML);
         }
         if (!$('body').hasClass('top-down')) {
           _self.bindStructuredDataTriggeringOptions();
@@ -17623,13 +17623,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(container).last().empty().append(dataHTML);
         }
         if (data.isSearch && selectedSearchTemplateType === 'carousel') {
-          _self.bindCarouselActions();
+          _self.bindCarouselActions(dataHTML);
         }
         else if (data.isLiveSearch && selectedLiveSearchTemplateType === 'carousel') {
-          _self.bindCarouselActions();
+          _self.bindCarouselActions(dataHTML);
         }
         else if (data.isFullResults && selectedFullSearchTemplateType === 'carousel') {
-          _self.bindCarouselActions();
+          _self.bindCarouselActions(dataHTML);
         }
         if (!$('body').hasClass('top-down')) {
           _self.bindStructuredDataTriggeringOptions();
