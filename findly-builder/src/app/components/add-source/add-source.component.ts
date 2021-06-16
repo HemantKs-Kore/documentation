@@ -1420,6 +1420,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log()
     if (value <= -1) {
       this.crawlDepth = 0;
+      this.maxUrlLimit =0;
     }
   }
   copy(val) {

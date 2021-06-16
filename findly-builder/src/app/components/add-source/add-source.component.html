@@ -624,7 +624,7 @@
                         </span>
                       </div>
                     </div>
-                    <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0"
+                    <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0" (keyup)="checkValue(maxUrlLimit)"
                       [(ngModel)]="maxUrlLimit" class="input-text">
                   </div>
                 </div>
