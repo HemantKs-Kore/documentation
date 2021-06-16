@@ -16195,7 +16195,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         if (data.isLiveSearch) {
-          $(container).empty().append(dataHTML);
+          if($('body').hasClass('top-down') && container == '.structured-live-data-container'){
+            $(container).each(function(){
+              if($(this).is(':visible')){
+                $(this).empty().append(dataHTML);
+              }else{
+                $(this).empty();
+              }
+            })
+          }else{
+            $(container).empty().append(dataHTML);
+          }
         } else {
           $(container).last().empty().append(dataHTML);
         }
@@ -16752,7 +16762,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         if (data.isLiveSearch) {
-          $(container).empty().append(dataHTML);
+          if($('body').hasClass('top-down') && container == '.faqs-live-data-container'){
+            $(container).each(function(){
+              if($(this).is(':visible')){
+                $(this).empty().append(dataHTML);
+              }else{
+                $(this).empty();
+              }
+            })
+          }else{
+            $(container).empty().append(dataHTML);
+          }
         } else {
           $(container).last().empty().append(dataHTML);
         }
@@ -17177,7 +17197,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           container = '.web-full-search-container';
         }
         if (data.isLiveSearch) {
-          $(container).empty().append(dataHTML);
+          if($('body').hasClass('top-down') && container == '.web-live-data-container'){
+            $(container).each(function(){
+              if($(this).is(':visible')){
+                $(this).empty().append(dataHTML);
+              }else{
+                $(this).empty();
+              }
+            })
+          }else{
+            $(container).empty().append(dataHTML);
+          }
         } else {
           $(container).last().empty().append(dataHTML);
         }
@@ -17618,7 +17648,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         if (data.isLiveSearch) {
-          $(container).empty().append(dataHTML);
+          if($('body').hasClass('top-down') && container == '.files-live-data-container'){
+            $(container).each(function(){
+              if($(this).is(':visible')){
+                $(this).empty().append(dataHTML);
+              }else{
+                $(this).empty();
+              }
+            })
+          }else{
+            $(container).empty().append(dataHTML);
+          }
         } else {
           $(container).last().empty().append(dataHTML);
         }

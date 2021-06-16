@@ -2441,3 +2441,13 @@ display: none !important;
 .sdk-top-down-interface .tile-with-image-parent.grid_view_template.slide .tile-with-image{
   width: 100%;
 }
+
+.sdk-top-down-interface .total-structured-data-wrap .structured-data-outer-wrap .slide {
+  border: 0px solid #ffffff;
+  float: left;
+  font-size: 20px;
+  height: auto;
+  text-align: left;
+  width: 214px;
+  margin: 5px;
+}
