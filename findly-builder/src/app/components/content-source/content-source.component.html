@@ -226,7 +226,7 @@
               </div>
               <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
               <div class="col_ col-1 text-right p-0">
-                <span class="actions-links" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated)"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span>
                 <span class="actions-links" *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'"  (click)="jobOndemand(source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Crawl' container="body"></span>
                 <span class="actions-links" *ngIf="source.extractionType == 'web' && (source.recentStatus === 'failed'&&!(source?.validations?.url?.validated))"  (click)="retryValidation(source,$event)"><img class="action_icon" src="assets/icons/validate.svg" ngbTooltip='Revalidate' container="body"></span>
                 <span class="actions-links" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'" (click)="stopCrwaling(source,$event)"><img class="action_icon" src="assets/icons/content/stop.svg" ngbTooltip='Stop' container="body"></span>
@@ -308,7 +308,7 @@
                   </div>
                 </div>
                 <div class="delete-refresh">
-                  <img src="assets/icons/refresh-table.svg" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated)"  (click)="recrwal('source',source,$event)" ngbTooltip='Recrawl' container="body">
+                  <img src="assets/icons/refresh-table.svg" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted' "  (click)="recrwal('source',source,$event)" ngbTooltip='Recrawl' container="body">
                   <img src="assets/icons/refresh-table.svg" *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'"  (click)="jobOndemand(source,$event)" ngbTooltip='Crawl' container="body">
                   <img src="assets/icons/validate.svg" *ngIf="source.extractionType == 'web' && (source.recentStatus === 'failed'&&!(source?.validations?.url?.validated))"  (click)="retryValidation(source,$event)" ngbTooltip='Revalidate' container="body">
                   <img src="assets/icons/content/stop.svg"   *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'" (click)="stopCrwaling(source,$event)" ngbTooltip='Stop' container="body"> 
@@ -447,11 +447,11 @@
                   <div class="kr-sg-data-table with-checkbox"  >
                     <section class="table-content">
                       <header class="table-header">
-                        <div class="col_ col-2">TITLE</div>
-                        <div class="col_ col-3">URL</div>
-                        <div class="col_ col-2">DESCRIPTION</div>
-                        <div class="col_ col-2">CREATED BY</div>
-                        <div class="col_ col-2">LAST UPDATED</div>
+                        <div class="col_ col-2">{{"contentSource.title_caps" | translate}}</div>
+                        <div class="col_ col-3">{{"contentSource.url_caps" | translate}}</div>
+                        <div class="col_ col-2">{{"contentSource.description_caps" | translate}}</div>
+                        <div class="col_ col-2">{{"contentSource.created_by_caps" | translate}}</div>
+                        <div class="col_ col-2">{{"contentSource.last_updated_caps" | translate}}</div>
                       </header>
                       <ng-container>
                         <div class="content-body align-items-start">
@@ -492,7 +492,7 @@
                 </div>
                 <div *ngIf="selectedSource.sitemaps">
                   <div *ngIf="selectedSource.sitemaps.length > 0; else noSiteMap" class="site-map-url-sec">
-                    <div class="label_text">Sitemap URLS</div>
+                    <div class="label_text">{{"contentSource.sitemap_URLS" | translate}}</div>
                     <div class="urls_">
                       <div class="site-url" *ngFor ="let site of selectedSource.sitemaps">{{site}}</div>
                       <!-- <div class="site-url">https://finshots.in /path/sample</div> -->
@@ -500,16 +500,16 @@
                   </div>
                   <ng-template #noSiteMap>
                     <div class="site-map-url-sec">
-                      <div class="label_text">Sitemap URLS</div>
+                      <div class="label_text">{{"contentSource.sitemap_URLS" | translate}}</div>
                       <div class="urls_">
-                        <div class="site-url">No Sitemaps</div>
+                        <div class="site-url">{{"contentSource.no_sitemaps" | translate}}</div>
                       </div>
                     </div>
                   </ng-template>
                 </div>
                 <div class="toggle-swich-row">
                   <div class="row m-0 row_data">
-                    <div class="col-10 title pl-pr-10">Schedule</div>
+                    <div class="col-10 title pl-pr-10">{{"contentSource.schedule" | translate}}</div>
                     <div class="toggle-label col-2 pl-pr-10 text-right">
                       <label *ngIf="selectedSource?.advanceSettings" class="kr-sg-toggle">
                         <input type="checkbox" name="scheduleOpts"
@@ -552,13 +552,13 @@
               <div class="inner-content row m-0 crawl-option">
                 <div class="col-12 p-0 input-paddings">
                   <div class="kr-sg-dropdowns">      
-                    <div class="label-text">Crawl Options</div>                                  
+                    <div class="label-text">{{"contentSource.crawl_options" | translate}}</div>                                  
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{crwalOptionLabel}}</button>                                            
                         <ul class="dropdown-menu content-menu">
-                          <li (click)="crawlOption('any','Crawl Everything')"><a>Crawl Everything</a></li>                                              
-                          <li (click)="crawlOption('block','Crawl Everything Except Specific URLs')"><a>Crawl Everything Except Specific URLs</a></li>
-                          <li (click)="crawlOption('allow','Crawl Only Specific URLs')"><a >Crawl Only Specific URLs</a></li>
+                          <li (click)="crawlOption('any','Crawl Everything')"><a>{{"contentSource.crawl_everything" | translate}}</a></li>                                              
+                          <li (click)="crawlOption('block','Crawl Everything Except Specific URLs')"><a>{{"contentSource.crawl_except_urls" | translate}}</a></li>
+                          <li (click)="crawlOption('allow','Crawl Only Specific URLs')"><a >{{"contentSource.crawl_specific_urls" | translate}}</a></li>
                         </ul>
                       </div>
                   </div>
@@ -569,19 +569,19 @@
                
                 <div class="allow-urls-sec row allow-urlBox pl-0 pr-0"
                   *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
-                  <div class="col-1 p-0 title">Allow URLs</div>
+                  <div class="col-1 p-0 title"> {{"contentSource.allow_urls" | translate}}</div>
                   <div class="col-11 p-0 d-flex align-items-center">
                     <div class="kr-sg-dropdowns">
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input"
                           data-toggle="dropdown">{{allowUrl.name}}</button>
                         <ul class="dropdown-menu content-menu">
-                          <li (click)="urlCondition('is' , 'allow')"><a>Equals to</a></li>
-                          <li (click)="urlCondition('isNot', 'allow')"><a>Not equals to</a></li>
-                          <li (click)="urlCondition('beginsWith', 'allow')"><a>Begins with</a></li>
-                          <li (click)="urlCondition('endsWith', 'allow')"><a>Ends with</a></li>
-                          <li (click)="urlCondition('contains', 'allow')"><a>Contains</a></li>
-                          <li (click)="urlCondition('doesNotContains', 'allow')"><a>Doesn't contain</a></li>
+                          <li (click)="urlCondition('is' , 'allow')"><a>{{"contentSource.equals_to" | translate}}</a></li>
+                          <li (click)="urlCondition('isNot', 'allow')"><a>{{"contentSource.not_equals_to" | translate}}</a></li>
+                          <li (click)="urlCondition('beginsWith', 'allow')"><a>{{"contentSource.begins_with" | translate}}</a></li>
+                          <li (click)="urlCondition('endsWith', 'allow')"><a>{{"contentSource.ends_with" | translate}}</a></li>
+                          <li (click)="urlCondition('contains', 'allow')"><a>{{"contentSource.contains" | translate}}</a></li>
+                          <li (click)="urlCondition('doesNotContains', 'allow')"><a>{{"contentSource.doesnt_contain" | translate}}</a></li>
                         </ul>
                       </div>
                     </div>
@@ -622,19 +622,19 @@
                 
                 <div class="allow-urls-sec row allow-urlBox pl-0 pr-0"
                   *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
-                  <div class="col-1 p-0 title">Block URLs</div>
+                  <div class="col-1 p-0 title">{{"contentSource.block_urls" | translate}}</div>
                   <div class="col-11 p-0 d-flex align-items-center">
                     <div class="kr-sg-dropdowns">
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input"
                           data-toggle="dropdown">{{blockUrl.name}}</button>
                         <ul class="dropdown-menu content-menu">
-                          <li (click)="urlCondition('is' , 'block')"><a>Equals to</a></li>
-                          <li (click)="urlCondition('isNot', 'block')"><a>Not equals to</a></li>
-                          <li (click)="urlCondition('beginsWith', 'block')"><a>Begins with</a></li>
-                          <li (click)="urlCondition('endsWith', 'block')"><a>Ends with</a></li>
-                          <li (click)="urlCondition('contains', 'block')"><a>Contains</a></li>
-                          <li (click)="urlCondition('doesNotContains', 'block')"><a>Doesn't contain</a></li>
+                          <li (click)="urlCondition('is' , 'block')"><a>{{"contentSource.equals_to" | translate}}</a></li>
+                          <li (click)="urlCondition('isNot', 'block')"><a>{{"contentSource.not_equals_to" | translate}}</a></li>
+                          <li (click)="urlCondition('beginsWith', 'block')"><a>{{"contentSource.begins_with" | translate}}</a></li>
+                          <li (click)="urlCondition('endsWith', 'block')"><a>{{"contentSource.ends_with" | translate}}</a></li>
+                          <li (click)="urlCondition('contains', 'block')"><a>{{"contentSource.contains" | translate}}</a></li>
+                          <li (click)="urlCondition('doesNotContains', 'block')"><a>{{"contentSource.doesnt_contain" | translate}}</a></li>
                         </ul>
                       </div>
                     </div>
@@ -698,16 +698,16 @@
               <div class="inner-content row m-0">
                 <div class="col-3 p-0">                   
                   <div class="kr-sg-input-text mb-4">
-                    <div class="label-text">Crawl Depth 
+                    <div class="label-text"> Crawl Depth 
                       <div class="tooltip-custom">
                         <img src="assets/icons/info.svg">
                         <span class="tooltiptext">
-                          <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
-                          <div class="v-text">Value = 0 (No limit)</div> 
+                          <div class="t-text">  The maximum depth that will be allowed to crawl any site.</div>
+                          <div class="v-text">  Value = 0 (No limit)</div> 
                         </span>
                       </div> 
                     </div>
-                    <input type="text" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0" min="0" 
+                    <input type="text" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0" min="0" (keyup)="checkValue(crawlDepth)"
                       [(ngModel)]="crawlDepth" class="input-text" >
                   </div>
                 </div>
@@ -723,7 +723,7 @@
                         </span>
                       </div> 
                     </div>
-                    <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0"
+                    <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0" (keyup)="checkValue(maxUrlLimit)"
                       [(ngModel)]="maxUrlLimit" class="input-text">
                   </div>
                 </div>

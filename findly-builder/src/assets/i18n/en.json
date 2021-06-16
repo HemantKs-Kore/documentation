@@ -702,7 +702,21 @@
         "last_updated_caps": "LAST UPDATED",
         "sitemap_URLS": "Sitemap URLS",
         "no_sitemaps": "No Sitemaps",
-        "schedule": "Schedule"
+        "schedule": "Schedule",
+        "crawl_options":"Crawl Options",
+        "crawl_everything":"Crawl Everything",
+        "crawl_except_urls":"Crawl Everything Except Specific URLs",
+        "crawl_specific_urls":"Crawl Only Specific URLs",
+        "allow_urls":"Allow URLs",
+        "block_urls":"Block URLs",
+        "equals_to":"Equals to",
+        "not_equals_to":"Not equals to",
+        "begins_with": " Begins with",
+        "ends_with": "Ends with",
+        "contains": "Contains",
+         "doesnt_contain": "Doesn't contain"
+
+        
     },
     "resultTemplate": {
         "resultTemplates": "Result Templates",

@@ -2420,3 +2420,24 @@ display: none !important;
   width: 380px !important;
   margin-top:5px !important;
 }
+
+.sdk-top-down-interface .topdown-search-main-container .carousel{
+  margin: 0 !important;
+    height: fit-content !important;
+    width: 100% !important;
+    /* margin-top: 50px !important; */
+    /* margin-top: 30px !important; */
+    overflow: hidden;
+}
+.sdk-top-down-interface .tile-with-image-parent.grid_view_template.slide{
+  border: 0px solid #ffffff;
+  float: left;
+  font-size: 20px;
+  height: auto;
+  text-align: left;
+  width: 214px;
+  margin: 5px;
+}
+.sdk-top-down-interface .tile-with-image-parent.grid_view_template.slide .tile-with-image{
+  width: 100%;
+}

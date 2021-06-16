@@ -184,31 +184,32 @@ export class SearchInterfaceComponent implements OnInit {
     }
   }
   copyConfiguration(interfaceType) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '530px',
-      height: 'auto',
-      panelClass: 'delete-popup',
-      data: {
-        title: 'Restore Customization',
-        text: 'Are you sure you want to copy?',
-        newTitle: 'Are you sure you want to copy?',
-        body: 'Copying will overwrite the existing configuration.',
-        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true,
-      }
-    });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          this.selectedSettingResultsObj.referInterface = interfaceType;
-          this.saveResultSettings();
-          // this.saveResultSettings(); Inorder to reflect the configuretion, we need to save the current interface with reference
-          dialogRef.close();
-        } else if (result === 'no') {
-          dialogRef.close();
+    if(interfaceType){
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '530px',
+        height: 'auto',
+        panelClass: 'delete-popup',
+        data: {
+          title: 'Restore Customization',
+          text: 'Are you sure you want to copy?',
+          newTitle: 'Are you sure you want to copy?',
+          body: 'Copying will overwrite the existing configuration.',
+          buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+          confirmationPopUp: true,
         }
-      })
-    
+      });
+      dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes') {
+            this.selectedSettingResultsObj.referInterface = interfaceType;
+            this.saveResultSettings();
+            // this.saveResultSettings(); Inorder to reflect the configuretion, we need to save the current interface with reference
+            dialogRef.close();
+          } else if (result === 'no') {
+            dialogRef.close();
+          }
+        })
+    }
   }
   getSettings(interfaceType) {
     const quaryparms: any = {

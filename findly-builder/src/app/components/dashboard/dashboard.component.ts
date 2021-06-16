@@ -104,6 +104,7 @@ export class DashboardComponent implements OnInit {
 
   }
   viewAll(route, searchType?) {
+    this.workflowService.mainMenuRouter$.next(route);
     this.router.navigate([route], { skipLocationChange: true });
     localStorage.setItem('search_Insight_Result', searchType);
   }
