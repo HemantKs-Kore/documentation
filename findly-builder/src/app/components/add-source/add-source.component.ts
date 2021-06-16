@@ -378,6 +378,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           if ((queuedJobs[0].status !== 'running') && (queuedJobs[0].status !== 'queued')) {
             this.pollingSubscriber.unsubscribe();
             //this.crawlOkDisable = true;
+            if (queuedJobs[0].status == 'halted') {
+              if (queuedJobs[0].statusMessage == 'Failed to ingest due to limit exceeded. If you want to continue ingesting documents consider upgrading your plan or buying overage.') {
+                this.upgrade();
+                this.notificationService.notify(queuedJobs[0].statusMessage, 'success');
+              }
+            }
           }
           // if((queuedJobs[0].status == 'queued')){
           //   this.crawlOkDisable = true;

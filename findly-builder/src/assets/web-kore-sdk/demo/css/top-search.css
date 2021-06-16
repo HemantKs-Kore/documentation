@@ -1421,7 +1421,7 @@ float: right;
   border-radius: 4px;
   width: 420px;
   display: none;
-  min-height: 578px;
+  /* min-height: 578px; */
 }
 .sdk-top-down-interface .top-down-search-background-div .conversation-container {
   position: absolute;
@@ -1430,7 +1430,7 @@ float: right;
   top: 85px;
   z-index: 999990;
   background: #FFFFFF;
-  box-shadow: -7px 4px 30px rgb(18 61 101 / 10%), inset -8px -6px 80px rgb(255 255 255 / 18%);
+  box-shadow: -7px 4px 30px rgb(18 61 101 / 20%), inset -8px -6px 80px rgb(255 255 255 / 18%);
   border-radius: 4px;
   width: 420px;
   display: none;
@@ -1470,7 +1470,7 @@ float: right;
   position: absolute;
   cursor: pointer;
   right: 15px;
-  top: 15px;
+  top: 9px;
 }
 .sdk-top-down-interface .conversation-container .conversations{
   position: relative;
@@ -1479,6 +1479,7 @@ float: right;
   /* height: 480px; */
   overflow-x: hidden;
   background: #fff;
+  min-height: calc(67vh - 100px);
 }
 
 .sdk-top-down-interface .conversation-container .conversation-box{
@@ -2412,5 +2413,10 @@ display: none !important;
 
 .sdk-top-down-interface .topdown-search-main-container .structured-data-outer-wrap{
   margin-bottom:30px !important;
+}
+
+
+.sdk-top-down-interface .search-container .carousel{
+  width: 380px !important;
   margin-top:5px !important;
 }

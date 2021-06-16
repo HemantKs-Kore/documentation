@@ -96,8 +96,8 @@
          <div class="order-confirmation-table-body row col-12 m-0"  *ngIf="!overageData.overageShow">
           <div class="col-9 plan_details">
             <div class="plan-type">{{orderConfirmData.name}} {{"plan.subscription"| translate}}</div>
-            <div class="btn-monthly"  [ngClass]="{'active-btn' : orderConfirmData.billingUnit == 'Monthly'}" (click)="choosePlanType('Monthly')">{{"plan.monthly"| translate}}</div>
-            <div class="btn-monthly" [ngClass]="{ 'active-btn' : orderConfirmData.billingUnit == 'Yearly' }" (click)="choosePlanType('Yearly')">{{"plan.yearly"| translate}}</div>
+            <div class="btn-monthly"  [ngClass]="{'active-btn' : orderConfirmData.billingUnit == 'Monthly'}" (click)="orderConfirmData?.name==selectedPlan?.planName&&selectedPlan?.billingUnit == 'Monthly'?null:choosePlanType('Monthly')">{{"plan.monthly"| translate}}</div>
+            <div class="btn-monthly" [ngClass]="{ 'active-btn' : orderConfirmData.billingUnit == 'Yearly' }" (click)="orderConfirmData?.name==selectedPlan?.planName&&selectedPlan?.billingUnit == 'Yearly'?null:choosePlanType('Yearly')">{{"plan.yearly"| translate}}</div>
           </div>            
 
           <div class="amount col-3">$ {{orderConfirmData.planAmount}}</div>

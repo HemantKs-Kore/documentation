@@ -457,11 +457,22 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   valueEvent(type, val) {
     if (type == 'Query Suggestions') {
       this.searchObject.searchInteractionsConfig.querySuggestionsLimit = val;
+      this.suggestions[0].sliderObj.default = val;
     }
     else {
       this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = val;
+      this.suggestions[1].sliderObj.default = val;
     }
   }
+
+  // valueEvent(type, val) {
+  //   if (type == 'Query Suggestions') {
+  //     this.searchObject.searchInteractionsConfig.querySuggestionsLimit = val;
+  //   }
+  //   else {
+  //     this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = val;
+  //   }
+  // }
   //select search Icon
   selectIcon(event, type, icon, update?) {
     const file = icon === 'manual' ? event : event.target.files[0];
