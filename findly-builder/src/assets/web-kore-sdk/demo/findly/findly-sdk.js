@@ -5273,6 +5273,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             e.preventDefault();
           }
           if (code == '13') {
+            if(!e.target.value.length){
+              return;
+            }
             if ($('body').hasClass('top-down')) {
               _self.vars.enterIsClicked = true;
             }
