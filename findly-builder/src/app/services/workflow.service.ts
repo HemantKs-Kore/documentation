@@ -16,6 +16,7 @@ export class WorkflowService {
   selectedQueryPipelineObj: any;
   appQueryPipelineIds: any = [];
   seedData$: BehaviorSubject<any> = new BehaviorSubject(null);
+  mainMenuRouter$: BehaviorSubject<any> = new BehaviorSubject(null);
   disablePerfectScroll: boolean;
   linkedBot='';
   topDownOrBottomUp='';
