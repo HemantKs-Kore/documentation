@@ -49,7 +49,7 @@
                 </div>
                 <div class="invoice-table-body row col-12" *ngFor="let invoice of invoices | fieldsFilter: [ searchInvoice, '_id']">
                     <div class="title col-2">{{invoice._id}}</div>
-                    <div class="title col-3">{{invoice.subscriptionDetails?.startDate  | dateFormatPipe: 'DD MMM YYYY'}} - {{invoice.subscriptionDetails?.endDate  | dateFormatPipe: 'DD MMM YYYY'}}</div>
+                    <div class="title col-3">{{invoice.billingStartDate ?(invoice.billingStartDate| dateFormatPipe: 'DD MMM YYYY'):''}} - {{invoice.billingEndDate? (invoice.billingEndDate | dateFormatPipe: 'DD MMM YYYY'):''}}</div>
                     <div class="title col-2">$ {{invoice.amount}}</div>
                     <div class="title col-2">{{invoice.subscriptionType}}</div>
                     <div class="title col-3 pl-4">{{invoice.invoiceCreatedDate  | dateFormatPipe: 'DD MMM YYYY'}}</div>

@@ -278,6 +278,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       streamId: this.selectedApp._id
     }
     this.service.invoke('post.downgradeCancellation', queryParam, {}).subscribe(res => {
+      this.proInfo = true;
       this.appSelectionService.getCurrentSubscriptionData();
       this.notificationService.notify('Cancellation request submitted', 'success');
       if (dialogRef) dialogRef.close();

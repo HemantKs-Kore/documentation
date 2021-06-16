@@ -31,9 +31,9 @@
               </button>                                            
                 <ul class="dropdown-menu content-menu">  
                   <li (click)="copyConfiguration('')"><a>{{'resultTemplate.select' | translate}}</a></li>                                                 
-                  <li [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'livesearch'}" (click)="copyConfiguration('livesearch')" *ngIf="selectedSetting != 'liveSearch'"><a>{{'resultTemplate.liveSearch' | translate}}</a></li>
-                  <li [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'search'}" (click)="copyConfiguration('search')" *ngIf="selectedSetting != 'search' && !searchTemplatesDisabled"><a>{{'resultTemplate.conversationalSearch' | translate}} </a></li>
-                  <li [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'fullsearch'}" (click)="copyConfiguration('fullsearch')" *ngIf="selectedSetting != 'fullSearch'"><a>{{'resultTemplate.fullPageResult' | translate}}</a></li>
+                  <li  (click)="copyConfiguration('livesearch')" *ngIf="selectedSetting != 'liveSearch'"><a>{{'resultTemplate.liveSearch' | translate}}</a></li> <!-- [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'livesearch'}" -->
+                  <li  (click)="copyConfiguration('search')" *ngIf="selectedSetting != 'search' && !searchTemplatesDisabled"><a>{{'resultTemplate.conversationalSearch' | translate}} </a></li> <!-- [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'search'}" -->
+                  <li  (click)="copyConfiguration('fullsearch')" *ngIf="selectedSetting != 'fullSearch'"><a>{{'resultTemplate.fullPageResult' | translate}}</a></li> <!-- [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'fullsearch'}" -->
                 </ul>
             </div>
           </div>
@@ -95,8 +95,8 @@
                   <input id="radio-resultApp-order" name="radio-app" class="radio-custom" type="radio" [checked] = "selectedSettingResultsObj.orderBasedOnRelevance">
                   <label for="radio-resultApp-order" class="radio-custom-label">{{'resultTemplate.orderBasedRelevance' | translate}}<img tooltipClass="inner-width m-0" placement="top-center" ngbTooltip="{{'resultTemplate.orderBasedRelevanceToolTip' | translate}}" container="body" src="assets/icons/Info_gray.svg" class="ml-2"></label>
               </div>
-              <div class="kr-sg-radiobutton" (click) = "selectedSettingResultsObj.orderBasedOnRelevance = false">
-                  <input id="radio-resultApp-cust" name="radio-app" class="radio-custom" type="radio" [checked] = "!selectedSettingResultsObj.orderBasedOnRelevance" (change) = "selectedSettingResultsObj.orderBasedOnRelevance = true">
+              <div class="kr-sg-radiobutton" > <!-- (click) = "selectedSettingResultsObj.orderBasedOnRelevance = false"-->
+                  <input id="radio-resultApp-cust" name="radio-app" class="radio-custom" type="radio" [checked] = "!selectedSettingResultsObj.orderBasedOnRelevance" (change) = "selectedSettingResultsObj.orderBasedOnRelevance = true" disabled>
                   <label for="radio-resultApp-cust" class="radio-custom-label">{{'resultTemplate.customOrder' | translate}}</label>
               </div>
             </div>
@@ -1167,6 +1167,58 @@
             </div>
             
           <!-- Tile with Header End -->
+          <!-- Carousel UI Template Start-->
+          <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && customizeTemplateObj.template.type == 'Carousel'">
+            <div class="carousel" id="carousel-default">
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Check account statement</a>
+              </div>
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Speak to an agent</a>
+              </div>
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Check credit card eligibility</a>
+              </div>
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Last 30 days transaction</a>    
+              </div>
+            </div>
+          </div>
+
+          <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage' && customizeTemplateObj.template.type == 'Carousel'">
+            <div class="carousel" id="carousel-default">
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Check account statement</a>
+              </div>
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Speak to an agent</a>
+              </div>
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Check credit card eligibility</a>
+              </div>
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Last 30 days transaction</a>    
+              </div>
+            </div>
+          </div>
+
+            <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent' && customizeTemplateObj.template.type == 'Carousel'">
+              <div class="carousel" id="carousel-default">
+                <div class="slide tile_with_header grid_view_template">
+                  <a class="tile-title">Check account statement</a>
+                </div>
+                <div class="slide tile_with_header grid_view_template">
+                  <a class="tile-title">Speak to an agent</a>
+                </div>
+                <div class="slide tile_with_header grid_view_template">
+                  <a class="tile-title">Check credit card eligibility</a>
+                </div>
+                <div class="slide tile_with_header grid_view_template">
+                  <a class="tile-title">Last 30 days transaction</a>    
+                </div>
+              </div>
+            </div>
+            
             <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'Carousel'">
               <div class="carousel" id="carousel-default">
                 <div class="slide tile_with_header grid_view_template">
@@ -1183,6 +1235,7 @@
                 </div>
               </div>
             </div>
+<!-- Carousel UI Template Ends-->
           </ng-template>
           </div>
         </perfect-scrollbar>

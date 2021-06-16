@@ -228,7 +228,7 @@
               <div class="col_ col-1 text-right p-0">
                 <span class="actions-links" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span>
                 <span class="actions-links" *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'"  (click)="jobOndemand(source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Crawl' container="body"></span>
-                <span class="actions-links" *ngIf="source.extractionType == 'web' && (source.recentStatus === 'failed'&&!(source?.validations?.url?.validated))"  (click)="retryValidation(source,$event)"><img class="action_icon" src="assets/icons/validate.svg" ngbTooltip='Retry' container="body"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'web' && (source.recentStatus === 'failed'&&!(source?.validations?.url?.validated))"  (click)="retryValidation(source,$event)"><img class="action_icon" src="assets/icons/validate.svg" ngbTooltip='Revalidate' container="body"></span>
                 <span class="actions-links" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'" (click)="stopCrwaling(source,$event)"><img class="action_icon" src="assets/icons/content/stop.svg" ngbTooltip='Stop' container="body"></span>
                 <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon" src="assets/icons/delete-table.svg" ngbTooltip='Delete' container="body"></span>                  
               </div>
@@ -308,9 +308,10 @@
                   </div>
                 </div>
                 <div class="delete-refresh">
-                  <img src="assets/icons/refresh-table.svg" *ngIf="source.extractionType == 'web' && (statusObj[source.recentStatus]?.name != 'In Progress' && source.recentStatus !== 'configured'&&source.recentStatus !== 'failed'&&source.recentStatus != 'queued') || source.recentStatus === 'halted'" ngbTooltip='Recrawl' container="body" (click)="recrwal('source',source,$event)">
-                  <img src="assets/icons/refresh-table.svg" *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'||source.recentStatus == 'failed'&&source.recentStatus != 'queued'" [ngbTooltip]='source.recentStatus==="failed"?"Validate":"Crawl"' container="body" (click)="jobOndemand(source,$event)">
-                  <img src="assets/icons/content/stop.svg" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'" ngbTooltip='Stop' container="body" (click)="stopCrwaling(source,$event)"> 
+                  <img src="assets/icons/refresh-table.svg" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted' "  (click)="recrwal('source',source,$event)" ngbTooltip='Recrawl' container="body">
+                  <img src="assets/icons/refresh-table.svg" *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'"  (click)="jobOndemand(source,$event)" ngbTooltip='Crawl' container="body">
+                  <img src="assets/icons/validate.svg" *ngIf="source.extractionType == 'web' && (source.recentStatus === 'failed'&&!(source?.validations?.url?.validated))"  (click)="retryValidation(source,$event)" ngbTooltip='Revalidate' container="body">
+                  <img src="assets/icons/content/stop.svg"   *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'" (click)="stopCrwaling(source,$event)" ngbTooltip='Stop' container="body"> 
                   <img src="assets/icons/content/delete.svg" (click)="deletePages('source',source,$event)" ngbTooltip='Delete'>
                 </div>
               </div>
@@ -399,9 +400,9 @@
                 </div>
               </div>
               <div class="" *ngIf="!page && !execution">
-                <button class="kr-sg-button-secondary btn_lg" *ngIf="selectedSource.recentStatus == 'configured'"  (click)="jobOndemand(selectedSource,$event)">Crawl</button>
-                <button class="kr-sg-button-secondary btn_lg" *ngIf="(['success'].includes(selectedSource.recentStatus)) || (selectedSource.recentStatus === 'failed'&&selectedSource?.validations?.url?.validated)" (click)="recrwal('source',selectedSource ,null)">Recrawl</button>
-                <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedSource.recentStatus === 'failed'&&!(selectedSource?.validations?.url?.validated))" (click)="retryValidation(selectedSource,$event)">Retry</button>
+                <button class="kr-sg-button-primary btn_lg" *ngIf="selectedSource.recentStatus == 'configured'"  (click)="jobOndemand(selectedSource,$event)">Crawl</button>
+                <button class="kr-sg-button-primary btn_lg" *ngIf="(['success'].includes(selectedSource.recentStatus)) || (selectedSource.recentStatus === 'failed'&&selectedSource?.validations?.url?.validated)" (click)="recrwal('source',selectedSource ,null)">Recrawl</button>
+                <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedSource.recentStatus === 'failed'&&!(selectedSource?.validations?.url?.validated))" (click)="retryValidation(selectedSource,$event)">Revalidate</button>
               </div>
               <!-- <div class="add-page"><img src="assets/icons/sidemenu/plus-table.svg">Add Page</div> -->
             </div>
@@ -455,9 +456,9 @@
                       <ng-container>
                         <div class="content-body align-items-start">
                           <div class="col_ col-2 text-truncate" *ngIf="!editTitleFlag" title="{{selectedSource.name}}">{{selectedSource.name}}</div>
-                          <div class="col_ col-2 text-truncate" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.title"></div>
-                          <div class="col_ col-3 text-truncate" ngbTooltip="{{selectedSource.url}}"  container="body">{{selectedSource.url}}</div>
-                          <!-- <div class="col_ col-3" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.url"></div> -->
+                          <div class="col_ col-2 text-truncate" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.title" (focusout)="editTitleFlag = false;selectedSource.name=editConfObj.title;"></div>
+                          <div class="col_ col-3 text-truncate" *ngIf="!editTitleFlag||(selectedSource.validations.url.validated&&selectedSource.recentStatus!='configured')" ngbTooltip="{{selectedSource.url}}"  container="body">{{selectedSource.url}}</div>
+                          <div class="col_ col-3" *ngIf="editTitleFlag&&(!(selectedSource.validations.url.validated)||selectedSource.recentStatus=='configured')"><input type="text" class="wid" [(ngModel)] = "editConfObj.url" (focusout)="editTitleFlag = false;selectedSource.url=editConfObj.url;"></div>
                           <div class="col_ col-2 text-truncate" *ngIf="!editTitleFlag" ngbTooltip="{{selectedSource.desc}}"  container="body">{{selectedSource.desc}}</div>
                           <div class="col_ col-2" *ngIf="editTitleFlag">
                             <div class="kr-sg-input-text-area min-ht">

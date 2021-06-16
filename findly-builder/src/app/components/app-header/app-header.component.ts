@@ -178,6 +178,11 @@ export class AppHeaderComponent implements OnInit {
         this.loadHeader();
       })
     })
+    this.workflowService.mainMenuRouter$.subscribe(route => {
+      if(route) {
+        this.mainMenu = route;
+      }
+    });
   }
   loadHeader() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
