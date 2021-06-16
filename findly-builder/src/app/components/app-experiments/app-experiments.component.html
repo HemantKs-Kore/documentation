@@ -221,7 +221,7 @@
                     <div class="col-2 title" [class.leader_percent]="(expCol.searches > 0) && (expCol.leader)">
                       {{
                       expCol.ctr > 0
-                      ? expCol.toFixed(2) + "%"
+                      ? expCol.ctr.toFixed(2) + "%"
                       : expCol.ctr
                       }}
                     </div>
