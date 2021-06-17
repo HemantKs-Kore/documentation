@@ -1096,7 +1096,7 @@ input:focus{
   float: left;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec{
-  padding: 0 0 0 20px;
+  padding: 9px 0 0 20px;
   max-height: calc(100vh - 232px);
   overflow: scroll;
   position: relative;
@@ -2398,7 +2398,7 @@ display: none !important;
   max-height: calc(100vh - 345px) !important;
 }
 .top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details #top-down-tab-sec {
-  padding-bottom: 14px;
+  padding-bottom: 5px;
 }
 .top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec.filter-added.facets-height-isMore {
   max-height: calc(100vh - 356px) !important;
