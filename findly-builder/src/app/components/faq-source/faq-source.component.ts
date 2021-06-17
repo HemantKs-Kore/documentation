@@ -55,6 +55,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   filterObject = {};
   manualFilterSelected = false;
   showResponse: boolean;
+  loading = false;
   faqSelectionObj: any = {
     selectAll: false,
     selectedItems: {},
@@ -143,6 +144,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
 
   constructor(
+    public cdRef : ChangeDetectorRef,
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -597,13 +599,18 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   searchFaqs() {
-    if (this.searchFaq) {
-      // this.loadingTab = true;
-      this.getfaqsBy(null, null, null, this.searchFaq);
-    } else {
-      this.getfaqsBy();
-      this.searchFaq=''
-    }
+    this.apiLoading = false;
+    setTimeout(()=>{
+      if (this.searchFaq) {
+        // this.loadingTab = true;
+        this.getfaqsBy(null, null, null, this.searchFaq);
+      } else {
+        this.getfaqsBy();
+        this.searchFaq=''
+      }
+      console.log(this.searchFaq,'search');
+    },100)
+    
   }
   getJobStatusForMessages() {
     const quaryparms: any = {
@@ -649,22 +656,24 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   faqsApiService(serviceId, params?, concat?) {
     console.log("serviceID", serviceId, params)
-    if ((this.apiLoading && !params.searchQuary ) || (this.previousSearchQuery == this.searchFaq) && this.searchFaq && this.previousSearchQuery) {
+    if ((this.apiLoading && !params.searchQuary) || ((this.previousSearchQuery == this.searchFaq) && this.searchFaq && this.previousSearchQuery)) {
       return;
     }
     this.faqs = [];
     this.previousSearchQuery = this.searchFaq;
     this.apiLoading = true;
+    this.loading = true;
     this.service.invoke(serviceId, params).subscribe((res:any) => {
-      console.log("service res", res)
-      // this.faqs = ((res||{}).faqs || []);
-      if (concat) {
-        this.faqs = this.faqs.concat((res||{}).faqs || []);
-      } else {
-        this.faqs = _.filter(((res||{}).faqs || []), (faq) => {
-          return faq.action !== 'delete';
-        })
-      }
+      console.log("service res", res);
+      this.loading = false;
+      this.faqs = ((res||{}).faqs || []);
+      // if (concat) {
+      //   this.faqs = this.faqs.concat((res||{}).faqs || []);
+      // } else {
+      //   this.faqs = _.filter(((res||{}).faqs || []), (faq) => {
+      //     return faq.action !== 'delete';
+      //   })
+      // }
       this.faqSelectionObj.stats[this.selectedtab || 'draft'] = (res||{}).count || 0;
       this.faqsObj.faqs = this.faqs;
       if (params.resourceId === 'manual' && this.faqs.length) {
@@ -684,7 +693,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 700);
       }
       if (serviceId === 'get.allFaqs') {
-        this.faqsAvailable = res.faqs.length ? true : false;
+        this.faqsAvailable = ((res||{}).faqs || []).length ? true : false;
       }
       setTimeout(() => {
         this.markSelectedFaqs(this.faqs);
@@ -698,6 +707,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.loadingFaqs = false;
       this.loadingTab = false;
     }, errRes => {
+      this.loading = false;
       this.apiLoading = false;
       this.loadingFaqs = false;
       this.loadingTab = false;
@@ -1581,7 +1591,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.showSearch && this.searchSources) {
       this.searchSources = '';
     }
-    this.showSearch = !this.showSearch
+    this.showSearch = !this.showSearch;
+    this.cdRef.detectChanges();
   };
 
 
@@ -1599,6 +1610,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
        }
     }
    this.showSearch= !this.showSearch;
+   this.cdRef.detectChanges();
   }
   focusinSearch(inputSearch){
     setTimeout(()=>{
