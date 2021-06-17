@@ -154,6 +154,9 @@ body::-webkit-scrollbar {
   border-radius: 4px;
   padding: 14px 12px;
 }
+.sdk-top-down-interface .full-results-data-container .tile-with-text-parent.grid_view_template .tile-with-text {
+  width: 19%;
+}
 .sdk-top-down-interface .tile-with-text-parent.grid_view_template .tile-with-text .tile-heading {
   font-weight: 600;
   font-size: 14px;
@@ -309,6 +312,9 @@ body::-webkit-scrollbar {
   border-radius: 4px;
   padding: 11px 12px;
 }
+.sdk-top-down-interface .full-results-data-container .tile-with-image-parent.grid_view_template .tile-with-image {
+  width: 19%;
+}
 .sdk-top-down-interface .tile-with-image-parent.grid_view_template .tile-with-image .img-with-content {
   display: flex;
 }
@@ -456,6 +462,9 @@ body::-webkit-scrollbar {
   width: 48%;
   margin: 4px;
 }
+.sdk-top-down-interface .full-results-data-container .tile-with-centered-content-parent.grid_view_template .tile-with-centered-content {
+  width: 19%;
+}
 .sdk-top-down-interface .tile-with-centered-content-parent.grid_view_template .tile-with-centered-content .img-block {
   text-align: center;
   padding: 20px 13px;
@@ -578,7 +587,9 @@ body::-webkit-scrollbar {
   width: 48%;
   margin: 4px;
 }
-
+.sdk-top-down-interface .full-results-data-container .tile_with_header.grid_view_template .tile-title {
+  width: 19%;
+}
 
 
 /* New Styles */
