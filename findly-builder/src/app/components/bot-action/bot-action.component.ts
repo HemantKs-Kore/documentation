@@ -1441,4 +1441,8 @@ export class BotActionComponent implements OnInit {
       document.getElementById(inputSearch).focus();
     }, 100)
   }
+
+  navigateToBotBuilder () {
+    window.open(this.botBulilderUrl+'/botbuilder', '_self');
+  };
 }
