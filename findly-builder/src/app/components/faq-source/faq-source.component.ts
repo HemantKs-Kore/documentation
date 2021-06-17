@@ -113,6 +113,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     faqs: []
   }
   apiLoading = false;
+  isNotSearching =false;
   extractedFaqs =false;
   isAsc = true;
   selectedSort = '';
@@ -600,7 +601,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   searchFaqs() {
     this.apiLoading = false;
-    setTimeout(()=>{
+    this.isNotSearching = true;
       if (this.searchFaq) {
         // this.loadingTab = true;
         this.getfaqsBy(null, null, null, this.searchFaq);
@@ -609,7 +610,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.searchFaq=''
       }
       console.log(this.searchFaq,'search');
-    },100)
     
   }
   getJobStatusForMessages() {
@@ -656,7 +656,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   faqsApiService(serviceId, params?, concat?) {
     console.log("serviceID", serviceId, params)
-    if ((this.apiLoading && !params.searchQuary) || ((this.previousSearchQuery == this.searchFaq) && this.searchFaq && this.previousSearchQuery)) {
+    // if ((this.apiLoading && !params.searchQuary) || ((this.previousSearchQuery == this.searchFaq) && this.searchFaq && this.previousSearchQuery && !params.offset)) {
+      if ((this.apiLoading)) {
       return;
     }
     this.faqs = [];
@@ -666,6 +667,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.service.invoke(serviceId, params).subscribe((res:any) => {
       console.log("service res", res);
       this.loading = false;
+      this.isNotSearching = false;
       this.faqs = ((res||{}).faqs || []);
       // if (concat) {
       //   this.faqs = this.faqs.concat((res||{}).faqs || []);
@@ -707,6 +709,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.loadingFaqs = false;
       this.loadingTab = false;
     }, errRes => {
+      this.isNotSearching = false
       this.loading = false;
       this.apiLoading = false;
       this.loadingFaqs = false;
