@@ -94,7 +94,7 @@
                         </div> 
                         <!-- <div class="seach_add_feild"> -->
                             <div class="kr-sg-input-search"  [ngClass]="{'d-none': !showSearch}">                               
-                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="searchFaqs()" (keydown)="searchFaqs()" (ngModelChange)="searchFaqs()" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"  (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (change)="searchFaqs()" (keyup)="searchFaqs()" (keydown)="searchFaqs()" (ngModelChange)="searchFaqs()" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"  (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFaq">
                             <img class="close-icon" *ngIf="searchFaq" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchFaq}" (click)="searchFaq='';searchFaqs();showSearch= !showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
@@ -182,7 +182,7 @@
                        
                         <app-record-pagination *ngIf="!loadingTab && faqSelectionObj.stats[selectedtab] && faqSelectionObj.stats[selectedtab]>10" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' (pageChanged)="paginate($event)"></app-record-pagination>
                        <!-- <app-pagination *ngIf="!loadingTab && !searchFaq" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
-                        <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length) && !searchFaq">
+                        <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length)">
                             <ng-container *ngIf="!loadingTab">
                                 <img src="assets/images/icons/empty_ill.svg">
                                 <div class="heading">No Questions</div>
@@ -707,8 +707,8 @@
                         <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('type')">
                             <span class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
                             <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                                <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('type', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span> TYPE  
                               <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown 
                               [autoClose]="true" [placement]="'bottom-right'">
@@ -732,8 +732,8 @@
                         <div class="col_ col-3 d-flex align-items-center" (click)="sortBy('recentStatus')">
                             <span class="selected-length-doc-web hide">({{this.filterSystem.statusFilter}})</span>
                             <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                                <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('recentStatus', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span> 
                               STATUS 
                               <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown 
