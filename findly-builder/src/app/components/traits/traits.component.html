@@ -30,13 +30,32 @@
                 </div>
             </div>  
             <div class="trailts-table-header row" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
-                <div class="col-3 title">TRAIT GROUP</div>
-                <div class="col-8 title">TRAITS</div>
+                <div class="col-3 title d-flex align-items-center">
+                    <div class="kr-sg-checkbox m-0">
+                        <input id="checkbox-1" class="checkbox-custom" type="checkbox">
+                        <label for="checkbox-1" class="checkbox-custom-label"></label>
+                    </div>
+                    <div class="all-checked d-none">
+                        <img src="assets/icons/resultranking/selected-checkbox.svg">
+                    </div>
+                    <div>TRAIT GROUP</div>
+                </div>
+                <div class="col-5 title">TRAITS</div>
+                <div class="col-4 d-flex align-items-center justify-content-end p-0">
+                    <div class="selected-count">2 Selected</div>
+                    <button class="kr-sg-button-danger btn_lg">Delete</button>
+                </div>
             </div>                 
             <perfect-scrollbar class="traits-scroll-data" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
                 <div class="traits-body-sec">
-                    <div class="content-body row col-12 m-0" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">
-                        <div class="col-3 traitGroup-name text-truncate" ><span ngbTooltip="{{traitGroup.groupName || '---'}}" placement="top-center" container='body' tooltipClass="ngb_tooltip_custom_class sampleJson">{{traitGroup.groupName || '---'}}</span></div>
+                    <div class="content-body row col-12 m-0" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">                        
+                        <div class="col-3 traitGroup-name">
+                            <div class="kr-sg-checkbox m-0">
+                                <input id="checkbox{{index}}" class="checkbox-custom" type="checkbox">
+                                <label for="checkbox{{index}}" class="checkbox-custom-label"></label>
+                            </div>
+                            <span ngbTooltip="{{traitGroup.groupName || '---'}}" placement="top-center" container='body' tooltipClass="ngb_tooltip_custom_class sampleJson">{{traitGroup.groupName || '---'}}</span>
+                        </div>
                         <div class="col-7 traits-groups row m-0 align-items-center pr-0">
                             <span *ngFor="let trait of traitGroup.traits| slice:0:getTraitsSliceValue(traitGroup.traits); let i=index;" class="trait-more">
                                 {{i!==0 ?', ':''}}{{trait.traitName || '---'}}

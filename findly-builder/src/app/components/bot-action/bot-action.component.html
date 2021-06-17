@@ -211,12 +211,14 @@
           </div>
           
         </div>
-        </div>
-        <div *ngIf="!associatedBots || !associatedBots.length">
-            <div  class="">
-                No bot link data available
-           </div>
-        </div>
+      </div>
+      <div *ngIf="!associatedBots || !associatedBots.length" class="link-action-bot-empty">
+          <div class="img-block">
+            <img src="assets/icons/actions/no-link-bot-action.svg">
+          </div>
+          <div class="title">Please subscribe to the Kore.ai bots platform to link a bot here</div>
+          <button class="kr-sg-button-primary btn_lg"><img src="assets/icons/actions/external.svg" class="pr-2">Bots Platform </button>
+      </div>
     </div>
   </perfect-scrollbar>
 </kr-modal>

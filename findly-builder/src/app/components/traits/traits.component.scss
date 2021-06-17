@@ -178,6 +178,20 @@
                 font-size: 12px;
                 line-height: 14px;
             }
+            .kr-sg-checkbox{
+                padding-right: 14px;
+            }
+            .all-checked{
+                padding-right: 21px;
+                cursor: pointer;
+            }
+            .selected-count{
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 17px;
+                color: #202124;
+                padding: 0 22px;
+            }
         }
         .traits-scroll-data{
             height: calc(100vh - 178px);
@@ -210,6 +224,12 @@
                     font-weight: normal;
                     font-size: 14px;
                     line-height: 17px;
+                    display: flex;
+                    align-items: center;
+                    word-break: break-all;
+                    .kr-sg-checkbox{
+                        padding-right: 14px;
+                    }
                 }
                 .traits-groups{
                     color: #202124;
