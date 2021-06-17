@@ -1611,7 +1611,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     console.log()
     if (value <= -1) {
       this.crawlDepth = 0;
-      this.maxUrlLimit =0;
+      this.maxUrlLimit=0;
     }
   }
 }
