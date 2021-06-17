@@ -337,7 +337,7 @@
                                                         </ng-container>
                                                     </ng-container>
                                                     <ng-container *ngIf="(ruleObj.dataType != 'date') && (ruleObj.dataType != 'number')">
-                                                        <input placeholder="Type Keyword and Enter" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" suggestedInput maxlength="20"/>
+                                                        <input placeholder="Type Keyword and Enter" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" suggestedInput />
                                                     </ng-container>
 
                                                     <ng-container *ngIf="ruleObj.dataType == 'date'">
@@ -354,7 +354,7 @@
                                                     </ng-container>
 
                                                     <ng-container *ngIf="ruleObj.dataType == 'number'">
-                                                        <input [placeholder]="ruleObj.operator == 'between' ? 'Type Range' : 'Type Keyword and Enter'" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" maxlength="20" />
+                                                        <input [placeholder]="ruleObj.operator == 'between' ? 'Type Range' : 'Type Keyword and Enter'" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)"  />
                                                     </ng-container>
                                                 </mat-chip-list>
                                             </mat-form-field>
@@ -481,7 +481,7 @@
                                                         </mat-chip>
                                                         <span>OR</span>
                                                     </ng-container>
-                                                    <input #contextSuggestedImput [placeholder]="'Type Keyword and Enter'" (click)='buildCurrentContextSuggetions(outcomeObj)' [(ngModel)]="outcomeObj.newValue" (keyup)='buildCurrentContextSuggetions(outcomeObj)' [matChipInputFor]="chipList" [matAutocomplete]="auto" maxlength="20"
+                                                    <input #contextSuggestedImput [placeholder]="'Type Keyword and Enter'" (click)='buildCurrentContextSuggetions(outcomeObj)' [(ngModel)]="outcomeObj.newValue" (keyup)='buildCurrentContextSuggetions(outcomeObj)' [matChipInputFor]="chipList" [matAutocomplete]="auto"
                                                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addOutcome($event, outcomeObj, i)" />
                                                 </mat-chip-list>
                                                 <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown" (optionSelected)="selected($event,outcomeObj,index)">
