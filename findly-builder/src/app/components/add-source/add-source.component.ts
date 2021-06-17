@@ -82,6 +82,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     clientSecret: '',
     clientId: ''
   }
+  importFaqInprogress=false;
   selectedLinkBotConfig: any;
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
@@ -433,6 +434,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.statusModalPopRef = this.statusModalPop.open();
   }
   closeStatusModal() {
+    this.importFaqInprogress=false;
     this.saveEvent.emit();
     const self = this;
     if (this.pollingSubscriber) {
@@ -1350,7 +1352,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       // streamId: this.streamId,
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
-      console.log("imp faq res", res)
+      console.log("imp faq res", res);
+      this.importFaqInprogress=true;
       this.openStatusModal();
       this.addSourceModalPopRef.close();
       this.dockService.trigger(true)

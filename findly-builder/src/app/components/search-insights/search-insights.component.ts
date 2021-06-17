@@ -6,7 +6,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { Moment } from 'moment';
 import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
-
+declare const $: any;
 
 @Component({
   selector: 'app-search-insights',
@@ -79,8 +79,12 @@ export class SearchInsightsComponent implements OnInit {
   getDateRange(range, e?) {
     this.defaultSelectedDay = range;
     if (range === -1) {
-      this.showDateRange = true;
-      this.datetimeTrigger.nativeElement.click();
+      if (!this.showDateRange || $('.md-drppicker').hasClass('hidden')) {
+        this.showDateRange = true;
+        this.datetimeTrigger.nativeElement.click();
+      } else {
+        this.showDateRange = false;
+      }
     }
     else if (range === 7) {
       this.startDate = moment().subtract({ days: 6 });

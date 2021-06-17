@@ -132,7 +132,7 @@
           <img src="assets/images/exclamationCircle-Red.svg">
         </div>
         <div *ngIf="selectedSourceType.sourceType === 'content'&&statusObject.status!=='failed'">
-          <div class="success-check  pb-4" *ngIf="(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType === 'file')">
+          <div class="success-check pb-4" *ngIf="(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType === 'file')">
             <img src="assets/icons/successCheck.svg">
           </div>
           <div class="error-check pb-4" *ngIf="!(statusObject?.validation?.url?.validated)&&!(selectedSourceType.resourceType === 'file')">
@@ -152,7 +152,8 @@
         <ng-container *ngIf="selectedSourceType.sourceType !== 'faq'&&statusObject.status!=='success'">
           <div class="status-identification-content">
             <div class="content-title">
-              <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
+              <img src="assets/images/source-icos/check-green.svg" *ngIf="(statusObject?.validation?.url?.validated||selectedSourceType.resourceType=='file')" class="successfullyConnected">
+              <img src="assets/images/source-icos/Info-red.svg" *ngIf="!(statusObject?.validation?.url?.validated)&&selectedSourceType.resourceType!=='file'" class="successfullyConnected">
               <span *ngIf="selectedSourceType.resourceType!='file'" >Initial URL validation</span>
               <span *ngIf="selectedSourceType.resourceType=='file'" >File Validation</span>
             </div>
@@ -160,10 +161,10 @@
           </div>
         </ng-container>
         <div class="progressNote" *ngIf="selectedSourceType.sourceType === 'faq'&&!((statusObject.status==='success') || (statusObject.status==='failed'))">
-          <div>Faq Extraction In Progress</div>
+          <div>{{importFaqInprogress?'Import':'Faq Extraction'}} In Progress</div>
           <div class="text-center">
             <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
-            <div class="relaxNote">You will be notified when the extraction progress is done</div>
+            <div class="relaxNote">You will be notified when the {{importFaqInprogress?'import':'extraction'}} progress is done</div>
           </div>
         </div>
         <div class="configInProgress" *ngIf="statusObject?.validation?.url?.validated&&selectedSourceType.sourceType === 'web'">
