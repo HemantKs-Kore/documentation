@@ -365,7 +365,8 @@
                             border-radius: 4px;
                             width: 32px;
                             height: 32px;
-                            cursor: pointer;
+                            // cursor: pointer;
+                            cursor: default;
                             &.border-color-pallet{
                                 input{
                                     height: 1px;                                   
@@ -383,7 +384,8 @@
                                 padding: 0;
                                 height: 100%;
                                 border-radius: 4px;
-                                cursor: pointer;
+                                // cursor: pointer;
+                                cursor: default;
                             }
                         }
                     }
