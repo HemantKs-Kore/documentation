@@ -469,7 +469,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         this.usageDetails = { ingestDocs: docs, searchQueries: queries };
       },
       errRes => {
-        this.errorToaster(errRes, 'Failed to get current data.');
+        // this.errorToaster(errRes, 'Failed to get current data.');
       }
     );
   }

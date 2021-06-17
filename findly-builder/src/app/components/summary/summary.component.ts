@@ -118,7 +118,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.routeRefresh = this.appSelectionService.refreshSummaryPage.subscribe(res => {
       if (res == 'changed') {
         this.initialCall();
-        this.onboard.initialCall();
+        this.onboard?.initialCall();
         this.appSelectionService.getTourConfig();
       }
     })
@@ -180,10 +180,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
       },
 
     }
-
-
     this.service.invoke('get.queries', quaryparms, payload, header).subscribe(res => {
-      console.log("summary result rate", res)
       if (type == "TotalUsersStats") {
         this.totalUsersStats = res;
       } else if (type == "TotalSearchesStats") {
@@ -191,7 +188,9 @@ export class SummaryComponent implements OnInit, OnDestroy {
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        if (errRes.error.errors[0].code != 'NoActiveSubscription') {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        }
       } else {
         this.notificationService.notify('Failed ', 'error');
       }
