@@ -404,7 +404,7 @@ export class UpgradePlanComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     let queryParams = { "streamId": this.selectedApp._id };
     let url;
-    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free || this.overageData.overageShow) {
+    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free || this.overageData.overageShow || this.currentSubscriptionPlan == undefined) {
       queryParams = Object.assign({ ...queryParams, "transactionId": this.invoiceOrderId });
       url = 'get.getInvoiceDownload';
     }
@@ -420,7 +420,12 @@ export class UpgradePlanComponent implements OnInit {
         }
       }
       else {
-        FileSaver.saveAs(res.viewInvoice + '&DownloadPdf=true', 'invoice_' + res._id + '.pdf');
+        if (res.length) {
+          FileSaver.saveAs(res[0].viewInvoice + '&DownloadPdf=true', 'invoice_' + res[0]._id + '.pdf');
+        }
+        else {
+          FileSaver.saveAs(res.viewInvoice + '&DownloadPdf=true', 'invoice_' + res._id + '.pdf');
+        }
       }
       // this.notificationService.notify('res.status', 'success');
     }, errRes => {
