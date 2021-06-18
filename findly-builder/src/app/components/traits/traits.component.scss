@@ -222,11 +222,9 @@
                         .kr-sg-checkbox {
                             visibility: visible !important;
                         }
-                    &.actions {
-                        .action-links {
-                            display: block;
-                        }
-                    }
+                }
+                .action-links {
+                    display: block;
                 }
                 }
                 &.selected {
@@ -237,11 +235,9 @@
                             .kr-sg-checkbox {
                                 visibility: visible !important;
                             }
-                        &.actions {
-                            .action-links {
-                                display: none !important;
-                            }
-                        }
+                    }
+                    .action-links {
+                        display: none !important;
                     }
                     &:hover {
                         background: #F3F8FF;
