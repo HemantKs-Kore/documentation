@@ -1434,7 +1434,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{/if}}\
               {{if tasks && tasks.length && !customSearchResult}}\
               <div class="resultsButtons asstTask" >\
-                  <span class="search-heads">ACTIONS</span>\
+                  <div class="structured-data-header total-structured-data-wrap" appearanceType="task">\
+                    <span class="search-heads">ACTIONS</span>\
+                    <div class="search-heads show-all sdk-show-classification display-block">\
+                      Show All Actions\
+                    </div>\
+                  </div>\
                   <div class="faqBtnContainer suggestion_actions_container">\
                       <div class="tasks-wrp action-wrp btn_block_actions main-content-title-grid-data">\
                         {{each(key, task) tasks}}\
@@ -16135,7 +16140,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             maxSearchResultsAllowed = 4;
           }
           else if (selectedSearchTemplateType === 'carousel') {
-            maxSearchResultsAllowed = structuredData ? structuredData.length : 1;
+            maxSearchResultsAllowed = (structuredData.length) ? structuredData.length : 1;
           }
           else {
             maxSearchResultsAllowed = 2;
@@ -16145,7 +16150,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           maxSearchResultsAllowed = 5;
         }
         else {
-          maxSearchResultsAllowed = structuredData ? structuredData.length : 1;
+          maxSearchResultsAllowed = (structuredData.length) ? structuredData.length : 1;
         }
 
         var isDropdownEnabled = true;
@@ -16703,7 +16708,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             maxSearchResultsAllowed = 4;
           }
           else if (selectedSearchTemplateType === 'carousel') {
-            maxSearchResultsAllowed = faqs ? faqs.length : 1;
+            maxSearchResultsAllowed = (faqs.length) ? faqs.length : 1;
           }
           else {
             maxSearchResultsAllowed = 2;
@@ -16713,7 +16718,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           maxSearchResultsAllowed = 5;
         }
         else {
-          maxSearchResultsAllowed = faqs ? faqs.length : 1;
+          maxSearchResultsAllowed = (faqs.length) ? faqs.length : 1;
         }
 
         var isDropdownEnabled = true;
@@ -16788,7 +16793,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.bindCarouselActions(dataHTML);
         }
         if (!$('body').hasClass('top-down')) {
-          _self.bindStructuredDataTriggeringOptions();
+          setTimeout( function () {
+            _self.bindStructuredDataTriggeringOptions();
+          }, 500);
         }
         // if($('body').hasClass('top-down')){
         //   var resultsContainerHtml = $('.all-product-details');
@@ -17131,7 +17138,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             maxSearchResultsAllowed = 4;
           }
           else if (selectedSearchTemplateType === 'carousel') {
-            maxSearchResultsAllowed = web ? web.length : 1;
+            maxSearchResultsAllowed = (web.length) ? web.length : 1;
           }
           else {
             maxSearchResultsAllowed = 2;
@@ -17141,7 +17148,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           maxSearchResultsAllowed = 5;
         }
         else {
-          maxSearchResultsAllowed = web ? web.length : 1;
+          maxSearchResultsAllowed = (web.length) ? web.length : 1;
         }
         /** Sunil - resultRanking test */
         var resultRanking = $(_self.fullResultRanking()).tmpl({
@@ -17227,7 +17234,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.bindCarouselActions(dataHTML);
         }
         if (!$('body').hasClass('top-down')) {
-          _self.bindStructuredDataTriggeringOptions();
+          setTimeout( function () {
+            _self.bindStructuredDataTriggeringOptions();
+          }, 500);
         }
         setTimeout(()=> {
           _self.bindAllResultRankingOperations();
@@ -17588,7 +17597,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             maxSearchResultsAllowed = 4;
           }
           else if (selectedSearchTemplateType === 'carousel') {
-            maxSearchResultsAllowed = files ? files.length : 1;
+            maxSearchResultsAllowed = (files.length) ? files.length : 1;
           }
           else {
             maxSearchResultsAllowed = 2;
@@ -17598,7 +17607,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           maxSearchResultsAllowed = 5;
         }
         else{
-          maxSearchResultsAllowed = files ? files.length : 1;
+          maxSearchResultsAllowed = (files.length) ? files.length : 1;
         }
 
         var isDropdownEnabled = true;
@@ -17674,7 +17683,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.bindCarouselActions(dataHTML);
         }
         if (!$('body').hasClass('top-down')) {
-          _self.bindStructuredDataTriggeringOptions();
+          setTimeout(function (){
+            _self.bindStructuredDataTriggeringOptions();
+          }, 500);
         }
       });
 
@@ -18210,6 +18221,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.calculatePageNumber(selectedFacet, dataObj);
           if(!$('body').hasClass('top-down')){
             _self.handlePaginationUI(selectedFacet, dataObj);
+            _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: selectedFacet, isLiveSearch: false, isSearch: false, dataObj });
             _self.pubSub.publish('sa-st-data-search', {
               container: '.structured-data-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
             });
@@ -18222,7 +18234,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.pubSub.publish('sa-file-search', {
               container: '.files-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
             });
-            _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: selectedFacet, isLiveSearch: false, isSearch: false, dataObj });
           }else{
             _self.handlePaginationUI(selectedFacet, dataObj);
             //top-down-search-start//
@@ -18304,6 +18315,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           else{
             _self.vars.isPriorfiltersApplied = false;
           }
+          _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: selectedFacet_temp, isLiveSearch: false, isSearch: false, dataObj });
           _self.pubSub.publish('sa-st-data-search', {
             container: '.structured-data-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
           });
@@ -18316,7 +18328,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('sa-file-search', {
             container: '.files-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet_temp, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
           });
-          _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: selectedFacet_temp, isLiveSearch: false, isSearch: false, dataObj });
         }
         else{
           $('#loaderDIV').show();
@@ -20986,7 +20997,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         </div>\
                                       {{/if}}\
                                     {{if selectedFacet !== appearanceType}}\
-                                      <div class="type-section quick-actions"> Actions</div>\
+                                      <div class="structured-data-header total-structured-data-wrap" appearanceType="task">\
+                                        ACTIONS\
+                                        <div class="search-heads show-all sdk-show-classification display-block">\
+                                          Show All Actions\
+                                        </div>\
+                                      </div>\
                                     {{/if}}\
                                     <div class="action-results-container btn_block_actions main-content-title-grid-data">\
                                         {{each(key, task) tasks}}\
