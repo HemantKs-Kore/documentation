@@ -171,7 +171,10 @@
             align-items: center;
             border-bottom: 1px solid #E4E5E7;
             .lh-34{
-                line-height: 34px;
+                line-height: 34px !important;
+            }
+            .partial-select-img{
+                padding-right: 6px;
             }
             .title{
                 padding: 0 10px;
