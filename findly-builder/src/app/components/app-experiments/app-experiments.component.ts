@@ -184,7 +184,6 @@ export class AppExperimentsComponent implements OnInit {
       this.experimentObj.duration.days = data.duration.days;
       this.setSliderDefaults();
       this.showTraffic(this.variantsArray.length, 'add');
-
     }
     else {
       this.showSlider = false;
