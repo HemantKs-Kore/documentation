@@ -424,9 +424,10 @@ input::placeholder{
     width: auto;
     bottom: 80px;
     left: 0;
-    min-width: 300px;
+    min-width: auto;
     margin: 0 auto;
-    max-width: 350px;	
+    max-width: none;
+    text-align: center;
 	.toast-success{
 		border: 1px solid #28A745;
 		box-sizing: border-box;
@@ -435,14 +436,13 @@ input::placeholder{
 		padding: 8px 11px !important;
 		height: auto;
 		min-height: 38px;
-		display: flex;
+		display: inline-flex;
 		align-items: center;
 		max-width: 500px;
-		min-width: 230px;
 		width: auto !important;
 		box-shadow: none !important;
 		position: relative;
-		margin: 2px 0;
+		margin: 2px auto;
 		&::before{			
 			content: "";
 			position: absolute;
@@ -457,7 +457,8 @@ input::placeholder{
 			font-size: 12px;
 			line-height: 18px;
 			padding-left: 25px;
-			padding-right: 20px;
+			padding-right: 30px;
+			text-align: left;
 		}
 		.toast-close-button{			
 			height: 10px !important;
