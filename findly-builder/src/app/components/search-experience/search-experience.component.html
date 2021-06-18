@@ -350,7 +350,7 @@
             <div class="col-12 pr-0" *ngSwitchCase="'interactions'">
                 <div class="interactins-content col-12 p-0 row m-0">
                     <div class="left-sec col-12 p-0">
-                        <div class="greeting-message border-with-padding border-0 col-7 pb-0">
+                        <div class="greeting-message border-with-padding border-0 col-7 pb-0 pt-0">
                             <div class="kr-sg-input-text-area">
                                 <div class="label-text">Customize Launch Greeting Message</div>
                                 <textarea class="input-text" maxlength="60" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}"></textarea>
@@ -421,7 +421,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12 preview-search-ex" style="pointer-events: none;">
+                        <div class="col-12 preview-search-ex pb-2" style="pointer-events: none;">
                             <div class="search-widget-if-bottom-up" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">                               
                                 <div class="greeting-block">
                                     <img [src]="emojiIcon">

@@ -428,6 +428,10 @@ input::placeholder{
     margin: 0 auto;
     max-width: none;
     text-align: center;
+	display: flex;
+    flex-direction: column;
+	justify-content: center;
+    align-items: center;
 	.toast-success{
 		border: 1px solid #28A745;
 		box-sizing: border-box;
