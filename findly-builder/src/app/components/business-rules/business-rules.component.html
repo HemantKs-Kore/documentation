@@ -122,19 +122,21 @@
                 </div>
                 <div class="title text-truncate"  [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip="{{ ruleObj.ruleName }}">{{ ruleObj.ruleName }}</div>
             </div>
-            <div class="col-3 content d-flex align-items-center flex-wrap">
+            <div class="col-3 content">
                 <ng-container *ngFor="let rule of ruleObj.rules; let ruleIndex = index">
-                    <br *ngIf="ruleIndex > 0">
-                    <span class="divider" *ngIf="ruleIndex > 0">{{"and_caps" | translate}}</span>
-                    <span class="tags-input mr-1 mb-1">
-                        <span class="small-text">{{ "businessRules." + rule.contextType | translate}} :</span> 
-                        {{ "businessRules." + rule.contextCategory | translate }}
-                    </span>                    
-                    <div class="d-flex mb-2">
+                    <!-- <br *ngIf="ruleIndex > 0"> -->
+                    <div class="d-flex align-items-center flex-wrap">
+                        <span class="divider" *ngIf="ruleIndex > 0">{{"and_caps" | translate}}</span>
+                        <span class="tags-input mr-1 mb-1">
+                            <span class="small-text">{{ "businessRules." + rule.contextType | translate}} :</span> 
+                            {{ "businessRules." + rule.contextCategory | translate }}
+                        </span>
+                    </div>                    
+                    <div class="d-flex align-items-start mb-2">
                         <div class="d-inline-block">
                             <span class="outer-name mr-1 mb-1 ml-4 d-inline-block" [ngClass]="{'ml-4':ruleIndex > 0}">{{ rule.operator | titlecase}}</span>
                         </div>
-                        <div class="d-flex align-items-center flex-wrap">
+                        <div class="d-flex align-items-start flex-wrap">
                             <ng-container *ngFor="let value of rule.value; let valueIndex = index">
                                 <span class="tags-input mr-1 mb-1" *ngIf="value && !checkIsArray(value)">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
                                 <span class="tags-input mr-1 mb-1" *ngIf="value && value.length && checkIsArray(value)"><span *ngFor="let num of value; let numIndex = index">{{num | dateFormatPipe: 'DD MMM YYYY'}}<span *ngIf="!numIndex"> - </span></span></span>
@@ -146,14 +148,18 @@
             </div>
             <div class="col-3 content">
                 <ng-container *ngFor="let outcome of ruleObj.outcomes">
-                    <div><span class="tags-input mr-1 mb-1"><span *ngIf=" outcome.outcomeType === 'boost' ||  outcome.outcomeType === 'lower'">{{ outcome.scale }}x</span>{{"businessRules.action" + outcome.outcomeType | translate}}Result
-                    </span></div>
-                    <span class="outer-name mr-1 mb-1">{{"businessRules." + outcome.outcomeOperator | translate }}</span>
-                    <span class="tags-input mr-1 mb-1">{{ outcome.fieldName }}:
-          <span *ngFor="let value of outcome.outcomeValue;let valueIndex = index">{{ value }}
-            <span *ngIf="valueIndex < outcome.outcomeValue.length - 1" class="divider mr-1 mb-1">{{ "or_caps" | translate }}</span>
-                    </span>
-                    </span>
+                    <div>
+                        <span class="tags-input mr-1 mb-1"><span *ngIf=" outcome.outcomeType === 'boost' ||  outcome.outcomeType === 'lower'">{{ outcome.scale }}x</span>{{"businessRules.action" + outcome.outcomeType | translate}}Result
+                        </span>
+                    </div>
+                    <div class="d-flex align-items-start">
+                        <span class="outer-name mr-1 mb-1">{{"businessRules." + outcome.outcomeOperator | translate }}</span>
+                        <span class="tags-input mr-1 mb-1">{{ outcome.fieldName }}:
+                            <span *ngFor="let value of outcome.outcomeValue;let valueIndex = index">{{ value }}
+                                <span *ngIf="valueIndex < outcome.outcomeValue.length - 1" class="divider mr-1 mb-1">{{ "or_caps" | translate }}</span>
+                            </span>
+                        </span>
+                    </div>
                     <img class="pl-1" *ngIf="outcome.showFieldWarning && outcome.showFieldWarning !== 'false'" src="assets/icons/info-blue.svg" [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip="{{fieldWarnings[outcome.showFieldWarning] || outcome.showFieldWarning}}"
                     />
                 </ng-container>

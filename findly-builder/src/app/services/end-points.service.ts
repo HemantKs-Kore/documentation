@@ -157,15 +157,15 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['get.allFaqs'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&extractionSource=all',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&source=all',
       method: 'get'
     };
     this.serviceList['get.allFaqsByState'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&extractionSource=all',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=all',
       method: 'get'
     };
     this.serviceList['get.faqs.search'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&extractionSource=all&search=:searchQuary',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=all&search=:searchQuary',
       method: 'get'
     };
     this.serviceList['get.allManualFaqsByState'] = {
@@ -267,6 +267,10 @@ export class EndPointsService {
     };
     this.serviceList['update.faq.bulk'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/bulk',
+      method: 'put'
+    };
+    this.serviceList['update.manualFaqs.bulk'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/bulk?source=manual',
       method: 'put'
     };
     this.serviceList['create.synonym'] = {
@@ -498,6 +502,10 @@ export class EndPointsService {
     }
     this.serviceList['delete.traitGroup'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/traitgroup/:traitGroupId',
+      method: 'delete'
+    }
+    this.serviceList['delete.bulkTraits'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/traitgroup/bulk',
       method: 'delete'
     }
     this.serviceList['get.traitGroupById'] = {
