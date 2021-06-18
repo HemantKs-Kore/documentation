@@ -170,6 +170,9 @@
             height: 50px;
             align-items: center;
             border-bottom: 1px solid #E4E5E7;
+            .lh-34{
+                line-height: 34px;
+            }
             .title{
                 padding: 0 10px;
                 color: #9AA0A6;
@@ -178,7 +181,13 @@
                 font-size: 12px;
                 line-height: 14px;
             }
+            &.selected, &:hover {
+                .kr-sg-checkbox{
+                    visibility: visible !important;
+                }
+            }
             .kr-sg-checkbox{
+                visibility: hidden;
                 padding-right: 14px;
             }
             .all-checked{
@@ -206,8 +215,33 @@
                 transition: 0.2s all ease-in;
                 &:hover{
                     background: #F8F9FA;
-                    .action-links{
-                        display: block;
+                    .traitGroup-name {
+                        .kr-sg-checkbox {
+                            visibility: visible !important;
+                        }
+                    &.actions {
+                        .action-links {
+                            display: block;
+                        }
+                    }
+                }
+                }
+                &.selected {
+                    background: #F3F8FF;
+                    border-radius: 0px;
+                    border: 0;
+                    .traitGroup-name {
+                            .kr-sg-checkbox {
+                                visibility: visible !important;
+                            }
+                        &.actions {
+                            .action-links {
+                                display: none !important;
+                            }
+                        }
+                    }
+                    &:hover {
+                        background: #F3F8FF;
                     }
                 }
                 .action-links{
@@ -229,6 +263,7 @@
                     word-break: break-all;
                     .kr-sg-checkbox{
                         padding-right: 14px;
+                        visibility: hidden;
                     }
                 }
                 .traits-groups{
