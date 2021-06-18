@@ -822,6 +822,7 @@ export class UserEngagementComponent implements OnInit {
     let gridWidth = "0%";
     let mostUsedBrowserNumberOfuserObj = {}
     let y_axis = [];
+    let barColor = "#FF784B";
     y_axis = this.mostUsedDev_bro_geo_sen.filter(function (e) {
       return e.name;
     }).map(function (g) {
@@ -848,10 +849,12 @@ export class UserEngagementComponent implements OnInit {
     });
     if (graphData.length > 0) {
       this.isyAxismostUsedBrowserdata = true;
+      barColor = "#FF784B";
     } else {
       y_axis = ['Chrome', 'Safari', 'IE'];
       graphData = [82, 9, 9];
       this.isyAxismostUsedBrowserdata = false;
+      barColor = "#EFF0F1";
     }
 
     // if(y_axis.length == 1){
@@ -991,7 +994,7 @@ export class UserEngagementComponent implements OnInit {
         },
         itemStyle: {
           normal: {
-            color: '#FF784B',
+            color: barColor,
           },
         },
         data: graphData,//[120, 200, 150],
@@ -1004,6 +1007,7 @@ export class UserEngagementComponent implements OnInit {
     let graphData = [];
     let y_axis = [];//['US','India','UK','Japan'];
     let geoNumberOfuserObj = {};
+    let barColor = "#93D3A2";
     y_axis = this.mostUsedDev_bro_geo_sen.filter(function (e) {
       return e.name;
     }).map(function (g) {
@@ -1026,8 +1030,10 @@ export class UserEngagementComponent implements OnInit {
       y_axis = ['US', 'India', 'UK', 'Japan'];
       graphData = [10, 80, 5, 5];
       this.isyAxisGeodata = false;
+      barColor = "#EFF0F1"
     } else {
       this.isyAxisGeodata = true;
+      barColor = "#93D3A2";
     }
 
     // if(y_axis.length == 1){
@@ -1106,7 +1112,7 @@ export class UserEngagementComponent implements OnInit {
         },
         itemStyle: {
           normal: {
-            color: '#93D3A2',
+            color: barColor,
           },
         },
         data: graphData,//[120, 200, 150],
