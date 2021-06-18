@@ -1607,6 +1607,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   downloadDoc(url) {
     FileSaver.saveAs(url + '&DownloadPdf=true');
   }
+  checkValue(value) {
+    console.log()
+    if (value <= -1) {
+      this.crawlDepth = 0;
+      this.maxUrlLimit =0;
+    }
+  }
 }
 
 // class CrwalObj{  

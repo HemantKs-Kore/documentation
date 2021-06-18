@@ -55,6 +55,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   filterObject = {};
   manualFilterSelected = false;
   showResponse: boolean;
+  loading = false;
   faqSelectionObj: any = {
     selectAll: false,
     selectedItems: {},
@@ -81,6 +82,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   loadingFaqs = true;
   editfaq = false;
   selectedFaqToEdit;
+  previousSearchQuery = '';
   statusObj: any = {
     failed: { name: 'Failed', color: 'red' },
     successfull: { name: 'Successfull', color: 'green' },
@@ -111,6 +113,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     faqs: []
   }
   apiLoading = false;
+  isNotSearching =false;
   extractedFaqs =false;
   isAsc = true;
   selectedSort = '';
@@ -142,6 +145,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
 
   constructor(
+    public cdRef : ChangeDetectorRef,
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -203,7 +207,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
   sortBy(sort) {
-    const data = this.resources.slice();
+    const data = this.extractedResources.slice();
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {
       this.isAsc = true;
@@ -220,7 +224,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         default: return 0;
       }
     });
-    this.resources = sortedData;
+    this.extractedResources = sortedData;
   }
   addNewContentSource(type) {
     this.router.navigate(['/source'], { skipLocationChange: true, queryParams: { sourceType: type } });
@@ -596,13 +600,17 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   searchFaqs() {
-    if (this.searchFaq) {
-      this.loadingTab = true;
-      this.getfaqsBy(null, null, null, this.searchFaq);
-    } else {
-      this.getfaqsBy();
-      this.searchFaq=''
-    }
+    this.apiLoading = false;
+    this.isNotSearching = true;
+      if (this.searchFaq) {
+        // this.loadingTab = true;
+        this.getfaqsBy(null, null, null, this.searchFaq);
+      } else {
+        this.getfaqsBy();
+        this.searchFaq=''
+      }
+      console.log(this.searchFaq,'search');
+    
   }
   getJobStatusForMessages() {
     const quaryparms: any = {
@@ -613,6 +621,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.resources = [...res];
       this.extractedResources = [...res];
       if (this.extractedResources.length) {
+        this.statusArr=[];
+          this.docTypeArr=[];
         this.extractedResources.forEach(element => {
           this.statusArr.push(element.recentStatus);
           this.docTypeArr.push(element.contentSource);
@@ -646,21 +656,27 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   faqsApiService(serviceId, params?, concat?) {
     console.log("serviceID", serviceId, params)
-    this.faqs = [];
-    if (this.apiLoading) {
+    // if ((this.apiLoading && !params.searchQuary) || ((this.previousSearchQuery == this.searchFaq) && this.searchFaq && this.previousSearchQuery && !params.offset)) {
+      if ((this.apiLoading)) {
       return;
     }
+    this.faqs = [];
+    this.previousSearchQuery = this.searchFaq;
     this.apiLoading = true;
+    this.loading = true;
     this.service.invoke(serviceId, params).subscribe((res:any) => {
-      console.log("service res", res)
-      if (concat) {
-        this.faqs = this.faqs.concat(res.faqs);
-      } else {
-        this.faqs = _.filter(res.faqs, (faq) => {
-          return faq.action !== 'delete';
-        })
-      }
-      this.faqSelectionObj.stats[this.selectedtab || 'draft'] = res.count;
+      console.log("service res", res);
+      this.loading = false;
+      this.isNotSearching = false;
+      this.faqs = ((res||{}).faqs || []);
+      // if (concat) {
+      //   this.faqs = this.faqs.concat((res||{}).faqs || []);
+      // } else {
+      //   this.faqs = _.filter(((res||{}).faqs || []), (faq) => {
+      //     return faq.action !== 'delete';
+      //   })
+      // }
+      this.faqSelectionObj.stats[this.selectedtab || 'draft'] = (res||{}).count || 0;
       this.faqsObj.faqs = this.faqs;
       if (params.resourceId === 'manual' && this.faqs.length) {
         this.getStats(this.faqs[0].extractionSourceId)
@@ -669,6 +685,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.moreLoading.loadingText = 'Loading...';
         this.selectFaq(this.faqs[0]);
       } else {
+        if(params.searchQuary){
+          this.selectedFaq =null;
+        }
         this.moreLoading.loadingText = 'No more results available';
         const self = this;
         setTimeout(() => {
@@ -676,7 +695,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 700);
       }
       if (serviceId === 'get.allFaqs') {
-        this.faqsAvailable = res.faqs.length ? true : false;
+        this.faqsAvailable = ((res||{}).faqs || []).length ? true : false;
       }
       setTimeout(() => {
         this.markSelectedFaqs(this.faqs);
@@ -690,6 +709,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.loadingFaqs = false;
       this.loadingTab = false;
     }, errRes => {
+      this.isNotSearching = false
+      this.loading = false;
       this.apiLoading = false;
       this.loadingFaqs = false;
       this.loadingTab = false;
@@ -1573,7 +1594,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.showSearch && this.searchSources) {
       this.searchSources = '';
     }
-    this.showSearch = !this.showSearch
+    this.showSearch = !this.showSearch;
+    this.cdRef.detectChanges();
   };
 
 
@@ -1591,6 +1613,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
        }
     }
    this.showSearch= !this.showSearch;
+   this.cdRef.detectChanges();
   }
   focusinSearch(inputSearch){
     setTimeout(()=>{

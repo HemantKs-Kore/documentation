@@ -26,6 +26,11 @@ export class TraitsComponent implements OnInit {
   tempUtterance: string;
   statusModalPopRef: any = [];
   addUtteranceModalPopRef: any = [];
+  selcectionObj: any = {
+    selectAll: false,
+    selectedItems: [],
+    selectedCount : 0
+  };
   utteranceList = [];
   showUtteranceInput = false;
   showEditUtteranceInput: any;
@@ -358,6 +363,175 @@ export class TraitsComponent implements OnInit {
     }
 
   };
+  deleteTraits(traits?, bulk?) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        newTitle: 'Are you sure you want to delete ?',
+        body: 'Selected trait group will be deleted.',
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          if (bulk && this.selcectionObj.selectedCount>1) {
+            this.deleteBulkTrait(dialogRef);
+          } else if (this.selcectionObj.selectedCount == 1) {
+            let selectedIds = Object.keys(this.selcectionObj.selectedItems);
+            let index = this.traits.traitGroups.findIndex((d)=>{d._id == selectedIds[0]})
+            this.deleteTrait(index,{_id:selectedIds[0]},dialogRef);
+          }
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
+  resetCheckBox(){
+        this.selcectionObj.selectedItems = {};
+        this.selcectionObj.selectedCount = 0;
+        this.selcectionObj.selectAll = false;
+      let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+      if (partialElement.length) {
+        partialElement[0].classList.add('d-none');
+      }
+      let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+      if (selectAllElement.length) {
+        selectAllElement[0].classList.remove('d-none');
+      }
+      $('#selectAllTraits')[0].checked = false;
+    }
+  deleteTrait(index, traitsGroup,dialogRef){
+    if (!traitsGroup._id) {
+      this.traits.traitGroups.splice(index, 1);
+    } else {
+      const traitslist = JSON.parse(JSON.stringify(this.traits.traitGroups));
+      traitslist.splice(index, 1);
+      const payload = traitslist;
+      const quaryparms: any = {
+        searchIndexId: this.serachIndexId,
+        indexPipelineId: this.indexPipelineId,
+        traitGroupId: traitsGroup._id
+      }
+      this.service.invoke('delete.traitGroup', quaryparms, payload).subscribe(res => {
+        this.traitDeleted = false;
+        this.resetCheckBox();
+        this.getTraitsGroupsApi();
+        dialogRef.close();
+        this.notificationService.notify('Deleted Successfully', 'success');
+      }, (err) => {
+        if (err && err.data && err.data.errors && err.data.errors[0]) {
+          this.notificationService.notify(err.data.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to delete trait group', 'error');
+        }
+      });
+    }
+  }
+  deleteBulkTrait(dialogRef) {
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      queryPipelineId: this.queryPipelineId
+    };
+    const triats = Object.keys(this.selcectionObj.selectedItems);
+    const delateitems = {
+      triats: []
+    };
+    if (triats && triats.length) {
+      triats.forEach(ele => {
+        const obj = {
+          _id: ele,
+        }
+        delateitems.triats.push(obj);
+      });
+    }
+    const payload = delateitems;
+    this.service.invoke('delete.bulkTraits', quaryparms, payload).subscribe(res => {
+      this.resetCheckBox();
+      this.getTraitsGroupsApi();
+      dialogRef.close();
+      // this.closeModal();
+      this.notificationService.notify('Trait Groups Deleted Successfully', 'success');
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to delete trait group');
+    });
+  }
+
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message) {
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+    }
+  }
+  checkUncheckTraits(trait) {
+    const selectedElements = $('.selectEachTraitInput:checkbox:checked');
+    const allElements = $('.selectEachTraitInput');
+    if (selectedElements.length === allElements.length) {
+      let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+      if (partialElement.length) {
+        partialElement[0].classList.add('d-none');
+      }
+      let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+      if (selectAllElement.length) {
+        selectAllElement[0].classList.remove('d-none');
+      }
+      $('#selectAllTraits')[0].checked = true;
+    } else {
+      let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+      let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+
+      if (partialElement && (selectedElements.length != 0)) {
+        partialElement[0].classList.remove('d-none');
+        if (selectAllElement.length) {
+          selectAllElement[0].classList.add('d-none');
+        }
+      }
+      else {
+        partialElement[0].classList.add('d-none');
+        if (selectAllElement.length) {
+          selectAllElement[0].classList.remove('d-none');
+        }
+      }
+      $('#selectAllTraits')[0].checked = false;
+    }
+    const element = $('#' + trait._id);
+    const addition = element[0].checked
+    this.addRemoveTraitFromSelection(trait._id, addition);
+  }
+  addRemoveTraitFromSelection(TraitId?, addtion?, clear?) {
+    if (clear) {
+      this.resetPartial();
+      const allTraits = $('.selectEachTraitInput');
+      $.each(allTraits, (index, element) => {
+        if ($(element) && $(element).length) {
+          $(element)[0].checked = false;
+        }
+      });
+      this.selcectionObj.selectedItems = {};
+      this.selcectionObj.selectedCount = 0;
+      this.selcectionObj.selectAll = false;
+    } else {
+      if (TraitId) {
+        if (addtion) {
+          this.selcectionObj.selectedItems[TraitId] = {};
+        } else {
+          if (this.selcectionObj.selectedItems[TraitId]) {
+            delete this.selcectionObj.selectedItems[TraitId]
+          }
+        }
+      }
+      this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
+    }
+  }
   deleteTraitsGroup(index, traitsGroup, event?) {
     if (event) {
       event.stopImmediatePropagation();
@@ -394,6 +568,7 @@ export class TraitsComponent implements OnInit {
             this.service.invoke('delete.traitGroup', quaryparms, payload).subscribe(res => {
               this.getTraitsGroupsApi();
               this.traitDeleted = false;
+              this.resetCheckBox();
               dialogRef.close();
               this.notificationService.notify('Deleted Successfully', 'success');
             }, (err) => {
@@ -896,6 +1071,49 @@ export class TraitsComponent implements OnInit {
       document.getElementById(inputSearch).focus();
     }, 100)
   }
+  selectAll(unselectAll?) {
+    const allTraits = $('.selectEachTraitInput');
+    if (allTraits && allTraits.length) {
+      $.each(allTraits, (index, element) => {
+        if ($(element) && $(element).length) {
+          $(element)[0].checked = unselectAll ? false : this.selcectionObj.selectAll;
+          const traitId = $(element)[0].id
+          this.addRemoveTraitFromSelection(traitId, $(element)[0].checked);
+        }
+      });
+    };
+    let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+    if (partialElement.length) {
+      partialElement[0].classList.add('d-none');
+    }
+    let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+    if (selectAllElement.length) {
+      selectAllElement[0].classList.remove('d-none');
+    }
+    if (unselectAll) {
+      $('#selectAllTraits')[0].checked = false;
+    }
+  }
+  resetPartial() {
+    this.selcectionObj.selectAll = false;
+    if ($('#selectAllTraits').length) {
+      $('#selectAllTraits')[0].checked = false;
+    }
+    let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+    if (partialElement.length) {
+      partialElement[0].classList.add('d-none');
+    }
+    let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+    if (selectAllElement.length) {
+      selectAllElement[0].classList.remove('d-none');
+    }
+  }
+  selectAllFromPartial() {
+    this.selcectionObj.selectAll = true;
+    $('#selectAllTraits')[0].checked = true;
+    this.selectAll();
+  }
+
   ngOnDestroy() {
     const self = this;
     if (this.subscription) {

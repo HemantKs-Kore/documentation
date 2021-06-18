@@ -179,7 +179,7 @@ export class AppHeaderComponent implements OnInit {
       })
     })
     this.workflowService.mainMenuRouter$.subscribe(route => {
-      if(route) {
+      if (route) {
         this.mainMenu = route;
       }
     });
@@ -602,9 +602,7 @@ export class AppHeaderComponent implements OnInit {
   }
   //get all apps
   getAllApps() {
-    console.log("apps res")
     this.service.invoke('get.apps').subscribe(res => {
-      console.log("apps res", res)
       this.prepareApps(res);
     }, errRes => {
       console.log(errRes);

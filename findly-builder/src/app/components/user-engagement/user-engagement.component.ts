@@ -209,8 +209,12 @@ export class UserEngagementComponent implements OnInit {
   getDateRange(range, e?) {
     this.defaultSelectedDay = range;
     if (range === -1) {
-      this.showDateRange = true;
-      this.datetimeTrigger.nativeElement.click();
+      if (!this.showDateRange || $('.md-drppicker').hasClass('hidden')) {
+        this.showDateRange = true;
+        this.datetimeTrigger.nativeElement.click();
+      } else {
+        this.showDateRange = false;
+      }
       // this.dateLimt('custom')
     } else if (range === 7) {
       this.startDate = moment().subtract({ days: 6 });

@@ -34,7 +34,7 @@
                 <!-- <img *ngIf="showSearch" src="assets/images/close.svg" /> -->
                 {{ "search" | translate }}
             </div>
-            <div class="add_feild" (click)="createNewRule()" *ngIf="rules && beforeFilterRules && beforeFilterRules.length">
+            <div class="add_feild mr-0" (click)="createNewRule()" *ngIf="rules && beforeFilterRules && beforeFilterRules.length">
                 <img src="assets/icons/add_plus.svg" />{{ "businessRules.add_rule" | translate }}
             </div>
             <div class="clock d-none"><img src="assets/icons/clock.svg" /></div>
@@ -122,24 +122,23 @@
                 </div>
                 <div class="title text-truncate"  [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip="{{ ruleObj.ruleName }}">{{ ruleObj.ruleName }}</div>
             </div>
-            <div class="col-3 content lh-5">
+            <div class="col-3 content d-flex align-items-center flex-wrap">
                 <ng-container *ngFor="let rule of ruleObj.rules; let ruleIndex = index">
-                    <br *ngIf="ruleIndex > 0"><span class="divider mr-1 mb-1" *ngIf="ruleIndex > 0">{{
-          "and_caps" | translate
-          }}</span>
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">{{ "businessRules." + rule.contextType | translate
-            }} :</span> {{ "businessRules." + rule.contextCategory | translate }}</span>
-                    <br>
-                    <div class="d-flex">
+                    <br *ngIf="ruleIndex > 0">
+                    <span class="divider" *ngIf="ruleIndex > 0">{{"and_caps" | translate}}</span>
+                    <span class="tags-input mr-1 mb-1">
+                        <span class="small-text">{{ "businessRules." + rule.contextType | translate}} :</span> 
+                        {{ "businessRules." + rule.contextCategory | translate }}
+                    </span>                    
+                    <div class="d-flex mb-2">
                         <div class="d-inline-block">
-                            <span class="outer-name mr-1 mb-1 ml-4" [ngClass]="{'ml-4':ruleIndex > 0}">{{ rule.operator | titlecase}}</span>
+                            <span class="outer-name mr-1 mb-1 ml-4 d-inline-block" [ngClass]="{'ml-4':ruleIndex > 0}">{{ rule.operator | titlecase}}</span>
                         </div>
-                        <div class="d-inline-block">
+                        <div class="d-flex align-items-center flex-wrap">
                             <ng-container *ngFor="let value of rule.value; let valueIndex = index">
                                 <span class="tags-input mr-1 mb-1" *ngIf="value && !checkIsArray(value)">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
-                                <span class="tags-input mr-1 mb-1" *ngIf="value && value.length && checkIsArray(value)" style="padding:1px 5px !important"><span *ngFor="let num of value; let numIndex = index">{{num | dateFormatPipe: 'DD MMM YYYY'}}<span *ngIf="!numIndex"> - </span></span></span>
-                                <span class="divider mr-1 mb-1" *ngIf="valueIndex < rule.value.length - 1">{{ "or_caps" | translate
-                    }}</span>
+                                <span class="tags-input mr-1 mb-1" *ngIf="value && value.length && checkIsArray(value)"><span *ngFor="let num of value; let numIndex = index">{{num | dateFormatPipe: 'DD MMM YYYY'}}<span *ngIf="!numIndex"> - </span></span></span>
+                                <span class="divider" *ngIf="valueIndex < rule.value.length - 1">{{ "or_caps" | translate}}</span>
                             </ng-container>
                         </div>
                     </div>
@@ -337,7 +336,7 @@
                                                         </ng-container>
                                                     </ng-container>
                                                     <ng-container *ngIf="(ruleObj.dataType != 'date') && (ruleObj.dataType != 'number')">
-                                                        <input placeholder="Type Keyword and Enter" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" suggestedInput maxlength="20"/>
+                                                        <input placeholder="Type Keyword and Enter" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" suggestedInput />
                                                     </ng-container>
 
                                                     <ng-container *ngIf="ruleObj.dataType == 'date'">
@@ -354,7 +353,7 @@
                                                     </ng-container>
 
                                                     <ng-container *ngIf="ruleObj.dataType == 'number'">
-                                                        <input [placeholder]="ruleObj.operator == 'between' ? 'Type Range' : 'Type Keyword and Enter'" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" maxlength="20" />
+                                                        <input [placeholder]="ruleObj.operator == 'between' ? 'Type Range' : 'Type Keyword and Enter'" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)"  />
                                                     </ng-container>
                                                 </mat-chip-list>
                                             </mat-form-field>
@@ -481,7 +480,7 @@
                                                         </mat-chip>
                                                         <span>OR</span>
                                                     </ng-container>
-                                                    <input #contextSuggestedImput [placeholder]="'Type Keyword and Enter'" (click)='buildCurrentContextSuggetions(outcomeObj)' [(ngModel)]="outcomeObj.newValue" (keyup)='buildCurrentContextSuggetions(outcomeObj)' [matChipInputFor]="chipList" [matAutocomplete]="auto" maxlength="20"
+                                                    <input #contextSuggestedImput [placeholder]="'Type Keyword and Enter'" (click)='buildCurrentContextSuggetions(outcomeObj)' [(ngModel)]="outcomeObj.newValue" (keyup)='buildCurrentContextSuggetions(outcomeObj)' [matChipInputFor]="chipList" [matAutocomplete]="auto"
                                                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addOutcome($event, outcomeObj, i)" />
                                                 </mat-chip-list>
                                                 <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown" (optionSelected)="selected($event,outcomeObj,index)">
