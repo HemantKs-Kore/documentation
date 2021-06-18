@@ -7799,6 +7799,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       var handle = setInterval(function () {
         if (_self.bot.options.accessToken) {
+          _self.unlockBot();
           _self.getSearchResultsConfig(_self.API.searchResultsConfigURL, 'GET');
           _self.saveCustomizationConfig();
           clearInterval(handle);
@@ -7954,6 +7955,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       var handle = setInterval(function () {
         if (_self.bot.options.accessToken) {
+          _self.unlockBot();
           _self.getSearchResultsConfig(_self.API.searchResultsConfigURL, 'GET');
           _self.saveCustomizationConfig();
           clearInterval(handle);
