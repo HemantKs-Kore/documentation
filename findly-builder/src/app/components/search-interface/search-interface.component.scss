@@ -563,9 +563,9 @@
                                         box-shadow: inset 0px -1px 0px #e4e5e7;
                                         border-radius: 0;
                                         margin: 0;
-                                        &:last-child{
-                                            box-shadow: none;
-                                        }
+                                        // &:last-child{
+                                        //     box-shadow: none;
+                                        // }
                                     }
                                 }
                                 &.image-tmplate-type-3{
@@ -670,7 +670,7 @@
                                 font-size: 14px;
                                 line-height: 17px;
                                 margin-bottom: 10px;
-                            } 
+                            }                            
                         }
                     }                    
                 }
