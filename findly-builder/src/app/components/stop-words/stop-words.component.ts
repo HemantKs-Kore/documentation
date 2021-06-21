@@ -259,7 +259,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         title: 'Delete Stop Word',
         text: 'Are you sure you want to delete selected Stop Word?',
         newTitle:'Are you sure you want to delete ?',
-        body:'This will delete all the configures stop words.',
+        body: word  +  ' will be removed from stopword list',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -292,7 +292,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       data: {
         title: 'Delete  All StopWords',
         newTitle: 'Are you sure you want to delete ?',
-        body: 'All stopwords will be deleted.',
+        body: 'All the stopwords will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }

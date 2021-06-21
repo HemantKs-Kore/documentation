@@ -1245,7 +1245,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   updateRecord(i, allowUrls, option, type) {
     //selectedSource.advanceSettings.allowedURLs
     let payload = {}
-    let resourceType = this.selectedSource.extractionType;
+    // let resourceType = this.selectedSource.extractionType;
     let crawler = new CrwalObj()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -1270,7 +1270,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       type == 'block' ? crawler.advanceOpts.blockedURLs.splice(i, 1) : crawler.advanceOpts.allowedURLs.splice(i, 1);
     }
 
-    crawler.resourceType = resourceType;
+    // crawler.resourceType = resourceType; 
     payload = crawler;
     console.log(payload);
 
@@ -1423,12 +1423,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
     crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
     crawler.advanceOpts.allowedURLs.length > 0 || crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.crawlEverything = false : crawler.advanceOpts.crawlEverything = true;
-    if (resourceType != 'web') {
-      crawler.resourceType = resourceType;
-    }
-    else {
-      delete crawler.resourceType;
-    }
+    // if (resourceType != 'web') {
+    //   crawler.resourceType = resourceType;
+    // }
+    // else {
+    //   delete crawler.resourceType;
+    // }
     payload = crawler;
     //console.log(payload);
     if (crawler.advanceOpts.scheduleOpt) {
