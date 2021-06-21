@@ -335,7 +335,7 @@ export class DashboardComponent implements OnInit {
         let date = new Date(this.searchHistogram[i].date);
         // xAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
         // totaldata.push([date.getDate() + " " + monthNames[date.getMonth()], this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks, moment(date,"Do MMM, YYYY")])
-        totaldata.push([moment.utc(date).format("Do MMM"), this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks, moment.utc(date).format("Do MMM, YYYY")])
+        totaldata.push([moment.utc(date).format("Do MMM"), this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks, moment.utc(date).format("DD MMM YYYY")])
       }
       // else if(this.dateType == 'custom'){
       //   let date = new Date(this.searchHistogram[i].date);
