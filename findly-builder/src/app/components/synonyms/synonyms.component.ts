@@ -111,18 +111,22 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       });
     }
     this.synonymData.forEach(element => {
-      if(element.type != 'oneWaySynonym' ){
-        this.filteroneWaySynonym = false;
-      }
-      else{
+
+      if(element.type === 'oneWaySynonym' ){
+        // this.filterSynonym = false;
         this.filteroneWaySynonym = true;
+
       }
-    //  else if(element.type === 'oneWaySynonym'  ){
+      else if(element.type === 'synonym'){
+        // this.filteroneWaySynonym = false;
+        this.filterSynonym = true;
+      }
+    //  if(element.type === 'synonym'  ){
     //     this.filterSynonym = false;
     //   }
     //   else{
     //     this.filterSynonym = true;
-    //     this.filteroneWaySynonym = true;
+       
     //   }
     });
     

@@ -2,7 +2,7 @@ export class CrwalObj {
     url: String = '';
     desc: String = '';
     name: String = '';
-    resourceType: String = '';
+    // resourceType: String = '';
     advanceOpts: AdvanceOpts = new AdvanceOpts()
 }
 export class AdvanceOpts {

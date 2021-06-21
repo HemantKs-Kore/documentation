@@ -519,8 +519,8 @@
                                 &.show{
                                     .dropdown{
                                         .dropdown-input{
-                                            background:#fff;
-                                            border: 1px solid #BDC1C6;
+                                            // background:#fff;
+                                            // border: 1px solid #BDC1C6;
                                         }  
                                     }
                                 }
@@ -1094,7 +1094,7 @@
                         .row_data{
                             .remove-btn-sec{
                                 visibility: visible;
-                                background: rgba(249, 250, 251, 0.89);
+                                // background: rgba(249, 250, 251, 0.89);
                             }                           
                         }
                     }
@@ -1200,7 +1200,7 @@
                         width: 181px;                   
                         visibility: visible;
                         text-align: right;
-                        padding: 15px 20px;
+                        padding: 15px 10px;
                         background: transparent;
                         .remove-btn{
                             background: #FFFFFF;

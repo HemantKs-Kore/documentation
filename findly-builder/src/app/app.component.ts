@@ -505,7 +505,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.showHideTopDownSearch(false);
         }
       });
-      // $('app-body').append('<img class="close-top-down-search" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB0SURBVHgBjZHBDYAgDEURjRcjs7iKI3D1gNu4hqPgBk7hRVuiNdEUoqE9ld/3adoqMwbfDHunfoJqxgWv8QCrq3L+gkmjGgLYV2gdrhxOtSJ1B8Ce3k++TfUSgRymnEO3UQlD3Fo+DP8pcqddaJnZhV9HOQHmYl73b8488gAAAABJRU5ErkJggg==">');
+      $('app-body').append('<div class="close-top-down-search-outer"><img class="close-top-down-search" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCAxMCAxMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuNzA3MDMgNS4wMDAwOUw5Ljg1MzU1IDAuODUzNTUzQzEwLjA0ODggMC42NTgyOTEgMTAuMDQ4OCAwLjM0MTcwOSA5Ljg1MzU1IDAuMTQ2NDQ3QzkuNjU4MjkgLTAuMDQ4ODE1NyA5LjM0MTcxIC0wLjA0ODgxNTQgOS4xNDY0NSAwLjE0NjQ0N0w0Ljk5OTkxIDQuMjkzTDAuODUzNTU1IDAuMTQ2ODE0QzAuNjU4Mjg4IC0wLjA0ODQ0NDQgMC4zNDE3MDYgLTAuMDQ4NDM4IDAuMTQ2NDQ4IDAuMTQ2ODI4Qy0wLjA0ODgxMDQgMC4zNDIwOTQgLTAuMDQ4ODA0IDAuNjU4Njc3IDAuMTQ2NDYyIDAuODUzOTM1TDQuMjkyOCA1LjAwMDFMMC4xNDY0NDcgOS4xNDY0NkMtMC4wNDg4MTU3IDkuMzQxNzMgLTAuMDQ4ODE1NSA5LjY1ODMxIDAuMTQ2NDQ3IDkuODUzNTdDMC4zNDE3MDkgMTAuMDQ4OCAwLjY1ODI5MiAxMC4wNDg4IDAuODUzNTUzIDkuODUzNTdMNC45OTk5MiA1LjcwNzJMOS4xNDY0NiA5Ljg1MzU3QzkuMzQxNzMgMTAuMDQ4OCA5LjY1ODMxIDEwLjA0ODggOS44NTM1NyA5Ljg1MzU1QzEwLjA0ODggOS42NTgyOSAxMC4wNDg4IDkuMzQxNzEgOS44NTM1NSA5LjE0NjQ1TDUuNzA3MDMgNS4wMDAwOVoiIGZpbGw9IiMyMDIxMjQiLz4KPC9zdmc+Cg=="></div>');
       $('.close-top-down-search').off('click').on('click', () => {
         this.showHideTopDownSearch(false);
       });
@@ -518,7 +518,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.headerService.isSDKOpen = true;
     } else {
       $('.top-down-search-background-div').remove();
-      $('.close-top-down-search').remove();
+      $('.close-top-down-search-outer').remove();
       $('body').removeClass('sdk-top-down-interface');
       $('.start-search-icon-div').removeClass('active');
       this.bridgeDataInsights = true;
