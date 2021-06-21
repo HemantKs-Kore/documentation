@@ -160,7 +160,7 @@
                             </span>
                         </span>
                     </div>
-                    <img class="pl-1 d-inline-flex" *ngIf="outcome.showFieldWarning && outcome.showFieldWarning !== 'false'" src="assets/icons/info-blue.svg" [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip="{{fieldWarnings[outcome.showFieldWarning] || outcome.showFieldWarning}}"
+                    <img class="pl-1 d-inline-flex" *ngIf="outcome.showFieldWarning && outcome.showFieldWarning !== 'false'" src="assets/icons/info-blue.svg"  container="body" ngbTooltip="{{fieldWarnings[outcome.showFieldWarning] || outcome.showFieldWarning}}" tooltipClass="{{modifyFieldWarningMsg(outcome.showFieldWarning)?'my-custom-warning-class':''}}"
                     />
                 </ng-container>
             </div>
