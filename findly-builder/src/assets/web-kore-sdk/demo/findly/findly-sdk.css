@@ -12538,6 +12538,13 @@ padding-right: 0;
     margin-bottom: 12px;
     display: block;
 }
+.data-body-sec .quick-actions-full-search-container .structured-data-header{
+    color: #9AA0A6;
+    font-weight: 600;
+    font-size: 12px;
+    margin-bottom: 12px;
+    display: block;
+}
 
 .structured-data-header .search-heads.show-all{
     text-align: right;

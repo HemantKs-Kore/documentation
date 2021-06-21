@@ -335,7 +335,7 @@ export class DashboardComponent implements OnInit {
         let date = new Date(this.searchHistogram[i].date);
         // xAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
         // totaldata.push([date.getDate() + " " + monthNames[date.getMonth()], this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks, moment(date,"Do MMM, YYYY")])
-        totaldata.push([moment.utc(date).format("Do MMM"), this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks, moment.utc(date).format("Do MMM, YYYY")])
+        totaldata.push([moment.utc(date).format("Do MMM"), this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks, moment.utc(date).format("DD MMM YYYY")])
       }
       // else if(this.dateType == 'custom'){
       //   let date = new Date(this.searchHistogram[i].date);
@@ -613,6 +613,7 @@ export class DashboardComponent implements OnInit {
   mostClick() {
     let xAxisData = [];
     let yAxisData = [];
+    let barColor = "#B893F2";
     if (this.mostClickedPositions) {
       this.mostClickedPositions.forEach(element => {
         if (element.position == 0) yAxisData.push(Number(element.position + 1) + " st")
@@ -623,10 +624,12 @@ export class DashboardComponent implements OnInit {
       });
       if (xAxisData.length) {
         this.isyAxisMostClickPostiondata = true;
+        barColor = "#B893F2"
       } else {
         xAxisData = [120, 200, 150];
         yAxisData = ['1st', '2nd', '3rd']
         this.isyAxisMostClickPostiondata = false;
+        barColor = "#EFF0F1"
       }
 
       // xAxisData = [120];
@@ -635,6 +638,7 @@ export class DashboardComponent implements OnInit {
       xAxisData = [120, 200, 150];
       yAxisData = ['1st', '2nd', '3rd']
       this.isyAxisMostClickPostiondata = false;
+      barColor = "#EFF0F1"
     }
 
     this.mostClickBar = {
@@ -691,7 +695,7 @@ export class DashboardComponent implements OnInit {
         },
         itemStyle: {
           normal: {
-            color: '#B893F2',
+            color: barColor,
           },
         },
         data: xAxisData,//[120, 200, 150],

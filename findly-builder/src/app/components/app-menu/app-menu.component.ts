@@ -365,9 +365,12 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         })
         if (type == 'index') {
           this.indexConfigs.splice(deleteIndex, 1);
+          let default_index = this.indexConfigs.filter(item => item.default == true);
+          this.appSelectionService.getIndexPipelineIds(default_index);
         }
         else {
           this.queryConfigs.splice(deleteIndex, 1);
+          this.appSelectionService.getQureryPipelineIds();
         }
         this.notify.notify('deleted successfully', 'success');
       },
@@ -442,7 +445,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         this.selectedApp = this.workflowService.selectedApp();
         if (this.selectedApp.searchIndexes.length) {
           this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-          console.log('SI - ', this.selectedApp.searchIndexes[0]._id);
         }
       }, 1000)
     })
@@ -469,7 +471,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         this.usageDetails = { ingestDocs: docs, searchQueries: queries };
       },
       errRes => {
-        this.errorToaster(errRes, 'Failed to get current data.');
+        // this.errorToaster(errRes, 'Failed to get current data.');
       }
     );
   }

@@ -222,15 +222,19 @@
                 <div class="kr-sg-dropdowns col-12 p-0">                    
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" data-boundary="window">{{(newFieldObj.fieldDataType?newFieldObj.fieldDataType:'choose_an_option') | translate}}</button>                                             
-                        <ul class="dropdown-menu content-menu dropdown_overflow">                                                                  
-                          <li  (click)="selectFieldType('string')"><a>String</a></li>
-                          <li  (click)="selectFieldType('number')"><a>Number</a></li>
-                          <li  (click)="selectFieldType('trait')"><a>Trait</a></li>
-                          <li  (click)="selectFieldType('dense_vector')"><a>Dense Vector</a></li>
-                          <li  (click)="selectFieldType('entity')"><a>Entity</a></li>
-                          <li  (click)="selectFieldType('keyword')"><a>Keyword</a></li>
-                          <li  (click)="selectFieldType('array')"><a>Array</a></li>
-                          <li  (click)="selectFieldType('object')"><a>Object</a></li>
+                        <ul class="dropdown-menu content-menu dropdown_overflow">    
+                            <perfect-scrollbar class="scroll-search-field-">
+                                <div class="scroll_">
+                                    <li  (click)="selectFieldType('string')"><a>String</a></li>
+                                    <li  (click)="selectFieldType('number')"><a>Number</a></li>
+                                    <li  (click)="selectFieldType('trait')"><a>Trait</a></li>
+                                    <li  (click)="selectFieldType('dense_vector')"><a>Dense Vector</a></li>
+                                    <li  (click)="selectFieldType('entity')"><a>Entity</a></li>
+                                    <li  (click)="selectFieldType('keyword')"><a>Keyword</a></li>
+                                    <li  (click)="selectFieldType('array')"><a>Array</a></li>
+                                    <li  (click)="selectFieldType('object')"><a>Object</a></li>
+                                </div>
+                            </perfect-scrollbar>                                                                                        
                         </ul>
                     </div>
                 </div>

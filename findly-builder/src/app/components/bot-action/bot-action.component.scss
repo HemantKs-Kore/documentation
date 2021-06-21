@@ -522,7 +522,7 @@
                         align-items: center;
                         margin: 0 0 0px 0;
                         padding: 8px 0 8px 0;
-                        height: 60px;
+                        min-height: 60px;
                         box-shadow: inset 0px -1px 0px #E4E5E7;
                         .bot-name-data{
                             align-items: center;
@@ -586,5 +586,19 @@
             }
         }
         
+    }
+    .link-action-bot-empty{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: calc(100vh - 108px);
+        .title{
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 20px;
+            color: #3C4043;
+            margin: 15px 0;
+        }
     }
 }   

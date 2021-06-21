@@ -95,12 +95,12 @@ export class UpgradePlanComponent implements OnInit {
       this.errorToaster(errRes, 'failed to get plans');
     });
   }
-  poling() {
+  poling(type?) {
     this.paymentStatusInterval = setInterval(() => {
-      this.getPayementStatus();
+      this.getPayementStatus(type);
     }, 3000)
   }
-  getPayementStatus() {
+  getPayementStatus(type?) {
     const queryParams = {
       streamId: this.selectedApp._id,
       transactionId: this.payementResponse.hostedPage.transactionId
@@ -109,6 +109,9 @@ export class UpgradePlanComponent implements OnInit {
       if (res.state == 'success') {
         this.btnDisable = false;
         this.closeChoosePlanPopup();
+        if (type == "upgrade") {
+          this.closeOrderConfPopup();
+        }
         this.openSuccessFailurePopup(true);
         clearInterval(this.paymentStatusInterval);
       } else if (res.state == 'failed') {
@@ -260,9 +263,9 @@ export class UpgradePlanComponent implements OnInit {
         upgradePlan.subscribe(res => {
           if (res.status == 'success') {
             this.invoiceOrderId = res.orderId;
+            this.btnDisable = false;
             this.closeChoosePlanPopup();
             this.closeOrderConfPopup();
-            this.btnDisable = false;
             if (res.type == 'downgrade') {
               this.notificationService.notify('Current plan Downgraded success', 'success');
               this.appSelectionService.getCurrentSubscriptionData();
@@ -270,6 +273,11 @@ export class UpgradePlanComponent implements OnInit {
             else {
               this.openSuccessFailurePopup(true);
             }
+          }
+          else if (res.status == "processing") {
+            this.payementResponse.hostedPage.transactionId = res.transactionId;
+            this.invoiceOrderId = res.orderId;
+            this.poling("upgrade");
           }
           else if (res.status == 'failed') {
             this.openChangePlanModel();
@@ -404,7 +412,7 @@ export class UpgradePlanComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     let queryParams = { "streamId": this.selectedApp._id };
     let url;
-    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free || this.overageData.overageShow) {
+    if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription.planId == this.plansIdList.free || this.overageData.overageShow || this.currentSubscriptionPlan == undefined) {
       queryParams = Object.assign({ ...queryParams, "transactionId": this.invoiceOrderId });
       url = 'get.getInvoiceDownload';
     }
@@ -420,7 +428,12 @@ export class UpgradePlanComponent implements OnInit {
         }
       }
       else {
-        FileSaver.saveAs(res.viewInvoice + '&DownloadPdf=true', 'invoice_' + res._id + '.pdf');
+        if (res?.length) {
+          FileSaver.saveAs(res[0].viewInvoice + '&DownloadPdf=true', 'invoice_' + res[0]._id + '.pdf');
+        }
+        else {
+          FileSaver.saveAs(res.viewInvoice + '&DownloadPdf=true', 'invoice_' + res._id + '.pdf');
+        }
       }
       // this.notificationService.notify('res.status', 'success');
     }, errRes => {

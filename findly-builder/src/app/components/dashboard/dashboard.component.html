@@ -228,8 +228,8 @@
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-12 box-content">
                     <div class="full-card">
-                        <div class="kr-sg-dropdowns filter-dropdown" ngbDropdown [placement]="'bottom-right'">
-                            <!-- <div class="dropdown dropdown-open">
+                        <div class="kr-sg-dropdowns filter-dropdown d-none" ngbDropdown [placement]="'bottom-right'">
+                            <div class="dropdown dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img
                                         src="assets/icons/filter.svg"></button>
                                 <ul class="dropdown-menu content-menu m-0" ngbDropdownMenu>
@@ -246,7 +246,7 @@
                                         <label for="checkbox_12" class="checkbox-custom-label">Content</label>
                                     </div>
                                 </ul>
-                            </div> -->
+                            </div>
                         </div>
                         <!-- <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts"
                             [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div> -->
@@ -255,11 +255,11 @@
                             <div class="table_header row m-0">
                                 <div class="col-4 header-title"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Searched_Intent'| translate}}</div>
                                 <!-- <div class="col-1 header-title text-right"><img src="assets/icons/sort_up_down.svg"></div> -->
-                                <div class="col-2 header-title text-center"><img src="assets/icons/sort_up_down.svg"> {{'metrics.dash_board_view.Appearances'| translate}}</div>
-                                <div class="col-2 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Clicks'| translate}}</div>
-                                <div class="col-2 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.ctr'| translate}}</div>
+                                <div class="col-2 header-title"><img src="assets/icons/sort_up_down.svg"> {{'metrics.dash_board_view.Appearances'| translate}}</div>
+                                <div class="col-2 header-title"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Clicks'| translate}}</div>
+                                <div class="col-2 header-title"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.ctr'| translate}}</div>
                                 <!--  ngbTooltip='Click-Through Rate' -->
-                                <div class="col-2 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Avg_Position'| translate}}</div>
+                                <div class="col-2 header-title"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Avg_Position'| translate}}</div>
                                 <!-- <div class="col-1 header-title text-center"><img src="assets/icons/pos-thumb.svg"></div>
                                 <div class="col-1 header-title text-center"><img src="assets/icons/neg-thumb.svg"></div> -->
                                 <!-- <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
@@ -268,10 +268,10 @@
                             <div class="table_body row m-0" *ngFor="let topSearchResult of topSearchResults;let i = index">
                                 <div class="col-4 body-title ">{{topSearchResult.answer}}</div>
                                 <!-- <div class="col-1 header-title text-right"></div> -->
-                                <div class="col-2 body-title text-center">{{topSearchResult.appearances}}</div>
-                                <div class="col-2 body-title text-center">{{topSearchResult.clicks}}</div>
-                                <div class="col-2 body-title text-center">{{topSearchResult.clickThroughRate | number : '1.2-2'}}%</div>
-                                <div class="col-2 body-title text-center">{{topSearchResult.avgPosition | number : '1.2-2'}}</div>
+                                <div class="col-2 body-title">{{topSearchResult.appearances}}</div>
+                                <div class="col-2 body-title">{{topSearchResult.clicks}}</div>
+                                <div class="col-2 body-title">{{topSearchResult.clickThroughRate | number : '1.2-2'}}%</div>
+                                <div class="col-2 body-title">{{topSearchResult.avgPosition | number : '1.2-2'}}</div>
                                 <!-- <div class="col-1 body-title text-center">{{topSearchResult.positiveFeedback}}</div>
                                 <div class="col-1 body-title text-center">{{topSearchResult.negativeFeedback}}</div> -->
                             </div>

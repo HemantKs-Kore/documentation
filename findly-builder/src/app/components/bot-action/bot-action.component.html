@@ -191,10 +191,10 @@
           </div>
           <div class="table-body-link-bot row col-12"  *ngFor="let bot of associatedBots | filter: [searchAssociatedBots, 'name']">
             <div class="col-6 bot-name-data row m-0">
-              <div class="col-9 name-with-type">
+              <div class="col-8 name-with-type">
                 {{bot.name}} <span class="bot-type" *ngIf="bot.type==='universalbot'">Universal Bot</span>
               </div>
-              <div class="col-3 shares-data">
+              <div class="col-4 shares-data">
                   <img src="assets/icons/actions/shares.svg">{{bot.publishedTasksCount}} Tasks
               </div>
             </div>
@@ -211,12 +211,14 @@
           </div>
           
         </div>
-        </div>
-        <div *ngIf="!associatedBots || !associatedBots.length">
-            <div  class="">
-                No bot link data available
-           </div>
-        </div>
+      </div>
+      <div *ngIf="!associatedBots || !associatedBots.length" class="link-action-bot-empty">
+          <div class="img-block">
+            <img src="assets/icons/actions/no-link-bot-action.svg">
+          </div>
+          <div class="title">Please subscribe to the Kore.ai bots platform to link a bot here</div>
+          <button class="kr-sg-button-primary btn_lg" (click)="navigateToBotBuilder()"><img src="assets/icons/actions/external.svg" class="pr-2">Bots Platform </button>
+      </div>
     </div>
   </perfect-scrollbar>
 </kr-modal>

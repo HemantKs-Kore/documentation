@@ -361,7 +361,7 @@
       <div class="trafic-sec" >
         <div class="pl-pr-5 slider-sec">
           <div class="label-text">{{"experiments.traffic"| translate}}</div>
-          <nouislider *ngIf="showSlider" #sliderref [config]="someRangeconfig" [(ngModel)]="someRange" (slide)="sliderChanged()"></nouislider>
+          <nouislider *ngIf="showSlider" #sliderref [config]="someRangeconfig" [(ngModel)]="someRange" [ngStyle]="{'pointer-events': (exp_status !== 'configured' && form_type === 'edit')?'none':'auto'}" (slide)="sliderChanged()"></nouislider>
         </div>
         <div class="percentage-sec">
           <div class="names" *ngFor="let code of variantsArray">
