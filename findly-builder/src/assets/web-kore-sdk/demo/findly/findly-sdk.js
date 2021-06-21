@@ -8422,6 +8422,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       if (_self.bot.options) {
+        _self.bot.options.botInfo.linkedBotCustomData = { "linkedBot" : {}};
         var contextObj = $("#contextjsonfield").val();
         if (contextObj) {
           contextObj.trim();
