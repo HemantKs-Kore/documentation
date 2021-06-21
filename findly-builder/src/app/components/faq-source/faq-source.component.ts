@@ -1040,10 +1040,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   faqUpdateEvent() {
     this.faqUpdate.next();
-    setTimeout(() => {
-      this.selectTab('draft');
-      this.faqCancle();
-    }, 500);
+    // setTimeout(() => {
+    //   this.selectTab('draft');
+      // this.faqCancle();
+    // }, 500);
 
   }
   editThisQa() {
