@@ -9,8 +9,12 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 9px 25px 9px 45px;
         background: #f8f9fa;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 22px;
+        color: #000000;
+        padding: 15px 30px;
         .title {
           font-weight: 500;
           font-size: 18px;
@@ -58,6 +62,10 @@
                             position: absolute;  
                             display: block;                      
                         }                       
+                    }
+                    &.disabled{
+                        cursor: default;
+                        opacity: 0.5;
                     }
                 }
             }           
@@ -118,7 +126,11 @@
                         .drop-enable{
                             border: solid 1px;
                             background: #ffffff;
+                            color: #202124;
                         }
+                    }
+                    .dropdown-menu.content-menu .active{
+                        font-weight: 600;
                     }
                 }
                 .group-radiobutton{
@@ -321,7 +333,7 @@
                                 }
                             }
                             &.list-template-2{
-                                background: #FFFFFF;
+                                // background: #FFFFFF; // FLY-2012 for List-template-2 css coming white space
                                 border: 1px solid #E7F1FF;
                                 border-radius: 4px;
                                 box-shadow: none;
@@ -607,7 +619,7 @@
                             &.with-centered-content{
                                 border: 1px solid #E7F1FF;
                                 border-radius: 4px;
-                                padding: 10px 15px;
+                                padding: 10px 10px;
                                 .grid-view-centered-content{
                                     display: flex;
                                     flex-wrap: wrap;
@@ -670,7 +682,28 @@
         pointer-events: none !important;
     }
 }
-
+.search-interface-modal {
+    .breadcrum {
+        img{
+            margin: 0px 10px;
+        }
+        span{
+            font-weight: 500;
+            font-size: 14px;
+        }
+    }
+}
+.modal-header{
+    .breadcrum {
+        img{
+            margin: 0px 10px;
+        }
+        span{
+            font-weight: 500;
+            font-size: 14px;
+        }
+    }
+}
 .ful-page-facet{
     margin: 15px 0 0 0;
     .label-text{
@@ -693,4 +726,13 @@
 }
 .w-400{
     width: 400px;
+}
+
+.kr-sg-dropdowns{
+    .kr-sg-input-inline-search {
+        input.input-search.err-block{
+            background-color: rgb(255, 255, 255);
+            border-color: rgb(221, 54, 70);
+        }
+    }
 }

@@ -143,14 +143,14 @@
             <!-- <div class="create_new_link">+ Create New</div> -->
           </div>
           <div class="header-data row m-0">
-            <div class="col-3 title">FAQS</div>
             <div class="col-3 title">CONTENT</div>
+            <div class="col-3 title">FAQS</div>
             <div class="col-3 title">ACTIONS</div>
             <div class="col-3 title">STRUCTURED DATA</div>
           </div>
           <div class="body-data row m-0" *ngFor="let indice of indices">
+            <div class="col-3 title">{{indice.contentPages}}</div>
             <div class="col-3 title">{{indice.approvedfaqs}}</div>
-            <div class="col-3 title">{{indice.contentPages}} Pages</div>
             <div class="col-3 title">{{indice.botActions}}</div>
             <div class="col-3 title">{{indice.structuredDataCount}}</div>
           </div> 
@@ -158,7 +158,13 @@
           </div>       
       </div>
       <div class="table-data-content col-6">
-        <div class="content-sec">
+        <div class="content-sec active_experments"  *ngIf="!showActivity">
+          <div class="title-sec d-flex justify-content-between">
+            <div class="title">Activities</div> 
+          </div>       
+          <div class="img-block center-image"><img src="assets/icons/overview/no-activites.svg"></div>
+        </div>
+        <div class="content-sec" *ngIf="showActivity">
           <div class="title-sec d-flex justify-content-between">
             <div class="title">Activities</div> 
             <div class="create_new_link">Show all activities</div>
@@ -167,7 +173,7 @@
             <div class="col-9 title">{{activity.faqInReviewCount}} Faq's Pending Approval</div>
             <div class="col-3 title time-stamp">{{activity.time_format}} ago</div>           
           </div>
-          </div>       
+        </div>       
       </div>
     </div>
     <div class="row col-12 row table-data m-0" >
@@ -183,14 +189,14 @@
           <div class="create_new_link" (click)="openExp()">+ Create New</div>
         </div>    
         <div class="header-data row m-0">
-          <div class="col-10 title">Experiment Name</div>
-          <div class="col-2 title">Status</div>         
+          <div class="col-9 title">Experiment Name</div>
+          <div class="col-3 title">Status</div>         
         </div>    
         <div class="body-data row m-0" *ngFor="let experiment of experiments">
-          <div class="col-10 title">{{experiment.name|titlecase}}</div>
-          <div class="col-2 status">
+          <div class="col-9 title">{{experiment.name|titlecase}}</div>
+          <div class="col-3 status">
              <span class="a-status" [ngClass]="experiment.state">{{experiment.state|titlecase }}</span>
-           <!-- <span placement="top-center" [ngbTooltip]="experiment.total_days" [container]='"body"' tooltipClass="metrics_tooltips m-0" *ngIf="experiment.state!=='completed'"><img src="assets/icons/overview/Info.svg"></span> -->
+           <span placement="top-center" [ngbTooltip]="experiment.total_days" [container]='"body"' tooltipClass="metrics_tooltips m-0" *ngIf="experiment.state=='active'"><img src="assets/icons/overview/Info.svg"></span>
           </div>          
         </div>
         <!-- <div class="body-data row m-0">

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, ElementRef, Input, Output } from '@angular/core';
 import { AuthService } from '@kore.services/auth.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { NotificationService } from '../../../services/notification.service';
@@ -25,7 +25,9 @@ export class AddAlternateQuestionComponent implements OnInit {
     question: ''
   };
   @Input() faqServ: any;
-
+  @Input() isFromFaqsForm: boolean;
+ @Output() cancelAltQuestion  = new EventEmitter();
+ @Output() saveAltQuestion  = new EventEmitter();
   constructor(private authService: AuthService,
               private kgService: KgDataService,
               private notify: NotificationService,
@@ -95,18 +97,21 @@ export class AddAlternateQuestionComponent implements OnInit {
       question: this.faqServ.faqData.question,
       answer: this.faqServ.faqData.answer,
       _source:{
-        alternateQuestions: this.faqServ.faqData._source.alternateQuestions || []
+        faqAltQuestions: this.faqServ.faqData._source.faqAltQuestions || []
       },
       followupQuestions: this.faqServ.faqData.followupQuestions || []
     };
     if(this.faqServ.addVariation.alternate) {
-      params._source.alternateQuestions.push({question: this.f.question, keywords: _.map(this.tags, o=>{return {keyword: o}})});
+      // params._source.faqAltQuestions.push({question: this.f.question, keywords: _.map(this.tags, o=>{return {keyword: o}})});
+      params._source.faqAltQuestions.push(this.f.question);
       this.faqServ.addAltQues.next(params);
     }
     else if(this.faqServ.addVariation.followUp) {
-      params.followupQuestions.push({question: this.f.question, keywords: _.map(this.tags, o=>{return {keyword: o}})});
+      params.followupQuestions.push(this.f.question);
       this.faqServ.addFollowQues.next(params);
     }
+    this.f.question ='';
+    this.cancelAltQuestion.emit();
   }
 
   cancelFaq() {

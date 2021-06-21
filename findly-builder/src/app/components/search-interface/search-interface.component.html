@@ -1,15 +1,15 @@
 <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
 <div class="search-interface-container">
   <div class="header_sec">
-    <div class="title">Result Templates</div>
+    <div class="title">{{'resultTemplate.resultTemplates' | translate}}</div>
     <div class="btn_sec">     
-      <button class="kr-sg-button-primary btn_lg d-none" (click)="openPreviewModal()">Preview</button>
+      <button class="kr-sg-button-primary btn_lg d-none" (click)="openPreviewModal()">{{'resultTemplate.preview' | translate}}</button>
     </div>
   </div>
   <div class="body_content">
     <div class="search-interface-left-sec">
       <div class="left-tabs">
-        <div class="tab-name" *ngFor="let setting of settingList" (click)="getAllSettings(setting)" [ngClass]="{'active-tab' : selectedSetting == setting.id}">{{setting.text}}</div>
+        <div class="tab-name" *ngFor="let setting of settingList" (click)="getAllSettings(setting)" [ngClass]="{'active-tab' : selectedSetting == setting.id}" [class.disabled]="(setting.id == 'search' && searchTemplatesDisabled)" ngbTooltip="{{'resultTemplate.settingToolTip' | translate}}" [disableTooltip]="(setting.id !== 'search' && searchTemplatesDisabled) || (!searchTemplatesDisabled)" placement="right" tooltipClass="ngb_tooltip_custom_class searchTemplate">{{'resultTemplate.' + setting.text | translate}} </div>
         <!-- <div class="tab-name">Search Experience</div>
         <div class="tab-name">Live Search</div>
         <div class="tab-name active-tab">Search</div>
@@ -19,17 +19,21 @@
     <perfect-scrollbar class="scroll-interface w-100">
       <div class="search-interface-right-sec">  
         <div class="radio-section">
-          <div class="main-title">Copy Configuration</div>
-          <div class="label-desc p-0">Choose whether to apply the same Configurations as per Previous settings</div>
+          <div class="main-title">{{'resultTemplate.copyConfiguration' | translate}}</div>
+          <div class="label-desc p-0 mb-2">{{'resultTemplate.copyConfigurationDec' | translate}}</div>
          
           <div class="kr-sg-dropdowns">        
             <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input drop-enable" data-toggle="dropdown">{{selectedSettingResultsObj.referInterface || 'Select'}}</button>                                            
+              <!-- <button class="dropdown-toggle dropdown-input drop-enable" data-toggle="dropdown">{{selectedSettingResultsObj.referInterface ? 'resultTemplate.' + getConfigurationName(selectedSettingResultsObj.referInterface) | translate : 'resultTemplate.select' | translate}}</button>                                             -->
+              <button class="dropdown-toggle dropdown-input drop-enable" data-toggle="dropdown">
+                <!-- <ng-container *ngIf="selectedSettingResultsObj.referInterface">{{'resultTemplate.' + getConfigurationName(selectedSettingResultsObj.referInterface) | translate}}</ng-container>  -->
+                <ng-container>{{ 'resultTemplate.select' | translate }}</ng-container>
+              </button>                                            
                 <ul class="dropdown-menu content-menu">  
-                  <li (click)="copyConfiguration('')"><a>Select</a></li>                                                 
-                  <li (click)="copyConfiguration('livesearch')" *ngIf="selectedSetting != 'liveSearch'"><a>Live Search</a></li>
-                  <li (click)="copyConfiguration('search')" *ngIf="selectedSetting != 'search'"><a>Search </a></li>
-                  <li (click)="copyConfiguration('fullsearch')" *ngIf="selectedSetting != 'fullSearch'"><a>Full Page Result</a></li>
+                  <li (click)="copyConfiguration('')"><a>{{'resultTemplate.select' | translate}}</a></li>                                                 
+                  <li  (click)="copyConfiguration('livesearch')" *ngIf="selectedSetting != 'liveSearch'"><a>{{'resultTemplate.liveSearch' | translate}}</a></li> <!-- [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'livesearch'}" -->
+                  <li  (click)="copyConfiguration('search')" *ngIf="selectedSetting != 'search' && !searchTemplatesDisabled"><a>{{'resultTemplate.conversationalSearch' | translate}} </a></li> <!-- [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'search'}" -->
+                  <li  (click)="copyConfiguration('fullsearch')" *ngIf="selectedSetting != 'fullSearch'"><a>{{'resultTemplate.fullPageResult' | translate}}</a></li> <!-- [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'fullsearch'}" -->
                 </ul>
             </div>
           </div>
@@ -37,27 +41,27 @@
 
           <div class="radio-section d-none" *ngIf="selectedSetting != 'search'">
             <div class="radio-block">
-              <div class="main-title">No. of Results to be Displayed</div>
+              <div class="main-title">{{'resultTemplate.noOfRestDis' | translate}}</div>
               <div class="kr-sg-radiobutton d-block">
                 <input id="radio-17" name="radio-result" class="radio-custom" type="radio" (click)="selectedSettingResultsObj.view = 'fit'" [checked] = "selectedSettingResultsObj.view == 'fit'">
                 <label for="radio-17" class="radio-custom-label">
-                  <div class="label-name">Fit to Viewport</div>          
+                  <div class="label-name">{{'resultTemplate.fitToViewport' | translate}}</div>          
                 </label>
               </div>
-              <div class="label-desc">Number of results to be displayed will depend on the Viewport size</div>
+              <div class="label-desc">{{'resultTemplate.noOfRestDisViewportSize' | translate}}</div>
             </div>
             <div class="radio-block mb-0">
               <div class="kr-sg-radiobutton d-block mb-1">
                 <input id="radio-18" name="radio-result" class="radio-custom" type="radio"(click)="selectedSettingResultsObj.view = 'custom'"  [checked] = "selectedSettingResultsObj.view != 'fit'">
                 <label for="radio-18" class="radio-custom-label">
-                  <div class="label-name">Custom</div>          
+                  <div class="label-name">{{'resultTemplate.custom' | translate}}</div>          
                 </label>
               </div>   
               <div class="custom-input-block">
                 <div class="kr-sg-input-text">            
                   <input type="text" value="0" class="input-text" [disabled] = "selectedSettingResultsObj.view == 'fit'" [(ngModel)] = "selectedSettingResultsObj.maxResultsAllowed">            
                 </div>
-                <div class="custom-desc-info">Topmost results based on relevance</div>
+                <div class="custom-desc-info">{{'resultTemplate.topMostResult' | translate}}</div>
               </div>     
             </div>
           </div>
@@ -66,11 +70,11 @@
           <!-- liveSearch -->
       
           <div class="radio-section">
-            <div class="main-title">Results Classification</div>
-            <div class="label-desc p-0">Customize the result templates and choose the order in which the results should be displayed to the end-user</div>
+            <div class="main-title">{{'resultTemplate.resultsClassification' | translate}}</div>
+            <div class="label-desc p-0">{{'resultTemplate.resultsClassificationDesc' | translate}}</div>
             <label class="kr-sg-toggle">                                       
               <input type="checkbox" [disabled] = "true" [checked] = "selectedSettingResultsObj.resultClassification.isEnabled"> <!-- [checked] = "selectedSettingResultsObj.resultClassification.isEnabled" -->
-              <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+              <div class="slider"><span class="enabled">{{'resultTemplate.yes' | translate}}</span><span class="disabled">{{'resultTemplate.no' | translate}}</span></div>
             </label>
             <div class="kr-sg-dropdowns">        
               <div class="dropdown dropdown-open">
@@ -84,35 +88,40 @@
             </div>
           </div>    
           <div class="radio-section">
-            <div class="main-title m-0">Results Appearance</div>
-            <div class="label-desc p-0">Customize the result templates and choose the order in which the results should be displayed to the end-user.</div>
+            <div class="main-title m-0">{{'resultTemplate.resultsAppearance' | translate}}</div>
+            <div class="label-desc p-0">{{'resultTemplate.resultsAppearanceDesc' | translate}}</div>
             <div class="group-radiobutton">         
               <div class="kr-sg-radiobutton"  (click) = "selectedSettingResultsObj.orderBasedOnRelevance = true">
                   <input id="radio-resultApp-order" name="radio-app" class="radio-custom" type="radio" [checked] = "selectedSettingResultsObj.orderBasedOnRelevance">
-                  <label for="radio-resultApp-order" class="radio-custom-label">Order based on relevance<img tooltipClass="inner-width m-0" placement="top-center" ngbTooltip="Order will be decided based on the top matched result" container="body" src="assets/icons/Info_gray.svg" class="ml-2"></label>
+                  <label for="radio-resultApp-order" class="radio-custom-label">{{'resultTemplate.orderBasedRelevance' | translate}}<img tooltipClass="inner-width m-0" placement="top-center" ngbTooltip="{{'resultTemplate.orderBasedRelevanceToolTip' | translate}}" container="body" src="assets/icons/Info_gray.svg" class="ml-2"></label>
               </div>
-              <div class="kr-sg-radiobutton" (click) = "selectedSettingResultsObj.orderBasedOnRelevance = false">
-                  <input id="radio-resultApp-cust" name="radio-app" class="radio-custom" type="radio" [checked] = "!selectedSettingResultsObj.orderBasedOnRelevance" (change) = "selectedSettingResultsObj.orderBasedOnRelevance = true">
-                  <label for="radio-resultApp-cust" class="radio-custom-label">Custom order</label>
+              <div class="kr-sg-radiobutton" > <!-- (click) = "selectedSettingResultsObj.orderBasedOnRelevance = false"-->
+                  <input id="radio-resultApp-cust" name="radio-app" class="radio-custom" type="radio" [checked] = "!selectedSettingResultsObj.orderBasedOnRelevance" (change) = "selectedSettingResultsObj.orderBasedOnRelevance = true" disabled>
+                  <label for="radio-resultApp-cust" class="radio-custom-label">{{'resultTemplate.customOrder' | translate}}</label>
               </div>
             </div>
             <div class="result-appearences-section">
               <div class="input-left-sec" *ngIf= "selectedSettingResultsObj.orderBasedOnRelevance">
                 <div *ngFor="let list of list" class="input-name" (click)="selectResultAppearnceList(list,'list')" [ngClass]="{'active-input' : list.type == selectedSourceType}"><span>{{list.type}}</span></div>
-                <div class="input-name add-new">+ Add New</div>
+                <div class="input-name add-new">+ {{'resultTemplate.addNew' | translate}}</div>
               </div>
               <div cdkDropList (cdkDropListDropped)="drop($event,list)" class="input-left-sec" *ngIf= "!selectedSettingResultsObj.orderBasedOnRelevance">
-                <div cdkDrag *ngFor="let list of list" class="input-name" (click)="selectResultAppearnceList(list,'custom')" [ngClass]="{'active-input' : list.type == selectedSourceType}"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>{{list.type}}</span></div>
+                <div cdkDrag *ngFor="let list of list" class="input-name" (click)="selectResultAppearnceList(list,'custom')" [ngClass]="{'active-input' : list.type == selectedSourceType}">
+                  <img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>{{list.type}}</span>
+                  <div class="field_data" *cdkDragPreview>
+                    <div class="title text-truncate"></div>
+                  </div>
+                </div>
                 <!-- <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><spanlist>Actions</span></div>
                 <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>FAQs</span></div>
                 <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Pages</span></div>
                 <div cdkDrag class="input-name active-input"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Structured Data</span></div> -->
-                <div class="input-name add-new">+ Add New</div>
+                <div class="input-name add-new">+ {{'resultTemplate.addNew' | translate}}</div>
               </div>
               <div class="templates-dynamic-data">
                   <ng-container [ngTemplateOutlet]="itemTemplate">
                     <div class="customize-button">
-                      <button class="kr-sg-button-secondary btn_lg" (click)="openCustomModal()">Customize</button>
+                      <button class="kr-sg-button-secondary btn_lg" (click)="openCustomModal()">{{'resultTemplate.customize' | translate}}</button>
                     </div>
                   </ng-container>
               </div>            
@@ -143,44 +152,43 @@
           <!-- Full results Facet--> 
             <ng-container *ngIf="selectedSetting == 'fullSearch'">
                 <div class="ful-page-facet">
-                    <div class="label-text">Facets</div>
-                    <div class="helper-text">Helper Text here</div>
+                    <div class="label-text">{{'resultTemplate.facets' | translate}}</div>
+                    <div class="helper-text">{{'resultTemplate.helperTextHere' | translate}}</div>
                     <label class="kr-sg-toggle">                                       
-                      <input type="checkbox" (change)= "facetEnableChange($event)" [checked] = "selectedSettingResultsObj.facets.isEnabled">
-                      <div class="slider"><span class="enabled">Enabled</span><span class="disabled">Disabled</span></div>
+                      <input type="checkbox" (change)= "facetEnableChange($event)" [checked] = "selectedSettingResultsObj && selectedSettingResultsObj.facets && selectedSettingResultsObj.facets.isEnabled">
+                      <div class="slider"><span class="enabled">{{'resultTemplate.enabled' | translate}}</span><span class="disabled">{{'resultTemplate.disabled' | translate}}</span></div>
                     </label> 
-
-                    <div class="group-radiobutton mt-4" *ngIf="selectedSettingResultsObj.facets.isEnabled">                  
+                    <div class="group-radiobutton mt-4" *ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.isEnabled">                  
                       <div class="kr-sg-radiobutton">
-                          <input id="radio-24" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'left')" [checked] ="selectedSettingResultsObj.facets.aligned == 'left'">
-                          <label for="radio-24" class="radio-custom-label">Left Aligned</label>
+                          <input id="radio-24" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'left')" [checked] ="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'left'">
+                          <label for="radio-24" class="radio-custom-label">{{'resultTemplate.leftAligned' | translate}}</label>
                       </div>
                       <div class="kr-sg-radiobutton">
-                          <input id="radio-25" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'right')" [checked] ="selectedSettingResultsObj.facets.aligned == 'right'">
-                          <label for="radio-25" class="radio-custom-label">Right Aligned</label>
+                          <input id="radio-25" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'right')" [checked] ="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'right'">
+                          <label for="radio-25" class="radio-custom-label">{{'resultTemplate.rightAligned' | translate}}</label>
                       </div>
                       <div class="kr-sg-radiobutton">
-                          <input id="radio-26" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'top')" [checked] ="selectedSettingResultsObj.facets.aligned == 'top'">
-                          <label for="radio-26" class="radio-custom-label">Top Aligned</label>
+                          <input id="radio-26" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'top')" [checked] ="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'top'">
+                          <label for="radio-26" class="radio-custom-label">{{'resultTemplate.topAligned' | translate}}</label>
                       </div>
                     </div>
 
-                    <div class="left-aligned mt-3"  *ngIf="selectedSettingResultsObj.facets.isEnabled">
-                      <img src="assets/icons/search-interface/left-aligned.svg" *ngIf="selectedSettingResultsObj.facets.aligned == 'left'">
+                    <div class="left-aligned mt-3"  *ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets && selectedSettingResultsObj.facets.isEnabled">
+                      <img src="assets/icons/search-interface/Left_Facet.svg" *ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'left'">
                     </div>
                     <div class="right-aligned mt-3">
-                      <img src="assets/icons/search-interface/right-aligned.svg" *ngIf="selectedSettingResultsObj.facets.aligned == 'right'">
+                      <img src="assets/icons/search-interface/Right_Facet.svg" *ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'right'">
                     </div>
                     <div class="left-aligned mt-3">
-                      <img src="assets/icons/search-interface/top-aligned.svg" *ngIf="selectedSettingResultsObj.facets.aligned == 'top'" >
+                      <img src="assets/icons/search-interface/Top_Facet.svg" *ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'top'" >
                     </div>
                 </div>
             </ng-container>   
           <!-- Full results Facet-->
       </div>
       <div class="footer-btns">
-        <button class="kr-sg-button-secondary btn_lg ml-3">Back</button>
-        <button class="kr-sg-button-primary btn_lg ml-3" (click) = "saveResultSettings()">Save</button>        
+        <!-- <button class="kr-sg-button-secondary btn_lg ml-3">Back</button> -->
+        <!-- <button class="kr-sg-button-primary btn_lg ml-3" (click) = "saveResultSettings()">Save</button>         -->
       </div>
   </perfect-scrollbar>
   </div>
@@ -189,7 +197,7 @@
 
 <kr-modal modalType="center" #customModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
   <div class="modal-header">
-    <div class="title">Customize Template</div>
+    <div class="title breadcrum">Customize Template <img src="assets/icons/search-interface/carrot_right.svg"> <span> {{selectedSourceType}} | {{selectedSettingText}}</span> </div>
     <div class="close_icon" (click)="closeCustomModal()"><img src="assets/icons/modal-close.svg"></div>
   </div>
   <perfect-scrollbar class="customize-scroll-left">
@@ -245,7 +253,8 @@
                       <div class="label-text">URL</div>
                       <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <img *ngIf="(!customizeTemplateObj.template.resultMapping.url.length) && submitted" id="headingFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
                         <ul class="dropdown-menu content-menu scroll-max-250">
                             <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
@@ -299,7 +308,8 @@
                       <div class="label-text">URL</div>
                       <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <img *ngIf="(!customizeTemplateObj.template.resultMapping.url.length) && submitted" id="headingFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
                         <ul class="dropdown-menu content-menu scroll-max-250">
                             <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
@@ -353,8 +363,9 @@
                       <div class="label-text">URL</div>
                       <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
-                        <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
+                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <img src="assets/icons/search-interface/search.svg" class="search-icon">
+                        <img *ngIf="(!customizeTemplateObj.template.resultMapping.url.length) && submitted" id="headingFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                         <ul class="dropdown-menu content-menu scroll-max-250">
                             <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
                               <div class="scroll-max-250">
@@ -401,7 +412,8 @@
                       <div class="label-text">URL</div>
                       <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <img *ngIf="(!customizeTemplateObj.template.resultMapping.url.length) && submitted" id="headingFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
                         <ul class="dropdown-menu content-menu scroll-max-250">
                             <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
@@ -426,7 +438,8 @@
               <div class="label-text">Heading</div>
               <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.heading">
+                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.heading.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.heading">
+                  <img *ngIf="(!customizeTemplateObj.template.resultMapping.heading.length) && submitted" id="headingFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                   <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
                   <ul class="dropdown-menu content-menu scroll-max-250">
                       <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
@@ -445,7 +458,8 @@
               <div class="label-text">Description</div>
               <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('description',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.description">
+                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.description.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('description',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.description">
+                  <img *ngIf="(!customizeTemplateObj.template.resultMapping.description.length) && submitted" id="descriptionFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                   <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
                   <ul class="dropdown-menu content-menu scroll-max-250">
                       <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
@@ -464,7 +478,8 @@
               <div class="label-text">Image</div>
               <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.image">
+                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.image.length) && submitted)"  data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.image">
+                  <img *ngIf="(!customizeTemplateObj.template.resultMapping.image.length) && submitted" id="imageFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                   <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
                   <ul class="dropdown-menu content-menu scroll-max-250">
                       <perfect-scrollbar class="country-code-perfect-scroll scroll-max-250">
@@ -1152,7 +1167,42 @@
             </div>
             
           <!-- Tile with Header End -->
-            <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'Carousel'">
+          <!-- Carousel UI Template Start-->
+          <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && customizeTemplateObj.template.type == 'Carousel'">
+            <div class="carousel" id="carousel-default">
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Check account statement</a>
+              </div>
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Speak to an agent</a>
+              </div>
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Check credit card eligibility</a>
+              </div>
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Last 30 days transaction</a>    
+              </div>
+            </div>
+          </div>
+
+          <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage' && customizeTemplateObj.template.type == 'Carousel'">
+            <div class="carousel" id="carousel-default">
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Check account statement</a>
+              </div>
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Speak to an agent</a>
+              </div>
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Check credit card eligibility</a>
+              </div>
+              <div class="slide tile_with_header grid_view_template">
+                <a class="tile-title">Last 30 days transaction</a>    
+              </div>
+            </div>
+          </div>
+
+            <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent' && customizeTemplateObj.template.type == 'Carousel'">
               <div class="carousel" id="carousel-default">
                 <div class="slide tile_with_header grid_view_template">
                   <a class="tile-title">Check account statement</a>
@@ -1168,6 +1218,32 @@
                 </div>
               </div>
             </div>
+            
+            <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'Carousel'">
+              <div class="carousel" id="carousel-default">
+                <div class="slide">
+                  <div class="tile_with_header grid_view_template">
+                    <a class="tile-title">Check account statement</a>
+                  </div>
+                </div>
+                <div class="slide">
+                  <div class="tile_with_header grid_view_template">
+                    <a class="tile-title">Check account statement</a>
+                  </div>
+                </div>
+                <div class="slide">
+                  <div class="tile_with_header grid_view_template">
+                    <a class="tile-title">Check account statement</a>
+                  </div>
+                </div>
+                <div class="slide">
+                  <div class="tile_with_header grid_view_template">
+                    <a class="tile-title">Check account statement</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+<!-- Carousel UI Template Ends-->
           </ng-template>
           </div>
         </perfect-scrollbar>

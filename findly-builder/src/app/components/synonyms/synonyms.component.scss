@@ -54,7 +54,7 @@
                 font-size: 18px;
                 line-height: 22px;
                 color: #000000;
-                padding: 15px 30px;
+                padding: 15px 45px;
               }
             .right-sec{
                 display: flex;
@@ -70,14 +70,36 @@
                 //         border-radius: 4px;
                 // }
                 .kr-sg-input-text{
-                    width: 300px;
+                    width: 215px;
                     right: 10px;
-                    width: 0px;
-                    display: none; 
                     position: relative;
                     &.active{
                         display: block;
-                        width: 300px;
+                        width: 215px;
+                    }
+                    .close-icon{
+                        position: absolute;
+                        right: 11px;
+                        top: 12px;
+                        cursor: pointer;
+                    }
+                    .input-search{
+                        border: 1px solid #E4E5E7;                            
+                        border-radius: 4px;
+                        padding-left: 36px;
+                        padding-right: 15px;
+                        font-size: 14px;
+                        &:focus{
+                            border: 1px solid #1372ff;
+                        }
+                        &::placeholder{
+                            color: #BDC1C6;
+                        }
+                    }
+                    .search-icon{
+                        left: 12px;
+                        top: 10px;
+                        position: absolute;
                     }
                 }
                 .seach-block{
@@ -99,7 +121,7 @@
                     font-weight: 500;
                     font-size: 12px;
                     line-height: 14px;
-                    margin-right: 30px;
+                    // margin-right: 30px;
                     cursor: pointer;
                     img{
                         margin-right: 7px;
@@ -356,7 +378,7 @@
     }
 }
 .table-scroll-perfect-synonyms{
-    padding: 0 10px;
+    padding: 0 45px;
     height: calc(100vh - 160px);
     .kr-sg-data-table{
         margin: 0;
@@ -378,7 +400,9 @@
                             margin-right: 4px;
                             vertical-align: middle;
                             cursor: pointer;
+                           
                         }
+                        
                         .kr-sg-dropdowns{
                             width: auto;
                             .dropdown{
@@ -405,6 +429,11 @@
                                 }
                             }
                         }
+                    }
+                    .downArrow {
+                        transform: rotate(180deg) !important;
+                        top: -1px !important;
+                       position: relative;
                     }
                 }
                 .content-body{
@@ -497,5 +526,21 @@
     }
     .ps__rail-x{
         display: none !important;
+    }
+}
+
+.kr-sg-input-text{
+    .kr-sg-input-search {
+        input.input-text.err-block{
+            background-color: rgb(255, 255, 255);
+            border-color: rgb(221, 54, 70);
+        }
+    }
+}
+
+:host ::ng-deep .example-chip-list.err-block{
+    .mat-chip-list-wrapper{
+        background-color: rgb(255, 255, 255);
+        border-color: rgb(221, 54, 70) !important;
     }
 }

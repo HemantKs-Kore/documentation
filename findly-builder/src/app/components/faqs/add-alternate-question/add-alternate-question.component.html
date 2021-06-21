@@ -1,7 +1,7 @@
-<div class="alternative-question" [attr.id]="faqServ?.addVariation?.alternate?'altQue':'followQue'">
+<div class="alternative-question" [ngClass]="{'d-none':isFromFaqsForm}" [attr.id]="faqServ?.addVariation?.alternate?'altQue':'followQue'">
     <div class="kr-sg-input-text mb-2">
-        <div class="label_text" *ngIf="faqServ?.addVariation?.alternate">Question</div>
-        <div class="label_text" *ngIf="!faqServ?.addVariation?.alternate">Followup Question</div>
+        <div class="label_text" *ngIf="faqServ?.addVariation?.alternate" >Question</div>
+        <div class="label_text" *ngIf="!faqServ?.addVariation?.alternate" >Followup Question</div>
         <input autocomplete="off" type="text" placeholder="Enter question" [attr.id]="faqServ?.addVariation?.alternate?'alt':'follow'" class="input-text" [(ngModel)]='f.question'>
     </div>
     <div for="tagInput" class="label_text">Keywords</div>
@@ -31,4 +31,14 @@
       <button class="kr-sg-button-primary btn_lg mr-3" id="addAlternateFaq" (click)="addFaq()">Add</button>
       <button class="kr-sg-button-secondary btn_lg" (click)="cancelFaq()">Cancel</button>
     </div>
+</div>
+
+<div [ngClass]="{'d-none':!isFromFaqsForm}"  [attr.id]="faqServ?.addVariation?.alternate?'altQue':'followQue'">
+  <div class="d-flex">
+    <div class="input-alter-text">
+      <input autocomplete="off" type="text" placeholder="Enter question" [attr.id]="faqServ?.addVariation?.alternate?'alt':'follow'" class="input-text w-100" [(ngModel)]='f.question' (keyup.enter)="saveAltQuestion.emit(true);">
+    </div>
+    <div class="img-cancel-block"><img id="cancel-alternate-question" class="ml-4" src="assets/icons/modal-close.svg" (click)="cancelAltQuestion.emit();"></div>
+    
+  </div>
 </div>

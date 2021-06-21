@@ -17,7 +17,9 @@ import { fromEvent } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
-
+import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
+declare var require: any
+const FileSaver = require('file-saver');
 @Component({
   selector: 'app-content-source',
   templateUrl: './content-source.component.html',
@@ -26,17 +28,23 @@ import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
+  showSearch;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   executionPop = -1;
   loadingcheckForUpdate = false;
   isEditDoc: boolean = false;
   editDocObj: any = {};
+  isEdittitle;
+  edit: any = {};
   editConfObj: any = {};
   editTitleFlag: boolean = false;
   isConfig: boolean = false;
   allowUrl: AllowUrl = new AllowUrl()
   blockUrl: BlockUrl = new BlockUrl();
   allowUrlArr: AllowUrl[] = [];
-  blockUrlArr: BlockUrl[] = []
+  blockUrlArr: BlockUrl[] = [];
+  activeClose = false;
   filterSystem: any = {
     'typeHeader': 'type',
     'statusHeader': 'status',
@@ -71,11 +79,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     failed: { name: 'Failed', color: '#DD3646' },
     successfull: { name: 'Successfull', color: '#28A745' },
     success: { name: 'Success', color: '#28A745' },
-    queued: { name: 'Queued', color: '#0D6EFD' },
+    queued: { name: 'In-Queue', color: '#0D6EFD' },
     running: { name: 'In Progress', color: '#0D6EFD' },
     inprogress: { name: 'In Progress', color: '#0D6EFD' },
-    validation: { name: 'Queued', color: '#0D6EFD' },
-    scheduled: { name: 'Queued', color: '#0D6EFD' },
+    validation: { name: 'In-Queue', color: '#0D6EFD' },
+    scheduled: { name: 'Configured', color: '#0D6EFD' },
     halted: { name: 'Stopped', color: '#DD3646' },
     configured: { name: 'Validated', color: '#202124' }
   };
@@ -85,6 +93,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       icon: "assets/icons/content/success.svg"
     },
     'Execution Failed': {
+      tooltip: "",
+      icon: "assets/icons/content/failed.svg"
+    },
+    'Execution failed': {
       tooltip: "",
       icon: "assets/icons/content/failed.svg"
     },
@@ -129,6 +141,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   sliderStep = 0;
   selectedPage: any = {};
   selectedSource: any = {};
+  docContent: any = {};
+  docContentType: any = {};
+  resourcesDoc: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
   contentModaltype: any;
@@ -177,6 +192,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
+    public dockService: DockStatusService
   ) { }
 
   ngOnInit(): void {
@@ -240,10 +256,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if (min > 0 && sec <= 0) return duration = hr + "h " + min + "m";
         if (min <= 0 && sec <= 0) return duration = hr + "h ";
       } else if (min > 0) {
-        if (sec > 0) return duration = min + "m " + sec + "s" ;
+        if (sec > 0) return duration = min + "m " + sec + "s";
         if (sec <= 0) return duration = min + "m";
       } else if (sec > 0) {
-         return duration = sec + "s";
+        return duration = sec + "s";
       } else if (milisec > 0) {
         return duration = milisec + 'ms';
       } else {
@@ -261,11 +277,32 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = res;
+      //  this.resourcesDoc=this.resources[0].fileMeta;
       this.resources.forEach(element => {
         if (element.advanceSettings && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time) {
-          element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' at ' +
-            element.advanceSettings.scheduleOpts.time.hour + ':' + element.advanceSettings.scheduleOpts.time.minute + ' ' +
-            element.advanceSettings.scheduleOpts.time.timeOpt + ' ' + element.advanceSettings.scheduleOpts.time.timezone;
+          if (element.advanceSettings.scheduleOpts.interval.intervalType != "Custom") {
+            let hour = (element.advanceSettings.scheduleOpts.time.hour).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.hour : '0' + element.advanceSettings.scheduleOpts.time.hour;
+            let minute = (element.advanceSettings.scheduleOpts.time.minute).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.minute : '0' + element.advanceSettings.scheduleOpts.time.minute;
+            element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' at ' +
+              hour + ':' + minute + ' ' +
+              element.advanceSettings.scheduleOpts.time.timeOpt + ' ' + element.advanceSettings.scheduleOpts.time.timezone;
+          } else {
+            let repeatOn = "";
+            let schedulePeriod = "";
+            let every = ""
+            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod) {
+              schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
+            }
+            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
+              repeatOn = "on " + element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
+            }
+            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1) {
+              every = element.advanceSettings.scheduleOpts.interval.intervalValue.every;
+            }
+            element['schedule_title'] = 'Runs once every' + every + schedulePeriod + repeatOn
+
+          }
+
         }
         if (element.jobInfo.createdOn && element.jobInfo.createdOn != "--") {
           element['schedule_createdOn'] = moment(element.jobInfo.createdOn).fromNow();
@@ -417,27 +454,28 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       skip,
       sourceType: this.selectedSource.type
     };
-    if (quaryparms.sourceType === 'webdomain') {
+    if (quaryparms.sourceType === 'web') {
       quaryparms.contentType = 'pages'
     }
-    if (quaryparms.sourceType === 'document') {
+    if (quaryparms.sourceType === 'file') {
       quaryparms.contentType = 'docContent'
     }
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
       this.selectedSource.pages = res;
-      /** Paging */
+      this.loadingSliderContent = false;
+      if (this.selectedSource.pages.length > 0) {
+        this.docContent = this.selectedSource.pages[0]._source;
+        this.docContentType = this.selectedSource.pages[0]._meta;
+      }
 
+      /** Paging */
       const data = [...res]
       this.pagingData = data.slice(0, this.limitpage);
       this.pagingData.forEach(element => {
-        element['url_display'] = element._source.url;
+        element['url_display'] = element._source.pageUrl;
       });
-
       /** Paging */
       this.sliderStep = 0;
-
-
-      this.loadingSliderContent = false;
       //this.selectedSource.advanceSettings.scheduleOpts = new scheduleOpts();
       this.allowUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.allowedURLs : [];
       this.blockUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.blockedURLs : [];
@@ -455,8 +493,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       // }
       // this.isConfig = false;
     }, errRes => {
-      this.loadingSliderContent = false;
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.loadingSliderContent = false;
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
       } else {
         this.notificationService.notify('Failed to crawl web page', 'error');
@@ -506,6 +544,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
       }
     }
+    this.editTitleFlag = false;
     // $('.tabname').toggleClass("active");
     // if (this.isConfig) {
     //   this.isConfig = false;
@@ -545,6 +584,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             }
           } else if (element.executionStats.executionStatusMessage == 'Execution Stopped') {
             element.executionStats['tooltip'] = "Execution Stopped due to " + element.statusMessage || ' time out';
+          } else {
+            element.executionStats['tooltip'] = element.statusMessage
           }
         });
       }
@@ -561,6 +602,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   openStatusSlider(source) {
     console.log("sourec opned", source)
+    this.pagesSearch = '';
     // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
     //   this.notificationService.notify('Source extraction is still in progress', 'error');
     //   return;
@@ -571,7 +613,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.selectedSource = source;
     this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
     //this.pageination(source.numPages, 10)
-    if (source.extractionType === 'webdomain') {
+    if (source.extractionType === 'web') {
       if (source.advanceSettings) {
         this.useCookies = source.advanceSettings.useCookies;
         this.respectRobotTxtDirectives = source.advanceSettings.respectRobotTxtDirectives;
@@ -599,7 +641,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       //   this.page = false;
       // }
     }
-    else if (source.extractionType === 'document') {
+    else if (source.extractionType === 'file') {
       this.openDocumentModal();
       this.getCrawledPages(this.limitpage, 0);
     }
@@ -828,10 +870,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       contentId: page._id
     }
     const payload: any = {
-      url: page._source.url
+      url: page._source.pageUrl
     }
     this.service.invoke('check.forUpdates', quaryparms, payload).subscribe(res => {
       this.loadingcheckForUpdate = false;
+      this.dockService.trigger(true);
       if (res._meta.updateAvailable) {
         this.notificationService.notify('A new version of this page is available', 'success');
       } else {
@@ -855,9 +898,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       jobId: page.jobId
     }
     const payload: any = {
-      url: page._source.url
+      url: page._source.pageUrl
     }
     this.service.invoke('reCrwal.website', quaryparms, payload).subscribe(res => {
+      this.dockService.trigger(true);
       this.notificationService.notify('Re-Crawling Initiated', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Failed to Re-Crawl');
@@ -916,10 +960,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       contentId: page._id,
       sourceType: this.selectedSource.type
     }
-    if (quaryparms.sourceType === 'webdomain') {
+    if (quaryparms.sourceType === 'web') {
       quaryparms.contentType = 'pages'
     }
-    if (quaryparms.sourceType === 'document') {
+    if (quaryparms.sourceType === 'file') {
       quaryparms.contentType = 'docContent'
     }
     this.service.invoke('delete.content.page', quaryparms).subscribe(res => {
@@ -1063,6 +1107,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     if (valToSearch === this.selectedFilter) {
       this.getSourceList();
       this.selectedFilter = '';
+      this.searchSources = '';
       return;
     }
     if (valToSearch) {
@@ -1142,12 +1187,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   };
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
+    this.editTitleFlag = false;
   }
   closeStatusModal() {
     this.swapSlider('page') // Just to redirect to 1st page
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
+    this.editTitleFlag = false;
   }
   openAddSourceModal() {
     this.addSourceModalPopRef = this.addSourceModalPop.open();
@@ -1198,7 +1245,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   updateRecord(i, allowUrls, option, type) {
     //selectedSource.advanceSettings.allowedURLs
     let payload = {}
-    let resourceType = this.selectedSource.extractionType;
+    // let resourceType = this.selectedSource.extractionType;
     let crawler = new CrwalObj()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -1223,7 +1270,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       type == 'block' ? crawler.advanceOpts.blockedURLs.splice(i, 1) : crawler.advanceOpts.allowedURLs.splice(i, 1);
     }
 
-    crawler.resourceType = resourceType;
+    // crawler.resourceType = resourceType; 
     payload = crawler;
     console.log(payload);
 
@@ -1260,6 +1307,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('recrwal', quaryparms).subscribe(res => {
       this.getSourceList();
+      this.dockService.trigger(true);
       this.notificationService.notify('Re-Crawling Initiated', 'success');
       this.closeStatusModal();
       //this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
@@ -1375,12 +1423,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
     crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
     crawler.advanceOpts.allowedURLs.length > 0 || crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.crawlEverything = false : crawler.advanceOpts.crawlEverything = true;
-    if (resourceType != 'webdomain') {
-      crawler.resourceType = resourceType;
-    }
-    else {
-      delete crawler.resourceType;
-    }
+    // if (resourceType != 'web') {
+    //   crawler.resourceType = resourceType;
+    // }
+    // else {
+    //   delete crawler.resourceType;
+    // }
     payload = crawler;
     //console.log(payload);
     if (crawler.advanceOpts.scheduleOpt) {
@@ -1403,6 +1451,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.editTitleFlag = false;
         this.getSourceList();
         this.closeStatusModal();
+        this.dockService.trigger(true);
       }, errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -1479,9 +1528,32 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.selectedSource.advanceSettings.crawlEverything = true;
     }
   }
+  //retry failed url validation
+  retryValidation(source, event) {
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      sourceId: source._id
+    };
+    const payload = {
+      url: source.url
+    }
+    this.service.invoke('put.retryValidation', quaryparms, payload).subscribe(res => {
+      this.getSourceList();
+      this.dockService.trigger(true);
+    }, errRes => {
+      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed retry validation', 'error');
+      }
+    });
+  }
   //crawl job ondemand
   jobOndemand(source, event) {
-    console.log("jobOndemand", source)
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
@@ -1491,8 +1563,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       sourceId: source._id
     };
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
-      console.log(res);
       this.getSourceList();
+      this.dockService.trigger(true);
       //this.notificationService.notify('Bot linked, successfully', 'success');
     },
       (err) => {
@@ -1509,6 +1581,38 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       });
     }
     window.removeEventListener('scroll', this.scroll, true);
+  }
+  toggleSearch() {
+    if (this.showSearch && this.searchSources) {
+      this.searchSources = '';
+    }
+    this.showSearch = !this.showSearch
+  }
+  focusoutSearch(isSearchSource?) {
+    if (this.activeClose) {
+      if (isSearchSource) {
+        this.searchSources = '';
+      } else {
+        this.pagesSearch = '';
+      }
+      this.activeClose = false;
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
+  }
+  downloadDoc(url) {
+    FileSaver.saveAs(url + '&DownloadPdf=true');
+  }
+  checkValue(value) {
+    console.log()
+    if (value <= -1) {
+      this.crawlDepth = 0;
+      this.maxUrlLimit=0;
+    }
   }
 }
 

@@ -12,6 +12,7 @@ import * as _ from 'underscore';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { Subscriber, Subscription } from 'rxjs';
+import { TmplAstRecursiveVisitor } from '@angular/compiler';
 declare const $: any;
 
 @Component({
@@ -22,10 +23,12 @@ declare const $: any;
 export class SynonymsComponent implements OnInit, OnDestroy {
   selectedApp: any = {};
   synonymSearch: any = '';
-  showSearch;
+  showSearch=false;
+  synonyms: any = [];
   serachIndexId
   loadingContent = true;
-  filterAllSynonym: boolean;
+  filteroneWaySynonym: boolean;
+  filterSynonym:boolean;
   haveRecord = false;
   currentEditIndex: any = -1;
   pipeline;
@@ -39,11 +42,14 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   queryPipelineId;
   // showSynonym:boolean
   indexPipelineId;
+  isAsc = true;
+  selectedSort = '';
   newSynonymObj: any = {
     type: 'synonym',
     addNew: false,
     values: []
   }
+  activeClose = false;
   selectedFilter: any;
   createFromScratch: any;
   synonymObj;
@@ -54,6 +60,9 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   synArrTemp: any[] = [];
   subscription: Subscription;
   componentType: string = 'configure';
+  submitted : boolean = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -86,7 +95,10 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       if (this.queryPipelineId) {
         this.getSynonyms();
+        
+       
       }
+     
     }
   }
   prepareSynonyms() {
@@ -98,6 +110,26 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         }
       });
     }
+    this.synonymData.forEach(element => {
+
+      if(element.type === 'oneWaySynonym' ){
+        // this.filterSynonym = false;
+        this.filteroneWaySynonym = true;
+
+      }
+      else if(element.type === 'synonym'){
+        // this.filteroneWaySynonym = false;
+        this.filterSynonym = true;
+      }
+    //  if(element.type === 'synonym'  ){
+    //     this.filterSynonym = false;
+    //   }
+    //   else{
+    //     this.filterSynonym = true;
+       
+    //   }
+    });
+    
   }
   getSynonyms() {
     const quaryparms: any = {
@@ -116,7 +148,16 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       else {
         this.loadingContent1 = true;
       }
-    
+   
+        this.pipeline.stages[3].synonyms.forEach(element => {
+          if(element.type === 'synonym'){
+            this.filterSynonym = true;
+          }
+          else if(element.type === 'oneWaySynonym'){
+            this.filteroneWaySynonym = true;
+          }
+          
+        });
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get stop words');
@@ -125,32 +166,49 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   selectFilter(type) {
     this.selectedFilter = type;
   }
+  validateSynonyms(){
+    if(!this.newSynonymObj || (this.newSynonymObj.values && !this.newSynonymObj.values.length)){
+      return false;
+    }
+    else if((this.newSynonymObj.type === 'oneWaySynonym') && (!this.newSynonymObj.keyword)){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
   addNewSynonyms() {
-    const obj: any = {
-      type: this.newSynonymObj.type,
-      values: this.newSynonymObj.values
-    }
-    if (this.newSynonymObj.type === 'oneWaySynonym') {
-      if (!(this.newSynonymObj.values && this.newSynonymObj.values.length)) {
-        this.notificationService.notify('Synonyms cannot be empty', 'error');
-        return;
+    this.submitted = true;
+    if(this.validateSynonyms()){
+      const obj: any = {
+        type: this.newSynonymObj.type,
+        values: this.newSynonymObj.values
       }
-      if (!this.newSynonymObj.keyword) {
-        this.notificationService.notify('Please enter keyword', 'error');
-        return;
-      } else {
-        obj.keyword = this.newSynonymObj.keyword;
+      if (this.newSynonymObj.type === 'oneWaySynonym') {
+        if (!(this.newSynonymObj.values && this.newSynonymObj.values.length)) {
+          this.notificationService.notify('Synonyms cannot be empty', 'error');
+          return;
+        }
+        if (!this.newSynonymObj.keyword) {
+          this.notificationService.notify('Please enter keyword', 'error');
+          return;
+        } else {
+          obj.keyword = this.newSynonymObj.keyword;
+        }
       }
+      if (this.newSynonymObj.type === 'oneWaySynonym') {
+        this.filteroneWaySynonym = true;
+  
+      }
+      else if (this.newSynonymObj.type === 'synonym') {
+        this.filterSynonym = true;
+      }
+      this.synonymData.push(obj);
+      this.addOrUpddate(this.synonymData);
     }
-    if (this.newSynonymObj.type === 'oneWaySynonym') {
-      this.filterAllSynonym = true;
+    else{
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
-    else {
-      this.filterAllSynonym = false;
-    }
-
-    this.synonymData.push(obj);
-    this.addOrUpddate(this.synonymData);
   }
   synonymChanged() {
     this.newSynonymObj.values = [];
@@ -198,6 +256,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.prepareSynonyms();
       this.cancleAddEdit();
 
+     
       if (dialogRef && dialogRef.close) {
         dialogRef.close();
       }
@@ -287,12 +346,14 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   }
   enableAddNewSynonymBtn() {
     this.currentEditIndex = -1;
+    this.submitted = false;
     if (!this.newSynonymObj.addNew) {
       this.newSynonymObj.type = 'synonym'
       this.newSynonymObj.addNew = true;
     }
   }
   cancleAddSynonyms() {
+    this.submitted = false;
     this.newSynonymObj.type = 'synonym'
     this.newSynonymObj.addNew = false;
     this.synonymChanged()
@@ -329,12 +390,73 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.newSynonymObj.values.splice(index, 1);
     }
   }
+  getSortIconVisibility(sortingField: string, type: string) {
+    switch (this.selectedSort) {
+      case "name": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "type": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+    }
+  }
+
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  sortBy(sort) {
+    const data = this.synonymData.slice();
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    const sortedData = data.sort((a, b) => {
+      const isAsc = this.isAsc;
+      switch (sort) {
+        case 'name': return this.compare(a.values[0], b.values[0] , isAsc);
+        case 'type': return this.compare(a.type, b.type, isAsc);
+        
+        default: return 0;
+      }
+    });
+    this.synonymData = sortedData;
+  }
   toggleSearch() {
     if (this.showSearch && this.synonymSearch) {
       this.synonymSearch = '';
     }
     this.showSearch = !this.showSearch
   };
+  focusoutSearch(){
+    if(this.activeClose){
+      this.synonymSearch='';
+      this.activeClose = false;
+     }
+ this.showSearch= !this.showSearch;
+}
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+    },100)
+  }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
   }

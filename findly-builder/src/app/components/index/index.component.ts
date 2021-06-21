@@ -45,6 +45,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedStage;
   changesDetected;
   currentEditIndex: any = -1;
+  selectedStageIndex : any = -1;
   pollingSubscriber: any = null;
   showNewStageType: boolean = false;
   subscription: Subscription;
@@ -59,7 +60,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedMapping: any = {};
   actionItmes: any = [{ type: 'set' }, { type: 'rename' }, { type: 'copy' }, { type: 'Delete' }];
   newMappingObj: any = {}
-  sourceType =  'faq';
+  sourceType =  'all';
   defaultStageTypesObj: any = {
     field_mapping: {
       name: 'Field Mapping',
@@ -80,45 +81,46 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       name: 'Semantic Meaning'
     },
     exclude_document: {
-      name: 'Remove Document'
+      name: 'Exclude Document'
     },
   }
   entityNlp = [
-    { title: 'Address', value: 'address', isDepricated: false },
-    { title: 'Airport', value: 'airport', isDepricated: false },
-    { title: 'Attachment(Image / File)', value: 'attachment', isDepricated: false },
-    { title: 'City', value: 'city', isDepricated: false },
-    // {"title": "City (Advanced)", "value": "cityAdv", "isDepricated": false},
-    { title: 'Country', value: 'country', isDepricated: false },
-    // {"title": "City with Geo Coordinates", "value": "city_coordinates"},
-    { title: 'Company Name or Organization Name', value: 'company_name', isDepricated: false },
-    // {"title": "City", "value": "city"},
-    { title: 'Color', value: 'color', isDepricated: false },
-    // { title: 'Currency(Deprecated)', value: 'currency', isDepricated: true },
-    { title: 'Currency', value: 'currencyv2', isDepricated: false },
-    { title: 'Custom', value: 'regex', isDepricated: false },
-    { title: 'Composite', value: 'composite', isDepricated: false },
     { title: 'Date', value: 'date', isDepricated: false },
-    { title: 'Date Period', value: 'dateperiod', isDepricated: false },
+    { title: 'Time', value: 'time', isDepricated: false },
     { title: 'Date Time', value: 'datetime', isDepricated: false },
-    { title: 'Description', value: 'description', isDepricated: false },
+    { title: 'Date Period', value: 'dateperiod', isDepricated: false },
+    { title: 'URL', value: 'url', isDepricated: false },
     { title: 'Email', value: 'email', isDepricated: false },
-    // {"title": "JSON Object", "value": "json_object", "isDepricated": false},
-    { title: 'List of items (enumerated)', value: 'list_of_values', isDepricated: false },
-    { title: 'List of items (lookup)', value: 'list_of_items_lookup', isDepricated: false },
     { title: 'Location', value: 'location', isDepricated: false },
-    { title: 'Number', value: 'number', isDepricated: false },
-    // {"title": "Password", "value": "password", "isDepricated": false},
+    { title: 'City', value: 'city', isDepricated: false },
+    { title: 'Country', value: 'country', isDepricated: false },
+    { title: 'Color', value: 'color', isDepricated: false },
+    { title: 'Company Name or Organization Name', value: 'company_name', isDepricated: false },
+    { title: 'Currency', value: 'currencyv2', isDepricated: false },
     { title: 'Person Name', value: 'person_name', isDepricated: false },
+    { title: 'Number', value: 'number', isDepricated: false },
     { title: 'Percentage', value: 'percentage', isDepricated: false },
     { title: 'Phone Number', value: 'phone_number', isDepricated: false },
-    // {"title": "Quantity(Number with unit of measure)", "value": "quantity"},
-    { title: 'Quantity', value: 'quantityv2', isDepricated: false },
-    { title: 'String', value: 'label', isDepricated: false },
-    { title: 'Time', value: 'time', isDepricated: false },
-    { title: 'Time Zone', value: 'timezone', isDepricated: false },
-    { title: 'URL', value: 'url', isDepricated: false },
     { title: 'Zip Code', value: 'zipcode', isDepricated: false },
+    { title: 'Quantity', value: 'quantityv2', isDepricated: false },
+    { title: 'Address', value: 'address', isDepricated: false },
+    { title: 'Airport', value: 'airport', isDepricated: false },
+
+    // { title: 'Attachment(Image / File)', value: 'attachment', isDepricated: false },
+    // {"title": "City (Advanced)", "value": "cityAdv", "isDepricated": false},
+    // {"title": "City with Geo Coordinates", "value": "city_coordinates"},
+    // {"title": "City", "value": "city"},
+    // { title: 'Currency(Deprecated)', value: 'currency', isDepricated: true },
+    // { title: 'Custom', value: 'regex', isDepricated: false },
+    // { title: 'Composite', value: 'composite', isDepricated: false },
+    // { title: 'Description', value: 'description', isDepricated: false },
+    // {"title": "JSON Object", "value": "json_object", "isDepricated": false},
+    // { title: 'List of items (enumerated)', value: 'list_of_values', isDepricated: false },
+    // { title: 'List of items (lookup)', value: 'list_of_items_lookup', isDepricated: false },
+    // {"title": "Password", "value": "password", "isDepricated": false},
+    // {"title": "Quantity(Number with unit of measure)", "value": "quantity"},
+    // { title: 'String', value: 'label', isDepricated: false },
+    // { title: 'Time Zone', value: 'timezone', isDepricated: false },
 
     // { title: 'From - number(minimum of a range)(Deprecated)', value: 'from_number', isDepricated: true },
     // { title: 'To - number(maximum of a range, limit)(Deprecated)', value: 'to_number', isDepricated: true },
@@ -213,8 +215,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   getTraitGroups(initial?) {
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: (this.selectedApp || {})._id
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId
     }
     this.service.invoke('get.traits', quaryparms).subscribe(res => {
       const allTraitskeys: any = [];
@@ -229,6 +231,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   drop(event: CdkDragDrop<string[]>, list) {
     moveItemInArray(list, event.previousIndex, event.currentIndex);
+    if(event.previousIndex == this.selectedStageIndex){
+      this.currentEditIndex = event.currentIndex;
+      this.selectedStageIndex = event.currentIndex;
+    }
   }
   setRuleObj(configObj, key, value, type) {
     this.changesDetected = true;
@@ -706,7 +712,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   closeSimulator() {
     this.simulteObj = {
-      sourceType: this.sourceType,
+      sourceType: 'all',//this.sourceType,
       docCount: 5,
       showSimulation: false,
     }
@@ -737,6 +743,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       const stages = this.preparepayload();
       if (this.currentEditIndex > -1) {
         payload.pipelineConfig = stages.slice(0, this.currentEditIndex + 1);
+        //payload.pipelineConfig = [stages[this.currentEditIndex]];
+        
       } else {
         payload.pipelineConfig = stages
       }
@@ -801,6 +809,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         if (result === 'yes') {
           this.pipeline.splice(i, 1);
           dialogRef.close();
+          this.notificationService.notify('Deletd Successfully' , 'success')
           if (this.pipeline && this.pipeline.length) {
             this.selectStage(this.pipeline[0], 0);
           } else {
@@ -839,7 +848,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.service.invoke(api, quaryparms, payload).subscribe(res => {
       //this.notificationService.notify('Fields added successfully','success');
-      this.notificationService.notify('ⓘ New Fields have been added. Please train to re-index the configuration', 'info');
+      this.notificationService.notify('New Fields have been added. Please train to re-index the configuration', 'success');
       this.closeModalPopup();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to create field');
@@ -1001,6 +1010,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.confirmChangeDiscard(stage, i);
     } else {
       this.currentEditIndex = i;
+      this.selectedStageIndex = i;
       this.checkNewAddition();
       if (stage && stage.type === 'custom_script' && stage.config && stage.config.mappings && stage.config.mappings.length) {
         if (!this.newMappingObj.custom_script) {

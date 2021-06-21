@@ -18,14 +18,31 @@
             align-items: center;
             justify-content: flex-end;
             .kr-sg-input-search{
-                width: 300px;
+                width: 215px;
                 right: 10px;
-                width: 0px;
-                display: none; 
                 position: relative;
                 &.active{
                     display: block;
-                    width: 300px;
+                    width: 215px;
+                }
+                .close-icon{
+                    position: absolute;
+                    right: 11px;
+                    top: 12px;
+                    cursor: pointer;
+                }
+                .input-search{
+                    border: 1px solid #E4E5E7;                            
+                    border-radius: 4px;
+                    padding-left: 36px;
+                    padding-right: 15px;
+                    font-size: 14px;
+                    &:focus{
+                        border: 1px solid #1372ff;
+                    }
+                    &::placeholder{
+                        color: #BDC1C6;
+                    }
                 }
             }
             .seach-block{
@@ -33,7 +50,7 @@
                 font-style: normal;
                 font-weight: 500;
                 font-size: 12px;
-                margin-right: 30px;
+                // margin-right: 30px;
                 img{
                     margin-right: 7px;
                     cursor: pointer;
@@ -124,6 +141,11 @@
             }
         }
         .card_data{
+            .dropdown-toggle{
+                background: #F8F9FA;
+                margin-bottom: 35px;
+                margin-left: 195px;
+            }
             .card-content{
                 background: #FFFFFF;
                 box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
@@ -351,6 +373,17 @@
                 margin:30px 0 23px 0;
                
             }
+            .jwt-signing-alg-dropdown{
+                .dropdown-open {
+                    .dropdown-input{
+                        border: solid 1px #EFF0F1 !important;
+                        background: #EFF0F1;
+                        &::before{
+                            opacity: 0.4;
+                        }
+                    }
+                }
+            }
             // .border{
             //     border-color: red;
             // }
@@ -531,15 +564,50 @@
         }
     }
 }
-::ng-deep .view-query-modal{
-    .switch-toggle{
-        .kr-sg-toggle{
-            span{
-                width: 600px !important;
-            }
-        }       
+
+.kr-sg-dropdowns{
+    &.exportdropdown{
+        position: absolute;
+        right: 12px;
+        top: 12px;
     }
 }
-// .border{
-//     border: red;
-// }
+::ng-deep .add-credentials-popup{
+    .modal-dialog{
+        background: #FFFFFF;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        width: 810px;
+        height: 523px;
+        max-height: 523px;
+        .modal-content{
+            border-radius: 8px !important;
+            .modal-header{
+                span{
+                    color: #202124;
+                    font-weight: 500;
+                    font-size: 18px;
+                    line-height: 22px;
+                }
+            }
+            .kr-sg-dropdowns {
+                .dropdown-open {
+                    .dropdown-input{
+                        border: solid 1px #EFF0F1 !important;
+                        background: #EFF0F1;
+                        &::before{
+                            opacity: 0.4;
+                        }
+                    }
+                }
+            }
+            .switch-toggle{
+                .kr-sg-toggle{
+                    span{
+                        width: 600px !important;
+                    }
+                }       
+            }
+        }
+    }    
+}

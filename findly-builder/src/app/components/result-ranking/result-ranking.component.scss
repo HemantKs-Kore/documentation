@@ -110,6 +110,8 @@
                         background: #F8F9FA;
                         padding: 23px 20px;                    
                         .kr-sg-input-search{
+                            width: 215px;
+                            position: relative;
                             .input-search{
                                 border: 1px solid #E4E5E7;                            
                                 border-radius: 4px;
@@ -127,7 +129,27 @@
                                 left: 12px;
                                 top: 10px;
                             }
+                            .close-icon{
+                                position: absolute;
+                                right: 11px;
+                                top: 12px;
+                                cursor: pointer;
+                            }
                         }
+                        .search-block {
+                            color: #202124;
+                            font-style: normal;
+                            font-weight: 500;
+                            font-size: 12px;
+                            line-height: 34px;
+                            // margin-right: 30px;
+                            img {
+                                margin-right: 7px;
+                                cursor: pointer;
+                                position: relative;
+                                top: -1px;
+                            }
+                        } 
                         .kr-sg-dropdowns{
                             width: auto;
                             margin-left: 10px;
@@ -241,6 +263,9 @@
                                         .kr-sg-checkbox{
                                             visibility: visible;
                                         }
+                                    }
+                                    &.is-selected-list{
+                                        background: #E7F1FF;
                                     }
                                     &[aria-expanded="true"]{
                                         background: #E7F1FF;
@@ -494,8 +519,8 @@
                                 &.show{
                                     .dropdown{
                                         .dropdown-input{
-                                            background:#fff;
-                                            border: 1px solid #BDC1C6;
+                                            // background:#fff;
+                                            // border: 1px solid #BDC1C6;
                                         }  
                                     }
                                 }
@@ -1069,7 +1094,7 @@
                         .row_data{
                             .remove-btn-sec{
                                 visibility: visible;
-                                background: rgba(249, 250, 251, 0.89);
+                                // background: rgba(249, 250, 251, 0.89);
                             }                           
                         }
                     }
@@ -1175,7 +1200,7 @@
                         width: 181px;                   
                         visibility: visible;
                         text-align: right;
-                        padding: 15px 20px;
+                        padding: 15px 10px;
                         background: transparent;
                         .remove-btn{
                             background: #FFFFFF;

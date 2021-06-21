@@ -37,6 +37,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
     NOT_INDEXED: 'Indexed property has been set to False for this field',
     NOT_EXISTS: 'Associated field has been deleted'
   }
+  submitted : boolean = false;
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef<HTMLInputElement>;
   @ViewChild('addDditWeightPop') addDditWeightPop: KRModalComponent;
   constructor(
@@ -194,6 +195,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
   openAddEditWeight() {
     this.searchModel = {};
     this.sliderOpen = true;
+    this.submitted = false;
     this.addDditWeightPopRef = this.addDditWeightPop.open();
   }
   openAddNewWeight() {
@@ -209,6 +211,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
   closeAddEditWeight() {
     if (this.addDditWeightPopRef && this.addDditWeightPopRef.close) {
       this.addDditWeightPopRef.close();
+      this.submitted = false;
       this.sliderOpen = false;
       this.currentEditIndex = -1;
       this.addEditWeighObj = null;
@@ -228,14 +231,31 @@ export class WeightsComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-  addEditWeight() {
-    const weights = JSON.parse(JSON.stringify(this.weights));
-    if (this.currentEditIndex > -1) {
-      weights[this.currentEditIndex] = this.addEditWeighObj;
-    } else {
-      weights.push(this.addEditWeighObj);
+
+  validateWeights(){
+    if(this.addEditWeighObj.fieldName && this.addEditWeighObj.fieldName.length){
+      this.submitted = false;
+      return true;
     }
-    this.addOrUpddate(weights, null, 'add');
+    else{
+      return false;
+    }
+  }
+
+  addEditWeight() {
+    this.submitted = true;
+    if(this.validateWeights()){
+      const weights = JSON.parse(JSON.stringify(this.weights));
+      if (this.currentEditIndex > -1) {
+        weights[this.currentEditIndex] = this.addEditWeighObj;
+      } else {
+        weights.push(this.addEditWeighObj);
+      }
+      this.addOrUpddate(weights, null, 'add');
+    }
+    else{
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
   }
   getWeightsPayload(weights) {
     const tempweights = [];

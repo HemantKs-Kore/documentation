@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
@@ -44,21 +44,29 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   disableDiv = false;
   collectedRecord = [];
   permisionView = false;
+  showSearch=false;
+  activeClose = false;
+  searchSources='';
   componentType: string = 'optimize';
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
-    private headerService: SideBarService,) { }
+    private headerService: SideBarService,
+    private zone: NgZone) { }
   sdk_evenBind() {
     // $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
     //   this.getcustomizeList(20, 0);
     // })
-    $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
+    $(document).on('click', '.kore-search-container-close-icon', () => {
       this.selectedApp = this.workflowService.selectedApp();
       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-      this.loadCustomRankingList();
+      this.zone.run( () => {
+        this.loadCustomRankingList();
+      });
     })
     $(document).off('click', '.start-search-icon-div').on('click', '.start-search-icon-div', () => {
       this.selectedApp = this.workflowService.selectedApp();
@@ -248,7 +256,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         title: 'Restore Customization',
         text: 'Are you sure you want to Reset',
         newTitle: 'Are you sure you want to Reset?',
-        body: 'Selected customizations will be Reset once you proceed.',
+        body: 'All the customizations done on the selected queries will be removed.',
         buttons: [{ key: 'yes', label: 'Reset', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true,
       }
@@ -457,7 +465,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
       //this.customizeList = res;
       this.lastModifiedOn = res.lMod;
-      this.actionLogData = res.customizations;
+      this.actionLogData = JSON.parse(JSON.stringify(res.customizations));
       for (let i = 0; i < this.actionLogData.length; i++) {
         this.actionLogData[i]["selected"] = false;
         this.actionLogData[i]["drop"] = false;
@@ -466,11 +474,15 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
         }
         if (this.actionLogData[i].target.contentType == 'faq') {
-          if (this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.split(/^\r\n/)) {
-            this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.replace(/\u21b5/g, '');
-          } else {
-            this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload
+          if(this.actionLogData[i].target.contentInfo._source.faqAnswer[0].text){
+            this.faqDesc = this.actionLogData[i].target.contentInfo._source.faqAnswer[0].text;
           }
+          
+          // if (this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.split(/^\r\n/)) {
+          //   this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.replace(/\u21b5/g, '');
+          // } else {
+          //   this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload
+          // }
 
         }
       }
@@ -626,6 +638,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
             this.getcustomizeList(20, 0);
             this.actionLogData = [];
             this.customizeList = [];
+            this.notificationService.notify('Reset Successful', 'success');
             dialogRef.close();
           }, errRes => {
             if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -718,6 +731,20 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   closeLogs() {
     this.resultLogs = false;
+  }
+  focusoutSearch(){
+    if (this.activeClose) {
+      this.searchSources = '';
+      this.activeClose = false;
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch){
+    $('#inputSearch').focus();
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+      $('#inputSearch').focus();
+    },500)
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;

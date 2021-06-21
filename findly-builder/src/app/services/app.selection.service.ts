@@ -1,24 +1,30 @@
 import { Injectable, Output, EventEmitter } from '@angular/core'
 import { WorkflowService } from './workflow.service';
 import { ServiceInvokerService } from './service-invoker.service';
-import { BehaviorSubject, pipe, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, pipe, ReplaySubject, Subject, Subscription } from 'rxjs';
 import * as _ from 'underscore';
 import { Router } from '@angular/router';
 import { SideBarService } from './header.service';
 import { AuthService } from '@kore.services/auth.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
+import { NotificationService } from './notification.service';
 @Injectable()
 export class AppSelectionService {
   queryList: any = [];
-  indexList: any = []
+  indexList: any = [];
+  configSelected: any = {}
   public queryConfigs = new Subject<any>();
   public appSelectedConfigs = new Subject<any>();
   public queryConfigSelected = new Subject<any>();
   public appSelected = new Subject<any>();
   public getTourConfigData = new Subject<any>();
+  public currentSubscription = new Subject<any>();
+  public currentDocumentLimit = new Subject<any>();
+  public refreshSummaryPage = new Subject<any>();
   public routeChanged = new BehaviorSubject<any>({ name: undefined, path: '' });
   public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
   public resumingApp = false;
+  public currentsubscriptionPlanDetails: any;
   res_length: number = 0;
   getTourArray: any = [];
   constructor(
@@ -28,6 +34,7 @@ export class AppSelectionService {
     private headerService: SideBarService,
     private authService: AuthService,
     public localstore: LocalStoreService,
+    private notificationService: NotificationService
   ) { }
   public getIndexPipelineIds(setindex?): ReplaySubject<any> {
     const payload = {
@@ -69,7 +76,7 @@ export class AppSelectionService {
     };
     const appObserver = this.service.invoke('get.queryPipelines', payload);
     const subject = new ReplaySubject(1);
-    subject.subscribe(res => {
+    subject.subscribe((res: any) => {
       this.queryList = res || [];
       let length = this.queryList.length;
       if (this.queryList) {
@@ -88,7 +95,17 @@ export class AppSelectionService {
             this.selectQueryConfig(data[0]);
           }
           else {
-            this.selectQueryConfig(res[length - 1]);
+            if (this.configSelected && this.configSelected['_id']) {
+              const data = res.filter(element => element._id == this.configSelected['_id']);
+              if (data.length) {
+                this.selectQueryConfig(data[0]);
+              } else {
+                this.selectQueryConfig(res[length - 1]);
+              }
+            } else {
+              this.selectQueryConfig(res[length - 1]);
+            }
+
           }
         } else {
           this.selectQueryConfig({});
@@ -105,6 +122,7 @@ export class AppSelectionService {
     let previOusState: any = null;
     try {
       previOusState = JSON.parse(window.localStorage.getItem('krPreviousState'));
+      this.getCurrentSubscriptionData();
     } catch (e) {
     }
     return previOusState;
@@ -135,6 +153,7 @@ export class AppSelectionService {
   }
   selectQueryConfig(config) {
     this.res_length = this.queryList.length;
+    this.configSelected = config
     this.workflowService.selectedQueryPipeline(config);
     const previousState = this.getPreviousState();
     this.setPreviousState(previousState.route);
@@ -152,26 +171,85 @@ export class AppSelectionService {
     });
   }
   openApp(app) {
+    //this.currentsubscriptionPlan(app._id)
     this.workflowService.selectedQueryPipeline([]);
     this.workflowService.appQueryPipelines({});
     this.setAppWorkFlowData(app);
     this.appSelected.next(app);
-    this.router.navigate(['/summary'], { skipLocationChange: true });
     const toogleObj = {
       title: '',
     };
     this.headerService.toggle(toogleObj);
-    this.headerService.closeSdk();
-    this.headerService.updateSearchConfiguration();
-    this.routeChanged.next({ name: 'pathchanged', path: '/summary' });
+    //this.headerService.closeSdk();
+    // this.headerService.updateSearchConfiguration();
+    this.router.navigate(['/summary'], { skipLocationChange: true });
+    //this.routeChanged.next({ name: undefined, path: '' });
   }
-  setAppWorkFlowData(app, queryPipeline?) {
+  // currentsubscriptionPlan(id) {
+  //   const payload = {
+  //     streamId: id
+  //   };
+  //   const appObserver = this.service.invoke('get.currentPlans', payload);
+  //   appObserver.subscribe(res => {
+  //     this.currentsubscriptionPlanDetails = res;
+  //     this.currentSubscription.next(res);
+  //   }, errRes => {
+  //     this.errorToaster(errRes, 'failed to get plans');
+  //   });
+  // }
+  //get current subscription data
+  getCurrentSubscriptionData() {
+    const data = this.workflowService.selectedApp();
+    if (data != undefined) {
+      console.log("data get data", data);
+      const payload = {
+        streamId: data._id
+      };
+      const appObserver = this.service.invoke('get.currentPlans', payload);
+      appObserver.subscribe(res => {
+        this.currentsubscriptionPlanDetails = res;
+        this.currentSubscription.next(res);
+      }, errRes => {
+        if (errRes && errRes.error && errRes.error.errors[0].code == 'NoActiveSubscription') {
+          this.getLastActiveSubscriptionData();
+          this.currentsubscriptionPlanDetails = undefined;
+          //this.errorToaster(errRes, 'failed to get current subscription data');
+        }
+      });
+    }
+  }
+  //get last active subscription data
+  getLastActiveSubscriptionData() {
+    const data = this.workflowService.selectedApp();
+    if (data != undefined) {
+      const payload = {
+        streamId: data._id
+      };
+      const appObserver = this.service.invoke('get.lastActiveSubscription', payload);
+      appObserver.subscribe(res => {
+        this.currentSubscription.next(res);
+      }, errRes => {
+        this.errorToaster(errRes, 'failed to get last active subscription data');
+      });
+    }
+  }
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message) {
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+    }
+  }
+  async setAppWorkFlowData(app, queryPipeline?) {
     // this.getStreamData(app);
     this.workflowService.selectedApp(app);
     const searchIndex = app.searchIndexes[0]._id;
     this.workflowService.selectedSearchIndex(searchIndex);
     //this.getQureryPipelineIds(queryPipeline);
-    this.getIndexPipelineIds();
+    await this.getIndexPipelineIds();
+    this.headerService.updateSearchConfiguration();
   }
   getStreamData(app) {
     const queryParams = {

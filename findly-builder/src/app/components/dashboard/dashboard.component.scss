@@ -271,10 +271,11 @@
                     padding: 15px 0;
                     box-shadow: inset 0px -1px 0px #E4E5E7;
                     .header-title{
-                        padding: 0;
+                        padding: 0 10px;
                         color: #9AA0A6;
                         font-weight: 500;
                         font-size: 14px;
+                        text-align: left;
                         img{
                             cursor: pointer;  
                             vertical-align: baseline;                          
@@ -285,7 +286,7 @@
                     padding: 15px 0;
                     box-shadow: inset 0px -1px 0px #E4E5E7;
                     .body-title{
-                        padding: 0;
+                        padding: 0 10px 0 20px;
                         overflow: hidden;
                         white-space: nowrap;
                         text-overflow: ellipsis;     
@@ -331,7 +332,7 @@
                         border-top: 4px solid #28A745;
                     }
                     &.clicks{
-                        border-top: 4px solid #FF784B;
+                        border-top: 4px solid #7027E5;
                     }
                 }               
             }

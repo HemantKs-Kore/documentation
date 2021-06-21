@@ -120,7 +120,7 @@
                     font-style: normal;
                     font-weight: 500;
                     font-size: 12px;
-                    margin-right: 30px;
+                    // margin-right: 30px;
                     img {
                         margin-right: 7px;
                         cursor: pointer;
@@ -129,7 +129,7 @@
                     }
                 }                    
                 .kr-sg-input-search{
-                    width: 300px;
+                    width: 215px;
                     input{
                         padding-left: 34px;
                         padding-right: 10px;
@@ -138,6 +138,12 @@
                         left: 10px;
                         width: 16px;
                         height: 16px;
+                    }
+                    .close-icon {
+                        position: absolute;
+                        right: 11px;
+                        top: 12px;
+                        cursor: pointer;
                     }
                  } 
                 .kr-sg-dropdowns{
@@ -173,10 +179,10 @@
                             box-shadow: 0px 10px 35px rgba(32, 33, 36, 0.2);
                             width: 140px;
                             top: 3px !important;
-                            min-width: 140px;
+                            min-width: 150px;
                             padding: 10px 20px;
                             li{
-                                font-size: 13px;
+                                font-size: 12px;
                                 color: #202124;
                                 padding: 8px 0;
                                 cursor: pointer;
@@ -233,6 +239,13 @@
                 .content-body{
                     padding: 9px 0;
                     border-bottom: 1px solid #E4E5E7;
+                    .col_{
+                        padding: 0px 10px 0px 25px;
+                        .failed-img{
+                            width: 15px;
+                            height: 15px;
+                        }
+                    }
                     .col{
                         color: #202124;
                         font-size: 14px;
@@ -245,6 +258,7 @@
                         &.failed{
                             color: #DD3646;
                         }
+                        
                     }
                     .inProgress{
                         width: 20px;
@@ -405,7 +419,8 @@
                         display: flex;
                         align-items: center;
                         width: 100%;
-                        margin-bottom: 20px;
+                        margin-bottom: 10px;
+                        line-height: 34px;
                         justify-content: space-between;        
                         .tabs-sec{
                             .tabname{
@@ -437,8 +452,21 @@
                                     margin-right: 8px;
                                 }
                             }
+                            .search-block {
+                                color: #202124;
+                                font-style: normal;
+                                font-weight: 500;
+                                font-size: 12px;
+                                // margin-right: 30px;
+                                img {
+                                    margin-right: 7px;
+                                    cursor: pointer;
+                                    position: relative;
+                                    top: -1px;
+                                }
+                            } 
                             .kr-sg-input-search{
-                                width: 300px;
+                                width: 215px;
                                 margin-right: 30px;
                                 input{
                                     padding: 4px 10px 4px 32px;
@@ -458,6 +486,12 @@
                                     top: 9px;
                                     cursor: pointer;
                                     right: 0;                            
+                                }
+                                .close-icon {
+                                    position: absolute;
+                                    right: 11px;
+                                    top: 12px;
+                                    cursor: pointer;
                                 }
                             }
                         }                                      
@@ -852,7 +886,7 @@
         }
         .allow-urls-sec{
             align-items: center;
-            padding: 19px 10px 19px 20px;
+            padding: 19px 10px 5px 20px;
             margin: 0 0 20px 0;
             background: #FFFFFF;
             //border: 1px solid #BDC1C6;
@@ -880,7 +914,7 @@
             }
         }
         .allow-urlBox{
-            margin: 0px 0px -30px 0px;
+            margin: 0px 0px 0px 0px;
             border-radius: 4px 4px 0px 0px;
         }
         .alw-list-bor{
@@ -1091,6 +1125,9 @@
     .scroll-table-sourceContent{
         height: calc(100vh - 180px);
     }
+    .scroll-table-sourceContent-pageBody{
+        height: calc(100vh - 80px);
+    }
     .schedule-comp{
         position: relative;
         margin-top: 20px;
@@ -1174,6 +1211,7 @@
                 padding: 16px 18px;   
                 transition: 0.2s all ease-in;
                 position: relative;
+               
                 .delete-refresh{
                     display: none;
                     position: absolute;
@@ -1190,7 +1228,7 @@
                     .delete-refresh{
                         display: inline-block;
                     }
-                }        
+                }       
                 .titles-sec{
                     margin-bottom: 19px;
                     padding-right: 40px;
@@ -1227,6 +1265,7 @@
                 }
                 .status{
                     text-align: right;
+
                     .status-title{                    
                         font-weight: normal;
                         font-size: 12px;
@@ -1235,6 +1274,13 @@
                         &.failed{
                             color: #DD3646;
                         }
+                    }
+                    .inProgress{
+                        width: 20px;
+                        height: 20px;
+                        -webkit-animation:spin 4s linear infinite;
+                        -moz-animation:spin 4s linear infinite;
+                        animation:spin 4s linear infinite;
                     }
                 }
                 .pages-count{
@@ -1250,6 +1296,7 @@
                         padding-right: 6px;
                     }
                 }
+               
             }
         }        
     }
@@ -1260,7 +1307,7 @@
         font-size: 10px;
         color: #a6bdda;
     }
-
+   
     .execution-table-data{
         .content-body{
             position: relative;
@@ -1271,7 +1318,7 @@
             .eye-img{
                 cursor: pointer;
                 position: absolute;
-                left: calc(25% - 27px);
+                left: calc(21% - 27px);
                 z-index: 1;
                 &:hover{
                     .execute-log{
@@ -1346,7 +1393,23 @@
         font-weight: 600;
         font-size: 13px;
         line-height: 10px;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
+        min-height: 30px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+            .dwnld-image{
+                display: inline-block !important;
+            }
+            img{
+                display: none;
+                padding-left: 8px;
+            }
+            &:hover{
+                img{
+                    display: inline-block;
+                }
+            }
         }
         
         .title-desc-text{
@@ -1354,6 +1417,16 @@
         font-weight: normal;
         font-size: 14px;
         line-height: 17px;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
+        }
+        .run-percentageDoneGrid{
+            position: absolute;
+            left: 290px;
+            top: 2px;
+            font-size: 10px;
+            color: #a6bdda;
         }
    
+        .kr-sg-input-text-area textarea.desc-text-area{
+            min-height: inherit !important;
+        }

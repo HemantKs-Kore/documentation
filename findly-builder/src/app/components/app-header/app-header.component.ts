@@ -35,11 +35,14 @@ export class AppHeaderComponent implements OnInit {
   searchActive = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
-  searchText: any;
+  searchText: any = '';
+  activeClose = false;
+  activeSearch = false;
   search: any;
   formatter: any;
   appName = '';
   menuFlag = false;
+  sourcesFlag = false;
   recentApps: any;
   userId: any;
   showSearch: boolean = false;
@@ -60,6 +63,7 @@ export class AppHeaderComponent implements OnInit {
   updateHeaderMainMenuSubscription: Subscription;
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
+  @Output() showSourceMenu = new EventEmitter();
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('testButtonTooltip') testButtonTooltip: any;
   availableRouts = [
@@ -72,6 +76,30 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Extract FAQs from Webdomain', routeId: '/source', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'FAQs', routeId: '/faqs', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'Content', routeId: '/content', quaryParms: { sourceType: 'faqWeb' } },
+    { displayName: 'Structured Data', routeId: '/structuredData', quaryParms: {} },
+    { displayName: 'Experiments', routeId: '/experiments', quaryParms: {} },
+    { displayName: 'Actions', routeId: '/botActions', quaryParms: {} },
+    { displayName: 'Workbench', routeId: '/index', quaryParms: {} },
+    { displayName: 'Fields', routeId: '/FieldManagementComponent', quaryParms: {} },
+    { displayName: 'Traits', routeId: '/traits', quaryParms: {} },
+    { displayName: 'Weights', routeId: '/weights', quaryParms: {} },
+    { displayName: 'Synonyms', routeId: '/synonyms', quaryParms: {} },
+    { displayName: 'StopWords', routeId: '/stopWords', quaryParms: {} },
+    { displayName: 'Facets', routeId: '/facets', quaryParms: {} },
+    { displayName: 'Rules', routeId: '/rules', quaryParms: {} },
+    { displayName: 'Search Interface', routeId: '/search-experience', quaryParms: {} },
+    { displayName: 'Result Templates', routeId: '/searchInterface', quaryParms: {} },
+    { displayName: 'Dashboard', routeId: '/dashboard', quaryParms: {} },
+    { displayName: 'User Engagement Metrics', routeId: '/userEngagement', quaryParms: {} },
+    { displayName: 'Search Insights', routeId: '/searchInsights', quaryParms: {} },
+    { displayName: 'Result Insights', routeId: '/resultInsights', quaryParms: {} },
+    { displayName: 'General Settings', routeId: '/generalSettings', quaryParms: {} },
+    { displayName: 'Channels', routeId: '/settings', quaryParms: {} },
+    { displayName: 'Credentials', routeId: '/credentials-list', quaryParms: {} },
+    { displayName: 'Team', routeId: '/team-management', quaryParms: {} },
+    { displayName: 'Plan Details', routeId: '/pricing', quaryParms: {} },
+    { displayName: 'Usage Log', routeId: '/usageLog', quaryParms: {} },
+    { displayName: 'Invoices', routeId: '/invoices', quaryParms: {} },
   ]
   public dockersList: Array<any> = [];
   public pollingSubscriber: any;
@@ -81,7 +109,7 @@ export class AppHeaderComponent implements OnInit {
   public isAnyRecordFailed: boolean = false;
   public readDocs: any = [];
   public unReadDocs: any = [];
-
+  trainingInitiated = false;
   constructor(
     private authService: AuthService,
     public headerService: SideBarService,
@@ -98,6 +126,11 @@ export class AppHeaderComponent implements OnInit {
     this.userId = this.authService.getUserId();
   }
   ngOnInit() {
+    this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
+      if (res.name != undefined) {
+        this.analyticsClick(res.path, false);
+      }
+    })
     this.toShowAppHeader = this.workflowService.showAppCreationHeader();
     this.getAllApps();
     this.headerService.change.subscribe(data => {
@@ -132,6 +165,11 @@ export class AppHeaderComponent implements OnInit {
     if (localStorage.krPreviousState) {
       this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
     }
+    this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
+      if (res) {
+        this.mainMenu = res;
+      }
+    });
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.loadHeader();
@@ -140,14 +178,9 @@ export class AppHeaderComponent implements OnInit {
         this.loadHeader();
       })
     })
-    this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
-      if (res.name != undefined) {
-        this.analyticsClick(res.path, false);
-      }
-    })
-    this.updateHeaderMainMenuSubscription = this.headerService.headerMainMenuUpdate.subscribe((res) => {
-      if (res) {
-        this.mainMenu = res;
+    this.workflowService.mainMenuRouter$.subscribe(route => {
+      if (route) {
+        this.mainMenu = route;
       }
     });
   }
@@ -179,11 +212,17 @@ export class AppHeaderComponent implements OnInit {
       this.showMainMenu = false;
     } else {
       this.showMainMenu = true;
-      if (menu == '/settings' || menu == '/credentials-list' || menu == '/searchInterface' || menu == '/team-management' || menu == '/search-experience') {
+      if (menu == '/source' || menu == '/content' || menu == '/faqs' || menu == '/botActions' || menu == '/structuredData') {
+        this.sourcesFlag = true;
+        this.menuFlag = false;
+      }
+      else if (menu == '/settings' || menu == '/credentials-list' || menu == '/actions' || menu == '/team-management' || menu == '/smallTalk' || menu == '/pricing' || menu == '/usageLog' || menu == '/invoices' || menu == '/generalSettings') {
         this.menuFlag = true;
+        this.sourcesFlag = false;
       }
       else {
         this.menuFlag = false;
+        this.sourcesFlag = false;
         this.resetNotificationBadge();
         if (this.pollingSubscriber) {
           this.pollingSubscriber.unsubscribe();
@@ -195,6 +234,11 @@ export class AppHeaderComponent implements OnInit {
     }
     this.showMenu.emit(this.showMainMenu)
     this.settingMenu.emit(this.menuFlag)
+    this.showSourceMenu.emit(this.sourcesFlag);
+    let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+    if ((menu == '/content' || menu == "/index") && currentPlan?.subscription?.planId == 'fp_free') {
+      this.appSelectionService.currentDocumentLimit.next('callApi');
+    }
   }
   logoutClick() {
     this.authService.logout();
@@ -205,6 +249,23 @@ export class AppHeaderComponent implements OnInit {
       this.searchText = '';
     }
   }
+  focusinSearch() {
+    if (this.activeClose) {
+      this.activeClose = false;
+      return;
+    }
+    this.showSearch = !this.showSearch;
+    setTimeout(() => {
+      document.getElementById('globalSearch').focus();
+    }, 100)
+  }
+  focusoutSearch() {
+    this.searchText = '';
+    if (this.activeSearch) {
+      this.activeClose = true;
+    }
+    this.showSearch = !this.showSearch;
+  }
   triggerRoute(type, routObj?) {
     const self = this;
     let queryParams: any = {};
@@ -214,6 +275,7 @@ export class AppHeaderComponent implements OnInit {
         if (slectedRoute && slectedRoute.length) {
           queryParams = slectedRoute[0].quaryParms || {};
           this.router.navigate([slectedRoute[0].routeId], { skipLocationChange: true, queryParams });
+          this.analyticsClick(slectedRoute[0].routeId, true);
         }
       }, 100)
     } else if (routObj && routObj.routeId) {
@@ -233,6 +295,9 @@ export class AppHeaderComponent implements OnInit {
     this.ref.detectChanges();
   }
   train() {
+    if (this.training) {
+      return;
+    }
     this.training = true;
     const self = this;
     const selectedApp = this.workflowService.selectedApp();
@@ -245,9 +310,11 @@ export class AppHeaderComponent implements OnInit {
       }
       this.service.invoke('train.app', quaryparms, payload).subscribe(res => {
         setTimeout(() => {
-          self.training = false;
+          // self.training = false;
+          this.trainingInitiated = true;
           self.notificationService.notify('Training has been Initiated', 'success');
           this.appSelectionService.updateTourConfig('indexing');
+          this.poling();
         }, 5000)
       }, errRes => {
         self.training = false;
@@ -290,8 +357,19 @@ export class AppHeaderComponent implements OnInit {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
         this.statusDockerLoading = false;
         this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
+        if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
+          this.trainingInitiated = false;
+          this.training = false;
+          this.notificationService.notify('Training Completed', 'success');
+        }
+        if (this.trainingInitiated && this.dockersList[0].status === 'FAILURE' && this.dockersList[0].action === "TRAIN") {
+          this.trainingInitiated = false;
+          this.training = false;
+          this.notificationService.notify(this.dockersList[0].message, 'error');
+        }
         this.dockersList.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
+
           if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
             if (record.action === 'EXPORT') {
               this.downloadDockFile(record.fileId, record.store.urlParams, record.streamId, record._id);
@@ -375,14 +453,17 @@ export class AppHeaderComponent implements OnInit {
         return 'Stopped';
       }
       else if (status === 'QUEUED') {
-        return 'In-queue';
+        return 'In-Queue';
       }
       else if (status === 'IN_PROGRESS' || status === 'validation') {
         return 'In-progress';
       }
+      else if (status === 'FAILURE') {
+        return 'Failed'
+      }
     }
     else {
-      if (status === 'SUCCESS' || status === 'FAILURE') {
+      if (status === 'SUCCESS') {
         return true;
       }
       else {
@@ -397,14 +478,15 @@ export class AppHeaderComponent implements OnInit {
       setTimeout(() => {
         this.headerService.openFaqExtracts();
       }, 300);
-    } else if (task.jobType === 'webdomain') {
+    } else if (task.jobType === 'web') {
       this.router.navigate(['/content'], { skipLocationChange: true });
     }
     else if (task.jobType == 'STRUCTURED_DATA_INGESTION') {
       this.router.navigate(['/structuredData'], { skipLocationChange: true });
     }
-
     this.headerService.updateShowHideMainMenu(true);
+    this.headerService.updateShowHideSettingsMenu(false);
+    this.headerService.updateShowHideSourceMenu(true);
   }
 
   removeRecord(task, index) {
@@ -520,9 +602,7 @@ export class AppHeaderComponent implements OnInit {
   }
   //get all apps
   getAllApps() {
-    console.log("apps res")
     this.service.invoke('get.apps').subscribe(res => {
-      console.log("apps res", res)
       this.prepareApps(res);
     }, errRes => {
       console.log(errRes);
@@ -536,6 +616,7 @@ export class AppHeaderComponent implements OnInit {
   openApp(app) {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     this.appSelectionService.openApp(app);
+    this.appSelectionService.refreshSummaryPage.next('changed');
   }
   //create new app
   openCreateApp() {
@@ -575,7 +656,7 @@ export class AppHeaderComponent implements OnInit {
         };
         this.creatingInProgress = false;
         this.openApp(res);
-        this.analyticsClick('/summary');
+        //this.analyticsClick('/summary');
         // this.router.navigate(['/apps'], { skipLocationChange: true });
         // this.analyticsClick('apps', true)
       },
@@ -586,8 +667,27 @@ export class AppHeaderComponent implements OnInit {
     );
   }
   openOrCloseSearchSDK() {
-    this.headerService.openSearchSDK(true);
     this.loadHeader();
+    if (this.queryPipelineId) {
+      this.headerService.openSearchSDK(true);
+      //this.loadHeader();
+      this.getcustomizeList(20, 0);
+      this.displayToolTip();
+    } else {
+      this.notificationService.notify('Fetching queryPipeline ID...', 'warning');
+      this.loadHeader();
+      setTimeout(() => {
+        if (this.queryPipelineId) {
+          this.openSDKwithQuery();
+        } else {
+          this.openOrCloseSearchSDK();
+        }
+      }, 500)
+    }
+
+  }
+  openSDKwithQuery() {
+    this.headerService.openSearchSDK(true);
     this.getcustomizeList(20, 0);
     this.displayToolTip();
   }
@@ -692,5 +792,31 @@ export class AppHeaderComponent implements OnInit {
         }, 2000);
       }
     }, 1000);
+  }
+  validateSource() {
+    let validField = true
+    if (!this.newApp.name) {
+      $("#enterAppName").css("border-color", "#DD3646");
+      $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+      this.notificationService.notify('Enter the required field to proceed', 'error');
+      validField = false
+    }
+    if (validField) {
+      this.createFindlyApp()
+    }
+
+  }
+  inputChanged(type, i?) {
+    if (type == 'enterName') {
+      if (!this.newApp.name) {
+        $("#infoWarning").show();
+        $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+      }
+      else {
+        $("#infoWarning").hide()
+      }
+      $("#infoWarning").hide()
+      $("#enterAppName").css("border-color", this.newApp.name != '' ? "#BDC1C6" : "#DD3646");
+    }
   }
 }

@@ -479,7 +479,7 @@ div.divBlockEmptylastChild:first-child {
     overflow: auto;
     li{
         font-size: 13px;
-        color: #202124 !important;
+        color: #202124;
         padding: 8px 20px;
         cursor: pointer;
         position: relative;
@@ -606,12 +606,39 @@ div.divBlockEmptylastChild:first-child {
     background: #FFFFFF;
     box-shadow: 0px 10px 35px rgba(32, 33, 36, 0.2);
     border-radius: 8px;
-    padding: 17px 15px;
+    padding: 17px 10px;
     border: 0;
-    margin: 0;
-    width: 509px;
+    margin: 11px 0 0 0;
+    width: 325px; 
+    &.ml-58{
+        margin-left: 58px;
+    }
+    &::before{
+        content: "";
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        right: 67px;
+        top: -5px;
+        background: #FFFFFF;
+        transform: rotate(-45deg);
+    }     
+    &.w-274px{
+        width: 230px;
+        &::before{
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            right: auto;
+            left: 48%;
+            top: -5px;
+            background: #FFFFFF;
+            transform: rotate(-45deg);
+        }  
+    }
     .inner-data-column{
-        padding: 0 0 0 6px;
+        padding: 0 10px;
         .heading{
             color: #9AA0A6;
             font-size: 12px;
@@ -1238,7 +1265,9 @@ div.divBlockEmptylastChild:first-child {
         border-bottom: 0px solid #BDC1C6 !important;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
         background: #fff !important;
-        display: block !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between !important;
         margin-bottom: 4px;
         &.noShadow{
             box-shadow: none;
@@ -1249,6 +1278,11 @@ div.divBlockEmptylastChild:first-child {
             font-size: 14px;
             float: left;
             font-weight: 400;
+            word-break: break-word;
+            width: 95%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .close_icon{
             cursor: pointer;
@@ -1283,6 +1317,7 @@ div.divBlockEmptylastChild:first-child {
         box-shadow: 0px -2px 4px rgba(32, 33, 36, 0.2);
         display: block !important;
         text-align: right;
+        box-shadow: 0 0 5px rgb(0 0 0 / 10%);
         button{
             margin:0 0px 0 10px !important;
         }
@@ -1987,6 +2022,16 @@ ngx-simplebar {
             background: #202124;
         }
     }   
+    &.searchTemplate{
+        left: -100px !important;
+        .tooltip-inner{
+            color: #FFFFFF;
+            background: #202124;
+            max-width: 200px;
+            min-width: 200px;
+            font-size: 10px;
+        }
+    }
     .arrow{
         &::before{
             border-top-color: #fff !important;
@@ -2045,10 +2090,10 @@ nouislider{
     }
     .noUi-connect{
         background: red;
-        &.c-1-color { background: rgb(255, 0, 0); }
-        &.c-2-color { background: rgb(0, 0, 255); }
-        &.c-3-color { background: rgb(140, 255, 26); }
-        &.c-4-color { background: rgb(255, 255, 0); }
+        &.c-1-color { background: #7027E5 }
+        &.c-2-color { background: #28A745 }
+        &.c-3-color { background: #EF9AA3}
+        &.c-4-color { background: #0D6EFD}
       }
 }
 .date-tooltip{
@@ -3107,8 +3152,7 @@ nouislider{
         .edit-name{
             width: 100%;
         }
-    }
-    				
+    }    				
 }
 .mb-2px{
     margin-bottom : 2px !important;
@@ -3153,6 +3197,14 @@ nouislider{
 
 .train-icon-tooltip{
     opacity: 1 !important;
+    &.ml-12{
+        margin-left: 12px;
+        .tooltip-inner{
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 14px;
+        }      
+    }
     .arrow{
         &::before{
             border-bottom-color: #202124;
@@ -3163,14 +3215,15 @@ nouislider{
         font-size: 10px;
         line-height: 14px;
         color: #FFFFFF;
-        background: #202124;        
-        border-radius: 4px;
         font-weight: normal;
         padding: 10px;
         text-align: center;
         border: 0;
         width: auto;
-        max-width: auto;
+        max-width: 100%;
+        background: #202124;
+        box-shadow: 0px -4px 4px rgba(32, 33, 36, 0.2);
+        border-radius: 4px;
     }
 }
 
@@ -3197,4 +3250,33 @@ app-useronboarding-journey{
 
 .scroll-max-250{
     max-height: 250px;
+}
+
+.business-rules-outcome-slider{
+    app-range-slider{
+        .custom-created-range-slider{
+            .slider-horizontal{
+                .tooltip-main{
+                    top: -2px !important;
+                    margin-left: -18px !important;
+                }
+            }
+        }
+    }
+}
+.add-searchable-feild-range-slider{
+    app-range-slider{
+        .custom-created-range-slider{
+            .slider-horizontal{
+                .tooltip-main{
+                    top: -8px !important;
+                    margin-left: -16px !important;
+                }
+            }
+        }
+    }
+}
+
+.ml--10{
+    margin-left: -10px !important;
 }

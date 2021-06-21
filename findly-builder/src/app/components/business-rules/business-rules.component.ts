@@ -18,6 +18,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import * as moment from 'moment';
+import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 declare const $: any;
 @Component({
   selector: 'app-business-rules',
@@ -26,21 +27,23 @@ declare const $: any;
 })
 export class BusinessRulesComponent implements OnInit, OnDestroy {
   addBusinessRulesRef: any;
-  searchImgSrc:any='assets/icons/search_gray.svg';
-  searchFocusIn=false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   selectedApp;
   serachIndexId;
   indexPipelineId;
   currentEditInex;
+  submitted = false;
   rules = [];
   currentSugg: any = [];
-  selectedSort;
-  isAsc;
+  selectedSort = '';
+  isAsc = true;
   loadingContent = true;
   selcectionObj: any = {
     selectAll: false,
     selectedItems: [],
   };
+  activeClose = false;
   sortObj: any = {}
   showSearch = false;
   searchRules = '';
@@ -97,9 +100,15 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     NOT_INDEXED: 'Indexed property has been set to False for this field',
     NOT_EXISTS: 'Associated field has been deleted'
   }
+  filterSystem: any = {
+    'isRuleActiveFilter': 'all'
+  }
+  beforeFilterRules: any = [];
+  isRuleActiveArr: any = [];
   private contextSuggestedImput: ElementRef;
   autoSuggestInputItems: any;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  componentType: string = 'configure';
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -113,6 +122,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('addBusinessRules') addBusinessRules: KRModalComponent;
+  @ViewChild('plans') plans: UpgradePlanComponent;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -132,23 +142,23 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.loadRules();
     })
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.getFieldAutoComplete(null, null);
   }
   loadImageText: boolean = false;
   loadingContent1: boolean
-  imageLoad(){
+  imageLoad() {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
   }
   loadRules() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-      if(this.indexPipelineId){
-        this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
-        if (this.queryPipelineId) {
-          this.getRules();
-        }
+    if (this.indexPipelineId) {
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
+      if (this.queryPipelineId) {
+        this.getRules();
+        this.getFieldAutoComplete(null, null);
       }
+    }
   }
   createNewRule() {
     this.addEditRuleObj = {
@@ -182,12 +192,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.outcomeArrayforAddEdit.push(ruleObj)
   }
   editRule(rule) {
-    this.addEditRuleObj = {...rule};
+    this.addEditRuleObj = { ...rule };
     this.setDataForEdit(this.addEditRuleObj);
     this.openModalPopup();
     this.getFieldAutoComplete(null, null);
   }
   closeModalPopup() {
+    this.submitted = false;
     this.rulesArrayforAddEdit = [];
     this.outcomeArrayforAddEdit = [];
     this.addBusinessRulesRef.close();
@@ -252,7 +263,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   removeOutcome(index) {
     this.outcomeArrayforAddEdit.splice(index, 1);
   }
-  removeTag(value,tags, index) {
+  removeTag(value, tags, index) {
     value.splice(index, 1);
   }
   openDateTimePicker(ruleObj, index) {
@@ -334,6 +345,34 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     } else {
       this.currentSugg = mainContext;
     }
+  }
+  filterTable(source, headerOption) {
+    console.log(this.rules, source, headerOption);
+    this.filterSystem.isRuleActiveFilter = 'all';
+
+    this.filterRules(source, headerOption);
+    switch (headerOption) {
+      case 'isRuleActive': { this.filterSystem.isRuleActiveFilter = source; return; };
+    };
+  }
+  filterRules(source, headerOption) {
+    if (!this.beforeFilterRules.length) {
+      this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
+    }
+    let tempRules = this.beforeFilterRules.filter((field: any) => {
+      if (source !== 'all') {
+        if (headerOption === 'isRuleActive') {
+          if (field.isRuleActive === source) {
+            return field;
+          }
+        }
+      }
+      else {
+        return field;
+      }
+    });
+
+    this.rules = JSON.parse(JSON.stringify(tempRules));
   }
   selected(event: MatAutocompleteSelectedEvent, ruleObj, index): void {
     const newSelectedValue = event.option.viewValue;
@@ -442,11 +481,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (key === 'contextType') {
       ruleObj.contextType = value;
       ruleObj.contextCategory = this.ruleOptions[value][0];
-      if(ruleObj.contextType ==='userContext'){
-      ruleObj.contextCategory = '';
+      if (ruleObj.contextType === 'userContext') {
+        ruleObj.contextCategory = '';
       }
     }
     if (key === 'operator') {
+      if (ruleObj.operator !== value) {
+        ruleObj.value = [];
+      }
       ruleObj.operator = value;
     }
     if (key === 'dataType') {
@@ -475,10 +517,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const allElements = $('.selectRuleCheckBoxDiv');
     if (selectedElements.length === allElements.length) {
       // $('#selectAllRules')[0].checked = true;
-      this.selcectionObj.selectAll =  true
+      this.selcectionObj.selectAll = true
     } else {
       // $('#selectAllRules')[0].checked = false;
-      this.selcectionObj.selectAll =  false
+      this.selcectionObj.selectAll = false
     }
     const element = $('#' + rule._id);
     const addition = element[0].checked
@@ -495,7 +537,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.selcectionObj.selectedItems = {};
       this.selcectionObj.selectedCount = 0;
       this.selcectionObj.selectAll = false;
-     // $('#checkbox-1').checked = false;
+      // $('#checkbox-1').checked = false;
     } else {
       if (ruleId) {
         if (addtion) {
@@ -513,6 +555,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
     }
   }
+  selectAllFromPartial() {
+    this.selcectionObj.selectAll = true;
+    this.selectAll();
+  }
   selectAll(unselectAll?) {
     const allfacets = $('.selectRuleCheckBoxDiv');
     if (allfacets && allfacets.length) {
@@ -528,33 +574,63 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     //   $('#selectAllRules')[0].checked = false;
     // }
   }
+  validateRules() {
+    if (this.addEditRuleObj && this.addEditRuleObj.ruleName.length) {
+      this.submitted = false;
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
   createRule() {
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
-    };
-    const payload: any = {
-      ruleName: this.addEditRuleObj.ruleName,
-      isRuleActive: this.addEditRuleObj.isRuleActive,
-      rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [],
-      outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
+    this.submitted = true;
+    if (this.validateRules()) {
+      const quaryparms: any = {
+        searchIndexID: this.serachIndexId,
+        queryPipelineId: this.queryPipelineId,
+        indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
+      };
+      const payload: any = {
+        ruleName: this.addEditRuleObj.ruleName,
+        isRuleActive: this.addEditRuleObj.isRuleActive,
+        rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [],
+        outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
+      }
+      // if (!payload.rules.length) {
+      //   this.errorToaster(null, 'Atleast one condition is required');
+      //   return;
+      // }
+      if (!payload.outcomes.length) {
+        this.errorToaster(null, 'Atleast one outcome is required');
+        return;
+      }
+      this.service.invoke('create.businessRules', quaryparms, payload).subscribe(res => {
+        if(this.filterSystem.isRuleActiveFilter == 'all'){
+          this.rules.push(res);
+        }
+        this.beforeFilterRules.push(res);
+        this.isRuleActiveArr = [];
+        this.beforeFilterRules.forEach(element => {
+          this.isRuleActiveArr.push(element.isRuleActive);
+        });
+        this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
+        this.filterTable(this.filterSystem.isRuleActiveFilter,'isRuleActive');
+        this.closeModalPopup();
+        this.notificationService.notify('Added successfully', 'success');
+      }, errRes => {
+        if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
+          this.closeModalPopup();
+          this.errorToaster(errRes, errRes.error.errors[0].msg);
+          this.plans.openChoosePlanPopup('choosePlans', true);
+        } else {
+          this.errorToaster(errRes, 'Failed to create rules');
+        }
+      });
     }
-    // if (!payload.rules.length) {
-    //   this.errorToaster(null, 'Atleast one condition is required');
-    //   return;
-    // }
-    if (!payload.outcomes.length) {
-      this.errorToaster(null, 'Atleast one outcome is required');
-      return;
+    else {
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
-    this.service.invoke('create.businessRules', quaryparms, payload).subscribe(res => {
-      this.rules.push(res);
-      this.closeModalPopup();
-      this.notificationService.notify(' Created Successfully', 'sucecss');
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to create rules');
-    });
   }
   getFieldAutoComplete(event, outcomeObj) {
     let query: any = '';
@@ -586,7 +662,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.businessRules', quaryparms).subscribe(res => {
       this.rules = res.rules || [];
+      this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
       this.loadingContent = false;
+      if (this.rules.length) {
+        this.rules.forEach(element => {
+          this.isRuleActiveArr.push(element.isRuleActive);
+        });
+        this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
+      }
       this.addRemoveRuleFromSelection(null, null, true);
       if (res.length > 0) {
         this.loadingContent = false;
@@ -615,36 +698,46 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     });
   }
   updateRule(rule) {
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      ruleId: rule._id,
-    };
-    const payload: any = {
-      ruleName: this.addEditRuleObj.ruleName,
-      isRuleActive: this.addEditRuleObj.isRuleActive,
-      rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit),
-      outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit)
+    this.submitted = true;
+    if (this.validateRules()) {
+      const quaryparms: any = {
+        searchIndexID: this.serachIndexId,
+        queryPipelineId: this.queryPipelineId,
+        indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+        ruleId: rule._id,
+      };
+      const payload: any = {
+        ruleName: this.addEditRuleObj.ruleName,
+        isRuleActive: this.addEditRuleObj.isRuleActive,
+        rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit),
+        outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit)
+      }
+      // if (!payload.rules.length) {
+      //   this.errorToaster(null, 'Atleast one condition is required');
+      //   return;
+      // }
+      if (!payload.outcomes.length) {
+        this.errorToaster(null, 'Atleast one outcome is required');
+        return;
+      }
+      this.service.invoke('update.businessRule', quaryparms, payload).subscribe(res => {
+        const editRule = _.findIndex(this.rules, (pg) => {
+          return pg._id === rule._id;
+        })
+        this.rules[editRule] = res;
+        this.beforeFilterRules[editRule] = res;
+        this.isRuleActiveArr = [];
+        this.beforeFilterRules.forEach(element => {
+          this.isRuleActiveArr.push(element.isRuleActive);
+        });
+        this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
+        this.filterTable(this.filterSystem.isRuleActiveFilter,'isRuleActive');
+        this.notificationService.notify('Updated Successfully', 'success');
+        this.closeModalPopup();
+      }, errRes => {
+        this.errorToaster(errRes, 'Failed to update rule');
+      });
     }
-    if (!payload.rules.length) {
-      this.errorToaster(null, 'Atleast one condition is required');
-      return;
-    }
-    if (!payload.outcomes.length) {
-      this.errorToaster(null, 'Atleast one outcome is required');
-      return;
-    }
-    this.service.invoke('update.businessRule', quaryparms, payload).subscribe(res => {
-      const editRule = _.findIndex(this.rules, (pg) => {
-        return pg._id === rule._id;
-      })
-      this.rules[editRule] = res;
-      this.notificationService.notify('Updated Successfully', 'success');
-      this.closeModalPopup();
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to update rule');
-    });
   }
   deleteRulePop(rule, i) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -740,6 +833,18 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         return pg._id === rule._id;
       })
       this.rules.splice(deleteIndex, 1);
+      const deleteIndex1 = _.findIndex(this.beforeFilterRules,(pg)=>{
+        return pg._id === rule._id;
+      })
+      this.beforeFilterRules.splice(deleteIndex1,1);
+      if(!this.rules.length){
+        this.isRuleActiveArr = [];
+        this.beforeFilterRules.forEach(element => {
+          this.isRuleActiveArr.push(element.isRuleActive);
+          this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
+          this.filterTable('all','isRuleActive');
+        });
+      }
       if (dilogRef && dilogRef.close) {
         dilogRef.close();
       }
@@ -788,16 +893,28 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
   }
   ngOnDestroy() {
-   // this.subscription ? this.subscription.unsubscribe() : false;
-    if(this.subscription){
+    // this.subscription ? this.subscription.unsubscribe() : false;
+    if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
-  checkIsArray(value){
-    if(Array.isArray(value)){
+  checkIsArray(value) {
+    if (Array.isArray(value)) {
       return true;
-    }else{
+    } else {
       return false;
     }
+  }
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchRules = '';
+      this.activeClose = false;
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
   }
 }

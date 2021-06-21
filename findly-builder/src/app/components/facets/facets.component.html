@@ -27,17 +27,17 @@
             <div class="title">{{'facets.facets'| translate}}</div>
             <div class="d-flex align-items-center" *ngIf="!noItems || emptySearchResults">
                 <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
-                    <input type="text" placeholder="Search" class="input-search" (keyup.enter)="searchItems()" [ngClass]="{'pl-33':!searchfacet}" autocomplete="off" [(ngModel)]="searchfacet" (focusout)="showSearch= !showSearch" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                    <input type="text" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchfacet,'pl-2':searchfacet}" autocomplete="off" [(ngModel)]="searchfacet" (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                         (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                     <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchfacet">
-                    <img class="close-icon" *ngIf="searchfacet" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchfacet}" (click)="searchfacet='';toggleSearch(false)">
+                    <img class="close-icon" *ngIf="searchfacet" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchfacet}" (click)="searchfacet='';toggleSearch(false)">
                 </div>
                 <!-- <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
                     <img src="assets/icons/search_gray.svg" class="search-icon">
                     <input type="text" id="direct-search" [(ngModel)]="searchfacet" (keyup.enter)="searchItems()" placeholder="Search" autocomplete="off" class="input-search pl-2" placeholder="Search">
                 </div>-->
                 <div class="seach-block" *ngIf="(facets && facets.length)">
-                    <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                    <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch(true);focusinSearch('inputSearch')"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                     <!-- <img [ngClass]="{'d-none': !showSearch}" id="btn_close_search_structured_data" src="assets/images/close.svg" (click)="toggleSearch(false)"> -->
                 </div>
                 <button id='btn_addFacet' *ngIf="(facets && facets.length)" class="kr-sg-button-primary btn_lg" (click)="createNewFacet()"><img src="assets/icons/add_plus.svg">{{'facets.add_facet'| translate}}</button>
@@ -162,8 +162,11 @@
                 <ng-container *ngIf="(facets && facets.length)">
                     <div cdkDropList (cdkDropListDropped)="drop($event,facets)">
                         <div class="body_sec row m-0" cdkDrag *ngFor="let facet of facets | filter : [searchfacet, 'facetName']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[facet._id])}">
+                            <div class="field_data" *cdkDragPreview>
+                                <div class="title text-truncate"></div>
+                              </div>
                             <div class="col-4 content withcheckbox">
-                                <div class="drag_drop_icon pl-2"><img src="assets/icons/drog_drop.svg"></div>
+                                <div class="drag_drop_icon pl-2"><img src="assets/icons/drag_drop_move_icon.svg"></div>
                                 <div class="kr-sg-checkbox p-0 m-0 adjust-checkbox-padding">
                                     <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(facet)" type="checkbox">
                                     <label for="{{facet._id}}" class="checkbox-custom-label"></label>
@@ -226,8 +229,9 @@
                         <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                             <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
-                            <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
+                            <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
                             <img src="assets/images/search_gray.svg" class="search-icon">
+                            <img *ngIf="(!addEditFacetObj.fieldId.length) && submitted" id="fieldWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
                             <ul class="dropdown-menu content-menu">
                                 <perfect-scrollbar class="scroll-search-field">
                                     <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="selectField(suggesition); setFaceName(suggesition)"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
@@ -257,7 +261,8 @@
             <div class="row-content row">
                 <div class="kr-sg-input-text col-8 pl-0">
                     <div class="label-text">{{'facets.facet_name'| translate}}</div>
-                    <input type="text" placeholder="Asset Class" class="input-text" [(ngModel)]="addEditFacetObj.facetName">
+                    <input type="text" placeholder="Enter Name" class="input-text" [class.err-block]="((!addEditFacetObj.facetName.length) && submitted)" [(ngModel)]="addEditFacetObj.facetName">
+                    <img *ngIf="(!addEditFacetObj.facetName.length) && submitted" id="facetNameWarning" src="assets/icons/warning_escalation.svg" style="top: 57%; position: absolute; right: 4.5%; display: block;" height="12" width="12" />
                 </div>
                 <div class="kr-sg-dropdowns col-4 pl-2">
                     <div class="label-text">{{'facets.facet_type'| translate}}</div>
@@ -356,7 +361,7 @@
                             {{'facets.facet_size'| translate}}
                             <img container="body" ngbTooltip="{{'facets.facet_size_info' | translate}}" tooltipClass="metrics_tooltips m-0" class="pl-1" src="assets/icons/info.svg" />
                         </div>
-                        <input type="number" placeholder="Please Enter" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">
+                        <input type="number" placeholder="Please Enter" (keyup)="validateFacetSize($event)" min="1" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">
                     </div>
                 </div>
                 <div class="multi-select mt-3">
@@ -374,8 +379,9 @@
             </ng-container>
         </div>
     </perfect-scrollbar>
-    <div class="modal-footer" *ngIf="addEditFacetObj" [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldId === selectedField.fieldId)'>
-        <button type="button" class="kr-sg-button-primary btn_lg float-right" [disabled]='(!addEditFacetObj._id && !selectedField) || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldId !== selectedField.fieldId))' (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button>
+    <div class="modal-footer" *ngIf="addEditFacetObj">
+        <!-- [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldId === selectedField.fieldId)' Removed Tooltip -->
+        <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button> <!-- [disabled]='(!addEditFacetObj._id && !selectedField) || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldId !== selectedField.fieldId))' -->
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModal()">{{'facets.cancel'| translate}}</button>
         <!-- <button type="button" class="kr-sg-button-danger btn_lg float-left" *ngIf="addEditFacetObj._id" (click)="deleteFacets(addEditFacetObj)">{{'facets.delete'| translate}}</button> -->
 

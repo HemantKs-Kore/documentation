@@ -57,14 +57,12 @@
             align-items: center;
             justify-content: flex-end;
             .kr-sg-input-search {
-                width: 300px;
+                width: 215px;
                 right: 10px;
-                width: 0px;
-                display: none;
                 position: relative;
                 &.active {
                     display: block;
-                    width: 300px;
+                    width: 215px;
                 }
             }
             .seach-block {
@@ -165,7 +163,7 @@
                 font-weight: 500;
                 font-size: 12px;
                 line-height: 14px;
-                text-transform: uppercase;
+                // text-transform: uppercase;
                 padding: 0 10px;
                 img {
                     position: relative;
@@ -199,7 +197,7 @@
         }
         .body_sec {
             // align-items: center;
-            padding: 16px 0px;
+            padding: 14px 0px;
             box-shadow: inset 0px -1px 0px #E4E5E7;
             cursor: pointer;
             transition: 0.3s all ease;
@@ -234,6 +232,7 @@
                     display: flex;
                     align-items: center;
                     .kr-sg-checkbox {
+                        visibility: hidden !important;
                         .checkbox-custom {
                             height: auto;
                             position: absolute;
@@ -251,8 +250,11 @@
                         color: #202124;
                         font-weight: normal;
                         font-size: 14px;
-                        line-height: 14px;
+                        line-height: 19px;
                     }
+                }
+                .tags-input.contextCategory{
+                    max-width: 180px !important;
                 }
                 .tags-input {
                     border: 1px solid #BDC1C6;
@@ -264,6 +266,12 @@
                     line-height: 12px;
                     color: #5F6368;
                     padding: 1px 6px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    max-width: 130px;
+                    margin: 0 5px 5px 0 !important;
+                    height: 18px;
                     .small-text {
                         color: #BDC1C6;
                     }
@@ -274,6 +282,8 @@
                     line-height: 12px;
                     color: #9AA0A6;
                     text-transform: uppercase;
+                    margin: 0 5px 3px 0;
+                    display: inline-block;
                 }
                 .outer-name {
                     font-weight: 500;
@@ -338,6 +348,9 @@
                 background: #F8F9FA;
                 transition: 0.3s all ease-in;
                 .content {
+                    .kr-sg-checkbox {
+                        visibility: visible !important;
+                    }
                     &.actions {
                         .actions-icons {
                             display: block;
@@ -482,9 +495,9 @@
                                     }
                                     .slider-horizontal {
                                         width: 100%;
-                                        .tooltip-main {
-                                            display: none;
-                                        }
+                                        // .tooltip-main {
+                                        //     display: none;
+                                        // }
                                         .slider-tick,
                                         .slider-handle {
                                             background: #0D6EFD !important;
@@ -565,7 +578,17 @@
                     .mat-chip-list-wrapper {
                         .mat-chip {
                             margin: 3px;
-                        }
+                            max-width: 200px;
+                            .mat-val{
+                                font-weight: normal;
+                                overflow: hidden;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                            }
+                            &.firstChip{
+                                background-color: #d3d4d6;
+                            }
+                        }                        
                     }
                 }
             }

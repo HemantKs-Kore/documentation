@@ -16,12 +16,21 @@ export class WorkflowService {
   selectedQueryPipelineObj: any;
   appQueryPipelineIds: any = [];
   seedData$: BehaviorSubject<any> = new BehaviorSubject(null);
+  mainMenuRouter$: BehaviorSubject<any> = new BehaviorSubject(null);
   disablePerfectScroll: boolean;
   linkedBot='';
   topDownOrBottomUp='';
+  selectedJob_id =''
   enableDisableSt;
   constructor(
   ) { }
+
+  selectedJobId(id?){
+    if (id) {
+      this.selectedJob_id = id;
+    }
+    return this.selectedJob_id;
+  }
   linkBot(linkedBot?){
     if (linkedBot) {
       this.linkedBot =  linkedBot;
@@ -35,6 +44,9 @@ export class WorkflowService {
   checkTopOrBottom(topDownOrBottomUp?) {
     if (topDownOrBottomUp) {
       this.topDownOrBottomUp = topDownOrBottomUp;
+    }
+    else{
+      this.topDownOrBottomUp = 'top';
     }
 
     return this.topDownOrBottomUp;

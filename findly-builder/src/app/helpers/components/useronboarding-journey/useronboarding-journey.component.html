@@ -20,9 +20,8 @@
           </div>
           <div class="check-list-steps" *ngIf="checklistCount>0&&status=='pending'">
             <div class="left-sec">
-              <img [src]="showStatusIcon?'assets/icons/check-config.svg':'assets/icons/time.svg'">                          
-              <span class="steps-info" *ngIf="componentType=='summary'"><b>  {{checklistCount}}</b> out of 6 Steps Completed</span>
-              <span class="steps-info" *ngIf="componentType!=='summary'"><b>  Step {{checklistCount}}</b> out of 6 - Completed</span>
+              <img [src]="showStatusIcon?'assets/icons/check-config.svg':'assets/icons/time.svg'" *ngIf="componentType!=='summary'">                          
+              <span class="steps-info"><b>  Step {{checklistCount}}</b> out of 6 - Completed</span>
             </div>
             <div class="right-sec">
               <div class="checklist-btn" (click)="openOnBoardingModal()">Checklist</div>
@@ -30,13 +29,13 @@
             </div>
           </div>
       </button>
-      <ul class="dropdown-menu content-menu" ngbDropdownMenu *ngIf="componentType!=='summary'&&checklistCount>0&&checklistCount!=6">
+      <!-- <ul class="dropdown-menu content-menu" ngbDropdownMenu *ngIf="checklistCount>0&&checklistCount!=6">
        <div class="configured-dropdown-content" *ngIf="prevStep!='undefined'">
-        <span class="title-info">{{prevStep.name}}</span>
+        <span class="title-info">{{prevStep&&prevStep.name}}</span>
         <span class="state-type">Completed</span>
       </div>
-        <button class="kr-sg-button-primary btn_lg mt-3" [routerLink]="[nextStep.path]" routerLinkActive="active" skipLocationChange>{{nextStep.name}} Now</button>
-      </ul>
+        <button class="kr-sg-button-primary btn_lg mt-3" (click)="gotoRoutes(nextStep.path)">{{nextStep&&nextStep.name}} Now</button>
+      </ul> -->
     </div>
   </div>
 
@@ -51,12 +50,12 @@
           <div class="card_header">
             <div data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="card_link" aria-expanded="true">
               <div class="instruction-number" *ngIf="tourData[0].addData" [ngStyle]="{'border':'none'}"><img src='assets/icons/check-config.svg' height="19"/></div>  
-              <div class="instruction-number" *ngIf="!tourData[0].addData">1</div>
+              <div class="instruction-number" *ngIf="!tourData[0].addData"></div>
                 <div class="guide-name">Start by Adding Data</div>              
             </div>
           </div>
-    
-          <div id="collapseOne" class="collapse">
+          <!-- [ngClass]='{"show":componentType=="summary"}' -->
+          <div id="collapseOne" class="collapse" [ngClass]="{'show':collapseOpen==0}">
             <div class="card-body">
                 <div class="guide-inner-info">SearchAssist allows you to add different types of data such as FAQs, Actions, Content, Structured Data from various sources. </div>
                 <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/source')">Add Data</button>
@@ -69,12 +68,12 @@
           <div class="card_header">
             <div data-toggle="collapse" data-parent="#accordion" href="#collapse2" class="card_link" aria-expanded="true">
               <div class="instruction-number" *ngIf="tourData[1].indexData" [ngStyle]="{'border':'none'}"><img src='assets/icons/check-config.svg' height="19"/></div>  
-              <div class="instruction-number" *ngIf="!tourData[1].indexData">2</div>
+              <div class="instruction-number" *ngIf="!tourData[1].indexData"></div>
                 <div class="guide-name">Index Data</div>              
             </div>
           </div>
     
-          <div id="collapse2" class="collapse">
+          <div id="collapse2" class="collapse" [ngClass]="{'show':collapseOpen==1}">
             <div class="card-body">
                 <div class="guide-inner-info">SearchAssist allows you to Index the data that you want to make searchable.</div>
                 <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/FieldManagementComponent')">Start Indexing</button>
@@ -87,12 +86,12 @@
           <div class="card_header">
             <div data-toggle="collapse" data-parent="#accordion" href="#collapse3" class="card_link" aria-expanded="true">
               <div class="instruction-number" *ngIf="tourData[2].optimiseSearchResults" [ngStyle]="{'border':'none'}"><img src='assets/icons/check-config.svg' height="19"/></div>  
-              <div class="instruction-number" *ngIf="!tourData[2].optimiseSearchResults">3</div>
+              <div class="instruction-number" *ngIf="!tourData[2].optimiseSearchResults"></div>
                 <div class="guide-name">Optimize Search Results</div>              
             </div>
           </div>
     
-          <div id="collapse3" class="collapse">
+          <div id="collapse3" class="collapse" [ngClass]="{'show':collapseOpen==2}">
             <div class="card-body">
                 <div class="guide-inner-info">SearchAssist allows to optimize the search results through Synonyms, Weights, Stop Words, Rules, Facets.</div>
                 <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/weights')">Configure</button>
@@ -105,12 +104,12 @@
           <div class="card_header">
             <div data-toggle="collapse" data-parent="#accordion" href="#collapse4" class="card_link" aria-expanded="true">
               <div class="instruction-number" *ngIf="tourData[3].designSearchExperience" [ngStyle]="{'border':'none'}"><img src='assets/icons/check-config.svg' height="19"/></div>  
-              <div class="instruction-number" *ngIf="!tourData[3].designSearchExperience">4</div>
+              <div class="instruction-number" *ngIf="!tourData[3].designSearchExperience"></div>
                 <div class="guide-name">Design Search Experience</div>              
             </div>
           </div>
     
-          <div id="collapse4" class="collapse">
+          <div id="collapse4" class="collapse" [ngClass]="{'show':collapseOpen==3}">
             <div class="card-body">
                 <div class="guide-inner-info">SearchAssist allows you to customize the search experience and design the search interface based on the business context. </div>
                 <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/search-experience')">Start Designing</button>
@@ -123,12 +122,12 @@
           <div class="card_header">
             <div data-toggle="collapse" data-parent="#accordion" href="#collapse5" class="card_link" aria-expanded="true">
               <div class="instruction-number" *ngIf="tourData[4].testApp" [ngStyle]="{'border':'none'}"><img src='assets/icons/check-config.svg' height="19"/></div>  
-              <div class="instruction-number" *ngIf="!tourData[4].testApp">5</div>
+              <div class="instruction-number" *ngIf="!tourData[4].testApp"></div>
                 <div class="guide-name">Test the Application</div>              
             </div>
           </div>
     
-          <div id="collapse5" class="collapse">
+          <div id="collapse5" class="collapse" [ngClass]="{'show':collapseOpen==4}">
             <div class="card-body">
                 <div class="guide-inner-info">SearchAssist allows you to validate the configuration and search experience before deploying the app by just clicking on the Test button. </div>
                 <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/resultranking')">Test</button>
@@ -141,12 +140,12 @@
           <div class="card_header">
             <div data-toggle="collapse" data-parent="#accordion" href="#collapse6" class="card_link" aria-expanded="true">
               <div class="instruction-number" *ngIf="tourData[5].fineTuneRelevance" [ngStyle]="{'border':'none'}"><img src='assets/icons/check-config.svg' height="19"/></div>  
-              <div class="instruction-number" *ngIf="!tourData[5].fineTuneRelevance">6</div>
+              <div class="instruction-number" *ngIf="!tourData[5].fineTuneRelevance"></div>
                 <div class="guide-name">Fine-Tune Relevance</div>              
             </div>
           </div>
     
-          <div id="collapse6" class="collapse">
+          <div id="collapse6" class="collapse" [ngClass]="{'show':collapseOpen==5}">
             <div class="card-body">
                 <div class="guide-inner-info">SearchAssist Allows you to fine-tune search results further with the result ranking actions such as pinning, boosting, lowering and hiding.</div>
                 <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/resultranking')">Optimize</button>
@@ -154,9 +153,9 @@
             </div>
           </div>
         </div>
+        <div class="modal-footer" (click)="closeChecklist('self')">
+          I want to Explore by Myself
+        </div>
       </div>
     </perfect-scrollbar>
-    <div class="modal-footer" (click)="closeChecklist('self')">
-      I want to Explore by Myself
-    </div>
   </kr-modal>

@@ -22,10 +22,14 @@ export class AppsListingComponent implements OnInit {
   toShowAppHeader: boolean;
   appsData: any;
   createAppPopRef: any;
+  onboardingpopupjourneyRef: any;
   creatingInProgress = false;
   searchApp = '';
   apps: any = [];
-  showSearch: any = '';
+  showSearch = false;
+  activeClose = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   newApp: any = {
     name: '',
     description: ''
@@ -34,7 +38,9 @@ export class AppsListingComponent implements OnInit {
   sortBy = ['Created Date', 'Alphabetical Order'];
   userId: any;
   recentApps: any;
+  currentPage: number = 1;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
+  @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
   constructor(
     public localstore: LocalStoreService,
     private service: ServiceInvokerService,
@@ -73,10 +79,20 @@ export class AppsListingComponent implements OnInit {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     this.appSelectionService.openApp(app);
   }
+  openBoradingJourney() {
+    this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
+  }
+  closeBoradingJourney() {
+    this.onboardingpopupjourneyRef.close();
+    this.showBoarding = false;
+  }
+
   openCreateApp() {
     this.createAppPopRef = this.createAppPop.open();
+    this.onboardingpopupjourneyRef.close();
   }
   closeCreateApp() {
+    this.showBoarding = false;
     this.createAppPopRef.close();
   }
   errorToaster(errRes, message) {
@@ -98,7 +114,8 @@ export class AppsListingComponent implements OnInit {
     }, 100);
   }
   //get all apps
-  emptyApp: boolean = false;
+  emptyApp: boolean;
+  showBoarding: boolean = true;
   public getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
       this.prepareApps(res);
@@ -106,13 +123,21 @@ export class AppsListingComponent implements OnInit {
         this.workflowService.showAppCreationHeader(false);
         this.selectedAppType('All');
         this.sortApp('Created Date');
+        this.showBoarding = false;
+        this.emptyApp = false;
       }
       else {
         this.emptyApp = true;
+        this.showBoarding = true;
+        this.openBoradingJourney()
       }
     }, errRes => {
       console.log(errRes);
     });
+  }
+  imageLoad() {
+    console.log("image loaded now")
+    this.emptyApp = true;
   }
   //create app
   createFindlyApp() {
@@ -149,6 +174,9 @@ export class AppsListingComponent implements OnInit {
         this.headerService.toggle(toogleObj);
         self.creatingInProgress = false;
         $('.toShowAppHeader').removeClass('d-none');
+        if (res.length > 0) {
+          this.emptyApp = true;
+        }
         // this.callStream();
       },
       errRes => {
@@ -156,6 +184,31 @@ export class AppsListingComponent implements OnInit {
         self.creatingInProgress = false;
       }
     );
+  }
+  validateSource() {
+    let validField = true
+    if (!this.newApp.name) {
+      $("#enterAppName").css("border-color", "#DD3646");
+      $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+      validField = false
+    }
+    if (validField) {
+      this.createFindlyApp()
+    }
+
+  }
+  inputChanged(type, i?) {
+    if (type == 'enterName') {
+      if (!this.newApp.name) {
+        $("#infoWarning").show();
+        $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+      }
+      else {
+        $("#infoWarning").hide()
+      }
+      $("#enterAppName").css("border-color", this.newApp.name != '' ? "#BDC1C6" : "#DD3646");
+    }
   }
   callStream() {
     this.service.invoke('get.credential').subscribe(
@@ -214,6 +267,18 @@ export class AppsListingComponent implements OnInit {
         // return (this.order) ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
       });
     }
+  }
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchApp = '';
+      this.activeClose = false;
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
   }
   // callStream(){
   //   this.service.invoke('get.credential').subscribe(

@@ -27,7 +27,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   indexPipelineId;
   loadingContent = true;
   addEditFacetObj: any = null;
-  showSearch;
+  showSearch=false;
+  activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   // serachTraits: any = '';
@@ -76,6 +77,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   statusArr: any = [];
   selectTypeArr: any = [];
   componentType: string = 'configure';
+  submitted : boolean = false;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -442,7 +444,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     payload.fieldId = this.selectedField._id;
     payload.isFacetActive = this.addEditFacetObj.isFacetActive || false;
     this.service.invoke('create.facet', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Facet Added Successfully', 'success');
+      this.notificationService.notify('Added Successfully', 'success');
       if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) }
       this.facets.push(res);
       this.closeModal();
@@ -464,7 +466,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       delete payload.fieldName;
     }
     this.service.invoke('update.facet', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Facet Updated Successfully', 'success');
+      this.notificationService.notify('Updated Successfully', 'success');
       this.getFacts();
       this.closeModal();
       this.addEditFacetObj = null;
@@ -544,7 +546,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.facets.splice(deleteIndex, 1);
       dialogRef.close();
       this.closeModal();
-      this.notificationService.notify('Facet Deleted Successfully', 'success');
+      this.notificationService.notify('Deleted Successfully', 'success');
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to delete facet');
@@ -559,21 +561,39 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+
+  validateAddEditFacet(){
+    if(this.addEditFacetObj.fieldId.length && this.addEditFacetObj.facetName){
+      this.submitted;
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
   addOrUpdate() {
-    this.addFiled();
-    if (this.addEditFacetObj && this.addEditFacetObj._id) {
-      this.editFacet();
-    } else {
-      this.createFacet();
+    this.submitted = true;
+    if(this.validateAddEditFacet()){
+      this.addFiled();
+      if (this.addEditFacetObj && this.addEditFacetObj._id) {
+        this.editFacet();
+      } else {
+        this.createFacet();
+      }
+    }
+    else{
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
   openModal() {
+    this.submitted = false;
     this.facetModalRef = this.facetModalPouup.open();
   }
   closeModal() {
     if (this.facetModalRef && this.facetModalRef.close) {
       this.facetModalRef.close();
     }
+    this.submitted = false;
     this.resetDefaults();
     this.addEditFacetObj = null;
     this.selectedFieldId = null;
@@ -705,6 +725,29 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.facets = JSON.parse(JSON.stringify(tempFacets));
   }
 
+  validateFacetSize(event){
+    if(event.target.value && event.target.value > 0){
+      // if(event.target.value > 20){
+      //   this.addEditFacetObj.facetValue.size = 20;
+      // }
+    }
+    else{
+      this.addEditFacetObj.facetValue.size = 1;
+      return;
+    }
+  }
+  focusoutSearch(){
+    if(this.activeClose){
+      this.searchfacet='';
+      this.activeClose = false;
+     }
+ this.showSearch= !this.showSearch;
+}
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+    },100)
+  }
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();

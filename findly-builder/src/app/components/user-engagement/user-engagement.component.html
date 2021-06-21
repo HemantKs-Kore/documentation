@@ -1,5 +1,6 @@
 <div class="main-metrics-container">
     <div class="header-sec row m-0 col-12">
+        <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <div class="bread-cum-sec col-3 p-0 d-flex align-items-center">
             <div class="bread-name">{{'metrics.analytics'| translate}}</div>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
@@ -79,7 +80,7 @@
                             </div>
                         </div>
                         <div class="kr-sg-dropdowns filter-dropdown" ngbDropdown [placement]="'bottom-right'">
-                            <div class="dropdown dropdown-open">
+                            <!-- <div class="dropdown dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img
                                         src="assets/icons/filter.svg"></button>
                                 <ul class="dropdown-menu content-menu m-0" ngbDropdownMenu>
@@ -92,7 +93,7 @@
                                         <label for="checkbox_12" class="checkbox-custom-label">Full Search</label>
                                     </div>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                         <div echarts [options]="userEngagementChartData" class="demo-chart-graphMode"></div>
                     </div>
@@ -107,8 +108,8 @@
                                     <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="Volume of users that performed at different hours of the day" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"> <span class="toatlsearches"></span></div>
                             </div>
                         </div>
-                        <div echarts [options]="heatMapChartOption" class="demo-chart-graphMode"></div>
-                        <div class="d-flex justify-content-between mt-1">
+                        <div echarts [options]="heatMapChartOption" class="demo-chart-graphMode" style="z-index : 1"></div>
+                        <div class="d-flex justify-content-between mt-1" style="margin-top:-2% !important">
                             <!-- <ng5-slider [(value)]="durationRange1" [(highValue)]="durationRange2" [options]="durationOptions" class="double_slider slider1" (userChangeEnd)="onUserChangeEnd('duration', $event, 'slider1')" (userChange)="onUserChange($event, 'slider1', true)"></ng5-slider> -->
                             <div class="row m-0 bottom-row col-12 ">
                                 <div class="slider-sec col-6 p-0">
@@ -120,7 +121,7 @@
                                 </div>
                                 <div class="legend-sec col-6 p-0">
                                     <div class="title">{{'metrics.user_engagement.Volume_Of_Users'| translate}}</div>
-                                    <div class="legends-info">
+                                    <!-- <div class="legends-info">
                                         <div class="one">
                                             <div class="bg-color"></div>
                                             <div class="numbers">{{4* maxHeatValue/5}} - {{maxHeatValue}}</div>
@@ -141,21 +142,21 @@
                                             <div class="bg-color"></div>
                                             <div class="numbers">{{minHeatValue}} - {{maxHeatValue/5}}</div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 row m-0 p-0">
-                    <div class="col-6 box-content">
-                        <div class="full-card">
+                    <div class="col-6 box-content" >
+                        <div class="full-card"  [ngStyle]="{'opacity':isyAxisGeodata?'unset':'0.3','pointer-events':isyAxisGeodata?'auto':'none'}">
                             <div class="title-card">{{'metrics.user_engagement.GEO'| translate}}</div>
                             <div echarts [options]="geoBar" class="demo-chart-graphMode"></div>
                         </div>
                     </div>
                     <div class="col-6 box-content">
-                        <div class="full-card">
+                        <div class="full-card"  [ngStyle]="{'opacity':isyAxismostUsedBrowserdata?'unset':'0.3','pointer-events':isyAxismostUsedBrowserdata?'auto':'none'}">
                             <div class="title-card">{{'metrics.user_engagement.Most_Used_Browsers'| translate}}</div>
                             <div echarts [options]="mostUsedBrowserBar" class="demo-chart-graphMode"></div>
                         </div>

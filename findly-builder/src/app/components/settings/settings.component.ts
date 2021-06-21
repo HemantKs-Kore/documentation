@@ -15,15 +15,18 @@ export class SettingsComponent implements OnInit {
   slider = 0;
   refId = "";
   botID = '';
-  enableConfiguration=true;
-  showPassword:boolean;
+  enableConfiguration = true;
+  showPassword: boolean;
   configuredBot_streamId = "";
   selectedApp: any;
   serachIndexId: any;
   addCredentialRef: any;
   listData: any;
   firstlistData;
-  showSearch;
+  showSearch = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
+  activeClose = false;
   searchchannel: any = '';
   isAlertsEnabled: boolean;
   showError: boolean = false;
@@ -35,9 +38,10 @@ export class SettingsComponent implements OnInit {
     name: "",
     anonymus: true,
     register: true,
-    awt: 'Select Signing Algorithm',
+    awt: 'HS256',
     enabled: false
   };
+  componentType: string = 'addData';
   channels = [
     {
       id: 'rtm',
@@ -73,7 +77,7 @@ export class SettingsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
 
     // this.getCredential();
-    this.getdialog();
+    // this.getdialog();
     this.getLinkedBot();
     this.prepareChannelData();
 
@@ -316,28 +320,32 @@ export class SettingsComponent implements OnInit {
       streamId: this.selectedApp._id
     }
 
-    this.service.invoke('get.linkedBot', queryParams).subscribe(
+    this.service.invoke('get.streamData', queryParams).subscribe(
       res => {
         if (res.configuredBots.length) this.configuredBot_streamId = res.configuredBots[0]._id
         console.log(res);
-        res.configuredBots.forEach(element => {
-          let obj = {
-            "_id": element._id,
-            "state": "new"
-          }
-          this.allBotArray.push(obj);
-        });
-        res.unpublishedBots.forEach(element => {
-          let obj = {
-            "_id": element._id,
-            "state": "delete"
-          }
-          this.allBotArray.push(obj);
-        });
+        if (res && res.configuredBots) {
+          res.configuredBots.forEach(element => {
+            let obj = {
+              "_id": element._id,
+              "state": "new"
+            }
+            this.allBotArray.push(obj);
+          });
+        }
+        if (res && res.unpublishedBots) {
+          res.unpublishedBots.forEach(element => {
+            let obj = {
+              "_id": element._id,
+              "state": "delete"
+            }
+            this.allBotArray.push(obj);
+          });
+        }
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+          // this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed to get LInked BOT', 'error');
         }
@@ -430,7 +438,7 @@ export class SettingsComponent implements OnInit {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
-          this.notificationService.notify('Failed get DialogID', 'error');
+          // this.notificationService.notify('Failed get DialogID', 'error');
         }
       }
     );
@@ -460,7 +468,7 @@ export class SettingsComponent implements OnInit {
         this.workflowService.selectedApp(this.selectedApp);
         this.notificationService.notify('Credential Configured', 'success');
         this.prepareChannelData();
-        this.standardPublish();
+        //this.standardPublish();
         this.configFlag = true;
 
         console.log(res);
@@ -492,15 +500,25 @@ export class SettingsComponent implements OnInit {
   showPasword() {
     var show: any = document.getElementById("password");;
     if (show.type === "password") {
-      this.showPassword=true;
+      this.showPassword = true;
       show.type = "text";
 
     } else {
-      this.showPassword= false;
+      this.showPassword = false;
       show.type = "password";
     }
   }
-
-
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchchannel = '';
+      this.activeClose = false;
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
+  }
 }
 

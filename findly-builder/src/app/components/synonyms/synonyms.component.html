@@ -11,12 +11,14 @@
         <div class="col-4 p-0">Synonyms</div>
 
         <div class="col-8 right-sec p-0">
-          <div class="kr-sg-input-text m-0" [ngClass]="{'active': showSearch}">
-            <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources'
-              placeholder="Search" id="fieldSearchId" [(ngModel)]="synonymSearch">
+          <div class="kr-sg-input-text m-0"  [ngClass]="{'d-none': !showSearch}">
+              <input type="text" placeholder="Search" id="inputSearch" class="input-search" [ngClass]="{'pl-33':!synonymSearch,'pl-2':synonymSearch}" autocomplete="off" [(ngModel)]="synonymSearch" (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+              (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+          <img [src]="searchImgSrc" class="search-icon" *ngIf="!synonymSearch">
+          <img class="close-icon" *ngIf="synonymSearch" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':synonymSearch}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="synonymSearch='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
           </div>
-          <div class="seach-block" *ngIf="!emptyItems && (synonymData && synonymData.length) && !loadingContent"  (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img
-              *ngIf="showSearch" src="assets/images/close.svg">Search
+          <div class="seach-block" *ngIf="!emptyItems && (synonymData && synonymData.length) && !loadingContent"  (click)="showSearch=!showSearch;focusinSearch('inputSearch')">
+              <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
           </div>
           <div class="add_feild" *ngIf="!emptyItems && (synonymData && synonymData.length) && !loadingContent" (click)='enableAddNewSynonymBtn()'><img src="assets/icons/add_plus.svg">Add Synonym
           </div>
@@ -55,14 +57,15 @@
       </div>
       <div class="keyword row m-0" *ngIf="newSynonymObj.type==='oneWaySynonym'">
         <div class="kr-sg-input-text">
-          <input type="text" id="synonymName" name="synonymName" autocomplete="off"  (click)="synonymChanged()" [(ngModel)]="newSynonymObj.keyword"
+          <input [class.err-block]="((!newSynonymObj.keyword || !newSynonymObj.keyword.length) && submitted)" type="text" id="synonymName" name="synonymName" autocomplete="off"  (click)="synonymChanged()" [(ngModel)]="newSynonymObj.keyword"
             [ngModelOptions]="{standalone: true}" placeholder="Search Term" required class="input-text">
+            <img *ngIf="(!newSynonymObj.keyword || !newSynonymObj.keyword.length) && submitted" id="searchTermWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
         </div>
       </div>
 
       <div class="tags row m-0"  *ngIf="newSynonymObj.type==='synonym'">
         <div class="chip-sys-data">
-          <mat-form-field class="example-chip-list" [floatLabel]="'never'">
+          <mat-form-field class="example-chip-list" [class.err-block]="((!synonymObj.values || !synonymObj.values.length) && submitted)" [floatLabel]="'never'">
             <mat-chip-list #chipList>
               <mat-chip *ngFor="let syn of newSynonymObj.values" [selectable]="selectable" [removable]="removable"
                 (removed)="remove(syn)"><span *ngIf="syn">{{syn}}</span>
@@ -73,6 +76,7 @@
                 (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.values"
                 [ngModelOptions]="{standalone: true}"   autocomplete="off">
             </mat-chip-list>
+            <img *ngIf="(!synonymObj.values || !synonymObj.values.length) && submitted" id="valuesWarningWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
           </mat-form-field>
         </div>
       </div>
@@ -80,7 +84,7 @@
 
       <div class="tags row m-0"  *ngIf="newSynonymObj.type==='oneWaySynonym'">
         <div class="chip-sys-data">
-          <mat-form-field class="example-chip-list" [floatLabel]="'never'">
+          <mat-form-field class="example-chip-list" [class.err-block]="((!synonymObj.values || !synonymObj.values.length) && submitted)" [floatLabel]="'never'">
             <mat-chip-list #chipList>
               <mat-chip *ngFor="let syn of newSynonymObj.values" [selectable]="selectable" [removable]="removable"
                 (removed)="remove(syn)"><span *ngIf="syn">{{syn}}</span>
@@ -91,6 +95,7 @@
                 (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.values"
                 [ngModelOptions]="{standalone: true}" autocomplete="off">
             </mat-chip-list>
+            <img *ngIf="(!synonymObj.values || !synonymObj.values.length) && submitted" id="oneWayValuesWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
           </mat-form-field>
         </div>
       </div>
@@ -99,9 +104,8 @@
           <button class="kr-sg-button-secondary btn_lg"
             (click)="cancleAddSynonyms()">{{'synonyms.cancel_it' | translate}}</button>
           <button class="kr-sg-button-primary btn_lg"
-            [disabled]="!newSynonymObj || (newSynonymObj.values && !newSynonymObj.values.length) || ((newSynonymObj.type === 'oneWaySynonym') && (!newSynonymObj.keyword))"
             (click)="addNewSynonyms(synonymObj)">{{'synonyms.save' | translate}}</button>
-
+          <!-- [disabled]="!newSynonymObj || (newSynonymObj.values && !newSynonymObj.values.length) || ((newSynonymObj.type === 'oneWaySynonym') && (!newSynonymObj.keyword))" -->
         </div>
       </div>
     </div>
@@ -114,7 +118,7 @@
       <div class="heading">{{'synonyms.no_synonyms_available_here' | translate}}</div>
       <div class="desc">{{'synonyms.please_add_synonyms'| translate}}</div> -->
 
-        <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()"src="assets/images/synonyms.empty-svg.svg"></div>
+        <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()"src="assets\images\synonymEmpty.svg"></div>
         <ng-container *ngIf="loadImageText">
             <div class="empty-title">You have not added any synonyms yet!</div>
             <div class="desc-text"> Synonyms are a set of equivalent words that are considered to expand search queries to improve findability. SearchAssist allows you to define synonym & one-way synonym.
@@ -158,19 +162,30 @@
             </div>
           </header> -->
           <header class="table-header">
-            <div class="col-8 title-header"><img src="assets/icons/sort_up_down.svg">{{'synonyms.terms'| translate}}
+            <div class="col-6 title-header">
+              <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('name')">
+                <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                <img  [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+              <!-- <img src="assets/icons/sort_up_down.svg"> --></span>
+              {{'synonyms.terms'| translate}}
             </div>
-            <div class="col-4 title-header"><img src="assets/icons/sort_up_down.svg">{{'synonyms.type'| translate}}
+            <div class="col-6 title-header">
+              <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('type')">
+                <img  [ngClass]="getSortIconVisibility('type', 'down')"src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                <img  [ngClass]="getSortIconVisibility('type', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+          </span>
+              <!-- <img src="assets/icons/sort_up_down.svg"> -->
+              {{'synonyms.type'| translate}}
               <span class="kr-sg-dropdowns" #t='ngbDropdown' ngbDropdown [placement]="'bottom-center'">
                 <div class="dropdown dropdown-open">
                   <img src="assets/icons/synonyms_sort_dropdown.svg" ngbDropdownToggle>
                   <ul class="dropdown-menu content-menu synonyms_sort_dropdown" ngbDropdownMenu>
                     <li (click)="selectFilter(null);t.close();">{{'synonyms.All' | translate}}<img
                         *ngIf="!(selectedFilter)"  class="pl-2" src="assets/icons/check-blue.svg"></li>
-                    <li (click)="selectFilter('oneWaySynonym');t.close();" *ngIf="showoneWaySynonym">
+                    <li (click)="selectFilter('oneWaySynonym');t.close();" *ngIf="filteroneWaySynonym">
                       {{'synonyms.one_way_synonym' | translate}}<img class="pl-2"
                         *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg"></li>
-                    <li *ngIf="showSynonym" (click)="selectFilter('synonym');t.close();">{{'synonyms.synonym'| translate}}<img class="pl-2"
+                    <li *ngIf="filterSynonym" (click)="selectFilter('synonym');t.close();">{{'synonyms.synonym'| translate}}<img class="pl-2"
                         *ngIf="(selectedFilter === 'synonym')" src="assets/icons/check-blue.svg"></li>
                   </ul>
                 </div>
@@ -235,7 +250,7 @@
                 </div>
               </div>
               <ng-container *ngIf="currentEditIndex !== i">
-                <div class="col-8 data_content">
+                <div class="col-6 data_content">
                   <span class="one_way_sys" *ngIf="synonym.type === 'oneWaySynonym'">
                     <span class="synonym font-weight-bold">{{synonym.keyword}}</span>
                     <img src="assets/icons/oneWayArrow.svg">
@@ -249,7 +264,7 @@
                       src="assets/icons/twoWayArrow.svg">
                   </span>
                 </div>
-                <div class="col-4 data_content">
+                <div class="col-6 data_content">
                   <span *ngIf="synonym.type === 'oneWaySynonym'"
                     class="title_data">{{'synonyms.one_way_synonym'| translate}}</span>
                   <span *ngIf="!(synonym.type === 'oneWaySynonym')"

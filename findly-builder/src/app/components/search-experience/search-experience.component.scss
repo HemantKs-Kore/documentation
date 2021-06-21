@@ -14,17 +14,19 @@
             .nav-item{
                 margin-bottom: 0;
                 margin-right: 60px;
-                pointer-events: none;
+                cursor: pointer;
                 .nav-link{
                     padding: 0;
                     border: 0;
                     border-radius: 0;
                     display: flex;
                     align-items: center;
+                    cursor: pointer;
+                  
                     &.active{
                         .active-steps{
                             border: 1px solid #0D6EFD;
-                        }
+                        }                    
                         .name{                            
                             &::before{
                                 content: "";                               
@@ -179,9 +181,13 @@
                                 left: 85px;
                             }
                         }
-                        &.button-tour{
+                        &.button-tour-top{
                             left: auto;
-                            right: 75px;
+                            right: 400px;
+                        }
+                        &.button-tour-bottom{
+                            left: auto;
+                            right: 520px;
                         }
                         &::before{
                             content: "";
@@ -227,49 +233,113 @@
                     }
                     .kr-sg-input-search{
                         width: 700px;
-                        margin-right: 15px;
+                        margin-right: 15px;                        
                         .inside-input-btn{
                             position: absolute;
                             top: 3px;
                             right: 4px;
                             height: 28px;
                         }
-                        .placeholder-custom-search{
-                            position: absolute;                         
-                            width: 200px;                            
-                            max-width: initial;                           
-                            height: 20px;
-                            top: 7px;
-                            border-radius: 0;
-                            left: 38px;
-                            padding: 0;
-                            background: #fff;
-                            border: 1px solid transparent;
-                            outline: 0 !important;
-                            max-width: calc(100% - 55px);
-                            &:hover{
-                                border: 1px solid #0D6EFD;
-                                background: #E7F1FF;
-                            }
-                            &.activeBox{
-                                border: 1px solid #0D6EFD;
-                                background: #E7F1FF;
-                            }
-                        }
+                        
                         &.added-tour{
                             z-index: 1;
                             pointer-events: none;
                         }
-                        .input-search{
-                            padding: 0 15px 0 36px;
-                            &:hover{
-                                border: 1px solid #0D6EFD;
-                                background: #E7F1FF;
+                        .hover-search-icon{                            
+                            .hover-action-edit-icon-search{
+                                position: absolute;
+                                right: 0;
+                                top: -22px;
+                                display: none;
+                                cursor: pointer;
+                                padding-bottom: 10px;
                             }
-                            &::placeholder{
-                                color: #BDC1C6 !important;
-                            }                            
+                            &:hover{
+                                .hover-action-edit-icon-search{
+                                    display: block;
+                                }
+                                .input-search{
+                                    border: 1px solid #0D6EFD !important;
+                                    background: #E7F1FF !important;
+                                }
+                            }
+                            .input-search{
+                                padding: 0 15px 0 36px;                                
+                                &::placeholder{
+                                    color: #BDC1C6 !important;
+                                }     
+                                &.activeBox{
+                                    border: 1px solid #0D6EFD !important;
+                                    background: #E7F1FF !important;                                                       
+                                }                       
+                            }
+                        }    
+                        
+                        .search-icon-hover-widget{
+                            position: absolute;
+                            left: 9px;
+                            top: 7px;                            
+                            &:hover{
+                                .hover-action-edit-icon-search{
+                                    display: block;
+                                }
+                                .search-icon{                                                              
+                                    border: 1px solid #0D6EFD;
+                                    background: #E7F1FF;                                
+                                }
+                            }
+                            .hover-action-edit-icon-search{
+                                position: absolute;
+                                left: 16px;                                
+                                z-index: 1;
+                                cursor: pointer;
+                                display: none;
+                                padding-left: 5px;
+                            }
+                            .search-icon{
+                                position: relative;
+                                top: 0;
+                                left: 0;
+                            }
                         }
+
+                        .place-holder-widget{
+                            position: absolute;
+                            top: 7px;
+                            left: 40px;
+                            .hover-action-edit-icon-search{
+                                position: absolute;
+                                right: 36px;
+                                top: 0;
+                                display: none;
+                                cursor: pointer;
+                            }
+                            .placeholder-custom-search{                                                    
+                                width: 200px;                            
+                                max-width: initial;                           
+                                height: 20px;                                
+                                border-radius: 0;                                
+                                padding: 0;
+                                background: #fff;
+                                border: 1px solid transparent;
+                                outline: 0 !important;
+                                max-width: calc(100% - 55px);                                
+                                &.activeBox{
+                                    border: 1px solid #0D6EFD;
+                                    background: #E7F1FF;
+                                }
+                            }    
+                            &:hover{
+                                .hover-action-edit-icon-search{
+                                    display: block;
+                                }
+                                .placeholder-custom-search{
+                                    border: 1px solid #0D6EFD !important;
+                                    background: #E7F1FF !important;
+                                }                              
+                            }                       
+                        }
+
                         .placeholder-text{
                             position: absolute;
                             left: 37px;
@@ -279,16 +349,7 @@
                                 border: 1px solid #0D6EFD;
                                 background: #E7F1FF;
                             }
-                        }
-                        .search-icon{
-                            left: 9px;
-                            top: 9px;
-                            border: 1px solid transparent;
-                            &:hover{
-                                border: 1px solid #0D6EFD;
-                                background: #E7F1FF;
-                            }
-                        }
+                        }                                           
                         ::placeholder{
                             &:hover{
                                 border: 1px solid #0D6EFD;
@@ -359,7 +420,8 @@
                             border-radius: 4px;
                             width: 32px;
                             height: 32px;
-                            cursor: pointer;
+                            // cursor: pointer;
+                            cursor: default;
                             &.border-color-pallet{
                                 input{
                                     height: 1px;                                   
@@ -377,7 +439,8 @@
                                 padding: 0;
                                 height: 100%;
                                 border-radius: 4px;
-                                cursor: pointer;
+                                // cursor: pointer;
+                                cursor: default;
                             }
                         }
                     }
@@ -408,8 +471,7 @@
                             font-size: 12px;
                             line-height: 18px;
                             color:#07377F;
-                            margin-left: -8px;
-                            margin-right: -10px;
+                            width: 450px;                          
                         }
                         .title{
                             position: absolute;
@@ -523,25 +585,37 @@
                             float: right;
                             display: flex;
                             width: 270px;
+                            margin-top: 5px;
                             .bg-color-selected{
                                 background: #0D6EFD;
                                 border: 1px solid rgba(0, 0, 0, 0.1);
                                 box-sizing: border-box;
-                                border-radius: 4px;
+                                border-radius: 1px;
                                 width: 22px;
                                 height: 22px;
-                                margin: 10px;
+                                margin: 5px;
                             }                            
                         }
                         .save-switch{
                             position: absolute;
-                            right: 16px;
-                            bottom: 25px;
-                            color: #0D6EFD;
-                            font-weight: normal;
-                            font-size: 14px;
-                            line-height: 20px;
+                            right: 110px;
+                            bottom: 22px;
                             cursor: pointer;
+                            color: #202124;
+                            font-weight: normal;
+                            font-size: 12px;
+                            line-height: 20px;
+                        }
+                        .btn_apply_save{
+                            position: absolute;
+                            right: 16px;
+                            bottom: 20px;
+                            cursor: pointer;                                        
+                            border-radius: 4px;
+                            height: 24px;
+                            font-weight: normal;
+                            font-size: 12px;
+                            line-height: 20px;
                         }
                     }
                 }
@@ -664,12 +738,52 @@
                                             li{
                                                 &.emoji-type{
                                                     position: relative;
-                                                    margin: 5px;
+                                                    padding: 5px;
                                                     line-height: normal;
                                                     display: inline-block;
-                                                    width: 22px;
-                                                    height: 22px;
+                                                    width: 32px;
+                                                    height: 32px;
                                                     cursor: pointer;
+                                                    border-radius: 2px;
+                                                    transition: 0.2s all ease-in;
+                                                    &:hover{
+                                                        background: #EFF0F1;    
+                                                        .nestead-emojies{
+                                                            display: flex;
+                                                        }                                                    
+                                                    }
+                                                    .nestead-emojies{
+                                                        position: absolute;
+                                                        top: -33px;
+                                                        height: 32px;
+                                                        display: none;
+                                                        background: #EFF0F1;
+                                                        box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+                                                        border-radius: 4px;
+                                                        z-index: 9;
+                                                        align-items: center;
+                                                        left: 1px;
+                                                        transition: 0.2s all ease-in;
+                                                        .img-block{
+                                                            width: 32px;
+                                                            height: 32px;
+                                                            text-align: center;
+                                                            display: flex;
+                                                            align-items: center;
+                                                            justify-content: center;
+                                                            border-radius: 4px;
+                                                            transition: 0.2s all ease-in;
+                                                            &.selected-img{
+                                                                background: #F8F9FA;
+                                                            }
+                                                            &:hover{
+                                                                background: #F8F9FA;
+                                                            }
+                                                            img{
+
+                                                            }
+                                                        }                                                        
+                                                    }
                                                 }
                                             }
                                         }
@@ -755,24 +869,37 @@
                                         float: right;
                                         display: flex;
                                         width: 270px;
+                                        margin-top: 5px;
                                         .bg-color-selected{
+                                            background: #0D6EFD;
                                             border: 1px solid rgba(0, 0, 0, 0.1);
                                             box-sizing: border-box;
-                                            border-radius: 4px;
-                                            width: 32px;
-                                            height: 32px;
-                                            margin: 10px;
+                                            border-radius: 1px;
+                                            width: 22px;
+                                            height: 22px;
+                                            margin: 5px;
                                         }                            
                                     }
                                     .save-switch{
                                         position: absolute;
-                                        right: 16px;
-                                        bottom: 25px;
-                                        color: #0D6EFD;
-                                        font-weight: normal;
-                                        font-size: 14px;
-                                        line-height: 20px;
+                                        right: 110px;
+                                        bottom: 22px;
                                         cursor: pointer;
+                                        color: #202124;
+                                        font-weight: normal;
+                                        font-size: 12px;
+                                        line-height: 20px;
+                                    }
+                                    .btn_apply_save{
+                                        position: absolute;
+                                        right: 16px;
+                                        bottom: 20px;
+                                        cursor: pointer;                                        
+                                        border-radius: 4px;
+                                        height: 24px;
+                                        font-weight: normal;
+                                        font-size: 12px;
+                                        line-height: 20px;
                                     }
                                 }
                             }
@@ -1347,6 +1474,7 @@
     .slider-horizontal {
         .slider-tick {
             background: #0D6EFD !important;
+            display: none;
         }
         .slider-handle {
             background: #0D6EFD !important;
@@ -1361,4 +1489,10 @@
 }
 ::ng-deep .joyride-step__close{
     display: none;
+}
+.kr-sg-input-text{
+    input.input-text.err-block{
+        background-color: rgb(255, 255, 255);
+        border-color: rgb(221, 54, 70);
+    }
 }

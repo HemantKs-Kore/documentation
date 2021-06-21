@@ -1,43 +1,47 @@
 <div class="actions-container-comp">
-    <div class="header-title">Actions</div>
-
-    <perfect-scrollbar class="action-body-scroll">
-        <div class="actions-body-data"> 
-            <div class="group-radiobutton" [ngClass]="{'no-linked' : !botLinked }"> 
-                <!-- If it is no linked add this class "no-linked" or remove class -->
-                <div class="heading-title">Choose the Position of Bot Action Results</div>
-                <div class="kr-sg-radiobutton d-block"  (click)='topDownOrBottomUp("showTop")'>
-                    <input id="radio-32" name="radio" class="radio-custom" type="radio" checked> 
-                    <label for="radio-32" class="radio-custom-label">Show Actions at the Top</label>
-                    <div class="info-desc">The Bot results will be positioned at the top in the chat and Full page result view</div>
-                </div> 
-                <div class="kr-sg-radiobutton d-block"  (click)='topDownOrBottomUp("showBottom")'>
-                    <input id="radio-33" name="radio" class="radio-custom" type="radio">
-                    <label for="radio-33" class="radio-custom-label">Show Actions at the Bottom</label>
-                    <div class="info-desc">The Bot results will be positioned at the bottom in the chat and Full page result view</div>
-                </div> 
+    <div class="header-title">{{"actions.actions" | translate}}</div>
+    <div class="actions-body-data"> 
+        <div class="group-radiobutton" [ngClass]="{'no-linked' : !botLinked }"> 
+            <!-- If it is no linked add this class "no-linked" or remove class -->
+            <div class="heading-title">{{"actions.choose_position" | translate}}</div>
+            <div class="kr-sg-radiobutton d-block" (click)='topDownOrBottomUp("showTop")'>
+                <input id="radio-32" name="radio" class="radio-custom" type="radio" checked> 
+                <label for="radio-32" class="radio-custom-label">{{"actions.actions_at_top" | translate}}</label>
+                <div class="info-desc">{{"actions.top_bot_result_info" | translate}}</div>
             </div> 
+            <div class="kr-sg-radiobutton d-block" (click)='topDownOrBottomUp("showBottom")'>
+                <input id="radio-33" name="radio" class="radio-custom" type="radio">
+                <label for="radio-33" class="radio-custom-label">{{"actions.actions_at_bottom" | translate}}</label>
+                <div class="info-desc">{{"actions.bottom_bot_result_info" | translate}}</div>
+            </div> 
+        </div> 
+        <div class="mainLoadingSpinner" *ngIf="loader" [@fadeInOutAnimation]>
+            <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+            <span class="please-wait-message">{{"please_wait" | translate}}</span>
+        </div>
+        <ng-container *ngIf="loadingBotContent">
             <div class="info-link-bot-notification" *ngIf="!botLinked">
                 <img src="assets/icons/actions/info.svg">
-                <div class="title-text">You need to Link Bot to Customize Actions</div>
-                <div class="link-bot-link" (click)="openActions()">Link a Bot</div>
+                <div class="title-text">{{"actions.link_bot_to_customize_actions" | translate}}</div>
+                <div class="link-bot-link" (click)="openActions()">{{"actions.link_a_bot" | translate}}</div>
             </div>
-
-            <div class="preview-bolock" *ngIf="botLinked" >
-                <div class="preview-heading">Preview</div>
+        </ng-container>
+        <ng-container *ngIf="loadingBotContent1">
+            <div class="preview-bolock" *ngIf="botLinked">
+                <div class="preview-heading">{{"actions.preview" | translate}}</div>
                 <div class="display-preview-img" *ngIf="bottomActionsTop" >
                     <img src="assets/icons/actions/bottom-up-preview.svg">
                 </div>
-                <div class="display-preview-img">
-                    <img *ngIf="topActionsBottom" src="assets/icons/actions/actions-top.svg">
-                </div>
-                <div class="display-preview-img"  *ngIf="bottomActionsBottom">
+                <div class="display-preview-img" *ngIf="bottomActionsBottom">
                     <img src="assets/icons/actions/actions-bottom.svg">
                 </div>
-                <div class="display-preview-img"  *ngIf="topActionsTop">
+                <div class="display-preview-img" *ngIf="topActionsBottom" >
+                    <img src="assets/icons/actions/actions-top.svg">
+                </div>                
+                <div class="display-preview-img" *ngIf="topActionsTop">
                     <img src="assets/icons/actions/actions-top-1.svg">
                 </div>
             </div>
-        </div>
-    </perfect-scrollbar>
+        </ng-container>
+    </div>
 </div>
