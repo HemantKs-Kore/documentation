@@ -26,7 +26,7 @@
                     <div class="content-body" *ngFor="let weightModal of weights; let i = index">
                         <div class="col-2 name">
                             <div>
-                                <img class="pr-1" *ngIf="weightModal.showFieldWarning && (weightModal.showFieldWarning !== 'false')" src="assets/icons/info-blue.svg" [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip='{{fieldWarnings[weightModal.showFieldWarning] || weightModal.showFieldWarning}}'>                                {{weightModal.name}}
+                                <img class="pr-1" *ngIf="weightModal.showFieldWarning && (weightModal.showFieldWarning !== 'false')" src="assets/icons/info-blue.svg" tooltipClass="{{modifyFieldWarningMsg(weightModal.showFieldWarning)?'my-custom-warning-class':''}}" container="body" ngbTooltip='{{fieldWarnings[weightModal.showFieldWarning] || weightModal.showFieldWarning}}'>                                {{weightModal.name}}
                             </div>
                             <div class="pre_defined d-none" *ngIf="!weightModal.isField">{{'weights.SYSTEM-DEFINED'| translate}}</div>
                             <!-- <div class="pre_defined" *ngIf="!weightModal.isField">{{'weights.PRE-DEFINED'| translate}}</div> -->

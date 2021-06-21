@@ -171,8 +171,8 @@
                                     <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(facet)" type="checkbox">
                                     <label for="{{facet._id}}" class="checkbox-custom-label"></label>
                                 </div>
-                                <div class="title text-truncate" title="{{facet.facetName}}">
-                                    <img class="pr-1" *ngIf="facet.showFieldWarning && (facet.showFieldWarning !== 'false')" src="assets/icons/info-blue.svg" placement="left" [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip='{{fieldWarnings[facet.showFieldWarning] || facet.showFieldWarning}}'>{{facet.facetName}}                                    
+                                <div class="title text-truncate" >
+                                    <img class="pr-1" *ngIf="facet.showFieldWarning && (facet.showFieldWarning !== 'false')" src="assets/icons/info-blue.svg" placement="left" tooltipClass="{{modifyFieldWarningMsg(facet.showFieldWarning)?'my-custom-warning-class':''}}" container="body" ngbTooltip='{{fieldWarnings[facet.showFieldWarning] || facet.showFieldWarning}}' ><span title="{{facet.facetName}}"> {{facet.facetName}} </span>                              
                                 </div>
                             </div>
                             <div class="col-2 content pl-pr-17">{{facet.facetType | translate}}</div>

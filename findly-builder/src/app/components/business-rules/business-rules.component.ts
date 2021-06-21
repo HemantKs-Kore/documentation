@@ -917,4 +917,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       document.getElementById(inputSearch).focus();
     }, 100)
   }
+  modifyFieldWarningMsg(warningMessage){
+    let index = warningMessage.indexOf("changed");
+    if(index > -1){
+      return true;
+    }else{
+      return false;
+    }
+  }
 }
