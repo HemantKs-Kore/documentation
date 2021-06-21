@@ -299,8 +299,8 @@
                       <span *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" class="run-percentageDoneGrid" >{{ (resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].executionStats) ? resourcesStatusObj[source.jobId].executionStats.percentageDone : ''}} </span>
                     <span class="status-title"> {{"contentSource.in_progress" | translate}}</span>
                   </div>
-                  <div class="pages-count text-right" *ngIf="statusObj[source.recentStatus]?.name == 'Success'">
-                      <span class="count">{{source.numPages || '0'}}</span>{{"contentSource.pages" | translate}}
+                  <div class="pages-count text-right" *ngIf="statusObj[source.recentStatus]?.name == 'Success' || statusObj[source.recentStatus].name == 'Stopped'">
+                      <span class="count">{{source.numPages}}</span>{{"contentSource.pages" | translate}}
                   </div>
                   <div class="status text-right" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'">
                     <span class="img-block"><img src="assets/icons/content/failed-status.svg"></span>

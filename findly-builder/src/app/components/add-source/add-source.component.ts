@@ -830,7 +830,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
         // crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
         // crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
-        crawler.resourceType = this.selectedSourceType.resourceType;
+        // crawler.resourceType = this.selectedSourceType.resourceType;
         crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
         crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
         payload = { ...crawler };
