@@ -3280,3 +3280,57 @@ app-useronboarding-journey{
 .ml--10{
     margin-left: -10px !important;
 }
+
+
+.result-right-sec{
+    .carousel{
+        margin: 0;
+        width: 100%;
+        padding: 0 0px 0 11px;
+        z-index: -1;
+        .slide{
+            padding: 10px 5px;
+            img{
+                width: auto;
+            }
+        }
+        .purejscarousel-dots-container{
+            display: none !important;
+        }
+        .purejscarousel-btn{            
+            &.purejscarousel-btn-prev{
+                background-image: url("../../assets/icons/next-icon-carousel.svg");
+                border: 0;
+                background-repeat: no-repeat;
+                transform: rotate(180deg);
+                margin-top: -19px;
+                left: 0px;
+                padding: 5px 0;
+                text-align: center;
+                background-position: center;
+                background-color: #fff;
+                border: 1px solid #BDC1C6;
+                border-radius: 4px;
+                background-size: 10px;
+                height: 30px;
+                width: 30px;
+            }
+            &.purejscarousel-btn-next{
+                background-image: url("../../assets/icons/next-icon-carousel.svg");
+                background-repeat: no-repeat;
+                transform: none;
+                margin-top: -19px;
+                right: 0px;
+                padding: 5px 0;
+                text-align: center;
+                background-position: center;
+                background-color: #fff;
+                border: 1px solid #BDC1C6;
+                border-radius: 4px;
+                background-size: 10px;
+                height: 30px;
+                width: 30px;
+            }
+        }
+    }
+}
