@@ -154,9 +154,9 @@
                     </div>
                     <div class="d-inline-flex align-items-start">
                         <span class="outer-name mr-1 mb-1">{{"businessRules." + outcome.outcomeOperator | translate }}</span>
-                        <span class="tags-input mr-1 mb-1">{{ outcome.fieldName }}:
+                        <span class="tags-input mr-1 mb-1 outcome-tags-input">{{ outcome.fieldName }}:
                             <span *ngFor="let value of outcome.outcomeValue;let valueIndex = index"  container="body" ngbTooltip="{{value}}">{{ value }}
-                                <span *ngIf="valueIndex < outcome.outcomeValue.length - 1" class="divider mr-1 mb-1">{{ "or_caps" | translate }}</span>
+                                <span *ngIf="valueIndex < outcome.outcomeValue.length - 1" class="divider ">{{ "or_caps" | translate }}</span>
                             </span>
                         </span>
                     </div>
