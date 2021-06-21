@@ -154,13 +154,13 @@
                     </div>
                     <div class="d-inline-flex align-items-start">
                         <span class="outer-name mr-1 mb-1">{{"businessRules." + outcome.outcomeOperator | translate }}</span>
-                        <span class="tags-input mr-1 mb-1">{{ outcome.fieldName }}:
+                        <span class="tags-input mr-1 mb-1 outcome-tags-input">{{ outcome.fieldName }}:
                             <span *ngFor="let value of outcome.outcomeValue;let valueIndex = index"  container="body" ngbTooltip="{{value}}">{{ value }}
-                                <span *ngIf="valueIndex < outcome.outcomeValue.length - 1" class="divider mr-1 mb-1">{{ "or_caps" | translate }}</span>
+                                <span *ngIf="valueIndex < outcome.outcomeValue.length - 1" class="divider ">{{ "or_caps" | translate }}</span>
                             </span>
                         </span>
                     </div>
-                    <img class="pl-1 d-inline-flex" *ngIf="outcome.showFieldWarning && outcome.showFieldWarning !== 'false'" src="assets/icons/info-blue.svg" [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip="{{fieldWarnings[outcome.showFieldWarning] || outcome.showFieldWarning}}"
+                    <img class="pl-1 d-inline-flex" *ngIf="outcome.showFieldWarning && outcome.showFieldWarning !== 'false'" src="assets/icons/info-blue.svg"  container="body" ngbTooltip="{{fieldWarnings[outcome.showFieldWarning] || outcome.showFieldWarning}}" tooltipClass="{{modifyFieldWarningMsg(outcome.showFieldWarning)?'my-custom-warning-class':''}}"
                     />
                 </ng-container>
             </div>
@@ -283,7 +283,7 @@
                                                     <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType !== 'date') && (ruleObj.dataType !== 'number')">
                                                         <ng-container *ngFor="let value of ruleObj.value; let index = index">
                                                             <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)" [ngClass]="{'firstChip':index==0}">
-                                                                <span class="mat-val" *ngIf="value">{{value}}</span>
+                                                                <span class="mat-val" container="body" ngbTooltip="{{value}}" *ngIf="value">{{value}}</span>
                                                                 <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                             </mat-chip>
                                                             <span>OR</span>
@@ -293,7 +293,7 @@
                                                         <ng-container *ngFor="let value of ruleObj.value; let index = index">
                                                             <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)" [ngClass]="{'firstChip':index==0}">
                                                                 <span class="mat-val" *ngIf="value && value.length && checkIsArray(value)">
-                                  <span *ngFor="let num of value; let numIndex = index">{{num}}<span *ngIf="!numIndex"> - </span></span>
+                                  <span *ngFor="let num of value; let numIndex = index"  container="body" ngbTooltip="{{num}}">{{num}}<span *ngIf="!numIndex"> - </span></span>
                                                                 </span>
                                                                 <span class="mat-val" *ngIf="value && !checkIsArray(value)">
                                   <span >{{value}}</span>
@@ -330,11 +330,11 @@
                                                         <ng-container *ngFor="let value of ruleObj.value; let index = index">
                                                             <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)" [ngClass]="{'firstChip':index==0}">
                                                                 <span class="mat-val" *ngIf="value && value.length && checkIsArray(value)">
-                                                                    <span *ngFor="let date of value; let dateIndex = index">
+                                                                    <span *ngFor="let date of value; let dateIndex = index"  container="body" ngbTooltip="{{date | dateFormatPipe: 'DD MMM YYYY'}}">
                                                                         {{date | dateFormatPipe: 'DD MMM YYYY'}} <span *ngIf="!dateIndex"> - </span>
                                                                     </span>
                                                                 </span>
-                                                                <span class="mat-val" *ngIf="value  && !checkIsArray(value)">{{value | dateFormatPipe: 'DD MMM
+                                                                <span class="mat-val" *ngIf="value  && !checkIsArray(value)"  container="body" ngbTooltip="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value | dateFormatPipe: 'DD MMM
                                                                     YYYY'}}</span>
                                                                 <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                             </mat-chip>
@@ -481,7 +481,7 @@
                                             <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                                                 <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
                                                     <ng-container *ngFor="let value of outcomeObj.outcomeValue; let valueindex = index">
-                                                        <mat-chip [selectable]="selectable" (removed)="removeTag(outcomeObj.outcomeValue, tag,valueindex)" [ngClass]="{'firstChip':valueindex==0}"><span class="mat-val" *ngIf="value">{{value}}</span>
+                                                        <mat-chip [selectable]="selectable" (removed)="removeTag(outcomeObj.outcomeValue, tag,valueindex)" [ngClass]="{'firstChip':valueindex==0}"><span class="mat-val" *ngIf="value" container="body" ngbTooltip="{{value}}">{{value}}</span>
                                                             <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                         </mat-chip>
                                                         <span>OR</span>

@@ -753,4 +753,13 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
+
+  modifyFieldWarningMsg(warningMessage){
+    let index = warningMessage.indexOf("changed");
+    if(index > -1){
+      return true;
+    }else{
+      return false;
+    }
+  }
 }
