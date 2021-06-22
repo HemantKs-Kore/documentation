@@ -156,7 +156,7 @@ export class FieldManagementComponent implements OnInit {
             if (res && res.rules && res.rules.used) {
               usageText = usageText + ', ' + 'Weights'
             }else{
-              usageText = usageText + 'and ' + 'Weights.'
+              usageText = usageText + 'and ' + 'Weights'
             }
           } else {
             usageText = usageText + ' Weights'
@@ -165,18 +165,18 @@ export class FieldManagementComponent implements OnInit {
         if (res && res.rules && res.rules.used) {
           deps.rules = true;
           if (deps.facets || deps.weights) {
-            usageText = usageText + ' and ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s ':' ')
+            usageText = usageText + ' and ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
           } else {
-            usageText = usageText + ' ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s ':' ')
+            usageText = usageText + ' ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
           }
         }
 
         if (res && res.resultTemplates && res.resultTemplates.used) {
           deps.resultTemplate = true;
           if (deps.facets || deps.weights || deps.rules) {
-            usageText = usageText + 'and ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s.':'.');
+            usageText = usageText + ' and ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'');
           } else {
-            usageText = usageText + 'will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s.':'.')
+            usageText = usageText + ' will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
           }
         }
       }
@@ -209,34 +209,34 @@ export class FieldManagementComponent implements OnInit {
       }
       if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplate && res.resultTemplate.used)) {
         isDisableDeleteBtn = true;
-        usageText = 'Deleting ' + record.fieldName + ' field will impact the associated '
+        usageText = 'Deleting ' + record.fieldName + ' field will impact the associated'
         if (res && res.facets && res.facets.used) {
           deps.facets = true;
-          usageText = usageText + 'Facets '
+          usageText = usageText + ' Facets'
         }
         if (res && res.weights && res.weights.used) {
           deps.weights = true;
           if (deps.facets) {
-            usageText = usageText + '& ' + 'Weights '
+            usageText = usageText + '& ' + 'Weights'
           } else {
-            usageText = usageText + 'Weights '
+            usageText = usageText + ' Weights'
           }
         }
         if (res && res.rules && res.rules.used) {
           if (deps.facets || deps.weights) {
-            usageText = usageText + 'and will impact ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s ':' ')
+            usageText = usageText + ' and will impact ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
           } else {
-            usageText = usageText + 'and will impact ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s ':' ')
+            usageText = usageText + ' and will impact ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
           }
         }
         if (res && res.resultTemplates && res.resultTemplates.used) {
           deps.resultTemplate = true;
           if ((deps.facets || deps.weights) && deps.rules) {
-            usageText = usageText + 'and ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s.':'.')
+            usageText = usageText + ' and ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
           } else if ((deps.facets || deps.weights) && !deps.rules) {
-            usageText = usageText + 'and will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s.':'.')
+            usageText = usageText + ' and will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
           } else {
-            usageText = usageText + 'will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s.':'.')
+            usageText = usageText + ' will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
           }
         }
       }

@@ -268,13 +268,13 @@
                 <div class="label-text">Default Value (Optional)</div>
                 <input type="text" placeholder="Add Value Here" class="input-text" [(ngModel)]="newFieldObj.defaultValue">
             </div>
-            <div class="kr-sg-inline-notification" *ngIf="!newFieldObj.isIndexed">
+            <div class="kr-sg-inline-notification align-items-start" *ngIf="!newFieldObj.isIndexed">
                 <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                <div class="tost-text">Indexed Property has been set to False. {{indexedWarningMessage}}</div>                                   
+                <div class="tost-text">Indexed Property has been set to False. {{indexedWarningMessage?(indexedWarningMessage+'.'):indexedWarningMessage}}</div>                                   
             </div>
-            <div class="kr-sg-inline-notification" *ngIf="newFieldObj._id && (newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType)">
+            <div class="kr-sg-inline-notification align-items-start" *ngIf="newFieldObj._id && (newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType)">
                 <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                <div class="tost-text">The field type has been changed from {{newFieldObj.previousFieldDataType | translate}} to {{newFieldObj.fieldDataType | translate}}. {{indexedWarningMessage}}</div>                                   
+                <div class="tost-text">The field type has been changed from {{newFieldObj.previousFieldDataType | translate}} to {{newFieldObj.fieldDataType | translate}}. {{indexedWarningMessage?(indexedWarningMessage+'.'):indexedWarningMessage}}</div>                                   
             </div>
         </div>
     </div>
