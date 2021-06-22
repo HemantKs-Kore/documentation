@@ -223,13 +223,13 @@
             <div class="crawl-form-title" *ngIf="!resourceIDToOpen"></div>
             <div class="kr-sg-input-text mb-4">
               <div class="label-text">Source Title</div>
-              <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Title"
+              <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Title"
                 [(ngModel)]="newSourceObj.name" (change)="inputChanged('title')" class="input-text" required>
                <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
               </div>
             <div class="kr-sg-input-text-area mb-3"  *ngIf="!(selectedSourceType.sourceType==='faq')">
               <div class="label-text">Description</div>
-              <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc"
+              <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc"  maxlength="250" 
                 placeholder="Enter Description" class="input-text"></textarea>
             </div>
             <div *ngIf= "(selectedSourceType.resourceType === 'web')">
@@ -429,7 +429,7 @@
               <div class="inner-content row m-0 schedule-data">
                 <div class="col-12 p-0 input-paddings">
                   <div class="kr-sg-input-text">
-                    <input type="text" class="input-text pointer-none border-no" value="Schedule">
+                    <input type="text" class="input-text pointer-none border-no" value="Schedule" maxlength="60">
                   </div>
                   <label class="kr-sg-toggle">
                     <input type="checkbox" name="scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpt">
@@ -609,7 +609,7 @@
                       </span>
                     </div>
                     </div>
-                    <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0" (keyup)="checkValue(crawlDepth)"
+                    <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0" (keyup)="checkValue(crawlDepth)" maxlength="60"
                       [(ngModel)]="crawlDepth" class="input-text" >
                   </div>
                 </div>
@@ -625,7 +625,7 @@
                         </span>
                       </div>
                     </div>
-                    <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0" (keyup)="checkValue(maxUrlLimit)"
+                    <input type="url" autocomplete="off" id="maxUrlLimit" maxlength="60" name="maxUrlLimit" placeholder="0" (keyup)="checkValue(maxUrlLimit)"
                       [(ngModel)]="maxUrlLimit" class="input-text">
                   </div>
                 </div>
@@ -803,7 +803,7 @@
         <ng-container *ngIf="!noAssociatedBots">
           <div class="info-link-text">Choose any bot from the list to link it to your SearchAssist app.</div>
           <div class="kr-sg-input-text">          
-            <input type="text"placeholder="Search" [(ngModel)]="searchAssociatedBots" name="searchAssociatedBots" class="input-text"> 
+            <input type="text"placeholder="Search" [(ngModel)]="searchAssociatedBots" name="searchAssociatedBots" class="input-text" maxlength="60"> 
             <img class="search-icon" src="assets/images/search_gray.svg">        
           </div>
           <ng-container>
@@ -886,7 +886,7 @@
       <div class="kr-sg-input-text"> 
         <label class="label-text label-text-bot-link">Access Token</label> 
         <div class="w-75 position-relative d-inline-block">        
-          <input type="text"placeholder="Enter access token" [(ngModel)]="configurationLink.accessToken" name="accessToken" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.accessToken?.length && submitted)}"> 
+          <input type="text"placeholder="Enter access token" [(ngModel)]="configurationLink.accessToken" name="accessToken" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.accessToken?.length && submitted)}" maxlength="60"> 
           <img *ngIf="!configurationLink?.accessToken?.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
         </div>
         <div class="copy-btn" (click)="copy(configurationLink.accessToken)"><img src="assets/images/icons/copy.svg">Copy</div>
@@ -909,14 +909,14 @@
       <div class="kr-sg-input-text"> 
         <div class="w-75 position-relative">
         <label class="label-text label-text-bot-link">Bot Client ID</label>         
-        <input type="text"placeholder="Enter bot client ID" [(ngModel)]="configurationLink.clientId" name="botClientId" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.clientId?.length && submitted)}" > 
+        <input type="text"placeholder="Enter bot client ID" [(ngModel)]="configurationLink.clientId" name="botClientId" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.clientId?.length && submitted)}" maxlength="60" > 
         <img *ngIf="!configurationLink?.clientId?.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
       </div>
       </div>
       <div class="kr-sg-input-text"> 
         <label class="label-text label-text-bot-link">Bot Secret ID</label>    
         <div class="w-75 position-relative">
-          <input type="password" id="password" placeholder="Enter bot secret ID" [(ngModel)]="configurationLink.clientSecret" name="botSecreatId" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.clientSecret?.length && submitted)}"> 
+          <input type="password" id="password" placeholder="Enter bot secret ID" [(ngModel)]="configurationLink.clientSecret" name="botSecreatId" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.clientSecret?.length && submitted)}" maxlength="60"> 
           <img  (click)="showPasword()" *ngIf="!showPassword && configurationLink?.clientSecret?.length" src="assets/images/icons/eye.svg" class="eye" type="eye" >
           <img  (click)="showPasword()"   *ngIf="showPassword && configurationLink?.clientSecret?.length" src="assets/images/icons/viewPw.svg.svg"class="eye" type="eye" >
           <img *ngIf="!configurationLink?.clientSecret?.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 31%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
