@@ -57,7 +57,7 @@
                                 <div class="hover-action-edit-icon-search" (click)="selectSearchBox('placeholderText');$event.stopPropagation();closeAllBoxs('all');">
                                     <img src="assets/icons/border-pencil.svg">
                                 </div> 
-                                <input #elasticInput class="placeholder-custom-search" value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}" placeholder="search" [ngClass]="{'activeBox':selectSearch=='placeholderText'}" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor,'width.px': width,'background':'none'}" #data (change)="onEventLog('placeholderText',data.value);" (input)="resize()"> 
+                                <input #elasticInput maxlength="60" class="placeholder-custom-search" value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}" placeholder="search" [ngClass]="{'activeBox':selectSearch=='placeholderText'}" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor,'width.px': width,'background':'none'}" #data (change)="onEventLog('placeholderText',data.value);" (input)="resize()"> 
                             </div>                            
 
 
