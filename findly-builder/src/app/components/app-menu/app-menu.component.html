@@ -34,7 +34,7 @@
 										<input type ="text" class="edit-name" name="editIndexName" [(ngModel)]="editIndexNameVal" id="editIndexNameID" (click)="$event.stopPropagation()" (keypress)="onKeypressIndexEvent($event,config)">
 									</span>
 									<ng-template #indexName>
-										<span class="config_name text-truncate" title="{{config.name=='Default'?'Default Index':config.name}}">{{config.name=='Default'?'Default Index':config.name}}</span>
+										<span class="config_name text-truncate" placement="top-center" [container]="'body'" ngbTooltip="{{config.name=='Default'?'Default Index':config.name}}">{{config.name=='Default'?'Default Index':config.name}}</span>
 									</ng-template>
 									<div class="action-icons-data">
 										<div class="clone" *ngIf="!editIndexName" (click)="$event.stopPropagation();openIndexModalPopup('clone',config);selectIndexConfigDrop.close();" ngbTooltip='Clone' placement="top-center" [container]="'body'">
@@ -104,7 +104,7 @@
 											<input type ="text" class="edit-name" name="editName" [(ngModel)]="editNameVal" id="editNameID" (click)="$event.stopPropagation()" (keypress)="onKeypressEvent($event,config)">
 										</span>
 										<ng-template #name>
-											<span class="config_name text-truncate" title="{{config.name=='Default'?'Default Search':config.name}}">{{config.name=='Default'?'Default Search':config.name}}</span>
+											<span class="config_name text-truncate" placement="top-center" [container]="'body'"  ngbTooltip="{{config.name=='Default'?'Default Search':config.name}}">{{config.name=='Default'?'Default Search':config.name}}</span>
 										</ng-template>
 										<div class="action-icons-data">
 											<div class="clone" *ngIf="!editName" (click)="$event.stopPropagation();openModalPopup('clone',config);selectSearchConfigDrop.close();" ngbTooltip='Clone' placement="top-center" [container]="'body'">
