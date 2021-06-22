@@ -772,6 +772,105 @@
             }
         }
     }
+    &.contact-us-modal_{
+        .modal-dialog{
+            max-width: 100% !important;
+            width: 1116px;
+            .modal-content{
+                display: flex;
+                flex-direction: row;
+                .left-sec-form{
+                    display: flex;
+                    align-items: center;
+                    padding: 30px;
+                    background: #07377F;
+                    justify-content: center;
+                    width: 50%;
+                    .logo-searchassist{
+                        position: absolute;
+                        top: 30px;
+                        left: 30px;
+                    }
+                    .img-block-content{
+                        .title{
+                            font-weight: normal;
+                            font-size: 18px;
+                            line-height: 30px;
+                            color: #E7F1FF;
+                            width: 294px;
+                            margin: 5px auto;
+                            text-align: center;
+                        }
+                    }
+                }
+                .right-sec-form{
+                    width: 50%;
+                    .scroll-content{
+                        padding: 60px;
+                        .close_icon{
+                            text-align: right;
+                            position: absolute;
+                            top: 30px;
+                            right: 30px;
+                            cursor: pointer;
+                        }
+                        .label-text{
+                            font-weight: 500;
+                            font-size: 12px;
+                            line-height: 15px;
+                        }
+                        .kr-sg-input-text-area {
+                            textarea{
+                                resize: none;
+                                height: 90px;
+                                padding: 10px;
+                            }
+                        }
+                    }
+                }
+            }
+        }       
+    }
+    &.enterprise-plan-contact{
+        .modal-dialog{
+            height: 220px;
+            width: 625px;
+            background: #FFFFFF;            
+            border-radius: 8px;
+            .modal-content{
+                background: #FFFFFF;
+                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                .modal-header{
+                    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+                    border-radius: 4px;
+                    height: auto;
+                    padding: 12px 30px;
+                    .title{
+                        font-weight: 500;
+                        font-size: 18px;
+                        line-height: 22px;
+                        color: #202124;
+                    }
+                }
+                .modal-body{
+                    padding: 20px 30px !important;
+                    .title{
+                        font-weight: normal;
+                        font-size: 14px;
+                        line-height: 30px;
+                        color: #202124;
+                    }
+                }
+                .modal-footer{
+                    background: #FFFFFF;
+                    box-shadow: 0px -2px 4px rgba(32, 33, 36, 0.2);
+                    border-radius: 4px;
+                    padding: 10px 30px !important;
+                }
+            }
+        }
+    }
 
 }
 .above-modal-drop-class{

@@ -33,7 +33,7 @@
       <div class="radio-sec">
         <div class="radio_block">            
           <div class="kr-sg-radiobutton">
-            <input id="defaultStopWords" value="default" name="defaultStopWords" [(ngModel)]="stopWordsIntiType" class="radio-custom" type="radio" checked>
+            <input id="defaultStopWords" maxlength="60" value="default" name="defaultStopWords" [(ngModel)]="stopWordsIntiType" class="radio-custom" type="radio" checked>
             <label for="defaultStopWords" class="radio-custom-label">
               <div class="label_heading">{{'stopWords.default_stop_words'| translate}}</div>
               <div class="lable_dec">{{'Eg. if, me, I, can, don’t, not, won’t, should, would, isn’t, may, am, etc...'| translate}}</div>
@@ -82,7 +82,7 @@
         </div>         
         <div class="col-7 p-0 d-flex align-items-center justify-content-end"> 
           <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">                               
-            <input type="text" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchStopwords,'pl-2':searchStopwords}" autocomplete="off" [(ngModel)]="searchStopwords" (focusout)="focusoutSearch();" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+            <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchStopwords,'pl-2':searchStopwords}" autocomplete="off" [(ngModel)]="searchStopwords" (focusout)="focusoutSearch();" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
         <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchStopwords">
         <img class="close-icon" *ngIf="searchStopwords" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchStopwords}" (mouseover)="activeClose=true" (mouseout)="activeClose=false"  (click)="searchStopwords='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
