@@ -437,7 +437,9 @@ export class UpgradePlanComponent implements OnInit {
     getInvoice.subscribe(res => {
       if (this.overageData.overageShow) {
         for (let data of res) {
-          FileSaver.saveAs(data.viewInvoice + '&DownloadPdf=true', 'invoice_' + data._id + '.pdf');
+          setTimeout(() => {
+            FileSaver.saveAs(data.viewInvoice + '&DownloadPdf=true', 'invoice_' + data._id + '.pdf');
+          }, 1000)
         }
       }
       else {
