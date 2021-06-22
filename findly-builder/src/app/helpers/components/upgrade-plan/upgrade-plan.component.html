@@ -225,19 +225,54 @@
 </kr-modal>
 
 <!--contact us form popup-->
-<kr-modal modalType="center" modalClass="modal_popups_ chooseplan-price" #contactUsModel>
-  <div class="modal-header">
-    <div class="title">Contact Us Form</div>
-    <div class="close_icon"><img (click)="closeContatcusModel()" src="assets/icons/modal-close.svg"></div>
-  </div>
-  <perfect-scrollbar>
-    <div class="modal-body">
-      <div class="desc-text-info">
-        <span>Please enter contact us Details</span>. 
+<kr-modal modalType="center" modalClass="modal_popups_ contact-us-modal_ enterprise-plan-contact" #contactUsModel>
+  <ng-container *ngIf="false">
+    <div class="left-sec-form">
+      <div class="logo-searchassist">
+        <img src="assets/icons/pricing/logo.svg">
+      </div>
+      <div class="img-block-content">
+        <div class="img-block">
+          <img src="assets/icons/pricing/contactus.svg">
+        </div>
+        <div class="title">Try SearchAssist for an ultimate search experience</div>
       </div>
     </div>
-  </perfect-scrollbar>
-  <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg">Submit</button>
-  </div>
+    <div class="right-sec-form">
+      <perfect-scrollbar>
+        <div class="scroll-content">
+          <div class="close_icon"><img (click)="closeContatcusModel()" src="assets/icons/modal-close.svg"></div>
+          <div class="kr-sg-input-text mb-3">
+            <div class="label-text">Name</div>
+            <input type="text" placeholder="Name" class="input-text">
+          </div>
+          <div class="kr-sg-input-text mb-3">
+            <div class="label-text">Email</div>
+            <input type="text" placeholder="Email" class="input-text">
+          </div>
+          <div class="kr-sg-input-text mb-3">
+            <div class="label-text">Contact Number</div>
+            <input type="text" placeholder="Optional" class="input-text">
+          </div>
+          <div class="kr-sg-input-text-area mb-3">
+            <div class="label-text">Message</div>
+            <textarea placeholder="Optional" class="input-text"></textarea>
+          </div>
+          <button class="kr-sg-button-primary btn_lg">Submit Request</button>
+        </div>
+      </perfect-scrollbar>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="true">
+    <div class="modal-header">
+      <div class="title">Enterprise Plan</div>
+      <div class="close_icon"><img (click)="closeContatcusModel()" src="assets/icons/modal-close.svg"></div>
+    </div>
+    <div class="modal-body">
+      <div class="title">Thanks for providing the details. Our sales team will reach out soon!</div>
+    </div>
+    <div class="modal-footer text-right">
+      <button class="kr-sg-button-primary btn_lg">Done</button>
+    </div>
+  </ng-container>
 </kr-modal>
