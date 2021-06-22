@@ -176,7 +176,7 @@
               Stage Name
               <img container="body" placement="right-center" ngbTooltip="Give Stage Name of your choice to create multiple stages with the same Stage Type" tooltipClass="workbench_tolltips m-0" class="pl-1" src="assets/icons/help_gray.svg" />
             </div>
-            <input type="text" placeholder="Please Enter Stage Name" (keyup)="changesDetected = true" autocomplete="off"
+            <input type="text" placeholder="Please Enter Stage Name" maxlength="60" (keyup)="changesDetected = true" autocomplete="off"
               class="input-text" [(ngModel)]="selectedStage.name" />
           </div>
           <div class="kr-sg-input-text mb-2">
@@ -191,7 +191,7 @@
                 </span>
               </span>
             </div>
-            <input type="text" placeholder="Define Condition" (keyup)="changesDetected = true" autocomplete="off"
+            <input type="text" placeholder="Define Condition" maxlength="60" (keyup)="changesDetected = true" autocomplete="off"
               class="input-text" [(ngModel)]="selectedStage.condition" />
               <!-- <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div> -->
           </div>
@@ -267,7 +267,7 @@
                   <div class="label-text" *ngIf="map.operation === 'rename'">
                     Field Name
                   </div>
-                  <input type="text" placeholder="Enter Target" (keyup)="changesDetected = true" class="input-text"
+                  <input type="text" placeholder="Enter Target" maxlength="60" (keyup)="changesDetected = true" class="input-text"
                     [(ngModel)]="map.source_field" />
                 </div>
                 <div class="kr-sg-input-text col-4 input-box">
@@ -282,7 +282,7 @@
                     ">
                     Field Name
                   </div>
-                  <input type="text" placeholder="Enter Target" (keyup)="changesDetected = true" class="input-text"
+                  <input type="text" placeholder="Enter Target" maxlength="60" (keyup)="changesDetected = true" class="input-text"
                     [(ngModel)]="map.target_field" />
                 </div>
                 <div class="kr-sg-input-text col-4 input-box" (keyup)="changesDetected = true" *ngIf="
@@ -291,7 +291,7 @@
                     map.operation !== 'rename'
                   ">
                   <div class="label-text">Value</div>
-                  <input type="text" placeholder="Value" class="input-text" [(ngModel)]="map.value" />
+                  <input type="text" placeholder="Value" maxlength="60" class="input-text" [(ngModel)]="map.value" />
                 </div>
                 <div class="delete_icon" (click)="removeConfig(i, selectedStage.config.mappings)">
                   <img src="assets/icons/delete-table.svg" />
@@ -374,7 +374,7 @@
                 ">
                 Field Name
               </div>
-              <input type="text" placeholder="Enter Source Field" (keyup)="changesDetected = true" class="input-text"
+              <input type="text" placeholder="Enter Source Field" maxlength="60" (keyup)="changesDetected = true" class="input-text"
                 [(ngModel)]="
                   newMappingObj.field_mapping.defaultValue.source_field
                 " />
@@ -399,7 +399,7 @@
                 ">
                 Field Name
               </div>
-              <input type="text" placeholder="Enter Name" class="input-text" [(ngModel)]="
+              <input type="text" placeholder="Enter Name" class="input-text" maxlength="60" [(ngModel)]="
                   newMappingObj.field_mapping.defaultValue.target_field
                 " />
             </div>
@@ -421,7 +421,7 @@
                 ">
                 New Name
               </div>
-              <input type="text" placeholder="Value" class="input-text"
+              <input type="text" placeholder="Value" class="input-text" maxlength="60"
                 [(ngModel)]="newMappingObj.field_mapping.defaultValue.value" />
             </div>
             <div class="colse_form">
@@ -457,7 +457,7 @@
                 </div>
                 <div class="kr-sg-input-text col-4 input-box">
                   <div class="label-text">Source Field</div>
-                  <input type="text" placeholder="Value" (keyup)="changesDetected = true" class="input-text"
+                  <input type="text" placeholder="Value" maxlength="60" (keyup)="changesDetected = true" class="input-text"
                     [(ngModel)]="map.source_field" />
                 </div>
                 <div class="kr-sg-dropdowns col-4 input-box" *ngIf="selectedStage.type === 'semantic_meaning'">
@@ -568,7 +568,7 @@
                 </div>
                 <div class="kr-sg-input-text col-4 input-box">
                   <div class="label-text">Target Field</div>
-                  <input type="text" placeholder="Value" (keyup)="changesDetected = true" class="input-text"
+                  <input type="text" placeholder="Value" maxlength="60" (keyup)="changesDetected = true" class="input-text"
                     [(ngModel)]="map.target_field" />
                 </div>
                 <div class="delete_icon" (click)="removeConfig(i, selectedStage.config.mappings)">
@@ -584,7 +584,7 @@
             ">
             <div class="kr-sg-input-text col-4 input-box">
               <div class="label-text">Source Field</div>
-              <input type="text" placeholder="Value" class="input-text" [(ngModel)]="
+              <input type="text" placeholder="Value" class="input-text" maxlength="60" [(ngModel)]="
                   newMappingObj[selectedStage.type].defaultValue.source_field
                 " />
             </div>
@@ -712,7 +712,7 @@
             </div>
             <div class="kr-sg-input-text col-4 input-box">
               <div class="label-text">Target Field</div>
-              <input type="text" placeholder="Value" class="input-text" [(ngModel)]="
+              <input type="text" placeholder="Value" class="input-text" maxlength="60" [(ngModel)]="
                   newMappingObj[selectedStage.type].defaultValue.target_field
                 " />
             </div>
@@ -730,7 +730,7 @@
           <div class="customScript">
             <div class="kr-sg-input-text-area">
               <div class="label-text">&lt;/&gt;Painless</div>
-              <textarea placeholder="Please Enter Script" class="input-text" (keyup)="
+              <textarea placeholder="Please Enter Script" class="input-text" maxlength="250" (keyup)="
                   addCustomScript(
                     newMappingObj.custom_script.defaultValue.script
                   )
