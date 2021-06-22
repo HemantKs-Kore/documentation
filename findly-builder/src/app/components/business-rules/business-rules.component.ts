@@ -43,6 +43,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     selectAll: false,
     selectedItems: [],
   };
+  totalRecord:number = 0;
   activeClose = false;
   sortObj: any = {}
   showSearch = false;
@@ -159,6 +160,17 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         this.getFieldAutoComplete(null, null);
       }
     }
+  }
+  searchByRule(){
+    if(this.searchRules){
+      this.getRules(null, this.searchRules);
+    } else {
+      this.getRules();
+      this.searchRules=''
+    }
+  }
+  paginate(event) {
+    this.getRules(event.skip,this.searchRules)
   }
   createNewRule() {
     this.addEditRuleObj = {
@@ -609,6 +621,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         if(this.filterSystem.isRuleActiveFilter == 'all'){
           this.rules.push(res);
         }
+        if(this.searchRules){
+          this.getRules(null,this.searchRules);
+        }
         this.beforeFilterRules.push(res);
         this.isRuleActiveArr = [];
         this.beforeFilterRules.forEach(element => {
@@ -652,16 +667,22 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'Failed to get fields');
     });
   }
-  getRules(offset?) {
+  getRules(offset?,searchRules?) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       offset: offset || 0,
-      limit: 100
+      limit: 10
     };
-    this.service.invoke('get.businessRules', quaryparms).subscribe(res => {
+    let serviceId = 'get.businessRules';
+    if(searchRules){
+      quaryparms.search = searchRules;
+      serviceId = 'get.searchedBusinessRules';
+    }
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
       this.rules = res.rules || [];
+      this.totalRecord = res.totalCount || 0;
       this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
       this.loadingContent = false;
       if (this.rules.length) {
@@ -725,6 +746,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           return pg._id === rule._id;
         })
         this.rules[editRule] = res;
+        if(this.searchRules){
+          this.getRules(null,this.searchRules);
+        }
         this.beforeFilterRules[editRule] = res;
         this.isRuleActiveArr = [];
         this.beforeFilterRules.forEach(element => {
@@ -814,7 +838,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       if (dialogRef && dialogRef.close) {
         dialogRef.close();
       }
-      this.getRules();
+      this.getRules(null,this.searchRules);
       this.notificationService.notify('Deleted Successfully', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete rule');
@@ -909,6 +933,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (this.activeClose) {
       this.searchRules = '';
       this.activeClose = false;
+      this.getRules(null,this.searchRules)
     }
     this.showSearch = !this.showSearch;
   }

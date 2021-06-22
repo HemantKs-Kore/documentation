@@ -21,7 +21,7 @@
         </div>
         <div class="col-8 right-sec p-0" *ngIf=" !(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)">
             <div class="kr-sg-input-search" [ngClass]="{ 'd-none': !showSearch }">
-                <input type="text" placeholder="Search"  maxlength="60" id="inputSearch" class="input-search" [ngClass]="{'pl-33':!searchRules,'pl-2':searchRules}" autocomplete="off" [(ngModel)]="searchRules" (focusout)="focusoutSearch()" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                <input type="text" placeholder="Search"  maxlength="60" id="inputSearch" class="input-search" (keyup)="searchByRule()" [ngClass]="{'pl-33':!searchRules,'pl-2':searchRules}" autocomplete="off" [(ngModel)]="searchRules" (focusout)="focusoutSearch()" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                     (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                 <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchRules">
                 <img class="close-icon" *ngIf="searchRules" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchRules}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="searchRules='';toggleSearch(false)">
@@ -109,7 +109,8 @@
         
     </div>
     <perfect-scrollbar class="scroll_table">
-        <div class="body_sec row m-0" *ngFor="let ruleObj of rules | filter: [searchRules, 'ruleName']" [ngClass]="{
+        <!-- <div class="body_sec row m-0" *ngFor="let ruleObj of rules | filter: [searchRules, 'ruleName']" [ngClass]="{ -->
+            <div class="body_sec row m-0" *ngFor="let ruleObj of rules" [ngClass]="{
         selected:
           selcectionObj &&
           selcectionObj.selectedItems &&
@@ -176,6 +177,7 @@
         <div class="divBlockEmptylastChild text-center">
             <div class="desc">No search results found</div>
         </div>
+        <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
     </perfect-scrollbar>
     <div class="empty-rules" *ngIf="!loadingContent && !(rules && beforeFilterRules && beforeFilterRules.length)">
         <img src="assets/images/icons/empty_ill.svg" />
