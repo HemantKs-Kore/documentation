@@ -1040,5 +1040,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/invoices/:orderId',
       method: 'get'
     }
+    //request for enterprise plan
+    this.serviceList['post.enterpriseRequest'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/eplead',
+      method: 'post'
+    }
   }
 }
