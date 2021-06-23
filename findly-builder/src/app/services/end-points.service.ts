@@ -524,6 +524,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields?offset=:offset&limit=:limit',
       method: 'get'
     }
+    this.serviceList['get.allSearchField'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields?offset=:offset&limit=:limit&search=:search',
+      method: 'get'
+    }
     this.serviceList['get.getFieldById'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/:fieldId',
       method: 'get'
@@ -652,6 +656,11 @@ export class EndPointsService {
     this.serviceList['get.businessRules'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit',
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit',
+      method: 'get'
+    },
+    this.serviceList['get.searchedBusinessRules'] = {
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit&search=:search',
       method: 'get'
     },
       this.serviceList['create.businessRules'] = {
@@ -1039,6 +1048,11 @@ export class EndPointsService {
     this.serviceList['get.paidInvoiceDownload'] = {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/invoices/:orderId',
       method: 'get'
+    }
+    //request for enterprise plan
+    this.serviceList['post.enterpriseRequest'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/eplead',
+      method: 'post'
     }
   }
 }

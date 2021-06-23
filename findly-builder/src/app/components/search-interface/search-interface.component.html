@@ -1005,7 +1005,7 @@
           <!-- Tile with Image End -->
          
           <!-- Tile with Centered Content -->
-            <div class="result-right-sec with-centered-content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent' && customizeTemplateObj.template.searchResultlayout.clickable && !(customizeTemplateObj.template.type == 'Grid')">             
+            <div class="result-right-sec with-centered-content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent' && customizeTemplateObj.template.searchResultlayout.clickable && !(customizeTemplateObj.template.type == 'Grid') && !(customizeTemplateObj.template.type == 'Carousel')">             
               <div class="result-card">
                 <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
                 <div class="content-sec">
@@ -1057,7 +1057,7 @@
             </div>
 
             <!-- Preview For Title with Centered Content Clickable-->            
-            <div class="result-right-sec with-accordion-state tile_with_centered_content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent' && !customizeTemplateObj.template.searchResultlayout.clickable">             
+            <div class="result-right-sec with-accordion-state tile_with_centered_content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent' && !customizeTemplateObj.template.searchResultlayout.clickable && !(customizeTemplateObj.template.type == 'Carousel')">             
               <div id="accordion">
                 <div class="info-title">Collapsed state</div>
                 <div class="card-acc">
@@ -1171,23 +1171,27 @@
           <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && customizeTemplateObj.template.type == 'Carousel'">
             <div class="carousel" id="carousel-default">
               <div class="slide">
-                <div class="tile_with_header">
-                  <a class="tile-title">Check account statement</a>
+                <div class="result-card">
+                  <div class="r-title">{{preview_title}}</div>
+                  <div class="r-desc">{{preview_desc}}</div>
                 </div>
               </div>    
               <div class="slide">
-                <div class="tile_with_header">
-                  <a class="tile-title">Speak to an agent</a>
+                <div class="result-card">
+                  <div class="r-title">{{preview_title}}</div>
+                  <div class="r-desc">{{preview_desc}}</div>
                 </div>
               </div>  
               <div class="slide">
-                <div class="tile_with_header">
-                  <a class="tile-title">Check credit card eligibility</a>
+                <div class="result-card">
+                  <div class="r-title">{{preview_title}}</div>
+                  <div class="r-desc">{{preview_desc}}</div>
                 </div>
               </div>    
               <div class="slide">
-                <div class="tile_with_header">
-                  <a class="tile-title">Last 30 days transaction</a>    
+                <div class="result-card">
+                  <div class="r-title">{{preview_title}}</div>
+                  <div class="r-desc">{{preview_desc}}</div>
                 </div>
               </div>                                              
             </div>
@@ -1242,19 +1246,43 @@
             </div>
           </div>
 
-            <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent' && customizeTemplateObj.template.type == 'Carousel'">
+            <div class="result-right-sec tileWithCenteredContent" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent' && customizeTemplateObj.template.type == 'Carousel'">
               <div class="carousel" id="carousel-default">
-                <div class="slide tile_with_header grid_view_template">
-                  <a class="tile-title">Check account statement</a>
+                <div class="slide">
+                  <div class="result-card">
+                    <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">{{preview_title}}</div>
+                      <div class="r-desc">{{preview_desc}}.</div>
+                    </div>
+                  </div>
                 </div>
-                <div class="slide tile_with_header grid_view_template">
-                  <a class="tile-title">Speak to an agent</a>
+                <div class="slide">
+                  <div class="result-card">
+                    <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">{{preview_title}}</div>
+                      <div class="r-desc">{{preview_desc}}.</div>
+                    </div>
+                  </div>
                 </div>
-                <div class="slide tile_with_header grid_view_template">
-                  <a class="tile-title">Check credit card eligibility</a>
+                <div class="slide">
+                  <div class="result-card">
+                    <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">{{preview_title}}</div>
+                      <div class="r-desc">{{preview_desc}}.</div>
+                    </div>
+                  </div>
                 </div>
-                <div class="slide tile_with_header grid_view_template">
-                  <a class="tile-title">Last 30 days transaction</a>    
+                <div class="slide">
+                  <div class="result-card">
+                    <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">{{preview_title}}</div>
+                      <div class="r-desc">{{preview_desc}}.</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1262,25 +1290,25 @@
             <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'Carousel'">
               <div class="carousel" id="carousel-default">
                 <div class="slide">
-                  <div class="tile_with_header grid_view_template">
+                  <div class="tile_with_header">
                     <a class="tile-title">Check account statement</a>
                   </div>
-                </div>
+                </div>    
                 <div class="slide">
-                  <div class="tile_with_header grid_view_template">
-                    <a class="tile-title">Check account statement</a>
+                  <div class="tile_with_header">
+                    <a class="tile-title">Speak to an agent</a>
                   </div>
-                </div>
+                </div>  
                 <div class="slide">
-                  <div class="tile_with_header grid_view_template">
-                    <a class="tile-title">Check account statement</a>
+                  <div class="tile_with_header">
+                    <a class="tile-title">Check credit card eligibility</a>
                   </div>
-                </div>
+                </div>    
                 <div class="slide">
-                  <div class="tile_with_header grid_view_template">
-                    <a class="tile-title">Check account statement</a>
+                  <div class="tile_with_header">
+                    <a class="tile-title">Last 30 days transaction</a>    
                   </div>
-                </div>
+                </div>                                              
               </div>
             </div>
 <!-- Carousel UI Template Ends-->
