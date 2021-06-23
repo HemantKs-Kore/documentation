@@ -5118,7 +5118,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if(!data.isBotLocked){
               window.isBotLocked = true;
               _self.vars.searchObject.recents = data.recentSearches;
-              if(_self.vars.searchObject.recents.length){
+              if(!_self.vars.searchObject.recents){
+                _self.vars.searchObject.recents = [];
+              }
+              if(_self.vars.searchObject.recents && _self.vars.searchObject.recents.length){
                 if (!$('.search-container').hasClass('active')) {
                   $('.search-container').addClass('active');
                 }
