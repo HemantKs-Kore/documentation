@@ -417,3 +417,12 @@
         }
     }
 }
+
+::ng-deep .my-custom-warning-class .tooltip-inner {
+    max-width: 235px !important;
+    text-align: left !important;
+  }
+
+  ::ng-deep .text-left-warning .tooltip-inner {
+    text-align: left !important;
+  }

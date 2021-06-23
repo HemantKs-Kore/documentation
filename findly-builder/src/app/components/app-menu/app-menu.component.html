@@ -34,7 +34,7 @@
 										<input type ="text" class="edit-name" name="editIndexName" [(ngModel)]="editIndexNameVal" id="editIndexNameID" (click)="$event.stopPropagation()" (keypress)="onKeypressIndexEvent($event,config)">
 									</span>
 									<ng-template #indexName>
-										<span class="config_name text-truncate" title="{{config.name=='Default'?'Default Index':config.name}}">{{config.name=='Default'?'Default Index':config.name}}</span>
+										<span class="config_name text-truncate" placement="top-center" [container]="'body'" ngbTooltip="{{config.name=='Default'?'Default Index':config.name}}">{{config.name=='Default'?'Default Index':config.name}}</span>
 									</ng-template>
 									<div class="action-icons-data">
 										<div class="clone" *ngIf="!editIndexName" (click)="$event.stopPropagation();openIndexModalPopup('clone',config);selectIndexConfigDrop.close();" ngbTooltip='Clone' placement="top-center" [container]="'body'">
@@ -104,7 +104,7 @@
 											<input type ="text" class="edit-name" name="editName" [(ngModel)]="editNameVal" id="editNameID" (click)="$event.stopPropagation()" (keypress)="onKeypressEvent($event,config)">
 										</span>
 										<ng-template #name>
-											<span class="config_name text-truncate" title="{{config.name=='Default'?'Default Search':config.name}}">{{config.name=='Default'?'Default Search':config.name}}</span>
+											<span class="config_name text-truncate" placement="top-center" [container]="'body'"  ngbTooltip="{{config.name=='Default'?'Default Search':config.name}}">{{config.name=='Default'?'Default Search':config.name}}</span>
 										</ng-template>
 										<div class="action-icons-data">
 											<div class="clone" *ngIf="!editName" (click)="$event.stopPropagation();openModalPopup('clone',config);selectSearchConfigDrop.close();" ngbTooltip='Clone' placement="top-center" [container]="'body'">
@@ -377,7 +377,7 @@
 		</ng-container> 
 		<div class="kr-sg-input-text pt-3">
 			<div class="label-text">{{newConfigObj.method==='clone'?'Search Configuration Name':'Configuration Name'}}</div>
-			<input type="text" [ngClass]="{'err-block' : (!newConfigObj.name.length && submitted)}" placeholder="{{newConfigObj.method==='clone'?'Name the New Search Configuration':'Enter Name'}}" [(ngModel)]="newConfigObj.name" class="input-text">
+			<input type="text" maxlength="60" [ngClass]="{'err-block' : (!newConfigObj.name.length && submitted)}" placeholder="{{newConfigObj.method==='clone'?'Name the New Search Configuration':'Enter Name'}}" [(ngModel)]="newConfigObj.name" class="input-text">
 			<img *ngIf="!newConfigObj.name.length && submitted" id="searchNameWarning" src="assets/icons/warning_escalation.svg" style="top: 70%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
 		</div>	
 	</div>
@@ -419,7 +419,7 @@
 		</ng-container> 
 		<div class="kr-sg-input-text pt-4">
 			<div class="label-text">{{newIndexConfigObj.method==='clone'?'Index Configuration Name':'Name of Index Configuration'}}</div>
-			<input type="text" [ngClass]="{'err-block' : (!newIndexConfigObj.name.length && submitted)}" placeholder="{{newIndexConfigObj.method==='clone'?'Name the New Index Configuration':'Enter Name'}}" [(ngModel)]="newIndexConfigObj.name" class="input-text">
+			<input type="text" maxlength="60" [ngClass]="{'err-block' : (!newIndexConfigObj.name.length && submitted)}" placeholder="{{newIndexConfigObj.method==='clone'?'Name the New Index Configuration':'Enter Name'}}" [(ngModel)]="newIndexConfigObj.name" class="input-text">
 			<img *ngIf="!newIndexConfigObj.name.length && submitted" id="indexNameWarning" src="assets/icons/warning_escalation.svg" style="top: 72%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
 		</div>	
 	</div>

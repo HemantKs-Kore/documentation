@@ -27,7 +27,7 @@
                     <div class="current-plan-title" *ngIf="selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan"><img [src]="selectedPlan.status!='expired'?'assets/icons/pricing/check-round.svg':'assets/icons/pricing/Vector.svg'">{{selectedPlan.status!="expired"?("plan.current_plan"| translate):("plan.last_active_plan"| translate)}}</div>
                   </div>
                   <div class="card-desc" *ngFor="let info of plan.featureData" [hidden]="!(info.displayOnBanner)">{{info.displayText}}</div>
-                  <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):(selectedPlan.status=="expired"&&selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan)?("plan.reactivate_btn"| translate):("plan.choose_plan"| translate)}}</button>
+                  <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?openContactusModel():openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):(selectedPlan.status=="expired"&&selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan)?("plan.reactivate_btn"| translate):("plan.choose_plan"| translate)}}</button>
               </div>
               <div class="goto_details" (click)="gotoDetails(plan.name)">{{"plan.go_to_details"| translate}}</div>
             </div>
@@ -43,7 +43,7 @@
               <div class="title">{{plan.name}}</div>  
               <div class="plan-duration" *ngIf="plan.name!='Enterprise'&&plan.type!='free'">${{plan.planAmount}} / {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</div>
               <div class="plan-duration" *ngIf="plan.name=='Enterprise'">{{"plan.custom_pricing"| translate}}</div>
-              <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'" (click)="(plan.name==='Enterprise'||(plan.name==selectedPlan.planName&&termPlan==selectedPlan.billingUnit))?'':openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):("plan.choose_plan"| translate)}}</button>
+              <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'" (click)="(plan.name==='Enterprise'||(plan.name==selectedPlan.planName&&termPlan==selectedPlan.billingUnit))?openContactusModel():openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):("plan.choose_plan"| translate)}}</button>
             </div>
           </div>
           <!-- <span placement="top-center" [ngbTooltip]="feature[1].desc" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span> -->
@@ -222,4 +222,57 @@
   <div class="modal-footer text-right">
     <button class="kr-sg-button-primary btn_lg" (click)="closeChangePlanModel()">{{"plan.okay"| translate}}</button>
   </div>
+</kr-modal>
+
+<!--contact us form popup-->
+<kr-modal modalType="center" modalClass="modal_popups_ contact-us-modal_ enterprise-plan-contact" #contactUsModel>
+  <ng-container *ngIf="false">
+    <div class="left-sec-form">
+      <div class="logo-searchassist">
+        <img src="assets/icons/pricing/logo.svg">
+      </div>
+      <div class="img-block-content">
+        <div class="img-block">
+          <img src="assets/icons/pricing/contactus.svg">
+        </div>
+        <div class="title">Try SearchAssist for an ultimate search experience</div>
+      </div>
+    </div>
+    <div class="right-sec-form">
+      <perfect-scrollbar>
+        <div class="scroll-content">
+          <div class="close_icon"><img (click)="closeContatcusModel()" src="assets/icons/modal-close.svg"></div>
+          <div class="kr-sg-input-text mb-3">
+            <div class="label-text">Name</div>
+            <input type="text" placeholder="Name" class="input-text">
+          </div>
+          <div class="kr-sg-input-text mb-3">
+            <div class="label-text">Email</div>
+            <input type="text" placeholder="Email" class="input-text">
+          </div>
+          <div class="kr-sg-input-text mb-3">
+            <div class="label-text">Contact Number</div>
+            <input type="text" placeholder="Optional" class="input-text">
+          </div>
+          <div class="kr-sg-input-text-area mb-3">
+            <div class="label-text">Message</div>
+            <textarea placeholder="Optional" class="input-text"></textarea>
+          </div>
+          <button class="kr-sg-button-primary btn_lg">Submit Request</button>
+        </div>
+      </perfect-scrollbar>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="true">
+    <div class="modal-header">
+      <div class="title">Enterprise Plan</div>
+      <div class="close_icon"><img (click)="closeContatcusModel()" src="assets/icons/modal-close.svg"></div>
+    </div>
+    <div class="modal-body">
+      <div class="title">Thanks for providing the details. Our sales team will reach out soon!</div>
+    </div>
+    <div class="modal-footer text-right">
+      <button class="kr-sg-button-primary btn_lg">Done</button>
+    </div>
+  </ng-container>
 </kr-modal>

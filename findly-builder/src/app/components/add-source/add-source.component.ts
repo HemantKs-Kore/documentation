@@ -1619,7 +1619,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.getAssociatedBots();
           this.workflowService.linkBot(this.streamID);
           this.workflowService.smallTalkEnable(res.stEnabled);
+          this.closeLinkBotsModal()
           this.notificationService.notify("Bot Linked Successfully", 'success');
+          this.router.navigate(['/botActions'], { skipLocationChange: true });
           // this.syncLinkedBot();
           // this.loadingContent = false;
         },

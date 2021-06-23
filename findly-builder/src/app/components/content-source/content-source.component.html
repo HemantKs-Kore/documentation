@@ -70,9 +70,9 @@
         </div>
         <div>
           <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">
-            <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" [ngClass]="{'pl-2':searchSources}"
+            <input type="text" maxlength="60" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" [ngClass]="{'pl-2':searchSources}"
               id="searchContentSources" [(ngModel)]="searchSources" 
-              autocomplete="off"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')" (focusout)="focusoutSearch();"
+              autocomplete="off"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')" (focusout)="focusoutSearch(true);"
               (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
               <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
               <img class="close-icon" *ngIf="searchSources" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="searchSources='';showSearch = !showSearch">
@@ -382,12 +382,12 @@
             <div class="tabs-sec">
               <span class="tabname active" [ngClass] = "{'active' : page}" (click)="swapSlider('page')">{{"contentSource.pages" | translate}}</span>
               <span class="tabname" [ngClass] = "{'active' : isConfig}"(click)="swapSlider('config')">{{"contentSource.configuration" | translate}}</span>
-              <span class="tabname" *ngIf="executionHistoryData" [ngClass] = "{'active' : execution}" (click)="swapSlider('execution')">{{"contentSource.executions" | translate}}</span>
+              <span class="tabname" *ngIf="executionHistoryData && selectedSource.recentStatus != 'scheduled' && selectedSource.recentStatus != 'configured'" [ngClass] = "{'active' : execution}" (click)="swapSlider('execution')">{{"contentSource.executions" | translate}}</span>
             </div>
             <div class="right-side">
               <div  *ngIf="page">
                 <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">
-                  <input type="text" placeholder="Search" class="input-search" name='pagesSearch' placeholder="Search" [ngClass]="{'pl-2':pagesSearch}"
+                  <input type="text" maxlength="60" placeholder="Search" class="input-search" name='pagesSearch' placeholder="Search" [ngClass]="{'pl-2':pagesSearch}"
                     id="searchInput" [(ngModel)]="pagesSearch" 
                     autocomplete="off"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')" (focusout)="focusoutSearch();"
                     (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
@@ -456,13 +456,13 @@
                       <ng-container>
                         <div class="content-body align-items-start">
                           <div class="col_ col-2 text-truncate" *ngIf="!editTitleFlag" title="{{selectedSource.name}}">{{selectedSource.name}}</div>
-                          <div class="col_ col-2 text-truncate" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.title" (focusout)="editTitleFlag = false;selectedSource.name=editConfObj.title;"></div>
+                          <div class="col_ col-2 text-truncate" *ngIf="editTitleFlag"><input type="text" class="wid" maxlength="60" [(ngModel)] = "editConfObj.title" (focusout)="editTitleFlag = false;selectedSource.name=editConfObj.title;"></div>
                           <div class="col_ col-3 text-truncate" *ngIf="!editTitleFlag||(selectedSource.validations.url.validated&&selectedSource.recentStatus!='configured')" ngbTooltip="{{selectedSource.url}}"  container="body">{{selectedSource.url}}</div>
                           <div class="col_ col-3" *ngIf="editTitleFlag&&(!(selectedSource.validations.url.validated)||selectedSource.recentStatus=='configured')"><input type="text" class="wid" [(ngModel)] = "editConfObj.url" (focusout)="editTitleFlag = false;selectedSource.url=editConfObj.url;"></div>
                           <div class="col_ col-2 text-truncate" *ngIf="!editTitleFlag" ngbTooltip="{{selectedSource.desc}}"  container="body">{{selectedSource.desc}}</div>
                           <div class="col_ col-2" *ngIf="editTitleFlag">
                             <div class="kr-sg-input-text-area min-ht">
-                              <textarea class="wid min-ht" class="desc-text-area" [(ngModel)] = "editConfObj.desc" rows="2" (focusout)="editTitleFlag = false;selectedSource.desc=editConfObj.desc;"></textarea>
+                              <textarea class="wid min-ht" maxlength="250" class="desc-text-area" [(ngModel)] = "editConfObj.desc" rows="2" (focusout)="editTitleFlag = false;selectedSource.desc=editConfObj.desc;"></textarea>
                             </div>
                           </div>
                           <div class="col_ col-2 text-truncate" >{{selectedSource?.userDetails?.firstName}}
@@ -707,7 +707,7 @@
                         </span>
                       </div> 
                     </div>
-                    <input type="text" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0" min="0" (keyup)="checkValue(crawlDepth)"
+                    <input type="text" maxlength="60" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0" min="0" (keyup)="checkValue(crawlDepth)"
                       [(ngModel)]="crawlDepth" class="input-text" >
                   </div>
                 </div>
@@ -1155,14 +1155,14 @@
           <!-- <div class="col-2" *ngIf="!isEditDoc"><span>{{selectedSource.name}}</span></div> -->
           <div class="col-2" *ngIf="isEditDoc">
             <div class="kr-sg-input-text">
-              <input type="text" placeholder="Title" class="input-text" [(ngModel)] = "editDocObj.title">
+              <input type="text" maxlength="60" placeholder="Title" class="input-text" [(ngModel)] = "editDocObj.title">
           </div>
           </div>
           <!-- <div class="col-2" *ngIf="selectedSource.fileMeta">{{selectedSource.fileMeta.fileName || '---'}}</div> -->
           <!-- <div class="col-2" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div> -->
           <div class="col-2" *ngIf="isEditDoc"> 
             <div class="kr-sg-input-text-area" >
-              <textarea placeholder="Description" class="input-text" [(ngModel)] = "editDocObj.desc" style="min-height: 50px;"></textarea>
+              <textarea placeholder="Description" maxlength="250" class="input-text" [(ngModel)] = "editDocObj.desc" style="min-height: 50px;"></textarea>
           </div>
           </div>
           <!-- <div class="col-2">{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}</div> -->

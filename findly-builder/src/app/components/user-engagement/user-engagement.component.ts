@@ -532,6 +532,7 @@ export class UserEngagementComponent implements OnInit {
     } else {
       splitNumber = 5;
     }
+    
     this.userEngagementChartData = {
 
       tooltip: {
@@ -561,7 +562,7 @@ export class UserEngagementComponent implements OnInit {
       },
 
       grid: {
-        left: '3%',
+        left: '4%',
         right: '4%',
         bottom: '3%',
         containLabel: true
@@ -589,7 +590,9 @@ export class UserEngagementComponent implements OnInit {
         type: 'value',
         name: 'Number of Users',
         nameLocation: 'middle',
-        nameGap: 30,
+        nameGap: 50,
+        min : 0,
+        max:5,
         // minInterval: 2,
         nameTextStyle: {
           color: "#9AA0A6",
@@ -655,6 +658,10 @@ export class UserEngagementComponent implements OnInit {
         }
       ]
     };
+    if(Math.max(...sumArray) > 5){
+      delete this.userEngagementChartData.yAxis.min;
+      delete this.userEngagementChartData.yAxis.max;
+    }
   }
   checkAxis(y_axis, data, graphData) {
     graphData = [];
@@ -1059,8 +1066,8 @@ export class UserEngagementComponent implements OnInit {
         formatter: (params) => `
         <div class="metrics-tooltips-hover agent_drop_tolltip">
         <div class="">
-          <div class="main-title">No .of Users : ${geoNumberOfuserObj[params[0].axisValue]} </div>
-          <div class="main-title">Percentage of users :  ${params[0].axisValue}</div>
+          <div class="main-title">No. of Users : ${geoNumberOfuserObj[params[0].axisValue]} </div>
+          <div class="main-title">Percentage of users :  ${params[0].data}% </div>
         </div> 
       </div>
         `,

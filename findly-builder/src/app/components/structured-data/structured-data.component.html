@@ -253,7 +253,7 @@
                         <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                             <button class="dropdown-toggle dropdown-input search-with-dropdown" ngbDropdownToggle
                                 data-toggle="dropdown"></button>
-                            <input type="text" (keyup)="getFieldAutoComplete(rule.fieldName)" [(ngModel)]="rule.fieldName"
+                            <input type="text" (keyup)="getFieldAutoComplete(rule.fieldName)" [(ngModel)]="rule.fieldName" maxlength="60"
                                 placeholder="{{'structuredData.enter_field' | translate}}"
                                 class="input-search dropdown-toggle dropdown-input pr-2" data-toggle="dropdown" autocomplete="off">
                             <ul class="dropdown-menu content-menu" ngbDropdownMenu>
@@ -281,7 +281,7 @@
                         </div>
                     </div>
                     <div class="kr-sg-input-text">                  
-                        <input type="text" [disabled]="(rule.operator === 'exists') || (rule.operator === 'notexists')" placeholder="{{'structuredData.enter_value' | translate}}" class="input-text" [(ngModel)]="rule.value">                    
+                        <input type="text" [disabled]="(rule.operator === 'exists') || (rule.operator === 'notexists')" placeholder="{{'structuredData.enter_value' | translate}}" class="input-text" [(ngModel)]="rule.value" maxlength="60">                    
                     </div> 
                     <div class="delete-row pointer" id="btn_remove_row{{index}}" (click)="removeRule(index)"><img src="assets/images/minus.svg"></div>               
                 </div>

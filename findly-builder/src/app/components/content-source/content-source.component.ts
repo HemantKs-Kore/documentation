@@ -169,7 +169,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   filterTableSource = "all";
   execution = false;
   page = true;
-  executionHistoryData: any;
+  executionHistoryData: any = [];
   sourceStatus = 'success';
   useCookies = false;
   respectRobotTxtDirectives = false;
@@ -602,6 +602,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   openStatusSlider(source) {
     console.log("sourec opned", source)
+    this.executionHistoryData = [];
     this.pagesSearch = '';
     // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
     //   this.notificationService.notify('Source extraction is still in progress', 'error');

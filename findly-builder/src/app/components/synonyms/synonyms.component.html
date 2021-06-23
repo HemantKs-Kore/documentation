@@ -12,7 +12,7 @@
 
         <div class="col-8 right-sec p-0">
           <div class="kr-sg-input-text m-0"  [ngClass]="{'d-none': !showSearch}">
-              <input type="text" placeholder="Search" id="inputSearch" class="input-search" [ngClass]="{'pl-33':!synonymSearch,'pl-2':synonymSearch}" autocomplete="off" [(ngModel)]="synonymSearch" (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+              <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search" [ngClass]="{'pl-33':!synonymSearch,'pl-2':synonymSearch}" autocomplete="off" [(ngModel)]="synonymSearch" (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
               (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
           <img [src]="searchImgSrc" class="search-icon" *ngIf="!synonymSearch">
           <img class="close-icon" *ngIf="synonymSearch" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':synonymSearch}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="synonymSearch='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
@@ -217,7 +217,7 @@
                     </div>
                     <div class="keyword row m-0" *ngIf="synonym.type==='oneWaySynonym'">
                       <div class="kr-sg-input-text">
-                        <input type="text" id="synonymName" name="synonymName" autocomplete="off"
+                        <input type="text" id="synonymName" maxlength="60" name="synonymName" autocomplete="off"
                           [(ngModel)]="synonym.keyword" [ngModelOptions]="{standalone: true}" placeholder="Search Term"
                           required class="input-text">
                       </div>

@@ -335,6 +335,14 @@ export class WeightsComponent implements OnInit, OnDestroy {
         }
       })
   }
+  modifyFieldWarningMsg(warningMessage){
+    let index = warningMessage.indexOf("changed");
+    if(index > -1){
+      return true;
+    }else{
+      return false;
+    }
+  }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
   }

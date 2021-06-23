@@ -22,6 +22,7 @@ export class UpgradePlanComponent implements OnInit {
   paymentGatewayModelPopRef: any;
   successFailureModelPopRef: any;
   changePlanModelPopRef: any;
+  contactusModelPopRef: any;
   termPlan = "Monthly";
   totalPlansData: any;
   filterPlansData: any;
@@ -73,6 +74,7 @@ export class UpgradePlanComponent implements OnInit {
   @ViewChild('paymentGatewayModel') paymentGatewayModel: KRModalComponent;
   @ViewChild('successFailureModel') successFailureModel: KRModalComponent;
   @ViewChild('changePlanModel') changePlanModel: KRModalComponent;
+  @ViewChild('contactUsModel') contactUsModel: KRModalComponent;
   @Output() overageModel = new EventEmitter<string>();
   @ViewChild(PerfectScrollbarComponent) public directiveScroll: PerfectScrollbarComponent;
   ngOnInit(): void {
@@ -196,6 +198,7 @@ export class UpgradePlanComponent implements OnInit {
       this.gotoDetails('')
     }
   }
+
   //open payment gateway popup
   openPaymentGatewayPopup() {
     this.selectedApp = this.workflowService.selectedApp();
@@ -237,6 +240,16 @@ export class UpgradePlanComponent implements OnInit {
     // this.closeChoosePlanPopup();
     this.closeOrderConfPopup();
     this.paymentGatewayModelPopRef = this.paymentGatewayModel.open();
+  }
+  //open contact us popup
+  openContactusModel() {
+    this.contactusModelPopRef = this.contactUsModel.open();
+  }
+  //close contactus popup
+  closeContatcusModel() {
+    if (this.contactusModelPopRef && this.contactusModelPopRef.close) {
+      this.contactusModelPopRef.close();
+    }
   }
   //load iframe
   showSpinner() {

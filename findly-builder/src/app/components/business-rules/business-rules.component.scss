@@ -269,12 +269,18 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
-                    max-width: 130px;
+                    max-width: 145px;
                     margin: 0 5px 5px 0 !important;
                     height: 18px;
                     .small-text {
                         color: #BDC1C6;
                     }
+                }
+                .outcome-tags-input{
+                    overflow: initial !important;
+                    white-space: normal !important;
+                    height: auto !important;
+                    word-break: break-all !important;
                 }
                 .divider {
                     font-weight: 500;
@@ -756,3 +762,12 @@
         }
     }   
 }
+
+::ng-deep .my-custom-warning-class .tooltip-inner {
+    max-width: 235px !important;
+    text-align: left !important;
+  }
+
+  ::ng-deep .text-left-warning .tooltip-inner {
+    text-align: left !important;
+  }

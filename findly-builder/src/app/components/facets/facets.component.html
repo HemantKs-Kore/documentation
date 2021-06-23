@@ -27,7 +27,7 @@
             <div class="title">{{'facets.facets'| translate}}</div>
             <div class="d-flex align-items-center" *ngIf="!noItems || emptySearchResults">
                 <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
-                    <input type="text" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchfacet,'pl-2':searchfacet}" autocomplete="off" [(ngModel)]="searchfacet" (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                    <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchfacet,'pl-2':searchfacet}" autocomplete="off" [(ngModel)]="searchfacet" (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                         (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                     <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchfacet">
                     <img class="close-icon" *ngIf="searchfacet" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchfacet}" (click)="searchfacet='';toggleSearch(false)">
@@ -171,8 +171,8 @@
                                     <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(facet)" type="checkbox">
                                     <label for="{{facet._id}}" class="checkbox-custom-label"></label>
                                 </div>
-                                <div class="title text-truncate" title="{{facet.facetName}}">
-                                    <img class="pr-1" *ngIf="facet.showFieldWarning && (facet.showFieldWarning !== 'false')" src="assets/icons/info-blue.svg" placement="left" [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip='{{fieldWarnings[facet.showFieldWarning] || facet.showFieldWarning}}'>{{facet.facetName}}                                    
+                                <div class="title text-truncate" >
+                                    <img class="pr-1" *ngIf="facet.showFieldWarning && (facet.showFieldWarning !== 'false')" src="assets/icons/info-blue.svg" placement="left" tooltipClass="{{modifyFieldWarningMsg(facet.showFieldWarning)?'my-custom-warning-class':'text-left-warning'}}" container="body" ngbTooltip='{{fieldWarnings[facet.showFieldWarning] || facet.showFieldWarning}}' ><span title="{{facet.facetName}}"> {{facet.facetName}} </span>                              
                                 </div>
                             </div>
                             <div class="col-2 content pl-pr-17">{{facet.facetType | translate}}</div>
@@ -229,7 +229,7 @@
                         <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                             <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
-                            <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
+                            <input type="text"  maxlength="60" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
                             <img src="assets/images/search_gray.svg" class="search-icon">
                             <img *ngIf="(!addEditFacetObj.fieldId.length) && submitted" id="fieldWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
                             <ul class="dropdown-menu content-menu">
@@ -238,12 +238,12 @@
                                 </perfect-scrollbar>
                             </ul>
                         </div>
-                        <div class="kr-sg-inline-notification" *ngIf="selectedFieldId === selectedField?.fieldId && addEditFacetObj?.showFieldWarning && addEditFacetObj?.showFieldWarning === 'NOT_INDEXED'">
-                            <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
+                        <div class="mt-2 kr-sg-inline-notification" *ngIf="selectedFieldId === selectedField?.fieldId && addEditFacetObj?.showFieldWarning && addEditFacetObj?.showFieldWarning === 'NOT_INDEXED'">
+                            <div class="mr-1"><img src="assets/icons/info-blue.svg"></div>
                             <div class="tost-text">{{selectedField.fieldName}} is not indexed</div>
                         </div>
                         <div class="kr-sg-inline-notification" *ngIf="selectedFieldId === selectedField?.fieldId && addEditFacetObj?.showFieldWarning && addEditFacetObj?.showFieldWarning === 'CHANGE_IN_TYPE'">
-                            <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
+                            <div class="mr-1"><img src="assets/icons/info-blue.svg"></div>
                             <div class="tost-text">The Field type has been changed</div>
                         </div>
                     </div>
@@ -261,7 +261,7 @@
             <div class="row-content row">
                 <div class="kr-sg-input-text col-8 pl-0">
                     <div class="label-text">{{'facets.facet_name'| translate}}</div>
-                    <input type="text" placeholder="Enter Name" class="input-text" [class.err-block]="((!addEditFacetObj.facetName.length) && submitted)" [(ngModel)]="addEditFacetObj.facetName">
+                    <input type="text"  maxlength="60" placeholder="Enter Name" class="input-text" [class.err-block]="((!addEditFacetObj.facetName.length) && submitted)" [(ngModel)]="addEditFacetObj.facetName">
                     <img *ngIf="(!addEditFacetObj.facetName.length) && submitted" id="facetNameWarning" src="assets/icons/warning_escalation.svg" style="top: 57%; position: absolute; right: 4.5%; display: block;" height="12" width="12" />
                 </div>
                 <div class="kr-sg-dropdowns col-4 pl-2">
@@ -284,7 +284,7 @@
                 <div class="row row_inputs" *ngFor="let range of addEditFacetObj.facetRange; let i = index">
                     <div class="kr-sg-input-text col-7 pl-0">
                         <div class="label-text">{{'facets.range_name'| translate}}</div>
-                        <input type="text" placeholder="Enter Range Name" class="input-text" [(ngModel)]="range.rangeName">
+                        <input type="text"  maxlength="60" placeholder="Enter Range Name" class="input-text" [(ngModel)]="range.rangeName">
                     </div>
                     <div class="kr-sg-input-text col-2 pl-2">
                         <div class="label-text">{{'facets.from'| translate}}</div>
@@ -301,7 +301,7 @@
                 <div class="row row_inputs">
                     <div class="kr-sg-input-text col-7 pl-0">
                         <div class="label-text">{{'facets.range_name'| translate}}</div>
-                        <input type="text" placeholder="Please Enter" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].rangeName">
+                        <input type="text"  maxlength="60" placeholder="Please Enter" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].rangeName">
                     </div>
                     <div class="kr-sg-input-text col-2 pl-2">
                         <div class="label-text">{{'facets.from'| translate}}</div>

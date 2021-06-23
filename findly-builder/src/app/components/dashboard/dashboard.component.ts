@@ -327,8 +327,10 @@ export class DashboardComponent implements OnInit {
 
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     var totaldata = [];
+    let summaryData = [];
     this.totalSearchSum = 0;
     for (var i = 0; i < this.searchHistogram.length; i++) {
+      summaryData.push(Math.max(this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks));
       if (this.dateType == 'hour') {
         totaldata.push([i + 'hr', this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks,i + 'hr'])
       } else if (this.dateType == 'week' || this.dateType == 'custom') {
@@ -366,9 +368,11 @@ export class DashboardComponent implements OnInit {
     var dateTooltipList = totaldata.map(function (item) {
       return item[4];
     });
+
+
     this.chartOption = {
       grid: {
-        left: '3%',
+        left: '4%',
         right: '4%',
         bottom: '3%',
         containLabel: true
@@ -410,6 +414,8 @@ export class DashboardComponent implements OnInit {
         type: 'value',
         name: 'Count',
         nameLocation: 'middle',
+        min : 0,
+        max : 5,
         nameGap: 50,
         nameTextStyle: {
           color: "#9AA0A6",
@@ -449,6 +455,10 @@ export class DashboardComponent implements OnInit {
           lineStyle: { color: '#7027E5' }
         }]
     };
+    if(Math.max(...summaryData) > 5){
+      delete this.chartOption.yAxis[0].min;
+      delete this.chartOption.yAxis[0].max;
+    }
     /** TEST */
     this.chartOption1 = {
       grid: {
@@ -523,103 +533,16 @@ export class DashboardComponent implements OnInit {
       ]
     };
   }
-  // userEngagementChart(){
-  //   this.userEngagementChartData = {
-
-  //     tooltip: {
-  //       trigger: 'axis',
-  //       axisPointer: {            
-  //         type: 'none'        
-  //     },
-  //       formatter:  (params) => `
-  //       <div class="metrics-tooltips-hover userengagment-tooltip">          
-  //       <div class="data-content">
-  //           <div class="main-title">Total Users</div>
-  //           <div class="title total">${params[0].value + params[1].value}</div>
-  //       </div>
-  //       <div class="data-content">
-  //           <div class="main-title">New Users</div>
-  //           <div class="title new">${params[1].value}</div>
-  //       </div>
-  //       <div class="data-content border-0">
-  //           <div class="main-title">Repeat Users</div>
-  //           <div class="title return">${params[0].value}</div>
-  //       </div>
-  //   </div> 
-  //       `,
-  //       position: 'top',
-  //       padding: 0
-
-  //     },
-
-  //     grid: {
-  //         left: '3%',
-  //         right: '4%',
-  //         bottom: '3%',
-  //         containLabel: true
-  //     },
-  //     xAxis: {
-  //         type: 'category',
-  //         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-
-  //     },
-  //     yAxis: {
-  //          type: 'value'
-  //     },
-  //     series: [
-  //       //barMinWidth = 10;
-  //         {
-  //             name: 'bottom',
-  //             type: 'bar',
-  //             stack: '总量',
-  //             // label: {
-  //             //     show: true,
-  //             //     position: 'insideRight'
-  //             // },
-  //             barWidth: 10,
-  //             itemStyle: {
-
-  //               normal: {
-  //                 color: '#FF784B',
-  //                   barBorderRadius: [0, 0, 50 ,50 ]
-  //               },
-
-  //             },
-  //             data: [7, 6, 8, 6, 9, 5, 13]
-  //         },
-  //         {
-  //             name: 'top',
-  //             type: 'bar',
-  //             stack: '总量',
-  //             // label: {
-  //             //     show: true,
-  //             //     position: 'insideRight'
-  //             // },
-  //             barWidth: 10,
-  //             itemStyle: {
-  //               normal: {
-  //                 color: '#0D6EFD',
-  //                   barBorderRadius: [50, 50, 0 ,0 ]
-  //               }
-  //             },
-  //             lineStyle: {
-  //               color: '#0D6EFD',
-  //             },
-  //             data: [3, 4, 2, 4, 1, 5, 7]
-  //         }
-  //     ]
-  // };
-  // }
   mostClick() {
     let xAxisData = [];
     let yAxisData = [];
     let barColor = "#B893F2";
     if (this.mostClickedPositions) {
       this.mostClickedPositions.forEach(element => {
-        if (element.position == 0) yAxisData.push(Number(element.position + 1) + " st")
-        if (element.position == 1) yAxisData.push(Number(element.position + 1) + " nd")
-        if (element.position == 2) yAxisData.push(Number(element.position + 1) + " rd")
-        if (element.position > 2) yAxisData.push(Number(element.position + 1) + " th");
+        if (element.position == 0) yAxisData.push(Number(element.position + 1) + "st Position")
+        if (element.position == 1) yAxisData.push(Number(element.position + 1) + "nd Position")
+        if (element.position == 2) yAxisData.push(Number(element.position + 1) + "rd Position")
+        if (element.position > 2) yAxisData.push(Number(element.position + 1) + "th Position");
         xAxisData.push(element.clicks)
       });
       if (xAxisData.length) {
@@ -627,7 +550,7 @@ export class DashboardComponent implements OnInit {
         barColor = "#B893F2"
       } else {
         xAxisData = [120, 200, 150];
-        yAxisData = ['1st', '2nd', '3rd']
+        yAxisData = ['1st Position', '2nd Position', '3rd Position']
         this.isyAxisMostClickPostiondata = false;
         barColor = "#EFF0F1"
       }
@@ -636,12 +559,16 @@ export class DashboardComponent implements OnInit {
       // yAxisData= ['1st']
     } else {
       xAxisData = [120, 200, 150];
-      yAxisData = ['1st', '2nd', '3rd']
+      yAxisData = ['1st Position', '2nd Position', '3rd Position']
       this.isyAxisMostClickPostiondata = false;
       barColor = "#EFF0F1"
     }
 
     this.mostClickBar = {
+      grid : {
+        containLabel: true,
+        left: "5%"
+      },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -661,6 +588,8 @@ export class DashboardComponent implements OnInit {
       },
       xAxis: {
         type: 'value',
+        min : 0,
+        max : 5,
         axisLine: {
           show: false, // Hide full Line
         },
@@ -699,10 +628,14 @@ export class DashboardComponent implements OnInit {
           },
         },
         data: xAxisData,//[120, 200, 150],
-        type: 'bar'
+        type: 'bar',
+        barWidth: '90%',
       }]
     };
-
+    if(Math.max(...xAxisData) > 5){
+      delete this.mostClickBar.xAxis.min;
+      delete this.mostClickBar.xAxis.max;
+    }
   }
   feedback() {
     // this.feedbackStats
