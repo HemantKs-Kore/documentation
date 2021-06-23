@@ -30,7 +30,7 @@ export class FieldManagementComponent implements OnInit {
   currentfieldUsage: any
   fetchingFieldUsage = false;
   indexedWarningMessage = '';
-  selectedSort = '';
+  selectedSort = 'fieldName';
   isAsc = true;
   fieldAutoSuggestion: any = [];
   fieldDataTypeArr: any = [];
@@ -74,6 +74,9 @@ export class FieldManagementComponent implements OnInit {
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadFileds();
     })
+  }
+  ngAfterViewInit(){
+   
   }
   loadFileds() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -316,6 +319,12 @@ export class FieldManagementComponent implements OnInit {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
+  defaultSort(field,icon,isAscBool){
+    this.getSortIconVisibility(field, icon)
+    this.isAsc = !isAscBool;
+    this.sortBy(field);
+        
+  }
   getFileds(offset?) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
@@ -339,7 +348,7 @@ export class FieldManagementComponent implements OnInit {
         this.isRequiredArr = [...new Set(this.isRequiredArr)];
         this.isStoredArr = [...new Set(this.isStoredArr)];
         this.isIndexedArr = [...new Set(this.isIndexedArr)];
-
+        this.defaultSort('fieldName','up',true)
       }
     }, errRes => {
       this.loadingContent = false;
