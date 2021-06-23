@@ -483,7 +483,7 @@ export class SearchInterfaceComponent implements OnInit {
     } else {
       this.showImage = true;
     }
-    if (layout == 'tileWithHeader' || layout == 'tileWithText' || layout == 'tileWithImage') {
+    if (layout == 'tileWithHeader' || layout == 'tileWithText' || layout == 'tileWithImage' || layout == 'tileWithCenteredContent') {
       if (this.customizeTemplateObj.template.type === 'Carousel') {
         this.buildCarousel();
       }
