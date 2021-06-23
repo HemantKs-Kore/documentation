@@ -62,7 +62,7 @@ export class UpgradePlanComponent implements OnInit {
     enterpriceYear: 'enterprise_yearly'
   }
   enterpriseForm: any = {
-    name: '', email: '', company: '', message: '', phone: ''
+    name: '', email: '', message: '', phone: ''
   }
   constructor(public dialog: MatDialog,
     private service: ServiceInvokerService,
@@ -120,6 +120,7 @@ export class UpgradePlanComponent implements OnInit {
         this.closeChoosePlanPopup();
         if (type == "upgrade") {
           this.closeOrderConfPopup();
+          this.notificationService.notify('Plan Changed successfully', 'success');
         }
         this.openSuccessFailurePopup(true);
         clearInterval(this.paymentStatusInterval);
@@ -258,6 +259,7 @@ export class UpgradePlanComponent implements OnInit {
   //close contactus popup
   closeContatcusModel() {
     if (this.contactusModelPopRef && this.contactusModelPopRef.close) {
+      this.enterpriseForm = { name: '', email: '', message: '', phone: '' };
       this.contactusModelPopRef.close();
     }
   }
@@ -276,7 +278,6 @@ export class UpgradePlanComponent implements OnInit {
     const queryParams = { "streamId": this.selectedApp._id };
     const enterpriseRequest = this.service.invoke('post.enterpriseRequest', queryParams, this.enterpriseForm);
     enterpriseRequest.subscribe(res => {
-      this.enterpriseForm = { name: '', email: '', company: '', message: '', phone: '' };
       this.closeContatcusModel();
       this.closeChoosePlanPopup();
       this.openContactusSuccessModel();
@@ -313,7 +314,7 @@ export class UpgradePlanComponent implements OnInit {
             this.closeChoosePlanPopup();
             this.closeOrderConfPopup();
             if (res.type == 'downgrade') {
-              this.notificationService.notify('Current plan Downgraded success', 'success');
+              this.notificationService.notify('Plan Changed successfully', 'success');
               this.appSelectionService.getCurrentSubscriptionData();
             }
             else {
@@ -470,9 +471,7 @@ export class UpgradePlanComponent implements OnInit {
     getInvoice.subscribe(res => {
       if (this.overageData.overageShow) {
         for (let data of res) {
-          setTimeout(() => {
-            FileSaver.saveAs(data.viewInvoice + '&DownloadPdf=true', 'invoice_' + data._id + '.pdf');
-          }, 1000)
+          FileSaver.saveAs(data.viewInvoice + '&DownloadPdf=true', 'invoice_' + data._id + '.pdf');
         }
       }
       else {

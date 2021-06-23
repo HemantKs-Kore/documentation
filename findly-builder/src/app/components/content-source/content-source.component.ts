@@ -66,8 +66,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   btnCount;
   btnAllCount;
   pagingData: any[] = [];
-  statusArr = [];
-  docTypeArr = [];
+  statusArr;
+  docTypeArr;
   selectedFilter: any = ''
   executionLogStatus = false;
   componentType: string = 'addData';
@@ -268,6 +268,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   getSourceList() {
+    this.statusArr = [];
+    this.docTypeArr = [];
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -1307,9 +1309,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       sourceType: record.type,
     };
     this.service.invoke('recrwal', quaryparms).subscribe(res => {
-      this.getSourceList();
       this.dockService.trigger(true);
       this.notificationService.notify('Re-Crawling Initiated', 'success');
+      this.getSourceList();
       this.closeStatusModal();
       //this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
     }, errRes => {
@@ -1612,7 +1614,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     console.log()
     if (value <= -1) {
       this.crawlDepth = 0;
-      this.maxUrlLimit=0;
+      this.maxUrlLimit = 0;
     }
   }
 }
