@@ -302,7 +302,11 @@ export class SummaryComponent implements OnInit, OnDestroy {
     $('#experimentsTab').trigger('click')
   }
   openChannel() {
-    $('#channelsTab').trigger('click')
+    $('#channelsTab').trigger('click');
+    setTimeout(() => {
+      this.workflowService.mainMenuRouter$.next('/settings');
+      this.router.navigate(['/settings'], { skipLocationChange: true });
+    }, 100)
   }
   openDashboard() {
     $('#dashboardTab').trigger('click')

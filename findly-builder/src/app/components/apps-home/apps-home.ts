@@ -73,7 +73,6 @@ export class AppsListingComponent implements OnInit {
       return bDate - aDate;
     });
     this.apps = apps;
-    //this.recentApps = apps.sort((a, b) => b.lastAccessedOn.localeCompare(a.lastAccessedOn)).slice(0, 4);
   }
   openApp(app) {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
@@ -94,6 +93,7 @@ export class AppsListingComponent implements OnInit {
   closeCreateApp() {
     this.showBoarding = false;
     this.createAppPopRef.close();
+    this.newApp = { name: '', description: '' };
   }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -194,7 +194,13 @@ export class AppsListingComponent implements OnInit {
       validField = false
     }
     if (validField) {
-      this.createFindlyApp()
+      let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|<>\/?→←↑↓]+/;
+      if (!specialCharacters.test(this.newApp.description)) {
+        this.createFindlyApp()
+      }
+      else {
+        this.notificationService.notify('Special characters not allowed', 'error');
+      }
     }
 
   }

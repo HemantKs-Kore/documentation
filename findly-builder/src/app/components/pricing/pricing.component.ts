@@ -286,6 +286,10 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'failed to Cancel subscription');
     });
   }
+  //enterpriseContactus method
+  enterpriseContactus() {
+    this.plans.openContactusModel();
+  }
   //close popup1
   cancelSubscription(dialogRef?) {
     const queryParam = {
