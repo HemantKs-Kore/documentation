@@ -179,9 +179,7 @@ export class AppHeaderComponent implements OnInit {
       })
     })
     this.workflowService.mainMenuRouter$.subscribe(route => {
-      if (route) {
         this.mainMenu = route;
-      }
     });
   }
   loadHeader() {
@@ -617,6 +615,9 @@ export class AppHeaderComponent implements OnInit {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     this.appSelectionService.openApp(app);
     this.appSelectionService.refreshSummaryPage.next('changed');
+    setTimeout(() => {
+      this.workflowService.mainMenuRouter$.next('');
+    }, 100)
   }
   //create new app
   openCreateApp() {
