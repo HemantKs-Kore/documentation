@@ -522,6 +522,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
           }
         }
         if (icon == 'auto' || update) {
+          this.selectSearch = '';
           this.notificationService.notify('File uploaded successfully', 'success');
         }
       },

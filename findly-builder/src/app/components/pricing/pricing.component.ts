@@ -286,6 +286,10 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'failed to Cancel subscription');
     });
   }
+  //enterpriseContactus method
+  enterpriseContactus() {
+    this.plans.openContactusModel();
+  }
   //close popup1
   cancelSubscription(dialogRef?) {
     const queryParam = {
@@ -343,6 +347,8 @@ export class PricingComponent implements OnInit, OnDestroy {
     let xAxisDocumentData = [];
     let yAxisQueryData = [];
     let yAxisDocumentData = [];
+    let barDocColor = "#28A745";
+    let barQueColor = "#7027E5";
     if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.analytics && this.currentSubscriptionPlan.analytics.search) {
       this.currentSubscriptionPlan.analytics.search.forEach(element => {
         xAxisQueryData.push(element.month)
@@ -358,20 +364,32 @@ export class PricingComponent implements OnInit, OnDestroy {
     if (xAxisDocumentData.length == 0) {
       xAxisDocumentData = ['Jan', 'Feb', 'Apr', 'May', 'Jun'];
     }
-    if (yAxisDocumentData.length == 0) {
+    if (Math.max(...yAxisDocumentData) == 0 || yAxisDocumentData.length == 0) {
       yAxisDocumentData = [120, 200, 150, 80, 70, 110, 130];
       this.isyAxisDocumentdata = false;
+      barDocColor = "#EFF0F1";
+    }else{
+      barDocColor = "#28A745";
     }
     if (xAxisQueryData.length == 0) {
       xAxisQueryData = ['Jan', 'Feb', 'Apr', 'May', 'Jun'];
     }
-    if (yAxisQueryData.length == 0) {
+    if (Math.max(...yAxisQueryData) == 0 || yAxisQueryData.length == 0) {
       yAxisQueryData = [120, 200, 150, 80, 70, 110, 130];
       this.isyAxisQuerydata = false;
+      barQueColor = "#EFF0F1";
+    }else{
+      barQueColor = "#7027E5";
     }
     xAxisQueryData.length ? this.monthRange = xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1] : this.monthRange = "Jan - June";
     this.queryGraph = {
-
+      
+      grid: {
+        left: '8%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -390,12 +408,6 @@ export class PricingComponent implements OnInit, OnDestroy {
 
       },
 
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
       xAxis: {
         type: 'category',
         data: xAxisQueryData, //['Jan', 'Feb', 'Apr', 'May', 'Jun'], //data//
@@ -409,13 +421,15 @@ export class PricingComponent implements OnInit, OnDestroy {
       },
       yAxis: {
         type: 'value',
-        name: 'Document Ingested',
+        name: 'Query Ingested',
         nameLocation: 'middle',
-        nameGap: 10,
+        nameGap: 50,
+        min : 0,
+        max:5,
         nameTextStyle: {
           color: "#9AA0A6",
           fontWeight: "normal",
-          fontSize: 1,
+          fontSize: 12,
           fontFamily: "Inter"
         },
         axisLabel: {
@@ -432,7 +446,7 @@ export class PricingComponent implements OnInit, OnDestroy {
         barWidth: 10,
         itemStyle: {
           normal: {
-            color: '#7027E5',
+            color: barQueColor,
             barBorderRadius: [50, 50, 50, 50]
           },
         },
@@ -441,17 +455,15 @@ export class PricingComponent implements OnInit, OnDestroy {
         },
       }]
     }
+
     this.documentGraph = {
 
-      // tooltip: {
-      //   trigger: 'axis',
-      //   axisPointer: {
-      //     type: 'none'
-      //   },
-      //   position: 'top',
-      //   padding: 0
-
-      // },
+      grid: {
+        left: '10%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -469,13 +481,6 @@ export class PricingComponent implements OnInit, OnDestroy {
         padding: 0
 
       },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
-
       xAxis: {
         type: 'category',
         data: xAxisDocumentData, //['Jan', 'Feb', 'Apr', 'May', 'Jun'], //data//
@@ -492,6 +497,8 @@ export class PricingComponent implements OnInit, OnDestroy {
         name: 'Document Ingested',
         nameLocation: 'middle',
         nameGap: 50,
+        min : 0,
+        max:5,
         nameTextStyle: {
           color: "#9AA0A6",
           fontWeight: "normal",
@@ -512,7 +519,7 @@ export class PricingComponent implements OnInit, OnDestroy {
         barWidth: 10,
         itemStyle: {
           normal: {
-            color: '#28A745',
+            color: barDocColor,
             barBorderRadius: [50, 50, 50, 50]
           },
         },
@@ -520,49 +527,15 @@ export class PricingComponent implements OnInit, OnDestroy {
           color: '#0D6EFD',
         },
       }]
-      // series: [
-      //   //barMinWidth = 10;
-      //     {
-      //         name: 'bottom',
-      //         type: 'bar',
-      //         stack: '总量',
-      //         // label: {
-      //         //     show: true,
-      //         //     position: 'insideRight'
-      //         // },
-      //         barWidth: 10,
-      //         itemStyle: {
-
-      //           normal: {
-      //             color: '#FF784B',
-      //               barBorderRadius: [0, 0, 50 ,50 ]
-      //           },
-
-      //         },
-      //         data: yAxisRepeatUser
-      //     },
-      //     {
-      //         name: 'top',
-      //         type: 'bar',
-      //         stack: '总量',
-      //         // label: {
-      //         //     show: true,
-      //         //     position: 'insideRight'
-      //         // },
-      //         barWidth: 10,
-      //         itemStyle: {
-      //           normal: {
-      //             color: '#0D6EFD',
-      //               barBorderRadius: [50, 50, 0 ,0 ]
-      //           }
-      //         },
-      //         lineStyle: {
-      //           color: '#0D6EFD',
-      //         },
-      //         data:  yAxisNewUsers
-      //     }
-      // ]
     };
+    if(Math.max(...yAxisQueryData) > 5){
+      delete this.queryGraph.yAxis.min;
+      delete this.queryGraph.yAxis.max;
+    }
+    if(Math.max(...yAxisDocumentData) > 5){
+      delete this.documentGraph.yAxis.min;
+      delete this.documentGraph.yAxis.max;
+    }
   }
   //select type plan like monthly or yearly
   typeOfPlan(type) {

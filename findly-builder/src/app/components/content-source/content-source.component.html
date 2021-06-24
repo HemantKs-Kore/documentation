@@ -162,7 +162,12 @@
                       [ngClass]="{'hide': filterSystem.statusFilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                   <li *ngFor="let status of statusArr"
                     (click)="statusFilter.close();filterTable(status,'recentStatus')"><span
-                      class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Failed' : (status == 'queued' ? 'Queued' :(status == 'configured' ? 'Validated' :(status == 'halted' ? 'Stopped' :'In-progress'))))}}</span>
+                      class="list-name">{{status == 'success' ? 'Success' : 
+                      (status == 'failed' ? 'Failed' : 
+                      (status == 'queued' ? 'In-Queue' :
+                      (status == 'configured' ? 'Validated' :
+                      (status == 'halted' ? 'Stopped' :
+                      (status == 'scheduled' ? 'Configured' : 'In-progress')))))}}</span>
                       <img
                       [ngClass]="{'hide': filterSystem.statusFilter !== status}" src="assets/icons/check-blue.svg">
                   </li>

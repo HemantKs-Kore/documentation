@@ -187,8 +187,10 @@
                                                                 <img *ngIf="actLog.target.contentType == 'web'" container='body' ngbTooltip='Web' placement="top" src="assets/icons/resultranking/copy.svg" class="cursor-pointer">
                                                                 <img *ngIf="actLog.target.contentType == 'faq'" container='body' ngbTooltip='Faq' placement="top" src="assets/icons/resultranking/faq.svg" class="cursor-pointer">
                                                                 <img *ngIf="actLog.target.contentType == 'task'" container='body' ngbTooltip='Task' placement="top" src="assets/icons/resultranking/task.svg" class="cursor-pointer">
+                                                                <img *ngIf="actLog.target.contentType == 'file'" container='body' ngbTooltip='Task' placement="top" src="assets/icons/resultranking/file-icon.svg" class="cursor-pointer">
+                                                                <img *ngIf="actLog.target.contentType == 'data'" container='body' ngbTooltip='Task' placement="top" src="assets/icons/resultranking/data-icon.svg" class="cursor-pointer">
                                                             </div>                                                            
-                                                            <ng-container *ngIf ="actLog.target.contentInfo._source">
+                                                            <ng-container *ngIf ="actLog.target && actLog.target.contentInfo && actLog.target.contentInfo._source">
                                                                 <div class="title">{{actLog.target.contentInfo._source.faqQuestion || actLog.target.contentInfo._source.pageTitle || actLog.target.contentInfo._source.fileTitle}}</div>                                                                
                                                             </ng-container>
                                                             <ng-container *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'">

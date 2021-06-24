@@ -9,6 +9,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { AuthService } from '@kore.services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { LocalStoreService } from '@kore.services/localstore.service';
 import * as FileSaver from 'file-saver';
 declare const $: any;
 @Component({
@@ -23,6 +24,7 @@ export class UpgradePlanComponent implements OnInit {
   successFailureModelPopRef: any;
   changePlanModelPopRef: any;
   contactusModelPopRef: any;
+  contactusSuccessModelPopRef: any;
   termPlan = "Monthly";
   totalPlansData: any;
   filterPlansData: any;
@@ -59,13 +61,17 @@ export class UpgradePlanComponent implements OnInit {
     enterpriceMonth: 'enterprise_monthly',
     enterpriceYear: 'enterprise_yearly'
   }
+  enterpriseForm: any = {
+    name: '', email: '', message: '', phone: ''
+  }
   constructor(public dialog: MatDialog,
     private service: ServiceInvokerService,
     private appSelectionService: AppSelectionService,
     public workflowService: WorkflowService,
     private authService: AuthService,
     public sanitizer: DomSanitizer,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService,
+    public localstore: LocalStoreService) { }
   @ViewChild('orderConfirmModel') orderConfirmModel: KRModalComponent;
   @ViewChild('addPricingModel2') addPricingModel2: KRModalComponent;
   @ViewChild('choosePlanModel') choosePlanModel: KRModalComponent;
@@ -75,6 +81,7 @@ export class UpgradePlanComponent implements OnInit {
   @ViewChild('successFailureModel') successFailureModel: KRModalComponent;
   @ViewChild('changePlanModel') changePlanModel: KRModalComponent;
   @ViewChild('contactUsModel') contactUsModel: KRModalComponent;
+  @ViewChild('contactUsSuccessModel') contactUsSuccessModel: KRModalComponent;
   @Output() overageModel = new EventEmitter<string>();
   @ViewChild(PerfectScrollbarComponent) public directiveScroll: PerfectScrollbarComponent;
   ngOnInit(): void {
@@ -113,6 +120,7 @@ export class UpgradePlanComponent implements OnInit {
         this.closeChoosePlanPopup();
         if (type == "upgrade") {
           this.closeOrderConfPopup();
+          this.notificationService.notify('Plan Changed successfully', 'success');
         }
         this.openSuccessFailurePopup(true);
         clearInterval(this.paymentStatusInterval);
@@ -243,13 +251,39 @@ export class UpgradePlanComponent implements OnInit {
   }
   //open contact us popup
   openContactusModel() {
+    const userInfo = this.localstore.getAuthInfo();
+    this.enterpriseForm.name = userInfo.currentAccount.userInfo.fName;
+    this.enterpriseForm.email = userInfo.currentAccount.userInfo.emailId;
     this.contactusModelPopRef = this.contactUsModel.open();
   }
   //close contactus popup
   closeContatcusModel() {
     if (this.contactusModelPopRef && this.contactusModelPopRef.close) {
+      this.enterpriseForm = { name: '', email: '', message: '', phone: '' };
       this.contactusModelPopRef.close();
     }
+  }
+  //open contact us success popup
+  openContactusSuccessModel() {
+    this.contactusSuccessModelPopRef = this.contactUsSuccessModel.open();
+  }
+  //close contactus popup
+  closeContatcusSuccessModel() {
+    if (this.contactusSuccessModelPopRef && this.contactusSuccessModelPopRef.close) {
+      this.contactusSuccessModelPopRef.close();
+    }
+  }
+  //submitEnterpriseRequest method
+  submitEnterpriseRequest() {
+    const queryParams = { "streamId": this.selectedApp._id };
+    const enterpriseRequest = this.service.invoke('post.enterpriseRequest', queryParams, this.enterpriseForm);
+    enterpriseRequest.subscribe(res => {
+      this.closeContatcusModel();
+      this.closeChoosePlanPopup();
+      this.openContactusSuccessModel();
+    }, errRes => {
+      this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
+    });
   }
   //load iframe
   showSpinner() {
@@ -280,7 +314,7 @@ export class UpgradePlanComponent implements OnInit {
             this.closeChoosePlanPopup();
             this.closeOrderConfPopup();
             if (res.type == 'downgrade') {
-              this.notificationService.notify('Current plan Downgraded success', 'success');
+              this.notificationService.notify('Plan Changed successfully', 'success');
               this.appSelectionService.getCurrentSubscriptionData();
             }
             else {

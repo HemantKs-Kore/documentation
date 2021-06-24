@@ -247,6 +247,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.filterObject = [];
       vars.searchFacetFilters = [];
       vars.enterIsClicked = false;
+      vars.previousLivesearchData = null;
       vars.previousDataobj = '';
       vars.customizeView = false;
       vars.showingMatchedResults = false;
@@ -5531,7 +5532,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('#live-search-result-box').hide();
                   }
                   if((searchConfigurationCopy.liveSearchResultsLimit !== 0)){
+                    if(_self.vars.previousLivesearchData ==  $('#search').val()){
+                      return;
+                    }
                     _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
+                      _self.vars.previousLivesearchData =  $('#search').val();
                       if(res.isBotLocked){
                         window.isBotLocked = true;
                       }
@@ -5767,7 +5772,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
             e.stopPropagation();
           }
-          if ((_self.vars.searchObject.recentTasks.length || _self.vars.searchObject.recents.length || (_self.vars.searchObject.popularSearches && _self.vars.searchObject.popularSearches.length)) && !$('#search').val()) {
+          if ((_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recents ||[]).length || (_self.vars.searchObject.popularSearches && _self.vars.searchObject.popularSearches.length)) && !$('#search').val()) {
             $('.search-container').addClass('active');
             if (_self.showGreetingMsg) {
               _self.showGreetingMsg = false;
