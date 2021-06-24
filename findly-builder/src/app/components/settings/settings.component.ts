@@ -482,6 +482,40 @@ export class SettingsComponent implements OnInit {
       }
     );
   }
+
+  disableCredential() {
+    const queryParams = {
+      userId: this.authService.getUserId(),
+      streamId: this.selectedApp._id
+    }
+    let payload = {
+      type: "rtm",
+      name: 'Web / Mobile Client',
+      app: {
+        clientId:this.selectedApp.channels[0].app.clientId,
+        appName: this.selectedApp.channels[0].app.appName,
+      },
+      isAlertsEnabled: this.isAlertsEnabled,
+      enable: false,
+      sttEnabled: false,
+      sttEngine: "kore"
+    }
+
+    this.service.invoke('configure.credential', queryParams, payload).subscribe(
+      res => {
+
+        console.log(res);
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      }
+    );
+  }
+
   newCredential() {
     this.addCredentialRef = this.addCredential.open();
   }

@@ -728,6 +728,7 @@
                   </div>
                 </div>
               </div>
+              <div>Not limiting the Crawl Depth and Max URL Limit may impact the system performance</div>
               <!-- Cookies -->
                <!-- New Crawl everey thing-->
                 <!-- Old  Crawl Design-->
@@ -850,7 +851,7 @@
             <!-- Conf Configuration-->
 
           </div>
-          <div class="accordion-content-info text-left" *ngIf="page && sourceStatus == 'success'">
+          <div class="accordion-content-info text-left" *ngIf="page">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
               <div class="col-3 label_text m-0">Last Updated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
@@ -934,6 +935,9 @@
             </div>
 
           </div>
+          <!-- <div *ngIf="sourceStatus == 'failed' && page">
+            No pages 
+          </div> -->
           <!-- Execution -->
           <div *ngIf="execution" class="execution-table-data">
             <div class="accordion-content-info text-left">

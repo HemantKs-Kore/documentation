@@ -42,7 +42,9 @@
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle  p-0 border-0" ngbDropdownToggle><img src="assets/icons/elipse.svg"></button>                                            
                         <ul class="dropdown-menu content-menu faq-filter-add p-0" ngbDropdownMenu>
-                            <li><a (click)="enableConfiguration = !enableConfiguration">{{enableConfiguration?'Disable':'Enable'}}</a></li>
+                            <li *ngIf="enableConfiguration" (click)="disableCredential()"><a> Disable</a></li>
+                            <li *ngIf="!enableConfiguration" (click)="configureCredential()"><a> Enable</a></li>
+                            <!-- <li><a (click)="enableConfiguration = !enableConfiguration) ? disableCredential()">Enaable</a></li> -->
                             <li><a>{{"settings.delete" | translate}} </a></li>               
                         </ul>
                     </div>
