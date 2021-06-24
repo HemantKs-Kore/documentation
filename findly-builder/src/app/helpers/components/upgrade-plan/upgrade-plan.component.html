@@ -225,8 +225,7 @@
 </kr-modal>
 
 <!--contact us form popup-->
-<kr-modal modalType="center" modalClass="modal_popups_ contact-us-modal_ enterprise-plan-contact" #contactUsModel>
-  <ng-container *ngIf="false">
+<kr-modal modalType="center" modalClass="modal_popups_ contact-us-modal_" #contactUsModel>
     <div class="left-sec-form">
       <div class="logo-searchassist">
         <img src="assets/icons/pricing/logo.svg">
@@ -244,35 +243,36 @@
           <div class="close_icon"><img (click)="closeContatcusModel()" src="assets/icons/modal-close.svg"></div>
           <div class="kr-sg-input-text mb-3">
             <div class="label-text">Name</div>
-            <input type="text" placeholder="Name" class="input-text">
+            <input type="text" placeholder="Name" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.name">
           </div>
           <div class="kr-sg-input-text mb-3">
             <div class="label-text">Email</div>
-            <input type="text" placeholder="Email" class="input-text">
+            <input type="text" placeholder="Email" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.email">
           </div>
           <div class="kr-sg-input-text mb-3">
             <div class="label-text">Contact Number</div>
-            <input type="text" placeholder="Optional" class="input-text">
+            <input type="text" placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.phone">
           </div>
           <div class="kr-sg-input-text-area mb-3">
             <div class="label-text">Message</div>
-            <textarea placeholder="Optional" class="input-text"></textarea>
+            <textarea placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.message"></textarea>
           </div>
-          <button class="kr-sg-button-primary btn_lg">Submit Request</button>
+          <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()">Submit Request</button>
         </div>
       </perfect-scrollbar>
     </div>
-  </ng-container>
-  <ng-container *ngIf="true">
+</kr-modal>
+
+<!--contact us success popup-->
+<kr-modal modalType="center" modalClass="modal_popups_ enterprise-plan-contact" #contactUsSuccessModel>
     <div class="modal-header">
       <div class="title">Enterprise Plan</div>
-      <div class="close_icon"><img (click)="closeContatcusModel()" src="assets/icons/modal-close.svg"></div>
+      <div class="close_icon"><img (click)="closeContatcusSuccessModel()" src="assets/icons/modal-close.svg"></div>
     </div>
     <div class="modal-body">
       <div class="title">Thanks for providing the details. Our sales team will reach out soon!</div>
     </div>
     <div class="modal-footer text-right">
-      <button class="kr-sg-button-primary btn_lg">Done</button>
+      <button class="kr-sg-button-primary btn_lg" (click)="closeContatcusSuccessModel()">Done</button>
     </div>
-  </ng-container>
 </kr-modal>
