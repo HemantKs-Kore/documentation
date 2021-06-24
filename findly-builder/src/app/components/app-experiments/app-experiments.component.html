@@ -348,7 +348,7 @@
           </div>
         </div>
         <div class="delete-rule" (click)="removeVariant(varIndex)"
-          [hidden]="exp_status !== 'configured' && form_type === 'edit'">
+          [hidden]="exp_status !== 'configured' && form_type === 'edit'||[0,1].includes(varIndex)">
           <img src="assets/icons/modal-close.svg" />
         </div>
       </div>
