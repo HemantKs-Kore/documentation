@@ -9,7 +9,7 @@
                 <div class="title">Fields</div>
                 <div class="d-flex align-items-center">
                     <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
-                        <input type="text" placeholder="Search" class="input-search" [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}"
+                        <input type="text" placeholder="Search" maxlength="60" class="input-search" (keyup)="searchByFields()" [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}"
                             autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (focusout)="focusoutSearch();"
                             (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
@@ -158,7 +158,8 @@
                         </div>
                     </div>
                     <perfect-scrollbar class="table_body_content">
-                        <div class="table_body row m-0" *ngFor="let field of filelds | fieldsFilter: [ searchFields, 'fieldName'];let i=index">
+                        <!-- <div class="table_body row m-0" *ngFor="let field of filelds;let i=index"> -->
+                            <div class="table_body row m-0" *ngFor="let field of filelds | fieldsFilter: [ searchFields, 'fieldName'];let i=index">
                             <div class="col-2 title">{{field.fieldName}}</div>
                             <div class="col-2 title">{{field.fieldDataType | translate}}</div>
                             <div class="col-2 title">{{field.isMultiValued?'Yes':'No'}}</div>
@@ -175,6 +176,7 @@
                         <div class="divBlockEmptylastChild text-center">         
                             <div class="desc">No search results found</div>
                         </div> 
+                        <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
                     </perfect-scrollbar>  
                 </div>
                
@@ -197,7 +199,7 @@
                     <div class="label-text">Field Name</div>
                     <div class="kr-sg-dropdowns col-12 p-0">
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                            <input type="text" placeholder="Enter Field Name" class="input-search dropdown-toggle dropdown-input" [ngClass]="{'err-block' : (!newFieldObj.fieldName.length && submitted)}" data-toggle="dropdown"  [(ngModel)]="newFieldObj.fieldName" (keyup)="getFieldAutoComplete(newFieldObj.fieldName)">
+                            <input type="text" placeholder="Enter Field Name" maxlength="60" class="input-search dropdown-toggle dropdown-input" [ngClass]="{'err-block' : (!newFieldObj.fieldName.length && submitted)}" data-toggle="dropdown"  [(ngModel)]="newFieldObj.fieldName" (keyup)="getFieldAutoComplete(newFieldObj.fieldName)">
                             <ul class="dropdown-menu content-menu" [hidden]="!newFieldObj.fieldName">
                                 <perfect-scrollbar class="scroll-search-field">
                                     <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="newFieldObj.fieldName = suggesition.fieldName; "><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
@@ -266,15 +268,15 @@
             </div>
             <div class="kr-sg-input-text col-10 p-0  d-none">
                 <div class="label-text">Default Value (Optional)</div>
-                <input type="text" placeholder="Add Value Here" class="input-text" [(ngModel)]="newFieldObj.defaultValue">
+                <input type="text" placeholder="Add Value Here" class="input-text" [(ngModel)]="newFieldObj.defaultValue" maxlength="60">
             </div>
-            <div class="kr-sg-inline-notification" *ngIf="!newFieldObj.isIndexed">
+            <div class="kr-sg-inline-notification align-items-start" *ngIf="!newFieldObj.isIndexed">
                 <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                <div class="tost-text">Indexed Property has been set to False. {{indexedWarningMessage}}</div>                                   
+                <div class="tost-text">Indexed Property has been set to False. {{indexedWarningMessage?(indexedWarningMessage+'.'):indexedWarningMessage}}</div>                                   
             </div>
-            <div class="kr-sg-inline-notification" *ngIf="newFieldObj._id && (newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType)">
+            <div class="kr-sg-inline-notification align-items-start" *ngIf="newFieldObj._id && (newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType)">
                 <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                <div class="tost-text">The field type has been changed from {{newFieldObj.previousFieldDataType | translate}} to {{newFieldObj.fieldDataType | translate}}. {{indexedWarningMessage}}</div>                                   
+                <div class="tost-text">The field type has been changed from {{newFieldObj.previousFieldDataType | translate}} to {{newFieldObj.fieldDataType | translate}}. {{indexedWarningMessage?(indexedWarningMessage+'.'):indexedWarningMessage}}</div>                                   
             </div>
         </div>
     </div>

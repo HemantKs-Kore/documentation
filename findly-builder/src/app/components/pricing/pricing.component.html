@@ -95,7 +95,7 @@
                 <div class="card-desc">Scheduled Crawling</div>
                 <div class="card-desc">Experiments</div>
                 <div class="card-desc">Community Support</div> -->
-                <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?'':compare('order',plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):("plan.choose_plan"| translate)}}</button>
+                <button class="kr-sg-button-secondary btn_lg" (click)="plan.name==='Enterprise'?enterpriseContactus():compare('order',plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):("plan.choose_plan"| translate)}}</button>
             </div>
           </div>
 

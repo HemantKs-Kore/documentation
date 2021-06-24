@@ -176,7 +176,7 @@ export class ResultInsightsComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       offset: this.skipPage,
-      limit: this.limitPage
+      limit: 10
     };
     let payload: any = {
       type: type,
@@ -211,12 +211,12 @@ export class ResultInsightsComponent implements OnInit {
   //pagination method
   paginate(event, type) {
     if (type === 'Results') {
-      this.limitPage = event.limit;
+      // this.limitPage = event.limit;
       this.skipPage = event.skip;
       this.getQueries('Results');
     }
     else if (type === 'QRESULT') {
-      this.Q_limitPage = event.limit;
+      // this.Q_limitPage = event.limit;
       this.Q_skipPage = event.skip;
       this.getQueries('SearchQueriesForResult');
     }

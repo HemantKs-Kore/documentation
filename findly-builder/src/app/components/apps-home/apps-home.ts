@@ -73,7 +73,6 @@ export class AppsListingComponent implements OnInit {
       return bDate - aDate;
     });
     this.apps = apps;
-    //this.recentApps = apps.sort((a, b) => b.lastAccessedOn.localeCompare(a.lastAccessedOn)).slice(0, 4);
   }
   openApp(app) {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
@@ -83,17 +82,22 @@ export class AppsListingComponent implements OnInit {
     this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
   }
   closeBoradingJourney() {
-    this.onboardingpopupjourneyRef.close();
+    if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
+      this.onboardingpopupjourneyRef.close();
+    }
     this.showBoarding = false;
   }
 
   openCreateApp() {
     this.createAppPopRef = this.createAppPop.open();
-    this.onboardingpopupjourneyRef.close();
+    if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
+      this.onboardingpopupjourneyRef.close();
+    }
   }
   closeCreateApp() {
     this.showBoarding = false;
     this.createAppPopRef.close();
+    this.newApp = { name: '', description: '' };
   }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -194,7 +198,13 @@ export class AppsListingComponent implements OnInit {
       validField = false
     }
     if (validField) {
-      this.createFindlyApp()
+      let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|<>\/?→←↑↓]+/;
+      if (!specialCharacters.test(this.newApp.description)) {
+        this.createFindlyApp()
+      }
+      else {
+        this.notificationService.notify('Special characters not allowed', 'error');
+      }
     }
 
   }

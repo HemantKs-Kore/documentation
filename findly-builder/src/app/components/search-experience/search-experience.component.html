@@ -57,7 +57,7 @@
                                 <div class="hover-action-edit-icon-search" (click)="selectSearchBox('placeholderText');$event.stopPropagation();closeAllBoxs('all');">
                                     <img src="assets/icons/border-pencil.svg">
                                 </div> 
-                                <input #elasticInput class="placeholder-custom-search" value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}" placeholder="search" [ngClass]="{'activeBox':selectSearch=='placeholderText'}" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor,'width.px': width,'background':'none'}" #data (change)="onEventLog('placeholderText',data.value);" (input)="resize()"> 
+                                <input #elasticInput maxlength="60" class="placeholder-custom-search" value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}" placeholder="search" [ngClass]="{'activeBox':selectSearch=='placeholderText'}" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor,'width.px': width,'background':'none'}" #data (change)="onEventLog('placeholderText',data.value);" (input)="resize()"> 
                             </div>                            
 
 
@@ -153,7 +153,7 @@
                                         </div>
                                         <div class="selected-previous-colors flex-wrap">
                                             <ng-container *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
-                                                <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;applyColor('inputbox1');color=col;"></div>
+                                                <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;color=col;"></div>
                                             </ng-container>                                           
                                         </div>
                                         <div class="save-switch" (click)="applyColor('inputbox1','save')">Save & Apply</div>
@@ -185,7 +185,7 @@
                                         </div>
                                         <div class="selected-previous-colors flex-wrap">
                                             <ng-container *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
-                                                <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;applyColor('inputbox2');color1=col;"></div>
+                                                <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;color1=col;"></div>
                                             </ng-container>                                           
                                         </div>
                                         <div class="save-switch" (click)="applyColor('inputbox2','save')">Save & Apply</div>
@@ -198,7 +198,7 @@
                             <div class="img-block"><img src="assets/icons/search-experience/dummy-image.svg"></div>
                             <div class="input-file">
                                 <div class="title">Drag and drop or <span class="browse">browse</span></div>
-                                <input type="file" name="avatar"  (change)="selectIcon($event,'searchIcon','auto')"/>
+                                <input type="file" name="avatar"  (change)="selectIcon($event,'searchIcon','auto')" accept=".jpg,.png,.jpeg,.gif" />
                                 <span class="icon-text d-flex align-items-center"><img src="assets/icons/info.svg" class="mr-2"> Recommended icon size : 26X26 pixels</span>
                             </div>
                         </div>
@@ -227,7 +227,7 @@
                                         </div>
                                         <div class="selected-previous-colors flex-wrap">
                                             <ng-container *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
-                                                <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;applyColor('placeholder');color2=col;"></div>
+                                                <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;color2=col;"></div>
                                             </ng-container>                                           
                                         </div>
                                         <div class="save-switch" (click)="applyColor('placeholder','save')">Save & Apply</div>
@@ -287,7 +287,7 @@
                                             </div>
                                             <div class="selected-previous-colors flex-wrap">
                                                 <ng-container *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
-                                                    <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;applyColor('buttonTextColor');color3=col;"></div>
+                                                    <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;color3=col;"></div>
                                                 </ng-container>                                           
                                             </div>
                                             <div class="save-switch" (click)="applyColor('buttonTextColor','save')">Save & Apply</div>
@@ -319,7 +319,7 @@
                                             </div>
                                             <div class="selected-previous-colors flex-wrap">
                                                 <ng-container *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
-                                                    <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;applyColor('buttonFill');color4=col;"></div>
+                                                    <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;color4=col;"></div>
                                                 </ng-container>                                           
                                             </div>
                                             <div class="save-switch" (click)="applyColor('buttonFill','save')">Save & Apply</div>
@@ -352,7 +352,7 @@
                                             </div>
                                             <div class="selected-previous-colors flex-wrap">
                                                 <ng-container *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
-                                                    <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;applyColor('buttonBorder');color5=col;"></div>
+                                                    <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;color5=col;"></div>
                                                 </ng-container>                                           
                                             </div>
                                             <div class="save-switch" (click)="applyColor('buttonBorder','save')">Save & Apply</div>
@@ -426,7 +426,7 @@
                                                 </div>
                                                 <div class="selected-previous-colors flex-wrap">
                                                     <ng-container *ngFor="let col of searchObject.searchWidgetConfig.userSelectedColors">
-                                                        <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;applyColor('msgColor');color6=col;"></div>
+                                                        <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;color6=col;"></div>
                                                     </ng-container>                                           
                                                 </div>
                                                 <div class="save-switch" (click)="applyColor('msgColor','save')">Save & Apply</div>

@@ -82,7 +82,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     clientSecret: '',
     clientId: ''
   }
-  importFaqInprogress=false;
+  importFaqInprogress = false;
   selectedLinkBotConfig: any;
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
@@ -434,7 +434,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.statusModalPopRef = this.statusModalPop.open();
   }
   closeStatusModal() {
-    this.importFaqInprogress=false;
+    this.importFaqInprogress = false;
     this.saveEvent.emit();
     const self = this;
     if (this.pollingSubscriber) {
@@ -540,12 +540,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     const _ext = fileName.substring(fileName.lastIndexOf('.'));
     this.extension = _ext
     if (this.selectedSourceType.sourceType != "faq") {
-      if (['.pdf', '.doc', '.ppt', '.xlsx', '.txt'].includes(this.extension)) {
+      if (['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx'].includes(this.extension)) {
         showProg = true;
       }
       else {
         $('#sourceFileUploader').val(null);
-        this.notificationService.notify('Please select a valid  pdf file', 'error');
+        this.notificationService.notify('Please select a valid file', 'error');
         // return;
       }
     }
@@ -1353,7 +1353,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
       console.log("imp faq res", res);
-      this.importFaqInprogress=true;
+      this.importFaqInprogress = true;
       this.openStatusModal();
       this.addSourceModalPopRef.close();
       this.dockService.trigger(true)
@@ -1429,7 +1429,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log()
     if (value <= -1) {
       this.crawlDepth = 0;
-      this.maxUrlLimit =0;
+      this.maxUrlLimit = 0;
     }
   }
   copy(val) {
@@ -1619,7 +1619,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.getAssociatedBots();
           this.workflowService.linkBot(this.streamID);
           this.workflowService.smallTalkEnable(res.stEnabled);
+          this.closeLinkBotsModal()
           this.notificationService.notify("Bot Linked Successfully", 'success');
+          this.router.navigate(['/botActions'], { skipLocationChange: true });
           // this.syncLinkedBot();
           // this.loadingContent = false;
         },

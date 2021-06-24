@@ -14,7 +14,7 @@
       <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
        
         <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}" style="float: left">                               
-          <input type="text" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}" autocomplete="off" [(ngModel)]="searchFields" (focusout)="focusoutSearch();" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+          <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}" autocomplete="off" [(ngModel)]="searchFields" (focusout)="focusoutSearch();" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
           (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
       <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields">
       <img class="close-icon" *ngIf="searchFields" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="searchFields='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
@@ -261,7 +261,7 @@
 <div class="no-experiments" *ngIf="filterExperiments.length!=0&&listOfExperiments.length===0">
         <div>{{"experiments.no_result_found"| translate}}</div>
       </div>
-      <div *ngIf='exp_totalRecord && exp_totalRecord > 10' style="margin-right:45px;"><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='exp_limitPage' (pageChanged)="paginate($event)"></app-record-pagination></div>
+      <div *ngIf='exp_totalRecord && exp_totalRecord > 10' style="margin-right:45px;"><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination></div>
     </perfect-scrollbar>
   </div>
 </div> 
@@ -290,7 +290,7 @@
       <div class="row ml-0 mr-0 mb-3 col-12 p-0 pr-30">
         <div class="kr-sg-input-text col-8 pl-pr-5">
           <div class="label-text">{{"experiments.exp_name"| translate}}</div>
-          <input type="text" autocomplete="off" id="enterName"placeholder="Enter Experiment Name" class="input-text"  (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')"
+          <input type="text" autocomplete="off" maxlength="60" id="enterName"placeholder="Enter Experiment Name" class="input-text"  (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')"
             [(ngModel)]="experimentObj.name" [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{
               disable_edit: exp_status !== 'configured' && form_type === 'edit'
             }" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")?"#EFF0F1":"#ffffff","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}'/>
@@ -301,7 +301,7 @@
       <div class="row ml-0 mr-0 mb-3 col-12 p-0 pr-30" *ngFor="let vari of variantsArray; let varIndex = index">
         <div class="kr-sg-input-text col-4 pl-pr-5 ifvariant"> 
           <div class="label-text">{{"experiments.var_name"| translate}}</div>
-          <input type="text" autocomplete="off" #varName placeholder="Enter Variant Name" class="input-text"  id ="variantName{{varIndex}}"  (change)="inputChanged('variantName', varIndex)"
+          <input type="text" maxlength="60" autocomplete="off" #varName placeholder="Enter Variant Name" class="input-text"  id ="variantName{{varIndex}}"  (change)="inputChanged('variantName', varIndex)"
             [(ngModel)]="vari.name" (blur)="fetchVariant(varIndex, varName.value, 'name'); inputChanged('variantName', varIndex)"
             [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{
               disable_edit: exp_status !== 'configured' && form_type === 'edit'
@@ -348,7 +348,7 @@
           </div>
         </div>
         <div class="delete-rule" (click)="removeVariant(varIndex)"
-          [hidden]="exp_status !== 'configured' && form_type === 'edit'">
+          [hidden]="exp_status !== 'configured' && form_type === 'edit'||[0,1].includes(varIndex)">
           <img src="assets/icons/modal-close.svg" />
         </div>
       </div>

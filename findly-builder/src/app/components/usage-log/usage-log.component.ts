@@ -7,6 +7,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import * as moment from 'moment';
 import { of, interval, Subject, Subscription } from 'rxjs';
+declare const $: any;
 @Component({
   selector: 'app-usage-log',
   templateUrl: './usage-log.component.html',
@@ -31,6 +32,7 @@ export class UsageLogComponent implements OnInit {
     'requestSourceFilter': 'all',
     'resultsFilter': 'all'
   }
+  activeClose = false;
   loadingLogs = false;
   loading = false;
   selectedSort = '';
@@ -90,7 +92,7 @@ export class UsageLogComponent implements OnInit {
       quaryparms.searchQuary = quary;
       serviceId = 'get.usageLogs.search';
     }
-    if (!this.usageLogs.length) {
+    if (!this.usageLogs.length && !quary) {
       this.loadingLogs = true;
     }
     this.service.invoke(serviceId, quaryparms).subscribe(res => {
@@ -306,7 +308,20 @@ export class UsageLogComponent implements OnInit {
       this.service.invoke('put.dockStatus', params, payload).subscribe(res => { });
     }, err => { console.log(err) });
   }
-
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+      // $('#'+inputSearch).focus();
+    },500)
+  }
+  focusoutSearch(){
+      if(this.activeClose){
+        this.searchUsageLog='';
+        this.activeClose = false;
+        this.getUsageLogs();
+       }
+   this.showSearch= !this.showSearch;
+  }
   ngOnDestroy() {
     // this.subscription ? this.subscription.unsubscribe : false;
   }

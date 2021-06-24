@@ -50,10 +50,10 @@
           <div class="body-content-plan" *ngIf="listPlanFeaturesData">
             <div class="body-table-plan row" *ngFor="let feature of listPlanFeaturesData[0]" [hidden]="feature[1].name==undefined">
               <div class="title width-24 pl-4">{{feature[1].name}}</div>
-              <div class="title width-19" *ngIf="feature[1].fullDisplayText!=undefined&&feature[1].fullDisplayText!='-'||['none','limited'].includes(feature[1].access)">{{feature[1].access=='none'?'-':feature[1].access=='limited'?feature[1].limit:feature[1].fullDisplayText}}</div>
-              <div class="title width-19" *ngIf="feature[2].fullDisplayText!=undefined&&feature[2].fullDisplayText!='-'||['none','limited'].includes(feature[2].access)">{{feature[2].access=='none'?'-':feature[2].access=='limited'?feature[2].limit:feature[2].fullDisplayText}}</div>
-              <div class="title width-19" *ngIf="feature[3].fullDisplayText!=undefined&&feature[3].fullDisplayText!='-'||['none','limited'].includes(feature[3].access)">{{feature[3].access=='none'?'-':feature[3].access=='limited'?feature[3].limit:feature[3].fullDisplayText}}</div>
-              <div class="title width-19" *ngIf="feature[4].fullDisplayText!=undefined&&feature[4].fullDisplayText!='-'||['none','limited'].includes(feature[4].access)">{{feature[4].access=='none'?'-':feature[4].access=='limited'?feature[4].limit:feature[4].fullDisplayText}}</div>
+              <div class="title width-19" *ngIf="feature[1].fullDisplayText!=undefined&&feature[1].fullDisplayText!='-'||['none','limited'].includes(feature[1].access)">{{feature[1].access=='none'?'-':feature[1].access=='limited'?feature[1].fullDisplayText==undefined?feature[1].limit:feature[1].fullDisplayText:feature[1].fullDisplayText}}</div>
+              <div class="title width-19" *ngIf="feature[2].fullDisplayText!=undefined&&feature[2].fullDisplayText!='-'||['none','limited'].includes(feature[2].access)">{{feature[2].access=='none'?'-':feature[2].access=='limited'?feature[2].fullDisplayText==undefined?feature[2].limit:feature[2].fullDisplayText:feature[2].fullDisplayText}}</div>
+              <div class="title width-19" *ngIf="feature[3].fullDisplayText!=undefined&&feature[3].fullDisplayText!='-'||['none','limited'].includes(feature[3].access)">{{feature[3].access=='none'?'-':feature[3].access=='limited'?feature[3].fullDisplayText==undefined?feature[3].limit:feature[3].fullDisplayText:feature[3].fullDisplayText}}</div>
+              <div class="title width-19" *ngIf="feature[4].fullDisplayText!=undefined&&feature[4].fullDisplayText!='-'||['none','limited'].includes(feature[4].access)">{{feature[4].access=='none'?'-':feature[4].access=='limited'?feature[4].fullDisplayText==undefined?feature[4].limit:feature[4].fullDisplayText:feature[4].fullDisplayText}}</div>
               <div class="title width-19" *ngIf="feature[1].access!='none'&&['full','custom'].includes(feature[1].access)&&['-',undefined].includes(feature[1].fullDisplayText)"><img src="assets/icons/pricing/check.svg"></div>
               <div class="title width-19" *ngIf="feature[2].access!='none'&&['full','custom'].includes(feature[2].access)&&['-',undefined].includes(feature[2].fullDisplayText)"><img src="assets/icons/pricing/check.svg"></div>
               <div class="title width-19" *ngIf="feature[3].access!='none'&&['full','custom'].includes(feature[3].access)&&['-',undefined].includes(feature[3].fullDisplayText)"><img src="assets/icons/pricing/check.svg"></div>
@@ -225,19 +225,54 @@
 </kr-modal>
 
 <!--contact us form popup-->
-<kr-modal modalType="center" modalClass="modal_popups_ chooseplan-price" #contactUsModel>
-  <div class="modal-header">
-    <div class="title">Contact Us Form</div>
-    <div class="close_icon"><img (click)="closeContatcusModel()" src="assets/icons/modal-close.svg"></div>
-  </div>
-  <perfect-scrollbar>
-    <div class="modal-body">
-      <div class="desc-text-info">
-        <span>Please enter contact us Details</span>. 
+<kr-modal modalType="center" modalClass="modal_popups_ contact-us-modal_" #contactUsModel>
+    <div class="left-sec-form">
+      <div class="logo-searchassist">
+        <img src="assets/icons/pricing/logo.svg">
+      </div>
+      <div class="img-block-content">
+        <div class="img-block">
+          <img src="assets/icons/pricing/contactus.svg">
+        </div>
+        <div class="title">Try SearchAssist for an ultimate search experience</div>
       </div>
     </div>
-  </perfect-scrollbar>
-  <div class="modal-footer text-right">
-    <button class="kr-sg-button-primary btn_lg">Submit</button>
-  </div>
+    <div class="right-sec-form">
+      <perfect-scrollbar>
+        <div class="scroll-content">
+          <div class="close_icon"><img (click)="closeContatcusModel()" src="assets/icons/modal-close.svg"></div>
+          <div class="kr-sg-input-text mb-3">
+            <div class="label-text">Name</div>
+            <input type="text" placeholder="Name" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.name">
+          </div>
+          <div class="kr-sg-input-text mb-3">
+            <div class="label-text">Email</div>
+            <input type="text" placeholder="Email" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.email">
+          </div>
+          <div class="kr-sg-input-text mb-3">
+            <div class="label-text">Contact Number</div>
+            <input type="text" placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.phone">
+          </div>
+          <div class="kr-sg-input-text-area mb-3">
+            <div class="label-text">Message</div>
+            <textarea placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.message"></textarea>
+          </div>
+          <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()">Submit Request</button>
+        </div>
+      </perfect-scrollbar>
+    </div>
+</kr-modal>
+
+<!--contact us success popup-->
+<kr-modal modalType="center" modalClass="modal_popups_ enterprise-plan-contact" #contactUsSuccessModel>
+    <div class="modal-header">
+      <div class="title">Enterprise Plan</div>
+      <div class="close_icon"><img (click)="closeContatcusSuccessModel()" src="assets/icons/modal-close.svg"></div>
+    </div>
+    <div class="modal-body">
+      <div class="title">Thanks for providing the details. Our sales team will reach out soon!</div>
+    </div>
+    <div class="modal-footer text-right">
+      <button class="kr-sg-button-primary btn_lg" (click)="closeContatcusSuccessModel()">Done</button>
+    </div>
 </kr-modal>

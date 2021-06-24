@@ -171,7 +171,7 @@ export class AppHeaderComponent implements OnInit {
       }
     });
     this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.loadHeader();
     this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
@@ -179,9 +179,7 @@ export class AppHeaderComponent implements OnInit {
       })
     })
     this.workflowService.mainMenuRouter$.subscribe(route => {
-      if (route) {
-        this.mainMenu = route;
-      }
+      this.mainMenu = route;
     });
   }
   loadHeader() {
@@ -603,20 +601,26 @@ export class AppHeaderComponent implements OnInit {
   //get all apps
   getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
-      this.prepareApps(res);
+      let app_id = this.workflowService?.selectedApp();
+      if (app_id) {
+        this.recentApps = res.filter(app => app._id != app_id._id).slice(0, 4)
+      }
     }, errRes => {
       console.log(errRes);
     });
   }
   //sort apps
-  prepareApps(apps) {
-    this.recentApps = apps.slice(0, 4);
-  }
+  // prepareApps(apps) {
+  //   this.recentApps = apps.slice(0, 4);
+  // }
   //open app
   openApp(app) {
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     this.appSelectionService.openApp(app);
     this.appSelectionService.refreshSummaryPage.next('changed');
+    setTimeout(() => {
+      this.workflowService.mainMenuRouter$.next('');
+    }, 100)
   }
   //create new app
   openCreateApp() {

@@ -66,8 +66,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   btnCount;
   btnAllCount;
   pagingData: any[] = [];
-  statusArr = [];
-  docTypeArr = [];
+  statusArr;
+  docTypeArr;
   selectedFilter: any = ''
   executionLogStatus = false;
   componentType: string = 'addData';
@@ -169,7 +169,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   filterTableSource = "all";
   execution = false;
   page = true;
-  executionHistoryData: any;
+  executionHistoryData: any = [];
   sourceStatus = 'success';
   useCookies = false;
   respectRobotTxtDirectives = false;
@@ -268,6 +268,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   getSourceList() {
+    this.statusArr = [];
+    this.docTypeArr = [];
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -533,7 +535,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         // $('.tabname')[0].classList.add('active');
         // $('.tabname')[1].classList.remove('active');
         // $('.tabname')[2].classList.remove('active');
-        if (this.selectedSource.recentStatus == 'success') {
+        if (this.selectedSource.recentStatus == 'success' || (this.selectedSource.recentStatus == 'running' && this.selectedSource.numPages > 0) || (this.selectedSource.recentStatus == 'inprogress' && this.selectedSource.numPages > 0)) {
           this.execution = false;
           this.isConfig = false;
           this.page = true;
@@ -603,6 +605,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   openStatusSlider(source) {
     console.log("sourec opned", source)
+    this.executionHistoryData = [];
     this.pagesSearch = '';
     // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
     //   this.notificationService.notify('Source extraction is still in progress', 'error');
@@ -1307,9 +1310,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       sourceType: record.type,
     };
     this.service.invoke('recrwal', quaryparms).subscribe(res => {
-      this.getSourceList();
       this.dockService.trigger(true);
       this.notificationService.notify('Re-Crawling Initiated', 'success');
+      this.getSourceList();
       this.closeStatusModal();
       //this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
     }, errRes => {
@@ -1612,7 +1615,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     console.log()
     if (value <= -1) {
       this.crawlDepth = 0;
-      this.maxUrlLimit=0;
+      this.maxUrlLimit = 0;
     }
   }
 }

@@ -21,7 +21,7 @@
         </div>
         <div class="col-8 right-sec p-0" *ngIf=" !(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)">
             <div class="kr-sg-input-search" [ngClass]="{ 'd-none': !showSearch }">
-                <input type="text" placeholder="Search" id="inputSearch" class="input-search" [ngClass]="{'pl-33':!searchRules,'pl-2':searchRules}" autocomplete="off" [(ngModel)]="searchRules" (focusout)="focusoutSearch()" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                <input type="text" placeholder="Search"  maxlength="60" id="inputSearch" class="input-search" (keyup)="searchByRule()" [ngClass]="{'pl-33':!searchRules,'pl-2':searchRules}" autocomplete="off" [(ngModel)]="searchRules" (focusout)="focusoutSearch()" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                     (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                 <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchRules">
                 <img class="close-icon" *ngIf="searchRules" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchRules}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="searchRules='';toggleSearch(false)">
@@ -109,7 +109,8 @@
         
     </div>
     <perfect-scrollbar class="scroll_table">
-        <div class="body_sec row m-0" *ngFor="let ruleObj of rules | filter: [searchRules, 'ruleName']" [ngClass]="{
+        <!-- <div class="body_sec row m-0" *ngFor="let ruleObj of rules | filter: [searchRules, 'ruleName']" [ngClass]="{ -->
+            <div class="body_sec row m-0" *ngFor="let ruleObj of rules" [ngClass]="{
         selected:
           selcectionObj &&
           selcectionObj.selectedItems &&
@@ -160,7 +161,7 @@
                             </span>
                         </span>
                     </div>
-                    <img class="pl-1 d-inline-flex" *ngIf="outcome.showFieldWarning && outcome.showFieldWarning !== 'false'" src="assets/icons/info-blue.svg"  container="body" ngbTooltip="{{fieldWarnings[outcome.showFieldWarning] || outcome.showFieldWarning}}" tooltipClass="{{modifyFieldWarningMsg(outcome.showFieldWarning)?'my-custom-warning-class':''}}"
+                    <img class="pl-1 d-inline-flex" *ngIf="outcome.showFieldWarning && outcome.showFieldWarning !== 'false'" src="assets/icons/info-blue.svg"  container="body" ngbTooltip="{{fieldWarnings[outcome.showFieldWarning] || outcome.showFieldWarning}}" tooltipClass="{{modifyFieldWarningMsg(outcome.showFieldWarning)?'my-custom-warning-class':'text-left-warning'}}"
                     />
                 </ng-container>
             </div>
@@ -176,6 +177,7 @@
         <div class="divBlockEmptylastChild text-center">
             <div class="desc">No search results found</div>
         </div>
+        <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
     </perfect-scrollbar>
     <div class="empty-rules" *ngIf="!loadingContent && !(rules && beforeFilterRules && beforeFilterRules.length)">
         <img src="assets/images/icons/empty_ill.svg" />
@@ -202,7 +204,7 @@
 
             <div class="kr-sg-input-text mb-5">
                 <div class="label-text">{{ "businessRules.rule_name" | translate }}</div>
-                <input type="text" placeholder="Rule Name" class="input-text" [(ngModel)]="addEditRuleObj.ruleName" [ngClass]="{'err-block' : (!addEditRuleObj.ruleName.length && submitted)}"/>
+                <input type="text" placeholder="Rule Name"  maxlength="60" class="input-text" [(ngModel)]="addEditRuleObj.ruleName" [ngClass]="{'err-block' : (!addEditRuleObj.ruleName.length && submitted)}"/>
                 <img *ngIf="!addEditRuleObj.ruleName && submitted" id="ruleNameWarning" src="assets/icons/warning_escalation.svg" style="top: 60%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
             </div>
             <div class="rules-block row">
@@ -472,8 +474,8 @@
                                                 <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{"businessRules." + outcomeObj.outcomeValueType | translate}}
                         </button>
                                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                                    <li ngbDropdownItem (click)="outcomeSclection(outcomeObj,'static','outcomeValueType')" [ngClass]="{'active':outcomeObj.outcomeValueType==='static'}">{{"businessRules.static" | translate}}</li>
-                                                    <li ngbDropdownItem (click)="outcomeSclection(outcomeObj,'dynamic','outcomeValueType')" [ngClass]="{'active':outcomeObj.outcomeValueType==='dynamic'}">{{"businessRules.dynamic" | translate}}</li>
+                                                    <li ngbDropdownItem (click)="outcomeSclection(outcomeObj,'static','outcomeValueType');" [ngClass]="{'active':outcomeObj.outcomeValueType==='static'}">{{"businessRules.static" | translate}}</li>
+                                                    <li ngbDropdownItem (click)="outcomeSclection(outcomeObj,'dynamic','outcomeValueType');" [ngClass]="{'active':outcomeObj.outcomeValueType==='dynamic'}">{{"businessRules.dynamic" | translate}}</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -489,7 +491,7 @@
                                                     <input #contextSuggestedImput [placeholder]="'Type Keyword and Enter'" (click)='buildCurrentContextSuggetions(outcomeObj)' [(ngModel)]="outcomeObj.newValue" (keyup)='buildCurrentContextSuggetions(outcomeObj)' [matChipInputFor]="chipList" [matAutocomplete]="auto"
                                                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addOutcome($event, outcomeObj, i)" />
                                                 </mat-chip-list>
-                                                <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown" (optionSelected)="selected($event,outcomeObj,index)">
+                                                <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown {{outcomeObj.outcomeValueType==='static'?'hideAutoFocus':''}}" (optionSelected)="selected($event,outcomeObj,index)">
                                                     <mat-option *ngFor="let suggesion of currentSugg">
                                                         {{suggesion}}
                                                     </mat-option>

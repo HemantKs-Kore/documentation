@@ -269,7 +269,7 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
-                    max-width: 150px;
+                    max-width: 145px;
                     margin: 0 5px 5px 0 !important;
                     height: 18px;
                     .small-text {
@@ -766,4 +766,12 @@
 ::ng-deep .my-custom-warning-class .tooltip-inner {
     max-width: 235px !important;
     text-align: left !important;
+  }
+
+  ::ng-deep .text-left-warning .tooltip-inner {
+    text-align: left !important;
+  }
+
+  ::ng-deep .mat_autofocus_dropdown.hideAutoFocus.mat-autocomplete-panel.mat-autocomplete-visible{
+    visibility: hidden !important;
   }

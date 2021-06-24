@@ -443,12 +443,12 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       this.selectedConfig = this.workflowService.selectedQueryPipeline()._id;
       setTimeout(() => {
         this.selectedApp = this.workflowService.selectedApp();
-        if (this.selectedApp.searchIndexes.length) {
-          this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+        if (this.selectedApp?.searchIndexes?.length) {
+          this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
         }
       }, 1000)
     })
-    if (this.selectedApp.searchIndexes.length) {
+    if (this.selectedApp?.searchIndexes?.length) {
       this.searchIndexId = this.selectedApp.searchIndexes[0]._id
     }
     // this.indexConfigs.forEach(element => {

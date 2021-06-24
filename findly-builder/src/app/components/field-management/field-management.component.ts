@@ -30,7 +30,7 @@ export class FieldManagementComponent implements OnInit {
   currentfieldUsage: any
   fetchingFieldUsage = false;
   indexedWarningMessage = '';
-  selectedSort = '';
+  selectedSort = 'fieldName';
   isAsc = true;
   fieldAutoSuggestion: any = [];
   fieldDataTypeArr: any = [];
@@ -38,6 +38,7 @@ export class FieldManagementComponent implements OnInit {
   isRequiredArr: any = [];
   isStoredArr: any = [];
   isIndexedArr: any = [];
+  totalRecord:number = 0;
   filterSystem: any = {
     'typefilter': 'all',
     'isMultiValuedFilter': 'all',
@@ -74,6 +75,9 @@ export class FieldManagementComponent implements OnInit {
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadFileds();
     })
+  }
+  ngAfterViewInit(){
+   
   }
   loadFileds() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -156,7 +160,7 @@ export class FieldManagementComponent implements OnInit {
             if (res && res.rules && res.rules.used) {
               usageText = usageText + ', ' + 'Weights'
             }else{
-              usageText = usageText + 'and ' + 'Weights.'
+              usageText = usageText + 'and ' + 'Weights'
             }
           } else {
             usageText = usageText + ' Weights'
@@ -165,18 +169,18 @@ export class FieldManagementComponent implements OnInit {
         if (res && res.rules && res.rules.used) {
           deps.rules = true;
           if (deps.facets || deps.weights) {
-            usageText = usageText + ' and ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s ':' ')
+            usageText = usageText + ' and ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
           } else {
-            usageText = usageText + ' ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s ':' ')
+            usageText = usageText + ' ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
           }
         }
 
         if (res && res.resultTemplates && res.resultTemplates.used) {
           deps.resultTemplate = true;
           if (deps.facets || deps.weights || deps.rules) {
-            usageText = usageText + 'and ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s.':'.');
+            usageText = usageText + ' and ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'');
           } else {
-            usageText = usageText + 'will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s.':'.')
+            usageText = usageText + ' will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
           }
         }
       }
@@ -209,34 +213,34 @@ export class FieldManagementComponent implements OnInit {
       }
       if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplate && res.resultTemplate.used)) {
         isDisableDeleteBtn = true;
-        usageText = 'Deleting ' + record.fieldName + ' field will impact the associated '
+        usageText = 'Deleting ' + record.fieldName + ' field will impact the associated'
         if (res && res.facets && res.facets.used) {
           deps.facets = true;
-          usageText = usageText + 'Facets '
+          usageText = usageText + ' Facets'
         }
         if (res && res.weights && res.weights.used) {
           deps.weights = true;
           if (deps.facets) {
-            usageText = usageText + '& ' + 'Weights '
+            usageText = usageText + '& ' + 'Weights'
           } else {
-            usageText = usageText + 'Weights '
+            usageText = usageText + ' Weights'
           }
         }
         if (res && res.rules && res.rules.used) {
           if (deps.facets || deps.weights) {
-            usageText = usageText + 'and will impact ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s ':' ')
+            usageText = usageText + ' and will impact ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
           } else {
-            usageText = usageText + 'and will impact ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s ':' ')
+            usageText = usageText + ' and will impact ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
           }
         }
         if (res && res.resultTemplates && res.resultTemplates.used) {
           deps.resultTemplate = true;
           if ((deps.facets || deps.weights) && deps.rules) {
-            usageText = usageText + 'and ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s.':'.')
+            usageText = usageText + ' and ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
           } else if ((deps.facets || deps.weights) && !deps.rules) {
-            usageText = usageText + 'and will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s.':'.')
+            usageText = usageText + ' and will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
           } else {
-            usageText = usageText + 'will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s.':'.')
+            usageText = usageText + ' will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
           }
         }
       }
@@ -306,7 +310,7 @@ export class FieldManagementComponent implements OnInit {
         } else {
           this.notificationService.notify('Added Successfully', 'success');
         }
-        this.getFileds();
+        this.getFileds(null, this.searchFields);
         this.closeModalPopup();
       }, errRes => {
         this.errorToaster(errRes, 'Failed to create field');
@@ -316,15 +320,27 @@ export class FieldManagementComponent implements OnInit {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
-  getFileds(offset?) {
+  defaultSort(field,icon,isAscBool){
+    this.getSortIconVisibility(field, icon)
+    this.isAsc = !isAscBool;
+    this.sortBy(field);
+        
+  }
+  getFileds(offset?,searchFields?) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
       offset: offset || 0,
-      limit: 100
+      limit: 10
     };
-    this.service.invoke('get.allField', quaryparms).subscribe(res => {
+    let serviceId = 'get.allField';
+    if(searchFields){
+      quaryparms.search = searchFields;
+      serviceId = 'get.allSearchField';
+    }
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
       this.filelds = res.fields || [];
+      this.totalRecord = res.totalCount || 0;
       this.loadingContent = false;
       if (this.filelds.length) {
         this.filelds.forEach(element => {
@@ -339,7 +355,7 @@ export class FieldManagementComponent implements OnInit {
         this.isRequiredArr = [...new Set(this.isRequiredArr)];
         this.isStoredArr = [...new Set(this.isStoredArr)];
         this.isIndexedArr = [...new Set(this.isIndexedArr)];
-
+        this.defaultSort('fieldName','up',true)
       }
     }, errRes => {
       this.loadingContent = false;
@@ -588,7 +604,15 @@ export class FieldManagementComponent implements OnInit {
 
   this.filelds = JSON.parse(JSON.stringify(tempFields));
 }
-
+searchByFields(){
+  if (this.searchFields) {
+    // this.loadingTab = true;
+    this.getFileds(null, this.searchFields);
+  } else {
+    this.getFileds();
+    this.searchFields=''
+  }
+}
 getFieldAutoComplete(query) {
   if(!query){
     query = '';
@@ -608,6 +632,7 @@ focusoutSearch(){
   if(this.activeClose){
     this.searchFields='';
     this.activeClose = false;
+    this.getFileds(null,this.searchFields)
    }
 this.showSearch= !this.showSearch;
 }
@@ -616,6 +641,10 @@ focusinSearch(inputSearch){
     document.getElementById(inputSearch).focus();
   },100)
 }
+
+paginate(event) {
+  this.getFileds(event.skip,this.searchFields)
+}
   ngOnDestroy() {
     const self = this;
     if (this.subscription) {
@@ -623,4 +652,5 @@ focusinSearch(inputSearch){
     }
     
   }
+
 }
