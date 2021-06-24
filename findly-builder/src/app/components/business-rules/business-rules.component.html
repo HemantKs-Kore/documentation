@@ -474,8 +474,8 @@
                                                 <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{"businessRules." + outcomeObj.outcomeValueType | translate}}
                         </button>
                                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                                    <li ngbDropdownItem (click)="outcomeSclection(outcomeObj,'static','outcomeValueType')" [ngClass]="{'active':outcomeObj.outcomeValueType==='static'}">{{"businessRules.static" | translate}}</li>
-                                                    <li ngbDropdownItem (click)="outcomeSclection(outcomeObj,'dynamic','outcomeValueType')" [ngClass]="{'active':outcomeObj.outcomeValueType==='dynamic'}">{{"businessRules.dynamic" | translate}}</li>
+                                                    <li ngbDropdownItem (click)="outcomeSclection(outcomeObj,'static','outcomeValueType');" [ngClass]="{'active':outcomeObj.outcomeValueType==='static'}">{{"businessRules.static" | translate}}</li>
+                                                    <li ngbDropdownItem (click)="outcomeSclection(outcomeObj,'dynamic','outcomeValueType');" [ngClass]="{'active':outcomeObj.outcomeValueType==='dynamic'}">{{"businessRules.dynamic" | translate}}</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -491,7 +491,7 @@
                                                     <input #contextSuggestedImput [placeholder]="'Type Keyword and Enter'" (click)='buildCurrentContextSuggetions(outcomeObj)' [(ngModel)]="outcomeObj.newValue" (keyup)='buildCurrentContextSuggetions(outcomeObj)' [matChipInputFor]="chipList" [matAutocomplete]="auto"
                                                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addOutcome($event, outcomeObj, i)" />
                                                 </mat-chip-list>
-                                                <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown" (optionSelected)="selected($event,outcomeObj,index)">
+                                                <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown {{outcomeObj.outcomeValueType==='static'?'hideAutoFocus':''}}" (optionSelected)="selected($event,outcomeObj,index)">
                                                     <mat-option *ngFor="let suggesion of currentSugg">
                                                         {{suggesion}}
                                                     </mat-option>

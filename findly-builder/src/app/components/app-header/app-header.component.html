@@ -144,9 +144,9 @@
                                             <sup *ngIf="isAnyRecordCompleted" class="completed-notification"></sup>
                                           </a>
                                         </li>
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
                                           <a class="nav-link disabled" data-toggle="tab" href="#activities">Activities</a>
-                                        </li>                                       
+                                        </li> -->
                                     </ul>
                                     <div class="tab-content">
                                         <div id="statusupdates" class="tab-pane active">
@@ -275,12 +275,12 @@
     <div class="modal-body">
       <div class="kr-sg-input-text mb-3">
         <div class="label-text">App Name</div>
-        <input maxlength="60" type="text" autocomplete="off" placeholder="Enter App Name"  [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
+        <input maxlength="128" type="text" autocomplete="off" placeholder="Enter App Name"  [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
         <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
       </div>
       <div class="kr-sg-input-text">
         <div class="label-text">Description</div>
-        <input class="input-text" maxlength="250" placeholder="Enter App Description" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
+        <input class="input-text" maxlength="512" placeholder="Enter App Description" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
       </div>
       <div class="kr-sg-dropdowns w-100">
         <div class="label-text">Language</div>

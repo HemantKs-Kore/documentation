@@ -289,7 +289,7 @@
         </div>  -->
 
         <div class="footer-info">
-            <div class="selected-length"><span *ngIf="recordArray.length > 0">{{ recordArray.length }} results selected </span></div>
+            <div class="selected-length"><span *ngIf="recordArray.length > 0">{{ recordArray.length }} result{{(recordArray.length > 1) ? 's' : '' }} selected </span></div>
             <div class="btns-sec">
                 <button class="kr-sg-button-secondary btn_lg" (click) = "cancelRecord()">Cancel</button>
                 <button class="kr-sg-button-primary btn_lg" [ngClass] = "{'add' : recordArray.length > 0}" (click) = "pushRecord()" [disabled] = "!recordArray.length">Pin Results</button>

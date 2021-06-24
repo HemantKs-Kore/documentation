@@ -771,3 +771,7 @@
   ::ng-deep .text-left-warning .tooltip-inner {
     text-align: left !important;
   }
+
+  ::ng-deep .mat_autofocus_dropdown.hideAutoFocus.mat-autocomplete-panel.mat-autocomplete-visible{
+    visibility: hidden !important;
+  }

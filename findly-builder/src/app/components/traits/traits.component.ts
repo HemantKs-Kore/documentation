@@ -441,14 +441,14 @@ export class TraitsComponent implements OnInit {
     };
     const triats = Object.keys(this.selcectionObj.selectedItems);
     const delateitems = {
-      triats: []
+      traitGroups: []
     };
     if (triats && triats.length) {
       triats.forEach(ele => {
         const obj = {
           _id: ele,
         }
-        delateitems.triats.push(obj);
+        delateitems.traitGroups.push(obj);
       });
     }
     const payload = delateitems;
