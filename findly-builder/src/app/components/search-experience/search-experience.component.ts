@@ -476,24 +476,29 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   //select search Icon
   selectIcon(event, type, icon, update?) {
     const file = icon === 'manual' ? event : event.target.files[0];
-    const _ext = file.name.substring(file.name.lastIndexOf('.'));
-    const formData = new FormData();
-    formData.set('file', file);
-    formData.set('fileContext', 'findly');
-    formData.set('Content-Type', file.type);
-    formData.set('fileExtension', _ext.replace('.', ''));
-    this.fileupload(formData, type, icon, update ? update : null);
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        if (type == "searchIcon") {
-          this.searchIcon = reader.result;
+    if (file.size < 5000) {
+      const _ext = file.name.substring(file.name.lastIndexOf('.'));
+      const formData = new FormData();
+      formData.set('file', file);
+      formData.set('fileContext', 'findly');
+      formData.set('Content-Type', file.type);
+      formData.set('fileExtension', _ext.replace('.', ''));
+      this.fileupload(formData, type, icon, update ? update : null);
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          if (type == "searchIcon") {
+            this.searchIcon = reader.result;
+          }
+          else {
+            this.emojiIcon = reader.result;
+          }
         }
-        else {
-          this.emojiIcon = reader.result;
-        }
+        reader.readAsDataURL(file);
       }
-      reader.readAsDataURL(file);
+    }
+    else {
+      this.notificationService.notify('Upload file size below 5KB', 'error');
     }
   }
   //fileupload method
