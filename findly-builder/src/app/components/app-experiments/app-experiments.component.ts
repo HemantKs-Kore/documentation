@@ -387,7 +387,7 @@ export class AppExperimentsComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       offset: this.exp_skipPage,
-      limit: this.exp_limitPage,
+      limit: 10,
       state: 'all'
     };
     this.service.invoke('get.experiment', quaryparms, header).subscribe(res => {
@@ -736,7 +736,7 @@ export class AppExperimentsComponent implements OnInit {
   }
   //pagination for list
   paginate(event) {
-    this.exp_limitPage = event.limit;
+    // this.exp_limitPage = event.limit;
     this.exp_skipPage = event.skip;
     this.getExperiments();
   }
