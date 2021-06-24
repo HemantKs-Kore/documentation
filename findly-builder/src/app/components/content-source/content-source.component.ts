@@ -534,7 +534,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         // $('.tabname')[0].classList.add('active');
         // $('.tabname')[1].classList.remove('active');
         // $('.tabname')[2].classList.remove('active');
-        if (this.selectedSource.recentStatus == 'success' || (this.selectedSource.recentStatus == 'running' && this.selectedSource.recentStatus.numPages > 0) || (this.selectedSource.recentStatus == 'inprogress' && this.selectedSource.recentStatus.numPages > 0)) {
+        if (this.selectedSource.recentStatus == 'success' || (this.selectedSource.recentStatus == 'running' && this.selectedSource.numPages > 0) || (this.selectedSource.recentStatus == 'inprogress' && this.selectedSource.numPages > 0)) {
           this.execution = false;
           this.isConfig = false;
           this.page = true;
