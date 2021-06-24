@@ -156,7 +156,7 @@ export class StructuredDataComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: searchIndex,
       skip: 0,
-      limit: 20
+      limit: 10
     };
     if (skip) {
       quaryparms.skip = skip;
