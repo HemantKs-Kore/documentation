@@ -82,13 +82,17 @@ export class AppsListingComponent implements OnInit {
     this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
   }
   closeBoradingJourney() {
-    this.onboardingpopupjourneyRef.close();
+    if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
+      this.onboardingpopupjourneyRef.close();
+    }
     this.showBoarding = false;
   }
 
   openCreateApp() {
     this.createAppPopRef = this.createAppPop.open();
-    this.onboardingpopupjourneyRef.close();
+    if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
+      this.onboardingpopupjourneyRef.close();
+    }
   }
   closeCreateApp() {
     this.showBoarding = false;

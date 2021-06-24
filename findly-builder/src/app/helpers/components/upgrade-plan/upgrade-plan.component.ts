@@ -87,7 +87,7 @@ export class UpgradePlanComponent implements OnInit {
   ngOnInit(): void {
     this.getPlan();
     this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     // this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
     // if (!this.currentSubscriptionPlan) {
     //   this.currentsubscriptionPlan(this.selectedApp)

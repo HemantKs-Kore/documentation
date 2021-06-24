@@ -441,7 +441,9 @@ export class AppExperimentsComponent implements OnInit {
   // add new experiment method
   async createExperiment() {
     if (this.variantsArray[0].indexPipelineId === undefined) {
-      this.variantsArray[0] = { ...this.variantsArray[0], indexPipelineId: this.indexConfig[0]._id, queryPipelineId: this.queryPipeline[0]._id };
+      let index = this.indexConfig.filter(index => index.default == true);
+      let query = this.queryPipeline.filter(query => query.default == true);
+      this.variantsArray[0] = { ...this.variantsArray[0], indexPipelineId: index[0]._id, queryPipelineId: query[0]._id };
     }
     if (this.someRange !== undefined) {
       await this.sliderPercentage();
@@ -493,7 +495,6 @@ export class AppExperimentsComponent implements OnInit {
   }
   validateSource() {
     let validField = true;
-
     if (!this.experimentObj.name) {
       $("#enterName").css("border-color", "#DD3646");
       $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
@@ -508,15 +509,17 @@ export class AppExperimentsComponent implements OnInit {
         // this.notificationService.notify('Enter the required fields to proceed', 'error');
         validField = false
       }
-      if (!element.indexPipelineName) {
-        $("#indexPipelineName" + i).css("border-color", "#DD3646");
-        // this.notificationService.notify('Enter the required fields to proceed', 'error');
-        validField = false
-      }
-      if (!element.queryPipelineName) {
-        $("#queryPipelineName" + i).css("border-color", "#DD3646");
-        // this.notificationService.notify('Enter the required fields to proceed', 'error');
-        validField = false
+      if (i != 0) {
+        if (!element.indexPipelineName) {
+          $("#indexPipelineName" + i).css("border-color", "#DD3646");
+          // this.notificationService.notify('Enter the required fields to proceed', 'error');
+          validField = false
+        }
+        if (!element.queryPipelineName) {
+          $("#queryPipelineName" + i).css("border-color", "#DD3646");
+          // this.notificationService.notify('Enter the required fields to proceed', 'error');
+          validField = false
+        }
       }
 
     });
