@@ -88,6 +88,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
   @Output() cancleEvent = new EventEmitter();
+  @Output() closeSourcePopupEvent = new EventEmitter();
   faqUpdate: Subject<void> = new Subject<void>();
   defaultStatusObj: any = {
     jobId: '',
@@ -1079,13 +1080,20 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         disableClose: true,
         autoFocus: true
       });
-      // dialogRef.afterClosed().subscribe(res => {
-      //   console.log(this.anntationObj);
-      //   if (this.anntationObj && this.anntationObj.status === 'Inprogress') {
-      //     this.openStatusModal();
-      //     this.poling(this.anntationObj._id);
-      //   }
-      // });
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+        if(res === 'cancelFaqExtract'){
+          const event: any = {}
+          this.closeSourcePopupEvent.emit(event);
+          this.cancleEvent.emit(event);
+          this.closeAddSourceModal();
+        }
+        // console.log(this.anntationObj);
+        // if (this.anntationObj && this.anntationObj.status === 'Inprogress') {
+        //   this.openStatusModal();
+        //   this.poling(this.anntationObj._id);
+        // }
+      });
     }
   }
   annotateChange(event) {

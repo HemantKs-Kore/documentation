@@ -29,7 +29,7 @@ export class UserGuideComponent implements OnInit {
     this.jobId = this.workflowService.selectedJob_id
   }
   // close modal
-  close() {
+  close(cancelFaqExtract?) {
     const payload= {
       status : "failed"
     }
@@ -45,7 +45,7 @@ export class UserGuideComponent implements OnInit {
     });
 
     this.dialogData.pdfResponse.backToSource = true;
-    this.dialogRef.close();
+    this.dialogRef.close(cancelFaqExtract||'');
   }
   // get started
   getStarted() {

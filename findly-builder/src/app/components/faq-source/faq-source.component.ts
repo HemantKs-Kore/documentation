@@ -266,6 +266,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.closeStatusModal()
     this.showSourceAddition = null;
   }
+  closeSourcePopupEvent() {
+    this.closeAddsourceModal();
+    this.showSourceAddition = null;
+    this.openStatusModal();
+    this.extractedFaqs=true
+    this.getJobStatusForMessages();
+  }
   onSourceAdditionSave() {
     this.manualFilterSelected = false;
     this.selectedResource = null;
@@ -796,7 +803,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = [...res];
       res.forEach(element => {
-        if(element.recentStatus == 'queued' || element.recentStatus == 'failed' || element.recentStatus =='running' ){
+        if(element.recentStatus == 'queued' || element.recentStatus == 'failed' || element.recentStatus =='running' || element.recentStatus =='configured' ){
         this.viewDetails =true;
           this.extractedFaqs=true;
             this.getStats(null, true);

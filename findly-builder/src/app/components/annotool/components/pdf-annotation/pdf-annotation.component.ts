@@ -134,8 +134,8 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     window.removeEventListener('scroll', this.onScrollEvent, true);
     this.pdfComponent.clear();
   }
-  closeModal() {
-    this.dialogRef.close();
+  closeModal(msg) {
+    this.dialogRef.close(msg);
   }
   // Init data for pdf-viwer
   initPdfViewer() {
@@ -173,7 +173,9 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       dialogRef.afterClosed().subscribe(res => {
         console.log(payload);
         if(payload && payload.backToSource) {
-          this.closeModal();          
+          if(res){
+            this.closeModal(res);          
+          }
         }
       });
     }, 1000);
@@ -604,7 +606,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.dialogData.annotation._id = res._id;
       this.dialogData.annotation.status = "Inprogress";
       this.dialogData.annotation.annotationType = true;
-      this.closeModal();
+      this.closeModal('pdf extracted');
       this.rangeService.setPolling(true); // status progress
     }, (error: any) => {
       this.extractionLoader = false;
