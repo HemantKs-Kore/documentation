@@ -1096,7 +1096,7 @@ input:focus{
   float: left;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec{
-  padding: 9px 0 0 20px;
+  padding: 17px 0 0 20px;
   max-height: calc(100vh - 232px);
   overflow: scroll;
   position: relative;
@@ -1128,7 +1128,7 @@ input:focus{
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .tab-sec {
   display: inline-block;
-  padding: 20px 20px;
+  padding: 20px 20px 3px;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .tab-sec .tab-name {
   float: left;
@@ -1161,8 +1161,11 @@ input:focus{
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details #top-down-tab-sec{
   padding-bottom: 22px;
 }
-.topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .filters-added-data .facets-padding{
-  padding: 0px 0px 0px 11px;
+.top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .filters-added-data .facets-padding{
+  padding: 10px 0px 0px 11px;
+}
+.topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .filters-added-data .facets-padding {
+  padding: 12px 0px 0px 11px;
 }
 .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .filters-added-data .filter-tag-content{
   /* float: left; */
@@ -2315,7 +2318,7 @@ display: none !important;
 
 .show_insights_top_down{
   position: absolute;
-  top: 28px;
+  top: 22px;
   right: 190px;
   display: none;
   cursor: pointer;
@@ -2412,7 +2415,7 @@ display: none !important;
   max-height: calc(100vh - 345px) !important;
 }
 .top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details #top-down-tab-sec {
-  padding-bottom: 5px;
+  /* padding-bottom: 5px; */
 }
 .top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec.filter-added.facets-height-isMore {
   max-height: calc(100vh - 356px) !important;
@@ -2432,7 +2435,7 @@ display: none !important;
   position: absolute;
   margin: 0;
   right: 0;
-  top: 24px;
+  top: 17px;
   z-index: 8 !important;
 }
 
@@ -2476,4 +2479,32 @@ display: none !important;
   text-align: left;
   width: 214px;
   margin: 5px;
+}
+.top-down-search-background-div .topdown-search-main-container .all-result-container.right-align-filter .full-results-data-container .all-product-details .content-data-sec {
+  padding: 0 20px 0 10px;
+}
+.top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec {
+  padding: 9px 0 0 20px;
+}
+.top-down-search-background-div .topdown-search-main-container .all-result-container.right-align-filter .full-results-data-container .all-product-details .tab-sec {
+  padding: 20px 10px 14px;
+}
+
+.top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec.filter-added {
+  padding: 0 0 0 20px;
+}
+
+.top-down-search-background-div .topdown-search-main-container .all-result-container.right-align-filter .full-results-data-container .all-product-details .filters-added-data .facets-padding {
+  padding: 0px 0px 0px 11px;
+}
+
+.top-down-search-background-div .topdown-search-main-container .all-result-container.right-align-filter .full-results-data-container .all-product-details .content-data-sec.filter-added {
+  padding: 0 20px 0 10px;
+}
+.topdown-search-main-container .all-result-container.right-align-filter .full-results-data-container .all-product-details .filters-added-data .facets-padding {
+  padding: 0px 0px 0px 11px;
+}
+
+.top-down-search-background-div .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .content-data-sec.facets-disabled {
+  padding: 0px 0 0 20px;
 }

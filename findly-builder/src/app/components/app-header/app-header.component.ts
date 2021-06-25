@@ -476,7 +476,7 @@ export class AppHeaderComponent implements OnInit {
       setTimeout(() => {
         this.headerService.openFaqExtracts();
       }, 300);
-    } else if (task.jobType === 'web') {
+    } else if (task.jobType === 'web' || task.jobType == 'file') {
       this.router.navigate(['/content'], { skipLocationChange: true });
     }
     else if (task.jobType == 'STRUCTURED_DATA_INGESTION') {
