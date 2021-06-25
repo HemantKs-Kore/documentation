@@ -532,18 +532,21 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.isConfig = true;
         this.page = false;
       } else if (tabName == 'page') {
+        this.page=true;
+        this.isConfig=false;
+        this.execution= false;
         // $('.tabname')[0].classList.add('active');
         // $('.tabname')[1].classList.remove('active');
         // $('.tabname')[2].classList.remove('active');
-        if (this.selectedSource.recentStatus == 'success' || (this.selectedSource.recentStatus == 'running' && this.selectedSource.numPages > 0) || (this.selectedSource.recentStatus == 'inprogress' && this.selectedSource.numPages > 0)) {
-          this.execution = false;
-          this.isConfig = false;
-          this.page = true;
-        } else {
-          this.execution = false;
-          this.isConfig = true;
-          this.page = false;
-        }
+        // if (this.selectedSource.recentStatus == 'success' || (this.selectedSource.recentStatus == 'running' && this.selectedSource.numPages > 0) || (this.selectedSource.recentStatus == 'inprogress' && this.selectedSource.numPages > 0)) {
+        //   this.execution = false;
+        //   this.isConfig = false;
+        //   this.page = true;
+        // } else {
+        //   this.execution = false;
+        //   this.isConfig = true;
+        //   this.page = false;
+        // }
 
       }
     }

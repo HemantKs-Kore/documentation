@@ -400,7 +400,7 @@
                     <img class="close-icon" *ngIf="pagesSearch" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':pagesSearch}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="pagesSearch='';showSearch = !showSearch">
                 </div>
       
-                <div class="search-block">
+                <div class="search-block" *ngIf="!(sourceStatus == 'failed' && page)">
                   <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="showSearch = !showSearch;focusinSearch('searchInput')"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                 </div>
               </div>
@@ -856,7 +856,7 @@
             <!-- Conf Configuration-->
 
           </div>
-          <div class="accordion-content-info text-left" *ngIf="page">
+          <div class="accordion-content-info text-left" *ngIf="page && sourceStatus == 'success'">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
               <div class="col-3 label_text m-0">Last Updated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
@@ -940,9 +940,9 @@
             </div>
 
           </div>
-          <!-- <div *ngIf="sourceStatus == 'failed' && page">
-            No pages 
-          </div> -->
+          <div *ngIf="sourceStatus == 'failed' && page">
+            <div src="assets\images\emptyList.svg"></div>
+          </div>
           <!-- Execution -->
           <div *ngIf="execution" class="execution-table-data">
             <div class="accordion-content-info text-left">

@@ -159,6 +159,7 @@
                 justify-content: center;
                 flex-direction: column;
                 position: relative;
+               
                 .kr-sg-overflow-menu{               
                     height: auto;
                     width: auto;
@@ -610,4 +611,7 @@
             }
         }
     }    
+}
+.blur{
+    opacity: 0.3;
 }

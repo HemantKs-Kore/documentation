@@ -273,9 +273,12 @@ export class SettingsComponent implements OnInit {
     );
   }
   proceedChannel(channel) {
-    if (channel && channel.id === 'rtm') {
+    if (channel && channel.id === 'rtm' ) {
       this.getCredential()
     }
+    // if(this.enableConfiguration){
+    //   event.stopPropagation();
+    // }
     else (this.notificationService.notify('Channel not available ', 'error'))
 
   }
