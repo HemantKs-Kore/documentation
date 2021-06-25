@@ -37,12 +37,15 @@
             </div>
         </div>
         <div class="card_data row m-0">
-            <div class="card-content active" *ngFor=" let channel of channels | filter: [ searchchannel , 'name']">
+            <div class="card-content active" *ngFor=" let channel of channels | filter: [ searchchannel , 'name']" [ngClass]=" {'blur': !enableConfiguration }">
                 <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="channel.enable">                                        
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle  p-0 border-0" ngbDropdownToggle><img src="assets/icons/elipse.svg"></button>                                            
-                        <ul class="dropdown-menu content-menu faq-filter-add p-0" ngbDropdownMenu>
-                            <li><a (click)="enableConfiguration = !enableConfiguration">{{enableConfiguration?'Disable':'Enable'}}</a></li>
+                        <ul class="dropdown-menu content-menu faq-filter-add p-0" ngbDropdownMenu> 
+                            <li (click)="disableCredential()"><a (click)="(enableConfiguration = !enableConfiguration)?  disableCredential() : '' ">{{enableConfiguration?'Disable':'Enable'}}</a></li>
+                            <!-- <li (click)="disableCredential()"><a (click)="enableConfiguration = !enableConfiguration"> Disable</a></li> 
+                            <li *ngIf="!enableConfiguration = enableConfiguration" (click)="configureCredential()"><a> Enable</a></li>  -->
+                            <!-- <li><a (click)="enableConfiguration = !enableConfiguration) ? disableCredential()">Enaable</a></li> -->
                             <li><a>{{"settings.delete" | translate}} </a></li>               
                         </ul>
                     </div>
