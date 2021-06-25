@@ -4,7 +4,7 @@
         <span class="please-wait-message">{{'please_wait' | translate}}</span>
     </div>
     <div class="header-sec col-12 row m-0" *ngIf="!nextPage&& loadingContent1">
-        <div class="col-4 p-0">Result Ranking</div>     
+        <div class="col-4 p-0">Results Ranking</div>     
         </div>
     <ng-container *ngIf="!nextPage&& loadingContent1">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
@@ -187,25 +187,31 @@
                                                                 <img *ngIf="actLog.target.contentType == 'web'" container='body' ngbTooltip='Web' placement="top" src="assets/icons/resultranking/copy.svg" class="cursor-pointer">
                                                                 <img *ngIf="actLog.target.contentType == 'faq'" container='body' ngbTooltip='Faq' placement="top" src="assets/icons/resultranking/faq.svg" class="cursor-pointer">
                                                                 <img *ngIf="actLog.target.contentType == 'task'" container='body' ngbTooltip='Task' placement="top" src="assets/icons/resultranking/task.svg" class="cursor-pointer">
-                                                                <img *ngIf="actLog.target.contentType == 'file'" container='body' ngbTooltip='Task' placement="top" src="assets/icons/resultranking/file-icon.svg" class="cursor-pointer">
-                                                                <img *ngIf="actLog.target.contentType == 'data'" container='body' ngbTooltip='Task' placement="top" src="assets/icons/resultranking/data-icon.svg" class="cursor-pointer">
+                                                                <img *ngIf="actLog.target.contentType == 'file'" container='body' ngbTooltip='File' placement="top" src="assets/icons/resultranking/file-icon.svg" class="cursor-pointer">
+                                                                <img *ngIf="actLog.target.contentType == 'data'" container='body' ngbTooltip='Data' placement="top" src="assets/icons/resultranking/data-icon.svg" class="cursor-pointer">
                                                             </div>                                                            
-                                                            <ng-container *ngIf ="actLog.target && actLog.target.contentInfo && actLog.target.contentInfo._source">
+                                                            <ng-container *ngIf ="actLog.target && actLog.target.contentInfo && actLog.target.contentInfo._source && actLog.target.contentType != 'data'">
                                                                 <div class="title">{{actLog.target.contentInfo._source.faqQuestion || actLog.target.contentInfo._source.pageTitle || actLog.target.contentInfo._source.fileTitle}}</div>                                                                
                                                             </ng-container>
                                                             <ng-container *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'">
                                                                 <div class="title">{{actLog.target.contentInfo.lname}}</div>                                                                
+                                                            </ng-container>
+                                                            <ng-container *ngIf ="actLog.target.contentType && actLog.target.contentType == 'data'">
+                                                                <div class="title">{{actLog.target.contentInfo._source.strucDataHeadingDis}}</div>                                                                
                                                             </ng-container>
                                                         </div>
                                                         <ng-container *ngIf="actLog.target.contentInfo && actLog.target.contentType != 'faq' && actLog.target.contentInfo._source">
                                                             <div class="desc-text-ranking">{{actLog.target.contentInfo._source.pagePreview || actLog.target.contentInfo._source.filePreview}}</div>
                                                         </ng-container>
                                                         <ng-container *ngIf="actLog.target.contentType == 'faq'">
-                                                            <div class="desc-text-ranking">{{faqDesc}}</div>
+                                                            <div class="desc-text-ranking">{{actionLogData[i].target.contentInfo._source.faqDesc}}</div>
                                                         </ng-container>
                                                         <ng-container *ngIf="actLog.target.contentType && actLog.target.contentType == 'task'">
                                                             <div class="desc-text-ranking">{{actLog.target.contentInfo.shortDesc}}</div>
-                                                        </ng-container>                                                   
+                                                        </ng-container>  
+                                                        <ng-container *ngIf="actLog.target.contentType && actLog.target.contentType == 'data'">
+                                                            <div class="desc-text-ranking">{{actLog.target.contentInfo._source.strucDataDecDis}}</div>
+                                                        </ng-container>                                                  
                                                         <div class="info-data-pinned-or-boostead">
                                                             <div class="pinned" *ngIf="actLog.customization.action == 'pinned'"><img src="assets/icons/resultranking/pined.svg">PINNED</div>
                                                             <div class="pinned" *ngIf="actLog.customization.action == 'hidden'"><img src="assets/icons/resultranking/Unsee.svg">HIDDEN</div>
@@ -252,10 +258,10 @@
                           </div>
                           <div id="collapse_log_{{i}}" class="collapse" data-parent="#accordion" *ngIf="log.action != 'restored'">
                             <div class="card-body-acc" *ngIf ="log.target">
-                              <div class="question-text" *ngIf ="log.target.contentInfo._source"> {{log.target.contentInfo._source.pageTitle}}</div>
+                              <div class="question-text" *ngIf ="log.target.contentInfo._source"> {{log.target.contentInfo._source.faqQuestion || log.target.contentInfo._source.pageTitle || log.target.contentInfo._source.fileTitle || log.target.contentInfo._source.strucDataHeadingDis}}</div>
                               <div class="question-text" *ngIf ="log.target.contentType && log.target.contentType == 'task'"> {{log.target.contentInfo.lname}}</div>
 
-                              <div class="ans-info" *ngIf ="log.target.contentInfo._source"> {{log.target.contentInfo._source.pageSearchResultPreview}}</div>
+                              <div class="ans-info" *ngIf ="log.target.contentInfo._source"> {{log.target.contentInfo._source.pagePreview || log.target.contentInfo._source.filePreview }}</div>
                               <div class="ans-info" *ngIf ="log.target.contentType && log.target.contentType == 'task'"> {{log.target.contentInfo.shortDesc}}</div>
                             </div>
                           </div>
