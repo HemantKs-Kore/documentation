@@ -3375,7 +3375,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }, 500);
             } else {
               _self.vars.totalNumOfResults = response.template.totalNumOfResults
-              _self.prepAllSearchData();
+              _self.prepAllSearchData(_self.vars.selectedFacetFromSearch);
               _self.bindAllResultsView();
               _self.bindSearchActionEvents();
               $('#live-search-result-box').hide();
@@ -4946,7 +4946,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.vars.selectedFacetFromSearch = 'all results';
       }
       else {
-        facetActive = $('.facetActive').attr('id');
+        if ($('body').hasClass('top-down')) {
+          var _facetContainer = $('.active-tab').closest('.tab-name.capital');
+                facetActive = _facetContainer.attr('id');
+        }else{
+          facetActive = $('.facetActive').attr('id');
+        }
       }
       console.log("Active Facet Tab: ", facetActive);
 
@@ -4984,7 +4989,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 _self.vars.selectedFacetFromSearch = 'all results';
               }
               else {
-                facetActive = $('.active-tab').attr('id');
+                var _facetContainer = $('.active-tab').closest('.tab-name.capital');
+                facetActive = _facetContainer.attr('id');
                 _self.vars.selectedFacetFromSearch = facetActive;
               }
           _self.pubSub.publish('facet-selected', { selectedFacet:  _self.vars.selectedFacetFromSearch|| 'all results'});

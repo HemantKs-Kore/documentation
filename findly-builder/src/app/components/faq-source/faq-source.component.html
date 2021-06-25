@@ -9,7 +9,7 @@
         <div class="faq-header-sec row m-0">
             <div class="col-6 left-sec p-0 faq-title" >FAQs</div>
             <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
-                <div class="kr-sg-dropdowns add w-auto"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) || viewDetails">                                        
+                <div class="kr-sg-dropdowns add w-auto"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) || viewDetails || extractedFaqs">                                        
                     <div class="dropdown dropdown-open mr-4 cursor-pointer">
                         <div _ngcontent-rjr-c36="" class="dropdown-toggle" data-identifyelement="1" ngbDropdownToggle><img _ngcontent-rjr-c36="" class="mr-2 mb-1" src="assets/icons/add_plus.svg">Add FAQ</div>
                         <!-- <button class="dropdown-toggle kr-sg-button-primary btn_lg text-left" ngbDropdownToggle>Add FAQ</button>                                             -->
@@ -23,7 +23,7 @@
                
                 <!-- <div (click)="openStatusModal()" class="title" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved)"><img src="assets/icons/manage-extraction.svg">Manage Extracts</div> -->
                 <div class="clock d-none"><img src="assets/icons/clock.svg"></div>
-                <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) || viewDetails">                                        
+                <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) || viewDetails || extractedFaqs">                                        
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle p-0 border-0 three-dots" ngbDropdownToggle> <img _ngcontent-aif-c18="" class="ng-tns-c18-5" src="assets/icons/elipse.svg"></button>                                            
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
@@ -747,7 +747,7 @@
                                         class="list-name">All</span><img   [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                                     <li *ngFor="let status of statusArr"
                                       (click)="statusFilter.close();filterTable(status,'recentStatus')"><span
-                                        class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Failed' : (status == 'queued' ? 'Queued' :'In Progress'))}}<img
+                                        class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Failed' : (status == 'queued' ? 'In-Queue' :'In Progress'))}}<img
                                           class="hide" src="assets/icons/check-blue.svg"></span>
                                     </li>
                                   </ul>
@@ -826,7 +826,7 @@
     </div>
 </kr-modal>
 <ng-container *ngIf="showSourceAddition">
-    <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
+    <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)" (closeSourcePopupEvent)="closeSourcePopupEvent($event)"></app-add-source>
 </ng-container>
 <kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addfaqSourceModalPop>
     <ng-container  *ngIf="selectedFaq && selectedFaq.isAddFollow">

@@ -55,6 +55,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   faqUpdate: Subject<void> = new Subject<void>();
   filterObject = {};
   manualFilterSelected = false;
+  initialFaqCall = false;
   showResponse: boolean;
   loading = false;
   faqSelectionObj: any = {
@@ -264,6 +265,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.closeAddsourceModal();
     // this.closeStatusModal()
     this.showSourceAddition = null;
+  }
+  closeSourcePopupEvent() {
+    this.closeAddsourceModal();
+    this.showSourceAddition = null;
+    this.openStatusModal();
+    this.extractedFaqs=true
+    this.getJobStatusForMessages();
   }
   onSourceAdditionSave() {
     this.manualFilterSelected = false;
@@ -582,6 +590,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
       if (isInitialFaqCall ) {
+        this.initialFaqCall = true;
         if (this.faqSelectionObj.stats.draft) {
           this.selectTab('draft');
         } else if (this.faqSelectionObj.stats.in_review) {
@@ -672,8 +681,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.faqs = [];
     this.previousSearchQuery = this.searchFaq;
     this.apiLoading = true;
-    this.loading = true;
+    if(!this.initialFaqCall){
+      this.loading = true;
+    }
     this.service.invoke(serviceId, params).subscribe((res:any) => {
+      this.initialFaqCall = false;
       console.log("service res", res);
       this.loading = false;
       this.isNotSearching = false;
@@ -791,7 +803,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = [...res];
       res.forEach(element => {
-        if(element.recentStatus == 'queued' || element.recentStatus == 'failed' || element.recentStatus =='running' ){
+        if(element.recentStatus == 'queued' || element.recentStatus == 'failed' || element.recentStatus =='running' || element.recentStatus =='configured' ){
         this.viewDetails =true;
           this.extractedFaqs=true;
             this.getStats(null, true);

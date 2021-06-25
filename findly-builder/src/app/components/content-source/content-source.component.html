@@ -400,7 +400,7 @@
                     <img class="close-icon" *ngIf="pagesSearch" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':pagesSearch}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="pagesSearch='';showSearch = !showSearch">
                 </div>
       
-                <div class="search-block">
+                <div class="search-block" *ngIf="!(sourceStatus == 'failed' && page)">
                   <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="showSearch = !showSearch;focusinSearch('searchInput')"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                 </div>
               </div>
@@ -733,6 +733,7 @@
                   </div>
                 </div>
               </div>
+              <div>Not limiting the Crawl Depth and Max URL Limit may impact the system performance</div>
               <!-- Cookies -->
                <!-- New Crawl everey thing-->
                 <!-- Old  Crawl Design-->
@@ -938,6 +939,9 @@
               <!-- pageination -->
             </div>
 
+          </div>
+          <div *ngIf="sourceStatus == 'failed' && page">
+            <div src="assets\images\emptyList.svg"></div>
           </div>
           <!-- Execution -->
           <div *ngIf="execution" class="execution-table-data">
