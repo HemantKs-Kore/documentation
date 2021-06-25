@@ -471,7 +471,7 @@ export class AppHeaderComponent implements OnInit {
   }
 
   navigateTo(task) {
-    if (task.jobType === 'faq') {
+    if (task.jobType === 'faq' || task.jobType == 'FINDLY_FAQS_IMPORT') {
       this.router.navigate(['/faqs'], { skipLocationChange: true });
       setTimeout(() => {
         this.headerService.openFaqExtracts();
