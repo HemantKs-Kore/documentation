@@ -74,7 +74,8 @@
                         <div class="col-4 title d-flex align-items-center search-results">
                             <span class="img-sec" *ngIf="result.answerType =='faq'"><img src="assets/icons/question-box.svg" ></span>
                             <span class="img-sec" *ngIf="result.answerType =='web'"><img src="assets/icons/page.svg"></span>
-                            <span class="img-sec" *ngIf="result.answerType =='file'"><img src="assets/icons/page.svg"></span>
+                            <span class="img-sec" *ngIf="result.answerType =='file'"><img src="assets/icons/resultranking/file-icon.svg"></span>
+                            <span class="img-sec" *ngIf="result.answerType =='data'"><img src="assets/icons/resultranking/data-icon.svg"></span>
                             <span class="img-sec" *ngIf="result.answerType =='task'"><img src="assets/icons/sidemenu/new-icons/actions.svg" ></span>
                             <span class="results">{{result.answer}}</span>
                         </div>
@@ -98,7 +99,7 @@
                     </div>    
                     
                 </div>
-                <span *ngIf='totalRecord && totalRecord > 10'><app-record-pagination [totalRecord]='totalRecord' [limitpage]='limitPage' (pageChanged)="paginate($event,'Results')"></app-record-pagination></span>
+                <span *ngIf='totalRecord && totalRecord > 10'><app-record-pagination [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event,'Results')"></app-record-pagination></span>
             </div>
         </div>
     </perfect-scrollbar>  
@@ -139,7 +140,7 @@
                 <div class="col-1 title">{{result.negativeFeedback}}</div> -->
             </div>                   
         </div>
-        <span *ngIf='Q_totalRecord && (limitPage < Q_totalRecord)'><app-record-pagination [totalRecord]='Q_totalRecord' [limitpage]='Q_limitPage' (pageChanged)="paginate($event,'QRESULT')"></app-record-pagination></span>
+        <span *ngIf='Q_totalRecord && (10 < Q_totalRecord)'><app-record-pagination [totalRecord]='Q_totalRecord' [limitpage]='10' (pageChanged)="paginate($event,'QRESULT')"></app-record-pagination></span>
     </div>
   </perfect-scrollbar>
   <!-- <div class="modal-footer">

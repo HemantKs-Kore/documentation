@@ -171,7 +171,7 @@ export class AppHeaderComponent implements OnInit {
       }
     });
     this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.loadHeader();
     this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
@@ -179,7 +179,7 @@ export class AppHeaderComponent implements OnInit {
       })
     })
     this.workflowService.mainMenuRouter$.subscribe(route => {
-        this.mainMenu = route;
+      this.mainMenu = route;
     });
   }
   loadHeader() {
@@ -601,8 +601,10 @@ export class AppHeaderComponent implements OnInit {
   //get all apps
   getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
-      let app_id = this.workflowService.selectedApp();
-      this.recentApps = res.filter(app => app._id != app_id._id).slice(0, 4)
+      let app_id = this.workflowService?.selectedApp();
+      if (app_id) {
+        this.recentApps = res.filter(app => app._id != app_id._id).slice(0, 4)
+      }
     }, errRes => {
       console.log(errRes);
     });

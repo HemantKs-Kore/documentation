@@ -75,7 +75,7 @@ export class BotActionComponent implements OnInit {
   isEnabledAll = "disable";
   loading: boolean = true;
   componentType: string = 'addData';
-  botBulilderUrl = environment.API_SERVER_URL;
+  botBulilderUrl = '';
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -84,7 +84,7 @@ export class BotActionComponent implements OnInit {
     private appSelectionService: AppSelectionService,
     private router: Router,
     public dialog: MatDialog,
-  ) { }
+  ) {}
   checkUncheckTasks(task) {
     const selectedElements = $('.selectEachTaskInput:checkbox:checked');
     const allElements = $('.selectEachTaskInput');
@@ -211,6 +211,9 @@ export class BotActionComponent implements OnInit {
     this.getAssociatedTasks(this.streamId);
     //this.getdialog();
     //this.getLinkedBot();
+    this.workflowService.seedData$.subscribe((res:any)=>{
+      this.botBulilderUrl = (res ||{}).botsPlatformUrl;
+    });
   }
   loadingContent1: boolean;
   loadImageText: boolean = false;
@@ -1443,6 +1446,6 @@ export class BotActionComponent implements OnInit {
   }
 
   navigateToBotBuilder () {
-    window.open(this.botBulilderUrl+'/botbuilder', '_self');
+    window.open(this.botBulilderUrl, '_self');
   };
 }
