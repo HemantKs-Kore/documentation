@@ -588,7 +588,8 @@ body::-webkit-scrollbar {
   margin: 4px;
 }
 .sdk-top-down-interface .full-results-data-container .tile_with_header.grid_view_template .tile-title {
-  width: 19%;
+  width: auto;
+  /* width: 19%; */
 }
 
 
