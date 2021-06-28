@@ -302,7 +302,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1) {
               every = element.advanceSettings.scheduleOpts.interval.intervalValue.every;
             }
-            element['schedule_title'] = 'Runs once every' + every + schedulePeriod + repeatOn
+            element['schedule_title'] = 'Runs once every'+ ' ' + every + ' ' +  schedulePeriod + '' + repeatOn
 
           }
 
@@ -819,7 +819,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       data: {
         title: 'Delete Document',
         newTitle: 'Are you sure you want to delete?',
-        body: 'The selected document will be deleted.',
+        body: 'All the Pages associated with this source will be deleted.',
         buttons: [{ key: 'yes', label: 'delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -847,7 +847,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         title: from == 'source' ? 'Delete Source ' : ' Delete Page',
         text: 'Are you sure you want to delete?',
         newTitle: 'Are you sure you want to delete?',
-        body: 'All the Pages associated with this source will be deleted.',
+        body: from == 'source' ?'All the Pages associated with this source will be deleted.' : 'Selected Page will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }

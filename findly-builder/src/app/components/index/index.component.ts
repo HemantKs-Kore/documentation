@@ -793,9 +793,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Stage',
-        text: 'Are you sure you want to delete selected stage?',
-        newTitle: 'Are you sure you want to delete selected stage?',
-        body: 'Selected stage will be deleted.',
+        text: 'Are you sure you want to delete ?',
+        newTitle: 'Are you sure you want to delete ?',
+        body: 'Selected stage will be deleted from workbench.',
         // text: 'Do you want to discard this stage?',
         // newTitle: 'Do you want to discard this stage?',
         // body:'The '+stageType+' stage will be discarded as it does not contain any conditions.',

@@ -775,9 +775,9 @@
                         <div class="col_ col-2">{{source.extractedFaqsCount || '0'}}</div>
                         <div class="col_ col-2" *ngIf="source && source.userDetails" >{{source.userDetails.fullName || source.userDetails.firstName + ' ' + source.userDetails.lastName }}</div>
                         <!-- <div class="col" title="{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div> -->
-                        <div class="col text-right last-child">
+                        <div class="col text-right last-child pl-0">
+                            <span class="actions-links" *ngIf="source.recentStatus == 'configured'" (click)="resumeAnnotate(source)"><img class="action_icon" src="assets/icons/play_icon.svg" [container]="'body'" ngbTooltip='Resume Annotation'></span>
                             <span class="actions-links" (click)="deleteSource(source,$event)" ><img class="action_icon" ngbTooltip='Delete'  [container]="'body'" src="assets/icons/sidemenu/delete-table.svg"></span>
-                            <!-- <span class="actions-links" (click)="reAnnotateDocument(source)"  ngbTooltip='Re-Annotate'><img class="action_icon" src="assets/images/list.svg"></span> -->
                         </div>
                         <!-- <div class="col text-right last-child re-annotate">
                             <span class="actions-links" (click)="reAnnotateDocument(source)"  ngbTooltip='Re-Annotate'><img class="action_icon" src="assets/images/list.svg"></span>

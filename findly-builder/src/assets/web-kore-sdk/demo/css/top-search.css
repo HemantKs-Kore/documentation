@@ -1279,6 +1279,7 @@ input:focus{
   margin-top: 0px !important;
   margin-bottom: 12px !important;
   font-weight: initial !important;
+  margin-right: 15px !important;
 }
 
 .sdk-top-down-interface .faqs-search-data-container{
