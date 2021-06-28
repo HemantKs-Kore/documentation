@@ -413,6 +413,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       type
     };
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
+      // let compareObj = [...Object.entries(this.resourcesStatusObj)];
+      // compareObj.forEach((element : any[],index) => {
+      //   if(res[index] && element[0] ==  res[index]._id && element[1].status != res[index].status){
+      //     this.getJobDetails(res._id)
+      //     this.getSourceList();
+      //   }
+      // });
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
 
@@ -424,12 +431,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             }
           }
         }
-        this.resourcesStatusObj.forEach(element => {
-          if(this.resourcesStatusObj[element._id].status != this.resourcesStatusObj[source._id].status){
+        res.forEach(element => {
+          if(element.status ! = this.resourcesStatusObj[element._id].status){
             this.getJobDetails(source._id)
             this.getSourceList();
           }
         });
+        //this.resourcesStatusObj.forEach(element => {
+          // if(this.resourcesStatusObj[element._id].status != res[source._id].status){
+          //   this.getJobDetails(source._id)
+          //   this.getSourceList();
+          // }
+        //});
         this.resourcesStatusObj[source._id] = source;
 
         return ((source.status === 'running') || (source.status === 'queued'));
