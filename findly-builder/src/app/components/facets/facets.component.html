@@ -131,10 +131,11 @@
                     </div>
                 </div>
                 <div class="col-3 content d-flex">
-                    <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('status')">
-                    <img [ngClass]="getSortIconVisibility('status', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                    <img [ngClass]="getSortIconVisibility('status', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                </span> {{'facets.status_caps' | translate}}
+                    <!-- <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('status')">
+                        <img [ngClass]="getSortIconVisibility('status', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img [ngClass]="getSortIconVisibility('status', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                    </span>  -->
+                    {{'facets.status_caps' | translate}}
                     <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">
