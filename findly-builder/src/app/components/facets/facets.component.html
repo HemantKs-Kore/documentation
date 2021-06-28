@@ -80,17 +80,18 @@
                     <div class="kr-sg-checkbox p-0 ml-1 mb-0 adjust-checkbox-padding partial-select-checkbox d-none" *ngIf="selcectionObj.selectedItems.length != facets.length">
                         <img (click)="selectAllFromPartial()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
                     </div> -->
-                    <span class="d-flex align-items-center flex-column mr-1 selectall-title" (click)="sortBy('name')">
-                    <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                    <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                </span>
-                    <div class="title">{{'facets.facet_caps_Name' | translate}}</div>
+                    <!-- <span class="d-flex align-items-center flex-column mr-1 selectall-title" (click)="sortBy('name')">
+                        <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                    </span> -->
+                    <div class="title selectall-title">{{'facets.facet_caps_Name' | translate}}</div>
                 </div>
                 <div class="col-2 content d-flex">
-                    <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('type')">
-                    <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                    <img [ngClass]="getSortIconVisibility('type', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                </span> {{'facets.type_caps' | translate}}
+                    <!-- <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('type')">
+                        <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img [ngClass]="getSortIconVisibility('type', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                    </span>  -->
+                    {{'facets.type_caps' | translate}}
                     <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #typeFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">
@@ -108,10 +109,11 @@
                     </div>
                 </div>
                 <div class="col-2 content d-flex">
-                    <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('select')">
-                    <img [ngClass]="getSortIconVisibility('select', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                    <img [ngClass]="getSortIconVisibility('select', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                </span> {{'facets.multiselect_caps' | translate}}
+                    <!-- <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('select')">
+                        <img [ngClass]="getSortIconVisibility('select', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img [ngClass]="getSortIconVisibility('select', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                    </span> -->
+                    {{'facets.multiselect_caps' | translate}}
                     <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #selectFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">
