@@ -85,6 +85,20 @@
         padding: 14px 25px;
         background: #F8F9FA;      
         margin-bottom: 3px !important;
+        .toggle-check{
+            display: flex;
+            align-items: center;
+            padding: 0;
+            justify-content: flex-end;
+            .kr-sg-toggle{
+                margin-right: 110px;
+                .slider {
+                    span{
+                        width: 200px;
+                    }
+                }
+            }
+        }
         .bread-cum-sec{
             .bread-name{
                 color: #85B7FE;
@@ -476,11 +490,10 @@
         }
     }
     .footer-sec{
-        background: #F8F9FA;  
-        padding: 10px;
-        .btn-sec{
-            margin-right: 20px;
-            width: 810px;
+        background: #FFFFFF;
+        box-shadow: inset 0px 1px 0px #BDC1C6;
+        padding: 10px 25px;
+        .btn-sec{                    
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
