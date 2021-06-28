@@ -424,7 +424,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             }
           }
         }
-
+        this.resourcesStatusObj.forEach(element => {
+          if(this.resourcesStatusObj[element._id].status != this.resourcesStatusObj[source._id].status){
+            this.getJobDetails(source._id)
+            this.getSourceList();
+          }
+        });
         this.resourcesStatusObj[source._id] = source;
 
         return ((source.status === 'running') || (source.status === 'queued'));
@@ -1541,6 +1546,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
+    this.closeStatusModal()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       sourceId: source._id
@@ -1565,6 +1571,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
+    this.closeStatusModal()
     const queryParams: any = {
       searchIndexID: this.serachIndexId,
       sourceId: source._id

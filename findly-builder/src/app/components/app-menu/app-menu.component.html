@@ -114,7 +114,7 @@
 											<div class="edit-black" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();editConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
 												<img src="assets/icons/edit-pencil.svg">
 											</div>																
-											<div class="delete" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();deleteIndexConfig(config,'search')">
+											<div class="delete" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();deleteIndexConfig(config,'search')" ngbTooltip='Delete' placement="top-center" [container]="'body'">
 												<img src="assets/icons/delete.svg">
 											</div>											
 										</div>
