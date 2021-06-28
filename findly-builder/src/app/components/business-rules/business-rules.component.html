@@ -34,7 +34,7 @@
                 <!-- <img *ngIf="showSearch" src="assets/images/close.svg" /> -->
                 {{ "search" | translate }}
             </div>
-            <div class="add_feild mr-0" (click)="createNewRule()" *ngIf="rules && beforeFilterRules && beforeFilterRules.length">
+            <div class="add_feild mr-0" (click)="createNewRule()" *ngIf="(rules && beforeFilterRules && beforeFilterRules.length) || searchRules  || showSearch">
                 <img src="assets/icons/add_plus.svg" />{{ "businessRules.add_rule" | translate }}
             </div>
             <div class="clock d-none"><img src="assets/icons/clock.svg" /></div>
@@ -49,7 +49,7 @@
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">Please Wait!</span>
     </div>
-    <ng-container *ngIf="loadingContent1 && !(rules && beforeFilterRules && beforeFilterRules.length)">
+    <ng-container *ngIf="loadingContent1 && !(rules && beforeFilterRules && beforeFilterRules.length) && !searchRules && !showSearch">
         <perfect-scrollbar class="empty-scroll">
             <div class="empty-landing-screen">
                 <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/businessrules-empty.svg"></div>
@@ -67,7 +67,7 @@
             </div>
         </perfect-scrollbar>
     </ng-container>
-    <div class="table_section" *ngIf="!loadingContent && rules && beforeFilterRules && beforeFilterRules.length">
+    <div class="table_section" *ngIf="(!loadingContent && rules && beforeFilterRules && beforeFilterRules.length) || searchRules || showSearch">
         <div class="header_sec row m-0">
             <div class="col-3 content withcheckbox ">
                 <!-- <div class="kr-sg-checkbox p-0 m-0">
@@ -489,7 +489,7 @@
                                                         <span>OR</span>
                                                     </ng-container>
                                                     <input #contextSuggestedImput [placeholder]="'Type Keyword and Enter'" (click)='buildCurrentContextSuggetions(outcomeObj)' [(ngModel)]="outcomeObj.newValue" (keyup)='buildCurrentContextSuggetions(outcomeObj)' [matChipInputFor]="chipList" [matAutocomplete]="auto"
-                                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addOutcome($event, outcomeObj, i)" />
+                                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addOutcome($event, outcomeObj, (outcomeObj.outcomeValue.length))" />
                                                 </mat-chip-list>
                                                 <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown {{outcomeObj.outcomeValueType==='static'?'hideAutoFocus':''}}" (optionSelected)="selected($event,outcomeObj,index)">
                                                     <mat-option *ngFor="let suggesion of currentSugg">
