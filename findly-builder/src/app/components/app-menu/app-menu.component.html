@@ -59,14 +59,6 @@
 			<div class="index-config-nav-block">
 				<div class="index-title">Index Configuration</div>				
 
-				<div mat-button class="mat-button" [routerLink]="['/index']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
-					<span class="inlineIconBox">
-						<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/index.svg" class="activeIcon">
-					</span>
-					<span class="linkTitle">Workbench</span>
-				</div>
-
 				<div mat-button class="mat-button" [routerLink]="['/FieldManagementComponent']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 					<span class="inlineIconBox">
 						<img src="assets/icons/sidemenu/new-icons/fields.svg" class="defaultIcon">
@@ -83,6 +75,13 @@
 					<span class="linkTitle">Traits</span>
 				</div>
 
+				<div mat-button class="mat-button" [routerLink]="['/index']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/index.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Workbench</span>
+				</div>
 			</div>
 
 			<div class="search-config-nav-block mb-2">									
