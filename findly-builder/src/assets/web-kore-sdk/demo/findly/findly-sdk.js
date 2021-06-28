@@ -18233,7 +18233,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.calculatePageNumber(selectedFacet, dataObj);
           if(!$('body').hasClass('top-down')){
             _self.handlePaginationUI(selectedFacet, dataObj);
-            _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: selectedFacet, isLiveSearch: false, isSearch: false, dataObj });
             _self.pubSub.publish('sa-st-data-search', {
               container: '.structured-data-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
             });
@@ -18246,6 +18245,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.pubSub.publish('sa-file-search', {
               container: '.files-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
             });
+            _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: selectedFacet, isLiveSearch: false, isSearch: false, dataObj });
           }else{
             _self.handlePaginationUI(selectedFacet, dataObj);
             //top-down-search-start//
@@ -21011,24 +21011,26 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                           <span class="info-text">Bot Actions cannot be customized</span>\
                                         </div>\
                                       {{/if}}\
-                                    {{if selectedFacet !== appearanceType}}\
-                                      <div class="structured-data-header total-structured-data-wrap" appearanceType="task">\
-                                        ACTIONS\
-                                        <div class="search-heads show-all sdk-show-classification display-block">\
-                                          Show All Actions\
+                                      {{if selectedFacet !== appearanceType && selectedFacet == "all results"}}\
+                                        <div class="structured-data-header total-structured-data-wrap" appearanceType="task">\
+                                          ACTIONS\
+                                          <div class="search-heads show-all sdk-show-classification display-block">\
+                                            Show All Actions\
+                                          </div>\
                                         </div>\
-                                      </div>\
-                                    {{/if}}\
-                                    <div class="action-results-container btn_block_actions main-content-title-grid-data">\
-                                        {{each(key, task) tasks}}\
-                                        <div class="action-content title-box-data">\
-                                            <button id="${key}" class="action-btns search-task title-name text-truncate" title="${task.taskName}"  contentId="${task.taskId}" contentType="${task.sysContentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
-                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
-                                            ${task.titleText}\
-                                            </button>\
+                                      {{/if}}\
+                                      {{if selectedFacet == appearanceType || selectedFacet == "all results"}}\
+                                        <div class="action-results-container btn_block_actions main-content-title-grid-data">\
+                                          {{each(key, task) tasks}}\
+                                            <div class="action-content title-box-data">\
+                                                <button id="${key}" class="action-btns search-task title-name text-truncate" title="${task.taskName}"  contentId="${task.taskId}" contentType="${task.sysContentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
+                                                ${task.titleText}\
+                                                </button>\
                                             </div>\
-                                        {{/each}}\
+                                          {{/each}}\
                                         </div>\
+                                      {{/if}}\
                                     {{/if}}\
                                      {{if !tasks || tasks.length === 0 }}\
                                       {{if selectedFacet != "all results"}}\

@@ -554,10 +554,11 @@ export class SearchInterfaceComponent implements OnInit {
       }
     });
     this.selectedTemplatedId = templateId;
+    this.customizeTemplateObj = new customizeTemplate();
     if (templateId) {
       this.getTemplate(templateId,modalSwitch);
     } else {
-      this.customizeTemplateObj = new customizeTemplate();
+      //this.customizeTemplateObj = new customizeTemplate();
       this.defaultTemplate(this.selectedSourceType);
       this.submitted = false;
       if(modalSwitch != 'closeModal'){
@@ -971,7 +972,7 @@ class selectedSettingResults {
   streamId = ""
   searchIndexId = ""
   createdOn = ""
-  orderBasedOnRelevance = false
+  orderBasedOnRelevance = true
 }
 
 

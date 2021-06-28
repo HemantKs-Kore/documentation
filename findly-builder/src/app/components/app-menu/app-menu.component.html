@@ -59,14 +59,6 @@
 			<div class="index-config-nav-block">
 				<div class="index-title">Index Configuration</div>				
 
-				<div mat-button class="mat-button" [routerLink]="['/index']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
-					<span class="inlineIconBox">
-						<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/index.svg" class="activeIcon">
-					</span>
-					<span class="linkTitle">Workbench</span>
-				</div>
-
 				<div mat-button class="mat-button" [routerLink]="['/FieldManagementComponent']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 					<span class="inlineIconBox">
 						<img src="assets/icons/sidemenu/new-icons/fields.svg" class="defaultIcon">
@@ -83,6 +75,13 @@
 					<span class="linkTitle">Traits</span>
 				</div>
 
+				<div mat-button class="mat-button" [routerLink]="['/index']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">
+						<img src="assets/icons/sidemenu/new-icons/index.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">Workbench</span>
+				</div>
 			</div>
 
 			<div class="search-config-nav-block mb-2">									
@@ -114,7 +113,7 @@
 											<div class="edit-black" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();editConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
 												<img src="assets/icons/edit-pencil.svg">
 											</div>																
-											<div class="delete" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();deleteIndexConfig(config,'search')">
+											<div class="delete" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();deleteIndexConfig(config,'search')" ngbTooltip='Delete' placement="top-center" [container]="'body'">
 												<img src="assets/icons/delete.svg">
 											</div>											
 										</div>
