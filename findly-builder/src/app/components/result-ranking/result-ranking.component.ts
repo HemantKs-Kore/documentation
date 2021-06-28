@@ -152,8 +152,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     this.service.invoke('get.SI_settingInterface', quaryparms).subscribe(res => {
       if (res && res.appearance ) {
         res.appearance.forEach(element => {
-          if(element.type == 'structuredData'){
+          if(element.type == 'structuredData' && element.templateId){
             this.getTemplate(element.templateId);
+          }else{
+            this.getcustomizeList(20, 0);
           }
         });
       }

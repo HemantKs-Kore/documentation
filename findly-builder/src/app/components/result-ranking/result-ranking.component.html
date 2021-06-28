@@ -217,7 +217,7 @@
                                                             <div class="pinned" *ngIf="actLog.customization.action == 'hidden'"><img src="assets/icons/resultranking/Unsee.svg">HIDDEN</div>
                                                             <div class="pinned" *ngIf="actLog.customization.action == 'lowered'"><img src="assets/icons/resultranking/MoveUp.svg">{{multiplyAction(actLog.customization.value)}}x LOWERED</div>
                                                             <div class="pinned" *ngIf="actLog.customization.action == 'boosted'"><img src="assets/icons/resultranking/MoveUp.svg" class="rotateimg180-move-up">{{multiplyAction(actLog.customization.value)}}x BOOSTED</div>
-                                                            <div class="pinned" *ngIf="actLog.target.addedResult"><img src="assets/icons/resultranking/pined.svg">MANUALLY ADDED</div>
+                                                            <div class="pinned manual" *ngIf="actLog.target.addedResult">MANUALLY ADDED</div>
                                                             <div class="time-stamp">{{actLog.customization.lMod}}</div>
                                                         </div>  
                                                         <div class="remove-btn-sec" [ngClass] = "{'disableDiv' : permisionView }">
