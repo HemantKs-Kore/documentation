@@ -578,7 +578,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       'PdfAnno.get.userguide',
       { streamId: this.pdfPayload.streamId }
     ).subscribe((res: any) => {
-      if (res && !res.userHasAnnotated && this.dialogData.type && this.dialogData.type !== 'resumeAnnotate') {
+      if ((res && !res.userHasAnnotated && !this.dialogData.type) ||(res && !res.userHasAnnotated && this.dialogData.type  && this.dialogData.type !== 'resumeAnnotate')) {
         this.userGuide();
       }
     }, (error: any) => {
