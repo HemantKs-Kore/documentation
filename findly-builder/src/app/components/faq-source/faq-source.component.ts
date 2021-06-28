@@ -91,7 +91,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     success: { name: 'Success', color: 'green' },
     queued: { name: 'In-Queue', color: 'blue' },
     running: { name: 'In Progress', color: 'blue' },
-    configured: { name: 'Configured', color: 'blue' },
+    configured: { name: 'Annotation paused', color: '#FF784B' },
     inProgress: { name: 'In Progress', color: 'blue' },
   };
   contentTypes = {
@@ -1490,6 +1490,24 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   reAnnotateDocument(source) {
     const dialogRef = this.dialog.open(PdfAnnotationComponent, {
       data: { type: 'reannotate', pdfResponse: null, source: source },
+      panelClass: 'kr-annotation-modal',
+      disableClose: true,
+      autoFocus: true
+    });
+    dialogRef.afterClosed().subscribe(res => {
+
+    });
+  }
+
+  resumeAnnotate(source) {
+    const payload = {
+      sourceTitle: source.name,
+      sourceDesc: source.desc,
+      fileId: source.fileMeta.fileId,
+      sourceId: source._id
+    };
+    const dialogRef = this.dialog.open(PdfAnnotationComponent, {
+      data: { type: 'resumeAnnotate', pdfResponse: payload},
       panelClass: 'kr-annotation-modal',
       disableClose: true,
       autoFocus: true

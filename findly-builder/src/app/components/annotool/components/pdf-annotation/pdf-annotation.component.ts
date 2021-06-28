@@ -145,6 +145,13 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     this.streamId = this.selectedApp._id;
     if(this.dialogData && this.dialogData.type && this.dialogData.type === 'reannotate' && this.dialogData.source) {
       this.reAnnotateDocument(this.dialogData.source);
+    } else if(this.dialogData && this.dialogData.type && this.dialogData.type === 'resumeAnnotate') {
+      if (this.dialogData.pdfResponse) {
+        this.fileId = this.dialogData.pdfResponse.fileId;
+        this.fileName = this.dialogData.pdfResponse.sourceTitle;
+        this.sourceId = this.dialogData.pdfResponse.sourceId;
+      }
+      this.reAnnotateDocument(this.dialogData.pdfResponse);
     } else {
       if (this.dialogData.pdfResponse) {
         this.fileId = this.dialogData.pdfResponse.fileId;
@@ -525,10 +532,12 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.pdfConfig.pdfUrl = res.fileUrl;
       this.service.invoke(
         'PdfAnno.get.reAnnotateData',
-        { searchIndexId: this.searchIndexId, fileId: listData.fileId }
+        { searchIndexId: this.searchIndexId, fileId: listData.fileId , sourceId: listData.sourceId}
       ).subscribe((res: any) => {
         if (res && res.Response) {
-          this.notificationService.notify(res.Response, "success");
+          if(res && res.Response !== "Annotated Data not available for this bot with this file Id"){
+            this.notificationService.notify(res.Response, "success");
+          }
         } else if (res.serialization) {
           let sPayload = {
             "title": res.title,
@@ -569,7 +578,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       'PdfAnno.get.userguide',
       { streamId: this.pdfPayload.streamId }
     ).subscribe((res: any) => {
-      if (res && !res.userHasAnnotated) {
+      if ((res && !res.userHasAnnotated && !this.dialogData.type) ||(res && !res.userHasAnnotated && this.dialogData.type  && this.dialogData.type !== 'resumeAnnotate')) {
         this.userGuide();
       }
     }, (error: any) => {
