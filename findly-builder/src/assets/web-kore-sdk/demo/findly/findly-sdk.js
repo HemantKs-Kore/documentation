@@ -3247,6 +3247,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "locale": window.navigator.userLanguage || window.navigator.language,
         },*/
       }
+      if(_self.isDev){
+        payload['customize'] = _self.vars.customizeView;
+      }
 
       /*if (_self.bot.options) {
         payload["client"] = _self.bot.options.client || "sdk";
@@ -4901,6 +4904,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         },*/
       }
 
+      if(_self.isDev){
+        payload['customize'] = _self.vars.customizeView;
+      }
+
       /*if (_self.bot.options) {
         payload["client"] = _self.bot.options.client || "sdk";
         payload["botInfo"] = {};
@@ -5051,6 +5058,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "event": eventType,
         "streamId": _self.API.streamId,
         "isDev": _self.isDev,
+      }
+      if(_self.isDev){
+        payload['customize'] = _self.vars.customizeView;
       }
 
       if (resultType == "web" || resultType == "faq") {
@@ -18143,6 +18153,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // "isDev": true,
         "isDev": _self.isDev,
         "filters" : []
+      }
+
+      if(_self.isDev){
+        payload['customize'] = _self.vars.customizeView;
       }
 
       var contentTypeFilter  = {
