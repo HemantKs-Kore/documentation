@@ -19,18 +19,18 @@
             <div class="clock d-none"><img src="assets/icons/clock.svg"></div>
         </div>
     </div>
-    <div class="header-sec row m-0 col-12" *ngIf="slider!==0" >
-        <div class="bread-cum-sec col-12 p-0 d-flex align-items-center">
+    <div class="header-sec row m-0 col-12 " *ngIf="slider!==0" >
+        <div class="bread-cum-sec col-6 p-0 d-flex align-items-center">
             <div class="bread-name">{{"settings.channels" | translate}}</div>
-            <img 
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
-            <div class="bread-name active-name" >{{"settings.web_mobile_client" | translate}}</div>
-            <!-- <img src="assets/icons/viewinstruction.svg">
-         <div class="bread-name active-name1"  *ngIf="existingCredential">View Instructions</div> -->
-         <label class="kr-sg-toggle">
-            <input type="checkbox" checked>
-            <div class="slider"><span class="enabled">{{"settings.channel_enabled" | translate}}</span><span class="disabled">{{"settings.channel_enabled" | translate}}</span></div>
-        </label>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
+            <div class="bread-name active-name" >{{"settings.web_mobile_client" | translate}}</div>            
+        </div>
+        <div class="col-6 toggle-check">       
+            <label class="kr-sg-toggle">
+                <input type="checkbox" checked>
+                <div class="slider"><span class="enabled">{{"settings.channel_enabled" | translate}}</span><span class="disabled">Channel Disabled</span></div>
+            </label>     
+            <!-- <div class="bread-name active-name1"  *ngIf="existingCredential"><img src="assets/icons/viewinstruction.svg"> View Instructions</div>                  -->
         </div>
     </div>
 
@@ -258,18 +258,14 @@
     </perfect-scrollbar>
     <div class="footer-sec">
         <div class="btn-sec">
-            <div *ngIf=!existingCredential>
-                <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">{{"settings.cancel" | translate}} </button>
+            <div>
+                <button *ngIf="!existingCredential" class="kr-sg-button-secondary btn_lg" (click)="cancel()">{{"settings.cancel" | translate}} </button>
             </div>
             <div>
-                <button class="kr-sg-button-secondary btn_lg mr-3" *ngIf=!existingCredential
-                    (click)="back()"> {{"settings.back" | translate}}</button>
-                <button class="kr-sg-button-primary btn_lg" (click)="continue()" *ngIf="slider!==3"
-                    [disabled]="(!(credntial.name) || !(credntial.awt)) && (slider==2)">{{"settings.continue" | translate}}</button>
-                    <button class="kr-sg-button-secondary btn_lg"  *ngIf=existingCredential (click)="cancel()">{{"settings.cancel" | translate}} </button>
-                <button class="kr-sg-button-primary btn_lg" *ngIf="slider==3"
-                    (click)="configureCredential()"> {{"settings.save" | translate}}</button>
-
+                <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf=!existingCredential (click)="back()"> {{"settings.back" | translate}}</button>
+                <button class="kr-sg-button-primary btn_lg" (click)="continue()" *ngIf="slider!==3" [disabled]="(!(credntial.name) || !(credntial.awt)) && (slider==2)">{{"settings.continue" | translate}}</button>
+                <button class="kr-sg-button-secondary btn_lg mr-2"  *ngIf=existingCredential (click)="cancel()">{{"settings.cancel" | translate}} </button>
+                <button class="kr-sg-button-primary btn_lg" *ngIf="slider==3" (click)="configureCredential()"> {{"settings.save" | translate}}</button>
             </div>
         </div>
     </div>

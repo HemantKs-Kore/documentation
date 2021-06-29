@@ -223,7 +223,7 @@
             </label>
         </div>
     </div>
-    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <!-- <perfect-scrollbar class="perfect-scroll-modal-body"> -->
         <div class="modal-body textAlignLeft" *ngIf="addEditFacetObj">
             <div class="search_block">
                 <div class="label-text">{{'facets.field_name'| translate}}</div>
@@ -381,7 +381,7 @@
                 </div>
             </ng-container>
         </div>
-    </perfect-scrollbar>
+    <!-- </perfect-scrollbar> -->
     <div class="modal-footer" *ngIf="addEditFacetObj">
         <!-- [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldId === selectedField.fieldId)' Removed Tooltip -->
         <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button> <!-- [disabled]='(!addEditFacetObj._id && !selectedField) || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldId !== selectedField.fieldId))' -->
