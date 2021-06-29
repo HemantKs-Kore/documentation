@@ -4066,7 +4066,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         e.stopPropagation();
         _self.pubSub.publish('sa-action-clicked', e);
         var taskName = e.target.title.toLowerCase();
-        var payload = $(e.target).attr('payload');
+        // var payload = $(e.target).attr('payload');
+        var payload;
+        if(_self.vars.searchObject.searchText.length){
+          payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
+        }
         if (!_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.indexOf(taskName.toLowerCase()) == -1)) {
           _self.vars.searchObject.recentTasks.unshift(taskName.toLowerCase());
         }
@@ -4095,7 +4099,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // }
         console.log(payload);
         if (_self.config.viaSocket) {
-          _self.sendMessage(payload);
+          // var childBotName = $(e.target).attr('childBotName')
+          var nlMeta = {
+            linkedBotNLMeta : {
+              'intent': $(e.target).attr('title'),
+              'childBotName': $(e.target).attr('childBotName') || null,
+              'isRefresh': true
+            }
+          };
+          _self.sendMessage(payload, null, nlMeta);
         }
 
         if (_self.isDev || _self.vars.loggedInUser) {
@@ -8438,6 +8450,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (msgObject && msgObject.nlmeta) {
         messageToBot["message"].nlmeta = msgObject.nlmeta;
+      }
+
+      if (msgObject && msgObject.linkedBotNLMeta) {
+        _self.bot.options.botInfo.linkedBotNLMeta = msgObject.linkedBotNLMeta;
+      }
+      else if(_self.bot.options.botInfo.linkedBotNLMeta){
+        delete _self.bot.options.botInfo.linkedBotNLMeta;
       }
 
       if (!$('body').hasClass('demo')) {
@@ -18788,7 +18807,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         e.stopPropagation();
         _self.hideBottomUpAllResults();
         var taskName = e.target.title.toLowerCase();
-        var payload = $(e.target).attr('payload');
+        // var payload = $(e.target).attr('payload');
+        var payload;
+        if(_self.vars.searchObject.searchText.length){
+          payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
+        }
         if (!_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.indexOf(taskName.toLowerCase()) == -1)) {
           _self.vars.searchObject.recentTasks.unshift(taskName.toLowerCase());
         }
@@ -18810,7 +18833,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         console.log(payload);
         if (_self.config.viaSocket) {
-          _self.sendMessage(payload);
+          // var childBotName = $(e.target).attr('childBotName')
+          var nlMeta = {
+            linkedBotNLMeta : {
+              'intent': $(e.target).attr('title'),
+              'childBotName': $(e.target).attr('childBotName') || null,
+              'isRefresh': true
+            }
+          };
+          _self.sendMessage(payload, null, nlMeta);
         }
         if (_self.isDev || _self.vars.loggedInUser) {
           _self.vars.searchObject.searchText = e.target.title.toLowerCase();
@@ -21037,7 +21068,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         <div class="action-results-container btn_block_actions main-content-title-grid-data">\
                                           {{each(key, task) tasks}}\
                                             <div class="action-content title-box-data">\
-                                                <button id="${key}" class="action-btns search-task title-name text-truncate" title="${task.taskName}"  contentId="${task.taskId}" contentType="${task.sysContentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                                                <button id="${key}" class="action-btns search-task title-name text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.sysContentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
                                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
                                                 ${task.titleText}\
                                                 </button>\
@@ -21699,6 +21730,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
       });
       return uuid;
+    }
+
+    function b64EncodeUnicode(str) {
+      // first we use encodeURIComponent to get percent-encoded UTF-8,
+      // then we convert the percent encodings into raw bytes which
+      // can be fed into btoa.
+      return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+        function toSolidBytes(match, p1) {
+          return String.fromCharCode('0x' + p1);
+        }));
+    }
+    function b64DecodeUnicode(str) {
+      // Going backwards: from bytestream, to percent-encoding, to original string.
+      return decodeURIComponent(atob(str).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
     }
   
     FindlySDK.prototype.unlockBot = function () {
