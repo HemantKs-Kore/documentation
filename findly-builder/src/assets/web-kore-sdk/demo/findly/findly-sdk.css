@@ -11749,13 +11749,13 @@ padding-right: 0;
     background: #FFFFFF;
     box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    padding: 8px;
+    padding: 8px !important;
 }
 .tile-with-text-parent.template-3 .tile-with-text {
-    box-shadow: none;
-    border-radius: 0;
+    box-shadow: none !important;
+    border-radius: 0 !important;
     border-bottom: 1px solid #E4E5E7;
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
     padding: 11px 10px;
 }
 .tile-with-text-parent.template-3 .tile-with-text:last-child {
