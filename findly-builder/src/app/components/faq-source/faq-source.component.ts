@@ -184,6 +184,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.openExtractsSubs = this.headerService.openFaqExtractsFromDocker.subscribe((res) => {
       this.openStatusModal()
     });
+   
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -1667,5 +1668,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(()=>{
       document.getElementById(inputSearch).focus();
     },100)
+  }
+  clicksViews(){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId, 
+      faqId: this.selectedFaq._id,
+    };
+    this.service.invoke('get.clicksViews', quaryparms).subscribe(res => {
+      console.log(res);
+    }, errRes => {
+    });
   }
 }
