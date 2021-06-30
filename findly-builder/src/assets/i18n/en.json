@@ -714,9 +714,25 @@
         "begins_with": " Begins with",
         "ends_with": "Ends with",
         "contains": "Contains",
-         "doesnt_contain": "Doesn't contain"
-
-        
+         "doesnt_contain": "Doesn't contain",
+         "execution_caps":"EXECUTION STATUS",
+         "duration_caps":"DURATION",
+         "executed_on_caps":"EXECUTED ON",
+         "execution_log_caps":"EXECUTION LOG",
+         "title":"Title",
+         "body":"Body",
+        "published":"Published",
+        "no_publish_information_available":"No publish information available",
+        "cancel": "Cancel",
+        "save": "Save",
+        "delete":"Delete",
+        "recrawl":"Recrawl",
+        "view_details":"View Details",
+        "description":"Description",
+        "document":"Document",
+        "no_of_pages":"No. Of. Pages",
+        "last_updated":"Last Updated",
+        "results_preview":"Results Preview"
     },
     "resultTemplate": {
         "resultTemplates": "Result Templates",

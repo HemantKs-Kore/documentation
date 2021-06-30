@@ -431,12 +431,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             }
           }
         }
-        res.forEach(element => {
-          if(element.status ! = this.resourcesStatusObj[element._id].status){
-            // this.getJobDetails(source._id)
-            this.getSourceList();
-          }
-        });
+        // res.forEach(element => {
+        //   if(element.status ! = this.resourcesStatusObj[element._id].status){
+        //     // this.getJobDetails(source._id)
+        //     this.getSourceList();
+        //   }
+        // });
         //this.resourcesStatusObj.forEach(element => {
           // if(this.resourcesStatusObj[element._id].status != res[source._id].status){
           //   this.getJobDetails(source._id)
