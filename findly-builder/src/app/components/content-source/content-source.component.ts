@@ -426,14 +426,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if (this.resourcesStatusObj[source._id]) {
           if (this.resourcesStatusObj[source._id].status == 'running' || this.resourcesStatusObj[source._id].status == 'queued') {
             if (source.executionStats.percentageDone && source.executionStats.percentageDone == 100) {
-              this.getJobDetails(source._id)
+              // this.getJobDetails(source._id)
               this.getSourceList();
             }
           }
         }
         res.forEach(element => {
           if(element.status ! = this.resourcesStatusObj[element._id].status){
-            this.getJobDetails(source._id)
+            // this.getJobDetails(source._id)
             this.getSourceList();
           }
         });

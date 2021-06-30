@@ -423,7 +423,9 @@ export class SchedulerComponent implements OnInit {
     this.custFreq = freq;
     this.dateOrdinal = this.ordinal_nth(Number(this.date));
     if(Number(this.repeatEvery) == 1){
+      if(freq.search("s") > -1){
       freq = freq.substring(0, freq.length - 1);
+    }
       this.custFreq = freq;
     }else if(Number(this.repeatEvery) > 1){
       if(freq.charAt(freq.length-1) == 's'){

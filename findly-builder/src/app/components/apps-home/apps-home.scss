@@ -509,6 +509,12 @@
                     padding: 5px;
                     margin-left: 10px;
                     cursor: pointer;
+                    &:hover{
+                        background: #EFF0F1;
+                    }
+                    &.active-down{
+                        background: #EFF0F1;
+                    }
                 }
             }
         }

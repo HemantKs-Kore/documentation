@@ -232,10 +232,10 @@
                         <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                             <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
-                            <input type="text"  maxlength="60" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
+                            <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
                             <img src="assets/images/search_gray.svg" class="search-icon">
                             <img *ngIf="(!addEditFacetObj.fieldId.length) && submitted" id="fieldWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
-                            <ul class="dropdown-menu content-menu">
+                            <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
                                 <perfect-scrollbar class="scroll-search-field">
                                     <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="selectField(suggesition); setFaceName(suggesition)"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
                                 </perfect-scrollbar>
