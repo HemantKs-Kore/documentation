@@ -470,10 +470,10 @@
                                                         <div class="bot-response-title col-6">Response <span *ngIf="(selectedFaq._source.faqAnswer.length > 1) || (selectedFaq._source.faqCondAnswers && selectedFaq._source.faqCondAnswers.length)">{{ ' ' + (i + 1)}}</span></div>
                                                         <div class="response-likes-views-sec d-flex col-6">
                                                             <div class="count-sec" >
-                                                                <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{(selectedFaq?.stats?.appearances || []).length ?selectedFaq?.stats?.appearances[0][0]: 0}}
+                                                                <img src="assets/icons/faq/views.svg" (click)="clicksViews()" placement="top" container='body' ngbTooltip="Views">{{(selectedFaq?.stats?.appearances || []).length ?selectedFaq?.stats?.appearances[0][0]: 0}}
                                                             </div>
                                                             <div class="count-sec" >
-                                                                <img src="assets/icons/faq/hand.svg" placement="top" container='body' ngbTooltip="Clicks">{{selectedFaq?.stats?.clicks ||0}}
+                                                                <img src="assets/icons/faq/hand.svg" (click)="clicksViews()" placement="top" container='body' ngbTooltip="Clicks">{{selectedFaq?.stats?.clicks ||0}}
                                                             </div>
                                                             <!-- <div class="count-sec">
                                                                 <img src="assets/icons/faq/likes.svg">{{selectedFaq.stats.thumbsup ||0}}
