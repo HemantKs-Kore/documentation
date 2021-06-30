@@ -138,21 +138,21 @@ export class SearchInsightsComponent implements OnInit {
       queryparams = {
         ...queryparams,
         offset: this.QWNR_skipPage || 0,
-        limit: this.QWNR_limitPage || 10
+        limit:  10
       };
     }
     else if (type == 'QueriesWithResults') {
       queryparams = {
         ...queryparams,
         offset: this.QWR_skipPage || 0,
-        limit: this.QWR_limitPage
+        limit: 10
       };
     }
     else if (type == 'SearchQueryResults') {
       queryparams = {
         ...queryparams,
         offset: this.SQR_skipPage || 0,
-        limit: this.SQR_limitPage
+        limit: 10
       };
     }
 

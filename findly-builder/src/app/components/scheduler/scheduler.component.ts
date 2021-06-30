@@ -29,7 +29,7 @@ export class SchedulerComponent implements OnInit {
   meridiem = 'AM';
   cronExpression = "* * * * * ?"
   timeHH = '';
-  timeMM = '';
+  timeMM:any = '';
   repeatEvery = '1';
   day = '';
   date = '';
@@ -230,8 +230,20 @@ export class SchedulerComponent implements OnInit {
           timeHH = (Number(this.timeHH) - 12).toLocaleString();
         }
     }
-    this.timeMM == '' ? this.timeMM = '00' :  this.timeMM  = this.timeMM;
-    timeHH == '' ? timeHH = '00' :  timeHH  = timeHH;
+    !this.timeMM ? this.timeMM = null :  this.timeMM  = this.timeMM;
+    if(Number(this.timeMM) > 59 && this.timeMM.toString().length == 2){
+      this.timeMM = '59';
+      $('#scheduleMn').val('59');
+    }else if(Number(this.timeMM) > 59 && this.timeMM.toString().length > 2){
+      let mins = this.timeMM.toString();
+      mins = mins.substring(0, 2);
+      this.timeMM = mins;
+      $('#scheduleMn').val(mins);
+    }else if(Number(this.timeMM) < 0){
+      this.timeMM = '0';
+      $('#scheduleMn').val('0');
+    }
+    timeHH == '' ? timeHH = '0' :  timeHH  = timeHH;
     if(this.rstz == 'Does not repeat'){
       //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' ' + this.month + ' ? ' + this.year;
       //this.cronExpression = this.timeMM + ' '+ timeHH + ' ' + this.date + ' ' + this.month + ' ' + this.year;
@@ -418,12 +430,20 @@ export class SchedulerComponent implements OnInit {
       default: return d +"th";
     }
   }
+  validateMin(timeMM){
+if(timeMM !== null && timeMM =='00'){
+  timeMM= 0;
+}
+
+  }
   /** Custom- modal Function */
   custFrequency(freq){
     this.custFreq = freq;
     this.dateOrdinal = this.ordinal_nth(Number(this.date));
     if(Number(this.repeatEvery) == 1){
+      if(freq.search("s") > -1){
       freq = freq.substring(0, freq.length - 1);
+    }
       this.custFreq = freq;
     }else if(Number(this.repeatEvery) > 1){
       if(freq.charAt(freq.length-1) == 's'){

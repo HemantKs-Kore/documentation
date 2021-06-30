@@ -101,6 +101,10 @@ export class EndPointsService {
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:webDomainId?type=:type',
       method: 'delete'
     };
+    this.serviceList['get.clicksViews']= {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/:faqId/analyse',
+      method: 'get'
+    }
     this.serviceList['update.contentPageSource'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId',
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/document/:docId',
@@ -378,7 +382,8 @@ export class EndPointsService {
       method: 'post'
     };
     this.serviceList['PdfAnno.get.reAnnotateData'] = {
-      endpoint: this.API_SERVER_URL + '/builder/:streamId/:fileId/getSavedAnnotatedData',
+      // endpoint: this.API_SERVER_URL + '/builder/:streamId/:fileId/getSavedAnnotatedData',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId/getSavedAnnotatedData',
       method: 'get'
     };
 

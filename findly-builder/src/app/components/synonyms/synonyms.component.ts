@@ -110,26 +110,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         }
       });
     }
-    this.synonymData.forEach(element => {
-
-      if(element.type === 'oneWaySynonym' ){
-        // this.filterSynonym = false;
-        this.filteroneWaySynonym = true;
-
-      }
-      else if(element.type === 'synonym'){
-        // this.filteroneWaySynonym = false;
-        this.filterSynonym = true;
-      }
-    //  if(element.type === 'synonym'  ){
-    //     this.filterSynonym = false;
-    //   }
-    //   else{
-    //     this.filterSynonym = true;
-       
-    //   }
-    });
-    
+  
   }
   getSynonyms() {
     const quaryparms: any = {
@@ -320,11 +301,27 @@ export class SynonymsComponent implements OnInit, OnDestroy {
             this.addOrUpddate(synonyms, dialogRef, this.showFlag);
             this.notificationService.notify('Deleted Successfully', 'error')
           }
+          synonyms.forEach(element => {
+            if(element.type === 'oneWaySynonym'){
+              this.filteroneWaySynonym = true;
+            }
+            else{
+              this.filteroneWaySynonym = false;
+            }
+         if(element.type === 'synonym'){
+              this.filterSynonym = true;
+            }
+            else{
+              this.filterSynonym = false;
+            }
+          });
         } else if (result === 'no') {
           dialogRef.close();
           console.log('deleted')
         }
       })
+     
+      
   }
   checkDuplicateTags(suggestion: string, alltTags): boolean {
     return alltTags.every((f) => f !== suggestion);

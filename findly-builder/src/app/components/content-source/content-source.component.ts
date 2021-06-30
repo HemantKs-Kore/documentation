@@ -280,12 +280,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = res;
       //  this.resourcesDoc=this.resources[0].fileMeta;
+      //element.advanceSettings.scheduleOpts.interval.intervalType
       this.resources.forEach(element => {
         if (element.advanceSettings && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time) {
           if (element.advanceSettings.scheduleOpts.interval.intervalType != "Custom") {
             let hour = (element.advanceSettings.scheduleOpts.time.hour).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.hour : '0' + element.advanceSettings.scheduleOpts.time.hour;
             let minute = (element.advanceSettings.scheduleOpts.time.minute).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.minute : '0' + element.advanceSettings.scheduleOpts.time.minute;
-            element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' at ' +
+            element['schedule_title'] = 'Runs once at ' +
               hour + ':' + minute + ' ' +
               element.advanceSettings.scheduleOpts.time.timeOpt + ' ' + element.advanceSettings.scheduleOpts.time.timezone;
           } else {
@@ -301,7 +302,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1) {
               every = element.advanceSettings.scheduleOpts.interval.intervalValue.every;
             }
-            element['schedule_title'] = 'Runs once every' + every + schedulePeriod + repeatOn
+            element['schedule_title'] = 'Runs once every'+ ' ' + every + ' ' +  schedulePeriod + '' + repeatOn
 
           }
 
@@ -412,18 +413,36 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       type
     };
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
+      // let compareObj = [...Object.entries(this.resourcesStatusObj)];
+      // compareObj.forEach((element : any[],index) => {
+      //   if(res[index] && element[0] ==  res[index]._id && element[1].status != res[index].status){
+      //     this.getJobDetails(res._id)
+      //     this.getSourceList();
+      //   }
+      // });
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
 
         if (this.resourcesStatusObj[source._id]) {
           if (this.resourcesStatusObj[source._id].status == 'running' || this.resourcesStatusObj[source._id].status == 'queued') {
             if (source.executionStats.percentageDone && source.executionStats.percentageDone == 100) {
-              this.getJobDetails(source._id)
+              // this.getJobDetails(source._id)
               this.getSourceList();
             }
           }
         }
-
+        res.forEach(element => {
+          if(element.status ! = this.resourcesStatusObj[element._id].status){
+            // this.getJobDetails(source._id)
+            this.getSourceList();
+          }
+        });
+        //this.resourcesStatusObj.forEach(element => {
+          // if(this.resourcesStatusObj[element._id].status != res[source._id].status){
+          //   this.getJobDetails(source._id)
+          //   this.getSourceList();
+          // }
+        //});
         this.resourcesStatusObj[source._id] = source;
 
         return ((source.status === 'running') || (source.status === 'queued'));
@@ -531,18 +550,21 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.isConfig = true;
         this.page = false;
       } else if (tabName == 'page') {
+        this.page=true;
+        this.isConfig=false;
+        this.execution= false;
         // $('.tabname')[0].classList.add('active');
         // $('.tabname')[1].classList.remove('active');
         // $('.tabname')[2].classList.remove('active');
-        if (this.selectedSource.recentStatus == 'success' || (this.selectedSource.recentStatus == 'running' && this.selectedSource.numPages > 0) || (this.selectedSource.recentStatus == 'inprogress' && this.selectedSource.numPages > 0)) {
-          this.execution = false;
-          this.isConfig = false;
-          this.page = true;
-        } else {
-          this.execution = false;
-          this.isConfig = true;
-          this.page = false;
-        }
+        // if (this.selectedSource.recentStatus == 'success' || (this.selectedSource.recentStatus == 'running' && this.selectedSource.numPages > 0) || (this.selectedSource.recentStatus == 'inprogress' && this.selectedSource.numPages > 0)) {
+        //   this.execution = false;
+        //   this.isConfig = false;
+        //   this.page = true;
+        // } else {
+        //   this.execution = false;
+        //   this.isConfig = true;
+        //   this.page = false;
+        // }
 
       }
     }
@@ -810,7 +832,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       data: {
         title: 'Delete Document',
         newTitle: 'Are you sure you want to delete?',
-        body: 'The selected document will be deleted.',
+        body: 'All the Pages associated with this source will be deleted.',
         buttons: [{ key: 'yes', label: 'delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -838,7 +860,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         title: from == 'source' ? 'Delete Source ' : ' Delete Page',
         text: 'Are you sure you want to delete?',
         newTitle: 'Are you sure you want to delete?',
-        body: 'All the Pages associated with this source will be deleted.',
+        body: from == 'source' ?'All the Pages associated with this source will be deleted.' : 'Selected Page will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -1537,6 +1559,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
+    this.closeStatusModal()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       sourceId: source._id
@@ -1561,6 +1584,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
+    this.closeStatusModal()
     const queryParams: any = {
       searchIndexID: this.serachIndexId,
       sourceId: source._id

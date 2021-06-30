@@ -255,6 +255,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.selectedField.fieldDataType = null;
     }
     this.openModal();
+    this.getFieldAutoComplete('');
   }
   editFacetModal(facet) {
     this.getRecordDetails(facet)
@@ -272,6 +273,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
           console.log(element)
           this.addEditFacetObj = JSON.parse(JSON.stringify(data));
           this.selectedFieldId = element._id;
+          this.getFieldAutoComplete(element.fieldName);
           this.selectField(element);
           this.openModal();
         }
@@ -313,7 +315,12 @@ export class FacetsComponent implements OnInit, OnDestroy {
       query
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
-      this.fieldAutoSuggestion = res || [];
+      this.fieldAutoSuggestion = JSON.parse(JSON.stringify(res)) || [];
+      if(this.fieldAutoSuggestion.length){
+        if(!$('#facets-search-with-dropdown-menu').hasClass('show') && $('#facets-search-input').is(':focus')){
+          $('#facets-search-with-dropdown-menu').addClass('show')
+        }
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');
     });
@@ -451,6 +458,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.addEditFacetObj = null;
       this.selectedFieldId = null;
     }, errRes => {
+      this.getFieldAutoComplete('');
       this.errorToaster(errRes, 'Failed to create facet');
     });
   }
@@ -472,6 +480,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.addEditFacetObj = null;
       this.selectedFieldId = null;
     }, errRes => {
+      this.getFieldAutoComplete('');
       this.errorToaster(errRes, 'Failed to update facet');
     });
   }

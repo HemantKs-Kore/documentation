@@ -80,17 +80,18 @@
                     <div class="kr-sg-checkbox p-0 ml-1 mb-0 adjust-checkbox-padding partial-select-checkbox d-none" *ngIf="selcectionObj.selectedItems.length != facets.length">
                         <img (click)="selectAllFromPartial()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
                     </div> -->
-                    <span class="d-flex align-items-center flex-column mr-1 selectall-title" (click)="sortBy('name')">
-                    <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                    <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                </span>
-                    <div class="title">{{'facets.facet_caps_Name' | translate}}</div>
+                    <!-- <span class="d-flex align-items-center flex-column mr-1 selectall-title" (click)="sortBy('name')">
+                        <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                    </span> -->
+                    <div class="title selectall-title">{{'facets.facet_caps_Name' | translate}}</div>
                 </div>
                 <div class="col-2 content d-flex">
-                    <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('type')">
-                    <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                    <img [ngClass]="getSortIconVisibility('type', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                </span> {{'facets.type_caps' | translate}}
+                    <!-- <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('type')">
+                        <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img [ngClass]="getSortIconVisibility('type', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                    </span>  -->
+                    {{'facets.type_caps' | translate}}
                     <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #typeFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">
@@ -108,10 +109,11 @@
                     </div>
                 </div>
                 <div class="col-2 content d-flex">
-                    <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('select')">
-                    <img [ngClass]="getSortIconVisibility('select', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                    <img [ngClass]="getSortIconVisibility('select', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                </span> {{'facets.multiselect_caps' | translate}}
+                    <!-- <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('select')">
+                        <img [ngClass]="getSortIconVisibility('select', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img [ngClass]="getSortIconVisibility('select', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                    </span> -->
+                    {{'facets.multiselect_caps' | translate}}
                     <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #selectFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">
@@ -129,10 +131,11 @@
                     </div>
                 </div>
                 <div class="col-3 content d-flex">
-                    <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('status')">
-                    <img [ngClass]="getSortIconVisibility('status', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                    <img [ngClass]="getSortIconVisibility('status', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                </span> {{'facets.status_caps' | translate}}
+                    <!-- <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('status')">
+                        <img [ngClass]="getSortIconVisibility('status', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img [ngClass]="getSortIconVisibility('status', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                    </span>  -->
+                    {{'facets.status_caps' | translate}}
                     <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">
@@ -220,7 +223,7 @@
             </label>
         </div>
     </div>
-    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <!-- <perfect-scrollbar class="perfect-scroll-modal-body"> -->
         <div class="modal-body textAlignLeft" *ngIf="addEditFacetObj">
             <div class="search_block">
                 <div class="label-text">{{'facets.field_name'| translate}}</div>
@@ -229,10 +232,10 @@
                         <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                             <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
-                            <input type="text"  maxlength="60" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
+                            <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
                             <img src="assets/images/search_gray.svg" class="search-icon">
                             <img *ngIf="(!addEditFacetObj.fieldId.length) && submitted" id="fieldWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
-                            <ul class="dropdown-menu content-menu">
+                            <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
                                 <perfect-scrollbar class="scroll-search-field">
                                     <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="selectField(suggesition); setFaceName(suggesition)"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
                                 </perfect-scrollbar>
@@ -378,7 +381,7 @@
                 </div>
             </ng-container>
         </div>
-    </perfect-scrollbar>
+    <!-- </perfect-scrollbar> -->
     <div class="modal-footer" *ngIf="addEditFacetObj">
         <!-- [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldId === selectedField.fieldId)' Removed Tooltip -->
         <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button> <!-- [disabled]='(!addEditFacetObj._id && !selectedField) || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldId !== selectedField.fieldId))' -->

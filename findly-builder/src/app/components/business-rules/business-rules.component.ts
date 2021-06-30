@@ -446,7 +446,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (input) {
       input.value = '';
     }
-    this.suggestedInput.nativeElement.value = '';
+    if ((this.suggestedInput||{}).nativeElement){
+      (this.suggestedInput||{}).nativeElement.value = '';
+    }
   }
   addOutcome(event: MatChipInputEvent, ruleObj, index) {
     const input = event.input;
@@ -466,15 +468,19 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (input) {
       input.value = '';
     }
-    this.autoSuggestInputItems._results[index].nativeElement.value = '';
-    this.suggestedInput.nativeElement.value = '';
+    ((this.autoSuggestInputItems._results[index||0] || {}).nativeElement ||{}).value = '';
+    if ((this.suggestedInput||{}).nativeElement){
+      (this.suggestedInput||{}).nativeElement.value = '';
+    }
   }
   selectedTag(data: MatAutocompleteSelectedEvent, outcomeObj) {
     console.log(data.option.value);
     outcomeObj.fieldDataType = data.option.value.fieldDataType
     outcomeObj.fieldName = data.option.value.fieldName
     outcomeObj.fieldId = data.option.value._id
-    this.suggestedInput.nativeElement.value = '';
+    if ((this.suggestedInput||{}).nativeElement){
+      (this.suggestedInput||{}).nativeElement.value = '';
+    }
     this.fieldAutoSuggestion = [];
   }
   selectField(data, outcomeObj) {

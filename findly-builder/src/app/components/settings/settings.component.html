@@ -19,14 +19,18 @@
             <div class="clock d-none"><img src="assets/icons/clock.svg"></div>
         </div>
     </div>
-    <div class="header-sec row m-0 col-12" *ngIf="slider!==0" >
-        <div class="bread-cum-sec col-12 p-0 d-flex align-items-center">
+    <div class="header-sec row m-0 col-12 " *ngIf="slider!==0" >
+        <div class="bread-cum-sec col-6 p-0 d-flex align-items-center">
             <div class="bread-name">{{"settings.channels" | translate}}</div>
-            <img 
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
-            <div class="bread-name active-name" >{{"settings.web_mobile_client" | translate}}</div>
-            <!-- <img src="assets/icons/viewinstruction.svg">
-         <div class="bread-name active-name1"  *ngIf="existingCredential">View Instructions</div> -->
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
+            <div class="bread-name active-name" >{{"settings.web_mobile_client" | translate}}</div>            
+        </div>
+        <div class="col-6 toggle-check">       
+            <label class="kr-sg-toggle">
+                <input type="checkbox" checked>
+                <div class="slider"><span class="enabled">{{"settings.channel_enabled" | translate}}</span><span class="disabled">Channel Disabled</span></div>
+            </label>     
+            <!-- <div class="bread-name active-name1"  *ngIf="existingCredential"><img src="assets/icons/viewinstruction.svg"> View Instructions</div>                  -->
         </div>
     </div>
 
@@ -37,13 +41,16 @@
             </div>
         </div>
         <div class="card_data row m-0">
-            <div class="card-content active" *ngFor=" let channel of channels | filter: [ searchchannel , 'name']">
+            <div class="card-content active" *ngFor=" let channel of channels | filter: [ searchchannel , 'name']" [ngClass]=" {'blur': !enableConfiguration }">
                 <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="channel.enable">                                        
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle  p-0 border-0" ngbDropdownToggle><img src="assets/icons/elipse.svg"></button>                                            
-                        <ul class="dropdown-menu content-menu faq-filter-add p-0" ngbDropdownMenu>
-                            <li><a (click)="enableConfiguration = !enableConfiguration">{{enableConfiguration?'Disable':'Enable'}}</a></li>
-                            <li><a>{{"settings.delete" | translate}} </a></li>               
+                        <ul class="dropdown-menu content-menu faq-filter-add p-0" ngbDropdownMenu> 
+                            <li (click)="(enableConfiguration = !enableConfiguration)?  disableCredential() : '' ">{{enableConfiguration?'Disable':'Enable'}}</li>
+                            <!-- <li (click)="disableCredential()"><a (click)="enableConfiguration = !enableConfiguration"> Disable</a></li> 
+                            <li *ngIf="!enableConfiguration = enableConfiguration" (click)="configureCredential()"><a> Enable</a></li>  -->
+                            <!-- <li><a (click)="enableConfiguration = !enableConfiguration) ? disableCredential()">Enaable</a></li> -->
+                            <li class="d-none"><a>{{"settings.delete" | translate}} </a></li>               
                         </ul>
                     </div>
                 </div>
@@ -232,10 +239,10 @@
                     </div>
 
                     <div class="border-line"></div>
-                    <div class="accordion-sec d-none">{{"settings.view_JSON_web_encryption_public_key " | translate}} <img
+                    <div class="accordion-sec ">{{"settings.view_JSON_web_encryption_public_key " | translate}} <img
                             src="assets/images/icons/carrot_up.svg"></div>
                 </div>
-                <div class="group-radiobutton">
+                <div class="group-radiobutton d-none">
                     <div class="heading-title">{{"settings.task_setup" | translate}} </div>
                     <div class="kr-sg-radiobutton d-block">
                         <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
@@ -246,26 +253,19 @@
                         <label for="radio-33" class="radio-custom-label"> {{"settings.no_task_setup_info" | translate}}  </label>
                     </div>
                 </div>
-                <label class="kr-sg-toggle">
-                    <input type="checkbox" checked>
-                    <div class="slider"><span class="enabled">{{"settings.channel_enabled" | translate}}</span><span class="disabled">{{"settings.channel_enabled" | translate}}</span></div>
-                </label>
             </div>
         </div>
     </perfect-scrollbar>
     <div class="footer-sec">
         <div class="btn-sec">
             <div>
-                <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">{{"settings.cancel" | translate}} </button>
+                <button *ngIf="!existingCredential" class="kr-sg-button-secondary btn_lg" (click)="cancel()">{{"settings.cancel" | translate}} </button>
             </div>
             <div>
-                <button class="kr-sg-button-secondary btn_lg mr-3" *ngIf=!existingCredential
-                    (click)="back()"> {{"settings.back" | translate}}</button>
-                <button class="kr-sg-button-primary btn_lg" (click)="continue()" *ngIf="slider!==3"
-                    [disabled]="(!(credntial.name) || !(credntial.awt)) && (slider==2)">{{"settings.continue" | translate}}</button>
-                <button class="kr-sg-button-primary btn_lg" *ngIf="slider==3"
-                    (click)="configureCredential()"> {{"settings.save" | translate}}</button>
-
+                <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf=!existingCredential (click)="back()"> {{"settings.back" | translate}}</button>
+                <button class="kr-sg-button-primary btn_lg" (click)="continue()" *ngIf="slider!==3" [disabled]="(!(credntial.name) || !(credntial.awt)) && (slider==2)">{{"settings.continue" | translate}}</button>
+                <button class="kr-sg-button-secondary btn_lg mr-2"  *ngIf=existingCredential (click)="cancel()">{{"settings.cancel" | translate}} </button>
+                <button class="kr-sg-button-primary btn_lg" *ngIf="slider==3" (click)="configureCredential()"> {{"settings.save" | translate}}</button>
             </div>
         </div>
     </div>

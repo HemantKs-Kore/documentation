@@ -3247,6 +3247,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "locale": window.navigator.userLanguage || window.navigator.language,
         },*/
       }
+      if(_self.isDev){
+        payload['customize'] = _self.vars.customizeView;
+      }
 
       /*if (_self.bot.options) {
         payload["client"] = _self.bot.options.client || "sdk";
@@ -3375,7 +3378,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }, 500);
             } else {
               _self.vars.totalNumOfResults = response.template.totalNumOfResults
-              _self.prepAllSearchData();
+              _self.prepAllSearchData(_self.vars.selectedFacetFromSearch);
               _self.bindAllResultsView();
               _self.bindSearchActionEvents();
               $('#live-search-result-box').hide();
@@ -4063,7 +4066,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         e.stopPropagation();
         _self.pubSub.publish('sa-action-clicked', e);
         var taskName = e.target.title.toLowerCase();
-        var payload = $(e.target).attr('payload');
+        // var payload = $(e.target).attr('payload');
+        var payload;
+        if(_self.vars.searchObject.searchText.length){
+          payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
+        }
         if (!_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.indexOf(taskName.toLowerCase()) == -1)) {
           _self.vars.searchObject.recentTasks.unshift(taskName.toLowerCase());
         }
@@ -4092,7 +4099,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // }
         console.log(payload);
         if (_self.config.viaSocket) {
-          _self.sendMessage(payload);
+          // var childBotName = $(e.target).attr('childBotName')
+          var nlMeta = {
+            linkedBotNLMeta : {
+              'intent': $(e.target).attr('title'),
+              'childBotName': $(e.target).attr('childBotName') || null,
+              'isRefresh': true
+            }
+          };
+          _self.sendMessage(payload, null, nlMeta);
         }
 
         if (_self.isDev || _self.vars.loggedInUser) {
@@ -4901,6 +4916,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         },*/
       }
 
+      if(_self.isDev){
+        payload['customize'] = _self.vars.customizeView;
+      }
+
       /*if (_self.bot.options) {
         payload["client"] = _self.bot.options.client || "sdk";
         payload["botInfo"] = {};
@@ -4946,7 +4965,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.vars.selectedFacetFromSearch = 'all results';
       }
       else {
-        facetActive = $('.facetActive').attr('id');
+        if ($('body').hasClass('top-down')) {
+          var _facetContainer = $('.active-tab').closest('.tab-name.capital');
+                facetActive = _facetContainer.attr('id');
+        }else{
+          facetActive = $('.facetActive').attr('id');
+        }
       }
       console.log("Active Facet Tab: ", facetActive);
 
@@ -4984,7 +5008,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 _self.vars.selectedFacetFromSearch = 'all results';
               }
               else {
-                facetActive = $('.active-tab').attr('id');
+                var _facetContainer = $('.active-tab').closest('.tab-name.capital');
+                facetActive = _facetContainer.attr('id');
                 _self.vars.selectedFacetFromSearch = facetActive;
               }
           _self.pubSub.publish('facet-selected', { selectedFacet:  _self.vars.selectedFacetFromSearch|| 'all results'});
@@ -5045,6 +5070,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "event": eventType,
         "streamId": _self.API.streamId,
         "isDev": _self.isDev,
+      }
+      if(_self.isDev){
+        payload['customize'] = _self.vars.customizeView;
       }
 
       if (resultType == "web" || resultType == "faq") {
@@ -8422,6 +8450,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (msgObject && msgObject.nlmeta) {
         messageToBot["message"].nlmeta = msgObject.nlmeta;
+      }
+
+      if (msgObject && msgObject.linkedBotNLMeta) {
+        _self.bot.options.botInfo.linkedBotNLMeta = msgObject.linkedBotNLMeta;
+      }
+      else if(_self.bot.options.botInfo.linkedBotNLMeta){
+        delete _self.bot.options.botInfo.linkedBotNLMeta;
       }
 
       if (!$('body').hasClass('demo')) {
@@ -18139,6 +18174,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "filters" : []
       }
 
+      if(_self.isDev){
+        payload['customize'] = _self.vars.customizeView;
+      }
+
       var contentTypeFilter  = {
         "fieldName": "sysContentType",
         "facetName": "facetContentType",
@@ -18227,7 +18266,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.calculatePageNumber(selectedFacet, dataObj);
           if(!$('body').hasClass('top-down')){
             _self.handlePaginationUI(selectedFacet, dataObj);
-            _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: selectedFacet, isLiveSearch: false, isSearch: false, dataObj });
             _self.pubSub.publish('sa-st-data-search', {
               container: '.structured-data-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
             });
@@ -18240,6 +18278,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.pubSub.publish('sa-file-search', {
               container: '.files-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet: selectedFacet, isFullResults: true, isSearch: false, isLiveSearch: false, dataObj
             });
+            _self.pubSub.publish('sa-action-full-search', { container: '#actions-full-search-container', isFullResults: true, selectedFacet: selectedFacet, isLiveSearch: false, isSearch: false, dataObj });
           }else{
             _self.handlePaginationUI(selectedFacet, dataObj);
             //top-down-search-start//
@@ -18768,7 +18807,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         e.stopPropagation();
         _self.hideBottomUpAllResults();
         var taskName = e.target.title.toLowerCase();
-        var payload = $(e.target).attr('payload');
+        // var payload = $(e.target).attr('payload');
+        var payload;
+        if(_self.vars.searchObject.searchText.length){
+          payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
+        }
         if (!_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.indexOf(taskName.toLowerCase()) == -1)) {
           _self.vars.searchObject.recentTasks.unshift(taskName.toLowerCase());
         }
@@ -18790,7 +18833,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         console.log(payload);
         if (_self.config.viaSocket) {
-          _self.sendMessage(payload);
+          // var childBotName = $(e.target).attr('childBotName')
+          var nlMeta = {
+            linkedBotNLMeta : {
+              'intent': $(e.target).attr('title'),
+              'childBotName': $(e.target).attr('childBotName') || null,
+              'isRefresh': true
+            }
+          };
+          _self.sendMessage(payload, null, nlMeta);
         }
         if (_self.isDev || _self.vars.loggedInUser) {
           _self.vars.searchObject.searchText = e.target.title.toLowerCase();
@@ -21005,24 +21056,26 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                           <span class="info-text">Bot Actions cannot be customized</span>\
                                         </div>\
                                       {{/if}}\
-                                    {{if selectedFacet !== appearanceType}}\
-                                      <div class="structured-data-header total-structured-data-wrap" appearanceType="task">\
-                                        ACTIONS\
-                                        <div class="search-heads show-all sdk-show-classification display-block">\
-                                          Show All Actions\
+                                      {{if selectedFacet !== appearanceType && selectedFacet == "all results"}}\
+                                        <div class="structured-data-header total-structured-data-wrap" appearanceType="task">\
+                                          ACTIONS\
+                                          <div class="search-heads show-all sdk-show-classification display-block">\
+                                            Show All Actions\
+                                          </div>\
                                         </div>\
-                                      </div>\
-                                    {{/if}}\
-                                    <div class="action-results-container btn_block_actions main-content-title-grid-data">\
-                                        {{each(key, task) tasks}}\
-                                        <div class="action-content title-box-data">\
-                                            <button id="${key}" class="action-btns search-task title-name text-truncate" title="${task.taskName}"  contentId="${task.taskId}" contentType="${task.sysContentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
-                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
-                                            ${task.titleText}\
-                                            </button>\
+                                      {{/if}}\
+                                      {{if selectedFacet == appearanceType || selectedFacet == "all results"}}\
+                                        <div class="action-results-container btn_block_actions main-content-title-grid-data">\
+                                          {{each(key, task) tasks}}\
+                                            <div class="action-content title-box-data">\
+                                                <button id="${key}" class="action-btns search-task title-name text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.sysContentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
+                                                ${task.titleText}\
+                                                </button>\
                                             </div>\
-                                        {{/each}}\
+                                          {{/each}}\
                                         </div>\
+                                      {{/if}}\
                                     {{/if}}\
                                      {{if !tasks || tasks.length === 0 }}\
                                       {{if selectedFacet != "all results"}}\
@@ -21677,6 +21730,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
       });
       return uuid;
+    }
+
+    function b64EncodeUnicode(str) {
+      // first we use encodeURIComponent to get percent-encoded UTF-8,
+      // then we convert the percent encodings into raw bytes which
+      // can be fed into btoa.
+      return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+        function toSolidBytes(match, p1) {
+          return String.fromCharCode('0x' + p1);
+        }));
+    }
+    function b64DecodeUnicode(str) {
+      // Going backwards: from bytestream, to percent-encoding, to original string.
+      return decodeURIComponent(atob(str).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
     }
   
     FindlySDK.prototype.unlockBot = function () {

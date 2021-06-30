@@ -1159,6 +1159,10 @@
                         flex-wrap: wrap;
                         padding-left: 18px;
                         margin-top: 12px;
+                        .manual{
+                            background: #9098a0 !important;
+                            color: #5F6368 !important;
+                        }
                         .pinned{
                             background: #E7F1FF;
                             border-radius: 4px;
