@@ -377,6 +377,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
 
           if ((queuedJobs[0].status !== 'running') && (queuedJobs[0].status !== 'queued')) {
+            let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+            if (currentPlan?.subscription?.planId == 'fp_free') {
+              this.appSelectionService.updateUsageData.next('updatedUsage');
+            }
             this.pollingSubscriber.unsubscribe();
             //this.crawlOkDisable = true;
             if (queuedJobs[0].status == 'halted') {
@@ -894,7 +898,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           //this.dockService.trigger(true)
         }, errRes => {
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-            if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessDenied') {
+            if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessDenied' || errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
               this.upgrade();
               this.errorToaster(errRes, errRes.error.errors[0].msg);
             } else {

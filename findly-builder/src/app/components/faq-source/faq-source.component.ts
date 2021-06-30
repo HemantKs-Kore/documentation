@@ -15,6 +15,7 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
 import { FaqsService } from '../../services/faqsService/faqs.service';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
 // import {  DockStatusService } from '../../services/dock.status.service';
 // import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
@@ -40,7 +41,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   currentView = 'list'
   searchSources = '';
   pagesSearch = '';
-  viewDetails:boolean;
+  viewDetails: boolean;
   selectedFaq: any = null;
   singleSelectedFaq: any = null;
   showAddFaqSection = false;
@@ -67,7 +68,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   newCommentObj = {
     comment: ''
   }
-  activeClose=false;
+  activeClose = false;
   faqComments: any = [];
   pollingSubscriber;
   showSearch;
@@ -114,8 +115,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     faqs: []
   }
   apiLoading = false;
-  isNotSearching =false;
-  extractedFaqs =false;
+  isNotSearching = false;
+  extractedFaqs = false;
   isAsc = true;
   selectedSort = '';
   faqLimit = 10;
@@ -146,7 +147,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
 
   constructor(
-    public cdRef : ChangeDetectorRef,
+    public cdRef: ChangeDetectorRef,
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -157,6 +158,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     private convertMDtoHTML: ConvertMDtoHTML,
     // public dockService: DockStatusService,
     private headerService: SideBarService,
+    private appSelectionService: AppSelectionService,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
   ) {
@@ -234,17 +236,17 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.statusModalPopRef = this.statusModalPop.open();
     this.getJobStatusForMessages();
   }
-  closeStatusModal(extractedFaqs?) { 
+  closeStatusModal(extractedFaqs?) {
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
       this.extractedFaqs
     }
-    if(extractedFaqs){
+    if (extractedFaqs) {
       this.getStats(null, true);
       this.getSourceList();
-      }else{
-        this.getStats(null, true);
-      }   
+    } else {
+      this.getStats(null, true);
+    }
   }
   openAddSourceModal(edit?) {
     if (!edit) {
@@ -271,10 +273,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.closeAddsourceModal();
     this.getSourceList();
     this.closeStatusModal();
-    if(this.faqs && this.faqs.length === 0){
-      if(this.showSourceAddition !== 'manual')
-      this.openStatusModal();
-      this.extractedFaqs=true
+    if (this.faqs && this.faqs.length === 0) {
+      if (this.showSourceAddition !== 'manual')
+        this.openStatusModal();
+      this.extractedFaqs = true
       this.getJobStatusForMessages();
     }
     this.showSourceAddition = null;
@@ -325,28 +327,28 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     if (selectedElements.length !== this.faqs.length) {
       this.faqSelectionObj.selectAll = true;
       this.selectAll();
-      setTimeout(()=>{
-        if((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount== this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved )){
+      setTimeout(() => {
+        if ((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved)) {
           $('#selectAllFaqs')[0].checked = true;
           this.faqSelectionObj.selectAll = true;
         } else {
           $('#selectAllFaqs')[0].checked = false;
           this.faqSelectionObj.selectAll = false;
         }
-      },100)
-    }else{
+      }, 100)
+    } else {
       this.selectAll(true);
     }
-    setTimeout(()=>{
-      if((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount== this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved )){
+    setTimeout(() => {
+      if ((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved)) {
         $('#selectAllFaqs')[0].checked = true;
         this.faqSelectionObj.selectAll = true;
       } else {
         $('#selectAllFaqs')[0].checked = false;
         this.faqSelectionObj.selectAll = false;
       }
-    },150)
-    
+    }, 150)
+
   }
   headerSelectAll() {
     this.selectAll();
@@ -563,7 +565,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     if (resourceId === 'manual') {
       endPoint = 'get.faqStaticsManualFilter';
     }
-    if(this.statsApiLoading){
+    if (this.statsApiLoading) {
       return;
     }
     this.statsApiLoading = true;
@@ -581,18 +583,18 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           this.noManulaRecords = false;
         }
       }
-      if (isInitialFaqCall ) {
+      if (isInitialFaqCall) {
         if (this.faqSelectionObj.stats.draft) {
           this.selectTab('draft');
         } else if (this.faqSelectionObj.stats.in_review) {
-          if(this.selectedtab =='approved' && this.faqSelectionObj.stats.approved){
+          if (this.selectedtab == 'approved' && this.faqSelectionObj.stats.approved) {
             this.selectTab('approved');
-          }else{
+          } else {
             this.selectTab('in_review');
           }
         } else if (this.faqSelectionObj.stats.approved) {
           this.selectTab('approved');
-        }else{
+        } else {
           this.selectTab('draft');
         }
       }
@@ -611,15 +613,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   searchFaqs() {
     this.apiLoading = false;
     this.isNotSearching = true;
-      if (this.searchFaq) {
-        // this.loadingTab = true;
-        this.getfaqsBy(null, null, null, this.searchFaq);
-      } else {
-        this.getfaqsBy();
-        this.searchFaq=''
-      }
-      console.log(this.searchFaq,'search');
-    
+    if (this.searchFaq) {
+      // this.loadingTab = true;
+      this.getfaqsBy(null, null, null, this.searchFaq);
+    } else {
+      this.getfaqsBy();
+      this.searchFaq = ''
+    }
+    console.log(this.searchFaq, 'search');
+
   }
   getJobStatusForMessages() {
     const quaryparms: any = {
@@ -630,8 +632,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.resources = [...res];
       this.extractedResources = [...res];
       if (this.extractedResources.length) {
-        this.statusArr=[];
-          this.docTypeArr=[];
+        this.statusArr = [];
+        this.docTypeArr = [];
         this.extractedResources.forEach(element => {
           this.statusArr.push(element.recentStatus);
           this.docTypeArr.push(element.contentSource);
@@ -643,7 +645,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.filterResourcesBack = [...this.extractedResources];
       this.filterTable(this.filterTableSource, this.filterTableheaderOption)
 
-   
+
       if (res && res.length) {
         res.forEach((d: any) => {
           if (d.extractedFaqsCount === 0) {
@@ -666,18 +668,18 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   faqsApiService(serviceId, params?, concat?) {
     console.log("serviceID", serviceId, params)
     // if ((this.apiLoading && !params.searchQuary) || ((this.previousSearchQuery == this.searchFaq) && this.searchFaq && this.previousSearchQuery && !params.offset)) {
-      if ((this.apiLoading)) {
+    if ((this.apiLoading)) {
       return;
     }
     this.faqs = [];
     this.previousSearchQuery = this.searchFaq;
     this.apiLoading = true;
     this.loading = true;
-    this.service.invoke(serviceId, params).subscribe((res:any) => {
+    this.service.invoke(serviceId, params).subscribe((res: any) => {
       console.log("service res", res);
       this.loading = false;
       this.isNotSearching = false;
-      this.faqs = ((res||{}).faqs || []);
+      this.faqs = ((res || {}).faqs || []);
       // if (concat) {
       //   this.faqs = this.faqs.concat((res||{}).faqs || []);
       // } else {
@@ -685,7 +687,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       //     return faq.action !== 'delete';
       //   })
       // }
-      this.faqSelectionObj.stats[this.selectedtab || 'draft'] = (res||{}).count || 0;
+      this.faqSelectionObj.stats[this.selectedtab || 'draft'] = (res || {}).count || 0;
       this.faqsObj.faqs = this.faqs;
       if (params.resourceId === 'manual' && this.faqs.length) {
         this.getStats(this.faqs[0].extractionSourceId)
@@ -694,8 +696,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.moreLoading.loadingText = 'Loading...';
         this.selectFaq(this.faqs[0]);
       } else {
-        if(params.searchQuary){
-          this.selectedFaq =null;
+        if (params.searchQuary) {
+          this.selectedFaq = null;
         }
         this.moreLoading.loadingText = 'No more results available';
         const self = this;
@@ -704,7 +706,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 700);
       }
       if (serviceId === 'get.allFaqs') {
-        this.faqsAvailable = ((res||{}).faqs || []).length ? true : false;
+        this.faqsAvailable = ((res || {}).faqs || []).length ? true : false;
       }
       setTimeout(() => {
         this.markSelectedFaqs(this.faqs);
@@ -764,7 +766,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.faqsApiService(serviceId, quaryparms, concatResults);
   }
   paginate(event) {
-    this.getfaqsBy(null, null, event.skip,this.searchFaq ||'')
+    this.getfaqsBy(null, null, event.skip, this.searchFaq || '')
     // this.addRemoveFaqFromSelection(null, true,null);
     // this.perfectScroll.directiveRef.update();
     // this.perfectScroll.directiveRef.scrollToTop(2, 1000);
@@ -791,12 +793,12 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = [...res];
       res.forEach(element => {
-        if(element.recentStatus == 'queued' || element.recentStatus == 'failed' || element.recentStatus =='running' ){
-        this.viewDetails =true;
-          this.extractedFaqs=true;
-            this.getStats(null, true);
-          
-         }
+        if (element.recentStatus == 'queued' || element.recentStatus == 'failed' || element.recentStatus == 'running') {
+          this.viewDetails = true;
+          this.extractedFaqs = true;
+          this.getStats(null, true);
+
+        }
       });
       if (res && res.length) {
         res.forEach((d: any) => {
@@ -837,10 +839,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.resources && this.resources.length && !initializePoling) {
         this.poling()
       }
-      else if (!initializePoling){
-           this.poling()
+      else if (!initializePoling) {
+        this.poling()
       }
-            if (res.length > 0) {
+      if (res.length > 0) {
         this.loadingFaqs = false;
         this.loadingFaqs1 = true;
       }
@@ -1023,10 +1025,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         if (queuedJobs && queuedJobs.length) {
           console.log(queuedJobs);
         } else {
-          this.getStats(null,true);
+          this.getStats(null, true);
           this.pollingSubscriber.unsubscribe();
+          let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+          if (currentPlan?.subscription?.planId == 'fp_free') {
+            this.appSelectionService.updateUsageData.next('updatedUsage');
+          }
         }
-     
+
       }, errRes => {
         this.pollingSubscriber.unsubscribe();
         if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -1042,7 +1048,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.faqUpdate.next();
     // setTimeout(() => {
     //   this.selectTab('draft');
-      // this.faqCancle();
+    // this.faqCancle();
     // }, 500);
 
   }
@@ -1143,15 +1149,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
       this.getStats();
-      if( this.editfaq){
+      if (this.editfaq) {
         this.selectTab('draft');
-      }else{
-        if(action === 'stateUpdate'){
-          this.selectTab(params||'draft');
-        }else{
-          this.selectTab((params ||{}).state||'draft');
+      } else {
+        if (action === 'stateUpdate') {
+          this.selectTab(params || 'draft');
+        } else {
+          this.selectTab((params || {}).state || 'draft');
         }
-        
+
       }
       this.editfaq = false;
       this.closeEditFAQModal();
@@ -1181,10 +1187,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.faqSelectionObj && this.faqSelectionObj.selectAll) {
       payload.allFaqs = true;
       payload.currentState = this.selectedtab;
-       if(this.selectedResource && this.selectedResource._id){
-        payload.extractionSourceId =this.selectedResource._id;
-      }else{
-        payload.extractionSourceId ='';
+      if (this.selectedResource && this.selectedResource._id) {
+        payload.extractionSourceId = this.selectedResource._id;
+      } else {
+        payload.extractionSourceId = '';
       }
     } else {
       const selectedElements = $('.selectEachfaqInput:checkbox:checked');
@@ -1212,7 +1218,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectAll(true);
     this.addRemoveFaqFromSelection(null, null, true);
     let serviceID = 'update.faq.bulk';
-    if(this.manualFilterSelected){
+    if (this.manualFilterSelected) {
       serviceID = 'update.manualFaqs.bulk'
     }
     this.service.invoke(serviceID, quaryparms, payload).subscribe(res => {
@@ -1617,25 +1623,25 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   };
 
 
-  focusoutSearch(isPopup?){
-    if(isPopup){
-      if(this.activeClose){
-        this.searchSources='';
+  focusoutSearch(isPopup?) {
+    if (isPopup) {
+      if (this.activeClose) {
+        this.searchSources = '';
         this.activeClose = false;
-       }
-    }else{
-      if(this.activeClose){
-        this.searchFaq='';
+      }
+    } else {
+      if (this.activeClose) {
+        this.searchFaq = '';
         this.activeClose = false;
         this.searchFaqs();
-       }
+      }
     }
-   this.showSearch= !this.showSearch;
-   this.cdRef.detectChanges();
+    this.showSearch = !this.showSearch;
+    this.cdRef.detectChanges();
   }
-  focusinSearch(inputSearch){
-    setTimeout(()=>{
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    },100)
+    }, 100)
   }
 }

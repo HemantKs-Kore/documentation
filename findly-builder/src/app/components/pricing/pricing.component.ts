@@ -177,6 +177,9 @@ export class PricingComponent implements OnInit, OnDestroy {
     }
   }
   compare(type, data?) {
+    if (this.proInfo) {
+      this.proInfo = false;
+    }
     if (type == 'choosePlans') {
       this.plans.openChoosePlanPopup(data);
     }
@@ -368,7 +371,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       yAxisDocumentData = [120, 200, 150, 80, 70, 110, 130];
       this.isyAxisDocumentdata = false;
       barDocColor = "#EFF0F1";
-    }else{
+    } else {
       barDocColor = "#28A745";
     }
     if (xAxisQueryData.length == 0) {
@@ -378,12 +381,12 @@ export class PricingComponent implements OnInit, OnDestroy {
       yAxisQueryData = [120, 200, 150, 80, 70, 110, 130];
       this.isyAxisQuerydata = false;
       barQueColor = "#EFF0F1";
-    }else{
+    } else {
       barQueColor = "#7027E5";
     }
     xAxisQueryData.length ? this.monthRange = xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1] : this.monthRange = "Jan - June";
     this.queryGraph = {
-      
+
       grid: {
         left: '8%',
         right: '4%',
@@ -424,8 +427,8 @@ export class PricingComponent implements OnInit, OnDestroy {
         name: 'Query Ingested',
         nameLocation: 'middle',
         nameGap: 50,
-        min : 0,
-        max:5,
+        min: 0,
+        max: 5,
         nameTextStyle: {
           color: "#9AA0A6",
           fontWeight: "normal",
@@ -497,8 +500,8 @@ export class PricingComponent implements OnInit, OnDestroy {
         name: 'Document Ingested',
         nameLocation: 'middle',
         nameGap: 50,
-        min : 0,
-        max:5,
+        min: 0,
+        max: 5,
         nameTextStyle: {
           color: "#9AA0A6",
           fontWeight: "normal",
@@ -528,11 +531,11 @@ export class PricingComponent implements OnInit, OnDestroy {
         },
       }]
     };
-    if(Math.max(...yAxisQueryData) > 5){
+    if (Math.max(...yAxisQueryData) > 5) {
       delete this.queryGraph.yAxis.min;
       delete this.queryGraph.yAxis.max;
     }
-    if(Math.max(...yAxisDocumentData) > 5){
+    if (Math.max(...yAxisDocumentData) > 5) {
       delete this.documentGraph.yAxis.min;
       delete this.documentGraph.yAxis.max;
     }
@@ -592,7 +595,7 @@ export class PricingComponent implements OnInit, OnDestroy {
         this.usageDetails.ingestDocs.type = 'danger';
       }
       else {
-        this.usageDetails.ingestDocs.type = 'primary'
+        this.usageDetails.ingestDocs.type = 'primary';
       }
     }
     else {
