@@ -100,6 +100,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Plan Details', routeId: '/pricing', quaryParms: {} },
     { displayName: 'Usage Log', routeId: '/usageLog', quaryParms: {} },
     { displayName: 'Invoices', routeId: '/invoices', quaryParms: {} },
+    { displayName: 'Results Ranking', routeId: '/resultranking', quaryParms: {} }
   ]
   public dockersList: Array<any> = [];
   public pollingSubscriber: any;

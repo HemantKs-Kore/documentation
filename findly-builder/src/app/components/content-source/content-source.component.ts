@@ -444,7 +444,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           // }
         //});
         this.resourcesStatusObj[source._id] = source;
-
         return ((source.status === 'running') || (source.status === 'queued'));
       });
       if (queuedJobs && queuedJobs.length) {

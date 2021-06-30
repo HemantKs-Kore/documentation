@@ -112,17 +112,18 @@ export class UpgradePlanComponent implements OnInit {
   getPayementStatus(type?) {
     const queryParams = {
       streamId: this.selectedApp._id,
-      transactionId: this.payementResponse.hostedPage.transactionId
+      transactionId: this.payementResponse.hostedPage.transactionId || this.invoiceOrderId
     };
     this.service.invoke('get.payementStatus', queryParams).subscribe(res => {
       if (res.state == 'success') {
         this.btnDisable = false;
-        this.closeChoosePlanPopup();
-        if (type == "upgrade") {
-          this.closeOrderConfPopup();
-          this.notificationService.notify('Plan Changed successfully', 'success');
+        if (type == 'overage') {
+          this.overageModel.emit();
         }
+        this.closeChoosePlanPopup();
+        this.closeOrderConfPopup();
         this.openSuccessFailurePopup(true);
+        this.notificationService.notify(type == "overage" ? res.state : 'Plan Changed successfully', 'success');
         clearInterval(this.paymentStatusInterval);
       } else if (res.state == 'failed') {
         this.closeChoosePlanPopup();
@@ -439,10 +440,7 @@ export class UpgradePlanComponent implements OnInit {
     const buyOverage = this.service.invoke('put.buyOverage', queryParams, payload);
     buyOverage.subscribe(res => {
       this.invoiceOrderId = res.transactionId;
-      this.notificationService.notify(res.status, 'success');
-      this.overageModel.emit();
-      this.closeOrderConfPopup();
-      this.openSuccessFailurePopup(true);
+      this.poling("overage");
     }, errRes => {
       this.errorToaster(errRes, 'failed buy overage');
     });

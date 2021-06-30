@@ -66,6 +66,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   showUpgrade: boolean = true;
   currentSubsciptionData: Subscription;
   subscriptionDocumentLimit: Subscription;
+  updateUsageData: Subscription;
   currentPlan: any;
   @Input() show;
   @Input() settingMainMenu;
@@ -451,11 +452,11 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     if (this.selectedApp?.searchIndexes?.length) {
       this.searchIndexId = this.selectedApp.searchIndexes[0]._id
     }
-    // this.indexConfigs.forEach(element => {
-    //   this.indexConfigObj[element._id] = element;
-    // });
-    // this.selectedConfig = 'fip-29dee24c-0be2-5ca3-9340-b3fcb9ea965a';
-    // this.getCurrentUsage();
+    this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(res => {
+      if (res == 'updatedUsage') {
+        this.getCurrentUsage();
+      }
+    })
   }
   //get current usage data of search and queries
   getCurrentUsage() {
@@ -586,5 +587,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.indexSub ? this.indexSub.unsubscribe() : false;
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
     this.subscriptionDocumentLimit ? this.subscriptionDocumentLimit.unsubscribe() : false;
+    this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
   }
 }
