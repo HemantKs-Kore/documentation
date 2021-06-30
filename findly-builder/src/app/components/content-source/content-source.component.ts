@@ -429,6 +429,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           }
         }
         this.resourcesStatusObj[source._id] = source;
+
         return ((source.status === 'running') || (source.status === 'queued'));
       });
       if (queuedJobs && queuedJobs.length) {
@@ -539,9 +540,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.isConfig = true;
         this.page = false;
       } else if (tabName == 'page') {
-        this.page=true;
-        this.isConfig=false;
-        this.execution= false;
+        // if(this.selectedSource.recentStatus == 'success'){
+          this.page = true;
+          this.isConfig = false;
+          this.execution = false;
+        // }
+        // else{
+        //   this.page = false;
+        //   this.isConfig = true;
+        //   this.execution = false;
+        // }
+        
         // $('.tabname')[0].classList.add('active');
         // $('.tabname')[1].classList.remove('active');
         // $('.tabname')[2].classList.remove('active');
