@@ -58,7 +58,7 @@
           <input id="scheduleHr" type="number" min="0" max="12" placeholder="HH" name = "timeHH" [(ngModel)] = "timeHH" (ngModelChange)="modelChangeFn($event,'HH')" class="input-text" [disabled] ="!schedulerFlag">
         </div>
         <div class="kr-sg-input-text">          
-          <input id="scheduleMn" type="number" min="0" max="59" class="input-text timeMM" placeholder="MM" name = "timeMM" [(ngModel)] = "timeMM" (ngModelChange)="modelChangeFn($event,'MM')" [disabled] ="!schedulerFlag"> 
+          <input id="scheduleMn" type="number" min="0" max="59" class="input-text timeMM" placeholder="MM" name = "timeMM" [(ngModel)] = "timeMM"  (ngModelChange)="modelChangeFn($event,'MM')" [disabled] ="!schedulerFlag"> 
         </div>
         <div id="schedule-AM" class="schedule-AM" [ngClass] = "{'active' : meridiem == 'AM' && schedulerFlag}" (click)="changeMeridiem('AM')" >AM</div>
         <div id="schedule-PM"  class="schedule-PM" [ngClass] = "{'active' : meridiem == 'PM' && schedulerFlag}" (click)="changeMeridiem('PM')" >PM</div>
