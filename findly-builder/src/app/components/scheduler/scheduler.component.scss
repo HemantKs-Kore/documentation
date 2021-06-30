@@ -118,7 +118,16 @@
         -moz-appearance: textfield;
         }
 }
-
+.status-modal-popup.custom-ref::before {
+    content: "";
+    position: fixed;
+    background: rgba(32, 33, 36, 0.5);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top:0px;
+    z-index: -1;
+}
 ::ng-deep perfect-scrollbar .ps--active-y{
     .ps__thumb-y{
         width: 3px !important;
