@@ -45,6 +45,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedStage;
   changesDetected;
   currentEditIndex: any = -1;
+  selectedStageIndex : any = -1;
   pollingSubscriber: any = null;
   showNewStageType: boolean = false;
   subscription: Subscription;
@@ -214,8 +215,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   getTraitGroups(initial?) {
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: (this.selectedApp || {})._id
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId
     }
     this.service.invoke('get.traits', quaryparms).subscribe(res => {
       const allTraitskeys: any = [];
@@ -230,6 +231,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   drop(event: CdkDragDrop<string[]>, list) {
     moveItemInArray(list, event.previousIndex, event.currentIndex);
+    if(event.previousIndex == this.selectedStageIndex){
+      this.currentEditIndex = event.currentIndex;
+      this.selectedStageIndex = event.currentIndex;
+    }
   }
   setRuleObj(configObj, key, value, type) {
     this.changesDetected = true;
@@ -707,7 +712,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   closeSimulator() {
     this.simulteObj = {
-      sourceType: this.sourceType,
+      sourceType: 'all',//this.sourceType,
       docCount: 5,
       showSimulation: false,
     }
@@ -738,6 +743,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       const stages = this.preparepayload();
       if (this.currentEditIndex > -1) {
         payload.pipelineConfig = stages.slice(0, this.currentEditIndex + 1);
+        //payload.pipelineConfig = [stages[this.currentEditIndex]];
+        
       } else {
         payload.pipelineConfig = stages
       }
@@ -786,9 +793,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Stage',
-        text: 'Are you sure you want to delete selected stage?',
-        newTitle: 'Are you sure you want to delete selected stage?',
-        body: 'Selected stage will be deleted.',
+        text: 'Are you sure you want to delete ?',
+        newTitle: 'Are you sure you want to delete ?',
+        body: 'Selected stage will be deleted from workbench.',
         // text: 'Do you want to discard this stage?',
         // newTitle: 'Do you want to discard this stage?',
         // body:'The '+stageType+' stage will be discarded as it does not contain any conditions.',
@@ -841,7 +848,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.service.invoke(api, quaryparms, payload).subscribe(res => {
       //this.notificationService.notify('Fields added successfully','success');
-      this.notificationService.notify('New Fields have been added. Please train to re-index the configuration', 'info');
+      this.notificationService.notify('New Fields have been added. Please train to re-index the configuration', 'success');
       this.closeModalPopup();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to create field');
@@ -1003,6 +1010,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.confirmChangeDiscard(stage, i);
     } else {
       this.currentEditIndex = i;
+      this.selectedStageIndex = i;
       this.checkNewAddition();
       if (stage && stage.type === 'custom_script' && stage.config && stage.config.mappings && stage.config.mappings.length) {
         if (!this.newMappingObj.custom_script) {

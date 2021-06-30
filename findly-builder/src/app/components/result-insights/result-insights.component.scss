@@ -115,8 +115,28 @@
             .search-filter-block{
                 .kr-sg-input-search{
                     width: 252px;
+                    position: relative;
                     input{
                         padding-left: 30px;
+                    }
+                    .close-icon{
+                        position: absolute;
+                        right: 11px;
+                        top: 12px;
+                        cursor: pointer;
+                    }
+                    .input-search{
+                        border: 1px solid #E4E5E7;                            
+                        border-radius: 4px;
+                        padding-left: 36px;
+                        padding-right: 15px;
+                        font-size: 14px;
+                        &:focus{
+                            border: 1px solid #1372ff;
+                        }
+                        &::placeholder{
+                            color: #BDC1C6;
+                        }
                     }
                 }
             }
@@ -206,11 +226,17 @@
             line-height: 14px;
             color: #202124;   
             cursor: default;
+            &.search-results{
+                padding: 0 50px 5px 0px;
+            }
             img{
                 cursor: pointer;
             } 
             .img-sec{
                 margin-right: 10px//25px;
+            }
+            .results{
+                line-height: 18px;
             }
         }
         .data-overview{
@@ -241,12 +267,28 @@
 
 ::ng-deep .modal_popups_{
     &.view-query-modal{
+        .table_header{
+            padding: 16px 15px;   
+            align-items: center;
+            box-shadow: inset 0px -1px 0px #E4E5E7;       
+            margin: 0 30px !important;          
+            .title{
+                padding: 0 5px;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 14px;
+                text-transform: capitalize;
+                color: #9AA0A6;
+                word-break: break-word;
+            }                    
+        }
         .modal-header{
             padding: 25px 30px 15px 30px;
             position: relative;
             height: auto !important;
             box-shadow: none;
-            margin-bottom: 25px;
+            margin-bottom: 10px;
             .small-title{
                 color: #9AA0A6;
                 font-weight: 500;

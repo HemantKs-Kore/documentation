@@ -365,6 +365,7 @@
                 transition: 0.2s all ease;   
                 &.active-train{
                     background: #E7F1FF;
+                    pointer-events: none;
                     .loader-train{
                         background: #FFFFFF;
                         border: 1px solid #F3F8FF;
@@ -436,10 +437,23 @@
                         input{
                             background: #FFFFFF;
                             border: 1px solid #E4E5E7;
+                            padding: 4px 10px 4px 35px;
                             box-sizing: border-box;
                             border-radius: 4px;
-                            padding-left: 30px;
+                            &:focus{
+                                border: 1px solid #1372ff;
+                            }
+                            &::placeholder{
+                                color: #BDC1C6;
+                            }
                         }
+                        .close-icon{
+                            position: absolute;
+                            right: 11px;
+                            top: 12px;
+                            cursor: pointer;
+                        }
+
                     }
                 }
             }
@@ -480,7 +494,7 @@
                         box-shadow: none;
                         width: 325px;
                         max-height: 428px;
-                        margin-left: -180px;
+                        left: -290px;
                         padding: 0;
                         border: 0;
                         .notification-dropdown-status{
@@ -622,6 +636,7 @@
     }
     .docker-list{
        padding: 10px;
+       cursor: default;
         .row-content{
             // margin-bottom: 12px;
             padding: 0px 10px;
@@ -633,6 +648,9 @@
                 font-size: 12px;
                 line-height: 15px;
                 margin-bottom: 4px;
+                &.external_link{
+                    cursor: pointer;
+                }
             }
             .desc{
                 color: #9AA0A6;
@@ -704,8 +722,8 @@
     -moz-animation:spin 4s linear infinite;
     animation:spin 4s linear infinite;
     position: absolute;
-    top: 16px;
-    left: 16px;
+    top: 1px;
+    right: 1px;
 }
 
 .statusDockerBody{
@@ -728,55 +746,40 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
-  
 
 
-  ::ng-deep .creating-new-app-modal{
-    .modal-dialog{
-        width: 625px;
-        height: 395px;
-        max-width: 100%;
-        .label-text{
-            font-weight: 500;
-            font-size: 12px;
-            line-height: 15px;
-            margin-bottom: 8px;
+
+::ng-deep ngb-typeahead-window{
+    border: 0 !important;
+    margin: 2px 0 0 0 !important;
+    width: 100%;
+    padding: 10px !important;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.12);
+    border-radius: 5px !important;
+    .dropdown-item{
+        padding: 4px 5px;
+        background: #FFFFFF;
+        border-radius: 2px;
+        transition: 0.2s all ease;
+        &:hover{
+            background: #F8F9FA !important;
         }
-        .modal-content{
-            text-align: left;
-            height: 100%;
-            .modal-header{
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                background: #FFFFFF;
-                box-shadow: 0px 0px 5px rgb(0 0 0 / 20%);
-                border-radius: 4px;
-                padding: 10px 30px;
-                height: 54px;
-                .modal-title{
-                    color: #202124;
-                    font-weight: 500;
-                    font-size: 18px;
-                    line-height: 22px;
-                }
-                .close_modal{
-                    cursor: pointer;
-                }
-            }
-            .modal-body{
-                padding: 25px 30px;
-                .kr-sg-input-text{
-                    margin-bottom: 23px;
-                }
-            }
-            .modal-footer{
-                background: #FFFFFF;
-                box-shadow: 0px -2px 4px rgb(32 33 36 / 20%);
-                border-radius: 4px;
-                height: 56px;
-                padding: 0 26px;                
-            }
+        &.active{
+            background: #F8F9FA !important;
+        }
+        ngb-highlight{
+            color: #9AA0A6;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 22px;
+        }
+        .ngb-highlight{
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 22px;
+            color: #202124;
         }
     }
+
 }

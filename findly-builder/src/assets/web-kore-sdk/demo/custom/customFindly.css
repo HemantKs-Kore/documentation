@@ -269,7 +269,7 @@ img.logo-img{
   padding: 3px 0px;
 }
 .show-all-results-outer-wrap .data-body-sec{
-  padding: 10px 20px;
+  padding: 16px 20px 10px 20px;
   overflow: auto;
   height: calc(100vh - 200px);
   z-index: 1;
@@ -287,10 +287,10 @@ img.logo-img{
   /* /* max-height: calc(100vh - 380px) !important; if added filter */
 }
 .top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec{
-  max-height: calc(100vh - 280px) !important;
+  max-height: calc(100vh - 254px) !important;
 }
 .top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec.filter-added{
-   max-height: calc(100vh - 318px) !important; 
+   max-height: calc(100vh - 294px) !important; 
 }
 .top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec.filter-added.content-data-sec.if-customize-mode{
   max-height: calc(100vh - 393px) !important; 
@@ -301,4 +301,26 @@ img.logo-img{
 .custom-add-new-result-content{
   position: fixed;
   bottom: 30px;
+}
+
+.kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-next {
+  padding: 4px;
+}
+
+.top-down-search-background-div .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .content-data-sec.filter-added.facets-height-isMore {
+  max-height: calc(100vh - 370px) !important;
+}
+
+.top-down-search-background-div .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .content-data-sec.filter-added.facets-height-isMore.if-customize-mode {
+  max-height: calc(100vh - 447px) !important;
+}
+
+.top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec.filter-added.facets-height-isMore {
+  max-height: calc(100vh - 336px) !important;
+}
+.top-down-search-background-div .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .content-data-sec.facets-disabled.if-customize-mode {
+  max-height: calc(100vh - 311px) !important;
+}
+.top-down-search-background-div .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .content-data-sec.if-customize-mode {
+  max-height: calc(100vh - 364px) !important;
 }

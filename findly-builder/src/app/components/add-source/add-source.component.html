@@ -123,28 +123,26 @@
 <kr-modal modalType="default"  #statusModalPop>
   <div class="status-modal-popup">
     <div class="modal_content" *ngIf="selectedSourceType">
-      <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
-          (click)="closeStatusModal()"></div>
+      <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg" (click)="closeStatusModal()"></div>
       <div class="modal-body">
         <div class="success-check  pb-4" *ngIf="statusObject.status==='success'">
           <img src="assets/icons/successCheck.svg">
         </div>
-        <div *ngIf="selectedSourceType.sourceType === 'content'&&statusObject.status!=='failed'">
-          <div class="success-check  pb-4">
-            <img src="assets/icons/successCheck.svg">
-          </div>
-          <div class="configInProgress"
-          *ngIf="!(statusObject && statusObject.validation && statusObject.validation.validated) && !(selectedSourceType.resourceType === 'document')">
-            <h1><strong>Validation in Progress...</strong></h1>
-          </div>
-          <div class="configInProgress"
-          *ngIf="(statusObject && statusObject.validation && statusObject.validation.validated)">
-            <h1><strong>Validation Successful</strong></h1>
-          </div>
-        </div>       
         <div class="error-check" *ngIf="(statusObject.status==='failed')">
           <img src="assets/images/exclamationCircle-Red.svg">
         </div>
+        <div *ngIf="selectedSourceType.sourceType === 'content'&&statusObject.status!=='failed'">
+          <div class="success-check pb-4" *ngIf="(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType === 'file')">
+            <img src="assets/icons/successCheck.svg">
+          </div>
+          <div class="error-check pb-4" *ngIf="!(statusObject?.validation?.url?.validated)&&!(selectedSourceType.resourceType === 'file')">
+            <img src="assets/icons/failed-status.svg">
+          </div>
+          <div class="configInProgress">
+            <h1><strong>{{(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType === 'file')?"Validation Successful":"Validation Failed"}}</strong></h1>
+          </div>
+        
+        </div>       
         <div class="message-success text-center" *ngIf="(statusObject.status==='success')">
           Source added Successfully
         </div>
@@ -154,22 +152,22 @@
         <ng-container *ngIf="selectedSourceType.sourceType !== 'faq'&&statusObject.status!=='success'">
           <div class="status-identification-content">
             <div class="content-title">
-              <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="statusObject.validation.validated===false">
-              <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected" *ngIf="statusObject.validation.validated===true">
-              <span>Initial URL validation</span>
+              <img src="assets/images/source-icos/check-green.svg" *ngIf="(statusObject?.validation?.url?.validated||selectedSourceType.resourceType=='file')" class="successfullyConnected">
+              <img src="assets/images/source-icos/Info-red.svg" *ngIf="!(statusObject?.validation?.url?.validated)&&selectedSourceType.resourceType!=='file'" class="successfullyConnected">
+              <span *ngIf="selectedSourceType.resourceType!='file'" >Initial URL validation</span>
+              <span *ngIf="selectedSourceType.resourceType=='file'" >File Validation</span>
             </div>
+            <div class="content-description" *ngIf="selectedSourceType.resourceType!='file'&&(statusObject?.validation?.url?.validated)"> Now you can choose to crawl immediately or later</div>
           </div>
         </ng-container>
-        <div class="progressNote"
-          *ngIf="selectedSourceType.sourceType === 'faq'&&!((statusObject.status==='success') || (statusObject.status==='failed'))">
-          <div>Faq Extraction In Progress</div>
+        <div class="progressNote" *ngIf="selectedSourceType.sourceType === 'faq'&&!((statusObject.status==='success') || (statusObject.status==='failed'))">
+          <div>{{importFaqInprogress?'Import':'Faq Extraction'}} In Progress</div>
           <div class="text-center">
             <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
-            <div class="relaxNote">You will be notified when the extraction progress is done</div>
+            <div class="relaxNote">You will be notified when the {{importFaqInprogress?'import':'extraction'}} progress is done</div>
           </div>
         </div>
-        <div class="configInProgress"
-        *ngIf="statusObject.validation.validated&&selectedSourceType.sourceType === 'webdomain'||selectedSourceType.sourceType === 'document'">
+        <div class="configInProgress" *ngIf="statusObject?.validation?.url?.validated&&selectedSourceType.sourceType === 'web'">
           <h4>Now you can choose to Crawl immediately or later</h4>
         </div>
       </div>
@@ -179,19 +177,23 @@
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='faq'">Ok</button>
         <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-          (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='content'">Close</button>
+          (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='content'&&(statusObject?.validation?.url?.validated)||(selectedSourceType.resourceType === 'file')">Close</button>
           <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-          (click)="jobOndemand()" *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'webdomain'" [disabled]="crawlOkDisable">Crawl</button>
+          (click)="jobOndemand()" *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&(statusObject?.validation?.url?.validated)" [disabled]="crawlOkDisable">Crawl</button>
+          <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+           *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&!(statusObject?.validation?.url?.validated)" (click)="retryValidation()">Retry</button>
+          <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" (click)="editConfiguration()"
+           *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'web'&&!(statusObject?.validation?.url?.validated)">Edit Configuration</button>
          </div>
     </div>
   </div>
 </kr-modal>
 
 
-<kr-modal modalType="center" modalClass="modal_popups_" #addManualFaqModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addManualFaqModalPop>
   <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'manual'">
     <div class="modal-header">
-      <div class="title">Add FAQs</div>
+      <div class="title">Add FAQ</div>
       <div class="close_icon"><img (click)="cancleSourceAddition()"
           src="assets/icons/modal-close.svg"></div>
     </div>
@@ -207,7 +209,7 @@
     </div>
   </ng-container>
 </kr-modal>
-<kr-modal modalType="center" modalClass="modal_popups_" #addSourceModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addSourceModalPop>
   <ng-container *ngIf="selectedSourceType">
     <form #sourceCreation="ngForm">
       <div class="modal-header">
@@ -221,20 +223,20 @@
             <div class="crawl-form-title" *ngIf="!resourceIDToOpen"></div>
             <div class="kr-sg-input-text mb-4">
               <div class="label-text">Source Title</div>
-              <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Title"
+              <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Title"
                 [(ngModel)]="newSourceObj.name" (change)="inputChanged('title')" class="input-text" required>
                <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
               </div>
             <div class="kr-sg-input-text-area mb-3"  *ngIf="!(selectedSourceType.sourceType==='faq')">
               <div class="label-text">Description</div>
-              <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc"
+              <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc"  maxlength="250" 
                 placeholder="Enter Description" class="input-text"></textarea>
             </div>
-            <div *ngIf= "(selectedSourceType.resourceType === 'webdomain')">
+            <div *ngIf= "(selectedSourceType.resourceType === 'web')">
               <div class="kr-sg-input-text mb-4">
                 <div class="label-text">Source URL</div>
                 <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="http(s)//"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="http(s)://"
                   [(ngModel)]="newSourceObj.url" class="input-text">
               </div>
             </div>
@@ -243,7 +245,7 @@
             </div>
             <!-- File uploader with Drag & Drop START HERE -->
 
-            <div class="browse-file-tabs-container" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='document')">
+            <div class="browse-file-tabs-container" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='file')">
                 <ul class="nav nav-tabs" *ngIf=" (selectedSourceType.id !='faqDoc')" role="tablist">
                   <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#fromfile" (click)="selectExtract('file')">Extract from file</a>
@@ -268,11 +270,12 @@
                         <div class="drag-drop-sec">
                           <ng-container *ngIf="!fileObj.fileName">
                             <input type="file" id="sourceFileUploader" class="custom-file-input "
-                                (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json,.doc,.ppt,.xlsx,.txt">
+                                (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json,.doc,.ppt,.xlsx,.txt,.docx">
                             <div class="imageDiv">
                               <img src="assets/images/source-icos/drog_frop.svg">
                             </div>
-                            <div class="info_text" *ngIf="(selectedSourceType.resourceType !='importfaq')">Drag and drop a <b>pdf file</b> anywhere on this screen</div>
+                            <div class="info_text" *ngIf="(selectedSourceType.resourceType !='importfaq'&&selectedSourceType.resourceType !='')">Drag and drop file anywhere on this screen</div>
+                            <div class="info_text" *ngIf="(selectedSourceType.sourceType=='faq'&&selectedSourceType.resourceType =='')">Drag and drop a <strong>pdf file</strong> anywhere on this screen</div>
                             <div class="info_text" *ngIf="(selectedSourceType.resourceType ==='importfaq')">Drag and drop file anywhere in this section</div>
                             <div class="or-divider">- or -</div>
                             <div class="custom-file">
@@ -282,7 +285,8 @@
                             </div>
                             <label for="sourceFileUploader" class="drag-label adjust_z_index">
                               <span class="browse">Browse File</span>
-                            </label>
+                            </label><br/>
+                            <div class="info_help_text" *ngIf="(selectedSourceType.sourceType=='content'&&selectedSourceType.resourceType =='file')"> <img src="assets/icons/info.svg"> Supports: pdf, docx, ppt, xlsx, txt file types</div>
                           </ng-container>
 
                           <ng-container *ngIf="fileObj.fileName">
@@ -308,17 +312,18 @@
                         </div>
                       </div>
                       <!-- Annotation Start Here -->
-                      <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId && selectedSourceType.resourceType != 'importfaq'" >
+                      <div class="pt2 annotation" *ngIf="selectedSourceType.resourceType == ''" >
                         <div class="kr-sg-checkbox">
                           <input id="checkbox-1" class="checkbox-custom" type="checkbox" (change)="annotateChange($event)">
                           <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract
+                          </label>
                             <span class="tooltip-text"><img src="assets/icons/help-annotation.svg">
                               <span class="tooltiptext">
                                 <div class="t-text">Use the annotate option to extract only the desired FAQs by marking question & answer pairs</div>
                                 <div class="learn_more">Learn More</div>
                               </span>
                             </span>
-                          </label>
+                         
                         </div>
                       </div>
                       <!-- Annotation End Here -->
@@ -338,14 +343,13 @@
                           <!-- <input type="text" placeholder="https://" class="input-text"> -->
                           <!-- <div class="error-msg">Error message here</div> -->
                         </div>
-                        <div class="info-upload-pdf"><img src="assets/icons/Info-pdf.svg">Upload PDF files only</div>
+                        <div class="info-upload-pdf d-none"><img src="assets/icons/Info-pdf.svg">Upload PDF files only</div>
                       </div>
                   </div>
                 </div>
             </div>
-
             <div class="kr-sg-input-text-area mb-4 d-none"
-              *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='document')">
+              *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='file')">
               <div class="kr-sg-file-drag-drop">
                 <div class="drag-drop-sec">
                   <input type="file" id="sourceFileUploader" class="custom-file-input"
@@ -410,7 +414,7 @@
             </div>
             </div>
           <!-- File uploader with Drag & Drop ENDS HERE -->
-          <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')">
+          <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'web')">
             <!-- <div class="kr-sg-input-text mb-4">
                 <div class="label-text">Source URL</div>
                 <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()" [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Url" [(ngModel)]="newSourceObj.url"
@@ -421,12 +425,12 @@
               *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')"
               data-toggle="collapse" data-target="#settings">Advance Settings</div> -->
 
-            <div *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')" id="settings" class=" advance-setttings">
+            <div *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'web')" id="settings" class=" advance-setttings">
 
               <div class="inner-content row m-0 schedule-data">
                 <div class="col-12 p-0 input-paddings">
                   <div class="kr-sg-input-text">
-                    <input type="text" class="input-text pointer-none border-no" value="Schedule">
+                    <input type="text" class="input-text pointer-none border-no" value="Schedule" maxlength="60">
                   </div>
                   <label class="kr-sg-toggle">
                     <input type="checkbox" name="scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpt">
@@ -458,8 +462,8 @@
               <div class="inner-content row m-0">
                 <div *ngIf="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
                   <div class="allow-urls-sec row allow-urlBox padd  pl-0 pr-0" *ngIf="crwalObject.advanceOpts.allowedOpt">
-                    <div class="col-2 p-0 title">Allow If URL</div>
-                    <div class="col-10 p-0 d-flex align-items-center">
+                    <div class="col-1 p-0 title">Allow If URL</div>
+                    <div class="col-11 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
                           <button class="dropdown-toggle dropdown-input"
@@ -487,8 +491,8 @@
                     *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.allowedURLs.length && crwalObject.advanceOpts.allowedOpt"
                     class="w-100">
                     <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0" *ngFor="let rec of crwalObject.advanceOpts.allowedURLs;let i = index">
-                      <div class="col-2 p-0 title"></div>
-                        <div class="col-10 p-0 d-flex align-items-center">
+                      <div class="col-1 p-0 title"></div>
+                        <div class="col-11 p-0 d-flex align-items-center">
                           <div class="kr-sg-dropdowns">
                             <div class="dropdown dropdown-open">
                               <button class="dropdown-toggle dropdown-input"
@@ -508,9 +512,9 @@
                   </div>
 
                   <!--Block-->
-                  <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0" *ngIf="crwalObject.advanceOpts.blockedOpt">
-                    <div class="col-2 p-0 title">Block If URL</div>
-                    <div class="col-10 p-0 d-flex align-items-center">
+                  <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0" *ngIf="crwalObject?.advanceOpts?.blockedOpt">
+                    <div class="col-1 p-0 title">Block If URL</div>
+                    <div class="col-11 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
                           <button class="dropdown-toggle dropdown-input"
@@ -546,8 +550,8 @@
                       </div> -->
                     <!-- </span> -->
                     <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index">
-                      <div class="col-2 p-0 title"></div>
-                        <div class="col-10 p-0 d-flex align-items-center">
+                      <div class="col-1 p-0 title"></div>
+                        <div class="col-11 p-0 d-flex align-items-center">
                           <div class="kr-sg-dropdowns">
                             <div class="dropdown dropdown-open">
                               <button class="dropdown-toggle dropdown-input"
@@ -606,7 +610,7 @@
                       </span>
                     </div>
                     </div>
-                    <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
+                    <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0" (keyup)="checkValue(crawlDepth)" maxlength="60"
                       [(ngModel)]="crawlDepth" class="input-text" >
                   </div>
                 </div>
@@ -622,7 +626,7 @@
                         </span>
                       </div>
                     </div>
-                    <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0"
+                    <input type="url" autocomplete="off" id="maxUrlLimit" maxlength="60" name="maxUrlLimit" placeholder="0" (keyup)="checkValue(maxUrlLimit)"
                       [(ngModel)]="maxUrlLimit" class="input-text">
                   </div>
                 </div>
@@ -777,38 +781,61 @@
       </perfect-scrollbar>
       <div class="modal-footer">
         <!-- [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" -->
-        <button class="kr-sg-button-primary btn_lg mr-3"
-          (click)="validateSource()">Proceed</button>
+        <button class="kr-sg-button-primary btn_lg mr-3" (click)="validateSource()">Proceed</button>
         <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition()">Cancel</button>
       </div>
     </form>
   </ng-container>
 </kr-modal>
 
-<kr-modal modalType="center" modalClass="botsModal modal_popups_" #linkBotsModalPop>
+<kr-modal modalType="center" modalClass="botsModal modal_popups_ linkExistingBotsModal" #linkBotsModalPop>
   <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'linkBot'">
     <div class="modal-header">
       <div class="title">Link Bots</div>
       <div class="close_icon"><img (click)="cancleSourceAddition()" src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
-      <div class="modal-body bots-modal-modal-body">
+      <div class="modal-body">
         <div class="bots-modal-empty-bots-container" *ngIf="noAssociatedBots">
           <img src="assets/images/icons/empty_ill.svg">
           <h2>No Bots</h2>
           <h4>Please add bots</h4>
         </div>
         <ng-container *ngIf="!noAssociatedBots">
-          <p class="bots-modal-list-text">Choose any one bot from the list below to link into your Findly app. You can
-            only link bots
-            that you have the rights to access.</p>
-          <div class="bots-modal-search-input-container">
-            <input class="bots-modal-search-input" type="text" placeholder="Search" [(ngModel)]="searchAssociatedBots"
-              name="searchAssociatedBots">
-            <img class="bots-modal-search-icon" src="assets/images/search_gray.svg">
+          <div class="info-link-text">Choose any bot from the list to link it to your SearchAssist app.</div>
+          <div class="kr-sg-input-text">          
+            <input type="text"placeholder="Search" [(ngModel)]="searchAssociatedBots" name="searchAssociatedBots" class="input-text" maxlength="60"> 
+            <img class="search-icon" src="assets/images/search_gray.svg">        
           </div>
           <ng-container>
-            <div class="bots-modal-list-container">
+            <div class="link-bot-table">
+              <div class="table-header col-12 row">
+                  <div class="col-6 title">Bot Name</div>
+                  <div class="col-6 title">Owner</div>
+              </div>
+              <div class="table-body-link-bot row col-12"  *ngFor="let bot of associatedBots | filter: [searchAssociatedBots, 'name']">
+                <div class="col-6 bot-name-data row m-0">
+                  <div class="col-8 name-with-type">
+                    {{bot.name}} <span class="bot-type" *ngIf="bot.type==='universalbot'">Universal Bot</span>
+                  </div>
+                  <div class="col-4 shares-data">
+                      <img src="assets/icons/actions/shares.svg">{{bot.publishedTasksCount}} Tasks
+                  </div>
+                </div>
+                <div class="col-3 owner-name">{{bot.createdBy.firstName}} {{bot.createdBy.lastName}}</div>
+                <div class="col-3 link-bot-actions">
+                  <div class="link-bot-btn" (click)="openBotsConfigurationModalElement(bot)" *ngIf="streamID !== bot._id">
+                    <img src="assets/icons/actions/link-bot.svg">Link Bot
+                  </div>
+                  <div class="link-bot-btn" (click)="unlinkBot(bot._id)" *ngIf="streamID == bot._id">
+                    <img src="assets/icons/actions/link-bot.svg">Unlink Bot
+                  </div>
+                  <!-- <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12"> -->
+                </div>
+              </div>
+              
+            </div>
+            <!-- <div class="bots-modal-list-container">
               <ngb-accordion #accordionList="ngbAccordion" (panelChange)="toggleDisable($event)">
                 <ng-container
                   *ngFor="let bot of associatedBots | filter: [searchAssociatedBots, 'name']; let i = index">
@@ -837,15 +864,73 @@
                   </ngb-panel>
                 </ng-container>
               </ngb-accordion>
-            </div>
+            </div> -->
           </ng-container>
         </ng-container>
       </div>
     </perfect-scrollbar>
   </ng-container>
 </kr-modal>
-
-<kr-modal modalType="center" modalClass="modal_popups_" #addStructuredDataModalPop>
+<kr-modal modalType="center" #botsConfigurationModalElement modalClass="modal_popups_ linkExistingBotsModal">
+  <div class="modal-header">
+    <div class="title"> <span class="gray-text-link"> Link Bot </span><img src="assets/icons/carrotright.svg"> Configuration | {{this.selectedLinkBotConfig?.name}}</div>
+    <div class="close_icon" (click)="closeBotsConfigurationModalElement()"><img src="assets/icons/modal-close.svg"></div>
+  </div>
+  <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="modal-body">
+      <div class="info-link-text lh-20">You can link a Virtual Assistant built on the Kore.ai Platform with your SearchAssist app. To link, you will need to enable the Webhook channel on the Virtual Assistant and complete the integration.<a (click)="showMore=!showMore" class="show-how-btn"> {{showMore?'Show less':'Show how'}}</a> </div>
+      <div class="more-info-link-text" *ngIf="showMore">
+          <div class="more-info-data"><span class="step-text">Step 1:</span>  Enable Webhook channel for your Virtual Assistant using the Access Token & Post URL provided below.</div>
+          <div class="more-info-data"><span  class="step-text">Step 2:</span>  Get the Client ID & Secret ID from the Channel configuration page of the Virtual Assistant and provide here.</div>
+          <div class="more-info-data"><span  class="step-text">Step 3:</span>  The SearchAssist app can interact with the Virtual Assistant only after the Webhook channel is published.</div>
+      </div>
+      <div class="kr-sg-input-text"> 
+        <label class="label-text label-text-bot-link">Access Token</label> 
+        <div class="w-75 position-relative d-inline-block">        
+          <input type="text"placeholder="Enter access token" [(ngModel)]="configurationLink.accessToken" name="accessToken" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.accessToken?.length && submitted)}" maxlength="60"> 
+          <img *ngIf="!configurationLink?.accessToken?.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+        </div>
+        <div class="copy-btn" (click)="copy(configurationLink.accessToken)"><img src="assets/images/icons/copy.svg">Copy</div>
+      </div>
+      <div class="kr-sg-input-text"> 
+        <label class="label-text label-text-bot-link">Post URL</label>    
+        <div class="w-75 position-relative d-inline-block">     
+          <input type="text"placeholder="Enter post url" [(ngModel)]="configurationLink.postUrl" name="postUrl" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.postUrl?.length && submitted)}" > 
+          <img *ngIf="!configurationLink?.postUrl?.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+      </div>
+        <div class="copy-btn" (click)="copy(configurationLink.postUrl)"><img src="assets/images/icons/copy.svg">Copy</div>
+      </div>
+      <div class="kr-sg-input-text"> 
+        <div class="w-75 position-relative">
+          <label class="label-text label-text-bot-link">Webhook URL</label>         
+          <input type="text"placeholder="http(s)://" [(ngModel)]="configurationLink.webhookUrl" name="webhookUrl" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.webhookUrl?.length && submitted)}"> 
+          <img *ngIf="!configurationLink?.webhookUrl?.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+      </div>
+      </div>
+      <div class="kr-sg-input-text"> 
+        <div class="w-75 position-relative">
+        <label class="label-text label-text-bot-link">Bot Client ID</label>         
+        <input type="text"placeholder="Enter bot client ID" [(ngModel)]="configurationLink.clientId" name="botClientId" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.clientId?.length && submitted)}" maxlength="60" > 
+        <img *ngIf="!configurationLink?.clientId?.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+      </div>
+      </div>
+      <div class="kr-sg-input-text"> 
+        <label class="label-text label-text-bot-link">Bot Secret ID</label>    
+        <div class="w-75 position-relative">
+          <input type="password" id="password" placeholder="Enter bot secret ID" [(ngModel)]="configurationLink.clientSecret" name="botSecreatId" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.clientSecret?.length && submitted)}" maxlength="60"> 
+          <img  (click)="showPasword()" *ngIf="!showPassword && configurationLink?.clientSecret?.length" src="assets/images/icons/eye.svg" class="eye" type="eye" >
+          <img  (click)="showPasword()"   *ngIf="showPassword && configurationLink?.clientSecret?.length" src="assets/images/icons/viewPw.svg.svg"class="eye" type="eye" >
+          <img *ngIf="!configurationLink?.clientSecret?.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 31%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+        </div>     
+      </div>
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer">
+    <button class="kr-sg-button-primary btn_lg" (click)='saveLink()'>Link</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="closeBotsConfigurationModalElement()">Back</button>
+</div>
+</kr-modal>
+<kr-modal modalType="center" modalClass="modal_popups_  addfaq" #addStructuredDataModalPop>
   <app-add-structured-data [selectedSourceType]="selectedSourceType" (closeStructuredDataModal)="cancleSourceAddition($event)"></app-add-structured-data>
 </kr-modal>
 
@@ -860,17 +945,20 @@
       <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
           (click)="closeStatusModal()"></div>
       <div class="modal-body">
-        <ng-container *ngIf="!(statusObject.status==='success')">
+        <ng-container *ngIf="!(statusObject.status==='success' || statusObject.status==='failed')">
           <div class="progressNote">
           <div>Crawling In-progress</div>
           </div>
           <div class="text-center">
             <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
-            <div class="relaxNote">You will be notified when the extraction progress is done</div>
+            <div class="relaxNote">You will be notified when the Crawling process is done.</div>
           </div>
         </ng-container>
         <div class="success-check  pb-4" *ngIf="(statusObject.status==='success')">
           <img src="assets/icons/successCheck.svg">
+        </div>
+        <div class="error-check" *ngIf="(statusObject.status==='failed')">
+          <img src="assets/images/exclamationCircle-Red.svg">
         </div>
         <div class="message-success text-center" *ngIf="(statusObject.status==='success')">
           Source added Successfully

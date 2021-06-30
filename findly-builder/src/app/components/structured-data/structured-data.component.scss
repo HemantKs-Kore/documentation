@@ -16,7 +16,6 @@
         }  
         .kr-sg-input-search{
             display: inline-block;
-            width: 0px;
             width: 215px;
             height: 20px;
             position: relative;
@@ -24,7 +23,31 @@
             right: 10px;               
             &.active{
                 display: block;
-                width: 300px;
+                width: 215px;
+            }
+            .close-icon{
+                position: absolute;
+                right: 11px;
+                top: 12px;
+                cursor: pointer;
+            }
+            .input-search{
+                border: 1px solid #E4E5E7;                            
+                border-radius: 4px;
+                padding-left: 36px;
+                padding-right: 15px;
+                font-size: 14px;
+                &:focus{
+                    border: 1px solid #1372ff;
+                }
+                &::placeholder{
+                    color: #BDC1C6;
+                }
+            }
+            .search-icon{
+                left: 12px;
+                top: 10px;
+                position: absolute;
             }
         } 
         .seach-block{

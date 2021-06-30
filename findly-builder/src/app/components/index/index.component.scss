@@ -373,7 +373,7 @@
           }
         }
         .form_list {
-          padding: 5px 75px 18px 34px;
+          padding: 5px 75px 18px 9px;
           position: relative;
           box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.05);
           .drag_drop {
@@ -612,6 +612,12 @@
     max-width: 70% !important;
     height: 80% !important;
   }
+}
+::ng-deep .addFieldCheckBox{
+  .kr-sg-checkbox .checkbox-custom:checked:disabled + .checkbox-custom-label::before {
+    background-color: gainsboro !important;
+    border: solid 1px #BDC1C6 !important;
+}
 }
 ::ng-deep.add_Field_ModalPop{
   .modal-dialog{

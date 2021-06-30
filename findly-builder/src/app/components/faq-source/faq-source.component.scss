@@ -113,7 +113,27 @@
                     margin-right: 30px;
                 }
                 .exportdropdown{
+                    &.show{
+                        .dropdown-open {
+                            .three-dots{
+                                width: 24px;
+                                height: 24px;
+                                left: 1322px;
+                                top: 74px;
+                                background: #EFF0F1 !important;
+                                border-radius: 2px;
+                            } 
+                        }
+                    }
                     .dropdown-open {
+                        .three-dots{
+                            width: 24px;
+                            height: 24px;
+                            left: 1322px;
+                            top: 74px;
+                            border-radius: 2px;
+                            background: transparent;
+                        }
                         .dropdown-input{
                             background-color: transparent;
                         }
@@ -173,7 +193,14 @@
                         background: #F8F9FA;
                         padding: 8px 20px;                    
                         .kr-sg-input-search{
-                            width:56%;
+                            width: 215px;
+                            position: relative;
+                            .close-icon{
+                                position: absolute;
+                                right: 11px;
+                                top: 12px;
+                                cursor: pointer;
+                            }
                             .input-search{
                                 border: 1px solid #E4E5E7;                            
                                 border-radius: 4px;
@@ -192,6 +219,19 @@
                                 top: 10px;
                             }
                         }
+                        .seach-block {
+                            color: #202124;
+                            font-style: normal;
+                            font-weight: 500;
+                            font-size: 12px;
+                            // margin-right: 30px;
+                            img {
+                                margin-right: 7px;
+                                cursor: pointer;
+                                position: relative;
+                                top: -1px;
+                            }
+                        } 
                         .kr-sg-dropdowns{
                             width: auto;
                             margin-left: 10px;
@@ -217,6 +257,15 @@
                                 .dropdown-open{
                                     .dropdown-input{
                                         background: #E4E5E7;
+                                    }
+                                    .three-dots{
+                                        width: 24px;
+                                        height: 24px;
+                                        left: 1322px;
+                                        top: 74px;
+                                        background: #EFF0F1;
+                                        border-radius: 2px;
+                                        background: #EFF0F1;
                                     }
                                 }
                             }
@@ -319,6 +368,12 @@
                                         img{
                                             margin-right: 7px;
                                         }
+                                    }
+                                    &.is-selected{
+                                        background: #E7F1FF;
+                                        // .follow_up{
+                                        //     display: flex;
+                                        // }
                                     }
                                     &.is-checked{
                                         background: #E7F1FF;
@@ -618,6 +673,8 @@
                                         text-align: center;
                                         border-radius: 4px;
                                         border: 1px solid #BDC1C6;
+                                        background: transparent !important;       
+                                        width: 34px;                                 
                                         &::before{
                                             display: none;
                                         }
@@ -950,7 +1007,7 @@
                             }
                         }
                         .add-alternative-questions{
-                            padding: 14px 30px;
+                            padding: 14px 30px 10px;
                             align-items: center;
                             background:transparent;
                             margin: 40px 0 0 0;
@@ -1093,9 +1150,30 @@
         align-items: center;     
         .kr-sg-input-search{
             margin-right: 12px;
+            width: 300px;
+            position: relative;
             &.active{
                 display: block;
                 width: 300px;
+            }
+            .close-icon{
+                position: absolute;
+                right: 11px;
+                top: 12px;
+                cursor: pointer;
+            }
+            .input-search{
+                border: 1px solid #E4E5E7;                            
+                border-radius: 4px;
+                padding-left: 36px;
+                padding-right: 15px;
+                font-size: 14px;
+                &:focus{
+                    border: 1px solid #1372ff;
+                }
+                &::placeholder{
+                    color: #BDC1C6;
+                }
             }
         }  
         .seach-block{
@@ -1318,8 +1396,16 @@
     background: #F8F9FA;
 }
 ::ng-deep .editfaqSourceModalPop{
+     .modal-header{
+        height: 43px !important;
+        padding: 11px 30px;
+         .close_icon{
+            height: 26px !important;
+            line-height: 22px !important;
+        }
+    }
     .modal-body{
-
+        padding: 15px 30px !important;
         .add-questions-form{
             padding: 0 !important;
    
@@ -1360,7 +1446,7 @@
                 }
             }
             .added-questions-list{
-                padding: 12px 0px !important;
+                // padding: 12px 0px !important;
                 background: #FFFFFF !important;
                 // box-shadow: inset 0px -1px 0px #E4E5E7;
                 position: relative !important;
@@ -1453,7 +1539,19 @@
         display: none !important;
     }
 }
-
+::ng-deep .addfaq{
+     .modal-header{
+        height: 43px !important;
+        padding: 11px 30px;
+         .close_icon{
+            height: 26px !important;
+            line-height: 22px !important;
+        }
+    }
+    .modal-body{
+        padding: 15px 30px !important;
+    }
+}
 .footer-btns{
     background: #FFFFFF;
     box-shadow: 0px -2px 5px rgba(32, 33, 36, 0.2);
@@ -1645,4 +1743,27 @@
     line-height: 14.52px;
     margin-left: 45px;
 
+}
+
+
+.added-questions-list{
+    .content-body-question {
+        padding: 5px 0;
+        min-height: 50px;
+        background: #FFFFFF;
+        box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
+        align-items: center;
+        transition: all .3s ease-in;
+        margin: 0 0 1px;
+        .group-name {
+            color: #202124;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 17px;
+        }
+    }
+}
+.px-12px{
+    padding-left:12px !important;
+    padding-right:12px !important;
 }

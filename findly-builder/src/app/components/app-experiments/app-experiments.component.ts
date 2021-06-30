@@ -22,7 +22,9 @@ export class AppExperimentsComponent implements OnInit {
   addExperimentsRef: any;
   selectedApp: any;
   serachIndexId: any;
-  showSearch;
+  showSearch = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   select_config: any;
   searchFields: any = '';
   variantsArray: any = [];
@@ -31,6 +33,7 @@ export class AppExperimentsComponent implements OnInit {
     variants: this.variantsArray,
     duration: { days: 30 }
   }
+  activeClose = false;
   conn: any = [true, true];
   tool: any = [true];
   star: any = [100];
@@ -40,7 +43,8 @@ export class AppExperimentsComponent implements OnInit {
   @ViewChild('addExperiments') addExperiments: KRModalComponent;
   @ViewChild('sliderref') sliderref;
   @ViewChild('plans') plans: UpgradePlanComponent;
-  variantList = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }];
+  // variantList = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }];
+  variantList = [{ color: '#7027E5', code: 'A' }, { color: '#28A745', code: 'B' }, { color: '#EF9AA3', code: 'C' }, { color: '#0D6EFD', code: 'D' }];
   // add Experiment
   form_type;
   exp_id;
@@ -67,6 +71,8 @@ export class AppExperimentsComponent implements OnInit {
   loadingContent1: boolean;
   currentSubscriptionPlan: any;
   currentSubsciptionData: Subscription;
+  // componentType: string = 'addData';
+  ctrTooltip: string = 'Click Through Rate is the percentage of searches which got at least one click of all the searches performed';
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -84,26 +90,6 @@ export class AppExperimentsComponent implements OnInit {
       }
     })
   }
-  //get current subscription data
-  // currentsubscriptionPlan(app) {
-  //   const payload = {
-  //     streamId: app._id
-  //   };
-  //   const appObserver = this.service.invoke('get.currentPlans', payload);
-  //   appObserver.subscribe(res => {
-  //     this.currentSubscriptionPlan = res.subscription;
-  //     if (this.currentSubscriptionPlan.planId != 'fp_free') {
-  //       this.getExperiments();
-  //       this.setSliderDefaults();
-  //       this.getIndexPipeline();
-  //     }
-  //     else if (this.currentSubscriptionPlan.planId == 'fp_free') {
-  //       this.loadingContent1 = true;
-  //     }
-  //   }, errRes => {
-  //     console.log('failed to get plans');
-  //   });
-  // }
   loadImageText: boolean = false;
   imageLoaded() {
     this.loadingContent = false;
@@ -199,7 +185,6 @@ export class AppExperimentsComponent implements OnInit {
       this.experimentObj.duration.days = data.duration.days;
       this.setSliderDefaults();
       this.showTraffic(this.variantsArray.length, 'add');
-
     }
     else {
       this.showSlider = false;
@@ -403,7 +388,7 @@ export class AppExperimentsComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       offset: this.exp_skipPage,
-      limit: this.exp_limitPage,
+      limit: 10,
       state: 'all'
     };
     this.service.invoke('get.experiment', quaryparms, header).subscribe(res => {
@@ -425,6 +410,7 @@ export class AppExperimentsComponent implements OnInit {
         this.loadingContent1 = true;
       }
       else {
+        this.loadingContent = false;
         this.loadingContent1 = true;
         this.inlineManual.openHelp('EXPERIMENTS')
       }
@@ -457,7 +443,9 @@ export class AppExperimentsComponent implements OnInit {
   // add new experiment method
   async createExperiment() {
     if (this.variantsArray[0].indexPipelineId === undefined) {
-      this.variantsArray[0] = { ...this.variantsArray[0], indexPipelineId: this.indexConfig[0]._id, queryPipelineId: this.queryPipeline[0]._id };
+      let index = this.indexConfig.filter(index => index.default == true);
+      let query = this.queryPipeline.filter(query => query.default == true);
+      this.variantsArray[0] = { ...this.variantsArray[0], indexPipelineId: index[0]._id, queryPipelineId: query[0]._id };
     }
     if (this.someRange !== undefined) {
       await this.sliderPercentage();
@@ -509,7 +497,6 @@ export class AppExperimentsComponent implements OnInit {
   }
   validateSource() {
     let validField = true;
-
     if (!this.experimentObj.name) {
       $("#enterName").css("border-color", "#DD3646");
       $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
@@ -524,15 +511,17 @@ export class AppExperimentsComponent implements OnInit {
         // this.notificationService.notify('Enter the required fields to proceed', 'error');
         validField = false
       }
-      if (!element.indexPipelineName) {
-        $("#indexPipelineName" + i).css("border-color", "#DD3646");
-        // this.notificationService.notify('Enter the required fields to proceed', 'error');
-        validField = false
-      }
-      if (!element.queryPipelineName) {
-        $("#queryPipelineName" + i).css("border-color", "#DD3646");
-        // this.notificationService.notify('Enter the required fields to proceed', 'error');
-        validField = false
+      if (i != 0) {
+        if (!element.indexPipelineName) {
+          $("#indexPipelineName" + i).css("border-color", "#DD3646");
+          // this.notificationService.notify('Enter the required fields to proceed', 'error');
+          validField = false
+        }
+        if (!element.queryPipelineName) {
+          $("#queryPipelineName" + i).css("border-color", "#DD3646");
+          // this.notificationService.notify('Enter the required fields to proceed', 'error');
+          validField = false
+        }
       }
 
     });
@@ -749,7 +738,7 @@ export class AppExperimentsComponent implements OnInit {
   }
   //pagination for list
   paginate(event) {
-    this.exp_limitPage = event.limit;
+    // this.exp_limitPage = event.limit;
     this.exp_skipPage = event.skip;
     this.getExperiments();
   }
@@ -818,8 +807,26 @@ export class AppExperimentsComponent implements OnInit {
   upgrade() {
     this.plans.openChoosePlanPopup('choosePlans');
   }
-  // ngOnDestroy() {
-  //   this.indexSubscription.unsubscribe();
-  //   this.searchSubscription.unsubscribe();
-  // }
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchFields = '';
+      this.activeClose = false;
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
+  }
+  checkDuration(value) {
+    // if(parseInt(event.target.value) > 90){
+    //   event.target.value = ''
+    //   // event.preventDefault();
+    // }
+    if (value > 90) {
+      console.log(value, this.experimentObj.duration.days)
+      this.experimentObj.duration.days = 90
+    }
+  }
 }

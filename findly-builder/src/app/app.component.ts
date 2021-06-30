@@ -46,9 +46,9 @@ export class AppComponent implements OnInit, OnDestroy {
   searchSDKSubscription: Subscription;
   resultRankDataSubscription: Subscription
   showHideMainMenuSubscription: Subscription;
-  showHideSettingsMenuSubscription : Subscription;
-  showHideSourceMenuSubscription : Subscription;
-  closeSDKSubscription : Subscription;
+  showHideSettingsMenuSubscription: Subscription;
+  showHideSourceMenuSubscription: Subscription;
+  closeSDKSubscription: Subscription;
   searchExperienceSubscription: Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
@@ -58,7 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
   };
   topDownSearchInstance: any;
   searchExperienceConfig: any;
-  indexPipelineId : any;
+  indexPipelineId: any;
   @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(private router: Router,
     private authService: AuthService,
@@ -83,6 +83,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     self = this;
     this.onResize();
+
     this.previousState = this.appSelectionService.getPreviousState();
     this.showHideSearch(false);
     this.showHideTopDownSearch(false);
@@ -92,7 +93,8 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.SearchConfigurationSubscription = this.headerService.resetSearchConfiguration.subscribe(res => {
       this.distroySearch();
-      this.getSearchExperience();
+      this.loadSearchExperience();
+      //this.getSearchExperience();
     });
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       if (this.searchExperienceConfig) {
@@ -316,7 +318,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadSearchExperience(){
+  loadSearchExperience() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
       this.getSearchExperience();
@@ -373,7 +375,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.distroySearch();
     this.clearBodyClasses();
     this.searchInstance = new FindlySDK(findlyConfig);
-    this.searchInstance.showSearch(findlyConfig.botOptions, this.searchExperienceConfig);
+    this.searchInstance.showSearch(findlyConfig.botOptions, this.searchExperienceConfig, true);
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
 
   }
@@ -394,7 +396,7 @@ export class AppComponent implements OnInit, OnDestroy {
       $('.search-container').addClass('add-new-result')
       this.initSearch();
       $('#test-btn-launch-sdk').addClass('active');
-      $('#open-chat-window-no-clicks').css({display : 'block'});
+      $('#open-chat-window-no-clicks').css({ display: 'block' });
       this.headerService.isSDKOpen = true;
     } else {
       $('.search-background-div').remove();
@@ -405,7 +407,7 @@ export class AppComponent implements OnInit, OnDestroy {
       _self.showInsightFull = false;
       this.distroySearch();
       $('#test-btn-launch-sdk').removeClass('active');
-      $('#open-chat-window-no-clicks').css({display : 'none'});
+      $('#open-chat-window-no-clicks').css({ display: 'none' });
       this.headerService.isSDKCached = false;
       this.headerService.isSDKOpen = false;
     }
@@ -459,7 +461,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.showHideTopDownSearch(false);
       }
     }
-    
+
     if (parms.type === 'refreshSearchContainer' && parms.data === false) {
       if (parms.bottomUp) {
         this.refreshSDK();
@@ -502,12 +504,12 @@ export class AppComponent implements OnInit, OnDestroy {
       $('app-body').append('<div class="top-down-search-background-div"><div class="bgDullOpacity"></div></div>');
       $('.top-down-search-background-div').show();
       $('.top-down-search-background-div').off('click').on('click', (event) => {
-        if (!event.target.closest('.topdown-search-main-container') && !event.target.closest('.filters-sec')) {
+        if (!event.target.closest('.topdown-search-main-container') && !event.target.closest('.filters-sec') && !event.target.closest('.filters-reset')) {
           this.showHideTopDownSearch(false);
         }
       });
-      // $('app-body').append('<img class="close-top-down-search" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB0SURBVHgBjZHBDYAgDEURjRcjs7iKI3D1gNu4hqPgBk7hRVuiNdEUoqE9ld/3adoqMwbfDHunfoJqxgWv8QCrq3L+gkmjGgLYV2gdrhxOtSJ1B8Ce3k++TfUSgRymnEO3UQlD3Fo+DP8pcqddaJnZhV9HOQHmYl73b8488gAAAABJRU5ErkJggg==">');
-      $('.close-top-down-search').off('click').on('click', () => {
+      $('app-body').append('<div class="close-top-down-search-outer"><img class="close-top-down-search" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCAxMCAxMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuNzA3MDMgNS4wMDAwOUw5Ljg1MzU1IDAuODUzNTUzQzEwLjA0ODggMC42NTgyOTEgMTAuMDQ4OCAwLjM0MTcwOSA5Ljg1MzU1IDAuMTQ2NDQ3QzkuNjU4MjkgLTAuMDQ4ODE1NyA5LjM0MTcxIC0wLjA0ODgxNTQgOS4xNDY0NSAwLjE0NjQ0N0w0Ljk5OTkxIDQuMjkzTDAuODUzNTU1IDAuMTQ2ODE0QzAuNjU4Mjg4IC0wLjA0ODQ0NDQgMC4zNDE3MDYgLTAuMDQ4NDM4IDAuMTQ2NDQ4IDAuMTQ2ODI4Qy0wLjA0ODgxMDQgMC4zNDIwOTQgLTAuMDQ4ODA0IDAuNjU4Njc3IDAuMTQ2NDYyIDAuODUzOTM1TDQuMjkyOCA1LjAwMDFMMC4xNDY0NDcgOS4xNDY0NkMtMC4wNDg4MTU3IDkuMzQxNzMgLTAuMDQ4ODE1NSA5LjY1ODMxIDAuMTQ2NDQ3IDkuODUzNTdDMC4zNDE3MDkgMTAuMDQ4OCAwLjY1ODI5MiAxMC4wNDg4IDAuODUzNTUzIDkuODUzNTdMNC45OTk5MiA1LjcwNzJMOS4xNDY0NiA5Ljg1MzU3QzkuMzQxNzMgMTAuMDQ4OCA5LjY1ODMxIDEwLjA0ODggOS44NTM1NyA5Ljg1MzU1QzEwLjA0ODggOS42NTgyOSAxMC4wNDg4IDkuMzQxNzEgOS44NTM1NSA5LjE0NjQ1TDUuNzA3MDMgNS4wMDAwOVoiIGZpbGw9IiMyMDIxMjQiLz4KPC9zdmc+Cg=="></div>');
+      $('.close-top-down-search-outer').off('click').on('click', () => {
         this.showHideTopDownSearch(false);
       });
       $('.start-search-icon-div').addClass('active');
@@ -515,18 +517,19 @@ export class AppComponent implements OnInit, OnDestroy {
       $('.search-container').addClass('add-new-result');
       this.initTopDownSearch();
       $('#test-btn-launch-sdk').addClass('active');
-      $('#open-chat-window-no-clicks').css({display : 'block'});
+      $('#open-chat-window-no-clicks').css({ display: 'block' });
       this.headerService.isSDKOpen = true;
     } else {
       $('.top-down-search-background-div').remove();
-      $('.close-top-down-search').remove();
+      $('.close-top-down-search-outer').remove();
+      $('body').removeClass('sdk-top-down-interface');
       $('.start-search-icon-div').removeClass('active');
       this.bridgeDataInsights = true;
       this.addNewResult = true;
       this.showInsightFull = false;
       this.distroyTopDownSearch();
       $('#test-btn-launch-sdk').removeClass('active');
-      $('#open-chat-window-no-clicks').css({display : 'none'});
+      $('#open-chat-window-no-clicks').css({ display: 'none' });
       this.headerService.isSDKOpen = false;
     }
   }
@@ -584,21 +587,19 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   getSearchExperience() {
-    console.log("getSearchExperience");
-    console.log(this.workflowService.selectedApp());
     let selectedApp: any;
     selectedApp = this.workflowService.selectedApp();
     const searchIndex = selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      indexPipelineId : this.workflowService.selectedIndexPipeline()
+      indexPipelineId: this.workflowService.selectedIndexPipeline()
     };
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
-      console.log("search experience data", res);
       this.searchExperienceConfig = res;
       this.headerService.updateSearchConfigurationValue(res);
       this.headerService.searchConfiguration = res;
     }, errRes => {
+      console.log("getSearchExperience failed happen");
       console.log(errRes);
     });
   }
@@ -618,7 +619,7 @@ export class AppComponent implements OnInit, OnDestroy {
         $('#show-all-results-container').css('display', 'block');
       }
       $('#test-btn-launch-sdk').addClass('active');
-      $('#open-chat-window-no-clicks').css({display : 'block'});
+      $('#open-chat-window-no-clicks').css({ display: 'block' });
       this.headerService.isSDKOpen = true;
     }
     else {
@@ -635,16 +636,16 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
       $('#test-btn-launch-sdk').removeClass('active');
-      $('#open-chat-window-no-clicks').css({display : 'none'});
+      $('#open-chat-window-no-clicks').css({ display: 'none' });
       this.headerService.isSDKCached = true;
       this.headerService.isSDKOpen = false;
     }
     this.addNewResult = true;
   }
 
-  refreshSDK(){
+  refreshSDK() {
     this.showHideSearch(false);
-    setTimeout(() =>{
+    setTimeout(() => {
       this.showHideSearch(true);
     }, 200);
   }

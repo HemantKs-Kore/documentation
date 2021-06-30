@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class valueFormatPipe implements PipeTransform {
   transform(input: any, args?: any): any {
     var exp, rounded,
-      suffixes = ['k', 'M', 'G', 'T', 'P', 'E'];
+      suffixes = ['K', 'M', 'G', 'T', 'P', 'E'];
     if (Number.isNaN(input)) {
       return null;
     }

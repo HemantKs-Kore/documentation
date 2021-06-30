@@ -4,60 +4,58 @@
         <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
     </div>
     <ng-container *ngIf="loadingTraits1">  
-    <!-- NO DATA FOUND -->
-        <ng-container *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)">
-            <perfect-scrollbar class="empty-scroll">
-                <div  class="empty-landing-screen" >
-                <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/traits-empty.svg"></div>
-                <ng-container *ngIf="loadImageText">
-                    <div class="empty-title">You haven’t added any Traits yet!</div>
-                    <div class="desc-text"> Traits are specific entities, attributes or details that the users express in their conversations.  Traits present in the utterance can be used in driving the intent detection and bot conversation flows. SearchAssist allows you to define Traits and train the utterances.
-                    </div>
-                    <div class="kr-sg-dropdowns" #selectSourceDrop='ngbDropdown' ngbDropdown [container]="'body'">                                         
-                        <div class="dropdown dropdown-open">
-                            <button class='kr-sg-button-primary btn_lg px-3' (click)='createNewTraits()'>Add Traits</button>
-                        </div>                                    
-                    </div>
-                </ng-container>
-                <ng-container *ngIf="noItems && emptySearchResults">
-                    <div class="desc-text">Your Search Query doesn't match with any record.</div>
-                </ng-container>
-                </div>
-            </perfect-scrollbar>
-        </ng-container>
+    
     <!-- TABLE CONTENT -->
-    <div class="traits" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
-        
-        <div class="table-list-content" *ngIf="traits.traitGroups &&  traits.traitGroups.length">                         
+    <div class="traits">        
+        <div class="table-list-content" >                         
             <div class="seach_add_feild">
+                <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
                 <div class="title">Traits</div>
-                <div class="d-flex align-items-center">
-                    <!-- <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
-                        <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="serachTraits">           
-                    </div>  -->
+                <div class="d-flex align-items-center" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
                     <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
-                        <input type="text" placeholder="Search" class="input-search" (keyup.enter)="searchItems()" [ngClass]="{'pl-33':!serachTraits}" autocomplete="off" [(ngModel)]="serachTraits" (focusout)="showSearch= !showSearch" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                        <input type="text" placeholder="Search" maxlength="60" id="inputSearch" class="input-search" [ngClass]="{'pl-33':!serachTraits,'pl-2':serachTraits}" autocomplete="off" [(ngModel)]="serachTraits" (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                         <img [src]="searchImgSrc" class="search-icon" *ngIf="!serachTraits">
-                        <img class="close-icon" *ngIf="serachTraits" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':serachTraits}" (click)="serachTraits='';toggleSearch(false)"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                        <img class="close-icon" *ngIf="serachTraits" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':serachTraits}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="serachTraits='';"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
                     </div>
                     <div class="seach-block" >
-                        <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch()"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                        <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch();focusinSearch('inputSearch')"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                     </div>
-                    <!-- <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div> -->
-                    <div class="add_feild" (click)="createNewTraits()"><img src="assets/icons/add_plus.svg"> Add Traits</div>
-                    <!-- <button class="kr-sg-button-primary btn_lg" (click)="trainIndex()">Train Index</button> -->
+                    <div class="add_feild mr-0" (click)="createNewTraits()"><img src="assets/icons/add_plus.svg"> Add Traits</div>
                 </div>
             </div>  
-            <div class="trailts-table-header row">
-                <div class="col-2 title">TRAIT GROUP</div>
-                <div class="col-9 title">TRAITS</div>
+            <div class="trailts-table-header row" *ngIf="traits?.traitGroups &&  traits?.traitGroups?.length" [ngClass]="{'selected':selcectionObj?.selectedCount}">
+                <div class="col-3 title d-flex align-items-center lh-34" >
+                    <div class="kr-sg-checkbox m-0 select-all-checkbox">
+                        <input id="selectAllTraits" class="checkbox-custom" type="checkbox" (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll">
+                        <label for="selectAllTraits" class="checkbox-custom-label"></label>
+                    </div>
+                    <div class="kr-sg-checkbox d-none partial-select-checkbox mb-0" *ngIf="selcectionObj?.selectedItems?.length != traits?.traitGroups?.length">
+                        <img (click)="selectAllFromPartial()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon partial-select-img">
+                    </div>
+                    <div class="all-checked d-none">
+                        <img src="assets/icons/resultranking/selected-checkbox.svg">
+                    </div>
+                    <div>TRAIT GROUP</div>
+                </div>
+                <div class="col-5 title lh-34">TRAITS</div>
+                <div class="col-4 d-flex align-items-center justify-content-end p-0" *ngIf="selcectionObj && selcectionObj.selectedCount">
+                    <div class="selected-count">{{selcectionObj.selectedCount}} Selected</div>
+                    <button class="kr-sg-button-danger btn_lg" (click)="deleteTraits(null,true)">Delete</button>
+                </div>
             </div>                 
-            <perfect-scrollbar class="traits-scroll-data">
+            <perfect-scrollbar class="traits-scroll-data" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
                 <div class="traits-body-sec">
-                    <div class="content-body row col-12 m-0" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">
-                        <div class="col-2 traitGroup-name" title="{{traitGroup.groupName || '---'}}">{{traitGroup.groupName || '---'}}</div>
-                        <div class="col-8 traits-groups row m-0 align-items-center pr-0">
+                    <div class="content-body row col-12 m-0" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index" [ngClass]="{
+                        selected: selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[traitGroup._id]}">                        
+                        <div class="col-3 traitGroup-name">
+                            <div class="kr-sg-checkbox m-0">
+                                <input id="{{traitGroup._id}}" class="checkbox-custom selectEachTraitInput" type="checkbox" (change)="checkUncheckTraits(traitGroup)">
+                                <label for="{{traitGroup._id}}" class="checkbox-custom-label"></label>
+                            </div>
+                            <span ngbTooltip="{{traitGroup.groupName || '---'}}" placement="top-center" container='body' tooltipClass="ngb_tooltip_custom_class sampleJson">{{traitGroup.groupName || '---'}}</span>
+                        </div>
+                        <div class="col-7 traits-groups row m-0 align-items-center pr-0">
                             <span *ngFor="let trait of traitGroup.traits| slice:0:getTraitsSliceValue(traitGroup.traits); let i=index;" class="trait-more">
                                 {{i!==0 ?', ':''}}{{trait.traitName || '---'}}
                             </span>                                                                    
@@ -71,7 +69,7 @@
                                                 <img src="assets/icons/close-dropdown.svg">
                                             </div>
                                             <perfect-scrollbar class="more-traits-scroll">
-                                                <li *ngFor="let trait of traitGroup.traits| slice:getTraitsSliceValue(traitGroup.traits):(traitGroup.traits.length);" title="{{trait.traitName || '---'}}" class="text-truncate">
+                                                <li *ngFor="let trait of traitGroup.traits| slice:getTraitsSliceValue(traitGroup.traits):(traitGroup.traits.length);" ngbTooltip="{{trait.traitName || '---'}}" placement="left" container='body' tooltipClass="ngb_tooltip_custom_class sampleJson" class="text-truncate">
                                                     {{trait.traitName || '---'}}
                                                 </li>
                                             </perfect-scrollbar>
@@ -93,6 +91,27 @@
         </div>
 
     </div>
+    <!-- NO DATA FOUND -->
+    <ng-container *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)">
+        <perfect-scrollbar class="empty-scroll">
+            <div  class="empty-landing-screen" >
+            <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/traits-empty.svg"></div>
+            <ng-container *ngIf="loadImageText">
+                <div class="empty-title">You haven’t added any Traits yet!</div>
+                <div class="desc-text"> Traits are specific entities, attributes or details that the users express in their conversations.  Traits present in the utterance can be used in driving the intent detection and bot conversation flows. SearchAssist allows you to define Traits and train the utterances.
+                </div>
+                <div class="kr-sg-dropdowns" #selectSourceDrop='ngbDropdown' ngbDropdown [container]="'body'">                                         
+                    <div class="dropdown dropdown-open">
+                        <button class='kr-sg-button-primary btn_lg px-3' (click)='createNewTraits()'>Add Traits</button>
+                    </div>                                    
+                </div>
+            </ng-container>
+            <ng-container *ngIf="noItems && emptySearchResults">
+                <div class="desc-text">Your Search Query doesn't match with any record.</div>
+            </ng-container>
+            </div>
+        </perfect-scrollbar>
+    </ng-container>
     <!-- CREATE NEW TRAIT MODAL-->
     </ng-container>
 </div>
@@ -107,32 +126,33 @@
         <div class="modal-body">
             <div class="kr-sg-input-text trait-group-name">
                 <div class="label-text">Trait Group Name</div>
-                <input type="text" autocomplete="off" placeholder="Enter Trait Group" class="input-text" maxlength="120" [(ngModel)]="traits.addEditTraits.groupName">
-                <div class="eg-text">Eg: Vehicle type , Class</div>
+                <input type="text" autocomplete="off" maxlength="60" placeholder="Enter Trait Group" class="input-text" [(ngModel)]="traits.addEditTraits.groupName" [ngClass]="{'err-block' : (!traits.addEditTraits.groupName && submitted)}">
+                <div class="eg-text">Eg: Vehicle type, Class</div>
+                <img *ngIf="!traits.addEditTraits.groupName && submitted" id="traitGroupNameWarning" src="assets/icons/warning_escalation.svg" style="top: 39%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
             </div>
 
             <div class="kr-sg-input-text add-traits-input">              
-                <input autocomplete="off" type="text" placeholder="Type and Enter to Add Traits" class="input-text" maxlength="120" #traitValue [(ngModel)]="add.traitName"(keyup.enter)="addTraits(add.traitName,$event)">
+                <input autocomplete="off" type="text" maxlength="60" placeholder="Type and Enter to Add Traits" class="input-text"  #traitValue [(ngModel)]="add.traitName"(keyup.enter)="addTraits(add.traitName,$event)">
             </div>
 
             <ng-container *ngIf="traits.addEditTraits && traits.addEditTraits.traitsArray && traits.addEditTraits.traitsArray.length">
                 <div class="content-body-traits row col-12" *ngFor="let item of traits.addEditTraits.traitsArray;let index = index;"  (click)="openAddUtteranceModel(index,item.key,item.data,true)" [ngClass]="{'pointer':item.data.length}">
-                    <div class="col-4 group-name" title="{{item.key}}" *ngIf="showEditTraitInput !== index"> {{item.key}}</div>
+                    <div class="col-4 group-name text-truncate"  *ngIf="showEditTraitInput !== index"><span ngbTooltip="{{item.key}}" placement="top-center" container='body'  tooltipClass="ngb_tooltip_custom_class sampleJson">{{item.key}}</span> </div>
                     <div class="col-6 m-0 align-items-center" *ngIf="showEditTraitInput !== index">
-                        <div class="utterances-count" *ngIf="item.data.length">{{item.data.length}} Utterances</div>
+                        <div class="utterances-count" *ngIf="item.data.length">{{item.data.length}} {{item.data.length>1?'Utterances':'Utterance'}}</div>
                         <div class="add-utt-title" *ngIf="!item.data.length" (click)="openAddUtteranceModel(index,item.key,item.data)">
                             <img src="assets/icons/add_blue.svg">Add utterances
                         </div> 
                     </div>
                     <div class="col-2 action-btns pr-1" *ngIf="showEditTraitInput !== index">
-                        <ng-container *ngIf="item.data.length">
+                        <ng-container>
                             <!-- <img src="assets/icons/add_blue.svg" (click)="openAddUtteranceModel(index,item.key,item.data)" placement="top-center" container='body' ngbTooltip="Add Utterance" tooltipClass="ngb_tooltip_custom_class sampleJson">                       -->
                             <img src="assets/icons/edit-pencil.svg" id="btn_edit_traits" placement="top-center" container='body' ngbTooltip="Edit Trait Name" tooltipClass="ngb_tooltip_custom_class sampleJson" (click)="showEditTrait(index, $event)">
                             <img src="assets/icons/delete-table.svg" (click)="deleteTraitInGroup(item.key,traits.addEditTraits,$event,index)" id="btn_delete_traits" placement="top-center" container='body' ngbTooltip="Delete Trait & Utterances" tooltipClass="ngb_tooltip_custom_class sampleJson">
                         </ng-container>
                     </div> 
                     <div class="kr-sg-input-text add-traits-input mb-0" *ngIf="showEditTraitInput == index" (click)="$event.stopImmediatePropagation()">              
-                        <input autocomplete="off" type="text" placeholder="Type and Enter to Add Traits " class="input-text shadow-none input-h-40 pl-3" maxlength="120" #traitValue [(ngModel)]="item.key"(keyup.enter)="editTraits(item.key,$event,item.displayName)">
+                        <input autocomplete="off" type="text" maxlength="60" placeholder="Type and Enter to Add Traits " class="input-text shadow-none input-h-40 pl-3" #traitValue [(ngModel)]="item.key"(keyup.enter)="editTraits(item.key,$event,item.displayName)">
                         <img class="check-icon" *ngIf="item.key" src="assets/icons/check_green.svg" [ngClass]="{'pr-22':item.key}" (click)="$event.stopImmediatePropagation();editTraits(item.key,$event,item.displayName)" placement="top-center" container='body' ngbTooltip="Save" tooltipClass="ngb_tooltip_custom_class sampleJson" >
                         <img class="close-icon" *ngIf="item.key" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':item.key}" (click)="$event.stopImmediatePropagation();item.key=item.displayName;showEditTraitInput=null;" placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson" >
                     </div>
@@ -141,7 +161,7 @@
         </div>
     </perfect-scrollbar>
     <div class="modal-footer">
-        <button class="kr-sg-button-primary btn_lg" [disabled]="!traits.addEditTraits.groupName" (click)="saveTraits(traits.addEditTraits)">Save</button>
+        <button class="kr-sg-button-primary btn_lg" (click)="saveTraits(traits.addEditTraits)">Save</button>
         <button class="kr-sg-button-secondary btn_lg"  (click)="closeStatusModal()">Cancel</button>
     </div>
 </kr-modal> 
@@ -156,7 +176,7 @@
             <ng-container >
                 <div class="content-body-traits row col-12" *ngFor="let utterance of utteranceList;let i = index;" [ngClass]="{'py-0':(showEditUtteranceInput == i)}">
                     <div class="kr-sg-input-text add-traits-input" *ngIf="showEditUtteranceInput == i">
-                        <input autocomplete="off" maxlength="2048" type="text" placeholder="Type and Enter to Add Utterances" class="input-text pl-3 shadow-none input-h-40" (keyup)='editUtter($event,utterance,i)' [(ngModel)]='utterance' name='utteranceName'>
+                        <input autocomplete="off" maxlength="60" type="text" placeholder="Type and Enter to Add Utterances" class="input-text pl-3 shadow-none input-h-40" (keyup)='editUtter($event,utterance,i)' [(ngModel)]='utterance' name='utteranceName'>
                         <img class="check-icon" *ngIf="utterance" src="assets/icons/check_green.svg" [ngClass]="{'pr-22':utterance}" (click)="editUtter($event,utterance,i)" placement="top-center" container='body' ngbTooltip="Save" tooltipClass="ngb_tooltip_custom_class sampleJson" >
                         <img class="close-icon" *ngIf="utterance" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':utterance}" (click)="utterance=tempUtterance;showEditUtteranceInput = null;showUtteranceInput = false;" placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
                     </div>
@@ -172,14 +192,15 @@
                 </div>                  
             </ng-container>
             <div class="kr-sg-input-text add-traits-input" *ngIf="showUtteranceInput">
-                <input  maxlength="2048" type="text" autocomplete="off" placeholder="Type and Enter to Add Utterances" class="input-text" (keyup)='addNewUtter(newUtterance,$event)' [(ngModel)]='newUtterance' name='utteranceName'>
+                <input  maxlength="60" type="text" autocomplete="off" placeholder="Type and Enter to Add Utterances" class="input-text" (keyup)='addNewUtter(newUtterance,$event)' [(ngModel)]='newUtterance' name='utteranceName' [ngClass]="{'err-block' : ((!utteranceList || !utteranceList.length) && uttSubmitted)}">
                 <img class="check-icon" *ngIf="newUtterance" src="assets/icons/check_green.svg" [ngClass]="{'pr-22':newUtterance}" (click)="addNewUtter(newUtterance,$event)" placement="top-center" container='body' ngbTooltip="Save" tooltipClass="ngb_tooltip_custom_class sampleJson" >
                 <img class="close-icon" *ngIf="newUtterance" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':newUtterance}" (click)="newUtterance='';showUtteranceInput=false;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                <img *ngIf="(!utteranceList || !utteranceList.length) && uttSubmitted" id="utteranceNameWarning" src="assets/icons/warning_escalation.svg" style="top: 31%; position: absolute; right: 1.5%; display: block;" [ngStyle]="{'right':newUtterance.length?'7.5%':'1.5%'}" height="12" width="12" />
             </div>
         </div>
     </perfect-scrollbar>
     <div class="modal-footer">
-        <button class="kr-sg-button-primary btn_lg" [disabled]="!utteranceList.length" (click)="addNewUtterance(currentTraitKey,traits.addEditTraits,currentUtteranceIndex)">Add</button>
+        <button class="kr-sg-button-primary btn_lg" (click)="addNewUtterance(currentTraitKey,traits.addEditTraits,currentUtteranceIndex)">Add</button>
         <button class="kr-sg-button-secondary btn_lg"  (click)="closeUtteranceModal()">Cancel</button>
     </div>
 </kr-modal> 

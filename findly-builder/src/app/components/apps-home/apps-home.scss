@@ -175,6 +175,34 @@
                     width: 250px;
                 }
             }
+            .kr-sg-input-search{
+                width: 215px;
+                right: 10px;
+                position: relative;
+                &.active{
+                    display: block;
+                    width: 215px;
+                }
+                .close-icon{
+                    position: absolute;
+                    right: 11px;
+                    top: 12px;
+                    cursor: pointer;
+                }
+                .input-search{
+                    border: 1px solid #E4E5E7;                            
+                    border-radius: 4px;
+                    padding-left: 36px;
+                    padding-right: 15px;
+                    font-size: 14px;
+                    &:focus{
+                        border: 1px solid #1372ff;
+                    }
+                    &::placeholder{
+                        color: #BDC1C6;
+                    }
+                }
+            }
             .seach-block{
                 color: #202124;
                 font-style: normal;
@@ -279,7 +307,27 @@
             }
             div.empty:first-child {
                 display: block !important;
-              }
+            }
+            .empty-data-app{
+                width: 255px;                
+                background: #FFFFFF;
+                border: 1px solid #0D6EFD;
+                box-sizing: border-box;
+                border-radius: 6px;
+                margin: 10px;
+                text-align: center;
+                padding: 20px 10px;
+                cursor: pointer;
+                .img-block{
+                    margin-bottom: 13px;
+                }
+                .e-title{
+                    color: #0D6EFD;
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 19px;
+                }
+            }
         }
         .cards-content{
             padding: 10px;
@@ -461,6 +509,12 @@
                     padding: 5px;
                     margin-left: 10px;
                     cursor: pointer;
+                    &:hover{
+                        background: #EFF0F1;
+                    }
+                    &.active-down{
+                        background: #EFF0F1;
+                    }
                 }
             }
         }
@@ -491,7 +545,6 @@
     white-space: break-spaces;
 }
 
-
 .onboarding-welcome-screen{
     width: 546px;
     margin: 0 auto;
@@ -512,56 +565,5 @@
     }
     .kr-sg-button-primary{       
         margin: 20px 0;
-    }
-}
-
-
-::ng-deep .creating-new-app-modal{
-    .modal-dialog{
-        width: 625px;
-        height: 395px;
-        max-width: 100%;
-        .label-text{
-            font-weight: 500;
-            font-size: 12px;
-            line-height: 15px;
-            margin-bottom: 8px;
-        }
-        .modal-content{
-            text-align: left;
-            height: 100%;
-            .modal-header{
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                background: #FFFFFF;
-                box-shadow: 0px 0px 5px rgb(0 0 0 / 20%);
-                border-radius: 4px;
-                padding: 10px 30px;
-                height: 54px;
-                .modal-title{
-                    color: #202124;
-                    font-weight: 500;
-                    font-size: 18px;
-                    line-height: 22px;
-                }
-                .close_modal{
-                    cursor: pointer;
-                }
-            }
-            .modal-body{
-                padding: 25px 30px;
-                .kr-sg-input-text{
-                    margin-bottom: 23px;
-                }
-            }
-            .modal-footer{
-                background: #FFFFFF;
-                box-shadow: 0px -2px 4px rgb(32 33 36 / 20%);
-                border-radius: 4px;
-                height: 56px;
-                padding: 0 26px;                
-            }
-        }
     }
 }

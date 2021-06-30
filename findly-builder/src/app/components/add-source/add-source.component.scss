@@ -351,7 +351,7 @@
             .status-identification-content{
                 width: 230px;
                 margin: 0 auto;
-                text-align: left;
+               // text-align: left;
             }
             .progressNote{
                 color: #202124;
@@ -1470,6 +1470,14 @@
                     font-size: 14px;
                     line-height: 14px;
                 }
+                .info_help_text{
+                    color: #07377F;
+                    font-size: 12px;
+                    line-height: 18px;
+                    font-weight: normal;
+                    font-family: Inter;
+                    font-style: normal;
+                }
                 .or-divider{
                     color: #898989;
                     font-weight: normal;
@@ -1620,3 +1628,196 @@
         z-index: 99 !important;
     }
 }
+::ng-deep .linkExistingBotsModal{
+    .modal-dialog{
+        height: 100% !important;
+        width: 80% !important;
+        border-radius: 4px;
+        .modal-content{
+            border-radius: 4px !important;
+            .modal-header{
+                height: auto;
+                padding: 12px 15px 12px 30px;
+                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+                border-radius: 4px;
+                margin: 0 0 2px 0;
+                display: flex !important;
+                align-items: center;
+                justify-content: space-between !important;
+                .title{
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 17px;
+                    .gray-text-link{
+                        color: #9AA0A6;
+                    }
+                }
+            }
+            .modal-body{
+                .info-link-text{
+                    color: #202124;
+                    font-weight: 500;
+                    font-size: 12px;
+                    line-height: 15px;
+                    .show-how-btn{
+                        cursor: pointer;
+                        color: #0D6EFD;
+                    }
+                }
+                .info-link-text.lh-20{
+                    line-height: 20px;
+                    width: 75%;
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 20px;
+                }
+                .more-info-link-text{
+                    background: #FFFFFF;
+                    border: 1px solid #E7F1FF;
+                    box-sizing: border-box;
+                    border-radius: 6px;
+                    padding: 12px 19px;
+                    margin-top: 16px;
+                    width: auto;
+                    display: inline-block;
+                    .more-info-data{
+                        font-size: 14px;
+                        line-height: 17px;
+                        margin: 5px 0px;
+                        padding: 5px 0px;
+                        color: #000000;
+                        .step-text{
+                            color: #9AA0A6;                                                        
+                            font-weight: 600;
+                            font-size: 14px;
+                            line-height: 17px;
+                        }
+                    }
+                }
+                .kr-sg-input-text{
+                    margin: 25px 0;
+                    input{
+                        padding-left: 35px;
+                    }
+                    .bot-link-input{
+                        padding-left: 10px;
+                    }
+                    .copy-btn{
+                        font-weight: 500;
+                        font-size: 14px;
+                        line-height: 20px;
+                        background: #0D6EFD;
+                        border-radius: 4px;
+                        padding: 8px 12px;
+                        height: 34px;
+                        display: inline-block;
+                        width: auto;
+                        cursor: pointer;
+                        margin-left: 10px;
+                        color: #fff;
+                        img{
+                            margin-right: 5px;
+                            position: relative;
+                            top: -1px;
+                        }
+                    }
+                    .eye{
+                        position: absolute;
+                        right: 10px;
+                        top: 10px;
+                    }
+                    .label-text-bot-link{
+                        display: block;
+                    }
+                    .search-icon{
+                        position: absolute;
+                        left: 10px;
+                        top: 9px;
+                    }
+                }
+                .link-bot-table{
+                    margin: 0 -1px;
+                    .table-header{
+                        padding: 0 15px;
+                        margin: 0;
+                        background: #FFFFFF;
+                        box-shadow: inset 0px -1px 0px #e4e5e7;
+                        height: 45px;
+                        align-items: center;
+                       .title{
+                            color: #828282;
+                            font-weight: 500;
+                            font-size: 12px;
+                            line-height: 15px;
+                       }
+                    }
+                    .table-body-link-bot{
+                        align-items: center;
+                        margin: 0 0 0px 0;
+                        padding: 8px 0 8px 0;
+                        min-height: 60px;
+                        box-shadow: inset 0px -1px 0px #E4E5E7;
+                        .bot-name-data{
+                            align-items: center;
+                            .name-with-type{
+                                color: #202124;
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 20px;
+                                .bot-type{
+                                    background: #E7F1FF;
+                                    border-radius: 100px;
+                                    font-weight: normal;
+                                    font-size: 10px;
+                                    line-height: 12px;
+                                    padding: 4px 13px;
+                                }
+                            }
+                            .shares-data{
+                                padding: 0 10px 0 0px;
+                                color: #5F6368;
+                                font-weight: normal;
+                                font-size: 12px;
+                                line-height: 20px;
+                                img{
+                                    margin-right: 10px;
+                                }
+                            }
+                        }
+                        .owner-name{
+                            color: #828282;
+                            font-weight: normal;
+                            font-size: 14px;
+                            line-height: 20px;
+                        }
+                        .link-bot-actions{
+                            display: flex;
+                            align-items: center;
+                            justify-content: flex-end;
+                            padding-right: 22px;
+                            .link-bot-btn{
+                                background: #FFFFFF;
+                                border: 1px solid #BDC1C6;
+                                box-sizing: border-box;
+                                border-radius: 4px;
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 20px;
+                                color: #202124;
+                                padding: 6px 20px;                                
+                                cursor: pointer;
+                                img{
+                                    margin-right: 12px;
+                                }
+                            }
+                            .ext-link{
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+} 

@@ -65,7 +65,7 @@ export class AddResultComponent implements OnInit {
       this.searchRadioTypeTxt = "Content"
     }else if(this.searchRadioType == 'task'){
       this.searchRadioTypeTxt = "Bot Action"
-    }else if(this.searchRadioType == 'object'){
+    }else if(this.searchRadioType == 'data'){
       this.searchRadioTypeTxt = "Structured Data"
     }else {
       this.searchRadioTypeTxt = "Any"
@@ -125,7 +125,7 @@ export class AddResultComponent implements OnInit {
     let result :any = [];
     this.recordArray.forEach((element,index) => {
       var obj :any = {};
-      obj.contentType = contentTaskFlag ? contentType : element.__contentType;
+      obj.contentType = contentTaskFlag ? contentType : element.sysContentType;
       //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
       obj.contentId = element.contentId;
       // obj.position = this.positionRecord;
@@ -199,10 +199,10 @@ export class AddResultComponent implements OnInit {
     this.service.invoke('get.extractedResult_RR', quaryparms,payload).subscribe(res => {
       if(this.searchType == "all"){
         this.extractedResults =[];
-        res.content.document.forEach(element => {
+        res.content.file.forEach(element => {
           this.extractedResults.push(element)
         });
-        res.content.page.forEach(element => {
+        res.content.web.forEach(element => {
           this.extractedResults.push(element)
         });
         res.faq.forEach(element => {
@@ -217,10 +217,10 @@ export class AddResultComponent implements OnInit {
       }else if(this.searchType == "faq"){
         this.extractedResults = res.faq;
       }else if(this.searchType == "content"){
-        res.content.document.forEach(element => {
+        res.content.file.forEach(element => {
             this.extractedResults.push(element)
         });
-        res.content.page.forEach(element => {
+        res.content.web.forEach(element => {
           this.extractedResults.push(element)
         });
         console.log(this.extractedResults)

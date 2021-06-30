@@ -263,6 +263,7 @@
                 }
                 .title {
                     padding-left: 33px;
+                    line-height: 17px;
                 }
             }
             &.actions {
@@ -561,6 +562,39 @@
             }
         }
     }
+    .modal-header{
+        height: auto;
+        padding: 22px 30px;
+        border-bottom: 0px solid #BDC1C6 !important;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        background: #fff !important;
+        display: block !important;
+        margin-bottom: 4px;
+        &.noShadow{
+            box-shadow: none;
+        }
+        .title{
+            color: #202124;
+            font-weight: normal;
+            font-size: 14px;
+            float: left;
+            font-weight: 400;
+            width: auto;
+        }
+        .close_icon{
+            cursor: pointer;
+            float: right;
+            width: 30px;
+            height: 30px;
+            background: #fff;
+            border-radius: 100%;
+            text-align: center;
+            line-height: 28px;
+            &:hover{
+                background:  #F3F8FF; 
+            }
+        }
+    }
 }
 
 .seach_add_feild {
@@ -718,3 +752,30 @@
         cursor: pointer;
     }
 }
+
+.row-content{
+    .kr-sg-input-text {
+        input.input-text.err-block{
+            background-color: rgb(255, 255, 255);
+            border-color: rgb(221, 54, 70);
+        }
+    }
+}
+
+.kr-sg-dropdowns{
+    .kr-sg-input-search {
+        input.input-search.err-block{
+            background-color: rgb(255, 255, 255);
+            border-color: rgb(221, 54, 70);
+        }
+    }
+}
+
+::ng-deep .my-custom-warning-class .tooltip-inner {
+    max-width: 235px !important;
+    text-align: left !important;
+  }
+  
+  ::ng-deep .text-left-warning .tooltip-inner {
+    text-align: left !important;
+  }

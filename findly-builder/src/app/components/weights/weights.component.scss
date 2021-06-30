@@ -203,9 +203,9 @@
             top: -1px;
         }
     }
-    .tooltip {
-        display: none !important;
-    }
+    // .tooltip {
+    //     display: none !important;
+    // }
 }
 
 ::ng-deep.accor-scroll,
@@ -343,9 +343,9 @@
                             border: 0;
                         }
                     }
-                    .tooltip {
-                        display: none !important;
-                    }
+                    // .tooltip {
+                    //     display: none !important;
+                    // }
                 }
             }
         }
@@ -408,3 +408,21 @@
     top: 12px;
     cursor: pointer;
 }
+
+.kr-sg-dropdowns{
+    .kr-sg-input-search {
+        input.input-search.err-block{
+            background-color: rgb(255, 255, 255);
+            border-color: rgb(221, 54, 70);
+        }
+    }
+}
+
+::ng-deep .my-custom-warning-class .tooltip-inner {
+    max-width: 235px !important;
+    text-align: left !important;
+  }
+
+  ::ng-deep .text-left-warning .tooltip-inner {
+    text-align: left !important;
+  }

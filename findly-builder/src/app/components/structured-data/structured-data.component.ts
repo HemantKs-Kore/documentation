@@ -22,7 +22,7 @@ import { AppSelectionService } from './../../services/app.selection.service';
 })
 export class StructuredDataComponent implements OnInit {
 
-  addStructuredDataModalPopRef : any;
+  addStructuredDataModalPopRef: any;
   selectedSourceType: any;
   availableSources = [
     {
@@ -30,7 +30,7 @@ export class StructuredDataComponent implements OnInit {
       description: 'Import from JSON or CSV',
       icon: 'assets/icons/content/database-Import.svg',
       id: 'contentStucturedDataImport',
-      sourceType: 'object',
+      sourceType: 'data',
       resourceType: 'structuredData'
     },
     {
@@ -38,11 +38,11 @@ export class StructuredDataComponent implements OnInit {
       description: 'Add structured data manually',
       icon: 'assets/icons/content/database-add.svg',
       id: 'contentStucturedDataAdd',
-      sourceType: 'object',
+      sourceType: 'data',
       resourceType: 'structuredDataManual'
     }
   ];
-  structuredDataItemsList : any = [];
+  structuredDataItemsList: any = [];
   selectedApp: any;
   codeMirrorOptions: any = {
     theme: 'neo',
@@ -55,57 +55,58 @@ export class StructuredDataComponent implements OnInit {
     matchBrackets: true,
     lint: false,
     indentUnit: 0,
-    readOnly:'nocursor',
-    scrollbarStyle : 'null'
+    readOnly: 'nocursor',
+    scrollbarStyle: 'null'
   };
   searchActive: boolean = false;
-  searchText : any = '';
-  selectedStructuredData : any = [];
-  allSelected : boolean = false;
+  searchText: any = '';
+  selectedStructuredData: any = [];
+  allSelected: boolean = false;
   adwancedSearchModalPopRef: any;
   advancedSearchInput = '';
-  appliedAdvancedSearch : any = {};
+  appliedAdvancedSearch: any = {};
   advancedSearchOperators = [
     {
-      "name" : "Exists",
-      "value" : "exists"
+      "name": "Exists",
+      "value": "exists"
     },
     {
-      "name" : "Does Not Exist",
-      "value" : "notexists"
+      "name": "Does Not Exist",
+      "value": "notexists"
     },
     {
-      "name" : "Equals to",
-      "value" : "equals"
+      "name": "Equals to",
+      "value": "equals"
     },
     {
-      "name" : "Not Equals to",
-      "value" : "notequals"
+      "name": "Not Equals to",
+      "value": "notequals"
     }
   ];
-  isLoading : boolean = false;
-  structuredDataStatusModalRef : any;
-  structuredDataDocPayload : any;
-  noItems : boolean = false;
-  emptySearchResults : boolean = false;
-  skip : any;
-  page : any;
-  totalCount : any;
-  defaultView : boolean = true;
-  fields : any = [];
+  isLoading: boolean = false;
+  structuredDataStatusModalRef: any;
+  structuredDataDocPayload: any;
+  noItems: boolean = false;
+  emptySearchResults: boolean = false;
+  skip: any;
+  page: any;
+  totalCount: any;
+  defaultView: boolean = true;
+  fields: any = [];
   searchField;
-  advancedSearch : any = {};
-  tempAdvancedSearch : any = {};
-  disableContainer : any = false;
-  isResultTemplate : boolean = false;
-  serachIndexId : any;
-  searchFocusIn=false;
-  search : any;
+  advancedSearch: any = {};
+  tempAdvancedSearch: any = {};
+  disableContainer: any = false;
+  isResultTemplate: boolean = false;
+  serachIndexId: any;
+  searchFocusIn = false;
+  search: any;
   formatter: any;
-  enableSearchBlock : boolean = false;
-  indexPipelineId : any;
-  subscription : Subscription;
-
+  enableSearchBlock: boolean = false;
+  indexPipelineId: any;
+  subscription: Subscription;
+  activeClose = false;
+  componentType: string = 'addData';
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
   @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
@@ -125,17 +126,17 @@ export class StructuredDataComponent implements OnInit {
     this.getStructuredDataList();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.search = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      map(term => this.searchItems())
-    )
+      text$.pipe(
+        debounceTime(200),
+        map(term => this.searchItems())
+      )
     this.loadData();
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadData();
     })
   }
 
-  loadData(){
+  loadData() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
       this.getAllSettings();
@@ -143,13 +144,13 @@ export class StructuredDataComponent implements OnInit {
   }
   isLoading1: boolean;
   loadImageText: boolean = false;
-  imageLoad(){
+  imageLoad() {
     console.log("image loaded now")
-    this.isLoading=false;
+    this.isLoading = false;
     this.isLoading1 = true;
     this.loadImageText = true;
   }
-  getStructuredDataList(skip?){
+  getStructuredDataList(skip?) {
     this.isLoading = true;
     this.noItems = false;
     this.emptySearchResults = false;
@@ -157,22 +158,22 @@ export class StructuredDataComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: searchIndex,
       skip: 0,
-      limit : 20
+      limit: 10
     };
-    if(skip){
+    if (skip) {
       quaryparms.skip = skip;
     }
     this.skip = skip;
-    this.service.invoke('get.structuredData', quaryparms).subscribe((res : any) => {
+    this.service.invoke('get.structuredData', quaryparms).subscribe((res: any) => {
       this.isLoading = false;
       this.totalCount = JSON.parse(JSON.stringify(res.total));
       this.selectedStructuredData = [];
       this.allSelected = false;
-      if(res.data){
+      if (res.data) {
         this.structuredDataItemsList = res.data;
       }
-      else{
-      this.structuredDataItemsList = [];
+      else {
+        this.structuredDataItemsList = [];
       }
       if (res.length > 0) {
         this.isLoading = false;
@@ -182,21 +183,21 @@ export class StructuredDataComponent implements OnInit {
         this.isLoading1 = true;
       }
       this.structuredDataItemsList.forEach(data => {
-        data.objectLength =  Object.keys(data._source).length;
-        if(data._source){
-          if(data._source.contentType){
+        data.objectLength = Object.keys(data._source).length;
+        if (data._source) {
+          if (data._source.contentType) {
             delete data._source.contentType;
           }
           data.parsedData = JSON.stringify(data._source, null, 1);
         };
       });
       this.designDefaultData(this.structuredDataItemsList);
-      if(this.structuredDataItemsList.length == 0){
+      if (this.structuredDataItemsList.length == 0) {
         this.noItems = true;
         this.enableSearchBlock = false;
         this.inlineManual.openHelp('ADD_STRUCTURED_DATA_LANDING')
       }
-      else{
+      else {
         this.enableSearchBlock = true;
         this.inlineManual.openHelp('STRUCTURED_DATA_WALKTHROUGH')
       }
@@ -207,19 +208,19 @@ export class StructuredDataComponent implements OnInit {
     });
   }
 
-  designDefaultData(structuredDataItemsList){
+  designDefaultData(structuredDataItemsList) {
     this.defaultView = this.defaultView;
-    structuredDataItemsList.forEach((element : any, index) => {
+    structuredDataItemsList.forEach((element: any, index) => {
       element.objectValues = [];
-      Object.keys(element._source).forEach((key : any, index) => {
+      Object.keys(element._source).forEach((key: any, index) => {
         let nested = false;
-        if(key && (typeof element._source[key] === 'object')){
+        if (key && (typeof element._source[key] === 'object')) {
           nested = true;
         }
-        else{
+        else {
           nested = false;
         }
-        if(index < 3){
+        if (index < 3) {
           // element.objectValues.push({
           //   key : key,
           //   value : nested ? JSON.stringify(element._source[key], null, 2) : element._source[key],
@@ -232,13 +233,13 @@ export class StructuredDataComponent implements OnInit {
           // console.log("teest", this.getNestedElements(element._source[key]));
 
           element.objectValues.push({
-            key : key,
-            value : nested ? this.getNestedElements(element._source[key]) : element._source[key],
+            key: key,
+            value: nested ? this.getNestedElements(element._source[key]) : element._source[key],
             // var str = JSON.stringify(obj, null, 2);
-            expandedValue : element._source[key],
-            nested : nested,
-            expanded : false,
-            valuesLength : nested ? (Object.values(element._source[key]).length) : 1
+            expandedValue: element._source[key],
+            nested: nested,
+            expanded: false,
+            valuesLength: nested ? (Object.values(element._source[key]).length) : 1
           });
         }
       });
@@ -246,74 +247,74 @@ export class StructuredDataComponent implements OnInit {
     console.log("structuredDataItemsList", this.structuredDataItemsList);
   }
 
-  getNestedElements(element){
+  getNestedElements(element) {
     let objectValues = [];
-    if((typeof element === 'object'))
-    Object.keys(element).forEach((key : any, index) => {
-      let nested = false;
-      if(key && (typeof element[key] === 'object')){
-        nested = true;
-      }
-      else{
-        nested = false;
-      }
-      objectValues.push({
-        key : key,
-        value : nested ? this.getNestedElements(element[key]) : element[key],
-        nested : nested,
-        expanded : false,
-        valuesLength : nested ? (Object.values(element[key]).length) : 1
+    if ((typeof element === 'object'))
+      Object.keys(element).forEach((key: any, index) => {
+        let nested = false;
+        if (key && (typeof element[key] === 'object')) {
+          nested = true;
+        }
+        else {
+          nested = false;
+        }
+        objectValues.push({
+          key: key,
+          value: nested ? this.getNestedElements(element[key]) : element[key],
+          nested: nested,
+          expanded: false,
+          valuesLength: nested ? (Object.values(element[key]).length) : 1
+        });
       });
-    });
     return objectValues;
   }
 
-  getFieldAutoComplete(query){
+  getFieldAutoComplete(query) {
     if (/^\d+$/.test(this.searchField)) {
-      query = parseInt(query,10);
+      query = parseInt(query, 10);
     }
     const quaryparms: any = {
-      searchIndexID:this.selectedApp.searchIndexes[0]._id,
+      searchIndexID: this.selectedApp.searchIndexes[0]._id,
       query,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
       this.fields = res || [];
-     }, errRes => {
+    }, errRes => {
       this.notificationService.notify('Failed to get fields', 'error');
-     })
+    })
   }
 
-  selectedField(suggesition, index){
+  selectedField(suggesition, index) {
     console.log("test", suggesition);
-    if(this.advancedSearch.rules[index]){
+    if (this.advancedSearch.rules[index]) {
       this.advancedSearch.rules[index].fieldName = suggesition.fieldName;
     }
   }
 
-  paginate(event){
+  paginate(event) {
     console.log("event", event);
-    if(event.skip){
+    if (event.skip) {
       this.getStructuredDataList(event.skip);
     }
   }
 
-  editJson(payload, d_index?){
+  editJson(payload, d_index?) {
     this.selectedSourceType = JSON.parse(JSON.stringify(this.availableSources[1]));
     this.selectedSourceType.payload = payload;
     this.selectedSourceType.viewMode = false;
     this.selectedSourceType.allData = [];
-    if(d_index || (d_index == 0)){
+    if (d_index || (d_index == 0)) {
       this.selectedSourceType.currentIndex = d_index;
       this.selectedSourceType.allData = this.structuredDataItemsList;
     }
-    else{
+    else {
       this.selectedSourceType.currentIndex = undefined;
     }
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
   }
 
-  viewJson(data, index){
+  viewJson(data, index) {
     this.selectedSourceType = JSON.parse(JSON.stringify(this.availableSources[1]));
     this.selectedSourceType.payload = data;
     this.selectedSourceType.viewMode = true;
@@ -322,8 +323,8 @@ export class StructuredDataComponent implements OnInit {
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
   }
 
-  openAddStructuredData(key){
-    this.selectedSourceType = this.availableSources.find((s) =>{ if(s.resourceType === key){ return s}});
+  openAddStructuredData(key) {
+    this.selectedSourceType = this.availableSources.find((s) => { if (s.resourceType === key) { return s } });
     console.log("this.selectedSourceType", this.selectedSourceType);
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
     if(this.selectedSourceType.id == "contentStucturedDataImport"){
@@ -336,25 +337,25 @@ export class StructuredDataComponent implements OnInit {
     this.closeStructuredDataModal(event);
   }
 
-  closeStructuredDataModal(event?){
+  closeStructuredDataModal(event?) {
     this.selectedSourceType = {};
     if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
       this.modalService.dismissAll();
       this.addStructuredDataModalPopRef.close();
-      if(event && event.showStatusModal){
+      if (event && event.showStatusModal) {
         this.structuredDataDocPayload = event.payload;
         this.openStructuredDataStatusModal();
       }
-      else{
+      else {
         // refresh the data
-        if(this.searchText.length){
+        if (this.searchText.length) {
           this.searchItems();
         }
-        else if(Object.keys(this.appliedAdvancedSearch).length){
+        else if (Object.keys(this.appliedAdvancedSearch).length) {
           this.applyAdvancedSearchCall();
         }
-        else{
-          if(!event || !(event && event.cancel)){
+        else {
+          if (!event || !(event && event.cancel)) {
             this.getStructuredDataList();
           }
         }
@@ -362,19 +363,19 @@ export class StructuredDataComponent implements OnInit {
     }
   }
 
-  openAdvancedSearch(){
+  openAdvancedSearch() {
     this.getFieldAutoComplete('');
-    if(Object.values(this.advancedSearch).length){
+    if (Object.values(this.advancedSearch).length) {
       this.tempAdvancedSearch = JSON.parse(JSON.stringify(this.advancedSearch));
     }
-    else{
+    else {
       this.advancedSearch.operand = "and"
       this.advancedSearch.rules = [];
       this.advancedSearch.rules.push({
-        fieldName : '',
-        operator : '',
-        value : '',
-        type : ''
+        fieldName: '',
+        operator: '',
+        value: '',
+        type: ''
       });
       this.tempAdvancedSearch = [];
     }
@@ -382,140 +383,140 @@ export class StructuredDataComponent implements OnInit {
     // this.advancedSearchInput = '';
   }
 
-  addRule(){
+  addRule() {
     this.advancedSearch.rules.push({
-      fieldName : '',
-      operator : '',
-      value : '',
-      type : ''
+      fieldName: '',
+      operator: '',
+      value: '',
+      type: ''
     });
     console.log(this.advancedSearch);
     this.getFieldAutoComplete('');
   }
 
-  removeRule(index){
-    if(index === 0 && this.advancedSearch.rules.length === 1){
-      this.advancedSearch.rules[0] ={
-        fieldName : '',
-        operator : '',
-        value : '',
-        type : ''
+  removeRule(index) {
+    if (index === 0 && this.advancedSearch.rules.length === 1) {
+      this.advancedSearch.rules[0] = {
+        fieldName: '',
+        operator: '',
+        value: '',
+        type: ''
       }
     }
-    else{
+    else {
       this.advancedSearch.rules.splice(index, 1);
     }
   }
 
-  removeAdvancedSearchRule(index){
+  removeAdvancedSearchRule(index) {
     this.appliedAdvancedSearch.rules.splice(index, 1);
     this.advancedSearch = this.appliedAdvancedSearch;
     this.applyAdvancedSearchCall();
   }
 
-  setOperator(key, index){
-    if(this.advancedSearch.rules[index]){
+  setOperator(key, index) {
+    if (this.advancedSearch.rules[index]) {
       this.advancedSearch.rules[index].operator = key;
-      if((key === 'exists') || (key === 'notexists')){
+      if ((key === 'exists') || (key === 'notexists')) {
         this.advancedSearch.rules[index].type = 'field';
         this.advancedSearch.rules[index].value = '';
       }
-      else{
+      else {
         this.advancedSearch.rules[index].type = 'value';
       }
     }
   }
 
-  getOperatorName(key){
+  getOperatorName(key) {
     let name;
     this.advancedSearchOperators.forEach((operator) => {
-      if(operator.value === key){
+      if (operator.value === key) {
         name = operator.name;
       }
     });
     return (name ? name : key);
   }
 
-  cancleAdvansedSearch(){
-    if(this.adwancedSearchModalPopRef){
+  cancleAdvansedSearch() {
+    if (this.adwancedSearchModalPopRef) {
       this.adwancedSearchModalPopRef.close();
     }
     this.advancedSearchInput = '';
     // this.appliedAdvancedSearch = '';
-    if(!this.checkAdvancedSearchValidation()){
-      if(this.tempAdvancedSearch.rules && this.tempAdvancedSearch.rules.length){
+    if (!this.checkAdvancedSearchValidation()) {
+      if (this.tempAdvancedSearch.rules && this.tempAdvancedSearch.rules.length) {
         this.advancedSearch = JSON.parse(JSON.stringify(this.tempAdvancedSearch));
         this.appliedAdvancedSearch = JSON.parse(JSON.stringify(this.advancedSearch));
       }
-      else{
+      else {
         this.advancedSearch = {};
         this.appliedAdvancedSearch = {};
       }
     }
-    else{
+    else {
       this.advancedSearch = JSON.parse(JSON.stringify(this.tempAdvancedSearch));
       this.appliedAdvancedSearch = JSON.parse(JSON.stringify(this.advancedSearch));
     }
   }
 
-  returnOperator(operator){
+  returnOperator(operator) {
     switch (operator) {
-      case 'exists' : return 'Exists';
+      case 'exists': return 'Exists';
       case 'notexists': return 'Does Not Exist';
       case 'equals': return 'Equals To';
-      case 'notequals' : return 'Not Equals To'
+      case 'notequals': return 'Not Equals To'
     }
   }
 
-  applyAdvancedSearch(){
+  applyAdvancedSearch() {
     console.log("advanced Search", this.advancedSearch);
     this.appliedAdvancedSearch = this.advancedSearch;
-    if(this.checkAdvancedSearchValidation()){
+    if (this.checkAdvancedSearchValidation()) {
       this.applyAdvancedSearchCall();
       // if(this.adwancedSearchModalPopRef){
       //   this.adwancedSearchModalPopRef.close();
       // }
     }
-    else{
+    else {
       // inform user
       this.notificationService.notify('Please fill all necessary fields', 'error');
     }
   }
 
-  checkAdvancedSearchValidation(){
-    if(this.advancedSearch.operand && this.advancedSearch.operand.length){
-      if(this.advancedSearch.rules.length){
-        let isPassed : any;
+  checkAdvancedSearchValidation() {
+    if (this.advancedSearch.operand && this.advancedSearch.operand.length) {
+      if (this.advancedSearch.rules.length) {
+        let isPassed: any;
         isPassed = this.advancedSearch.rules.every((rule) => {
-          if(rule.fieldName.length && rule.operator.length){
-            if((rule.operator !== 'exists') && (rule.operator !== 'notexists')){
-              if(rule.value.length){
+          if (rule.fieldName.length && rule.operator.length) {
+            if ((rule.operator !== 'exists') && (rule.operator !== 'notexists')) {
+              if (rule.value.length) {
                 return true;
               }
-              else{
+              else {
                 return false;
               }
             }
-            else{
+            else {
               return true;
             }
           }
-          else{
+          else {
             return false;
           }
         });
         return isPassed;
       }
-      else{
+      else {
         return false;
       }
     }
-    else{
+    else {
       return false;
     }
   }
 
-  applyAdvancedSearchCall(){
+  applyAdvancedSearchCall() {
     this.isLoading = true;
     this.emptySearchResults = false;
     this.noItems = false;
@@ -523,16 +524,16 @@ export class StructuredDataComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: searchIndex,
       skip: 0,
-      limit : 20,
-      searchQuery : this.searchText,
-      advanceSearch : true
+      limit: 20,
+      searchQuery: this.searchText,
+      advanceSearch: true
     };
-    if(this.skip){
+    if (this.skip) {
       quaryparms.skip = this.skip;
     }
-    let payload : any = {};
+    let payload: any = {};
     payload = this.designPayloadForAdvancedSearch();
-    if(payload.cond && !payload.cond.length){
+    if (payload.cond && !payload.cond.length) {
       // if no rules, then just refresh
       this.appliedAdvancedSearch = {};
       this.advancedSearch = {};
@@ -544,15 +545,15 @@ export class StructuredDataComponent implements OnInit {
       this.totalCount = JSON.parse(JSON.stringify(res.total));
       this.selectedStructuredData = [];
       this.allSelected = false;
-      if(this.adwancedSearchModalPopRef){
+      if (this.adwancedSearchModalPopRef) {
         this.adwancedSearchModalPopRef.close();
       }
-      if(res.data){
+      if (res.data) {
         this.structuredDataItemsList = res.data;
         this.structuredDataItemsList.forEach(data => {
-          data.objectLength =  Object.keys(data._source).length;
-          if(data._source){
-            if(data._source.contentType){
+          data.objectLength = Object.keys(data._source).length;
+          if (data._source) {
+            if (data._source.contentType) {
               delete data._source.contentType;
             }
             data.parsedData = JSON.stringify(data._source, null, 1);
@@ -560,10 +561,10 @@ export class StructuredDataComponent implements OnInit {
         });
         this.designDefaultData(this.structuredDataItemsList);
       }
-      else{
-      this.structuredDataItemsList = [];
+      else {
+        this.structuredDataItemsList = [];
       }
-      if(this.structuredDataItemsList.length == 0){
+      if (this.structuredDataItemsList.length == 0) {
         this.noItems = true;
         this.emptySearchResults = true;
       }
@@ -576,30 +577,30 @@ export class StructuredDataComponent implements OnInit {
     });
   }
 
-  designPayloadForAdvancedSearch(){
-    let payload : any = {};
+  designPayloadForAdvancedSearch() {
+    let payload: any = {};
     payload.operand = this.advancedSearch.operand;
     payload.cond = [];
     this.advancedSearch.rules.forEach((rule) => {
       payload.cond.push({
-        'type' : rule.type,
-        'key' : rule.fieldName,
-        'op' : rule.operator,
-        'value' : rule.value
+        'type': rule.type,
+        'key': rule.fieldName,
+        'op': rule.operator,
+        'value': rule.value
       })
     });
-    return payload; 
+    return payload;
   }
 
   toggleSearch(activate) {
     this.searchActive = activate;
     if (!activate) {
-      if(this.searchText.length){
+      if (this.searchText.length) {
         this.searchText = '';
-        if(this.appliedAdvancedSearch && (this.appliedAdvancedSearch.rules && this.appliedAdvancedSearch.rules.length)){
+        if (this.appliedAdvancedSearch && (this.appliedAdvancedSearch.rules && this.appliedAdvancedSearch.rules.length)) {
           this.applyAdvancedSearchCall();
         }
-        else{
+        else {
           this.getStructuredDataList();
         }
       }
@@ -608,14 +609,14 @@ export class StructuredDataComponent implements OnInit {
       setTimeout(() => {
         let id = 'direct-search';
         let element = document.getElementById(id);
-        if(element){
+        if (element) {
           element.focus();
         }
       }, 100);
     }
   }
 
-  selectData(item, index){
+  selectData(item, index) {
     if (!item.isChecked) {
       this.selectedStructuredData.push(item);
       item.isChecked = true;
@@ -637,15 +638,15 @@ export class StructuredDataComponent implements OnInit {
     }
   }
 
-  selectAll(key){
-    if(!key){
+  selectAll(key) {
+    if (!key) {
       this.structuredDataItemsList.forEach(data => {
         data.isChecked = false;
       });
       this.selectedStructuredData = [];
       this.allSelected = false;
     }
-    else{
+    else {
       this.structuredDataItemsList.forEach(data => {
         data.isChecked = true;
       });
@@ -654,7 +655,7 @@ export class StructuredDataComponent implements OnInit {
     }
   }
 
-  searchItems(){
+  searchItems() {
     this.isLoading = true;
     this.emptySearchResults = false;
     this.noItems = false;
@@ -663,14 +664,14 @@ export class StructuredDataComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: searchIndex,
       skip: 0,
-      limit : 20,
-      searchQuery : this.searchText,
-      advanceSearch : false
+      limit: 20,
+      searchQuery: this.searchText,
+      advanceSearch: false
     };
-    if(this.skip){
+    if (this.skip) {
       quaryparms.skip = this.skip;
     }
-    if(this.appliedAdvancedSearch && this.appliedAdvancedSearch.rows && this.appliedAdvancedSearch.rules.length){
+    if (this.appliedAdvancedSearch && this.appliedAdvancedSearch.rows && this.appliedAdvancedSearch.rules.length) {
       payload = this.appliedAdvancedSearch;
     }
     this.service.invoke('get.searchStructuredData', quaryparms, payload).subscribe(res => {
@@ -678,25 +679,25 @@ export class StructuredDataComponent implements OnInit {
       this.totalCount = JSON.parse(JSON.stringify(res.total));
       this.selectedStructuredData = [];
       this.allSelected = false;
-      if(res.data){
+      if (res.data) {
         this.structuredDataItemsList = res.data;
       }
-      else{
-      this.structuredDataItemsList = [];
+      else {
+        this.structuredDataItemsList = [];
       }
       this.selectedStructuredData = [];
       this.allSelected = false;
       this.structuredDataItemsList.forEach(data => {
-        data.objectLength =  Object.keys(data._source).length;
-        if(data._source){
-          if(data._source.contentType){
+        data.objectLength = Object.keys(data._source).length;
+        if (data._source) {
+          if (data._source.contentType) {
             delete data._source.contentType;
           }
           data.parsedData = JSON.stringify(data._source, null, 1);
         };
       });
       this.designDefaultData(this.structuredDataItemsList);
-      if(this.structuredDataItemsList.length == 0){
+      if (this.structuredDataItemsList.length == 0) {
         this.noItems = true;
         this.emptySearchResults = true;
       }
@@ -710,57 +711,57 @@ export class StructuredDataComponent implements OnInit {
 
   //delete experiment popup
   deleteStructuredDataPopup(record?) {
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        width: '530px',
-        height: 'auto',
-        panelClass: 'delete-popup',
-        data: {
-          newTitle: 'Are you sure you want to delete?',
-          body: 'Selected data will be permanently deleted.',
-          buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-          confirmationPopUp: true,
-        }
-      });
-      dialogRef.componentInstance.onSelect.subscribe(res => {
-        if (res === 'yes') {
-          if(!record){
-            if(this.selectedStructuredData.length){
-              //bulk delete
-              dialogRef.close();
-              this.deleteBulkStructuredData();
-            }
-          }
-          else{
-            // delete
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        newTitle: 'Are you sure you want to delete?',
+        body: 'Selected data will be permanently deleted.',
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true,
+      }
+    });
+    dialogRef.componentInstance.onSelect.subscribe(res => {
+      if (res === 'yes') {
+        if (!record) {
+          if (this.selectedStructuredData.length) {
+            //bulk delete
             dialogRef.close();
-            this.deleteStructuredData(record);
+            this.deleteBulkStructuredData();
           }
         }
-        else if (res === 'no') {
+        else {
+          // delete
           dialogRef.close();
+          this.deleteStructuredData(record);
         }
-      });
+      }
+      else if (res === 'no') {
+        dialogRef.close();
+      }
+    });
   }
 
-  deleteStructuredData(record){
-    let quaryparms : any = {};
+  deleteStructuredData(record) {
+    let quaryparms: any = {};
     quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     quaryparms.sourceId = Math.random().toString(36).substr(7);
-    if(record){
+    if (record) {
       quaryparms.contentId = record._id;
       this.service.invoke('delete.structuredData', quaryparms).subscribe(res => {
-        if(res){
+        if (res) {
           this.selectedStructuredData = [];
           this.allSelected = false;
-          if(this.searchText.length){
+          if (this.searchText.length) {
             this.searchItems();
           }
-          else if(Object.keys(this.appliedAdvancedSearch).length){
+          else if (Object.keys(this.appliedAdvancedSearch).length) {
             this.applyAdvancedSearchCall();
           }
-          else{
+          else {
             this.getStructuredDataList();
-          }          this.notificationService.notify('Deleted Successfully', 'success');
+          } this.notificationService.notify('Deleted Successfully', 'success');
         }
       }, errRes => {
         console.log("error", errRes);
@@ -769,26 +770,26 @@ export class StructuredDataComponent implements OnInit {
     }
   }
 
-  deleteBulkStructuredData(){
-    let quaryparms : any = {};
-    let payload : any = {};
+  deleteBulkStructuredData() {
+    let quaryparms: any = {};
+    let payload: any = {};
     quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    if(this.selectedStructuredData.length){
+    if (this.selectedStructuredData.length) {
       payload.docIds = [];
-      this.selectedStructuredData.forEach((data : any) => {
+      this.selectedStructuredData.forEach((data: any) => {
         payload.docIds.push(data._id);
       });
       this.service.invoke('delete.clearAllStructureData', quaryparms, payload).subscribe(res => {
-        if(res){
+        if (res) {
           this.selectedStructuredData = [];
           this.allSelected = false;
-          if(this.searchText.length){
+          if (this.searchText.length) {
             this.searchItems();
           }
-          else if(Object.keys(this.appliedAdvancedSearch).length){
+          else if (Object.keys(this.appliedAdvancedSearch).length) {
             this.applyAdvancedSearchCall();
           }
-          else{
+          else {
             this.getStructuredDataList();
           }
           this.notificationService.notify('Deleted Successfully', 'success');
@@ -800,38 +801,38 @@ export class StructuredDataComponent implements OnInit {
     }
   }
 
-  openStructuredDataStatusModal(){
+  openStructuredDataStatusModal() {
     this.structuredDataStatusModalRef = this.structuredDataStatusModalPop.open();
   }
 
-  closeStructuredDataStatusModal(){
-    if(this.structuredDataStatusModalRef){
+  closeStructuredDataStatusModal() {
+    if (this.structuredDataStatusModalRef) {
       this.structuredDataStatusModalRef.close();
       this.getStructuredDataList();
     }
   }
 
-  getAllSettings(){
+  getAllSettings() {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId
     };
     this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
       console.log("res", res);
-      if(res.settings){
-        res.settings.forEach( (_interface) => {
-          if(_interface.interface === 'search'){
+      if (res.settings) {
+        res.settings.forEach((_interface) => {
             _interface.appearance.forEach(element => {
-              if(element.type === 'structuredData'){
-                if(element.templateId && element.templateId.length){
-                  this.isResultTemplate = true;
-                }
-                else{
-                  this.isResultTemplate = false;
+              if(!this.isResultTemplate){
+                if (element.type === 'structuredData') {
+                  if (element.templateId && element.templateId.length) {
+                    this.isResultTemplate = true;
+                  }
+                  else {
+                    this.isResultTemplate = false;
+                  }
                 }
               }
             });
-          }
         });
       }
     }, errRes => {
@@ -839,16 +840,28 @@ export class StructuredDataComponent implements OnInit {
     });
   }
 
-  navigateToSearchInterface(){
+  navigateToSearchInterface() {
     this.router.navigate(['/searchInterface'], { skipLocationChange: true });
     this.headerService.updateShowHideSettingsMenu(false);
     this.headerService.updateShowHideSourceMenu(false);
   }
-
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchText = '';
+      this.activeClose = false;
+      this.searchItems();
+    }
+    this.searchActive = !this.searchActive;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
+  }
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
-  
+
 }

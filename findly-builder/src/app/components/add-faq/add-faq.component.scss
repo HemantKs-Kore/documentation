@@ -1,7 +1,7 @@
 
 @import './../../../app/scss/variables/variables.scss';
 .add-questions-form{
-    padding: 20px 30px;
+    // padding: 20px 30px;
     padding-bottom: 20px;
     &.followup{
         background-color: $backgroundColor;
@@ -86,7 +86,7 @@
         }
     } 
     .body-top-content{
-        padding: 10px 0 10px;
+        // padding: 10px 0 10px;
         .question-content{
             .title-que{
                 color: #202124;
@@ -267,9 +267,9 @@
         }
     }
     .responseEditorContainer{
-        background: #F3F3F3;
+        background: #F8F9FA;
         border-radius: 10px;
-        padding: 0 20px 20px 20px;
+        padding: 20px;
         margin: 15px 0;        
         .left_sec{           
             padding: 0;
@@ -339,8 +339,11 @@
                     width: 100%;
                     word-break: break-word;
                     background: #FFFFFF;
-                    box-shadow: 0px 0px 80px rgba(0, 0, 0, 0.07), 0px 0px 10.0172px rgba(0, 0, 0, 0.035);
-                    border-radius: 8px;
+                    border: 1px solid #BDC1C6;
+                    // box-shadow: 0px 0px 80px rgba(0, 0, 0, 0.07), 0px 0px 10.0172px rgba(0, 0, 0, 0.035);
+                    border-radius: 4px;
+                    border-top-left-radius: 0px !important;
+                    border-top-right-radius: 0px !important;
                     perfect-scrollbar{
                         padding-right: 20px;
                         .desc-info{
@@ -391,7 +394,38 @@
                     }
                 }
             }
-        }                
+            
+        }   
+        .left_sec.editResponseMode{
+            padding: 0px!important;
+        } 
+        .right_sec.previewResponseMode{
+            padding: 0px!important;
+            .content-data{
+                background:transparent;
+                border: none;
+                box-sizing: border-box;
+                border-radius: 8px;
+                padding: 0px;
+                .preview-response-title{
+                    display: block;
+                    background: #ffffff;
+                    border-radius: 4px;
+                    border: 1px solid #BDC1C6;
+                    box-sizing: border-box;
+                    // box-shadow: 0px 0px 80px rgba(0, 0, 0, 0.07), 0px 0px 10.0172px rgba(0, 0, 0, 0.035);
+                    border-bottom-left-radius:0px !important;
+                    border-bottom-right-radius:0px !important;
+                    border-bottom: none;
+                    font-weight: 500;
+                    font-size: 12px;
+                    line-height: 14px;
+                    text-transform: capitalize;
+                    color: #3C4043;
+                    padding: 11px 20px;
+                }
+            }
+        }         
         .bottom_sec{
             .left_sec{
                 .kr-sg-input-text{
@@ -405,6 +439,17 @@
                             }
                         }
                     }
+                    // image optional preview related css changes
+                    .know-more-data{
+                        color: #0D6EFD;
+                        font-weight: normal;
+                        font-size: 12px;
+                        line-height: 14px;              
+                        text-align: right;
+                        width: 100%;
+                        cursor: pointer;                        
+                    }
+                     // image optional preview related css changes
                    }
                    .upload-image-size-info{
                     color: #9AA0A6;
@@ -878,8 +923,8 @@
 .conditional-sec-new{
     background: #F8F9FA;
     border-radius: 10px;
-    padding: 17px 20px;
-    margin-top: 25px;
+    // padding: 17px 20px;
+    // margin-top: 25px;
     .input-conditions{           
         padding: 0;
         
@@ -1061,4 +1106,106 @@
 .dropdown-menu.content-menu li.active {
     font-weight: 800;
     background-color: transparent !important;
+}
+
+
+// preview image modal popup css start
+::ng-deep .previewImageModalPop{
+    background: rgb(255 255 255 / 74%) !important;
+.modal-dialog{
+    box-shadow: 0 -1px 6px rgb(0 0 0 / 8%), 0 4px 4px rgb(7 55 127 / 8%) !important;
+    max-width: 100% !important;
+    width:auto !important;
+}
+.previewImageModalPopHeader{
+    &.modal-header{
+        box-shadow: none;
+        height: auto;
+        padding: 0;
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        z-index: 999;
+    }
+}
+
+.modal-body{
+    padding: 50px 50px !important;
+    .previewImageBlock{
+        img{
+            // width: auto;
+            // height: 300px;
+        }
+    }
+}
+}
+
+
+// preview image modal popup css end
+
+.text-black{
+    color: #202124 !important;
+}
+
+.input-alter-text{
+    width: 94%;
+}
+
+.added-questions-list{
+    .content-body-question {
+        padding: 5px 0;
+        min-height: 50px;
+        background: #FFFFFF;
+        box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
+        align-items: center;
+        transition: all .3s ease-in;
+        margin: 0 0 1px;
+        &:hover{
+            background: #F8F9FA;
+            .action-btns{
+                display: block;
+            }
+        }
+        .group-name {
+            color: #202124;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 17px;
+        }
+        .action-btns{
+            display: none;
+            text-align: right;
+            img{
+                margin: 0 12px;
+                cursor: pointer;
+            }
+        }
+    }
+}
+::ng-deep .alter-add-btn{
+    .kr-sg-button-ghost{
+        color:#202124;
+        border:none !important;
+        font-weight: 500;
+        margin-bottom: 1px !important;
+    }
+    .kr-sg-button-ghost:hover{
+        color:#0D6EFD;
+    }
+}
+.alternate-add-plus-icon{
+    width: 12px;
+}
+.question-content .bot-response-view-mode .desc-info {
+    padding: 0 0 15px!important;
+    margin-bottom: 15px!important;
+    border-bottom: 1px solid #bdc1c6!important;
+}
+.img-cancel-block{
+    width: 6%;
+    text-align: right;
+    margin: auto;
+}
+.lh-50{
+    line-height: 50px;
 }

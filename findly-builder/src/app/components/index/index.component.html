@@ -7,7 +7,7 @@
   </div>
   <div class="header_sec">
     <!-- <div class="title">Index Configuration</div> -->
-    <div class="title" (click)="openModalPopup()">Index Configuration</div>
+    <div class="title" >Index Configuration</div> <!-- (click)="openModalPopup()" -->
     <div class="btn_sec">
       <button class="kr-sg-button-secondary btn_lg" [disabled]="savingConfig" (click)="saveConfig()">
         {{ savingConfig ? "Saving..." : "Save Configuration" }}
@@ -40,7 +40,7 @@
           <div *ngIf="showNewStageType">
             <div class="field_data active cdk-drag"  >
               <div class="drag_drop_icon">
-                <img src="assets/icons/drog_drop.svg" />
+                <img src="assets/icons/drag_drop_move_icon.svg" />
               </div>
               <div class="stateIcon" >
                 <img src="assets/images/activeStage.svg" />
@@ -71,7 +71,7 @@
                 <div class="title text-truncate"></div>
               </div>
               <div class="drag_drop_icon">
-                <img src="assets/icons/drog_drop.svg" />
+                <img src="assets/icons/drag_drop_move_icon.svg" />
               </div>
               <div class="stateIcon" *ngIf="pipe?.enable">
                 <img src="assets/images/activeStage.svg" />
@@ -176,7 +176,7 @@
               Stage Name
               <img container="body" placement="right-center" ngbTooltip="Give Stage Name of your choice to create multiple stages with the same Stage Type" tooltipClass="workbench_tolltips m-0" class="pl-1" src="assets/icons/help_gray.svg" />
             </div>
-            <input type="text" placeholder="Please Enter Stage Name" (keyup)="changesDetected = true" autocomplete="off"
+            <input type="text" placeholder="Please Enter Stage Name" maxlength="60" (keyup)="changesDetected = true" autocomplete="off"
               class="input-text" [(ngModel)]="selectedStage.name" />
           </div>
           <div class="kr-sg-input-text mb-2">
@@ -191,11 +191,11 @@
                 </span>
               </span>
             </div>
-            <input type="text" placeholder="Define Condition" (keyup)="changesDetected = true" autocomplete="off"
+            <input type="text" placeholder="Define Condition" maxlength="60" (keyup)="changesDetected = true" autocomplete="off"
               class="input-text" [(ngModel)]="selectedStage.condition" />
               <!-- <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div> -->
           </div>
-          <div class="add-condition-example-text">Eg: ctx.contentType=="faq"</div>
+          <div class="add-condition-example-text">Eg: ctx.sysContentType=="faq"</div>
           <div class="add-condition-info" *ngIf="selectedStage.type === 'exclude_document'">
             <img src="assets/icons/Info_blue.svg">It is mandatory to add conditions for defining the Exclude Document stage.
           </div>
@@ -214,7 +214,7 @@
                   
                 </div>
                 <div class="drag_drop">
-                  <img src="assets/icons/drog_drop.svg" />
+                  <img src="assets/icons/drag_drop_move_icon.svg" />
                 </div>
                 <div class="kr-sg-dropdowns col-4 input-box">
                   <div class="label-text">Action</div>
@@ -267,7 +267,7 @@
                   <div class="label-text" *ngIf="map.operation === 'rename'">
                     Field Name
                   </div>
-                  <input type="text" placeholder="Enter Target" (keyup)="changesDetected = true" class="input-text"
+                  <input type="text" placeholder="Enter Target" maxlength="60" (keyup)="changesDetected = true" class="input-text"
                     [(ngModel)]="map.source_field" />
                 </div>
                 <div class="kr-sg-input-text col-4 input-box">
@@ -282,7 +282,7 @@
                     ">
                     Field Name
                   </div>
-                  <input type="text" placeholder="Enter Target" (keyup)="changesDetected = true" class="input-text"
+                  <input type="text" placeholder="Enter Target" maxlength="60" (keyup)="changesDetected = true" class="input-text"
                     [(ngModel)]="map.target_field" />
                 </div>
                 <div class="kr-sg-input-text col-4 input-box" (keyup)="changesDetected = true" *ngIf="
@@ -291,7 +291,7 @@
                     map.operation !== 'rename'
                   ">
                   <div class="label-text">Value</div>
-                  <input type="text" placeholder="Value" class="input-text" [(ngModel)]="map.value" />
+                  <input type="text" placeholder="Value" maxlength="60" class="input-text" [(ngModel)]="map.value" />
                 </div>
                 <div class="delete_icon" (click)="removeConfig(i, selectedStage.config.mappings)">
                   <img src="assets/icons/delete-table.svg" />
@@ -374,7 +374,7 @@
                 ">
                 Field Name
               </div>
-              <input type="text" placeholder="Enter Source Field" (keyup)="changesDetected = true" class="input-text"
+              <input type="text" placeholder="Enter Source Field" maxlength="60" (keyup)="changesDetected = true" class="input-text"
                 [(ngModel)]="
                   newMappingObj.field_mapping.defaultValue.source_field
                 " />
@@ -399,7 +399,7 @@
                 ">
                 Field Name
               </div>
-              <input type="text" placeholder="Enter Name" class="input-text" [(ngModel)]="
+              <input type="text" placeholder="Enter Name" class="input-text" maxlength="60" [(ngModel)]="
                   newMappingObj.field_mapping.defaultValue.target_field
                 " />
             </div>
@@ -421,7 +421,7 @@
                 ">
                 New Name
               </div>
-              <input type="text" placeholder="Value" class="input-text"
+              <input type="text" placeholder="Value" class="input-text" maxlength="60"
                 [(ngModel)]="newMappingObj.field_mapping.defaultValue.value" />
             </div>
             <div class="colse_form">
@@ -453,11 +453,11 @@
                 
                 </div>
                 <div class="drag_drop">
-                  <img src="assets/icons/drog_drop.svg" />
+                  <img src="assets/icons/drag_drop_move_icon.svg" />
                 </div>
                 <div class="kr-sg-input-text col-4 input-box">
                   <div class="label-text">Source Field</div>
-                  <input type="text" placeholder="Value" (keyup)="changesDetected = true" class="input-text"
+                  <input type="text" placeholder="Value" maxlength="60" (keyup)="changesDetected = true" class="input-text"
                     [(ngModel)]="map.source_field" />
                 </div>
                 <div class="kr-sg-dropdowns col-4 input-box" *ngIf="selectedStage.type === 'semantic_meaning'">
@@ -568,7 +568,7 @@
                 </div>
                 <div class="kr-sg-input-text col-4 input-box">
                   <div class="label-text">Target Field</div>
-                  <input type="text" placeholder="Value" (keyup)="changesDetected = true" class="input-text"
+                  <input type="text" placeholder="Value" maxlength="60" (keyup)="changesDetected = true" class="input-text"
                     [(ngModel)]="map.target_field" />
                 </div>
                 <div class="delete_icon" (click)="removeConfig(i, selectedStage.config.mappings)">
@@ -584,7 +584,7 @@
             ">
             <div class="kr-sg-input-text col-4 input-box">
               <div class="label-text">Source Field</div>
-              <input type="text" placeholder="Value" class="input-text" [(ngModel)]="
+              <input type="text" placeholder="Value" class="input-text" maxlength="60" [(ngModel)]="
                   newMappingObj[selectedStage.type].defaultValue.source_field
                 " />
             </div>
@@ -712,7 +712,7 @@
             </div>
             <div class="kr-sg-input-text col-4 input-box">
               <div class="label-text">Target Field</div>
-              <input type="text" placeholder="Value" class="input-text" [(ngModel)]="
+              <input type="text" placeholder="Value" class="input-text" maxlength="60" [(ngModel)]="
                   newMappingObj[selectedStage.type].defaultValue.target_field
                 " />
             </div>
@@ -730,7 +730,7 @@
           <div class="customScript">
             <div class="kr-sg-input-text-area">
               <div class="label-text">&lt;/&gt;Painless</div>
-              <textarea placeholder="Please Enter Script" class="input-text" (keyup)="
+              <textarea placeholder="Please Enter Script" class="input-text" maxlength="250" (keyup)="
                   addCustomScript(
                     newMappingObj.custom_script.defaultValue.script
                   )
@@ -760,24 +760,22 @@
     </div>
     <div class="row m-0 input-boxes">
       <div class="kr-sg-dropdowns col-6 pl-0 pr-2">
-        <div class="label-text">Soure</div>
+        <div class="label-text">Source</div>
         <div class="dropdown dropdown-open">
           <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
             {{
               (simulteObj.sourceType
-              ? (simulteObj.sourceType == 'faq'? 'FAQs': (simulteObj.sourceType =='object'?'Structure Data':(simulteObj.sourceType =='all'?'All':simulteObj.sourceType)))
+              ? (simulteObj.sourceType == 'faq'? 'FAQ': (simulteObj.sourceType =='data'?'Data':(simulteObj.sourceType =='all'?'All':(simulteObj.sourceType =='file'?'File':(simulteObj.sourceType =='web'?'Web':simulteObj.sourceType)))))
               : "choose_an_option"
               ) | translate
               }}
           </button>
           <ul class="dropdown-menu content-menu">
-            <!-- <li (click)="changeSimulate('page', 'source')"><a>Page</a></li> -->
             <li (click)="changeSimulate('all', 'source')"><a>All</a></li>
-            <li (click)="changeSimulate('faq', 'source')"><a>FAQs</a></li>
-            <li (click)="changeSimulate('content', 'source')">
-              <a>Content</a>
-            </li>
-            <li (click)="changeSimulate('object', 'source')"><a>Structure Data</a></li>
+            <li (click)="changeSimulate('faq', 'source')"><a>FAQ</a></li>
+            <li (click)="changeSimulate('web', 'source')"><a>Web</a></li>
+            <li (click)="changeSimulate('file', 'source')"><a>File</a></li>
+            <li (click)="changeSimulate('data', 'source')"><a>Data</a></li>
           </ul>
         </div>
       </div>
@@ -808,7 +806,7 @@
     </perfect-scrollbar>
   </div>
 </div>
-<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop" #addFieldModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop addFieldCheckBox" #addFieldModalPop>
   <div class="modal-header">
     <div class="title">
       Choose the fields you would like to add and define properties
@@ -847,10 +845,10 @@
             </div>
               </div>
               <div class="col">Type</div>
-              <div class="col">Multi-Value</div>
-              <div class="col">Required</div>
-              <div class="col">Stored</div>
-              <div class="col">Indexed</div>
+              <div class="col text-center">Multi-Value</div>
+              <div class="col text-center">Required</div>
+              <div class="col text-center">Stored</div>
+              <div class="col text-center">Indexed</div>
             </header>
             <div class="content-body" *ngFor="let field of newfieldsData; let i = index">
               <div class="col">
@@ -861,30 +859,30 @@
                 </div>
               </div>
               <div class="col">{{ field.fieldDataType | translate }}</div>
-              <div class="col">
+              <div class="col text-center">
                 <div class="kr-sg-checkbox">
-                  <input id="fieldMultiValue{{ i }}" class="checkbox-custom" [(ngModel)]="field.isMultiValued"  [disabled]='!field.isActive'
+                  <input id="fieldMultiValue{{ i }}" class="checkbox-custom" [(ngModel)]="field.isMultiValued"  [disabled]="!field.isActive"
                     type="checkbox" />
                   <label for="fieldMultiValue{{ i }}" class="checkbox-custom-label" [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
               </div>
-              <div class="col">
+              <div class="col text-center">
                 <div class="kr-sg-checkbox">
-                  <input id="field.isRequired{{ i }}" class="checkbox-custom" [(ngModel)]="field.isRequired"  [disabled]='!field.isActive'
+                  <input id="field.isRequired{{ i }}" class="checkbox-custom" [(ngModel)]="field.isRequired"  [disabled]="!field.isActive"
                     type="checkbox" />
                   <label for="field.isRequired{{ i }}" class="checkbox-custom-label" [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
               </div>
-              <div class="col">
+              <div class="col text-center">
                 <div class="kr-sg-checkbox">
-                  <input id="field.isStored{{ i }}" class="checkbox-custom" [disabled]='field.isIndexed || !field.isActive' [(ngModel)]="field.isStored"
+                  <input id="field.isStored{{ i }}" class="checkbox-custom"  [(ngModel)]="field.isStored" [disabled]="!field.isActive" (change)='(field.isStored)?field.isIndexed = true:field.isIndexed = false'
                     type="checkbox" />
                   <label for="field.isStored{{ i }}" class="checkbox-custom-label" [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
               </div>
-              <div class="col">
+              <div class="col text-center">
                 <div class="kr-sg-checkbox">
-                  <input id="field.isIndexed{{ i }}" class="checkbox-custom"  [disabled]='!field.isActive' (change)='(field.isIndexed)?field.isStored = true:false' [(ngModel)]="field.isIndexed"
+                  <input id="field.isIndexed{{ i }}" class="checkbox-custom"  (change)='(field.isIndexed)?field.isStored = true:false' [(ngModel)]="field.isIndexed" [disabled]="!field.isActive"
                     type="checkbox" />
                   <label for="field.isIndexed{{ i }}" class="checkbox-custom-label" [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>

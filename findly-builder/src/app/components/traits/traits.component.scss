@@ -20,7 +20,12 @@
             font-size: 12px;
         }  
     }
-
+    .empty-landing-screen {
+        width: 660px;
+        margin: 0 auto;
+        padding: 25px 0 40px 0 !important;
+        text-align: center;
+    }
     .noTraits {
         text-align: center;
         .noTraitsImg {
@@ -120,7 +125,7 @@
                 right: 10px;               
                 &.active{
                     display: block;
-                    width: 300px;
+                    width: 215px;
                 }
                  .close-icon{
                     position: absolute;
@@ -165,6 +170,12 @@
             height: 50px;
             align-items: center;
             border-bottom: 1px solid #E4E5E7;
+            .lh-34{
+                line-height: 34px !important;
+            }
+            .partial-select-img{
+                padding-right: 6px;
+            }
             .title{
                 padding: 0 10px;
                 color: #9AA0A6;
@@ -172,6 +183,26 @@
                 font-weight: 500;
                 font-size: 12px;
                 line-height: 14px;
+            }
+            &.selected, &:hover {
+                .kr-sg-checkbox{
+                    visibility: visible !important;
+                }
+            }
+            .kr-sg-checkbox{
+                visibility: hidden;
+                padding-right: 14px;
+            }
+            .all-checked{
+                padding-right: 21px;
+                cursor: pointer;
+            }
+            .selected-count{
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 17px;
+                color: #202124;
+                padding: 0 22px;
             }
         }
         .traits-scroll-data{
@@ -187,8 +218,29 @@
                 transition: 0.2s all ease-in;
                 &:hover{
                     background: #F8F9FA;
-                    .action-links{
-                        display: block;
+                    .traitGroup-name {
+                        .kr-sg-checkbox {
+                            visibility: visible !important;
+                        }
+                }
+                .action-links {
+                    display: block;
+                }
+                }
+                &.selected {
+                    background: #F3F8FF;
+                    border-radius: 0px;
+                    border: 0;
+                    .traitGroup-name {
+                            .kr-sg-checkbox {
+                                visibility: visible !important;
+                            }
+                    }
+                    .action-links {
+                        display: none !important;
+                    }
+                    &:hover {
+                        background: #F3F8FF;
                     }
                 }
                 .action-links{
@@ -204,13 +256,20 @@
                     padding: 0 10px;
                     font-weight: normal;
                     font-size: 14px;
-                    line-height: 14px;
+                    line-height: 17px;
+                    display: flex;
+                    align-items: center;
+                    word-break: break-all;
+                    .kr-sg-checkbox{
+                        padding-right: 14px;
+                        visibility: hidden;
+                    }
                 }
                 .traits-groups{
                     color: #202124;
                     font-weight: normal;
                     font-size: 14px;
-                    line-height: 14px;
+                    line-height: 15px;
                     padding: 0 10px;
                     word-wrap: break-word;
                     .traits-more-data-container{
@@ -538,6 +597,22 @@
     .ps__rail-x{
         display: none !important;
     }
+}
+
+.kr-modal.add-utterances-modal .modal-body .add-traits-input .input-text.err-block {
+    background-color: white;
+    border: 1px solid #dd3646 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    box-shadow: none !important;
+}
+.kr-modal.add-utterances-modal .modal-body .add-traits-input input.input-text.err-block:focus {
+    border: solid 1px #0D6EFD !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    box-shadow: none !important;
 }
 
 

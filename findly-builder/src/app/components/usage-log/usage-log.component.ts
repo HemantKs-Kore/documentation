@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import * as moment from 'moment';
 import { of, interval, Subject, Subscription } from 'rxjs';
+declare const $: any;
 @Component({
   selector: 'app-usage-log',
   templateUrl: './usage-log.component.html',
   styleUrls: ['./usage-log.component.scss']
 })
 export class UsageLogComponent implements OnInit {
-  usageLogs=[];
+  usageLogs = [];
   queryTypeArr = [];
   requestSourceArr = [];
   resultsArr = [];
@@ -24,14 +26,19 @@ export class UsageLogComponent implements OnInit {
   serachIndexId;
   indexPipelineId;
   subscription: Subscription;
-  totalRecord:number;
+  totalRecord: number;
   filterSystem: any = {
     'queryTypeFilter': 'all',
     'requestSourceFilter': 'all',
     'resultsFilter': 'all'
   }
+  activeClose = false;
+  loadingLogs = false;
+  loading = false;
   selectedSort = '';
   isAsc = true;
+  current_plan_name: string;
+  componentType: string = 'addData';
   beforeFilterUsageLogs: any = [];
   constructor(
     public workflowService: WorkflowService,
@@ -47,9 +54,11 @@ export class UsageLogComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.loadUsageLogs();
-    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
-      this.loadUsageLogs();
-    })
+    // this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+    //   this.loadUsageLogs();
+    // })
+    let subscription_data = this.appSelectionService.currentsubscriptionPlanDetails;
+    this.current_plan_name = subscription_data.subscription.planName;
   }
   toggleSearch() {
     if (this.showSearch && this.searchUsageLog) {
@@ -64,16 +73,33 @@ export class UsageLogComponent implements OnInit {
       this.getUsageLogs();
     }
   }
-  getUsageLogs(offset?) {
+  searchUsageLogs() {
+    if (this.searchUsageLog) {
+      this.getUsageLogs(null, this.searchUsageLog);
+    } else {
+      this.getUsageLogs();
+    }
+  }
+  getUsageLogs(offset?, quary?) {
+    this.loading = true;
     const quaryparms: any = {
-      streamId : this.selectedApp._id,
+      streamId: this.selectedApp._id,
       skip: offset || 0,
       limit: 10
     };
-    this.service.invoke('get.allUsageLogs', quaryparms).subscribe(res => {
+    let serviceId = 'get.allUsageLogs';
+    if (quary) {
+      quaryparms.searchQuary = quary;
+      serviceId = 'get.usageLogs.search';
+    }
+    if (!this.usageLogs.length && !quary) {
+      this.loadingLogs = true;
+    }
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
       this.usageLogs = res.data || [];
       this.totalRecord = res.total;
-      if(this.usageLogs.length){
+      this.loadingLogs = false;
+      if (this.usageLogs.length) {
         this.usageLogs.forEach(element => {
           this.queryTypeArr.push(element.queryType);
           this.requestSourceArr.push(element.requestSource);
@@ -83,8 +109,9 @@ export class UsageLogComponent implements OnInit {
         this.requestSourceArr = [...new Set(this.requestSourceArr)];
         this.resultsArr = [...new Set(this.resultsArr)];
       }
-
+      this.loading = false;
     }, errRes => {
+      this.loading = false;
       this.errorToaster(errRes, 'Failed to get usage logs');
     });
   }
@@ -99,7 +126,7 @@ export class UsageLogComponent implements OnInit {
     }
   }
 
-  paginate(event){
+  paginate(event) {
     this.getUsageLogs(event.skip)
   }
   filterTable(source, headerOption) {
@@ -137,84 +164,165 @@ export class UsageLogComponent implements OnInit {
             return field;
           }
         }
-       
+
       }
       else {
         return field;
       }
     });
 
-  this.usageLogs = JSON.parse(JSON.stringify(tempUsageLogs));
-}
-getSortIconVisibility(sortingField: string, type: string) {
-  switch (this.selectedSort) {
-    case "results": {
-      if (this.selectedSort == sortingField) {
-        if (this.isAsc == false && type == 'down') {
-          return "display-block";
+    this.usageLogs = JSON.parse(JSON.stringify(tempUsageLogs));
+  }
+  getSortIconVisibility(sortingField: string, type: string) {
+    switch (this.selectedSort) {
+      case "results": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
         }
-        if (this.isAsc == true && type == 'up') {
-          return "display-block";
-        }
-        return "display-none"
       }
-    }
-    case "queryType": {
-      if (this.selectedSort == sortingField) {
-        if (this.isAsc == false && type == 'down') {
-          return "display-block";
+      case "queryType": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
         }
-        if (this.isAsc == true && type == 'up') {
-          return "display-block";
-        }
-        return "display-none"
       }
-    }
-    case "requestSource": {
-      if (this.selectedSort == sortingField) {
-        if (this.isAsc == false && type == 'down') {
-          return "display-block";
+      case "requestSource": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
         }
-        if (this.isAsc == true && type == 'up') {
-          return "display-block";
-        }
-        return "display-none"
       }
-    }
-    case "createdOn": {
-      if (this.selectedSort == sortingField) {
-        if (this.isAsc == false && type == 'down') {
-          return "display-block";
+      case "createdOn": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
         }
-        if (this.isAsc == true && type == 'up') {
-          return "display-block";
-        }
-        return "display-none"
       }
     }
   }
-}
-compare(a: number | string, b: number | string, isAsc: boolean) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-}
-sortBy(sort) {
-  const data = this.usageLogs.slice();
-  this.selectedSort = sort;
-  if (this.selectedSort !== sort) {
-    this.isAsc = true;
-  } else {
-    this.isAsc = !this.isAsc;
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-  const sortedData = data.sort((a, b) => {
-    const isAsc = this.isAsc;
-    switch (sort) {
-      case 'queryType': return this.compare(a.queryType, b.queryType, isAsc);
-      case 'requestSource': return this.compare(a.requestSource, b.requestSource, isAsc);
-      case 'results': return this.compare(a.results, b.results, isAsc);
-      case 'createdOn': return this.compare(a.createdOn, b.createdOn, isAsc);
-      default: return 0;
+  sortBy(sort) {
+    const data = this.usageLogs.slice();
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
     }
-  });
-  this.usageLogs = sortedData;
-}
+    const sortedData = data.sort((a, b) => {
+      const isAsc = this.isAsc;
+      switch (sort) {
+        case 'queryType': return this.compare(a.queryType, b.queryType, isAsc);
+        case 'requestSource': return this.compare(a.requestSource, b.requestSource, isAsc);
+        case 'results': return this.compare(a.results, b.results, isAsc);
+        case 'createdOn': return this.compare(a.createdOn, b.createdOn, isAsc);
+        default: return 0;
+      }
+    });
+    this.usageLogs = sortedData;
+  }
+
+  exportUsageLog() {
+    const quaryparms: any = {
+      streamId: this.selectedApp._id,
+    };
+    const payload = {
+      "fileType": "csv"
+    }
+    this.service.invoke('post.exportUsageLog', quaryparms, payload).subscribe(res => {
+      this.notificationService.notify('Export to CSV is in progress. You can check the status in the Status Docker', 'success');
+      this.checkExportUsagelog()
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
+  }
+
+  checkExportUsagelog() {
+    const queryParms = {
+      searchIndexId: this.workflowService.selectedSearchIndexId
+    }
+    this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
+      if (res && res.dockStatuses) {
+        res.dockStatuses.forEach((record: any) => {
+          record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
+          if (record.status === 'SUCCESS' && record.fileId && !(record.store || {}).toastSeen) {
+            if (record.action === 'EXPORT') {
+              this.downloadDockFile(record.fileId, (record.store || {}).urlParams, record.streamId, record._id);
+              return;
+            }
+          }
+        })
+
+      }
+    }, errRes => {
+      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed to get Status of Docker.', 'error');
+      }
+    });
+  }
+
+  downloadDockFile(fileId, fileName, streamId, dockId) {
+    const params = {
+      fileId,
+      streamId: streamId,
+      dockId: dockId
+    }
+    let payload = {
+      "store": {
+        "toastSeen": true,
+        "urlParams": fileName,
+      }
+    }
+    this.service.invoke('attachment.file', params).subscribe(res => {
+      let hrefURL = res.fileUrl + (fileName ? fileName : '');
+      window.open(hrefURL, '_self');
+      this.service.invoke('put.dockStatus', params, payload).subscribe(res => { });
+    }, err => { console.log(err) });
+  }
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+      // $('#'+inputSearch).focus();
+    },500)
+  }
+  focusoutSearch(){
+      if(this.activeClose){
+        this.searchUsageLog='';
+        this.activeClose = false;
+        this.getUsageLogs();
+       }
+   this.showSearch= !this.showSearch;
+  }
+  ngOnDestroy() {
+    // this.subscription ? this.subscription.unsubscribe : false;
+  }
 }

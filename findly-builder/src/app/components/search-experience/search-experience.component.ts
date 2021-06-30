@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { RangeSlider } from '../../helpers/models/range-slider.model';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -12,12 +12,13 @@ import { Subscription } from 'rxjs';
 import { LocalStoreService } from './../../services/localstore.service';
 import { NgbDropdown, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+declare const $: any;
 @Component({
   selector: 'app-search-experience',
   templateUrl: './search-experience.component.html',
   styleUrls: ['./search-experience.component.scss']
 })
-export class SearchExperienceComponent implements OnInit {
+export class SearchExperienceComponent implements OnInit, OnDestroy {
   selectedTab: string = 'experience';
   selectSearch: string;
   selectedApp: any = {};
@@ -54,13 +55,20 @@ export class SearchExperienceComponent implements OnInit {
       "liveSearchResultsLimit": 4
     }
   };
-  inputBox1: boolean;
+  inputBox1: boolean = false;
   inputBox2: boolean = false;
   placeholBox: boolean = false;
   buttonFill: boolean = false;
   buttonBorder: boolean = false;
   buttonTextColor: boolean = false;
   msgColor: boolean = false;
+  toggle: boolean = false;
+  toggle1: boolean = false;
+  toggle2: boolean = false;
+  toggle3: boolean = false;
+  toggle4: boolean = false;
+  toggle5: boolean = false;
+  toggle6: boolean = false;
   searchIcon: any = 'assets/images/search_gray.png';
   emojiIcon: any = 'assets/icons/search-experience/emojis/hand.png';
   //search button disabled
@@ -79,7 +87,6 @@ export class SearchExperienceComponent implements OnInit {
   show_tab_color: boolean = false;
   show_tab_color1: boolean = false;
   show_tab_color2: boolean = false;
-  toggle: boolean = false;
   minWidth: number = 200;
   width: number = this.minWidth;
   componentType: string = 'designing';
@@ -87,6 +94,7 @@ export class SearchExperienceComponent implements OnInit {
   appSubscription: Subscription;
   tourData: any = [];
   userName: any = '';
+  selectedColor: string = '';
   emojiList = [
     { img_src: 'assets/icons/search-experience/emojis/smile.png', value: "smile" },
     { img_src: 'assets/icons/search-experience/emojis/smile-2.png', value: 'smile-2' },
@@ -240,6 +248,8 @@ export class SearchExperienceComponent implements OnInit {
     { img_src: 'assets/icons/search-experience/emojis/monkey-1.png', value: 'monkey-1' },
     { img_src: 'assets/icons/search-experience/emojis/monkey-2.png', value: 'monkey-2' }
   ];
+  submitted: boolean = false;
+  searchSDKSubscription: Subscription;
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('guideModalPop') guideModalPop: KRModalComponent;
@@ -261,8 +271,72 @@ export class SearchExperienceComponent implements OnInit {
       //this.tourGuide = res.searchExperienceVisited ? '' : 'step1';
     });
     this.userName = this.localstore.getAuthInfo() ? this.localstore.getAuthInfo().currentAccount.userInfo.fName : '';
+    this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
+      if (res) {
+        this.closeAllBoxs('all');
+      }
+    });
   }
-
+  //select tab on number
+  selectTab(type) {
+    if (this.selectedTab === 'searchwidget') {
+      this.show_tab_color1 = true;
+    }
+    else if (this.selectedTab === 'interactions') {
+      this.show_tab_color2 = true;
+    } else if (this.selectedTab === 'experience') {
+      this.show_tab_color = true;
+    }
+    this.selectedTab = type;
+    if (this.selectedTab === 'searchwidget') {
+      this.show_tab_color1 = false;
+    }
+    else if (this.selectedTab === 'interactions') {
+      this.show_tab_color2 = false;
+    } else if (this.selectedTab === 'experience') {
+      this.show_tab_color = false;
+    }
+  }
+  closeAllBoxs(type) {
+    if (type == 'all') {
+      this.inputBox1 = false;
+      this.inputBox2 = false;
+      this.placeholBox = false;
+      this.buttonFill = false;
+      this.buttonBorder = false;
+      this.buttonTextColor = false;
+      this.msgColor = false;
+      this.toggle = false;
+      this.toggle1 = false;
+      this.toggle2 = false;
+      this.toggle3 = false;
+      this.toggle4 = false;
+      this.toggle5 = false;
+      this.toggle6 = false;
+    }
+    if (type == "toggle") {
+      this.toggle1 = false;
+      this.inputBox2 = false;
+    }
+    if (type == "toggle3") {
+      this.toggle4 = false;
+      this.toggle5 = false;
+      this.buttonFill = false;
+      this.buttonBorder = false;
+    }
+    if (type == "toggle4") {
+      this.toggle3 = false;
+      this.toggle5 = false;
+      this.buttonTextColor = false;
+      this.buttonBorder = false;
+    }
+    if (type == "toggle5") {
+      this.toggle3 = false;
+      this.toggle4 = false;
+      this.buttonFill = false;
+      this.buttonTextColor = false;
+    }
+  }
   loadSearchExperience() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
@@ -305,6 +379,7 @@ export class SearchExperienceComponent implements OnInit {
   }
   //sequential tabs method
   nextTab(type) {
+    this.submitted = false;
     if (type === 'pre') {
       if (this.selectedTab === 'searchwidget') {
         this.show_tab_color = false;
@@ -324,10 +399,28 @@ export class SearchExperienceComponent implements OnInit {
         this.selectedTab = 'searchwidget';
       }
       else if (this.selectedTab === 'searchwidget') {
-        this.show_tab_color1 = true;
-        this.show_tab_color2 = false;
-        this.selectedTab = 'interactions';
+        this.submitted = true;
+        if (this.validateSearchWidget()) {
+          this.show_tab_color1 = true;
+          this.show_tab_color2 = false;
+          this.selectedTab = 'interactions';
+        }
+        else {
+          this.notificationService.notify('Enter the required fields to proceed', 'error');
+        }
       }
+    }
+  }
+
+  validateSearchWidget() {
+    if (this.searchObject.searchWidgetConfig.searchButtonEnabled && this.searchObject.searchWidgetConfig.buttonText.length) {
+      return true;
+    }
+    else if (this.searchObject.searchWidgetConfig.searchButtonEnabled && !this.searchObject.searchWidgetConfig.buttonText.length) {
+      return false;
+    }
+    else {
+      return true;
     }
   }
   // //change button placement
@@ -365,32 +458,48 @@ export class SearchExperienceComponent implements OnInit {
   valueEvent(type, val) {
     if (type == 'Query Suggestions') {
       this.searchObject.searchInteractionsConfig.querySuggestionsLimit = val;
+      this.suggestions[0].sliderObj.default = val;
     }
     else {
       this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = val;
+      this.suggestions[1].sliderObj.default = val;
     }
   }
+
+  // valueEvent(type, val) {
+  //   if (type == 'Query Suggestions') {
+  //     this.searchObject.searchInteractionsConfig.querySuggestionsLimit = val;
+  //   }
+  //   else {
+  //     this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = val;
+  //   }
+  // }
   //select search Icon
   selectIcon(event, type, icon, update?) {
     const file = icon === 'manual' ? event : event.target.files[0];
-    const _ext = file.name.substring(file.name.lastIndexOf('.'));
-    const formData = new FormData();
-    formData.set('file', file);
-    formData.set('fileContext', 'findly');
-    formData.set('Content-Type', file.type);
-    formData.set('fileExtension', _ext.replace('.', ''));
-    this.fileupload(formData, type, icon, update ? update : null);
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        if (type == "searchIcon") {
-          this.searchIcon = reader.result;
+    if (file.size < 5000) {
+      const _ext = file.name.substring(file.name.lastIndexOf('.'));
+      const formData = new FormData();
+      formData.set('file', file);
+      formData.set('fileContext', 'findly');
+      formData.set('Content-Type', file.type);
+      formData.set('fileExtension', _ext.replace('.', ''));
+      this.fileupload(formData, type, icon, update ? update : null);
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          if (type == "searchIcon") {
+            this.searchIcon = reader.result;
+          }
+          else {
+            this.emojiIcon = reader.result;
+          }
         }
-        else {
-          this.emojiIcon = reader.result;
-        }
+        reader.readAsDataURL(file);
       }
-      reader.readAsDataURL(file);
+    }
+    else {
+      this.notificationService.notify('Upload file size below 5KB', 'error');
     }
   }
   //fileupload method
@@ -402,6 +511,7 @@ export class SearchExperienceComponent implements OnInit {
       res => {
         if (type == 'searchIcon') {
           this.searchObject.searchWidgetConfig.searchBarIcon = res.fileId;
+          this.selectSearchBox('');
           if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '' && icon === 'manual') {
             this.emojiIconUpload();
           }
@@ -418,6 +528,7 @@ export class SearchExperienceComponent implements OnInit {
           }
         }
         if (icon == 'auto' || update) {
+          this.selectSearch = '';
           this.notificationService.notify('File uploaded successfully', 'success');
         }
       },
@@ -430,34 +541,57 @@ export class SearchExperienceComponent implements OnInit {
       }
     );
   }
-  //on mouse hover in color pallete button
-  onEventLog(type, event) {
-    if (type == 'inputbox1') {
-      this.searchObject.searchWidgetConfig.searchBarFillColor = event;
+  //apply text based on input change
+  onEventLog(type, text) {
+    if (type == 'placeholderText') {
+      this.searchObject.searchWidgetConfig.searchBarPlaceholderText = text;
     }
-    else if (type == 'inputbox2') {
-      this.searchObject.searchWidgetConfig.searchBarBorderColor = event;
-    }
-    else if (type == 'placeholder') {
-      this.searchObject.searchWidgetConfig.searchBarPlaceholderTextColor = event;
-    }
-    else if (type == 'placeholderText') {
-      this.searchObject.searchWidgetConfig.searchBarPlaceholderText = event;
-    }
-    else if (type == 'buttonFill') {
-      this.searchObject.searchWidgetConfig.buttonFillColor = event;
-    }
-    else if (type == 'buttonBorder') {
-      this.searchObject.searchWidgetConfig.buttonBorderColor = event;
-    }
-    else if (type == "buttonEnable") {
-      this.searchObject.searchWidgetConfig.searchButtonEnabled = event;
-    }
-    else if (type == 'buttonTextColor') {
-      this.searchObject.searchWidgetConfig.buttonTextColor = event;
-    }
-    else if (type == 'msgColor') {
-      this.searchObject.searchInteractionsConfig.welcomeMsgColor = event;
+  }
+  //apply color based on save button 
+  applyColor(type, save) {
+    if (this.selectedColor != '') {
+      if (save) {
+        this.saveColor(this.selectedColor);
+      }
+      if (type == 'inputbox1') {
+        this.searchObject.searchWidgetConfig.searchBarFillColor = this.selectedColor;
+        this.toggle = false;
+        this.inputBox1 = false;
+      }
+      else if (type == 'inputbox2') {
+        this.searchObject.searchWidgetConfig.searchBarBorderColor = this.selectedColor;
+        this.toggle1 = false;
+        this.inputBox2 = false;
+      }
+      else if (type == 'placeholder') {
+        this.searchObject.searchWidgetConfig.searchBarPlaceholderTextColor = this.selectedColor;
+        this.toggle2 = false;
+        this.placeholBox = false;
+      }
+      else if (type == 'buttonFill') {
+        this.searchObject.searchWidgetConfig.buttonFillColor = this.selectedColor;
+        this.toggle4 = false;
+        this.buttonFill = false;
+      }
+      else if (type == 'buttonBorder') {
+        this.searchObject.searchWidgetConfig.buttonBorderColor = this.selectedColor;
+        this.toggle5 = false;
+        this.buttonBorder = false;
+      }
+      else if (type == "buttonEnable") {
+        this.searchObject.searchWidgetConfig.searchButtonEnabled = this.selectedColor;
+      }
+      else if (type == 'buttonTextColor') {
+        this.searchObject.searchWidgetConfig.buttonTextColor = this.selectedColor;
+        this.toggle3 = false;
+        this.buttonTextColor = false;
+      }
+      else if (type == 'msgColor') {
+        this.searchObject.searchInteractionsConfig.welcomeMsgColor = this.selectedColor;
+        this.toggle6 = false;
+        this.msgColor = false;
+      }
+      this.selectedColor = '';
     }
   }
   //select search box widget
@@ -533,6 +667,7 @@ export class SearchExperienceComponent implements OnInit {
   }
   //based on searchicon and emoji send data method
   addSearchExperience() {
+    this.closeAllBoxs('all');
     this.show_tab_color2 = true;
     let obj = { "experienceConfig": this.searchObject.searchExperienceConfig, "widgetConfig": this.searchObject.searchWidgetConfig, "interactionsConfig": this.searchObject.searchInteractionsConfig };
     console.log("obj", obj);
@@ -578,6 +713,7 @@ export class SearchExperienceComponent implements OnInit {
   ngOnDestroy() {
     this.appSubscription ? this.appSubscription.unsubscribe() : false;
     this.subscription ? this.subscription.unsubscribe() : false;
+    this.searchSDKSubscription ? this.searchSDKSubscription.unsubscribe() : false;
   }
 
   closeEmojiPicker() {

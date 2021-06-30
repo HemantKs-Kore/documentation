@@ -28,7 +28,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   indexPipelineId;
   loadingContent = true;
   addEditFacetObj: any = null;
-  showSearch;
+  showSearch=false;
+  activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   // serachTraits: any = '';
@@ -77,6 +78,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   statusArr: any = [];
   selectTypeArr: any = [];
   componentType: string = 'configure';
+  submitted : boolean = false;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -255,6 +257,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.selectedField.fieldDataType = null;
     }
     this.openModal();
+    this.getFieldAutoComplete('');
   }
   editFacetModal(facet) {
     this.getRecordDetails(facet)
@@ -272,6 +275,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
           console.log(element)
           this.addEditFacetObj = JSON.parse(JSON.stringify(data));
           this.selectedFieldId = element._id;
+          this.getFieldAutoComplete(element.fieldName);
           this.selectField(element);
           this.openModal();
         }
@@ -313,7 +317,12 @@ export class FacetsComponent implements OnInit, OnDestroy {
       query
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
-      this.fieldAutoSuggestion = res || [];
+      this.fieldAutoSuggestion = JSON.parse(JSON.stringify(res)) || [];
+      if(this.fieldAutoSuggestion.length){
+        if(!$('#facets-search-with-dropdown-menu').hasClass('show') && $('#facets-search-input').is(':focus')){
+          $('#facets-search-with-dropdown-menu').addClass('show')
+        }
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');
     });
@@ -453,6 +462,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.addEditFacetObj = null;
       this.selectedFieldId = null;
     }, errRes => {
+      this.getFieldAutoComplete('');
       this.errorToaster(errRes, 'Failed to create facet');
     });
   }
@@ -474,6 +484,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.addEditFacetObj = null;
       this.selectedFieldId = null;
     }, errRes => {
+      this.getFieldAutoComplete('');
       this.errorToaster(errRes, 'Failed to update facet');
     });
   }
@@ -563,21 +574,39 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+
+  validateAddEditFacet(){
+    if(this.addEditFacetObj.fieldId.length && this.addEditFacetObj.facetName){
+      this.submitted;
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
   addOrUpdate() {
-    this.addFiled();
-    if (this.addEditFacetObj && this.addEditFacetObj._id) {
-      this.editFacet();
-    } else {
-      this.createFacet();
+    this.submitted = true;
+    if(this.validateAddEditFacet()){
+      this.addFiled();
+      if (this.addEditFacetObj && this.addEditFacetObj._id) {
+        this.editFacet();
+      } else {
+        this.createFacet();
+      }
+    }
+    else{
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
   openModal() {
+    this.submitted = false;
     this.facetModalRef = this.facetModalPouup.open();
   }
   closeModal() {
     if (this.facetModalRef && this.facetModalRef.close) {
       this.facetModalRef.close();
     }
+    this.submitted = false;
     this.resetDefaults();
     this.addEditFacetObj = null;
     this.selectedFieldId = null;
@@ -709,9 +738,41 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.facets = JSON.parse(JSON.stringify(tempFacets));
   }
 
+  validateFacetSize(event){
+    if(event.target.value && event.target.value > 0){
+      // if(event.target.value > 20){
+      //   this.addEditFacetObj.facetValue.size = 20;
+      // }
+    }
+    else{
+      this.addEditFacetObj.facetValue.size = 1;
+      return;
+    }
+  }
+  focusoutSearch(){
+    if(this.activeClose){
+      this.searchfacet='';
+      this.activeClose = false;
+     }
+ this.showSearch= !this.showSearch;
+}
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+    },100)
+  }
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+  }
+
+  modifyFieldWarningMsg(warningMessage){
+    let index = warningMessage.indexOf("changed");
+    if(index > -1){
+      return true;
+    }else{
+      return false;
     }
   }
 }

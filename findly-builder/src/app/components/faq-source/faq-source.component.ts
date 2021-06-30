@@ -15,6 +15,7 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
 import { FaqsService } from '../../services/faqsService/faqs.service';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
 // import {  DockStatusService } from '../../services/dock.status.service';
 // import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
@@ -25,6 +26,7 @@ import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { D, F } from '@angular/cdk/keycodes';
 import { SideBarService } from './../../services/header.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-faq-source',
@@ -40,19 +42,24 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   currentView = 'list'
   searchSources = '';
   pagesSearch = '';
+  viewDetails: boolean;
   selectedFaq: any = null;
   singleSelectedFaq: any = null;
   showAddFaqSection = false;
   noManulaRecords: boolean = false;
   selectedApp: any = {};
   fileName: ' ';
-  extractedResources: any =[];
+  statsApiLoading = false;
+  extractedResources: any = [];
   resources: any = [];
-  filters:  any =[];
+  filters: any = [];
   polingObj: any = {};
   faqUpdate: Subject<void> = new Subject<void>();
   filterObject = {};
   manualFilterSelected = false;
+  initialFaqCall = false;
+  showResponse: boolean;
+  loading = false;
   faqSelectionObj: any = {
     selectAll: false,
     selectedItems: {},
@@ -63,6 +70,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   newCommentObj = {
     comment: ''
   }
+  activeClose = false;
   faqComments: any = [];
   pollingSubscriber;
   showSearch;
@@ -78,17 +86,19 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   loadingFaqs = true;
   editfaq = false;
   selectedFaqToEdit;
+  previousSearchQuery = '';
   statusObj: any = {
     failed: { name: 'Failed', color: 'red' },
     successfull: { name: 'Successfull', color: 'green' },
     success: { name: 'Success', color: 'green' },
-    queued: { name: 'Queued', color: 'blue' },
+    queued: { name: 'In-Queue', color: 'blue' },
     running: { name: 'In Progress', color: 'blue' },
+    configured: { name: 'Annotation paused', color: '#FF784B' },
     inProgress: { name: 'In Progress', color: 'blue' },
   };
   contentTypes = {
     webdomain: 'WEB',
-    document: 'DOC',
+    document: 'File',
     manual: 'Manual'
   }
   filterSystem: any = {
@@ -107,9 +117,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     faqs: []
   }
   apiLoading = false;
+  isNotSearching = false;
+  extractedFaqs = false;
   isAsc = true;
   selectedSort = '';
-  faqLimit = 20;
+  faqLimit = 10;
   selectedPage: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
@@ -127,6 +139,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   followCancelSub: Subscription;
   componentType: string = 'addData';
   openExtractsSubs: Subscription;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   @ViewChild('editQaScrollContainer', { static: true }) editQaScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('fqasScrollContainer', { static: true }) fqasScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('addfaqSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -135,6 +149,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
 
   constructor(
+    public cdRef: ChangeDetectorRef,
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -146,6 +161,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     // public dockService: DockStatusService,
     private headerService: SideBarService,
     public inlineManual : InlineManualService,
+    private appSelectionService: AppSelectionService,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
   ) {
@@ -155,9 +171,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getStats(null,true);
+    this.getStats(null, true);
     // this.getfaqsBy();
-    this.getSourceList();
+    this.getSourceList(true);
     this.userInfo = this.authService.getUserInfo() || {};
     this.altAddSub = this.faqServiceAlt.addAltQues.subscribe(params => {
       this.selectedFaq.isAlt = false;
@@ -172,6 +188,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.openExtractsSubs = this.headerService.openFaqExtractsFromDocker.subscribe((res) => {
       this.openStatusModal()
     });
+
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -197,7 +214,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
   sortBy(sort) {
-    const data = this.resources.slice();
+    const data = this.extractedResources.slice();
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {
       this.isAsc = true;
@@ -214,7 +231,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         default: return 0;
       }
     });
-    this.resources = sortedData;
+    this.extractedResources = sortedData;
   }
   addNewContentSource(type) {
     this.router.navigate(['/source'], { skipLocationChange: true, queryParams: { sourceType: type } });
@@ -223,9 +240,16 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.statusModalPopRef = this.statusModalPop.open();
     this.getJobStatusForMessages();
   }
-  closeStatusModal() {
+  closeStatusModal(extractedFaqs?) {
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
+      this.extractedFaqs
+    }
+    if (extractedFaqs) {
+      this.getStats(null, true);
+      this.getSourceList();
+    } else {
+      this.getStats(null, true);
     }
   }
   openAddSourceModal(edit?) {
@@ -247,13 +271,25 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.closeStatusModal()
     this.showSourceAddition = null;
   }
+  closeSourcePopupEvent() {
+    this.closeAddsourceModal();
+    this.showSourceAddition = null;
+    this.openStatusModal();
+    this.extractedFaqs = true
+    this.getJobStatusForMessages();
+  }
   onSourceAdditionSave() {
+    this.manualFilterSelected = false;
+    this.selectedResource = null;
     this.closeAddsourceModal();
     this.getSourceList();
     this.closeStatusModal();
-    // this.getfaqsBy();
-    this.selectTab('draft')
-    this.getStats();
+    if (this.faqs && this.faqs.length === 0) {
+      if (this.showSourceAddition !== 'manual')
+        this.openStatusModal();
+      this.extractedFaqs = true
+      this.getJobStatusForMessages();
+    }
     this.showSourceAddition = null;
   }
   addFaqSource(type) {
@@ -287,7 +323,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.faqSelectionObj.selectedCount = Object.keys(this.faqSelectionObj.selectedItems).length;
     }
   }
-  resetCheckboxSelect(){
+  resetCheckboxSelect() {
     this.faqSelectionObj = {
       selectAll: false,
       selectedItems: {},
@@ -296,31 +332,40 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       loadingStats: true
     }
   }
-  selectAllPartially(){
-  
+  selectAllPartially() {
+
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
     if (selectedElements.length !== this.faqs.length) {
       this.faqSelectionObj.selectAll = true;
       this.selectAll();
-      setTimeout(()=>{
-        this.faqSelectionObj.selectAll = false;
-      },100)
-    }else{
+      setTimeout(() => {
+        if ((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved)) {
+          $('#selectAllFaqs')[0].checked = true;
+          this.faqSelectionObj.selectAll = true;
+        } else {
+          $('#selectAllFaqs')[0].checked = false;
+          this.faqSelectionObj.selectAll = false;
+        }
+      }, 100)
+    } else {
       this.selectAll(true);
     }
-    if((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount== this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved )){
-      $('#selectAllFaqs')[0].checked = true;
+    setTimeout(() => {
+      if ((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved)) {
+        $('#selectAllFaqs')[0].checked = true;
+        this.faqSelectionObj.selectAll = true;
+      } else {
+        $('#selectAllFaqs')[0].checked = false;
+        this.faqSelectionObj.selectAll = false;
+      }
+    }, 150)
+
+  }
+  headerSelectAll() {
+    this.selectAll();
+    if ((this.selectedtab === 'draft' && this.faqs.length == this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqs.length == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqs.length == this.faqSelectionObj.stats.approved)) {
       this.faqSelectionObj.selectAll = true;
     } else {
-      $('#selectAllFaqs')[0].checked = false;
-      this.faqSelectionObj.selectAll = false;
-    }
-  }
-  headerSelectAll(){
-    this.selectAll();
-    if((this.selectedtab === 'draft' && this.faqs.length == this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqs.length == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqs.length == this.faqSelectionObj.stats.approved )){
-      this.faqSelectionObj.selectAll = true;
-    }else{
       this.faqSelectionObj.selectAll = false;
     }
   }
@@ -341,9 +386,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
   }
-  selectAllRecords(){
-this.faqSelectionObj.selectAll = true;
-this.selectAll();
+  selectAllRecords() {
+    this.faqSelectionObj.selectAll = true;
+    this.selectAll();
   }
   checkUncheckfaqs(faq) {
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
@@ -352,7 +397,7 @@ this.selectAll();
     const element = $('#selectFaqCheckBox_' + faq._id);
     const addition = element[0].checked
     this.addRemoveFaqFromSelection(faq._id, addition);
-    if((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount== this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved )){
+    if ((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved)) {
       $('#selectAllFaqs')[0].checked = true;
       this.faqSelectionObj.selectAll = true;
     } else {
@@ -362,7 +407,7 @@ this.selectAll();
     this.singleSelectedFaq = faq;
   }
 
-  markSelectedFaqs(faqs){
+  markSelectedFaqs(faqs) {
     if (this.faqSelectionObj.selectAll) {
       faqs.forEach((e) => {
         $('#selectFaqCheckBox_' + e._id)[0].checked = true;
@@ -518,7 +563,7 @@ this.selectAll();
     }, errRes => {
     });
   }
-  getStats(resourceId?,isInitialFaqCall?) {
+  getStats(resourceId?, isInitialFaqCall?) {
     console.log("resourceId", resourceId)
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -531,7 +576,12 @@ this.selectAll();
     if (resourceId === 'manual') {
       endPoint = 'get.faqStaticsManualFilter';
     }
+    if (this.statsApiLoading) {
+      return;
+    }
+    this.statsApiLoading = true;
     this.service.invoke(endPoint, quaryparms).subscribe(res => {
+      this.statsApiLoading = false;
       console.log("manula issu", res)
       this.faqSelectionObj.stats = res.countByState;
       // this.faqSelectionObj.stats = res.countBySource; 
@@ -542,18 +592,26 @@ this.selectAll();
         }
         else {
           this.noManulaRecords = false;
-        } 
+        }
       }
-      if(isInitialFaqCall){
+      if (isInitialFaqCall) {
+        this.initialFaqCall = true;
         if (this.faqSelectionObj.stats.draft) {
-          this.selectTab('draft')
+          this.selectTab('draft');
         } else if (this.faqSelectionObj.stats.in_review) {
-          this.selectTab('in_review')
+          if (this.selectedtab == 'approved' && this.faqSelectionObj.stats.approved) {
+            this.selectTab('approved');
+          } else {
+            this.selectTab('in_review');
+          }
         } else if (this.faqSelectionObj.stats.approved) {
-          this.selectTab('approved')
+          this.selectTab('approved');
+        } else {
+          this.selectTab('draft');
         }
       }
     }, errRes => {
+      this.statsApiLoading = false;
     });
   }
   onScrolledEnd(event) {
@@ -565,12 +623,17 @@ this.selectAll();
     }
   }
   searchFaqs() {
+    this.apiLoading = false;
+    this.isNotSearching = true;
     if (this.searchFaq) {
-      this.loadingTab = true;
+      // this.loadingTab = true;
       this.getfaqsBy(null, null, null, this.searchFaq);
     } else {
       this.getfaqsBy();
+      this.searchFaq = ''
     }
+    console.log(this.searchFaq, 'search');
+
   }
   getJobStatusForMessages() {
     const quaryparms: any = {
@@ -580,6 +643,21 @@ this.selectAll();
     this.service.invoke('get.source.list', quaryparms).subscribe(res => { //get.job.status
       this.resources = [...res];
       this.extractedResources = [...res];
+      if (this.extractedResources.length) {
+        this.statusArr = [];
+        this.docTypeArr = [];
+        this.extractedResources.forEach(element => {
+          this.statusArr.push(element.recentStatus);
+          this.docTypeArr.push(element.contentSource);
+        });
+        this.statusArr = [...new Set(this.statusArr)]
+        this.docTypeArr = [...new Set(this.docTypeArr)]
+
+      }
+      this.filterResourcesBack = [...this.extractedResources];
+      this.filterTable(this.filterTableSource, this.filterTableheaderOption)
+
+
       if (res && res.length) {
         res.forEach((d: any) => {
           if (d.extractedFaqsCount === 0) {
@@ -601,20 +679,30 @@ this.selectAll();
   }
   faqsApiService(serviceId, params?, concat?) {
     console.log("serviceID", serviceId, params)
-    this.faqs = [];
-    if (this.apiLoading) {
+    // if ((this.apiLoading && !params.searchQuary) || ((this.previousSearchQuery == this.searchFaq) && this.searchFaq && this.previousSearchQuery && !params.offset)) {
+    if ((this.apiLoading)) {
       return;
     }
+    this.faqs = [];
+    this.previousSearchQuery = this.searchFaq;
     this.apiLoading = true;
-    this.service.invoke(serviceId, params).subscribe(res => {
-      console.log("service res", res)
-      if (concat) {
-        this.faqs = this.faqs.concat(res);
-      } else {
-        this.faqs = _.filter(res, (faq) => {
-          return faq.action !== 'delete';
-        })
-      }
+    if (!this.initialFaqCall) {
+      this.loading = true;
+    }
+    this.service.invoke(serviceId, params).subscribe((res: any) => {
+      this.initialFaqCall = false;
+      console.log("service res", res);
+      this.loading = false;
+      this.isNotSearching = false;
+      this.faqs = ((res || {}).faqs || []);
+      // if (concat) {
+      //   this.faqs = this.faqs.concat((res||{}).faqs || []);
+      // } else {
+      //   this.faqs = _.filter(((res||{}).faqs || []), (faq) => {
+      //     return faq.action !== 'delete';
+      //   })
+      // }
+      this.faqSelectionObj.stats[this.selectedtab || 'draft'] = (res || {}).count || 0;
       this.faqsObj.faqs = this.faqs;
       if (params.resourceId === 'manual' && this.faqs.length) {
         this.getStats(this.faqs[0].extractionSourceId)
@@ -623,6 +711,9 @@ this.selectAll();
         this.moreLoading.loadingText = 'Loading...';
         this.selectFaq(this.faqs[0]);
       } else {
+        if (params.searchQuary) {
+          this.selectedFaq = null;
+        }
         this.moreLoading.loadingText = 'No more results available';
         const self = this;
         setTimeout(() => {
@@ -630,9 +721,9 @@ this.selectAll();
         }, 700);
       }
       if (serviceId === 'get.allFaqs') {
-        this.faqsAvailable = res.length ? true : false;
+        this.faqsAvailable = ((res || {}).faqs || []).length ? true : false;
       }
-      setTimeout(()=> {
+      setTimeout(() => {
         this.markSelectedFaqs(this.faqs);
       }, 100)
       // setTimeout(()=> {
@@ -646,6 +737,8 @@ this.selectAll();
       this.loadingFaqs = false;
       this.loadingTab = false;
     }, errRes => {
+      this.isNotSearching = false
+      this.loading = false;
       this.apiLoading = false;
       this.loadingFaqs = false;
       this.loadingTab = false;
@@ -690,7 +783,7 @@ this.selectAll();
     this.faqsApiService(serviceId, quaryparms, concatResults);
   }
   paginate(event) {
-    this.getfaqsBy(null, null, event.skip)
+    this.getfaqsBy(null, null, event.skip, this.searchFaq || '')
     // this.addRemoveFaqFromSelection(null, true,null);
     // this.perfectScroll.directiveRef.update();
     // this.perfectScroll.directiveRef.scrollToTop(2, 1000);
@@ -700,13 +793,14 @@ this.selectAll();
     this.selectedFaq = null
     this.searchFaq = '';
     this.selectedtab = tab;
+    this.getStats();
     this.getFaqsOnSelection();
   }
   getFaqsOnSelection() {
     this.addRemoveFaqFromSelection(null, null, true);
     this.getfaqsBy(null, this.selectedtab);
   }
-  getSourceList() {
+  getSourceList(initializePoling?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       type: 'faq',
@@ -715,17 +809,25 @@ this.selectAll();
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = [...res];
-      if(res &&res.length){
-        res.forEach((d:any)=>{
-        if(d.extractedFaqsCount === 0){
-        let index = this.resources.findIndex((f)=>f._id == d._id);
-        if(index>-1){
-        this.resources.splice(index,1);
-        }
+      res.forEach(element => {
+        if (element.recentStatus == 'queued' || element.recentStatus == 'failed' || element.recentStatus == 'running' || element.recentStatus == 'configured') {
+          this.viewDetails = true;
+          this.extractedFaqs = true;
+          this.getStats(null, true);
+
         }
       });
-    }
-    res = [...this.resources];
+      if (res && res.length) {
+        res.forEach((d: any) => {
+          if (d.extractedFaqsCount === 0) {
+            let index = this.resources.findIndex((f) => f._id == d._id);
+            if (index > -1) {
+              this.resources.splice(index, 1);
+            }
+          }
+        });
+      }
+      res = [...this.resources];
       this.resources.forEach(element => {
         if (element.advanceSettings && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time) {
           element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' at ' +
@@ -741,21 +843,22 @@ this.selectAll();
         }
 
       });
-      if (this.resources.length) {
-        this.resources.forEach(element => {
-          this.statusArr.push(element.recentStatus);
-          this.docTypeArr.push(element.contentSource);
-        });
-        this.statusArr = [...new Set(this.statusArr)]
-        this.docTypeArr = [...new Set(this.docTypeArr)]
+      // if (this.resources.length) {
+      //   this.resources.forEach(element => {
+      //     this.statusArr.push(element.recentStatus);
+      //     this.docTypeArr.push(element.contentSource);
+      //   });
+      //   this.statusArr = [...new Set(this.statusArr)]
+      //   this.docTypeArr = [...new Set(this.docTypeArr)]
 
-      }
+      // }
       this.resources = res.reverse();
-      if (this.resources && this.resources.length) {
+      if (this.resources && this.resources.length && !initializePoling) {
         this.poling()
       }
-      this.filterResourcesBack = [...this.resources];
-      this.filterTable(this.filterTableSource, this.filterTableheaderOption)
+      else if (!initializePoling) {
+        this.poling()
+      }
       if (res.length > 0) {
         this.loadingFaqs = false;
         this.loadingFaqs1 = true;
@@ -829,7 +932,7 @@ this.selectAll();
       this.filterSystem.statusFilter = source;
     }
     if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all") {
-      this.resources = [...this.filterResourcesBack];
+      this.extractedResources = [...this.filterResourcesBack];
       this.firstFilter = { 'header': '', 'source': '' };
     }
     else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter == "all") {
@@ -840,7 +943,7 @@ this.selectAll();
       const resourceData = firstFilterDataBack.filter((data) => {
         return data[this.filterSystem.typeHeader].toLocaleLowerCase() === this.filterSystem.typefilter.toLocaleLowerCase();
       })
-      if (resourceData.length) this.resources = [...resourceData];
+      if (resourceData.length) this.extractedResources = [...resourceData];
     }
     else if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter != "all") {
       if (!this.firstFilter['header']) {
@@ -850,7 +953,7 @@ this.selectAll();
       const resourceData = firstFilterDataBack.filter((data) => {
         return data[this.filterSystem.statusHeader].toLocaleLowerCase() === this.filterSystem.statusFilter.toLocaleLowerCase();
       })
-      if (resourceData.length) this.resources = [...resourceData];
+      if (resourceData.length) this.extractedResources = [...resourceData];
 
     }
     else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter != "all") {
@@ -862,7 +965,7 @@ this.selectAll();
       } else {
         this.firstFilter = { 'header': this.filterSystem.typeHeader, 'source': this.filterSystem.typefilter };
       }
-      const firstResourceData = this.resources.filter((data) => {
+      const firstResourceData = this.extractedResources.filter((data) => {
         console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
         return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
       })
@@ -940,8 +1043,14 @@ this.selectAll();
         if (queuedJobs && queuedJobs.length) {
           console.log(queuedJobs);
         } else {
+          this.getStats(null, true);
           this.pollingSubscriber.unsubscribe();
+          let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+          if (currentPlan?.subscription?.planId == 'fp_free') {
+            this.appSelectionService.updateUsageData.next('updatedUsage');
+          }
         }
+
       }, errRes => {
         this.pollingSubscriber.unsubscribe();
         if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -955,11 +1064,11 @@ this.selectAll();
   }
   faqUpdateEvent() {
     this.faqUpdate.next();
-    setTimeout(() =>{
-      this.selectTab('draft');
-    this.faqCancle();
-     },500);
-     
+    // setTimeout(() => {
+    //   this.selectTab('draft');
+    // this.faqCancle();
+    // }, 500);
+
   }
   editThisQa() {
     this.showSourceAddition = false
@@ -1019,6 +1128,7 @@ this.selectAll();
     }
   }
   updateFaq(faq, action, params, isFollowUpUpdate?) {
+    console.log("faq, action, params", faq, action, params)
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       faqId: faq._id,
@@ -1057,10 +1167,20 @@ this.selectAll();
         }
       }
       this.getStats();
+      if (this.editfaq) {
+        this.selectTab('draft');
+      } else {
+        if (action === 'stateUpdate') {
+          this.selectTab(params || 'draft');
+        } else {
+          this.selectTab((params || {}).state || 'draft');
+        }
+
+      }
       this.editfaq = false;
       this.closeEditFAQModal();
       this.closeAddsourceModal();
-      
+
     }, errRes => {
       this.errorToaster(errRes, 'Somthing went worng');
     });
@@ -1082,21 +1202,32 @@ this.selectAll();
       custSucessMsg = 'Deleted Successfully'
       custerrMsg = 'Failed to delete faqs'
     }
-    if (this.faqSelectionObj && this.faqSelectionObj.selectAll && (!this.selectedResource && !this.manualFilterSelected)) {
+    if (this.faqSelectionObj && this.faqSelectionObj.selectAll) {
       payload.allFaqs = true;
       payload.currentState = this.selectedtab;
+      if (this.selectedResource && this.selectedResource._id) {
+        payload.extractionSourceId = this.selectedResource._id;
+      } else {
+        payload.extractionSourceId = '';
+      }
     } else {
       const selectedElements = $('.selectEachfaqInput:checkbox:checked');
       const sekectedFaqsCollection: any = [];
-      if (selectedElements && selectedElements.length) {
-        $.each(selectedElements, (i, ele) => {
-          const faqId = $(ele)[0].id.split('_')[1];
-          const tempobj = {
-            _id: faqId
-          }
-          sekectedFaqsCollection.push(tempobj);
-        })
-      }
+      Object.keys(this.faqSelectionObj.selectedItems).forEach((key) => {
+        const tempobj = {
+          _id: key
+        }
+        sekectedFaqsCollection.push(tempobj);
+      });
+      // if (selectedElements && selectedElements.length) {
+      //   $.each(selectedElements, (i, ele) => {
+      //     const faqId = $(ele)[0].id.split('_')[1];
+      //     const tempobj = {
+      //       _id: faqId
+      //     }
+      //     sekectedFaqsCollection.push(tempobj);
+      //   })
+      // }
       payload.faqs = sekectedFaqsCollection;
     }
     const quaryparms: any = {
@@ -1104,7 +1235,11 @@ this.selectAll();
     }
     this.selectAll(true);
     this.addRemoveFaqFromSelection(null, null, true);
-    this.service.invoke('update.faq.bulk', quaryparms, payload).subscribe(res => {
+    let serviceID = 'update.faq.bulk';
+    if (this.manualFilterSelected) {
+      serviceID = 'update.manualFaqs.bulk'
+    }
+    this.service.invoke(serviceID, quaryparms, payload).subscribe(res => {
       if (state) {
         this.selectTab(state)
       } else {
@@ -1113,13 +1248,13 @@ this.selectAll();
       }
       this.getStats();
       this.editfaq = null
-      if(state !='in_review' && state !='approved'){
+      if (state != 'in_review' && state != 'approved') {
         this.notificationService.notify(custSucessMsg, 'success');
       }
-      if(state ==  'in_review'){
+      if (state == 'in_review') {
         this.notificationService.notify('Sent for Review', 'success');
       }
-      else if(state ==  'approved'){
+      else if (state == 'approved') {
         this.notificationService.notify('Approved', 'success');
       }
       if (dialogRef) {
@@ -1155,7 +1290,7 @@ this.selectAll();
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       contentId: faq._id,
-      sourceId : Math.random().toString(36).substr(7)
+      sourceId: Math.random().toString(36).substr(7)
     }
     this.service.invoke('delete.structuredData', quaryparms).subscribe(res => {
       dialogRef.close();
@@ -1285,7 +1420,7 @@ this.selectAll();
           console.log('deleted')
         }
       })
-       
+
   }
   addFollowUp(faq, event) {
     this.editfaq = false;
@@ -1375,6 +1510,24 @@ this.selectAll();
 
     });
   }
+
+  resumeAnnotate(source) {
+    const payload = {
+      sourceTitle: source.name,
+      sourceDesc: source.desc,
+      fileId: source.fileMeta.fileId,
+      sourceId: source._id
+    };
+    const dialogRef = this.dialog.open(PdfAnnotationComponent, {
+      data: { type: 'resumeAnnotate', pdfResponse: payload },
+      panelClass: 'kr-annotation-modal',
+      disableClose: true,
+      autoFocus: true
+    });
+    dialogRef.afterClosed().subscribe(res => {
+
+    });
+  }
   ngOnDestroy() {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
@@ -1415,19 +1568,19 @@ this.selectAll();
       if (conditions.length > 2) {
         return true;
       } else {
-        for(let i=0;i<conditions.length;i++) {
-           if((conditions[0].value.length>4 && i==0) || (conditions.length ==2 && conditions[1].value.length>2 && i==1)|| (conditions[0].value.length==2 && i==0 && (conditions[0].value[0].length + (conditions[0].value.length==2?(conditions[0].value[1].length):0))>14 && conditions.length !==1 )||(conditions[0].value.length>2 && i==0 && conditions[0].operator=='between')){
-             return true
-           }
+        for (let i = 0; i < conditions.length; i++) {
+          if ((conditions[0].value.length > 4 && i == 0) || (conditions.length == 2 && conditions[1].value.length > 2 && i == 1) || (conditions[0].value.length == 2 && i == 0 && (conditions[0].value[0].length + (conditions[0].value.length == 2 ? (conditions[0].value[1].length) : 0)) > 14 && conditions.length !== 1) || (conditions[0].value.length > 2 && i == 0 && conditions[0].operator == 'between')) {
+            return true
+          }
         }
       }
     }
     return false;
   }
-  showConditions(conditions, ruleIndex){
-    if((conditions[0].value.length<3 && ruleIndex==1 &&  (conditions[0].value[0].length + (conditions[0].value.length==2?(conditions[0].value[1].length):0)<14)) ||ruleIndex==0 ){
+  showConditions(conditions, ruleIndex) {
+    if ((conditions[0].value.length < 3 && ruleIndex == 1 && (conditions[0].value[0].length + (conditions[0].value.length == 2 ? (conditions[0].value[1].length) : 0) < 14)) || ruleIndex == 0) {
       return true;
-    }else{
+    } else {
       return false;
     }
     return true;
@@ -1501,9 +1654,40 @@ this.selectAll();
     if (this.showSearch && this.searchSources) {
       this.searchSources = '';
     }
-    this.showSearch = !this.showSearch
+    this.showSearch = !this.showSearch;
+    this.cdRef.detectChanges();
   };
 
 
-
+  focusoutSearch(isPopup?) {
+    if (isPopup) {
+      if (this.activeClose) {
+        this.searchSources = '';
+        this.activeClose = false;
+      }
+    } else {
+      if (this.activeClose) {
+        this.searchFaq = '';
+        this.activeClose = false;
+        this.searchFaqs();
+      }
+    }
+    this.showSearch = !this.showSearch;
+    this.cdRef.detectChanges();
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
+  }
+  clicksViews() {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      faqId: this.selectedFaq._id,
+    };
+    this.service.invoke('get.clicksViews', quaryparms).subscribe(res => {
+      console.log(res);
+    }, errRes => {
+    });
+  }
 }

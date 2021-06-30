@@ -11,7 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
 import { of, interval, Subject } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import { startWith, take } from 'rxjs/operators';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 
@@ -19,11 +19,13 @@ import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pd
 import { MatDialog } from '@angular/material/dialog';
 import { ThrowStmt } from '@angular/compiler';
 import { RangySelectionService } from '../annotool/services/rangy-selection.service';
-import { DockStatusService } from '../../services/dock.status.service';
+//import { DockStatusService } from '../../services/dock.status.service';
+import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -36,6 +38,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   crawlOkDisable = false;
   crwalObject: CrwalObj = new CrwalObj();
   allowUrl: AllowUrl = new AllowUrl();
+  allBotArray: any = [];
+  showMore = false;
+  @ViewChild('botsConfigurationModalElement') botsConfigurationModalElement: KRModalComponent;
   blockUrl: BlockUrl = new BlockUrl();
   sampleJsonPath: any = '/home/assets/sample-data/sample.json';
   sampleCsvPath: any = '/home/assets/sample-data/sample.csv';
@@ -53,7 +58,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   doesntContains = 'Doesn\'t Contains';
   dataFromScheduler: scheduleOpts
   loadFullComponent = true;
-
+  linkedBotID: any;
+  linkedBotName: any;
+  linkedBotDescription: any;
+  linkedBotData: any = {};
+  islinked = false;
+  botToBeUnlinked = '';
   useCookies = true;
   respectRobotTxtDirectives = true;
   crawlBeyondSitemaps = false;
@@ -62,10 +72,24 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   crwalOptionLabel = "Crawl Everything";
   crawlDepth: number;
   maxUrlLimit: number;
+  botsConfigurationModalRef: any;
+  submitted = false;
+  showPassword = false;
+  url_failed: boolean = false;
+  configurationLink: any = {
+    postUrl: '',
+    accessToken: '',
+    webhookUrl: '',
+    clientSecret: '',
+    clientId: ''
+  }
+  importFaqInprogress = false;
+  selectedLinkBotConfig: any;
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
   @Output() cancleEvent = new EventEmitter();
+  @Output() closeSourcePopupEvent = new EventEmitter();
   faqUpdate: Subject<void> = new Subject<void>();
   defaultStatusObj: any = {
     jobId: '',
@@ -98,7 +122,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           icon: 'assets/icons/content/webdomain.svg',
           id: 'contentWeb',
           sourceType: 'content',
-          resourceType: 'webdomain'
+          resourceType: 'web'
         },
         {
           name: 'Upload File',
@@ -106,7 +130,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           icon: 'assets/icons/content/fileupload.svg',
           id: 'contentDoc',
           sourceType: 'content',
-          resourceType: 'document'
+          resourceType: 'file'
         },
         // {
         //   name: 'Others',
@@ -155,7 +179,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           description: 'Import from JSON or CSV',
           icon: 'assets/icons/content/database-Import.svg',
           id: 'contentStucturedDataImport',
-          sourceType: 'object',
+          sourceType: 'data',
           resourceType: 'structuredData'
         },
         {
@@ -163,7 +187,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           description: 'Add structured data manually',
           icon: 'assets/icons/content/database-add.svg',
           id: 'contentStucturedDataAdd',
-          sourceType: 'object',
+          sourceType: 'data',
           resourceType: 'structuredDataManual'
         }
       ]
@@ -203,11 +227,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private dock: DockStatusService,
+    //private dock: DockStatusService,
     public dialog: MatDialog,
     private rangyService: RangySelectionService,
     public inlineManual : InlineManualService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    public dockService: DockStatusService,
   ) { }
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -232,16 +257,19 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.workflowService.selectedApp()?.configuredBots[0]) {
       this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
     }
-    else if (this.workflowService.selectedApp()?.publishedBots[0]) {
+    else if (this.workflowService.selectedApp()?.publishedBots && this.workflowService.selectedApp()?.publishedBots[0]) {
       this.streamID = this.workflowService.selectedApp()?.publishedBots[0]?._id ?? null
     }
     else {
       this.streamID = null;
     }
-    this.getAssociatedBots();
+    if (this.resourceIDToOpen == undefined) {
+      this.getAssociatedBots();
+    }
+    // this.getAssociatedBots();
 
     if (this.route && this.route.snapshot && this.route.snapshot.queryParams) {
-      this.receivedQuaryparms = this.route.snapshot.queryParams
+      this.receivedQuaryparms = this.route.snapshot.queryParams;
       if (this.receivedQuaryparms && this.receivedQuaryparms.sourceType || this.resourceIDToOpen) {
         const resourceType = this.resourceIDToOpen || this.receivedQuaryparms.sourceType;
         this.availableSources.forEach(catagory => {
@@ -285,6 +313,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   closeAddSourceModal() {
     if (this.addSourceModalPopRef && this.addSourceModalPopRef.close) {
+      this.url_failed = false;
       this.addSourceModalPopRef.close();
     }
   }
@@ -297,9 +326,35 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.linkBotsModalPopRef.close();
     }
   }
+  editConfiguration() {
+    //this.closeStatusModal();
+    if (this.statusModalPopRef && this.statusModalPopRef.close) {
+      this.statusModalPopRef.close();
+    }
+    this.url_failed = true;
+    this.openAddSourceModal();
+  }
+  //retry failed url validation
+  retryValidation() {
+    const quaryparms: any = {
+      searchIndexId: this.searchIndexId,
+      sourceId: this.extract_sourceId
+    };
+    const payload = {
+      url: this.newSourceObj.url
+    }
+    this.service.invoke('put.retryValidation', quaryparms, payload).subscribe(res => {
+      this.statusObject = { ...this.statusObject, validation: res.validations };
+    }, errRes => {
+      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed retry validation', 'error');
+      }
+    });
+  }
   datainc = 0;
   poling(jobId, schedule?) {
-    console.log("JobId", jobId)
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
@@ -326,8 +381,18 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
 
           if ((queuedJobs[0].status !== 'running') && (queuedJobs[0].status !== 'queued')) {
+            let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+            if (currentPlan?.subscription?.planId == 'fp_free') {
+              this.appSelectionService.updateUsageData.next('updatedUsage');
+            }
             this.pollingSubscriber.unsubscribe();
             //this.crawlOkDisable = true;
+            if (queuedJobs[0].status == 'halted') {
+              if (queuedJobs[0].statusMessage == 'Failed to ingest due to limit exceeded. If you want to continue ingesting documents consider upgrading your plan or buying overage.') {
+                this.upgrade();
+                this.notificationService.notify(queuedJobs[0].statusMessage, 'success');
+              }
+            }
           }
           // if((queuedJobs[0].status == 'queued')){
           //   this.crawlOkDisable = true;
@@ -377,6 +442,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.statusModalPopRef = this.statusModalPop.open();
   }
   closeStatusModal() {
+    this.importFaqInprogress = false;
     this.saveEvent.emit();
     const self = this;
     if (this.pollingSubscriber) {
@@ -385,6 +451,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
+
     this.redirectTo();
     this.cancleSourceAddition();
     this.closeCrawlModalPop();
@@ -394,6 +461,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     const self = this;
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
+    }
+    if (this.crawlModalPopRef && this.crawlModalPopRef.close) {
+      this.crawlModalPopRef.close();
     }
     this.closeCrawlModalPop();
     this.redirectTo();
@@ -495,12 +565,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     const _ext = fileName.substring(fileName.lastIndexOf('.'));
     this.extension = _ext
     if (this.selectedSourceType.sourceType != "faq") {
-      if (['.pdf', '.doc', '.ppt', '.xlsx', '.txt'].includes(this.extension)) {
+      if (['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx'].includes(this.extension)) {
         showProg = true;
       }
       else {
         $('#sourceFileUploader').val(null);
-        this.notificationService.notify('Please select a valid  pdf file', 'error');
+        this.notificationService.notify('Please select a valid file', 'error');
         // return;
       }
     }
@@ -628,7 +698,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   faqAnotate(payload, endPoint, quaryparms) {
     if (payload.hasOwnProperty('url')) delete payload.url;
     this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-      this.annotationModal();
+      this.annotationModal(res._id);
+      console.log(res);
+      this.workflowService.selectedJobId(res._id);
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -650,7 +722,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //form validation
   validateSource() {
-    if (this.selectedSourceType.resourceType == "webdomain" || this.selectedSourceType.resourceType == "faq") {
+    if (this.selectedSourceType.resourceType == "web" || this.selectedSourceType.resourceType == "faq") {
       if (this.newSourceObj.name) {
         if (this.newSourceObj.url) {
           this.proceedSource()
@@ -667,7 +739,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.notificationService.notify('Enter the required fields to proceed', 'error');
       }
     }
-    else if (this.selectedSourceType.resourceType == "document" || this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
+    else if (this.selectedSourceType.resourceType == "file" || this.selectedSourceType.resourceType == "importfaq" || this.selectedSourceType.resourceType == "") {
       if (this.newSourceObj.name) {
         if (this.selectExtractType == 'file') {
           if (this.fileObj.fileId) {
@@ -721,13 +793,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
 
+    this.dockService.trigger(true)
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic";
       this.importFaq();
       schdVal = false;
     }
     if (this.selectedSourceType.annotate && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
-      quaryparms.faqType = 'document';
+      quaryparms.faqType = 'file';
       payload.isNew = true;
       payload.fileId = this.fileObj.fileId;
       payload.extractionType = "annotation"
@@ -736,7 +809,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       return
     }
     if (this.selectedSourceType.annotate && this.selectedSourceType.sourceType === 'faq' && resourceType != 'importfaq' && this.selectedSourceType.id != 'faqDoc') {
-      quaryparms.faqType = 'document';
+      quaryparms.faqType = 'file';
       payload.isNew = true;
       payload.fileId = this.fileObj.fileId;
       if (this.selectedSourceType.annotate) {
@@ -747,17 +820,20 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       return
     } else {
       if (this.selectedSourceType.sourceType === 'content') {
-        endPoint = 'add.sourceMaterial';
+        endPoint = this.url_failed ? 'update.contentPageSource' : 'add.sourceMaterial';
         payload.resourceType = resourceType;
+        if (this.url_failed) {
+          quaryparms.sourceId = this.extract_sourceId;
+        }
       } else {
         if (this.fileObj.fileAdded) {
-          resourceType = 'document';
+          resourceType = 'file';
         } else if (this.newSourceObj.url) {
-          resourceType = 'webdomain';
+          resourceType = 'web';
         }
         quaryparms.faqType = resourceType;
       }
-      if (resourceType === 'webdomain') {
+      if (resourceType === 'web') {
         crawler.name = this.newSourceObj.name;
         crawler.url = this.newSourceObj.url;
         crawler.desc = this.newSourceObj.desc || '';
@@ -779,7 +855,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
         // crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
         // crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
-        crawler.resourceType = this.selectedSourceType.resourceType;
+        // crawler.resourceType = this.selectedSourceType.resourceType;
         crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
         crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
         payload = { ...crawler };
@@ -795,16 +871,21 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         quaryparms.resourceType = resourceType;
       }
 
-      if (resourceType === 'document') {
-        payload.fileId = this.fileObj.fileId;
+      if (resourceType === 'file') {
+        if (this.fileObj.fileId) {
+          payload.fileId = this.fileObj.fileId;
+          if (payload.url == '') delete payload.url;
+        }
         if (this.selectedSourceType.sourceType === 'faq') {
           payload.extractionType = "basic";
           if (payload.hasOwnProperty('url')) delete payload.url;
         }
         //payload.extractionType = resourceType;
         quaryparms.resourceType = resourceType;
-        payload.isNew = true;
-        payload.resourceType = payload.fileId ? 'file' : 'url';
+        if (this.selectedSourceType.sourceType !== 'faq') {
+          payload.isNew = true;
+          payload.resourceType = payload.fileId ? 'file' : 'url';
+        }
       }
       if (crawler.advanceOpts.scheduleOpt) {
         if (crawler.advanceOpts.scheduleOpts) {
@@ -820,33 +901,35 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
       }
+      if (resourceType === 'web' && this.selectedSourceType.sourceType !== 'content') {
+        delete payload.advanceOpts;
+      }
       if (schdVal) {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
           this.openStatusModal();
+          this.extract_sourceId = res._id;
           this.appSelectionService.updateTourConfig('addData');
           this.addSourceModalPopRef.close();
           if (this.selectedSourceType.sourceType === 'content') {
-            this.statusObject = { ...this.statusObject, validation: { validated: true } };
+            this.statusObject = { ...this.statusObject, validation: res.validations };
           }
           if (this.selectedSourceType.sourceType === 'faq') {
             this.poling(res._id, 'scheduler');
           }
-          this.extract_sourceId = res._id;
-          //this.crwal_jobId = res.jobId
-          console.log("this.statusObject", this.statusObject)
+          //this.dockService.trigger(true)
         }, errRes => {
-          if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
-            this.addSourceModalPopRef.close();
-            this.errorToaster(errRes, errRes.error.errors[0].msg);
-            this.upgrade();
-          }
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-            this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+            if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessDenied' || errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
+              this.upgrade();
+              this.errorToaster(errRes, errRes.error.errors[0].msg);
+            } else {
+              this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+            }
           } else {
             this.notificationService.notify('Failed to add sources ', 'error');
           }
         });
-      } else if (resourceType == 'webdomain') {
+      } else if (resourceType == 'web') {
         this.notificationService.notify('Please fill Date and Time fields', 'error');
       }
       // this.callWebCraller(this.crwalObject,searchIndex)
@@ -1007,12 +1090,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   /* Annotation Modal */
-  annotationModal() {
+  annotationModal(sourceId) {
     if (this.newSourceObj && this.newSourceObj.name && this.fileObj.fileId) {
       const payload = {
         sourceTitle: this.newSourceObj.name,
         sourceDesc: this.newSourceObj.desc,
-        fileId: this.fileObj.fileId
+        fileId: this.fileObj.fileId,
+        sourceId: sourceId
       };
       const dialogRef = this.dialog.open(PdfAnnotationComponent, {
         data: { pdfResponse: payload, annotation: this.anntationObj },
@@ -1020,13 +1104,20 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         disableClose: true,
         autoFocus: true
       });
-      // dialogRef.afterClosed().subscribe(res => {
-      //   console.log(this.anntationObj);
-      //   if (this.anntationObj && this.anntationObj.status === 'Inprogress') {
-      //     this.openStatusModal();
-      //     this.poling(this.anntationObj._id);
-      //   }
-      // });
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+        if(res === 'cancelFaqExtract'){
+          const event: any = {}
+          this.closeSourcePopupEvent.emit(event);
+          this.cancleEvent.emit(event);
+          this.closeAddSourceModal();
+        }
+        // console.log(this.anntationObj);
+        // if (this.anntationObj && this.anntationObj.status === 'Inprogress') {
+        //   this.openStatusModal();
+        //   this.poling(this.anntationObj._id);
+        // }
+      });
     }
   }
   annotateChange(event) {
@@ -1038,12 +1129,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   // Check poling from annoation tool
   checkAnnotationPolling() {
-    this.rangyService.getPolling().subscribe(res => {
+    this.rangyService.getPolling().pipe(take(1)).subscribe(res => {
       if (res) {
         console.log(this.anntationObj);
-        this.openStatusModal();
-        this.poling(this.anntationObj._id);
+        if (this.anntationObj._id) {
+          this.openStatusModal();
+          this.poling(this.anntationObj._id);
+        }
       }
+
+
     });
   }
   cancelExtraction() {
@@ -1053,7 +1148,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.closeStatusModal()
   }
   /* Annotation Modal end */
-
   getAssociatedBots() {
     if (this.userInfo.id) {
       const queryParams: any = {
@@ -1073,11 +1167,25 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         //this.associatedBots = [...bots]
         console.log(this.associatedBots);
         console.log(bots);
-        // this.associatedBots.forEach(element => {
-        // if (this.streamID == element._id) {
-        //   this.linkedBotName = element.name;
-        // }
-        // })
+        this.associatedBots.forEach(element => {
+          if (this.streamID == element._id) {
+            this.linkedBotName = element.name;
+            this.linkedBotID = element._id;
+            this.botToBeUnlinked = element._id;
+            this.islinked = true;
+            if (this.workflowService.selectedApp()?.configuredBots[0]) {
+              this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+            }
+            this.linkedBotData = {
+              botName: element.name,
+              botId: element._id,
+              botType: element.type,
+              botDescription: element.description,
+              channels: this.workflowService.selectedApp()?.configuredBots[0]?.channels,
+              approvedChannels: element.approvedChannels
+            }
+          }
+        })
         /*this.associatedBotArr = [];
         if (this.associatedBots.length > 0) {
           this.associatedBots.forEach(element => {
@@ -1169,12 +1277,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.workflowService.selectedApp()?.configuredBots[0] && this.workflowService.selectedApp()?.configuredBots[0]?._id) {
           this.workflowService.selectedApp().configuredBots[0]._id = null;
         }
-        else if (this.workflowService.selectedApp()?.publishedBots[0] && this.workflowService.selectedApp()?.publishedBots[0]?._id) {
+        else if (this.workflowService.selectedApp()?.publishedBots && this.workflowService.selectedApp()?.publishedBots[0] && this.workflowService.selectedApp()?.publishedBots[0]?._id) {
           this.workflowService.selectedApp().publishedBots[0]._id = null;
         }
 
         this.workflowService.selectedApp(selectedApp);
         this.streamID = null;
+        this.linkedBotID = null;
+        this.linkedBotName = null;
+        this.linkedBotDescription = null;
+        this.botToBeUnlinked = null;
+        this.islinked = false;
         this.getAssociatedBots();
         this.notificationService.notify('Bot unlinked, successfully', 'success');
       },
@@ -1239,7 +1352,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
-    console.log('PolingDistroyed');
+    this.anntationObj = null;
     this.fileObj.fileAdded = false;
   }
 
@@ -1267,13 +1380,15 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     const payload = {
       fileId: this.fileObj.fileId,
       fileType: this.fileObj.file_ext,
+      name: this.newSourceObj.name
       // streamId: this.streamId,
     }
     this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
-      console.log("imp faq res", res)
+      console.log("imp faq res", res);
+      this.importFaqInprogress = true;
       this.openStatusModal();
       this.addSourceModalPopRef.close();
-      this.dock.trigger()
+      this.dockService.trigger(true)
     },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1341,6 +1456,219 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.notificationService.notify('Failed', 'error');
       }
     )
+  }
+  checkValue(value) {
+    console.log()
+    if (value <= -1) {
+      this.crawlDepth = 0;
+      this.maxUrlLimit = 0;
+    }
+  }
+  copy(val) {
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+    this.notificationService.notify('Copied to clipboard', 'success')
+
+  }
+
+  showPasword() {
+    var show: any = document.getElementById("password");
+    if (show.type === "password") {
+      this.showPassword = true;
+      show.type = "text";
+
+    } else {
+      this.showPassword = false;
+      show.type = "password";
+    }
+  }
+  closeBotsConfigurationModalElement() {
+    if (this.botsConfigurationModalRef && this.botsConfigurationModalRef.close) {
+      this.botsConfigurationModalRef.close();
+      this.submitted = false;
+    }
+  }
+  openBotsConfigurationModalElement(bot) {
+    this.selectedLinkBotConfig = bot;
+    const queryParams = {
+      searchIndexID: this.searchIndexId
+    }
+    this.service.invoke('get.generateChannelCreds', queryParams).subscribe(
+      res => {
+        this.configurationLink = {
+          postUrl: res.postUrl,
+          accessToken: res.accessToken,
+          webhookUrl: '',
+          clientSecret: '',
+          clientId: ''
+        }
+        this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to geneerate channel credentials', 'error');
+        }
+      }
+    );
+    // this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
+
+  }
+  validateBotConfiguration() {
+    if (!this.configurationLink.clientId || !this.configurationLink.clientSecret || !this.configurationLink.webhookUrl || !this.configurationLink.postUrl || !this.configurationLink.accessToken) {
+      return false
+    } else {
+      return true;
+    }
+  }
+  unlinkBotWhithPublish(linkingBotID) {
+    let requestBody: any = {};
+    let selectedApp: any;
+    if (this.searchIndexId) {
+      // this.loadingContent = true;
+      const queryParams = {
+        searchIndexID: this.searchIndexId
+      }
+      requestBody['linkedBotId'] = this.streamID//this.botToBeUnlinked;
+      console.log(requestBody);
+
+      this.service.invoke('put.UnlinkBot', queryParams, requestBody).subscribe(res => {
+        console.log(res);
+        // this.linkAfterUnlink(linkingBotID);
+        selectedApp = this.workflowService.selectedApp();
+        if (selectedApp.configuredBots[0]) {
+          selectedApp.configuredBots[0]._id = null;
+        }
+        else {
+          selectedApp.publishedBots[0]._id = null;
+        }
+        this.linkedBotID = null;
+        this.linkedBotName = null;
+        this.linkedBotDescription = null;
+        this.botToBeUnlinked = null;
+        this.islinked = false;
+        this.workflowService.selectedApp(selectedApp);
+        this.streamID = null;
+        this.saveLink();
+        //this.getAssociatedBots();
+        //this.getAssociatedTasks(this.streamId);
+        this.notificationService.notify("Bot Unlinked Successfully.", 'success')
+        // this.notificationService.notify("Bot unlinked Successfully. Please publish to reflect", 'success');
+
+      },
+        (err) => {
+          console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error');
+          // this.loadingContent = false;
+          //this.getAssociatedTasks(this.streamId);
+        }
+      )
+    }
+  }
+  saveLink() {
+    this.submitted = true;
+    if (!this.validateBotConfiguration()) {
+      return;
+    }
+    if (this.botToBeUnlinked && this.islinked) {
+      this.unlinkBotWhithPublish(this.selectedLinkBotConfig._id);
+      this.workflowService.linkBot(this.selectedLinkBotConfig._id);
+    } else {
+      // this.loadingContent = true;
+      let selectedApp: any;
+      const queryParams = {
+        searchIndexID: this.searchIndexId
+      }
+      let channelType = 'ivr';
+      if (this.configurationLink.webhookUrl.split('/').indexOf('hookInstance') > -1) {
+        channelType = this.configurationLink.webhookUrl.split('/')[this.configurationLink.webhookUrl.split('/').indexOf('hookInstance') + 1]
+      }
+      let payload = {
+        "linkBotId": this.selectedLinkBotConfig._id,
+        "linkBotName": this.selectedLinkBotConfig.name,
+        "channels": [
+          {
+            "type": channelType,
+            "app": {
+              "clientId": this.configurationLink.clientId,
+              "name": (this.selectedLinkBotConfig.channels[0].app || {}).name || (this.selectedLinkBotConfig.channels[0].app || {}).appName || '',
+              "clientSecret": this.configurationLink.clientSecret
+            },
+            "webhookUrl": this.configurationLink.webhookUrl,
+            "postUrl": this.configurationLink.postUrl,
+            "accessToken": this.configurationLink.accessToken
+          }
+        ]
+
+      }
+      this.service.invoke('put.configLinkbot', queryParams, payload).subscribe(
+        res => {
+          this.allBotArray = [];
+          res.configuredBots.forEach(element => {
+            let obj = {
+              "_id": element._id,
+              "state": "new"
+            }
+            this.allBotArray.push(obj);
+          });
+
+          // if(this.allBotArray.length > 0){
+          //   this.universalPublish();
+          // }
+          // Universal Bot Publish here.
+          console.log(res);
+          selectedApp = this.workflowService.selectedApp();
+          if (res.configuredBots[0]) {
+            selectedApp.configuredBots[0] = {};
+            selectedApp.configuredBots[0]._id = res.configuredBots[0]._id;
+            this.linkedBotID = res.configuredBots[0]._id;
+            this.linkedBotName = res.configuredBots[0].botName;
+          }
+          this.linkedBotDescription = res.description;
+          this.closeBotsConfigurationModalElement();
+          if (selectedApp.configuredBots[0]) {
+            this.streamID = selectedApp.configuredBots[0]._id;
+          }
+          else {
+            this.streamID = selectedApp.publishedBots[0]._id;
+          }
+          if (this.workflowService.selectedApp()) {
+            this.appSelectionService.getStreamData(this.workflowService.selectedApp())
+          }
+          this.botToBeUnlinked = this.selectedLinkBotConfig._id;
+          this.selectedLinkBotConfig = null;
+          this.islinked = true;
+          // this.getAssociatedTasks(this.streamID)
+          this.getAssociatedBots();
+          this.workflowService.linkBot(this.streamID);
+          this.workflowService.smallTalkEnable(res.stEnabled);
+          this.closeLinkBotsModal()
+          this.notificationService.notify("Bot Linked Successfully", 'success');
+          this.router.navigate(['/botActions'], { skipLocationChange: true });
+          // this.syncLinkedBot();
+          // this.loadingContent = false;
+        },
+        errRes => {
+          // this.loadingContent = false;
+          if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+            this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+          } else {
+            this.notificationService.notify('Failed to geneerate channel credentials', 'error');
+          }
+        }
+      );
+
+    }
+
   }
 }
 

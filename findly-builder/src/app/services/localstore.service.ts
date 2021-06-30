@@ -42,6 +42,7 @@ export class LocalStoreService {
   public removeAuthInfo() {
     try {
       window[this.storageType].setItem('jStorage', '{}');
+      window[this.storageType].setItem('krPreviousState', '{}');
       return true;
     } catch (error) {
       return false;
@@ -61,7 +62,21 @@ export class LocalStoreService {
       return false;
     }
   }
-
+  public getSelectedSSOAccount(): any {
+    try {
+      let _selectedSSOAccount = window[this.storageType].getItem('selectedSSOAccount');
+      window[this.storageType].setItem('selectedAccount',_selectedSSOAccount);
+      if (_selectedSSOAccount) {
+        _selectedSSOAccount = JSON.parse(_selectedSSOAccount);
+        //window[this.storageType].removeItem('selectedSSOAccount');
+      } else {
+        return false;
+      }
+      return _selectedSSOAccount;
+    } catch (error) {
+      return false;
+    }
+  }
   public getAssociatedAccounts(): any[] {
     try {
       let _accountDetails = window[this.storageType].getItem('jStorage');

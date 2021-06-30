@@ -1,5 +1,6 @@
 <div class="main-metrics-container">
     <div class="header-sec row m-0 col-12">
+        <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <div class="bread-cum-sec col-3 p-0 d-flex align-items-center">
             <div class="bread-name">{{'metrics.analytics'| translate}}</div>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
@@ -31,7 +32,7 @@
                             <img src="assets/icons/search_gray.svg" class="search-icon">
                         </div>                        -->
                         <div class="kr-sg-input-search">
-                            <input type="text" placeholder="Search" class="input-search" [ngClass]="{'pl-33':!searchSources}" autocomplete="off" [(ngModel)]="searchSources" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                            <input type="text" placeholder="Search" class="input-search" [ngClass]="{'pl-33':!searchSources,'pl-2':searchSources}" autocomplete="off" [(ngModel)]="searchSources" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
                             <img class="close-icon" *ngIf="searchSources" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (click)="searchSources='';">
@@ -61,7 +62,7 @@
                         <div id="querieswithresults" class="tab-pane tab-data-content " [ngClass]="{'active show': querieswithresults }">
                             <div class="table_data_content">
                                 <div class="table_header row m-0">
-                                    <div class="col-8 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_query'| translate}} </div>
+                                    <div class="col-8 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_results'| translate}} </div>
                                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Count'| translate}} <span class="info-icon" placement="top-center" ngbTooltip="Number of times the query was searched for by the end-users" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
                                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.No_of_Clicks'| translate}} <span class="info-icon" placement="top-center" ngbTooltip="Number of times where at least one result of the query was clicked on by the end-users" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
                                 </div>
@@ -77,12 +78,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div *ngIf='getQueriesWithResults?.length' style="margin : 15px"><app-record-pagination [totalRecord]='QWR_totalRecord' [limitpage]='QWR_limitPage' (pageChanged)="paginate($event,'QWR')"></app-record-pagination></div>
+                            <div *ngIf='QWR_totalRecord && QWR_totalRecord>10' style="margin : 15px"><app-record-pagination [totalRecord]='QWR_totalRecord' [limitpage]='10' (pageChanged)="paginate($event,'QWR')"></app-record-pagination></div>
                         </div>
                         <div id="querieswithoutresults" class="tab-pane fade tab-data-content" [ngClass]="{'active show': !querieswithresults }">
                             <div class="table_data_content">
                                 <div class="table_header row m-0">
-                                    <div class="col-10 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_query'| translate}}</div>
+                                    <div class="col-10 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_results'| translate}}</div>
                                     <!-- <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Appearances <span class="info-icon" placement="top-center" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div> -->
                                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Count'| translate}} <span class="info-icon" placement="top-center" ngbTooltip="Number of times the query was searched for by the end-users" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"><img src="assets/icons/Info_gray.svg"></span></div>
                                 </div>
@@ -100,7 +101,7 @@
 
                             </div>
                             <!-- <span *ngIf='topQuriesWithNoResults.length===0'>No results found</span> -->
-                            <div *ngIf='topQuriesWithNoResults?.length' style="margin : 15px"><app-record-pagination [totalRecord]='QWNR_totalRecord' [limitpage]='QWNR_limitPage' (pageChanged)="paginate($event,'QWNR')"></app-record-pagination></div>
+                            <div *ngIf='QWNR_totalRecord && QWNR_totalRecord>10' style="margin : 15px"><app-record-pagination [totalRecord]='QWNR_totalRecord' [limitpage]='10' (pageChanged)="paginate($event,'QWNR')"></app-record-pagination></div>
                         </div>
                     </div>
                 </div>
@@ -113,38 +114,38 @@
 <kr-modal modalType="center" #viewQueries modalClass="modal_popups_ view-query-modal">
     <div class="modal-header">
         <div>
-            <div class="small-title">{{'metrics.search_insights.Search_Queries_for'| translate}}</div>
+            <div class="small-title">{{'metrics.search_insights.Search_Results_for'| translate}}</div>
             <div class="title-small">{{selectedQuery}}</div>
-            <div class="response">FAQ Response</div>
+            <!-- <div class="response">FAQ Response</div> -->
         </div>
         <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
     </div>
+    <div class="table_header row m-0">
+        <div class="col-4 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_Results'| translate}}</div>
+        <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Appearances'| translate}}</div>
+        <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.No_of_Clicks'| translate}}</div>
+        <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Click-Through_Rate'| translate}}</div>
+        <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Avg_Position'| translate}}</span></div>
+        <!-- <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Positive_Feedback'| translate}}</span></div>
+        <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Negative_Feedback'| translate}}</span></div> -->
+    </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
         <div class="modal-body">
-            <div class="table_data_content">
-                <div class="table_header row m-0">
-                    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_Results'| translate}}</div>
-                    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Appearances'| translate}}</div>
-                    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.No_of_Clicks'| translate}}</div>
-                    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Click-Through_Rate'| translate}}</div>
-                    <div class="col-2 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Avg_Position'| translate}}</span></div>
-                    <!-- <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Positive_Feedback'| translate}}</span></div>
-                    <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.search_insights.Negative_Feedback'| translate}}</span></div> -->
-                </div>
+            <div class="table_data_content">                
                 <div class="table_body row m-0" *ngFor="let result of getSearchQueriesResults;let i = index">
-                    <div class="col-2 title d-flex align-items-center">
+                    <div class="col-4 title d-flex align-items-center">
                         <span class="img-sec"><img src="assets/icons/question-box.svg"></span>
-                        <span class="results">{{result.answer}}</span>
+                        <span class="results ">{{result.answer}}</span>
                     </div>
-                    <div class="col-2 title">{{result.appearances}}</div>
-                    <div class="col-2 title">{{result.clicks}}</div>
-                    <div class="col-2 title">{{result.clickThroughRate}} %</div>
-                    <div class="col-2 title">{{result.avgPosition}}</div>
+                    <div class="col-2 title pl-3">{{result.appearances}}</div>
+                    <div class="col-2 title pl-3">{{result.clicks}}</div>
+                    <div class="col-2 title pl-3">{{result.clickThroughRate}} %</div>
+                    <div class="col-2 title pl-3">{{result.avgPosition}}</div>
                     <!-- <div class="col-1 title">{{result.positiveFeedback}}</div>
                     <div class="col-1 title">{{result.negativeFeedback}}</div> -->
                 </div>
             </div>
-            <div *ngIf='getSearchQueriesResults?.length' style="margin : 15px"><app-record-pagination [totalRecord]='SQR_totalRecord' [limitpage]='SQR_limitPage' (pageChanged)="paginate($event,'SQR')"></app-record-pagination></div>
+            <div *ngIf='SQR_totalRecord && (10 < SQR_totalRecord)' style="margin : 15px"><app-record-pagination [totalRecord]='SQR_totalRecord' [limitpage]='10' (pageChanged)="paginate($event,'SQR')"></app-record-pagination></div>
         </div>
     </perfect-scrollbar>
     <!-- <div class="modal-footer">

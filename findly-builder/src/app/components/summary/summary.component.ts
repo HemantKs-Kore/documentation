@@ -19,7 +19,7 @@ declare const $: any;
   styleUrls: ['./summary.component.scss'],
   animations: [fadeInOutAnimation]
 })
-export class SummaryComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SummaryComponent implements OnInit, OnDestroy {
   serachIndexId;
   indices: any = [];
   experiments: any = [];
@@ -96,6 +96,8 @@ export class SummaryComponent implements OnInit, OnDestroy, AfterViewInit {
     'Drop offs': 'Number of conversation sessions where the users have dropped-off from the conversation.'
   };
   subscription: Subscription;
+  showActivity: boolean;
+  routeRefresh: Subscription;
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
   @ViewChild('onboard') onboard: UseronboardingJourneyComponent;
   constructor(
@@ -111,6 +113,24 @@ export class SummaryComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   ngOnInit() {
+    this.initialCall();
+    this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
+      this.showOverview = res.findlyOverviewVisited;
+    })
+    this.routeRefresh = this.appSelectionService.refreshSummaryPage.subscribe(res => {
+      if (res == 'changed') {
+        this.initialCall();
+        this.onboard?.initialCall();
+        this.appSelectionService.getTourConfig();
+      }
+    })
+  }
+  // closeOverview() {
+  //   this.subscription.unsubscribe();
+  //   this.showOverview = true
+  // }
+  //initial ngoninit method call
+  initialCall() {
     const toogleObj = {
       title: 'Summary',
       toShowWidgetNavigation: this.workflowService.showAppCreationHeader()
@@ -119,43 +139,15 @@ export class SummaryComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
-    //this.appSelectionService.getTourConfig()
-    // this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
-    //   this.showOverview = res.findlyOverviewVisited;
-    // })
     this.getSummary();
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
-    // this.getChannel();
-    this.getLinkedBot();
     this.getAllOverview();
     this.componentType = 'summary';
     this.inlineManual.openHelp('APP_WALKTHROUGH')
     //this.onboard.openOnBoardingModal();
   }
-  ngAfterViewInit() {
-    this.getTourConfig();
-  }
-  // closeOverview() {
-  //   this.subscription.unsubscribe();
-  //   this.showOverview = true
-  // }
-  getTourConfig() {
-    const appInfo: any = this.workflowService.selectedApp();
-    const quaryparms: any = {
-      streamId: appInfo._id
-    };
-    const appObserver = this.service.invoke('get.tourConfig', quaryparms);
-    appObserver.subscribe(res => {
-      const getTourArray = res.tourConfigurations;
-      this.showOverview = getTourArray.findlyOverviewVisited;
-      if (this.showOverview == false) {
-        this.onboard.openOnBoardingModal();
-      }
-    }, errRes => {
-      console.log(errRes)
-    });
-  }
+ 
   getSummary() {
     this.loading = false;
     // this.loading = true;
@@ -193,10 +185,7 @@ export class SummaryComponent implements OnInit, OnDestroy, AfterViewInit {
       },
 
     }
-
-
     this.service.invoke('get.queries', quaryparms, payload, header).subscribe(res => {
-      console.log("summary result rate", res)
       if (type == "TotalUsersStats") {
         this.totalUsersStats = res;
       } else if (type == "TotalSearchesStats") {
@@ -204,7 +193,9 @@ export class SummaryComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        if (errRes.error.errors[0].code != 'NoActiveSubscription') {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        }
       } else {
         this.notificationService.notify('Failed ', 'error');
       }
@@ -251,7 +242,7 @@ export class SummaryComponent implements OnInit, OnDestroy, AfterViewInit {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
-          this.notificationService.notify('Failed to get LInked BOT', 'error');
+          // this.notificationService.notify('Failed to get LInked BOT', 'error');
         }
       }
     );
@@ -262,32 +253,11 @@ export class SummaryComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.service.invoke('get.overview', queryParams).subscribe(
       res => {
-        console.log("res latest", res);
         this.experiments = res.experiments
         this.activities = res.activities;
         this.indices = res.indices;
         this.indexPipeLineCount = this.indices[0].indexPipeLineCount;
-        // this.experiments.forEach(element => {
-        //   if (element.variants) {
-        //     element.variants.forEach(res => {
-        //       if (res.leader) {
-        //         element['winner'] = true;
-        //       }
-        //     });
-        //   }
-        // });
-        // this.activities.forEach(element => {
-        //   element.date = moment(element.date).fromNow();
-        //   console.log(this.activities)
-        // });
-
-        //  this.activities.createdOn = moment(this.activities.createdOn).fromNow();
-        //  this.getChannel();
-        //  this.channels.forEach(channel => {
-        //   if(res.apps.length > 0){
-        //     this.channelExist = true;
-        //   }
-        // });
+        this.showActivity = this.activities.length > 0 ? this.activities.some(act => act.faqInReviewCount > 0) ? true : false : false;
         this.activities = this.activities.map(item => {
           let hours = moment().diff(moment(item.time), 'hours');
           let days = moment().diff(moment(item.time), 'days');
@@ -298,8 +268,11 @@ export class SummaryComponent implements OnInit, OnDestroy, AfterViewInit {
           let hours = moment().diff(moment(data.end), 'hours');
           let days = moment().diff(moment(data.end), 'days');
           let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
-          return { ...data, total_days: days_result, time_result: hours };
+          return { ...data, total_days: days_result + ' more to go', time_result: hours };
         })
+        if(this.selectedApp.channels[0].app.appName != '' && this.selectedApp.channels[0].app.clientId!=''){
+          this.channelExist =true;
+        }
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -315,18 +288,21 @@ export class SummaryComponent implements OnInit, OnDestroy, AfterViewInit {
   userViewAll() {
     $('#dashboardTab').trigger('click');
     setTimeout(() => {
+      this.workflowService.mainMenuRouter$.next('/userEngagement');
       this.router.navigate(['/userEngagement'], { skipLocationChange: true });
     }, 100)
   }
   searchViewAll() {
     $('#dashboardTab').trigger('click');
     setTimeout(() => {
+      this.workflowService.mainMenuRouter$.next('/searchInsights');
       this.router.navigate(['/searchInsights'], { skipLocationChange: true });
     }, 100)
   }
   resultViewAll() {
     $('#dashboardTab').trigger('click');
     setTimeout(() => {
+      this.workflowService.mainMenuRouter$.next('/resultInsights');
       this.router.navigate(['/resultInsights'], { skipLocationChange: true });
     }, 100)
   }
@@ -334,7 +310,11 @@ export class SummaryComponent implements OnInit, OnDestroy, AfterViewInit {
     $('#experimentsTab').trigger('click')
   }
   openChannel() {
-    $('#channelsTab').trigger('click')
+    $('#channelsTab').trigger('click');
+    setTimeout(() => {
+      this.workflowService.mainMenuRouter$.next('/settings');
+      this.router.navigate(['/settings'], { skipLocationChange: true });
+    }, 100)
   }
   openDashboard() {
     $('#dashboardTab').trigger('click')
@@ -354,6 +334,7 @@ export class SummaryComponent implements OnInit, OnDestroy, AfterViewInit {
     this.onboard.closeOnBoardingModal();
   }
   ngOnDestroy() {
-    this.subscription ? this.subscription.unsubscribe() : null;
+    this.subscription.unsubscribe();
+    this.routeRefresh.unsubscribe();
   }
 }
