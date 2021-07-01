@@ -78,7 +78,8 @@
                     <div class="kr-sg-dropdowns col-12 p-0" [ngClass]="{'disabled': addEditWeighObj._id}">
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                             <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
-                            <input [class.err-block]="((!addEditWeighObj.fieldName || !addEditWeighObj.fieldName.length) && submitted)" type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" [ngClass]="{'pl-33':!addEditWeighObj.fieldName}" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName" maxlength="60">
+                            <input [class.err-block]="((!addEditWeighObj.fieldName || !addEditWeighObj.fieldName.length) && submitted)" type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" [ngClass]="{'pl-33':!addEditWeighObj.fieldName}"  [(ngModel)]="addEditWeighObj.fieldName" maxlength="60">
+                            <!-- <input [class.err-block]="((!addEditWeighObj.fieldName || !addEditWeighObj.fieldName.length) && submitted)" type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" [ngClass]="{'pl-33':!addEditWeighObj.fieldName}" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName" maxlength="60"> -->
                             <img *ngIf="(!addEditWeighObj.fieldName || !addEditWeighObj.fieldName.length) && submitted" id="weightNameWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
                             <!-- <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" [ngClass]="{'pl-33':!addEditWeighObj.fieldName}" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'"> -->
@@ -89,7 +90,7 @@
                             <ul class="dropdown-menu content-menu scroll-max-250">
                                 <perfect-scrollbar class="scroll-max-250">
                                     <div class="scroll-max-250">
-                                        <li *ngFor="let suggesition of fields" id="btn_selectWeightsField" (click)="selectedField(suggesition)">
+                                        <li *ngFor="let suggesition of fields | filter : [addEditWeighObj.fieldName, 'fieldName'] " id="btn_selectWeightsField" (click)="selectedField(suggesition)">
                                             <a>{{suggesition.fieldName}}</a>
                                         </li>
                                     </div>

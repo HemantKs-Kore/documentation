@@ -676,7 +676,7 @@
 
               <!-- Cookies -->
               <div class="row m-0">                 
-                  <div class="col-1"></div>
+                  <!-- <div class="col-1"></div> -->
                   <div class="col-11 p-0 group-checkbox">
                     <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grph" class="checkbox-custom" type="checkbox" name = "isJavaScriptRendered" [checked]="isJavaScriptRendered" [(ngModel)] = "isJavaScriptRendered" [ngModelOptions]="{standalone: true}">
@@ -695,7 +695,7 @@
                       <label for="checkbox_cook" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
                     </div>
                   </div>
-                  <div class="col-1"></div>
+                  <!-- <div class="col-1"></div> -->
                   <div class="inner-content row m-0 col-11 p-0">
                     <div class="col-3 p-0">                   
                       <div class="kr-sg-input-text mb-4">
@@ -729,7 +729,7 @@
                       </div>
                     </div>
                   </div>  
-                  <div class="col-1"></div>
+                  <!-- <div class="col-1"></div> -->
                   <div class="info-no-limit col-7">
                     <img src="assets/icons/info-limit.svg">
                     <span class="title">Not limiting the Crawl Depth and Max URL Limit may impact the system performance</span>
@@ -859,7 +859,7 @@
             <!-- Conf Configuration-->
 
           </div>
-          <div class="accordion-content-info text-left d-none" *ngIf="page && sourceStatus == 'success'">
+          <div class="accordion-content-info text-left" *ngIf="page && sourceStatus == 'success'">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
               <div class="col-3 label_text m-0">Last Updated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
@@ -943,9 +943,9 @@
             </div>
 
           </div>
-          <div class="empty-page-data-container">
+          <div class="empty-page-data-container" *ngIf="page && sourceStatus == 'failed' ">
             <img src="assets\images\emptyList.svg">
-            <div class="title">Sorry! No Pages available yet!! Please <span>crawl</span> the web domain again</div>
+            <div class="title">Sorry! No Pages available yet!! Please <span> crawl</span> the web domain again</div>
           </div>
           <!-- Execution -->
           <div *ngIf="execution" class="execution-table-data">
@@ -954,10 +954,10 @@
                 <div class="kr-sg-data-table with-checkbox">
                   <section class="table-content m-0">
                     <header class="table-header">
-                      <div class="col_ col-4">EXECUTION STATUS</div>
-                      <div class="col_ col-2">DURATION</div>
-                      <div class="col_ col-3">TRIGGERED BY</div>
-                      <div class="col_ col-3">EXECUTED ON</div>
+                      <div class="col_ col-4">{{"contentSource.execution_caps" | translate}}</div>
+                      <div class="col_ col-2">{{"contentSource.duration_caps" | translate}}</div>
+                      <div class="col_ col-3">{{"contentSource.triggered_by_caps" | translate}}</div>
+                      <div class="col_ col-3">{{"contentSource.executed_on_caps" | translate}}</div>
                     </header>
                     <perfect-scrollbar class="scroll-table" #perfectScroll>
                       <ng-container>
@@ -966,7 +966,7 @@
                             <img src="assets/icons/content/eye.svg" (mouseover)="executionLogStatus = true">
                             <div class="execute-log" *ngIf="executionLogStatus">
                               <div class="header-title">
-                                <div class="title">EXECUTION LOG</div>
+                                <div class="title">{{"contentSource.execution_log_caps" | translate}}</div>
                             <div class="close-log"><img src="assets/images/close.svg" (click)="executionLogStatus = false"></div>
                               </div>
                               <ng-container *ngFor="let statlog of history.executionStats.statusLogs; let i = index;">

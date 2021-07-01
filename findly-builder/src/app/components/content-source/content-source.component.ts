@@ -45,6 +45,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   allowUrlArr: AllowUrl[] = [];
   blockUrlArr: BlockUrl[] = [];
   activeClose = false;
+  oldQuedJob = [];
   filterSystem: any = {
     'typeHeader': 'type',
     'statusHeader': 'status',
@@ -267,7 +268,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     }
   }
-  getSourceList() {
+  getSourceList(nxt?) {
     this.statusArr = [];
     this.docTypeArr = [];
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
@@ -354,7 +355,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         source.name = source.name || source.title;
       });
       this.resources = this.resources.reverse();
-      if (this.resources && this.resources.length) {
+      if (this.resources && this.resources.length && !nxt) {
         this.poling('content')
       }
       this.loadingContent = false;
@@ -413,16 +414,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       type
     };
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
-      // let compareObj = [...Object.entries(this.resourcesStatusObj)];
-      // compareObj.forEach((element : any[],index) => {
-      //   if(res[index] && element[0] ==  res[index]._id && element[1].status != res[index].status){
-      //     this.getJobDetails(res._id)
-      //     this.getSourceList();
-      //   }
-      // });
+      this.oldQuedJob = [];
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
-
+        if(source.status == 'running' || source.status == 'queued'){
+          this.oldQuedJob.push(source._id);
+        }
         if (this.resourcesStatusObj[source._id]) {
           if (this.resourcesStatusObj[source._id].status == 'running' || this.resourcesStatusObj[source._id].status == 'queued') {
             if (source.executionStats.percentageDone && source.executionStats.percentageDone == 100) {
@@ -431,29 +428,22 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             }
           }
         }
-        res.forEach(element => {
-          if(element.status ! = this.resourcesStatusObj[element._id].status){
-            // this.getJobDetails(source._id)
-            this.getSourceList();
-          }
-        });
-        //this.resourcesStatusObj.forEach(element => {
-          // if(this.resourcesStatusObj[element._id].status != res[source._id].status){
-          //   this.getJobDetails(source._id)
-          //   this.getSourceList();
-          // }
-        //});
         this.resourcesStatusObj[source._id] = source;
 
         return ((source.status === 'running') || (source.status === 'queued'));
       });
       if (queuedJobs && queuedJobs.length) {
         console.log(queuedJobs);
+        if(this.oldQuedJob.length != queuedJobs.length){
+          this.getSourceList();
+        }
       } else {
         clearInterval(this.polingObj[type]);
+        this.getSourceList('clearPoling');
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
+      this.oldQuedJob = [];
       clearInterval(this.polingObj[type]);
     });
   }
@@ -550,9 +540,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.isConfig = true;
         this.page = false;
       } else if (tabName == 'page') {
-        this.page=true;
-        this.isConfig=false;
-        this.execution= false;
+        // if(this.selectedSource.recentStatus == 'success'){
+          this.page = true;
+          this.isConfig = false;
+          this.execution = false;
+        // }
+        // else{
+        //   this.page = false;
+        //   this.isConfig = true;
+        //   this.execution = false;
+        // }
+        
         // $('.tabname')[0].classList.add('active');
         // $('.tabname')[1].classList.remove('active');
         // $('.tabname')[2].classList.remove('active');

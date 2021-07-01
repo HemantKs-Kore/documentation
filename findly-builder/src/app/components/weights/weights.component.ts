@@ -192,10 +192,23 @@ export class WeightsComponent implements OnInit, OnDestroy {
     // this.addEditWeighObj = editWeight;
     // this.openAddEditWeight();
   }
+  getAllFields(){
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+    };
+    let serviceId = 'get.allFieldsData';
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+      this.fields = res.fields || [];
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
+  }
   openAddEditWeight() {
     this.searchModel = {};
     this.sliderOpen = true;
     this.submitted = false;
+    this.getAllFields();
     this.addDditWeightPopRef = this.addDditWeightPop.open();
   }
   openAddNewWeight() {
@@ -205,7 +218,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
       isField: true,
       sliderObj: new RangeSlider(0, 10, 1, 2, 'editSlider')
     };
-    this. getFieldAutoComplete(''); 
+    // this. getFieldAutoComplete(''); 
     this.openAddEditWeight();
   }
   closeAddEditWeight() {
