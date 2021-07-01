@@ -859,10 +859,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
-      offset: offset || 0,
-      limit: 200
     };
-    this.service.invoke('get.allField', quaryparms).subscribe(res => {
+    let serviceId = 'get.allFieldsData';
+    // let serviceId ='get.allField';
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
       this.fields = res.fields || [];
       this.loadingFields = false;
     }, errRes => {
@@ -1115,7 +1115,31 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       map.trait_groups.splice(index, 1);
     }
   }
-  addFiledmappings(map) {
+  checkFieldsValidOrNot(map){
+    if(this.selectedStage.type == 'field_mapping'){
+      if((map.operation === 'rename' || map.operation === 'copy') ? (!map.target_field || !map.source_field):(map.operation === 'remove'?!map.target_field:(!map.target_field || !map.value)) ){
+        return false;
+      }
+    } else if(this.selectedStage.type == 'entity_extraction'){
+      if(!map.target_field || !map.source_field || !map.entity_types.length){
+        return false;
+      }
+    } else if(this.selectedStage.type == 'traits_extraction'){
+      if(!map.target_field || !map.source_field || !map.trait_groups.length){
+        return false;
+      }
+    } else if(this.selectedStage.type == 'keyword_extraction' || this.selectedStage.type == 'semantic_meaning'){
+      if(!map.target_field || !map.model || !map.source_field){
+        return false;
+      }
+    } else if(this.selectedStage.type == 'exclude_document'){
+      if(!map.target_field || !map.value){
+        return false;
+      }
+    }
+    return true;
+  }
+  addFiledmappings(map, isNotDefault?) {
     this.changesDetected = true;
     if (!this.selectedStage.config) {
       this.selectedStage.config = {
@@ -1124,6 +1148,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (!this.selectedStage.config.mappings) {
       this.selectedStage.config.mappings = [];
+    }
+    if(isNotDefault && !this.checkFieldsValidOrNot(map)){
+      return
     }
     this.selectedStage.config.mappings.push(map);
     this.setResetNewMappingsObj(true, true);
