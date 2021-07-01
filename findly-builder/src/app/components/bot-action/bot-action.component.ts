@@ -1446,6 +1446,6 @@ export class BotActionComponent implements OnInit {
   }
 
   navigateToBotBuilder () {
-    window.open(this.botBulilderUrl, '_self');
+    window.open(this.botBulilderUrl, '_blank');
   };
 }
