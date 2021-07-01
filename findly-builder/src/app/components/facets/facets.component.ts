@@ -264,18 +264,21 @@ export class FacetsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      offset: 0,
-      limit: 100
+      // offset: 0,
+      // limit: 100
     };
-    this.service.invoke('get.allField', quaryparms).subscribe(res => {
+    // let serviceId = 'get.allField';
+    let serviceId = 'get.allFieldsData';
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+      this.fieldAutoSuggestion = res.fields || [];
       res.fields.forEach(element => {
         if (element._id === data.fieldId) {
           console.log(element)
           this.addEditFacetObj = JSON.parse(JSON.stringify(data));
           this.selectedFieldId = element._id;
-          this.getFieldAutoComplete(element.fieldName);
+          // this.getFieldAutoComplete(element.fieldName);
           this.selectField(element);
-          this.openModal();
+          this.openModal(true);
         }
       });
     }, errRes => {
@@ -594,8 +597,11 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
-  openModal() {
+  openModal(isFields?) {
     this.submitted = false;
+    if(!isFields){
+      this.getAllFields();
+    }
     this.facetModalRef = this.facetModalPouup.open();
   }
   closeModal() {
@@ -606,6 +612,23 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.resetDefaults();
     this.addEditFacetObj = null;
     this.selectedFieldId = null;
+  }
+  getAllFields(){
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+    };
+    let serviceId = 'get.allFieldsData';
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+      this.fieldAutoSuggestion = res.fields || [];
+      if(this.fieldAutoSuggestion.length){
+        if(!$('#facets-search-with-dropdown-menu').hasClass('show') && $('#facets-search-input').is(':focus')){
+          $('#facets-search-with-dropdown-menu').addClass('show')
+        }
+      }
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
   }
   toggleSearch() {
     if (this.showSearch && this.searchfacet) {

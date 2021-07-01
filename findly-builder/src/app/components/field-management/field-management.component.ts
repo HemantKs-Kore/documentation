@@ -119,6 +119,7 @@ export class FieldManagementComponent implements OnInit {
         isIndexed: true
       }
     }
+    this.getAllFields();
     this.submitted = false;
     this.openModalPopup();
   }
@@ -326,6 +327,18 @@ export class FieldManagementComponent implements OnInit {
     this.sortBy(field);
         
   }
+  getAllFields(){
+      const quaryparms: any = {
+        searchIndexID: this.serachIndexId,
+        indexPipelineId: this.indexPipelineId,
+      };
+      let serviceId = 'get.allFieldsData';
+      this.service.invoke(serviceId, quaryparms).subscribe(res => {
+        this.fieldAutoSuggestion = res.fields || [];
+      }, errRes => {
+        this.errorToaster(errRes, 'Failed to get fields');
+      });
+    }
   getFileds(offset?,searchFields?) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
