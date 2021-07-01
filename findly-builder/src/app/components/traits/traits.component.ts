@@ -758,6 +758,7 @@ export class TraitsComponent implements OnInit {
     this.currentUtteranceIndex = null;
     this.currentTraitKey = null;
     this.utteranceList = [];
+    this.newUtterance = '';
     this.uttSubmitted = false;
     if (this.addUtteranceModalPopRef && this.addUtteranceModalPopRef.close) {
       this.addUtteranceModalPopRef.close();
@@ -813,7 +814,7 @@ export class TraitsComponent implements OnInit {
   };
   addNewUtter(utter, event) {
     const utteranceData = [];
-    if (event && (event.keyCode === 13 || event.type == 'click') && utter !== '') {
+    if (event && (event.keyCode === 13 || event.type == 'click') && utter) {
       let utternaceIndex = -1;
       const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
         if (utter === utterance) {
@@ -827,7 +828,7 @@ export class TraitsComponent implements OnInit {
       }
       this.utteranceList = [utter].concat(this.utteranceList);
       this.newUtterance = '';
-      this.showUtteranceInput = false;
+      this.showUtteranceInput = true;
     }
   }
   addUtterance(utter, key, event, traitsGroup, index) {
