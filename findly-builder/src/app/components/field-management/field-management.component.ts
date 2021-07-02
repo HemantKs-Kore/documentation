@@ -247,14 +247,12 @@ export class FieldManagementComponent implements OnInit {
           if (deps.facets || deps.weights) {
             usageText = usageText + ' , ' + res.rules.records.length + ' Rule'+(res.rules.records.length>1?'s':'')
           } else {
-            usageText = usageText + ' , ' + res.rules.records.length + ' Rule'+(res.rules.records.length>1?'s':'')
+            usageText = usageText + ' '  + res.rules.records.length + ' Rule'+(res.rules.records.length>1?'s':'')
           }
         }
         if (res && res.resultTemplates && res.resultTemplates.used) {
           deps.resultTemplate = true;
-          if ((deps.facets || deps.weights) && deps.rules) {
-            usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
-          } else if ((deps.facets || deps.weights) && !deps.rules) {
+          if (deps.facets || deps.weights ||  deps.rules) {
             usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
           } else {
             usageText = usageText + ' ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
