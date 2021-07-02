@@ -732,7 +732,8 @@
         "document":"Document",
         "no_of_pages":"No. Of. Pages",
         "last_updated":"Last Updated",
-        "results_preview":"Results Preview"
+        "results_preview":"Results Preview",
+        "structuredData" : "Structured Data"
     },
     "resultTemplate": {
         "resultTemplates": "Result Templates",

@@ -139,6 +139,25 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     'successful': { label: "Successful", icon: this.finalStateExecutionstageStatusObj },
   };
 
+  availableStructuredDataSources = [
+    {
+      name: 'Import Structured Data',
+      description: 'Import from JSON or CSV',
+      icon: 'assets/icons/content/database-Import.svg',
+      id: 'contentStucturedDataImport',
+      sourceType: 'data',
+      resourceType: 'structuredData'
+    },
+    {
+      name: 'Import Structured Data',
+      description: 'Add structured data manually',
+      icon: 'assets/icons/content/database-add.svg',
+      id: 'contentStucturedDataAdd',
+      sourceType: 'data',
+      resourceType: 'structuredDataManual'
+    }
+  ];
+
   sliderStep = 0;
   selectedPage: any = {};
   selectedSource: any = {};
@@ -181,10 +200,16 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   crawlDepth: number;
   maxUrlLimit: number;
   crwalOptionLabel = '';
+  structuredDataModalRef : any;
+  addStructuredDataModalPopRef: any;
+  selectedSourceType : any;
+  isStructuredDataAdd : boolean = false;
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
+  @ViewChild('structuredDataModal') structuredDataModal: KRModalComponent;
+  @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   constructor(
     public workflowService: WorkflowService,
@@ -221,6 +246,25 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     // this.openAddSourceModal();
     // this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
   }
+
+  addStructuredDataSource(){
+    // this.structuredDataModalRef = this.structuredDataModal.open();
+    this.isStructuredDataAdd = true;
+    this.selectedSourceType = JSON.parse(JSON.stringify(this.availableStructuredDataSources[0]));
+    this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
+  }
+
+  openStructuredData(){
+    this.structuredDataModalRef = this.structuredDataModal.open();
+  }
+
+  closeAddStructuredDataModal(){
+    if(this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close){
+      this.isStructuredDataAdd = false;
+      this.addStructuredDataModalPopRef.close();
+    }
+  }
+
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }

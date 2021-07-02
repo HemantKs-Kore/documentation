@@ -24,7 +24,8 @@
             <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>{{"contentSource.add_content" | translate}}</button>                                            
             <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
             <li class="webDomain" (click)="addNewContentSource('contentWeb')">{{"contentSource.craw_web_domain" | translate}}</li>
-            <li class="webDomain" (click)="addNewContentSource('contentDoc')">{{"contentSource.upload_file" | translate}}</li>                  
+            <li class="webDomain" (click)="addNewContentSource('contentDoc')">{{"contentSource.upload_file" | translate}}</li>
+            <li class="webDomain" (click)="addStructuredDataSource()">{{"contentSource.structuredData" | translate}}</li>
             </ul>
           </div>                                    
         </div>
@@ -91,6 +92,7 @@
               <ul class="dropdown-menu content-menu">
                 <li (click)="addNewContentSource('contentWeb')">{{"contentSource.craw_web_domain" | translate}}</li>
                 <li (click)="addNewContentSource('contentDoc')">{{"contentSource.upload_file" | translate}}</li>
+                <li (click)="addStructuredDataSource()">{{"contentSource.structuredData" | translate}}</li>
               </ul>
             </div>
           </div>
@@ -1201,4 +1203,12 @@
   <!-- <button type="button" class="kr-sg-button-primary btn_lg" (click)="saveDocDetails()">Save</button>        
   <button type="button" class="kr-sg-button-secondary btn_lg" (click) = "cancelDocDetails()">Cancel</button> -->
 </div>
+</kr-modal>
+
+<kr-modal modalType="center" modalClass="modal_popups_ structuredDataModal" #structuredDataModal id="structuredDataModal">
+  <app-structured-data></app-structured-data>
+</kr-modal>
+
+<kr-modal modalType="center" modalClass="modal_popups_ addStructuredDataModal" #addStructuredDataModalPop id="addStructuredDataModalPop">
+  <app-add-structured-data *ngIf="isStructuredDataAdd" [selectedSourceType]="selectedSourceType" (closeStructuredDataModal)="closeAddStructuredDataModal($event)"></app-add-structured-data>
 </kr-modal>
