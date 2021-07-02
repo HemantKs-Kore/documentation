@@ -588,16 +588,12 @@ export class AppHeaderComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.pollingSubscriber) {
-      this.pollingSubscriber.unsubscribe();
-    }
-    if (this.dockServiceSubscriber) {
-      this.dockServiceSubscriber.unsubscribe();
-    }
-    if (this.routeChanged) {
-      this.routeChanged.unsubscribe();
-    }
+    this.pollingSubscriber ? this.pollingSubscriber.unsubscribe() : null;
+    this.dockServiceSubscriber ? this.dockServiceSubscriber.unsubscribe() : null;
+    this.routeChanged ? this.routeChanged.unsubscribe() : null;
     this.updateHeaderMainMenuSubscription ? (this.updateHeaderMainMenuSubscription.unsubscribe()) : false;
+    this.indexSubscription ? this.indexSubscription.unsubscribe() : null;
+    this.subscription ? this.subscription.unsubscribe() : null;
   }
   //get all apps
   getAllApps() {
@@ -616,9 +612,9 @@ export class AppHeaderComponent implements OnInit {
   // }
   //open app
   openApp(app) {
-    this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     this.appSelectionService.openApp(app);
     this.appSelectionService.refreshSummaryPage.next('changed');
+    this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     setTimeout(() => {
       this.workflowService.mainMenuRouter$.next('');
     }, 100)
@@ -661,7 +657,6 @@ export class AppHeaderComponent implements OnInit {
         };
         this.creatingInProgress = false;
         this.openApp(res);
-        //this.analyticsClick('/summary');
         // this.router.navigate(['/apps'], { skipLocationChange: true });
         // this.analyticsClick('apps', true)
       },

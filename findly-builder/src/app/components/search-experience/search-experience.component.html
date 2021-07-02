@@ -147,7 +147,7 @@
                                     <div class="box-color-content" *ngIf="inputBox1">
                                         <div class="header-title-close">
                                             <div class="title-name">Choose Color</div>
-                                            <div class="close-color" (click)="toggle=false;inputBox1=false;">
+                                            <div class="close-color" (click)="closeColorPallete('inputbox1')">
                                                 <img src="assets/icons/close.svg">
                                             </div>
                                         </div>
@@ -179,7 +179,7 @@
                                     <div class="box-color-content" *ngIf="inputBox2">
                                         <div class="header-title-close">
                                             <div class="title-name">Choose Color</div>
-                                            <div class="close-color" (click)="toggle1=false;inputBox2=false;">
+                                            <div class="close-color" (click)="closeColorPallete('inputBox2')">
                                                 <img src="assets/icons/close.svg">
                                             </div>
                                         </div>
@@ -221,7 +221,7 @@
                                     <div class="box-color-content" *ngIf="placeholBox">
                                         <div class="header-title-close">
                                             <div class="title-name">Choose Color</div>
-                                            <div class="close-color" (click)="toggle2=false;placeholBox=false;">
+                                            <div class="close-color" (click)="closeColorPallete('placeholBox')">
                                                 <img src="assets/icons/close.svg">
                                             </div>
                                         </div>
@@ -281,7 +281,7 @@
                                         <div class="box-color-content" *ngIf="buttonTextColor">
                                             <div class="header-title-close">
                                                 <div class="title-name">Choose Color</div>
-                                                <div class="close-color" (click)="toggle3=false;buttonTextColor=false;">
+                                                <div class="close-color" (click)="closeColorPallete('buttonTextColor')">
                                                     <img src="assets/icons/close.svg">
                                                 </div>
                                             </div>
@@ -313,7 +313,7 @@
                                         <div class="box-color-content" *ngIf="buttonFill">
                                             <div class="header-title-close">
                                                 <div class="title-name">Choose Color</div>
-                                                <div class="close-color" (click)="toggle4=false;buttonFill=false;">
+                                                <div class="close-color" (click)="closeColorPallete('buttonFill')">
                                                     <img src="assets/icons/close.svg">
                                                 </div>
                                             </div>
@@ -346,7 +346,7 @@
                                         <div class="box-color-content" *ngIf="buttonBorder">
                                             <div class="header-title-close">
                                                 <div class="title-name">Choose Color</div>
-                                                <div class="close-color" (click)="toggle5=false;buttonBorder=false;">
+                                                <div class="close-color" (click)="closeColorPallete('buttonBorder')">
                                                     <img src="assets/icons/close.svg">
                                                 </div>
                                             </div>
@@ -420,7 +420,7 @@
                                             <div class="box-color-content" *ngIf="msgColor">
                                                 <div class="header-title-close">
                                                     <div class="title-name">Choose Color</div>
-                                                    <div class="close-color" (click)="toggle6=false;msgColor=false;">
+                                                    <div class="close-color" (click)="closeColorPallete('msgColor')">
                                                         <img src="assets/icons/close.svg">
                                                     </div>
                                                 </div>

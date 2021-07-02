@@ -101,7 +101,7 @@ export class EndPointsService {
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:webDomainId?type=:type',
       method: 'delete'
     };
-    this.serviceList['get.clicksViews']= {
+    this.serviceList['get.clicksViews'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/:faqId/analyse',
       method: 'get'
     }
@@ -667,11 +667,11 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit',
       method: 'get'
     },
-    this.serviceList['get.searchedBusinessRules'] = {
-      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit',
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit&search=:search',
-      method: 'get'
-    },
+      this.serviceList['get.searchedBusinessRules'] = {
+        //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit',
+        endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit&search=:search',
+        method: 'get'
+      },
       this.serviceList['create.businessRules'] = {
         //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp',
         endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp',
@@ -970,6 +970,10 @@ export class EndPointsService {
     this.serviceList['delete.queryPipeline'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPIpelineId',
       method: 'delete'
+    }
+    this.serviceList['get.checkInExperiment'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/validateDelete',
+      method: 'get'
     }
     /** APIs for search experience and tour guide */
     this.serviceList['get.searchexperience.list'] = {
