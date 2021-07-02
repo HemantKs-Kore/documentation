@@ -158,11 +158,7 @@ export class FieldManagementComponent implements OnInit {
         if (res && res.weights && res.weights.used) {
           deps.weights = true;
           if (deps.facets) {
-            if (res && res.rules && res.rules.used) {
-              usageText = usageText + ', ' + 'Weights'
-            }else{
-              usageText = usageText + 'and ' + 'Weights'
-            }
+            usageText = usageText + ', ' + 'Weights'
           } else {
             usageText = usageText + ' Weights'
           }
@@ -170,7 +166,7 @@ export class FieldManagementComponent implements OnInit {
         if (res && res.rules && res.rules.used) {
           deps.rules = true;
           if (deps.facets || deps.weights) {
-            usageText = usageText + ' and ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
+            usageText = usageText + ' , ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
           } else {
             usageText = usageText + ' ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
           }
@@ -179,12 +175,13 @@ export class FieldManagementComponent implements OnInit {
         if (res && res.resultTemplates && res.resultTemplates.used) {
           deps.resultTemplate = true;
           if (deps.facets || deps.weights || deps.rules) {
-            usageText = usageText + ' and ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'');
+            usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'');
           } else {
             usageText = usageText + ' will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
           }
         }
       }
+      usageText = this.replaceLast(",", " and", usageText);
       this.indexedWarningMessage = usageText;
     }, errRes => {
       this.fetchingFieldUsage = false;
