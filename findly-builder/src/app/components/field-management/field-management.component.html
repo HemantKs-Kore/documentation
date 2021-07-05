@@ -199,10 +199,11 @@
                     <div class="label-text">Field Name</div>
                     <div class="kr-sg-dropdowns col-12 p-0">
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                            <input type="text" placeholder="Enter Field Name" maxlength="60" class="input-search dropdown-toggle dropdown-input" [ngClass]="{'err-block' : (!newFieldObj.fieldName.length && submitted)}" data-toggle="dropdown"  [(ngModel)]="newFieldObj.fieldName" (keyup)="getFieldAutoComplete(newFieldObj.fieldName)">
+                            <input type="text" placeholder="Enter Field Name" maxlength="60" class="input-search dropdown-toggle dropdown-input" [ngClass]="{'err-block' : (!newFieldObj.fieldName.length && submitted)}" data-toggle="dropdown"  [(ngModel)]="newFieldObj.fieldName" >
+                            <!-- <input type="text" placeholder="Enter Field Name" maxlength="60" class="input-search dropdown-toggle dropdown-input" [ngClass]="{'err-block' : (!newFieldObj.fieldName.length && submitted)}" data-toggle="dropdown"  [(ngModel)]="newFieldObj.fieldName" (keyup)="getFieldAutoComplete(newFieldObj.fieldName)"> -->
                             <ul class="dropdown-menu content-menu" [hidden]="!newFieldObj.fieldName">
                                 <perfect-scrollbar class="scroll-search-field">
-                                    <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="newFieldObj.fieldName = suggesition.fieldName; "><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
+                                    <li *ngFor="let suggesition of fieldAutoSuggestion | filter : [newFieldObj.fieldName, 'fieldName'] " (click)="newFieldObj.fieldName = suggesition.fieldName; "><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
                                 </perfect-scrollbar>
                             </ul>
                             <img *ngIf="!newFieldObj.fieldName.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 31%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />

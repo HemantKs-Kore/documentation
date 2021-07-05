@@ -183,19 +183,19 @@
 
                     <div class="col-10 group-name" *ngIf="showEditUtteranceInput !== i">{{utterance}}</div>  
                     <div class="col-2 action-btns pr-1"  *ngIf="showEditUtteranceInput !== i">                        
-                        <img src="assets/icons/edit-pencil.svg" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson" (click)="showEditUtteranceInput = i;showUtteranceInput = false;tempUtterance=utterance">
+                        <img src="assets/icons/edit-pencil.svg" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson" (click)="showEditUtteranceInput = i;tempUtterance=utterance">
                         <img src="assets/icons/delete-table.svg" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson" (click)="deleteUtterance(utterance,$event)">
                     </div> 
                 </div> 
-                <div class="add-utt-title" *ngIf="!showUtteranceInput  && !showEditUtteranceInput && showEditUtteranceInput !== 0" (click)="showUtteranceInput = true;">
-                    <img src="assets/icons/add_blue.svg" >Add utterances
-                </div>                  
             </ng-container>
-            <div class="kr-sg-input-text add-traits-input" *ngIf="showUtteranceInput">
-                <input  maxlength="60" type="text" autocomplete="off" placeholder="Type and Enter to Add Utterances" class="input-text" (keyup)='addNewUtter(newUtterance,$event)' [(ngModel)]='newUtterance' name='utteranceName' [ngClass]="{'err-block' : ((!utteranceList || !utteranceList.length) && uttSubmitted)}">
-                <img class="check-icon" *ngIf="newUtterance" src="assets/icons/check_green.svg" [ngClass]="{'pr-22':newUtterance}" (click)="addNewUtter(newUtterance,$event)" placement="top-center" container='body' ngbTooltip="Save" tooltipClass="ngb_tooltip_custom_class sampleJson" >
-                <img class="close-icon" *ngIf="newUtterance" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':newUtterance}" (click)="newUtterance='';showUtteranceInput=false;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                <img *ngIf="(!utteranceList || !utteranceList.length) && uttSubmitted" id="utteranceNameWarning" src="assets/icons/warning_escalation.svg" style="top: 31%; position: absolute; right: 1.5%; display: block;" [ngStyle]="{'right':newUtterance.length?'7.5%':'1.5%'}" height="12" width="12" />
+                <div class="kr-sg-input-text add-traits-input mb-1p"  *ngIf="showUtteranceInput">
+                    <input  maxlength="60" type="text" autocomplete="off" placeholder="Type and Enter to Add Utterances" class="input-text" (keyup)='addNewUtter(newUtterance,$event)' [(ngModel)]='newUtterance' name='utteranceName' [ngClass]="{'err-block' : ((!utteranceList || !utteranceList.length) && uttSubmitted)}">
+                    <img class="check-icon" *ngIf="newUtterance" src="assets/icons/check_green.svg" [ngClass]="{'pr-22':newUtterance}" (click)="addNewUtter(newUtterance,$event)" placement="top-center" container='body' ngbTooltip="Save" tooltipClass="ngb_tooltip_custom_class sampleJson" >
+                    <img class="close-icon" *ngIf="newUtterance" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':newUtterance}" (click)="newUtterance='';"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                    <img *ngIf="(!utteranceList || !utteranceList.length) && uttSubmitted" id="utteranceNameWarning" src="assets/icons/warning_escalation.svg" style="top: 31%; position: absolute; right: 1.5%; display: block;" [ngStyle]="{'right':newUtterance.length?'7.5%':'1.5%'}" height="12" width="12" />
+                </div>
+            <div class="add-utt-title"  (click)="addNewUtter(newUtterance,$event);showUtteranceInput = true;">
+                <img src="assets/icons/add_blue.svg" >Add utterances
             </div>
         </div>
     </perfect-scrollbar>

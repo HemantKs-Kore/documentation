@@ -88,6 +88,21 @@
                                 
                             </div>
                         </div>
+                        <div class="card-content" *ngIf="searchType == 'data'">
+                            <div class="card_link collapsed">      
+                                <div class="d-flex align-items-center">
+                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
+                                        <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
+                                        <label [attr.for]="i" class="checkbox-custom-label"></label>
+                                    </div>
+                                    <div class="tiltles-sec" *ngIf="result.sysContentType == 'data'">
+                                        <div class="primary-tiitle">{{ result.heading}}</div>
+                                        <div class="secondary-title" >{{ result.description}}</div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
                         <div class="card-content" *ngIf="searchType == 'all'">
                             <div class="card_link collapsed">      
                                 <div class="d-flex align-items-center">
@@ -106,6 +121,10 @@
                                     <div class="title-desc-sec" *ngIf="result.sysContentType == 'task'">
                                         <div class="title">{{ result.title}}</div>
                                         <div class="desc" >{{ result.searchResultPreview}}</div>
+                                    </div>
+                                    <div class="tiltles-sec" *ngIf="result.sysContentType == 'data'">
+                                        <div class="primary-tiitle">{{ result.heading}}</div>
+                                        <div class="secondary-title" >{{ result.description}}</div>
                                     </div>
                                 </div>
                                 
@@ -231,6 +250,16 @@
                                 <div class="secondary-title">{{ result.searchResultPreview}}</div>
                             </div>                                                
                         </div>
+                        <div class="row-with-checkbox selected" *ngIf="searchType == 'data'">                                                                                            
+                            <div class="kr-sg-checkbox d-block p-0 m-0" (click)="$event.stopImmediatePropagation();" >
+                                <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
+                                <label [attr.for]="i" class="checkbox-custom-label"></label>
+                            </div>
+                            <div class="tiltles-sec">
+                                <div class="primary-tiitle">{{ result.heading}}</div>
+                                <div class="secondary-title" >{{ result.description}}</div>
+                            </div>                                                
+                        </div>
                         <div class="row-with-checkbox selected" *ngIf="searchType == 'all'">                                                                
                             <div class="kr-sg-checkbox d-block p-0 m-0" >
                                 <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
@@ -247,6 +276,10 @@
                             <div class="tiltles-sec" *ngIf="result.sysContentType == 'task'">
                                 <div class="primary-tiitle">{{ result.title}}</div>
                                 <div class="secondary-title" >{{ result.searchResultPreview}}</div>
+                            </div>
+                            <div class="tiltles-sec" *ngIf="result.sysContentType == 'data'">
+                                <div class="primary-tiitle">{{ result.heading}}</div>
+                                <div class="secondary-title" >{{ result.description}}</div>
                             </div>
                         </div>
                         <div class="row-with-checkbox selected" *ngIf="searchType == 'content'">                                                                
