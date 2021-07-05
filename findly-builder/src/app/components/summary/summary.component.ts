@@ -162,7 +162,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
   getQueries(type) {
     var today = new Date();
-    let from = new Date(Date.now() - (29 * 864e5));
+    let from = new Date(Date.now() - (1 * 864e5));
 
     const header: any = {
       'x-timezone-offset': '-330'
