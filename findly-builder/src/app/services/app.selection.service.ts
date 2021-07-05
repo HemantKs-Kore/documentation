@@ -202,7 +202,6 @@ export class AppSelectionService {
   getCurrentSubscriptionData() {
     const data = this.workflowService.selectedApp();
     if (data != undefined) {
-      console.log("data get data", data);
       const payload = {
         streamId: data._id
       };

@@ -265,8 +265,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
           let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
           return { ...data, total_days: days_result + ' more to go', time_result: hours };
         })
-        if(this.selectedApp.channels[0].app.appName != '' && this.selectedApp.channels[0].app.clientId!=''){
-          this.channelExist =true;
+        if (this.selectedApp.channels[0]?.app?.appName != '' && this.selectedApp.channels[0]?.app?.clientId != '') {
+          this.channelExist = true;
         }
       },
       errRes => {
@@ -329,7 +329,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.onboard.closeOnBoardingModal();
   }
   ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.routeRefresh.unsubscribe();
+    this.subscription ? this.subscription.unsubscribe() : null;
+    this.routeRefresh ? this.routeRefresh.unsubscribe() : null;
   }
 }
