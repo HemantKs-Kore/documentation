@@ -211,7 +211,7 @@
                 <!-- <li class="nav-item help-icon">
                     <img src="assets/icons/sidemenu/help.svg">
                 </li> -->
-                <li class="nav-item user_icon">
+                <li class="nav-item user_icon d-none">
                     <button mat-button [matMenuTriggerFor]="menu" class="headerIcons p-0"><img src="assets/images/avatar.svg"></button>
                     <mat-menu #menu="matMenu" class="headerDropDown">
                         <div class="accountsSwitchDiv">
@@ -223,6 +223,67 @@
                         <button mat-menu-item (click)="logoutClick()" class="logOut"><img src="assets/images/poweroffIcon.svg" class="poweroffIcon">Logout</button>
                     </mat-menu>
                 </li>
+                <li class="nav-item user_icon mr-0">
+                    <div class="kr-sg-dropdowns top-dropdown-user" ngbDropdown #myDrop="ngbDropdown" [placement]="'bottom-left'">
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
+                                <img src="assets/images/avatar.svg">
+                            </button>
+                            <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+                                <div class="kr-sg-dropdowns inside-top-dropdown-user" *ngIf="showSwichAccountOption" ngbDropdown #myDrop="ngbDropdown" [placement]="'left-top'">
+                                    <div class="dropdown dropdown-open">
+                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle ngbTooltip="Deepaknathan@gmail.com" container='body' tooltipClass="switch-account-tooltips" placement="bottom-left">
+                                            <img src="data:image/png;base64,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" />
+                                            <span class="u-name text-truncate">Searchassist</span>
+                                            <span class="arrow-">
+                                                <img src="assets/icons/carrot_right.svg">
+                                            </span>
+                                        </button>
+                                        <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+                                            <perfect-scrollbar>
+                                                <div class="scroll-content-data-users">
+                                                    <li class="switch-account-users" ngbTooltip="Akisa.matani@kore.com" container='body' tooltipClass="switch-account-tooltips" placement="left-center">
+                                                        <img src="data:image/png;base64,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" />
+                                                        <span class="switch-user-name">Searchassist</span>
+                                                        <!-- <span class="selected_items">
+                                                            <img src="assets/icons/check-selected.svg">
+                                                        </span> -->
+                                                    </li>
+                                                    <li class="switch-account-users">
+                                                        <img src="data:image/png;base64,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" />
+                                                        <span class="switch-user-name">Searchassist</span>
+                                                        <!-- <span class="selected_items">
+                                                            <img src="assets/icons/check-selected.svg">
+                                                        </span> -->
+                                                    </li>
+                                                    <li class="switch-account-users">
+                                                        <span class="alphabet-name">K</span>
+                                                        <span class="switch-user-name">Kore.ai</span>
+                                                        <!-- <span class="selected_items">
+                                                            <img src="assets/icons/check-selected.svg">
+                                                        </span> -->
+                                                    </li>
+                                                    <li class="switch-account-users">
+                                                        <span class="no-switch-user">
+                                                            <img src="assets/icons/no-switch-user.svg"/>
+                                                        </span>
+                                                        <span class="switch-user-name">Searchassist</span>                                               
+                                                    </li>
+                                                    <li class="switch-account-users">
+                                                        <img src="data:image/png;base64,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" />
+                                                        <span class="switch-user-name">Searchassist</span>                                               
+                                                    </li>
+                                                </div>
+                                            </perfect-scrollbar>
+                                        </ul>
+                                    </div>                                            
+                                </div>
+                                <li class="email-name text-truncate">Sreenivas.karthikeyan@kore.com</li>
+                                <li class="logout-title" (click)="logoutClick()">Sign Out</li>
+                            </ul>
+                        </div>                                            
+                    </div>
+                </li>   
             </ul>
         </div>
     </nav>

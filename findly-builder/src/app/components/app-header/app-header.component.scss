@@ -586,6 +586,169 @@
             }
             &.user_icon{
                 margin: 0 10px;
+                .top-dropdown-user {
+                    .dropdown-open {
+                        .dropdown-input{                            
+                            border: 0;
+                            padding: 0;
+                            &::before{
+                                display: none;
+                            }
+                        }
+                    }
+                    .content-menu{
+                        right: 0;
+                        left: auto;
+                        top: 45px;
+                        padding: 2px;
+                        width: 220px;                        
+                        .inside-top-dropdown-user{
+                            .dropdown-open {
+                                .dropdown-input{                            
+                                    border: 0;
+                                    display: flex;
+                                    align-items: center;
+                                    padding: 4px 10px;
+                                    position: relative;
+                                    height: 36px;
+                                    margin-bottom: 3px;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                    transition: 0.2s all ease;
+                                    &:hover{
+                                        background: #F8F9FA;
+                                    }
+                                    img{
+                                        width: 28px;
+                                        height: 28px;
+                                        border-radius: 100%;
+                                    }
+                                    .u-name{
+                                        font-weight: normal;
+                                        font-size: 14px;
+                                        line-height: 20px;
+                                        padding: 0 10px;
+                                        color: #202124;
+                                        width: 155px;
+                                    }
+                                    .arrow-{
+                                        position: absolute;
+                                        right: 14px;
+                                        top: 1px;
+                                        img{
+                                            width: auto;
+                                            height: auto;
+                                        }
+                                    }
+                                    &::before{
+                                        display: none;
+                                    }
+                                }
+                            }
+                            .content-menu{
+                                right: auto;
+                                left: -226px;
+                                top: -2px;
+                                background: #FFFFFF;
+                                box-shadow: 0px 4px 12px 2px rgba(32, 33, 36, 0.12);
+                                border-radius: 2px;
+                                padding: 2px;
+                                perfect-scrollbar{
+                                    max-height: 200px;
+                                    .scroll-content-data-users{
+                                        max-height: 200px;
+                                    }
+                                }
+                                .switch-account-users{
+                                    display: flex;
+                                    align-items: center;
+                                    height: 36px;
+                                    padding: 4px 10px;
+                                    position: relative;
+                                    cursor: pointer;
+                                    transition: 0.2s all ease;
+                                    &:hover{
+                                        background: #F8F9FA;
+                                    }
+                                    .alphabet-name{
+                                        width: 28px;
+                                        height: 28px;
+                                        background: #B893F2;
+                                        border-radius: 100%;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        font-weight: normal;
+                                        font-size: 12px;
+                                        line-height: 20px;
+                                        color: #381472;
+                                    }
+                                    .no-switch-user{
+                                        background: #EFF0F1;
+                                        width: 28px;
+                                        height: 28px;
+                                        border-radius: 100%;
+                                        text-align: center;
+                                        padding: 2px 0;
+                                        img{
+                                            width: auto;
+                                            height: auto;
+                                        }
+                                    }
+                                    img{
+                                        width: 28px;
+                                        height: 28px;
+                                        border-radius: 100%;
+                                    }
+                                    .switch-user-name{
+                                        color: #202124;
+                                        font-weight: normal;
+                                        font-size: 14px;
+                                        line-height: 20px;
+                                        padding: 0 10px;
+                                        width: 145px;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        white-space: nowrap;
+                                    }
+                                    .selected_items{
+                                        position: absolute;
+                                        right: 12px;
+                                        top: 6px;
+                                        img{
+                                            width: auto;
+                                            height: auto;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .email-name{
+                            color: #9AA0A6;
+                            font-weight: normal;
+                            font-size: 12px;
+                            line-height: 20px;
+                            text-align: center;
+                            padding: 8px 10px;
+                            border-top: 1px solid #E7F1FF;
+                        }
+                        .logout-title{
+                            color: #202124;
+                            font-weight: normal;
+                            font-size: 12px;
+                            line-height: 20px;
+                            text-align: center;
+                            padding: 8px 10px;
+                            cursor: pointer;
+                            transition: 0.2s all ease;
+                            &:hover{
+                                color: #dd3646;
+                                background: #fff1ed;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
