@@ -807,5 +807,29 @@
         "save" : "Save",
         "cancel" : "Cancel",
         "previewTemplate" : "Preview Template"
+    },
+    "traits": {
+        "traits" : "Traits",
+        "add_traits": "Add Traits",
+        "trait_group" : "Trait Group",
+        "selected" : "Selected",
+        "delete" : "Delete",
+        "no_search_results_found" : "No search results found",
+        "utterances" : "Utterances",
+        "utterance" : "Utterance",
+        "add_utterances" : "Add Utterances",
+        "trait_group_name" : "Trait Group Name",
+        "edit_trait_group" : "Edit Trait Group",
+        "save" : "Save",
+        "cancel" : "Cancel",
+        "new_trait_group" : "New Trait Group",
+        "eg_vehicle_type_class" : "Eg: Vehicle type, Class",
+        "your_search_query_doesnot_match_with_any_record" : "Your Search Query doesn't match with any record.",
+        "you_havenot_added_any_traits_yet" : "You haven’t added any Traits yet!",
+        "traits_are_specific_entities" : "Traits are specific entities, attributes or details that the users express in their conversations.  Traits present in the utterance can be used in driving the intent detection and bot conversation flows. SearchAssist allows you to define Traits and train the utterances.",
+        "add" : "Add",
+        "type_and_enter_to_add_traits" : "Type and Enter to Add Traits",
+        "enter_trait_group" : "Enter Trait Group",
+        "type_and_enter_to_add_utterances" : "Type and Enter to Add Utterances"
     }
 }
