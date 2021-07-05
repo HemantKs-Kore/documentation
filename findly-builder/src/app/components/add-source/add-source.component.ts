@@ -1026,13 +1026,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.crwalObject.advanceOpts.repeatInterval = cronExpress;
   }
   /*Crwaler */
-  allowUrls(data1) {
-    this.crwalObject.advanceOpts.allowedURLs.push(data1);
+  allowUrls(data) {
+    this.crwalObject.advanceOpts.allowedURLs.push(data);
     this.allowUrl = new AllowUrl();
 
   }
-  blockUrls(data2) {
-    this.crwalObject.advanceOpts.blockedURLs.push(data2);
+  blockUrls(data) {
+    this.crwalObject.advanceOpts.blockedURLs.push(data);
     this.blockUrl = new BlockUrl
   }
   /*Crwaler */
