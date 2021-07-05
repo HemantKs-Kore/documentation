@@ -101,10 +101,17 @@ export class EndPointsService {
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:webDomainId?type=:type',
       method: 'delete'
     };
+    //  **/ clicksViews for FAQ */
     this.serviceList['get.clicksViews']= {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/:faqId/analyse',
       method: 'get'
     }
+      //  **/ clicksViews for Content */
+    this.serviceList['get.clicksViewsContent']= {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/:contentId/analyse',
+      method: 'get'
+    }
+    
     this.serviceList['update.contentPageSource'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId',
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/document/:docId',
