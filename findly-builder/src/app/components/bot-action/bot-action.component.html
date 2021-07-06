@@ -200,7 +200,7 @@
             </div>
             <div class="col-3 owner-name">{{bot.createdBy.firstName}} {{bot.createdBy.lastName}}</div>
             <div class="col-3 link-bot-actions">
-              <div class="link-bot-btn" (click)="openBotsConfigurationModalElement(bot)" *ngIf="streamId !== bot._id">
+              <div class="link-bot-btn" [ngClass]="{'link-bot-disable':linkedBotID}" (click)="openBotsConfigurationModalElement(bot)" *ngIf="streamId !== bot._id">
                 <img src="assets/icons/actions/link-bot.svg">{{'botAction.link_bot'| translate}}
               </div>
               <div class="link-bot-btn" (click)="unlinkBot(bot._id,'bulk_unlink')" *ngIf="streamId == bot._id">
