@@ -163,7 +163,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
   ) {
-
+    window.alert = function() {};
   }
 
   ngOnInit() {
