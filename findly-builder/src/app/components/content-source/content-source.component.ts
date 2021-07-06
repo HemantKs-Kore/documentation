@@ -160,10 +160,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isAsc = true;
   selectedSort = '';
   recordStr: number = 1;
-  recordEnd: number = 25;
+  recordEnd: number = 10;
   totalRecord: number = 0;
-  limitpage: number = 25;
-  limitAllpage: number = 25;
+  limitpage: number = 10;
+  limitAllpage: number = 10;
   allInOne: boolean = false;
   urlConditionAllow = "is";
   urlConditionBlock = "is";
@@ -731,7 +731,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     if (type == 'history') {
       this.executionHistory()
     } else {
-      this.getCrawledPages(event.limit, event.skip);
+      this.getCrawledPages(10, event.skip);
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop(2, 1000);
     }
