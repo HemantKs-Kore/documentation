@@ -14,6 +14,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service'
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { from, interval, Subject, Subscription } from 'rxjs';
 import { startWith, elementAt, filter } from 'rxjs/operators';
+import { environment } from '@kore.environment';
 import * as moment from 'moment';
 
 declare const $: any;
@@ -57,6 +58,10 @@ export class AppHeaderComponent implements OnInit {
   serachIndexId;
   queryPipelineId;
   indexPipelineId;
+  domain = '';
+  selectAccountDetails : any = {};
+  associatedAccounts : any = {};
+  private storageType = 'localStorage';
   indexSubscription: Subscription;
   subscription: Subscription;
   routeChanged: Subscription;
@@ -125,6 +130,9 @@ export class AppHeaderComponent implements OnInit {
     private appSelectionService: AppSelectionService,
   ) {
     this.userId = this.authService.getUserId();
+    if (environment && environment.USE_SESSION_STORE) {
+      this.storageType = 'sessionStorage';
+    }
   }
   ngOnInit() {
     this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
@@ -182,6 +190,14 @@ export class AppHeaderComponent implements OnInit {
     this.workflowService.mainMenuRouter$.subscribe(route => {
       this.mainMenu = route;
     });
+    this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
+    this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
+    this.domain =  window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
+  }
+  switchAccountInternal(account){
+    window[this.storageType].setItem('selectedAccount',JSON.stringify(account))
+    this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
+    this.router.navigate([''], { skipLocationChange: true })
   }
   loadHeader() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
