@@ -300,6 +300,15 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   ruleSelection(ruleObj, value, key) {
     if (key === 'contextCategory') {
       ruleObj.contextCategory = value;
+      if(ruleObj.contextCategory == 'traits'){
+        ruleObj.dataType = 'trait';
+      } else if(ruleObj.contextCategory == 'entity'){
+        ruleObj.dataType = 'entity';
+      } else if(ruleObj.contextCategory == 'keywords'){
+        ruleObj.dataType = 'keyword';
+      }else{
+        ruleObj.dataType = 'string';
+      }
     }
     if (key === 'contextType') {
       ruleObj.contextType = value;
