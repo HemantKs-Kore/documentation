@@ -6860,7 +6860,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             // $('#searchChatContainer').append(template);
           }
         }
-        if(messageData.payload && messageData.payload.text){
+        if(messageData.payload && messageData.payload.text && !messageHtml){
           var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
             msgData: {
               from: "bot",
