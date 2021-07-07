@@ -1054,11 +1054,18 @@
       <perfect-scrollbar *ngIf="sliderStep === 1 && selectedPage" class="scroll-table-sourceContent" #perfectScroll
       [scrollIndicators]="true">
 
-        <div class="table-view-details" *ngIf="sliderStep === 1 && selectedPage">
+        <div class="table-view-details table-content" *ngIf="sliderStep === 1 && selectedPage">
+          <div class="totalViewsNlikes">
+            <div class="d-flex justify-content-between infoBlock">
+            <div class="infoType"><img class="viewsIcon" src="assets/icons/faq/views.svg"><span>{{numberOf.clicks}}</span></div>
+            <div class="infoType"><img src="assets/icons/faq/hand.svg"><span>{{numberOf.appearances}}</span></div>
+            </div>
+            </div>
           <div class="view-details-data">
             <div class="title">Title</div>
             <div class="desc-info">{{selectedPage._source.pageTitle}}</div>
           </div>
+        
           <div class="view-details-data">
             <div class="title">Body</div>
             <perfect-scrollbar class="scroll-table-sourceContent-pageBody" #perfectScroll
@@ -1141,6 +1148,12 @@
     <!-- <div class="kr-sg-data-table"> -->
       <section class="table-content">
         <!-- <header class="table-header"> -->
+          <div class="totalViewsNlikes">
+            <div class="d-flex justify-content-between infoBlock">
+            <div class="infoType"><img class="viewsIcon" src="assets/icons/faq/views.svg"><span>{{numberOf.clicks}}</span></div>
+            <div class="infoType"><img src="assets/icons/faq/hand.svg"><span>{{numberOf.appearances}}</span></div>
+            </div>
+            </div>
           <div class="title-text">Title
             <img src="assets/images/edit-pencil.svg">
           </div>

@@ -43,7 +43,7 @@
               <div class="inner-content">
                 <div class="title-head">
                   <div class="title">{{"plan.usage"| translate}}</div>
-                  <div class="title-overage" (click)="currentSubscriptionPlan?.subscription?.planName!='Free'?addOverage():null" *ngIf="usageDetails?.searchQueries?.percentageUsed >= 80||usageDetails?.ingestDocs?.percentageUsed >= 80"><img width="12" height="12" src="assets/icons/plus-blue.svg" /> {{"plan.add_overage"| translate}}</div>
+                  <div class="title-overage" (click)="addOverage()" *ngIf="usageDetails?.searchQueries?.percentageUsed >= 80||usageDetails?.ingestDocs?.percentageUsed >= 80"><img width="12" height="12" src="assets/icons/plus-blue.svg" /> {{"plan.add_overage"| translate}}</div>
                 </div>                
                 <div class="queries">
                   <div class="queries-title">{{"plan.queries"| translate}}</div>

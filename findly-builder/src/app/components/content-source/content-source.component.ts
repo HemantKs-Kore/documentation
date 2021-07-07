@@ -270,6 +270,33 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     }
   }
+convertToDay(repeatOn){
+  switch (repeatOn) {
+    case 'SUN':
+      return "Sunday";
+      
+    case 'MON':
+      return "Monday";
+
+    case 'TUE':
+       return "Tuesday";
+   
+    case 'WED':
+      return "Wednesday";
+    
+    case 'THU':
+      return "Thursday";
+      
+    case 'FRI':
+      return "Friday";
+     
+    case 'SAT':
+      return "Saturday";
+
+   default :
+       return '' ;
+  }
+}
   getSourceList(nxt?) {
     this.statusArr = [];
     this.docTypeArr = [];
@@ -300,12 +327,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
               schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
-              repeatOn = " on "+ ' ' + element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
+              repeatOn = " on "+ this.convertToDay(element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn);
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1) {
               every = element.advanceSettings.scheduleOpts.interval.intervalValue.every;
             }
-            element['schedule_title'] = 'Runs once every'+ ' ' + every + ' ' +  schedulePeriod + '' + repeatOn
+            element['schedule_title'] = 'Runs once every'+ ' ' + every  +  schedulePeriod + repeatOn
 
           }
 
@@ -520,6 +547,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   viewPageDetails() {
     this.sliderStep = 1;
+    this.clicksViews();
   }
   sliderBack() {
     if (this.sliderStep) {

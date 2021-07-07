@@ -43,6 +43,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   pagesSearch = '';
   viewDetails: boolean;
   selectedFaq: any = null;
+  numberOf: any={};
   singleSelectedFaq: any = null;
   showAddFaqSection = false;
   noManulaRecords: boolean = false;
@@ -562,6 +563,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       }
       this.faqComments = res || [];
+      this.clicksViews();
     }, errRes => {
     });
   }
@@ -1686,6 +1688,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       faqId: this.selectedFaq._id,
     };
     this.service.invoke('get.clicksViews', quaryparms).subscribe(res => {
+      this.numberOf = res
       console.log(res);
     }, errRes => {
     });
