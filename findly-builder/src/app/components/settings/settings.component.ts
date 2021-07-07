@@ -498,7 +498,7 @@ export class SettingsComponent implements OnInit {
 enableDisableCredential(){
   const modalData: any = {
     newTitle: 'Are you sure you want to disable?',
-    body: 'Channel will be disabled. ', 
+    body: 'Search users cannot interact with the app through this channel if it is disabled. ', 
     buttons: [{ key: 'yes', label:'Disable' }, { key: 'no', label: 'Cancel' }],
     confirmationPopUp: true
   }
