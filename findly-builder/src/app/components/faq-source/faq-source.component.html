@@ -121,11 +121,11 @@
                             <div class="title">{{(faqSelectionObj.selectAll)?'All':faqSelectionObj.selectedCount}} Selected</div>
                         </div>
                         <div class="col-8 p-0 d-flex align-items-center justify-content-end">
-                            <button class="kr-sg-button-secondary btn_lg ml-0" [ngClass]="{'px-12px':selectedtab === 'approved'}" *ngIf="(selectedtab === 'in_review')" (click)="bulkUpdate('update','draft')"> {{'faqSource.faqs' | translate}}Needs Rework</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
-                            <button class="kr-sg-button-danger btn_lg" *ngIf="(selectedtab === 'draft') || (selectedtab === 'approved')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})"> {{'faqSource.faqs' | translate}}Delete</button>
-                            <button class="kr-sg-button-primary btn_lg " [ngClass]="{'px-12px':selectedtab === 'approved'}" *ngIf="(selectedtab === 'approved')" (click)="bulkUpdate('update','draft')"> {{'faqSource.faqs' | translate}} Move to Drafts</button>
-                            <button class="kr-sg-button-primary btn_lg" [ngClass]="{'px-12px':selectedtab === 'approved'}" *ngIf="(selectedtab === 'draft') " (click)="bulkUpdate('update','in_review')">{{'faqSource.faqs' | translate}} Send for Review</button>
+                            <button class="kr-sg-button-secondary btn_lg ml-0" [ngClass]="{'px-12px':selectedtab === 'approved'}" *ngIf="(selectedtab === 'in_review')" (click)="bulkUpdate('update','draft')"> {{'faqSource.needs_rework' | translate}}</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">{{'faqSource.approve' | translate}}</button>
+                            <button class="kr-sg-button-danger btn_lg" *ngIf="(selectedtab === 'draft') || (selectedtab === 'approved')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})"> {{'faqSource.delete' | translate}}</button>
+                            <button class="kr-sg-button-primary btn_lg " [ngClass]="{'px-12px':selectedtab === 'approved'}" *ngIf="(selectedtab === 'approved')" (click)="bulkUpdate('update','draft')"> {{'faqSource.move_to_drafts' | translate}} </button>
+                            <button class="kr-sg-button-primary btn_lg" [ngClass]="{'px-12px':selectedtab === 'approved'}" *ngIf="(selectedtab === 'draft') " (click)="bulkUpdate('update','in_review')">{{'faqSource.send_for_review' | translate}}</button>
                          
                             
                         </div>

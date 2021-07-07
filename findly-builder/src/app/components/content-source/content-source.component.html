@@ -976,7 +976,7 @@
                                   <img *ngIf="statlog.stageStatus != 'failed' && statlog.stageStatus  != 'running'" src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}" [ngStyle]="{'height':statlog.stageStatus === 'halted' ? '15px' : '15px' }">
                                   <img *ngIf="statlog.stageStatus === 'running'" class="inProgress" src="assets/icons/ringLoading.svg" [ngStyle]="{'height':statlog.stageStatus === 'halted' ? '15px' : '15px' }">
                                   <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}
-                                    <span class="time" *ngIf="statlog.stageName != 'failed' && statlog.stageName != 'successful' && statlog.stageName != 'stopped'">( {{ statlog.timeTaken }} )</span>
+                                    <span class="time" *ngIf="statlog.stageName != 'failed' && statlog.stageName != 'successful' && statlog.stageName != 'stopped' && statlog.timeTaken">( {{ statlog.timeTaken }} )</span>
                                     <span class="time" *ngIf="statlog.stageName == 'stopped'"> by {{ history.executionStats.triggeredBy }} </span>
                                   </span>
                                 </div>
@@ -1141,12 +1141,6 @@
     <!-- <div class="kr-sg-data-table"> -->
       <section class="table-content">
         <!-- <header class="table-header"> -->
-          <div class="totalViewsNlikes">
-            <div class="d-flex justify-content-between infoBlock">
-            <div class="infoType"><img class="viewsIcon" src="assets/icons/faq/views.svg"><span>{{numberOf.clicks}}</span></div>
-            <div class="infoType"><img src="assets/icons/faq/hand.svg"><span>{{numberOf.appearances}}</span></div>
-            </div>
-            </div>
           <div class="title-text">Title
             <img src="assets/images/edit-pencil.svg">
           </div>
