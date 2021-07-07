@@ -268,10 +268,10 @@
                                 &::placeholder{
                                     color: #BDC1C6 !important;
                                 }     
-                                &.activeBox{
-                                    border: 1px solid #0D6EFD !important;
-                                    background: #E7F1FF !important;                                                       
-                                }                       
+                                // &.activeBox{
+                                //     border: 1px solid #0D6EFD !important;
+                                //     background: #E7F1FF !important;                                                       
+                                // }                       
                             }
                         }    
                         
@@ -365,7 +365,7 @@
                             pointer-events: none;
                         }
                         &:hover{
-                            border: 0.5px solid #0D6EFD;
+                            border: 0.5px solid #0D6EFD !important;
                             // span{
                             //     color: #ed6666;
                             //     opacity: 0.2;

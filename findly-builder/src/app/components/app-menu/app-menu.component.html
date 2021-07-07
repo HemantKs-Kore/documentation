@@ -43,7 +43,7 @@
 										<div class="edit-black" *ngIf="!editIndexName&&!(config.default)" (click)="$event.stopPropagation();editIndexConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
 											<img src="assets/icons/edit-pencil.svg">
 										</div>																
-										<div class="delete" *ngIf="!editIndexName&&!(config.default)" ngbTooltip='Delete' placement="top-center" [container]="'body'" (click)="$event.stopPropagation();deleteIndexConfig(config,'index')">
+										<div class="delete" *ngIf="!editIndexName&&!(config.default)" ngbTooltip='Delete' placement="top-center" [container]="'body'" (click)="$event.stopPropagation();checkExistInExperiment(config,'index')">
 											<img src="assets/icons/delete.svg">
 										</div>											
 									</div>
@@ -113,7 +113,7 @@
 											<div class="edit-black" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();editConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
 												<img src="assets/icons/edit-pencil.svg">
 											</div>																
-											<div class="delete" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();deleteIndexConfig(config,'search')" ngbTooltip='Delete' placement="top-center" [container]="'body'">
+											<div class="delete" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();checkExistInExperiment(config,'search')" ngbTooltip='Delete' placement="top-center" [container]="'body'">
 												<img src="assets/icons/delete.svg">
 											</div>											
 										</div>

@@ -162,7 +162,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
   getQueries(type) {
     var today = new Date();
-    let from = new Date(Date.now() - (29 * 864e5));
+    let from = new Date(Date.now() - (1 * 864e5));
 
     const header: any = {
       'x-timezone-offset': '-330'
@@ -268,6 +268,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
         // if(this.selectedApp.channels[0].app.appName != '' && this.selectedApp.channels[0].app.clientId!=''){
         //   this.channelExist =true;
         // }
+        // if (this.selectedApp.channels[0]?.app?.appName != '' && this.selectedApp.channels[0]?.app?.clientId != '') {
+        //   this.channelExist = true;
          if(this.selectedApp.channels.length){
           this.channelExist =true;
         }
@@ -333,7 +335,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.onboard.closeOnBoardingModal();
   }
   ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.routeRefresh.unsubscribe();
+    this.subscription ? this.subscription.unsubscribe() : null;
+    this.routeRefresh ? this.routeRefresh.unsubscribe() : null;
   }
 }

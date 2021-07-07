@@ -3,15 +3,15 @@
 
   <div class="mainLoadingSpinner" *ngIf="loadingContent || !loadingContent1">
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-    <span class="please-wait-message">Please Wait!</span>
+    <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
   </div>
 
 
   <div class="header-sec col-12 row m-0" *ngIf="!loadingContent">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-    <div class="col-4 p-0 title-header">Bot Actions</div>
+    <div class="col-4 p-0 title-header">{{'botAction.bot_actions' | translate}}</div>
     <div class="col-8 right-sec p-0">
-      <div *ngIf="linkedBotID" class="view-all-bots m-0" (click)="openBotsModalElement()">View All Bots</div>
+      <div *ngIf="linkedBotID" class="view-all-bots m-0" (click)="openBotsModalElement()">{{'botAction.view_all_bots' | translate}}</div>
       <!-- <div class="clock"><img src="assets/icons/clock.svg"></div> -->
     </div>
   </div>
@@ -22,17 +22,17 @@
     <div  class="empty-landing-screen">
       <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/botactions-empty.svg"></div>
       <ng-container *ngIf="loadImageText" >
-          <div class="empty-title">You haven’t linked any bot yet!</div>
-          <div class="desc-text"> Bot Actions are a list of tasks that are performed by the bots. SearchAssist allows you to link bots that can perform tasks for the search user.
+          <div class="empty-title">{{'botAction.bot_actions' | translate}}</div>
+          <div class="desc-text"> {{'botAction.bot_actions_are_a_list_of_tasks' | translate}}
           </div>
           <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
               <div class="dropdown dropdown-open">
-                <button class="kr-sg-button-primary btn_lg px-3" (click)="openBotsModalElement()"> Link a Bot</button>                                            
+                <button class="kr-sg-button-primary btn_lg px-3" (click)="openBotsModalElement()"> {{'botAction.link_a_bot' | translate}}</button>                                            
               </div>
           </div>
       </ng-container>
       <ng-container *ngIf="noItems && emptySearchResults">
-          <div class="desc-text">Your Search Query doesn't match with any record.</div>
+          <div class="desc-text">{{'botAction.your_search_query_doesnot_match_with_any_record' | translate}}</div>
       </ng-container>
 
   </div>
@@ -49,13 +49,13 @@
           </div>
           <div class="content-sec">
             <div class="bot-name-sec">
-              Bot Name: <span class="bot-name-title">{{linkedBotName}}</span>
+              {{'botAction.bot_name' | translate}}: <span class="bot-name-title">{{linkedBotName}}</span>
                <span>
                 <a href="{{botBulilderUrl}}" target="_blank"> <img src="assets/icons/actions/external-link.svg" class="pl-2"></a>
               </span>
             </div>
             <div class="bot-desc">{{linkedBotDescription}}</div>
-            <div class="bot_type" *ngIf="linkedBotData?.botType === 'universalbot'">Universal Bot</div>
+            <div class="bot_type" *ngIf="linkedBotData?.botType === 'universalbot'">{{'botAction.universal_bot' | translate}}</div>
           </div>
         </div>
         <div class="col-1 text-right pl-0 pr-2">
@@ -65,8 +65,8 @@
                     <img src="assets/icons/elipse.svg">
                 </div>                      
                 <ul class="dropdown-menu content-menu faq-filter-add pt-0 pb-0" ngbDropdownMenu>                          
-                    <li  (click)="unlinkBot(linkedBotID)">Unlink bot</li>
-                    <li  (click)="editConfiguration(linkedBotData)">Edit Configuration</li>
+                    <li  (click)="unlinkBot(linkedBotID)">{{'botAction.unlink_bot' | translate}}</li>
+                    <li  (click)="editConfiguration(linkedBotData)">{{'botAction.edit_configuration' | translate}}</li>
                     <!-- <li  (click)="syncLinkedBot()">Sync</li> -->
                 </ul>
             </div>
@@ -79,22 +79,22 @@
       <div class="info-data-links"  *ngIf="!linkedBotData?.approvedChannels?.length">
         <div class="info-text">
           <img src="assets/icons/actions/info-blue.svg">
-          <span class="">The App can interact with the linked bot only after the Webhook channel is published</span>
+          <span class="">{{'botAction.the_app_can_interact_with_the_link_bot' | translate}}</span>
         </div>
         <div class="ext_link">
           <a href="{{botBulilderUrl}}" target="_blank">
-          <img src="assets/icons/actions/external-link.svg">Go to Platform
+          <img src="assets/icons/actions/external-link.svg">{{'botAction.go_to_platform' | translate}}
           </a>
         </div>
       </div>
       <div class="header-sec-tab-checked">
           <div class="tab-sec-task row col-12"  [ngClass]="{ 'd-none' : selcectionObj.selectedCount}">
             <div class="tab-name col-6">
-              <div class="name-task">Tasks({{linkedBotTasks?.length}})</div>
+              <div class="name-task">{{'botAction.tasks' | translate}}({{linkedBotTasks?.length}})</div>
             </div>
             <div class="col-6 search-block">
               <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
-                <input type="text" autofocus="true" maxlength="60" placeholder="Search" class="input-search" autocomplete="off"  [ngClass]="{'pl-2':searchTasks}" [(ngModel)]="searchTasks" (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                <input type="text" autofocus="true" maxlength="60" placeholder="{{'search' | translate}}" class="input-search" autocomplete="off"  [ngClass]="{'pl-2':searchTasks}" [(ngModel)]="searchTasks" (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" id="inputSearch" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                 <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchTasks">
                 <img class="close-icon" *ngIf="searchTasks" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchTasks}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="searchTasks='';toggleSearch(false)">
@@ -109,7 +109,7 @@
               <div class="kr-sg-checkbox checkbox-for-all m-0 p-0 select-all-checkbox">
                 <input  id="selectAllTasks" class="checkbox-custom"  type="checkbox"  (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll">
                 <label  for="selectAllTasks" class="checkbox-custom-label">
-                  <span class="selected-count" *ngIf="selcectionObj && selcectionObj.selectedCount">All  {{'botAction.tasksSelected' | translate}}</span>
+                  <span class="selected-count" *ngIf="selcectionObj && selcectionObj.selectedCount">{{'botAction.all' | translate}}  {{'botAction.tasksSelected' | translate}}</span>
                 </label>
               </div>
               <div class="checkbox-partial-selected d-none partial-select-checkbox"  *ngIf="selcectionObj.selectedItems.length != linkedBotTasks.length">              
@@ -136,10 +136,10 @@
                   </div> -->
                   <div class="content-sec">
                       <div class="primary-title" >{{task.name}}</div>
-                      <div class="secondary-title">Bot-related Task</div>
+                      <div class="secondary-title">{{'botAction.bot_related_task'| translate}}</div>
                   </div>
                 </div>
-                <div class="col-6 task-type">{{task.type}} Task</div>
+                <div class="col-6 task-type">{{task.type}} {{'botAction.task'| translate}}</div>
                 <!-- <div class="col-1 enable-title">{{task.taskStatus}}</div> -->
                 <!-- <div class="views-clicks-data col-4">
                     <div class="clicks-view-info">
@@ -173,38 +173,38 @@
 
 <kr-modal modalType="center" #botsModalElement modalClass="modal_popups_ linkExistingBotsModal">
   <div class="modal-header">
-    <div class="title">Link Bot</div>
+    <div class="title">{{'botAction.link_bot'| translate}}</div>
     <div class="close_icon" (click)="closeBotsModalElement()"><img src="assets/icons/modal-close.svg"></div>
   </div>
   <perfect-scrollbar class="perfect-scroll-modal-body">
     <div class="modal-body">
       <div *ngIf="associatedBots && associatedBots.length">  
-      <div class="info-link-text">Choose any bot from the list to link it to your SearchAssist app.</div>
+      <div class="info-link-text">{{'botAction.choose_any_bot_from_the_list'| translate}}</div>
         <div class="kr-sg-input-text">          
           <input type="text"placeholder="Search" maxlength="60" [(ngModel)]="searchAssociatedBots" name="searchAssociatedBots" class="input-text"> 
           <img class="search-icon" src="assets/images/search_gray.svg">        
         </div>
         <div class="link-bot-table">
           <div class="table-header col-12 row">
-              <div class="col-6 title">Bot Name</div>
-              <div class="col-6 title">Owner</div>
+              <div class="col-6 title">{{'botAction.bot_name'| translate}}</div>
+              <div class="col-6 title">{{'botAction.owner'| translate}}</div>
           </div>
           <div class="table-body-link-bot row col-12"  *ngFor="let bot of associatedBots | filter: [searchAssociatedBots, 'name']">
             <div class="col-6 bot-name-data row m-0">
               <div class="col-8 name-with-type">
-                {{bot.name}} <span class="bot-type" *ngIf="bot.type==='universalbot'">Universal Bot</span>
+                {{bot.name}} <span class="bot-type" *ngIf="bot.type==='universalbot'">{{'botAction.universal_bot'| translate}}</span>
               </div>
               <div class="col-4 shares-data">
-                  <img src="assets/icons/actions/shares.svg">{{bot.publishedTasksCount}} Tasks
+                  <img src="assets/icons/actions/shares.svg">{{bot.publishedTasksCount}} {{'botAction.tasks'| translate}}
               </div>
             </div>
             <div class="col-3 owner-name">{{bot.createdBy.firstName}} {{bot.createdBy.lastName}}</div>
             <div class="col-3 link-bot-actions">
-              <div class="link-bot-btn" (click)="openBotsConfigurationModalElement(bot)" *ngIf="streamId !== bot._id">
-                <img src="assets/icons/actions/link-bot.svg">Link Bot
+              <div class="link-bot-btn" [ngClass]="{'link-bot-disable':linkedBotID}" (click)="openBotsConfigurationModalElement(bot)" *ngIf="streamId !== bot._id">
+                <img src="assets/icons/actions/link-bot.svg">{{'botAction.link_bot'| translate}}
               </div>
               <div class="link-bot-btn" (click)="unlinkBot(bot._id,'bulk_unlink')" *ngIf="streamId == bot._id">
-                <img src="assets/icons/actions/link-bot.svg">Unlink Bot
+                <img src="assets/icons/actions/link-bot.svg">{{'botAction.unlink_bot'| translate}}
               </div>
               <!-- <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12"> -->
             </div>
@@ -216,8 +216,8 @@
           <div class="img-block">
             <img src="assets/icons/actions/no-link-bot-action.svg">
           </div>
-          <div class="title">Please subscribe to the Kore.ai bots platform to link a bot here</div>
-          <button class="kr-sg-button-primary btn_lg" (click)="navigateToBotBuilder()"><img src="assets/icons/actions/external.svg" class="pr-2">Bots Platform </button>
+          <div class="title">{{'botAction.please_subscribe_to_the_kore'| translate}}</div>
+          <button class="kr-sg-button-primary btn_lg" (click)="navigateToBotBuilder()"><img src="assets/icons/actions/external.svg" class="pr-2">{{'botAction.bots_platform'| translate}}</button>
       </div>
     </div>
   </perfect-scrollbar>
@@ -225,51 +225,51 @@
 
 <kr-modal modalType="center" #botsConfigurationModalElement modalClass="modal_popups_ linkExistingBotsModal">
   <div class="modal-header">
-    <div class="title"> <span class="gray-text-link"> Link Bot </span><img src="assets/icons/carrotright.svg"> Configuration | {{this.selectedLinkBotConfig?.name}}</div>
+    <div class="title"> <span class="gray-text-link"> {{'botAction.link_bot'| translate}} </span><img src="assets/icons/carrotright.svg"> {{'botAction.configuration'| translate}} | {{this.selectedLinkBotConfig?.name}}</div>
     <div class="close_icon" (click)="closeBotsConfigurationModalElement()"><img src="assets/icons/modal-close.svg"></div>
   </div>
   <perfect-scrollbar class="perfect-scroll-modal-body">
     <div class="modal-body">
-      <div class="info-link-text lh-20">You can link a Virtual Assistant built on the Kore.ai Platform with your SearchAssist app. To link, you will need to enable the Webhook channel on the Virtual Assistant and complete the integration.<a (click)="showMore=!showMore" class="show-how-btn"> {{showMore?'Show less':'Show how'}}</a> </div>
+      <div class="info-link-text lh-20">{{'botAction.you_can_link_a_virtual_assistant'| translate}}<a (click)="showMore=!showMore" class="show-how-btn"> {{showMore?('botAction.show_less' | translate):('botAction.show_how' | translate)}}</a> </div>
       <div class="more-info-link-text" *ngIf="showMore">
-          <div class="more-info-data"><span class="step-text">Step 1:</span>  Enable Webhook channel for your Virtual Assistant using the Access Token & Post URL provided below.</div>
-          <div class="more-info-data"><span  class="step-text">Step 2:</span>  Get the Client ID & Secret ID from the Channel configuration page of the Virtual Assistant and provide here.</div>
-          <div class="more-info-data"><span  class="step-text">Step 3:</span>  The SearchAssist app can interact with the Virtual Assistant only after the Webhook channel is published.</div>
+          <div class="more-info-data"><span class="step-text">{{'botAction.step'| translate}} 1:</span>  {{'botAction.enable_webhook_channel_for_your'| translate}}</div>
+          <div class="more-info-data"><span  class="step-text">{{'botAction.step'| translate}} 2:</span>  {{'botAction.get_the_client_id_and_secret_id'| translate}}</div>
+          <div class="more-info-data"><span  class="step-text">{{'botAction.step'| translate}} 3:</span>  {{'botAction.the_searchassist_app_can_interact_with'| translate}}</div>
       </div>
       <div class="kr-sg-input-text"> 
-        <label class="label-text label-text-bot-link">Access Token</label> 
+        <label class="label-text label-text-bot-link">{{'botAction.access_token'| translate}}</label> 
         <div class="w-75 position-relative d-inline-block">        
-          <input type="text"placeholder="Enter access token" maxlength="60" [(ngModel)]="configurationLink.accessToken" name="accessToken" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.accessToken?.length && submitted)}"> 
+          <input type="text"placeholder="{{'botAction.enter_access_token'| translate}}" maxlength="60" [(ngModel)]="configurationLink.accessToken" name="accessToken" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.accessToken?.length && submitted)}"> 
           <img *ngIf="!configurationLink?.accessToken?.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
         </div>
         <div class="copy-btn" (click)="copy(configurationLink.accessToken)"><img src="assets/images/icons/copy.svg">Copy</div>
       </div>
       <div class="kr-sg-input-text"> 
-        <label class="label-text label-text-bot-link">Post URL</label>    
+        <label class="label-text label-text-bot-link">{{'botAction.post_url'| translate}}</label>    
         <div class="w-75 position-relative d-inline-block">     
-          <input type="text"placeholder="Enter post url" [(ngModel)]="configurationLink.postUrl" name="postUrl" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.postUrl?.length && submitted)}" > 
+          <input type="text"placeholder="{{'botAction.enter_post_url'| translate}}" [(ngModel)]="configurationLink.postUrl" name="postUrl" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.postUrl?.length && submitted)}" > 
           <img *ngIf="!configurationLink?.postUrl?.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
       </div>
         <div class="copy-btn" (click)="copy(configurationLink.postUrl)"><img src="assets/images/icons/copy.svg">Copy</div>
       </div>
       <div class="kr-sg-input-text"> 
         <div class="w-75 position-relative">
-          <label class="label-text label-text-bot-link">Webhook URL</label>         
+          <label class="label-text label-text-bot-link">{{'botAction.webhook_url'| translate}}</label>         
           <input type="text"placeholder="https://" [(ngModel)]="configurationLink.webhookUrl" name="webhookUrl" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.webhookUrl?.length && submitted)}"> 
           <img *ngIf="!configurationLink?.webhookUrl?.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
       </div>
       </div>
       <div class="kr-sg-input-text"> 
         <div class="w-75 position-relative">
-        <label class="label-text label-text-bot-link">Bot Client ID</label>         
-        <input type="text"placeholder="Enter bot client ID" maxlength="60" [(ngModel)]="configurationLink.clientId" name="botClientId" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.clientId?.length && submitted)}" > 
+        <label class="label-text label-text-bot-link">{{'botAction.bot_client_id'| translate}}</label>         
+        <input type="text"placeholder="{{'botAction.enter_bot_client_id'| translate}}" maxlength="60" [(ngModel)]="configurationLink.clientId" name="botClientId" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.clientId?.length && submitted)}" > 
         <img *ngIf="!configurationLink?.clientId?.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
       </div>
       </div>
       <div class="kr-sg-input-text"> 
-        <label class="label-text label-text-bot-link">Bot Secret ID</label>    
+        <label class="label-text label-text-bot-link">{{'botAction.bot_secret_id'| translate}}</label>    
         <div class="w-75 position-relative">
-          <input type="password" id="password" placeholder="Enter bot secret ID" maxlength="60" [(ngModel)]="configurationLink.clientSecret" name="botSecreatId" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.clientSecret?.length && submitted)}"> 
+          <input type="password" id="password" placeholder="{{'botAction.enter_bot_secret_id'| translate}}" maxlength="60" [(ngModel)]="configurationLink.clientSecret" name="botSecreatId" class="input-text bot-link-input" [ngClass]="{'err-block' : (!configurationLink?.clientSecret?.length && submitted)}"> 
           <img  (click)="showPasword()" *ngIf="!showPassword && configurationLink?.clientSecret?.length" src="assets/images/icons/eye.svg" class="eye" type="eye" >
           <img  (click)="showPasword()"   *ngIf="showPassword && configurationLink?.clientSecret?.length" src="assets/images/icons/viewPw.svg.svg"class="eye" type="eye" >
           <img *ngIf="!configurationLink?.clientSecret?.length && submitted" id="fieldNameWarning" src="assets/icons/warning_escalation.svg" style="top: 31%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
@@ -278,7 +278,7 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer">
-    <button class="kr-sg-button-primary btn_lg" (click)='saveLink()'>Link</button>
-    <button class="kr-sg-button-secondary btn_lg" (click)="closeBotsConfigurationModalElement()">Back</button>
+    <button class="kr-sg-button-primary btn_lg" (click)='saveLink()'>{{editConfigMode?('botAction.save'| translate):('botAction.link'| translate)}}</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="closeBotsConfigurationModalElement()">{{('botAction.back'| translate)}}</button>
 </div>
 </kr-modal>
