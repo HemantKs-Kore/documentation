@@ -300,7 +300,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
               schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
-              repeatOn = "on "+ ' ' + element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
+              repeatOn = " on "+ ' ' + element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1) {
               every = element.advanceSettings.scheduleOpts.interval.intervalValue.every;
@@ -474,14 +474,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       quaryparms.contentType = 'docContent'
     }
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
-      this.selectedSource.pages = res;
-      this.contentId = this.selectedSource.pages[0]._id;
       this.loadingSliderContent = false;
+      this.selectedSource.pages = res; 
       if (this.selectedSource.pages.length > 0) {
         this.docContent = this.selectedSource.pages[0]._source;
         this.docContentType = this.selectedSource.pages[0]._meta;
+        this.contentId = this.selectedSource.pages[0]._id; 
       }
-
       /** Paging */
       const data = [...res]
       this.pagingData = data.slice(0, this.limitpage);

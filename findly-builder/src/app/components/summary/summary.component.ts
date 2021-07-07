@@ -265,9 +265,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
           let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
           return { ...data, total_days: days_result + ' more to go', time_result: hours };
         })
-        if(this.selectedApp.channels[0].app.appName != '' && this.selectedApp.channels[0].app.clientId!=''){
+        // if(this.selectedApp.channels[0].app.appName != '' && this.selectedApp.channels[0].app.clientId!=''){
+        //   this.channelExist =true;
+        // }
+         if(this.selectedApp.channels.length){
           this.channelExist =true;
         }
+
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
