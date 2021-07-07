@@ -600,7 +600,7 @@ export class AppHeaderComponent implements OnInit {
     this.service.invoke('get.apps').subscribe(res => {
       let app_id = this.workflowService?.selectedApp();
       if (app_id) {
-        this.recentApps = res.filter(app => app._id != app_id._id).slice(0, 4)
+        this.recentApps = res.filter(app => app._id != app_id._id).slice(0, 5)
       }
     }, errRes => {
       console.log(errRes);

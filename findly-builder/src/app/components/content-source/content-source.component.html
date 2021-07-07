@@ -929,7 +929,7 @@
                   </div> -->
               <!-- <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
                 [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
-                <app-record-pagination *ngIf = "totalRecord > limitpage" [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
+                <app-record-pagination *ngIf = "totalRecord >  10" [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
               <!-- <div class="paginations-custon">
                 <div class="previous pre-arrow dis-arow"
                   (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)"> </div>
@@ -976,7 +976,7 @@
                                   <img *ngIf="statlog.stageStatus != 'failed' && statlog.stageStatus  != 'running'" src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}" [ngStyle]="{'height':statlog.stageStatus === 'halted' ? '15px' : '15px' }">
                                   <img *ngIf="statlog.stageStatus === 'running'" class="inProgress" src="assets/icons/ringLoading.svg" [ngStyle]="{'height':statlog.stageStatus === 'halted' ? '15px' : '15px' }">
                                   <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}
-                                    <span class="time" *ngIf="statlog.stageName != 'failed' && statlog.stageName != 'successful' && statlog.stageName != 'stopped'">( {{ statlog.timeTaken }} )</span>
+                                    <span class="time" *ngIf="statlog.stageName != 'failed' && statlog.stageName != 'successful' && statlog.stageName != 'stopped' && statlog.timeTaken">( {{ statlog.timeTaken }} )</span>
                                     <span class="time" *ngIf="statlog.stageName == 'stopped'"> by {{ history.executionStats.triggeredBy }} </span>
                                   </span>
                                 </div>

@@ -126,15 +126,15 @@ body::-webkit-scrollbar {
   padding: 8px;
 }
 .sdk-top-down-interface .tile-with-text-parent.template-3 .tile-with-text {
-  box-shadow: none;
-  border-radius: 0;
+  box-shadow: none !important;
+  border-radius: 0 !important;
   border-bottom: 1px solid #E4E5E7;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
   padding: 11px 10px;
-}
-.sdk-top-down-interface .tile-with-text-parent.template-3 .tile-with-text:last-child {
+  }
+  .sdk-top-down-interface .tile-with-text-parent.template-3 .structure-data-wrp:last-child .tile-with-text:last-child {
   border: 0;
-}
+  }
 .sdk-top-down-interface .tile-with-text-parent.template-3.with-accordion .tile-with-text {
   padding: 13px 20px 13px 20px;
 }

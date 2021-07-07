@@ -11758,8 +11758,8 @@ padding-right: 0;
     margin-bottom: 0 !important;
     padding: 11px 10px;
 }
-.tile-with-text-parent.template-3 .tile-with-text:last-child {
-    /* border: 0; */
+.tile-with-text-parent.template-3 .structure-data-wrp:last-child .tile-with-text:last-child {
+    border: 0;
 }
 .tile-with-text-parent.template-3.with-accordion .tile-with-text {
     padding: 13px 20px 13px 20px;
