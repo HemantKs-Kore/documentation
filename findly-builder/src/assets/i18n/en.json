@@ -1034,7 +1034,7 @@
     },
     "workbench": {
         "index_configuration": "Index Configuration",
-        "saving": "Saving",
+        "saving": "Saving.",
         "save_configuration": "Save Configuration",
         "stages": "Stages",
         "transform_the_incoming_data_into_optimized_documents_using": "Transform the incoming data into optimized documents using Index Pipeline Stages",
@@ -1069,7 +1069,7 @@
         "add_trait_groups": "Add Trait Groups",
         "choose_keywords": "Choose Keywords",
         "painless": "Painless",
-        "simulating": "Simulating",
+        "simulating": "Simulating..",
         "simulate": "Simulate",
         "simulator": "Simulator",
         "source": "Source",
@@ -1094,7 +1094,12 @@
         "enter_source_field": "Enter Source Field",
         "enter_name": "Enter Name",
         "type_and_enter": "Type and Enter",
-        "please_enter_script": "Please Enter Script"
+        "please_enter_script": "Please Enter Script",
+        "simulate_to_check_how_the_changes_reflect": "Simulate to check how the changes reflect in the documents before saving",
+        "traits_to_be_identified_from_the_source_field": "Traits to be identified from the source field",
+        "entities_to_be_identified_from_the_source_field": "Entities to be identified from the source field",
+        "give_stage_name_of_your_choice_to_create_multiple": "Give Stage Name of your choice to create multiple stages with the same Stage Type",
+        "click_here_to_get_started_by_adding_a_stage": "Click here to get started by adding a stage"
     }
 
 }

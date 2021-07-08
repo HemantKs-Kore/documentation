@@ -5278,7 +5278,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (templateType === "search-container") {
 
         $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
-         
+          if ($('body').hasClass('top-down')){
+            $('.top-down-suggestion').val('');
+          } else {
+            $('.bottom-up-suggestion').val('');
+          }
           _self.pubSub.publish('sa-handel-chat-container-view');
           _self.pubSub.publish('sa-handel-go-button');
           if(!window.isBotLocked){
@@ -5499,6 +5503,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.unsubscribe('sa-input-keyup');
           _self.pubSub.publish('sa-handel-go-button');
           _self.pubSub.subscribe('sa-input-keyup', (msg, data) => {
+            if ($('body').hasClass('top-down')){
+              $('.top-down-suggestion').val('');
+            } else {
+              $('.bottom-up-suggestion').val('');
+            }
             _self.appendSuggestions();
             if (!$('#search').val()) {
               if ($("#auto-query-box").find(".suggestion-box").length) {
