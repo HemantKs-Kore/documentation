@@ -44,6 +44,7 @@ export class SettingsComponent implements OnInit {
     awt: 'HS256',
     enabled: false
   };
+  delChannel = false;
   componentType: string = 'addData';
   channels = [
     {
@@ -483,7 +484,7 @@ export class SettingsComponent implements OnInit {
         this.prepareChannelData();
         //this.standardPublish();
         this.configFlag = true;
-
+        this.delChannel = false;
         console.log(res);
       },
       errRes => {
@@ -498,7 +499,7 @@ export class SettingsComponent implements OnInit {
   deleteChannel(){
     const modalData: any = {
       newTitle: 'Are you sure you want to delete?',
-      body: 'Search users cannot interact with the app through this channel if it is disabled. ', 
+      body: 'Search users cannot interact with the app through this channel if it is delete. ', 
       buttons: [{ key: 'yes', label:'Delete' }, { key: 'no', label: 'Cancel' }],
       confirmationPopUp: true
     }
@@ -518,10 +519,12 @@ export class SettingsComponent implements OnInit {
           let payload = {"channels":[]}
           this.service.invoke('delete.credentialData', queryParams, payload).subscribe(
             res => {
+              this.delChannel = true;
               this.getLinkedBot();
               this.prepareChannelData();
             },
             errRes => {
+              this.delChannel = false;
               if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
                 this.notificationService.notify(errRes.error.errors[0].msg, 'error');
               } else {
@@ -531,6 +534,7 @@ export class SettingsComponent implements OnInit {
           );
           dialogRef.close();
         } else if (result === 'no') {
+          this.delChannel = false;
           dialogRef.close();
         }
       })

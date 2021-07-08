@@ -41,7 +41,7 @@
         </div>
         <div class="card_data row m-0">
             <div class="card-content active" *ngFor=" let channel of channels | filter: [ searchchannel , 'name']" [ngClass]=" {'blur': !enableConfiguration }">
-                <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="channel.enable">                                        
+                <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="channel.enable && !delChannel">                                        
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle  p-0 border-0" ngbDropdownToggle><img src="assets/icons/elipse.svg"></button>                                            
                         <ul class="dropdown-menu content-menu faq-filter-add p-0" ngbDropdownMenu> 
@@ -64,7 +64,7 @@
                 <div class="main" (click)="proceedChannel(channel)">
                     <div class="img-block cursor-pointer"><img src="{{channel.icon}}"></div>
                     <div class="main-title">{{channel.name}}</div>
-                    <div class="configuration" *ngIf="channel.enable">{{"settings.configured" | translate}}</div>
+                    <div class="configuration" *ngIf="channel.enable && !delChannel">{{"settings.configured" | translate}}</div>
                 </div>
 
             </div>
@@ -238,7 +238,7 @@
                     </div>
 
                     <div class="border-line"></div>
-                    <div class="accordion-sec ">{{"settings.view_JSON_web_encryption_public_key " | translate}} <img
+                    <div class="accordion-sec d-none">{{"settings.view_JSON_web_encryption_public_key " | translate}} <img
                             src="assets/images/icons/carrot_up.svg"></div>
                 </div>
                 <div class="group-radiobutton d-none">
