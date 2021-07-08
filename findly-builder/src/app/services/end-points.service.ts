@@ -801,6 +801,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps/:appId',
       method: 'delete'
     }
+    this.serviceList['delete.credentialData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/apps/:streamId',
+      method: 'put'
+    }
     //APIs for experiments
     this.serviceList['get.experiment'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments?state=:state&offset=:offset&limit=:limit',
