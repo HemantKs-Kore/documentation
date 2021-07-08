@@ -124,8 +124,8 @@
                   </div>                   
               </div>
               
-              <div class="cards-content" *ngFor="let filter of filteredApps | filter: [ searchApp, 'name']" (click)="openApp(filter)">
-                <div class="box">                
+              <div class="cards-content" *ngFor="let filter of filteredApps | filter: [ searchApp, 'name']" (click)="filter.disabled?null:openApp(filter)" placement="top-center" [ngbTooltip]="filter.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0">
+                <div class="box" [ngStyle]="filter.disabled&&{'opacity':'0.4','cursor':'default'}">                
                   <div class="content-sec">
                     <div class="name"><span>{{filter.name}}</span></div>
                     <div class="info-text" *ngIf="filter.description !==''">{{filter.description}}</div>

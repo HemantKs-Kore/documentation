@@ -1466,3 +1466,33 @@
                 }
             }
         }
+
+.table-content{
+position: relative;
+.totalViewsNlikes{
+position: absolute;
+top: 0;
+right: 0;
+.infoBlock{
+border: 1px solid #EFF0F1;
+box-sizing: border-box;
+border-radius: 2px;
+padding: 6px 0;
+.infoType{
+padding: 0 8px 0 0;
+img{
+padding: 0 8px;
+&.viewsIcon{
+height: 10px;
+}
+}
+span{
+color: #5F6368;
+font-weight: 600;
+font-size: 12px;
+line-height: 15px;
+}
+}
+}
+}
+}

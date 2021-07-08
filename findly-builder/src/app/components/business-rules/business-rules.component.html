@@ -256,8 +256,10 @@
                                             <div class="dropdown dropdown-open">
                                                 <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{((ruleObj.dataType)?("businessRules." + ruleObj.dataType): 'choose_an_option')  | translate}}</button>
                                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                                    <li ngbDropdownItem *ngFor="let dataType of ruleOptions.dataTypes" (click)="ruleSelection(ruleObj,dataType,'dataType')" [ngClass]="{'active':ruleObj.dataType===dataType}">{{"businessRules." + dataType | translate}}
-                                                    </li>
+                                                    <ng-container *ngFor="let dataType of ruleOptions.dataTypes">
+                                                        <li ngbDropdownItem [hidden]="(dataType == 'date' || dataType == 'number') && ruleObj.contextType =='searchContext'" (click)="ruleSelection(ruleObj,dataType,'dataType')" [ngClass]="{'active':ruleObj.dataType===dataType}">{{"businessRules." + dataType | translate}}
+                                                        </li>
+                                                    </ng-container>
                                                 </ul>
                                             </div>
                                         </div>

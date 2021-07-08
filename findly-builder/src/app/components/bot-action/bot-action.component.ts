@@ -1318,7 +1318,7 @@ export class BotActionComponent implements OnInit {
             "type": channelType,
             "app": {
               "clientId": this.configurationLink.clientId,
-              "name": (this.selectedLinkBotConfig.channels[0].app || {}).name || (this.selectedLinkBotConfig.channels[0].app || {}).appName || '',
+              "name": ((this.selectedLinkBotConfig.channels || []).length)?(this.selectedLinkBotConfig.channels[0].app || {}).name || (this.selectedLinkBotConfig.channels[0].app || {}).appName || '' :'',
               "clientSecret": this.configurationLink.clientSecret
             },
             "webhookUrl": this.configurationLink.webhookUrl,
@@ -1353,6 +1353,7 @@ export class BotActionComponent implements OnInit {
           }
           this.linkedBotDescription = res.description;
           this.closeBotsConfigurationModalElement();
+          this.closeBotsModalElement();
           if (selectedApp.configuredBots[0]) {
             this.streamId = selectedApp.configuredBots[0]._id;
           }
@@ -1446,6 +1447,6 @@ export class BotActionComponent implements OnInit {
   }
 
   navigateToBotBuilder () {
-    window.open(this.botBulilderUrl, '_self');
+    window.open(this.botBulilderUrl, '_blank');
   };
 }

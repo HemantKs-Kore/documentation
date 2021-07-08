@@ -197,14 +197,14 @@
 
 <kr-modal modalType="center" #customModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
   <div class="modal-header">
-    <div class="title breadcrum">Customize Template <img src="assets/icons/search-interface/carrot_right.svg"> <span> {{selectedSourceType}} | {{selectedSettingText}}</span> </div>
+    <div class="title breadcrum">{{'resultTemplate.customizeTemplate' | translate}} <img src="assets/icons/search-interface/carrot_right.svg"> <span> {{selectedSourceType}} | {{selectedSettingText}}</span> </div>
     <div class="close_icon" (click)="closeCustomModal()"><img src="assets/icons/modal-close.svg"></div>
   </div>
   <perfect-scrollbar class="customize-scroll-left">
   <div class="modal-body">
     <div class="customize-template-data">
       <div class="kr-sg-dropdowns template-type-dropdown">
-        <div class="label-text">Template Type</div>
+        <div class="label-text">{{'resultTemplate.templateType' | translate}} </div>
         <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{customizeTemplateObj.template.type}}</button>                                            
             <ul class="dropdown-menu content-menu">  
@@ -222,20 +222,20 @@
             <!-- Title with Text-->
             <div class="c-template">
               <div class="group-radiobutton">
-                <div class="heading-title mb-2">Search Result Layout</div>
+                <div class="heading-title mb-2">{{'resultTemplate.searchResultLayout' | translate}}</div>
                 <div class="kr-sg-radiobutton">
                     <input id="radio-TT" name="resultLayout" class="radio-custom" type="radio" (change)= "resultLayoutChange('tileWithText')" [checked] = "customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText'">
-                    <label for="radio-TT" class="radio-custom-label">Tile with Text</label>
+                    <label for="radio-TT" class="radio-custom-label">{{'resultTemplate.tilewithText' | translate}}</label>
                 </div> 
                 <div class="template-type" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText'">
-                  <div class="heading">Heading</div>
-                  <div class="description">Description</div>
+                  <div class="heading">{{'resultTemplate.heading' | translate}}</div>
+                  <div class="description">{{'resultTemplate.description' | translate}}</div>
                 </div> 
                 <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText'">
-                  <div class="label-text mb-1">Clickable</div>
+                  <div class="label-text mb-1">{{'resultTemplate.clickable' | translate}}</div>
                   <label class="kr-sg-toggle">                                       
                     <input type="checkbox"  (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable" [disabled]="clickableDisabled">
-                    <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                    <div class="slider"><span class="enabled">{{'resultTemplate.yes' | translate}}</span><span class="disabled">{{'resultTemplate.no' | translate}}</span></div>
                   </label>  
                   <!-- <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable" [ngClass]="{'disable-url': !switchActive }">
                     <div class="label-text mb-1">Click Behaviour</div>
@@ -250,7 +250,7 @@
                   </div>   -->
                   <div class="kr-sg-input-text  customize-right mt-3" style="padding: 0;" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable" [ngClass]="{'disable-url': !customizeTemplateObj.template.searchResultlayout.clickable }">
                     <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
-                      <div class="label-text">URL</div>
+                      <div class="label-text">{{'resultTemplate.URL' | translate}}</div>
                       <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" maxlength="60" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
@@ -275,22 +275,22 @@
               <div class="group-radiobutton">              
                 <div class="kr-sg-radiobutton">
                     <input id="radio-TI" name="resultLayout" class="radio-custom" type="radio" (change)= "resultLayoutChange('tileWithImage')" [checked] = "customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage'">
-                    <label for="radio-TI" class="radio-custom-label">Tile with Image</label>
+                    <label for="radio-TI" class="radio-custom-label">{{'resultTemplate.tilewithImage' | translate}}</label>
                 </div> 
                 <div class="template-type d-flex" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage'">
                   <div class="img-block mr-2">
                     <img src="assets/icons/search-interface/dummy-small.svg">
                   </div>
                   <div class="content-block">
-                    <div class="heading">Heading</div>
-                    <div class="description">Description</div>
+                    <div class="heading">{{'resultTemplate.heading' | translate}}</div>
+                    <div class="description">{{'resultTemplate.description' | translate}}</div>
                   </div>
                 </div> 
                 <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage'">
-                  <div class="label-text mb-1">Clickable</div>
+                  <div class="label-text mb-1">{{'resultTemplate.clickable' | translate}}</div>
                   <label class="kr-sg-toggle">                                       
                     <input type="checkbox" (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable"  [disabled]="clickableDisabled">
-                    <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                    <div class="slider"><span class="enabled">{{'resultTemplate.yes' | translate}}</span><span class="disabled">{{'resultTemplate.no' | translate}}</span></div>
                   </label>  
                   <!-- <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="label-text mb-1">Click Behaviour</div>
@@ -305,7 +305,7 @@
                   </div>   -->
                   <div class="kr-sg-input-text customize-right mt-3" style="padding: 0;" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
-                      <div class="label-text">URL</div>
+                      <div class="label-text">{{'resultTemplate.URL' | translate}}</div>
                       <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" maxlength="60" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
@@ -330,22 +330,22 @@
               <div class="group-radiobutton">              
                 <div class="kr-sg-radiobutton">
                     <input id="radio-TCC" name="resultLayout" class="radio-custom" type="radio" (change)= "resultLayoutChange('tileWithCenteredContent')" [checked] = "customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent'">
-                    <label for="radio-TCC" class="radio-custom-label">Tile with Centered Content</label>
+                    <label for="radio-TCC" class="radio-custom-label">{{'resultTemplate.tilewithCenteredContent' | translate}}</label>
                 </div> 
                 <div class="template-type centered-content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent'">
                   <div class="img-block mb-3">
                     <img src="assets/icons/search-interface/dummy-large.svg">
                   </div>
                   <div class="content-block">
-                    <div class="heading">Heading</div>
-                    <div class="description">Description</div>
+                    <div class="heading">{{'resultTemplate.heading' | translate}}</div>
+                    <div class="description">{{'resultTemplate.description' | translate}}</div>
                   </div>
                 </div> 
                 <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent'">
-                  <div class="label-text mb-1">Clickable</div>
+                  <div class="label-text mb-1">{{'resultTemplate.clickable' | translate}}</div>
                   <label class="kr-sg-toggle">                                       
                     <input type="checkbox" (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable"  [disabled]="clickableDisabled">
-                    <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                    <div class="slider"><span class="enabled">{{'resultTemplate.yes' | translate}}</span><span class="disabled">{{'resultTemplate.no' | translate}}</span></div>
                   </label>  
                   <!-- <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="label-text mb-1">Click Behaviour</div>
@@ -360,7 +360,7 @@
                   </div>   -->
                   <div class="kr-sg-input-text customize-right mt-3" style="padding: 0;" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
-                      <div class="label-text">URL</div>
+                      <div class="label-text">{{'resultTemplate.URL' | translate}}</div>
                       <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" maxlength="60" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
@@ -385,16 +385,16 @@
               <div class="group-radiobutton">                
                 <div class="kr-sg-radiobutton">
                     <input id="radio-TH" name="resultLayout" class="radio-custom" type="radio"  (change)= "resultLayoutChange('tileWithHeader')" [checked] = "customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader'">
-                    <label for="radio-TH" class="radio-custom-label">Tile with Header</label>
+                    <label for="radio-TH" class="radio-custom-label">{{'resultTemplate.tilewithHeader' | translate}}</label>
                 </div> 
                 <div class="template-type" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader'">
-                  <div class="heading m-0">Header</div>                  
+                  <div class="heading m-0">{{'resultTemplate.heading' | translate}}</div>                  
                 </div> 
                 <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader'" >
-                  <div class="label-text mb-1">Clickable</div>
+                  <div class="label-text mb-1">{{'resultTemplate.clickable' | translate}}</div>
                   <label class="kr-sg-toggle">                                       
                     <input type="checkbox"  (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable" [disabled]="clickableDisabled">
-                    <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                    <div class="slider"><span class="enabled">{{'resultTemplate.yes' | translate}}</span><span class="disabled">{{'resultTemplate.no' | translate}}</span></div>
                   </label>  
                   <!-- <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="label-text mb-1">Click Behaviour</div>
@@ -409,7 +409,7 @@
                   </div>   -->
                   <div class="kr-sg-input-text  customize-right mt-3" style="padding: 0;" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
-                      <div class="label-text">URL</div>
+                      <div class="label-text">{{'resultTemplate.URL' | translate}}</div>
                       <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" maxlength="60" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)"  (focus)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
@@ -433,9 +433,9 @@
         </perfect-scrollbar>          
         <perfect-scrollbar  class="customize-scroll-right">
           <div class="customize-right">
-            <div class="label-text mb-1">Search Result Mapping</div>
+            <div class="label-text mb-1">{{'resultTemplate.searchResultMapping' | translate}}</div>
             <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
-              <div class="label-text">Heading</div>
+              <div class="label-text">{{'resultTemplate.heading' | translate}}</div>
               <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                   <input type="text" maxlength="60" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.heading.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('heading',$event.target.value,fieldData)" (focus)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.heading">
@@ -455,7 +455,7 @@
               </div>                        
             </div>
             <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1" *ngIf="showDescription">
-              <div class="label-text">Description</div>
+              <div class="label-text">{{'resultTemplate.description' | translate}}</div>
               <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                   <input type="text" maxlength="60" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.description.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('description',$event.target.value,fieldData)" (focus)="searchlist('description',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.description">
@@ -475,7 +475,7 @@
               </div>                        
             </div>
             <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1" *ngIf="showImage">
-              <div class="label-text">Image</div>
+              <div class="label-text">{{'resultTemplate.image' | translate}}</div>
               <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                   <input type="text" maxlength="60" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.image.length) && submitted)"  data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('image',$event.target.value,fieldData)" (focus)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.image">
@@ -495,21 +495,21 @@
               </div>                        
             </div>
             <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1" *ngIf="customizeTemplateObj.template.type == 'Grid' || customizeTemplateObj.template.type == 'Carousel'">
-              <div class="label-text">Text Alignment</div>
+              <div class="label-text">{{'resultTemplate.textAlignment' | translate}}</div>
                   
                <div class="group-radiobutton">
                 <!-- <div class="heading-title">Text Alignment</div> -->
                 <div class="kr-sg-radiobutton">
                     <input id="radioleft" name="radioText" class="radio-custom" type="radio" (change)="customizeTemplateObj.template.searchResultlayout.textAlignment == 'left'" [checked] = "customizeTemplateObj.template.searchResultlayout.textAlignment == 'left'">
-                    <label for="radioleft" class="radio-custom-label">Left Aligned</label>
+                    <label for="radioleft" class="radio-custom-label">{{'resultTemplate.leftAligned' | translate}}</label>
                 </div>
                 <div class="kr-sg-radiobutton">
                     <input id="radioCenter" name="radioText" class="radio-custom" type="radio" (change)="customizeTemplateObj.template.searchResultlayout.textAlignment == 'center'" [checked] = "customizeTemplateObj.template.searchResultlayout.textAlignment == 'center'">
-                    <label for="radioCenter" class="radio-custom-label">Center Aligned</label>
+                    <label for="radioCenter" class="radio-custom-label">{{'resultTemplate.centerAligned' | translate}}</label>
                 </div>
             </div> 
             </div> 
-            <div class="p-selection mb-2">Preview as per above selection</div>
+            <div class="p-selection mb-2">{{'resultTemplate.previewasperaboveselection' | translate}}</div>
             <ng-container [ngTemplateOutlet]="itemTemplate">
             </ng-container>
             <ng-template #itemTemplate let-item>
@@ -598,7 +598,7 @@
             <!-- Preview For Title with Text ClickAble-->                       
             <div class="result-right-sec with-accordion-state" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && !customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 1'">             
               <div id="accordion">
-                <div class="info-title">Collapsed state</div>
+                <div class="info-title">{{'resultTemplate.collapsedstate' | translate}}</div>
                 <div class="card-acc">
                   <div class="card_header">
                     <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne111">
@@ -612,7 +612,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="info-title">Expanded state</div>
+                <div class="info-title">{{'resultTemplate.expandedstate' | translate}}</div>
                 <div class="card-acc">
                   <div class="card_header">
                     <div class="card_link" data-toggle="collapse" href="#collapseTwo222">
@@ -622,7 +622,7 @@
                   </div>
                   <div id="collapseTwo222" class="collapse show" data-parent="#accordion">
                     <div class="card-body">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      {{'resultTemplate.cardBody' | translate}}
                     </div>
                   </div>
                 </div>               
@@ -631,7 +631,7 @@
 
             <div class="result-right-sec with-accordion-state list-template-2" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && !customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 2'">             
               <div id="accordion">
-                <div class="info-title">Collapsed state</div>
+                <div class="info-title">{{'resultTemplate.collapsedstate' | translate}}</div>
                 <div class="card-acc">
                   <div class="card_header">
                     <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne11">
@@ -645,7 +645,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="info-title">Expanded state</div>
+                <div class="info-title">{{'resultTemplate.expandedstate' | translate}}</div>
                 <div class="card-acc">
                   <div class="card_header">
                     <div class="card_link" data-toggle="collapse" href="#collapseTwo22">
@@ -655,7 +655,7 @@
                   </div>
                   <div id="collapseTwo22" class="collapse show" data-parent="#accordion">
                     <div class="card-body">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      {{'resultTemplate.cardBody' | translate}}
                     </div>
                   </div>
                 </div>               
@@ -664,7 +664,7 @@
 
             <div class="result-right-sec with-accordion-state list-template-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && !customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 3'">             
               <div id="accordion" class="accordion-template">
-                <div class="info-title">Collapsed state</div>
+                <div class="info-title">{{'resultTemplate.collapsedstate' | translate}}</div>
                 <div class="template-3-box-shadow">
                   <div class="card-acc mb-0">
                     <div class="card_header">
@@ -688,12 +688,12 @@
                     </div>
                     <div id="collapsethree3" class="collapse" data-parent="#accordion">
                       <div class="card-body">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        {{'resultTemplate.cardBody' | translate}}.
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="info-title">Expanded state</div>
+                <div class="info-title">{{'resultTemplate.expandedstate' | translate}}</div>
                 <div class="card-acc">
                   <div class="card_header">
                     <div class="card_link" data-toggle="collapse" href="#collapseTwo2">
@@ -703,7 +703,7 @@
                   </div>
                   <div id="collapseTwo2" class="collapse show" data-parent="#accordion">
                     <div class="card-body">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      {{'resultTemplate.cardBody' | translate}}.
                     </div>
                   </div>
                 </div>               
@@ -853,7 +853,7 @@
             <!-- Preview For Title with Image ClickAble-->
             <div class="result-right-sec with-accordion-state with_image_tile " *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage' && !customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 1'">             
               <div id="accordion">
-                <div class="info-title">Collapsed state</div>
+                <div class="info-title">{{'resultTemplate.collapsedstate' | translate}}</div>
                 <div class="card-acc">
                   <div class="card_header">
                     <div class="card_link collapsed" data-toggle="collapse" href="#collapse1">
@@ -870,7 +870,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="info-title">Expanded state</div>
+                <div class="info-title">{{'resultTemplate.expandedstate' | translate}}</div>
                 <div class="card-acc">
                   <div class="card_header">
                     <div class="card_link" data-toggle="collapse" href="#collapse2">
@@ -892,7 +892,7 @@
 
             <div class="result-right-sec with-accordion-state with_image_tile img-acc-template-2" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage' && !customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 2'">             
               <div id="accordion">
-                <div class="info-title">Collapsed state</div>
+                <div class="info-title">{{'resultTemplate.collapsedstate' | translate}}</div>
                 <div class="card-acc">
                   <div class="card_header">
                     <div class="card_link collapsed" data-toggle="collapse" href="#collapse01">
@@ -925,7 +925,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="info-title mt-3">Expanded state</div>
+                <div class="info-title mt-3">{{'resultTemplate.expandedstate' | translate}}</div>
                 <div class="card-acc">
                   <div class="card_header">
                     <div class="card_link" data-toggle="collapse" href="#collapse2">
@@ -947,7 +947,7 @@
 
             <div class="result-right-sec with-accordion-state with_image_tile img-acc-template-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage' && !customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 3'">             
               <div id="accordion">
-                <div class="info-title">Collapsed state</div>
+                <div class="info-title">{{'resultTemplate.collapsedstate' | translate}}</div>
                 <div class="template-3-box-shadow">
                   <div class="card-acc">
                     <div class="card_header">
@@ -982,7 +982,7 @@
                     </div>
                   </div>
                 </div>              
-                <div class="info-title">Expanded state</div>
+                <div class="info-title">{{'resultTemplate.expandedstate' | translate}}</div>
                 <div class="card-acc">
                   <div class="card_header">
                     <div class="card_link" data-toggle="collapse" href="#collapse22">
@@ -1059,7 +1059,7 @@
             <!-- Preview For Title with Centered Content Clickable-->            
             <div class="result-right-sec with-accordion-state tile_with_centered_content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent' && !customizeTemplateObj.template.searchResultlayout.clickable && !(customizeTemplateObj.template.type == 'Carousel')">             
               <div id="accordion">
-                <div class="info-title">Collapsed state</div>
+                <div class="info-title">{{'resultTemplate.collapsedstate' | translate}}</div>
                 <div class="card-acc">
                   <div class="card_header">
                     <div class="card_link collapsed" data-toggle="collapse" href="#collapse1">
@@ -1076,7 +1076,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="info-title">Expanded state</div>
+                <div class="info-title">{{'resultTemplate.expandedstate' | translate}}</div>
                 <div class="card-acc">
                   <div class="card_header">
                     <div class="card_link" data-toggle="collapse" href="#collapse2">
@@ -1168,7 +1168,7 @@
             
           <!-- Tile with Header End -->
           <!-- Carousel UI Template Start-->
-          <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && customizeTemplateObj.template.type == 'Carousel'">
+          <div class="result-right-sec if-carouse-container" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && customizeTemplateObj.template.type == 'Carousel'">
             <div class="carousel" id="carousel-default">
               <div class="slide">
                 <div class="result-card">
@@ -1287,26 +1287,26 @@
               </div>
             </div>
             
-            <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'Carousel'">
+            <div class="result-right-sec if-carouse-container" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'Carousel'">
               <div class="carousel" id="carousel-default">
                 <div class="slide">
                   <div class="tile_with_header">
-                    <a class="tile-title">Check account statement</a>
+                    <a class="tile-title">{{preview_title}}</a>
                   </div>
                 </div>    
                 <div class="slide">
                   <div class="tile_with_header">
-                    <a class="tile-title">Speak to an agent</a>
+                    <a class="tile-title">{{preview_title}}</a>
                   </div>
                 </div>  
                 <div class="slide">
                   <div class="tile_with_header">
-                    <a class="tile-title">Check credit card eligibility</a>
+                    <a class="tile-title">{{preview_title}}</a>
                   </div>
                 </div>    
                 <div class="slide">
                   <div class="tile_with_header">
-                    <a class="tile-title">Last 30 days transaction</a>    
+                    <a class="tile-title">{{preview_title}}</a>    
                   </div>
                 </div>                                              
               </div>
@@ -1322,14 +1322,14 @@
   </div>
 </perfect-scrollbar>
   <div class="modal-footer">
-      <button class="kr-sg-button-primary btn_lg" (click)="saveTemplate()">Save</button>
-      <button class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">Cancel</button>
+      <button class="kr-sg-button-primary btn_lg" (click)="saveTemplate()">{{'resultTemplate.save' | translate}}</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">{{'resultTemplate.cancel' | translate}}</button>
   </div>
 </kr-modal> 
 
 <kr-modal modalType="center" #previewModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
   <div class="modal-header">
-    <div class="title">Preview Template</div>
+    <div class="title">{{'resultTemplate.previewTemplate' | translate}}</div>
     <div class="close_icon" (click)="closePreviewModal()"><img src="assets/icons/modal-close.svg"></div>
   </div>
   <perfect-scrollbar class="perfect-scroll-modal-body">
@@ -1338,7 +1338,7 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer">
-      <button class="kr-sg-button-primary btn_lg" (click)="closePreviewModal()">Save</button>
-      <button class="kr-sg-button-secondary btn_lg" (click)="closePreviewModal()">Cancel</button>
+      <button class="kr-sg-button-primary btn_lg" (click)="closePreviewModal()">{{'resultTemplate.save' | translate}}</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="closePreviewModal()">{{'resultTemplate.cancel' | translate}}</button>
   </div>
 </kr-modal> 

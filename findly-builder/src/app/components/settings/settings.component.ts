@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationService } from '@kore.services/notification.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
@@ -17,6 +19,7 @@ export class SettingsComponent implements OnInit {
   botID = '';
   enableConfiguration = true;
   showPassword: boolean;
+  pageDisable = true;
   configuredBot_streamId = "";
   selectedApp: any;
   serachIndexId: any;
@@ -69,6 +72,7 @@ export class SettingsComponent implements OnInit {
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
+    public dialog: MatDialog,
     private notificationService: NotificationService,
     public authService: AuthService) { }
 
@@ -446,7 +450,13 @@ export class SettingsComponent implements OnInit {
       }
     );
   }
-  configureCredential() {
+  configureCredential(event) {
+    if(event){
+    if(this.enableConfiguration){
+      event.stopPropagation();
+        event.preventDefault();
+      }
+    }
     const queryParams = {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id
@@ -485,8 +495,36 @@ export class SettingsComponent implements OnInit {
       }
     );
   }
-
-  disableCredential() {
+enableDisableCredential(){
+  const modalData: any = {
+    newTitle: 'Are you sure you want to disable?',
+    body: 'Search users cannot interact with the app through this channel if it is disabled. ', 
+    buttons: [{ key: 'yes', label:'Disable' }, { key: 'no', label: 'Cancel' }],
+    confirmationPopUp: true
+  }
+  if (this.enableConfiguration) {
+    modalData.newTitle = 'Are you sure you want to Enable ?'
+    modalData.body = 'Channel will be enabled.';
+    modalData.buttons[0].label = 'Enable' ;
+  }
+  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    width: '530px',
+    height: 'auto',
+    panelClass: 'delete-popup',
+    data: modalData,
+  });
+  dialogRef.componentInstance.onSelect
+    .subscribe(result => {
+      if (result === 'yes') {
+        this.disableCredential();
+        dialogRef.close();
+      } else if (result === 'no') {
+        this.enableConfiguration=!this.enableConfiguration;
+        dialogRef.close();
+      }
+    })
+}
+  disableCredential(pageDisable?) { 
     const queryParams = {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id
@@ -502,11 +540,9 @@ export class SettingsComponent implements OnInit {
       enable: false,
       sttEnabled: false,
       sttEngine: "kore"
-    }
-
+    } 
     this.service.invoke('configure.credential', queryParams, payload).subscribe(
       res => {
-
         console.log(res);
       },
       errRes => {
@@ -517,6 +553,9 @@ export class SettingsComponent implements OnInit {
         }
       }
     );
+    if(pageDisable == true){
+      this.enableConfiguration = !this.enableConfiguration;
+    }
   }
 
   newCredential() {
@@ -535,7 +574,7 @@ export class SettingsComponent implements OnInit {
   };
 
   showPasword() {
-    var show: any = document.getElementById("password");;
+    var show: any = document.getElementById("password");
     if (show.type === "password") {
       this.showPassword = true;
       show.type = "text";

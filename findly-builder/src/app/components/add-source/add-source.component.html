@@ -572,6 +572,7 @@
                   <!-- Block-->
                 </div>
                 <!-- Cookies -->
+                <div class="row m-0">
                 <div class="group-checkbox">
                   <!-- <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "blockHttpsMsgs" [(ngModel)] = "blockHttpsMsgs" [ngModelOptions]="{standalone: true}">
@@ -630,7 +631,13 @@
                       [(ngModel)]="maxUrlLimit" class="input-text">
                   </div>
                 </div>
+                
               </div>
+              <div class="info-no-limit col-7">
+                <img src="assets/icons/info-limit.svg">
+                <span class="title">Not limiting the Crawl Depth and Max URL Limit may impact the system performance</span>
+              </div>
+            </div>
                <!-- New Crawl everey thing-->
 
               <!-- <div class="inner-content row m-0">

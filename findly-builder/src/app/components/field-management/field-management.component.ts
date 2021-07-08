@@ -158,11 +158,7 @@ export class FieldManagementComponent implements OnInit {
         if (res && res.weights && res.weights.used) {
           deps.weights = true;
           if (deps.facets) {
-            if (res && res.rules && res.rules.used) {
-              usageText = usageText + ', ' + 'Weights'
-            }else{
-              usageText = usageText + 'and ' + 'Weights'
-            }
+            usageText = usageText + ', ' + 'Weights'
           } else {
             usageText = usageText + ' Weights'
           }
@@ -170,7 +166,7 @@ export class FieldManagementComponent implements OnInit {
         if (res && res.rules && res.rules.used) {
           deps.rules = true;
           if (deps.facets || deps.weights) {
-            usageText = usageText + ' and ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
+            usageText = usageText + ' , ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
           } else {
             usageText = usageText + ' ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
           }
@@ -179,17 +175,30 @@ export class FieldManagementComponent implements OnInit {
         if (res && res.resultTemplates && res.resultTemplates.used) {
           deps.resultTemplate = true;
           if (deps.facets || deps.weights || deps.rules) {
-            usageText = usageText + ' and ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'');
+            usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'');
           } else {
             usageText = usageText + ' will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
           }
         }
       }
+      usageText = this.replaceLast(",", " and", usageText);
       this.indexedWarningMessage = usageText;
     }, errRes => {
       this.fetchingFieldUsage = false;
     });
   }
+   replaceLast(find, replace, string) {
+    var lastIndex = string.lastIndexOf(find);
+    
+    if (lastIndex === -1) {
+        return string;
+    }
+    
+    var beginString = string.substring(0, lastIndex);
+    var endString = string.substring(lastIndex + find.length);
+    
+    return beginString + replace + endString;
+}
   getFieldUsage(record) {
     if (this.fetchingFieldUsage) {
       return;
@@ -212,9 +221,13 @@ export class FieldManagementComponent implements OnInit {
         weights: false,
         resultTemplate : false
       }
+      // let usageText1 = "This field is being used in Facets, Weights, and Rules (Dynamic). Deleting it will remove the associated Facets, Weights, and Rules.";
       if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplate && res.resultTemplate.used)) {
         isDisableDeleteBtn = true;
-        usageText = 'Deleting ' + record.fieldName + ' field will impact the associated'
+        let usageText1 = "";
+        usageText1 = "This field is being used in";
+        usageText = '';
+        let usageText2 = 'Deleting it will remove the associated';
         if (res && res.facets && res.facets.used) {
           deps.facets = true;
           usageText = usageText + ' Facets'
@@ -222,28 +235,28 @@ export class FieldManagementComponent implements OnInit {
         if (res && res.weights && res.weights.used) {
           deps.weights = true;
           if (deps.facets) {
-            usageText = usageText + '& ' + 'Weights'
+            usageText = usageText + ', ' + 'Weights'
           } else {
             usageText = usageText + ' Weights'
           }
         }
         if (res && res.rules && res.rules.used) {
           if (deps.facets || deps.weights) {
-            usageText = usageText + ' and will impact ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
+            usageText = usageText + ' , ' + res.rules.records.length + ' Rule'+(res.rules.records.length>1?'s':'')
           } else {
-            usageText = usageText + ' and will impact ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
+            usageText = usageText + ' '  + res.rules.records.length + ' Rule'+(res.rules.records.length>1?'s':'')
           }
         }
         if (res && res.resultTemplates && res.resultTemplates.used) {
           deps.resultTemplate = true;
-          if ((deps.facets || deps.weights) && deps.rules) {
-            usageText = usageText + ' and ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
-          } else if ((deps.facets || deps.weights) && !deps.rules) {
-            usageText = usageText + ' and will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
+          if (deps.facets || deps.weights ||  deps.rules) {
+            usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
           } else {
-            usageText = usageText + ' will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
+            usageText = usageText + ' ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
           }
         }
+        usageText = this.replaceLast(",", " and", usageText);
+        usageText = usageText1 + usageText + '. ' + usageText2 + usageText + '.';
       }
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         width: '446px',
@@ -252,7 +265,7 @@ export class FieldManagementComponent implements OnInit {
         data: {
           newTitle: 'Are you sure you want to delete?',
           body: usageText,
-          buttons: [{ key: 'yes', label: 'Delete', type: 'danger',disabled:isDisableDeleteBtn}, { key: 'no', label: 'Cancel' }],
+          buttons: [{ key: 'yes', label: 'Delete', type: 'danger'}, { key: 'no', label: 'Cancel' }],
           confirmationPopUp: true
         }
       });

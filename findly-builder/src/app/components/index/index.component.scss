@@ -754,3 +754,23 @@
     }
   }
 }
+
+.source-field-dropdown.dropdown-menu.content-menu li a {
+  line-height: 40px;
+  padding: 0 10px;
+  color: #202124;
+  font-size: 14px;
+  text-decoration: none!important;
+  display: block;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.kr-sg-input-text.input-box.show,.kr-sg-input-text.input-box .position-relative.show {
+  .dropdown-menu{
+    display: block !important;
+  }
+}

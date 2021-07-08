@@ -4,7 +4,7 @@
         <span class="please-wait-message">{{'please_wait' | translate}}</span>
     </div>
     <div class="header-sec col-12 row m-0" *ngIf="!nextPage&& loadingContent1">
-        <div class="col-4 p-0">Results Ranking</div>     
+        <div class="col-4 p-0">{{'resultRanking.resultRanking' | translate}} </div>     
         </div>
     <ng-container *ngIf="!nextPage&& loadingContent1">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
@@ -12,11 +12,11 @@
         <div  class="empty-landing-screen" >
           <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/resultRanking-empty.svg"></div>
           <ng-container *ngIf="loadImageText">
-              <div class="empty-title">You haven’t added any queries yet!</div>
-              <div class="desc-text">Results Ranking is an interactive and visual way to tune results. SearchAssist allows you to preview and customize the search results as per the business needs 
+              <div class="empty-title">{{'resultRanking.emptyTitle' | translate}}</div>
+              <div class="desc-text">{{'resultRanking.descText' | translate}} 
               </div>
               <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
-                <button class="kr-sg-button-primary btn_lg px-2" (click)="lauchTest()">Let's Start</button>                                                
+                <button class="kr-sg-button-primary btn_lg px-2" (click)="lauchTest()">{{'resultRanking.letstrat' | translate}} </button>                                                
               </div>
           </ng-container>
           </div>
@@ -40,11 +40,11 @@
                                     <img (click) = "selectAll()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
                                 </div>  
                                 <div class="count-selected">
-                                    {{collectedRecord.length}} Selected
+                                    {{collectedRecord.length}} {{'resultRanking.selected' | translate}}
                                 </div> 
                             </div>
                             <div [ngClass] = "{'disableDiv' : permisionView }">
-                                <button class="kr-sg-button-danger btn_lg" (click)="resetCustomization()">Reset</button>
+                                <button class="kr-sg-button-danger btn_lg" (click)="resetCustomization()">{{'resultRanking.reset' | translate}}</button>
                             </div> 
                         </div>
                         <ng-container *ngIf="!resultSelected">
@@ -64,7 +64,7 @@
                         </ng-container>                            
                     </div>
                     <div class ="info-div">
-                        <div>To Customize the results of a query, Click on the Test button at the top and enable customize mode.</div>
+                        <div>{{'resultRanking.infoDiv' | translate}}</div>
                     </div>
                     <div class="body-content">
                         <div class="empty-questions-selected d-none">
@@ -84,7 +84,7 @@
                                                 </div>
                                                 <div class="title-desc-sec">
                                                     <div class="title">{{list.searchQuery}}</div>
-                                                    <div class="desc">{{list.numberOfCustomisations}} customization</div>
+                                                    <div class="desc">{{list.numberOfCustomisations}} {{'resultRanking.customization' | translate}}</div>
                                                 </div>                                                    
                                             </div>
                                             <div class="restore-icon" [ngClass]="{'disableDiv' : permisionView}" (click)="restore(list)">
@@ -213,15 +213,15 @@
                                                             <div class="desc-text-ranking">{{actLog.target.contentInfo._source.strucDataDecDis}}</div>
                                                         </ng-container>                                                  
                                                         <div class="info-data-pinned-or-boostead">
-                                                            <div class="pinned" *ngIf="actLog.customization.action == 'pinned'"><img src="assets/icons/resultranking/pined.svg">PINNED</div>
-                                                            <div class="pinned" *ngIf="actLog.customization.action == 'hidden'"><img src="assets/icons/resultranking/Unsee.svg">HIDDEN</div>
-                                                            <div class="pinned" *ngIf="actLog.customization.action == 'lowered'"><img src="assets/icons/resultranking/MoveUp.svg">{{multiplyAction(actLog.customization.value)}}x LOWERED</div>
-                                                            <div class="pinned" *ngIf="actLog.customization.action == 'boosted'"><img src="assets/icons/resultranking/MoveUp.svg" class="rotateimg180-move-up">{{multiplyAction(actLog.customization.value)}}x BOOSTED</div>
-                                                            <div class="pinned manual" *ngIf="actLog.target.addedResult">MANUALLY ADDED</div>
+                                                            <div class="pinned" *ngIf="actLog.customization.action == 'pinned'"><img src="assets/icons/resultranking/pined.svg">{{'resultRanking.PINNED' | translate}}</div>
+                                                            <div class="pinned" *ngIf="actLog.customization.action == 'hidden'"><img src="assets/icons/resultranking/Unsee.svg">{{'resultRanking.HIDDEN' | translate}}</div>
+                                                            <div class="pinned" *ngIf="actLog.customization.action == 'lowered'"><img src="assets/icons/resultranking/MoveUp.svg">{{multiplyAction(actLog.customization.value)}}x {{'resultRanking.LOWERED' | translate}}</div>
+                                                            <div class="pinned" *ngIf="actLog.customization.action == 'boosted'"><img src="assets/icons/resultranking/MoveUp.svg" class="rotateimg180-move-up">{{multiplyAction(actLog.customization.value)}}x {{'resultRanking.BOOSTED' | translate}}</div>
+                                                            <div class="pinned manual" *ngIf="actLog.target.addedResult">{{'resultRanking.MANUALLYADDED' | translate}}</div>
                                                             <div class="time-stamp">{{actLog.customization.lMod}}</div>
                                                         </div>  
                                                         <div class="remove-btn-sec" [ngClass] = "{'disableDiv' : permisionView }">
-                                                            <div class="remove-btn" (click)="removeRecord(actLog)">Remove</div> 
+                                                            <div class="remove-btn" (click)="removeRecord(actLog)">{{'resultRanking.Remove' | translate}}</div> 
                                                         </div>                                                     
                                                     </div>
                                                 </a>

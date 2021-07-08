@@ -14,14 +14,15 @@
         <div class="row col-12 card-plans">
             <div class="col-6 current-plan">
               <div class="inner-content">
-                <div class="title">{{currentSubscriptionPlan&&currentSubscriptionPlan.subscription&&currentSubscriptionPlan.subscription.status=="expired"?("plan.subscription_cancelled"| translate):("plan.current_subscription_plan"| translate)}}</div>
-                <div class="kr-sg-dropdowns" [hidden]="currentSubscriptionPlan&&currentSubscriptionPlan.subscription.changesScheduledFor=='cancel'">                
+                <div class="title">{{currentSubscriptionPlan?.subscription?.status=="expired"?("plan.subscription_cancelled"| translate):("plan.current_subscription_plan"| translate)}}</div>
+                <div class="kr-sg-dropdowns">                
                   <div class="dropdown dropdown-open">
                       <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/pricing/overflow.svg"></button>                                            
                       <ul class="dropdown-menu content-menu" *ngIf="currentSubscriptionPlan">                                                                    
-                        <li (click)="addOverage()" [hidden]="currentSubscriptionPlan.subscription.planName=='Free'"><a>{{"plan.add_overage"| translate}}</a></li>
-                        <li (click)="compare('choosePlans',currentSubscriptionPlan.subscription)"><a>{{"plan.change_plan"| translate}}</a></li>
-                        <li (click)="openPopup5()" [hidden]="currentSubscriptionPlan.subscription.planName=='Free'"><a>{{"plan.cancel_subscription"| translate}}</a></li>
+                        <li (click)="addOverage()" [hidden]="currentSubscriptionPlan.subscription.planName==='Free'||currentSubscriptionPlan?.subscription?.changesScheduledFor==='cancel'"><a>{{"plan.add_overage"| translate}}</a></li>
+                        <li (click)="compare('choosePlans',currentSubscriptionPlan.subscription)" [hidden]="currentSubscriptionPlan?.subscription?.changesScheduledFor==='cancel'"><a>{{"plan.change_plan"| translate}}</a></li>
+                        <li (click)="openPopup5()" [hidden]="currentSubscriptionPlan.subscription.planName==='Free'||currentSubscriptionPlan?.subscription?.changesScheduledFor==='cancel'"><a>{{"plan.cancel_subscription"| translate}}</a></li>
+                        <li (click)="revertCancel()" [hidden]="currentSubscriptionPlan?.subscription?.changesScheduledFor!=='cancel'"><a>{{"plan.revert_cancellation_btn"| translate}}</a></li>                       
                       </ul>
                     </div>
                 </div>
@@ -42,7 +43,7 @@
               <div class="inner-content">
                 <div class="title-head">
                   <div class="title">{{"plan.usage"| translate}}</div>
-                  <div class="title-overage" (click)="currentSubscriptionPlan?.subscription?.planName!='Free'?addOverage():null" *ngIf="usageDetails?.searchQueries?.percentageUsed >= 80||usageDetails?.ingestDocs?.percentageUsed >= 80"><img width="12" height="12" src="assets/icons/plus-blue.svg" /> {{"plan.add_overage"| translate}}</div>
+                  <div class="title-overage" (click)="addOverage()" *ngIf="usageDetails?.searchQueries?.percentageUsed >= 80||usageDetails?.ingestDocs?.percentageUsed >= 80"><img width="12" height="12" src="assets/icons/plus-blue.svg" /> {{"plan.add_overage"| translate}}</div>
                 </div>                
                 <div class="queries">
                   <div class="queries-title">{{"plan.queries"| translate}}</div>
@@ -62,14 +63,15 @@
             </div>
         </div>
 
-        <ng-container *ngIf="currentSubscriptionPlan&&currentSubscriptionPlan.subscription.planName=='Pro'&&currentSubscriptionPlan.subscription.changesScheduledFor=='downgrade'">
+        <ng-container *ngIf="(currentSubscriptionPlan?.subscription?.planName=='Pro'&&currentSubscriptionPlan?.subscription?.changesScheduledFor=='downgrade')||currentSubscriptionPlan?.subscription?.changesScheduledFor=='cancel'">
           <div class="info-note" [ngClass]='{"d-none":proInfo}'>
             <div class="col-10 d-flex align-items-center p-0">
               <img src="assets/icons/Info-pdf.svg">
-              <span class="info-text">{{"plan.your_plan_will_changed"| translate}} {{(currentSubscriptionPlan&&currentSubscriptionPlan.subscription.endDate)| dateFormatPipe:'D MMMM YYYY'}}</span>
+              <span class="info-text">{{currentSubscriptionPlan?.subscription?.changesScheduledFor=='cancel'?("plan.your_plan_will_cancelled"| translate):("plan.your_plan_will_changed"| translate)}} {{(currentSubscriptionPlan?.subscription?.endDate)| dateFormatPipe:'D MMMM YYYY'}}</span>
+              <!-- <span class="info-text" *ngIf="currentSubscriptionPlan?.subscription?.changesScheduledFor=='cancel'">{{"plan.your_plan_will_cancelled"| translate}} {{(currentSubscriptionPlan?.subscription?.endDate)| dateFormatPipe:'D MMMM YYYY'}}</span> -->
             </div>
             <div class="close-info col-2 p-0 text-right">            
-              <span (click)="cancelProSubscription()">{{"plan.cancel_request"| translate}}</span>
+              <span (click)="currentSubscriptionPlan?.subscription?.changesScheduledFor=='cancel'?revertCancel():cancelProSubscription()">{{"plan.cancel_request"| translate}}</span>
               <img src="assets/icons/close-small.svg" (click)="proInfo=true">
             </div>
           </div>

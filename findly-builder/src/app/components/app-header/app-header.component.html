@@ -94,7 +94,7 @@
                                     <div class="main-title">SearchAssist Apps</div>
                                     <div class="apps-block">
                                         <div class="title-secondary">Recent Apps</div>
-                                        <div class="app-name-block" *ngFor='let app of recentApps' (click)="openApp(app);myDrop.close()">
+                                        <div class="app-name-block" *ngFor='let app of recentApps' (click)="app.disabled?null:[openApp(app),myDrop.close()]" [ngStyle]="app.disabled&&{'opacity':'0.4','cursor':'default'}" placement="top-center" [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0">
                                             <div class="app-name">{{app.name}}</div>
                                             <div class="shared-name d-none">{{app.createdBy===userId?'My App':'Shared by '+app.userDetails.fullName}}</div>
                                         </div>                                                       
@@ -170,7 +170,7 @@
                                                                     </div>
                                                                     <div class="status-blcok">                        
                                                                         <img src="assets/icons/ringLoading.svg" class="inProgress" *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED'" placement="top" container='body'>
-                                                                        <span *ngIf="(task.status == 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}%</span>
+                                                                        <!-- <span *ngIf="(task.status == 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}%</span> -->
                                                                         <img src="assets/icons/docker/close.svg" (click)="removeRecord(task, index)" *ngIf="(task.status !== 'IN_PROGRESS' && task.status !== 'validation' && task.status !== 'QUEUED')">
                                                                     </div>
                                                                 </div>

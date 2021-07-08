@@ -36,10 +36,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isEditDoc: boolean = false;
   editDocObj: any = {};
   isEdittitle;
+  contentId
   edit: any = {};
   editConfObj: any = {};
   editTitleFlag: boolean = false;
   isConfig: boolean = false;
+  numberOf:any={};
   allowUrl: AllowUrl = new AllowUrl()
   blockUrl: BlockUrl = new BlockUrl();
   allowUrlArr: AllowUrl[] = [];
@@ -177,10 +179,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isAsc = true;
   selectedSort = '';
   recordStr: number = 1;
-  recordEnd: number = 25;
+  recordEnd: number = 10;
   totalRecord: number = 0;
-  limitpage: number = 25;
-  limitAllpage: number = 25;
+  limitpage: number = 10;
+  limitAllpage: number = 10;
   allInOne: boolean = false;
   urlConditionAllow = "is";
   urlConditionBlock = "is";
@@ -312,6 +314,33 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     }
   }
+convertToDay(repeatOn){
+  switch (repeatOn) {
+    case 'SUN':
+      return "Sunday";
+      
+    case 'MON':
+      return "Monday";
+
+    case 'TUE':
+       return "Tuesday";
+   
+    case 'WED':
+      return "Wednesday";
+    
+    case 'THU':
+      return "Thursday";
+      
+    case 'FRI':
+      return "Friday";
+     
+    case 'SAT':
+      return "Saturday";
+
+   default :
+       return '' ;
+  }
+}
   getSourceList(nxt?) {
     this.statusArr = [];
     this.docTypeArr = [];
@@ -342,12 +371,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
               schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
-              repeatOn = "on " + element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
+              repeatOn = " on "+ this.convertToDay(element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn);
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1) {
               every = element.advanceSettings.scheduleOpts.interval.intervalValue.every;
             }
-            element['schedule_title'] = 'Runs once every'+ ' ' + every + ' ' +  schedulePeriod + '' + repeatOn
+            element['schedule_title'] = 'Runs once every'+ ' ' + every  +  schedulePeriod + repeatOn
 
           }
 
@@ -516,13 +545,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       quaryparms.contentType = 'docContent'
     }
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
-      this.selectedSource.pages = res;
       this.loadingSliderContent = false;
+      this.selectedSource.pages = res; 
       if (this.selectedSource.pages.length > 0) {
         this.docContent = this.selectedSource.pages[0]._source;
         this.docContentType = this.selectedSource.pages[0]._meta;
+        this.contentId = this.selectedSource.pages[0]._id; 
       }
-
       /** Paging */
       const data = [...res]
       this.pagingData = data.slice(0, this.limitpage);
@@ -541,7 +570,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       } else {
         this.crwalOptionLabel = 'Crawl Everything'
       }
-      this.swapSlider('page')
+      this.swapSlider('page');
+      this.clicksViews()
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
       //   $('.tabname')[1].classList.remove('active');
       //   $('.tabname')[0].classList.add('active');
@@ -561,6 +591,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   viewPageDetails() {
     this.sliderStep = 1;
+    this.clicksViews();
   }
   sliderBack() {
     if (this.sliderStep) {
@@ -666,10 +697,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
 
   }
-  openStatusSlider(source) {
+  openStatusSlider(source,page?) {
     console.log("sourec opned", source)
     this.executionHistoryData = [];
     this.pagesSearch = '';
+   
     // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
     //   this.notificationService.notify('Source extraction is still in progress', 'error');
     //   return;
@@ -711,6 +743,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     else if (source.extractionType === 'file') {
       this.openDocumentModal();
       this.getCrawledPages(this.limitpage, 0);
+      // this.clicksViews()
     }
     // this.sliderComponent.openSlider('#sourceSlider', 'right500');
     //}
@@ -769,7 +802,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     if (type == 'history') {
       this.executionHistory()
     } else {
-      this.getCrawledPages(event.limit, event.skip);
+      this.getCrawledPages(10, event.skip);
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop(2, 1000);
     }
@@ -1682,6 +1715,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
     }
+  }
+  clicksViews() {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      contentId: this.contentId,
+    };
+    this.service.invoke('get.clicksViewsContent', quaryparms).subscribe(res => {
+      console.log(res);
+      this.numberOf= res;
+    }, errRes => {
+    });
   }
 }
 

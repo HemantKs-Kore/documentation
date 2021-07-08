@@ -543,7 +543,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       delete this.queryGraph.yAxis.min;
       delete this.queryGraph.yAxis.max;
     }
-    if(this.isyAxisQuerydata){
+    if (this.isyAxisQuerydata) {
       delete this.queryGraph.xAxis.name
       delete this.queryGraph.xAxis.nameLocation
       delete this.queryGraph.xAxis.nameGap
@@ -553,7 +553,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       delete this.documentGraph.yAxis.min;
       delete this.documentGraph.yAxis.max;
     }
-    if(this.isyAxisDocumentdata){
+    if (this.isyAxisDocumentdata) {
       delete this.documentGraph.xAxis.name
       delete this.documentGraph.xAxis.nameLocation
       delete this.documentGraph.xAxis.nameGap
@@ -598,8 +598,8 @@ export class PricingComponent implements OnInit, OnDestroy {
       streamId: this.selectedApp._id
     }
     this.service.invoke('get.renewSubscribtion', queryParam).subscribe(res => {
-      dialogRef.close();
       setTimeout(() => {
+        dialogRef.close();
         this.appSelectionService.getCurrentSubscriptionData();
       }, 2000)
       // this.notificationService.notify('Cancel Subscription', 'success');

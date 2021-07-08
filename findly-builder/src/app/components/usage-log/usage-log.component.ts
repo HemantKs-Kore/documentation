@@ -20,6 +20,7 @@ export class UsageLogComponent implements OnInit {
   resultsArr = [];
   showSearch;
   searchUsageLog = '';
+  searchLoading = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   selectedApp;
@@ -74,6 +75,7 @@ export class UsageLogComponent implements OnInit {
     }
   }
   searchUsageLogs() {
+    this.searchLoading = true;
     if (this.searchUsageLog) {
       this.getUsageLogs(null, this.searchUsageLog);
     } else {
@@ -99,6 +101,7 @@ export class UsageLogComponent implements OnInit {
       this.usageLogs = res.data || [];
       this.totalRecord = res.total;
       this.loadingLogs = false;
+      this.searchLoading = false;
       if (this.usageLogs.length) {
         this.usageLogs.forEach(element => {
           this.queryTypeArr.push(element.queryType);
@@ -112,6 +115,7 @@ export class UsageLogComponent implements OnInit {
       this.loading = false;
     }, errRes => {
       this.loading = false;
+      this.searchLoading = false;
       this.errorToaster(errRes, 'Failed to get usage logs');
     });
   }

@@ -187,8 +187,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   openModalPopup() {
     this.addBusinessRulesRef = this.addBusinessRules.open();
   }
-  prepereSliderObj(index) {
-    return new RangeSlider(0, 5, 1, 3, 'outcomeScale' + index)
+  prepereSliderObj(index,scale?) {
+    return new RangeSlider(0, 5, 1, scale||3, 'outcomeScale' + index)
   }
   valueEvent(val, outcomeObj) {
     outcomeObj.scale = val;
@@ -226,7 +226,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       let ruleObjOutcomes = JSON.parse(JSON.stringify(ruleObj.outcomes));
       ruleObjOutcomes.forEach((outcome, i) => {
         const tempObj: any = outcome
-        tempObj.sliderObj = this.prepereSliderObj(i);
+        tempObj.sliderObj = this.prepereSliderObj(i,(outcome.scale || 3));
         _outcoms.push(tempObj);
       });
       this.outcomeArrayforAddEdit = _outcoms;
@@ -495,6 +495,15 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   ruleSelection(ruleObj, value, key) {
     if (key === 'contextCategory') {
       ruleObj.contextCategory = value;
+      if(ruleObj.contextCategory == 'traits'){
+        ruleObj.dataType = 'trait';
+      } else if(ruleObj.contextCategory == 'entity'){
+        ruleObj.dataType = 'entity';
+      } else if(ruleObj.contextCategory == 'keywords'){
+        ruleObj.dataType = 'keyword';
+      }else{
+        ruleObj.dataType = 'string';
+      }
     }
     if (key === 'contextType') {
       ruleObj.contextType = value;

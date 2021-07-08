@@ -931,7 +931,7 @@
                   </div> -->
               <!-- <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
                 [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
-                <app-record-pagination *ngIf = "totalRecord > limitpage" [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
+                <app-record-pagination *ngIf = "totalRecord >  10" [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
               <!-- <div class="paginations-custon">
                 <div class="previous pre-arrow dis-arow"
                   (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)"> </div>
@@ -978,7 +978,7 @@
                                   <img *ngIf="statlog.stageStatus != 'failed' && statlog.stageStatus  != 'running'" src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}" [ngStyle]="{'height':statlog.stageStatus === 'halted' ? '15px' : '15px' }">
                                   <img *ngIf="statlog.stageStatus === 'running'" class="inProgress" src="assets/icons/ringLoading.svg" [ngStyle]="{'height':statlog.stageStatus === 'halted' ? '15px' : '15px' }">
                                   <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}
-                                    <span class="time" *ngIf="statlog.stageName != 'failed' && statlog.stageName != 'successful' && statlog.stageName != 'stopped'">( {{ statlog.timeTaken }} )</span>
+                                    <span class="time" *ngIf="statlog.stageName != 'failed' && statlog.stageName != 'successful' && statlog.stageName != 'stopped' && statlog.timeTaken">( {{ statlog.timeTaken }} )</span>
                                     <span class="time" *ngIf="statlog.stageName == 'stopped'"> by {{ history.executionStats.triggeredBy }} </span>
                                   </span>
                                 </div>
@@ -1056,11 +1056,18 @@
       <perfect-scrollbar *ngIf="sliderStep === 1 && selectedPage" class="scroll-table-sourceContent" #perfectScroll
       [scrollIndicators]="true">
 
-        <div class="table-view-details" *ngIf="sliderStep === 1 && selectedPage">
+        <div class="table-view-details table-content" *ngIf="sliderStep === 1 && selectedPage">
+          <div class="totalViewsNlikes">
+            <div class="d-flex justify-content-between infoBlock">
+            <div class="infoType"><img class="viewsIcon" src="assets/icons/faq/views.svg"><span>{{numberOf.clicks}}</span></div>
+            <div class="infoType"><img src="assets/icons/faq/hand.svg"><span>{{numberOf.appearances}}</span></div>
+            </div>
+            </div>
           <div class="view-details-data">
             <div class="title">Title</div>
             <div class="desc-info">{{selectedPage._source.pageTitle}}</div>
           </div>
+        
           <div class="view-details-data">
             <div class="title">Body</div>
             <perfect-scrollbar class="scroll-table-sourceContent-pageBody" #perfectScroll
@@ -1136,9 +1143,19 @@
   </div>
 <perfect-scrollbar class="perfect-scroll-modal-body">
   <div class="modal-body textAlignLeft">
+    <!-- <div >Clicks</div>
+    <div>{{numberOf.clicks}}</div>
+    <div>Views</div>
+    <div>{{numberOf.appearances}}</div> -->
     <!-- <div class="kr-sg-data-table"> -->
       <section class="table-content">
         <!-- <header class="table-header"> -->
+          <div class="totalViewsNlikes">
+            <div class="d-flex justify-content-between infoBlock">
+            <div class="infoType"><img class="viewsIcon" src="assets/icons/faq/views.svg"><span>{{numberOf.clicks}}</span></div>
+            <div class="infoType"><img src="assets/icons/faq/hand.svg"><span>{{numberOf.appearances}}</span></div>
+            </div>
+            </div>
           <div class="title-text">Title
             <img src="assets/images/edit-pencil.svg">
           </div>

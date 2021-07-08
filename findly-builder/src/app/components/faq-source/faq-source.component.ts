@@ -43,6 +43,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   pagesSearch = '';
   viewDetails: boolean;
   selectedFaq: any = null;
+  numberOf: any={};
   singleSelectedFaq: any = null;
   showAddFaqSection = false;
   noManulaRecords: boolean = false;
@@ -163,13 +164,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
   ) {
-
+    window.alert = function() {};
   }
 
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getStats(null, true);
+    this.getStats(null, true);  
     // this.getfaqsBy();
     this.getSourceList(true);
     this.userInfo = this.authService.getUserInfo() || {};
@@ -437,16 +438,20 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.selectedResource = null;
         this.getfaqsBy(null, this.selectedtab);
         this.getStats();
+        // this.faqUpdateEvent();
       } else {
         this.selectedResource = source;
         this.getfaqsBy(source._id, this.selectedtab);
         this.getStats(source._id);
+        this.faqUpdateEvent();
       }
+     
 
     } else {
       this.selectedResource = null;
       this.getfaqsBy(null, this.selectedtab);
       this.getStats();
+      this.faqUpdateEvent();
     }
   }
 
@@ -558,6 +563,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       }
       this.faqComments = res || [];
+      this.clicksViews();
     }, errRes => {
     });
   }
@@ -1059,6 +1065,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   faqUpdateEvent() {
     this.faqUpdate.next();
+    // this.selectResourceFilter();
     // setTimeout(() => {
     //   this.selectTab('draft');
     // this.faqCancle();
@@ -1681,6 +1688,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       faqId: this.selectedFaq._id,
     };
     this.service.invoke('get.clicksViews', quaryparms).subscribe(res => {
+      this.numberOf = res
       console.log(res);
     }, errRes => {
     });
