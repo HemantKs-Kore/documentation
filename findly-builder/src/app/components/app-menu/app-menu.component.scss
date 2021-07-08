@@ -13,13 +13,14 @@ app-mainmenu{
     	height: calc(100% - 60px);
 		transition: .33s;
 		overflow: hidden;		
+		position: relative;
 		&.activeMenu{
 			width: 245px;
 			transition: 0.33s;	
 			z-index: 2;
 			.perfect-scroll{
 				&.if-upgrade-plan{
-					height: calc(100% - 162px);
+					height: calc(100% - 76px);
 				}
 				.list-group{
 					padding: 10px 20px;
@@ -465,12 +466,36 @@ app-mainmenu{
 
 
 .upgrade_your_plan_price{
-	margin: 22px 14px 0px 14px;
+	position: absolute;
+    bottom: 24px;
+    width: 185px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+	.status-type{
+		width: 12px;
+		height: 12px;
+		background: #DD3646;
+		border: 2px solid #EFF0F1;
+		position: absolute;
+		border-radius: 100%;
+		right: -5px;
+		top: -5px;
+		&.yellow{
+			background: #FFDA2D;
+		}
+	}
+	&:hover{
+		.hover-documnet-show-data{
+			visibility: visible;
+			opacity: 1;
+		}
+	}
 	.upgrade-plan-btn{
 		background: linear-gradient(180deg, rgba(221, 54, 70, 0.3) 0%, rgba(255, 255, 255, 0) 100%), rgba(112, 39, 229, 0.8);
 		box-shadow: 0px 0px 5px rgb(13 110 253 / 20%);
 		border-radius: 4px;
-		height: 50px;
+		height: 36px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -484,31 +509,83 @@ app-mainmenu{
 			margin-left: 5px;
 		}
 	}
-	.document-limit{
+	.hover-documnet-show-data{
+		visibility: hidden;
+		transition: opacity .6s;
+		opacity: 0;
+		position: fixed;
 		background: #FFFFFF;
-		height: 34px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: #5F6368;
-		font-weight: 500;
-		font-size: 12px;
-		line-height: 20px;
-		margin-bottom: 5px;
-		position: relative;		
-		.progress{
-			height: 2px !important;
+		box-shadow: 0px 4px 12px 2px rgba(32, 33, 36, 0.12);
+		border-radius: 4px;
+		width: 283px;
+		height: 215px;
+		z-index: 999;
+		bottom: 15px;
+		left: 225px;
+		padding: 18px 15px;
+		&::before{
+			content: "";
+			width: 14px;
+			height: 14px;
+			background: #FFFFFF;
+			transform: rotate(-45deg);
 			position: absolute;
-			left: 0;
-			width: 100%;
-			bottom: 0;
-			background-color: transparent;
-			border-radius: 0;
-			.progress-bar{
-				background: #0D6EFD !important;
-			}
+			left: -7px;
+			bottom: 25px;
 		}
-		.query-limited-reached{
+		.card-data-{
+			display: flex;
+			padding: 12px 10px 12px 6px;
+			background: #F3F8FF;
+			border-radius: 2px;
+			margin-bottom: 10px;
+			position: relative;
+			&:last-child{
+				margin: 0;
+			}
+			.img-block{
+				img{
+
+				}
+			}
+			.content-sec{
+				padding-left: 10px;
+				width: 100%;
+				.title{
+					font-weight: 500;
+					font-size: 12px;
+					line-height: 20px;
+					color: #5F6368;
+				}
+				.desc-text{
+					font-weight: normal;
+					font-size: 10px;
+					line-height: 12px;
+					color: #5F6368;
+				}
+				.count-data{
+					display: flex;
+					align-items: center;
+					justify-content: flex-end;
+					margin: 8px 0 0 0;
+					.linit-k{
+						font-weight: 500;
+						font-size: 12px;
+						line-height: 20px;
+						color: #9AA0A6;
+						margin-right: 20px;
+						span{
+							color: #5F6368;
+						}
+					}
+					.percentage{
+						color: #5F6368;
+						font-weight: 500;
+						font-size: 12px;
+						line-height: 20px;
+					}
+				}
+			}
 			.progress{
 				height: 2px !important;
 				position: absolute;
@@ -518,26 +595,39 @@ app-mainmenu{
 				background-color: transparent;
 				border-radius: 0;
 				.progress-bar{
-					background: #B893F2 !important;
+					background: #0D6EFD !important;
+				}
+			}
+			.query-limited-reached{
+				.progress{
+					height: 2px !important;
+					position: absolute;
+					left: 0;
+					width: 100%;
+					bottom: 0;
+					background-color: transparent;
+					border-radius: 0;
+					.progress-bar{
+						background: #B893F2 !important;
+					}
+				}
+			}
+			.limit-exceed{
+				.progress{
+					height: 2px !important;
+					position: absolute;
+					left: 0;
+					width: 100%;
+					bottom: 0;
+					background-color: transparent;
+					border-radius: 0;	
+					.progress-bar{
+						background: #DD3646 !important;
+					}		
 				}
 			}
 		}
-		.limit-exceed{
-			.progress{
-				height: 2px !important;
-				position: absolute;
-				left: 0;
-				width: 100%;
-				bottom: 0;
-				background-color: transparent;
-				border-radius: 0;	
-				.progress-bar{
-					background: #DD3646 !important;
-				}		
-			}
-		}
 	}
-
 }
 
 .kr-sg-dropdowns{
