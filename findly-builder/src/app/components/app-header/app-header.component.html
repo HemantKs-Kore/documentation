@@ -107,7 +107,7 @@
                     </div>
                 </li>
                 <li class="nav-item test-button">
-                    <button placement="bottom" #testButtonTooltip="ngbTooltip" ngbTooltip="Preview & Customize search results." container='body' tooltipClass="test-icon-tooltip" class="kr-sg-button-secondary btn_lg rr-tour-test-btn" id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()">Test</button>
+                    <button placement="bottom" triggers="hover" #testButtonTooltip="ngbTooltip" ngbTooltip="Preview & Customize search results." container='body' tooltipClass="test-icon-tooltip" class="kr-sg-button-secondary btn_lg rr-tour-test-btn" id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()">Test</button>
                 </li>
                 <li (click)="train()" class="nav-item train-btn" ngbTooltip="Train your App" container='body' tooltipClass="train-icon-tooltip" [ngClass]='{"active-train":training}'>
                     <div class="loader-train"></div>
