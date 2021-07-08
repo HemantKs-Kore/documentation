@@ -246,9 +246,9 @@
                             <div class="mr-1"><img src="assets/icons/info-blue.svg"></div>
                             <div class="tost-text">{{selectedField.fieldName}} is not indexed</div>
                         </div>
-                        <div class="kr-sg-inline-notification" *ngIf="selectedFieldId === selectedField?.fieldId && addEditFacetObj?.showFieldWarning && addEditFacetObj?.showFieldWarning === 'CHANGE_IN_TYPE'">
+                        <div class="mt-2 kr-sg-inline-notification" *ngIf="selectedFieldId === selectedField?.fieldId && addEditFacetObj?.showFieldWarning && addEditFacetObj?.showFieldWarning !== 'NOT_INDEXED'">
                             <div class="mr-1"><img src="assets/icons/info-blue.svg"></div>
-                            <div class="tost-text">The Field type has been changed</div>
+                            <div class="tost-text">{{addEditFacetObj?.showFieldWarning}}</div>
                         </div>
                     </div>
                     <div class="col-4 pr-0 pl-2" *ngIf="!addEditFacetObj._id &&  selectedField && selectedField.fieldDataType && filedTypeShow">
