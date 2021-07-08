@@ -7003,14 +7003,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       console.log("Message Payload", payload.messagePayload);
 
-      if (url == this.API.livesearchUrl) {
-        if (this.isDev == true) {
-          headers["state"] = "configured";
-        }
-        else {
-          headers["state"] = "published";
-        }
-      }
+      // if (url == this.API.livesearchUrl) {
+      //   if (this.isDev == true) {
+      //     headers["state"] = "configured";
+      //   }
+      //   else {
+      //     headers["state"] = "published";
+      //   }
+      // }
 
       if (url != this.API.livesearchUrl) {
         payload['maxNumOfResults'] = 10;
