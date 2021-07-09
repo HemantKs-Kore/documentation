@@ -75,9 +75,10 @@
                     .upgrade-price-card{
                         &.current-plan{
                             .main-content{
-                                .inner-content{
-                                    background: #EAF6EC !important;
-                                    border-radius: 6px;
+                                .inner-content{                                                                        
+                                    background: #EAF6EC !important;                                    
+                                    border: 1px solid #135423;
+                                    box-sizing: border-box;                                    
                                     .kr-sg-button-secondary{
                                         display: none;
                                     }
@@ -89,8 +90,10 @@
                         }
                         .main-content{
                             .inner-content{
-                                background: #FFFFFF;
-                                box-shadow: 0px 0px 4px rgb(13 110 253 / 20%);
+                                background: #FFFFFF;                                
+                                border: 1px solid #07377F;
+                                box-sizing: border-box;
+                                box-shadow: 0px 0px 4px rgba(13, 110, 253, 0.2);
                                 border-radius: 6px;
                                 padding: 18px 20px;
                                 height: 352px;
@@ -153,6 +156,9 @@
                                         font-size: 14px;
                                         display: flex;
                                         align-items: center;
+                                        top: 52px;
+                                        right: 18px;
+                                        position: absolute;
                                         img{
                                             margin-right: 5px;
                                         }
@@ -438,9 +444,63 @@
                                 border-radius: 4px;
                                 margin-right: 9px;
                                 cursor: pointer;
+                                position: relative;
+                                &.disable-text{
+                                    color: #BDC1C6;
+                                }
+                                &:hover{
+                                    .tooltip_top_{
+                                        visibility: visible;
+                                        opacity: 1;
+                                    }
+                                }
+                                .tooltip_top_{
+                                    visibility: hidden;
+                                    position: absolute;
+                                    width: 152px;
+                                    background-color: #555;
+                                    color: #fff;
+                                    text-align: center;
+                                    padding: 10px 15px;
+                                    z-index: 1;
+                                    opacity: 0;
+                                    transition: opacity .6s;
+                                    background: #202124;
+                                    box-shadow: 0px -4px 4px rgba(32, 33, 36, 0.2);
+                                    border-radius: 4px;
+                                    font-weight: 500;
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    top: -54px;
+                                    margin: 0;
+                                    left: -48px;
+                                    span{
+                                        color: #85B7FE;
+                                        cursor: pointer;
+                                    }
+                                    &::before{
+                                        content: "";
+                                        width: 10px;
+                                        height: 10px;
+                                        position: absolute;
+                                        background: #202124;
+                                        bottom: -5px;
+                                        left: 72px;
+                                        transform: rotate(-45deg);
+                                    }
+                                }
                                 &.active-btn{
                                     background: #0D6EFD;
                                     color: #fff;
+                                }
+                                &.btn-disable-active{
+                                    background: #EFF0F1;
+                                    border: 1px solid #BDC1C6;
+                                    border-radius: 4px;
+                                    font-weight: normal;
+                                    font-size: 12px;
+                                    line-height: 14px;
+                                    color: #BDC1C6;
                                 }
                             }
                             .compare-plan{

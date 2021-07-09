@@ -261,6 +261,7 @@
                         transition: 0.4s all ease;
                         position: relative;
                         margin-bottom: 30px;
+                        min-height: 230px;
                         .customize-button{
                             position: absolute;
                             right: 0;
@@ -301,7 +302,7 @@
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
-                                min-height: 230px;
+                                min-height: 165px;
                                 flex-wrap: wrap;
                             }                                                
                             .result-card{

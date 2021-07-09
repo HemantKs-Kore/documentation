@@ -130,7 +130,7 @@
                         <span class="divider" *ngIf="ruleIndex > 0">{{"and_caps" | translate}}</span>
                         <span class="tags-input mr-1 mb-1 contextCategory">
                             <span class="small-text" >{{ "businessRules." + rule.contextType | translate}} :</span> 
-                            <span container="body" ngbTooltip='{{ "businessRules." + rule.contextCategory | translate }}'>{{ "businessRules." + rule.contextCategory | translate }}</span>
+                            <span container="body" ngbTooltip='{{ "businessRules." + rule.contextCategory | translate }}'>{{rule.contextType !=='userContext' ? ("businessRules." + rule.contextCategory | translate): rule.contextCategory }}</span>
                         </span>
                     </div>                    
                     <div class="d-flex align-items-start mb-2">
@@ -139,8 +139,8 @@
                         </div>
                         <div class="d-flex align-items-start flex-wrap">
                             <ng-container *ngFor="let value of rule.value; let valueIndex = index">
-                                <span class="tags-input mr-1 mb-1" *ngIf="value && !checkIsArray(value)" container="body" ngbTooltip="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
-                                <span class="tags-input mr-1 mb-1" *ngIf="value && value.length && checkIsArray(value)"><span *ngFor="let num of value; let numIndex = index" container="body" ngbTooltip="{{num | dateFormatPipe: 'DD MMM YYYY'}}">{{num | dateFormatPipe: 'DD MMM YYYY'}}<span *ngIf="!numIndex"> - </span></span></span>
+                                <span class="tags-input mr-1 mb-1" *ngIf="value && !checkIsArray(value)" container="body" ngbTooltip="{{rule.dataType == 'date' ? (value | dateFormatPipe: 'DD MMM YYYY'):value}}">{{rule.dataType == 'date' ? (value | dateFormatPipe: 'DD MMM YYYY'):value}}</span>
+                                <span class="tags-input mr-1 mb-1" *ngIf="value && value.length && checkIsArray(value)"><span *ngFor="let num of value; let numIndex = index" container="body" ngbTooltip="{{rule.dataType == 'date' ? (num | dateFormatPipe: 'DD MMM YYYY'):num}}">{{rule.dataType == 'date' ? (num | dateFormatPipe: 'DD MMM YYYY'):num}}<span *ngIf="!numIndex"> - </span></span></span>
                                 <span class="divider" *ngIf="valueIndex < rule.value.length - 1">{{ "or_caps" | translate}}</span>
                             </ng-container>
                         </div>

@@ -397,7 +397,10 @@ export class BotActionComponent implements OnInit {
       this.botsModalRef.close();
     }
   }
-  openBotsConfigurationModalElement(bot) {
+  openBotsConfigurationModalElement(bot,isBotLinked?) {
+    if(isBotLinked){
+      return;
+    }
     this.selectedLinkBotConfig = bot;
     const queryParams = {
       searchIndexID: this.searchIndexId
