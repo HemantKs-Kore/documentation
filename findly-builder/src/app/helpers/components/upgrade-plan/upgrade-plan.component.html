@@ -185,14 +185,14 @@
   <perfect-scrollbar>
     <div class="modal-body">
         <div class="payment-confiramtion-data" *ngIf="payementSuccess">
-          <div class="img-block"><img src="assets/icons/pricing/payment-success.svg"></div>
+          <div class="img-block"><img src="assets/icons/pricing/payment-success.png"></div>
           <div class="payment-success-message">
             <div class="title">{{"plan.yay"| translate}} {{(orderConfirmData.name=='Pro'&&!(overageData.overageShow))?("plan.you_are_Pro_member"| translate):("plan.payment_successfull"| translate)}}</div>
             <button class="kr-sg-buttonicon-secondary btn_lg" (click)="downloadInvoice()"><img src="assets/icons/pricing/download.svg">{{"plan.download_invoice"| translate}}</button>
           </div>
         </div>
         <div class="payment-confiramtion-data pl-0 pr-0 m-0 row pt-5" *ngIf="!payementSuccess">
-          <div class="img-block col-7 p-0"><img src="assets/icons/pricing/payment-failed.svg"></div>
+          <div class="img-block col-7 p-0"><img src="assets/icons/pricing/payment-failed.png"></div>
           <div class="payment-success-message col-5 p-0">
             <div class="title">{{"plan.payment_failed"| translate}}</div>
             <button class="kr-sg-button-primary btn_lg" (click)="paymentPlan();closeSuccessFailurePopup()">{{"plan.retry_payment"| translate}}</button>

@@ -20,7 +20,7 @@
   <ng-container *ngIf="!linkedBotID && !loadingContent && !loading">
     <perfect-scrollbar class="empty-scroll">
     <div  class="empty-landing-screen">
-      <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/botactions-empty.svg"></div>
+      <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/botactions-empty.png"></div>
       <ng-container *ngIf="loadImageText" >
           <div class="empty-title">{{'botAction.bot_actions' | translate}}</div>
           <div class="desc-text"> {{'botAction.bot_actions_are_a_list_of_tasks' | translate}}

@@ -43,7 +43,7 @@
         <ng-container *ngIf="(!(faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) && !faqSelectionObj.loadingStats) && !(faqs && faqs.length)  && !extractedFaqs && !viewDetails && !searchFaq && !showSearch && !loading">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
-          <div class="img-block" id ="imageLoad"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/faq-empty.svg"></div>
+          <div class="img-block" id ="imageLoad"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/faq-empty.png"></div>
           <ng-container *ngIf="loadImageText">
               <div class="empty-title">{{'faqSource.no_faqs' | translate}}</div>
               <div class="desc-text"> {{'faqSource.no_faqs_info' | translate}}
