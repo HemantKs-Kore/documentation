@@ -37,6 +37,13 @@ export class BotActionComponent implements OnInit {
   botToBeUnlinked = '';
   selectedLinkBotConfig: any;
   linkedBotData: any = {};
+  beforeFilterTasks: any = [];
+  isBotNameArr: any = [];
+  isTaskTypeArr: any = [];
+  filterSystem: any = {
+    'isBotNameFilter': 'all',
+    'isTaskTypeFilter': 'all'
+  }
   // associatedBotArr = [];
   userInfo: any;
   botsModalRef: any;
@@ -282,6 +289,41 @@ export class BotActionComponent implements OnInit {
     }
     this.showSearch = !this.showSearch
   };
+  filterTable(source, headerOption) {
+    console.log(this.linkedBotTasks, source, headerOption);
+    this.filterSystem.isBotNameFilter = 'all';
+    this.filterSystem.isTaskTypeFilter = 'all';
+
+    this.filterTasks(source, headerOption);
+    switch (headerOption) {
+      case 'isBotName': { this.filterSystem.isBotNameFilter = source; return; };
+      case 'isTaskType': { this.filterSystem.isTaskTypeFilter = source; return; };
+    };
+  }
+  filterTasks(source, headerOption) {
+    if (!this.beforeFilterTasks.length) {
+      this.beforeFilterTasks = JSON.parse(JSON.stringify(this.linkedBotTasks));
+    }
+    let tempTasks = this.beforeFilterTasks.filter((task: any) => {
+      if (source !== 'all') {
+        if (headerOption === 'isBotName') {
+          if (task.botName === source) {
+            return task;
+          }
+        }
+        if (headerOption === 'isTaskType') {
+          if (task.type === source) {
+            return task;
+          }
+        }
+      }
+      else {
+        return task;
+      }
+    });
+
+    this.linkedBotTasks = JSON.parse(JSON.stringify(tempTasks));
+  }
   getBots() {
     if (this.streamId) {
       const quaryparms: any = {
@@ -322,11 +364,11 @@ export class BotActionComponent implements OnInit {
     return (valA < valB ? -1 : 1) * (sortType ? 1 : -1);
   }
 
-  sortBy(sortingField: string) {
-    const listData = this.bots.slice(0);
-    this.sortedBy = sortingField;
+  sortBy(sortingTask: string) {
+    const listData = this.linkedBotTasks.slice(0);
+    this.sortedBy = sortingTask;
 
-    if (this.sortedBy !== sortingField) {
+    if (this.sortedBy !== sortingTask) {
       this.sortInAscending = true;
     }
     else {
@@ -335,19 +377,18 @@ export class BotActionComponent implements OnInit {
 
     const sortedData = listData.sort((a: any, b: any) => {
       const sortOrder = this.sortInAscending;
-      switch (sortingField) {
-        case 'name': return this.compareValues(a.name, b.name, sortOrder);
-        case 'noOfAppearences': return this.compareValues(a.noOfAppearences, b.noOfAppearences, sortOrder);
-        case 'noOfClicks': return this.compareValues(a.noOfClicks, b.noOfClicks, sortOrder);
+      switch (sortingTask) {
+        case 'botName': return this.compareValues(a.botName, b.botName, sortOrder);
+        case 'type': return this.compareValues(a.type, b.type, sortOrder);
         default: return;
       }
     });
-    this.bots = sortedData;
+    this.linkedBotTasks = sortedData;
   }
 
   getSortIconVisibility(sortingField: string, type: string) {
     switch (this.sortedBy) {
-      case "name": {
+      case "botName": {
         if (this.sortedBy == sortingField) {
           if (this.sortInAscending == false && type == 'down') {
             return "display-block";
@@ -358,23 +399,12 @@ export class BotActionComponent implements OnInit {
           return "display-none"
         }
       }
-      case "noOfAppearences": {
+      case "type": {
         if (this.sortedBy == sortingField) {
           if (this.sortInAscending == false && type == 'down') {
             return "display-block";
           }
           if (this.sortInAscending == true && type == 'up') {
-            return "display-block";
-          }
-          return "display-none";
-        }
-      }
-      case "noOfClicks": {
-        if (this.sortedBy == sortingField) {
-          if (this.sortInAscending == false && type == 'down') {
-            return "display-block";
-          }
-          else if (this.sortInAscending == true && type == 'up') {
             return "display-block";
           }
           return "display-none";
@@ -904,28 +934,39 @@ export class BotActionComponent implements OnInit {
         this.service.invoke('get.allTasks', queryParams, null, { "state": "published" }).subscribe(res => {
           this.linkedBotTasks = [];
           let taskEnable = true;
-          if ((((res.tasks || {}).published || {}).items || []).length > 0) {
-            res.tasks.published.items.forEach(element => {
-              if (element.state == "published") {
-                // if (element.isHidden == false) {
-                //   $("#enableOrDisable").prop('checked', false);
-                //   element.taskStatus = "Enabled";
-                //   taskEnable = false;
-                // }
-                // else {
-                //   element.taskStatus = "Disabled";
-                // }
-                // element.type = element.type ?? "Dialog";
-                this.linkedBotTasks.push(element);
-              }
-            });
-            // if(taskEnable){
-            //   $("#enableOrDisable").prop('checked', true);
-            // }
-          }
-          else {
-            this.linkedBotTasks = []
-          }
+            if((res.streams||[]).length){
+              res.streams.forEach(stream => {
+                if ((((stream.tasks || {}).published || {}).items || []).length > 0) {
+                  stream.tasks.published.items.forEach(element => {
+                    if (element.state == "published") {
+                      element.botIconUrl = stream.botIconUrl;
+                      element.botName = stream.botName;
+                      element.type = element.type||'';
+                      element.description = stream.description;
+                      this.linkedBotTasks.push(element);
+                      if(this.isBotNameArr.length){
+                        let taskIndex = this.isBotNameArr.findIndex((d:any)=>d.botName == element.botName);
+                        if(taskIndex == -1){
+                          this.isBotNameArr.push({botName: element.botName, botIconUrl : element.botIconUrl});
+                        }
+                      }else{
+                        this.isBotNameArr.push({botName: element.botName, botIconUrl : element.botIconUrl});
+                      }
+                      this.isTaskTypeArr.push(element.type);
+                      
+                    }
+                  });
+                  this.isBotNameArr = [...new Set(this.isBotNameArr)];
+                  this.isTaskTypeArr = [...new Set(this.isTaskTypeArr)];
+                }
+                else {
+                  this.linkedBotTasks = []
+                }
+              });
+            }else{
+              this.linkedBotTasks = []
+            }
+          
 
           // if (res.faqs.length > 0) {
           //   res.faqs.forEach(element => {
@@ -1452,4 +1493,5 @@ export class BotActionComponent implements OnInit {
   navigateToBotBuilder () {
     window.open(this.botBulilderUrl, '_blank');
   };
+
 }
