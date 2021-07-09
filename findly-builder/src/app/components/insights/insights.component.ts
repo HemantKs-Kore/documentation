@@ -83,12 +83,13 @@ export class InsightsComponent implements OnInit {
     this.getAppDetails();
     let date = new Date();
     let _month_old_date = new Date(Date.now() - (30 * 864e5));
+    let sdate = new Date(Date.now());
     let startDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     let endDate = _month_old_date.getFullYear() + "-" + (_month_old_date.getMonth() + 1) + "-" + _month_old_date.getDate();
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      startDate: startDate, //"2020-10-10",
-      endDate: endDate, //"2020-11-10"//endDate,
+      startDate: sdate.toJSON(),// startDate,  //"2020-10-10",
+      endDate: _month_old_date.toJSON() //endDate,  //"2020-11-10"//endDate,
     }
     var payload = {
       "searchQuery": this.query
