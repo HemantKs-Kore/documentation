@@ -64,7 +64,7 @@
                 <div class="linked-task-status-control" ngbDropdownToggle>
                     <img src="assets/icons/elipse.svg">
                 </div>                      
-                <ul class="dropdown-menu content-menu faq-filter-add pt-0 pb-0" ngbDropdownMenu>                          
+                <ul class="dropdown-menu content-menu faq-filter-add pt-0 pb-0 mt-6px" ngbDropdownMenu>                          
                     <li  (click)="unlinkBot(linkedBotID)">{{'botAction.unlink_bot' | translate}}</li>
                     <li  (click)="editConfiguration(linkedBotData)">{{'botAction.edit_configuration' | translate}}</li>
                     <!-- <li  (click)="syncLinkedBot()">Sync</li> -->
@@ -200,8 +200,8 @@
             </div>
             <div class="col-3 owner-name">{{bot.createdBy.firstName}} {{bot.createdBy.lastName}}</div>
             <div class="col-3 link-bot-actions">
-              <div class="link-bot-btn" [ngClass]="{'link-bot-disable':linkedBotID}" (click)="openBotsConfigurationModalElement(bot)" *ngIf="streamId !== bot._id">
-                <img src="assets/icons/actions/link-bot.svg">{{'botAction.link_bot'| translate}}
+              <div class="link-bot-btn" placement="left" [ngbTooltip]="(linkedBotID ?'Please Unlink the linked bot':null) " container='body' [ngClass]="{'link-bot-disable':linkedBotID}" (click)="openBotsConfigurationModalElement(bot,linkedBotID)" *ngIf="streamId !== bot._id">
+                <img src="{{!linkedBotID?'assets/icons/actions/link-bot.svg':'assets/icons/actions/link-bot-disable.svg'}}">{{'botAction.link_bot'| translate}}
               </div>
               <div class="link-bot-btn" (click)="unlinkBot(bot._id,'bulk_unlink')" *ngIf="streamId == bot._id">
                 <img src="assets/icons/actions/link-bot.svg">{{'botAction.unlink_bot'| translate}}
