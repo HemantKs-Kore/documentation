@@ -301,7 +301,7 @@ export class EndPointsService {
       method: 'delete'
     };
     this.serviceList['get.bots'] = {
-      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks',
+      endpoint: this.API_SERVER_URL + '/platform/builder/streams/:streamId/allTasks',
       method: 'get'
     };
     this.serviceList['get.traitgroup'] = {
@@ -396,7 +396,7 @@ export class EndPointsService {
 
     /* Service End-Points for Integrating APIs in bot-action Component */
     this.serviceList['get.AssociatedBots'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userID/builder/streams',
+      endpoint: this.API_SERVER_URL + '/platform/users/:userID/builder/streams',
       method: 'get'
     };
     this.serviceList['get.AssociatedBotTasks'] = {
@@ -405,7 +405,7 @@ export class EndPointsService {
       method: 'get'
     }
     this.serviceList['get.allTasks'] = {
-      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks',
+      endpoint: this.API_SERVER_URL + '/platform/builder/streams/:streamId/allTasks',
       method: 'get'
     }
     this.serviceList['get.generateChannelCreds'] = {
@@ -746,7 +746,7 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['get.linkedBot'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId',
+      endpoint: this.API_SERVER_URL + '/platform/users/:userId/builder/streams/:streamId',
       method: 'get'
     }
 
