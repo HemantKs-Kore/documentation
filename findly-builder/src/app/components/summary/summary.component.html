@@ -234,7 +234,7 @@
             <span class=""><img src="assets/icons/overview/Info.svg"></span>
           </div>          
         </div> -->
-        <div class="create_new_link" (click)="openExp()">{{experiment.view_all | titlecase}}</div>
+        <div class="create_new_link" (click)="openExp()">{{'overview.view_all' | translate}}</div>
       </div>       
     </div>
 
@@ -247,7 +247,7 @@
       </div>
       <div class="table-data-content col-6 " *ngIf="channelExist">
         <div class="content-sec config_channels">
-         <div class="title-sec"><div class="title" >{{experiment.configured_Channels |titlecase}}</div> </div>
+         <div class="title-sec"><div class="title" >{{'overview.configured_Channels' | translate}}</div> </div>
           <div *ngIf="!channelExist">
             <div class="img-block"><img src="assets/icons/overview/no-channel-conf.svg"></div>
           </div>
@@ -313,7 +313,7 @@
             </div>
           </div>                     -->
          </div>
-         <div class="create_new_link" (click)="openChannel()">{{experiment.view_all | titlecase}}</div>
+         <div class="create_new_link" (click)="openChannel()"> {{'overview.view_all' | translate}}</div>
         </div>       
       </div>
     </div>
