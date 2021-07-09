@@ -901,7 +901,7 @@
         "source_title_caps":"SOURCE TITLE",
         "type_caps":"TYPE  ",
         "status_caps":"STATUS ",
-        "no_of_faqs":"No. Of FAQS",
+        "no_of_faqs_caps":"NO Of FAQS",
         "triggered_by_caps":"TRIGGERED BY",
         "add_follow_up_faq":"Add Follow Up FAQ",
         "save":"Save",
