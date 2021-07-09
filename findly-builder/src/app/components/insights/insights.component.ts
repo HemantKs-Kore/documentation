@@ -94,13 +94,16 @@ export class InsightsComponent implements OnInit {
     var payload = {
       "searchQuery": this.query
     }
+    const header: any = {
+      'x-timezone-offset': '-330'
+    };
     // this.analystic =  {
     //   "searches": 5983,
     //   "clicks": 4254
     // };
     this.ctrVal = Math.floor(this.analystic['clicks'] / this.analystic['searches']) * 100;
 
-    this.service.invoke('get.QueryLevelAnalytics', quaryparms, payload).subscribe(res => {
+    this.service.invoke('get.QueryLevelAnalytics', quaryparms, payload,header).subscribe(res => {
       console.log(res)
       this.analyticGraph(res)
       this.analystic = res;
