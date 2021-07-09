@@ -17,9 +17,9 @@
           <div class="col-4 upgrade-price-card" *ngFor='let plan of filterPlansData' [ngClass]='{"current-plan":(selectedPlan.status!="expired"&&selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan),"d-none":plan.type=="free"}'>
             <div class="main-content">
               <div class="inner-content"  [ngStyle]="{'background':(selectedPlan.status=='expired'&&selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan)?'#F1E9FB':null}">
-                <img src="assets/icons/pricing/standard.svg" class="standard-img" *ngIf="plan.name == 'Standard'"> 
-                <img src="assets/icons/pricing/pro.svg" class="pro-img" *ngIf="plan.name == 'Pro'">
-                <img src="assets/icons/pricing/enterprise.svg" class="enterprise-img" *ngIf="plan.name == 'Enterprise'">
+                <img src="assets/icons/pricing/standard.png" class="standard-img" *ngIf="plan.name == 'Standard'"> 
+                <img src="assets/icons/pricing/pro.png" class="pro-img" *ngIf="plan.name == 'Pro'">
+                <img src="assets/icons/pricing/enterprise.png" class="enterprise-img" *ngIf="plan.name == 'Enterprise'">
                   <div class="title-sec">
                     <div class="title">{{plan.name}}</div>
                     <div class="price" [ngClass]='{"d-none":(selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan)||plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</span></div>
@@ -238,7 +238,7 @@
       </div>
       <div class="img-block-content">
         <div class="img-block">
-          <img src="assets/icons/pricing/contactus.svg">
+          <img src="assets/icons/pricing/contactus.png">
         </div>
         <div class="title">Try SearchAssist for an ultimate search experience</div>
       </div>
