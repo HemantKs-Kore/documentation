@@ -5282,7 +5282,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.top-down-suggestion').val('');
           } else {
             $('.bottom-up-suggestion').val('');
-          }
+          } 
           _self.pubSub.publish('sa-handel-chat-container-view');
           _self.pubSub.publish('sa-handel-go-button');
           if(!window.isBotLocked){
@@ -7492,7 +7492,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (findlyConfig.autoConnect) {
         _self.initWebKitSpeech();
         _self.setAPIDetails();
+        if(fromTopDown) {
         _self.initKoreSDK(_findlyConfig);
+        }
         setTimeout(() => {
           _self.initWebKitSpeech();
         }, 1000);
@@ -7994,7 +7996,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       _self.initWebKitSpeech();
       // _self.initKoreSDK();
-      _self.initKoreSDK(config);
+      if(isDev){
+        _self.initKoreSDK(config);
+      }
       _self.setAPIDetails();
       _self.pubSub.subscribe('sa-register-template', (msg, data) => {
         console.log("register-template", msg, data);
@@ -8115,7 +8119,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // $('#search-modal').css('display', 'block');
       _self.searchEventBinding(dataHTML, 'search-container', {}, {});
     };
-
+    FindlySDK.prototype.initSearchAssistSDK = function (findlyConfig) {
+      var _self = this;
+        _self.configureSearchInterface(findlyConfig.botOptions).then(function (response) {
+          console.log("res", response);
+          if (response.experienceConfig.searchBarPosition === 'top') {
+            _self.initializeTopDown(null, null, response);
+          }
+          else {
+            _self.initialize(findlyConfig);
+            _self.showSearch(null, response);
+          }
+        });
+    }
     var searchConfigurationCopy = {};
 
     FindlySDK.prototype.mapSearchConfiguration = function (searchConfig) {
@@ -20712,7 +20728,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     // top-search-template --end///
 
     // Configuraition of Interface //
-    FindlySDK.prototype.configureSearchInterface = function (botOptions, JWTResponse) {
+    FindlySDK.prototype.configureSearchInterface = function (botOptions) {
       var baseAPIServer = botOptions.koreAPIUrl ? botOptions.koreAPIUrl : 'https://app.findly.ai/searchassistapi/'
       var searchExperienceAPIUrl = baseAPIServer + 'searchsdk/stream/' + botOptions.botInfo.taskBotId + '/' + botOptions.searchIndexID + '/searchInterface';
       console.log('config', searchExperienceAPIUrl);
@@ -20722,7 +20738,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         url: searchExperienceAPIUrl,
         type: type,
         headers: {
-          "auth": JWTResponse.jwt
+          "auth": botOptions.assertion
         },
         data: {},
         success: function (data) {
