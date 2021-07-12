@@ -2164,7 +2164,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{if msgData && msgData.isSearchResultsMessage===true}}\
                 <div class="sdk-query-retry-icon" searchQuery="${msgData.text}"><img src="assets/icons/SDK-Icons/reply.svg"><span class="tooltiptext_top center">Retry Query</span></div>\
               {{/if}}\
-              <span>${msgData.text}</span>';
+              <span>{{html helpers.convertMDtoHTML(msgData.text)}}</span>';
       if (!this.customSearchResult) {
         messageBubbles += '{{if devMode=="true"}}\
               <div class="query-analytics-control-container {{if viewType=="Customize"}}display-block{{/if}}">\
@@ -2189,14 +2189,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJkSURBVHgBXVK7bhNBFD1zd7z2moisCQQlQsgWRUiBZP6AdLRp0zj8Dj8AHbGQaJOSLj1NLChSgRaKJBJ5rB/Zxzy5syIoYeSrO96559xzZq7Af+t459cuyIycsMMoFqlst3OyclLPMd78tLZ3u1bcbI5en/Ylmf2yKoZKzaB0CecMiCJ0uvex3HuIThxnqnJbmwdr2T/w8avTvmiJw8uraX/BLUozg3UKFg5StBCJDiS18ai3ggfLaUZWbQ0+r2UygKmiw/xq1p8ycGEKKG9hvYfjEExBokYsLKozBT3T/cfpyj7DXoqvL4JH8eGk/I2pWeCaOypvoJlAe9dY8hxdijlaSOU9DJJ1dGXyRpKXo4t6hnNTY2odKgbU3NF6Ac2wCMQRQTNPwWdWGKwbjZZrj6QXNDzjP2fOYsZhGGgasINB2OtGeoe7xoKguMGAz7pwQ5k7l57YACRcWMMA23gNS3EOrsOtls4jIbACj9x69CJ2oH2UzzzSwhPKII9ZAzR0DtLR/BjFRJoPNOecv1855JRQPDEiRgEJzfk6dPERE0lUQqIOmUkrJlgEMFqsMmKbfkIQ0Time1zY4stIuDhGGbxxkWKyinP1d+/4vVu0jHPuXNho3AzJ+43Loy/V5TC3BeZuwZ5d45NfmqVbBPVt0UYapc1zrUZJ9vbHkwEF8EaSbD+Ne5mmLkvvomC5c4bPWW7BIE1LsJTynlWIdqZctHVntt89L/vftDr8acv+1F1DNePpeX6i5q1jlp0KOSGhtg+yQXYHfLN2ni12+SZHFeyw9i4VwuVLoMkqYfzxe2/vdu0fKeFQ9OdIXHoAAAAASUVORK5CYII=">\
                 </span>';
       }
-      messageBubbles += '<span>${msgData.text}</span></div>\
+      messageBubbles += '<span>{{html helpers.convertMDtoHTML(msgData.text)}}</span></div>\
           </div>\
           {{/if}}\
           {{if msgData && msgData.isSearchResultsMessage===true}}\
             <div class="sdk-results-customize-icon"><img src="assets/icons/SDK-Icons/rangeslider.svg"><span class="tooltiptext-top">Customize Results</span></div>\
           {{/if}}\
           {{if msgData && msgData.from==="searchResult"}}\
-            <div class="serachContent"><span>${msgData.text}</span></div>\
+            <div class="serachContent"><span>{{html helpers.convertMDtoHTML(msgData.text)}}</span></div>\
           {{/if}}\
         </div>\
        </script>';
@@ -2471,7 +2471,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
                       msgData: messageData,
                       devMode: devMode,
-                      viewType: viewType
+                      viewType: viewType,
+                      helpers : helpers
                     });
                     $('#searchChatContainer').append(templateMessageBubble);
                     _self.sendMessage(_innerText);
@@ -6673,7 +6674,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
             msgData: messageData,
             devMode: devMode,
-            viewType: viewType
+            viewType: viewType,
+            helpers : helpers
           });
           $('#searchChatContainer').append(template);
           if($('body').hasClass('top-down')){
@@ -6688,7 +6690,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
             msgData: messageData,
             devMode: devMode,
-            viewType: viewType
+            viewType: viewType,
+            helpers : helpers
           });
           $('#searchChatContainer').append(template);
           if($('body').hasClass('top-down')){
@@ -6726,7 +6729,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 msgData: {
                   from: "bot",
                   text: "Choose the credit card to pay bill"
-                }
+                },
+                helpers : helpers
               });
               $('#searchChatContainer').append(template1);
   
@@ -6744,7 +6748,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
                   msgData: messageData,
                   devMode: devMode,
-                  viewType: viewType
+                  viewType: viewType,
+                  helpers : helpers
                 });
                 $('#searchChatContainer').append(template);
                 _self.bindLiveDataToChat();
@@ -6807,7 +6812,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
                     msgData: messageData,
                     devMode: devMode,
-                    viewType: viewType
+                    viewType: viewType,
+                    helpers : helpers
                   });
                   $('#searchChatContainer').append(templateMessageBubble);
                   // var templateMessageBubble = _self.getSearchTemplate(defaultMessage, this.helpers);
@@ -6850,7 +6856,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
                     msgData: messageData,
                     devMode: devMode,
-                    viewType: viewType
+                    viewType: viewType,
+                    helpers : helpers
                   });
                   $('#searchChatContainer').append(templateMessageBubble);
                   _self.sendMessage(_innerText);
@@ -6874,7 +6881,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               messageData.text = messageData.text.text;
             }
             messageHtml = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-              msgData: messageData
+              msgData: messageData,
+              helpers : helpers
             });
             // $('#searchChatContainer').append(template);
           }
@@ -6884,7 +6892,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             msgData: {
               from: "bot",
               text: messageData.payload.text
-            }
+            },
+            helpers : helpers
           });
           $('#searchChatContainer').append(template);
         }
@@ -6899,7 +6908,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
           msgData: messageData,
           devMode: devMode,
-          viewType: viewType
+          viewType: viewType,
+          helpers : helpers
         });
         //$('#searchChatContainer').append(template);
         $('.search-body').hide();
@@ -7459,7 +7469,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var templateBotMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
 					msgData: messageData,
           devMode: devMode,
-			    viewType: viewType
+			    viewType: viewType,
+          helpers : helpers
 				});
 				$('#searchChatContainer').append(templateBotMessageBubble);
         $('#searchChatContainer').animate({
