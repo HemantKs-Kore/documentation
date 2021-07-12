@@ -385,7 +385,7 @@
 
           <div class="search-header">
             <div class="tabs-sec">
-              <span class="tabname active" [ngClass] = "{'active' : page}" (click)="swapSlider('page')">{{"contentSource.pages" | translate}}</span>
+              <span class="tabname " [ngClass] = "{'active' : page}" (click)="swapSlider('page')">{{"contentSource.pages" | translate}}</span>
               <span class="tabname" [ngClass] = "{'active' : isConfig}"(click)="swapSlider('config')">{{"contentSource.configuration" | translate}}</span>
               <span class="tabname" *ngIf="executionHistoryData && selectedSource.recentStatus != 'scheduled' && selectedSource.recentStatus != 'configured'" [ngClass] = "{'active' : execution}" (click)="swapSlider('execution')">{{"contentSource.executions" | translate}}</span>
             </div>
@@ -1057,8 +1057,8 @@
         <div class="table-view-details table-content" *ngIf="sliderStep === 1 && selectedPage">
           <div class="totalViewsNlikes">
             <div class="d-flex justify-content-between infoBlock">
-            <div class="infoType"><img class="viewsIcon" placement="top" container='body' ngbTooltip="Clicks" src="assets/icons/faq/views.svg"><span>{{numberOf.clicks}}</span></div>
-            <div class="infoType"><img   placement="top" container='body' ngbTooltip="Views" src="assets/icons/faq/hand.svg"><span>{{numberOf.appearances}}</span></div>
+            <div class="infoType"><img class="viewsIcon" placement="top" container='body' ngbTooltip="Views" src="assets/icons/faq/views.svg"><span>{{numberOf.appearances}}</span></div>
+            <div class="infoType"><img placement="top" container='body' ngbTooltip="Clicks" src="assets/icons/faq/hand.svg"><span>{{numberOf.clicks}}</span></div>
             </div>
             </div>
           <div class="view-details-data">
@@ -1150,8 +1150,8 @@
         <!-- <header class="table-header"> -->
           <div class="totalViewsNlikes">
             <div class="d-flex justify-content-between infoBlock">
-            <div class="infoType"><img class="viewsIcon" src="assets/icons/faq/views.svg"><span>{{numberOf.clicks}}</span></div>
-            <div class="infoType"><img src="assets/icons/faq/hand.svg"><span>{{numberOf.appearances}}</span></div>
+            <div class="infoType"><img class="viewsIcon" src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views"><span>{{numberOf.appearances}}</span></div>
+            <div class="infoType"><img src="assets/icons/faq/hand.svg" placement="top" container='body' ngbTooltip="Clicks"><span>{{numberOf.clicks}}</span></div>
             </div>
             </div>
           <div class="title-text">Title
