@@ -436,7 +436,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     if (source) {
       if (this.selectedResource && (this.selectedResource._id === source._id)) {
         this.selectedResource = null;
-        this.getfaqsBy(null, this.selectedtab);
+        this.getfaqsBy();
         this.getStats();
         // this.faqUpdateEvent();
       } else {
