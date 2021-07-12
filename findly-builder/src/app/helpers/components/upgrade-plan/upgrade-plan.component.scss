@@ -31,6 +31,10 @@
                         background: #0D6EFD;
                         color: #fff;
                     }
+                    &.disable-text{
+                        color: #BDC1C6;
+                        pointer-events: none;
+                    }                    
                 }
                 .compare-plan{
                     color: #0D6EFD;
@@ -184,6 +188,15 @@
                                     position: absolute;
                                     bottom: 18px;                                
                                 }
+                                .kr-sg-button-secondary-pricing{
+                                    position: absolute;
+                                    bottom: 18px;
+                                        &:hover{
+                                            border: 1px solid transparent;
+                                            background: #0D6EFD;       
+                                            color: #fff; 
+                                        }
+                                }
                             }
                             .goto_details{
                                 color: #0D6EFD;
@@ -274,7 +287,7 @@
                                     background: #0D6EFD;       
                                     color: #fff; 
                                 }
-                            }
+                            }                          
                         }
                     }
 
@@ -324,7 +337,16 @@
     }
 }
 
-
+.btn-disable-active{
+    background: #EFF0F1;
+    border: 1px solid #BDC1C6;
+    border-radius: 4px;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: #BDC1C6;
+    cursor:default !important;
+}
 
 ::ng-deep .order-confirmation{
     z-index: 99999 !important;
@@ -420,6 +442,7 @@
                             text-transform: uppercase;
                         }
                     }
+                  
                     .order-confirmation-table-body{
                         padding: 7px 0;
                         align-items: center;
@@ -447,13 +470,14 @@
                                 position: relative;
                                 &.disable-text{
                                     color: #BDC1C6;
-                                }
-                                &:hover{
-                                    .tooltip_top_{
-                                        visibility: visible;
-                                        opacity: 1;
+                                    cursor:default !important;
+                                    &:hover{
+                                        .tooltip_top_{
+                                            visibility: visible;
+                                            opacity: 1;
+                                        }
                                     }
-                                }
+                                }                               
                                 .tooltip_top_{
                                     visibility: hidden;
                                     position: absolute;
@@ -493,15 +517,15 @@
                                     background: #0D6EFD;
                                     color: #fff;
                                 }
-                                &.btn-disable-active{
-                                    background: #EFF0F1;
-                                    border: 1px solid #BDC1C6;
-                                    border-radius: 4px;
-                                    font-weight: normal;
-                                    font-size: 12px;
-                                    line-height: 14px;
-                                    color: #BDC1C6;
-                                }
+                                // &.btn-disable-active{
+                                //     background: #EFF0F1;
+                                //     border: 1px solid #BDC1C6;
+                                //     border-radius: 4px;
+                                //     font-weight: normal;
+                                //     font-size: 12px;
+                                //     line-height: 14px;
+                                //     color: #BDC1C6;
+                                // }
                             }
                             .compare-plan{
                                 color: #0D6EFD;

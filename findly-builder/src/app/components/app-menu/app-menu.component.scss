@@ -474,21 +474,24 @@ app-mainmenu{
     right: 0;
 	.status-type{
 		width: 12px;
-		height: 12px;
-		background: #DD3646;
+		height: 12px;		
 		border: 2px solid #EFF0F1;
 		position: absolute;
 		border-radius: 100%;
 		right: -5px;
+		background: #FFDA2D;
 		top: -5px;
-		&.yellow{
-			background: #FFDA2D;
+		&.red{
+			background: #DD3646;
 		}
 	}
 	&:hover{
 		.hover-documnet-show-data{
 			visibility: visible;
 			opacity: 1;
+		}
+		.status-type{
+			visibility: hidden;
 		}
 	}
 	.upgrade-plan-btn{
@@ -533,13 +536,18 @@ app-mainmenu{
 			left: -7px;
 			bottom: 25px;
 		}
+		.card1{
+			background: #F3F8FF !important;
+		}
+		.card2{
+			background: #EAF6EC !important;
+		}
 		.card-data-{
 			display: flex;
 			padding: 12px 10px 12px 6px;
-			background: #F3F8FF;
 			border-radius: 2px;
 			margin-bottom: 10px;
-			position: relative;
+			position: relative;		
 			&:last-child{
 				margin: 0;
 			}
@@ -594,9 +602,9 @@ app-mainmenu{
 				bottom: 0;
 				background-color: transparent;
 				border-radius: 0;
-				.progress-bar{
-					background: #0D6EFD !important;
-				}
+				// .progress-bar{
+				// 	background: #0D6EFD !important;
+				// }
 			}
 			.query-limited-reached{
 				.progress{
@@ -607,25 +615,25 @@ app-mainmenu{
 					bottom: 0;
 					background-color: transparent;
 					border-radius: 0;
-					.progress-bar{
-						background: #B893F2 !important;
-					}
+					// .progress-bar{
+					// 	background: #B893F2 !important;
+					// }
 				}
 			}
-			.limit-exceed{
-				.progress{
-					height: 2px !important;
-					position: absolute;
-					left: 0;
-					width: 100%;
-					bottom: 0;
-					background-color: transparent;
-					border-radius: 0;	
-					.progress-bar{
-						background: #DD3646 !important;
-					}		
-				}
-			}
+			// .limit-exceed{
+			// 	.progress{
+			// 		height: 2px !important;
+			// 		position: absolute;
+			// 		left: 0;
+			// 		width: 100%;
+			// 		bottom: 0;
+			// 		background-color: transparent;
+			// 		border-radius: 0;	
+			// 		.progress-bar{
+			// 			background: #DD3646 !important;
+			// 		}		
+			// 	}
+			// }
 		}
 	}
 }
