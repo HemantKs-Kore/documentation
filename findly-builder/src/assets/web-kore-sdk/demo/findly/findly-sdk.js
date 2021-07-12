@@ -2783,10 +2783,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //}
         if ($(evet.target).hasClass('acc-active')) {
           $(evet.target).next().parent().next().hide();
-          if (_self.vars.showingMatchedResults == true) {
+          // if (_self.vars.showingMatchedResults == true) {
             //_self.captureClickAnalytics(evet, $(evet.target).parent().attr('contenttype'), 'expand')
             _self.captureClickAnalytics(evet, $(evet.currentTarget).closest('.faqs-shadow').attr('contenttype'), 'click', $(evet.currentTarget).closest('.faqs-shadow').attr('contentId'), $(evet.currentTarget).closest('.faqs-shadow').attr('id'), $(evet.currentTarget).closest('.accordion').text());
-          }
+          // }
         } else {
           $(evet.target).next().parent().next().show();
         }
@@ -5082,6 +5082,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "streamId": _self.API.streamId,
         "isDev": _self.isDev,
       }
+      if(!payload.query || (payload.query && !payload.query.length)){
+          payload.query = $('#search').val();
+      }
       if(_self.isDev){
         payload['customize'] = _self.vars.customizeView;
       }
@@ -5585,6 +5588,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     }
                     _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
                       _self.vars.previousLivesearchData =  $('#search').val();
+                      if (res.queryPipelineId && res.relay) {
+                        _self.vars.experimentsObject = {};
+                        if (res.relay == "experiment") {
+                          if (res.experimentId) {
+                            _self.vars.experimentsObject['experimentId'] = res.experimentId;
+                          }
+                        }
+                        _self.vars.experimentsObject['indexPipelineId'] = res.indexPipelineId;
+                        _self.vars.experimentsObject['queryPipelineId'] = res.queryPipelineId;
+                        _self.vars.experimentsObject['relay'] = res.relay;              
+                      }
                       if(res.isBotLocked){
                         window.isBotLocked = true;
                       }
@@ -16427,12 +16441,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }, 3000);
       });
 
-      if (_self.vars.showingMatchedResults == true) {
+      // if (_self.vars.showingMatchedResults == true) {
         $('a.structured-data-wrp-content').off('click').on('click', function (event) {
           console.log($(event.currentTarget).parent().attr('contentType'), $(event.currentTarget).parent().attr('contentId'));
           _self.captureClickAnalytics(event, $(event.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).attr('title'));
         })
-      }
+      // }
 
       // $('.moreStructredData').off('click').on('click', function (e) {
       //   var appearanceType = $(e.target).closest('.total-structured-data-wrap').attr('appearanceType');
