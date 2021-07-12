@@ -2657,7 +2657,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.vars.showingMatchedResults = false;
 
       // compare input with suggestion array
-      if(false){
+      // if(false){
         $.each(suggestions, function (i, term) {
           // _self.vars.customizeView = false;
           let wrdArray = needle.split(' ');
@@ -2700,16 +2700,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   
           $suggest.val("");
         });
-      }
-      if (suggestions.length) {
-        var searchQuery = $.trim(needle);
-        var searchQueryArr = searchQuery.split(" ");
-        if (searchQueryArr.length) {
-          searchQueryArr[searchQueryArr.length - 1] = suggestions[0];
-        }
-        searchQuery = searchQueryArr.join(' ');
-        $suggest.val(searchQuery);
-      }
+      // }
+      // if (suggestions.length) {
+      //   var searchQuery = $.trim(needle);
+      //   var searchQueryArr = searchQuery.split(" ");
+      //   if (searchQueryArr.length) {
+      //     searchQueryArr[searchQueryArr.length - 1] = suggestions[0];
+      //   }
+      //   searchQuery = searchQueryArr.join(' ');
+      //   $suggest.val(searchQuery);
+      // }
       if (!suggestions.length) {
         $suggest.val("");
       }
