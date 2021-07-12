@@ -2,29 +2,29 @@
     <div class="dropdown dropdown-open">
       <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">       
           <div class="not-configured-title" *ngIf="checklistCount===0">
-            <div class="title">You haven’t configured your app yet!</div>
-            <div class="start-now" (click)="openOnBoardingModal()">Start Now</div>
+            <div class="title">{{'useronboarding.You_havent_configured' | translate}}</div>
+            <div class="start-now" (click)="openOnBoardingModal()">{{'useronboarding.start_now' | translate}}</div>
           </div>
           <div class="check-list-steps" *ngIf="checklistCount==6&&status=='completed'">
             <!-- <div class="title">App is ready for Deployment</div>
             <div class="start-now">Deploy</div> -->
             <div class="left-sec">
               <img src="assets/icons/check-config.svg">                          
-              <span class="steps-info">App is ready for Deployment</span>
+              <span class="steps-info">{{'useronboarding.app_ready' | translate}}</span>
             </div>
             <div class="right-sec">
               <!-- <div class="checklist-btn" [routerLink]="['/settings']" routerLinkActive="active" skipLocationChange>Deploy</div> -->
-              <div class="checklist-btn" (click)="gotoRoutes('/settings')">Deploy</div>
+              <div class="checklist-btn" (click)="gotoRoutes('/settings')">{{'useronboarding.deploy' | translate}}</div>
               <div class="close-img" (click)="closeChecklist()"><img src="assets/icons/close-checklist.svg"></div>
             </div>
           </div>
           <div class="check-list-steps" *ngIf="checklistCount>0&&status=='pending'">
             <div class="left-sec">
               <img [src]="showStatusIcon?'assets/icons/check-config.svg':'assets/icons/time.svg'" *ngIf="componentType!=='summary'">                          
-              <span class="steps-info"><b>  Step {{checklistCount}}</b> out of 6 - Completed</span>
+              <span class="steps-info"><b>  {{'useronboarding.step' | translate}} {{checklistCount}}</b> {{'useronboarding.out_of_6' | translate}}</span>
             </div>
             <div class="right-sec">
-              <div class="checklist-btn" (click)="openOnBoardingModal()">Checklist</div>
+              <div class="checklist-btn" (click)="openOnBoardingModal()">{{'useronboarding.checklist' | translate}}</div>
               <div class="close-img" *ngIf="componentType!=='summary'" (click)="closeChecklist()"><img src="assets/icons/close-checklist.svg"></div>
             </div>
           </div>
@@ -41,7 +41,7 @@
 
 <kr-modal modalType="nodrop" modalClass="modal_popups_ onboarding-journey-modal" #onBoardingModalPop>
     <div class="modal-header">
-      <div class="title">Your Quick Start Guide</div>
+      <div class="title">{{'useronboarding.your_quick_start_guide' | translate}}</div>
       <div class="close-icon"><img (click)="closeOnBoardingModal()" src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
@@ -51,15 +51,15 @@
             <div data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="card_link" aria-expanded="true">
               <div class="instruction-number" *ngIf="tourData[0].addData" [ngStyle]="{'border':'none'}"><img src='assets/icons/check-config.svg' height="19"/></div>  
               <div class="instruction-number" *ngIf="!tourData[0].addData"></div>
-                <div class="guide-name">Start by Adding Data</div>              
+                <div class="guide-name">{{'useronboarding.start_by_adding_data' | translate}}</div>              
             </div>
           </div>
           <!-- [ngClass]='{"show":componentType=="summary"}' -->
           <div id="collapseOne" class="collapse" [ngClass]="{'show':collapseOpen==0}">
             <div class="card-body">
-                <div class="guide-inner-info">SearchAssist allows you to add different types of data such as FAQs, Actions, Content, Structured Data from various sources. </div>
-                <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/source')">Add Data</button>
-                <button class="kr-sg-button-secondary btn_lg ml-1">Learn More</button>
+                <div class="guide-inner-info">{{'useronboarding.searchAssist_allows_you' | translate}} </div>
+                <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/source')">{{'useronboarding.add_data' | translate}}</button>
+                <button class="kr-sg-button-secondary btn_lg ml-1">{{'useronboarding.learn_more' | translate}}</button>
             </div>
           </div>
         </div>  
@@ -69,15 +69,15 @@
             <div data-toggle="collapse" data-parent="#accordion" href="#collapse2" class="card_link" aria-expanded="true">
               <div class="instruction-number" *ngIf="tourData[1].indexData" [ngStyle]="{'border':'none'}"><img src='assets/icons/check-config.svg' height="19"/></div>  
               <div class="instruction-number" *ngIf="!tourData[1].indexData"></div>
-                <div class="guide-name">Index Data</div>              
+                <div class="guide-name">{{'useronboarding.index_data' | translate}}</div>              
             </div>
           </div>
     
           <div id="collapse2" class="collapse" [ngClass]="{'show':collapseOpen==1}">
             <div class="card-body">
-                <div class="guide-inner-info">SearchAssist allows you to Index the data that you want to make searchable.</div>
-                <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/FieldManagementComponent')">Start Indexing</button>
-                <button class="kr-sg-button-secondary btn_lg ml-1">Learn More</button>
+                <div class="guide-inner-info">{{'useronboarding.searchAssist_allows_you_index' | translate}}</div>
+                <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/FieldManagementComponent')">{{'useronboarding.start_indexing' | translate}}</button>
+                <button class="kr-sg-button-secondary btn_lg ml-1">{{'useronboarding.learn_more' | translate}}</button>
             </div>
           </div>
         </div>
@@ -87,15 +87,15 @@
             <div data-toggle="collapse" data-parent="#accordion" href="#collapse3" class="card_link" aria-expanded="true">
               <div class="instruction-number" *ngIf="tourData[2].optimiseSearchResults" [ngStyle]="{'border':'none'}"><img src='assets/icons/check-config.svg' height="19"/></div>  
               <div class="instruction-number" *ngIf="!tourData[2].optimiseSearchResults"></div>
-                <div class="guide-name">Optimize Search Results</div>              
+                <div class="guide-name">{{'useronboarding.optimize_search_results' | translate}}</div>              
             </div>
           </div>
     
           <div id="collapse3" class="collapse" [ngClass]="{'show':collapseOpen==2}">
             <div class="card-body">
-                <div class="guide-inner-info">SearchAssist allows to optimize the search results through Synonyms, Weights, Stop Words, Rules, Facets.</div>
-                <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/weights')">Configure</button>
-                <button class="kr-sg-button-secondary btn_lg ml-1">Learn More</button>
+                <div class="guide-inner-info">{{'useronboarding.SearchAssist_allows_to_optimize' | translate}}</div>
+                <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/weights')">{{'useronboarding.configure' | translate}}</button>
+                <button class="kr-sg-button-secondary btn_lg ml-1">{{'useronboarding.learn_more' | translate}}</button>
             </div>
           </div>
         </div>
@@ -103,17 +103,17 @@
         <div class="card_">
           <div class="card_header">
             <div data-toggle="collapse" data-parent="#accordion" href="#collapse4" class="card_link" aria-expanded="true">
-              <div class="instruction-number" *ngIf="tourData[3].designSearchExperience" [ngStyle]="{'border':'none'}"><img src='assets/icons/check-config.svg' height="19"/></div>  
-              <div class="instruction-number" *ngIf="!tourData[3].designSearchExperience"></div>
-                <div class="guide-name">Design Search Experience</div>              
+              <div class="instruction-number" *ngIf="tourData[3].designuseronboarding" [ngStyle]="{'border':'none'}"><img src='assets/icons/check-config.svg' height="19"/></div>  
+              <div class="instruction-number" *ngIf="!tourData[3].designuseronboarding"></div>
+                <div class="guide-name">{{'useronboarding.design_search_experience' | translate}}</div>              
             </div>
           </div>
     
           <div id="collapse4" class="collapse" [ngClass]="{'show':collapseOpen==3}">
             <div class="card-body">
-                <div class="guide-inner-info">SearchAssist allows you to customize the search experience and design the search interface based on the business context. </div>
-                <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/search-experience')">Start Designing</button>
-                <button class="kr-sg-button-secondary btn_lg ml-1">Learn More</button>
+                <div class="guide-inner-info">{{'useronboarding.searchAssist_allows_you_to_customize' | translate}} </div>
+                <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/search-experience')">{{'useronboarding.start_designing' | translate}}</button>
+                <button class="kr-sg-button-secondary btn_lg ml-1">{{'useronboarding.learn_more' | translate}}</button>
             </div>
           </div>
         </div>
@@ -123,15 +123,15 @@
             <div data-toggle="collapse" data-parent="#accordion" href="#collapse5" class="card_link" aria-expanded="true">
               <div class="instruction-number" *ngIf="tourData[4].testApp" [ngStyle]="{'border':'none'}"><img src='assets/icons/check-config.svg' height="19"/></div>  
               <div class="instruction-number" *ngIf="!tourData[4].testApp"></div>
-                <div class="guide-name">Test the Application</div>              
+                <div class="guide-name">{{'useronboarding.test_the_application' | translate}}</div>              
             </div>
           </div>
     
           <div id="collapse5" class="collapse" [ngClass]="{'show':collapseOpen==4}">
             <div class="card-body">
-                <div class="guide-inner-info">SearchAssist allows you to validate the configuration and search experience before deploying the app by just clicking on the Test button. </div>
-                <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/resultranking')">Test</button>
-                <button class="kr-sg-button-secondary btn_lg ml-1">Learn More</button>
+                <div class="guide-inner-info">{{'useronboarding.searchAssist_allows_you_to_validate' | translate}} </div>
+                <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/resultranking')">{{'useronboarding.test' | translate}}</button>
+                <button class="kr-sg-button-secondary btn_lg ml-1">{{'useronboarding.learn_more' | translate}}</button>
             </div>
           </div>
         </div>
@@ -141,20 +141,20 @@
             <div data-toggle="collapse" data-parent="#accordion" href="#collapse6" class="card_link" aria-expanded="true">
               <div class="instruction-number" *ngIf="tourData[5].fineTuneRelevance" [ngStyle]="{'border':'none'}"><img src='assets/icons/check-config.svg' height="19"/></div>  
               <div class="instruction-number" *ngIf="!tourData[5].fineTuneRelevance"></div>
-                <div class="guide-name">Fine-Tune Relevance</div>              
+                <div class="guide-name">{{'useronboarding.fine_tune_relevance' | translate}}</div>              
             </div>
           </div>
     
           <div id="collapse6" class="collapse" [ngClass]="{'show':collapseOpen==5}">
             <div class="card-body">
-                <div class="guide-inner-info">SearchAssist Allows you to fine-tune search results further with the result ranking actions such as pinning, boosting, lowering and hiding.</div>
-                <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/resultranking')">Optimize</button>
-                <button class="kr-sg-button-secondary btn_lg ml-1">Learn More</button>
+                <div class="guide-inner-info">{{'useronboarding.searchAssist_Allows_you_to_fine_tune' | translate}}</div>
+                <button class="kr-sg-button-primary btn_lg mr-3" (click)="gotoRoutes('/resultranking')">{{'useronboarding.optimize' | translate}}</button>
+                <button class="kr-sg-button-secondary btn_lg ml-1">{{'useronboarding.learn_more' | translate}}</button>
             </div>
           </div>
         </div>
         <div class="modal-footer" (click)="closeChecklist('self')">
-          I want to Explore by Myself
+          {{'useronboarding.i_want_to_Explore' | translate}}
         </div>
       </div>
     </perfect-scrollbar>

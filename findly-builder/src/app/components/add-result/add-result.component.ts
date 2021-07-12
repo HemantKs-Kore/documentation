@@ -4,6 +4,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';
+import { SideBarService } from './../../services/header.service';
 declare const $: any;
 
 @Component({
@@ -30,6 +31,7 @@ export class AddResultComponent implements OnInit {
   structuredDataHeading : any = '';
   structuredDataDes : any = '';
   fieldData : any = [];
+  searchSDKSubscription: Subscription;
   @Input() query : any;
   @Input() addNew;
   @Input() structure;
@@ -37,7 +39,8 @@ export class AddResultComponent implements OnInit {
   constructor(public workflowService: WorkflowService,
     public notificationService: NotificationService,
     private appSelectionService:AppSelectionService,
-    private service: ServiceInvokerService) { }
+    private service: ServiceInvokerService,
+    public headerService: SideBarService) { }
 
   ngOnInit(): void {
     //this.appDetails();
@@ -45,7 +48,13 @@ export class AddResultComponent implements OnInit {
     this.results();
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
       this.results();
-    })
+    });
+    this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
+      if (res) {
+        this.searchTxt = '';
+        this.keyFunc(this.searchTxt);
+      }
+    });
   }
   results(){
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -321,5 +330,10 @@ export class AddResultComponent implements OnInit {
       console.log(errRes);
       this.loadingContent = false;
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : false;
+    this.searchSDKSubscription ? this.searchSDKSubscription.unsubscribe() : false;
   }
 }

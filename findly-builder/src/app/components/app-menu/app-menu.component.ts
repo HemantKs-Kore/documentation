@@ -468,7 +468,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       res => {
         let docs = Number.isInteger(res.ingestDocs.percentageUsed) ? (res.ingestDocs.percentageUsed) : parseFloat(res.ingestDocs.percentageUsed).toFixed(2);
         let queries = Number.isInteger(res.searchQueries.percentageUsed) ? (res.searchQueries.percentageUsed) : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
-        this.usageDetails = { ingestDocs: docs, searchQueries: queries };
+        this.usageDetails = { ingestCount: res.ingestDocs.used, ingestLimit: res.ingestDocs.limit, ingestDocs: docs, searchQueries: queries, searchCount: res.searchQueries.used, searchLimit: res.searchQueries.limit };
       },
       errRes => {
         // this.errorToaster(errRes, 'Failed to get current data.');
