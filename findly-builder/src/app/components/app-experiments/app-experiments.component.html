@@ -239,7 +239,7 @@
       <ng-container>
         <div class="upgrade-experience" [ngClass]='{"d-none":currentSubscriptionPlan.planName!="Free"}'>
           <div class="img-block">
-            <img src="assets/icons/pricing/upgrade-experience.svg">
+            <img src="assets/icons/pricing/upgrade-experience.png">
           </div>
           <div class="title">{{"experiments.empty_experiment"| translate}}</div>
           <button class="kr-sg-button-primary btn_lg" (click)="upgrade()">{{"experiments.upgrade"| translate}}</button>
@@ -248,7 +248,7 @@
 
       <ng-container *ngIf="filterExperiments.length===0 && currentSubscriptionPlan.planName!='Free'">        
         <div  class="empty-landing-screen" >
-          <div class="img-block"><img class="action_icon" src="assets/images/experiments-empty.svg" (load)="imageLoaded()"></div>
+          <div class="img-block"><img class="action_icon" src="assets/images/experiments-empty.png" (load)="imageLoaded()"></div>
           <ng-container *ngIf="loadImageText">
               <div class="empty-title">{{"experiments.havenot_added"| translate}}</div>
               <div class="desc-text">{{"experiments.desc_text"| translate}}</div>

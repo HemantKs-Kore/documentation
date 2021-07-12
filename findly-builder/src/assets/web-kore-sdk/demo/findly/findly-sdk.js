@@ -2656,49 +2656,59 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.vars.showingMatchedResults = false;
 
       // compare input with suggestion array
-      $.each(suggestions, function (i, term) {
-        // _self.vars.customizeView = false;
-        let wrdArray = needle.split(' ');
-        // for(let i=needle.length-1; i>0; i--) {
-        // 	let regex = new RegExp('^' + needle[i], 'i');
-
-        // }
-        let regex = new RegExp('^' + needle, 'i');
-        if (regex.test(term)) {
-          $suggest.val(needle + term.slice(needle.length));
-          // use first result
-          return false;
-        }
-        else if ($suggest.val() == "") {
-          wrdArray = needle.trim().split(' ');
-          let lastWords = wrdArray[wrdArray.length - 2] + ' ' + wrdArray[wrdArray.length - 1]
-          //wrdArray[wrdArray.length - 1] == '' ? wrdArray[wrdArray.length - 2] : wrdArray[wrdArray.length - 1];
-          regex = new RegExp('^' + lastWords, 'i');
+      if(false){
+        $.each(suggestions, function (i, term) {
+          // _self.vars.customizeView = false;
+          let wrdArray = needle.split(' ');
+          // for(let i=needle.length-1; i>0; i--) {
+          // 	let regex = new RegExp('^' + needle[i], 'i');
+  
+          // }
+          let regex = new RegExp('^' + needle, 'i');
           if (regex.test(term)) {
-
-            $suggest.val(needle.trim() + term.slice(lastWords.length));
+            $suggest.val(needle + term.slice(needle.length));
             // use first result
             return false;
           }
-
-        }
-        if ($suggest.val() == "") {
-          wrdArray = needle.trim().split(' ');
-          let lastWords = wrdArray[wrdArray.length - 1];
-          //wrdArray[wrdArray.length - 1] == '' ? wrdArray[wrdArray.length - 2] : wrdArray[wrdArray.length - 1];
-          regex = new RegExp('^' + lastWords, 'i');
-          if (regex.test(term)) {
-
-            $suggest.val(needle.trim() + term.slice(lastWords.length));
-            // use first result
-            return false;
+          else if ($suggest.val() == "") {
+            wrdArray = needle.trim().split(' ');
+            let lastWords = wrdArray[wrdArray.length - 2] + ' ' + wrdArray[wrdArray.length - 1]
+            //wrdArray[wrdArray.length - 1] == '' ? wrdArray[wrdArray.length - 2] : wrdArray[wrdArray.length - 1];
+            regex = new RegExp('^' + lastWords, 'i');
+            if (regex.test(term)) {
+  
+              $suggest.val(needle.trim() + term.slice(lastWords.length));
+              // use first result
+              return false;
+            }
+  
           }
-
+          if ($suggest.val() == "") {
+            wrdArray = needle.trim().split(' ');
+            let lastWords = wrdArray[wrdArray.length - 1];
+            //wrdArray[wrdArray.length - 1] == '' ? wrdArray[wrdArray.length - 2] : wrdArray[wrdArray.length - 1];
+            regex = new RegExp('^' + lastWords, 'i');
+            if (regex.test(term)) {
+  
+              $suggest.val(needle.trim() + term.slice(lastWords.length));
+              // use first result
+              return false;
+            }
+  
+          }
+  
+          $suggest.val("");
+        });
+      }
+      if (suggestions.length) {
+        var searchQuery = $.trim(needle);
+        var searchQueryArr = searchQuery.split(" ");
+        if (searchQueryArr.length) {
+          searchQueryArr[searchQueryArr.length - 1] = suggestions[0];
         }
-
-        $suggest.val("");
-      });
-
+        searchQuery = searchQueryArr.join(' ');
+        $suggest.val(searchQuery);
+      }
       if (!suggestions.length) {
         $suggest.val("");
       }
@@ -5277,12 +5287,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // $('.pay-button').off('click').on('click')
       if (templateType === "search-container") {
 
-        $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
-          if ($('body').hasClass('top-down')){
-            $('.top-down-suggestion').val('');
-          } else {
-            $('.bottom-up-suggestion').val('');
-          }
+        $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) { 
           _self.pubSub.publish('sa-handel-chat-container-view');
           _self.pubSub.publish('sa-handel-go-button');
           if(!window.isBotLocked){
@@ -5306,6 +5311,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.search-top-down').val(JSON.parse(JSON.stringify($('.top-down-suggestion').val())));
               $('.search-top-down').focus();
             }
+          }
+          if ($('body').hasClass('top-down')){
+            $('.top-down-suggestion').val('');
+          } else {
+            $('.bottom-up-suggestion').val('');
           }
           if (code == '9') {
             e.preventDefault();
@@ -7492,7 +7502,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (findlyConfig.autoConnect) {
         _self.initWebKitSpeech();
         _self.setAPIDetails();
+        if(fromTopDown) {
         _self.initKoreSDK(_findlyConfig);
+        }
         setTimeout(() => {
           _self.initWebKitSpeech();
         }, 1000);
@@ -7994,7 +8006,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       _self.initWebKitSpeech();
       // _self.initKoreSDK();
-      _self.initKoreSDK(config);
+      if(isDev){
+        _self.initKoreSDK(config);
+      }
       _self.setAPIDetails();
       _self.pubSub.subscribe('sa-register-template', (msg, data) => {
         console.log("register-template", msg, data);
@@ -8115,7 +8129,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // $('#search-modal').css('display', 'block');
       _self.searchEventBinding(dataHTML, 'search-container', {}, {});
     };
-
+    FindlySDK.prototype.initSearchAssistSDK = function (findlyConfig) {
+      var _self = this;
+        _self.configureSearchInterface(findlyConfig.botOptions).then(function (response) {
+          console.log("res", response);
+          if (response.experienceConfig.searchBarPosition === 'top') {
+            _self.initializeTopDown(null, null, response);
+          }
+          else {
+            _self.initialize(findlyConfig);
+            _self.showSearch(null, response);
+          }
+        });
+    }
     var searchConfigurationCopy = {};
 
     FindlySDK.prototype.mapSearchConfiguration = function (searchConfig) {
@@ -18511,6 +18537,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           })
           _self.vars.selectedFiltersArr = [];
           _self.vars.filterObject = [];
+          _self.vars.countOfSelectedFilters = 0;
           _self.searchByFacetFilters(_self.vars.filterObject);
         }
       }
@@ -20712,7 +20739,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     // top-search-template --end///
 
     // Configuraition of Interface //
-    FindlySDK.prototype.configureSearchInterface = function (botOptions, JWTResponse) {
+    FindlySDK.prototype.configureSearchInterface = function (botOptions) {
       var baseAPIServer = botOptions.koreAPIUrl ? botOptions.koreAPIUrl : 'https://app.findly.ai/searchassistapi/'
       var searchExperienceAPIUrl = baseAPIServer + 'searchsdk/stream/' + botOptions.botInfo.taskBotId + '/' + botOptions.searchIndexID + '/searchInterface';
       console.log('config', searchExperienceAPIUrl);
@@ -20722,7 +20749,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         url: searchExperienceAPIUrl,
         type: type,
         headers: {
-          "auth": JWTResponse.jwt
+          "auth": botOptions.assertion
         },
         data: {},
         success: function (data) {

@@ -83,23 +83,27 @@ export class InsightsComponent implements OnInit {
     this.getAppDetails();
     let date = new Date();
     let _month_old_date = new Date(Date.now() - (30 * 864e5));
+    let sdate = new Date(Date.now());
     let startDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     let endDate = _month_old_date.getFullYear() + "-" + (_month_old_date.getMonth() + 1) + "-" + _month_old_date.getDate();
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      startDate: startDate, //"2020-10-10",
-      endDate: endDate, //"2020-11-10"//endDate,
+      startDate: sdate.toJSON(),// startDate,  //"2020-10-10",
+      endDate: _month_old_date.toJSON() //endDate,  //"2020-11-10"//endDate,
     }
     var payload = {
       "searchQuery": this.query
     }
+    const header: any = {
+      'x-timezone-offset': '-330'
+    };
     // this.analystic =  {
     //   "searches": 5983,
     //   "clicks": 4254
     // };
     this.ctrVal = Math.floor(this.analystic['clicks'] / this.analystic['searches']) * 100;
 
-    this.service.invoke('get.QueryLevelAnalytics', quaryparms, payload).subscribe(res => {
+    this.service.invoke('get.QueryLevelAnalytics', quaryparms, payload,header).subscribe(res => {
       console.log(res)
       this.analyticGraph(res)
       this.analystic = res;

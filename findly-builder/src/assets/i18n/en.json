@@ -128,7 +128,8 @@
         "get_the_client_id_and_secret_id": "Get the Client ID & Secret ID from the Channel configuration page of the Virtual Assistant and provide here.",
         "enable_webhook_channel_for_your": "Enable Webhook channel for your Virtual Assistant using the Access Token & Post URL provided below.",
         "please_subscribe_to_the_kore": "Please subscribe to the Kore.ai bots platform to link a bot here",
-        "choose_any_bot_from_the_list": "Choose any bot from the list to link it to your SearchAssist app."
+        "choose_any_bot_from_the_list": "Choose any bot from the list to link it to your SearchAssist app.",
+        "task_type": "Task Type"
     },
     "businessRules": {
         "rules_selected": "Rules Selected",
@@ -900,7 +901,7 @@
         "source_title_caps": "SOURCE TITLE",
         "type_caps": "TYPE  ",
         "status_caps": "STATUS ",
-        "no_of_faqs": "No. Of FAQS",
+        "no_of_faqs_caps": "NO Of FAQS",
         "triggered_by_caps": "TRIGGERED BY",
         "add_follow_up_faq": "Add Follow Up FAQ",
         "save": "Save",

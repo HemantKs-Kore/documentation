@@ -10,7 +10,7 @@
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
-          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/resultRanking-empty.svg"></div>
+          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/resultRanking-empty.png"></div>
           <ng-container *ngIf="loadImageText">
               <div class="empty-title">{{'resultRanking.emptyTitle' | translate}}</div>
               <div class="desc-text">{{'resultRanking.descText' | translate}} 

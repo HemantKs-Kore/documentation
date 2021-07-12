@@ -15,7 +15,7 @@
     <div class="title-content">{{"contentSource.content" | translate}}</div>
     <perfect-scrollbar class="scoll-empty-screen">
       <div class="empty-landing-screen">
-        <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/contentmanag-empty.svg"></div>   
+        <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/contentmanag-empty.png"></div>   
         <ng-container *ngIf="loadImageText">
         <div class="empty-title">{{"contentSource.no_content" | translate}}</div>
         <div class="desc-text"> {{"contentSource.no_content_info" | translate}}</div>
@@ -1057,8 +1057,8 @@
         <div class="table-view-details table-content" *ngIf="sliderStep === 1 && selectedPage">
           <div class="totalViewsNlikes">
             <div class="d-flex justify-content-between infoBlock">
-            <div class="infoType"><img class="viewsIcon" src="assets/icons/faq/views.svg"><span>{{numberOf.clicks}}</span></div>
-            <div class="infoType"><img src="assets/icons/faq/hand.svg"><span>{{numberOf.appearances}}</span></div>
+            <div class="infoType"><img class="viewsIcon" placement="top" container='body' ngbTooltip="Clicks" src="assets/icons/faq/views.svg"><span>{{numberOf.clicks}}</span></div>
+            <div class="infoType"><img   placement="top" container='body' ngbTooltip="Views" src="assets/icons/faq/hand.svg"><span>{{numberOf.appearances}}</span></div>
             </div>
             </div>
           <div class="view-details-data">

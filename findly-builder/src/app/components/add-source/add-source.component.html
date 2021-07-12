@@ -831,8 +831,8 @@
                 </div>
                 <div class="col-3 owner-name">{{bot.createdBy.firstName}} {{bot.createdBy.lastName}}</div>
                 <div class="col-3 link-bot-actions">
-                  <div class="link-bot-btn" (click)="openBotsConfigurationModalElement(bot)" *ngIf="streamID !== bot._id">
-                    <img src="assets/icons/actions/link-bot.svg">Link Bot
+                  <div class="link-bot-btn" (click)="openBotsConfigurationModalElement(bot,linkedBotID)" placement="left" [ngbTooltip]="(linkedBotID ?'Please Unlink the linked bot':null)" container='body' [ngClass]="{'link-bot-disable':linkedBotID}"*ngIf="streamID !== bot._id">
+                    <img src="{{!linkedBotID?'assets/icons/actions/link-bot.svg':'assets/icons/actions/link-bot-disable.svg'}}">Link Bot
                   </div>
                   <div class="link-bot-btn" (click)="unlinkBot(bot._id)" *ngIf="streamID == bot._id">
                     <img src="assets/icons/actions/link-bot.svg">Unlink Bot

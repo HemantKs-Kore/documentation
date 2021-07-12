@@ -43,7 +43,7 @@
         <ng-container *ngIf="(!(faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) && !faqSelectionObj.loadingStats) && !(faqs && faqs.length)  && !extractedFaqs && !viewDetails && !searchFaq && !showSearch && !loading">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
-          <div class="img-block" id ="imageLoad"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/faq-empty.svg"></div>
+          <div class="img-block" id ="imageLoad"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/faq-empty.png"></div>
           <ng-container *ngIf="loadImageText">
               <div class="empty-title">{{'faqSource.no_faqs' | translate}}</div>
               <div class="desc-text"> {{'faqSource.no_faqs_info' | translate}}
@@ -756,8 +756,8 @@
                               </div>
                               </div>
                         </div>
-                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('extrated')">{{'faqSource.no_of_faqs' | translate}}"<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
-                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('createdOn')">{{'faqSource."triggered_by_caps' | translate}}<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('extrated')">{{'faqSource.no_of_faqs_caps' | translate}}<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('createdOn')">{{'faqSource.triggered_by_caps' | translate}}<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
                         <!-- <div class="col" (click)="sortBy('createdOn')">Created On<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div> -->
                         <div class="col last-child" (click)="sortBy('name')"></div>
                     </header>
@@ -785,7 +785,7 @@
                             <span class="actions-links" (click)="reAnnotateDocument(source)"  ngbTooltip='Re-Annotate'><img class="action_icon" src="assets/images/list.svg"></span>
                         </div> -->
                     </div>
-                    <div class="empty">{{'faqSource."no_search_results' | translate}}</div>
+                    <div class="empty">{{'faqSource.no_search_results' | translate}}</div>
                     </perfect-scrollbar>
                     
                 </section>                               
