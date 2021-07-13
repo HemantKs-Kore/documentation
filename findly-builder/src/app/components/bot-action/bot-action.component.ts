@@ -934,6 +934,11 @@ export class BotActionComponent implements OnInit {
         this.service.invoke('get.allTasks', queryParams, null, { "state": "published" }).subscribe(res => {
           this.linkedBotTasks = [];
           let taskEnable = true;
+          this.filterSystem.isTaskTypeFilter = 'all';
+          this.filterSystem.isBotNameFilter = 'all';
+          this.sortedBy = '';
+          this.isBotNameArr = [];
+          this.isTaskTypeArr = [];
             if((res.streams||[]).length){
               res.streams.forEach(stream => {
                 if ((((stream.tasks || {}).published || {}).items || []).length > 0) {
