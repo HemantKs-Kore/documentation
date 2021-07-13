@@ -642,8 +642,10 @@ convertToDay(repeatOn){
             }
           } else if (element.executionStats.executionStatusMessage == 'Execution Stopped') {
             element.executionStats['tooltip'] = "Execution Stopped due to " + element.statusMessage || ' time out';
-          } else {
-            element.executionStats['tooltip'] = element.statusMessage
+          } else if(element.executionStats.executionStatusMessage == 'Execution In Progress'){
+            element.executionStats['tooltip'] = "In Progress";
+          }else {
+            element.executionStats['tooltip'] = element.statusMessage;
           }
         });
       }
