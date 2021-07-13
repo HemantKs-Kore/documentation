@@ -171,7 +171,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   filterTableheaderOption = "";
   filterTableSource = "all";
   execution = false;
-  page = true;
+  page = false;
   executionHistoryData: any = [];
   sourceStatus = 'success';
   useCookies = false;
@@ -316,7 +316,7 @@ convertToDay(repeatOn){
           if (element.advanceSettings.scheduleOpts.interval.intervalType != "Custom") {
             let hour = (element.advanceSettings.scheduleOpts.time.hour).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.hour : '0' + element.advanceSettings.scheduleOpts.time.hour;
             let minute = (element.advanceSettings.scheduleOpts.time.minute).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.minute : '0' + element.advanceSettings.scheduleOpts.time.minute;
-            element['schedule_title'] = 'Runs once at ' +
+            element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType +' '+ 'at ' +
               hour + ':' + minute + ' ' +
               element.advanceSettings.scheduleOpts.time.timeOpt + ' ' + element.advanceSettings.scheduleOpts.time.timezone;
           } else {
@@ -332,7 +332,7 @@ convertToDay(repeatOn){
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1) {
               every = element.advanceSettings.scheduleOpts.interval.intervalValue.every;
             }
-            element['schedule_title'] = 'Runs once every'+ ' ' + every  +  schedulePeriod + repeatOn
+            element['schedule_title'] = 'Runs once every'+ ' ' + every  + ' '+  schedulePeriod + repeatOn
 
           }
 
@@ -526,7 +526,12 @@ convertToDay(repeatOn){
       } else {
         this.crwalOptionLabel = 'Crawl Everything'
       }
-      this.swapSlider('page');
+      if(data.length){
+        this.swapSlider('page');
+      }
+      else{
+        this.swapSlider('config')
+      }
       this.clicksViews()
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
       //   $('.tabname')[1].classList.remove('active');

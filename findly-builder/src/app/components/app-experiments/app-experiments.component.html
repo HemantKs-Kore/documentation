@@ -318,7 +318,7 @@
               [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")?"#EFF0F1":"#ffffff","color":(vari.indexPipelineName==undefined)||(exp_status !== "configured" && form_type === "edit")?"#9aa0a6":"#202124","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}'>
               {{
               vari.indexPipelineName === undefined
-              ? varIndex===0? "Default Index":"Select Index"
+              ? varIndex===0? "Default Index Configuration":"Select Configuration"
               : vari.indexPipelineName
               }}
             </button>
@@ -336,7 +336,7 @@
               [disabled]="(exp_status !== 'configured' && form_type === 'edit')||vari.indexPipelineName==undefined" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")||vari.indexPipelineName==undefined?"#EFF0F1":"#ffffff","color":(vari.indexPipelineName==undefined)||(exp_status !== "configured" && form_type === "edit")?"#9aa0a6":"#202124","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}'>
               {{
               vari.queryPipelineName === undefined
-              ? varIndex===0? "Default Search":"Select Search Configuration"
+              ? varIndex===0? "Default Search Configuration":"Select Configuration"
               : vari.queryPipelineName
               }}
             </button>
