@@ -228,7 +228,7 @@
             <span class="please-wait-message">{{'synonyms.please_wait' | translate}}</span>
         </div>
     </perfect-scrollbar>
-    <div class="footer-info" *ngIf="!isResultTemplate && !isLoading">
+    <div class="footer-info" *ngIf="!isResultTemplate && !isLoading && !isResultTemplateLoading">
         <img class="info-icon" src="assets/icons/structured-data/Info.svg">
         <div class="info-text">{{'structuredData.noResultTemplate' | translate}} <span class="interface-link" (click)="navigateToSearchInterface()"><b>{{'structuredData.searchInterfacePath' | translate}}</b></span> {{'structuredData.toDefine' | translate}}<a href="https://docs.kore.ai/searchassist/search-experience/result-templates/" target="_blank" >{{'structuredData.learnMore' | translate}}</a></div>
         <img src="assets/icons/close.svg" class="close-info" (click)="isResultTemplate = !isResultTemplate">
