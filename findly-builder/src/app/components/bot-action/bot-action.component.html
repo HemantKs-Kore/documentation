@@ -251,7 +251,7 @@
     <div class="title">{{'botAction.link_bot'| translate}}</div>
     <div class="close_icon" (click)="closeBotsModalElement()"><img src="assets/icons/modal-close.svg"></div>
   </div>
-  <perfect-scrollbar class="perfect-scroll-modal-body">
+  <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
     <div class="modal-body">
       <div *ngIf="associatedBots && associatedBots.length">  
       <div class="info-link-text">{{'botAction.choose_any_bot_from_the_list'| translate}}</div>
@@ -303,7 +303,7 @@
     <div class="title"> <span class="gray-text-link"> {{'botAction.link_bot'| translate}} </span><img src="assets/icons/carrotright.svg"> {{'botAction.configuration'| translate}} | {{this.selectedLinkBotConfig?.name}}</div>
     <div class="close_icon" (click)="closeBotsConfigurationModalElement()"><img src="assets/icons/modal-close.svg"></div>
   </div>
-  <perfect-scrollbar class="perfect-scroll-modal-body">
+  <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll2>
     <div class="modal-body">
       <div class="info-link-text lh-20">{{'botAction.you_can_link_a_virtual_assistant'| translate}}<a (click)="showMore=!showMore" class="show-how-btn"> {{showMore?('botAction.show_less' | translate):('botAction.show_how' | translate)}}</a> </div>
       <div class="more-info-link-text" *ngIf="showMore">

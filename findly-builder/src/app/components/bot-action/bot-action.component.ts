@@ -10,6 +10,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service'
 import { environment } from '@kore.environment';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 declare const $: any;
 @Component({
   selector: 'app-bot-action',
@@ -63,6 +64,8 @@ export class BotActionComponent implements OnInit {
   submitted = false;
   @ViewChild('botsModalElement') botsModalElement: KRModalComponent;
   @ViewChild('botsConfigurationModalElement') botsConfigurationModalElement: KRModalComponent;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  @ViewChild('perfectScroll2') perfectScroll2: PerfectScrollbarComponent;
   searchBots: string;
   searchSources: string;
   associatedBots: any = [];
@@ -419,7 +422,10 @@ export class BotActionComponent implements OnInit {
 
   openBotsModalElement() {
     this.botsModalRef = this.botsModalElement.open();
-
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
 
   closeBotsModalElement() {
@@ -445,6 +451,10 @@ export class BotActionComponent implements OnInit {
           clientId: ''
         }
         this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
+        setTimeout(()=>{
+          this.perfectScroll2.directiveRef.update();
+          this.perfectScroll2.directiveRef.scrollToTop(); 
+        },500)
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1481,6 +1491,10 @@ export class BotActionComponent implements OnInit {
     }
 
     this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
+    setTimeout(()=>{
+      this.perfectScroll2.directiveRef.update();
+      this.perfectScroll2.directiveRef.scrollToTop(); 
+    },500)
   }
   focusoutSearch() {
     if (this.activeClose) {

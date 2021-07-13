@@ -9,6 +9,7 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 
 declare const $: any;
 @Component({
@@ -20,6 +21,8 @@ declare const $: any;
 export class TraitsComponent implements OnInit {
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('addUtteranceModalPop') addUtteranceModalPop: KRModalComponent;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  @ViewChild('perfectScroll2') perfectScroll2: PerfectScrollbarComponent;
   currentUtteranceIndex: number;
   currentTraitKey: string;
   newUtterance: any;
@@ -734,6 +737,10 @@ export class TraitsComponent implements OnInit {
   openStatusModal() {
     this.currentTraitEditIndex = null;
     this.statusModalPopRef = this.statusModalPop.open();
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },400)
   }
   closeStatusModal() {
     this.submitted = false;
@@ -753,6 +760,10 @@ export class TraitsComponent implements OnInit {
     this.currentUtteranceIndex = index;
     this.currentTraitKey = key;
     this.addUtteranceModalPopRef = this.addUtteranceModalPop.open();
+    setTimeout(()=>{
+      this.perfectScroll2.directiveRef.update();
+      this.perfectScroll2.directiveRef.scrollToTop(); 
+    },400)
   }
   closeUtteranceModal() {
     this.currentUtteranceIndex = null;
