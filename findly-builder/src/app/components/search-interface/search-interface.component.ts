@@ -708,7 +708,7 @@ export class SearchInterfaceComponent implements OnInit {
       }
       
     }else{
-      let payload = {
+       payload = {
         "_id": this.selectedSettingResultsObj._id,
         "resultClassification": {
           "isEnabled": this.selectedSettingResultsObj.resultClassification.isEnabled,
