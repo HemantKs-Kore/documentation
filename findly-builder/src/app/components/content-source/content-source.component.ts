@@ -1251,6 +1251,10 @@ convertToDay(repeatOn){
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
     this.editTitleFlag = false;
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
   closeStatusModal() {
     this.swapSlider('page') // Just to redirect to 1st page
