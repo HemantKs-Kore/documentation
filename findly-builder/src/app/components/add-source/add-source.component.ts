@@ -25,6 +25,7 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -40,6 +41,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   allBotArray: any = [];
   showMore = false;
   @ViewChild('botsConfigurationModalElement') botsConfigurationModalElement: KRModalComponent;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  @ViewChild('perfectScroll3') perfectScroll3: PerfectScrollbarComponent;
+  @ViewChild('perfectScroll4') perfectScroll4: PerfectScrollbarComponent;
+  @ViewChild('perfectScroll9') perfectScroll9: PerfectScrollbarComponent;
   blockUrl: BlockUrl = new BlockUrl();
   sampleJsonPath: any = '/home/assets/sample-data/sample.json';
   sampleCsvPath: any = '/home/assets/sample-data/sample.csv';
@@ -291,6 +296,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   openAddManualFAQModal() {
     this.addManualFaqModalPopRef = this.addManualFaqModalPop.open();
+    setTimeout(()=>{
+      this.perfectScroll3.directiveRef.update();
+      this.perfectScroll3.directiveRef.scrollToTop(); 
+    },500)
   }
   closeAddManualFAQModal() {
     if (this.addManualFaqModalPopRef && this.addManualFaqModalPopRef.close) {
@@ -307,6 +316,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   openAddSourceModal() {
     this.addSourceModalPopRef = this.addSourceModalPop.open();
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
   closeAddSourceModal() {
     if (this.addSourceModalPopRef && this.addSourceModalPopRef.close) {
@@ -317,6 +330,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   openLinkBotsModal() {
     this.linkBotsModalPopRef = this.linkBotsModalPop.open();
+    setTimeout(()=>{
+      this.perfectScroll4.directiveRef.update();
+      this.perfectScroll4.directiveRef.scrollToTop(); 
+    },500)
   }
   closeLinkBotsModal() {
     if (this.linkBotsModalPopRef && this.linkBotsModalPopRef.close) {
@@ -1493,6 +1510,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           clientId: ''
         }
         this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
+        setTimeout(()=>{
+          this.perfectScroll9.directiveRef.update();
+          this.perfectScroll9.directiveRef.scrollToTop(); 
+        },500)
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

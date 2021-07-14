@@ -13,6 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
 import { AppSelectionService } from './../../services/app.selection.service';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-structured-data',
@@ -97,6 +98,7 @@ export class StructuredDataComponent implements OnInit {
   tempAdvancedSearch: any = {};
   disableContainer: any = false;
   isResultTemplate: boolean = false;
+  isResultTemplateLoading : boolean = false;
   serachIndexId: any;
   searchFocusIn = false;
   search: any;
@@ -109,6 +111,7 @@ export class StructuredDataComponent implements OnInit {
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
   @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -796,6 +799,10 @@ export class StructuredDataComponent implements OnInit {
 
   openStructuredDataStatusModal() {
     this.structuredDataStatusModalRef = this.structuredDataStatusModalPop.open();
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
 
   closeStructuredDataStatusModal() {
@@ -810,8 +817,9 @@ export class StructuredDataComponent implements OnInit {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId
     };
+    this.isResultTemplateLoading = true;
     this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
-      console.log("res", res);
+      this.isResultTemplateLoading = false;
       if (res.settings) {
         res.settings.forEach((_interface) => {
             _interface.appearance.forEach(element => {

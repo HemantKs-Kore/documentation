@@ -71,7 +71,7 @@
         <div class="title">{{currentEditIndex>-1?'Edit':'Add'}} Searchable Field</div>
         <div class="close_icon"><img id="btn_closeWeightModal" (click)="closeAddEditWeight()" src="assets/icons/modal-close.svg"></div>
     </div>
-    <!-- <perfect-scrollbar class="perfect-scroll-modal-body"> -->
+    <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll> 
         <div class="modal-body textAlignLeft" *ngIf="addEditWeighObj">
             <div class="search_block" *ngIf="!addEditWeighObj._id">
                 <div class="row m-0 align-items-center">
@@ -120,7 +120,7 @@
                 </div>
             </div>
         </div>
-    <!-- </perfect-scrollbar> -->
+    </perfect-scrollbar>
     <div class="modal-footer text-left" *ngIf="addEditWeighObj">
         <button id="btn_weightsSave" type="button" class="kr-sg-button-danger btn_lg float-left" *ngIf="currentEditIndex>-1" (click)="deleteWeight(addEditWeighObj,$event,currentEditIndex)">{{'weights.delete' | translate}}</button>
         <button id="btn_weightseditSave" type="button" class="kr-sg-button-primary btn_lg mr-0 float-right" (click)="addEditWeight()">{{(currentEditIndex>-1)?'Update':'Add'}}</button> <!-- [disabled]="!addEditWeighObj.name" -->

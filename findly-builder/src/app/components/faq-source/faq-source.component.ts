@@ -147,6 +147,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('editfaqSourceModalPop') editFAQModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
   constructor(
     public cdRef: ChangeDetectorRef,
@@ -256,6 +257,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editfaq = null;
     }
     this.addSourceModalPopRef = this.addSourceModalPop.open();
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
   openAddManualFaqModal() {
 
@@ -1080,6 +1085,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   openEditFAQModal(edit?) {
     this.selectedFaqToEdit = JSON.parse(JSON.stringify(this.selectedFaq));
     this.editFAQModalPopRef = this.editFAQModalPop.open();
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
   closeEditFAQModal() {
     if (this.editFAQModalPopRef && this.editFAQModalPopRef.close) {

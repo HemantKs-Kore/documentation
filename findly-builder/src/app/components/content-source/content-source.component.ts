@@ -86,7 +86,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     running: { name: 'In Progress', color: '#0D6EFD' },
     inprogress: { name: 'In Progress', color: '#0D6EFD' },
     validation: { name: 'In-Queue', color: '#0D6EFD' },
-    scheduled: { name: 'Configured', color: '#0D6EFD' },
+    scheduled: { name: 'Validated', color: '#0D6EFD' },
     halted: { name: 'Stopped', color: '#DD3646' },
     configured: { name: 'Validated', color: '#202124' }
   };
@@ -641,8 +641,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             }
           } else if (element.executionStats.executionStatusMessage == 'Execution Stopped') {
             element.executionStats['tooltip'] = "Execution Stopped due to " + element.statusMessage || ' time out';
-          } else {
-            element.executionStats['tooltip'] = element.statusMessage
+          } else if(element.executionStats.executionStatusMessage == 'Execution In Progress'){
+            element.executionStats['tooltip'] = "In Progress";
+          }else {
+            element.executionStats['tooltip'] = element.statusMessage;
           }
         });
       }
@@ -1248,6 +1250,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
     this.editTitleFlag = false;
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
   closeStatusModal() {
     this.swapSlider('page') // Just to redirect to 1st page
