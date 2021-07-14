@@ -963,6 +963,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/getresultviewsettings',
       method: 'get'
     }
+    this.serviceList['put.SI_copyResultSettings'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/resultviewsettings/copyConfig',
+      method: 'put'
+    }
     /** APIs for Search Interface */
 
     /** APIs for multiple Index */
