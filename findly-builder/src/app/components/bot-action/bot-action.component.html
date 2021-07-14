@@ -87,7 +87,7 @@
           </a>
         </div>
       </div>
-      <div class="header-sec-tab-checked">
+      <div class="header-sec-tab-checked" *ngIf="( linkedBotTasks && linkedBotTasks.length )">
         <div class="tab-sec-task row col-12" [ngClass]="{ 'd-none' : selcectionObj.selectedCount}">
           <div class="tab-name col-4">
             <div class="name-task">{{'botAction.tasks' | translate}}({{linkedBotTasks?.length}})</div>
