@@ -14,7 +14,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { debounceTime, map, startWith } from 'rxjs/operators';
 declare const $: any;
 @Component({
   selector: 'app-team-management',
@@ -51,6 +51,11 @@ export class TeamManagementComponent implements OnInit {
   allMembersCount: number;
   addOnBlur = true;
   componentType: string = 'addData';
+  autoSuggestEmails: any = [];
+  autocomplete: any;
+  autocomplete_text: string = '';
+  resultFormatter: any;
+  inputFormatter: any;
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
   @ViewChild('teamModalPouup') teamModalPouup: KRModalComponent;
@@ -69,6 +74,11 @@ export class TeamManagementComponent implements OnInit {
     this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.getUserInfo();
     this.getRoleMembers();
+    this.autocomplete = (text$: Observable<string>) => text$.pipe(debounceTime(200), map(term => term === '' ? []
+      : this.autoSuggestEmails.filter(v => (v.personalInfo.firstName || v.orgDomain).toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    );
+    this.resultFormatter = (result) => result.personalInfo.firstName + ' (' + result.orgDomain + ')';
+    this.inputFormatter = (result) => result.orgDomain;
   }
   checkUncheckTeam(team) {
     const selectedElements = $('.selectEachfacetInput:checkbox:checked');
@@ -227,7 +237,6 @@ export class TeamManagementComponent implements OnInit {
       id: this.authService.getUserId()
     };
     this.service.invoke('get.userinfo', quaryparms).subscribe(res => {
-      console.log("res team", res)
       this.orgId = res[0].orgId;
       this.accountId = res[0].accountId;
     }, errRes => {
@@ -245,6 +254,7 @@ export class TeamManagementComponent implements OnInit {
       this.membersList = res.users;
       this.allMembersCount = this.membersList.length - 1;
       this.getRoles();
+      this.getAutoSuggestedEmails();
     }, errRes => {
     });
   }
@@ -260,7 +270,6 @@ export class TeamManagementComponent implements OnInit {
       orgId: this.orgId
     };
     this.service.invoke('get.roles', quaryparms, Headers).subscribe(res => {
-      console.log("res roles", res)
       this.rolesList = res;
       this.member_roleId = this.rolesList.filter(data => data.role === "Member");
       this.member_ownerId = this.rolesList.filter(data => data.role === "Owner");
@@ -368,5 +377,17 @@ export class TeamManagementComponent implements OnInit {
   private validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
+  }
+  //get autosuggested emails
+  getAutoSuggestedEmails() {
+    const quaryparms: any = {
+      id: this.authService.getUserId(),
+      streamId: this.selectedApp._id,
+      orgId: this.orgId
+    };
+    this.service.invoke('get.autoSuggestEmails', quaryparms).subscribe(res => {
+      this.autoSuggestEmails = res.filter(auto => !this.membersList.some(member => auto.orgDomain === member.emailId));
+    }, errRes => {
+    });
   }
 }
