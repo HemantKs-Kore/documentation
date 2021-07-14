@@ -245,7 +245,7 @@
         <div class="close_icon"><img id="btn_close_advanced_search" (click)="cancleAdvansedSearch()" src="assets/icons/modal-close.svg"></div>
     </div>
 
-   <perfect-scrollbar>
+   <perfect-scrollbar #perfectScroll>
         <div class="modal-body advance-search-modal">
             <ng-container *ngFor="let rule of advancedSearch.rules; let index = index">
                 <div class="d-flex align-items-center">
