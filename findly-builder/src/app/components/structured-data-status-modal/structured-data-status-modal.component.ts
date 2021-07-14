@@ -30,13 +30,13 @@ export class StructuredDataStatusModalComponent implements OnInit {
   public pollingSubscriber : any;
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes){
     setTimeout(()=>{
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop(); 
     },500)
-  }
-
-  ngOnChanges(changes){
     if(changes && changes.structuredDataDocPayload && changes.structuredDataDocPayload.currentValue){
       this.poling(changes.structuredDataDocPayload.currentValue);
     }
