@@ -86,8 +86,7 @@
     <perfect-scrollbar class="perfect-scroll-modal-body">
     <div class="modal-body textAlignLeft">
         <div class="row m-0 mb-20">
-            <div class="kr-sg-input-text col-12 p-0">
-                
+            <div class="kr-sg-input-text col-12 p-0">                
                 <div class="label-text">{{'teams.app_members'| translate}}</div>
                 <mat-form-field class="example-chip-list">
                     <mat-chip-list #chipList aria-label="Fruit selection">
@@ -101,11 +100,8 @@
                         {{member.value}}
                         <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                       </mat-chip>
-                      <input maxlength="60"
+                      <input
                         type="email"
-                        name="email"
-                        id="teamInput"
-                        [matAutocomplete]="auto"
                         placeholder="Type Email and Enter"
                         #fruitInput
                         [formControl]="teamCtrl"                        
@@ -113,11 +109,12 @@
                         [matChipInputAddOnBlur]="addOnBlur"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                         (matChipInputTokenEnd)="add($event)"
-                        (keyup)="autoSuggestionChanged($event)"
+                        [ngbTypeahead]="autocomplete"
+                        [resultFormatter]="resultFormatter"
+                        [inputFormatter]="inputFormatter"
                         [(ngModel)]="autocomplete_text"
-                        autocomplete="off">
+                        maxlength="60" autocomplete="off">
                     </mat-chip-list>
-  
                 </mat-form-field>
             </div>
         </div>
