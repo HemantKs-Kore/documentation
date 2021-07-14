@@ -795,7 +795,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedFaq = null
     this.searchFaq = '';
     this.selectedtab = tab;
-    this.getStats();
+    // this.getStats();
     this.getFaqsOnSelection();
   }
   getFaqsOnSelection() {
@@ -1168,9 +1168,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           this.faqs[index] = res;
         }
       }
-      this.getStats();
+      // this.getStats();
       if (this.editfaq) {
         this.selectTab('draft');
+        
       } else {
         if (action === 'stateUpdate') {
           this.selectTab(params || 'draft');
@@ -1182,7 +1183,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editfaq = false;
       this.closeEditFAQModal();
       this.closeAddsourceModal();
-
     }, errRes => {
       this.errorToaster(errRes, 'Somthing went worng');
     });
@@ -1248,7 +1248,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getfaqsBy();
         this.selectedFaq = null;
       }
-      this.getStats();
+      // this.getStats();
       this.editfaq = null
       if (state != 'in_review' && state != 'approved') {
         this.notificationService.notify(custSucessMsg, 'success');
