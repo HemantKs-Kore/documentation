@@ -51,6 +51,8 @@ export class TeamManagementComponent implements OnInit {
   allMembersCount: number;
   addOnBlur = true;
   componentType: string = 'addData';
+  filteredEmails: any;
+  autoSuggestEmails: any = [];
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
   @ViewChild('teamModalPouup') teamModalPouup: KRModalComponent;
@@ -227,9 +229,9 @@ export class TeamManagementComponent implements OnInit {
       id: this.authService.getUserId()
     };
     this.service.invoke('get.userinfo', quaryparms).subscribe(res => {
-      console.log("res team", res)
       this.orgId = res[0].orgId;
       this.accountId = res[0].accountId;
+      this.getAutoSuggestedEmails();
     }, errRes => {
     });
   }
@@ -368,5 +370,17 @@ export class TeamManagementComponent implements OnInit {
   private validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
+  }
+  //get autosuggested emails
+  getAutoSuggestedEmails() {
+    const quaryparms: any = {
+      id: this.authService.getUserId(),
+      streamId: this.selectedApp._id,
+      orgId: this.orgId
+    };
+    this.service.invoke('get.autoSuggestEmails', quaryparms).subscribe(res => {
+      this.autoSuggestEmails = res
+    }, errRes => {
+    });
   }
 }

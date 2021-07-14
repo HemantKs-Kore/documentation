@@ -384,11 +384,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.pollingSubscriber.unsubscribe();
             //this.crawlOkDisable = true;
-            if (queuedJobs[0].status == 'halted') {
-              if (queuedJobs[0].statusMessage == 'Failed to ingest due to limit exceeded. If you want to continue ingesting documents consider upgrading your plan or buying overage.') {
-                this.upgrade();
-                this.notificationService.notify(queuedJobs[0].statusMessage, 'success');
-              }
+            if (queuedJobs[0].validation?.limitValidation == false) {
+              this.upgrade();
+              this.notificationService.notify(queuedJobs[0].statusMessage, 'error');
             }
           }
           // if((queuedJobs[0].status == 'queued')){
@@ -985,6 +983,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       event.cb('error');
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        if (errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
+          this.upgrade();
+        }
       } else {
         this.notificationService.notify('Failed to add sources ', 'error');
       }
@@ -1086,7 +1087,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       });
       dialogRef.afterClosed().subscribe(res => {
         console.log(res);
-        if(res === 'cancelFaqExtract'){
+        if (res === 'cancelFaqExtract') {
           const event: any = {}
           this.closeSourcePopupEvent.emit(event);
           this.cancleEvent.emit(event);

@@ -105,6 +105,7 @@
                         type="email"
                         name="email"
                         id="teamInput"
+                        [matAutocomplete]="auto"
                         placeholder="Type Email and Enter"
                         #fruitInput
                         [formControl]="teamCtrl"                        
@@ -112,13 +113,11 @@
                         [matChipInputAddOnBlur]="addOnBlur"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                         (matChipInputTokenEnd)="add($event)"
+                        (keyup)="autoSuggestionChanged($event)"
+                        [(ngModel)]="autocomplete_text"
                         autocomplete="off">
                     </mat-chip-list>
-                    <!--[matAutocomplete]="auto" <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                      <mat-option *ngFor="let membersug of filteredFruits | async" [value]="membersug">
-                        {{membersug}}
-                      </mat-option>
-                    </mat-autocomplete> -->
+  
                 </mat-form-field>
             </div>
         </div>
