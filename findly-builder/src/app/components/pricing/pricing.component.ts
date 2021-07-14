@@ -303,6 +303,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       status: "success"
     };
     this.service.invoke('put.cancelSubscribtion', queryParam, payload).subscribe(res => {
+      this.proInfo = false;
       this.appSelectionService.getCurrentSubscriptionData();
       //this.currentsubscriptionPlan(this.selectedApp)
       this.notificationService.notify('Cancellation request submitted', 'success');

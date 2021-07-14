@@ -254,7 +254,8 @@ export class UsageLogComponent implements OnInit {
       streamId: this.selectedApp._id,
     };
     const payload = {
-      "fileType": "csv"
+      "fileType": "csv",
+      "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone
     }
     this.service.invoke('post.exportUsageLog', quaryparms, payload).subscribe(res => {
       this.notificationService.notify('Export to CSV is in progress. You can check the status in the Status Docker', 'success');

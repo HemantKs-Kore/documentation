@@ -41,7 +41,7 @@
     <div class="top-cards-section row m-0 col-12">
       <div class="col-3 cards-data">
         <div class="content">
-            <div class="title-info">{{'overview.totalUsers' | translate}}<span style="color:#BDC1C6">({{'overview.last_24hrs' | translate}})</span></div>
+            <div class="title-info">{{'overview.totalUsers' | translate}}<span style="color:#BDC1C6"> ({{'overview.last_24hrs' | translate}})</span></div>
             <div class="bottom-sec">
               <div class="left-sec" style="margin-top:16px" *ngIf="totalUsersStats.totalUsers==0">
               <img src="assets/icons/1200.svg" />
@@ -66,7 +66,7 @@
       </div>
       <div class="col-3 cards-data">
         <div class="content">
-            <div class="title-info">{{totalUsersStats.totalSearches}}<span style="color:#BDC1C6">({{'overview.last_24hrs' | translate}})</span></div>
+            <div class="title-info">{{'overview.totalSearches'| translate}} <span style="color:#BDC1C6">({{'overview.last_24hrs' | translate}})</span></div>
             <div class="bottom-sec">
               <div class="left-sec" style="margin-top:16px" *ngIf="totalSearchesStats.totalSearches==0">
                 <img src="assets/icons/1200.svg" />

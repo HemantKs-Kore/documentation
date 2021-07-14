@@ -197,7 +197,7 @@
       <div class="close_icon"><img (click)="cancleSourceAddition()"
           src="assets/icons/modal-close.svg"></div>
     </div>
-    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll3>
       <div class="modal-body">
         <app-add-faq [faqUpdate]="faqUpdate.asObservable()" (addFaq)="addManualFaq($event)"
           (cancelfaqEvent)="faqCancle()"></app-add-faq>
@@ -217,7 +217,7 @@
         <div class="close_icon"><img (click)="cancleSourceAddition()"
             src="assets/icons/modal-close.svg"></div>
       </div>
-      <perfect-scrollbar class="addSourceModalBody addNewSource">
+      <perfect-scrollbar class="addSourceModalBody addNewSource" #perfectScroll>
         <div class="modal-body">
           <div *ngIf="selectedSourceType" class="crerateWebCrawl" [ngClass]="{'pr-0': resourceIDToOpen}">
             <div class="crawl-form-title" *ngIf="!resourceIDToOpen"></div>
@@ -572,7 +572,7 @@
                   <!-- Block-->
                 </div>
                 <!-- Cookies -->
-                <div class="row m-0">
+                <div class="row col-12 p-0 m-0">
                 <div class="group-checkbox">
                   <!-- <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "blockHttpsMsgs" [(ngModel)] = "blockHttpsMsgs" [ngModelOptions]="{standalone: true}">
@@ -599,7 +599,7 @@
               <!-- Cookies -->
               </div>
 
-              <div class="inner-content row m-0">
+              <div class="inner-content row col-12 p-0 m-0">
                 <div class="col-3 p-0">
                   <div class="kr-sg-input-text mb-4">
                     <div class="label-text">Crawl Depth
@@ -801,7 +801,7 @@
       <div class="title">Link Bots</div>
       <div class="close_icon"><img (click)="cancleSourceAddition()" src="assets/icons/modal-close.svg"></div>
     </div>
-    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll4>
       <div class="modal-body">
         <div class="bots-modal-empty-bots-container" *ngIf="noAssociatedBots">
           <img src="assets/images/icons/empty_ill.svg">
@@ -883,7 +883,7 @@
     <div class="title"> <span class="gray-text-link"> Link Bot </span><img src="assets/icons/carrotright.svg"> Configuration | {{this.selectedLinkBotConfig?.name}}</div>
     <div class="close_icon" (click)="closeBotsConfigurationModalElement()"><img src="assets/icons/modal-close.svg"></div>
   </div>
-  <perfect-scrollbar class="perfect-scroll-modal-body">
+  <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll9>
     <div class="modal-body">
       <div class="info-link-text lh-20">You can link a Virtual Assistant built on the Kore.ai Platform with your SearchAssist app. To link, you will need to enable the Webhook channel on the Virtual Assistant and complete the integration.<a (click)="showMore=!showMore" class="show-how-btn"> {{showMore?'Show less':'Show how'}}</a> </div>
       <div class="more-info-link-text" *ngIf="showMore">

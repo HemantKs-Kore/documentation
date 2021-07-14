@@ -844,7 +844,7 @@
         "previewasperaboveselection": "Preview as per above selection",
         "collapsedstate": "Collapsed state",
         "expandedstate": "Expanded state",
-        "cardBody": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "cardBody": "This is a preview for displaying text in the expanded state and your description of the search result will be displayed here in the same format.",
         "save": "Save",
         "cancel": "Cancel",
         "previewTemplate": "Preview Template"

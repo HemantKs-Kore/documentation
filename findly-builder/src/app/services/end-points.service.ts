@@ -913,6 +913,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/users/:userId/streams/:streamId/shareApp',
       method: 'put'
     }
+    this.serviceList['get.autoSuggestEmails'] = {
+      endpoint: this.API_SERVER_URL_PLATFORM + '/findly/users/:userId/streams/:streamId/shareapp/getmanagedusers/organizations/:orgId',
+      method: 'get'
+    }
     this.serviceList['get.streamData'] = {
       endpoint: this.API_SERVER_URL + '/findly/apps/:streamId',
       method: 'get'
@@ -962,6 +966,10 @@ export class EndPointsService {
     this.serviceList['get.SI_allResultSettings'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/getresultviewsettings',
       method: 'get'
+    }
+    this.serviceList['put.SI_copyResultSettings'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/resultviewsettings/copyConfig',
+      method: 'put'
     }
     /** APIs for Search Interface */
 

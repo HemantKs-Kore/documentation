@@ -11,6 +11,8 @@ import { of, interval, Subject, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+
 declare const $: any;
 @Component({
   selector: 'app-field-management',
@@ -58,6 +60,7 @@ export class FieldManagementComponent implements OnInit {
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -93,6 +96,10 @@ export class FieldManagementComponent implements OnInit {
   }
   openModalPopup() {
     this.addFieldModalPopRef = this.addFieldModalPop.open();
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
   selectFieldType(type) {
     // if(type === 'number'){

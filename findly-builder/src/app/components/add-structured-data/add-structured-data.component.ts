@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 declare const $: any;
 
 @Component({
@@ -49,6 +50,7 @@ export class AddStructuredDataComponent implements OnInit {
   @Output() closeStructuredDataModal = new EventEmitter();
   @Input('selectedSourceType') selectedSourceType: any;
   @ViewChild('codemirror') codemirror: any;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
   constructor(private http: HttpClient,
     private notificationService: NotificationService,
@@ -73,6 +75,10 @@ export class AddStructuredDataComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
+    setTimeout(() => {
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    }, 500);
     if (changes && changes.selectedSourceType) {
       if (changes.selectedSourceType.currentValue && changes.selectedSourceType.currentValue.resourceType === 'structuredDataManual') {
         this.setRequirementsForManualInput(changes);
