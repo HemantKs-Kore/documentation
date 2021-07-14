@@ -7069,6 +7069,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           this.bot.options.botInfo.customData = { 'userContext': contextObj }
           payload.messagePayload["botInfo"].customData = this.bot.options.botInfo.customData;
+        } else {
+          payload.messagePayload["botInfo"].customData = _self.bot.options.botInfo.customData || {};
         }
       }
       console.log("Finalized Payload", payload);
