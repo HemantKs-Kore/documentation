@@ -468,7 +468,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if (this.oldQuedJob.length != queuedJobs.length) {
           this.getSourceList();
         }
-      } else {
+      } else { 
         clearInterval(this.polingObj[type]);
         this.getSourceList('clearPoling');
       }
