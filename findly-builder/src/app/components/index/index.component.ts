@@ -24,6 +24,11 @@ declare const $: any;
 })
 export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedApp: any = {};
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
+  activeClose = false;
+  showSearch = false;
+  searchSimulator: any = '';
   savingConfig;
   reIndexing;
   simulating;
@@ -139,7 +144,6 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   entitySuggestionTags: any = ['Entity 1', 'Entity 2', 'Entity 3', 'Entity 4', 'Entity 5'];
   traitsSuggesitions: any = [];
-  showSearch;
   searchFields: any = '';
   pipelineCopy;
   fieldAutoSuggestion: any = [];
@@ -156,6 +160,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     readOnly: true,
   };
   simulateJson;
+  filteredSimulatorRes:any;
   componentType: string = 'addData';
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
@@ -723,7 +728,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   addcode(data?) {
     data = data || {};
-    this.simulateJson = JSON.stringify(data, null, ' ');
+    this.simulateJson = data;
+    // this.simulateJson = JSON.stringify(data, null, ' ');
+    this.filteredSimulatorRes = JSON.stringify(data, null, ' ');
   }
   simulate() {
     let indexArrayLength: any = this.validateConditionForRD();
@@ -759,6 +766,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         searchIndexID: this.serachIndexId,
         indexPipelineId: this.indexPipelineId
       };
+      this.searchSimulator='';
       this.service.invoke('post.simulate', quaryparms, payload).subscribe(res => {
         this.simulteObj.simulating = false;
         this.addcode(res);
@@ -1240,7 +1248,68 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   }
-
+  focusoutSearch(){
+    if(this.activeClose){
+      this.searchSimulator='';
+      this.activeClose = false;
+     this.searchBySimulator();
+     }
+  this.showSearch= !this.showSearch;
+  }
+  focusinSearch(inputSearch){
+    setTimeout(()=>{
+      document.getElementById(inputSearch).focus();
+    },100)
+  }
+  searchBySimulator() {
+    const filtered = this.getKeyByValue(this.simulateJson, this.searchSimulator);
+    this.filteredSimulatorRes = JSON.stringify(filtered, null, ' ');
+  }
+  getKeyByValue(object, searchSimulator) {
+    searchSimulator = searchSimulator.toLowerCase();
+    let filteredObject:any = {};
+    Object.keys(object).forEach(key => {
+      if(key.toLowerCase().search(searchSimulator) > -1){
+        filteredObject[key] = object[key];
+      }
+      else if(object[key].length && this.checkIsArray(object[key])){
+        object[key].forEach((element,index) => {
+          Object.keys(element).forEach(key1 => {
+            if(key1.toLowerCase().search(searchSimulator) > -1){
+              if(!((filteredObject||{})[key] ||[]).length){
+                filteredObject[key] = [];
+              }
+              filteredObject[key].push({ [key1] :element[key1]});
+            }else if(this.checkIsArray(element[key1])){
+              //
+              element[key1].forEach((ele,index2) => {
+                Object.keys(ele).forEach(key2 => {
+                  if(key2.toLowerCase().search(searchSimulator) > -1){
+                    if(!((filteredObject||{})[key]||[]).length){
+                      filteredObject[key] = [];
+                    }
+                    if(!((filteredObject[key][index] ||{})[key1]||[]).length){
+                      filteredObject[key][index]={[key1] : []};
+                    }
+                    filteredObject[key][index][key1].push({ [key2] :ele[key2]})
+                  }
+                });
+              });
+              //
+            }
+          });
+        });
+      }
+    });
+    return filteredObject;
+  }
+  checkIsArray(value) {
+    if (Array.isArray(value)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   ngOnDestroy() {
     const self = this;
     if (this.pollingSubscriber) {
