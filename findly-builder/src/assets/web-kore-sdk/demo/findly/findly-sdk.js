@@ -817,7 +817,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (dummyString.indexOf(match) !== -1) {
           var _link = p1.indexOf('http') < 0 ? 'http://' + match : match, _target;
           //_link = encodeURIComponent(_link);
-          target = "target='underscoreblank'";
+          _target = "target='_blank'";
           if (hyperLinksMap) {
             var _randomKey = "korerandom://" + Object.keys(hyperLinksMap).length;
             hyperLinksMap[_randomKey] = _link;
@@ -869,7 +869,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               hyperLinksMap[_randomKey] = _aEle[0].href;
               _aEle[0].href = _randomKey;
             }
-            $(_newLA).find('a').attr('target', 'underscoreblank');
+            $(_newLA).find('a').attr('target', '_blank');
             str = str.replace(linkArray[x], _newLA.innerHTML);
           }
         } else {
@@ -21534,7 +21534,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if (dummyString.indexOf(match) !== -1) {
                   var _link = p1.indexOf('http') < 0 ? 'http://' + match : match, _target;
                   //_link = encodeURIComponent(_link);
-                  target = "target='underscoreblank'";
+                  _target = "target='_blank'";
                   if (hyperLinksMap) {
                       var _randomKey = "korerandom://" + Object.keys(hyperLinksMap).length;
                       hyperLinksMap[_randomKey] = _link;
@@ -21586,7 +21586,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           hyperLinksMap[_randomKey] = _aEle[0].href;
                           _aEle[0].href = _randomKey;
                       }
-                      $(_newLA).find('a').attr('target', 'underscoreblank');
+                      $(_newLA).find('a').attr('target', '_blank');
                       str = str.replace(linkArray[x], _newLA.innerHTML);
                   }
               } else {
