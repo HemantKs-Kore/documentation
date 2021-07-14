@@ -76,6 +76,9 @@ export class CredentialsListComponent implements OnInit {
     this.loadingContent1 = true;
     this.loadImageText = true;
   }
+  // viewDetails(){
+  //   this.editCredentialRef = this.editCredentialPop.open();
+  // }
   manageCredential() {
     const queryParams = {
       userId: this.authService.getUserId(),

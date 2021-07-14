@@ -86,8 +86,7 @@
     <perfect-scrollbar class="perfect-scroll-modal-body">
     <div class="modal-body textAlignLeft">
         <div class="row m-0 mb-20">
-            <div class="kr-sg-input-text col-12 p-0">
-                
+            <div class="kr-sg-input-text col-12 p-0">                
                 <div class="label-text">{{'teams.app_members'| translate}}</div>
                 <mat-form-field class="example-chip-list">
                     <mat-chip-list #chipList aria-label="Fruit selection">
@@ -101,10 +100,8 @@
                         {{member.value}}
                         <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                       </mat-chip>
-                      <input maxlength="60"
+                      <input
                         type="email"
-                        name="email"
-                        id="teamInput"
                         placeholder="Type Email and Enter"
                         #fruitInput
                         [formControl]="teamCtrl"                        
@@ -112,13 +109,12 @@
                         [matChipInputAddOnBlur]="addOnBlur"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                         (matChipInputTokenEnd)="add($event)"
-                        autocomplete="off">
+                        [ngbTypeahead]="autocomplete"
+                        [resultFormatter]="resultFormatter"
+                        [inputFormatter]="inputFormatter"
+                        [(ngModel)]="autocomplete_text"
+                        maxlength="60" autocomplete="off">
                     </mat-chip-list>
-                    <!--[matAutocomplete]="auto" <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                      <mat-option *ngFor="let membersug of filteredFruits | async" [value]="membersug">
-                        {{membersug}}
-                      </mat-option>
-                    </mat-autocomplete> -->
                 </mat-form-field>
             </div>
         </div>

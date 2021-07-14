@@ -41,7 +41,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   editConfObj: any = {};
   editTitleFlag: boolean = false;
   isConfig: boolean = false;
-  numberOf:any={};
+  numberOf: any = {};
   allowUrl: AllowUrl = new AllowUrl()
   blockUrl: BlockUrl = new BlockUrl();
   allowUrlArr: AllowUrl[] = [];
@@ -270,33 +270,33 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     }
   }
-convertToDay(repeatOn){
-  switch (repeatOn) {
-    case 'SUN':
-      return "Sunday";
-      
-    case 'MON':
-      return "Monday";
+  convertToDay(repeatOn) {
+    switch (repeatOn) {
+      case 'SUN':
+        return "Sunday";
 
-    case 'TUE':
-       return "Tuesday";
-   
-    case 'WED':
-      return "Wednesday";
-    
-    case 'THU':
-      return "Thursday";
-      
-    case 'FRI':
-      return "Friday";
-     
-    case 'SAT':
-      return "Saturday";
+      case 'MON':
+        return "Monday";
 
-   default :
-       return '' ;
+      case 'TUE':
+        return "Tuesday";
+
+      case 'WED':
+        return "Wednesday";
+
+      case 'THU':
+        return "Thursday";
+
+      case 'FRI':
+        return "Friday";
+
+      case 'SAT':
+        return "Saturday";
+
+      default:
+        return '';
+    }
   }
-}
   getSourceList(nxt?) {
     this.statusArr = [];
     this.docTypeArr = [];
@@ -316,7 +316,7 @@ convertToDay(repeatOn){
           if (element.advanceSettings.scheduleOpts.interval.intervalType != "Custom") {
             let hour = (element.advanceSettings.scheduleOpts.time.hour).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.hour : '0' + element.advanceSettings.scheduleOpts.time.hour;
             let minute = (element.advanceSettings.scheduleOpts.time.minute).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.minute : '0' + element.advanceSettings.scheduleOpts.time.minute;
-            element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType +' '+ 'at ' +
+            element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' ' + 'at ' +
               hour + ':' + minute + ' ' +
               element.advanceSettings.scheduleOpts.time.timeOpt + ' ' + element.advanceSettings.scheduleOpts.time.timezone;
           } else {
@@ -327,12 +327,12 @@ convertToDay(repeatOn){
               schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
-              repeatOn = " on "+ this.convertToDay(element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn);
+              repeatOn = " on " + this.convertToDay(element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn);
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1) {
               every = element.advanceSettings.scheduleOpts.interval.intervalValue.every;
             }
-            element['schedule_title'] = 'Runs once every'+ ' ' + every  + ' '+  schedulePeriod + repeatOn
+            element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn
 
           }
 
@@ -422,6 +422,7 @@ convertToDay(repeatOn){
           this.resourcesStatusObj[element._id] = element;
         });
       }
+      
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
     });
@@ -447,7 +448,9 @@ convertToDay(repeatOn){
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
         if(source.status == 'running' || source.status == 'queued'){
-          this.oldQuedJob.push(source._id);
+          if(source.numPages == 0 || source.numPages == '' ){
+            this.oldQuedJob.push(source._id);
+          }
         }
         if (this.resourcesStatusObj[source._id]) {
           if (this.resourcesStatusObj[source._id].status == 'running' || this.resourcesStatusObj[source._id].status == 'queued') {
@@ -462,8 +465,7 @@ convertToDay(repeatOn){
         return ((source.status === 'running') || (source.status === 'queued'));
       });
       if (queuedJobs && queuedJobs.length) {
-        console.log(queuedJobs);
-        if(this.oldQuedJob.length != queuedJobs.length){
+        if (this.oldQuedJob.length != queuedJobs.length) {
           this.getSourceList();
         }
       } else {
@@ -502,11 +504,11 @@ convertToDay(repeatOn){
     }
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
       this.loadingSliderContent = false;
-      this.selectedSource.pages = res; 
+      this.selectedSource.pages = res;
       if (this.selectedSource.pages.length > 0) {
         this.docContent = this.selectedSource.pages[0]._source;
         this.docContentType = this.selectedSource.pages[0]._meta;
-        this.contentId = this.selectedSource.pages[0]._id; 
+        this.contentId = this.selectedSource.pages[0]._id;
       }
       /** Paging */
       const data = [...res]
@@ -526,10 +528,10 @@ convertToDay(repeatOn){
       } else {
         this.crwalOptionLabel = 'Crawl Everything'
       }
-      if(data.length){
+      if (data.length) {
         this.swapSlider('page');
       }
-      else{
+      else {
         this.swapSlider('config')
       }
       this.clicksViews()
@@ -577,16 +579,16 @@ convertToDay(repeatOn){
         this.page = false;
       } else if (tabName == 'page') {
         // if(this.selectedSource.recentStatus == 'success'){
-          this.page = true;
-          this.isConfig = false;
-          this.execution = false;
+        this.page = true;
+        this.isConfig = false;
+        this.execution = false;
         // }
         // else{
         //   this.page = false;
         //   this.isConfig = true;
         //   this.execution = false;
         // }
-        
+
         // $('.tabname')[0].classList.add('active');
         // $('.tabname')[1].classList.remove('active');
         // $('.tabname')[2].classList.remove('active');
@@ -660,11 +662,11 @@ convertToDay(repeatOn){
     });
 
   }
-  openStatusSlider(source,page?) {
+  openStatusSlider(source, page?) {
     console.log("sourec opned", source)
     this.executionHistoryData = [];
     this.pagesSearch = '';
-   
+
     // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
     //   this.notificationService.notify('Source extraction is still in progress', 'error');
     //   return;
@@ -898,7 +900,7 @@ convertToDay(repeatOn){
         title: from == 'source' ? 'Delete Source ' : ' Delete Page',
         text: 'Are you sure you want to delete?',
         newTitle: 'Are you sure you want to delete?',
-        body: from == 'source' ?'All the Pages associated with this source will be deleted.' : 'Selected Page will be deleted.',
+        body: from == 'source' ? 'All the Pages associated with this source will be deleted.' : 'Selected Page will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -1690,7 +1692,7 @@ convertToDay(repeatOn){
     };
     this.service.invoke('get.clicksViewsContent', quaryparms).subscribe(res => {
       console.log(res);
-      this.numberOf= res;
+      this.numberOf = res;
     }, errRes => {
     });
   }
