@@ -9,6 +9,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 declare const $: any;
 @Component({
   selector: 'app-facets',
@@ -78,6 +79,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   selectTypeArr: any = [];
   componentType: string = 'configure';
   submitted : boolean = false;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -604,6 +607,10 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.getAllFields();
     }
     this.facetModalRef = this.facetModalPouup.open();
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
   closeModal() {
     if (this.facetModalRef && this.facetModalRef.close) {

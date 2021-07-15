@@ -4,7 +4,7 @@
             <div class="title">{{ selectedJsonForEdit ? ( selectedSourceType.viewMode ? ('structuredData.view_structured_data' | translate) : ('structuredData.edit_structured_data' | translate) ) : selectedSourceType.name}}</div>
             <div class="close_icon" (click)="cancleSourceAddition({cancel : true})" id="btn_close_add_structured_modal"><img src="assets/icons/modal-close.svg"></div>
         </div>
-        <perfect-scrollbar class="addSourceModalBody structuredData">
+        <perfect-scrollbar class="addSourceModalBody structuredData" #perfectScroll>
             <div class="modal-body">
                 <ng-container *ngIf="selectedSourceType.resourceType === 'structuredData'">
                     <div class="col-12 row mb-3 top-sec p-0 ml-0 mr-0">

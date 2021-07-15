@@ -205,7 +205,8 @@ export class SearchInterfaceComponent implements OnInit {
         .subscribe(result => {
           if (result === 'yes') {
             this.selectedSettingResultsObj.referInterface = interfaceType;
-            this.saveResultSettings(interfaceType);
+            this.copyResultSettings(interfaceType)
+            //this.saveResultSettings(interfaceType);
             // this.saveResultSettings(); Inorder to reflect the configuretion, we need to save the current interface with reference
             dialogRef.close();
           } else if (result === 'no') {
@@ -643,7 +644,28 @@ export class SearchInterfaceComponent implements OnInit {
       this.customizeTemplateObj.template.resultMapping.urlId = field._id;
     }
   }
-  
+  copyResultSettings(interfaceType){
+    let queryparams = {
+      searchIndexId: this.serachIndexId,
+      indexPipelineId : this.indexPipelineId
+    };
+    let payload = {
+      "interface": this.selectedSetting,
+      "referInterface": this.selectedSettingResultsObj.referInterface
+  }
+    payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
+    this.service.invoke('put.SI_copyResultSettings', queryparams, payload).subscribe(res => {
+      this.notificationService.notify('Result copied successfully', 'success');
+      this.selectedTemplatedId = "";
+      this.selectedSettingResultsObj.referInterface = "";
+      this.getAllSettings({id:this.selectedSetting,text: this.selectedSettingText});
+      this.getSettings(this.selectedSetting);
+      this.closeCustomModal();
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to copy settings');
+    });
+    
+  }
   saveResultSettings(interfaceType?) {
     let payload = {};
     let _self = this;
@@ -708,7 +730,7 @@ export class SearchInterfaceComponent implements OnInit {
       }
       
     }else{
-      let payload = {
+       payload = {
         "_id": this.selectedSettingResultsObj._id,
         "resultClassification": {
           "isEnabled": this.selectedSettingResultsObj.resultClassification.isEnabled,
@@ -985,7 +1007,7 @@ class selectedSettingResults {
   _id = ""
   resultClassification = {
     'isEnabled': true,
-    'sourceType': "dataContentType"
+    'sourceType': "sys_content_type" //dataContentType
   }
   view = "fit"
   maxResultsAllowed = 10

@@ -13,6 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
 import { AppSelectionService } from './../../services/app.selection.service';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-structured-data',
@@ -110,6 +111,7 @@ export class StructuredDataComponent implements OnInit {
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
   @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -797,6 +799,10 @@ export class StructuredDataComponent implements OnInit {
 
   openStructuredDataStatusModal() {
     this.structuredDataStatusModalRef = this.structuredDataStatusModalPop.open();
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
 
   closeStructuredDataStatusModal() {

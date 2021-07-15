@@ -267,10 +267,10 @@
                   <div class="label-text" *ngIf="map.operation === 'rename'">
                     {{'workbench.field_name' | translate}}
                   </div>
-                  <div class="position-relative ">
+                  <div class="position-relative">
                     <input type="text" placeholder="{{'workbench.enter_target' | translate}}" maxlength="60" (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"  data-toggle="dropdown"
                       [(ngModel)]="map.source_field" />
-                      <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu">
+                      <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu" [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.source_field, 'fieldName']).length}">
                         <perfect-scrollbar class="scroll-search-field">
                             <li *ngFor="let suggesition of fields | filter : [map.source_field, 'fieldName'] " (click)="map.source_field = suggesition.fieldName"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
                         </perfect-scrollbar>
@@ -292,7 +292,7 @@
                   <div class="position-relative ">
                     <input type="text" placeholder="{{'workbench.enter_target' | translate}}" maxlength="60" (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown"
                     [(ngModel)]="map.target_field" />
-                    <ul class="source-field-dropdown dropdown-menu content-menu" *ngIf="map.operation !== 'copy' && map.operation !== 'rename'" id="fields-search-with-dropdown-menu">
+                    <ul class="source-field-dropdown dropdown-menu content-menu" *ngIf="map.operation !== 'copy' && map.operation !== 'rename'" id="fields-search-with-dropdown-menu" [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.target_field, 'fieldName']).length}">
                       <perfect-scrollbar class="scroll-search-field">
                           <li *ngFor="let suggesition of fields | filter : [map.target_field, 'fieldName'] " (click)="map.target_field = suggesition.fieldName"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
                       </perfect-scrollbar>
@@ -393,7 +393,7 @@
                 [(ngModel)]="
                   newMappingObj.field_mapping.defaultValue.source_field
                 " />
-                <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu">
+                <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu" [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj.field_mapping.defaultValue.source_field, 'fieldName']).length}">
                   <perfect-scrollbar class="scroll-search-field">
                       <li *ngFor="let suggesition of fields | filter : [newMappingObj.field_mapping.defaultValue.source_field, 'fieldName'] " (click)="newMappingObj.field_mapping.defaultValue.source_field = suggesition.fieldName"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
                   </perfect-scrollbar>
@@ -429,7 +429,7 @@
                 'copy' &&
               newMappingObj.field_mapping.defaultValue.operation !==
                 'rename'
-            ">
+            " [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj.field_mapping.defaultValue.target_field, 'fieldName']).length}">
                 <perfect-scrollbar class="scroll-search-field">
                     <li *ngFor="let suggesition of fields | filter : [newMappingObj.field_mapping.defaultValue.target_field, 'fieldName'] " (click)="newMappingObj.field_mapping.defaultValue.target_field = suggesition.fieldName"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
                 </perfect-scrollbar>
@@ -495,7 +495,7 @@
                   <div class="position-relative ">
                     <input type="text" placeholder="{{'workbench.value' | translate}}" maxlength="60" (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"  data-toggle="dropdown"
                       [(ngModel)]="map.source_field" />
-                      <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu">
+                      <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu" [ngClass]="{'no-data-match-border-0':!(fields | filter : [map.source_field, 'fieldName']).length}">
                         <perfect-scrollbar class="scroll-search-field">
                             <li *ngFor="let suggesition of fields | filter : [map.source_field, 'fieldName'] " (click)="map.source_field = suggesition.fieldName"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
                         </perfect-scrollbar>
@@ -630,7 +630,7 @@
                 <input type="text" placeholder="{{'workbench.value' | translate}}"class="input-text dropdown-toggle dropdown-input"  data-toggle="dropdown" maxlength="60" [(ngModel)]="
                     newMappingObj[selectedStage.type].defaultValue.source_field
                   " />
-                  <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu">
+                  <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu" [ngClass]="{'no-data-match-border-0':!(fields | filter : [newMappingObj[selectedStage.type].defaultValue.source_field, 'fieldName']).length}">
                     <perfect-scrollbar class="scroll-search-field">
                         <li *ngFor="let suggesition of fields | filter : [newMappingObj[selectedStage.type].defaultValue.source_field, 'fieldName'] " (click)="newMappingObj[selectedStage.type].defaultValue.source_field = suggesition.fieldName"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
                     </perfect-scrollbar>

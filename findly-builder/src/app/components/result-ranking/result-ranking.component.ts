@@ -437,8 +437,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
         }
         if (this.actionLogData[i].target.contentType == 'faq') {
-          if(this.actionLogData[i].target.contentInfo._source.faqAnswer[0].text){
-            this.actionLogData[i].target.contentInfo._source['faqDesc'] = this.actionLogData[i].target.contentInfo._source.faqAnswer[0].text;
+          if(this.actionLogData[i].target.contentInfo._source.faq_answer[0].text){
+            this.actionLogData[i].target.contentInfo._source['faqDesc'] = this.actionLogData[i].target.contentInfo._source.faq_answer[0].text;
           }
           
           // if (this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.split(/^\r\n/)) {

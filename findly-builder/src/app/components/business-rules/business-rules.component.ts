@@ -19,6 +19,7 @@ import { Subscription } from 'rxjs';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import * as moment from 'moment';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 declare const $: any;
 @Component({
   selector: 'app-business-rules',
@@ -26,6 +27,7 @@ declare const $: any;
   styleUrls: ['./business-rules.component.scss']
 })
 export class BusinessRulesComponent implements OnInit, OnDestroy {
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   addBusinessRulesRef: any;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
@@ -111,7 +113,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   componentType: string = 'configure';
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
-    if (content) {
+  if (content) {
       this.contextSuggestedImput = content;
     }
   }
@@ -186,6 +188,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   openModalPopup() {
     this.addBusinessRulesRef = this.addBusinessRules.open();
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
   prepereSliderObj(index,scale?) {
     return new RangeSlider(0, 5, 1, scale||3, 'outcomeScale' + index)

@@ -180,7 +180,7 @@
               <img [ngClass]="getSortIconVisibility('numPages', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
               <img [ngClass]="getSortIconVisibility('numPages', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
             </span>
-                {{"contentSource.no_of_pages_caps" | translate}}
+                {{"contentSource.no_of_docs_caps" | translate}}
           </div>
           <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('createdOn')">
             <!-- <img src="assets/icons/caretDown.svg"
@@ -871,8 +871,8 @@
                   <div class="card_header">
                     <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
                       <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
-                        <div class="col-8 link-name p-0" title="{{page._source.pageUrl || selectedSource.url}}">
-                          {{page._source.pageUrl || selectedSource.url}}</div>
+                        <div class="col-8 link-name p-0" title="{{page._source.page_url|| selectedSource.url}}">
+                          {{page._source.page_url|| selectedSource.url}}</div>
                         <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
                         <div class="col-2 actions p-0">
                           <img src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' (click)="reCrwalingWeb('pages',page ,$event)" placement="left">
@@ -886,7 +886,7 @@
                   </div>
                   <!-- <div id="collapseOne{{page._id}}" class="collapse pad_adjust" data-parent="#accordion">
                     <div class="card_body" style="padding-left: 30px;">
-                      <div class="info-content pageTitleContainer">
+                      <div class="info-content page_titleContainer">
                         <div class="row m-0 row_content">
                           <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
                           <div class="col-10 right-info-title">{{page.title}}</div>
@@ -1063,19 +1063,19 @@
             </div>
           <div class="view-details-data">
             <div class="title">Title</div>
-            <div class="desc-info">{{selectedPage._source.pageTitle}}</div>
+            <div class="desc-info">{{selectedPage._source.page_title}}</div>
           </div>
         
           <div class="view-details-data">
             <div class="title">Body</div>
             <perfect-scrollbar class="scroll-table-sourceContent-pageBody" #perfectScroll
             [scrollIndicators]="true">
-            <div class="desc-info" [innerHtml]="selectedPage._source.pageBody"></div>
+            <div class="desc-info" [innerHtml]="selectedPage._source.page_body"></div>
             </perfect-scrollbar>
           </div>
           <div class="view-details-data">
             <div class="title">URL</div>
-            <div class="desc-info">{{selectedPage._source.pageUrl || selectedPage._source.pageImageUrl }}<img class="external_link"
+            <div class="desc-info">{{selectedPage._source.page_url|| selectedPage._source.page_image_url }}<img class="external_link"
                 (click)="openImageLink(selectedPage.imageUrl)" src="assets/icons/sidemenu/external-link.svg"></div>
           </div>
           <div class="view-details-data">
@@ -1139,7 +1139,7 @@
     <div class="title">View Details</div>
     <div class="close_icon"><img (click)="closeDocumentModal()" src="assets/icons/modal-close.svg"></div>
   </div>
-<perfect-scrollbar class="perfect-scroll-modal-body">
+<perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
   <div class="modal-body textAlignLeft">
     <!-- <div >Clicks</div>
     <div>{{numberOf.clicks}}</div>
@@ -1157,21 +1157,21 @@
           <div class="title-text">Title
             <img src="assets/images/edit-pencil.svg">
           </div>
-          <div class="title-desc-text" *ngIf="!isEditDoc && selectedSource.fileMeta"><span>{{docContent.sysSourceName}}</span></div>
+          <div class="title-desc-text" *ngIf="!isEditDoc && selectedSource.fileMeta"><span>{{docContent.sys_source_name}}</span></div>
           <div class="title-text">Description</div>
           <div class="title-desc-text" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div>
         
           <div class="title-text">Document
-            <img class="dwnld-image" src="assets/images/download.svg" (click)="downloadDoc(docContent.fileUrl)">
+            <img class="dwnld-image" src="assets/images/download.svg" (click)="downloadDoc(docContent.file_url)">
           </div>
-          <div class="title-desc-text" *ngIf="selectedSource.fileMeta">{{docContent.fileTitle || '---'}}</div>
+          <div class="title-desc-text" *ngIf="selectedSource.fileMeta">{{docContent.file_title || '---'}}</div>
           <div class="title-text">No. Of. Pages</div>
           <div class="title-desc-text">{{docContentType.pageCount}}</div>
 
           <div class="title-text">Last Updated</div>
           <div class="title-desc-text">{{selectedSource.createdOn | dateFormatPipe: 'D MMMM YYYY , hh:mm A'}}</div>
           <div class="title-text">Results Preview</div>
-          <div class="title-desc-text">{{docContent.filePreview || '---'}}</div>
+          <div class="title-desc-text">{{docContent.file_preview || '---'}}</div>
 
           <!-- <div class="title-text">STATUS</div>
           <div class="title-desc-text" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"

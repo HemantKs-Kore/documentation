@@ -741,7 +741,7 @@
         "type_caps": "TYPE",
         "all": "All",
         "status_caps": " STATUS",
-        "no_of_pages_caps": " NO OF DOCS",
+        "no_of_docs_caps": " NO OF DOCS",
         "triggered_by_caps": "TRIGGERED BY",
         "no_results_found": "No results found",
         "last_updated_on": "Last Updated on",
@@ -844,7 +844,7 @@
         "previewasperaboveselection": "Preview as per above selection",
         "collapsedstate": "Collapsed state",
         "expandedstate": "Expanded state",
-        "cardBody": "Field mapped for Description will appear here. Field mapped for description will appear here. Field mapped for description will appear here. Field mapped for description will appear here.",
+        "cardBody": "This is a preview for displaying text in the expanded state and your description of the search result will be displayed here in the same format.",
         "save": "Save",
         "cancel": "Cancel",
         "previewTemplate": "Preview Template"

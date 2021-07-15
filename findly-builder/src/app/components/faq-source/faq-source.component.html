@@ -150,8 +150,8 @@
                                                     <label [attr.for]="'selectFaqCheckBox_' + faq._id" class="checkbox-custom-label"></label>
                                                 </div>
                                                 <div class="title-desc-sec">
-                                                    <div class="title">{{faq._source.faqQuestion}}</div>
-                                                    <div class="desc" *ngIf="faq && faq?._source?.faqAnswer && faq._source.faqAnswer.length && faq._source.faqAnswer[0]" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq._source.faqAnswer[0].text)'></div>
+                                                    <div class="title">{{faq._source.faq_question}}</div>
+                                                    <div class="desc" *ngIf="faq && faq?._source?.faq_answer && faq._source.faq_answer.length && faq._source.faq_answer[0]" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq._source.faq_answer[0].text)'></div>
                                                     <!-- <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='javascript'">Javascript message</div> -->
                                                 </div>
                                             </div>
@@ -161,7 +161,7 @@
                                             <div class="cardbody">
                                                 <ng-container  *ngIf="faq._meta.followupQuestions && faq._meta.followupQuestions.length">
                                                     <div class="acc-inner-que" (click)="selectedFaqToTrain(followUpQuestion, $event);$event.stopImmediatePropagation();"  [ngClass]="{'is-checked':(selectedFaq && selectedFaq._id===followUpQuestion._id) ||  ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" *ngFor="let followUpQuestion of faq._meta.followupQuestions">
-                                                        <div class="title">{{followUpQuestion._source.faqQuestion}}</div>
+                                                        <div class="title">{{followUpQuestion._source.faq_question}}</div>
                                                         <ng-container *ngIf="followUpQuestion._source && followUpQuestion._source.defaultAnswers && followUpQuestion._source.defaultAnswers.length">
                                                             <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(followUpQuestion._source.defaultAnswers[0].text)'></div>
                                                            <!-- <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='javascript'">Javascript message</div> -->
@@ -453,7 +453,7 @@
                                 <div class="question-content">
                                     <div class="shadow-div">
                                         <div class="title-que">
-                                            <span class="">{{selectedFaq._source.faqQuestion}}</span>                                       
+                                            <span class="">{{selectedFaq._source.faq_question}}</span>                                       
                                             <button  class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
                                         </div>
                                         <!-- <div class="keywords">
@@ -462,12 +462,12 @@
                                     </div> 
                                     <div class="pad-div">
                                         <div class="bot-response-view-mode" >
-                                            <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.faqAnswer && selectedFaq._source.faqAnswer.length">
-                                                <ng-container *ngFor="let answer of selectedFaq._source.faqAnswer ;let i = index;">
+                                            <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.faq_answer && selectedFaq._source.faq_answer.length">
+                                                <ng-container *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index;">
                                                     
 
                                                     <div class="response-title-bg row">
-                                                        <div class="bot-response-title col-6">{{'faqSource.response' | translate}}<span *ngIf="(selectedFaq._source.faqAnswer.length > 1) || (selectedFaq._source.faqCondAnswers && selectedFaq._source.faqCondAnswers.length)">{{ ' ' + (i + 1)}}</span></div>
+                                                        <div class="bot-response-title col-6">{{'faqSource.response' | translate}}<span *ngIf="(selectedFaq._source.faq_answer.length > 1) || (selectedFaq._source.faq_cond_answers && selectedFaq._source.faq_cond_answers.length)">{{ ' ' + (i + 1)}}</span></div>
                                                         <div class="response-likes-views-sec d-flex col-6">
                                                             <div class="count-sec" >
                                                                 <img src="assets/icons/faq/views.svg" (click)="clicksViews()" placement="top" container='body' ngbTooltip="Views">{{numberOf.appearances}}
@@ -496,12 +496,12 @@
                                             </ng-container>   
                                         </div>
                                         <div class="conditionalBlock bot-response-view-mode" >
-                                            <ng-container *ngIf="selectedFaq && selectedFaq._source.faqCondAnswers && selectedFaq._source.faqCondAnswers.length">
-                                            <ng-container *ngFor="let consitionalAnswer of selectedFaq._source.faqCondAnswers; let i = index;">
+                                            <ng-container *ngIf="selectedFaq && selectedFaq._source.faq_cond_answers && selectedFaq._source.faq_cond_answers.length">
+                                            <ng-container *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;">
 
                                                 
                                                 <div class="response-title-bg row">
-                                                    <div class="bot-response-title col-6">{{'faqSource.response' | translate}}<span>{{ ' ' + (i + 1 + (selectedFaq._source.faqAnswer?selectedFaq._source.faqAnswer.length:0))}}</span></div>
+                                                    <div class="bot-response-title col-6">{{'faqSource.response' | translate}}<span>{{ ' ' + (i + 1 + (selectedFaq._source.faq_answer?selectedFaq._source.faq_answer.length:0))}}</span></div>
                                                     <div class="response-likes-views-sec d-flex col-6">
                                                         <div class="count-sec" >
                                                             <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{selectedFaq?.stats?.appearances?selectedFaq?.stats?.appearances[0][0]: 0}}
@@ -586,10 +586,10 @@
                                     </div> -->
                                 </div>
                             </div>
-                            <div class="add-alternative-questions row bg-white"  *ngIf="selectedFaq._source.faqAltQuestions?.length">
+                            <div class="add-alternative-questions row bg-white"  *ngIf="selectedFaq._source.faq_alt_questions?.length">
                                 <div class="col-10 pl-0 pr-2">
                                     <div class="question-name text-truncate">{{'faqSource.alternate_questions' | translate}}
-                                        <span>{{selectedFaq._source.faqAltQuestions?.length>0?'('+selectedFaq._source.faqAltQuestions?.length+')':''}}</span>
+                                        <span>{{selectedFaq._source.faq_alt_questions?.length>0?'('+selectedFaq._source.faq_alt_questions?.length+')':''}}</span>
                                         <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
                                     </div>
                                 </div>
@@ -600,8 +600,8 @@
                             <div *ngIf="selectedFaq.isAlt" class="alternate-question-bg">
                                 <app-add-alternate-question [faqServ]="faqServiceAlt"></app-add-alternate-question>
                             </div>
-                            <ng-container *ngIf="selectedFaq._source.faqAltQuestions?.length">
-                            <div class="added-questions-list py-0" *ngFor="let alternateQuestion of selectedFaq._source?.faqAltQuestions">
+                            <ng-container *ngIf="selectedFaq._source.faq_alt_questions?.length">
+                            <div class="added-questions-list py-0" *ngFor="let alternateQuestion of selectedFaq._source?.faq_alt_questions">
                                 <div class="content-body-question row" >
                                 <div class="col-12 group-name question-name text-truncate">{{alternateQuestion}}</div>
                                 </div>
@@ -836,7 +836,7 @@
           <div class="title">{{'faqSource.add_follow_up_faq' | translate}}</div>
           <div class="close_icon"><img (click)="cancleAddFollowUp()" src="assets/icons/modal-close.svg"></div>
         </div>
-      <perfect-scrollbar class="app-add-faq-insidescroll">
+      <perfect-scrollbar class="app-add-faq-insidescroll" #perfectScroll>
         <div class="modal-body">
             <app-add-faq (addFaq)="addNewFollowUp($event)" [faqUpdate]="faqUpdate.asObservable()" [isFollowUp]='true' (cancelfaqEvent)="cancleAddFollowUp()"></app-add-faq>  
         </div>
@@ -855,7 +855,7 @@
     <div class="title">{{'faqSource.edit_faq' | translate}}</div>
     <div class="close_icon"><img (click)="faqCancle()" src="assets/icons/modal-close.svg"></div>
   </div>
-<perfect-scrollbar class="perfect-scroll-modal-body">
+<perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
   <div class="modal-body">
     <app-add-faq [faqUpdate]="faqUpdate.asObservable()" (editFaq)="editFaq($event)" [faqData]="selectedFaqToEdit" (cancelfaqEvent)="faqCancle()"></app-add-faq>
   </div>

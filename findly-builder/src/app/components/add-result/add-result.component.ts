@@ -52,7 +52,7 @@ export class AddResultComponent implements OnInit {
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       if (res) {
         this.searchTxt = '';
-        this.keyFunc(this.searchTxt);
+        this.extractedResults = [];
       }
     });
   }
@@ -208,7 +208,7 @@ export class AddResultComponent implements OnInit {
     let result :any = [];
     this.recordArray.forEach((element,index) => {
       var obj :any = {};
-      obj.contentType = contentTaskFlag ? contentType : element.sysContentType;
+      obj.contentType = contentTaskFlag ? contentType : element.sys_content_type;
       //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
       obj.contentId = element.contentId;
       // obj.position = this.positionRecord;
