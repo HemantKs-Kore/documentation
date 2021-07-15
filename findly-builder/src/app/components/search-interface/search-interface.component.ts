@@ -205,8 +205,8 @@ export class SearchInterfaceComponent implements OnInit {
         .subscribe(result => {
           if (result === 'yes') {
             this.selectedSettingResultsObj.referInterface = interfaceType;
-            //this.copyResultSettings(interfaceType)
-            this.saveResultSettings(interfaceType);
+            this.copyResultSettings(interfaceType)
+            //this.saveResultSettings(interfaceType);
             // this.saveResultSettings(); Inorder to reflect the configuretion, we need to save the current interface with reference
             dialogRef.close();
           } else if (result === 'no') {
@@ -651,9 +651,9 @@ export class SearchInterfaceComponent implements OnInit {
     };
     let payload = {
       "interface": this.selectedSetting,
-      "referInterface": this.selectedSettingResultsObj.referInterface
+      "referInterface": interfaceType
   }
-    payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
+    //payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
     this.service.invoke('put.SI_copyResultSettings', queryparams, payload).subscribe(res => {
       this.notificationService.notify('Result copied successfully', 'success');
       this.selectedTemplatedId = "";
