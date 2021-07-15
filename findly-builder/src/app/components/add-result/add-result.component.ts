@@ -158,8 +158,13 @@ export class AddResultComponent implements OnInit {
     //this.searchResults(this.searchTxt)
     //type == 'FAQ' ? this.searchType = type : type == 'Content' ? this.searchType = type: this.searchType = type;
   }
-  keyFunc(txt){
-    this.searchResults(txt)
+  keyFunc(txt) {
+    if (txt.length) {
+      this.searchResults(txt);
+    }
+    else {
+      this.extractedResults = [];
+    }
   }
   addRecord(record,i,event){
     let duplicate = false;
