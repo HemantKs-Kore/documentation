@@ -98,7 +98,7 @@ export class StructuredDataComponent implements OnInit {
   tempAdvancedSearch: any = {};
   disableContainer: any = false;
   isResultTemplate: boolean = false;
-  isResultTemplateLoading : boolean = false;
+  isResultTemplateLoading: boolean = false;
   serachIndexId: any;
   searchFocusIn = false;
   search: any;
@@ -757,6 +757,10 @@ export class StructuredDataComponent implements OnInit {
           }
           else {
             this.getStructuredDataList();
+            let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+            if (currentPlan?.subscription?.planId == 'fp_free') {
+              this.appSelectionService.updateUsageData.next('updatedUsage');
+            }
           } this.notificationService.notify('Deleted Successfully', 'success');
         }
       }, errRes => {
@@ -799,10 +803,10 @@ export class StructuredDataComponent implements OnInit {
 
   openStructuredDataStatusModal() {
     this.structuredDataStatusModalRef = this.structuredDataStatusModalPop.open();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(); 
-    },500)
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
 
   closeStructuredDataStatusModal() {
@@ -822,18 +826,18 @@ export class StructuredDataComponent implements OnInit {
       this.isResultTemplateLoading = false;
       if (res.settings) {
         res.settings.forEach((_interface) => {
-            _interface.appearance.forEach(element => {
-              if(!this.isResultTemplate){
-                if (element.type === 'structuredData') {
-                  if (element.templateId && element.templateId.length) {
-                    this.isResultTemplate = true;
-                  }
-                  else {
-                    this.isResultTemplate = false;
-                  }
+          _interface.appearance.forEach(element => {
+            if (!this.isResultTemplate) {
+              if (element.type === 'structuredData') {
+                if (element.templateId && element.templateId.length) {
+                  this.isResultTemplate = true;
+                }
+                else {
+                  this.isResultTemplate = false;
                 }
               }
-            });
+            }
+          });
         });
       }
     }, errRes => {
