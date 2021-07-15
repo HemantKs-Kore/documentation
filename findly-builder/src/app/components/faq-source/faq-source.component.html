@@ -43,7 +43,7 @@
         <ng-container *ngIf="(!(faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) && !faqSelectionObj.loadingStats) && !(faqs && faqs.length)  && !extractedFaqs && !viewDetails && !searchFaq && !showSearch && !loading">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
-          <div class="img-block" id ="imageLoad"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/faq-empty.svg"></div>
+          <div class="img-block" id ="imageLoad"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/faq-empty.png"></div>
           <ng-container *ngIf="loadImageText">
               <div class="empty-title">{{'faqSource.no_faqs' | translate}}</div>
               <div class="desc-text"> {{'faqSource.no_faqs_info' | translate}}
@@ -756,8 +756,8 @@
                               </div>
                               </div>
                         </div>
-                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('extrated')">{{'faqSource.no_of_faqs' | translate}}"<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
-                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('createdOn')">{{'faqSource."triggered_by_caps' | translate}}<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('extrated')">{{'faqSource.no_of_faqs_caps' | translate}}<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('createdOn')">{{'faqSource.triggered_by_caps' | translate}}<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
                         <!-- <div class="col" (click)="sortBy('createdOn')">Created On<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div> -->
                         <div class="col last-child" (click)="sortBy('name')"></div>
                     </header>
@@ -768,7 +768,7 @@
                         <div class="col_ col-3">
                             <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}
                                 <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
-                                <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
+                                <img class="inProgress" src="assets/icons/ringLoading.svg"
                                  *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
                             </span>
                             <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
@@ -785,7 +785,7 @@
                             <span class="actions-links" (click)="reAnnotateDocument(source)"  ngbTooltip='Re-Annotate'><img class="action_icon" src="assets/images/list.svg"></span>
                         </div> -->
                     </div>
-                    <div class="empty">{{'faqSource."no_search_results' | translate}}</div>
+                    <div class="empty">{{'faqSource.no_search_results' | translate}}</div>
                     </perfect-scrollbar>
                     
                 </section>                               
@@ -836,7 +836,7 @@
           <div class="title">{{'faqSource.add_follow_up_faq' | translate}}</div>
           <div class="close_icon"><img (click)="cancleAddFollowUp()" src="assets/icons/modal-close.svg"></div>
         </div>
-      <perfect-scrollbar class="app-add-faq-insidescroll">
+      <perfect-scrollbar class="app-add-faq-insidescroll" #perfectScroll>
         <div class="modal-body">
             <app-add-faq (addFaq)="addNewFollowUp($event)" [faqUpdate]="faqUpdate.asObservable()" [isFollowUp]='true' (cancelfaqEvent)="cancleAddFollowUp()"></app-add-faq>  
         </div>
@@ -855,7 +855,7 @@
     <div class="title">{{'faqSource.edit_faq' | translate}}</div>
     <div class="close_icon"><img (click)="faqCancle()" src="assets/icons/modal-close.svg"></div>
   </div>
-<perfect-scrollbar class="perfect-scroll-modal-body">
+<perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
   <div class="modal-body">
     <app-add-faq [faqUpdate]="faqUpdate.asObservable()" (editFaq)="editFaq($event)" [faqData]="selectedFaqToEdit" (cancelfaqEvent)="faqCancle()"></app-add-faq>
   </div>

@@ -61,6 +61,9 @@ export class SearchInterfaceComponent implements OnInit {
   subscription: Subscription;
   searchConfigurationSubscription : Subscription;
   searchExperienceConfig : any = {};
+  liveSearchResultObj : any = {};
+  conversationalSearchResultObj : any = {};
+  fullSearchResultObj : any = {}
   searchTemplatesDisabled : boolean = false;
   settingList: any = [
     //   {
@@ -202,7 +205,8 @@ export class SearchInterfaceComponent implements OnInit {
         .subscribe(result => {
           if (result === 'yes') {
             this.selectedSettingResultsObj.referInterface = interfaceType;
-            this.saveResultSettings();
+            this.copyResultSettings(interfaceType)
+            //this.saveResultSettings(interfaceType);
             // this.saveResultSettings(); Inorder to reflect the configuretion, we need to save the current interface with reference
             dialogRef.close();
           } else if (result === 'no') {
@@ -246,6 +250,13 @@ export class SearchInterfaceComponent implements OnInit {
         if (element.interface == this.selectedSetting) {
           this.selectedSettingResultsObj = element;
           this.sourcelist(element)
+        }
+        if(element.interface == 'liveSearch'){
+          this.liveSearchResultObj = element;
+        }else if(element.interface == 'search'){
+          this.conversationalSearchResultObj = element;
+        }else if(element.interface == 'fullSearch') {
+          this.fullSearchResultObj = element;
         }
       });
     }, errRes => {
@@ -633,7 +644,64 @@ export class SearchInterfaceComponent implements OnInit {
       this.customizeTemplateObj.template.resultMapping.urlId = field._id;
     }
   }
-  saveResultSettings() {
+  copyResultSettings(interfaceType){
+    let queryparams = {
+      searchIndexId: this.serachIndexId,
+      indexPipelineId : this.indexPipelineId
+    };
+    let payload = {
+      "interface": this.selectedSetting,
+      "referInterface": this.selectedSettingResultsObj.referInterface
+  }
+    payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
+    this.service.invoke('put.SI_copyResultSettings', queryparams, payload).subscribe(res => {
+      this.notificationService.notify('Result copied successfully', 'success');
+      this.selectedTemplatedId = "";
+      this.selectedSettingResultsObj.referInterface = "";
+      this.getAllSettings({id:this.selectedSetting,text: this.selectedSettingText});
+      this.getSettings(this.selectedSetting);
+      this.closeCustomModal();
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to copy settings');
+    });
+    
+  }
+  saveResultSettings(interfaceType?) {
+    let payload = {};
+    let _self = this;
+    let setPayload = function(copedInterfaceResultsObj){
+      copedInterfaceResultsObj.appearance.forEach(element => {
+        if (element.type == 'Action') {
+          element.type= 'action';
+        } else if (element.type == 'FAQs') {
+          element.type = 'faq';
+        } else if (element.type == 'Pages' || element.type == 'Web') {
+          element.type = 'page';
+        } else if (element.type == 'Structured Data') {
+          element.type = 'structuredData';
+        }else if (element.type == 'Document' || element.type == 'File') {
+          element.type = 'document';
+        }
+      });
+      let payloadBody = {
+        "_id": _self.selectedSettingResultsObj._id, // Binding the Selected Setting Id
+        "resultClassification": {
+          "isEnabled": copedInterfaceResultsObj.resultClassification.isEnabled,
+          "sourceType": copedInterfaceResultsObj.resultClassification.sourceType
+        },
+        "view": copedInterfaceResultsObj.view,
+        "maxResultsAllowed": copedInterfaceResultsObj.maxResultsAllowed,
+        "facets": {
+          "aligned": copedInterfaceResultsObj.facets.aligned,
+          "isEnabled": copedInterfaceResultsObj.facets.isEnabled
+        },
+        "interface": _self.selectedSetting, // Binding the Selected Setting interface
+        "appearance": copedInterfaceResultsObj.appearance //this.list ,  Binding the Selected appearance
+      }
+      payloadBody['referInterface'] = _self.selectedSettingResultsObj.referInterface; // Binding the Selected Setting referInterface
+  
+      return payloadBody;
+    }
     let queryparams = {
       searchIndexId: this.serachIndexId,
       indexPipelineId : this.indexPipelineId
@@ -652,46 +720,44 @@ export class SearchInterfaceComponent implements OnInit {
         element.type = 'document';
       }
     });
-    
-    let payload = {
-      "_id": this.selectedSettingResultsObj._id,
-      "resultClassification": {
-        "isEnabled": this.selectedSettingResultsObj.resultClassification.isEnabled,
-        "sourceType": this.selectedSettingResultsObj.resultClassification.sourceType
-      },
-      "view": this.selectedSettingResultsObj.view,
-      "maxResultsAllowed": this.selectedSettingResultsObj.maxResultsAllowed,
-      "facets": {
-        "aligned": this.selectedSettingResultsObj.facets.aligned,
-        "isEnabled": this.selectedSettingResultsObj.facets.isEnabled
-      },
-      "interface": this.selectedSetting,
-      "appearance": this.selectedSettingResultsObj.appearance //this.list
-      // [
-      //       {
-      //           "type": "action"
-      //       },
-      //       {
-      //           "type": "faq"
-      //       },
-      //       {
-      //           "type": "pages"
-      //       },
-      //       {
-      //           "type": "structuredData"
-      //       }
-      //   ],  
+    if(interfaceType){
+      if(interfaceType == 'livesearch'){
+        payload = setPayload(this.liveSearchResultObj)
+      }else if(interfaceType == 'search'){
+        payload = setPayload(this.conversationalSearchResultObj)
+      }else if(interfaceType == 'fullsearch') {
+        payload = setPayload(this.fullSearchResultObj)
+      }
+      
+    }else{
+       payload = {
+        "_id": this.selectedSettingResultsObj._id,
+        "resultClassification": {
+          "isEnabled": this.selectedSettingResultsObj.resultClassification.isEnabled,
+          "sourceType": this.selectedSettingResultsObj.resultClassification.sourceType
+        },
+        "view": this.selectedSettingResultsObj.view,
+        "maxResultsAllowed": this.selectedSettingResultsObj.maxResultsAllowed,
+        "facets": {
+          "aligned": this.selectedSettingResultsObj.facets.aligned,
+          "isEnabled": this.selectedSettingResultsObj.facets.isEnabled
+        },
+        "interface": this.selectedSetting,
+        "appearance": this.selectedSettingResultsObj.appearance //this.list
+      }
+      payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
+      //  if(this.selectedSettingResultsObj.referInterface == 'search'){
+      //   payload['referInterface'] = 'search';
+      //  }else{
+      //    delete payload['referInterface']; 
+      //  }
     }
-    payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
-    //  if(this.selectedSettingResultsObj.referInterface == 'search'){
-    //   payload['referInterface'] = 'search';
-    //  }else{
-    //    delete payload['referInterface']; 
-    //  }
     this.service.invoke('put.SI_saveResultSettings', queryparams, payload).subscribe(res => {
       this.notificationService.notify('Result setting saved successfully', 'success');
       this.selectedTemplatedId = "";
       this.selectedSettingResultsObj.referInterface = "";
+      this.getAllSettings({id:this.selectedSetting,text: this.selectedSettingText});
+      this.getSettings(this.selectedSetting);
       this.closeCustomModal();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to save result settings');

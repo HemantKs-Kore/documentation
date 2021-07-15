@@ -256,7 +256,45 @@ and open the template in the editor.
         width: 100%;
     }
 }
-
+.kr-sg-button-secondary-pricing{
+    border: 1px solid #BDC1C6;
+    background: #FFFFFF;
+    padding: 0px 20px;
+    height: 26px;    
+    font-size: 12px;
+    border-radius: 4px;
+    color: #202124;
+    min-width: 60px;
+    text-align: center;
+    transition: 0.2s all ease-in;
+    &:hover{
+        background:#FFFFFF;
+    }
+    &:active{
+        background:#BDC1C6;
+    }
+    &:focus{
+        background:$whiteColor;
+        border: solid 1px #1372ff;
+    }
+    &:disabled{
+        background: $whiteColor;
+        color: #cdd3d8;
+        border: solid 1px #eaecf0;
+        opacity: 1;
+    }
+    &.btn_md{
+        height: 30px;
+        font-size: 14px;
+    }
+    &.btn_lg{
+        height: 34px;
+        font-size: 14px;
+    }
+    &.w-100{
+        width: 100%;
+    }
+}
 .kr-sg-button-secondary-two{
     border: solid 1px rgba(0, 157, 171, 0.4);
     background: rgba(0, 157, 171, 0.1);

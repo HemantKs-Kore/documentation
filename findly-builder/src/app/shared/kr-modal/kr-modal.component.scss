@@ -773,6 +773,7 @@
         }
     }
     &.contact-us-modal_{
+        z-index: 99999;
         .modal-dialog{
             max-width: 100% !important;
             width: 1116px;

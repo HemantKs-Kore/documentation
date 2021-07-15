@@ -301,7 +301,7 @@ export class EndPointsService {
       method: 'delete'
     };
     this.serviceList['get.bots'] = {
-      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks',
+      endpoint: this.API_SERVER_URL + '/platform/builder/streams/:streamId/allTasks',
       method: 'get'
     };
     this.serviceList['get.traitgroup'] = {
@@ -396,7 +396,7 @@ export class EndPointsService {
 
     /* Service End-Points for Integrating APIs in bot-action Component */
     this.serviceList['get.AssociatedBots'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userID/builder/streams',
+      endpoint: this.API_SERVER_URL + '/platform/users/:userID/builder/streams',
       method: 'get'
     };
     this.serviceList['get.AssociatedBotTasks'] = {
@@ -405,7 +405,7 @@ export class EndPointsService {
       method: 'get'
     }
     this.serviceList['get.allTasks'] = {
-      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks',
+      endpoint: this.API_SERVER_URL + '/platform/builder/streams/:streamId/allTasks',
       method: 'get'
     }
     this.serviceList['get.generateChannelCreds'] = {
@@ -564,7 +564,7 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/autocomplete?alpha=:query&isIndexed=true',
       method: 'get'
     }
-    this.serviceList['get.getFieldAutocompleteFacet'] = {
+    this.serviceList['get.getFieldAutocompleteIndices'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/autocomplete?alpha=:query&isIndexed=true&category=:category',
       method: 'get'
     }
@@ -746,7 +746,7 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['get.linkedBot'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId',
+      endpoint: this.API_SERVER_URL + '/platform/users/:userId/builder/streams/:streamId',
       method: 'get'
     }
 
@@ -800,6 +800,10 @@ export class EndPointsService {
     this.serviceList['delete.credential'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps/:appId',
       method: 'delete'
+    }
+    this.serviceList['delete.credentialData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/apps/:streamId',
+      method: 'put'
     }
     //APIs for experiments
     this.serviceList['get.experiment'] = {
@@ -909,6 +913,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/users/:userId/streams/:streamId/shareApp',
       method: 'put'
     }
+    this.serviceList['get.autoSuggestEmails'] = {
+      endpoint: this.API_SERVER_URL_PLATFORM + '/findly/users/:userId/streams/:streamId/shareapp/getmanagedusers/organizations/:orgId',
+      method: 'get'
+    }
     this.serviceList['get.streamData'] = {
       endpoint: this.API_SERVER_URL + '/findly/apps/:streamId',
       method: 'get'
@@ -958,6 +966,10 @@ export class EndPointsService {
     this.serviceList['get.SI_allResultSettings'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/getresultviewsettings',
       method: 'get'
+    }
+    this.serviceList['put.SI_copyResultSettings'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/resultviewsettings/copyConfig',
+      method: 'put'
     }
     /** APIs for Search Interface */
 

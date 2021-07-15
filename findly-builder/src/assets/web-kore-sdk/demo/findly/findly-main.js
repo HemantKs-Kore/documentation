@@ -16,33 +16,24 @@
                 dataType: 'json',
                 success: function (data) {
                     options.assertion = data.jwt;
-                    if(callback){
-                      callback(null, options);                        
+                    fsdk.initSearchAssistSDK(findlyConfig);
+                    if (callback) {
+                        callback(null, options);
                     }
                 },
                 error: function (err) {
                 }
             });
         }
-        
-        var findlyConfig=window.KoreSDK.findlyConfig;
-        findlyConfig.botOptions.assertionFn=getJWT;
-        
-        var fSdk = new FindlySDK(findlyConfig);
 
-        getJWT(findlyConfig.botOptions).then(function (res) {
-            fSdk.configureSearchInterface(findlyConfig.botOptions, res).then( (response) => {
-                console.log("res", response);
-                if(response.experienceConfig.searchBarPosition === 'top'){
-                    fSdk.initializeTopDown(null, null, response);
-                }
-                else{
-                    fSdk.initialize(findlyConfig);
-                    fSdk.showSearch(null, response);
-                }
-            })
-        }, function (errRes) {
-            console.error("Failed getting JWT " + errRes)
+        var findlyConfig = window.KoreSDK.findlyConfig;
+        findlyConfig.botOptions.assertionFn = getJWT;
+
+        var fSdk = new FindlySDK(findlyConfig);
+        window.fsdk = fSdk;
+        fsdk.initKoreSDK();
+        $('.openSearchSDK').click(function () {
+            // fsdk.initKoreSDK();
         });
     });
 

@@ -95,7 +95,7 @@
     <ng-container *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)">
         <perfect-scrollbar class="empty-scroll">
             <div  class="empty-landing-screen" >
-            <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/traits-empty.svg"></div>
+            <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/traits-empty.png"></div>
             <ng-container *ngIf="loadImageText">
                 <div class="empty-title">{{'traits.you_havenot_added_any_traits_yet' | translate}}</div>
                 <div class="desc-text">{{'traits.traits_are_specific_entities' | translate}}
@@ -122,7 +122,7 @@
         <div class="title">{{(traits.addEditTraits._id)?('traits.edit_trait_group' | translate):('traits.new_trait_group' | translate)}}</div>
         <div class="close_icon" (click)='closeStatusModal()'><img src="assets/icons/modal-close.svg"></div>
     </div>
-    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
         <div class="modal-body">
             <div class="kr-sg-input-text trait-group-name">
                 <div class="label-text">{{'traits.trait_group_name' | translate}}</div>
@@ -171,7 +171,7 @@
         <div class="title">{{traits.addEditTraits.groupName}} <img src="assets/icons/carrotright.svg"> {{currentTraitKey}} <img src="assets/icons/carrotright.svg"> {{'traits.utterance' | translate}}</div>
         <div class="close_icon" (click)='closeUtteranceModal()'><img src="assets/icons/modal-close.svg"></div>
     </div>
-    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll2>
         <div class="modal-body">
             <ng-container >
                 <div class="content-body-traits row col-12" *ngFor="let utterance of utteranceList;let i = index;" [ngClass]="{'py-0':(showEditUtteranceInput == i)}">

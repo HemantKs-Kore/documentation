@@ -203,7 +203,7 @@
                 </div>
             </div> -->
             <div class="empty-landing-screen" *ngIf="noItems">
-                <div class="img-block"><img class="action_icon"  (load)="imageLoad()" src="assets/images/structured-data-empty.svg"></div>
+                <div class="img-block"><img class="action_icon"  (load)="imageLoad()" src="assets/images/structured-data-empty.png"></div>
                 <ng-container *ngIf="noItems && !emptySearchResults && loadImageText">
                     <div class="empty-title">{{'structuredData.no_structuer_data' | translate}}</div>
                     <div class="desc-text">{{'structuredData.help_text' | translate}}</div>
@@ -228,9 +228,9 @@
             <span class="please-wait-message">{{'synonyms.please_wait' | translate}}</span>
         </div>
     </perfect-scrollbar>
-    <div class="footer-info" *ngIf="!isResultTemplate && !isLoading">
+    <div class="footer-info" *ngIf="!isResultTemplate && !isLoading && !isResultTemplateLoading">
         <img class="info-icon" src="assets/icons/structured-data/Info.svg">
-        <div class="info-text">{{'structuredData.noResultTemplate' | translate}} <span class="interface-link" (click)="navigateToSearchInterface()"><b>{{'structuredData.searchInterfacePath' | translate}}</b></span> {{'structuredData.toDefine' | translate}}<a href="javascript:void(0);">{{'structuredData.learnMore' | translate}}</a></div>
+        <div class="info-text">{{'structuredData.noResultTemplate' | translate}} <span class="interface-link" (click)="navigateToSearchInterface()"><b>{{'structuredData.searchInterfacePath' | translate}}</b></span> {{'structuredData.toDefine' | translate}}<a href="https://docs.kore.ai/searchassist/search-experience/result-templates/" target="_blank" >{{'structuredData.learnMore' | translate}}</a></div>
         <img src="assets/icons/close.svg" class="close-info" (click)="isResultTemplate = !isResultTemplate">
     </div>
 </div>
@@ -245,7 +245,7 @@
         <div class="close_icon"><img id="btn_close_advanced_search" (click)="cancleAdvansedSearch()" src="assets/icons/modal-close.svg"></div>
     </div>
 
-   <perfect-scrollbar>
+   <perfect-scrollbar #perfectScroll>
         <div class="modal-body advance-search-modal">
             <ng-container *ngFor="let rule of advancedSearch.rules; let index = index">
                 <div class="d-flex align-items-center">

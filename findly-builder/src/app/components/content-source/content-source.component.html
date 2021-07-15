@@ -15,7 +15,7 @@
     <div class="title-content">{{"contentSource.content" | translate}}</div>
     <perfect-scrollbar class="scoll-empty-screen">
       <div class="empty-landing-screen">
-        <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/contentmanag-empty.svg"></div>   
+        <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/contentmanag-empty.png"></div>   
         <ng-container *ngIf="loadImageText">
         <div class="empty-title">{{"contentSource.no_content" | translate}}</div>
         <div class="desc-text"> {{"contentSource.no_content_info" | translate}}</div>
@@ -182,7 +182,7 @@
               <img [ngClass]="getSortIconVisibility('numPages', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
               <img [ngClass]="getSortIconVisibility('numPages', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
             </span>
-                {{"contentSource.no_of_pages_caps" | translate}}
+                {{"contentSource.no_of_docs_caps" | translate}}
           </div>
           <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('createdOn')">
             <!-- <img src="assets/icons/caretDown.svg"
@@ -387,7 +387,7 @@
 
           <div class="search-header">
             <div class="tabs-sec">
-              <span class="tabname active" [ngClass] = "{'active' : page}" (click)="swapSlider('page')">{{"contentSource.pages" | translate}}</span>
+              <span class="tabname " [ngClass] = "{'active' : page}" (click)="swapSlider('page')">{{"contentSource.pages" | translate}}</span>
               <span class="tabname" [ngClass] = "{'active' : isConfig}"(click)="swapSlider('config')">{{"contentSource.configuration" | translate}}</span>
               <span class="tabname" *ngIf="executionHistoryData && selectedSource.recentStatus != 'scheduled' && selectedSource.recentStatus != 'configured'" [ngClass] = "{'active' : execution}" (click)="swapSlider('execution')">{{"contentSource.executions" | translate}}</span>
             </div>
@@ -1059,8 +1059,8 @@
         <div class="table-view-details table-content" *ngIf="sliderStep === 1 && selectedPage">
           <div class="totalViewsNlikes">
             <div class="d-flex justify-content-between infoBlock">
-            <div class="infoType"><img class="viewsIcon" src="assets/icons/faq/views.svg"><span>{{numberOf.clicks}}</span></div>
-            <div class="infoType"><img src="assets/icons/faq/hand.svg"><span>{{numberOf.appearances}}</span></div>
+            <div class="infoType"><img class="viewsIcon" placement="top" container='body' ngbTooltip="Views" src="assets/icons/faq/views.svg"><span>{{numberOf.appearances}}</span></div>
+            <div class="infoType"><img placement="top" container='body' ngbTooltip="Clicks" src="assets/icons/faq/hand.svg"><span>{{numberOf.clicks}}</span></div>
             </div>
             </div>
           <div class="view-details-data">
@@ -1141,7 +1141,7 @@
     <div class="title">View Details</div>
     <div class="close_icon"><img (click)="closeDocumentModal()" src="assets/icons/modal-close.svg"></div>
   </div>
-<perfect-scrollbar class="perfect-scroll-modal-body">
+<perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
   <div class="modal-body textAlignLeft">
     <!-- <div >Clicks</div>
     <div>{{numberOf.clicks}}</div>
@@ -1152,8 +1152,8 @@
         <!-- <header class="table-header"> -->
           <div class="totalViewsNlikes">
             <div class="d-flex justify-content-between infoBlock">
-            <div class="infoType"><img class="viewsIcon" src="assets/icons/faq/views.svg"><span>{{numberOf.clicks}}</span></div>
-            <div class="infoType"><img src="assets/icons/faq/hand.svg"><span>{{numberOf.appearances}}</span></div>
+            <div class="infoType"><img class="viewsIcon" src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views"><span>{{numberOf.appearances}}</span></div>
+            <div class="infoType"><img src="assets/icons/faq/hand.svg" placement="top" container='body' ngbTooltip="Clicks"><span>{{numberOf.clicks}}</span></div>
             </div>
             </div>
           <div class="title-text">Title
