@@ -150,14 +150,18 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       indexPipelineId : this.indexPipelineId
     };
     this.service.invoke('get.SI_settingInterface', quaryparms).subscribe(res => {
-      if (res && res.appearance ) {
+      if (res && res.appearance) {
+        let isStructured = '';
         res.appearance.forEach(element => {
-          if(element.type == 'structuredData' && element.templateId){
-            this.getTemplate(element.templateId);
-          }else{
-            this.getcustomizeList(10, 0);
+          if (element.type == 'structuredData' && element.templateId) {
+            isStructured = element.templateId;
           }
         });
+        if (isStructured) {
+          this.getTemplate(isStructured);
+        } else {
+          this.getcustomizeList(10, 0);
+        }
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch Setting Informations');
