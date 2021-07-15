@@ -43,7 +43,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   pagesSearch = '';
   viewDetails: boolean;
   selectedFaq: any = null;
-  numberOf: any={};
+  numberOf: any = {};
   singleSelectedFaq: any = null;
   showAddFaqSection = false;
   noManulaRecords: boolean = false;
@@ -165,13 +165,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
   ) {
-    window.alert = function() {};
+    window.alert = function () { };
   }
 
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getStats(null, true);  
+    this.getStats(null, true);
     // this.getfaqsBy();
     this.getSourceList(true);
     this.userInfo = this.authService.getUserInfo() || {};
@@ -257,10 +257,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editfaq = null;
     }
     this.addSourceModalPopRef = this.addSourceModalPop.open();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(); 
-    },500)
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
   openAddManualFaqModal() {
 
@@ -450,7 +450,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getStats(source._id);
         this.faqUpdateEvent();
       }
-     
+
 
     } else {
       this.selectedResource = null;
@@ -1085,10 +1085,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   openEditFAQModal(edit?) {
     this.selectedFaqToEdit = JSON.parse(JSON.stringify(this.selectedFaq));
     this.editFAQModalPopRef = this.editFAQModalPop.open();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(); 
-    },500)
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
   closeEditFAQModal() {
     if (this.editFAQModalPopRef && this.editFAQModalPopRef.close) {
@@ -1180,7 +1180,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       // this.getStats();
       if (this.editfaq) {
         this.selectTab('draft');
-        
+
       } else {
         if (action === 'stateUpdate') {
           this.selectTab(params || 'draft');
@@ -1293,6 +1293,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.extractedResources.splice(deleteIndex, 1);
       }
       this.resetCheckboxSelect();
+      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+      if (currentPlan?.subscription?.planId == 'fp_free') {
+        this.appSelectionService.updateUsageData.next('updatedUsage');
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete faq source');
     });
@@ -1315,6 +1319,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.getStats();
       this.resetCheckboxSelect();
+      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+      if (currentPlan?.subscription?.planId == 'fp_free') {
+        this.appSelectionService.updateUsageData.next('updatedUsage');
+      }
       if (!(this.faqs && this.faqs.length)) {
         this.selectedFaq = null;
       } else {
