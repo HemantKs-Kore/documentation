@@ -205,8 +205,8 @@ export class SearchInterfaceComponent implements OnInit {
         .subscribe(result => {
           if (result === 'yes') {
             this.selectedSettingResultsObj.referInterface = interfaceType;
-            this.copyResultSettings(interfaceType)
-            //this.saveResultSettings(interfaceType);
+            //this.copyResultSettings(interfaceType)
+            this.saveResultSettings(interfaceType);
             // this.saveResultSettings(); Inorder to reflect the configuretion, we need to save the current interface with reference
             dialogRef.close();
           } else if (result === 'no') {
