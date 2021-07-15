@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy, TestabilityRegistry } from '@a
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { AuthService } from '@kore.services/auth.service';
@@ -195,7 +196,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
-    public dockService: DockStatusService
+    public dockService: DockStatusService,
+    private appSelectionService: AppSelectionService
   ) { }
 
   ngOnInit(): void {
@@ -422,7 +424,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           this.resourcesStatusObj[element._id] = element;
         });
       }
-      
+
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
     });
@@ -447,8 +449,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.oldQuedJob = [];
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
-        if(source.status == 'running' || source.status == 'queued'){
-          if(source.numPages == 0 || source.numPages == '' ){
+        if (source.status == 'running' || source.status == 'queued') {
+          if (source.numPages == 0 || source.numPages == '') {
             this.oldQuedJob.push(source._id);
           }
         }
@@ -644,9 +646,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             }
           } else if (element.executionStats.executionStatusMessage == 'Execution Stopped') {
             element.executionStats['tooltip'] = "Execution Stopped due to " + element.statusMessage || ' time out';
-          } else if(element.executionStats.executionStatusMessage == 'Execution In Progress'){
+          } else if (element.executionStats.executionStatusMessage == 'Execution In Progress') {
             element.executionStats['tooltip'] = "In Progress";
-          }else {
+          } else {
             element.executionStats['tooltip'] = element.statusMessage;
           }
         });
@@ -1010,6 +1012,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.resources.splice(deleteIndex, 1);
       }
       this.closeStatusModal();
+      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+      if (currentPlan?.subscription?.planId == 'fp_free') {
+        this.appSelectionService.updateUsageData.next('updatedUsage');
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete source');
     });
@@ -1253,10 +1259,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
     this.editTitleFlag = false;
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(); 
-    },500)
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
   closeStatusModal() {
     this.swapSlider('page') // Just to redirect to 1st page
