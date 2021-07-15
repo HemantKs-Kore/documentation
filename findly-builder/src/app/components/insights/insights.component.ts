@@ -88,8 +88,8 @@ export class InsightsComponent implements OnInit {
     let endDate = _month_old_date.getFullYear() + "-" + (_month_old_date.getMonth() + 1) + "-" + _month_old_date.getDate();
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      startDate: sdate.toJSON(),// startDate,  //"2020-10-10",
-      endDate: _month_old_date.toJSON() //endDate,  //"2020-11-10"//endDate,
+      startDate: _month_old_date.toJSON(),// startDate,  //"2020-10-10",
+      endDate: sdate.toJSON() //endDate,  //"2020-11-10"//endDate,
     }
     var payload = {
       "searchQuery": this.query

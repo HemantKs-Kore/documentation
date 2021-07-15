@@ -143,16 +143,22 @@ export class TeamManagementComponent implements OnInit {
     this.openModal();
   }
   deleteFacets(member?, bulk?) {
+    const modalData: any = {
+      title: 'Are you sure you want to remove?',
+        body: 'Selected member will be removed from this app',
+        buttons: [{ key: 'yes', label: 'Remove', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
+    }
+    if(bulk){
+      modalData.newTitle = 'Are you sure you want to delete ?'
+      modalData.body = 'Selected members will be removed from this app';
+      modalData.buttons[0].label = 'Remove' ;
+    }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
-      data: {
-        title: 'Are you sure you want to remove?',
-        body: 'Selected member will be removed from this app',
-        buttons: [{ key: 'yes', label: 'Remove', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
-      }
+      data: modalData,
     });
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
