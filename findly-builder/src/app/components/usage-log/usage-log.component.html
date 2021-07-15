@@ -5,8 +5,8 @@
     </div>
     <div class="header-sec">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-        <div class="title">{{"ussageLog.ussageLog"| translate}} </div>
-        <div class="d-flex align-items-center">
+        <div class="title">{{"ussageLog.ussageLog"| translate}}</div>
+        <div class="d-flex align-items-center" *ngIf="searchUsageLog || usageLogs?.length || searchLoading || showSearch">
             <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
                 <input type="text" placeholder="Search" class="input-search" id="inputSearch"  [ngClass]="{'pl-33':!searchUsageLog, 'pl-2':searchUsageLog}" autocomplete="off" autofocus [(ngModel)]="searchUsageLog" (keyup)="searchUsageLogs()" (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
@@ -22,15 +22,15 @@
         </div>
     </div>
 
-    <ng-container *ngIf="!usageLogs.length && !loading">
+    <ng-container *ngIf="!usageLogs.length && !loading && !searchUsageLog && !showSearch">
         <div class="empty-usage-log">
             <div class="img-block">
-                <img src="assets/icons/usage-log/empty-log.svg">
+                <img src="assets/icons/usage-log/empty-log.png">
             </div>
             <div class="empty-text">{{"ussageLog.usage_log_will_appear_once_the_app_is_active" | translate}}</div>
         </div>
     </ng-container>
-    <ng-container *ngIf="usageLogs.length && !loadingLogs">
+    <ng-container *ngIf="(usageLogs.length && !loadingLogs) || searchUsageLog || showSearch">
         <div class="plan-type">
             <div class="current-plan">{{"ussageLog.current_plan"| translate}}</div>
             <div class="type">{{current_plan_name}}</div>

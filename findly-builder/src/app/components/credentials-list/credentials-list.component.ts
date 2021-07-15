@@ -76,6 +76,9 @@ export class CredentialsListComponent implements OnInit {
     this.loadingContent1 = true;
     this.loadImageText = true;
   }
+  // viewDetails(){
+  //   this.editCredentialRef = this.editCredentialPop.open();
+  // }
   manageCredential() {
     const queryParams = {
       userId: this.authService.getUserId(),
@@ -301,6 +304,7 @@ export class CredentialsListComponent implements OnInit {
     );
   }
   deleteCredential(data) {
+    const channelName= this.firstlistData.appName
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'autox',
@@ -327,8 +331,8 @@ export class CredentialsListComponent implements OnInit {
 
           }, (errors) => {
             if (errors && errors.error && errors.error.errors.length && errors.error.errors[0] && errors.error.errors[0].code && errors.error.errors[0].code == 409) {
-              this.notificationService.notify(errors.error.errors[0].msg, 'error');
-              dialogRef.close();
+              this.notificationService.notify('This app is currently associated with' + ' ' + channelName +'.'+ ' '+ 'Please remove the association and retry.' , 'error');
+              dialogRef.close();//errors.error.errors[0].msg
             }
             else {
               this.notificationService.notify('Deleted Successfully', 'error');

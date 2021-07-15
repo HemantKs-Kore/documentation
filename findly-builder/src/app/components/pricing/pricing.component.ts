@@ -303,6 +303,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       status: "success"
     };
     this.service.invoke('put.cancelSubscribtion', queryParam, payload).subscribe(res => {
+      this.proInfo = false;
       this.appSelectionService.getCurrentSubscriptionData();
       //this.currentsubscriptionPlan(this.selectedApp)
       this.notificationService.notify('Cancellation request submitted', 'success');
@@ -372,6 +373,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.isyAxisDocumentdata = false;
       barDocColor = "#EFF0F1";
     } else {
+      this.isyAxisDocumentdata = true;
       barDocColor = "#28A745";
     }
     if (xAxisQueryData.length == 0) {
@@ -382,6 +384,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       this.isyAxisQuerydata = false;
       barQueColor = "#EFF0F1";
     } else {
+      this.isyAxisQuerydata = true;
       barQueColor = "#7027E5";
     }
     xAxisQueryData.length ? this.monthRange = xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1] : this.monthRange = "Jan - June";
@@ -390,7 +393,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       grid: {
         left: '8%',
         right: '4%',
-        bottom: '3%',
+        bottom: '20%',
         containLabel: true
       },
       tooltip: {
@@ -413,6 +416,9 @@ export class PricingComponent implements OnInit, OnDestroy {
 
       xAxis: {
         type: 'category',
+        name: 'No Data Available',
+        nameLocation: 'middle',
+        nameGap: 50,
         data: xAxisQueryData, //['Jan', 'Feb', 'Apr', 'May', 'Jun'], //data//
         axisLabel: {
           //margin: 20,
@@ -464,7 +470,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       grid: {
         left: '10%',
         right: '4%',
-        bottom: '3%',
+        bottom: '20%',
         containLabel: true
       },
       tooltip: {
@@ -486,6 +492,9 @@ export class PricingComponent implements OnInit, OnDestroy {
       },
       xAxis: {
         type: 'category',
+        name: 'No Data Available',
+        nameLocation: 'middle',
+        nameGap: 50,
         data: xAxisDocumentData, //['Jan', 'Feb', 'Apr', 'May', 'Jun'], //data//
         axisLabel: {
           //margin: 20,
@@ -535,9 +544,21 @@ export class PricingComponent implements OnInit, OnDestroy {
       delete this.queryGraph.yAxis.min;
       delete this.queryGraph.yAxis.max;
     }
+    if (this.isyAxisQuerydata) {
+      delete this.queryGraph.xAxis.name
+      delete this.queryGraph.xAxis.nameLocation
+      delete this.queryGraph.xAxis.nameGap
+      this.queryGraph.grid.bottom = "3%"
+    }
     if (Math.max(...yAxisDocumentData) > 5) {
       delete this.documentGraph.yAxis.min;
       delete this.documentGraph.yAxis.max;
+    }
+    if (this.isyAxisDocumentdata) {
+      delete this.documentGraph.xAxis.name
+      delete this.documentGraph.xAxis.nameLocation
+      delete this.documentGraph.xAxis.nameGap
+      this.documentGraph.grid.bottom = "3%"
     }
   }
   //select type plan like monthly or yearly
@@ -578,8 +599,8 @@ export class PricingComponent implements OnInit, OnDestroy {
       streamId: this.selectedApp._id
     }
     this.service.invoke('get.renewSubscribtion', queryParam).subscribe(res => {
-      dialogRef.close();
       setTimeout(() => {
+        dialogRef.close();
         this.appSelectionService.getCurrentSubscriptionData();
       }, 2000)
       // this.notificationService.notify('Cancel Subscription', 'success');

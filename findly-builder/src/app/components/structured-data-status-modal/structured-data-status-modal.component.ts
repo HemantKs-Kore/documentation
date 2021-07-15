@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AuthService } from '@kore.services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { from, interval, Subject, Subscription } from 'rxjs';
 import { startWith, elementAt, filter } from 'rxjs/operators';
 import * as _ from 'underscore';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-structured-data-status-modal',
@@ -17,6 +18,7 @@ export class StructuredDataStatusModalComponent implements OnInit {
 
   @Output() closeStructuredDataStatusModal = new EventEmitter();
   @Input('structuredDataDocPayload') structuredDataDocPayload : any;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
   constructor(private notificationService: NotificationService,
     private service: ServiceInvokerService,
@@ -31,6 +33,10 @@ export class StructuredDataStatusModalComponent implements OnInit {
   }
 
   ngOnChanges(changes){
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
     if(changes && changes.structuredDataDocPayload && changes.structuredDataDocPayload.currentValue){
       this.poling(changes.structuredDataDocPayload.currentValue);
     }

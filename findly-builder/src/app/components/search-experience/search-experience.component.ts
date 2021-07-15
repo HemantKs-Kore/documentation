@@ -594,6 +594,30 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.selectedColor = '';
     }
   }
+  //close color pallet box
+  closeColorPallete(type) {
+    if (type == "inputbox1") {
+      this.toggle = false; this.inputBox1 = false; this.color = this.searchObject.searchWidgetConfig.searchBarFillColor;
+    }
+    else if (type == "inputBox2") {
+      this.toggle1 = false; this.inputBox2 = false; this.color1 = this.searchObject.searchWidgetConfig.searchBarBorderColor;
+    }
+    else if (type == "placeholBox") {
+      this.toggle2 = false; this.placeholBox = false; this.color2 = this.searchObject.searchWidgetConfig.searchBarPlaceholderTextColor;
+    }
+    else if (type == "buttonFill") {
+      this.toggle4 = false; this.buttonFill = false; this.color4 = this.searchObject.searchWidgetConfig.buttonFillColor;
+    }
+    else if (type == "buttonTextColor") {
+      this.toggle3 = false; this.buttonTextColor = false; this.color3 = this.searchObject.searchWidgetConfig.buttonTextColor;
+    }
+    else if (type == "buttonBorder") {
+      this.toggle5 = false; this.buttonBorder = false; this.color5 = this.searchObject.searchWidgetConfig.buttonBorderColor;
+    }
+    else if (type == "msgColor") {
+      this.toggle6 = false; this.msgColor = false; this.color6 = this.searchObject.searchInteractionsConfig.welcomeMsgColor;
+    }
+  }
   //select search box widget
   selectSearchBox(type) {
     this.selectSearch = type;

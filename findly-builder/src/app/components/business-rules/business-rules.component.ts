@@ -20,6 +20,7 @@ import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import * as moment from 'moment';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 declare const $: any;
 @Component({
   selector: 'app-business-rules',
@@ -27,6 +28,7 @@ declare const $: any;
   styleUrls: ['./business-rules.component.scss']
 })
 export class BusinessRulesComponent implements OnInit, OnDestroy {
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   addBusinessRulesRef: any;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
@@ -112,7 +114,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   componentType: string = 'configure';
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
-    if (content) {
+  if (content) {
       this.contextSuggestedImput = content;
     }
   }
@@ -188,9 +190,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   openModalPopup() {
     this.addBusinessRulesRef = this.addBusinessRules.open();
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
-  prepereSliderObj(index) {
-    return new RangeSlider(0, 5, 1, 3, 'outcomeScale' + index)
+  prepereSliderObj(index,scale?) {
+    return new RangeSlider(0, 5, 1, scale||3, 'outcomeScale' + index)
   }
   valueEvent(val, outcomeObj) {
     outcomeObj.scale = val;
@@ -228,7 +234,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       let ruleObjOutcomes = JSON.parse(JSON.stringify(ruleObj.outcomes));
       ruleObjOutcomes.forEach((outcome, i) => {
         const tempObj: any = outcome
-        tempObj.sliderObj = this.prepereSliderObj(i);
+        tempObj.sliderObj = this.prepereSliderObj(i,(outcome.scale || 3));
         _outcoms.push(tempObj);
       });
       this.outcomeArrayforAddEdit = _outcoms;
@@ -497,6 +503,15 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   ruleSelection(ruleObj, value, key) {
     if (key === 'contextCategory') {
       ruleObj.contextCategory = value;
+      if(ruleObj.contextCategory == 'traits'){
+        ruleObj.dataType = 'trait';
+      } else if(ruleObj.contextCategory == 'entity'){
+        ruleObj.dataType = 'entity';
+      } else if(ruleObj.contextCategory == 'keywords'){
+        ruleObj.dataType = 'keyword';
+      }else{
+        ruleObj.dataType = 'string';
+      }
     }
     if (key === 'contextType') {
       ruleObj.contextType = value;
@@ -666,9 +681,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      category :'rules',
       query
     };
-    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
+    this.service.invoke('get.getFieldAutocompleteIndices', quaryparms).subscribe(res => {
       console.log("fieldAutoSuggestion", res)
       this.fieldAutoSuggestion = res || [];
     }, errRes => {

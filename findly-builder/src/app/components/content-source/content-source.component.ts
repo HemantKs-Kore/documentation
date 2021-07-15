@@ -38,15 +38,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isEditDoc: boolean = false;
   editDocObj: any = {};
   isEdittitle;
+  contentId
   edit: any = {};
   editConfObj: any = {};
   editTitleFlag: boolean = false;
   isConfig: boolean = false;
+  numberOf: any = {};
   allowUrl: AllowUrl = new AllowUrl()
   blockUrl: BlockUrl = new BlockUrl();
   allowUrlArr: AllowUrl[] = [];
   blockUrlArr: BlockUrl[] = [];
   activeClose = false;
+  oldQuedJob = [];
   filterSystem: any = {
     'typeHeader': 'type',
     'statusHeader': 'status',
@@ -85,7 +88,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     running: { name: 'In Progress', color: '#0D6EFD' },
     inprogress: { name: 'In Progress', color: '#0D6EFD' },
     validation: { name: 'In-Queue', color: '#0D6EFD' },
-    scheduled: { name: 'Configured', color: '#0D6EFD' },
+    scheduled: { name: 'Validated', color: '#0D6EFD' },
     halted: { name: 'Stopped', color: '#DD3646' },
     configured: { name: 'Validated', color: '#202124' }
   };
@@ -159,10 +162,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isAsc = true;
   selectedSort = '';
   recordStr: number = 1;
-  recordEnd: number = 25;
+  recordEnd: number = 10;
   totalRecord: number = 0;
-  limitpage: number = 25;
-  limitAllpage: number = 25;
+  limitpage: number = 10;
+  limitAllpage: number = 10;
   allInOne: boolean = false;
   urlConditionAllow = "is";
   urlConditionBlock = "is";
@@ -170,7 +173,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   filterTableheaderOption = "";
   filterTableSource = "all";
   execution = false;
-  page = true;
+  page = false;
   executionHistoryData: any = [];
   sourceStatus = 'success';
   useCookies = false;
@@ -270,7 +273,34 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     }
   }
-  getSourceList() {
+  convertToDay(repeatOn) {
+    switch (repeatOn) {
+      case 'SUN':
+        return "Sunday";
+
+      case 'MON':
+        return "Monday";
+
+      case 'TUE':
+        return "Tuesday";
+
+      case 'WED':
+        return "Wednesday";
+
+      case 'THU':
+        return "Thursday";
+
+      case 'FRI':
+        return "Friday";
+
+      case 'SAT':
+        return "Saturday";
+
+      default:
+        return '';
+    }
+  }
+  getSourceList(nxt?) {
     this.statusArr = [];
     this.docTypeArr = [];
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
@@ -289,7 +319,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           if (element.advanceSettings.scheduleOpts.interval.intervalType != "Custom") {
             let hour = (element.advanceSettings.scheduleOpts.time.hour).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.hour : '0' + element.advanceSettings.scheduleOpts.time.hour;
             let minute = (element.advanceSettings.scheduleOpts.time.minute).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.minute : '0' + element.advanceSettings.scheduleOpts.time.minute;
-            element['schedule_title'] = 'Runs once at ' +
+            element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' ' + 'at ' +
               hour + ':' + minute + ' ' +
               element.advanceSettings.scheduleOpts.time.timeOpt + ' ' + element.advanceSettings.scheduleOpts.time.timezone;
           } else {
@@ -300,12 +330,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
               schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
-              repeatOn = "on " + element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
+              repeatOn = " on " + this.convertToDay(element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn);
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1) {
               every = element.advanceSettings.scheduleOpts.interval.intervalValue.every;
             }
-            element['schedule_title'] = 'Runs once every'+ ' ' + every + ' ' +  schedulePeriod + '' + repeatOn
+            element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn
 
           }
 
@@ -357,7 +387,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         source.name = source.name || source.title;
       });
       this.resources = this.resources.reverse();
-      if (this.resources && this.resources.length) {
+      if (this.resources && this.resources.length && !nxt) {
         this.poling('content')
       }
       this.loadingContent = false;
@@ -397,6 +427,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           this.resourcesStatusObj[element._id] = element;
         });
       }
+      
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
     });
@@ -418,16 +449,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       type
     };
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
-      // let compareObj = [...Object.entries(this.resourcesStatusObj)];
-      // compareObj.forEach((element : any[],index) => {
-      //   if(res[index] && element[0] ==  res[index]._id && element[1].status != res[index].status){
-      //     this.getJobDetails(res._id)
-      //     this.getSourceList();
-      //   }
-      // });
+      this.oldQuedJob = [];
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
-
+        if(source.status == 'running' || source.status == 'queued'){
+          if(source.numPages == 0 || source.numPages == '' ){
+            this.oldQuedJob.push(source._id);
+          }
+        }
         if (this.resourcesStatusObj[source._id]) {
           if (this.resourcesStatusObj[source._id].status == 'running' || this.resourcesStatusObj[source._id].status == 'queued') {
             if (source.executionStats.percentageDone && source.executionStats.percentageDone == 100) {
@@ -436,29 +465,21 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             }
           }
         }
-        res.forEach(element => {
-          if(element.status ! = this.resourcesStatusObj[element._id].status){
-            // this.getJobDetails(source._id)
-            this.getSourceList();
-          }
-        });
-        //this.resourcesStatusObj.forEach(element => {
-          // if(this.resourcesStatusObj[element._id].status != res[source._id].status){
-          //   this.getJobDetails(source._id)
-          //   this.getSourceList();
-          // }
-        //});
         this.resourcesStatusObj[source._id] = source;
 
         return ((source.status === 'running') || (source.status === 'queued'));
       });
       if (queuedJobs && queuedJobs.length) {
-        console.log(queuedJobs);
+        if (this.oldQuedJob.length != queuedJobs.length) {
+          this.getSourceList();
+        }
       } else {
         clearInterval(this.polingObj[type]);
+        this.getSourceList('clearPoling');
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
+      this.oldQuedJob = [];
       clearInterval(this.polingObj[type]);
     });
   }
@@ -487,13 +508,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       quaryparms.contentType = 'docContent'
     }
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
-      this.selectedSource.pages = res;
       this.loadingSliderContent = false;
+      this.selectedSource.pages = res;
       if (this.selectedSource.pages.length > 0) {
         this.docContent = this.selectedSource.pages[0]._source;
         this.docContentType = this.selectedSource.pages[0]._meta;
+        this.contentId = this.selectedSource.pages[0]._id;
       }
-
       /** Paging */
       const data = [...res]
       this.pagingData = data.slice(0, this.limitpage);
@@ -512,7 +533,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       } else {
         this.crwalOptionLabel = 'Crawl Everything'
       }
-      this.swapSlider('page')
+      if (data.length) {
+        this.swapSlider('page');
+      }
+      else {
+        this.swapSlider('config')
+      }
+      this.clicksViews()
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
       //   $('.tabname')[1].classList.remove('active');
       //   $('.tabname')[0].classList.add('active');
@@ -532,6 +559,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   viewPageDetails() {
     this.sliderStep = 1;
+    this.clicksViews();
   }
   sliderBack() {
     if (this.sliderStep) {
@@ -555,9 +583,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.isConfig = true;
         this.page = false;
       } else if (tabName == 'page') {
-        this.page=true;
-        this.isConfig=false;
-        this.execution= false;
+        // if(this.selectedSource.recentStatus == 'success'){
+        this.page = true;
+        this.isConfig = false;
+        this.execution = false;
+        // }
+        // else{
+        //   this.page = false;
+        //   this.isConfig = true;
+        //   this.execution = false;
+        // }
+
         // $('.tabname')[0].classList.add('active');
         // $('.tabname')[1].classList.remove('active');
         // $('.tabname')[2].classList.remove('active');
@@ -613,8 +649,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             }
           } else if (element.executionStats.executionStatusMessage == 'Execution Stopped') {
             element.executionStats['tooltip'] = "Execution Stopped due to " + element.statusMessage || ' time out';
-          } else {
-            element.executionStats['tooltip'] = element.statusMessage
+          } else if(element.executionStats.executionStatusMessage == 'Execution In Progress'){
+            element.executionStats['tooltip'] = "In Progress";
+          }else {
+            element.executionStats['tooltip'] = element.statusMessage;
           }
         });
       }
@@ -629,10 +667,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
 
   }
-  openStatusSlider(source) {
+  openStatusSlider(source, page?) {
     console.log("sourec opned", source)
     this.executionHistoryData = [];
     this.pagesSearch = '';
+
     // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
     //   this.notificationService.notify('Source extraction is still in progress', 'error');
     //   return;
@@ -674,6 +713,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     else if (source.extractionType === 'file') {
       this.openDocumentModal();
       this.getCrawledPages(this.limitpage, 0);
+      // this.clicksViews()
     }
     // this.sliderComponent.openSlider('#sourceSlider', 'right500');
     //}
@@ -732,7 +772,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     if (type == 'history') {
       this.executionHistory()
     } else {
-      this.getCrawledPages(event.limit, event.skip);
+      this.getCrawledPages(10, event.skip);
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop(2, 1000);
     }
@@ -865,7 +905,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         title: from == 'source' ? 'Delete Source ' : ' Delete Page',
         text: 'Are you sure you want to delete?',
         newTitle: 'Are you sure you want to delete?',
-        body: from == 'source' ?'All the Pages associated with this source will be deleted.' : 'Selected Page will be deleted.',
+        body: from == 'source' ? 'All the Pages associated with this source will be deleted.' : 'Selected Page will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -1218,6 +1258,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
     this.editTitleFlag = false;
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
   closeStatusModal() {
     this.swapSlider('page') // Just to redirect to 1st page
@@ -1645,6 +1689,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
     }
+  }
+  clicksViews() {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      contentId: this.contentId,
+    };
+    this.service.invoke('get.clicksViewsContent', quaryparms).subscribe(res => {
+      console.log(res);
+      this.numberOf = res;
+    }, errRes => {
+    });
   }
 }
 

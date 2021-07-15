@@ -10,6 +10,7 @@ import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 declare const $: any;
 @Component({
   selector: 'app-facets',
@@ -79,6 +80,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   selectTypeArr: any = [];
   componentType: string = 'configure';
   submitted : boolean = false;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -266,18 +269,21 @@ export class FacetsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      offset: 0,
-      limit: 100
+      // offset: 0,
+      // limit: 100
     };
-    this.service.invoke('get.allField', quaryparms).subscribe(res => {
+    // let serviceId = 'get.allField';
+    let serviceId = 'get.allFieldsData';
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+      this.fieldAutoSuggestion = res.fields || [];
       res.fields.forEach(element => {
         if (element._id === data.fieldId) {
           console.log(element)
           this.addEditFacetObj = JSON.parse(JSON.stringify(data));
           this.selectedFieldId = element._id;
-          this.getFieldAutoComplete(element.fieldName);
+          // this.getFieldAutoComplete(element.fieldName);
           this.selectField(element);
-          this.openModal();
+          this.openModal(true);
         }
       });
     }, errRes => {
@@ -314,9 +320,10 @@ export class FacetsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      category :'facets',
       query
     };
-    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
+    this.service.invoke('get.getFieldAutocompleteIndices', quaryparms).subscribe(res => {
       this.fieldAutoSuggestion = JSON.parse(JSON.stringify(res)) || [];
       if(this.fieldAutoSuggestion.length){
         if(!$('#facets-search-with-dropdown-menu').hasClass('show') && $('#facets-search-input').is(':focus')){
@@ -598,9 +605,16 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
-  openModal() {
+  openModal(isFields?) {
     this.submitted = false;
+    if(!isFields){
+      this.getAllFields();
+    }
     this.facetModalRef = this.facetModalPouup.open();
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
   closeModal() {
     if (this.facetModalRef && this.facetModalRef.close) {
@@ -610,6 +624,23 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.resetDefaults();
     this.addEditFacetObj = null;
     this.selectedFieldId = null;
+  }
+  getAllFields(){
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+    };
+    let serviceId = 'get.allFieldsData';
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+      this.fieldAutoSuggestion = res.fields || [];
+      if(this.fieldAutoSuggestion.length){
+        if(!$('#facets-search-with-dropdown-menu').hasClass('show') && $('#facets-search-input').is(':focus')){
+          $('#facets-search-with-dropdown-menu').addClass('show')
+        }
+      }
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
   }
   toggleSearch() {
     if (this.showSearch && this.searchfacet) {

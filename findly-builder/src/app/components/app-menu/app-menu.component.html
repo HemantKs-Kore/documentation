@@ -2,8 +2,49 @@
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
 	<ng-container *ngIf="!settingMainMenu && !sourceMenu || sourceMenu">
 		<div class="upgrade_your_plan_price" [ngClass]="{'d-none':showUpgrade}">
+			<span class="status-type" [ngClass]="{'red':usageDetails?.ingestDocs==100||usageDetails.searchQueries==100}"></span>
 			<div class="upgrade-plan-btn" (click)="upgrade()">Upgrade Your Plan<img src="assets/icons/pricing/carrotright.svg"></div>
-			<div class="document-limit" *ngIf="usageDetails?.ingestDocs<80">{{usageDetails.ingestDocs}}%  document limit reached
+
+			<div class="hover-documnet-show-data">
+				<div class="card-data- card1">
+					<div class="img-block">
+						<img src="assets/icons/pricing/query-limits.svg">
+					</div>
+					<div class="content-sec">
+						<div class="title">Query limit</div>
+						<div class="desc-text">Percentage of queries asked by the user</div>
+						<div class="count-data">
+							<div class="linit-k">
+								<span>{{usageDetails.searchCount | valueFormat}}</span> / {{usageDetails.searchLimit| valueFormat}} 
+							</div>
+							<div class="percentage">{{usageDetails.searchQueries}}% </div>
+						</div>						
+					</div>
+					<ng-container>
+						<ngb-progressbar height="10px" [type]="usageDetails?.searchQueries<80?'warning':'danger'" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
+					</ng-container>						
+				</div>
+				<div class="card-data- card2">
+					<div class="img-block">
+						<img src="assets/icons/pricing/document-limit.svg">
+					</div>
+					<div class="content-sec">
+						<div class="title">Document limit</div>
+						<div class="desc-text">Percentage of documents ingested</div>
+						<div class="count-data">
+							<div class="linit-k">
+								<span>{{usageDetails.ingestCount| valueFormat}}</span> /  {{usageDetails.ingestLimit| valueFormat}} 
+							</div>
+							<div class="percentage">{{usageDetails.ingestDocs}}%</div>
+						</div>						
+					</div>
+					<ng-container>
+						<ngb-progressbar height="10px" [type]="usageDetails?.ingestDocs<80?'warning':'danger'" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
+					</ng-container>		
+				</div>
+			</div>
+
+			<!-- <div class="document-limit" *ngIf="usageDetails?.ingestDocs<80">{{usageDetails.ingestDocs}}%  document limit reached
 				<ngb-progressbar height="10px" type="primary" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
 			</div>		
 			<div class="document-limit" *ngIf="usageDetails?.searchQueries<80">{{usageDetails.searchQueries}}%  query limit reached
@@ -14,7 +55,7 @@
 			</div>		
 			<div class="document-limit" *ngIf="usageDetails?.searchQueries>80">{{usageDetails.searchQueries}}%  query limit reached
 				<ngb-progressbar class="limit-exceed" height="10px" type="danger" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
-			</div>		
+			</div>		 -->
 		</div>
 	</ng-container>
 	<perfect-scrollbar class="perfect-scroll" [ngClass]='{"if-upgrade-plan":!showUpgrade}'>
@@ -43,7 +84,7 @@
 										<div class="edit-black" *ngIf="!editIndexName&&!(config.default)" (click)="$event.stopPropagation();editIndexConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
 											<img src="assets/icons/edit-pencil.svg">
 										</div>																
-										<div class="delete" *ngIf="!editIndexName&&!(config.default)" ngbTooltip='Delete' placement="top-center" [container]="'body'" (click)="$event.stopPropagation();deleteIndexConfig(config,'index')">
+										<div class="delete" *ngIf="!editIndexName&&!(config.default)" ngbTooltip='Delete' placement="top-center" [container]="'body'" (click)="$event.stopPropagation();checkExistInExperiment(config,'index')">
 											<img src="assets/icons/delete.svg">
 										</div>											
 									</div>
@@ -113,7 +154,7 @@
 											<div class="edit-black" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();editConfig(config,'edit')" ngbTooltip='Edit' placement="top-center" [container]="'body'">
 												<img src="assets/icons/edit-pencil.svg">
 											</div>																
-											<div class="delete" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();deleteIndexConfig(config,'search')" ngbTooltip='Delete' placement="top-center" [container]="'body'">
+											<div class="delete" *ngIf="!editName&&!(config.default)" (click)="$event.stopPropagation();checkExistInExperiment(config,'search')" ngbTooltip='Delete' placement="top-center" [container]="'body'">
 												<img src="assets/icons/delete.svg">
 											</div>											
 										</div>

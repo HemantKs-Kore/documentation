@@ -28,12 +28,11 @@
         <div class="col-6 toggle-check">       
             <label class="kr-sg-toggle">
                 <input type="checkbox" checked>
-                <div class="slider"><span class="enabled">{{"settings.channel_enabled" | translate}}</span><span class="disabled">Channel Disabled</span></div>
+                <div class="slider"><span class="enabled" (click)="disableCredential(pageDisable)">{{"settings.channel_enabled" | translate}}</span><span class="disabled" >Channel Disabled</span></div>
             </label>     
             <!-- <div class="bread-name active-name1"  *ngIf="existingCredential"><img src="assets/icons/viewinstruction.svg"> View Instructions</div>                  -->
         </div>
     </div>
-
     <div class="body-sec" *ngIf="slider==0">
         <div class="info-data">
             <div class="img-block"><img src="assets/icons/Info_gray.svg"></div>
@@ -42,15 +41,15 @@
         </div>
         <div class="card_data row m-0">
             <div class="card-content active" *ngFor=" let channel of channels | filter: [ searchchannel , 'name']" [ngClass]=" {'blur': !enableConfiguration }">
-                <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="channel.enable">                                        
+                <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="channel.enable && !delChannel">                                        
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle  p-0 border-0" ngbDropdownToggle><img src="assets/icons/elipse.svg"></button>                                            
                         <ul class="dropdown-menu content-menu faq-filter-add p-0" ngbDropdownMenu> 
-                            <li (click)="(enableConfiguration = !enableConfiguration)?  disableCredential() : '' ">{{enableConfiguration?'Disable':'Enable'}}</li>
+                            <li (click)="(enableConfiguration = !enableConfiguration)? enableDisableCredential() : enableDisableCredential() ">{{enableConfiguration?'Disable':'Enable'}}</li>
                             <!-- <li (click)="disableCredential()"><a (click)="enableConfiguration = !enableConfiguration"> Disable</a></li> 
                             <li *ngIf="!enableConfiguration = enableConfiguration" (click)="configureCredential()"><a> Enable</a></li>  -->
                             <!-- <li><a (click)="enableConfiguration = !enableConfiguration) ? disableCredential()">Enaable</a></li> -->
-                            <li class="d-none"><a>{{"settings.delete" | translate}} </a></li>               
+                            <li (click) = "deleteChannel()"><a>{{"settings.delete" | translate}} </a></li>               
                         </ul>
                     </div>
                 </div>
@@ -65,7 +64,7 @@
                 <div class="main" (click)="proceedChannel(channel)">
                     <div class="img-block cursor-pointer"><img src="{{channel.icon}}"></div>
                     <div class="main-title">{{channel.name}}</div>
-                    <div class="configuration" *ngIf="channel.enable">{{"settings.configured" | translate}}</div>
+                    <div class="configuration" *ngIf="channel.enable && !delChannel">{{"settings.configured" | translate}}</div>
                 </div>
 
             </div>
@@ -239,7 +238,7 @@
                     </div>
 
                     <div class="border-line"></div>
-                    <div class="accordion-sec ">{{"settings.view_JSON_web_encryption_public_key " | translate}} <img
+                    <div class="accordion-sec d-none">{{"settings.view_JSON_web_encryption_public_key " | translate}} <img
                             src="assets/images/icons/carrot_up.svg"></div>
                 </div>
                 <div class="group-radiobutton d-none">
@@ -256,7 +255,7 @@
             </div>
         </div>
     </perfect-scrollbar>
-    <div class="footer-sec">
+    <div class="footer-sec" [ngClass]=" {'blur':!enableConfiguration }">
         <div class="btn-sec">
             <div>
                 <button *ngIf="!existingCredential" class="kr-sg-button-secondary btn_lg" (click)="cancel()">{{"settings.cancel" | translate}} </button>
@@ -265,7 +264,7 @@
                 <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf=!existingCredential (click)="back()"> {{"settings.back" | translate}}</button>
                 <button class="kr-sg-button-primary btn_lg" (click)="continue()" *ngIf="slider!==3" [disabled]="(!(credntial.name) || !(credntial.awt)) && (slider==2)">{{"settings.continue" | translate}}</button>
                 <button class="kr-sg-button-secondary btn_lg mr-2"  *ngIf=existingCredential (click)="cancel()">{{"settings.cancel" | translate}} </button>
-                <button class="kr-sg-button-primary btn_lg" *ngIf="slider==3" (click)="configureCredential()"> {{"settings.save" | translate}}</button>
+                <button class="kr-sg-button-primary btn_lg" *ngIf="slider==3" (click)="configureCredential($event)"> {{"settings.save" | translate}}</button>
             </div>
         </div>
     </div>

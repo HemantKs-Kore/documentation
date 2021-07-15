@@ -55,7 +55,7 @@
         <ng-container *ngIf="!(facets && facets.length) && !loadingContent">
             <perfect-scrollbar class="empty-scroll">
                 <div class="empty-landing-screen">
-                    <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/facets-empty.svg"></div>
+                    <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/facets-empty.png"></div>
                     <ng-container *ngIf="loadImageText">
                         <div class="empty-title">You haven’t added any Facets yet!</div>
                         <div class="desc-text">Facets allow search users to refine their search results by selecting appropriate filters. SearchAssist allows you to add value and range facets, and you can configure any indexed fields as facets.
@@ -223,7 +223,7 @@
             </label>
         </div>
     </div>
-    <!-- <perfect-scrollbar class="perfect-scroll-modal-body"> -->
+    <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
         <div class="modal-body textAlignLeft" *ngIf="addEditFacetObj">
             <div class="search_block">
                 <div class="label-text">{{'facets.field_name'| translate}}</div>
@@ -232,12 +232,13 @@
                         <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                             <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
-                            <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
+                            <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
+                            <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown"  [(ngModel)]="addEditFacetObj.fieldName">
                             <img src="assets/images/search_gray.svg" class="search-icon">
                             <img *ngIf="(!addEditFacetObj.fieldId.length) && submitted" id="fieldWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
                             <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
                                 <perfect-scrollbar class="scroll-search-field">
-                                    <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="selectField(suggesition); setFaceName(suggesition)"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
+                                    <li *ngFor="let suggesition of fieldAutoSuggestion | filter : [addEditFacetObj.fieldName, 'fieldName'] " (click)="selectField(suggesition); setFaceName(suggesition)"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
                                 </perfect-scrollbar>
                             </ul>
                         </div>
@@ -245,9 +246,9 @@
                             <div class="mr-1"><img src="assets/icons/info-blue.svg"></div>
                             <div class="tost-text">{{selectedField.fieldName}} is not indexed</div>
                         </div>
-                        <div class="kr-sg-inline-notification" *ngIf="selectedFieldId === selectedField?.fieldId && addEditFacetObj?.showFieldWarning && addEditFacetObj?.showFieldWarning === 'CHANGE_IN_TYPE'">
+                        <div class="mt-2 kr-sg-inline-notification" *ngIf="selectedFieldId === selectedField?.fieldId && addEditFacetObj?.showFieldWarning && addEditFacetObj?.showFieldWarning !== 'NOT_INDEXED' && addEditFacetObj?.showFieldWarning !== 'false'">
                             <div class="mr-1"><img src="assets/icons/info-blue.svg"></div>
-                            <div class="tost-text">The Field type has been changed</div>
+                            <div class="tost-text">{{addEditFacetObj?.showFieldWarning}}</div>
                         </div>
                     </div>
                     <div class="col-4 pr-0 pl-2" *ngIf="!addEditFacetObj._id &&  selectedField && selectedField.fieldDataType && filedTypeShow">
@@ -381,7 +382,7 @@
                 </div>
             </ng-container>
         </div>
-    <!-- </perfect-scrollbar> -->
+    </perfect-scrollbar>
     <div class="modal-footer" *ngIf="addEditFacetObj">
         <!-- [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldId === selectedField.fieldId)' Removed Tooltip -->
         <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button> <!-- [disabled]='(!addEditFacetObj._id && !selectedField) || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldId !== selectedField.fieldId))' -->

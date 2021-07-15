@@ -21,7 +21,7 @@
                         <span routerLink="/botActions" class="d-none"></span>
                         <span routerLink="/structuredData" class="d-none"></span>
                     </div>
-                    <div class="headerMenuTab" id="sourceTab" [ngClass]="{'active' : mainMenu == '/index'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/index')">
+                    <div class="headerMenuTab" id="sourceTab" [ngClass]="{'active' : mainMenu == '/index'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/FieldManagementComponent')">
                         <span>Indices</span>
                         <span routerLink="/searchInterface" class="d-none"></span>
                         <span routerLink="/search-experience" class="d-none"></span>
@@ -94,7 +94,7 @@
                                     <div class="main-title">SearchAssist Apps</div>
                                     <div class="apps-block">
                                         <div class="title-secondary">Recent Apps</div>
-                                        <div class="app-name-block" *ngFor='let app of recentApps' (click)="openApp(app);myDrop.close()">
+                                        <div class="app-name-block" *ngFor='let app of recentApps' (click)="app.disabled?null:[openApp(app),myDrop.close()]" [ngStyle]="app.disabled&&{'opacity':'0.4','cursor':'default'}" placement="top-center" [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0">
                                             <div class="app-name">{{app.name}}</div>
                                             <div class="shared-name d-none">{{app.createdBy===userId?'My App':'Shared by '+app.userDetails.fullName}}</div>
                                         </div>                                                       
@@ -107,7 +107,7 @@
                     </div>
                 </li>
                 <li class="nav-item test-button">
-                    <button placement="bottom" #testButtonTooltip="ngbTooltip" ngbTooltip="Preview & Customize search results." container='body' tooltipClass="test-icon-tooltip" class="kr-sg-button-secondary btn_lg rr-tour-test-btn" id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()">Test</button>
+                    <button placement="bottom" triggers="hover" #testButtonTooltip="ngbTooltip" ngbTooltip="Preview & Customize search results." container='body' tooltipClass="test-icon-tooltip" class="kr-sg-button-secondary btn_lg rr-tour-test-btn" id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()">Test</button>
                 </li>
                 <li (click)="train()" class="nav-item train-btn" ngbTooltip="Train your App" container='body' tooltipClass="train-icon-tooltip" [ngClass]='{"active-train":training}'>
                     <div class="loader-train"></div>
@@ -170,7 +170,7 @@
                                                                     </div>
                                                                     <div class="status-blcok">                        
                                                                         <img src="assets/icons/ringLoading.svg" class="inProgress" *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED'" placement="top" container='body'>
-                                                                        <span *ngIf="(task.status == 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}%</span>
+                                                                        <!-- <span *ngIf="(task.status == 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}%</span> -->
                                                                         <img src="assets/icons/docker/close.svg" (click)="removeRecord(task, index)" *ngIf="(task.status !== 'IN_PROGRESS' && task.status !== 'validation' && task.status !== 'QUEUED')">
                                                                     </div>
                                                                 </div>

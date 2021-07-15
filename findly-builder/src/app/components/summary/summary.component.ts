@@ -167,7 +167,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
   getQueries(type) {
     var today = new Date();
-    let from = new Date(Date.now() - (29 * 864e5));
+    let from = new Date(Date.now() - (1 * 864e5));
 
     const header: any = {
       'x-timezone-offset': '-330'
@@ -270,9 +270,15 @@ export class SummaryComponent implements OnInit, OnDestroy {
           let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
           return { ...data, total_days: days_result + ' more to go', time_result: hours };
         })
-        if(this.selectedApp.channels[0].app.appName != '' && this.selectedApp.channels[0].app.clientId!=''){
+        // if(this.selectedApp.channels[0].app.appName != '' && this.selectedApp.channels[0].app.clientId!=''){
+        //   this.channelExist =true;
+        // }
+        // if (this.selectedApp.channels[0]?.app?.appName != '' && this.selectedApp.channels[0]?.app?.clientId != '') {
+        //   this.channelExist = true;
+         if(this.selectedApp.channels.length){
           this.channelExist =true;
         }
+
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -334,7 +340,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.onboard.closeOnBoardingModal();
   }
   ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.routeRefresh.unsubscribe();
+    this.subscription ? this.subscription.unsubscribe() : null;
+    this.routeRefresh ? this.routeRefresh.unsubscribe() : null;
   }
 }

@@ -11,6 +11,7 @@ import * as _ from 'underscore';
 import { Observable, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 @Component({
   selector: 'app-weights',
   templateUrl: './weights.component.html',
@@ -40,6 +41,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
   submitted : boolean = false;
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef<HTMLInputElement>;
   @ViewChild('addDditWeightPop') addDditWeightPop: KRModalComponent;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   constructor(
     public dialog: MatDialog,
     public workflowService: WorkflowService,
@@ -192,11 +194,28 @@ export class WeightsComponent implements OnInit, OnDestroy {
     // this.addEditWeighObj = editWeight;
     // this.openAddEditWeight();
   }
+  getAllFields(){
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+    };
+    let serviceId = 'get.allFieldsData';
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+      this.fields = res.fields || [];
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
+  }
   openAddEditWeight() {
     this.searchModel = {};
     this.sliderOpen = true;
     this.submitted = false;
+    this.getAllFields();
     this.addDditWeightPopRef = this.addDditWeightPop.open();
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
   openAddNewWeight() {
     this.addEditWeighObj = {
@@ -205,7 +224,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
       isField: true,
       sliderObj: new RangeSlider(0, 10, 1, 2, 'editSlider')
     };
-    this. getFieldAutoComplete(''); 
+    // this. getFieldAutoComplete(''); 
     this.openAddEditWeight();
   }
   closeAddEditWeight() {

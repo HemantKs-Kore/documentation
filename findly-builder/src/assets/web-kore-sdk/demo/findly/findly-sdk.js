@@ -817,7 +817,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (dummyString.indexOf(match) !== -1) {
           var _link = p1.indexOf('http') < 0 ? 'http://' + match : match, _target;
           //_link = encodeURIComponent(_link);
-          target = "target='underscoreblank'";
+          _target = "target='_blank'";
           if (hyperLinksMap) {
             var _randomKey = "korerandom://" + Object.keys(hyperLinksMap).length;
             hyperLinksMap[_randomKey] = _link;
@@ -869,7 +869,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               hyperLinksMap[_randomKey] = _aEle[0].href;
               _aEle[0].href = _randomKey;
             }
-            $(_newLA).find('a').attr('target', 'underscoreblank');
+            $(_newLA).find('a').attr('target', '_blank');
             str = str.replace(linkArray[x], _newLA.innerHTML);
           }
         } else {
@@ -1309,11 +1309,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="faqs-bottom-actions background-white">\
                     <span class="appearences">\
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                      <span class="custom-appearences-content">${faq.feedback.appearance} VIEWS</span>&nbsp;\
+                      <span class="custom-appearences-content">${faq.feedback.appearances} VIEWS</span>&nbsp;\
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                      <span class="custom-appearences-content">${faq.feedback.click} CLICKS</span>\
+                      <span class="custom-appearences-content">${faq.feedback.clicks} CLICKS</span>\
                       <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
-                      <span class="appearences-count display-none">${faq.feedback.appearance} Appearances - ${faq.feedback.click} Clicks</span>\
+                      <span class="appearences-count display-none">${faq.feedback.appearances} Appearances - ${faq.feedback.clicks} Clicks</span>\
                       <div class="result-tuning-action-notification-container {{if faq.customization!=null}}display-block{{/if}}">\
                         <img id="hideAction" class="{{if faq.customization!=null&&faq.customization.action=="hidden"&&faq.customization.value==false}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
                         <img id="pinAction" class="{{if faq.customization!=null&&faq.customization.action=="pinned"}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
@@ -1396,11 +1396,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  <div class="faqs-bottom-actions background-white">\
                  <span class="appearences">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                    <span class="custom-appearences-content">${pageInfo.feedback.appearance} VIEWS</span>\
+                    <span class="custom-appearences-content">${pageInfo.feedback.appearances} VIEWS</span>\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                    <span class="custom-appearences-content">${pageInfo.feedback.click} CLICKS</span>\
+                    <span class="custom-appearences-content">${pageInfo.feedback.clicks} CLICKS</span>\
                     <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
-                    <span class="appearences-count display-none">${pageInfo.feedback.appearance} Appearances - ${pageInfo.feedback.click} Clicks</span>\
+                    <span class="appearences-count display-none">${pageInfo.feedback.appearances} Appearances - ${pageInfo.feedback.clicks} Clicks</span>\
                     <div class="result-tuning-action-notification-container {{if pageInfo.customization!=null}}display-block{{/if}}">\
                       <img id="hideAction" class="{{if pageInfo.customization!=null&&pageInfo.customization.action=="hidden"&&pageInfo.customization.value==false}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
                       <img id="pinAction" class="{{if pageInfo.customization!=null&&pageInfo.customization.action=="pinned"}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
@@ -1610,9 +1610,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <div class="custom-matched-results-page-summary">\
                                 <span class="custom-matched-results-page-summary-content">\
                                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                                  <span class="pr_15">${pageInfo.feedback.appearance} Views</span>\
+                                  <span class="pr_15">${pageInfo.feedback.appearances} Views</span>\
                                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                                  <span>${pageInfo.feedback.click} Clicks</span>\
+                                  <span>${pageInfo.feedback.clicks} Clicks</span>\
                                 </span>\
                               </div>\
                             </div>\
@@ -1721,9 +1721,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           <div class="custom-matched-results-faq-summary">\
                             <span class="custom-matched-results-faq-summary-content">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                              <span class="pr_15">${faq.feedback.appearance} Views</span>\
+                              <span class="pr_15">${faq.feedback.appearances} Views</span>\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                              <span>${faq.feedback.click} Clicks</span>\
+                              <span>${faq.feedback.clicks} Clicks</span>\
                             </span>\
                           </div>\
                         </div>\
@@ -1822,9 +1822,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="custom-matched-results-page-summary">\
                               <span class="custom-matched-results-page-summary-content">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                                <span class="pr_15">${file.feedback.appearance} Views</span>\
+                                <span class="pr_15">${file.feedback.appearances} Views</span>\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                                <span>${file.feedback.click} Clicks</span>\
+                                <span>${file.feedback.clicks} Clicks</span>\
                               </span>\
                             </div>\
                           </div>\
@@ -2164,7 +2164,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{if msgData && msgData.isSearchResultsMessage===true}}\
                 <div class="sdk-query-retry-icon" searchQuery="${msgData.text}"><img src="assets/icons/SDK-Icons/reply.svg"><span class="tooltiptext_top center">Retry Query</span></div>\
               {{/if}}\
-              <span>${msgData.text}</span>';
+              <span>{{html helpers.convertMDtoHTML(msgData.text)}}</span>';
       if (!this.customSearchResult) {
         messageBubbles += '{{if devMode=="true"}}\
               <div class="query-analytics-control-container {{if viewType=="Customize"}}display-block{{/if}}">\
@@ -2189,14 +2189,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJkSURBVHgBXVK7bhNBFD1zd7z2moisCQQlQsgWRUiBZP6AdLRp0zj8Dj8AHbGQaJOSLj1NLChSgRaKJBJ5rB/Zxzy5syIoYeSrO96559xzZq7Af+t459cuyIycsMMoFqlst3OyclLPMd78tLZ3u1bcbI5en/Ylmf2yKoZKzaB0CecMiCJ0uvex3HuIThxnqnJbmwdr2T/w8avTvmiJw8uraX/BLUozg3UKFg5StBCJDiS18ai3ggfLaUZWbQ0+r2UygKmiw/xq1p8ycGEKKG9hvYfjEExBokYsLKozBT3T/cfpyj7DXoqvL4JH8eGk/I2pWeCaOypvoJlAe9dY8hxdijlaSOU9DJJ1dGXyRpKXo4t6hnNTY2odKgbU3NF6Ac2wCMQRQTNPwWdWGKwbjZZrj6QXNDzjP2fOYsZhGGgasINB2OtGeoe7xoKguMGAz7pwQ5k7l57YACRcWMMA23gNS3EOrsOtls4jIbACj9x69CJ2oH2UzzzSwhPKII9ZAzR0DtLR/BjFRJoPNOecv1855JRQPDEiRgEJzfk6dPERE0lUQqIOmUkrJlgEMFqsMmKbfkIQ0Time1zY4stIuDhGGbxxkWKyinP1d+/4vVu0jHPuXNho3AzJ+43Loy/V5TC3BeZuwZ5d45NfmqVbBPVt0UYapc1zrUZJ9vbHkwEF8EaSbD+Ne5mmLkvvomC5c4bPWW7BIE1LsJTynlWIdqZctHVntt89L/vftDr8acv+1F1DNePpeX6i5q1jlp0KOSGhtg+yQXYHfLN2ni12+SZHFeyw9i4VwuVLoMkqYfzxe2/vdu0fKeFQ9OdIXHoAAAAASUVORK5CYII=">\
                 </span>';
       }
-      messageBubbles += '<span>${msgData.text}</span></div>\
+      messageBubbles += '<span>{{html helpers.convertMDtoHTML(msgData.text)}}</span></div>\
           </div>\
           {{/if}}\
           {{if msgData && msgData.isSearchResultsMessage===true}}\
             <div class="sdk-results-customize-icon"><img src="assets/icons/SDK-Icons/rangeslider.svg"><span class="tooltiptext-top">Customize Results</span></div>\
           {{/if}}\
           {{if msgData && msgData.from==="searchResult"}}\
-            <div class="serachContent"><span>${msgData.text}</span></div>\
+            <div class="serachContent"><span>{{html helpers.convertMDtoHTML(msgData.text)}}</span></div>\
           {{/if}}\
         </div>\
        </script>';
@@ -2471,7 +2471,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
                       msgData: messageData,
                       devMode: devMode,
-                      viewType: viewType
+                      viewType: viewType,
+                      helpers : helpers
                     });
                     $('#searchChatContainer').append(templateMessageBubble);
                     _self.sendMessage(_innerText);
@@ -2656,49 +2657,59 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.vars.showingMatchedResults = false;
 
       // compare input with suggestion array
-      $.each(suggestions, function (i, term) {
-        // _self.vars.customizeView = false;
-        let wrdArray = needle.split(' ');
-        // for(let i=needle.length-1; i>0; i--) {
-        // 	let regex = new RegExp('^' + needle[i], 'i');
-
-        // }
-        let regex = new RegExp('^' + needle, 'i');
-        if (regex.test(term)) {
-          $suggest.val(needle + term.slice(needle.length));
-          // use first result
-          return false;
-        }
-        else if ($suggest.val() == "") {
-          wrdArray = needle.trim().split(' ');
-          let lastWords = wrdArray[wrdArray.length - 2] + ' ' + wrdArray[wrdArray.length - 1]
-          //wrdArray[wrdArray.length - 1] == '' ? wrdArray[wrdArray.length - 2] : wrdArray[wrdArray.length - 1];
-          regex = new RegExp('^' + lastWords, 'i');
+      // if(false){
+        $.each(suggestions, function (i, term) {
+          // _self.vars.customizeView = false;
+          let wrdArray = needle.split(' ');
+          // for(let i=needle.length-1; i>0; i--) {
+          // 	let regex = new RegExp('^' + needle[i], 'i');
+  
+          // }
+          let regex = new RegExp('^' + needle, 'i');
           if (regex.test(term)) {
-
-            $suggest.val(needle.trim() + term.slice(lastWords.length));
+            $suggest.val(needle + term.slice(needle.length));
             // use first result
             return false;
           }
-
-        }
-        if ($suggest.val() == "") {
-          wrdArray = needle.trim().split(' ');
-          let lastWords = wrdArray[wrdArray.length - 1];
-          //wrdArray[wrdArray.length - 1] == '' ? wrdArray[wrdArray.length - 2] : wrdArray[wrdArray.length - 1];
-          regex = new RegExp('^' + lastWords, 'i');
-          if (regex.test(term)) {
-
-            $suggest.val(needle.trim() + term.slice(lastWords.length));
-            // use first result
-            return false;
+          else if ($suggest.val() == "") {
+            wrdArray = needle.trim().split(' ');
+            let lastWords = wrdArray[wrdArray.length - 2] + ' ' + wrdArray[wrdArray.length - 1]
+            //wrdArray[wrdArray.length - 1] == '' ? wrdArray[wrdArray.length - 2] : wrdArray[wrdArray.length - 1];
+            regex = new RegExp('^' + lastWords, 'i');
+            if (regex.test(term)) {
+  
+              $suggest.val(needle.trim() + term.slice(lastWords.length));
+              // use first result
+              return false;
+            }
+  
           }
-
-        }
-
-        $suggest.val("");
-      });
-
+          if ($suggest.val() == "") {
+            wrdArray = needle.trim().split(' ');
+            let lastWords = wrdArray[wrdArray.length - 1];
+            //wrdArray[wrdArray.length - 1] == '' ? wrdArray[wrdArray.length - 2] : wrdArray[wrdArray.length - 1];
+            regex = new RegExp('^' + lastWords, 'i');
+            if (regex.test(term)) {
+  
+              $suggest.val(needle.trim() + term.slice(lastWords.length));
+              // use first result
+              return false;
+            }
+  
+          }
+  
+          $suggest.val("");
+        });
+      // }
+      // if (suggestions.length) {
+      //   var searchQuery = $.trim(needle);
+      //   var searchQueryArr = searchQuery.split(" ");
+      //   if (searchQueryArr.length) {
+      //     searchQueryArr[searchQueryArr.length - 1] = suggestions[0];
+      //   }
+      //   searchQuery = searchQueryArr.join(' ');
+      //   $suggest.val(searchQuery);
+      // }
       if (!suggestions.length) {
         $suggest.val("");
       }
@@ -2772,10 +2783,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //}
         if ($(evet.target).hasClass('acc-active')) {
           $(evet.target).next().parent().next().hide();
-          if (_self.vars.showingMatchedResults == true) {
+          // if (_self.vars.showingMatchedResults == true) {
             //_self.captureClickAnalytics(evet, $(evet.target).parent().attr('contenttype'), 'expand')
             _self.captureClickAnalytics(evet, $(evet.currentTarget).closest('.faqs-shadow').attr('contenttype'), 'click', $(evet.currentTarget).closest('.faqs-shadow').attr('contentId'), $(evet.currentTarget).closest('.faqs-shadow').attr('id'), $(evet.currentTarget).closest('.accordion').text());
-          }
+          // }
         } else {
           $(evet.target).next().parent().next().show();
         }
@@ -5071,6 +5082,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "streamId": _self.API.streamId,
         "isDev": _self.isDev,
       }
+      if(!payload.query || (payload.query && !payload.query.length)){
+          payload.query = $('#search').val();
+      }
       if(_self.isDev){
         payload['customize'] = _self.vars.customizeView;
       }
@@ -5277,8 +5291,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // $('.pay-button').off('click').on('click')
       if (templateType === "search-container") {
 
-        $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
-         
+        $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) { 
           _self.pubSub.publish('sa-handel-chat-container-view');
           _self.pubSub.publish('sa-handel-go-button');
           if(!window.isBotLocked){
@@ -5302,6 +5315,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.search-top-down').val(JSON.parse(JSON.stringify($('.top-down-suggestion').val())));
               $('.search-top-down').focus();
             }
+          }
+          if ($('body').hasClass('top-down')){
+            $('.top-down-suggestion').val('');
+          } else {
+            $('.bottom-up-suggestion').val('');
           }
           if (code == '9') {
             e.preventDefault();
@@ -5499,6 +5517,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.unsubscribe('sa-input-keyup');
           _self.pubSub.publish('sa-handel-go-button');
           _self.pubSub.subscribe('sa-input-keyup', (msg, data) => {
+            if ($('body').hasClass('top-down')){
+              $('.top-down-suggestion').val('');
+            } else {
+              $('.bottom-up-suggestion').val('');
+            }
             _self.appendSuggestions();
             if (!$('#search').val()) {
               if ($("#auto-query-box").find(".suggestion-box").length) {
@@ -5565,6 +5588,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     }
                     _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
                       _self.vars.previousLivesearchData =  $('#search').val();
+                      if (res.queryPipelineId && res.relay) {
+                        _self.vars.experimentsObject = {};
+                        if (res.relay == "experiment") {
+                          if (res.experimentId) {
+                            _self.vars.experimentsObject['experimentId'] = res.experimentId;
+                          }
+                        }
+                        _self.vars.experimentsObject['indexPipelineId'] = res.indexPipelineId;
+                        _self.vars.experimentsObject['queryPipelineId'] = res.queryPipelineId;
+                        _self.vars.experimentsObject['relay'] = res.relay;              
+                      }
                       if(res.isBotLocked){
                         window.isBotLocked = true;
                       }
@@ -6654,7 +6688,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
             msgData: messageData,
             devMode: devMode,
-            viewType: viewType
+            viewType: viewType,
+            helpers : helpers
           });
           $('#searchChatContainer').append(template);
           if($('body').hasClass('top-down')){
@@ -6669,7 +6704,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
             msgData: messageData,
             devMode: devMode,
-            viewType: viewType
+            viewType: viewType,
+            helpers : helpers
           });
           $('#searchChatContainer').append(template);
           if($('body').hasClass('top-down')){
@@ -6707,7 +6743,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 msgData: {
                   from: "bot",
                   text: "Choose the credit card to pay bill"
-                }
+                },
+                helpers : helpers
               });
               $('#searchChatContainer').append(template1);
   
@@ -6725,7 +6762,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
                   msgData: messageData,
                   devMode: devMode,
-                  viewType: viewType
+                  viewType: viewType,
+                  helpers : helpers
                 });
                 $('#searchChatContainer').append(template);
                 _self.bindLiveDataToChat();
@@ -6788,7 +6826,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
                     msgData: messageData,
                     devMode: devMode,
-                    viewType: viewType
+                    viewType: viewType,
+                    helpers : helpers
                   });
                   $('#searchChatContainer').append(templateMessageBubble);
                   // var templateMessageBubble = _self.getSearchTemplate(defaultMessage, this.helpers);
@@ -6831,7 +6870,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
                     msgData: messageData,
                     devMode: devMode,
-                    viewType: viewType
+                    viewType: viewType,
+                    helpers : helpers
                   });
                   $('#searchChatContainer').append(templateMessageBubble);
                   _self.sendMessage(_innerText);
@@ -6855,17 +6895,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               messageData.text = messageData.text.text;
             }
             messageHtml = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-              msgData: messageData
+              msgData: messageData,
+              helpers : helpers
             });
             // $('#searchChatContainer').append(template);
           }
         }
-        if(messageData.payload && messageData.payload.text){
+        if(messageData.payload && messageData.payload.text && !messageHtml){
           var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
             msgData: {
               from: "bot",
               text: messageData.payload.text
-            }
+            },
+            helpers : helpers
           });
           $('#searchChatContainer').append(template);
         }
@@ -6880,7 +6922,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
           msgData: messageData,
           devMode: devMode,
-          viewType: viewType
+          viewType: viewType,
+          helpers : helpers
         });
         //$('#searchChatContainer').append(template);
         $('.search-body').hide();
@@ -6994,14 +7037,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       console.log("Message Payload", payload.messagePayload);
 
-      if (url == this.API.livesearchUrl) {
-        if (this.isDev == true) {
-          headers["state"] = "configured";
-        }
-        else {
-          headers["state"] = "published";
-        }
-      }
+      // if (url == this.API.livesearchUrl) {
+      //   if (this.isDev == true) {
+      //     headers["state"] = "configured";
+      //   }
+      //   else {
+      //     headers["state"] = "published";
+      //   }
+      // }
 
       if (url != this.API.livesearchUrl) {
         payload['maxNumOfResults'] = 10;
@@ -7026,6 +7069,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           this.bot.options.botInfo.customData = { 'userContext': contextObj }
           payload.messagePayload["botInfo"].customData = this.bot.options.botInfo.customData;
+        } else {
+          payload.messagePayload["botInfo"].customData = _self.bot.options.botInfo.customData || {};
         }
       }
       console.log("Finalized Payload", payload);
@@ -7440,7 +7485,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var templateBotMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
 					msgData: messageData,
           devMode: devMode,
-			    viewType: viewType
+			    viewType: viewType,
+          helpers : helpers
 				});
 				$('#searchChatContainer').append(templateBotMessageBubble);
         $('#searchChatContainer').animate({
@@ -7483,7 +7529,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (findlyConfig.autoConnect) {
         _self.initWebKitSpeech();
         _self.setAPIDetails();
+        if(fromTopDown) {
         _self.initKoreSDK(_findlyConfig);
+        }
         setTimeout(() => {
           _self.initWebKitSpeech();
         }, 1000);
@@ -7985,7 +8033,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       _self.initWebKitSpeech();
       // _self.initKoreSDK();
-      _self.initKoreSDK(config);
+      if(isDev){
+        _self.initKoreSDK(config);
+      }
       _self.setAPIDetails();
       _self.pubSub.subscribe('sa-register-template', (msg, data) => {
         console.log("register-template", msg, data);
@@ -8106,7 +8156,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // $('#search-modal').css('display', 'block');
       _self.searchEventBinding(dataHTML, 'search-container', {}, {});
     };
-
+    FindlySDK.prototype.initSearchAssistSDK = function (findlyConfig) {
+      var _self = this;
+        _self.configureSearchInterface(findlyConfig.botOptions).then(function (response) {
+          console.log("res", response);
+          if (response.experienceConfig.searchBarPosition === 'top') {
+            _self.initializeTopDown(null, null, response);
+          }
+          else {
+            _self.initialize(findlyConfig);
+            _self.showSearch(null, response);
+          }
+        });
+    }
     var searchConfigurationCopy = {};
 
     FindlySDK.prototype.mapSearchConfiguration = function (searchConfig) {
@@ -14534,14 +14596,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADqSURBVHgBTU/BTcNAEJzxnRDiAyVQAukASuALj+APPG0qcFIB+BVFPI4IIp4pAVMBLbgE54eSnIc9FKPs47Q7M7czS+xrFt4uPV0l6ALgGYFG0uI+v31NfJael8VH5ZiteukrajPaSqOdiUBWiUsazsLyzhkQxStgd24fxmljVKwB3zr231H9debJMaTpXrSCuJawdnSfCbO+tr7yKdMWeDyiezLr+iG/mSSreVi2hC97oHRQYRnZnGDTCujsgBb/pc5Rp8f46WxoOMDz8F6SWWHZ8jSbXUiRhquJgzK7CYnib584tRjPA/cLSnRp8KbGJuoAAAAASUVORK5CYII=">\
                                       <span class="tooltip_text">Appearances</span>\
                                       </span>\
-                                      <span class="count">${data.feedback.appearance}</span>\
+                                      <span class="count">${data.feedback.appearances}</span>\
                                     </div>\
                                     <div class="appearences-count count">\
                                     <span class="tooltip-appearnces-clicks">\
                                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEMSURBVHgBnZK/bcJQEMbvniFJmRGSDZINnA2SEijgioConA1iNkgqlKS4IASUwAaMABPgEWgBoeMOyQiZh0F8hU86v9/9+d5DyOivM/gUkRgR4/dqqQUeuWzCgI3go0U4IedLNqmUQI4cXKFC3s/f/74gwEQAwsMdcyHbLUCZ7yLIXIvsDHLmllW0mIXS3dKYGoQGrEWei4isVUaWrNfKmDeyU4+/DdAqbwq8wgVydap8iMBMZx8aqLnpWcg+DSrXtMv4APSPxvykIdnfU4MqcQoy872XwrtIz3SOFv7hntla1V1bG1hNmkRJm/mhgLeR3VdRli9el9rcDQMMIn2JoZa3rol1uIHVFxEttjVMjEnBcNKUAAAAAElFTkSuQmCC">\
                                       <span class="tooltip_text">Clicks</span>\
                                     </span>\
-                                    <span class="count">${data.feedback.click}</span>\
+                                    <span class="count">${data.feedback.clicks}</span>\
                                     </div>\
                                     {{if !data.addedResult || data.addedResult == false}}\
                                       <div class="appearences-count customize-chips bg-data record-status-pinned" style="display : {{if data.config.pinIndex >= 0}}block{{else}}none{{/if}}">\
@@ -16381,12 +16443,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }, 3000);
       });
 
-      if (_self.vars.showingMatchedResults == true) {
+      // if (_self.vars.showingMatchedResults == true) {
         $('a.structured-data-wrp-content').off('click').on('click', function (event) {
           console.log($(event.currentTarget).parent().attr('contentType'), $(event.currentTarget).parent().attr('contentId'));
           _self.captureClickAnalytics(event, $(event.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).attr('title'));
         })
-      }
+      // }
 
       // $('.moreStructredData').off('click').on('click', function (e) {
       //   var appearanceType = $(e.target).closest('.total-structured-data-wrap').attr('appearanceType');
@@ -17806,7 +17868,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       <!-- Facet left-->\
                       <div id="leftFacetFilterId" class="{{if isFilterEnabled == false}}display-none{{/if}}"> </div>\
                       <!-- Facet left-->\
-                      <div class="tab-name see-all-result-nav active-tab" classification="all results">All <span class="count sdk-facet-count">(${facet.all})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="all results">All <span class="count sdk-facet-count">(${facet.all})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="faq">FAQs <span class="count sdk-facet-count">(${facet.faq})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="web">Web<span class="count sdk-facet-count">(${facet.web})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="task">Actions <span class="count sdk-facet-count">(${facet.task})</span></div>\
@@ -18299,7 +18361,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
 
     FindlySDK.prototype.handlePaginationUI = function(selectedFacet,data){
-      if(selectedFacet && data.facets[selectedFacet] > 10){
+      if(selectedFacet && data.facets[selectedFacet] > 10 && (selectedFacet != 'task')){
         $('.kore-sdk-pagination-div').show();
       }
       else{
@@ -18502,6 +18564,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           })
           _self.vars.selectedFiltersArr = [];
           _self.vars.filterObject = [];
+          _self.vars.countOfSelectedFilters = 0;
           _self.searchByFacetFilters(_self.vars.filterObject);
         }
       }
@@ -19311,11 +19374,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <div class="desc_text">${record.pageSearchResultPreview}</div>\
                     <div class="appearences-count">\
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADqSURBVHgBTU/BTcNAEJzxnRDiAyVQAukASuALj+APPG0qcFIB+BVFPI4IIp4pAVMBLbgE54eSnIc9FKPs47Q7M7czS+xrFt4uPV0l6ALgGYFG0uI+v31NfJael8VH5ZiteukrajPaSqOdiUBWiUsazsLyzhkQxStgd24fxmljVKwB3zr231H9debJMaTpXrSCuJawdnSfCbO+tr7yKdMWeDyiezLr+iG/mSSreVi2hC97oHRQYRnZnGDTCujsgBb/pc5Rp8f46WxoOMDz8F6SWWHZ8jSbXUiRhquJgzK7CYnib584tRjPA/cLSnRp8KbGJuoAAAAASUVORK5CYII=">\
-                      <span class="count">${record.feedback.appearance}</span>\
+                      <span class="count">${record.feedback.appearances}</span>\
                     </div>\
                     <div class="appearences-count">\
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEMSURBVHgBnZK/bcJQEMbvniFJmRGSDZINnA2SEijgioConA1iNkgqlKS4IASUwAaMABPgEWgBoeMOyQiZh0F8hU86v9/9+d5DyOivM/gUkRgR4/dqqQUeuWzCgI3go0U4IedLNqmUQI4cXKFC3s/f/74gwEQAwsMdcyHbLUCZ7yLIXIvsDHLmllW0mIXS3dKYGoQGrEWei4isVUaWrNfKmDeyU4+/DdAqbwq8wgVydap8iMBMZx8aqLnpWcg+DSrXtMv4APSPxvykIdnfU4MqcQoy872XwrtIz3SOFv7hntla1V1bG1hNmkRJm/mhgLeR3VdRli9el9rcDQMMIn2JoZa3rol1uIHVFxEttjVMjEnBcNKUAAAAAElFTkSuQmCC">\
-                      <span class="count">${record.feedback.click}</span>\
+                      <span class="count">${record.feedback.clicks}</span>\
                     </div>\
                     <div class="appearences-count bg-data record-status-pinned" style="display : {{if record.config.pinIndex >= 0}}block{{else}}none{{/if}}">\
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
@@ -20703,7 +20766,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     // top-search-template --end///
 
     // Configuraition of Interface //
-    FindlySDK.prototype.configureSearchInterface = function (botOptions, JWTResponse) {
+    FindlySDK.prototype.configureSearchInterface = function (botOptions) {
       var baseAPIServer = botOptions.koreAPIUrl ? botOptions.koreAPIUrl : 'https://app.findly.ai/searchassistapi/'
       var searchExperienceAPIUrl = baseAPIServer + 'searchsdk/stream/' + botOptions.botInfo.taskBotId + '/' + botOptions.searchIndexID + '/searchInterface';
       console.log('config', searchExperienceAPIUrl);
@@ -20713,7 +20776,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         url: searchExperienceAPIUrl,
         type: type,
         headers: {
-          "auth": JWTResponse.jwt
+          "auth": botOptions.assertion
         },
         data: {},
         success: function (data) {
@@ -21473,7 +21536,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if (dummyString.indexOf(match) !== -1) {
                   var _link = p1.indexOf('http') < 0 ? 'http://' + match : match, _target;
                   //_link = encodeURIComponent(_link);
-                  target = "target='underscoreblank'";
+                  _target = "target='_blank'";
                   if (hyperLinksMap) {
                       var _randomKey = "korerandom://" + Object.keys(hyperLinksMap).length;
                       hyperLinksMap[_randomKey] = _link;
@@ -21525,7 +21588,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           hyperLinksMap[_randomKey] = _aEle[0].href;
                           _aEle[0].href = _randomKey;
                       }
-                      $(_newLA).find('a').attr('target', 'underscoreblank');
+                      $(_newLA).find('a').attr('target', '_blank');
                       str = str.replace(linkArray[x], _newLA.innerHTML);
                   }
               } else {

@@ -4,6 +4,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';
+import { SideBarService } from './../../services/header.service';
 declare const $: any;
 
 @Component({
@@ -25,6 +26,12 @@ export class AddResultComponent implements OnInit {
   contentTypeAny = '';
   loadingContent = false;
   subscription: Subscription;
+  indexPipelineId: any;
+  isResultTemplate : boolean = false;
+  structuredDataHeading : any = '';
+  structuredDataDes : any = '';
+  fieldData : any = [];
+  searchSDKSubscription: Subscription;
   @Input() query : any;
   @Input() addNew;
   @Input() structure;
@@ -32,7 +39,8 @@ export class AddResultComponent implements OnInit {
   constructor(public workflowService: WorkflowService,
     public notificationService: NotificationService,
     private appSelectionService:AppSelectionService,
-    private service: ServiceInvokerService) { }
+    private service: ServiceInvokerService,
+    public headerService: SideBarService) { }
 
   ngOnInit(): void {
     //this.appDetails();
@@ -40,18 +48,93 @@ export class AddResultComponent implements OnInit {
     this.results();
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
       this.results();
-    })
+    });
+    this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
+      if (res) {
+        this.searchTxt = '';
+        this.extractedResults = [];
+      }
+    });
   }
   results(){
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
     if(this.queryPipelineId){
       this.appDetails();
+      if(this.indexPipelineId){
+        this.getFieldAutoComplete();
+      }
     }
   }
   appDetails(){
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.queryPipelineId = this.workflowService.selectedQueryPipeline()._id
+  }
+
+  getFieldAutoComplete() {
+    let query: any = '';
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      query
+    };
+    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
+      this.fieldData = res;
+      this.isResultTemplate = false;
+      this.getAllSettings();
+    }, errRes => {
+      this.notificationService.notify('Failed to get fields', 'error');
+    });
+  }
+
+  getAllSettings() {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId
+    };
+    this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
+      if (res.settings) {
+        res.settings.forEach((_interface) => {
+            _interface.appearance.forEach(element => {
+              if(!this.isResultTemplate){
+                if (element.type === 'structuredData') {
+                  if (element.templateId && element.templateId.length) {
+                    this.isResultTemplate = true;
+                    this.getTemplate(element.templateId);
+                  }
+                  else {
+                    this.structuredDataHeading = '';
+                    this.structuredDataDes = '';
+                    this.isResultTemplate = false;
+                  }
+                }
+              }
+            });
+        });
+      }
+    }, errRes => {
+      this.notificationService.notify('Failed to fetch all Setting Informations', 'error');
+    });
+  }
+  getTemplate(templateId) {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      templateId: templateId,
+      indexPipelineId : this.indexPipelineId
+    };
+    this.service.invoke('get.SI_searchResultTemplate', quaryparms).subscribe(res => {
+      this.fieldData.forEach(element => {
+        if (element._id == res.mapping.heading) {
+          this.structuredDataHeading = element.fieldName;
+        }
+        if (element._id == res.mapping.description) {
+          this.structuredDataDes = element.fieldName;
+        }
+      });
+    }, errRes => {
+      this.notificationService.notify('Failed to fetch Template', 'error');
+    });
   }
   closeCross(){
     this.closeResult.emit(!this.addNew);
@@ -211,6 +294,11 @@ export class AddResultComponent implements OnInit {
         res.task.forEach(element => {
           this.extractedResults.push(element)
         });
+        res.data.forEach(element => {
+          element.heading = element[this.structuredDataHeading] || '';
+          element.description = element[this.structuredDataDes] || '';
+          this.extractedResults.push(element)
+        });
         //this.extractedResults = res.contents[0].results;
         console.log(this.extractedResults);
         //console.log(res.contents);
@@ -228,11 +316,24 @@ export class AddResultComponent implements OnInit {
       }else if(this.searchType == "task"){
         this.extractedResults = res.task;
       }
+      else if(this.searchType == 'data'){
+        this.extractedResults = [];
+        res.data.forEach(element => {
+          element.heading = element[this.structuredDataHeading] || '';
+          element.description = element[this.structuredDataDes] || '';
+          this.extractedResults.push(element)
+        });
+      }
       this.loadingContent = false;
       
     }, errRes => {
       console.log(errRes);
       this.loadingContent = false;
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : false;
+    this.searchSDKSubscription ? this.searchSDKSubscription.unsubscribe() : false;
   }
 }

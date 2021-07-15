@@ -15,7 +15,7 @@
     <div class="title-content">{{"contentSource.content" | translate}}</div>
     <perfect-scrollbar class="scoll-empty-screen">
       <div class="empty-landing-screen">
-        <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/contentmanag-empty.svg"></div>   
+        <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/contentmanag-empty.png"></div>   
         <ng-container *ngIf="loadImageText">
         <div class="empty-title">{{"contentSource.no_content" | translate}}</div>
         <div class="desc-text"> {{"contentSource.no_content_info" | translate}}</div>
@@ -180,7 +180,7 @@
               <img [ngClass]="getSortIconVisibility('numPages', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
               <img [ngClass]="getSortIconVisibility('numPages', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
             </span>
-                {{"contentSource.no_of_pages_caps" | translate}}
+                {{"contentSource.no_of_docs_caps" | translate}}
           </div>
           <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('createdOn')">
             <!-- <img src="assets/icons/caretDown.svg"
@@ -385,7 +385,7 @@
 
           <div class="search-header">
             <div class="tabs-sec">
-              <span class="tabname active" [ngClass] = "{'active' : page}" (click)="swapSlider('page')">{{"contentSource.pages" | translate}}</span>
+              <span class="tabname " [ngClass] = "{'active' : page}" (click)="swapSlider('page')">{{"contentSource.pages" | translate}}</span>
               <span class="tabname" [ngClass] = "{'active' : isConfig}"(click)="swapSlider('config')">{{"contentSource.configuration" | translate}}</span>
               <span class="tabname" *ngIf="executionHistoryData && selectedSource.recentStatus != 'scheduled' && selectedSource.recentStatus != 'configured'" [ngClass] = "{'active' : execution}" (click)="swapSlider('execution')">{{"contentSource.executions" | translate}}</span>
             </div>
@@ -676,7 +676,7 @@
 
               <!-- Cookies -->
               <div class="row m-0">                 
-                  <div class="col-1"></div>
+                  <!-- <div class="col-1"></div> -->
                   <div class="col-11 p-0 group-checkbox">
                     <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grph" class="checkbox-custom" type="checkbox" name = "isJavaScriptRendered" [checked]="isJavaScriptRendered" [(ngModel)] = "isJavaScriptRendered" [ngModelOptions]="{standalone: true}">
@@ -695,7 +695,7 @@
                       <label for="checkbox_cook" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
                     </div>
                   </div>
-                  <div class="col-1"></div>
+                  <!-- <div class="col-1"></div> -->
                   <div class="inner-content row m-0 col-11 p-0">
                     <div class="col-3 p-0">                   
                       <div class="kr-sg-input-text mb-4">
@@ -729,7 +729,7 @@
                       </div>
                     </div>
                   </div>  
-                  <div class="col-1"></div>
+                  <!-- <div class="col-1"></div> -->
                   <div class="info-no-limit col-7">
                     <img src="assets/icons/info-limit.svg">
                     <span class="title">Not limiting the Crawl Depth and Max URL Limit may impact the system performance</span>
@@ -859,7 +859,7 @@
             <!-- Conf Configuration-->
 
           </div>
-          <div class="accordion-content-info text-left d-none" *ngIf="page && sourceStatus == 'success'">
+          <div class="accordion-content-info text-left" *ngIf="page && sourceStatus == 'success'">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
               <div class="col-3 label_text m-0">Last Updated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
@@ -929,7 +929,7 @@
                   </div> -->
               <!-- <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
                 [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
-                <app-record-pagination *ngIf = "totalRecord > limitpage" [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
+                <app-record-pagination *ngIf = "totalRecord >  10" [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
               <!-- <div class="paginations-custon">
                 <div class="previous pre-arrow dis-arow"
                   (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)"> </div>
@@ -943,9 +943,9 @@
             </div>
 
           </div>
-          <div class="empty-page-data-container">
+          <div class="empty-page-data-container" *ngIf="page && sourceStatus == 'failed' ">
             <img src="assets\images\emptyList.svg">
-            <div class="title">Sorry! No Pages available yet!! Please <span>crawl</span> the web domain again</div>
+            <div class="title">Sorry! No Pages available yet!! Please <span> crawl</span> the web domain again</div>
           </div>
           <!-- Execution -->
           <div *ngIf="execution" class="execution-table-data">
@@ -954,10 +954,10 @@
                 <div class="kr-sg-data-table with-checkbox">
                   <section class="table-content m-0">
                     <header class="table-header">
-                      <div class="col_ col-4">EXECUTION STATUS</div>
-                      <div class="col_ col-2">DURATION</div>
-                      <div class="col_ col-3">TRIGGERED BY</div>
-                      <div class="col_ col-3">EXECUTED ON</div>
+                      <div class="col_ col-4">{{"contentSource.execution_caps" | translate}}</div>
+                      <div class="col_ col-2">{{"contentSource.duration_caps" | translate}}</div>
+                      <div class="col_ col-3">{{"contentSource.triggered_by_caps" | translate}}</div>
+                      <div class="col_ col-3">{{"contentSource.executed_on_caps" | translate}}</div>
                     </header>
                     <perfect-scrollbar class="scroll-table" #perfectScroll>
                       <ng-container>
@@ -966,7 +966,7 @@
                             <img src="assets/icons/content/eye.svg" (mouseover)="executionLogStatus = true">
                             <div class="execute-log" *ngIf="executionLogStatus">
                               <div class="header-title">
-                                <div class="title">EXECUTION LOG</div>
+                                <div class="title">{{"contentSource.execution_log_caps" | translate}}</div>
                             <div class="close-log"><img src="assets/images/close.svg" (click)="executionLogStatus = false"></div>
                               </div>
                               <ng-container *ngFor="let statlog of history.executionStats.statusLogs; let i = index;">
@@ -976,7 +976,7 @@
                                   <img *ngIf="statlog.stageStatus != 'failed' && statlog.stageStatus  != 'running'" src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}" [ngStyle]="{'height':statlog.stageStatus === 'halted' ? '15px' : '15px' }">
                                   <img *ngIf="statlog.stageStatus === 'running'" class="inProgress" src="assets/icons/ringLoading.svg" [ngStyle]="{'height':statlog.stageStatus === 'halted' ? '15px' : '15px' }">
                                   <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}
-                                    <span class="time" *ngIf="statlog.stageName != 'failed' && statlog.stageName != 'successful' && statlog.stageName != 'stopped'">( {{ statlog.timeTaken }} )</span>
+                                    <span class="time" *ngIf="statlog.stageName != 'failed' && statlog.stageName != 'successful' && statlog.stageName != 'stopped' && statlog.timeTaken">( {{ statlog.timeTaken }} )</span>
                                     <span class="time" *ngIf="statlog.stageName == 'stopped'"> by {{ history.executionStats.triggeredBy }} </span>
                                   </span>
                                 </div>
@@ -1054,11 +1054,18 @@
       <perfect-scrollbar *ngIf="sliderStep === 1 && selectedPage" class="scroll-table-sourceContent" #perfectScroll
       [scrollIndicators]="true">
 
-        <div class="table-view-details" *ngIf="sliderStep === 1 && selectedPage">
+        <div class="table-view-details table-content" *ngIf="sliderStep === 1 && selectedPage">
+          <div class="totalViewsNlikes">
+            <div class="d-flex justify-content-between infoBlock">
+            <div class="infoType"><img class="viewsIcon" placement="top" container='body' ngbTooltip="Views" src="assets/icons/faq/views.svg"><span>{{numberOf.appearances}}</span></div>
+            <div class="infoType"><img placement="top" container='body' ngbTooltip="Clicks" src="assets/icons/faq/hand.svg"><span>{{numberOf.clicks}}</span></div>
+            </div>
+            </div>
           <div class="view-details-data">
             <div class="title">Title</div>
             <div class="desc-info">{{selectedPage._source.pageTitle}}</div>
           </div>
+        
           <div class="view-details-data">
             <div class="title">Body</div>
             <perfect-scrollbar class="scroll-table-sourceContent-pageBody" #perfectScroll
@@ -1132,11 +1139,21 @@
     <div class="title">View Details</div>
     <div class="close_icon"><img (click)="closeDocumentModal()" src="assets/icons/modal-close.svg"></div>
   </div>
-<perfect-scrollbar class="perfect-scroll-modal-body">
+<perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
   <div class="modal-body textAlignLeft">
+    <!-- <div >Clicks</div>
+    <div>{{numberOf.clicks}}</div>
+    <div>Views</div>
+    <div>{{numberOf.appearances}}</div> -->
     <!-- <div class="kr-sg-data-table"> -->
       <section class="table-content">
         <!-- <header class="table-header"> -->
+          <div class="totalViewsNlikes">
+            <div class="d-flex justify-content-between infoBlock">
+            <div class="infoType"><img class="viewsIcon" src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views"><span>{{numberOf.appearances}}</span></div>
+            <div class="infoType"><img src="assets/icons/faq/hand.svg" placement="top" container='body' ngbTooltip="Clicks"><span>{{numberOf.clicks}}</span></div>
+            </div>
+            </div>
           <div class="title-text">Title
             <img src="assets/images/edit-pencil.svg">
           </div>

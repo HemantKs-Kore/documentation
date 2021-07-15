@@ -9,6 +9,7 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 
 declare const $: any;
 @Component({
@@ -20,6 +21,8 @@ declare const $: any;
 export class TraitsComponent implements OnInit {
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('addUtteranceModalPop') addUtteranceModalPop: KRModalComponent;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  @ViewChild('perfectScroll2') perfectScroll2: PerfectScrollbarComponent;
   currentUtteranceIndex: number;
   currentTraitKey: string;
   newUtterance: any;
@@ -734,6 +737,10 @@ export class TraitsComponent implements OnInit {
   openStatusModal() {
     this.currentTraitEditIndex = null;
     this.statusModalPopRef = this.statusModalPop.open();
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },400)
   }
   closeStatusModal() {
     this.submitted = false;
@@ -753,11 +760,16 @@ export class TraitsComponent implements OnInit {
     this.currentUtteranceIndex = index;
     this.currentTraitKey = key;
     this.addUtteranceModalPopRef = this.addUtteranceModalPop.open();
+    setTimeout(()=>{
+      this.perfectScroll2.directiveRef.update();
+      this.perfectScroll2.directiveRef.scrollToTop(); 
+    },400)
   }
   closeUtteranceModal() {
     this.currentUtteranceIndex = null;
     this.currentTraitKey = null;
     this.utteranceList = [];
+    this.newUtterance = '';
     this.uttSubmitted = false;
     if (this.addUtteranceModalPopRef && this.addUtteranceModalPopRef.close) {
       this.addUtteranceModalPopRef.close();
@@ -813,7 +825,7 @@ export class TraitsComponent implements OnInit {
   };
   addNewUtter(utter, event) {
     const utteranceData = [];
-    if (event && (event.keyCode === 13 || event.type == 'click') && utter !== '') {
+    if (event && (event.keyCode === 13 || event.type == 'click') && utter) {
       let utternaceIndex = -1;
       const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
         if (utter === utterance) {
@@ -827,7 +839,7 @@ export class TraitsComponent implements OnInit {
       }
       this.utteranceList = [utter].concat(this.utteranceList);
       this.newUtterance = '';
-      this.showUtteranceInput = false;
+      this.showUtteranceInput = true;
     }
   }
   addUtterance(utter, key, event, traitsGroup, index) {

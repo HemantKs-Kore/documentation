@@ -349,7 +349,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.reloadCurrentRoute()
   }
   deleteIndexPipeLine(indexConfigs, dialogRef, type) {
-    console.log("index query", indexConfigs)
     let queryParms = {
       searchIndexId: this.searchIndexId,
       indexPipelineId: type == 'index' ? indexConfigs._id : this.workflowService.selectedIndexPipeline()
@@ -469,7 +468,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       res => {
         let docs = Number.isInteger(res.ingestDocs.percentageUsed) ? (res.ingestDocs.percentageUsed) : parseFloat(res.ingestDocs.percentageUsed).toFixed(2);
         let queries = Number.isInteger(res.searchQueries.percentageUsed) ? (res.searchQueries.percentageUsed) : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
-        this.usageDetails = { ingestDocs: docs, searchQueries: queries };
+        this.usageDetails = { ingestCount: res.ingestDocs.used, ingestLimit: res.ingestDocs.limit, ingestDocs: docs, searchQueries: queries, searchCount: res.searchQueries.used, searchLimit: res.searchQueries.limit };
       },
       errRes => {
         // this.errorToaster(errRes, 'Failed to get current data.');
@@ -552,15 +551,30 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       }
     );
   }
-  deleteIndexConfig(config, type) {
+  checkExistInExperiment(config, type) {
+    const queryParms = {
+      searchIndexId: this.searchIndexId,
+      indexPipelineId: type == 'index' ? config._id : this.workflowService.selectedIndexPipeline()
+    }
+    this.service.invoke('get.checkInExperiment', queryParms).subscribe(
+      res => {
+        let text = res.validated ? `Selected ${type == 'index' ? 'Index' : 'Search'} will be deleted from the app.` : `Selected ${type == 'index' ? 'Index' : 'Search'} Configuration is being used in Experiments. Deleting it stop the Experiement.`;
+        this.deleteIndexConfig(config, type, text)
+      },
+      errRes => {
+        this.errorToaster(errRes, 'Failed to get API Response');
+      }
+    );
+  }
+  deleteIndexConfig(config, type, text) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
         newTitle: 'Are you sure you want to delete ?',
-        body: `Selected ${type == 'index' ? 'Index' : 'Search'} will be deleted from the app.`,
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        body: text,
+        buttons: [{ key: 'yes', label: 'Delete Anyway', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });

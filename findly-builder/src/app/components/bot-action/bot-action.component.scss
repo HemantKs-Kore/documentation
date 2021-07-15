@@ -235,6 +235,12 @@
                         //     background: #0D6EFD;
                         //     bottom: -18px;
                         // }
+                        .upArrow {
+                            transform: rotate(180deg) !important;
+                        }
+                        .type_sort_dropdown{ 
+                            display: inline-block;
+                        }
                     }
                 }
                 .search-block{
@@ -355,7 +361,7 @@
                     font-weight: normal;
                     font-size: 10px;
                     line-height: 20px;
-                    padding: 0 10px;
+                    padding: 0 10px 0px 30px;
                     text-transform: capitalize;
                 }
                 .enable-title{
@@ -602,3 +608,25 @@
         }
     }
 }   
+.link-bot-btn{
+    cursor: pointer !important;
+}
+.link-bot-disable.link-bot-btn{
+    color: #BDC1C6 !important;
+}
+.mt-6px{
+    margin-top: 6px;
+}
+.bot-icon-url img{
+    width: 19px;
+    margin-right: 5px;
+}
+.type_sort_dropdown-content.tasks-filter-dropdown li {
+    padding: 8px 20px 8px 36px !important;
+    .bot-icon-url img {
+        width: 19px;
+        margin-right: 5px;
+        left: 9px !important;
+        top: 8px !important;
+    }
+}

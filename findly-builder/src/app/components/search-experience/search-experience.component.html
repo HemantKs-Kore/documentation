@@ -1,16 +1,16 @@
 <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
 <div class="search-experience-wrapper">
-    <div class="header-title">Search Interface</div>
+    <div class="header-title">{{'searchexperience.component_title' | translate}}</div>
     <div class="tabs-sec">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item" (click)="selectTab('experience')">
-              <a class="nav-link" [ngClass]="{'active':selectedTab==='experience'}" data-toggle="tab"><span class="active-steps" [ngStyle]="show_tab_color?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">1</span><span class="name">Experience</span></a>
+              <a class="nav-link" [ngClass]="{'active':selectedTab==='experience'}" data-toggle="tab"><span class="active-steps" [ngStyle]="show_tab_color?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">1</span><span class="name">{{'searchexperience.experience' | translate}}</span></a>
             </li>
             <li class="nav-item" (click)="selectTab('searchwidget')">
-              <a class="nav-link" [ngClass]="{'active':selectedTab==='searchwidget'}" data-toggle="tab"><span class="active-steps" [ngStyle]="show_tab_color1?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">2</span><span class="name">Search Widget</span></a>
+              <a class="nav-link" [ngClass]="{'active':selectedTab==='searchwidget'}" data-toggle="tab"><span class="active-steps" [ngStyle]="show_tab_color1?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">2</span><span class="name">{{'searchexperience.search_widget' | translate}}</span></a>
             </li>
             <li class="nav-item" (click)="selectTab('interactions')">
-              <a class="nav-link" [ngClass]="{'active':selectedTab==='interactions'}" data-toggle="tab" ><span class="active-steps" [ngStyle]="show_tab_color2?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">3</span><span class="name">Interactions</span></a>
+              <a class="nav-link" [ngClass]="{'active':selectedTab==='interactions'}" data-toggle="tab" ><span class="active-steps" [ngStyle]="show_tab_color2?{'background':'#0D6EFD','color':'#fff','border': '1px solid #0D6EFD'}:{}">3</span><span class="name">{{'searchexperience.interactions' | translate}}</span></a>
             </li>
         </ul>
         <perfect-scrollbar class="scroll-data">
@@ -20,13 +20,13 @@
                     <div class="left-sec">
                         <div class="kr-sg-radiobutton d-block plr-0 mb-4">
                             <input id="radio-2" name="topdown" value='top' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition" (click)="changeSlider('top')">
-                            <label for="radio-2" class="radio-custom-label">Top Down</label>
-                            <div class="desc-tect">Search Bar at the top</div>
+                            <label for="radio-2" class="radio-custom-label">{{'searchexperience.top_down' | translate}}</label>
+                            <div class="desc-tect">{{'searchexperience.searchBar_at_the_top' | translate}}</div>
                         </div>   
                         <div class="kr-sg-radiobutton d-block plr-0 mb-4">
                             <input id="radio-22" name="bottomup" value='bottom' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition" (click)="changeSlider('bottom')">
-                            <label for="radio-22" class="radio-custom-label">Bottom Up</label>
-                            <div class="desc-tect">Search Bar at the bottom</div>
+                            <label for="radio-22" class="radio-custom-label">{{'searchexperience.bottom_up' | translate}}</label>
+                            <div class="desc-tect">{{'searchexperience.search_bar_at_the_bottom' | translate}}</div>
                         </div>   
                     </div>
                     <div class="right-sec">                       
@@ -37,7 +37,7 @@
             </div>
             <div *ngSwitchCase="'searchwidget'">
                 <div class="search-widget">
-                    <div class="label-text">Search Box Customization</div>
+                    <div class="label-text">{{'searchexperience.search_box_customization' | translate}}</div>
                     <div class="d-flex search-customization-input">
                         <div class="kr-sg-input-search" [ngClass]="{'added-tour':tourGuide==='step1'||tourGuide==='step2'||tourGuide==='step3'}">                                                         
                             <div class="hover-search-icon">
@@ -71,16 +71,17 @@
                             <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
                             <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled"><img src="assets/icons/search-experience/edit.svg"></div>
                         </button>
-                        <!-- <div [ngSwitch]="tourGuide">
+                         <!-- <div [ngSwitch]="tourGuide">
                             <div class="tour-guide-data" *ngSwitchCase="'step1'">
                                 <div class="close-guide" (click)="tourGuide=''">
                                     <img src="assets/icons/search-experience/close-tour.svg">
                                 </div>
-                                <div class="title-info">Click on search box to customize border and fill color</div>
+                                <div class="title-info">{{'searchexperience.click_on_searchbox' | translate}}</div>
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">1 of 4</div>
+                                    <div class="tour-length">{{'searchexperience.1_of_4' | translate}}</div>
                                     <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step2'">Next</button>
+                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step2'">{{'searchexperience.next' | translate}}</button>
+                                       
                                     </div>
                                 </div>
                             </div>  
@@ -89,12 +90,12 @@
                                 <div class="close-guide" (click)="tourGuide=''">
                                     <img src="assets/icons/search-experience/close-tour.svg">
                                 </div>
-                                <div class="title-info">Click on search icon to change the icon as per your choice</div>
+                                <div class="title-info">{{'searchexperience.click_search_icon' | translate}}</div>
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">2 of 4</div>
+                                    <div class="tour-length">{{'searchexperience.2_of_4' | translate}}</div>
                                     <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step3'">Next</button>
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step1'">Previous</button>
+                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step3'">{{'searchexperience.next' | translate}}</button>
+                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step1'">{{'searchexperience.previous' | translate}}</button>
                                     </div>
                                 </div>
                             </div> 
@@ -103,12 +104,12 @@
                                 <div class="close-guide" (click)="tourGuide=''">
                                     <img src="assets/icons/search-experience/close-tour.svg">
                                 </div>
-                                <div class="title-info">Click on the text to customize text content and color</div>
+                                <div class="title-info">{{'searchexperience.click_on_text' | translate}}</div>
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">3 of 4</div>
+                                    <div class="tour-length">{{'searchexperience.3_of_4' | translate}}</div>
                                     <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step4'">Next</button>
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step2'">Previous</button>
+                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="tourGuide='step4'">{{'searchexperience.next' | translate}}</button>
+                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step2'">{{'searchexperience.previous' | translate}}</button>
                                     </div>
                                 </div>
                             </div> 
@@ -117,21 +118,21 @@
                                 <div class="close-guide" (click)="updateTourConfig();tourGuide=''">
                                     <img src="assets/icons/search-experience/close-tour.svg">
                                 </div>
-                                <div class="title-info">Click on the button to customize button text, fill color and border color</div>
+                                <div class="title-info">{{'searchexperience.click_on_button' | translate}}</div>
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <div class="tour-length">4 of 4</div>
+                                    <div class="tour-length">{{'searchexperience.4_of_4' | translate}}</div>
                                     <div class="bt-sec">
-                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="updateTourConfig()">Got it</button>
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step3'">Previous</button>
+                                        <button class="kr-sg-button-primary btn_lg mr-2" (click)="updateTourConfig()">{{'searchexperience.got_it' | translate}}</button>
+                                        <button class="kr-sg-button-secondary btn_lg" (click)="tourGuide='step3'">{{'searchexperience.previous' | translate}}</button>
                                     </div>
                                 </div>
                             </div> 
-                        </div>-->                                                  
+                        </div>                                                   -->
                     </div> 
                     <div [ngSwitch]="selectSearch">                        
                         <div class="fill-colors-block" *ngSwitchCase="'inputBox'">
                             <div class="fill-color">
-                                <div class="label-color">Fill Color</div>                            
+                                <div class="label-color">{{'searchexperience.fill_color' | translate}}</div>                            
                                 <div class="box-color" [ngClass]="{'color-pallet-container': inputBox1}" (mouseover)="toggle=true;inputBox1=true;closeAllBoxs('toggle');">
                                      <input
                                         [style.background]="color"                                      
@@ -145,8 +146,8 @@
                                     />
                                     <div class="box-color-content" *ngIf="inputBox1">
                                         <div class="header-title-close">
-                                            <div class="title-name">Choose Color</div>
-                                            <div class="close-color" (click)="toggle=false;inputBox1=false;">
+                                            <div class="title-name">{{'searchexperience.choose_color' | translate}}</div>
+                                            <div class="close-color" (click)="closeColorPallete('inputbox1')">
                                                 <img src="assets/icons/close.svg">
                                             </div>
                                         </div>
@@ -155,13 +156,13 @@
                                                 <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;color=col;"></div>
                                             </ng-container>                                           
                                         </div>
-                                        <div class="save-switch" (click)="applyColor('inputbox1','save')">Save & Apply</div>
-                                        <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('inputbox1')">Apply</button>
+                                        <div class="save-switch" (click)="applyColor('inputbox1','save')">{{'searchexperience.save_&_apply' | translate}}</div>
+                                        <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('inputbox1')">{{'searchexperience.apply' | translate}}</button>
                                      </div>
                                 </div>
                             </div>
                             <div class="fill-color">
-                                <div class="label-color">Border Color</div>
+                                <div class="label-color">{{'searchexperience.border_color' | translate}}</div>
                                 <!--border-color-pallet-->
                                 <div class="box-color" [ngClass]="{'color-pallet-container': inputBox2}" (mouseover)="toggle1=true;inputBox2=true;">
                                     <input
@@ -177,8 +178,8 @@
 
                                     <div class="box-color-content" *ngIf="inputBox2">
                                         <div class="header-title-close">
-                                            <div class="title-name">Choose Color</div>
-                                            <div class="close-color" (click)="toggle1=false;inputBox2=false;">
+                                            <div class="title-name">{{'searchexperience.choose_color' | translate}}</div>
+                                            <div class="close-color" (click)="closeColorPallete('inputBox2')">
                                                 <img src="assets/icons/close.svg">
                                             </div>
                                         </div>
@@ -187,8 +188,8 @@
                                                 <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;color1=col;"></div>
                                             </ng-container>                                           
                                         </div>
-                                        <div class="save-switch" (click)="applyColor('inputbox2','save')">Save & Apply</div>
-                                        <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('inputbox2')">Apply</button>
+                                        <div class="save-switch" (click)="applyColor('inputbox2','save')">{{'searchexperience.save_&_apply' | translate}}</div>
+                                        <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('inputbox2')">{{'searchexperience.apply' | translate}}</button>
                                      </div>
                                 </div>
                             </div>
@@ -196,14 +197,14 @@
                         <div class="drog-and-drop-block" *ngSwitchCase="'inputIcon'">
                             <div class="img-block"><img src="assets/icons/search-experience/dummy-image.svg"></div>
                             <div class="input-file">
-                                <div class="title">Drag and drop or <span class="browse">browse</span></div>
+                                <div class="title">{{'searchexperience.drag_and_drop_or' | translate}} <span class="browse">{{'searchexperience.browse' | translate}}</span></div>
                                 <input type="file" name="avatar"  (change)="selectIcon($event,'searchIcon','auto')" accept=".jpg,.png,.jpeg,.gif" />
-                                <span class="icon-text d-flex align-items-center"><img src="assets/icons/info.svg" class="mr-2"> Recommended icon size : 26X26 pixels</span>
+                                <span class="icon-text d-flex align-items-center"><img src="assets/icons/info.svg" class="mr-2">{{'searchexperience.recommended_file_size' | translate}}</span>
                             </div>
                         </div>
                         <div class="fill-colors-block" *ngSwitchCase="'placeholderText'">
                             <div class="fill-color">
-                                <div class="label-color">Text Color</div>
+                                <div class="label-color">{{'searchexperience.text_color' | translate}}</div>
                                 <div class="box-color" [ngClass]="{'color-pallet-container': placeholBox}" (mouseover)="toggle2=true;placeholBox=true;">
                                     <input
                                         [style.background]="color2"
@@ -219,8 +220,8 @@
 
                                     <div class="box-color-content" *ngIf="placeholBox">
                                         <div class="header-title-close">
-                                            <div class="title-name">Choose Color</div>
-                                            <div class="close-color" (click)="toggle2=false;placeholBox=false;">
+                                            <div class="title-name">{{'searchexperience.choose_color' | translate}}</div>
+                                            <div class="close-color" (click)="closeColorPallete('placeholBox')">
                                                 <img src="assets/icons/close.svg">
                                             </div>
                                         </div>
@@ -229,41 +230,41 @@
                                                 <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;color2=col;"></div>
                                             </ng-container>                                           
                                         </div>
-                                        <div class="save-switch" (click)="applyColor('placeholder','save')">Save & Apply</div>
-                                        <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('placeholder')">Apply</button>
+                                        <div class="save-switch" (click)="applyColor('placeholder','save')">{{'searchexperience.save_&_apply' | translate}}</div>
+                                        <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('placeholder')">{{'searchexperience.apply' | translate}}</button>
                                      </div>
                                 </div>
                             </div>
                         </div>
                         <div class="button-enable" *ngSwitchCase="'button'">
-                            <div class="label_text">Add Button</div>
+                            <div class="label_text">{{'searchexperience.add_button' | translate}}</div>
                             <label class="kr-sg-toggle">                                       
                                 <input type="checkbox" [(ngModel)]="searchObject.searchWidgetConfig.searchButtonEnabled">
-                                <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                                <div class="slider"><span class="enabled">{{'searchexperience.yes' | translate}}</span><span class="disabled">{{'searchexperience.no' | translate}}</span></div>
                             </label>
 
                             <div class="group-radiobutton mt-3 pt-1" *ngIf="searchObject.searchExperienceConfig.searchBarPosition==='top'">
-                                <div class="label_text">Button Placement</div>
+                                <div class="label_text">{{'searchexperience.button_placement' | translate}}</div>
                                 <div class="kr-sg-radiobutton">
                                     <input id="radio-221" name="radio" class="radio-custom" type="radio" value='outside' [checked]="searchObject.searchWidgetConfig.buttonPlacementPosition=='outside'" [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)" [(ngModel)]="searchObject.searchWidgetConfig.buttonPlacementPosition">
-                                    <label for="radio-221" class="radio-custom-label">Outside Search box</label>
+                                    <label for="radio-221" class="radio-custom-label">{{'searchexperience.outside_search_box' | translate}}</label>
                                 </div>
                                 <div class="kr-sg-radiobutton">
                                     <input id="radio-232" name="radio" class="radio-custom" type="radio" value='inside' [checked]="searchObject.searchWidgetConfig.buttonPlacementPosition=='inside'" [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)" [(ngModel)]="searchObject.searchWidgetConfig.buttonPlacementPosition">
-                                    <label for="radio-232" class="radio-custom-label">Inside Search box</label>
+                                    <label for="radio-232" class="radio-custom-label">{{'searchexperience.inside_search_box' | translate}}</label>
                                 </div>
                             </div> 
 
                             
                             <div class="kr-sg-input-text">
-                                <div class="label-text">Button Text</div>
+                                <div class="label-text">{{'searchexperience.button_text' | translate}}</div>
                                 <input type="text" maxlength="6" #butttonText (keyup)="0" placeholder="Enter Name" class="input-text" [(ngModel)]="searchObject.searchWidgetConfig.buttonText" [class.err-block]="(searchObject.searchWidgetConfig.searchButtonEnabled && !searchObject.searchWidgetConfig.buttonText.length) && submitted" [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)">
                                 <img *ngIf="(searchObject.searchWidgetConfig.searchButtonEnabled && !searchObject.searchWidgetConfig.buttonText.length) && submitted" id="facetNameWarning" src="assets/icons/warning_escalation.svg" style="top: 57%; position: absolute; right: 4.5%; display: block;" height="12" width="12" />
                                 <div class="button-text-count">{{butttonText.value.length}}/6</div>
                             </div>
                             <div class="fill-colors-block">
                                 <div class="fill-color">
-                                    <div class="label-color">Text Color</div>
+                                    <div class="label-color">{{'searchexperience.text_color' | translate}}</div>
                                     <div class="box-color" [ngClass]="{'color-pallet-container': buttonTextColor}" (mouseover)="searchObject.searchWidgetConfig.searchButtonEnabled?[toggle3=true,buttonTextColor=true,closeAllBoxs('toggle3')]:null">
                                         <input
                                             [style.background]="color3"
@@ -279,8 +280,8 @@
     
                                         <div class="box-color-content" *ngIf="buttonTextColor">
                                             <div class="header-title-close">
-                                                <div class="title-name">Choose Color</div>
-                                                <div class="close-color" (click)="toggle3=false;buttonTextColor=false;">
+                                                <div class="title-name">{{'searchexperience.choose_color' | translate}}</div>
+                                                <div class="close-color" (click)="closeColorPallete('buttonTextColor')">
                                                     <img src="assets/icons/close.svg">
                                                 </div>
                                             </div>
@@ -289,13 +290,13 @@
                                                     <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;color3=col;"></div>
                                                 </ng-container>                                           
                                             </div>
-                                            <div class="save-switch" (click)="applyColor('buttonTextColor','save')">Save & Apply</div>
-                                            <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('buttonTextColor')">Apply</button>
+                                            <div class="save-switch" (click)="applyColor('buttonTextColor','save')">{{'searchexperience.save_&_apply' | translate}}</div>
+                                            <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('buttonTextColor')">{{'searchexperience.apply' | translate}}</button>
                                          </div>
                                     </div>
                                 </div>
                                 <div class="fill-color">
-                                    <div class="label-color">Fill Color</div>
+                                    <div class="label-color">{{'searchexperience.fill_color' | translate}}</div>
                                     <div class="box-color" [ngClass]="{'color-pallet-container': buttonFill}" (mouseover)="searchObject.searchWidgetConfig.searchButtonEnabled?[toggle4=true,buttonFill=true,closeAllBoxs('toggle4')]:null">
                                         <input
                                             [style.background]="color4"
@@ -311,8 +312,8 @@
     
                                         <div class="box-color-content" *ngIf="buttonFill">
                                             <div class="header-title-close">
-                                                <div class="title-name">Choose Color</div>
-                                                <div class="close-color" (click)="toggle4=false;buttonFill=false;">
+                                                <div class="title-name">{{'searchexperience.choose_color' | translate}}</div>
+                                                <div class="close-color" (click)="closeColorPallete('buttonFill')">
                                                     <img src="assets/icons/close.svg">
                                                 </div>
                                             </div>
@@ -321,13 +322,13 @@
                                                     <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;color4=col;"></div>
                                                 </ng-container>                                           
                                             </div>
-                                            <div class="save-switch" (click)="applyColor('buttonFill','save')">Save & Apply</div>
-                                            <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('buttonFill')">Apply</button>
+                                            <div class="save-switch" (click)="applyColor('buttonFill','save')">{{'searchexperience.save_&_apply' | translate}}</div>
+                                            <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('buttonFill')">{{'searchexperience.apply' | translate}}</button>
                                          </div>
                                     </div>
                                 </div>
                                 <div class="fill-color">
-                                    <div class="label-color">Border Color</div>
+                                    <div class="label-color">{{'searchexperience.border_color' | translate}}</div>
                                     <!-- border-color-pallet-->
                                     <div class="box-color" [ngClass]="{'color-pallet-container': buttonBorder}" (mouseover)="searchObject.searchWidgetConfig.searchButtonEnabled?[toggle5=true,buttonBorder=true,closeAllBoxs('toggle5')]:null">
                                         <input
@@ -344,8 +345,8 @@
     
                                         <div class="box-color-content" *ngIf="buttonBorder">
                                             <div class="header-title-close">
-                                                <div class="title-name">Choose Color</div>
-                                                <div class="close-color" (click)="toggle5=false;buttonBorder=false;">
+                                                <div class="title-name">{{'searchexperience.choose_color' | translate}}</div>
+                                                <div class="close-color" (click)="closeColorPallete('buttonBorder')">
                                                     <img src="assets/icons/close.svg">
                                                 </div>
                                             </div>
@@ -354,8 +355,8 @@
                                                     <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;color5=col;"></div>
                                                 </ng-container>                                           
                                             </div>
-                                            <div class="save-switch" (click)="applyColor('buttonBorder','save')">Save & Apply</div>
-                                            <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('buttonBorder')">Apply</button>
+                                            <div class="save-switch" (click)="applyColor('buttonBorder','save')">{{'searchexperience.save_&_apply' | translate}}</div>
+                                            <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('buttonBorder')">{{'searchexperience.apply' | translate}}</button>
                                          </div>
                                     </div>
                                 </div>
@@ -369,7 +370,7 @@
                     <div class="left-sec col-12 p-0">
                         <div class="greeting-message border-with-padding border-0 col-7 pb-0 pt-0">
                             <div class="kr-sg-input-text-area">
-                                <div class="label-text">Customize Launch Greeting Message</div>
+                                <div class="label-text">{{'searchexperience.customize_launch' | translate}}</div>
                                 <textarea class="input-text" maxlength="60" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}"></textarea>
                             </div>
                             <div class="emojis-block">
@@ -418,8 +419,8 @@
 
                                             <div class="box-color-content" *ngIf="msgColor">
                                                 <div class="header-title-close">
-                                                    <div class="title-name">Choose Color</div>
-                                                    <div class="close-color" (click)="toggle6=false;msgColor=false;">
+                                                    <div class="title-name">{{'searchexperience.choose_color' | translate}}</div>
+                                                    <div class="close-color" (click)="closeColorPallete('msgColor')">
                                                         <img src="assets/icons/close.svg">
                                                     </div>
                                                 </div>
@@ -428,13 +429,13 @@
                                                         <div class="bg-color-selected" [ngStyle]="{'background':col}" (click)="selectedColor=col;color6=col;"></div>
                                                     </ng-container>                                           
                                                 </div>
-                                                <div class="save-switch" (click)="applyColor('msgColor','save')">Save & Apply</div>
-                                                <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('msgColor')">Apply</button>
+                                                <div class="save-switch" (click)="applyColor('msgColor','save')">{{'searchexperience.save_&_apply' | translate}}</div>
+                                                <button class="kr-sg-button-primary btn_apply_save" (click)="applyColor('msgColor')">{{'searchexperience.apply' | translate}}</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="count-length">{{box.value.length}} / 60</div>
+                                <div class="count-length">{{box.value.length}} / {{'searchexperience.60' | translate}}</div>
                             </div>
                         </div>
 
@@ -490,36 +491,36 @@
 
                         <div class="col-12 p-0 position-relative">
                             <div class="guide-button-info">
-                                <div class="title-text">Not Sure! What you can do with these interaction settings?</div>
+                                <div class="title-text">{{'searchexperience.not_sure' | translate}}</div>
                                 <div class="guide-btn">
                                     <img src="assets/icons/search-experience/guide/help.svg">
-                                    <span class="choose-guide" (click)="openSearchInterfaceGuide()">Let us help you choose</span>
+                                    <span class="choose-guide" (click)="openSearchInterfaceGuide()">{{'searchexperience.let_us_help_you_choose' | translate}}</span>
                                 </div>
                             </div>
                             <div class="col-7 p-0">                            
                                 <div class="border-with-padding">
-                                    <div class="label_text">Show Searches</div>
+                                    <div class="label_text">{{'searchexperience.show_searches' | translate}}</div>
                                     <label class="kr-sg-toggle">                                       
                                         <input type="checkbox" [(ngModel)]="searchObject.searchInteractionsConfig.showSearchesEnabled">
-                                        <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                                        <div class="slider"><span class="enabled">{{'searchexperience.yes' | translate}}</span><span class="disabled">{{'searchexperience.no' | translate}}</span></div>
                                     </label>
                                
                                     <div class="group-radiobutton mt-3">
                                         <div class="kr-sg-radiobutton">
                                             <input id="radio-22" name="radio" class="radio-custom" type="radio" value="frequent" [checked]="searchObject.searchInteractionsConfig.showSearches=='Frequent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches" [disabled]="!searchObject.searchInteractionsConfig.showSearchesEnabled">
-                                            <label for="radio-22" class="radio-custom-label">Frequent</label>
+                                            <label for="radio-22" class="radio-custom-label">{{'searchexperience.frequent' | translate}}</label>
                                         </div>
                                         <div class="kr-sg-radiobutton">
                                             <input id="radio-23" name="radio" class="radio-custom" type="radio" value="recent" [checked]="searchObject.searchInteractionsConfig.showSearches=='recent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches" [disabled]="!searchObject.searchInteractionsConfig.showSearchesEnabled">
-                                            <label for="radio-23" class="radio-custom-label">Recent</label>
+                                            <label for="radio-23" class="radio-custom-label">{{'searchexperience.recent' | translate}}</label>
                                         </div>
                                     </div>                                                          
                                 </div>
                                 <div class="border-with-padding">                                                                     
-                                    <div class="label_text">Autocomplete</div>
+                                    <div class="label_text">{{'searchexperience.autocomplete' | translate}}</div>
                                     <label class="kr-sg-toggle">                                       
                                         <input type="checkbox" [(ngModel)]="searchObject.searchInteractionsConfig.autocompleteOpt">
-                                        <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                                        <div class="slider"><span class="enabled">{{'searchexperience.yes' | translate}}</span><span class="disabled">{{'searchexperience.no' | translate}}</span></div>
                                     </label>
                                 </div>
                                 <div class="border-with-padding" *ngFor="let data of suggestions">                                    
@@ -549,9 +550,9 @@
         </perfect-scrollbar>
     </div>
     <div class="footer-sec">
-        <button class="kr-sg-button-secondary btn_lg" (click)="nextTab('pre');closeAllBoxs('all');" *ngIf="selectedTab!='experience'">Previous</button>
-        <button class="kr-sg-button-primary btn_lg" (click)="nextTab('nex');closeAllBoxs('all');" *ngIf="selectedTab!=='interactions'">Next</button>     
-        <button class="kr-sg-button-primary btn_lg" (click)="saveSearchExperience();closeAllBoxs('all');" *ngIf="selectedTab=='interactions'">Done</button>    
+        <button class="kr-sg-button-secondary btn_lg" (click)="nextTab('pre');closeAllBoxs('all');" *ngIf="selectedTab!='experience'">{{'searchexperience.previous' | translate}}</button>
+        <button class="kr-sg-button-primary btn_lg" (click)="nextTab('nex');closeAllBoxs('all');" *ngIf="selectedTab!=='interactions'">{{'searchexperience.next' | translate}}</button>     
+        <button class="kr-sg-button-primary btn_lg" (click)="saveSearchExperience();closeAllBoxs('all');" *ngIf="selectedTab=='interactions'">{{'searchexperience.done' | translate}}</button>    
     </div>
 </div>
 
@@ -559,13 +560,13 @@
 
 <kr-modal  modalType="center" modalClass="sliderComponent modal_popups_ guide-seach-experience" #guideModalPop id="guideModalPop">
     <div class="modal-header">
-      <div class="title">Guide > <span *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">Bottom Up Experience</span><span *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">Top Down Experience</span></div>
+      <div class="title">{{'searchexperience.guide' | translate}} > <span *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">{{'searchexperience.bottom_up_experience' | translate}}</span><span *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">{{'searchexperience.top_down_experience' | translate}}</span></div>
       <div class="close_icon" (click)="closeGuidePopup()"><img  src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
       <div class="modal-body" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
-        <div class="main-title">Hi {{userName}},</div>
-        <div class="main-title">It is recommended to go through this guide before customizing interactions.</div>
+        <div class="main-title">{{'searchexperience.hi' | translate}} {{userName}},</div>
+        <div class="main-title">{{'searchexperience.it_is_recommended' | translate}}</div>
         <div class="guide-data">
             <div class="layer-img">
                 <img src="assets/icons/search-experience/guide/sdk-img.svg">
@@ -574,8 +575,8 @@
                 <img src="assets/icons/search-experience/guide/recent-search.svg">
             </div>
             <div class="right-content">
-                <div class="title">Choose <span class="hilightedcolor">Frequent Search</span> or <span class="hilightedcolor">Recent Search</span></div>
-                <div class="desc-text">to enable the user to see their Frequently or recently searched queries. These queries will appear as cards in the search window as soon as the user puts their cursor in the search bar </div>
+                <div class="title">{{'searchexperience.choose' | translate}} <span class="hilightedcolor">{{'searchexperience.frequent_search' | translate}}</span> {{'searchexperience.or' | translate}} <span class="hilightedcolor">{{'searchexperience.recent_search' | translate}}</span></div>
+                <div class="desc-text">{{'searchexperience.to_enable_the_user' | translate}}</div>
             </div>
         </div>
 
@@ -584,8 +585,8 @@
                 <img src="assets/icons/search-experience/guide/sdk-automatic.svg">
             </div>
             <div class="left-content">
-                <div class="title"><span class="hilightedcolor">Autocomplete</span></div>
-                <div class="desc-text">Saves the time and effort for the users by predicting the rest of the word as the user is typing</div>
+                <div class="title"><span class="hilightedcolor">{{'searchexperience.autocomplete' | translate}}</span></div>
+                <div class="desc-text">{{'searchexperience.saves_the_time' | translate}}</div>
             </div>
             <div class="right-content">
                 <img src="assets/icons/search-experience/guide/autocomplete.svg">
@@ -600,9 +601,9 @@
                 <img src="assets/icons/search-experience/guide/querysuggestion.svg">
             </div>
             <div class="right-content">
-                <div class="title"><span class="hilightedcolor">Query Suggestions</span></div>
-                <div class="desc-text">reduces user’s time to search a query by providing suggestions which help users to enter long queries or select a query as they type.</div>
-                <div class="info-text">Here, the no. of <span>query suggestions</span> are <span>set to two</span> and <span>Live search</span> is <span>set to zero</span></div>
+                <div class="title"><span class="hilightedcolor">{{'searchexperience.query_suggestions' | translate}}</span></div>
+                <div class="desc-text">{{'searchexperience.reduces_users_time' | translate}}</div>
+                <div class="info-text">{{'searchexperience.here' | translate}}<span> {{'searchexperience.Query_suggestions' | translate}}</span> {{'searchexperience.are' | translate}} <span>{{'searchexperience.set_to_two' | translate}}</span> {{'searchexperience.and' | translate}} <span>{{'searchexperience.live_search' | translate}}</span> {{'searchexperience.is' | translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span></div>
             </div>
         </div>
 
@@ -612,9 +613,9 @@
                 <img src="assets/icons/search-experience/guide/live-search-sdk.svg">
             </div>
             <div class="left-content">
-                <div class="title"><span class="hilightedcolor">Live Search</span></div>
-                <div class="desc-text">enhances user’s search experience by showing the results while entering the query and allows the user to see search results without needing to redirect to the results page</div>
-                <div class="info-text">Here, the no. of <span>query suggestions</span> are <span>set to zero</span></div>
+                <div class="title"><span class="hilightedcolor">{{'searchexperience.live_search' | translate}}</span></div>
+                <div class="desc-text">{{'searchexperience.enhances_users' | translate}}</div>
+                <div class="info-text">{{'searchexperience.here' | translate}} <span>{{'searchexperience.Query_suggestions' | translate}}</span> {{'searchexperience.are' | translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span></div>
             </div>
             <div class="right-content">
                 <img src="assets/icons/search-experience/guide/livesearch-suggestion.svg">
@@ -630,23 +631,23 @@
                 <img src="assets/icons/search-experience/guide/livesearch-suggestion.svg">
             </div>
             <div class="right-content">
-                <div class="title"><span class="hilightedcolor">Live Search & Query Suggestions</span></div>
-                <div class="desc-text">when both are enabled the live search results appear at the background of the query suggestions and the user can scroll to browse the results.</div>
-                <div class="info-text">Here, the no. of <span>query suggestions</span> and <span>live search</span>, both are enabled and <span>set to three</span></div>
+                <div class="title"><span class="hilightedcolor">{{'searchexperience.live_search_query_suggestions' | translate}}</span></div>
+                <div class="desc-text">{{'searchexperience.when_both_are_enabled' | translate}}</div>
+                <div class="info-text">{{'searchexperience.here' | translate}} <span>{{'searchexperience.Query_suggestions' | translate}}</span> {{'searchexperience.and' | translate}} <span>{{'searchexperience.liv_search' | translate}}</span>, {{'searchexperience.both_enabled' | translate}} <span>{{'searchexperience.set_to_three' | translate}}</span></div>
             </div>
         </div>
 
         <div class="done-all">
             <img src="assets/icons/search-experience/guide/handthumb.svg">
-            <span class="title">That’s all, Let’s Customize now.</span>
+            <span class="title">{{'searchexperience.that_all' | translate}}</span>
         </div>
 
       </div>
 
 
       <div class="modal-body topdown-guide" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">
-        <div class="main-title">Hi {{userName}},</div>
-        <div class="main-title">It is recommended to go through this guide before customizing interactions.</div>
+        <div class="main-title">{{'searchexperience.hi' | translate}} {{userName}},</div>
+        <div class="main-title">{{'searchexperience.it_is_recommended' | translate}}</div>
         <div class="guide-data">
             <div class="layer-img">
                 <img src="assets/icons/search-experience/guide/topdown/recent-search-sdk.svg">
@@ -655,8 +656,8 @@
                 <img src="assets/icons/search-experience/guide/topdown/recentsearch.svg">
             </div>
             <div class="right-content">
-                <div class="title">Choose <span class="hilightedcolor">Frequent Search</span> or <span class="hilightedcolor">Recent Search</span></div>
-                <div class="desc-text">to enable the user to see their Frequently or recently searched queries. These queries will appear as cards in the search window as soon as the user puts their cursor in the search bar </div>
+                <div class="title">{{'searchexperience.choose' | translate}} <span class="hilightedcolor">{{'searchexperience.frequent_search' | translate}}</span> {{'searchexperience.or' | translate}} <span class="hilightedcolor">{{'searchexperience.recent_search' | translate}}</span></div>
+                <div class="desc-text">{{'searchexperience.to_enable_the_user' | translate}}</div>
             </div>
         </div>
 
@@ -665,8 +666,8 @@
                 <img src="assets/icons/search-experience/guide/topdown/autocomplete-sdk.svg">               
             </div>
             <div class="left-content">
-                <div class="title"><span class="hilightedcolor">Autocomplete</span></div>
-                <div class="desc-text">Saves the time and effort for the users by predicting the rest of the word as the user is typing</div>
+                <div class="title"><span class="hilightedcolor">{{'searchexperience.autocomplete' | translate}}</span></div>
+                <div class="desc-text">{{'searchexperience.saves_the_time' | translate}}</div>
             </div>
             <div class="right-content">
                 <img src="assets/icons/search-experience/guide/topdown/autocomplete.svg">
@@ -681,9 +682,9 @@
                 <img src="assets/icons/search-experience/guide/topdown/query-suggestion.svg">
             </div>
             <div class="right-content">
-                <div class="title"><span class="hilightedcolor">Query Suggestions</span></div>
-                <div class="desc-text">reduces user’s time to search a query by providing suggestions which help users to enter long queries or select a query as they type.</div>
-                <div class="info-text">Here, the no. of <span>query suggestions</span> are <span>set to three</span> and <span>Live search</span> is <span>set to zero</span></div>
+                <div class="title"><span class="hilightedcolor">{{'searchexperience.query_suggestions' | translate}}</span></div>
+                <div class="desc-text">{{'searchexperience.reduces_users_time' | translate}}</div>
+                <div class="info-text">{{'searchexperience.here' | translate}}<span>{{'searchexperience.Query_suggestions' | translate}}</span> {{'searchexperience.are' | translate}} <span>{{'searchexperience.set_to_three' | translate}}</span> {{'searchexperience.and' | translate}} <span>{{'searchexperience.live_search' | translate}}</span> {{'searchexperience.set_to_three' | translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span></div>
             </div>
         </div>
 
@@ -693,9 +694,9 @@
                 <img src="assets/icons/search-experience/guide/topdown/livesearch-sdk.svg">
             </div>
             <div class="left-content">
-                <div class="title"><span class="hilightedcolor">Live Search</span></div>
-                <div class="desc-text">enhances user’s search experience by showing the results while entering the query and allows the user to see search results without needing to redirect to the results page</div>
-                <div class="info-text">Here, the no. of <span>query suggestions</span> are <span>set to zero</span></div>
+                <div class="title"><span class="hilightedcolor">{{'searchexperience.live_search' | translate}}</span></div>
+                <div class="desc-text">{{'searchexperience.enhances_users' | translate}}</div>
+                <div class="info-text">{{'searchexperience.here' | translate}} <span>{{'searchexperience.Query_suggestions' | translate}}</span> {{'searchexperience.are' | translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span></div>
             </div>
             <div class="right-content">
                 <img src="assets/icons/search-experience/guide/topdown/liveseach.svg">
@@ -711,15 +712,15 @@
                 <img src="assets/icons/search-experience/guide/topdown/livesearch-query.svg">
             </div>
             <div class="right-content">
-                <div class="title"><span class="hilightedcolor">Live Search & Query Suggestions</span></div>
-                <div class="desc-text">when both are enabled the live search results appear at the background of the query suggestions and the user can scroll to browse the results.</div>
-                <div class="info-text">Here, the no. of <span>query suggestions</span> and <span>live search</span>, both are enabled and <span>set to three</span> and <span>five respectively</span></div>
+                <div class="title"><span class="hilightedcolor">{{'searchexperience.live_search_query_suggestions' | translate}}</span></div>
+                <div class="desc-text">{{'searchexperience.when_both_are_enabled' | translate}}</div>
+                <div class="info-text">{{'searchexperience.here' | translate}} <span>{{'searchexperience.Query_suggestions' | translate}}</span> {{'searchexperience.and' | translate}} <span>{{'searchexperience.liv_search' | translate}}</span>, {{'searchexperience.both_enabled' | translate}} <span>{{'searchexperience.set_to_three' | translate}}</span> {{'searchexperience.and' | translate}} <span>{{'searchexperience.five_respectively' | translate}}</span></div>
             </div>
         </div>
 
         <div class="done-all">
             <img src="assets/icons/search-experience/guide/handthumb.svg">
-            <span class="title">That’s all, Let’s Customize now.</span>
+            <span class="title">{{'searchexperience.that_all' | translate}}</span>
         </div>
 
       </div>

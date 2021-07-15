@@ -50,17 +50,17 @@
       <textarea [perfectScrollbar]="config"  (focus)="selectCurrentFocusedResponse(id,responseObj,type,index)"  [(ngModel)]="responseObj.text" class="input-text" style="padding-bottom: 40px;" id="mainChatInputContainer{{type}}_{{index}}"></textarea>
       <div *ngIf="responseObj.type==='external'" class="external-tab-content" >
         <div class="kr-sg-dropdowns mb-3">
-          <div class="label-text">Source</div>
+          <div class="label-text">{{"addFaq.source" | translate}}</div>
           <div class="dropdown dropdown-open">
               <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Custom</button>                                            
               <ul class="dropdown-menu content-menu">
-                <li><a>Custom</a></li>
-                <li><a>Add new options</a></li>
+                <li><a>{{"addFaq.custom" | translate}}</a></li>
+                <li><a>{{"addFaq.add_new_options" | translate}}</a></li>
               </ul>
           </div>
         </div>
         <div class="kr-sg-input-text mb-3">
-            <div class="label-text">ReferenceId</div>
+            <div class="label-text">{{"addFaq.referenceId" | translate}}</div>
             <input type="text" placeholder="Enter ReferenceId" class="input-text" autocomplete="off">
         </div>
         <!-- <button class="kr-sg-button-primary btn_lg" (click)="openPreviewModal()">Preiew</button> -->
@@ -97,7 +97,7 @@
 <div class="add-questions-form" [ngClass]="inputClass">
   <form [formGroup]="form">
     <div class="kr-sg-input-text mb-15">
-      <div class="label-text">Question</div>
+      <div class="label-text">{{"addFaq.question" | translate}}</div>
       <input type="text" placeholder="Enter Your Question" class="input-text" formControlName="question" autocomplete="off">             
     </div>
     <!-- <div for="tagInput" class="label-text">Key Terms</div>
@@ -140,7 +140,7 @@
        
         
         <div class="conditionalBlock bot-response-view-mode" [ngClass]="{'pl-2':faqResponse.defaultAnswers.length>1}">
-          <div class="bot-response-title"  *ngIf="faqResponse.defaultAnswers.length > 1" [ngClass]="{'text-black':currentEditIndex == index}">Response <span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span>
+          <div class="bot-response-title"  *ngIf="faqResponse.defaultAnswers.length > 1" [ngClass]="{'text-black':currentEditIndex == index}"> {{"addFaq.response" | translate}}<span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span>
             <div class="deleteResponseDiv red" (click)="$event.stopPropagation();delete(index)" ngbTooltip="Delete"><img src="assets/images/delete_response.svg"></div>
           </div>
          
@@ -157,7 +157,7 @@
         </div>  
         <div class="col-12 right_sec previewResponseMode d-none"> 
           <div class="content-data">
-              <div class="preview-response-title"> Response Preview </div>
+              <div class="preview-response-title"> {{"addFaq.response_preview" | translate}} </div>
             <div class="responsePreviewBlock">
               <perfect-scrollbar>
                 <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
@@ -181,8 +181,8 @@
           <div class="kr-sg-input-text mb-2 mt-3"> 
              <!-- image optional preview related changes -->
              <div class="d-flex justify-content-between align-items-center">
-              <div class="label-text w-100">Image (Optional)</div>
-              <div class="know-more-data" (click)="openPreviewImgModal(faqObj.imgurl);">Preview</div>
+              <div class="label-text w-100">{{"addFaq.image_optional" | translate}} </div>
+              <div class="know-more-data" (click)="openPreviewImgModal(faqObj.imgurl);">{{"addFaq.preview" | translate}} </div>
             </div>
             <!-- image optional preview related changes -->
             <input type="text" autocomplete="off" placeholder="http(s)://" class="input-text"  [(ngModel)]="faqObj.imgurl" name="appName">         
@@ -205,7 +205,7 @@
                     <img src="assets/icons/faq/Info.svg">
                   </div>
                   <div class="bubnle-info">
-                    The end-users will see the response as per the template you select in the Search Experience
+                    {{"addFaq.template_outlook" | translate}} 
                   </div>
                 </div>
                 <!-- <div class="know-more-data">Know more</div> -->
@@ -222,7 +222,7 @@
   </div>
     </div>
     <div class="d-flex mt-2" *ngIf="(currentEditIndex === index)">
-      <label>Add Conditions</label>
+      <label>{{"addFaq.add_conditions" | translate}}</label>
       <div>
         <label class="kr-sg-toggle with-label" >
           <input type="checkbox" [checked]='(faqObj.answerType === "condition")' (click)="changeResponseType(faqObj,index)">
@@ -235,10 +235,10 @@
       <div class="question-content">
         <div class="conditionalBlock">
           <div class="condition-view-mode" *ngIf="(faqObj && faqObj.answerType === 'condition') && (currentEditIndex !== index)">
-            <div class="label_text">Conditions</div>
+            <div class="label_text">{{"addFaq.conditions" | translate}}</div>
             <ng-container *ngFor="let item of faqObj.conditions;  let index = index">
               <div class="condition-view-mode-data">
-                <span class="default-data and-rule" *ngIf="index > 0">And</span>
+                <span class="default-data and-rule" *ngIf="index > 0">{{"addFaq.add" | translate}}</span>
                 <span class="tag-name">{{item.contextType}}</span>
                 <span class="tag-name">{{item.contextCategory}}</span>
                 <span class="default-data">{{item.operator}}</span>   
@@ -255,7 +255,7 @@
                         <div class="input-bg-sec">
                             <div class="row m-0 search-content-sec">
                                 <div class="col-2 p-0 title">
-                                    Select Context
+                                  {{"addFaq.select_contect" | translate}}
                                 </div>
                                 <div class="col-4 pr-0">
                                     <div class="kr-sg-dropdowns w-auto" ngbDropdown (click)="currentEditInex = index" >                           
@@ -270,7 +270,7 @@
                             </div>
                             <div class="row m-0 search-content-sec">
                                 <div class="col-2 p-0 title">
-                                  Set Parameters
+                                  {{"addFaq.select_parameters" | translate}} 
                                 </div>
                                 <div class="col-4 pr-0">
                                   <div class="kr-sg-dropdowns w-auto" ngbDropdown (click)="currentEditInex = index" *ngIf="ruleObj.contextType !=='userContext'">
@@ -295,8 +295,10 @@
                                     <div class="dropdown dropdown-open">
                                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{((ruleObj.dataType)?("businessRules." + ruleObj.dataType): 'choose_an_option')  | translate}}</button>
                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                            <li ngbDropdownItem *ngFor="let dataType of ruleOptions.dataTypes" (click)="ruleSelection(ruleObj,dataType,'dataType')" [ngClass]="{'active':ruleObj.dataType===dataType}">{{"businessRules." + dataType | translate}}
+                                          <ng-container *ngFor="let dataType of ruleOptions.dataTypes">
+                                            <li ngbDropdownItem [hidden]="(dataType == 'date' || dataType == 'number') && ruleObj.contextType =='searchContext'" (click)="ruleSelection(ruleObj,dataType,'dataType')" [ngClass]="{'active':ruleObj.dataType===dataType}">{{"businessRules." + dataType | translate}}
                                             </li>
+                                          </ng-container>
                                         </ul>
                                     </div>
                                 </div>
@@ -328,7 +330,7 @@
                                                       <span class="mat-val" *ngIf="value">{{value}}</span>
                                                       <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                   </mat-chip>
-                                                  <span class="and">OR</span>
+                                                  <span class="and"> {{"addFaq.or_caps" | translate}}</span>
                                               </ng-container>
                                           </ng-container>
                                           <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'number')">
@@ -342,7 +344,7 @@
                                                       </span>
                                                       <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                   </mat-chip>
-                                                  <span>OR</span>
+                                                  <span>{{"addFaq.or_caps" | translate}}</span>
                                               </ng-container>
                                           </ng-container>
                                           <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator !== 'between')">
@@ -351,7 +353,7 @@
                                                       <span class="mat-val" *ngIf="value">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
                                                       <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                   </mat-chip>
-                                                  <span>OR</span>
+                                                  <span>{{"addFaq.or_caps" | translate}}</span>
                                               </ng-container>
                                           </ng-container>
     
@@ -365,7 +367,7 @@
                                                       </span>
                                                       <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                   </mat-chip>
-                                                  <span>OR</span>
+                                                  <span>{{"addFaq.or_caps" | translate}}</span>
                                               </ng-container>
                                           </ng-container>
     
@@ -392,7 +394,7 @@
                                       </mat-chip-list>
                                   </mat-form-field>
                                   <ng-container *ngIf="ruleObj.dataType == 'number'  && ruleObj.operator == 'between'">
-                                      <div class="info-number-placeholder"><img src="assets/icons/business-rules/info.svg" class="mr-1">Range separated by ‘ - ‘</div>
+                                      <div class="info-number-placeholder"><img src="assets/icons/business-rules/info.svg" class="mr-1">{{"addFaq.range_seperated_by" | translate}} ‘ - ‘</div>
                                   </ng-container>
                               </div>
                           </div>
@@ -405,7 +407,7 @@
                 </ng-container>               
               </div> 
            </div>
-            <div class="add-condition" (click)="addNewRule(index,faqObj)"><img src="assets/icons/plus-blue.svg">Add Condition</div>
+            <div class="add-condition" (click)="addNewRule(index,faqObj)"><img src="assets/icons/plus-blue.svg">{{"addFaq.add_condition" | translate}}</div>
           </ng-container>
         </div>
       </div>
@@ -415,16 +417,16 @@
   </ng-container>
   <div class="btn-sec">
     <div class="left-btns">
-      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Response</button>
+      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{"addFaq.response" | translate}}</button>
     </div>
   </div>
   <div class="btn-sec" *ngIf="!faqData && false">
     <div class="left-btns">
       <button class="kr-sg-button-primary btn_lg" (click)="save()">{{loading ? 'Saving..' : 'Save'}}</button>
-      <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">{{"addFaq.cancel" | translate}}</button>
     </div>
     <div class="right-btns">        
-      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Add  Response</button>
+      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{"addFaq.add_response" | translate}}</button>
       <!-- <button class="kr-sg-button-tertiary"  *ngIf="!isFollowUp" (click)='addAltQues()'>Add Alternate Question</button>
       <button class="kr-sg-button-tertiary"  *ngIf="!isFollowUp" (click)='addFollowupQues()'>Add Followup Question</button> -->
     </div>
@@ -432,17 +434,17 @@
   <hr>
   <div class="add-alternative-questions row" *ngIf="!isFollowUp && faqData"> 
     <div class="col-8 pl-0 pr-2">
-        <div class="label-text text-truncate">Alternate Questions
+        <div class="label-text text-truncate">{{"addFaq.alternate_questions" | translate}}
             <span *ngIf="faqData">{{faqData._source.faqAltQuestions?.length>0?'('+faqData._source.faqAltQuestions?.length+')':''}}</span>
             <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
         </div>
         <div class="added-tags text-truncate">Add alternate forms of the question.</div>
     </div>
     <div class=" col-4 text-right pr-0 alter-add-btn" *ngIf="faqData._source.faqAltQuestions?.length>0 || isAdd">
-        <button class="kr-sg-button-ghost px-0" (click)="addAltQues();" (mouseout)="addSrc = 'assets/icons/add_plus.svg'" (mouseover)="addSrc = 'assets/icons/editor/plus-add.svg'"><img src="{{addSrc}}" class="mr-2" [ngClass]="{'alternate-add-plus-icon':(addSrc === 'assets/icons/editor/plus-add.svg')}">Alternate Question</button>
+        <button class="kr-sg-button-ghost px-0" (click)="addAltQues();" (mouseout)="addSrc = 'assets/icons/add_plus.svg'" (mouseover)="addSrc = 'assets/icons/editor/plus-add.svg'"><img src="{{addSrc}}" class="mr-2" [ngClass]="{'alternate-add-plus-icon':(addSrc === 'assets/icons/editor/plus-add.svg')}">{{"addFaq.alternate_questions" | translate}}</button>
     </div>
     <div class="col-12 p-0 " *ngIf="!faqData._source.faqAltQuestions?.length && !isAdd">
-        <button class="kr-sg-button-primary btn_lg" (click)="addAltQues()">Add</button>
+        <button class="kr-sg-button-primary btn_lg" (click)="addAltQues()">{{"addFaq.add" | translate}}</button>
     </div>
   </div>
   <div *ngIf="isAdd" class="alternative-question-results">
@@ -477,15 +479,15 @@
 
 <kr-modal modalType="default" #createImagePop>
   <div class="modal-header">
-        <h4 class="modal-title">Provide Image URL</h4>
+        <h4 class="modal-title">{{"addFaq.provide_img_url" | translate}}</h4>
       </div>
       <div class="modal-body textAlignLeft">
         <div class="kr-sg-input-text mb-3">
-          <div class="label-text">URL</div>
+          <div class="label-text">{{"addFaq.url_caps" | translate}}</div>
           <input maxlength="5128" type="text" autocomplete="off" placeholder="Enter Url" class="input-text" [(ngModel)]="imgInfo.url" name="appName">
         </div>
         <div class="kr-sg-input-text mb-3">
-          <div class="label-text">Name</div>
+          <div class="label-text">{{"addFaq.name" | translate}}</div>
           <input maxlength="128" type="text" autocomplete="off" placeholder="Enter Name" class="input-text" [(ngModel)]="imgInfo.alt" name="appName">
         </div>
       </div>
@@ -496,36 +498,36 @@
 </kr-modal>
 <kr-modal modalType="default" modalClass="provideLinkPopup" #createLinkPop>
   <div class="modal-header">
-        <h4 class="modal-title">Provide link URL</h4>
+        <h4 class="modal-title">{{"addFaq.provide_link_url" | translate}}</h4>
       </div>
       <div class="modal-body textAlignLeft">
         <div class="kr-sg-input-text mb-3">
-          <div class="label-text">URL</div>
+          <div class="label-text">{{"addFaq.url_caps" | translate}}</div>
           <input maxlength="1024" type="text" autocomplete="off" placeholder="App name" class="input-text" [(ngModel)]="linkInfo.link" name="LinkURL">
         </div>
         <div class="kr-sg-input-text mb-3">
-          <div class="label-text">Link Text</div>
+          <div class="label-text">{{"addFaq.link_text" | translate}}</div>
           <input maxlength="1024" type="text" placeholder="Enter Link Trxt" autocomplete="off" class="input-text" [(ngModel)]="linkInfo.linkText" name="LinkText">
         </div>
       </div>
       <div class="modal-footer">
         <button [disabled]="!linkInfo.link"  type="button" class="btn kr-btn-primary"  data-dismiss="modal" (click)='saveLink()' >Save</button>
-        <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeLinkApp()">Close</button>
+        <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeLinkApp()">{{"addFaq.close" | translate}}</button>
       </div>
 </kr-modal>
 
 <kr-modal modalType="default" #externalResponsePop modalClass="modal_popups_">
   <div class="modal-header">
-    <div class="title">External</div>
+    <div class="title">{{"addFaq.external" | translate}}</div>
     <div class="close_icon"><img (click)="closeExternalPopUpRef()" src="assets/icons/modal-close.svg"></div>
   </div>
 <perfect-scrollbar class="perfect-scroll-modal-body">
   <div class="modal-body textAlignLeft">
-    <div>It is extremely important that you keep your contact information on your account updated at all times. To update your address, phone numbers and email address, please login to your account and edit your contact details under the “Your Contact Details” link on the left navigation. To make changes to your account, you will also need to enter an Online Authorization Code (OAC) that will be sent to your registered mobile phone on your account and to your registered email address to authenticate this transaction.</div>
+    <div>{{"addFaq.contact_details_info" | translate}}</div>
    </div>
 </perfect-scrollbar> 
   <div class="modal-footer text-left">
-      <button class="kr-sg-button-secondary btn_lg" (click)="closeExternalPopUpRef()">Close</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="closeExternalPopUpRef()">{{"addFaq.close" | translate}}</button>
   </div>
 </kr-modal>
 

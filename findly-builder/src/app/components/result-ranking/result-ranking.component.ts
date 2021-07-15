@@ -141,7 +141,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     this.resultLogs = true;
   }
   paginate(event) {
-    this.getcustomizeList(event.limit, event.skip);
+    this.getcustomizeList(10, event.skip);
     //event.limit;
     //event.skip;
   }
@@ -152,14 +152,18 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       indexPipelineId : this.indexPipelineId
     };
     this.service.invoke('get.SI_settingInterface', quaryparms).subscribe(res => {
-      if (res && res.appearance ) {
+      if (res && res.appearance) {
+        let isStructured = '';
         res.appearance.forEach(element => {
-          if(element.type == 'structuredData' && element.templateId){
-            this.getTemplate(element.templateId);
-          }else{
-            this.getcustomizeList(20, 0);
+          if (element.type == 'structuredData' && element.templateId) {
+            isStructured = element.templateId;
           }
         });
+        if (isStructured) {
+          this.getTemplate(isStructured);
+        } else {
+          this.getcustomizeList(10, 0);
+        }
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch Setting Informations');
@@ -186,7 +190,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       }
     });
     
-    this.getcustomizeList(20, 0);
+    this.getcustomizeList(10, 0);
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch Template');
     });
@@ -328,7 +332,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     this.collectedRecord = [];
     this.resultSelected = false;
     this.disableDiv = false;
-    this.getcustomizeList(20, 0);
+    this.getcustomizeList(10, 0);
   }
   selectAll() {
     //this.collectedRecord = [];
@@ -523,7 +527,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           this.service.invoke('delete.CustomizatioLog', quaryparms).subscribe(res => {
             dialogRef.close();
             this.notificationService.notify('Removed Successfully', 'success');
-            this.getcustomizeList(20, 0);
+            this.getcustomizeList(10, 0);
             this.actionLogData = [];
             this.customizeList = [];
             //console.log(res);
@@ -616,7 +620,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           this.service.invoke('put.restoreQueryCustomize', quaryparms).subscribe(res => {
             //this.customizeList = res;
             this.selectedRecord = {};
-            this.getcustomizeList(20, 0);
+            this.getcustomizeList(10, 0);
             this.actionLogData = [];
             this.customizeList = [];
             this.notificationService.notify('Reset Successful', 'success');
@@ -636,7 +640,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
 
   }
   getcustomizeList(limit?, skip?) {
-    limit ? limit : 20;
+    limit ? limit : 10;
     skip ? skip : 0;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,

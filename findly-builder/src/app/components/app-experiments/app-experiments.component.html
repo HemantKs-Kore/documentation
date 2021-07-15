@@ -239,7 +239,7 @@
       <ng-container>
         <div class="upgrade-experience" [ngClass]='{"d-none":currentSubscriptionPlan.planName!="Free"}'>
           <div class="img-block">
-            <img src="assets/icons/pricing/upgrade-experience.svg">
+            <img src="assets/icons/pricing/upgrade-experience.png">
           </div>
           <div class="title">{{"experiments.empty_experiment"| translate}}</div>
           <button class="kr-sg-button-primary btn_lg" (click)="upgrade()">{{"experiments.upgrade"| translate}}</button>
@@ -248,7 +248,7 @@
 
       <ng-container *ngIf="filterExperiments.length===0 && currentSubscriptionPlan.planName!='Free'">        
         <div  class="empty-landing-screen" >
-          <div class="img-block"><img class="action_icon" src="assets/images/experiments-empty.svg" (load)="imageLoaded()"></div>
+          <div class="img-block"><img class="action_icon" src="assets/images/experiments-empty.png" (load)="imageLoaded()"></div>
           <ng-container *ngIf="loadImageText">
               <div class="empty-title">{{"experiments.havenot_added"| translate}}</div>
               <div class="desc-text">{{"experiments.desc_text"| translate}}</div>
@@ -318,7 +318,7 @@
               [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")?"#EFF0F1":"#ffffff","color":(vari.indexPipelineName==undefined)||(exp_status !== "configured" && form_type === "edit")?"#9aa0a6":"#202124","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}'>
               {{
               vari.indexPipelineName === undefined
-              ? varIndex===0? "Default Index":"Select Index"
+              ? varIndex===0? "Default Index Configuration":"Select Index"
               : vari.indexPipelineName
               }}
             </button>
@@ -336,7 +336,7 @@
               [disabled]="(exp_status !== 'configured' && form_type === 'edit')||vari.indexPipelineName==undefined" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")||vari.indexPipelineName==undefined?"#EFF0F1":"#ffffff","color":(vari.indexPipelineName==undefined)||(exp_status !== "configured" && form_type === "edit")?"#9aa0a6":"#202124","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}'>
               {{
               vari.queryPipelineName === undefined
-              ? varIndex===0? "Default Search":"Select Search Configuration"
+              ? varIndex===0? "Default Search Configuration":"Select Search Configuration"
               : vari.queryPipelineName
               }}
             </button>

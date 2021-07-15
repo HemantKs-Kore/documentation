@@ -1821,3 +1821,25 @@
         
     }
 } 
+.info-no-limit{
+    background: #FFFBEA;            
+    border: 1px solid #806D16;
+    box-sizing: border-box;
+    border-radius: 4px;
+    display: flex;
+    align-content: center;
+    padding: 9px 10px;                        
+    img{
+
+    }
+    span{
+        color: #806D16;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 18px;
+        padding-left: 10px;
+    }
+}
+.link-bot-disable.link-bot-btn{
+    color: #BDC1C6 !important;
+}

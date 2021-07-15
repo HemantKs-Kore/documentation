@@ -1157,32 +1157,24 @@
                         display: flex;
                         align-items: center;
                         flex-wrap: wrap;
-                        padding-left: 18px;
-                        margin-top: 12px;
-                        .manual{
-                            background: #9098a0 !important;
-                            color: #5F6368 !important;
-                        }
+                        padding-left: 25px;
+                        margin-top: 12px;                        
                         .pinned{
                             background: #E7F1FF;
                             border-radius: 4px;
                             height: 22px;
-                            padding: 5px 10px;
+                            padding: 5px;
                             display: flex;
                             align-items: center;
                             color: #0D6EFD;
                             font-weight: normal;
                             font-size: 10px;
                             line-height: 14px;
-                            margin: 0 10px;
-                            position: relative;
-                            &::before{
-                                content: "";
-                                position: absolute;
-                                width: 1px;
-                                height: 100%;
+                            margin: 0 5px;
+                            position: relative;                            
+                            &.manual{
                                 background: #EFF0F1;
-                                right: -10px;
+                                color: #5F6368;
                             }
                             img{
                                 margin-right: 4px;
@@ -1194,6 +1186,17 @@
                             font-weight: 500;
                             font-size: 12px;
                             line-height: 15px;
+                            position: relative;
+                            margin-left: 5px;
+                            &::before{
+                                content: "";
+                                position: absolute;
+                                width: 1px;
+                                height: 22px;
+                                background: #EFF0F1;
+                                left: 0px;
+                                top: -4px;
+                            }
                         }                        
                    }
                    .remove-btn-sec{

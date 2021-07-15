@@ -52,7 +52,7 @@
     <ng-container *ngIf="loadingContent1 && !(rules && beforeFilterRules && beforeFilterRules.length) && !searchRules && !showSearch">
         <perfect-scrollbar class="empty-scroll">
             <div class="empty-landing-screen">
-                <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/businessrules-empty.svg"></div>
+                <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/businessrules-empty.png"></div>
                 <ng-container *ngIf="loadImageText">
                     <div class="empty-title">You haven’t added any rules yet!</div>
                     <div class="desc-text"> Rule is powerful tool to personalize and fine-tune search results. SearchAssist allows you to define rules based on Search , Page and User-contexts. Rules can also be used for merchandising and promotions.
@@ -130,7 +130,7 @@
                         <span class="divider" *ngIf="ruleIndex > 0">{{"and_caps" | translate}}</span>
                         <span class="tags-input mr-1 mb-1 contextCategory">
                             <span class="small-text" >{{ "businessRules." + rule.contextType | translate}} :</span> 
-                            <span container="body" ngbTooltip='{{ "businessRules." + rule.contextCategory | translate }}'>{{ "businessRules." + rule.contextCategory | translate }}</span>
+                            <span container="body" ngbTooltip='{{ "businessRules." + rule.contextCategory | translate }}'>{{rule.contextType !=='userContext' ? ("businessRules." + rule.contextCategory | translate): rule.contextCategory }}</span>
                         </span>
                     </div>                    
                     <div class="d-flex align-items-start mb-2">
@@ -139,8 +139,8 @@
                         </div>
                         <div class="d-flex align-items-start flex-wrap">
                             <ng-container *ngFor="let value of rule.value; let valueIndex = index">
-                                <span class="tags-input mr-1 mb-1" *ngIf="value && !checkIsArray(value)" container="body" ngbTooltip="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
-                                <span class="tags-input mr-1 mb-1" *ngIf="value && value.length && checkIsArray(value)"><span *ngFor="let num of value; let numIndex = index" container="body" ngbTooltip="{{num | dateFormatPipe: 'DD MMM YYYY'}}">{{num | dateFormatPipe: 'DD MMM YYYY'}}<span *ngIf="!numIndex"> - </span></span></span>
+                                <span class="tags-input mr-1 mb-1" *ngIf="value && !checkIsArray(value)" container="body" ngbTooltip="{{rule.dataType == 'date' ? (value | dateFormatPipe: 'DD MMM YYYY'):value}}">{{rule.dataType == 'date' ? (value | dateFormatPipe: 'DD MMM YYYY'):value}}</span>
+                                <span class="tags-input mr-1 mb-1" *ngIf="value && value.length && checkIsArray(value)"><span *ngFor="let num of value; let numIndex = index" container="body" ngbTooltip="{{rule.dataType == 'date' ? (num | dateFormatPipe: 'DD MMM YYYY'):num}}">{{rule.dataType == 'date' ? (num | dateFormatPipe: 'DD MMM YYYY'):num}}<span *ngIf="!numIndex"> - </span></span></span>
                                 <span class="divider" *ngIf="valueIndex < rule.value.length - 1">{{ "or_caps" | translate}}</span>
                             </ng-container>
                         </div>
@@ -199,7 +199,7 @@
             <img src="assets/icons/modal-close.svg" />
         </div>
     </div>
-    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
         <div class="modal-body">
 
             <div class="kr-sg-input-text mb-5">
@@ -256,8 +256,10 @@
                                             <div class="dropdown dropdown-open">
                                                 <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{((ruleObj.dataType)?("businessRules." + ruleObj.dataType): 'choose_an_option')  | translate}}</button>
                                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                                    <li ngbDropdownItem *ngFor="let dataType of ruleOptions.dataTypes" (click)="ruleSelection(ruleObj,dataType,'dataType')" [ngClass]="{'active':ruleObj.dataType===dataType}">{{"businessRules." + dataType | translate}}
-                                                    </li>
+                                                    <ng-container *ngFor="let dataType of ruleOptions.dataTypes">
+                                                        <li ngbDropdownItem [hidden]="(dataType == 'date' || dataType == 'number') && ruleObj.contextType =='searchContext'" (click)="ruleSelection(ruleObj,dataType,'dataType')" [ngClass]="{'active':ruleObj.dataType===dataType}">{{"businessRules." + dataType | translate}}
+                                                        </li>
+                                                    </ng-container>
                                                 </ul>
                                             </div>
                                         </div>

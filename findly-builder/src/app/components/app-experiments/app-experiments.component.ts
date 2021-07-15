@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
@@ -399,7 +399,7 @@ export class AppExperimentsComponent implements OnInit {
         let days = moment().diff(moment(data.end), 'days');
         let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
         let res_obj = data.variants.reduce((p, c) => p.ctr > c.ctr ? p : c);
-        return { ...data, total_days: days_result, time_result: Math.abs(hours), top_leader: res_obj.code };
+        return { ...data, total_days: days_result, time_result: Math.abs(hours), top_leader: res_obj.ctr > 0 ? res_obj.code : null };
       });
       this.listOfExperiments = result;
       this.filterExperiments = result;
@@ -828,5 +828,8 @@ export class AppExperimentsComponent implements OnInit {
       console.log(value, this.experimentObj.duration.days)
       this.experimentObj.duration.days = 90
     }
+  }
+  ngOnDestroy() {
+    this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : null;
   }
 }
