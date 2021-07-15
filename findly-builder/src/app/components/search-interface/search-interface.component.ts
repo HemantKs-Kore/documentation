@@ -1007,7 +1007,7 @@ class selectedSettingResults {
   _id = ""
   resultClassification = {
     'isEnabled': true,
-    'sourceType': "dataContentType"
+    'sourceType': "sys_content_type" //dataContentType
   }
   view = "fit"
   maxResultsAllowed = 10
