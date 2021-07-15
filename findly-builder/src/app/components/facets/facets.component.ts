@@ -321,7 +321,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       category :'facets',
       query
     };
-    this.service.invoke('get.getFieldAutocompleteFacet', quaryparms).subscribe(res => {
+    this.service.invoke('get.getFieldAutocompleteIndices', quaryparms).subscribe(res => {
       this.fieldAutoSuggestion = JSON.parse(JSON.stringify(res)) || [];
       if(this.fieldAutoSuggestion.length){
         if(!$('#facets-search-with-dropdown-menu').hasClass('show') && $('#facets-search-input').is(':focus')){

@@ -564,7 +564,7 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/autocomplete?alpha=:query&isIndexed=true',
       method: 'get'
     }
-    this.serviceList['get.getFieldAutocompleteFacet'] = {
+    this.serviceList['get.getFieldAutocompleteIndices'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/autocomplete?alpha=:query&isIndexed=true&category=:category',
       method: 'get'
     }
