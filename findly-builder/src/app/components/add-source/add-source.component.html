@@ -260,8 +260,8 @@
                     <div class="col-12 row mb-3 top-sec p-0 ml-0 mr-0"  *ngIf="(selectedSourceType.id==='faqDoc')">
                       <div class="title-data col-6 p-0">Browse File</div>
                     <div class="actions-data col-6 p-0 d-flex align-items-center justify-content-end">
-                        <span class="sample-text pr-2" style="padding-right:10px" (click)='downloadSampleData("json")'><img  class="image mr-2"src="assets/icons/docker/download.svg">Sample JSON</span>
-                        <span class="sample-text pl-2" (click)='downloadSampleData("csv")'><img class="image mr-2" src="assets/icons/docker/download.svg">Sample CSV</span>
+                        <span class="sample-text pr-2"  style="cursor: pointer" (click)='downloadSampleData("json")'><img  class="image mr-2"src="assets/icons/docker/download.svg">Sample JSON</span>
+                        <span class="sample-text pl-2"  style="cursor: pointer" (click)='downloadSampleData("csv")'><img class="image mr-2" src="assets/icons/docker/download.svg">Sample CSV</span>
                     </div>
                     <div class="data">You can upload either JSON or CSV file here</div>
                     </div>

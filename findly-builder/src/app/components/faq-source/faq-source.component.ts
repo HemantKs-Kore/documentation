@@ -800,9 +800,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedFaq = null
     this.searchFaq = '';
     this.selectedtab = tab;
+    this.getStats((this.selectedResource || {})._id || null);
     // this.getStats();
     this.getFaqsOnSelection();
   }
+  
   getFaqsOnSelection() {
     this.addRemoveFaqFromSelection(null, null, true);
     this.getfaqsBy(null, this.selectedtab);
