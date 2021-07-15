@@ -422,7 +422,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           this.resourcesStatusObj[element._id] = element;
         });
       }
-      
+
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
     });
@@ -447,8 +447,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.oldQuedJob = [];
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
-        if(source.status == 'running' || source.status == 'queued'){
-          if(source.numPages == 0 || source.numPages == '' ){
+        if (source.status == 'running' || source.status == 'queued') {
+          if (source.numPages == 0 || source.numPages == '') {
             this.oldQuedJob.push(source._id);
           }
         }
@@ -644,9 +644,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             }
           } else if (element.executionStats.executionStatusMessage == 'Execution Stopped') {
             element.executionStats['tooltip'] = "Execution Stopped due to " + element.statusMessage || ' time out';
-          } else if(element.executionStats.executionStatusMessage == 'Execution In Progress'){
+          } else if (element.executionStats.executionStatusMessage == 'Execution In Progress') {
             element.executionStats['tooltip'] = "In Progress";
-          }else {
+          } else {
             element.executionStats['tooltip'] = element.statusMessage;
           }
         });
@@ -935,7 +935,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       contentId: page._id
     }
     const payload: any = {
-      url: page._source.pageUrl
+      url: page._source.page_url
     }
     this.service.invoke('check.forUpdates', quaryparms, payload).subscribe(res => {
       this.loadingcheckForUpdate = false;
@@ -963,7 +963,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       jobId: page.jobId
     }
     const payload: any = {
-      url: page._source.pageUrl
+      url: page._source.page_url
     }
     this.service.invoke('reCrwal.website', quaryparms, payload).subscribe(res => {
       this.dockService.trigger(true);
@@ -1253,10 +1253,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
     this.editTitleFlag = false;
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(); 
-    },500)
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
   closeStatusModal() {
     this.swapSlider('page') // Just to redirect to 1st page
