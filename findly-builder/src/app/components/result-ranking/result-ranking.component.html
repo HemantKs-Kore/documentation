@@ -99,7 +99,7 @@
                             </div>                                
                             </ng-container>
                         </perfect-scrollbar>
-                        <div class="pagination mt-4" *ngIf='totalRecord > limitpage'>
+                        <div class="pagination mt-4" *ngIf='totalRecord > 10'>
                             <app-record-pagination [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
                         </div>
                     </div>

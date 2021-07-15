@@ -651,9 +651,9 @@ export class SearchInterfaceComponent implements OnInit {
     };
     let payload = {
       "interface": this.selectedSetting,
-      "referInterface": this.selectedSettingResultsObj.referInterface
+      "referInterface": interfaceType
   }
-    payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
+    //payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
     this.service.invoke('put.SI_copyResultSettings', queryparams, payload).subscribe(res => {
       this.notificationService.notify('Result copied successfully', 'success');
       this.selectedTemplatedId = "";

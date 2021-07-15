@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy, TestabilityRegistry } from '@a
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { AuthService } from '@kore.services/auth.service';
@@ -195,7 +196,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
-    public dockService: DockStatusService
+    public dockService: DockStatusService,
+    private appSelectionService: AppSelectionService
   ) { }
 
   ngOnInit(): void {
@@ -1010,6 +1012,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.resources.splice(deleteIndex, 1);
       }
       this.closeStatusModal();
+      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+      if (currentPlan?.subscription?.planId == 'fp_free') {
+        this.appSelectionService.updateUsageData.next('updatedUsage');
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete source');
     });

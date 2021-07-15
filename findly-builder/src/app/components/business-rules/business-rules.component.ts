@@ -679,9 +679,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      category :'rules',
       query
     };
-    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
+    this.service.invoke('get.getFieldAutocompleteIndices', quaryparms).subscribe(res => {
       console.log("fieldAutoSuggestion", res)
       this.fieldAutoSuggestion = res || [];
     }, errRes => {
