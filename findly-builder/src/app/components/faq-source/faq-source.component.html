@@ -667,7 +667,7 @@
                     <img class="close-icon" *ngIf="searchSources" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="searchSources='';showSearch=!showSearch;cdRef.detectChanges();"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
                     </div> 
                       <div class="searchBlock" (click)="showSearch=!showSearch;cdRef.detectChanges();;focusinSearch('inputSearch1')">
-                        <span *ngIf="showSearch" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                        <span *ngIf="!showSearch" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                     </div>
                 </div>
 
