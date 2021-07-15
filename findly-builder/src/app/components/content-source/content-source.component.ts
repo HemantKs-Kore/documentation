@@ -422,6 +422,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           this.resourcesStatusObj[element._id] = element;
         });
       }
+      
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
     });
@@ -446,8 +447,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.oldQuedJob = [];
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
-        if (source.status == 'running' || source.status == 'queued') {
-          this.oldQuedJob.push(source._id);
+        if(source.status == 'running' || source.status == 'queued'){
+          if(source.numPages == 0 || source.numPages == '' ){
+            this.oldQuedJob.push(source._id);
+          }
         }
         if (this.resourcesStatusObj[source._id]) {
           if (this.resourcesStatusObj[source._id].status == 'running' || this.resourcesStatusObj[source._id].status == 'queued') {

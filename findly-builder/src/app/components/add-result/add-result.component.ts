@@ -52,7 +52,7 @@ export class AddResultComponent implements OnInit {
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
       if (res) {
         this.searchTxt = '';
-        this.keyFunc(this.searchTxt);
+        this.extractedResults = [];
       }
     });
   }
