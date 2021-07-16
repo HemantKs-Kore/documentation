@@ -32,6 +32,7 @@ export class AddResultComponent implements OnInit {
   structuredDataDes: any = '';
   fieldData: any = [];
   searchSDKSubscription: Subscription;
+  mappingSubscription : Subscription;
   @Input() query: any;
   @Input() addNew;
   @Input() structure;
@@ -55,6 +56,10 @@ export class AddResultComponent implements OnInit {
         this.searchTxt = '';
         this.extractedResults = [];
       }
+    });
+
+    this.mappingSubscription = this.headerService.updatedResultTemplateMapping.subscribe( (res : any) => {
+      this.getFieldAutoComplete();
     });
   }
   results() {
@@ -342,5 +347,6 @@ export class AddResultComponent implements OnInit {
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
     this.searchSDKSubscription ? this.searchSDKSubscription.unsubscribe() : false;
+    this.mappingSubscription ? this.mappingSubscription.unsubscribe() : false;
   }
 }
