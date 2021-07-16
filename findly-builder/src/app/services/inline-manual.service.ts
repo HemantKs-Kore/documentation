@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import {AuthService} from '@kore.services/auth.service';
+import { ServiceInvokerService } from './service-invoker.service';
+import { WorkflowService } from './workflow.service';
+import { NotificationService } from './notification.service';
 declare const $: any;
 declare const inline_manual_player: any;
 declare let inlineManualTracking: any
@@ -10,12 +13,19 @@ declare let  createInlineManualPlayer : any;
   providedIn: 'root'
 })
 export class InlineManualService {
-  
-  constructor(public authService : AuthService) { }
+    selectedApp;
+    serachIndexId;
+  constructor(public authService : AuthService,
+    public workflowService: WorkflowService,
+    private service: ServiceInvokerService,
+    private notificationService: NotificationService) {
+        this.selectedApp = this.workflowService.selectedApp();
+        this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+     }
   topicHelpMap = {
       CHANNELS :'88836',
       ADDING_WEB_FILE_CONTENT : '89011',
-      ACTION_SUBTOPIC : '88933',
+      ACTION_SUB_TOPIC : '88933',
       APP_WALKTHROUGH : '88933',
       CONTENT_OVERVIEW :'89010',//d
       CONTENT_SUB_TOPIC : '85339',
@@ -26,15 +36,15 @@ export class InlineManualService {
       EXPERIMENTS : '88837', //d
       EXTRACT_FAQ_FROM_SOURCE : '89022',  
       ADD_FAQ_FROM_LANDING : '88927',
-      EXTRACT_FAQ_SUBTOPIC : '88926',
+      EXTRACT_FAQ_SUB_TOPIC : '88926',
       FACETS : '88590', //d
       FACETS_OVERVIEW : '89394',
       FAQ_OVERVIEW : '88928',
       FIEDS_TABLE :'88907',
       IMPORT_FAQ_FROM_SOURCE : '89023',
       ADD_FAQ_MAUALY_FROM_SOURCE : '89024',
-      ADD_FAQ_MAUALY_SUBTOPIC : '88454',
-      IMPORT_FAQ_SUBTOPIC : '88455',
+      ADD_FAQ_MAUALY_SUB_TOPIC : '88454',
+      IMPORT_FAQ_SUB_TOPIC : '88455',
       IMPORT_STRUCTURED_DATA : '89187',
       MULTIPLE_INDEX : '88923',
       RESULT_RANKING :'89209',
@@ -98,4 +108,32 @@ export class InlineManualService {
         inline_manual_player.activateTopic(this.topicHelpMap[helpId]);
     }
 };
+    getInlineSuggestionData(){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId
+    };
+    this.service.invoke('get.inlineManual', quaryparms).subscribe(res => {
+     
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
+    }
+    saveInlineSuggestionData(){
+        const quaryparms: any = {
+            searchIndexId: this.serachIndexId
+          };
+          this.service.invoke('put.updateInlineManual', quaryparms).subscribe(res => {
+           
+          }, errRes => {
+            if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+              this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+            } else {
+              this.notificationService.notify('Failed ', 'error');
+            }
+          });
+    }
 }
