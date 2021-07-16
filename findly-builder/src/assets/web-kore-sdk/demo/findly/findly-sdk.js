@@ -19878,7 +19878,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           headers.auth = _self.config.botOptions.assertion;
         }
       }
-      if (searchConfigurationCopy.querySuggestionsLimit == 0) {
+      if (searchConfigurationCopy.querySuggestionsLimit == 0 && !searchConfigurationCopy.autocompleteOpt) {
         return;
       }
       $.ajax({
@@ -19889,18 +19889,26 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         data: payload,
         success: function (data) {
           if (!data.isBotLocked) {
-            var autoSuggestionHTML = $(_self.getAutoSuggestionTemplate()).tmplProxy({
-              suggestions: data.autoComplete.querySuggestions,
-              querySuggestionsLimit: (searchConfigurationCopy.querySuggestionsLimit || (searchConfigurationCopy.querySuggestionsLimit == 0)) ? searchConfigurationCopy.querySuggestionsLimit : 2
-            });
-            if ($('.search-body').find('.resultsOfSearch').length) {
-              $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
+            if (searchConfigurationCopy.querySuggestionsLimit) {
+              var autoSuggestionHTML = $(_self.getAutoSuggestionTemplate()).tmplProxy({
+                suggestions: data.autoComplete.querySuggestions,
+                querySuggestionsLimit: (searchConfigurationCopy.querySuggestionsLimit || (searchConfigurationCopy.querySuggestionsLimit == 0)) ? searchConfigurationCopy.querySuggestionsLimit : 2
+              });
+              if ($('.search-body').find('.resultsOfSearch').length) {
+                $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
+              }
             }
-            _self.pubSub.publish('sa-auto-suggest', data.autoComplete.typeAheads);
-            _self.bindAutoSuggestionTriggerOptions(autoSuggestionHTML);
+            if (searchConfigurationCopy.autocompleteOpt) {
+              _self.pubSub.publish('sa-auto-suggest', data.autoComplete.typeAheads);
+            }
+            if (searchConfigurationCopy.querySuggestionsLimit) {
+              _self.bindAutoSuggestionTriggerOptions(autoSuggestionHTML);
+            }
             if ($('body').hasClass('top-down')) {
               if (searchConfigurationCopy.querySuggestionsLimit) {
                 _self.showSuggestionbox(data.autoComplete.querySuggestions);
+              }
+              if(searchConfigurationCopy.autocompleteOpt){
                 $('.top-down-suggestion').show();
               } else {
                 $('.top-down-suggestion').hide();
