@@ -449,6 +449,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.oldQuedJob = [];
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
+        if (source.status == 'success') {
+          let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+          if (currentPlan?.subscription?.planId == 'fp_free') {
+            this.appSelectionService.updateUsageData.next('updatedUsage');
+          }
+        }
         if (source.status == 'running' || source.status == 'queued') {
           if (source.numPages == 0 || source.numPages == '') {
             this.oldQuedJob.push(source._id);

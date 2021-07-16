@@ -236,7 +236,7 @@ export class AppHeaderComponent implements OnInit {
     this.showSourceMenu.emit(this.sourcesFlag);
     let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
     if ((menu == '/content' || menu == "/index") && currentPlan?.subscription?.planId == 'fp_free') {
-      this.appSelectionService.currentDocumentLimit.next('callApi');
+      this.appSelectionService.updateUsageData.next('updatedUsage');
     }
   }
   logoutClick() {
