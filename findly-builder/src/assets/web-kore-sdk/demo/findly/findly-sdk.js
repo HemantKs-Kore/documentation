@@ -5584,6 +5584,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   }
                   if((searchConfigurationCopy.liveSearchResultsLimit !== 0)){
                     if(_self.vars.previousLivesearchData ==  $('#search').val()){
+                      _self.checkIsPreviousLiveSearchDataExists();
                       return;
                     }
                     _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
@@ -5669,7 +5670,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             viewType: viewType,
                             customSearchResult: _self.customSearchResult
                           };
-
+                          _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
                           searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
                           _self.pubSub.publish('sa-st-data-search', {
                             container: '.structured-live-data-container', /*  start with '.' if class or '#' if id of the element*/ isFullResults: false, selectedFacet: 'all results', isSearch: false, isLiveSearch: true, dataObj
@@ -5688,7 +5689,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             setTimeout(function () {
                               _self.bindStructuredDataTriggeringOptions();
                             }, 100);
-                            _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
+                            // _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
 
                           }
                           // res.autoComplete['querySuggestions']=['How to make online bill payment?', 'Citi - Online Bill Payment'];
@@ -20214,7 +20215,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         });
       } else {
         $('#auto-query-box').empty();
-        $('#live-search-result-box').hide();
+        // $('#live-search-result-box').hide();
+        _self.checkIsPreviousLiveSearchDataExists();
       }
       // out side click for live search and frequent search dropdown close//
       $('#live-search-result-box').off('click').on('click', function (event) {
@@ -21041,6 +21043,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         if ((data.data || []).length || (data.faqs || []).length || (data.web || []).length || (data.files || []).length) {
           $('#live-search-result-box').show();
+        }else{
+          $('#live-search-result-box').hide();
         }
       });
 
@@ -21851,6 +21855,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           console.log(err)
         }
       })
+    }
+    FindlySDK.prototype.checkIsPreviousLiveSearchDataExists = function () {
+      if($('body').hasClass('top-down')){
+        if($('.data-container .structured-data-header').length){
+          $('#live-search-result-box').show();
+        }else{
+          $('#live-search-result-box').hide();
+        }
+      }
     }
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
