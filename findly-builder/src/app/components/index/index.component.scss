@@ -433,14 +433,15 @@
     background: #ffffff;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
     z-index: 99999;
-    padding: 18px 0;
+    padding: 13px 0;
     .header {
       display: flex;
       align-items: center;
-      padding: 0 18px;
+      padding: 0 45px 13px 18px;
       justify-content: space-between;
-      margin-bottom: 22px;
+      // margin-bottom: 22px;
       line-height: 34px;
+      box-shadow: 0px 1px 0px rgb(0 0 0 / 10%);
       .title {
         color: #26344a;
         font-style: normal;
@@ -450,7 +451,18 @@
         letter-spacing: 0.714286px;
         text-transform: uppercase;
       }
+      .kr-sg-input-search{
+        display: inline-block;
+        width: 293px !important;
+        height: 20px;
+        position: relative;
+        bottom: 6px  !important;
+        left: -8px  !important;
+      }
       .close_icon {
+        .search-mr{
+          margin-right: 32px !important;
+        }
         img.search-icon {
           width: 30px;
           height: 30px;
