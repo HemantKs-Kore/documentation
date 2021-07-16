@@ -847,7 +847,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           delete crawler.advanceOpts.maxUrlLimit;
         }
-
+        if(this.allowUrl.url){
+          this.allowUrls(this.allowUrl);
+        }
+        if(this.blockUrl.url){
+          this.blockUrls(this.blockUrl);
+        }
         // crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
         // crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
         // crawler.resourceType = this.selectedSourceType.resourceType;
@@ -863,7 +868,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             }
           }
         }
+       
         quaryparms.resourceType = resourceType;
+       
       }
 
       if (resourceType === 'file') {

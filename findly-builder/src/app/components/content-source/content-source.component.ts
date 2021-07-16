@@ -1492,7 +1492,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     } else {
       delete crawler.advanceOpts.maxUrlLimit;
     }
-
+    // if(this.allowUrl.url){
+    //   this.allowUrls(this.urlConditionAllow,  this.allowUrl, this.allowUrl.url);
+    // }
+    // if(this.blockUrl.url){
+    //   this.blockUrls(this.blockUrl);
+    // }
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
