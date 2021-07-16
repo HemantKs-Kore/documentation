@@ -31,9 +31,9 @@
               </button>                                            
                 <ul class="dropdown-menu content-menu">  
                   <li (click)="copyConfiguration('')"><a>{{'resultTemplate.select' | translate}}</a></li>                                                 
-                  <li  (click)="copyConfiguration('livesearch')" *ngIf="selectedSetting != 'liveSearch'"><a>{{'resultTemplate.liveSearch' | translate}}</a></li> <!-- [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'livesearch'}" -->
+                  <li  (click)="copyConfiguration('liveSearch')" *ngIf="selectedSetting != 'liveSearch'"><a>{{'resultTemplate.liveSearch' | translate}}</a></li> <!-- [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'livesearch'}" -->
                   <li  (click)="copyConfiguration('search')" *ngIf="selectedSetting != 'search' && !searchTemplatesDisabled"><a>{{'resultTemplate.conversationalSearch' | translate}} </a></li> <!-- [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'search'}" -->
-                  <li  (click)="copyConfiguration('fullsearch')" *ngIf="selectedSetting != 'fullSearch'"><a>{{'resultTemplate.fullPageResult' | translate}}</a></li> <!-- [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'fullsearch'}" -->
+                  <li  (click)="copyConfiguration('fullSearch')" *ngIf="selectedSetting != 'fullSearch'"><a>{{'resultTemplate.fullPageResult' | translate}}</a></li> <!-- [ngClass]="{'active' : selectedSettingResultsObj.referInterface == 'fullsearch'}" -->
                 </ul>
             </div>
           </div>

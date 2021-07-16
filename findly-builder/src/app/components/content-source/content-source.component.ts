@@ -476,7 +476,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if (this.oldQuedJob.length != queuedJobs.length) {
           this.getSourceList();
         }
-      } else {
+      } else { 
         clearInterval(this.polingObj[type]);
         this.getSourceList('clearPoling');
       }
@@ -943,7 +943,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       contentId: page._id
     }
     const payload: any = {
-      url: page._source.pageUrl
+      url: page._source.page_url
     }
     this.service.invoke('check.forUpdates', quaryparms, payload).subscribe(res => {
       this.loadingcheckForUpdate = false;
@@ -971,7 +971,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       jobId: page.jobId
     }
     const payload: any = {
-      url: page._source.pageUrl
+      url: page._source.page_url
     }
     this.service.invoke('reCrwal.website', quaryparms, payload).subscribe(res => {
       this.dockService.trigger(true);
