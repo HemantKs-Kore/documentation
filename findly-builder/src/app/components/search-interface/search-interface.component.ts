@@ -920,6 +920,9 @@ export class SearchInterfaceComponent implements OnInit {
         message = "Template Added Successfully"
       }
       this.service.invoke(url, queryparams, payload).subscribe(res => {
+        if(this.selectedSourceType == 'Structured Data'){
+          this.headerService.updateResultTemplateMapping(true);
+        }
         this.notificationService.notify(message, 'success');
         this.selectedTemplatedId = "";
         this.getSettings(this.selectedSetting);

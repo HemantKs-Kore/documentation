@@ -65,7 +65,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   public dockersList: Array<any> = [];
   showUpgrade: boolean = true;
   currentSubsciptionData: Subscription;
-  subscriptionDocumentLimit: Subscription;
   updateUsageData: Subscription;
   currentPlan: any;
   @Input() show;
@@ -421,9 +420,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       this.showUpgrade = res.subscription.planId == 'fp_free' ? false : true;
       this.currentPlan = res.subscription.planId;
     })
-    this.subscriptionDocumentLimit = this.appSelectionService.currentDocumentLimit.subscribe(res => {
-      this.getCurrentUsage();
-    })
     this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.showUpgrade = true;
       this.appSelectionService.getCurrentSubscriptionData();
@@ -600,7 +596,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.subscription ? this.subscription.unsubscribe() : false;
     this.indexSub ? this.indexSub.unsubscribe() : false;
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
-    this.subscriptionDocumentLimit ? this.subscriptionDocumentLimit.unsubscribe() : false;
     this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
   }
 }

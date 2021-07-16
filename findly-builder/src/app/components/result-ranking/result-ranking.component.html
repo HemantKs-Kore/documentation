@@ -215,8 +215,8 @@
                                                         <div class="info-data-pinned-or-boostead">
                                                             <div class="pinned" *ngIf="actLog.customization.action == 'pinned'"><img src="assets/icons/resultranking/pined.svg">{{'resultRanking.PINNED' | translate}}</div>
                                                             <div class="pinned" *ngIf="actLog.customization.action == 'hidden'"><img src="assets/icons/resultranking/Unsee.svg">{{'resultRanking.HIDDEN' | translate}}</div>
-                                                            <div class="pinned" *ngIf="actLog.customization.action == 'lowered'"><img src="assets/icons/resultranking/MoveUp.svg">{{multiplyAction(actLog.customization.value)}}x {{'resultRanking.LOWERED' | translate}}</div>
-                                                            <div class="pinned" *ngIf="actLog.customization.action == 'boosted'"><img src="assets/icons/resultranking/MoveUp.svg" class="rotateimg180-move-up">{{multiplyAction(actLog.customization.value)}}x {{'resultRanking.BOOSTED' | translate}}</div>
+                                                            <div class="pinned" *ngIf="actLog.customization.action == 'lowered'"><img src="assets/icons/resultranking/MoveUp.svg">{{actLog.customization.value}}x {{'resultRanking.LOWERED' | translate}}</div> <!--multiplyAction(actLog.customization.value)}}-->
+                                                            <div class="pinned" *ngIf="actLog.customization.action == 'boosted'"><img src="assets/icons/resultranking/MoveUp.svg" class="rotateimg180-move-up">{{actLog.customization.value}}x {{'resultRanking.BOOSTED' | translate}}</div> <!--multiplyAction(actLog.customization.value)}}-->
                                                             <div class="pinned manual" *ngIf="actLog.target.addedResult">{{'resultRanking.MANUALLYADDED' | translate}}</div>
                                                             <div class="time-stamp">{{actLog.customization.lMod}}</div>
                                                         </div>  

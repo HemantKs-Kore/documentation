@@ -4,5 +4,5 @@
     <app-insights  [data] = "bridgeData" [query]="query" [showInsightFull] = "showInsightFull"></app-insights>
 </div> 
 <div [hidden]="addNewResult">
-    <app-add-result [addNew] = "addNewResult" [query]="query" (closeResult) = closeResult($event) [structure]="structure"></app-add-result>
+    <app-add-result [addNew] = "addNewResult" [query]="query" (closeResult) = closeResult($event) [structure]="structure" [searchRequestId]="searchRequestId"></app-add-result>
 </div>

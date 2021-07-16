@@ -804,7 +804,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.getStats();
     this.getFaqsOnSelection();
   }
-  
+
   getFaqsOnSelection() {
     this.addRemoveFaqFromSelection(null, null, true);
     this.getfaqsBy(null, this.selectedtab);
@@ -1263,6 +1263,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editfaq = null
       if (state != 'in_review' && state != 'approved') {
         this.notificationService.notify(custSucessMsg, 'success');
+        let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+        if (currentPlan?.subscription?.planId == 'fp_free') {
+          this.appSelectionService.updateUsageData.next('updatedUsage');
+        }
       }
       if (state == 'in_review') {
         this.notificationService.notify('Sent for Review', 'success');

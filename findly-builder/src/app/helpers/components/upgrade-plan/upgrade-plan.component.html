@@ -84,13 +84,13 @@
   <perfect-scrollbar>
     <div class="modal-body" *ngIf="orderConfirmData&&overageData">
       <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Free']).includes(selectedPlan.planName)||selectedPlan?.status=='expired'">{{"plan.you_are_subscribing_to"| translate}} <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
-      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Standard']).includes(selectedPlan.planName)&&selectedPlan?.status!='expired'">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
-      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Pro']).includes(selectedPlan.planName)&&orderConfirmData?.name=='Pro'&&selectedPlan?.status!='expired'">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>.{{"plan.please_find_the_order"| translate}}.</div>
+      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Standard']).includes(selectedPlan.planName)&&selectedPlan?.status!='expired'">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan?.planName}} {{selectedPlan?.billingUnit}}  {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{orderConfirmData?.billingUnit=='Yearly'?'Annually':orderConfirmData?.billingUnit}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
+      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Pro']).includes(selectedPlan.planName)&&orderConfirmData?.name=='Pro'&&selectedPlan?.status!='expired'">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan?.planName}} {{selectedPlan?.billingUnit}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{orderConfirmData?.billingUnit=='Yearly'?'Annually':orderConfirmData?.billingUnit}} {{"plan.plan"| translate}}</span>.{{"plan.please_find_the_order"| translate}}.</div>
       <div class="plan-desc" *ngIf="overageData.overageShow">{{"plan.you_have_added_additional"| translate}} <span *ngIf="overageData.docCount>=1">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}} {{"plan.plan_documents"| translate}} </span><span *ngIf="overageData.queryCount>=1">, {{overageData.overageDeatils.searchQueries.limit | valueFormat}} {{"plan.plan_queries"| translate}} </span> {{"plan.to_your_plan"| translate}}. {{"plan.please_find_the_order"| translate}}.</div>
       <ng-container *ngIf="!overageData.overageShow&&selectedPlan?.planName=='Pro'&&orderConfirmData?.name=='Standard'&&selectedPlan?.status!='expired'">
         <ul class="order-plan-details">
-          <li>{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}} {{orderConfirmData&&orderConfirmData.name}} {{"plan.plan"| translate}}</span>.</li>
-          <li>{{"plan.your_plan_will_charged"| translate}}. {{selectedPlan&&selectedPlan.endDate|dateFormatPipe:'D MMMM YYYY'}}</li>
+          <li>{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan?.planName}} {{"plan.to"| translate}} {{orderConfirmData?.name}} {{"plan.plan"| translate}}</span>.</li>
+          <li>{{"plan.your_plan_will_charged"| translate}}. {{selectedPlan?.endDate|dateFormatPipe:'D MMMM YYYY'}}</li>
         </ul>
         <div class="s-text">{{"plan.please_find_the_order"| translate}}.</div>
       </ng-container>
@@ -269,7 +269,7 @@
             <div class="label-text">Message</div>
             <textarea placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.message"></textarea>
           </div>
-          <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()">Submit Request</button>
+          <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()" [disabled]="btnDisable">Submit Request</button>
         </div>
       </perfect-scrollbar>
     </div>

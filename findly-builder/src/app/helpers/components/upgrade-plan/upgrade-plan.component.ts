@@ -276,13 +276,16 @@ export class UpgradePlanComponent implements OnInit {
   }
   //submitEnterpriseRequest method
   submitEnterpriseRequest() {
+    this.btnDisable = true;
     const queryParams = { "streamId": this.selectedApp._id };
     const enterpriseRequest = this.service.invoke('post.enterpriseRequest', queryParams, this.enterpriseForm);
     enterpriseRequest.subscribe(res => {
+      this.btnDisable = false;
       this.closeContatcusModel();
       this.closeChoosePlanPopup();
       this.openContactusSuccessModel();
     }, errRes => {
+      this.btnDisable = false;
       this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
     });
   }
