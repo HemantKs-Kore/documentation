@@ -715,7 +715,8 @@
         "BILLING_period": "BILLING period",
         "invoice_amount_caps": "INVOICE AMOUNT",
         "subscription_caps": "SUBSCRIPTION",
-        "invoice_date_caps": "INVOICE DATE"
+        "invoice_date_caps": "INVOICE DATE",
+        "after_subscribing_to_any_of_the_plans_offered_your_invoices_will_appear_here": "After subscribing to any of the plans offered, your invoices will appear here"
     },
     "ussageLog": {
         "ussageLog": "Usage Log",
