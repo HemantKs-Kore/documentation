@@ -18901,6 +18901,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.vars.searchObject.searchText.length) {
           payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
         }
+        else {
+          payload = $(e.target).attr('payload');
+        }
         if (!_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.indexOf(taskName.toLowerCase()) == -1)) {
           _self.vars.searchObject.recentTasks.unshift(taskName.toLowerCase());
         }
