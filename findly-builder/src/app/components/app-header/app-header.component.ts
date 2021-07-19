@@ -369,7 +369,7 @@ export class AppHeaderComponent implements OnInit {
         this.dockersList.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
 
-          if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
+          if (record.status === 'SUCCESS' && record.fileId && (record.store && !record.store.toastSeen)) {
             if (record.action === 'EXPORT') {
               this.downloadDockFile(record.fileId, record.store.urlParams, record.streamId, record._id);
             }
