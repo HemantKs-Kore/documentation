@@ -16,6 +16,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { JsonPipe } from '@angular/common';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 declare const $: any;
 @Component({
   selector: 'app-index',
@@ -169,7 +170,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     private notificationService: NotificationService,
     public dialog: MatDialog,
     public authService: AuthService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    public inlineManual : InlineManualService
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -931,6 +933,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         this.selectStage(res.stages[0], 0);
       }
       this.loadingContent = false;
+      if(!this.inlineManual.checkVisibility('WORKBENCH')){
+        this.inlineManual.openHelp('WORKBENCH')
+        this.inlineManual.visited('WORKBENCH')
+      }
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get index  stages');
