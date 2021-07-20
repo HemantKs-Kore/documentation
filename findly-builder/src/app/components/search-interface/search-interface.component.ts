@@ -10,6 +10,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 // import * as PureJSCarousel from 'src/assets/web-kore-sdk/libs/purejscarousel.js';
 declare var PureJSCarousel: any;
@@ -29,6 +30,7 @@ export class SearchInterfaceComponent implements OnInit {
   heading_fieldData: any;
   desc_fieldData: any;
   img_fieldData: any;
+  showAlignment = false ;
   url_fieldData: any;
   fieldData: any;
   list: any = [];
@@ -484,7 +486,7 @@ export class SearchInterfaceComponent implements OnInit {
     //this.customizeTemplateObj.template.searchResultlayout = new searchResultlayout();
     //this.customizeTemplateObj.template.resultMapping = new resultMapping();
     this.customizeTemplateObj.template.searchResultlayout.layout = layout;
-    if (layout == 'tileWithHeader') {
+    if (layout == 'tileWithHeader') { 
       this.showDescription = false;
     } else {
       this.showDescription = true;
@@ -499,6 +501,7 @@ export class SearchInterfaceComponent implements OnInit {
         this.buildCarousel();
       }
     }
+  
   }
   resultLayoutclickBehavior(type) {
     this.customizeTemplateObj.template.searchResultlayout.behaviour = type;

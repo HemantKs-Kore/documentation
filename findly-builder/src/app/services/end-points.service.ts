@@ -429,6 +429,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails',
       method: 'put'
     }
+    this.serviceList['put.enableST'] = {
+      endpoint: this.API_SERVER_URL + '/findly/apps/:streamId',
+      method: 'put'
+    }
     this.serviceList['put.disableTask'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails',
       method: 'put'
