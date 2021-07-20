@@ -155,7 +155,10 @@ export class SearchInterfaceComponent implements OnInit {
 
     console.log(this.customizeTemplateObj);
     console.log(this.selectedSettingResultsObj);
-    this.inlineManual.openHelp('RESULT_TEMPLATE')
+    if(!this.inlineManual.checkVisibility('RESULT_TEMPLATE')){
+      this.inlineManual.openHelp('RESULT_TEMPLATE')
+      this.inlineManual.visited('RESULT_TEMPLATE')
+    }
     //TEST
     // this.service.invoke('get.SI_allResultSettings', {searchIndexId : this.serachIndexId}).subscribe(res => {
     //   this.notificationService.notify('Result setting saved successfully', 'success');

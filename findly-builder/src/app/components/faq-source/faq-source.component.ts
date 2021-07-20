@@ -741,7 +741,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       //   this.selectAll()
       // }, 1)
     // FAQ Overview
+    if(!this.inlineManual.checkVisibility('FAQ_OVERVIEW')){
       this.inlineManual.openHelp('FAQ_OVERVIEW')
+      this.inlineManual.visited('FAQ_OVERVIEW')
+    }
 
       this.editfaq = null
       this.apiLoading = false;
@@ -878,7 +881,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       else {
         this.loadingFaqs1 = true;
-        this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
+        if(!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')){
+          this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
+          this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
+        }
       }
     }, errRes => {
     });

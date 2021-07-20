@@ -143,7 +143,10 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       }
       else {
         this.loadingContent1 = true;
-        this.inlineManual.openHelp('STOP_WORDS')
+        if(!this.inlineManual.checkVisibility('STOP_WORDS')){
+          this.inlineManual.openHelp('STOP_WORDS')
+          this.inlineManual.visited('STOP_WORDS')
+        }
       }
       this.loadingContent = false;
       res.pipeline.stages[2].options.stopWordsRemovalEnabled = this.enabled ;

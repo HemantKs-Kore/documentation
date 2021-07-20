@@ -411,11 +411,17 @@ export class FacetsComponent implements OnInit, OnDestroy {
       if (res.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
-        this.inlineManual.openHelp('FACETS_OVERVIEW')
+        if(!this.inlineManual.checkVisibility('FACETS_OVERVIEW')){
+          this.inlineManual.openHelp('FACETS_OVERVIEW')
+          this.inlineManual.visited('FACETS_OVERVIEW')
+        }
       }
       else {
         this.loadingContent1 = true;
-        this.inlineManual.openHelp('FACETS')
+        if(!this.inlineManual.checkVisibility('FACETS')){
+          this.inlineManual.openHelp('FACETS')
+          this.inlineManual.visited('FACETS')
+        }
       }
     }, errRes => {
       this.loadingContent = false;

@@ -722,7 +722,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
       else {
         this.loadingContent1 = true;
-        this.inlineManual.openHelp('RULES')
+        if(!this.inlineManual.checkVisibility('RULES')){
+          this.inlineManual.openHelp('RULES')
+          this.inlineManual.visited('RULES')
+        }
       }
     }, errRes => {
       this.loadingContent = false;

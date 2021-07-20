@@ -198,11 +198,17 @@ export class StructuredDataComponent implements OnInit {
       if (this.structuredDataItemsList.length == 0) {
         this.noItems = true;
         this.enableSearchBlock = false;
-        this.inlineManual.openHelp('ADD_STRUCTURED_DATA_LANDING')
+        if(!this.inlineManual.checkVisibility('ADD_STRUCTURED_DATA_LANDING')){
+          this.inlineManual.openHelp('ADD_STRUCTURED_DATA_LANDING')
+          this.inlineManual.visited('ADD_STRUCTURED_DATA_LANDING')
+        }
       }
       else {
         this.enableSearchBlock = true;
-        this.inlineManual.openHelp('STRUCTURED_DATA_WALKTHROUGH')
+        if(!this.inlineManual.checkVisibility('STRUCTURED_DATA_WALKTHROUGH')){
+          this.inlineManual.openHelp('STRUCTURED_DATA_WALKTHROUGH')
+          this.inlineManual.visited('STRUCTURED_DATA_WALKTHROUGH')
+        }
       }
     }, errRes => {
       console.log("error", errRes);
@@ -331,7 +337,10 @@ export class StructuredDataComponent implements OnInit {
     console.log("this.selectedSourceType", this.selectedSourceType);
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
     if(this.selectedSourceType.id == "contentStucturedDataImport"){
-      this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA');
+      if(!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')){
+        this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
+        this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
+      }
     }
   }
 

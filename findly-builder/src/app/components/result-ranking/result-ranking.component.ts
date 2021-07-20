@@ -688,7 +688,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       }
       else {
         this.loadingContent1 = true;
-        this.inlineManual.openHelp('RESULT_RANKING')
+        if(!this.inlineManual.checkVisibility('RESULT_RANKING')){
+          this.inlineManual.openHelp('RESULT_RANKING')
+          this.inlineManual.visited('RESULT_RANKING')
+        }
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

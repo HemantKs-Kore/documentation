@@ -425,7 +425,10 @@ export class BotActionComponent implements OnInit {
 
   openBotsModalElement() {
     this.botsModalRef = this.botsModalElement.open();
-    this.inlineManual.openHelp('ACTION_SUB_TOPIC')
+    if(!this.inlineManual.checkVisibility('ACTION_SUB_TOPIC')){
+      this.inlineManual.openHelp('ACTION_SUB_TOPIC')
+      this.inlineManual.visited('ACTION_SUB_TOPIC')
+    }
     setTimeout(()=>{
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop(); 

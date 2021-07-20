@@ -134,7 +134,10 @@ export class AppsListingComponent implements OnInit {
       }
       else {
         this.emptyApp = true;
-        this.inlineManual.openHelp('CREATE_APP')
+        if(!this.inlineManual.checkVisibility('CREATE_APP')){
+          this.inlineManual.openHelp('CREATE_APP')
+          this.inlineManual.visited('CREATE_APP')
+        }
         this.showBoarding = true;
         this.openBoradingJourney()
       }
