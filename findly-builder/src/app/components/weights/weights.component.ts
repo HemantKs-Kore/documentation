@@ -119,10 +119,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
         }
         this.weights.push(obj);
         console.log("weight noe ", this.weights);
-        if(!this.inlineManual.checkVisibility('WEIGHTS')){
-          this.inlineManual.openHelp('WEIGHTS')
-          this.inlineManual.visited('WEIGHTS')
-        }
+       
       });
     }
     this.loadingContent = false;
@@ -181,6 +178,10 @@ export class WeightsComponent implements OnInit, OnDestroy {
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
       this.pipeline = res.pipeline || {};
       this.prepereWeights();
+      if(!this.inlineManual.checkVisibility('WEIGHTS')){
+        this.inlineManual.openHelp('WEIGHTS')
+        this.inlineManual.visited('WEIGHTS')
+      }
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get weights');
