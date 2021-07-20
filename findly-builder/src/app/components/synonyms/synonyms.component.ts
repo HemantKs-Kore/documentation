@@ -130,7 +130,10 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       }
       else {
         this.loadingContent1 = true;
-        this.inlineManual.openHelp('SYNONYMS')
+        if(!this.inlineManual.checkVisibility('SYNONYMS')){
+          this.inlineManual.openHelp('SYNONYMS')
+          this.inlineManual.visited('SYNONYMS')
+        }
       }
    
         this.pipeline.stages[3].synonyms.forEach(element => {
