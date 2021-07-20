@@ -41,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
   structure = 'bottom';
   showInsightFull = false;
   queryText;
+  searchRequestId: string;
   subscription: Subscription;
   SearchConfigurationSubscription: Subscription;
   searchSDKSubscription: Subscription;
@@ -418,6 +419,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // this.bridgeDataInsights = !parms.data;
     let call = false;
     if (parms.type == 'onboardingjourney') {
+      this.searchRequestId = parms.requestId;
       this.appSelectionService.updateTourConfig(parms.data);
     }
     // if (parms.type == 'fullResult') {

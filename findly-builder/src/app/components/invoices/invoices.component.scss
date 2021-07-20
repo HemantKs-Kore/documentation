@@ -185,11 +185,15 @@
         width: 410px;
         margin: 0 auto;
         text-align: center;
+        .img-block img{
+            width: 405px;
+        }
         .empty-text{
             color: #3C4043;
             font-weight: 600;
             font-size: 18px;
             line-height: 22px;
+            margin-top: 20px;
         }
     }
 }

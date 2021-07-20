@@ -77,7 +77,7 @@ export class AddStructuredDataComponent implements OnInit {
   ngOnChanges(changes) {
     setTimeout(() => {
       this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(); 
+      this.perfectScroll.directiveRef.scrollToTop();
     }, 500);
     if (changes && changes.selectedSourceType) {
       if (changes.selectedSourceType.currentValue && changes.selectedSourceType.currentValue.resourceType === 'structuredDataManual') {
@@ -202,6 +202,10 @@ export class AddStructuredDataComponent implements OnInit {
       this.service.invoke('delete.structuredData', quaryparms).subscribe(res => {
         if (res) {
           this.notificationService.notify('Deleted Successfully', 'success');
+          let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+          if (currentPlan?.subscription?.planId == 'fp_free') {
+            this.appSelectionService.updateUsageData.next('updatedUsage');
+          }
           this.cancleSourceAddition();
         }
       }, errRes => {

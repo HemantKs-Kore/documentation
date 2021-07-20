@@ -46,6 +46,7 @@ export class UpgradePlanComponent implements OnInit {
   invoiceOrderId: any;
   featuresExceededUsage: any;
   count_info: boolean = false;
+  contact_us_planName: string;
   payementResponse: any = {
     hostedPage: {
       transactionId: "",
@@ -251,7 +252,8 @@ export class UpgradePlanComponent implements OnInit {
     this.paymentGatewayModelPopRef = this.paymentGatewayModel.open();
   }
   //open contact us popup
-  openContactusModel() {
+  openContactusModel(type) {
+    this.contact_us_planName = type;
     const userInfo = this.localstore.getAuthInfo();
     this.enterpriseForm.name = userInfo.currentAccount.userInfo.fName;
     this.enterpriseForm.email = userInfo.currentAccount.userInfo.emailId;
@@ -276,13 +278,17 @@ export class UpgradePlanComponent implements OnInit {
   }
   //submitEnterpriseRequest method
   submitEnterpriseRequest() {
+    this.btnDisable = true;
     const queryParams = { "streamId": this.selectedApp._id };
     const enterpriseRequest = this.service.invoke('post.enterpriseRequest', queryParams, this.enterpriseForm);
     enterpriseRequest.subscribe(res => {
+      this.btnDisable = false;
       this.closeContatcusModel();
       this.closeChoosePlanPopup();
+      this.closeOrderConfPopup();
       this.openContactusSuccessModel();
     }, errRes => {
+      this.btnDisable = false;
       this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
     });
   }

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy, TestabilityRegistry } from '@a
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { AuthService } from '@kore.services/auth.service';
@@ -198,7 +199,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     private router: Router,
     public dialog: MatDialog,
     public inlineManual : InlineManualService,
-    public dockService: DockStatusService
+    public dockService: DockStatusService,
+    private appSelectionService: AppSelectionService
   ) { }
 
   ngOnInit(): void {
@@ -427,7 +429,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           this.resourcesStatusObj[element._id] = element;
         });
       }
-      
+
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
     });
@@ -452,8 +454,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.oldQuedJob = [];
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
-        if(source.status == 'running' || source.status == 'queued'){
-          if(source.numPages == 0 || source.numPages == '' ){
+        if (source.status == 'success') {
+          let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+          if (currentPlan?.subscription?.planId == 'fp_free') {
+            this.appSelectionService.updateUsageData.next('updatedUsage');
+          }
+        }
+        if (source.status == 'running' || source.status == 'queued') {
+          if (source.numPages == 0 || source.numPages == '') {
             this.oldQuedJob.push(source._id);
           }
         }
@@ -473,7 +481,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if (this.oldQuedJob.length != queuedJobs.length) {
           this.getSourceList();
         }
-      } else {
+      } else { 
         clearInterval(this.polingObj[type]);
         this.getSourceList('clearPoling');
       }
@@ -649,9 +657,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             }
           } else if (element.executionStats.executionStatusMessage == 'Execution Stopped') {
             element.executionStats['tooltip'] = "Execution Stopped due to " + element.statusMessage || ' time out';
-          } else if(element.executionStats.executionStatusMessage == 'Execution In Progress'){
+          } else if (element.executionStats.executionStatusMessage == 'Execution In Progress') {
             element.executionStats['tooltip'] = "In Progress";
-          }else {
+          } else {
             element.executionStats['tooltip'] = element.statusMessage;
           }
         });
@@ -940,7 +948,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       contentId: page._id
     }
     const payload: any = {
-      url: page._source.pageUrl
+      url: page._source.page_url
     }
     this.service.invoke('check.forUpdates', quaryparms, payload).subscribe(res => {
       this.loadingcheckForUpdate = false;
@@ -968,7 +976,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       jobId: page.jobId
     }
     const payload: any = {
-      url: page._source.pageUrl
+      url: page._source.page_url
     }
     this.service.invoke('reCrwal.website', quaryparms, payload).subscribe(res => {
       this.dockService.trigger(true);
@@ -1015,6 +1023,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.resources.splice(deleteIndex, 1);
       }
       this.closeStatusModal();
+      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+      if (currentPlan?.subscription?.planId == 'fp_free') {
+        this.appSelectionService.updateUsageData.next('updatedUsage');
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete source');
     });
@@ -1258,10 +1270,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
     this.editTitleFlag = false;
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(); 
-    },500)
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
   closeStatusModal() {
     this.swapSlider('page') // Just to redirect to 1st page
@@ -1491,7 +1503,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     } else {
       delete crawler.advanceOpts.maxUrlLimit;
     }
-
+    // if(this.allowUrl.url){
+    //   this.allowUrls(this.urlConditionAllow,  this.allowUrl, this.allowUrl.url);
+    // }
+    // if(this.blockUrl.url){
+    //   this.blockUrls(this.blockUrl);
+    // }
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;

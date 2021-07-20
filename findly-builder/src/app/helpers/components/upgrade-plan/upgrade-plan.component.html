@@ -4,7 +4,7 @@
       <div class="title">{{"plan.choose_plan"| translate}}</div>
       <div class="d-flex align-items-center justify-content-end">
         <div class="btn-monthly" [ngClass]="{'active-btn' : termPlan == 'Monthly','disable-text':selectedPlan?.billingUnit=='Yearly'}" (click)="typeOfPlan('Monthly')">{{"plan.monthly"| translate}}</div>
-        <div class="btn-monthly" [ngClass]="{ 'active-btn' : (termPlan == 'Yearly'&&selectedPlan.billingUnit!=='Yearly'),'btn-disable-active':selectedPlan?.billingUnit == 'Yearly' }" (click)="typeOfPlan('Yearly')">{{"plan.yearly"| translate}}</div>
+        <div class="btn-monthly" [ngClass]="{ 'active-btn' : (termPlan == 'Yearly'&&selectedPlan.billingUnit!=='Yearly'),'btn-disable-active':selectedPlan?.billingUnit == 'Yearly' }" placement="bottom-center" [ngbTooltip]="selectedPlan?.billingUnit == 'Yearly'&&selectedPlan?.planName=='Pro'?'Contact Us if you want to change to monthly plan':''" [container]='"body"' tooltipClass="metrics_tooltips m-0" (click)="typeOfPlan('Yearly')">{{"plan.yearly"| translate}}</div>
         <div class="close_icon ml-4">
           <img (click)="closeChoosePlanPopup()" src="assets/icons/modal-close.svg">
         </div>
@@ -24,12 +24,13 @@
                     <div class="title">{{plan.name}}</div>
                     <div class="price" [ngClass]='{"d-none":plan.name=="Enterprise"}'>${{plan.planAmount}} <span>/ {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</span></div>
                     <div class="price" [ngClass]='{"d-none":plan.name!="Enterprise"}'>{{"plan.custom"| translate}}</div>
-                    <div class="current-plan-title" *ngIf="selectedPlan.planName===plan.name"><img [src]="selectedPlan.status!='expired'?'assets/icons/pricing/check-round.svg':'assets/icons/pricing/Vector.svg'">{{selectedPlan.status!="expired"?("plan.current_plan"| translate):("plan.last_active_plan"| translate)}}</div>
+                    <div class="current-plan-title" *ngIf="selectedPlan.planName===plan.name&&selectedPlan?.billingUnit==termPlan"><img [src]="selectedPlan.status!='expired'?'assets/icons/pricing/check-round.svg':'assets/icons/pricing/Vector.svg'">{{selectedPlan.status!="expired"?("plan.current_plan"| translate):("plan.last_active_plan"| translate)}}</div>
                   </div>
                   <div class="card-desc" *ngFor="let info of plan.featureData" [hidden]="!(info.displayOnBanner)">{{info.displayText}}</div>
-                  <button class="kr-sg-button-secondary btn_lg" (click)="(plan.name==='Enterprise'||(selectedPlan?.billingUnit == 'Monthly'&&['Standard'].includes(plan.name)))?openContactusModel():openOrderConfPopup(plan)">{{plan.name==='Enterprise'||(selectedPlan?.billingUnit == 'Monthly'&&['Standard'].includes(plan.name))?("plan.contact_us"| translate):(selectedPlan.status=="expired"&&selectedPlan.planName===plan.name&&selectedPlan.billingUnit==termPlan)?("plan.reactivate_btn"| translate):("plan.choose_plan"| translate)}}</button>
-                  <button class="kr-sg-button-secondary-pricing btn_lg" *ngIf="termPlan=='Yearly'&&selectedPlan?.billingUnit == 'Monthly'&&['Standard','Pro'].includes(selectedPlan.planName)&&plan.name != 'Enterprise'" (click)="openOrderConfPopup(plan)">{{(selectedPlan.planName==plan.name)?'Switch to Annually':'Choose Plan'}}</button>
-              </div>
+                  <button class="kr-sg-button-secondary btn_lg" *ngIf="selectedPlan?.planName=='Free'" (click)="plan.name==='Enterprise'?openContactusModel(plan.name):openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):("plan.choose_plan"| translate)}}</button>
+                  <button class="kr-sg-button-secondary btn_lg" *ngIf="selectedPlan?.planName=='Standard'" [ngStyle]="{'display':(selectedPlan?.planName==plan.name&&selectedPlan?.billingUnit==termPlan)?'none':'block'}" (click)="plan.name==='Enterprise'?openContactusModel(plan.name):openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):(selectedPlan?.billingUnit=='Monthly'&&selectedPlan.planName=='Standard'&&plan.name=="Standard")?'Switch to Annually':("plan.choose_plan"| translate)}}</button>
+                  <button class="kr-sg-button-secondary btn_lg" *ngIf="selectedPlan?.planName=='Pro'" placement="top-center" [ngbTooltip]="plan.name=='Standard'?'Please contact us to downgrade to standard subscription':''" [container]='"body"' tooltipClass="metrics_tooltips m-0" [ngStyle]="{'display':(selectedPlan?.planName==plan.name&&selectedPlan?.billingUnit==termPlan)?'none':'block'}" (click)="plan.name==='Enterprise'||plan.name=='Standard'?openContactusModel(plan.name):openOrderConfPopup(plan)">{{plan.name==='Enterprise'||plan.name=='Standard'?("plan.contact_us"| translate):(selectedPlan?.billingUnit=='Monthly'&&selectedPlan.planName=='Pro'&&plan.name=="Pro")?'Switch to Annually':("plan.choose_plan"| translate)}}</button>             
+                </div>
               <div class="goto_details" (click)="gotoDetails(plan.name)">{{"plan.go_to_details"| translate}}</div>
             </div>
           </div>
@@ -44,7 +45,11 @@
               <div class="title">{{plan.name}}</div>  
               <div class="plan-duration" *ngIf="plan.name!='Enterprise'&&plan.type!='free'">${{plan.planAmount}} / {{termPlan==='Monthly'?("plan.month"| translate):("plan.year"| translate)}}</div>
               <div class="plan-duration" *ngIf="plan.name=='Enterprise'">{{"plan.custom_pricing"| translate}}</div>
-              <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'" (click)="(plan.name==='Enterprise')?openContactusModel():(plan.name==selectedPlan.planName&&termPlan==selectedPlan.billingUnit)?null:openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):("plan.choose_plan"| translate)}}</button>
+           
+              <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'&&selectedPlan?.planName=='Free'" (click)="plan.name==='Enterprise'?openContactusModel(plan.name):openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):("plan.choose_plan"| translate)}}</button>
+              <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'&&selectedPlan?.planName=='Standard'" (click)="plan.name==='Enterprise'?openContactusModel(plan.name):(plan.name==selectedPlan.planName&&termPlan==selectedPlan.billingUnit)?null:openOrderConfPopup(plan)">{{plan.name==='Enterprise'?("plan.contact_us"| translate):(selectedPlan?.billingUnit=='Monthly'&&selectedPlan.planName=='Standard'&&plan.name=="Standard"&&selectedPlan?.billingUnit!=termPlan)?'Switch to Annually':("plan.choose_plan"| translate)}}</button>
+              <button class="kr-sg-button-secondary btn_lg" *ngIf="plan.type!='free'&&selectedPlan?.planName=='Pro'" (click)="plan.name==='Enterprise'||plan.name=='Standard'?openContactusModel(plan.name):(plan.name==selectedPlan.planName&&termPlan==selectedPlan.billingUnit)?null:openOrderConfPopup(plan)" placement="top-center" [ngbTooltip]="plan.name=='Standard'?'Please contact us to downgrade to standard subscription':''" [container]='"body"' tooltipClass="metrics_tooltips m-0">{{plan.name==='Enterprise'||plan.name=='Standard'?("plan.contact_us"| translate):(selectedPlan?.billingUnit=='Monthly'&&selectedPlan.planName=='Pro'&&plan.name=="Pro"&&selectedPlan?.billingUnit!=termPlan)?'Switch to Annually':("plan.choose_plan"| translate)}}</button>
+          
             </div>
           </div>
           <!-- <span placement="top-center" [ngbTooltip]="feature[1].desc" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span> -->
@@ -79,13 +84,13 @@
   <perfect-scrollbar>
     <div class="modal-body" *ngIf="orderConfirmData&&overageData">
       <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Free']).includes(selectedPlan.planName)||selectedPlan?.status=='expired'">{{"plan.you_are_subscribing_to"| translate}} <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
-      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Standard']).includes(selectedPlan.planName)&&selectedPlan?.status!='expired'">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
-      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Pro']).includes(selectedPlan.planName)&&orderConfirmData?.name=='Pro'&&selectedPlan?.status!='expired'">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>.{{"plan.please_find_the_order"| translate}}.</div>
+      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Standard']).includes(selectedPlan.planName)&&selectedPlan?.status!='expired'">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan?.planName}} {{selectedPlan?.billingUnit}}  {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{orderConfirmData?.billingUnit=='Yearly'?'Annually':orderConfirmData?.billingUnit}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
+      <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Pro']).includes(selectedPlan.planName)&&orderConfirmData?.name=='Pro'&&selectedPlan?.status!='expired'">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan?.planName}} {{selectedPlan?.billingUnit}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{orderConfirmData?.billingUnit=='Yearly'?'Annually':orderConfirmData?.billingUnit}} {{"plan.plan"| translate}}</span>.{{"plan.please_find_the_order"| translate}}.</div>
       <div class="plan-desc" *ngIf="overageData.overageShow">{{"plan.you_have_added_additional"| translate}} <span *ngIf="overageData.docCount>=1">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}} {{"plan.plan_documents"| translate}} </span><span *ngIf="overageData.queryCount>=1">, {{overageData.overageDeatils.searchQueries.limit | valueFormat}} {{"plan.plan_queries"| translate}} </span> {{"plan.to_your_plan"| translate}}. {{"plan.please_find_the_order"| translate}}.</div>
       <ng-container *ngIf="!overageData.overageShow&&selectedPlan?.planName=='Pro'&&orderConfirmData?.name=='Standard'&&selectedPlan?.status!='expired'">
         <ul class="order-plan-details">
-          <li>{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan&&selectedPlan.planName}} {{"plan.to"| translate}} {{orderConfirmData&&orderConfirmData.name}} {{"plan.plan"| translate}}</span>.</li>
-          <li>{{"plan.your_plan_will_charged"| translate}}. {{selectedPlan&&selectedPlan.endDate|dateFormatPipe:'D MMMM YYYY'}}</li>
+          <li>{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan?.planName}} {{"plan.to"| translate}} {{orderConfirmData?.name}} {{"plan.plan"| translate}}</span>.</li>
+          <li>{{"plan.your_plan_will_charged"| translate}}. {{selectedPlan?.endDate|dateFormatPipe:'D MMMM YYYY'}}</li>
         </ul>
         <div class="s-text">{{"plan.please_find_the_order"| translate}}.</div>
       </ng-container>
@@ -98,9 +103,9 @@
           <div class="col-9 plan_details">
             <div class="plan-type">{{orderConfirmData.name}} {{"plan.subscription"| translate}}</div>
             <!-- disable-text -->
-            <div class="btn-monthly" [ngClass]="{'active-btn' : orderConfirmData.billingUnit == 'Monthly','disable-text':((selectedPlan?.billingUnit == 'Yearly'&&['Pro'].includes(selectedPlan?.planName))||(selectedPlan?.billingUnit == 'Monthly'&&selectedPlan?.planName=='Pro')||(termPlan == 'Yearly'&&selectedPlan?.planName=='Standard'&&orderConfirmData.name=='Standard'))}" (click)="(selectedPlan?.billingUnit == 'Yearly'||selectedPlan?.billingUnit == 'Monthly'&&selectedPlan?.planName=='Pro'||(termPlan == 'Yearly'&&selectedPlan?.planName=='Standard'&&orderConfirmData.name=='Standard'))?null:choosePlanType('Monthly')">{{"plan.monthly"| translate}}
+            <div class="btn-monthly" [ngClass]="{'active-btn' : orderConfirmData.billingUnit == 'Monthly','disable-text':((selectedPlan?.billingUnit == 'Yearly'&&['Pro','Standard'].includes(selectedPlan?.planName))||(selectedPlan?.billingUnit == 'Monthly'&&selectedPlan?.planName=='Pro')||(termPlan == 'Yearly'&&selectedPlan?.planName=='Standard'&&orderConfirmData.name=='Standard'))}" (click)="(selectedPlan?.billingUnit == 'Yearly'||selectedPlan?.billingUnit == 'Monthly'&&selectedPlan?.planName=='Pro'||(termPlan == 'Yearly'&&selectedPlan?.planName=='Standard'&&orderConfirmData.name=='Standard'))?null:choosePlanType('Monthly')">{{"plan.monthly"| translate}}
               <span class="tooltip_top_">
-                <span (click)="openContactusModel()">Contact Us</span> if you want to change to monthly plan
+                <span (click)="openContactusModel(plan.name)">Contact Us</span> if you want to change to monthly plan
               </span>
             </div>
             <!-- btn-disable-active -->
@@ -264,7 +269,7 @@
             <div class="label-text">Message</div>
             <textarea placeholder="Optional" class="input-text" autocomplete="off" [(ngModel)]="enterpriseForm.message"></textarea>
           </div>
-          <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()">Submit Request</button>
+          <button class="kr-sg-button-primary btn_lg" (click)="submitEnterpriseRequest()" [disabled]="btnDisable">Submit Request</button>
         </div>
       </perfect-scrollbar>
     </div>
@@ -273,7 +278,7 @@
 <!--contact us success popup-->
 <kr-modal modalType="center" modalClass="modal_popups_ enterprise-plan-contact" #contactUsSuccessModel>
     <div class="modal-header">
-      <div class="title">Enterprise Plan</div>
+      <div class="title">{{contact_us_planName}} Plan</div>
       <div class="close_icon"><img (click)="closeContatcusSuccessModel()" src="assets/icons/modal-close.svg"></div>
     </div>
     <div class="modal-body">

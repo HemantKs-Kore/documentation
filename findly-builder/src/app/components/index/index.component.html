@@ -800,9 +800,22 @@
   </div>
   <div class="simulator-div" *ngIf="simulteObj && simulteObj.showSimulation">
     <div class="header">
-      <div class="title">{{'workbench.simulator' | translate}}
+      <div class="title" [ngClass]="{'d-none': showSearch}">{{'workbench.simulator' | translate}}
       </div>
+      <div class="d-flex">
+        <div class="kr-sg-input-search ml-2" [ngClass]="{'d-none': !showSearch}">
+            <input type="text" placeholder="{{'search' | translate}}" maxlength="60" class="input-search" (keyup)="searchBySimulator()" [ngClass]="{'pl-33':!searchSimulator,'pl-2':searchSimulator}"
+                autocomplete="off" id="fieldSearchId" [(ngModel)]="searchSimulator" (focusout)="focusoutSearch();"
+                (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
+                (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+            <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSimulator">
+            <img class="close-icon" *ngIf="searchSimulator" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSimulator}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" 
+                (click)="searchSimulator='';showSearch=!showSearch;" >
+        </div>
+    </div>
       <div class="close_icon">
+          <span [ngClass]="{'d-none': showSearch}" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')" class="search-mr" id="btn_toggle_search_structured_data" ><img src="assets/icons/search_gray_bg.png" class="search-icon" [ngClass]="{'d-none': showSearch}"></span>
         <img src="assets/images/close.svg" (click)="closeSimulator()" />
       </div>
     </div>
@@ -827,9 +840,30 @@
           </ul>
         </div>
       </div>
-      <div class="kr-sg-dropdowns col-6 pr-0 pl-2">
-        <div class="label-text">{{'workbench.number_of_documents' | translate}}</div>
-        <div class="dropdown dropdown-open">
+      <div class=" col-6 pr-0 pl-2">
+        <div class="duration-sec">
+          <div class="kr-sg-input-text">
+            <div class="label-text">{{'workbench.number_of_documents'| translate}}</div>
+            <input type="number" autocomplete="off" class="input-text text-center" min="5" max="20"
+              [(ngModel)]="simulteObj.docCount"   />
+            <img src="assets/icons/minus.svg" class="minus" 
+              (click)="
+              (simulteObj.docCount =
+              simulteObj.docCount >= 6
+                    ? simulteObj.docCount - 5
+                    : 5);changeSimulate(simulteObj.docCount, 'doc');
+              " />
+            <img src="assets/icons/plus_gray.svg" class="plus" (click)="
+              (simulteObj.docCount =
+                simulteObj.docCount <= 19
+                    ? simulteObj.docCount + 5
+                    : 20);changeSimulate(simulteObj.docCount, 'doc');
+              " />
+          </div>
+        </div>
+        <!-- <div class="label-text">{{'workbench.number_of_documents' | translate}}</div> -->
+
+        <!-- <div class="dropdown dropdown-open">
           <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
             {{
             (simulteObj.docCount
@@ -843,12 +877,12 @@
             <li (click)="changeSimulate(10, 'doc')"><a>10 {{'workbench.documents' | translate}}</a></li>
             <li (click)="changeSimulate(20, 'doc')"><a>20 {{'workbench.documents' | translate}}</a></li>
           </ul>
-        </div>
+        </div> -->
       </div>
     </div>
     <perfect-scrollbar class="content_body">
       <div *ngIf="simulateJson">
-        <ngx-codemirror [(ngModel)]="simulateJson" [options]="codeMirrorOptions">
+        <ngx-codemirror [(ngModel)]="filteredSimulatorRes" [options]="codeMirrorOptions">
         </ngx-codemirror>
       </div>
     </perfect-scrollbar>

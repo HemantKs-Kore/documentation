@@ -654,9 +654,9 @@ export class SearchInterfaceComponent implements OnInit {
     };
     let payload = {
       "interface": this.selectedSetting,
-      "referInterface": this.selectedSettingResultsObj.referInterface
+      "referInterface": interfaceType
   }
-    payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
+    //payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
     this.service.invoke('put.SI_copyResultSettings', queryparams, payload).subscribe(res => {
       this.notificationService.notify('Result copied successfully', 'success');
       this.selectedTemplatedId = "";
@@ -923,6 +923,9 @@ export class SearchInterfaceComponent implements OnInit {
         message = "Template Added Successfully"
       }
       this.service.invoke(url, queryparams, payload).subscribe(res => {
+        if(this.selectedSourceType == 'Structured Data'){
+          this.headerService.updateResultTemplateMapping(true);
+        }
         this.notificationService.notify(message, 'success');
         this.selectedTemplatedId = "";
         this.getSettings(this.selectedSetting);
@@ -1010,7 +1013,7 @@ class selectedSettingResults {
   _id = ""
   resultClassification = {
     'isEnabled': true,
-    'sourceType': "dataContentType"
+    'sourceType': "sys_content_type" //dataContentType
   }
   view = "fit"
   maxResultsAllowed = 10

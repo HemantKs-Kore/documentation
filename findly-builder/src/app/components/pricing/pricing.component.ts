@@ -291,7 +291,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   }
   //enterpriseContactus method
   enterpriseContactus() {
-    this.plans.openContactusModel();
+    this.plans.openContactusModel("Enterprise");
   }
   //close popup1
   cancelSubscription(dialogRef?) {

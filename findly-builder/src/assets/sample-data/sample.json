@@ -1,15 +1,24 @@
 {
-    "firstName": "Rack",
-    "lastName": "jackson",
-    "gender": "man",
-    "age": 24,
-    "address": {
-        "streetAddress": "126 Udhna",
-        "city": "san jone",
-        "state": "CA",
-        "postalCode": "394221"
-    },
-    "phoneNumbers": [
-        { "type": "home", "number": "7383627627" }
+    "faqs": [
+        {
+            "_meta": {
+                "isFollowupQuestion": false,
+                "followupQuestionIds": []
+            },
+            "_source": {
+                "sys_racl": [
+                    "*"
+                ],
+                "sys_content_type": "faq",
+                "sys_source_name": "Sample JSON",
+                "faq_question": "what is Credit card?",
+                "keywords": [],
+                "faq_answer": [
+                    {
+                        "text": "A credit card is a thin rectangular piece of plastic or metal issued by a bank or financial services company"
+                    }
+                ]
+            }
+        }
     ]
 }
