@@ -26,6 +26,7 @@ export class AppSelectionService {
   public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
   public resumingApp = false;
   public currentsubscriptionPlanDetails: any;
+  public inlineManualInfo : any;
   res_length: number = 0;
   getTourArray: any = [];
   constructor(
@@ -124,6 +125,7 @@ export class AppSelectionService {
     try {
       previOusState = JSON.parse(window.localStorage.getItem('krPreviousState'));
       this.getCurrentSubscriptionData();
+      this.getInlineManualcall();
     } catch (e) {
     }
     return previOusState;
@@ -217,6 +219,22 @@ export class AppSelectionService {
         }
       });
     }
+  }
+  getInlineManualcall(){
+    let selectedApp = this.workflowService.selectedApp();
+      let searchIndexId = selectedApp ? selectedApp.searchIndexes[0]._id : "";
+    const quaryparms: any = {
+      searchIndexId: searchIndexId
+    };
+    this.service.invoke('get.inlineManual', quaryparms).subscribe(res => {
+     this.inlineManualInfo = res.inlineManualInfo;
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
   }
   //get last active subscription data
   getLastActiveSubscriptionData() {

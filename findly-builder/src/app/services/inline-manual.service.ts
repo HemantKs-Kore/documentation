@@ -4,6 +4,7 @@ import {AuthService} from '@kore.services/auth.service';
 import { ServiceInvokerService } from './service-invoker.service';
 import { WorkflowService } from './workflow.service';
 import { NotificationService } from './notification.service';
+import { AppSelectionService } from './app.selection.service';
 declare const $: any;
 declare const inline_manual_player: any;
 declare let inlineManualTracking: any
@@ -15,12 +16,14 @@ declare let  createInlineManualPlayer : any;
 export class InlineManualService {
     selectedApp;
     serachIndexId;
+    inlineManualInfo;
   constructor(public authService : AuthService,
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
+    public appSelectionService : AppSelectionService,
     private notificationService: NotificationService) {
         this.selectedApp = this.workflowService.selectedApp();
-        this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+        this.serachIndexId = this.selectedApp ? this.selectedApp.searchIndexes[0]._id : "";
      }
   topicHelpMap = {
       CHANNELS :'88836',
@@ -109,11 +112,13 @@ export class InlineManualService {
     }
 };
     getInlineSuggestionData(){
+      this.selectedApp = this.workflowService.selectedApp();
+      this.serachIndexId = this.selectedApp ? this.selectedApp.searchIndexes[0]._id : "";
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
     this.service.invoke('get.inlineManual', quaryparms).subscribe(res => {
-     
+     this.inlineManualInfo = res.inlineManualInfo;
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -122,12 +127,46 @@ export class InlineManualService {
       }
     });
     }
-    saveInlineSuggestionData(){
+    checkVisibility(module){
+      let visited = false;
+      let data = [...this.appSelectionService.inlineManualInfo];
+      // if(this.inlineManualInfo){
+      //    data = [...this.inlineManualInfo]
+      // }else{
+      //   data = [...this.appSelectionService.inlineManualInfo];
+      //   this.inlineManualInfo = [...this.appSelectionService.inlineManualInfo];
+      // }
+      data.forEach(element => {
+        if(element[module]){
+          visited = element[module].visited;
+        }
+      });
+      return visited;
+    }
+    visited(module){
+      let payload = {};
+      let data = [...this.appSelectionService.inlineManualInfo];
+      data.forEach(element => {
+        if(element[module]){
+          payload[module] = {
+            id : element[module].id,
+            visited: true
+          }
+        }
+      });
+      this.saveInlineSuggestionData(payload);
+      
+    }
+    saveInlineSuggestionData(payload){
+      this.selectedApp = this.workflowService.selectedApp();
+      this.serachIndexId = this.selectedApp ? this.selectedApp.searchIndexes[0]._id : "";
         const quaryparms: any = {
             searchIndexId: this.serachIndexId
           };
-          this.service.invoke('put.updateInlineManual', quaryparms).subscribe(res => {
-           
+          
+          this.service.invoke('put.updateInlineManual', quaryparms,payload).subscribe(res => {
+            //this.getInlineSuggestionData();
+            this.appSelectionService.getInlineManualcall();
           }, errRes => {
             if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
               this.notificationService.notify(errRes.error.errors[0].msg, 'error');

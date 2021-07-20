@@ -391,7 +391,10 @@ export class FieldManagementComponent implements OnInit {
         this.isRequiredArr = [...new Set(this.isRequiredArr)];
         this.isStoredArr = [...new Set(this.isStoredArr)];
         this.isIndexedArr = [...new Set(this.isIndexedArr)];
-        this.inlineManual.openHelp('FIEDS_TABLE')
+        if(!this.inlineManual.checkVisibility('FIEDS_TABLE')){
+          this.inlineManual.openHelp('FIEDS_TABLE')
+          this.inlineManual.visited('FIEDS_TABLE')
+        }
         this.defaultSort('fieldName','up',true)
       }
     }, errRes => {

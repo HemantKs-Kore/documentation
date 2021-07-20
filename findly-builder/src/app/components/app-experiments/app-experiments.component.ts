@@ -412,7 +412,12 @@ export class AppExperimentsComponent implements OnInit {
       else {
         this.loadingContent = false;
         this.loadingContent1 = true;
-        this.inlineManual.openHelp('EXPERIMENTS')
+        //this.inlineManual.getInlineSuggestionData();
+        if(!this.inlineManual.checkVisibility('EXPERIMENTS')){
+          this.inlineManual.openHelp('EXPERIMENTS')
+          this.inlineManual.visited('EXPERIMENTS')
+        }
+        
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
