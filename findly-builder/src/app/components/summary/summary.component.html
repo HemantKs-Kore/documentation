@@ -12,388 +12,110 @@
 </div>
 
 
-
-<div class="overview-container d-none">  
-  <perfect-scrollbar class="scroll_content">
-    <div class="g-analytics"></div>    
-    <div class="top-cards-section row m-0 col-12">
-      <div class="col-3 cards-data">
-        <div class="content">
-            <div class="title-info">{{'overview.totalUsers' | translate}}<span style="color:#BDC1C6"> ({{'overview.last_24hrs' | translate}})</span></div>
-            <div class="bottom-sec">
-              <div class="left-sec" style="margin-top:16px" *ngIf="totalUsersStats.totalUsers==0">
-              <img src="assets/icons/1200.svg" />
-            </div>
-            <ng-container *ngIf="totalUsersStats.totalUsers>0">
-              <div class="left-sec">
-                     <div class="count">{{totalUsersStats.totalUsers}}</div>
-                     <div class="data-percentage" [ngClass] ="{'failed' : totalUsersStats.percentageIncrease < 0}">
-                         <img src="assets/icons/arrow-increase.svg" *ngIf="totalUsersStats.percentageIncrease >= 0">
-                         <img src="assets/icons/arrow-decrease.svg" *ngIf="totalUsersStats.percentageIncrease < 0">
-                         <span class="percentage">{{ totalUsersStats.percentageIncrease }}%</span>
-                     </div>
-              </div>
-              <div class="right-sec">
-                     <img *ngIf="totalUsersStats.percentageIncrease >= 0" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
-                     <img *ngIf="totalUsersStats.percentageIncrease < 0" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAAPCAYAAABdjGkdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAASbSURBVHgB7VZbTFxVFN373HuHx4BtQVKKtbyLEGyLMCBgBQrMiGliouHDRBP98MvEtCZGg2mi/tQPTfth4ncTY2Ki8aNGO1AKqRY6TAdtw6uFGaA8Sqa2oWXIMPdxtvuS0hBLeNRignb93HvOuXc/1l575wA8xn8X155rKAyWu4eDLs/b8JBA2AQMVVcnO2JJhRYZt0CNu5nv++Uu/AtgMtoJMJOTUiXGXsj3dU7CBvFICQkX1SbNO7VSCVhEJBVUFBWBVCKKICpdOb4zV2CTEKpofJNIfAxICi/ZJ/iJjE/z/R39G7GzYUImKisT9GjSbk41TwqM5PR4f70fVLnnIFiygARqAHSNz3dwYLsUBCcScKA4gQLPZ188Mwb/EH1MfkKi4x1CFCCgF0l+BIR7BMLnXICjvJ8CxMQg+Pj5Xp6/dWI9dtdFSEdtrZo2n/hkPJgaV3wvBxCHFstSgDJr3f6pLBAwZva5nZE4ahYoVF2LfPfMhQtzS/+PlLmLBVANKiJVSlBQ0BwHH1ZBDkxOR/qrJrujK/mdrjqUuaBrO6VOY3lXWsNL+6Ou2nQA7bhELOSlrQht8UlwOtff2jJc0bQbyHpfEFRzhll2CzExX+T6Wo+vleuahEyVHk7UVWsfSctBQBrXQ4kZeEsVMpmrkZKgOQIZXT+Pj7jcVayKvULDUE5X6/m/2wmWNmwTDu2AaZml7DQVQTAfUuWenwnPzH21nBRWWgv7yuXvkmlR/qSwwgYRoU+iyECQLwLidpAQBhS/EcpyJmOPpZjNBd3nppb75WJ8wAX80CaF45vi1n19tdZdlZC+omaH0zlbZCng1AgXLMFTwTD/zLzUHrpaVp+jCLHfIjlZ4G/3h1yNb0h2ujBvfF880BlZze7YQc8uU6cMQejhZNMkUCDf3/aNfTZa4XmFbb7GncCEwW2O0Jb6fk5mGwIqPJu42qgi4WhMQktRwHsD1sBIWWM1k/k1CMy224htfou6+VnO7+fGHyBkuKQpTQgjIRqdnikeGNAXg3K9nK6qVpJhgdMUFE8G3CkItA4t/3FROYrutuyFCl1oQKMicCHL5/0B1om+Sk9KvCnfRSF2gj2EEXWSlMzyVoVhHVsecLCsvoFJSudqh6UQobxu7whsEPeUd8xWHfuaY9XV8Qy8vPwbZCk/KzkAULSYMA2WW/w2IWIphmGAiHMoXEVzPDHWX9fZaT7goKLJTZaRbM8NEqRZRDfze856YQOYqDz8lGkZrC6ZxUEqTIhqIpwu6Gn7ETYBoZJDmaCqXzIxr7K/8Tu6XlLyR+fs0jnabRGXHMkjaTq0e5tSkl3460Z8oryh3Y2uRIYNWyVR1GtYgk8sDi6B03k+bwc8JAbL61MdFjpzA2evwyZi9EDtdulw9PIrtxCezPV7jy6d3Z8hdptY3CaqRZaizM083b3y5F8JYxWeOktSBt8Brub2tF2CLYDB51/KipOyl9tnhxDiLb4KnLL3H8nFbKjcna2BrFQlXbQHLmwRBCs8R4DoBL/aLXNS1/VTm3J130oIutwnWBZH7HcmY+x/T4iNUVdjDQ/NT0CIy38B1Y7+DvOnkW4AAAAASUVORK5CYII=">
-                     <div class="view-insights" (click)="userViewAll()">{{'overview.viewInsights' | translate}}</div>
-               </div>
-             </ng-container>
-            </div>
-        </div>
-      </div>
-      <div class="col-3 cards-data">
-        <div class="content">
-            <div class="title-info">{{'overview.totalSearches'| translate}} <span style="color:#BDC1C6">({{'overview.last_24hrs' | translate}})</span></div>
-            <div class="bottom-sec">
-              <div class="left-sec" style="margin-top:16px" *ngIf="totalSearchesStats.totalSearches==0">
-                <img src="assets/icons/1200.svg" />
-              </div>
-              <ng-container *ngIf="totalSearchesStats.totalSearches>0">
-                <div class="left-sec">
-                    <div class="count">{{totalSearchesStats.totalSearches}}</div> <!-- {{totalSearchSum}} -->
-                    <div class="data-percentage" [ngClass] ="{'failed' : totalSearchesStats.searchRate < 0}">
-                        <img src="assets/icons/arrow-increase.svg" *ngIf="totalSearchesStats.searchRate >= 0">
-                        <img src="assets/icons/arrow-decrease.svg" *ngIf="totalSearchesStats.searchRate < 0">
-                        <span class="percentage">{{ totalSearchesStats.searchRate }}%</span>
-                    </div>
-                </div>
-                <div class="right-sec">
-                    <img *ngIf="totalSearchesStats.searchRate >= 0" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
-                    <img *ngIf="totalSearchesStats.searchRate < 0" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAAPCAYAAABdjGkdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAASbSURBVHgB7VZbTFxVFN373HuHx4BtQVKKtbyLEGyLMCBgBQrMiGliouHDRBP98MvEtCZGg2mi/tQPTfth4ncTY2Ki8aNGO1AKqRY6TAdtw6uFGaA8Sqa2oWXIMPdxtvuS0hBLeNRignb93HvOuXc/1l575wA8xn8X155rKAyWu4eDLs/b8JBA2AQMVVcnO2JJhRYZt0CNu5nv++Uu/AtgMtoJMJOTUiXGXsj3dU7CBvFICQkX1SbNO7VSCVhEJBVUFBWBVCKKICpdOb4zV2CTEKpofJNIfAxICi/ZJ/iJjE/z/R39G7GzYUImKisT9GjSbk41TwqM5PR4f70fVLnnIFiygARqAHSNz3dwYLsUBCcScKA4gQLPZ188Mwb/EH1MfkKi4x1CFCCgF0l+BIR7BMLnXICjvJ8CxMQg+Pj5Xp6/dWI9dtdFSEdtrZo2n/hkPJgaV3wvBxCHFstSgDJr3f6pLBAwZva5nZE4ahYoVF2LfPfMhQtzS/+PlLmLBVANKiJVSlBQ0BwHH1ZBDkxOR/qrJrujK/mdrjqUuaBrO6VOY3lXWsNL+6Ou2nQA7bhELOSlrQht8UlwOtff2jJc0bQbyHpfEFRzhll2CzExX+T6Wo+vleuahEyVHk7UVWsfSctBQBrXQ4kZeEsVMpmrkZKgOQIZXT+Pj7jcVayKvULDUE5X6/m/2wmWNmwTDu2AaZml7DQVQTAfUuWenwnPzH21nBRWWgv7yuXvkmlR/qSwwgYRoU+iyECQLwLidpAQBhS/EcpyJmOPpZjNBd3nppb75WJ8wAX80CaF45vi1n19tdZdlZC+omaH0zlbZCng1AgXLMFTwTD/zLzUHrpaVp+jCLHfIjlZ4G/3h1yNb0h2ujBvfF880BlZze7YQc8uU6cMQejhZNMkUCDf3/aNfTZa4XmFbb7GncCEwW2O0Jb6fk5mGwIqPJu42qgi4WhMQktRwHsD1sBIWWM1k/k1CMy224htfou6+VnO7+fGHyBkuKQpTQgjIRqdnikeGNAXg3K9nK6qVpJhgdMUFE8G3CkItA4t/3FROYrutuyFCl1oQKMicCHL5/0B1om+Sk9KvCnfRSF2gj2EEXWSlMzyVoVhHVsecLCsvoFJSudqh6UQobxu7whsEPeUd8xWHfuaY9XV8Qy8vPwbZCk/KzkAULSYMA2WW/w2IWIphmGAiHMoXEVzPDHWX9fZaT7goKLJTZaRbM8NEqRZRDfze856YQOYqDz8lGkZrC6ZxUEqTIhqIpwu6Gn7ETYBoZJDmaCqXzIxr7K/8Tu6XlLyR+fs0jnabRGXHMkjaTq0e5tSkl3460Z8oryh3Y2uRIYNWyVR1GtYgk8sDi6B03k+bwc8JAbL61MdFjpzA2evwyZi9EDtdulw9PIrtxCezPV7jy6d3Z8hdptY3CaqRZaizM083b3y5F8JYxWeOktSBt8Brub2tF2CLYDB51/KipOyl9tnhxDiLb4KnLL3H8nFbKjcna2BrFQlXbQHLmwRBCs8R4DoBL/aLXNS1/VTm3J130oIutwnWBZH7HcmY+x/T4iNUVdjDQ/NT0CIy38B1Y7+DvOnkW4AAAAASUVORK5CYII=">
-                    <div class="view-insights" (click)="searchViewAll()">{{'overview.viewInsights' | translate}}</div>
-                  </div>
-                </ng-container>
-            </div>
-        </div>
-      </div>
-      <div class="col-3 cards-data">
-        <div class="content">
-            <div class="title-info">{{'overview.resultRate' | translate}} <span style="color:#BDC1C6">({{'overview.last_24hrs' | translate}})</span></div>
-            <div class="bottom-sec">
-              <div class="left-sec" style="margin-top:16px" *ngIf="[0,null].includes(totalSearchesStats.resultRate)">
-                <img src="assets/icons/1200.svg" />
-              </div>
-              <ng-container *ngIf="totalSearchesStats.resultRate>0">
-                <div class="left-sec">
-                    <div class="count">{{totalSearchesStats.resultRate }}%</div>
-                    <div class="data-percentage " [ngClass] ="{'failed' : totalSearchesStats.increasedResultRate < 0}">
-                        <img src="assets/icons/arrow-increase.svg" *ngIf="totalSearchesStats.increasedResultRate >= 0">
-                        <img src="assets/icons/arrow-decrease.svg" *ngIf="totalSearchesStats.increasedResultRate < 0">
-                        <span class="percentage">{{totalSearchesStats.increasedResultRate}}%</span>
-                    </div>
-                </div>
-                <div class="right-sec">
-                    <img *ngIf="totalSearchesStats.increasedResultRate >= 0" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
-                    <img *ngIf="totalSearchesStats.increasedResultRate < 0" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAAPCAYAAABdjGkdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAASbSURBVHgB7VZbTFxVFN373HuHx4BtQVKKtbyLEGyLMCBgBQrMiGliouHDRBP98MvEtCZGg2mi/tQPTfth4ncTY2Ki8aNGO1AKqRY6TAdtw6uFGaA8Sqa2oWXIMPdxtvuS0hBLeNRignb93HvOuXc/1l575wA8xn8X155rKAyWu4eDLs/b8JBA2AQMVVcnO2JJhRYZt0CNu5nv++Uu/AtgMtoJMJOTUiXGXsj3dU7CBvFICQkX1SbNO7VSCVhEJBVUFBWBVCKKICpdOb4zV2CTEKpofJNIfAxICi/ZJ/iJjE/z/R39G7GzYUImKisT9GjSbk41TwqM5PR4f70fVLnnIFiygARqAHSNz3dwYLsUBCcScKA4gQLPZ188Mwb/EH1MfkKi4x1CFCCgF0l+BIR7BMLnXICjvJ8CxMQg+Pj5Xp6/dWI9dtdFSEdtrZo2n/hkPJgaV3wvBxCHFstSgDJr3f6pLBAwZva5nZE4ahYoVF2LfPfMhQtzS/+PlLmLBVANKiJVSlBQ0BwHH1ZBDkxOR/qrJrujK/mdrjqUuaBrO6VOY3lXWsNL+6Ou2nQA7bhELOSlrQht8UlwOtff2jJc0bQbyHpfEFRzhll2CzExX+T6Wo+vleuahEyVHk7UVWsfSctBQBrXQ4kZeEsVMpmrkZKgOQIZXT+Pj7jcVayKvULDUE5X6/m/2wmWNmwTDu2AaZml7DQVQTAfUuWenwnPzH21nBRWWgv7yuXvkmlR/qSwwgYRoU+iyECQLwLidpAQBhS/EcpyJmOPpZjNBd3nppb75WJ8wAX80CaF45vi1n19tdZdlZC+omaH0zlbZCng1AgXLMFTwTD/zLzUHrpaVp+jCLHfIjlZ4G/3h1yNb0h2ujBvfF880BlZze7YQc8uU6cMQejhZNMkUCDf3/aNfTZa4XmFbb7GncCEwW2O0Jb6fk5mGwIqPJu42qgi4WhMQktRwHsD1sBIWWM1k/k1CMy224htfou6+VnO7+fGHyBkuKQpTQgjIRqdnikeGNAXg3K9nK6qVpJhgdMUFE8G3CkItA4t/3FROYrutuyFCl1oQKMicCHL5/0B1om+Sk9KvCnfRSF2gj2EEXWSlMzyVoVhHVsecLCsvoFJSudqh6UQobxu7whsEPeUd8xWHfuaY9XV8Qy8vPwbZCk/KzkAULSYMA2WW/w2IWIphmGAiHMoXEVzPDHWX9fZaT7goKLJTZaRbM8NEqRZRDfze856YQOYqDz8lGkZrC6ZxUEqTIhqIpwu6Gn7ETYBoZJDmaCqXzIxr7K/8Tu6XlLyR+fs0jnabRGXHMkjaTq0e5tSkl3460Z8oryh3Y2uRIYNWyVR1GtYgk8sDi6B03k+bwc8JAbL61MdFjpzA2evwyZi9EDtdulw9PIrtxCezPV7jy6d3Z8hdptY3CaqRZaizM083b3y5F8JYxWeOktSBt8Brub2tF2CLYDB51/KipOyl9tnhxDiLb4KnLL3H8nFbKjcna2BrFQlXbQHLmwRBCs8R4DoBL/aLXNS1/VTm3J130oIutwnWBZH7HcmY+x/T4iNUVdjDQ/NT0CIy38B1Y7+DvOnkW4AAAAASUVORK5CYII=">
-                    <div class="view-insights" (click)="resultViewAll()">{{'overview.viewInsights' | translate}}</div>
-                </div>
-              </ng-container>
-            </div>
-        </div>
-      </div> 
-      <div class="col-3 cards-data">
-        <div class="content">
-            <div class="title-info">{{'overview.clicks' | translate}} <span style="color:#BDC1C6">({{'overview.last_24hrs' | translate}})</span></div>
-            <div class="bottom-sec">
-              <div class="left-sec" style="margin-top:16px" *ngIf="totalSearchesStats.clicks==0">
-                <img src="assets/icons/1200.svg" />
-              </div>
-              <ng-container *ngIf="totalSearchesStats.clicks>0">
-                <div class="left-sec col-12 p-0">
-                    <div class="count">{{totalSearchesStats.clicks }}<span class="ctr">{{'overview.CTR' | translate}}: <span class="ctr-count">{{totalSearchesStats.ctr}}%</span></span></div>
-                    <div class="data-percentage " [ngClass] ="{'failed' : totalSearchesStats.clickRate < 0}">
-                        <img src="assets/icons/arrow-increase.svg" *ngIf="totalSearchesStats.clickRate >= 0">
-                        <img src="assets/icons/arrow-decrease.svg" *ngIf="totalSearchesStats.clickRate < 0">
-                        <span class="percentage">{{totalSearchesStats.clickRate}}%</span>
-                    </div>
-                </div>    
-              </ng-container>             
-            </div>
-        </div>
-      </div>         
-    </div>
-    <div class="row col-12 row table-data m-0">
-      <div class="table-data-content col-6">
-        <div class="content-sec">
-          <div class="title-sec d-flex justify-content-between">
-            <div class="title">Sources | <span style="color:#85B7FE">{{indexPipeLineCount}} {{'overview.indices' | translate}}</span></div> 
-            <!-- <div class="create_new_link">+ Create New</div> -->
-          </div>
-          <div class="header-data row m-0">
-            <div class="col-3 title">{{'overview.CONTENT' | translate}}</div>
-            <div class="col-3 title">{{'overview.FAQS' | translate}}</div>
-            <div class="col-3 title">{{'overview.ACTIONS' | translate}}</div>
-            <div class="col-3 title">{{'overview.STRUCTURED_DATA' | translate}}</div>
-          </div>
-          <div class="body-data row m-0" *ngFor="let indice of indices">
-            <div class="col-3 title">{{indice.contentPages}}</div>
-            <div class="col-3 title">{{indice.approvedfaqs}}</div>
-            <div class="col-3 title">{{indice.botActions}}</div>
-            <div class="col-3 title">{{indice.structuredDataCount}}</div>
-          </div> 
-          <!-- <div class="create_new_link" (click)="openSource()">View all</div> -->
-          </div>       
-      </div>
-      <div class="table-data-content col-6">
-        <div class="content-sec active_experments"  *ngIf="!showActivity">
-          <div class="title-sec d-flex justify-content-between">
-            <div class="title">{{'overview.activities' | translate}}</div> 
-          </div>       
-          <div class="img-block center-image"><img src="assets/icons/overview/no-activites.svg"></div>
-        </div>
-        <div class="content-sec" *ngIf="showActivity">
-          <div class="title-sec d-flex justify-content-between">
-            <div class="title">{{'overview.activities' | translate}}</div> 
-            <div class="create_new_link">{{'overview.show_all_activities' | translate}}</div>
-          </div>   
-          <div class="body-data row m-0" *ngFor="let activity of activities">
-            <div class="col-9 title">{{activity.faqInReviewCount}} {{'overview.faq_Pending_Approval' | translate}}</div>
-            <div class="col-3 title time-stamp">{{activity.time_format}} {{'overview.ago' | translate}}</div>           
-          </div>
-        </div>       
-      </div>
-    </div>
-    <div class="row col-12 row table-data m-0" >
-      <div class="table-data-content col-6" *ngIf="!experiments.length">
-        <div class="content-sec active_experments">       
-            <div class="img-block center-image" (click) = "openExp()"><img src="assets/icons/overview/no-experiments.svg"></div>
-        </div>
-    </div>
-    <div class="table-data-content col-6" *ngIf="experiments.length">
-      <div class="content-sec active_experments">
-        <div class="title-sec d-flex justify-content-between">
-          <div class="title"> {{'overview.experiments' | translate}}</div> 
-          <div class="create_new_link" (click)="openExp()">+  {{'overview.create_New' | translate}}</div>
-        </div>    
-        <div class="header-data row m-0">
-          <div class="col-9 title">{{'overview.experiment_Name' | translate}}</div>
-          <div class="col-3 title">{{'overview.status' | translate}}</div>         
-        </div>    
-        <div class="body-data row m-0" *ngFor="let experiment of experiments">
-          <div class="col-9 title">{{experiment.name |titlecase}}</div>
-          <div class="col-3 status">
-             <span class="a-status" [ngClass]="experiment.state">{{experiment.state |titlecase }}</span>
-           <span placement="top-center" [ngbTooltip]="experiment.total_days" [container]='"body"' tooltipClass="metrics_tooltips m-0" *ngIf="experiment.state=='active'"><img src="assets/icons/overview/Info.svg"></span>
-          </div>          
-        </div>
-        <!-- <div class="body-data row m-0">
-          <div class="col-5 title">Boost for FAQs of Dispute Tracking</div>
-          <div class="col-4 variants">
-            <div class="variants-block left">
-              <span class="v-name">A</span>
-              <span class="v-name">B</span>
-              <span class="v-name">+2</span>
-            </div>
-            <div class="variants-block right">
-              <span class="v-name">B</span>  
-              <img src="assets/icons/overview/prize.svg" class="prize">              
-            </div>
-          </div> 
-          <div class="col-3 status">
-            <span class="a-status completed">Completed</span>
-            <span class=""><img src="assets/icons/overview/Info.svg"></span>
-          </div>          
-        </div> -->
-        <!-- <div class="body-data row m-0">
-          <div class="col-5 title">Boost for FAQs of Dispute Tracking</div>
-          <div class="col-4 variants">
-            <div class="variants-block left">
-              <span class="v-name">A</span>
-              <span class="v-name">B</span>                
-            </div>
-            <div class="variants-block right">
-              <span class="v-name">B</span>  
-              <img src="assets/icons/overview/sortup.svg" class="prize">              
-            </div>
-          </div> 
-          <div class="col-3 status">
-            <span class="a-status paused">Paused</span>
-            <span class=""><img src="assets/icons/overview/Info.svg"></span>
-          </div>          
-        </div> -->
-        <div class="create_new_link" (click)="openExp()">{{'overview.view_all' | translate}}</div>
-      </div>       
-    </div>
-
-      <div class="table-data-content col-6 " *ngIf="!channelExist">
-        <div class="content-sec config_channels">       
-          <div *ngIf="!channelExist">
-            <div class="img-block center-image" (click)="openChannel()"><img src="assets/icons/overview/no-channel-conf.svg"></div>
-          </div>
-        </div>
-      </div>
-      <div class="table-data-content col-6 " *ngIf="channelExist">
-        <div class="content-sec config_channels">
-         <div class="title-sec"><div class="title" >{{'overview.configured_Channels' | translate}}</div> </div>
-          <div *ngIf="!channelExist">
-            <div class="img-block"><img src="assets/icons/overview/no-channel-conf.svg"></div>
-          </div>
-         <div class="cards_sec_main row m-0"  *ngIf="channelExist">
-          <div class="pad-div" >
-              <div class="card_data">
-                <div class="img-block center"><img src="assets/icons/web-mobile-client.png"></div>
-                <div class="c-title text-truncate">{{channelsName}} </div>
-              </div>
-          </div>
-          <!-- <div class="pad-div">
-            <div class="card_data">
-              <div class="img-block"><img src="assets/icons/overview/cisco.svg"></div>
-              <div class="c-title text-truncate">Cisco Jabber</div>
-            </div>
-          </div> -->
-          <!-- <div class="pad-div">
-            <div class="card_data">
-              <div class="img-block"><img src="assets/icons/overview/whatsapp.svg"></div>
-              <div class="c-title text-truncate">Whatsapp Bussiness</div>
-            </div>
-          </div>   -->
-          <!-- <div class="pad-div">
-            <div class="card_data">
-              <div class="img-block"><img src="assets/icons/overview/ubuntu.svg"></div>
-              <div class="c-title text-truncate">Unblu</div>
-            </div>
-          </div>  -->
-          <!-- <div class="pad-div">
-            <div class="card_data">
-              <div class="img-block"><img src="assets/icons/overview/cisco.svg"></div>
-              <div class="c-title text-truncate">Cisco Jabber  </div>
-            </div>
-          </div>  -->
-          <!-- <div class="pad-div">
-            <div class="card_data">
-              <div class="img-block"><img src="assets/icons/overview/ubuntu.svg"></div>
-              <div class="c-title text-truncate">Unblu</div>
-            </div>
-          </div>  -->
-          <!-- <div class="pad-div">
-            <div class="card_data">
-              <div class="img-block"><img src="assets/icons/overview/liveperson.svg"></div>
-              <div class="c-title text-truncate">LivePerson</div>
-            </div>
-          </div>  -->
-          <!-- <div class="pad-div">
-            <div class="card_data">
-              <div class="img-block"><img src="assets/icons/overview/cisco.svg"></div>
-              <div class="c-title text-truncate">Cisco Jabber</div>
-            </div>
-          </div>  -->
-          <!-- <div class="pad-div">
-            <div class="card_data">
-              <div class="img-block"><img src="assets/icons/overview/slack.svg"></div>
-              <div class="c-title text-truncate">webex</div>
-            </div>
-          </div>  -->
-          <!-- <div class="pad-div">
-            <div class="card_data">
-              <div class="img-block"><img src="assets/icons/overview/webex.svg"></div>
-              <div class="c-title text-truncate">webex</div>
-            </div>
-          </div>                     -->
-         </div>
-         <div class="create_new_link" (click)="openChannel()"> {{'overview.view_all' | translate}}</div>
-        </div>       
-      </div>
-    </div>    
-  </perfect-scrollbar>  
-</div>
-
 <perfect-scrollbar class="scroll-data-overview">
   <div class="overview_container_data">
     <div class="top-cards-data row col-12">
       <div class="col-3 card-data">
         <div class="inner-content">
-          <ng-container>
-            <div class="title">Total Users <span>(Last 30 days)</span></div>
+          <ng-container *ngIf="!loading_skelton">
+            <div class="title">{{'overview.totalUsers' | translate}} <span>({{'overview.last_24hrs' | translate}})</span></div>
             <div class="count-graph-data">
               <div class="count-sec">
-                <div class="count">1589</div>
-                <div class="cont-up-down">
-                  <span class="bg-type"><img src="assets/icons/overview/arrow-increase.svg"></span>12%
+                <div class="count">{{totalUsersStats?.totalUsers}}</div>
+                <div class="cont-up-down" *ngIf="totalUsersStats?.percentageIncrease!=0">
+                  <span class="bg-type"><img [src]="totalUsersStats?.percentageIncrease<0?'assets/icons/arrow-decrease.svg':'assets/icons/overview/arrow-increase.svg'"></span>{{ totalUsersStats?.percentageIncrease }}%
                 </div>
               </div>
-              <div class="graph-sec">
-                <img src="assets/icons/overview/graph-1.svg">
+              <div class="graph-sec" *ngIf="totalUsersStats?.percentageIncrease!=0">
+                <img [src]="totalUsersStats.percentageIncrease>=0?'assets/icons/overview/graph-1.svg':'assets/icons/overview/graph-3.svg'">
               </div>
             </div>
-            <div class="view-insights">View Insights</div>
+            <div class="view-insights" (click)="userViewAll()">View Insights</div>
           </ng-container>
-          <ng-container *ngIf="false">
+          <ng-container *ngIf="loading_skelton">
             <div class="skelton-img">
-              <img src="assets/icons/overview/skelton-1.svg">
-              <img src="assets/icons/overview/skelton-2.svg">
+              <img src="assets/icons/overview/skelton-1.svg">            
+            </div>
+            <div class="skelton-img">
+              <img src="assets/icons/overview/skelton-2.svg">           
             </div>
           </ng-container>
         </div>
       </div>
       <div class="col-3 card-data">
         <div class="inner-content">
-          <ng-container>
-            <div class="title">Total Users <span>(Last 30 days)</span></div>
+          <ng-container *ngIf="!loading_skelton">
+            <div class="title">{{'overview.totalSearches'| translate}} <span>({{'overview.last_24hrs' | translate}})</span></div>
             <div class="count-graph-data">
               <div class="count-sec">
-                <div class="count">1589</div>
-                <div class="cont-up-down">
-                  <span class="bg-type"><img src="assets/icons/overview/arrow-increase.svg"></span>12%
+                <div class="count">{{totalSearchesStats?.totalSearches}}</div>
+                <div class="cont-up-down" *ngIf="totalSearchesStats?.searchRate!=0">
+                  <span class="bg-type"><img [src]="totalSearchesStats?.searchRate<0?'assets/icons/arrow-decrease.svg':'assets/icons/overview/arrow-increase.svg'"></span>{{ totalSearchesStats.searchRate }}%
                 </div>
               </div>
-              <div class="graph-sec">
-                <img src="assets/icons/overview/graph-2.svg">
+              <div class="graph-sec" *ngIf="totalSearchesStats?.searchRate!=0">
+                <img [src]="totalSearchesStats?.searchRate>=0?'assets/icons/overview/graph-1.svg':'assets/icons/overview/graph-3.svg'">
               </div>
             </div>
-            <div class="view-insights">View Insights</div>
+            <div class="view-insights" (click)="searchViewAll()">{{'overview.viewInsights' | translate}}</div>
           </ng-container>
-          <ng-container *ngIf="false">
+          <ng-container *ngIf="loading_skelton">
             <div class="skelton-img">
-              <img src="assets/icons/overview/skelton-1.svg">
-              <img src="assets/icons/overview/skelton-2.svg">
+              <img src="assets/icons/overview/skelton-1.svg">            
+            </div>
+            <div class="skelton-img">
+              <img src="assets/icons/overview/skelton-2.svg">           
             </div>
           </ng-container>
         </div>
       </div>
       <div class="col-3 card-data">
         <div class="inner-content">
-          <ng-container>
-            <div class="title">Total Users <span>(Last 30 days)</span></div>
+          <ng-container *ngIf="!loading_skelton">
+            <div class="title">{{'overview.resultRate' | translate}} <span>({{'overview.last_24hrs' | translate}})</span></div>
             <div class="count-graph-data">
               <div class="count-sec">
-                <div class="count">1589</div>
-                <div class="cont-up-down">
-                  <span class="bg-type fail"><img src="assets/icons/overview/down-decrease.svg"></span>12%
+                <div class="count">{{totalSearchesStats?.resultRate!=null?totalSearchesStats?.resultRate:0 }}%</div>
+                <div class="cont-up-down" *ngIf="![0,null].includes(totalSearchesStats.resultRate)">
+                  <span class="bg-type fail"><img [src]="totalSearchesStats?.increasedResultRate<0?'assets/icons/arrow-decrease.svg':'assets/icons/overview/arrow-increase.svg'"></span>{{totalSearchesStats?.increasedResultRate}}%
                 </div>
               </div>
-              <div class="graph-sec">
-                <img src="assets/icons/overview/graph-3.svg">
+              <div class="graph-sec" *ngIf="![0,null].includes(totalSearchesStats.resultRate)">
+                <img [src]="totalSearchesStats?.increasedResultRate>=0?'assets/icons/overview/graph-1.svg':'assets/icons/overview/graph-3.svg'">
               </div>
             </div>
-            <div class="view-insights">View Insights</div>
+            <div class="view-insights" (click)="resultViewAll()">{{'overview.viewInsights' | translate}}</div>
           </ng-container>
-          <ng-container *ngIf="false">
+          <ng-container *ngIf="loading_skelton">
             <div class="skelton-img">
-              <img src="assets/icons/overview/skelton-1.svg">
-              <img src="assets/icons/overview/skelton-2.svg">
+              <img src="assets/icons/overview/skelton-1.svg">            
+            </div>
+            <div class="skelton-img">
+              <img src="assets/icons/overview/skelton-2.svg">           
             </div>
           </ng-container>
         </div>
-      </div>
+        </div>
       <div class="col-3 card-data">
         <div class="inner-content">
-          <ng-container>
-            <div class="title">Total Users <span>(Last 30 days)</span></div>
+          <ng-container *ngIf="!loading_skelton">
+            <div class="title">{{'overview.clicks' | translate}} <span>({{'overview.last_24hrs' | translate}})</span></div>
             <div class="count-graph-data">
               <div class="count-sec">
-                <div class="count">1589 <span class="ctr-data">| CTR: <b>70%</b></span></div>
-                <div class="cont-up-down">
-                  <span class="bg-type"><img src="assets/icons/overview/arrow-increase.svg"></span>12%
+                <div class="count">{{totalSearchesStats?.clicks }} <span class="ctr-data">| {{'overview.CTR' | translate}}: <b>{{totalSearchesStats?.ctr}}%</b></span></div>
+                <div class="cont-up-down" *ngIf="totalSearchesStats?.clicks!=0">
+                  <span class="bg-type"><img [src]="totalSearchesStats?.clickRate<0?'assets/icons/arrow-decrease.svg':'assets/icons/overview/arrow-increase.svg'"></span>{{totalSearchesStats?.clickRate}}%
                 </div>
               </div>              
             </div>
-            <div class="view-insights">View Insights</div>
+            <!-- <div class="view-insights">View Insights</div> -->
           </ng-container>
-          <ng-container *ngIf="false">
+          <ng-container *ngIf="loading_skelton">
             <div class="skelton-img">
-              <img src="assets/icons/overview/skelton-1.svg">
-              <img src="assets/icons/overview/skelton-2.svg">
+              <img src="assets/icons/overview/skelton-1.svg">            
+            </div>
+            <div class="skelton-img">
+              <img src="assets/icons/overview/skelton-2.svg">           
             </div>
           </ng-container>
         </div>
@@ -403,63 +125,64 @@
     <div class="body-cards-data row col-12">
       <div class="col-6 cards-data lef-sec-data">
         <div class="inner-content">
-          <div class="title-heading">Sources</div>
-          <ng-container>
-            <div class="add-more"><img src="assets/icons/overview/add.svg">Add More</div>
+          <div class="title-heading">{{'overview.Sources' | translate}}</div>
+          <ng-container *ngIf="!loading_skelton&&show_indices">
+            <div class="add-more" (click)="openSource()"><img src="assets/icons/overview/add.svg">{{'overview.add_more' | translate}}</div>
             <ng-container>
               <div class="table-data col-12 row">
                 <div class="col-5 image-with-title">
                   <img src="assets/icons/overview/data.svg">
-                  <span class="title">Data</span>
+                  <span class="title">{{'overview.data' | translate}}</span>
                 </div>
-                <div class="col-7 data-count">19 Documents</div>
+                <div class="col-7 data-count">{{indices?.structuredDataCount}} {{'overview.documents' | translate}}</div>
               </div>
               <div class="table-data col-12 row">
                 <div class="col-5 image-with-title">
                   <img src="assets/icons/overview/files.svg">
-                  <span class="title">Files</span>
+                  <span class="title">{{'overview.files' | translate}}</span>
                 </div>
-                <div class="col-7 data-count">19 Documents</div>
+                <div class="col-7 data-count">{{indices?.files}} {{'overview.documents' | translate}}</div>
               </div>
               <div class="table-data col-12 row">
                 <div class="col-5 image-with-title">
                   <img src="assets/icons/overview/web.svg">
-                  <span class="title">Web</span>
+                  <span class="title">{{'overview.web' | translate}}</span>
                 </div>
-                <div class="col-7 data-count">23 Domains  |  33 Documents  </div>
+                <div class="col-7 data-count">{{indices?.web?.domains}} {{'overview.domains' | translate}}  |  {{indices?.web?.numOfDocs}} {{'overview.documents' | translate}}  </div>
               </div>
               <div class="table-data col-12 row">
                 <div class="col-5 image-with-title">
                   <img src="assets/icons/overview/connections.svg">
-                  <span class="title">Connectors</span>
+                  <span class="title">{{'overview.connectors' | translate}}</span>
                 </div>
-                <div class="col-7 data-count"> 21 Documents</div>
+                <div class="col-7 data-count"> {{indices?.connectors}} {{'overview.documents' | translate}}</div>
               </div>
               <div class="table-data col-12 row">
                 <div class="col-5 image-with-title">
                   <img src="assets/icons/overview/faqs.svg">
-                  <span class="title">FAQs</span>
+                  <span class="title">{{'overview.FAQS' | translate}}</span>
                 </div>
-                <div class="col-7 data-count">In Draft - 21  | In Review - 12  | Approved - 5 </div>
+                <div class="col-7 data-count">{{'overview.in_draft' | translate}} - {{indices?.faqs?.draft}}  | {{'overview.in_review' | translate}} - {{indices?.faqs?.in_review}}  | {{'overview.approved' | translate}} - {{indices?.faqs?.approved}} </div>
               </div>
               <div class="table-data col-12 row">
                 <div class="col-5 image-with-title">
                   <img src="assets/icons/overview/actions.svg">
-                  <span class="title">Actions</span>
+                  <span class="title">{{'overview.ACTIONS' | translate}}</span>
                 </div>
-                <div class="col-7 data-count">Banking Bot  |  45 Tasks</div>
+                <div class="col-7 data-count" *ngIf="indices?.botActions?.linked_bot_name!=null&&indices?.botActions?.tasks!=0">{{indices?.botActions?.linked_bot_name}}  |  {{indices?.botActions?.tasks}} {{'overview.Tasks' | translate}}</div>
+                <div class="col-7 data-count" *ngIf="indices?.botActions?.linked_bot_name==null&&indices?.botActions?.tasks==0">{{'overview.link_bot' | translate}}</div>
               </div>
             </ng-container>
-            <div class="goto-sources">Go to Sources</div>
+            <div class="goto-sources" (click)="openSource()">{{'overview.go_to_sources' | translate}}</div>
           </ng-container>
-          <ng-container *ngIf="false">
+          <ng-container *ngIf="!loading_skelton&&!show_indices">
             <div class="empty-data">
               <img src="assets/icons/overview/empty-sources.svg">
-              <div class="empty-title">No Sources Yet</div>
-              <div class="create-exp-btn">Add Sources</div>
+              <div class="empty-title">{{'overview.no_sources_yet' | translate}}</div>
+              <div class="create-exp-btn">{{'overview.add_sources' | translate}}</div>
             </div>
           </ng-container>
-          <ng-container *ngIf="false">
+          <ng-container *ngIf="loading_skelton">
             <div class="skelton-img">
               <img src="assets/icons/overview/group-skelton.svg">
             </div>
@@ -468,64 +191,60 @@
       </div>
       <div class="col-6 cards-data row m-0">
         <div class="col-12 inner-content mb-20 right-sec-cards h-auto">
-          <div class="title-heading">Current Subscription Plan</div>
-          <ng-container>
-            <div class="upgrade-btn">Upgrade</div>
+          <div class="title-heading">{{'plan.current_subscription_plan' | translate}}</div>
+          <ng-container *ngIf="!loading_skelton">
+            <div class="upgrade-btn">{{currentPlan?.changesScheduledFor=='none'||currentPlan?.changesScheduledFor=='downgrade'||currentPlan?.planName!='Free'?("plan.upgrade_btn"| translate):(currentPlan?.changesScheduledFor=='cancel'&&currentPlan?.status!='expired')?("plan.revert_cancellation_btn"| translate):("plan.reactivate_btn"| translate)}}</div>
             <div class="free-status-title">
-              <div class="type-plan">Free</div>
-              <div class="started-on">Started On : <span>18 April 2021</span></div>
+              <div class="type-plan">{{currentPlan?.planName}}</div>
+              <div class="started-on">{{'plan.started_on' | translate}} : <span>{{(currentPlan.planName=='Free'?currentPlan.createdAt:currentPlan.changesScheduledFor=='none'?currentPlan.endDate:currentPlan.status=='expired'?currentPlan.expiredOn:currentPlan.endDate)| dateFormatPipe:'D MMMM YYYY'}}</span></div>
             </div>
             <div class="queries-documents">
               <div class="query-type border-">
-                <div class="title-query"><img src="assets/icons/overview/question.svg">Queries</div>
+                <div class="title-query"><img src="assets/icons/overview/question.svg">{{'plan.queries' | translate}}</div>
                 <div class="range-data">
-                  <div class="count-type">28K / <span>10K</span></div>
+                  <div class="count-type">{{usageDetails.searchCount | valueFormat}} / <span>{{usageDetails.searchLimit| valueFormat}}</span></div>
+                  <div style="margin-top: 6px;"><ngb-progressbar height="6px" [type]="usageDetails?.searchQueries<80?'primary':'danger'" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar></div>
                 </div>
               </div>
               <div class="query-type">
-                <div class="title-query"><img src="assets/icons/overview/document.svg">Documents</div>
+                <div class="title-query"><img src="assets/icons/overview/document.svg">{{'plan.documents' | translate}}</div>
                 <div class="range-data">
-                  <div class="count-type">28K / <span>10K</span></div>
+                  <div class="count-type">{{usageDetails.ingestCount| valueFormat}} / <span>{{usageDetails.ingestLimit| valueFormat}}</span></div>
+                  <div style="margin-top: 6px;"><ngb-progressbar height="6px" [type]="usageDetails?.ingestDocs<80?'success':'danger'" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar></div>
                 </div>
               </div>
             </div>
           </ng-container>
-            <ng-container *ngIf="false">
+            <ng-container *ngIf="loading_skelton">
               <div class="skelton-img">
                 <img src="assets/icons/overview/group-skelton.svg">
-                <div class="empty-title">No Experiments created yet</div>
-                <div class="create-exp-btn">Create Experiment</div>
+                <!-- <div class="empty-title">{{'overview.no_experiments_created_yet' | translate}}</div>
+                <div class="create-exp-btn">{{'overview.create_experiment' | translate}}</div> -->
               </div>
             </ng-container>
         </div>   
         <div class="col-12 inner-content right-sec-cards h-auto">
-          <div class="title-heading mb-1">Current Subscription Plan</div>
-          <ng-container>
-            <div class="add-more"><img src="assets/icons/overview/add.svg">Create New</div>
+          <div class="title-heading mb-1">{{'overview.experiments' |translate}}</div>
+          <ng-container *ngIf="!loading_skelton&&experiments.length>0">
+            <div class="add-more"><img src="assets/icons/overview/add.svg" (click)="openExp()">{{'overview.create_New' |translate}}</div>
             <ng-container>
-                <div class="table-experiments col-12 row">
-                  <div class="col-9 title">Boost for FAQs of Dispute Tracking</div>
+                <div class="table-experiments col-12 row" *ngFor="let experiment of experiments">
+                  <div class="col-9 title">{{experiment.name |titlecase}}</div>
                   <div class="col-3 status">
-                    <span class="status-type">Completed</span>
-                  </div>
-                </div>
-                <div class="table-experiments col-12 row">
-                  <div class="col-9 title">Boost for FAQs of Dispute Tracking</div>
-                  <div class="col-3 status">
-                    <span class="status-type active-">Active</span>
+                    <span class="status-type">{{experiment.state |titlecase }}</span>
                   </div>
                 </div>
             </ng-container>
-            <div class="goto-sources">Go to Experiments</div>
+            <div class="goto-sources" (click)="openExp()">{{'overview.go_to_experiments' | translate}}</div>
           </ng-container>
-          <ng-container *ngIf="false">
+          <ng-container *ngIf="!loading_skelton&&experiments.length==0">
             <div class="empty-data">
               <img src="assets/icons/overview/expermintes-empty.svg">
-              <div class="empty-title">No Experiments created yet</div>
-              <div class="create-exp-btn">Create Experiment</div>
+              <div class="empty-title">{{'overview.no_experiments_created_yet' | translate}}</div>
+              <div class="create-exp-btn" (click)="openExp()">{{'overview.create_experiment' | translate}}</div>
             </div>
           </ng-container>
-            <ng-container *ngIf="false">
+            <ng-container *ngIf="loading_skelton">
               <div class="skelton-img">
                 <img src="assets/icons/overview/group-skelton.svg">
               </div>
