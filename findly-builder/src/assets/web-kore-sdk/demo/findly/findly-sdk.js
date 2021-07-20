@@ -5124,7 +5124,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         payload.taskId = resultID;
       }
       if ((_self.vars.previousSearchObj || {}).requestId) {
-        payload.searchResultId = _self.vars.previousSearchObj.requestId;
+        payload.searchRequestId = _self.vars.previousSearchObj.requestId;
       }
 
 
