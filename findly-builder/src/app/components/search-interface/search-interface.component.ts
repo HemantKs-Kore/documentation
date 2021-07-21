@@ -313,7 +313,7 @@ export class SearchInterfaceComponent implements OnInit {
     } else {
       this.clickableDisabled = false;
     }
-
+    this.customizeTemplateObj.template.searchResultlayout.textAlignment = res.layout.textAlignment
     this.customizeTemplateObj.template.typeId = res.type;
     this.templateTypeList.forEach(element => {
       if (element.id == res.type) {
