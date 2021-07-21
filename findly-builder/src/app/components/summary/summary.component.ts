@@ -147,7 +147,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.getQueries("TotalUsersStats");
     this.componentType = 'summary';
     setTimeout(()=>{
-      if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH','SUMMARY')) {
+      if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
         this.inlineManual.openHelp('APP_WALKTHROUGH')
         this.inlineManual.visited('APP_WALKTHROUGH')
       }

@@ -43,6 +43,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   newStageObj: any = {
     addNew: false,
   }
+  isHoverd = false;
   fields: any = [];
   newfieldsData: any = [];
   loadingFields = true;
@@ -713,6 +714,13 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.sourceType = value
       this.simulteObj.sourceType = this.sourceType;
     } else {
+      if(value<1){
+        this.simulateJson.docCount = 1;
+        value = 1;
+      }else if(value>20){
+        this.simulateJson.docCount = 20;
+        value = 20;
+      }
       this.simulteObj.docCount = value
     }
     this.simulate();
