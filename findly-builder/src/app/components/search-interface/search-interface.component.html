@@ -494,17 +494,17 @@
                   </ul>
               </div>                        
             </div>
-            <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1" *ngIf="customizeTemplateObj.template.type == 'Grid' || customizeTemplateObj.template.type == 'Carousel'">
+            <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader'">
               <div class="label-text">{{'resultTemplate.textAlignment' | translate}}</div>
                   
                <div class="group-radiobutton">
                 <!-- <div class="heading-title">Text Alignment</div> -->
                 <div class="kr-sg-radiobutton">
-                    <input id="radioleft" name="radioText" class="radio-custom" type="radio" (change)="customizeTemplateObj.template.searchResultlayout.textAlignment == 'left'" [checked] = "customizeTemplateObj.template.searchResultlayout.textAlignment == 'left'">
+                    <input id="radioleft" name="radioText" class="radio-custom" type="radio" (change)="customizeTemplateObj.template.searchResultlayout.textAlignment = 'left'" [checked] = "customizeTemplateObj.template.searchResultlayout.textAlignment == 'left'">
                     <label for="radioleft" class="radio-custom-label">{{'resultTemplate.leftAligned' | translate}}</label>
                 </div>
                 <div class="kr-sg-radiobutton">
-                    <input id="radioCenter" name="radioText" class="radio-custom" type="radio" (change)="customizeTemplateObj.template.searchResultlayout.textAlignment == 'center'" [checked] = "customizeTemplateObj.template.searchResultlayout.textAlignment == 'center'">
+                    <input id="radioCenter" name="radioText" class="radio-custom" type="radio" (change)="customizeTemplateObj.template.searchResultlayout.textAlignment = 'center'" [checked] = "customizeTemplateObj.template.searchResultlayout.textAlignment == 'center'">
                     <label for="radioCenter" class="radio-custom-label">{{'resultTemplate.centerAligned' | translate}}</label>
                 </div>
             </div> 
@@ -1099,51 +1099,51 @@
           <!-- Tile with Centered Content End -->
 
 
-          <!-- Tile with Header -->
+          <!-- Tile with Header --> 
 
             <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'List Template 1'">
               <div class="result-card">
-                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                <div class="r-title text-truncate m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                 
               </div>
               <div class="result-card">
-                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                <div class="r-title text-truncate m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                 
               </div>
               <div class="result-card">
-                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                <div class="r-title text-truncate m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                 
               </div>
               <div class="result-card">
-                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                <div class="r-title text-truncate m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                 
               </div>           
             </div>
 
             <div class="result-right-sec list-template-2" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'List Template 2'">
               <div class="result-card">
-                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                <div class="r-title text-truncate m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                 
               </div>
               <div class="result-card">
-                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                <div class="r-title text-truncate m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                 
               </div>
               <div class="result-card">
-                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                <div class="r-title text-truncate m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                 
               </div>
               <div class="result-card">
-                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                <div class="r-title text-truncate m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                 
               </div>             
             </div>
 
             <div class="result-right-sec list-template-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'List Template 3'">
               <div class="list-template_3_parent">
                 <div class="result-card">
-                  <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                  <div class="r-title text-truncate m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                 
                 </div>
                 <div class="result-card">
-                  <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                  <div class="r-title text-truncate m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                 
                 </div>
                 <div class="result-card">
-                  <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                  <div class="r-title text-truncate m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                 
                 </div>
                 <div class="result-card">
-                  <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                  <div class="r-title text-truncate m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                 
                 </div>
               </div>              
             </div>
@@ -1152,16 +1152,16 @@
             <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'Grid'">
               <div class="list_gridview_template">
                 <div class="result-card">
-                  <div class="r-title m-0">{{preview_title}}</div>                 
+                  <div class="r-title m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                 
                 </div>
                 <div class="result-card">
-                  <div class="r-title m-0">{{preview_title}}</div>                 
+                  <div class="r-title m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                 
                 </div>
                 <div class="result-card">
-                  <div class="r-title m-0">{{preview_title}}</div>                  
+                  <div class="r-title m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                  
                 </div>
                 <div class="result-card">
-                  <div class="r-title m-0">{{preview_title}}</div>                  
+                  <div class="r-title m-0" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</div>                  
                 </div>
               </div>              
             </div>
@@ -1291,22 +1291,22 @@
               <div class="carousel" id="carousel-default">
                 <div class="slide">
                   <div class="tile_with_header">
-                    <a class="tile-title">{{preview_title}}</a>
+                    <a class="tile-title" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</a>
                   </div>
                 </div>    
                 <div class="slide">
                   <div class="tile_with_header">
-                    <a class="tile-title">{{preview_title}}</a>
+                    <a class="tile-title" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</a>
                   </div>
                 </div>  
                 <div class="slide">
                   <div class="tile_with_header">
-                    <a class="tile-title">{{preview_title}}</a>
+                    <a class="tile-title" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</a>
                   </div>
                 </div>    
                 <div class="slide">
                   <div class="tile_with_header">
-                    <a class="tile-title">{{preview_title}}</a>    
+                    <a class="tile-title" [ngStyle]="{'text-align': customizeTemplateObj.template.searchResultlayout.textAlignment == 'center' ? 'center' : 'left' }">{{preview_title}}</a>    
                   </div>
                 </div>                                              
               </div>

@@ -149,7 +149,7 @@ export class TeamManagementComponent implements OnInit {
         buttons: [{ key: 'yes', label: 'Remove', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
     }
-    if(bulk){
+    if(bulk > 1){
       modalData.newTitle = 'Are you sure you want to delete ?'
       modalData.body = 'Selected members will be removed from this app';
       modalData.buttons[0].label = 'Remove' ;
