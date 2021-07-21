@@ -25,7 +25,7 @@ export class AppSelectionService {
   public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
   public resumingApp = false;
   public currentsubscriptionPlanDetails: any;
-  public inlineManualInfo : any;
+  public inlineManualInfo : any = [];
   res_length: number = 0;
   getTourArray: any = [];
   constructor(
@@ -124,7 +124,7 @@ export class AppSelectionService {
     try {
       previOusState = JSON.parse(window.localStorage.getItem('krPreviousState'));
       this.getCurrentSubscriptionData();
-      this.getInlineManualcall();
+      //this.getInlineManualcall();
     } catch (e) {
     }
     return previOusState;
@@ -185,6 +185,7 @@ export class AppSelectionService {
     //this.headerService.closeSdk();
     // this.headerService.updateSearchConfiguration();
     this.router.navigate(['/summary'], { skipLocationChange: true });
+    this.getInlineManualcall();
     //this.routeChanged.next({ name: undefined, path: '' });
   }
   // currentsubscriptionPlan(id) {

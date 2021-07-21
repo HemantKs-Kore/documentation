@@ -127,7 +127,7 @@ export class InlineManualService {
       }
     });
   }
-  checkVisibility(module) {
+  checkVisibility(module,moduleName?) {
     let visited = false;
     let data = [...this.appSelectionService?.inlineManualInfo];
     // if(this.inlineManualInfo){
@@ -136,6 +136,9 @@ export class InlineManualService {
     //   data = [...this.appSelectionService.inlineManualInfo];
     //   this.inlineManualInfo = [...this.appSelectionService.inlineManualInfo];
     // }
+    if(!data.length && moduleName == "SUMMARY"){
+      return true//this.openHelp('APP_WALKTHROUGH')
+    }
     data.forEach(element => {
       if (element[module]) {
         visited = element[module].visited;
