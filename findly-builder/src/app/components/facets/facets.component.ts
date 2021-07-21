@@ -498,9 +498,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
       buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
       confirmationPopUp: true
     }
-    if(bulk){
+    if(bulk >1 ){
       modalData.newTitle = 'Are you sure you want to delete ?'
-      modalData.body = 'Selected facetsssssssss will be deleted.';
+      modalData.body = 'Selected facets will be deleted.';
       modalData.buttons[0].label = 'Delete' ;
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {

@@ -20,7 +20,7 @@
             <div class="actions text-right col-8 right-sec p-0">
                 <!-- <span class="selected_count mr-4" *ngIf="selcectionObj && selcectionObj.selectedCount">{{selcectionObj.selectedCount}} {{'facets.selected' | translate}}</span> -->
                 <!-- <button id='btn_cancleFacet' ng class="kr-sg-button-secondary btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="addRemovefacetFromSelection(null,null,true)">{{'facets.deselect'| translate}}</button> -->
-                <button id='btn_delete' class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">{{'facets.delete'| translate}}</button>
+                <button id='btn_delete' class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,selcectionObj.selectedCount)">{{'facets.delete'| translate}}</button>
             </div>
         </div>
         <div class="header-sec m-0" [ngClass]="{ 'd-none' : selcectionObj.selectedCount}">
