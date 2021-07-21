@@ -146,10 +146,12 @@ export class SummaryComponent implements OnInit, OnDestroy {
     // this.getSummary();
     this.getQueries("TotalUsersStats");
     this.componentType = 'summary';
-    if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH','SUMMARY')) {
-      this.inlineManual.openHelp('APP_WALKTHROUGH')
-      this.inlineManual.visited('APP_WALKTHROUGH')
-    }
+    setTimeout(()=>{
+      if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH','SUMMARY')) {
+        this.inlineManual.openHelp('APP_WALKTHROUGH')
+        this.inlineManual.visited('APP_WALKTHROUGH')
+      }
+    },1000)
     //this.onboard.openOnBoardingModal();
   }
 

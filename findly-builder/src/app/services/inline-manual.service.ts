@@ -137,7 +137,7 @@ export class InlineManualService {
     //   this.inlineManualInfo = [...this.appSelectionService.inlineManualInfo];
     // }
     if(!data.length && moduleName == "SUMMARY"){
-      return true//this.openHelp('APP_WALKTHROUGH')
+      this.openHelp('APP_WALKTHROUGH');
     }
     data.forEach(element => {
       if (element[module]) {
