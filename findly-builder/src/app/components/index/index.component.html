@@ -815,7 +815,8 @@
         </div>
     </div>
       <div class="close_icon">
-          <span [ngClass]="{'d-none': showSearch}" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')" class="search-mr" id="btn_toggle_search_structured_data" ><img src="assets/icons/search_gray_bg.png" class="search-icon" [ngClass]="{'d-none': showSearch}"></span>
+          <span [ngClass]="{'d-none': showSearch}" (mouseover)="isHoverd = true;"
+          (mouseout)="isHoverd = false;" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')" class="search-mr" id="btn_toggle_search_structured_data" ><img src="{{isHoverd?'assets/icons/search_gray_bg.png':'assets/icons/search_white_bg.png'}}" class="search-icon" [ngClass]="{'d-none': showSearch,'search-icon-hovered':!isHoverd}"></span>
         <img src="assets/images/close.svg" (click)="closeSimulator()" />
       </div>
     </div>
@@ -844,16 +845,16 @@
         <div class="duration-sec">
           <div class="kr-sg-input-text">
             <div class="label-text">{{'workbench.number_of_documents'| translate}}</div>
-            <input type="number" autocomplete="off" class="input-text text-center" min="5" max="20"
+            <input type="number" autocomplete="off" class="input-text text-center" (keyup)="changeSimulate(simulteObj.docCount, 'doc')" min="5" max="20"
               [(ngModel)]="simulteObj.docCount"   />
-            <img src="assets/icons/minus.svg" class="minus" 
+            <img src="assets/icons/minus.png" class="minus" 
               (click)="
               (simulteObj.docCount =
               simulteObj.docCount >= 6
                     ? simulteObj.docCount - 5
                     : 5);changeSimulate(simulteObj.docCount, 'doc');
               " />
-            <img src="assets/icons/plus_gray.svg" class="plus" (click)="
+            <img src="assets/icons/plus_black.png" class="plus" (click)="
               (simulteObj.docCount =
                 simulteObj.docCount <= 19
                     ? simulteObj.docCount + 5
