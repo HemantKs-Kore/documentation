@@ -190,7 +190,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
 
       } else if (type == "TotalSearchesStats") {
         this.totalSearchesStats = res;
-
+        this.loading_skelton = false;
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -277,7 +277,6 @@ export class SummaryComponent implements OnInit, OnDestroy {
         //  if(this.selectedApp.channels.length){
         //   this.channelExist =true;
         // }
-        this.loading_skelton = false;
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

@@ -27,7 +27,7 @@
                 </div>
               </div>
               <div class="graph-sec" *ngIf="totalUsersStats?.percentageIncrease!=0">
-                <img [src]="totalUsersStats.percentageIncrease>=0?'assets/icons/overview/graph-1.svg':'assets/icons/overview/graph-3.svg'">
+                <img [src]="totalUsersStats?.percentageIncrease>=0?'assets/icons/overview/graph-1.svg':'assets/icons/overview/graph-3.svg'">
               </div>
             </div>
             <div class="view-insights" (click)="userViewAll()">View Insights</div>
@@ -202,14 +202,14 @@
               <div class="query-type border-">
                 <div class="title-query"><img src="assets/icons/overview/question.svg">{{'plan.queries' | translate}}</div>
                 <div class="range-data">
-                  <div class="count-type">{{usageDetails.searchCount | valueFormat}} / <span>{{usageDetails.searchLimit| valueFormat}}</span></div>
+                  <div class="count-type">{{usageDetails?.searchCount | valueFormat}} / <span>{{usageDetails?.searchLimit| valueFormat}}</span></div>
                   <div style="margin-top: 6px;"><ngb-progressbar height="6px" [type]="usageDetails?.searchQueries<80?'primary':'danger'" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar></div>
                 </div>
               </div>
               <div class="query-type">
                 <div class="title-query"><img src="assets/icons/overview/document.svg">{{'plan.documents' | translate}}</div>
                 <div class="range-data">
-                  <div class="count-type">{{usageDetails.ingestCount| valueFormat}} / <span>{{usageDetails.ingestLimit| valueFormat}}</span></div>
+                  <div class="count-type">{{usageDetails?.ingestCount| valueFormat}} / <span>{{usageDetails?.ingestLimit| valueFormat}}</span></div>
                   <div style="margin-top: 6px;"><ngb-progressbar height="6px" [type]="usageDetails?.ingestDocs<80?'success':'danger'" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar></div>
                 </div>
               </div>

@@ -7,7 +7,7 @@
         <div class="btn-monthly" [ngClass]="{ 'active-btn' : (termPlan == 'Yearly'&&selectedPlan.billingUnit!=='Yearly'),'btn-disable-active':selectedPlan?.billingUnit == 'Yearly' }" (click)="typeOfPlan('Yearly')">{{"plan.yearly"| translate}}
           <!-- [ngbTooltip]="selectedPlan?.billingUnit == 'Yearly'&&selectedPlan?.planName=='Pro'?'Contact Us if you want to change to monthly plan':''" [container]='"body"' tooltipClass="metrics_tooltips m-0"  -->
           <span class="tooltip_top_">
-            <span (click)="openContactusModel(plan.name)">Contact Us</span> if you want to change to monthly plan
+            <span (click)="openContactusModel(selectedPlan.planName)">Contact Us</span> if you want to change to monthly plan
           </span>
         </div>
         <div class="close_icon ml-4">
@@ -110,7 +110,7 @@
             <!-- disable-text -->
             <div class="btn-monthly" [ngClass]="{'active-btn' : orderConfirmData.billingUnit == 'Monthly','disable-text':((selectedPlan?.billingUnit == 'Yearly'&&['Pro','Standard'].includes(selectedPlan?.planName))||(selectedPlan?.billingUnit == 'Monthly'&&selectedPlan?.planName=='Pro')||(termPlan == 'Yearly'&&selectedPlan?.planName=='Standard'&&orderConfirmData.name=='Standard'))}" (click)="(selectedPlan?.billingUnit == 'Yearly'||selectedPlan?.billingUnit == 'Monthly'&&selectedPlan?.planName=='Pro'||(termPlan == 'Yearly'&&selectedPlan?.planName=='Standard'&&orderConfirmData.name=='Standard'))?null:choosePlanType('Monthly')">{{"plan.monthly"| translate}}
               <span class="tooltip_top_">
-                <span (click)="openContactusModel(plan.name)">Contact Us</span> if you want to change to monthly plan
+                <span (click)="openContactusModel(orderConfirmData.name)">Contact Us</span> if you want to change to monthly plan
               </span>
             </div>
             <!-- btn-disable-active -->
