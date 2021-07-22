@@ -40,7 +40,12 @@
                 }
                 .info-desc{
                     color: #BDC1C6;
-                }             
+                }   
+                .header-info-desc{
+                    width: 636px;
+                    padding-left: 0px;
+                    padding-bottom: 10px;
+                }          
                 .kr-sg-radiobutton {
                     .radio-custom {
                         &:checked{
@@ -73,6 +78,11 @@
                 line-height: 20px;
                 color: #9AA0A6;
                 padding-left: 28px;
+            }
+            .header-info-desc{
+                width: 636px;
+                padding-left: 0px;
+                padding-bottom: 10px;
             }
         }
         .info-link-bot-notification{

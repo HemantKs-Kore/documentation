@@ -41,6 +41,12 @@ export class ActionsComponent implements OnInit {
   searchObject: any = {
    
   };
+  indexPipelineId:any;
+  actionConfig:any = {
+    actionExecution:"auto",
+    actionExperience:"top",
+    actionTemplate: "grid"
+  }
   constructor( 
     public workflowService: WorkflowService,
     private headerService: SideBarService,
@@ -69,8 +75,11 @@ export class ActionsComponent implements OnInit {
     this.checkLoadingContent()
     // streamId: this.selectedApp._id
     this.previewTopBottom = this.workflowService.topDownOrBottomUp
-    this.topDownOrBottomUp('showTop')
+    // this.topDownOrBottomUp('top')
 
+    this.actionConfig.actionExecution = (this.selectedApp ||{}).botActionExecution || "auto";
+    this.actionConfig.actionExperience = (this.selectedApp ||{}).botActionResultsExperience || "top";
+    this.actionConfig.actionTemplate = (this.selectedApp ||{}).botActionTemplate||  "grid";
   }
  
   openActions(){
@@ -101,88 +110,114 @@ export class ActionsComponent implements OnInit {
    
 
   }
-    getAssociatedBots() {
-      if (this.userInfo.id) {
-        const queryParams: any = {
-          userID: this.userInfo.id
-        };
+  getAssociatedBots() {
+    if (this.userInfo.id) {
+      const queryParams: any = {
+        userID: this.userInfo.id
+      };
       this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
-          let bots = JSON.parse(JSON.stringify(res))
-          this.associatedBots =[];
-          this.loader = false;
-          // this.botLinked = false;
-          if(bots.length){
-            bots.forEach(element => {
-              if (element.type == "default" || element.type == "universalbot") {
-                this.associatedBots.push(element)
+        let bots = JSON.parse(JSON.stringify(res))
+        this.associatedBots = [];
+        this.loader = false;
+        // this.botLinked = false;
+        if (bots.length) {
+          bots.forEach(element => {
+            if (element.type == "default" || element.type == "universalbot") {
+              this.associatedBots.push(element)
+            }
+            if (this.streamId == element._id) {
+              if (this.loadingBotContent1 = true) {
+                this.LinkABot = element._id
+                this.loadingBotContent = true
+                this.botLinked = true;
+
+                // this.linkedBotID = element._id
+                // if(this.linkedBotID == element._id){
+                // }
               }
-              if (this.streamId == element._id) {
-                if (this.loadingBotContent1 = true) {
-                  this.LinkABot = element._id
-                  this.loadingBotContent = true
-                  this.botLinked = true;
-                 
-                  // this.linkedBotID = element._id
-                  // if(this.linkedBotID == element._id){
-                  // }
-                }
+            }
+            else if (this.streamId == null) {
+              if (this.loadingBotContent = true) {
+                this.LinkABot != element._id
+                this.botLinked = false;
+                this.loader = false;
               }
-              else if (this.streamId == null) {
-                if (this.loadingBotContent = true) {
-                  this.LinkABot != element._id
-                  this.botLinked = false;
-                  this.loader = false;
-                }
-    
-              }
-            },
+
+            }
+          },
             errRes => {
               this.loader = false;
               this.notificationService.notify('Unable to find bot', 'error')
-            } );
+            });
+        }
+        else {
+          if (this.loadingBotContent = true) {
+            this.LinkABot = null;
+            this.botLinked = false;
+            this.loader = false;
           }
-          else {
-            if (this.loadingBotContent = true) {
-              this.LinkABot = null;
-              this.botLinked = false;
-              this.loader = false;
-            }
-          }
-       
-       
+        }
+
+
       },
       )
-      }
     }
-    topDownOrBottomUp(type) {
-    if (this.previewTopBottom == "top") {
-      this.bottomActionsTop = false;
-      this.bottomActionsBottom = false;
-      if (type === 'showTop') {
-        this.topActionsTop = true;
-        this.topActionsBottom = false;
-
-      }
-      else if (type === 'showBottom') {
-        this.topActionsBottom = true;
-        this.topActionsTop = false;
-      }
-    }
-    else if(this.previewTopBottom == "bottom"){
-      this.topActionsTop = false;
-      this.topActionsBottom = false;
-      if(type == 'showTop'){
-        this.bottomActionsTop = true;
-        this.bottomActionsBottom = false;
-      }
-      if(type == 'showBottom'){
-        this.bottomActionsBottom = true;
-        this.bottomActionsTop = false;
-      }
-
-    }
-
   }
+  topDownOrBottomUp(type) {
+    let payload: any = {};
+    // if (this.previewTopBottom == "top") {
+    //   this.bottomActionsTop = false;
+    //   this.bottomActionsBottom = false;
+    //   if (type === 'top') {
+    //     this.topActionsTop = true;
+    //     this.topActionsBottom = false;
+
+    //   }
+    //   else if (type === 'bottom') {
+    //     this.topActionsBottom = true;
+    //     this.topActionsTop = false;
+    //   }
+    // }
+    // else if (this.previewTopBottom == "bottom") {
+    //   this.topActionsTop = false;
+    //   this.topActionsBottom = false;
+    //   if (type == 'top') {
+    //     this.bottomActionsTop = true;
+    //     this.bottomActionsBottom = false;
+    //   }
+    //   if (type == 'bottom') {
+    //     this.bottomActionsBottom = true;
+    //     this.bottomActionsTop = false;
+    //   }
+
+    // }
+    if (type == 'top' || type == 'bottom') {
+      payload.botActionResultsExperience = type;
+      this.actionConfig.actionExperience = type;
+    }
+    if (type == 'auto' || type == 'manual') {
+      payload.botActionExecution = type;
+      this.actionConfig.actionExecution = type;
+    }
+    if (type == 'grid' || type == 'list' || type == 'carousel') {
+      this.actionConfig.actionTemplate = type;
+      payload.botActionTemplate = type;
+    }
+    this.setActionConfig(payload);
+  }
+  setActionConfig(payload) {
+    const quaryparms: any = {
+      streamId: this.selectedApp._id
+    };
+    this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
+      this.headerService.updateSearchConfiguration();
+      this.notificationService.notify('Action configuration updated successfully', 'success');
+    },
+      errRes => {
+        this.notificationService.notify('Failed to update action configuration', 'error');
+      });
+  }
+
 }
 
 

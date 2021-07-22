@@ -3,18 +3,44 @@
     <div class="actions-body-data"> 
         <div class="group-radiobutton" [ngClass]="{'no-linked' : !botLinked }"> 
             <!-- If it is no linked add this class "no-linked" or remove class -->
-            <div class="heading-title">{{"actions.choose_position" | translate}}</div>
-            <div class="kr-sg-radiobutton d-block" (click)='topDownOrBottomUp("showTop")'>
-                <input id="radio-32" name="radio" class="radio-custom" type="radio" checked> 
-                <label for="radio-32" class="radio-custom-label">{{"actions.actions_at_top" | translate}}</label>
-                <div class="info-desc">{{"actions.top_bot_result_info" | translate}}</div>
+            <div class="heading-title">{{"actions.bot_action_execution_behaviour" | translate}}</div>
+            <div class="info-desc header-info-desc">{{"actions.user_input_can_result_in_the_idenitfication" | translate}}</div>
+            <div class="kr-sg-radiobutton d-block" >
+                <input id="radio-actionExecutionAuto" name="actionExecutionAuto" class="radio-custom" type="radio" value='auto' [(ngModel)]="actionConfig.actionExecution"> 
+                <label for="radioactionExecutionAuto" (click)='topDownOrBottomUp("auto")' class="radio-custom-label">{{"actions.auto_execute_the_winning_intent" | translate}}</label>
             </div> 
-            <div class="kr-sg-radiobutton d-block" (click)='topDownOrBottomUp("showBottom")'>
-                <input id="radio-33" name="radio" class="radio-custom" type="radio">
-                <label for="radio-33" class="radio-custom-label">{{"actions.actions_at_bottom" | translate}}</label>
-                <div class="info-desc">{{"actions.bottom_bot_result_info" | translate}}</div>
+            <div class="kr-sg-radiobutton d-block" >
+                <input id="radio-actionExecutionManual" name="actionExecutionManual" class="radio-custom" type="radio" value='manual' [(ngModel)]="actionConfig.actionExecution">
+                <label for="radio-actionExecutionManual" (click)='topDownOrBottomUp("manual")' class="radio-custom-label">{{"actions.do_not_auto_execute_the_winning_intent" | translate}}</label>
             </div> 
         </div> 
+        <div class="group-radiobutton" [ngClass]="{'no-linked' : !botLinked }"> 
+            <!-- If it is no linked add this class "no-linked" or remove class -->
+            <div class="heading-title ">{{"actions.bot_action_experience" | translate}}</div>
+            <div class="info-desc header-info-desc">{{"actions.define_the_placement_and_template_todisplay_bot_actions" | translate}}</div>
+            <div class="kr-sg-radiobutton d-block" >
+                <input id="radio-actionExperienceTop" name="actionExperienceTop" class="radio-custom" type="radio" value='top' [(ngModel)]="actionConfig.actionExperience"> 
+                <label for="radio-actionExperienceTop" (click)='topDownOrBottomUp("top")' class="radio-custom-label">{{"actions.actions_at_top" | translate}}</label>
+                <div class="info-desc">{{"actions.top_bot_result_info" | translate}}</div>
+            </div> 
+            <div class="kr-sg-radiobutton d-block" >
+                <input id="radioactionExperienceBottom" name="actionExperienceBottom" class="radio-custom" type="radio" value='bottom' [(ngModel)]="actionConfig.actionExperience" >
+                <label for="radio-actionExperienceBottom" (click)='topDownOrBottomUp("bottom")' class="radio-custom-label">{{"actions.actions_at_bottom" | translate}}</label>
+                <div class="info-desc">{{"actions.bottom_bot_result_info" | translate}}</div>
+            </div> 
+        </div>
+
+        <div class="kr-sg-dropdowns w-25">
+            <div class="label-text">{{"actions.choose_template" | translate}}</div>
+            <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{("actions."+actionConfig.actionTemplate) | translate}}</button>                                            
+                <ul class="dropdown-menu content-menu">                                               
+                  <li><a  (click)='topDownOrBottomUp("grid")'>{{"actions.grid" | translate}}</a></li>
+                  <li><a  (click)='topDownOrBottomUp("list")'>{{"actions.list" | translate}}</a></li>
+                  <li><a  (click)='topDownOrBottomUp("carousel")'>{{"actions.carousel" | translate}}</a></li>
+                </ul>
+              </div>
+        </div>
         <div class="mainLoadingSpinner" *ngIf="loader" [@fadeInOutAnimation]>
             <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
             <span class="please-wait-message">{{"please_wait" | translate}}</span>
