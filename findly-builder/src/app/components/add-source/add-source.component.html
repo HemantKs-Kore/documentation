@@ -294,7 +294,10 @@
                               <div class="uploaded-file-name" [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
                                 <div class="file-close-text">
                                   <div class="d-flex align-items-center">
-                                    <img class="type_img" src="assets/icons/file_type_image.svg">
+                                    <img  *ngIf="fileObj.file_ext === 'pdf'"class="type_img" src="assets/icons/file_type_image.svg">
+                                    <img *ngIf="fileObj.file_ext === 'docx'" class="type_img" src="assets/icons/doc_logo.png">
+                                    <img *ngIf="fileObj.file_ext === 'txt'" class="type_img" src="assets/icons/txt_icon.png">
+                                    <img *ngIf="fileObj.file_ext === 'xlsx'" class="type_img" src="assets/icons/excel_logo.svg">
                                     <div class="file-name" [innerHTML]="fileObj.fileName"></div>
                                   </div>
                                   <img src="assets/images/close.svg" class="close-file adjust_z_index" (click)="removeFile()">
@@ -320,7 +323,7 @@
                             <span class="tooltip-text"><img src="assets/icons/help-annotation.svg">
                               <span class="tooltiptext">
                                 <div class="t-text">Use the annotate option to extract only the desired FAQs by marking question & answer pairs</div>
-                                <div class="learn_more">Learn More</div>
+                                <div class="learn_more" ><a href="https://docs.kore.ai/searchassist/source-management/faqs/#Annotate_Extract" target="_blank">Learn More</a></div>
                               </span>
                             </span>
                          

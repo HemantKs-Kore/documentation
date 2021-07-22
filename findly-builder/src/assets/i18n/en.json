@@ -1080,7 +1080,7 @@
         "web": "Web",
         "file": "File",
         "data": "Data",
-        "number_of_documents": "Number of Documents",
+        "number_of_documents": "No. of Documents",
         "documents": "Documents",
         "choose_the_fields_you_would_like_to_add_and_define": "Choose the fields you would like to add and define properties",
         "type": "Type",
