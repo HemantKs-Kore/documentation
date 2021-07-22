@@ -1021,7 +1021,7 @@
         "tour_info": "Shows the Birds eye view of configurations in your App",
         "gotIt": "Got It",
         "totalUsers": "Total Users",
-        "last_24hrs": "Last 30 days",
+        "last_24hrs": "Last 24 Hrs",
         "viewInsights": "View Insights",
         "totalSearches": "Total Searches",
         "resultRate": "Result Rate",
@@ -1058,7 +1058,8 @@
         "create_experiment": "Create Experiment",
         "go_to_experiments": "Go to Experiments",
         "Tasks": "Tasks",
-        "link_bot": "Link a Bot"
+        "link_bot": "Link a Bot",
+        "indices": "Indices"
     },
     "workbench": {
         "index_configuration": "Index Configuration",

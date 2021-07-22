@@ -143,6 +143,9 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.headerService.toggle(toogleObj);
     // this.getSummary();
     this.getQueries("TotalUsersStats");
+    this.getQueries("TotalSearchesStats");
+    this.getAllOverview();
+    this.getCurrentUsage();
     this.componentType = 'summary';
   }
   getSummary() {
@@ -184,11 +187,10 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.service.invoke('get.queries', quaryparms, payload, header).subscribe(res => {
       if (type == "TotalUsersStats") {
         this.totalUsersStats = res;
-        this.getQueries("TotalSearchesStats");
+
       } else if (type == "TotalSearchesStats") {
         this.totalSearchesStats = res;
-        this.getAllOverview();
-        this.getCurrentUsage();
+
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -342,6 +344,9 @@ export class SummaryComponent implements OnInit, OnDestroy {
   openSource() {
     this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/source' });
     // $('#sourceTab').trigger('click');
+  }
+  redirectToPricing() {
+    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/pricing' });
   }
   openOnBoardingModal() {
     this.showOverview = true;

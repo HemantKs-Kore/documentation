@@ -125,7 +125,7 @@
     <div class="body-cards-data row col-12">
       <div class="col-6 cards-data lef-sec-data">
         <div class="inner-content">
-          <div class="title-heading">{{'overview.Sources' | translate}}</div>
+          <div class="title-heading">{{'overview.Sources' | translate}} <span *ngIf="!loading_skelton&&show_indices"> | {{indices?.indexPipeLineCount}} {{'overview.indices' | translate}}</span></div>
           <ng-container *ngIf="!loading_skelton&&show_indices">
             <div class="add-more" (click)="openSource()"><img src="assets/icons/overview/add.svg">{{'overview.add_more' | translate}}</div>
             <ng-container>
@@ -179,7 +179,7 @@
             <div class="empty-data">
               <img src="assets/icons/overview/empty-sources.svg">
               <div class="empty-title">{{'overview.no_sources_yet' | translate}}</div>
-              <div class="create-exp-btn">{{'overview.add_sources' | translate}}</div>
+              <div class="create-exp-btn" (click)="openSource()">{{'overview.add_sources' | translate}}</div>
             </div>
           </ng-container>
           <ng-container *ngIf="loading_skelton">
@@ -193,7 +193,7 @@
         <div class="col-12 inner-content mb-20 right-sec-cards h-auto">
           <div class="title-heading">{{'plan.current_subscription_plan' | translate}}</div>
           <ng-container *ngIf="!loading_skelton">
-            <div class="upgrade-btn">{{currentPlan?.changesScheduledFor=='none'||currentPlan?.changesScheduledFor=='downgrade'||currentPlan?.planName!='Free'?("plan.upgrade_btn"| translate):(currentPlan?.changesScheduledFor=='cancel'&&currentPlan?.status!='expired')?("plan.revert_cancellation_btn"| translate):("plan.reactivate_btn"| translate)}}</div>
+            <div class="upgrade-btn" (click)="redirectToPricing()">{{currentPlan?.changesScheduledFor=='none'||currentPlan?.changesScheduledFor=='downgrade'||currentPlan?.planName!='Free'?("plan.upgrade_btn"| translate):(currentPlan?.changesScheduledFor=='cancel'&&currentPlan?.status!='expired')?("plan.revert_cancellation_btn"| translate):("plan.reactivate_btn"| translate)}}</div>
             <div class="free-status-title">
               <div class="type-plan">{{currentPlan?.planName}}</div>
               <div class="started-on">{{'plan.started_on' | translate}} : <span>{{(currentPlan.planName=='Free'?currentPlan.createdAt:currentPlan.changesScheduledFor=='none'?currentPlan.endDate:currentPlan.status=='expired'?currentPlan.expiredOn:currentPlan.endDate)| dateFormatPipe:'D MMMM YYYY'}}</span></div>
