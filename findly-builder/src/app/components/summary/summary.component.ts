@@ -38,6 +38,10 @@ export class SummaryComponent implements OnInit, OnDestroy {
   onBoardingModalPopRef: any;
   showOverview: boolean = true;
   indexPipeLineCount: number;
+  loading_skelton: boolean;
+  show_indices: boolean;
+  currentPlan: any;
+  usageDetails: any;
   summaryObj: any = {
     contentDocuments: [],
     contentWebDomains: [],
@@ -137,10 +141,11 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
-    this.getSummary();
+    // this.getSummary();
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
     this.getAllOverview();
+    this.getCurrentUsage();
     this.componentType = 'summary';
   }
   getSummary() {
@@ -161,9 +166,9 @@ export class SummaryComponent implements OnInit, OnDestroy {
     //   });
   }
   getQueries(type) {
+    this.loading_skelton = true;
     var today = new Date();
     let from = new Date(Date.now() - (1 * 864e5));
-
     const header: any = {
       'x-timezone-offset': '-330'
     };
@@ -178,13 +183,14 @@ export class SummaryComponent implements OnInit, OnDestroy {
         from: from.toJSON(),
         to: today.toJSON()
       },
-
     }
     this.service.invoke('get.queries', quaryparms, payload, header).subscribe(res => {
       if (type == "TotalUsersStats") {
         this.totalUsersStats = res;
+
       } else if (type == "TotalSearchesStats") {
         this.totalSearchesStats = res;
+
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -248,32 +254,30 @@ export class SummaryComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('get.overview', queryParams).subscribe(
       res => {
-        this.experiments = res.experiments
-        this.activities = res.activities;
-        this.indices = res.indices;
-        this.indexPipeLineCount = this.indices[0].indexPipeLineCount;
-        this.showActivity = this.activities.length > 0 ? this.activities.some(act => act.faqInReviewCount > 0) ? true : false : false;
-        this.activities = this.activities.map(item => {
-          let hours = moment().diff(moment(item.time), 'hours');
-          let days = moment().diff(moment(item.time), 'days');
-          let result = hours > 24 ? days + ' days' : hours + ' hrs';
-          return { ...item, time_format: result };
-        })
-        this.experiments = this.experiments.slice(0, 3).map(data => {
-          let hours = moment().diff(moment(data.end), 'hours');
-          let days = moment().diff(moment(data.end), 'days');
-          let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
-          return { ...data, total_days: days_result + ' more to go', time_result: hours };
-        })
-        // if(this.selectedApp.channels[0].app.appName != '' && this.selectedApp.channels[0].app.clientId!=''){
+        this.experiments = res.experiments;
+        this.indices = res.indices[0];
+        this.show_indices = (this.indices.botActions.tasks > 0 || this.indices.connectors > 0 || this.indices.files > 0 || this.indices.structuredDataCount > 0 || this.indices.web.domains > 0 || this.indices.web.numOfDocs > 0 || this.indices.faqs.in_review > 0 || this.indices.faqs.draft > 0 || this.indices.faqs.approved > 0) ? true : false;
+        let subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
+        this.currentPlan = subscription_data.subscription;
+        // this.activities = res.activities;
+        // this.indexPipeLineCount = this.indices[0].indexPipeLineCount;
+        // this.showActivity = this.activities.length > 0 ? this.activities.some(act => act.faqInReviewCount > 0) ? true : false : false;
+        // this.activities = this.activities.map(item => {
+        //   let hours = moment().diff(moment(item.time), 'hours');
+        //   let days = moment().diff(moment(item.time), 'days');
+        //   let result = hours > 24 ? days + ' days' : hours + ' hrs';
+        //   return { ...item, time_format: result };
+        // })
+        // this.experiments = this.experiments.slice(0, 3).map(data => {
+        //   let hours = moment().diff(moment(data.end), 'hours');
+        //   let days = moment().diff(moment(data.end), 'days');
+        //   let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
+        //   return { ...data, total_days: days_result + ' more to go', time_result: hours };
+        // })
+        //  if(this.selectedApp.channels.length){
         //   this.channelExist =true;
         // }
-        // if (this.selectedApp.channels[0]?.app?.appName != '' && this.selectedApp.channels[0]?.app?.clientId != '') {
-        //   this.channelExist = true;
-         if(this.selectedApp.channels.length){
-          this.channelExist =true;
-        }
-
+        this.loading_skelton = false;
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -285,7 +289,24 @@ export class SummaryComponent implements OnInit, OnDestroy {
     );
   }
 
-
+  //get current usage data of search and queries
+  getCurrentUsage() {
+    this.selectedApp = this.workflowService.selectedApp();
+    const queryParms = {
+      streamId: this.selectedApp._id
+    }
+    const payload = { "features": ["ingestDocs", "searchQueries"] };
+    this.service.invoke('post.usageData', queryParms, payload).subscribe(
+      res => {
+        let docs = Number.isInteger(res.ingestDocs.percentageUsed) ? (res.ingestDocs.percentageUsed) : parseFloat(res.ingestDocs.percentageUsed).toFixed(2);
+        let queries = Number.isInteger(res.searchQueries.percentageUsed) ? (res.searchQueries.percentageUsed) : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
+        this.usageDetails = { ingestCount: res.ingestDocs.used, ingestLimit: res.ingestDocs.limit, ingestDocs: docs, searchQueries: queries, searchCount: res.searchQueries.used, searchLimit: res.searchQueries.limit };
+      },
+      errRes => {
+        // this.errorToaster(errRes, 'Failed to get current data.');
+      }
+    );
+  }
   userViewAll() {
     $('#dashboardTab').trigger('click');
     setTimeout(() => {
@@ -321,7 +342,11 @@ export class SummaryComponent implements OnInit, OnDestroy {
     $('#dashboardTab').trigger('click')
   }
   openSource() {
-    $('#sourceTab').trigger('click')
+    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/source' });
+    // $('#sourceTab').trigger('click');
+  }
+  redirectToPricing() {
+    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/pricing' });
   }
   openOnBoardingModal() {
     this.showOverview = true;
