@@ -226,7 +226,7 @@
         <div class="col-12 inner-content right-sec-cards h-auto">
           <div class="title-heading mb-1">{{'overview.experiments' |translate}}</div>
           <ng-container *ngIf="!loading_skelton&&experiments.length>0">
-            <div class="add-more"><img src="assets/icons/overview/add.svg" (click)="openExp()">{{'overview.create_New' |translate}}</div>
+            <div class="add-more" (click)="openExp()"><img src="assets/icons/overview/add.svg">{{'overview.create_New' |translate}}</div>
             <ng-container>
                 <div class="table-experiments col-12 row" *ngFor="let experiment of experiments">
                   <div class="col-9 title">{{experiment.name |titlecase}}</div>
