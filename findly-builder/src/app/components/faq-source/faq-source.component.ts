@@ -881,10 +881,12 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       else {
         this.loadingFaqs1 = true;
-        if(!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')){
-          this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
-          this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
-        }
+        setTimeout(()=>{
+          if(!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')){
+            this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
+            this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
+          }
+        },1000)
       }
     }, errRes => {
     });
