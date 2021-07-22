@@ -2,9 +2,14 @@
 <kr-modal modalType="center" modalClass="modal_popups_ chooseplan-price" #choosePlanModel>
     <div class="modal-header">
       <div class="title">{{"plan.choose_plan"| translate}}</div>
-      <div class="d-flex align-items-center justify-content-end">
+      <div class="d-flex align-items-center justify-content-end position-relative">
         <div class="btn-monthly" [ngClass]="{'active-btn' : termPlan == 'Monthly','disable-text':selectedPlan?.billingUnit=='Yearly'}" (click)="typeOfPlan('Monthly')">{{"plan.monthly"| translate}}</div>
-        <div class="btn-monthly" [ngClass]="{ 'active-btn' : (termPlan == 'Yearly'&&selectedPlan.billingUnit!=='Yearly'),'btn-disable-active':selectedPlan?.billingUnit == 'Yearly' }" placement="bottom-center" [ngbTooltip]="selectedPlan?.billingUnit == 'Yearly'&&selectedPlan?.planName=='Pro'?'Contact Us if you want to change to monthly plan':''" [container]='"body"' tooltipClass="metrics_tooltips m-0" (click)="typeOfPlan('Yearly')">{{"plan.yearly"| translate}}</div>
+        <div class="btn-monthly" [ngClass]="{ 'active-btn' : (termPlan == 'Yearly'&&selectedPlan.billingUnit!=='Yearly'),'btn-disable-active':selectedPlan?.billingUnit == 'Yearly' }" (click)="typeOfPlan('Yearly')">{{"plan.yearly"| translate}}
+          <!-- [ngbTooltip]="selectedPlan?.billingUnit == 'Yearly'&&selectedPlan?.planName=='Pro'?'Contact Us if you want to change to monthly plan':''" [container]='"body"' tooltipClass="metrics_tooltips m-0"  -->
+          <span class="tooltip_top_">
+            <span (click)="openContactusModel(plan.name)">Contact Us</span> if you want to change to monthly plan
+          </span>
+        </div>
         <div class="close_icon ml-4">
           <img (click)="closeChoosePlanPopup()" src="assets/icons/modal-close.svg">
         </div>

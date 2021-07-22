@@ -25,8 +25,69 @@
                     text-align: center;
                     padding: 6px;
                     border-radius: 4px;
-                    margin-right: 9px;
-                    cursor: pointer;
+                    margin-left: 9px;
+                    cursor: pointer;                               
+                    .tooltip_top_{
+                        visibility: hidden;
+                        position: absolute;
+                        width: 152px;
+                        background-color: #555;
+                        color: #fff;
+                        text-align: center;
+                        padding: 10px 15px;
+                        z-index: 1;
+                        opacity: 0;
+                        transition: opacity .6s;
+                        background: #202124;
+                        box-shadow: 0px -4px 4px rgba(32, 33, 36, 0.2);
+                        border-radius: 4px;
+                        font-weight: 500;
+                        font-size: 10px;
+                        line-height: 14px;
+                        top: 38px;
+                        margin: 0;
+                        left: 30px;
+                        span{
+                            color: #85B7FE;
+                            cursor: pointer;
+                        }
+                        &::before{
+                            content: "";
+                            width: 10px;
+                            height: 10px;
+                            position: absolute;
+                            background: #202124;
+                            top: -5px;
+                            left: 72px;
+                            transform: rotate(-45deg);
+                        }
+                        &::after{
+                            content: "";
+                            position: absolute;
+                            width: 100%;
+                            background: #fff;
+                            height: 7px;
+                            left: 0;
+                            top: -7px;
+                            z-index: -1;
+                        }
+                    }
+                    &.btn-disable-active{
+                        background: #EFF0F1;
+                        border: 1px solid #BDC1C6;
+                        border-radius: 4px;
+                        font-weight: normal;
+                        font-size: 12px;
+                        line-height: 14px;
+                        color: #BDC1C6;
+                        cursor:default !important;
+                        &:hover{
+                            .tooltip_top_{
+                                visibility: visible !important;
+                                opacity: 1 !important;
+                            }
+                        }
+                    }
                     &.active-btn{
                         background: #0D6EFD;
                         color: #fff;
@@ -513,16 +574,7 @@
                                 &.active-btn{
                                     background: #0D6EFD;
                                     color: #fff;
-                                }
-                                // &.btn-disable-active{
-                                //     background: #EFF0F1;
-                                //     border: 1px solid #BDC1C6;
-                                //     border-radius: 4px;
-                                //     font-weight: normal;
-                                //     font-size: 12px;
-                                //     line-height: 14px;
-                                //     color: #BDC1C6;
-                                // }
+                                }                                
                             }
                             .compare-plan{
                                 color: #0D6EFD;
