@@ -556,9 +556,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.inlineManual.visited('CONTENT_SUB_TOPIC')
       }
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentDoc'){
-      if(!this.inlineManual.checkVisibility('CONTENT_SUB_TOPIC')){
-        this.inlineManual.openHelp('CONTENT_SUB_TOPIC')
-        this.inlineManual.visited('CONTENT_SUB_TOPIC')
+      if(!this.inlineManual.checkVisibility('UPLOAD_FILE_SUB_TOPIC')){
+        this.inlineManual.openHelp('UPLOAD_FILE_SUB_TOPIC')
+        this.inlineManual.visited('UPLOAD_FILE_SUB_TOPIC')
       }
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'faqWeb'){
       if(!this.inlineManual.checkVisibility('EXTRACT_FAQ_SUB_TOPIC')){
