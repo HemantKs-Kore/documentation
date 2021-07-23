@@ -189,7 +189,7 @@
           </div>
           <!-- <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div> -->
         </div>
-        <div class="col-12 right_sec">        
+        <div class="col-12 right_sec" *ngIf="bubblePopUp">        
           <div class="content-data p-0 bg-transparent mt-3 h-auto">
             <!-- <ng-container *ngIf="image && image.url">
               <div class="preview-title mt-3 pt-1">IMAGE</div>
@@ -199,14 +199,15 @@
                 </perfect-scrollbar>
               </div>  
             </ng-container>              -->
-              <div class="info-bubble-faq my-0">
+              <div class="info-bubble-faq my-0" >
                 <div class="w-100 d-flex">
                   <div class="info_img">
                     <img src="assets/icons/faq/Info.svg">
                   </div>
-                  <div class="bubnle-info">
+                  <div class="bubnle-info" >
                     {{"addFaq.template_outlook" | translate}} 
                   </div>
+                  <img class="img ml-5"(click)="closebubblePopUp()"src="assets/icons/modal-close.svg">
                 </div>
                 <!-- <div class="know-more-data">Know more</div> -->
             </div>
