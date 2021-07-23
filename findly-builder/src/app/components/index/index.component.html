@@ -847,14 +847,14 @@
             <div class="label-text">{{'workbench.number_of_documents'| translate}}</div>
             <input type="number" autocomplete="off" class="input-text text-center" (keyup)="changeSimulate(simulteObj.docCount, 'doc')" min="5" max="20"
               [(ngModel)]="simulteObj.docCount"   />
-            <img src="assets/icons/minus.png" class="minus" 
+            <img src="assets/icons/minus_black.svg" class="minus" 
               (click)="
               (simulteObj.docCount =
               simulteObj.docCount >= 2
                     ? simulteObj.docCount - 1
                     : 1);changeSimulate(simulteObj.docCount, 'doc');
               " />
-            <img src="assets/icons/plus_black.png" class="plus" (click)="
+            <img src="assets/icons/plus_black.svg" class="plus" (click)="
               (simulteObj.docCount =
                 simulteObj.docCount <= 19
                     ? simulteObj.docCount + 1
