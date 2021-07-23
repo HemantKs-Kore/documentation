@@ -158,8 +158,8 @@
                         </div>
                     </div>
                     <perfect-scrollbar class="table_body_content">
-                        <!-- <div class="table_body row m-0" *ngFor="let field of filelds;let i=index"> -->
-                            <div class="table_body row m-0" *ngFor="let field of filelds | fieldsFilter: [ searchFields, 'fieldName'];let i=index">
+                        <div class="table_body row m-0" *ngFor="let field of filelds;let i=index">
+                            <!-- <div class="table_body row m-0" *ngFor="let field of filelds | fieldsFilter: [ searchFields, 'fieldName'];let i=index"> -->
                             <div class="col-2 title" [title]="field.fieldName">{{field.fieldName}}</div>
                             <div class="col-2 title">{{field.fieldDataType | translate}}</div>
                             <div class="col-2 title">{{field.isMultiValued?'Yes':'No'}}</div>
