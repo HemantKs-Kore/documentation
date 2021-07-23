@@ -67,6 +67,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   currentSubsciptionData: Subscription;
   updateUsageData: Subscription;
   currentPlan: any;
+  upgradeBannerFlag: boolean;
   @Input() show;
   @Input() settingMainMenu;
   @Input() sourceMenu;
@@ -421,6 +422,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       this.currentPlan = res.subscription.planId;
     })
     this.appSelectionService.appSelectedConfigs.subscribe(res => {
+      this.upgradeBannerFlag = (!this.selectedApp?.upgradeBannerRead) ? true : false;
       this.showUpgrade = true;
       this.appSelectionService.getCurrentSubscriptionData();
       this.getCurrentUsage();
@@ -452,6 +454,26 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         this.getCurrentUsage();
       }
     })
+  }
+  //read flag update in readUpgradeBanner
+  readUpgradeBanner() {
+    this.selectedApp = this.workflowService.selectedApp();
+    if (!this.selectedApp?.upgradeBannerRead && this.upgradeBannerFlag) {
+      const queryParms = {
+        streamId: this.selectedApp._id
+      }
+      const payload = { "upgradeBannerRead": true };
+      this.service.invoke('put.upgradeBannerRead', queryParms, payload).subscribe(
+        res => {
+          if (res.upgradeBannerRead) {
+            this.upgradeBannerFlag = false;
+          }
+        },
+        errRes => {
+          this.errorToaster(errRes, 'Failed to send upgrade banner flag');
+        }
+      );
+    }
   }
   //get current usage data of search and queries
   getCurrentUsage() {

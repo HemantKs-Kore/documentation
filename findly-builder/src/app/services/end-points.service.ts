@@ -1098,5 +1098,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/eplead',
       method: 'post'
     }
+    //request for enterprise plan
+    this.serviceList['put.upgradeBannerRead'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/readBanner',
+      method: 'put'
+    }
   }
 }
