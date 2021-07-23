@@ -918,7 +918,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.addConversationContainer = function (config) {
       console.log("this.customSearchResult", this.customSearchResult);
       var searchContainer = '<script type="text/x-jqury-tmpl">\
-        <div class="search-container conversation kore-chat-window liteTheme-one">\
+        <div class="search-container conversation kore-chat-window searchAssist-kore-chat-window liteTheme-one">\
           <div id="searchBox" >\
               </div>\
             <div id="searchChatContainer" class="search-chat-container"></div>\
@@ -939,12 +939,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.addSearchContainer = function (config) {
       if (config.templateId) {
-        $('#' + config.templateId).addClass("search-container conversation kore-chat-window liteTheme-one");
+        $('#' + config.templateId).addClass("search-container conversation kore-chat-window searchAssist-kore-chat-window liteTheme-one");
       } else {
         var searchContainer = '<script type="text/x-jqury-tmpl">\
-        <div id="sa-search-container" class="search-container conversation kore-chat-window liteTheme-one">\
+        <div id="sa-search-container" class="search-container conversation kore-chat-window searchAssist-kore-chat-window liteTheme-one">\
           <div class="custom-insights-control-container">\
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBzZHNEcIgEIWfPwXYgZRAB1KCJdCB6SCWYAcpwRKkA8cK5OopdqC742YGHBJQPPhmvklgdx8Lu0C9dsQNlWqJB9GUJK8yJnsUmpyJK9ER5hsTBCaN/HNxP2bCp6qESSdFOthTYpp8k4OccCS2iFvX+EDckSVOiFu3qJCSDovGGWpWkGPk66biS+Rl8bqqm4iv55nid42+HRu1QZBHrpCXltzIyBCboBOFvIZJR0Y/0f8Z8fgvhJe1I+6Ckz0v6yHuE/H+Cfn+M6AXJD0vAAAAAElFTkSuQmCC">\
+          </div>\
+          <div class="context_variables_textarea hide">\
+            <textarea id="contextjsonfield" name="w3review" rows="4" cols="50" placeholder="Provide context object"></textarea>\
+            <div class="btn_actions">\
+                <button class="button_secondary">Clear</button>\
+                <button class="button_blue">Ok</button>\
+            </div>\
           </div>\
           <div id="searchBox" >\
             <div class="heading {{if koreWidgetSDKInstance.isDev==true}}display-none{{/if}}">\
@@ -1115,9 +1122,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.getSearchTemplate = function (type) {
       var searchContainer = '<script type="text/x-jqury-tmpl">\
-        <div class="search-container conversation kore-chat-window liteTheme-one">\
+        <div class="search-container conversation kore-chat-window searchAssist-kore-chat-window liteTheme-one">\
           <div class="custom-insights-control-container">\
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBzZHNEcIgEIWfPwXYgZRAB1KCJdCB6SCWYAcpwRKkA8cK5OopdqC742YGHBJQPPhmvklgdx8Lu0C9dsQNlWqJB9GUJK8yJnsUmpyJK9ER5hsTBCaN/HNxP2bCp6qESSdFOthTYpp8k4OccCS2iFvX+EDckSVOiFu3qJCSDovGGWpWkGPk66biS+Rl8bqqm4iv55nid42+HRu1QZBHrpCXltzIyBCboBOFvIZJR0Y/0f8Z8fgvhJe1I+6Ckz0v6yHuE/H+Cfn+M6AXJD0vAAAAAElFTkSuQmCC">\
+          </div>\
+          <div class="context_variables_textarea hide">\
+            <textarea id="contextjsonfield" name="w3review" rows="4" cols="50" placeholder="Provide context object"></textarea>\
+            <div class="btn_actions">\
+                <button class="button_secondary">Clear</button>\
+                <button class="button_blue">Ok</button>\
+            </div>\
           </div>\
           <div id="searchBox" >\
             <div class="heading {{if koreWidgetSDKInstance.isDev==true}}display-none{{/if}}">\
@@ -1177,6 +1191,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           </div>\
           <div class="greetingMsg">\
           </div>\
+          <div class="typingIndicatorContent"><div class="typingIndicator"></div><div class="movingDots"></div></div> \
           <div class="search-bar">\
             <div class="widget-icon"><img src="${searchConfig.searchBarIcon}"> </div>\
             {{if searchConfig.autocompleteOpt == true}}\
@@ -3380,7 +3395,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               // Sea all Results 
               var container = $('#show-all-results-container');
               if (!container.length) {
-                $('body').append('<div class="show-all-results-container" id="show-all-results-container"></div>');
+                $('body').append('<div class="show-all-results-container searchAssist-kore-chat-window" id="show-all-results-container"></div>');
                 container = $('#show-all-results-container');
               }
               var dataObj = _self.vars.searchObject.liveData;
@@ -4083,6 +4098,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.search-task').off('click').on('click', function (e) {
         //console.log("faq", e.target.title);
         e.stopPropagation();
+        var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+        $('#searchChatContainer').animate({ scrollTop: scrollBottom });
         _self.pubSub.publish('sa-action-clicked', e);
         var taskName = e.target.title.toLowerCase();
         // var payload = $(e.target).attr('payload');
@@ -4128,7 +4145,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           };
           _self.sendMessage(payload, null, nlMeta);
         }
-
+        if ($('body').hasClass('top-down')) {
+          _self.sendMessageToSearch('user', null, null, (_self.isDev == true) ? true : false);
+        }
         if (_self.isDev || _self.vars.loggedInUser) {
           _self.vars.searchObject.searchText = e.target.title.toLowerCase();
           _self.sendMessageToSearch('botAction');
@@ -6175,15 +6194,27 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       if (res.templateType == undefined) {
         var botResponse;
+        if($('body').hasClass('top-down')){
+          if((res || {}).endOfTask){
+            $('#sa-conversation-box').prop('disabled', true);
+          }
+        }
         if (res.payload == undefined) {
           if (res.cInfo) {
             res.text.cInfo = res.cInfo;
+          }
+          if($('body').hasClass('top-down') && res.isAutoTriggeredBotAction){
+            if (!$('#conversation-container').is(':visible')) {
+              $('#conversation-container').show();
+              $('#sa-conversation-box').prop('disabled', false);
+            }
           }
           botResponse = res.text;
           console.log("Bot Response", botResponse);
           _self.sendMessageToSearch('bot', botResponse);
         }
         else {
+         
           botResponse = res;
           console.log("Bot Response", res);
           _self.sendMessageToSearch('bot', JSON.stringify(botResponse));
@@ -7871,6 +7902,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       $('#' + actionContainer).empty();
                     }
                     $('#' + actionContainer).append(dataHTML);
+                    _self.bindCarouselForActionsTemplate('#' + actionContainer);
                   } else {
                     var dataHTML = $('#' + config.actionTemplateId).tmplProxy(data);
                     if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
@@ -7883,7 +7915,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
                     $('#' + actionContainer).empty();
                   }
-                  $('#' + actionContainer).append(dataHTML);
+                  $('#' + actionContainer).append(dataHTML);               
                 }
               }
             }
@@ -8050,6 +8082,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var overrideDefaultPoisition = false;
     // FindlySDK.prototype.showSearch = function () {
     FindlySDK.prototype.showSearch = function (config, searchConfig, isDev) {
+      if(!$('body').hasClass('searchAssist-defaultTheme-kore')){
+        $('body').addClass('searchAssist-defaultTheme-kore');
+      }
       var _self = this;
       if (!isDev) {
         if (!$('body').hasClass('demo')) {
@@ -8439,6 +8474,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.trainWarningDiv').addClass('showMsg');
           }, 2000);
         }
+        setTimeout(function () {
+          $('.typingIndicatorContent').css('display', 'none');
+        }, 500);
       });
 
     };
@@ -8580,6 +8618,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       attachmentInfo = {};
 
       console.log("Message to Bot", messageToBot);
+      $('.typingIndicatorContent').css('display', 'block');
       _self.bot.sendMessage(messageToBot, function messageSent(err) {
         if (err && err.message) {
           setTimeout(function () {
@@ -17401,6 +17440,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var devMode = _self.isDev ? true : false;
           var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy({ 'selectedFacet': _self.vars.selectedFacetFromSearch || 'all results', 'tasks': data.dataObj.tasks, 'isFullResults': data.isFullResults, appearanceType: 'task', 'devMode': devMode, 'viewType': viewType });
           $(actionContainer).empty().append(dataHTML);
+          _self.bindCarouselForActionsTemplate(actionContainer);
         }
         else if(data.isSearch){
           if(data.container){
@@ -17410,6 +17450,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var devMode = false;
           var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy({ 'selectedFacet': _self.vars.selectedFacetFromSearch || 'all results', 'tasks': data.dataObj.tasks, 'isFullResults': data.isFullResults, appearanceType: 'task', 'devMode': devMode, 'viewType': viewType });
           $(actionContainer).empty().append(dataHTML);
+          _self.bindCarouselForActionsTemplate(actionContainer);
         }
       });
     }
@@ -18921,6 +18962,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $(showAllHTML).off('click', '.search-task').on('click', '.search-task', function (e) {
         e.stopPropagation();
         _self.hideBottomUpAllResults();
+        var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+        $('#searchChatContainer').animate({ scrollTop: scrollBottom });
         var taskName = e.target.title.toLowerCase();
         // var payload = $(e.target).attr('payload');
         var payload;
@@ -20858,7 +20901,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     // Top -down Template //
     FindlySDK.prototype.getTopDownTemplate = function () {
       var topDownTemplate = `<div>
-      <div class="top-down-wrapper">
+      <div class="top-down-wrapper searchAssist-kore-chat-window">
         <div class="topdown-search-main-container">
         <!--<div class="logo_img">-->
              <!--   <img src="data:image/png;base64,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">-->
@@ -21075,6 +21118,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //     container: "conversation-body"
         // });
         $('#conversation-container').show();
+        $('#sa-conversation-box').prop('disabled', false);
         $('#action-title').empty();
         _self.setActionTitle(e.target.getAttribute('title'), 'action-title');
       }
@@ -21164,7 +21208,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.bindPerfectScroll(resultsContainerHtml, '#show-filters-added-data', null, 'y', 'facetsListContainer');
       var conversationContainerHtml = $('#conversation-container');
       _self.bindPerfectScroll(conversationContainerHtml, '#conversations', null, 'y', 'conversationContainer');
-
+      if(!$('body').hasClass('searchAssist-defaultTheme-kore')){
+        $('body').addClass('searchAssist-defaultTheme-kore');
+      }
     }
     FindlySDK.prototype.getTopDownFacetsTabs = function () {
       var topDownFacetsTabs = '<script id="top-down-tabs-template" type="text/x-jqury-tmpl">\
@@ -21182,7 +21228,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if(searchConfigurationCopy && searchConfigurationCopy.botConfig){
         type = searchConfigurationCopy.botConfig.botActionTemplate;
       }
-      var topDownActionTemplate = '';
+      type = "carousel";
+      var topDownActionTemplate = ''; 
       if(type == 'grid'){
       topDownActionTemplate = '<script id="actions-template" type="text/x-jqury-tmpl">\
                                     {{if tasks && tasks.length > 0 }}\
@@ -21201,13 +21248,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         </div>\
                                       {{/if}}\
                                       {{if selectedFacet == appearanceType || selectedFacet == "all results"}}\
-                                        <div class="action-results-container btn_block_actions main-content-title-grid-data">\
+                                        <div class="action-results-container btn_block_actions main-content-title-grid-data new-grid-search-data">\
                                           {{each(key, task) tasks}}\
-                                            <div class="action-content title-box-data">\
-                                                <button id="${key}" class="action-btns search-task title-name text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                                            <div class="title-box-data">\
+                                                <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
                                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
                                                 ${task.titleText}\
-                                                </button>\
+                                                </div>\
                                             </div>\
                                           {{/each}}\
                                         </div>\
@@ -21246,13 +21293,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                       </div>\
                                     {{/if}}\
                                     {{if selectedFacet == appearanceType || selectedFacet == "all results"}}\
-                                      <div class="action-results-container btn_block_actions main-content-title-grid-data">\
+                                      <div class="action-results-container btn_block_actions main-content-title-grid-data new-grid-search-data list-view-data-search">\
                                         {{each(key, task) tasks}}\
-                                          <div class="action-content title-box-data">\
-                                              <button id="${key}" class="action-btns search-task title-name text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                                          <div class="title-box-data">\
+                                              <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
                                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
                                               ${task.titleText}\
-                                              </button>\
+                                              </div>\
                                           </div>\
                                         {{/each}}\
                                       </div>\
@@ -21291,19 +21338,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         </div>\
                                       {{/if}}\
                                       {{if selectedFacet == appearanceType || selectedFacet == "all results"}}\
-                                        <div class="action-results-container btn_block_actions main-content-title-grid-data">\
+                                        <div class="carousel action-results-container">\
                                           {{each(key, task) tasks}}\
-                                            <div class="action-content title-box-data">\
-                                                <button id="${key}" class="action-btns search-task title-name text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
-                                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
-                                                ${task.titleText}\
-                                                </button>\
+                                            <div class="slide">\
+                                              <div class="title-box-data">\
+                                                  <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                                                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
+                                                  ${task.titleText}\
+                                                  </div>\
+                                              </div>\
                                             </div>\
                                           {{/each}}\
                                         </div>\
                                       {{/if}}\
                                     {{/if}}\
-                                    {{if !tasks || tasks.length === 0 }}\
+                                     {{if !tasks || tasks.length === 0 }}\
                                       {{if selectedFacet != "all results"}}\
                                         {{if selectedFacet == appearanceType}}\
                                           {{if isFullResults == true}}\
@@ -22025,6 +22074,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
     }
+    FindlySDK.prototype.bindCarouselForActionsTemplate = function(actionContainer){
+      var _self = this;
+      var type = "grid";
+      if(searchConfigurationCopy && searchConfigurationCopy.botConfig){
+        type = searchConfigurationCopy.botConfig.botActionTemplate;
+      }
+      if(type = 'carousel'){
+        _self.bindCarouselActions($(actionContainer));
+      }
+  }
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
 });
