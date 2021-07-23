@@ -228,10 +228,10 @@ export class ActionsComponent implements OnInit {
     };
     this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
       this.headerService.updateSearchConfiguration();
-      this.notificationService.notify('Action configuration updated successfully', 'success');
+      this.notificationService.notify('Configuration Updated Successfully', 'success');
     },
       errRes => {
-        this.notificationService.notify('Failed to update action configuration', 'error');
+        this.notificationService.notify('Failed to update?', 'error');
       });
   }
 
