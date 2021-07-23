@@ -415,7 +415,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         pipelineId: pipelineId,
         autoSuggestionsURL: baseAPIServer + "searchsdk/stream/" + streamId + '/' + SearchIndexID + "/autoSuggestions"
       };
-      _self.API.uuid = uuid.v4();
+      // _self.API.uuid = uuid.v4();
+      _self.API.uuid =  _self.config.botOptions.userIdentity;
       var botIntigrationUrl = businessTooBaseURL + SearchIndexID + '/linkedbotdetails';
       // if (window.selectedFindlyApp && window.selectedFindlyApp._id) {
       //   $.ajax({
@@ -21228,7 +21229,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if(searchConfigurationCopy && searchConfigurationCopy.botConfig){
         type = searchConfigurationCopy.botConfig.botActionTemplate;
       }
-      type = "carousel";
       var topDownActionTemplate = ''; 
       if(type == 'grid'){
       topDownActionTemplate = '<script id="actions-template" type="text/x-jqury-tmpl">\

@@ -64,7 +64,7 @@
     --sdk-border-morning-glory-color: #a6dce1;
     --sdk-border-blue-ribbon-color: #1372ff;
     --sdk-border-blue-ribbon-approx-color: #0D6EFD;
-    --sdk-border-azure-radiane-blue-color: #0D6EFD;
+    --sdk-border-azure-radiane-blue-color: #007FFF;
     --sdk-border-shakespeare-color: #45A2CE;
     --sdk-border-dodger-blue-color: #2196F3;
     --sdk-border-athens-gray-color: #eaecf0;
@@ -7010,7 +7010,7 @@
 /* search styles */
 body, html{
     margin: 0;
-    font-family: var(--sdk-font-family-inter-sans) !important;
+    /* font-family: var(--sdk-font-family-inter-sans) !important; */
     /* background-image: url(./libs/images/future_Banking.png); */
     /* background-size: cover; */
     height: 100%;
@@ -9415,10 +9415,10 @@ ngb-accordion .card-header {
     color: var(--sdk-white-font-color);
 }
 a, button, div, span, input{
-    font-family: var(--sdk-font-family-inter-sans) !important;
+    /* font-family: var(--sdk-font-family-inter-sans) !important; */
 }
 html *{
-    font-family: var(--sdk-font-family-inter-sans) !important;
+    /* font-family: var(--sdk-font-family-inter-sans) !important; */
 }
 .searchAssist-kore-chat-window .resultsButtons.asstTask{
     margin-bottom: 15px;
