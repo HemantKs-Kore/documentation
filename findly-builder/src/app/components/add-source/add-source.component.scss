@@ -1846,3 +1846,17 @@
 .link-bot-disable.link-bot-btn{
     color: #BDC1C6 !important;
 }
+.link-action-bot-empty{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: calc(100vh - 108px);
+    .title{
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 20px;
+        color: #3C4043;
+        margin: 15px 0;
+    }
+}
