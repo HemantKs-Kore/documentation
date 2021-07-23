@@ -850,14 +850,14 @@
             <img src="assets/icons/minus.png" class="minus" 
               (click)="
               (simulteObj.docCount =
-              simulteObj.docCount >= 6
-                    ? simulteObj.docCount - 5
-                    : 5);changeSimulate(simulteObj.docCount, 'doc');
+              simulteObj.docCount >= 2
+                    ? simulteObj.docCount - 1
+                    : 1);changeSimulate(simulteObj.docCount, 'doc');
               " />
             <img src="assets/icons/plus_black.png" class="plus" (click)="
               (simulteObj.docCount =
                 simulteObj.docCount <= 19
-                    ? simulteObj.docCount + 5
+                    ? simulteObj.docCount + 1
                     : 20);changeSimulate(simulteObj.docCount, 'doc');
               " />
           </div>
