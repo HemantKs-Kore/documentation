@@ -549,7 +549,7 @@ enableDisableCredential(){
     confirmationPopUp: true
   }
   if (this.enableConfiguration) {
-    this.notificationService.notify('“Web SDK channel is enabled.','success')
+    this.notificationService.notify('Web SDK channel is enabled.','success')
     // modalData.newTitle = 'Are you sure you want to Enable ?'
     // modalData.body = 'Channel will be enabled.';
     // modalData.buttons[0].label = 'Enable' ;

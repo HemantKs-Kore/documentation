@@ -109,6 +109,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   linkInfo: any = {}
   responseType: any = 'default'
   isFocused = false;
+  bubblePopUp=true
   synonyms = [];
   uploadImage: any = {};
   newSynonym = ''
@@ -420,6 +421,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
       const tempResponseObj = JSON.parse(JSON.stringify(this.defaultAnsInterface))
       this.faqResponse.defaultAnswers.push(tempResponseObj);
       this.currentEditIndex = this.faqResponse.defaultAnswers.length - 1;
+      this.bubblePopUp=true;
     }
     this.initializeEditResponselayoutEvents();
   }
@@ -1034,5 +1036,9 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     if (this.previewImageModalPopRef && this.previewImageModalPopRef.close) {
       this.previewImageModalPopRef.close();
     }
+  }
+
+  closebubblePopUp(){
+    this.bubblePopUp= false
   }
 }

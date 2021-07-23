@@ -298,6 +298,7 @@
                                     <img *ngIf="fileObj.file_ext === 'docx'" class="type_img" src="assets/icons/doc_logo.png">
                                     <img *ngIf="fileObj.file_ext === 'txt'" class="type_img" src="assets/icons/txt_icon.png">
                                     <img *ngIf="fileObj.file_ext === 'xlsx'" class="type_img" src="assets/icons/excel_logo.svg">
+                                    <img *ngIf="fileObj.file_ext === 'ppt'" class="type_img" src="assets/icons/ppt_logo.png">
                                     <div class="file-name" [innerHTML]="fileObj.fileName"></div>
                                   </div>
                                   <img src="assets/images/close.svg" class="close-file adjust_z_index" (click)="removeFile()">
