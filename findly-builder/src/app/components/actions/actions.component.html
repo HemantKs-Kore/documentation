@@ -30,7 +30,7 @@
                 <label for="radio-actionExperienceTop" (click)='topDownOrBottomUp("top")' class="radio-custom-label">{{"actions.actions_at_top" | translate}}</label>
                 <div class="info-desc">{{"actions.top_bot_result_info" | translate}}</div>
             </div> 
-            <ng-container *ngIf="actionConfig.actionExperience == 'top' && previewTopBottom == 'top'">
+            <ng-container *ngIf="actionConfig.actionExperience == 'top' && previewTopBottom == 'top' && botLinked">
                 <div class="preview-bolock">
                     <div class="preview-heading">{{"actions.preview" | translate}}</div>
                     <div class="display-preview-img">
@@ -38,7 +38,7 @@
                     </div>
                 </div>                
             </ng-container>
-            <ng-container *ngIf="actionConfig.actionExperience == 'top' && previewTopBottom == 'bottom'">
+            <ng-container *ngIf="actionConfig.actionExperience == 'top' && previewTopBottom == 'bottom' && botLinked">
                 <div class="preview-bolock">
                     <div class="preview-heading">{{"actions.preview" | translate}}</div>
                     <div class="display-preview-img">
@@ -51,7 +51,7 @@
                 <label for="radio-actionExperienceBottom" (click)='topDownOrBottomUp("bottom")' class="radio-custom-label">{{"actions.actions_at_bottom" | translate}}</label>
                 <div class="info-desc">{{"actions.bottom_bot_result_info" | translate}}</div>
             </div> 
-            <ng-container *ngIf="actionConfig.actionExperience == 'bottom' && previewTopBottom == 'top'">
+            <ng-container *ngIf="actionConfig.actionExperience == 'bottom' && previewTopBottom == 'top' && botLinked">
                 <div class="preview-bolock">
                     <div class="preview-heading">{{"actions.preview" | translate}}</div>
                     <div class="display-preview-img">
@@ -59,7 +59,7 @@
                     </div>
                 </div>                
             </ng-container>
-            <ng-container *ngIf="actionConfig.actionExperience == 'bottom' && previewTopBottom == 'bottom'">
+            <ng-container *ngIf="actionConfig.actionExperience == 'bottom' && previewTopBottom == 'bottom' && botLinked">
                 <div class="preview-bolock">
                     <div class="preview-heading">{{"actions.preview" | translate}}</div>
                     <div class="display-preview-img">
@@ -83,7 +83,7 @@
             <div class="kr-sg-dropdowns preview-template" ngbDropdown [placement]="'right-center'">                
                 <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" ngbDropdownToggle tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Preview template' placement="top-center">
-                        <img src="{{botLinked?'assets/icons/generalsettings/password.svg' : 'assets/icons/generalsettings/gray_password.png'}}">
+                        <img src="{{botLinked?'assets/icons/generalsettings/password.svg' : 'assets/icons/generalsettings/gray_password.svg'}}">
                     </button>                                            
                     <ul class="dropdown-menu content-menu" ngbDropdownMenu>                                               
                         <div class="preview-actions-dropdown-preview">
