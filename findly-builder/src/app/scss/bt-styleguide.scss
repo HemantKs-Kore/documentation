@@ -1235,6 +1235,11 @@ and open the template in the editor.
     &.show{
         .dropdown-open{
             .dropdown-input{
+                &.before-none{
+                    &::before{
+                        display: none !important;
+                    }
+                }
                 &::before{
                     content: "";                  
                     position: absolute;
@@ -1482,6 +1487,88 @@ and open the template in the editor.
                     &:hover{               
                         background-color: $backgroundColor;
                     }
+                }
+            }
+        }
+    }
+    .content-menu{
+        border: 0;
+        border-radius: 2px;
+        // box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 10px 30px rgba(32, 33, 36, 0.3);
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        z-index: 999999;
+        .kr-sg-checkbox{
+            margin: 0;
+            padding: 9.5px 10px 9.05px 10px;
+        }
+        .search-box{
+            padding: 0 10px;
+            position: relative;
+            &::before{
+                content: "";                  
+                position: absolute;
+                line-height: 34px;
+                font-size: 12px;
+                height: 100%;
+                left: 10px;
+                color: $secondaryColor;  
+                background-image: url('^assets/icons/search.svg');                
+                background-size: 14px;
+                background-repeat: no-repeat; 
+                background-position: center;
+                width: 14px;   
+            }
+            .seach-input{
+                width: 100%;
+                line-height: 34px;
+                height: 34px;
+                border: 0;
+                border-bottom: 1px solid $borderColor;
+                color: $secondaryColor;
+                font-size: 14px;
+                padding-left: 20px;
+                outline: 0 !important;
+                &::placeholder{
+                    color:$secondaryColor;
+                }
+            }
+        }            
+        li{
+            a{
+                line-height: 40px;
+                padding: 0 10px;
+                color: $primaryColor;
+                font-size: 14px;
+                text-decoration: none !important;	
+                display: block;
+                cursor: pointer;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100%;
+                &.selected{
+                    position: relative;
+                    background-color: $backgroundColor;
+                    &::before{
+                        content: "";
+                        background: url("/assets/icons/checkTickIconGray.svg") no-repeat;                            
+                        position: absolute;
+                        line-height: 40px;
+                        height: 100%;
+                        right: 16px;
+                        transition: all 0.3s ease-in;
+                        z-index: 99;                        
+                        height: 100%;
+                        width: 14px;
+                        background-position: center;
+                        background-size: 100%;
+                    }
+                }
+                &:hover{               
+                    background-color: $backgroundColor;
                 }
             }
         }

@@ -24,7 +24,7 @@
                 </div>
               </div>
               <div class="graph-sec" *ngIf="totalUsersStats?.percentageIncrease!=0">
-                <img [src]="totalUsersStats.percentageIncrease>=0?'assets/icons/overview/graph-1.svg':'assets/icons/overview/graph-3.svg'">
+                <img [src]="totalUsersStats?.percentageIncrease>=0?'assets/icons/overview/graph-1.svg':'assets/icons/overview/graph-3.svg'">
               </div>
             </div>
             <div class="view-insights" (click)="userViewAll()">View Insights</div>
@@ -71,6 +71,12 @@
           <ng-container *ngIf="!loading_skelton">
             <div class="title">{{'overview.resultRate' | translate}} <span>({{'overview.last_24hrs' | translate}})</span></div>
             <div class="count-graph-data">
+              <!-- <div class="count-sec">
+                <div class="count">{{totalSearchesStats?.searchesWithResults }} <span class="ctr-data">| {{'overview.Result_rate' | translate}}: <b>{{totalSearchesStats?.resultRate!=null?totalSearchesStats?.resultRate:0}}%</b></span></div>
+                <div class="cont-up-down" *ngIf="![0,null].includes(totalSearchesStats.resultRate)">
+                  <span class="bg-type fail"><img [src]="totalSearchesStats?.increasedResultRate<0?'assets/icons/arrow-decrease.svg':'assets/icons/overview/arrow-increase.svg'"></span>{{totalSearchesStats?.increasedResultRate}}%
+                </div>
+              </div>   -->
               <div class="count-sec">
                 <div class="count">{{totalSearchesStats?.resultRate!=null?totalSearchesStats?.resultRate:0 }}%</div>
                 <div class="cont-up-down" *ngIf="![0,null].includes(totalSearchesStats.resultRate)">
@@ -199,14 +205,14 @@
               <div class="query-type border-">
                 <div class="title-query"><img src="assets/icons/overview/question.svg">{{'plan.queries' | translate}}</div>
                 <div class="range-data">
-                  <div class="count-type">{{usageDetails.searchCount | valueFormat}} / <span>{{usageDetails.searchLimit| valueFormat}}</span></div>
+                  <div class="count-type">{{usageDetails?.searchCount | valueFormat}} / <span>{{usageDetails?.searchLimit| valueFormat}}</span></div>
                   <div style="margin-top: 6px;"><ngb-progressbar height="6px" [type]="usageDetails?.searchQueries<80?'primary':'danger'" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar></div>
                 </div>
               </div>
               <div class="query-type">
                 <div class="title-query"><img src="assets/icons/overview/document.svg">{{'plan.documents' | translate}}</div>
                 <div class="range-data">
-                  <div class="count-type">{{usageDetails.ingestCount| valueFormat}} / <span>{{usageDetails.ingestLimit| valueFormat}}</span></div>
+                  <div class="count-type">{{usageDetails?.ingestCount| valueFormat}} / <span>{{usageDetails?.ingestLimit| valueFormat}}</span></div>
                   <div style="margin-top: 6px;"><ngb-progressbar height="6px" [type]="usageDetails?.ingestDocs<80?'success':'danger'" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar></div>
                 </div>
               </div>

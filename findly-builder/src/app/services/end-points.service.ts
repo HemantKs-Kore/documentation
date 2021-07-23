@@ -801,6 +801,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps?getAppsUsage=:true',
       method: 'get'
     }
+    this.serviceList['get.apiScopes'] = {
+      endpoint: this.API_SERVER_URL + '/findly/seed_data',
+      method: 'get'
+    }
     this.serviceList['delete.credential'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps/:appId',
       method: 'delete'
