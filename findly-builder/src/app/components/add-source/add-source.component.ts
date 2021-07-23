@@ -296,10 +296,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   openAddManualFAQModal() {
     this.addManualFaqModalPopRef = this.addManualFaqModalPop.open();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll3.directiveRef.update();
-      this.perfectScroll3.directiveRef.scrollToTop(); 
-    },500)
+      this.perfectScroll3.directiveRef.scrollToTop();
+    }, 500)
   }
   closeAddManualFAQModal() {
     if (this.addManualFaqModalPopRef && this.addManualFaqModalPopRef.close) {
@@ -316,10 +316,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   openAddSourceModal() {
     this.addSourceModalPopRef = this.addSourceModalPop.open();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(); 
-    },500)
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
   closeAddSourceModal() {
     if (this.addSourceModalPopRef && this.addSourceModalPopRef.close) {
@@ -330,10 +330,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   openLinkBotsModal() {
     this.linkBotsModalPopRef = this.linkBotsModalPop.open();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll4.directiveRef.update();
-      this.perfectScroll4.directiveRef.scrollToTop(); 
-    },500)
+      this.perfectScroll4.directiveRef.scrollToTop();
+    }, 500)
   }
   closeLinkBotsModal() {
     if (this.linkBotsModalPopRef && this.linkBotsModalPopRef.close) {
@@ -847,10 +847,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           delete crawler.advanceOpts.maxUrlLimit;
         }
-        if(this.allowUrl.url){
+        if (this.allowUrl.url) {
           this.allowUrls(this.allowUrl);
         }
-        if(this.blockUrl.url){
+        if (this.blockUrl.url) {
           this.blockUrls(this.blockUrl);
         }
         // crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
@@ -868,9 +868,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             }
           }
         }
-       
+
         quaryparms.resourceType = resourceType;
-       
+
       }
 
       if (resourceType === 'file') {
@@ -1517,10 +1517,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           clientId: ''
         }
         this.botsConfigurationModalRef = this.botsConfigurationModalElement.open();
-        setTimeout(()=>{
+        setTimeout(() => {
           this.perfectScroll9.directiveRef.update();
-          this.perfectScroll9.directiveRef.scrollToTop(); 
-        },500)
+          this.perfectScroll9.directiveRef.scrollToTop();
+        }, 500)
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
