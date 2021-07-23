@@ -38,6 +38,9 @@
             line-height: 17px;
             color: #202124;
         }
+        .label-text.no-linked{
+            color: #BDC1C6;
+        }
         .group-radiobutton{
             &.no-linked{               
                 pointer-events: none;   
@@ -101,7 +104,7 @@
             align-items: center;
             width: 515px;
             position: relative;
-            margin: 20px 0 0 0;
+            margin: 15px 0 20px 0;
             .title-text{
                 color: #07377F;
                 font-weight: normal;
@@ -133,6 +136,22 @@
         .dropdown-actions-preview{
             display: flex;
             align-items: center;
+            &.no-linked{               
+                pointer-events: none;   
+                .dropdown-open {
+                    .dropdown-input{
+                        border: 1px solid #BDC1C6;
+                        color: #BDC1C6;
+                    }
+                }
+                .preview-template{
+                    .dropdown-open {
+                        .dropdown-input{
+                            background:  #F8F9FA;
+                        }
+                    }
+                }
+            }
             .choose-template{
                 width: 290px;
             }

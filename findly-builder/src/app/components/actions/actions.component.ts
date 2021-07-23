@@ -74,14 +74,31 @@ export class ActionsComponent implements OnInit {
     // this.getAssociatedBots()
     this.checkLoadingContent()
     // streamId: this.selectedApp._id
-    this.previewTopBottom = this.workflowService.topDownOrBottomUp
+    this.previewTopBottom = this.workflowService.topDownOrBottomUp;
+    if(!this.workflowService.topDownOrBottomUp){
+      this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if (this.indexPipelineId) {
+      this.getSearchExperience();
+    }
+    }
     // this.topDownOrBottomUp('top')
 
     this.actionConfig.actionExecution = (this.selectedApp ||{}).botActionExecution || "auto";
     this.actionConfig.actionExperience = (this.selectedApp ||{}).botActionResultsExperience || "top";
     this.actionConfig.actionTemplate = (this.selectedApp ||{}).botActionTemplate||  "grid";
   }
- 
+  getSearchExperience() {
+    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      indexPipelineId: this.indexPipelineId
+    };
+    this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
+      this.previewTopBottom = ((res||{}).experienceConfig ||{}).searchBarPosition || 'top';
+    }, errRes => {
+      console.log(errRes);
+    });
+  }
   openActions(){
     this.router.navigate(['/botActions'], { skipLocationChange: true });
     this.headerService.updateShowHideSettingsMenu(false);

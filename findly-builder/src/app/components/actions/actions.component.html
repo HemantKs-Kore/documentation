@@ -1,6 +1,13 @@
 <div class="actions-container-comp">
     <div class="header-title">{{"actions.actions" | translate}}</div>
     <div class="actions-body-data"> 
+        <ng-container *ngIf="loadingBotContent">
+            <div class="info-link-bot-notification" *ngIf="!botLinked">
+                <img src="assets/icons/actions/info.svg">
+                <div class="title-text">{{"actions.link_bot_to_customize_actions" | translate}}</div>
+                <div class="link-bot-link" (click)="openActions()">{{"actions.link_a_bot" | translate}}</div>
+            </div>
+        </ng-container>
         <div class="group-radiobutton mb-3" [ngClass]="{'no-linked' : !botLinked }"> 
             <!-- If it is no linked add this class "no-linked" or remove class -->
             <div class="heading-title">{{"actions.bot_action_execution_behaviour" | translate}}</div>
@@ -23,11 +30,19 @@
                 <label for="radio-actionExperienceTop" (click)='topDownOrBottomUp("top")' class="radio-custom-label">{{"actions.actions_at_top" | translate}}</label>
                 <div class="info-desc">{{"actions.top_bot_result_info" | translate}}</div>
             </div> 
-            <ng-container>
+            <ng-container *ngIf="actionConfig.actionExperience == 'top' && previewTopBottom == 'top'">
                 <div class="preview-bolock">
                     <div class="preview-heading">{{"actions.preview" | translate}}</div>
                     <div class="display-preview-img">
-                        <img src="assets/icons/actions/bottom-up-preview.svg">
+                        <img src="assets/icons/actions/top-down-top-actions.svg">
+                    </div>
+                </div>                
+            </ng-container>
+            <ng-container *ngIf="actionConfig.actionExperience == 'top' && previewTopBottom == 'bottom'">
+                <div class="preview-bolock">
+                    <div class="preview-heading">{{"actions.preview" | translate}}</div>
+                    <div class="display-preview-img">
+                        <img src="assets/icons/actions/bottom-up-top-actions.svg">
                     </div>
                 </div>                
             </ng-container>
@@ -36,17 +51,25 @@
                 <label for="radio-actionExperienceBottom" (click)='topDownOrBottomUp("bottom")' class="radio-custom-label">{{"actions.actions_at_bottom" | translate}}</label>
                 <div class="info-desc">{{"actions.bottom_bot_result_info" | translate}}</div>
             </div> 
-            <ng-container>
+            <ng-container *ngIf="actionConfig.actionExperience == 'bottom' && previewTopBottom == 'top'">
                 <div class="preview-bolock">
                     <div class="preview-heading">{{"actions.preview" | translate}}</div>
                     <div class="display-preview-img">
-                        <img src="assets/icons/actions/bottom-up-preview.svg">
+                        <img src="assets/icons/actions/top-down-bottom-actions.svg">
+                    </div>
+                </div>                
+            </ng-container>
+            <ng-container *ngIf="actionConfig.actionExperience == 'bottom' && previewTopBottom == 'bottom'">
+                <div class="preview-bolock">
+                    <div class="preview-heading">{{"actions.preview" | translate}}</div>
+                    <div class="display-preview-img">
+                        <img src="assets/icons/actions/bottom-up-bottom-actions.svg">
                     </div>
                 </div>                
             </ng-container>
         </div>
-        <div class="label-text mb-1">{{"actions.choose_template" | translate}}</div>
-        <div class="dropdown-actions-preview">
+        <div class="label-text mb-1" [ngClass]="{'no-linked' : !botLinked }">{{"actions.choose_template" | translate}}</div>
+        <div class="dropdown-actions-preview" [ngClass]="{'no-linked' : !botLinked }">
             <div class="kr-sg-dropdowns choose-template">                
                 <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{("actions."+actionConfig.actionTemplate) | translate}}</button>                                            
@@ -60,11 +83,11 @@
             <div class="kr-sg-dropdowns preview-template" ngbDropdown [placement]="'right-center'">                
                 <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" ngbDropdownToggle tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Preview template' placement="top-center">
-                        <img src="assets/icons/generalsettings/password.svg">
+                        <img src="{{botLinked?'assets/icons/generalsettings/password.svg' : 'assets/icons/generalsettings/gray_password.png'}}">
                     </button>                                            
                     <ul class="dropdown-menu content-menu" ngbDropdownMenu>                                               
                         <div class="preview-actions-dropdown-preview">
-                            <ng-container *ngIf="true">
+                            <ng-container *ngIf="actionConfig.actionTemplate == 'grid'">
                                 <div class="grid-view-preview">
                                     <div class="grid_item">
                                         <div class="inner-data-grid">Bot Action 1</div>
@@ -80,7 +103,7 @@
                                     </div>
                                 </div>
                             </ng-container>
-                            <ng-container *ngIf="false">
+                            <ng-container *ngIf="actionConfig.actionTemplate == 'carousel'">
                                 <div class="carousel-preview">
                                     <div class="carousel_item">
                                         <div class="carousel-title">Bot Action 1</div>
@@ -93,7 +116,7 @@
                                     </div>
                                 </div>
                             </ng-container>
-                            <ng-container *ngIf="false">
+                            <ng-container *ngIf="actionConfig.actionTemplate == 'list'">
                                 <div class="list-view-preview">
                                     <div class="list_view_title">Bot Action 1</div>
                                     <div class="list_view_title">Bot Action 1</div>
@@ -109,13 +132,7 @@
             <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
             <span class="please-wait-message">{{"please_wait" | translate}}</span>
         </div>
-        <ng-container *ngIf="loadingBotContent">
-            <div class="info-link-bot-notification" *ngIf="!botLinked">
-                <img src="assets/icons/actions/info.svg">
-                <div class="title-text">{{"actions.link_bot_to_customize_actions" | translate}}</div>
-                <div class="link-bot-link" (click)="openActions()">{{"actions.link_a_bot" | translate}}</div>
-            </div>
-        </ng-container>
+        
         <!-- <ng-container *ngIf="loadingBotContent1">
             <div class="preview-bolock" *ngIf="botLinked">
                 <div class="preview-heading">{{"actions.preview" | translate}}</div>
