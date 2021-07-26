@@ -13094,7 +13094,7 @@ border: 0;
     position: relative;
     z-index: 1;
 }
-.searchAssist-kore-chat-window .searchAssist-kore-chat-window .show-all-results-outer-wrap .customization .customization-tile .actions-content .action-item .tooltiptext{
+.searchAssist-kore-chat-window .show-all-results-outer-wrap .customization .customization-tile .actions-content .action-item .tooltiptext{
     visibility: hidden;
     position: absolute;
     width: 55px;
