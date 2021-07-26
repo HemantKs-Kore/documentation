@@ -21338,10 +21338,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         </div>\
                                       {{/if}}\
                                       {{if selectedFacet == appearanceType || selectedFacet == "all results"}}\
-                                        <div class="carousel action-results-container">\
+                                        <div class="carousel action-results-container carousel-search-data-items">\
                                           {{each(key, task) tasks}}\
                                             <div class="slide">\
-                                              <div class="title-box-data">\
+                                              <div class="title-box-data text-truncate">\
                                                   <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
                                                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
                                                   ${task.titleText}\
