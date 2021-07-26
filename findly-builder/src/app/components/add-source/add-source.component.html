@@ -808,12 +808,16 @@
     <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll4>
       <div class="modal-body">
         <div class="bots-modal-empty-bots-container" *ngIf="noAssociatedBots">
-          <img src="assets/images/icons/empty_ill.svg">
-          <h2>No Bots</h2>
-          <h4>Please add bots</h4>
+          <div class="link-action-bot-empty">
+            <div class="img-block">
+              <img src="assets/icons/actions/no-link-bot-action.svg">
+            </div>
+            <div class="title">{{'botAction.please_subscribe_to_the_kore'| translate}}</div>
+            <button class="kr-sg-button-primary btn_lg" (click)="navigateToBotBuilder()"><img src="assets/icons/actions/external.svg" class="pr-2">{{'botAction.bots_platform'| translate}}</button>
+        </div>
         </div>
         <ng-container *ngIf="!noAssociatedBots">
-          <div class="info-link-text">Choose any bot from the list to link it to your SearchAssist app.</div>
+          <div class="info-link-text">{{'botAction.choose_any_bot_from_the_list'| translate}}</div>
           <div class="kr-sg-input-text">          
             <input type="text"placeholder="Search" [(ngModel)]="searchAssociatedBots" name="searchAssociatedBots" class="input-text" maxlength="60"> 
             <img class="search-icon" src="assets/images/search_gray.svg">        
@@ -821,25 +825,25 @@
           <ng-container>
             <div class="link-bot-table">
               <div class="table-header col-12 row">
-                  <div class="col-6 title">Bot Name</div>
-                  <div class="col-6 title">Owner</div>
+                  <div class="col-6 title">{{'botAction.bot_name'| translate}}</div>
+                  <div class="col-6 title">{{'botAction.owner'| translate}}</div>
               </div>
               <div class="table-body-link-bot row col-12"  *ngFor="let bot of associatedBots | filter: [searchAssociatedBots, 'name']">
                 <div class="col-6 bot-name-data row m-0">
                   <div class="col-8 name-with-type">
-                    {{bot.name}} <span class="bot-type" *ngIf="bot.type==='universalbot'">Universal Bot</span>
+                    {{bot.name}} <span class="bot-type" *ngIf="bot.type==='universalbot'">{{'botAction.universal_bot'| translate}}</span>
                   </div>
                   <div class="col-4 shares-data">
-                      <img src="assets/icons/actions/shares.svg">{{bot.publishedTasksCount}} Tasks
+                      <img src="assets/icons/actions/shares.svg">{{bot.publishedTasksCount}} {{'botAction.tasks'| translate}}
                   </div>
                 </div>
                 <div class="col-3 owner-name">{{bot.createdBy.firstName}} {{bot.createdBy.lastName}}</div>
                 <div class="col-3 link-bot-actions">
                   <div class="link-bot-btn" (click)="openBotsConfigurationModalElement(bot,linkedBotID)" placement="left" [ngbTooltip]="(linkedBotID ?'Please Unlink the linked bot':null)" container='body' [ngClass]="{'link-bot-disable':linkedBotID}"*ngIf="streamID !== bot._id">
-                    <img src="{{!linkedBotID?'assets/icons/actions/link-bot.svg':'assets/icons/actions/link-bot-disable.svg'}}">Link Bot
+                    <img src="{{!linkedBotID?'assets/icons/actions/link-bot.svg':'assets/icons/actions/link-bot-disable.svg'}}">{{'botAction.link_bot'| translate}}
                   </div>
                   <div class="link-bot-btn" (click)="unlinkBot(bot._id)" *ngIf="streamID == bot._id">
-                    <img src="assets/icons/actions/link-bot.svg">Unlink Bot
+                    <img src="assets/icons/actions/link-bot.svg">{{'botAction.unlink_bot'| translate}}
                   </div>
                   <!-- <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12"> -->
                 </div>

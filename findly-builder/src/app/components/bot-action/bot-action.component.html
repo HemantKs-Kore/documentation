@@ -210,7 +210,7 @@
                   </div> -->
                   <div class="content-sec">
                       <div class="primary-title" >{{task.name}}</div>
-                      <div class="secondary-title">{{'botAction.bot_related_task'| translate}}</div>
+                      <div class="secondary-title">{{task.shortDesc || '--'}}</div>
                   </div>
                 </div>
                 <div class="col-3 bot-icon-url"><img src="{{task.botIconUrl}}">{{task.botName}}</div>
