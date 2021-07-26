@@ -691,14 +691,12 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     this.closeAllBoxs('all');
     this.show_tab_color2 = true;
     let obj = { "experienceConfig": this.searchObject.searchExperienceConfig, "widgetConfig": this.searchObject.searchWidgetConfig, "interactionsConfig": this.searchObject.searchInteractionsConfig };
-    console.log("obj", obj);
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       indexPipelineId: this.indexPipelineId
     };
     this.service.invoke('put.searchexperience', quaryparms, obj).subscribe(res => {
-      console.log("test res", res);
       this.searchIcon = res.widgetConfig.searchBarIcon;
       this.headerService.closeSdk();
       this.headerService.updateSearchConfiguration();

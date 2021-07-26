@@ -475,14 +475,14 @@ app-mainmenu{
 	.status-type{
 		width: 12px;
 		height: 12px;		
-		border: 2px solid #EFF0F1;
 		position: absolute;
 		border-radius: 100%;
 		right: -5px;
-		background: #FFDA2D;
+		//background: #FFDA2D;
 		top: -5px;
 		&.red{
 			background: #DD3646;
+			border: 2px solid #EFF0F1;
 		}
 	}
 	&:hover{

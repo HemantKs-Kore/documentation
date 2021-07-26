@@ -14,9 +14,9 @@
             </div>
             <!-- <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                 -->
             <div class="date-select">
-                <span class="day time " (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">24 Hrs</span>
-                <span class="week time" (click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">7 Days</span>
-                <span class="custom time" (click)="getDateRange(-1)" [ngClass]="{'selected': defaultSelectedDay === -1}">Custom</span>
+                <span class="day time " (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">{{'metrics.dash_board_view.24_Hrs'| translate}}</span>
+                <span class="week time" (click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">{{'metrics.dash_board_view.7_Days'| translate}}</span>
+                <span class="custom time" (click)="getDateRange(-1)" [ngClass]="{'selected': defaultSelectedDay === -1}">{{'metrics.dash_board_view.Custom'| translate}}Custom</span>
             </div>
             <div class="export"><img src="assets/icons/share.svg"></div>
         </div>
@@ -68,10 +68,11 @@
                 <div class="col cards-data">
                     <div class="content">
                         <div class="title-info">{{'metrics.dash_board_view.result_rate'| translate}}
-                            <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="Total number of searches performed during the selected period" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"></div>
+                            <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="Total number of searches that returned at least one result" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"></div>
                         <div class="bottom-sec">
                             <div class="left-sec">
                                 <div class="count">{{totalSearchesStats.resultRate }}%</div>
+                                <!-- <div class="count">{{totalSearchesStats.searchesWithResults }}<span class="ctr">{{'metrics.dash_board_view.Result_Rate'| translate}}: <span class="ctr-count">{{totalSearchesStats.resultRate}}%</span></span></div> -->
                                 <div class="data-percentage " [ngClass]="{'failed' : totalSearchesStats.increasedResultRate < 0}">
                                     <img src="assets/icons/arrow-increase.svg" *ngIf="totalSearchesStats.increasedResultRate >= 0">
                                     <img src="assets/icons/arrow-decrease.svg" *ngIf="totalSearchesStats.increasedResultRate < 0">
@@ -99,7 +100,7 @@
                                 </div>
                             </div> -->
                             <div class="left-sec col-12 p-0">
-                                <div class="count">{{totalSearchesStats.clicks }}<span class="ctr">CTR: <span class="ctr-count">{{totalSearchesStats.ctr}}%</span></span>
+                                <div class="count">{{totalSearchesStats.clicks }}<span class="ctr">{{'metrics.dash_board_view.CTR'| translate}}: <span class="ctr-count">{{totalSearchesStats.ctr}}%</span></span>
                                 </div>
                                 <div class="data-percentage " [ngClass]="{'failed' : totalSearchesStats.clickRate < 0}">
                                     <img src="assets/icons/arrow-increase.svg" *ngIf="totalSearchesStats.clickRate >= 0">
