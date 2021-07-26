@@ -19,7 +19,7 @@ export class AppSelectionService {
   public appSelected = new Subject<any>();
   public getTourConfigData = new Subject<any>();
   public currentSubscription = new Subject<any>();
-  public refreshSummaryPage = new Subject<any>();
+  // public refreshSummaryPage = new Subject<any>();
   public updateUsageData = new Subject<any>();
   public routeChanged = new BehaviorSubject<any>({ name: undefined, path: '' });
   public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });

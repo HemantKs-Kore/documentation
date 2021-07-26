@@ -88,6 +88,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     clientId: ''
   }
   importFaqInprogress = false;
+  btnDisabled: boolean = true;
   selectedLinkBotConfig: any;
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;

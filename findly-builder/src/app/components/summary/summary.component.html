@@ -237,7 +237,7 @@
                 <div class="table-experiments col-12 row" *ngFor="let experiment of experiments">
                   <div class="col-9 title">{{experiment.name |titlecase}}</div>
                   <div class="col-3 status">
-                    <span class="status-type">{{experiment.state |titlecase }}</span>
+                    <span class="status-type" [ngClass]="experiment.state">{{experiment.state |titlecase }}</span>
                   </div>
                 </div>
             </ng-container>
