@@ -50,7 +50,7 @@ export class CredentialsListComponent implements OnInit {
   };
   componentType: string = 'addData';
   @ViewChild('addCredential') addCredential: KRModalComponent;
-  @ViewChild('editCredential') editCredentialPop: KRModalComponent;
+  @ViewChild('editCredentialPop') editCredentialPop: KRModalComponent;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -101,7 +101,8 @@ export class CredentialsListComponent implements OnInit {
     );
   }
   newCredential() {
-    this.editCredentialRef = this.editCredential.open();
+    // this.editCredentialRef = this.editCredentialPop.open();
+    this.addCredentialRef = this.addCredential.open();
   }
   closeModalPopup() {
     this.credntial.name = [];
