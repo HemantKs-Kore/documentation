@@ -16,9 +16,9 @@
             <div class="date-select">
                 <span class="day time " (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">{{'metrics.dash_board_view.24_Hrs'| translate}}</span>
                 <span class="week time" (click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">{{'metrics.dash_board_view.7_Days'| translate}}</span>
-                <span class="custom time" (click)="getDateRange(-1)" [ngClass]="{'selected': defaultSelectedDay === -1}">{{'metrics.dash_board_view.Custom'| translate}}Custom</span>
+                <span class="custom time" (click)="getDateRange(-1)" [ngClass]="{'selected': defaultSelectedDay === -1}">{{'metrics.dash_board_view.Custom'| translate}}</span>
             </div>
-            <div class="export"><img src="assets/icons/share.svg"></div>
+            <div class="export d-none"><img src="assets/icons/share.svg"></div>
         </div>
     </div>
     <perfect-scrollbar class="scroll_content">
