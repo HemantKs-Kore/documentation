@@ -439,8 +439,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadingTab = true;
     this.manualFilterSelected = false;
     if (source) {
+      this.selectedResource = null;
       if (this.selectedResource && (this.selectedResource._id === source._id)) {
-        this.selectedResource = null;
         this.getfaqsBy();
         this.getStats();
         // this.faqUpdateEvent();
@@ -450,8 +450,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getStats(source._id);
         this.faqUpdateEvent();
       }
-
-
+     
     } else {
       this.selectedResource = null;
       this.getfaqsBy(null, this.selectedtab);
