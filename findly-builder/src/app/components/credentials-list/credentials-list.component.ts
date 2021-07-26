@@ -101,7 +101,7 @@ export class CredentialsListComponent implements OnInit {
     );
   }
   newCredential() {
-    this.addCredentialRef = this.addCredential.open();
+    this.editCredentialRef = this.editCredential.open();
   }
   closeModalPopup() {
     this.credntial.name = [];
@@ -109,7 +109,7 @@ export class CredentialsListComponent implements OnInit {
     this.addCredentialRef.close();
   }
   editnewCredential(event, data) {
-    this.editCredentialRef = this.editCredentialPop.open()
+    this.addCredentialRef = this.addCredential.open()
     this.editTitleFlag = true;
     this.editCredential = data;
     this.editCredential.anonymus = false;
