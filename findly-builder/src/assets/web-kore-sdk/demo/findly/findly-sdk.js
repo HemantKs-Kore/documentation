@@ -5544,6 +5544,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
           _self.pubSub.unsubscribe('sa-input-keyup');
           _self.pubSub.publish('sa-handel-go-button');
+          _self.hideBottomUpAllResults();
           _self.pubSub.subscribe('sa-input-keyup', (msg, data) => {
             if ($('body').hasClass('top-down')) {
               $('.top-down-suggestion').val('');
