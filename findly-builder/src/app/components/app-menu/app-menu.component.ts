@@ -458,7 +458,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   //read flag update in readUpgradeBanner
   readUpgradeBanner() {
     this.selectedApp = this.workflowService.selectedApp();
-    if (!this.selectedApp?.upgradeBannerRead && this.upgradeBannerFlag) {
+    if (!this.selectedApp?.upgradeBannerRead && this.upgradeBannerFlag && (this.usageDetails.ingestDocs >= 80 || this.usageDetails.searchQueries >= 80)) {
       const queryParms = {
         streamId: this.selectedApp._id
       }

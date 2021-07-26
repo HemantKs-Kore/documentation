@@ -41,6 +41,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   allowUrl: AllowUrl = new AllowUrl();
   allBotArray: any = [];
   showMore = false;
+  botBulilderUrl = '';
   @ViewChild('botsConfigurationModalElement') botsConfigurationModalElement: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('perfectScroll3') perfectScroll3: PerfectScrollbarComponent;
@@ -1549,7 +1550,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.submitted = false;
     }
   }
-  openBotsConfigurationModalElement(bot) {
+  openBotsConfigurationModalElement(bot, isBotLinked?) {
+    if(isBotLinked){
+      return;
+    }
     this.selectedLinkBotConfig = bot;
     const queryParams = {
       searchIndexID: this.searchIndexId
@@ -1630,6 +1634,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       )
     }
   }
+  navigateToBotBuilder () {
+    this.workflowService.seedData$.subscribe((res:any)=>{
+      this.botBulilderUrl = (res ||{}).botsPlatformUrl;
+    });
+    window.open(this.botBulilderUrl, '_blank');
+  };
   saveLink() {
     this.submitted = true;
     if (!this.validateBotConfiguration()) {

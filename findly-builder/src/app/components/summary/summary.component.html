@@ -71,18 +71,18 @@
           <ng-container *ngIf="!loading_skelton">
             <div class="title">{{'overview.resultRate' | translate}} <span>({{'overview.last_24hrs' | translate}})</span></div>
             <div class="count-graph-data">
-              <!-- <div class="count-sec">
+              <div class="count-sec">
                 <div class="count">{{totalSearchesStats?.searchesWithResults }} <span class="ctr-data">| {{'overview.Result_rate' | translate}}: <b>{{totalSearchesStats?.resultRate!=null?totalSearchesStats?.resultRate:0}}%</b></span></div>
                 <div class="cont-up-down" *ngIf="![0,null].includes(totalSearchesStats.resultRate)">
                   <span class="bg-type fail"><img [src]="totalSearchesStats?.increasedResultRate<0?'assets/icons/arrow-decrease.svg':'assets/icons/overview/arrow-increase.svg'"></span>{{totalSearchesStats?.increasedResultRate}}%
                 </div>
-              </div>   -->
-              <div class="count-sec">
+              </div>  
+              <!-- <div class="count-sec">
                 <div class="count">{{totalSearchesStats?.resultRate!=null?totalSearchesStats?.resultRate:0 }}%</div>
                 <div class="cont-up-down" *ngIf="![0,null].includes(totalSearchesStats.resultRate)">
                   <span class="bg-type fail"><img [src]="totalSearchesStats?.increasedResultRate<0?'assets/icons/arrow-decrease.svg':'assets/icons/overview/arrow-increase.svg'"></span>{{totalSearchesStats?.increasedResultRate}}%
                 </div>
-              </div>
+              </div> -->
               <div class="graph-sec" *ngIf="![0,null].includes(totalSearchesStats.resultRate)">
                 <img [src]="totalSearchesStats?.increasedResultRate>=0?'assets/icons/overview/graph-1.svg':'assets/icons/overview/graph-3.svg'">
               </div>

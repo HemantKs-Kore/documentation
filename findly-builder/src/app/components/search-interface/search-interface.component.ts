@@ -28,6 +28,7 @@ export class SearchInterfaceComponent implements OnInit {
   selectedApp: any;
   serachIndexId: any;
   indexPipelineId: any;
+  allFieldData: any;
   heading_fieldData: any;
   desc_fieldData: any;
   img_fieldData: any;
@@ -640,17 +641,21 @@ export class SearchInterfaceComponent implements OnInit {
     if (type == 'heading') {
       this.customizeTemplateObj.template.resultMapping.heading = field.fieldName;
       this.customizeTemplateObj.template.resultMapping.headingId = field._id;
-      this.preview_title = field.fieldName
+      this.preview_title = field.fieldName;
+      this.heading_fieldData = [...this.allFieldData];
     } else if (type == 'description') {
       this.customizeTemplateObj.template.resultMapping.description = field.fieldName;
       this.customizeTemplateObj.template.resultMapping.descriptionId = field._id;
-      this.preview_desc = field.fieldName
+      this.preview_desc = field.fieldName;
+      this.desc_fieldData= [...this.allFieldData];
     } else if (type == 'image') {
       this.customizeTemplateObj.template.resultMapping.image = field.fieldName;
       this.customizeTemplateObj.template.resultMapping.imageId = field._id;
+      this.img_fieldData = [...this.allFieldData];
     } else if (type == 'url') {
       this.customizeTemplateObj.template.resultMapping.url = field.fieldName;
       this.customizeTemplateObj.template.resultMapping.urlId = field._id;
+      this.url_fieldData = [...this.allFieldData];
     }
   }
   copyResultSettings(interfaceType){
@@ -952,11 +957,12 @@ export class SearchInterfaceComponent implements OnInit {
       query
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
-      this.heading_fieldData = res;
-      this.desc_fieldData = res;
-      this.img_fieldData = res;
-      this.url_fieldData = res;
-      this.fieldData = res;
+      this.heading_fieldData = [...res];
+      this.desc_fieldData = [...res];
+      this.img_fieldData = [...res];
+      this.url_fieldData = [...res];
+      this.fieldData = [...res];
+      this.allFieldData = [...res];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');
     });
