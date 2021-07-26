@@ -14440,3 +14440,7 @@ padding: 0;
     width: 100%;
     transform: rotate(180deg);
 }
+
+.searchAssist-kore-chat-window .ps__rail-y{
+    z-index: 99999 !important;
+}
