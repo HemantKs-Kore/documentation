@@ -8478,7 +8478,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         setTimeout(function () {
           $('.typingIndicatorContent').css('display', 'none');
-        }, 500);
+        }, 300);
       });
 
     };
