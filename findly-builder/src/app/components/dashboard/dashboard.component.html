@@ -71,7 +71,7 @@
                             <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="Total number of searches that returned at least one result" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"></div>
                         <div class="bottom-sec if-ctr-value-available">
                             <div class="left-sec">
-                                <div class="count text-truncate" title="{{totalSearchesStats.resultRate }}%">{{totalSearchesStats.resultRate }}%</div>
+                                <div class="count text-truncate" title="{{totalSearchesStats.resultRate }}%">{{totalSearchesStats.resultRate==null?0:totalSearchesStats.resultRate}}</div>
                                 <!-- <div class="count">{{totalSearchesStats.searchesWithResults }}<span class="ctr">{{'metrics.dash_board_view.Result_Rate'| translate}}: <span class="ctr-count">{{totalSearchesStats.resultRate}}%</span></span></div> -->
                                 <div class="data-percentage" [ngClass]="{'failed' : totalSearchesStats.increasedResultRate < 0}">
                                     <img src="assets/icons/arrow-increase.svg" *ngIf="totalSearchesStats.increasedResultRate >= 0">
@@ -81,7 +81,7 @@
                             </div>
                             <div class="right-sec">
                                 <div class="ctr">Result rate:
-                                    <span class="ctr-count">70%</span>
+                                    <span class="ctr-count">{{totalSearchesStats.searchesWithResults}}%</span>
                                 </div>
                                 <div class="graph-img">
                                     <img *ngIf="totalSearchesStats.increasedResultRate >= 0" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
