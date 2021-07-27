@@ -308,6 +308,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.restorepreviousState();
         self.loading = false;
       });
+      //this.appSelectionService.getInlineManualcall();
     }
 
     // Set loading state to false in both of the below events to hide the spinner in case a request fails
