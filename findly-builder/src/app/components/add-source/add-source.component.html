@@ -792,7 +792,7 @@
       </perfect-scrollbar>
       <div class="modal-footer">
         <!-- [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" -->
-        <button class="kr-sg-button-primary btn_lg mr-3" (click)="validateSource()">Proceed</button>
+        <button class="kr-sg-button-primary btn_lg mr-3" (click)="validateSource()" [disabled]="btnDisabled">Proceed</button>
         <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition()">Cancel</button>
       </div>
     </form>
