@@ -7117,7 +7117,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // }
 
       if (url != this.API.livesearchUrl) {
-        payload['maxNumOfResults'] = 10;
+        if(!payload.maxNumOfResults){
+          payload['maxNumOfResults'] = 10;
+        }
         payload['pageNumber'] = _self.vars.scrollPageNumber
       }
       if (this.bot.options) {
@@ -18365,6 +18367,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           payload.filters.push(selectedTopFacet);
         }
+        if(selectedFacet == 'web' && _self.pageConfig.fullSearchInterface.type == "carousel"){
+          payload.maxNumOfResults = 50;
+        }
+        else if(selectedFacet == 'faq' && _self.faqConfig.fullSearchInterface.type == "carousel"){
+          payload.maxNumOfResults = 50;
+        }
+        else if(selectedFacet == 'file' && _self.documentConfig.fullSearchInterface.type == "carousel"){
+          payload.maxNumOfResults = 50;
+        }
+        else if(selectedFacet == 'data' && _self.structuredDataConfig.fullSearchInterface.type == "carousel"){
+          payload.maxNumOfResults = 50;
+        }
       } else {
         if ($('body').hasClass('top-down')) {
           let filters = payload.filters;
@@ -18461,7 +18475,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
 
     FindlySDK.prototype.handlePaginationUI = function (selectedFacet, data) {
-      if (selectedFacet && data.facets[selectedFacet] > 10 && (selectedFacet != 'task')) {
+      var _self = this;
+      if(selectedFacet == 'web' && _self.pageConfig.fullSearchInterface.type == "carousel"){
+        $('.kore-sdk-pagination-div').hide();
+      }
+      else if(selectedFacet == 'faq' && _self.faqConfig.fullSearchInterface.type == "carousel"){
+        $('.kore-sdk-pagination-div').hide();
+      }
+      else if(selectedFacet == 'file' && _self.documentConfig.fullSearchInterface.type == "carousel"){
+        $('.kore-sdk-pagination-div').hide();
+      }
+      else if(selectedFacet == 'data' && _self.structuredDataConfig.fullSearchInterface.type == "carousel"){
+        $('.kore-sdk-pagination-div').hide();
+      }
+      else if (selectedFacet && data.facets[selectedFacet] > 10 && (selectedFacet != 'task')) {
         $('.kore-sdk-pagination-div').show();
       }
       else {
