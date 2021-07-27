@@ -4010,10 +4010,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.vars.scrollPageNumber = 0;
           if (selectedFacet === 'all results') {
             $('.kore-sdk-pagination-div').hide();
+            if(_self.vars.totalNumOfResults==0){
+              $('#top-down-all-tab-empty-state').removeClass('hide');
+            }else{
+              $('#top-down-all-tab-empty-state').addClass('hide');
+            }
             _self.invokeSpecificSearch(selectedFacet)
             _self.prepAllSearchData(selectedFacet, true);
 
           } else {
+            if(!$('#top-down-all-tab-empty-state').hasClass('hide')){
+              $('#top-down-all-tab-empty-state').addClass('hide');
+            }
             _self.invokeSpecificSearch(selectedFacet)
           }
 
@@ -6443,6 +6451,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           setTimeout(function () {
             _self.bindStructuredDataTriggeringOptions();
+            if(_self.vars.totalNumOfResults==0){
+              $('#top-down-all-tab-empty-state').removeClass('hide');
+            }else{
+              $('#top-down-all-tab-empty-state').addClass('hide');
+            }
           }, 100);
         }
 
