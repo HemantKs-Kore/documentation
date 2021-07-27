@@ -422,7 +422,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       this.currentPlan = res.subscription.planId;
     })
     this.appSelectionService.appSelectedConfigs.subscribe(res => {
-      this.upgradeBannerFlag = (!this.selectedApp?.upgradeBannerRead) ? true : false;
       this.showUpgrade = true;
       this.appSelectionService.getCurrentSubscriptionData();
       this.getCurrentUsage();
@@ -434,6 +433,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
     })
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
+      this.upgradeBannerFlag = (!this.selectedApp?.upgradeBannerRead) ? true : false;
       this.queryConfigs = res;
       res.forEach(element => {
         this.configObj[element._id] = element;
