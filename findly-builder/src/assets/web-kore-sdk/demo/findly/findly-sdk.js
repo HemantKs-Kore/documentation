@@ -1487,8 +1487,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               </div>\
               {{/if}}\
               {{if taskPrefix !== "SUGGESTED"}}\
-                <div class="actions-search-container">\
-                </div>\
                 <div class="faqs-data-container">\
                 </div>\
                 <div class="web-data-container">\
@@ -5268,6 +5266,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('#suggestion').val('');
         $('.search-container').removeClass('active');
         $('#show-all-results-container').hide();
+        $('.typingIndicatorContent').css('display', 'none');
         _self.vars.selectedFacetFromSearch = "all results"
       })
       //_self.bindSearchActionEvents();
@@ -6490,7 +6489,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               customSearchResult: _self.customSearchResult,
               totalSearchResults: totalSearchResults
             });
-            _self.pubSub.publish('sa-action-full-search', { container: '.actions-search-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
+            setTimeout( function () {
+              _self.appendActionsContainerForBottomUp('search');
+              _self.pubSub.publish('sa-action-full-search', { container: '.actions-search-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
+            }, 300);
             setTimeout( function () {
               _self.bindSearchActionEvents();
             }, 500);
@@ -7789,7 +7791,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.customSearchResult = false;
       var structuredDataContainer = '';
       if ($('body').hasClass('top-down')) {
-        var actionsPosition = 'bottom';
+        var actionsPosition = 'top';
+        if(searchConfigurationCopy && searchConfigurationCopy.botConfig){
+          actionsPosition = searchConfigurationCopy.botConfig.botActionResultsExperience;
+        }
         let actionParentContainer = `<div id="actions-container" class="quick-actions-container"></div>`;
         if (actionsPosition == 'top') {
           $('.content-data-sec').prepend(actionParentContainer);
@@ -13959,6 +13964,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $('.refresh-sdk').off('click').on('click', function (e) {
         $('#show-all-results-container').hide();
+        $('.typingIndicatorContent').css('display', 'none');
         $('.search-container').removeClass('active');
         _self.vars.selectedFacetFromSearch = "all results"
         var responseObject = { 'type': 'refreshSearchContainer', data: false, query: _self.vars.searchObject.searchText, bottomUp: true }
@@ -13966,6 +13972,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       $('.kore-search-container-close-icon').off('click').on('click', function (e) {
         $('#show-all-results-container').hide();
+        $('.typingIndicatorContent').css('display', 'none');
         $('.search-container').removeClass('active');
         _self.vars.selectedFacetFromSearch = "all results"
         var responseObject = { 'type': 'closeSearchContainer', data: false, query: _self.vars.searchObject.searchText, bottomUp: true }
@@ -21510,13 +21517,27 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $("body").append("<style>#search::placeholder,  .cancel-search .cross {color:" + config.searchConfig.searchBarPlaceholderTextColor + "!important;}</style>")
     }
 
-    FindlySDK.prototype.appendActionsContainerForBottomUp = function () {
-      var actionsPosition = 'top';
-      let actionParentContainer = `<div id="actions-full-search-container" class="quick-actions-full-search-container"></div>`;
-      if (actionsPosition === 'top') {
-        $('.data-body-sec').prepend(actionParentContainer);
-      } else {
-        $('.custom-add-result-container').after(actionParentContainer);
+    FindlySDK.prototype.appendActionsContainerForBottomUp = function (from) {
+      var actionsPosition = 'bottom';
+      if(searchConfigurationCopy && searchConfigurationCopy.botConfig){
+        actionsPosition = searchConfigurationCopy.botConfig.botActionResultsExperience;
+      }
+      let actionParentContainer;
+      if(from && from == 'search'){
+        actionParentContainer = `<div class="actions-search-container"></div>`;
+        if (actionsPosition === 'top') {
+          $('.faqs-data-container').last().before(actionParentContainer);
+        } else {
+          $('.bottom-search-show-all-results').last().before(actionParentContainer);
+        }
+      }
+      else{
+        actionParentContainer = `<div id="actions-full-search-container" class="quick-actions-full-search-container"></div>`;
+        if (actionsPosition === 'top') {
+          $('.data-body-sec').prepend(actionParentContainer);
+        } else {
+          $('.custom-add-result-container').after(actionParentContainer);
+        }
       }
     }
     FindlySDK.prototype.frequentlySearchedRecentTextClickEvent = function () {
