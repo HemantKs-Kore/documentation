@@ -5355,6 +5355,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (!e.target.value.length) {
               return;
             }
+            $('#autoSuggestionContainer').addClass('hide');
             if ($('body').hasClass('top-down')) {
               _self.vars.enterIsClicked = true;
             }
@@ -5604,6 +5605,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   }
                   _self.hideAutoSuggestion();
                 } else {
+                  $('#autoSuggestionContainer').removeClass('hide');
                   if (!$('body').hasClass('top-down')) { // bottomUp
                     _self.hideBottomUpAllResults();
                   } else {
@@ -20006,6 +20008,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 querySuggestionsLimit: (searchConfigurationCopy.querySuggestionsLimit || (searchConfigurationCopy.querySuggestionsLimit == 0)) ? searchConfigurationCopy.querySuggestionsLimit : 2
               });
               if ($('.search-body').find('.resultsOfSearch').length) {
+                $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
+              }
+              else if(searchConfigurationCopy.liveSearchResultsLimit == 0) {
                 $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
               }
             }
