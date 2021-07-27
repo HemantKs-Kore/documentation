@@ -19061,7 +19061,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.kore-sdk-bottom-up-previous').removeClass('disabled');
         $('.kore-sdk-bottom-up-first').removeClass('disabled');
       }
-      if (_self.vars.totalNumOfResults < ((_self.vars.scrollPageNumber + 1) * 10)) {
+      if (data.facets[selectedFacet] < ((_self.vars.scrollPageNumber + 1) * 10)) {
         $('.kore-sdk-bottom-up-next').addClass('disabled');
         $('.kore-sdk-bottom-up-last').addClass('disabled');
       }
