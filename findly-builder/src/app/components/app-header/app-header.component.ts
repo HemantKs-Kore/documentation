@@ -613,7 +613,7 @@ export class AppHeaderComponent implements OnInit {
   //open app
   openApp(app) {
     this.appSelectionService.openApp(app);
-    this.appSelectionService.refreshSummaryPage.next('changed');
+    //this.appSelectionService.refreshSummaryPage.next('changed');
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     setTimeout(() => {
       this.workflowService.mainMenuRouter$.next('');

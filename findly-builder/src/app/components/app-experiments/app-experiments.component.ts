@@ -70,7 +70,6 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
   loadingContent1: boolean;
   currentSubscriptionPlan: any;
   currentSubsciptionData: Subscription;
-  // componentType: string = 'addData';
   ctrTooltip: string = 'Click Through Rate is the percentage of searches which got at least one click of all the searches performed';
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();

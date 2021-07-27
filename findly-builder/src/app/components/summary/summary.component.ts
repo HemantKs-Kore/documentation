@@ -100,7 +100,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
   };
   subscription: Subscription;
   showActivity: boolean;
-  routeRefresh: Subscription;
+  //routeRefresh: Subscription;
+  currentUsageSubscription: Subscription;
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
   @ViewChild('onboard') onboard: UseronboardingJourneyComponent;
   constructor(
@@ -119,12 +120,19 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.showOverview = res.findlyOverviewVisited;
     })
-    this.routeRefresh = this.appSelectionService.refreshSummaryPage.subscribe(res => {
-      if (res == 'changed') {
-        this.initialCall();
-        this.onboard?.initialCall();
-        this.appSelectionService.getTourConfig();
-      }
+    // this.routeRefresh = this.appSelectionService.refreshSummaryPage.subscribe(res => {
+    //   if (res == 'changed') {
+    //     this.initialCall('changed');
+    //     this.onboard?.initialCall();
+    //     this.appSelectionService.getTourConfig();
+    //   }
+    // })
+    this.currentUsageSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
+      let subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
+      this.currentPlan = subscription_data.subscription;
+      this.initialCall('changed');
+      this.onboard?.initialCall();
+      this.appSelectionService.getTourConfig();
     })
   }
   // closeOverview() {
@@ -132,7 +140,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
   //   this.showOverview = true
   // }
   //initial ngoninit method call
-  initialCall() {
+  initialCall(status?) {
     const toogleObj = {
       title: 'Summary',
       toShowWidgetNavigation: this.workflowService.showAppCreationHeader()
@@ -144,7 +152,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     // this.getSummary();
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
-    this.getAllOverview();
+    this.getAllOverview(status);
     this.getCurrentUsage();
     this.componentType = 'summary';
   }
@@ -248,7 +256,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
       }
     );
   }
-  getAllOverview() {
+  getAllOverview(status?) {
     const queryParams = {
       searchIndexId: this.serachIndexId,
     }
@@ -257,8 +265,10 @@ export class SummaryComponent implements OnInit, OnDestroy {
         this.experiments = res.experiments;
         this.indices = res.indices[0];
         this.show_indices = (this.indices.botActions.tasks > 0 || this.indices.connectors > 0 || this.indices.files > 0 || this.indices.structuredDataCount > 0 || this.indices.web.domains > 0 || this.indices.web.numOfDocs > 0 || this.indices.faqs.in_review > 0 || this.indices.faqs.draft > 0 || this.indices.faqs.approved > 0) ? true : false;
-        let subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
-        this.currentPlan = subscription_data.subscription;
+        if (status == undefined) {
+          let subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
+          this.currentPlan = subscription_data.subscription;
+        }
         // this.activities = res.activities;
         // this.indexPipeLineCount = this.indices[0].indexPipeLineCount;
         // this.showActivity = this.activities.length > 0 ? this.activities.some(act => act.faqInReviewCount > 0) ? true : false : false;
@@ -360,6 +370,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : null;
-    this.routeRefresh ? this.routeRefresh.unsubscribe() : null;
+    //this.routeRefresh ? this.routeRefresh.unsubscribe() : null;
+    this.currentUsageSubscription ? this.currentUsageSubscription.unsubscribe() : null;
   }
 }
