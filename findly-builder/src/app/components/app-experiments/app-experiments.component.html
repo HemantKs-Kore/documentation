@@ -192,13 +192,14 @@
                 <div class="bg-sec">
                   <div class="row m-0 col-12 acc-row-header">
                     <div class="col-2 title">{{"experiments.variant"| translate}}</div>
-                    <div class="col-2 title">{{"experiments.index"| translate}}</div>
+                    <div class="col-1 title">{{"experiments.index"| translate}}</div>
                     <div class="col-2 title">{{"experiments.search_config"| translate}}</div>
                     <div class="col-1 title">{{"experiments.traffic"| translate}}</div>
                     <div class="col-1 title">{{"experiments.users"| translate}}</div>
                     <div class="col-1 title">{{"experiments.searches"| translate}}</div>
                     <div class="col-1 title">{{"experiments.clicks"| translate}}</div>
-                    <div class="col-2 title">{{"experiments.ctr"| translate}}  <span placement="top-center" [ngbTooltip]="ctrTooltip" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span></div>
+                    <div class="col-1 title">{{"experiments.ctr"| translate}}  <span placement="top-center" [ngbTooltip]="ctrTooltip" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span></div>
+                    <div class="col-2 title">{{"experiments.searches_results"| translate}}</div>
                   </div>
                   <div class="row m-0 col-12 acc-row-body align-items-center" *ngFor="let expCol of exp.variants">
                     <div class="col-2 d-flex varient-data align-items-center">
@@ -208,7 +209,7 @@
                       <div class="name">
                         {{ expCol.name }}</div>
                     </div>
-                    <div class="col-2 title">
+                    <div class="col-1 title">
                       {{ expCol.indexPipelineName }}
                     </div>
                     <div class="col-2 title">
@@ -218,13 +219,14 @@
                     <div class="col-1 title">{{ expCol.users || 0 }}</div>
                     <div class="col-1 title">{{ expCol.searches }}</div>
                     <div class="col-1 title">{{ expCol.clicks }}</div>
-                    <div class="col-2 title" [class.leader_percent]="(expCol.searches > 0) && (expCol.leader)">
+                    <div class="col-1 title" [class.leader_percent]="(expCol.searches > 0) && (expCol.leader)">
                       {{
                       expCol.ctr > 0
                       ? expCol.ctr.toFixed(2) + "%"
                       : expCol.ctr
                       }}
                     </div>
+                    <div class="col-2 title">{{ expCol.searchesWithResults }}</div>
                   </div>
                   <div class="v-search-config">
                     <span (click)="addExperiment('edit', exp)">{{"experiments.view_configuration"| translate}}</span>

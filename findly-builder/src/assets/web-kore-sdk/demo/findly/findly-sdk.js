@@ -1487,8 +1487,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               </div>\
               {{/if}}\
               {{if taskPrefix !== "SUGGESTED"}}\
-                <div class="actions-search-container">\
-                </div>\
                 <div class="faqs-data-container">\
                 </div>\
                 <div class="web-data-container">\
@@ -4056,9 +4054,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         window.localStorage.setItem('recents', JSON.stringify(_self.vars.searchObject.recents));
         var tmplData = {
           searchResults: _self.vars.searchObject.recentAPIResponse,
-          recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+          recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
           recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-          popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
+          popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5)
         };
         if (!_self.customSearchResult) {
           var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
@@ -5200,9 +5198,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if ($('body').hasClass('top-down')) {
                 var freqDataTop = {
                   // searchResults: searchResults,
-                  recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+                  recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
                   recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-                  popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
+                  popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5)
                 };
                 _self.pubSub.publish('sa-freq-data', freqDataTop);
                 if (freqDataTop.recents.length) {
@@ -5214,9 +5212,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
                   var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
                     // searchResults: searchResults,
-                    recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+                    recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
                     recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-                    popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6),
+                    popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5),
                     showSearches: searchConfigurationCopy ? searchConfigurationCopy.showSearches : 'recent'
                   });
                   console.log("searchConfigurationCopy", searchConfigurationCopy);
@@ -5268,6 +5266,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('#suggestion').val('');
         $('.search-container').removeClass('active');
         $('#show-all-results-container').hide();
+        $('.typingIndicatorContent').css('display', 'none');
         _self.vars.selectedFacetFromSearch = "all results"
       })
       //_self.bindSearchActionEvents();
@@ -5481,9 +5480,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var popSearchUrl = _self.API.popularSearchesUrl;
           var tmplData = {
             searchResults: _self.vars.searchObject.recentAPIResponse,
-            recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+            recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
             recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-            popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
+            popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5)
           };
           if (!_self.customSearchResult) {
             // var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
@@ -5501,9 +5500,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.getRecentSearches(recentSearchUrl, 'GET');
             var tmplData = {
               searchResults: _self.vars.searchObject.recentAPIResponse,
-              recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+              recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
               recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-              popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
+              popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5)
             };
             if (!_self.customSearchResult) {
               var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
@@ -5874,9 +5873,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (_self.customSearchResult) {
               var tmplData = {
                 searchResults: searchResults,
-                recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+                recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
                 recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-                popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
+                popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5)
               };
               _self.pubSub.publish('sa-show-freq-data', tmplData);
             } else {
@@ -6490,7 +6489,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               customSearchResult: _self.customSearchResult,
               totalSearchResults: totalSearchResults
             });
-            _self.pubSub.publish('sa-action-full-search', { container: '.actions-search-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
+            setTimeout( function () {
+              _self.appendActionsContainerForBottomUp('search');
+              _self.pubSub.publish('sa-action-full-search', { container: '.actions-search-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
+            }, 300);
             setTimeout( function () {
               _self.bindSearchActionEvents();
             }, 500);
@@ -6627,9 +6629,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (_self.customSearchResult) {
         var tmplData = {
           // searchResults: _self.vars.searchObject.recentAPIResponse,
-          recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+          recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 5),
           recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-          popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
+          popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5)
         };
         _self.pubSub.publish('sa-freq-data', tmplData);
         _self.pubSub.publish('sa-show-freq-data', tmplData);
@@ -7789,7 +7791,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.customSearchResult = false;
       var structuredDataContainer = '';
       if ($('body').hasClass('top-down')) {
-        var actionsPosition = 'bottom';
+        var actionsPosition = 'top';
+        if(searchConfigurationCopy && searchConfigurationCopy.botConfig){
+          actionsPosition = searchConfigurationCopy.botConfig.botActionResultsExperience;
+        }
         let actionParentContainer = `<div id="actions-container" class="quick-actions-container"></div>`;
         if (actionsPosition == 'top') {
           $('.content-data-sec').prepend(actionParentContainer);
@@ -8227,6 +8232,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
     FindlySDK.prototype.initSearchAssistSDK = function (findlyConfig) {
       var _self = this;
+      $('body').addClass('sdk-body');
       _self.configureSearchInterface(findlyConfig.botOptions).then(function (response) {
         console.log("res", response);
         if (response.experienceConfig.searchBarPosition === 'top') {
@@ -13958,6 +13964,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $('.refresh-sdk').off('click').on('click', function (e) {
         $('#show-all-results-container').hide();
+        $('.typingIndicatorContent').css('display', 'none');
         $('.search-container').removeClass('active');
         _self.vars.selectedFacetFromSearch = "all results"
         var responseObject = { 'type': 'refreshSearchContainer', data: false, query: _self.vars.searchObject.searchText, bottomUp: true }
@@ -13965,6 +13972,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       $('.kore-search-container-close-icon').off('click').on('click', function (e) {
         $('#show-all-results-container').hide();
+        $('.typingIndicatorContent').css('display', 'none');
         $('.search-container').removeClass('active');
         _self.vars.selectedFacetFromSearch = "all results"
         var responseObject = { 'type': 'closeSearchContainer', data: false, query: _self.vars.searchObject.searchText, bottomUp: true }
@@ -19345,12 +19353,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         </div>\
         <div class="kore-sdk-pagination-div">\
           <div class="kore-sdk-custom-pagination">\
-            <div class="kore-sdk-bottom-up-first">\
+            <div class="kore-sdk-bottom-up-first pagination-tootlip-buttons">\
               <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAAQABADAREAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD+zn9pz9o/XPhre6B8H/gxpfhzxb+0d8Q9H1XxB4esPF8t9B8MfhH8OtBmjh8WfH74+6vpdzZXXh34V+Et722l6XFqWk+IPin4vFt4F8I3th/xUvirwe0r77fi/JeYiT9mv49eP/2j9X8SfEbRPCulaJ+y3/ZVjpXwe8b61p+taZ49+POsxXLtrnxc8OaBd33keEPgTfQKlj8NW1221DxV8RoXm8cW0ujeDG8M3PjAat69fLy9e4LX0Iv2m/2bda+JWoaD8Yvg1q2g+Ef2jvh9oupeHdAvvFYvZfhj8Xfh1rU4uPFPwB+PujafZ6nL4g+FXi9g89jqtvpOp+Jvhj4qa38beD7e7ceIfDPisT6Pb8vNef5g/wAST9mv4C/ED9nDV/Enw50XxVpWufst/wBlWOq/B7wRrWo61qfj74DazLcuuufCLw5r93YeR4v+BNjAyXvw0Gu3On+KvhzAk3ge3i1nwYnhm38IDaevXr2fn5PuMP/Z">\
-            </div>\
-            <div class="kore-sdk-bottom-up-previous">\
+              <span class="tooltip_text"> First</span>\
+              </div>\
+            <div class="kore-sdk-bottom-up-previous pagination-tootlip-buttons">\
               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACuSURBVHgB3VKxDcIwEDwTD2AEA3xk0zMCbMAGrMAIGYWSjhFQJgipEcIlnTMAknloaPImSZecZMnS3+nuTw+MAkRk+FHbbNZBTFBZBegd+uLrnLuKyBUSR6XEUPqCGEvv7weJJ6+g9JnFdUoM2d0Vn+hduEKC1xGI3Lzr7/5Lwcjtg6zdp3iZNGgYxixL/p7MYv5sQqgxLMlqzX0EXmfTNv97SN7frohqy50Qpok3s14tS5MeJgUAAAAASUVORK5CYII=">\
-            </div>\
+              <span class="tooltip_text"> Previous</span>\
+              </div>\
             <div class="input-text-data">\
               <div class="title">Page</div>\
               <div>\
@@ -19359,12 +19369,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="title">of</div>\
               <div id="kore-total-page-number" class="kore-total-page-number">15</div>\
             </div>\
-            <div class="kore-sdk-bottom-up-next">\
+            <div class="kore-sdk-bottom-up-next pagination-tootlip-buttons">\
               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAALCAYAAABcUvyWAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBXY+xDQIxEAT3bAIiZEQD99gf4xKgEuiEkDY+JUJUQEoGxAjhCsAhwUvmEHqw/8LZW2lWM9femNEwyiE7BaQ5SB+Y2eSBjvFxNGYyBqmNNLdSfH0C6j6YbQOiGVK7CCFE1QUh3FZI6QIa7IrGr1m5ExL2qoBTtxYZkWibP7R2yZW9ix33oHuWUAZ+Ye17A+GRSBSv5zx4A80eMIB299aVAAAAAElFTkSuQmCC">\
-            </div>\
-            <div class="kore-sdk-bottom-up-last">\
+              <span class="tooltip_text">Next</span>\
+              </div>\
+            <div class="kore-sdk-bottom-up-last pagination-tootlip-buttons">\
               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC8SURBVHgB3ZKxEcIwDEUVZwAEWUCJnJ5R2AA2YAQYIRswAkdJyQRQ0kEJTewFOBBxjos5QkI68htbOn//d7YA+iWK9Z4oHb9q4owSvfjmCasF4vAKAawRo621+QVxcAQIMhxFaE2+g1YUxDMhMSRytSjmUx1J+N6w1hwciVoJweYseq4dSPSySCZCj4R5Wj2nam9QcC936PVv8kqN6Uk6L9PJSxeqZrMgdjcTT9wPuFn4yVwYPg1SW/P/6gGaqz4/5BlCXQAAAABJRU5ErkJggg==">\
-            </div>\
+              <span class="tooltip_text">Last </span>\
+              </div>\
           </div>\
         </div>\
         <div class="custom-add-result-container {{if devMode== false || viewType != "Customize"}}display-none{{/if}}">\
@@ -20989,12 +21001,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             </div>\
                             <div class="kore-sdk-pagination-div">\
                             <div class="kore-sdk-custom-pagination">\
-                              <div class="kore-sdk-bottom-up-first">\
+                              <div class="kore-sdk-bottom-up-first pagination-tootlip-buttons">\
                                 <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAAQABADAREAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD+zn9pz9o/XPhre6B8H/gxpfhzxb+0d8Q9H1XxB4esPF8t9B8MfhH8OtBmjh8WfH74+6vpdzZXXh34V+Et722l6XFqWk+IPin4vFt4F8I3th/xUvirwe0r77fi/JeYiT9mv49eP/2j9X8SfEbRPCulaJ+y3/ZVjpXwe8b61p+taZ49+POsxXLtrnxc8OaBd33keEPgTfQKlj8NW1221DxV8RoXm8cW0ujeDG8M3PjAat69fLy9e4LX0Iv2m/2bda+JWoaD8Yvg1q2g+Ef2jvh9oupeHdAvvFYvZfhj8Xfh1rU4uPFPwB+PujafZ6nL4g+FXi9g89jqtvpOp+Jvhj4qa38beD7e7ceIfDPisT6Pb8vNef5g/wAST9mv4C/ED9nDV/Enw50XxVpWufst/wBlWOq/B7wRrWo61qfj74DazLcuuufCLw5r93YeR4v+BNjAyXvw0Gu3On+KvhzAk3ge3i1nwYnhm38IDaevXr2fn5PuMP/Z">\
-                              </div>\
-                              <div class="kore-sdk-bottom-up-previous">\
+                                <span class="tooltip_text"> First</span>\
+                                </div>\
+                              <div class="kore-sdk-bottom-up-previous pagination-tootlip-buttons">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACuSURBVHgB3VKxDcIwEDwTD2AEA3xk0zMCbMAGrMAIGYWSjhFQJgipEcIlnTMAknloaPImSZecZMnS3+nuTw+MAkRk+FHbbNZBTFBZBegd+uLrnLuKyBUSR6XEUPqCGEvv7weJJ6+g9JnFdUoM2d0Vn+hduEKC1xGI3Lzr7/5Lwcjtg6zdp3iZNGgYxixL/p7MYv5sQqgxLMlqzX0EXmfTNv97SN7frohqy50Qpok3s14tS5MeJgUAAAAASUVORK5CYII=">\
-                              </div>\
+                                <span class="tooltip_text"> Previous</span>\
+                                </div>\
                               <div class="input-text-data">\
                                 <div class="title">Page</div>\
                                 <div>\
@@ -21003,12 +21017,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                 <div class="title">of</div>\
                                 <div id="kore-total-page-number" class="kore-total-page-number">15</div>\
                               </div>\
-                              <div class="kore-sdk-bottom-up-next">\
+                              <div class="kore-sdk-bottom-up-next pagination-tootlip-buttons">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAALCAYAAABcUvyWAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBXY+xDQIxEAT3bAIiZEQD99gf4xKgEuiEkDY+JUJUQEoGxAjhCsAhwUvmEHqw/8LZW2lWM9femNEwyiE7BaQ5SB+Y2eSBjvFxNGYyBqmNNLdSfH0C6j6YbQOiGVK7CCFE1QUh3FZI6QIa7IrGr1m5ExL2qoBTtxYZkWibP7R2yZW9ix33oHuWUAZ+Ye17A+GRSBSv5zx4A80eMIB299aVAAAAAElFTkSuQmCC">\
-                              </div>\
-                              <div class="kore-sdk-bottom-up-last">\
+                                <span class="tooltip_text"> Next</span>\
+                                </div>\
+                              <div class="kore-sdk-bottom-up-last pagination-tootlip-buttons">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC8SURBVHgB3ZKxEcIwDEUVZwAEWUCJnJ5R2AA2YAQYIRswAkdJyQRQ0kEJTewFOBBxjos5QkI68htbOn//d7YA+iWK9Z4oHb9q4owSvfjmCasF4vAKAawRo621+QVxcAQIMhxFaE2+g1YUxDMhMSRytSjmUx1J+N6w1hwciVoJweYseq4dSPSySCZCj4R5Wj2nam9QcC936PVv8kqN6Uk6L9PJSxeqZrMgdjcTT9wPuFn4yVwYPg1SW/P/6gGaqz4/5BlCXQAAAABJRU5ErkJggg==">\
-                              </div>\
+                                <span class="tooltip_text"> Last</span>\
+                                </div>\
                             </div>\
                           </div>\
                             <div class="custom-add-result-container display-none">\
@@ -21254,7 +21270,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                             <div class="title-box-data">\
                                                 <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
                                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
-                                                ${task.titleText}\
+                                                <div class="name-title">${task.titleText}</div>\
+                                                {{if task.childBotName !=="" && task.childBotName !== undefined}}\
+                                                  <div class="child-bot">${task.childBotName}</div>\
+                                                {{/if}}\
                                                 </div>\
                                             </div>\
                                           {{/each}}\
@@ -21299,7 +21318,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                           <div class="title-box-data">\
                                               <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
                                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
-                                              ${task.titleText}\
+                                              <div class="name-title">${task.titleText}</div>\
+                                              {{if task.childBotName !=="" && task.childBotName !== undefined}}\
+                                                  <span class="child-bot">${task.childBotName}</span>\
+                                              {{/if}}\
                                               </div>\
                                           </div>\
                                         {{/each}}\
@@ -21342,11 +21364,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         <div class="carousel action-results-container carousel-search-data-items">\
                                           {{each(key, task) tasks}}\
                                             <div class="slide">\
-                                              <div class="title-box-data text-truncate">\
-                                                  <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
-                                                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
-                                                  ${task.titleText}\
-                                                  </div>\
+                                              <div class="title-box-data text-truncate {{if key == (tasks.length-1)}} slide-last-child {{/if}}\">\
+                                                  <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">${task.titleText}</div>\
+                                                  {{if task.childBotName !=="" && task.childBotName !== undefined}}\
+                                                    <div class="child-bot">${task.childBotName}</div>\
+                                                  {{/if}}\
                                               </div>\
                                             </div>\
                                           {{/each}}\
@@ -21495,13 +21517,27 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $("body").append("<style>#search::placeholder,  .cancel-search .cross {color:" + config.searchConfig.searchBarPlaceholderTextColor + "!important;}</style>")
     }
 
-    FindlySDK.prototype.appendActionsContainerForBottomUp = function () {
-      var actionsPosition = 'top';
-      let actionParentContainer = `<div id="actions-full-search-container" class="quick-actions-full-search-container"></div>`;
-      if (actionsPosition === 'top') {
-        $('.data-body-sec').prepend(actionParentContainer);
-      } else {
-        $('.custom-add-result-container').after(actionParentContainer);
+    FindlySDK.prototype.appendActionsContainerForBottomUp = function (from) {
+      var actionsPosition = 'bottom';
+      if(searchConfigurationCopy && searchConfigurationCopy.botConfig){
+        actionsPosition = searchConfigurationCopy.botConfig.botActionResultsExperience;
+      }
+      let actionParentContainer;
+      if(from && from == 'search'){
+        actionParentContainer = `<div class="actions-search-container"></div>`;
+        if (actionsPosition === 'top') {
+          $('.faqs-data-container').last().before(actionParentContainer);
+        } else {
+          $('.bottom-search-show-all-results').last().before(actionParentContainer);
+        }
+      }
+      else{
+        actionParentContainer = `<div id="actions-full-search-container" class="quick-actions-full-search-container"></div>`;
+        if (actionsPosition === 'top') {
+          $('.data-body-sec').prepend(actionParentContainer);
+        } else {
+          $('.custom-add-result-container').after(actionParentContainer);
+        }
       }
     }
     FindlySDK.prototype.frequentlySearchedRecentTextClickEvent = function () {

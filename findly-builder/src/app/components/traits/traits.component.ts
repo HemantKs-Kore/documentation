@@ -882,7 +882,7 @@ export class TraitsComponent implements OnInit {
         title: 'Delete Trait',
         text: 'Are you sure you want to delete Trait ?',
         newTitle: 'Are you sure you want to delete ?',
-        body: 'Selected trait will be deleted. ',
+        body: 'Selected trait and utterances will be deleted. ',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
