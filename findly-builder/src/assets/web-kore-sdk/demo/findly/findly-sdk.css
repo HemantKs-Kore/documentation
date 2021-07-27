@@ -7013,6 +7013,9 @@ html{
     /* font-family: var(--sdk-font-family-inter-sans) !important; */
     height: 100%;
 }
+body{
+    margin: 0;
+}
 .sdk-body body{
     margin: 0;
     font-family: var(--sdk-font-family-inter-sans) !important;
@@ -12887,16 +12890,26 @@ border: 0;
 }
 .searchAssist-kore-chat-window .show-all-results-outer-wrap .filter-sec-tab .fliter-right-btn {
     float: right;
-    background: var(--sdk-bg-porcelain-color);
+    /* background: var(--sdk-bg-porcelain-color); */
     border-radius: 2px;
     text-align: center;
     width: 26px;
     height: 26px;
-    padding: 8px 0px;
+    /* padding: 8px 0px; */
     cursor: pointer;
     /* position: relative; */
     margin-top: 2px;
     margin-left: 10px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.searchAssist-kore-chat-window .show-all-results-outer-wrap .filter-sec-tab .fliter-right-btn:hover{
+    background: var(--sdk-bg-porcelain-color);
+}
+.searchAssist-kore-chat-window .show-all-results-outer-wrap .filter-sec-tab .fliter-right-btn.active-open{
+    background: var(--sdk-bg-porcelain-color);
 }
 
 
@@ -13350,7 +13363,8 @@ border: 0;
 }
 .searchAssist-kore-chat-window .show-all-results-outer-wrap .horizantal-filter-sec .dropdown_custom_filter .dropbtn {
     cursor: pointer;
-    background: var(--sdk-white-bg);
+    /* background: var(--sdk-white-bg); */
+    background: transparent;
     border: 1px solid var(--sdk-border-silver-sand-color);
     box-sizing: border-box;
     border-radius: 4px;
@@ -13371,12 +13385,14 @@ border: 0;
     bottom: 13px;
     width: 10px !important;
     display: none;
+    z-index: -1;
 }
 .searchAssist-kore-chat-window .show-all-results-outer-wrap .horizantal-filter-sec .dropdown_custom_filter .dropbtn .up-arrow{
     position: absolute;
     right: 14px;
     bottom: 13px;
     width: 10px !important;
+    z-index: -1;
 }
 .searchAssist-kore-chat-window .show-all-results-outer-wrap .horizantal-filter-sec .dropdown_custom_filter .dropbtn .count {
     position: absolute;
@@ -14525,4 +14541,8 @@ padding: 0;
 
 .searchAssist-kore-chat-window .ps__rail-y{
     z-index: 99999 !important;
+}
+
+.mb-15{
+margin-bottom: 15px !important;
 }

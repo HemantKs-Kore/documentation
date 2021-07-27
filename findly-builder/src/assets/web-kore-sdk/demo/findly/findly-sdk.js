@@ -6717,6 +6717,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.dropdown_custom_filter').find('.down-arrow').show();
           $('.dropdown_custom_filter').find('.up-arrow').hide();
         }
+        if (!($(event.target).closest('.sdk-facet-filter-data').length)) {
+          if($('.sdk-facet-filter-data').is(':visible')){
+            $('#facetRightIconId').click();
+          }
+        }
       });
     }();
     FindlySDK.prototype.setActionTitle = function (title, container) {
