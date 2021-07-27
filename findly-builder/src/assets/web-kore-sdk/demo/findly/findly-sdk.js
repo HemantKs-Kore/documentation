@@ -4097,17 +4097,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.search-task').off('click').on('click', function (e) {
         //console.log("faq", e.target.title);
         e.stopPropagation();
+        var ele = $(e.target).closest('.search-task');
         var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
         $('#searchChatContainer').animate({ scrollTop: scrollBottom });
         _self.pubSub.publish('sa-action-clicked', e);
-        var taskName = e.target.title.toLowerCase();
+        var taskName = e.currentTarget.title.toLowerCase();
         // var payload = $(e.target).attr('payload');
         var payload;
         if (_self.vars.searchObject && _self.vars.searchObject.searchText && _self.vars.searchObject.searchText.length) {
           payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
         }
         else {
-          payload = $(e.target).attr('payload');
+          payload = $(e.currentTarget).attr('payload');
         }
         if (!_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.indexOf(taskName.toLowerCase()) == -1)) {
           _self.vars.searchObject.recentTasks.unshift(taskName.toLowerCase());
@@ -4140,8 +4141,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // var childBotName = $(e.target).attr('childBotName')
           var nlMeta = {
             linkedBotNLMeta: {
-              'intent': $(e.target).attr('title'),
-              'childBotName': $(e.target).attr('childBotName') || null,
+              'intent': $(e.currentTarget).attr('title'),
+              'childBotName': $(e.currentTarget).attr('childBotName') || null,
               'isRefresh': true
             }
           };
@@ -4151,10 +4152,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.sendMessageToSearch('user', null, null, (_self.isDev == true) ? true : false);
         }
         if (_self.isDev || _self.vars.loggedInUser) {
-          _self.vars.searchObject.searchText = e.target.title.toLowerCase();
+          _self.vars.searchObject.searchText = e.currentTarget.title.toLowerCase();
           _self.sendMessageToSearch('botAction');
-        } else if ((e.target.title.toLowerCase() === 'pay bill') || (e.target.title.toLowerCase() === 'pay credit card bill')) {
-          _self.userLogin(e.target.title.toLowerCase());
+        } else if ((e.currentTarget.title.toLowerCase() === 'pay bill') || (e.currentTarget.title.toLowerCase() === 'pay credit card bill')) {
+          _self.userLogin(e.currentTarget.title.toLowerCase());
         } else {
           //_self.userLogin(e.target.title.toLowerCase());
         }
@@ -18527,6 +18528,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('#topFacetFilterId').empty().append(facetTemplateTop);
         $('#topFacetIcon').empty().append(facetTemplateTopIcon);
       }
+      if(!$('body').hasClass('top-down')){
+        if(facetObj.show){
+          $('.fliter-right-btn').addClass('active-open');
+        }else{
+          $('.fliter-right-btn').removeClass('active-open');
+        }
+      }
       _self.markSelectedFilters();
     }
     FindlySDK.prototype.bindShowAllResultsTrigger = function (showAllHTML, facetData, data, restrictSelectFacet) {
@@ -19004,16 +19012,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $(showAllHTML).off('click', '.search-task').on('click', '.search-task', function (e) {
         e.stopPropagation();
         _self.hideBottomUpAllResults();
+        var ele = $(e.target).closest('.search-task');
         var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
         $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-        var taskName = e.target.title.toLowerCase();
+        var taskName = e.currentTarget.title.toLowerCase();
         // var payload = $(e.target).attr('payload');
         var payload;
         if (_self.vars.searchObject && _self.vars.searchObject.searchText && _self.vars.searchObject.searchText.length) {
           payload = b64EncodeUnicode("Execute_" + _self.vars.searchObject.searchText);
         }
         else {
-          payload = $(e.target).attr('payload');
+          payload = $(e.currentTarget).attr('payload');
         }
         if (!_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.indexOf(taskName.toLowerCase()) == -1)) {
           _self.vars.searchObject.recentTasks.unshift(taskName.toLowerCase());
@@ -19039,18 +19048,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // var childBotName = $(e.target).attr('childBotName')
           var nlMeta = {
             linkedBotNLMeta: {
-              'intent': $(e.target).attr('title'),
-              'childBotName': $(e.target).attr('childBotName') || null,
+              'intent': $(e.currentTarget).attr('title'),
+              'childBotName': $(e.currentTarget).attr('childBotName') || null,
               'isRefresh': true
             }
           };
           _self.sendMessage(payload, null, nlMeta);
         }
         if (_self.isDev || _self.vars.loggedInUser) {
-          _self.vars.searchObject.searchText = e.target.title.toLowerCase();
+          _self.vars.searchObject.searchText = e.currentTarget.title.toLowerCase();
           _self.sendMessageToSearch('botAction');
-        } else if ((e.target.title.toLowerCase() === 'pay bill') || (e.target.title.toLowerCase() === 'pay credit card bill')) {
-          _self.userLogin(e.target.title.toLowerCase());
+        } else if ((e.currentTarget.title.toLowerCase() === 'pay bill') || (e.currentTarget.title.toLowerCase() === 'pay credit card bill')) {
+          _self.userLogin(e.currentTarget.title.toLowerCase());
         } else {
           //_self.userLogin(e.target.title.toLowerCase());
         }
