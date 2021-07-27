@@ -1516,7 +1516,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.submitted = false;
     }
   }
-  openBotsConfigurationModalElement(bot) {
+  openBotsConfigurationModalElement(bot,isBotLinked) {
+    if(isBotLinked){
+      return;
+    }
     this.selectedLinkBotConfig = bot;
     const queryParams = {
       searchIndexID: this.searchIndexId
