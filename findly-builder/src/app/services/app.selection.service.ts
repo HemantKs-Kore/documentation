@@ -122,7 +122,9 @@ export class AppSelectionService {
     let previOusState: any = null;
     try {
       previOusState = JSON.parse(window.localStorage.getItem('krPreviousState'));
-      this.getCurrentSubscriptionData();
+      if (localStorage.jStorage) {
+        this.getCurrentSubscriptionData();
+      }
     } catch (e) {
     }
     return previOusState;

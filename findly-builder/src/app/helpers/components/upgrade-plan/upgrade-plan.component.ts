@@ -132,7 +132,7 @@ export class UpgradePlanComponent implements OnInit {
         clearInterval(this.paymentStatusInterval);
       }
     }, errRes => {
-      this.errorToaster(errRes, 'failed to get plans');
+      this.errorToaster(errRes, 'failed to payment status');
     });
   }
   //get plans api
@@ -145,7 +145,7 @@ export class UpgradePlanComponent implements OnInit {
         data = Object.assign(data, { "featureData": dat });
       });
     }, errRes => {
-      this.errorToaster(errRes, 'failed to get plans');
+      this.errorToaster(errRes, 'failed');
     });
   }
   errorToaster(errRes, message) {
@@ -236,18 +236,12 @@ export class UpgradePlanComponent implements OnInit {
     const appObserver = this.service.invoke('post.payement', queryParams, payload);
     appObserver.subscribe(res => {
       this.payementResponse = res;
-      // this.payementResponse = {
-      //    "hostedPage" : {
-      //   "transactionId": "faTYYAH3g2GsdmthszR5kDT179I4",
-      //   "url": "https://store.payproglobal.com/checkout?products[1][id]=65066&products[1][qty]=1&page-template=2339&language=en&currency=USD&x-accountId=5ecfbf1407c1bd2347c4f199&x-resourceId=st-7a270f50-338b-5d82-8022-c2ef8e6b46da&x-transactionId=faTYYAH3g2GsdmthszR5kDT179I4&x-streamName=AmazeBot&exfo=742&use-test-mode=true&secret-key=_npaisT4eQ&emailoverride=akshay.gupta%40kore.com&x-isSearchbot=true"
-      //   }
-      // }
       let url = this.payementResponse.hostedPage.url;
       this.invoiceOrderId = this.payementResponse.hostedPage.transactionId;
       this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url);
       this.poling();
     }, errRes => {
-      this.errorToaster(errRes, 'failed to get plans');
+      this.errorToaster(errRes, 'failed');
     });
     // this.closeChoosePlanPopup();
     this.closeOrderConfPopup();
