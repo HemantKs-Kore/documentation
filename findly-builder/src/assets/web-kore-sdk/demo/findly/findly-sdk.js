@@ -6214,16 +6214,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('#sa-conversation-box').prop('disabled', true);
           }
         }
+        if($('body').hasClass('top-down') && res.isAutoTriggeredBotAction){
+          if (!$('#conversation-container').is(':visible')) {
+            $('#conversation-container').show();
+            $('#sa-conversation-box').prop('disabled', false);
+          }
+        }
         if (res.payload == undefined) {
           if (res.cInfo) {
             res.text.cInfo = res.cInfo;
           }
-          if($('body').hasClass('top-down') && res.isAutoTriggeredBotAction){
-            if (!$('#conversation-container').is(':visible')) {
-              $('#conversation-container').show();
-              $('#sa-conversation-box').prop('disabled', false);
-            }
-          }
+         
           botResponse = res.text;
           console.log("Bot Response", botResponse);
           _self.sendMessageToSearch('bot', botResponse);
