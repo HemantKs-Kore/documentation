@@ -145,7 +145,9 @@ export class UpgradePlanComponent implements OnInit {
         data = Object.assign(data, { "featureData": dat });
       });
     }, errRes => {
-      this.errorToaster(errRes, 'failed');
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      }
     });
   }
   errorToaster(errRes, message) {
