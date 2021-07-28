@@ -54,21 +54,23 @@ export class AuthInterceptor implements HttpInterceptor {
       _reqAdditions.setHeaders.AccountId = selectedAccount.accountId;
       window.findlyAccountId = selectedAccount.accountId;
     }
-
-
     const authReq = req.clone(_reqAdditions);
+    if (localStorage.jStorage || req.url.includes('/AppControlList')) {
+      // send cloned request with header to the next handler.
+      return next.handle(authReq).pipe(
+        tap(event => {
 
-    // send cloned request with header to the next handler.
-    return next.handle(authReq).pipe(
-      tap(event => {
-
-      }, error => {
-        if (error.status === 401) {
-          // window.alert('Session Expired');
-          this.redirectToLogin();
-        }
-      })
-    )
+        }, error => {
+          if (error.status === 401) {
+            // window.alert('Session Expired');
+            this.redirectToLogin();
+          }
+        })
+      )
+    }
+    else {
+      this.redirectToLogin();
+    }
   }
 
   private redirectToLogin() {
