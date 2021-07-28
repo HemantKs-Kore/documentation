@@ -45,7 +45,7 @@ export class UpgradePlanComponent implements OnInit {
   btnDisable: boolean;
   invoiceOrderId: any;
   featuresExceededUsage: any;
-  count_info: boolean = false;
+  count_info: any = { show: false, msg: '' };
   contact_us_planName: string;
   payementResponse: any = {
     hostedPage: {
@@ -187,7 +187,8 @@ export class UpgradePlanComponent implements OnInit {
   }
   //open popup1
   openChoosePlanPopup(data?, info?) {
-    this.count_info = info != undefined ? info : false;
+    this.count_info.show = info?.show != undefined ? info?.show : false;
+    this.count_info.msg = info?.msg;
     this.choosePlanModalPopRef = this.choosePlanModel.open();
     if (this.appSelectionService.currentsubscriptionPlanDetails) {
       this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
@@ -206,6 +207,7 @@ export class UpgradePlanComponent implements OnInit {
     if (this.choosePlanModalPopRef && this.choosePlanModalPopRef.close) {
       this.choosePlanModalPopRef.close();
       this.gotoDetails('')
+      this.count_info = { show: false, msg: '' };
     }
   }
 

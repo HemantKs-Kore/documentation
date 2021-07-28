@@ -1,58 +1,58 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest,HttpResponse
+  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse
 } from '@angular/common/http';
 
 
 import { Observable } from 'rxjs';
-import { catchError,tap, retry} from 'rxjs/operators';
-import {AuthService} from '@kore.services/auth.service';
-import {AppUrlsService} from '@kore.services/app.urls.service'
+import { catchError, tap, retry } from 'rxjs/operators';
+import { AuthService } from '@kore.services/auth.service';
+import { AppUrlsService } from '@kore.services/app.urls.service'
 import { LocalStoreService } from '@kore.services/localstore.service';
-declare let window:any;
+declare let window: any;
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private auth: AuthService,private appUrls:AppUrlsService, private localStoreService: LocalStoreService) {}
+  constructor(private auth: AuthService, private appUrls: AppUrlsService, private localStoreService: LocalStoreService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     // Get the auth token from the service.
     const authToken = this.auth.getAccessToken();
-    if(!authToken){
+    if (!authToken) {
       this.redirectToLogin();
     }
 
-    const _bearer='bearer '+authToken;
-    const _reqAdditions:any = {
+    const _bearer = 'bearer ' + authToken;
+    const _reqAdditions: any = {
       setHeaders: {
         Authorization: _bearer
       } // setting Authorization bearer
       , url: this.resolveUrl(req.url, { userId: this.auth.getUserId() }, false)// setting userid if URL has empty userId
     };
 
-   // setting AccountId header
-   let selectedAccount = this.localStoreService.getSelectedAccount()
-   //let selectedSSOAccount = this.localStoreService.getSelectedSSOAccount();
-  if(!selectedAccount){
-    selectedAccount = this.localStoreService.getSelectedSSOAccount();
-    console.log('SSO Login',this.localStoreService.getSelectedSSOAccount())
-  }
-    
-    if(!selectedAccount){
+    // setting AccountId header
+    let selectedAccount = this.localStoreService.getSelectedAccount()
+    //let selectedSSOAccount = this.localStoreService.getSelectedSSOAccount();
+    if (!selectedAccount) {
+      selectedAccount = this.localStoreService.getSelectedSSOAccount();
+      console.log('SSO Login', this.localStoreService.getSelectedSSOAccount())
+    }
+
+    if (!selectedAccount) {
       const defaultAccounts = this.auth.getSelectedAccount();
-      if(defaultAccounts && defaultAccounts.associatedAccounts && defaultAccounts.associatedAccounts.length ){
+      if (defaultAccounts && defaultAccounts.associatedAccounts && defaultAccounts.associatedAccounts.length) {
         selectedAccount = defaultAccounts.associatedAccounts[0];
       }
     }
-   
+
     let skipAccountHeaders = false;
-    if(req && req.url && req.url.includes('/AppControlList')){
+    if (req && req.url && req.url.includes('/AppControlList')) {
       skipAccountHeaders = true
     }
     if (selectedAccount && !skipAccountHeaders) {
       _reqAdditions.setHeaders.AccountId = selectedAccount.accountId;
-      window.findlyAccountId= selectedAccount.accountId;
+      window.findlyAccountId = selectedAccount.accountId;
     }
 
 
@@ -63,15 +63,15 @@ export class AuthInterceptor implements HttpInterceptor {
       tap(event => {
 
       }, error => {
-        if(error.status===401){
+        if (error.status === 401) {
           // window.alert('Session Expired');
-         this.redirectToLogin();
+          this.redirectToLogin();
         }
       })
     )
   }
 
-  private redirectToLogin(){
+  private redirectToLogin() {
     this.appUrls.redirectToLogin();
   }
   private resolveUrl(toResolveUrl, values, deleteProp) {
