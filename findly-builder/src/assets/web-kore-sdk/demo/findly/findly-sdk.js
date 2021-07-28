@@ -20401,7 +20401,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       // out side click for live search and frequent search dropdown close//
       $('#live-search-result-box').off('click').on('click', function (event) {
-        if ($(event.target).closest('#live-search-result-box').length) {
+        if ($(event.target).closest('#live-search-result-box').length && !$(event.target).closest('.carousel').length) {
           if ($('#live-search-result-box').height() < event.offsetY || event.offsetX < 0 || event.offsetX > $('#live-search-result-box').width()) {
             $('#live-search-result-box').hide();
           }
@@ -21431,7 +21431,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         <div class="carousel action-results-container carousel-search-data-items">\
                                           {{each(key, task) tasks}}\
                                             <div class="slide">\
-                                              <div class="title-box-data text-truncate {{if key == (tasks.length-1)}} slide-last-child {{/if}}\">\
+                                              <div class="title-box-data text-truncate">\
                                                   <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">${task.titleText}</div>\
                                                   {{if task.childBotName !=="" && task.childBotName !== undefined}}\
                                                     <div class="child-bot">${task.childBotName}</div>\
