@@ -14534,6 +14534,12 @@ padding: 0;
     margin: 0;
     transform: none !important;
 }
+.searchAssist-kore-chat-window .carousel-search-data-items .purejscarousel-btn.purejscarousel-btn-prev.hideNow{
+    display: none !important;
+}
+.searchAssist-kore-chat-window .carousel-search-data-items .purejscarousel-btn.purejscarousel-btn-next.hideNow{
+    display: none !important;
+}
 .searchAssist-kore-chat-window .carousel-search-data-items .purejscarousel-btn.purejscarousel-btn-prev::before {
     content: "";
     background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABhSURBVHgBvY+9CYBQDIRjRF7rCI7gCG7gCI7iSI6kG2gRiO8nYFIqAQvBgyPFdyE5YOZOPYAjFJG2wnpJpUxeAIioP2PafwjYk/iETQijjkO93UDMedat1ep9BHbYBW+6AAumYMm58wBRAAAAAElFTkSuQmCC");

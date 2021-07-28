@@ -1583,7 +1583,8 @@ float: right;
   padding: 10px;
   color: var(--sdk-chat-widow-primary-indochine-color);
   min-height: auto;
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
+  margin-bottom: 25px;
   font-weight: normal;
   font-size: 12px;
   line-height: 14px;

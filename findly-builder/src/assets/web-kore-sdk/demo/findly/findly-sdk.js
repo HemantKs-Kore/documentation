@@ -6214,16 +6214,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('#sa-conversation-box').prop('disabled', true);
           }
         }
+        if ($('body').hasClass('top-down') && res.isAutoTriggeredBotAction) {
+          if (!$('#conversation-container').is(':visible')) {
+            $('#conversation-container').show();
+            $('#sa-conversation-box').prop('disabled', false);
+          }
+        }
         if (res.payload == undefined) {
           if (res.cInfo) {
             res.text.cInfo = res.cInfo;
           }
-          if ($('body').hasClass('top-down') && res.isAutoTriggeredBotAction) {
-            if (!$('#conversation-container').is(':visible')) {
-              $('#conversation-container').show();
-              $('#sa-conversation-box').prop('disabled', false);
-            }
-          }
+
           botResponse = res.text;
           console.log("Bot Response", botResponse);
           _self.sendMessageToSearch('bot', botResponse);
@@ -6876,6 +6877,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   $('.carousel' + carouselTemplateCount).parent().show();
                   // $('.carousel' + carouselTemplateCount).attr('style', 'height: inherit !important');
                   carouselEles.push(carouselOneByOne);
+                }
+                if ($('.carousel' + carouselTemplateCount).width() >= $('.carousel' + carouselTemplateCount + ' .purejscarousel-slides-container').width()) {
+                  $('.carousel' + carouselTemplateCount + ' .purejscarousel-btn-prev').hide();
+                  $('.carousel' + carouselTemplateCount + ' .purejscarousel-btn-next').hide();
                 }
                 //window.dispatchEvent(new Event('resize'));
                 var evt = document.createEvent("HTMLEvents");
@@ -16511,6 +16516,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           });
           $('.carousel' + newCarouselTemplateCount).parent().show();
           newCarouselEles.push(carouselOneByOne);
+          if ($('.carouselTemplate' + newCarouselTemplateCount).width() >= $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container').width()) {
+            $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev').hide();
+            $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next').hide();
+          }
           var evt = document.createEvent("HTMLEvents");
           evt.initEvent('resize', true, false);
           window.dispatchEvent(evt);
