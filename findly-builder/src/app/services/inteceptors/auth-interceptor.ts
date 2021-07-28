@@ -55,7 +55,7 @@ export class AuthInterceptor implements HttpInterceptor {
       window.findlyAccountId = selectedAccount.accountId;
     }
     const authReq = req.clone(_reqAdditions);
-    if (localStorage.jStorage || req.url.includes('/AppControlList')) {
+    if (localStorage.jStorage) {
       // send cloned request with header to the next handler.
       return next.handle(authReq).pipe(
         tap(event => {
