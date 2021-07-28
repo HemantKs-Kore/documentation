@@ -14584,6 +14584,9 @@ padding: 0;
 .searchAssist-kore-chat-window .ps__rail-y{
     z-index: 99999 !important;
 }
+.searchAssist-kore-chat-window #search::placeholder{
+    color:#8a959f;
+}
 
 .mb-15{
 margin-bottom: 15px !important;

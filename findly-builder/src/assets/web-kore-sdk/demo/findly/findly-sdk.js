@@ -1040,7 +1040,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{if hideSearchIcon}}\
               style="position: absolute; bottom: 0px; color:#8a959f;">\
             {{else}}\
-              style="position: absolute; bottom: 0px; color:#8a959f; padding-left:37px!important; background : ${searchConfig.searchBarFillColor} !important; color :  ${searchConfig.searchBarPlaceholderTextColor} !important;"> \
+              style="position: absolute; bottom: 0px; color:#8a959f; padding-left:37px!important; background : ${searchConfig.searchBarFillColor} !important;"> \
             {{/if}}\
             {{/if}}\
             <input autocomplete="off" id="search" name="search"\
@@ -1196,7 +1196,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div class="search-bar">\
             <div class="widget-icon"><img src="${searchConfig.searchBarIcon}"> </div>\
             {{if searchConfig.autocompleteOpt == true}}\
-              <input id="suggestion"style="position: absolute; bottom: 0px;background : ${searchConfig.searchBarFillColor}; color : ${searchConfig.searchBarPlaceholderTextColor};" name="search" class="bottom-up-suggestion search" disabled="disabled">\
+              <input id="suggestion"style="position: absolute; bottom: 0px;left: 1px;background : ${searchConfig.searchBarFillColor}; color : #8a959f;" name="search" class="bottom-up-suggestion search" disabled="disabled">\
             {{/if}}\
             <input autocomplete="off" style="position: absolute; bottom: 0px; border : solid 1px ${searchConfig.searchBarBorderColor} !important; color : ${searchConfig.searchBarPlaceholderTextColor};\
             {{if searchConfig.autocompleteOpt == true}}\
@@ -5345,6 +5345,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.enterIsClicked = false;
           }
           if (code == '9' || code == '39') {
+            if(!$('#suggestion').val()){
+              return;
+            }
             $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
             $('#search').focus();
             if (!$('body').hasClass('top-down')) {
@@ -14010,9 +14013,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.parentEvent(responseObject);
       });
       if (!$('body').hasClass('top-down')) {
-        if (searchConfigurationCopy.searchBarPlaceholderTextColor && searchConfigurationCopy.searchBarPlaceholderTextColor.length) {
-          $("body").append("<style>#search::placeholder {color:" + searchConfigurationCopy.searchBarPlaceholderTextColor + "!important;}</style>")
-        }
+        // if (searchConfigurationCopy.searchBarPlaceholderTextColor && searchConfigurationCopy.searchBarPlaceholderTextColor.length) {
+        //   $("body").append("<style>#search::placeholder {color:" + searchConfigurationCopy.searchBarPlaceholderTextColor + "!important;}</style>")
+        // }
       }
     }
 
@@ -21590,7 +21593,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $("body").append("<style>.submit-button-outside {left: " + rightPosition + "px !important;}</style>")
         }
       }
-      $("body").append("<style>#search::placeholder,  .cancel-search .cross {color:" + config.searchConfig.searchBarPlaceholderTextColor + "!important;}</style>")
+      $("body").append("<style>.cancel-search .cross {color:" + config.searchConfig.searchBarPlaceholderTextColor + "!important;}</style>")
     }
 
     FindlySDK.prototype.appendActionsContainerForBottomUp = function (from) {
