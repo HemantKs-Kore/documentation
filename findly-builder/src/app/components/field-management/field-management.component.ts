@@ -41,7 +41,7 @@ export class FieldManagementComponent implements OnInit {
   isRequiredArr: any = [];
   isStoredArr: any = [];
   isIndexedArr: any = [];
-  totalRecord:number = 0;
+  totalRecord: number = 0;
   filterSystem: any = {
     'typefilter': 'all',
     'isMultiValuedFilter': 'all',
@@ -57,7 +57,7 @@ export class FieldManagementComponent implements OnInit {
   filterTableSource = "all";
   firstFilter: any = { 'header': '', 'source': '' };
   componentType: string = 'indexing';
-  submitted : boolean = false;
+  submitted: boolean = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
@@ -81,8 +81,8 @@ export class FieldManagementComponent implements OnInit {
       this.loadFileds();
     })
   }
-  ngAfterViewInit(){
-   
+  ngAfterViewInit() {
+
   }
   loadFileds() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -98,10 +98,10 @@ export class FieldManagementComponent implements OnInit {
   }
   openModalPopup() {
     this.addFieldModalPopRef = this.addFieldModalPop.open();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(); 
-    },500)
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
   selectFieldType(type) {
     // if(type === 'number'){
@@ -155,11 +155,11 @@ export class FieldManagementComponent implements OnInit {
         facets: false,
         rules: false,
         weights: false,
-        resultTemplate:false
+        resultTemplate: false
       }
-      let usageText ='';
-      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used)|| (res.resultTemplates && res.resultTemplates.used)) {
-        usageText = usageText + ' This will impact' 
+      let usageText = '';
+      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplates && res.resultTemplates.used)) {
+        usageText = usageText + ' This will impact'
         if (res && res.facets && res.facets.used) {
           deps.facets = true;
           usageText = usageText + ' facet'
@@ -175,18 +175,18 @@ export class FieldManagementComponent implements OnInit {
         if (res && res.rules && res.rules.used) {
           deps.rules = true;
           if (deps.facets || deps.weights) {
-            usageText = usageText + ' , ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
+            usageText = usageText + ' , ' + res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '')
           } else {
-            usageText = usageText + ' ' + res.rules.records.length + ' Business Rule'+(res.rules.records.length>1?'s':'')
+            usageText = usageText + ' ' + res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '')
           }
         }
 
         if (res && res.resultTemplates && res.resultTemplates.used) {
           deps.resultTemplate = true;
           if (deps.facets || deps.weights || deps.rules) {
-            usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'');
+            usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
           } else {
-            usageText = usageText + ' will impact ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
+            usageText = usageText + ' will impact ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
           }
         }
       }
@@ -196,18 +196,18 @@ export class FieldManagementComponent implements OnInit {
       this.fetchingFieldUsage = false;
     });
   }
-   replaceLast(find, replace, string) {
+  replaceLast(find, replace, string) {
     var lastIndex = string.lastIndexOf(find);
-    
+
     if (lastIndex === -1) {
-        return string;
+      return string;
     }
-    
+
     var beginString = string.substring(0, lastIndex);
     var endString = string.substring(lastIndex + find.length);
-    
+
     return beginString + replace + endString;
-}
+  }
   getFieldUsage(record) {
     if (this.fetchingFieldUsage) {
       return;
@@ -228,7 +228,7 @@ export class FieldManagementComponent implements OnInit {
         facets: false,
         rules: false,
         weights: false,
-        resultTemplate : false
+        resultTemplate: false
       }
       // let usageText1 = "This field is being used in Facets, Weights, and Rules (Dynamic). Deleting it will remove the associated Facets, Weights, and Rules.";
       if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplate && res.resultTemplate.used)) {
@@ -251,17 +251,17 @@ export class FieldManagementComponent implements OnInit {
         }
         if (res && res.rules && res.rules.used) {
           if (deps.facets || deps.weights) {
-            usageText = usageText + ' , ' + res.rules.records.length + ' Rule'+(res.rules.records.length>1?'s':'')
+            usageText = usageText + ' , ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
           } else {
-            usageText = usageText + ' '  + res.rules.records.length + ' Rule'+(res.rules.records.length>1?'s':'')
+            usageText = usageText + ' ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
           }
         }
         if (res && res.resultTemplates && res.resultTemplates.used) {
           deps.resultTemplate = true;
-          if (deps.facets || deps.weights ||  deps.rules) {
-            usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
+          if (deps.facets || deps.weights || deps.rules) {
+            usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
           } else {
-            usageText = usageText + ' ' + res.resultTemplates.records.length + ' Result Template'+(res.resultTemplates.records.length>1?'s':'')
+            usageText = usageText + ' ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
           }
         }
         usageText = this.replaceLast(",", " and", usageText);
@@ -274,7 +274,7 @@ export class FieldManagementComponent implements OnInit {
         data: {
           newTitle: 'Are you sure you want to delete?',
           body: usageText,
-          buttons: [{ key: 'yes', label: 'Delete', type: 'danger'}, { key: 'no', label: 'Cancel' }],
+          buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
           confirmationPopUp: true
         }
       });
@@ -292,18 +292,18 @@ export class FieldManagementComponent implements OnInit {
       this.fetchingFieldUsage = false;
     });
   }
-  validateFilelds(){
-    if(this.newFieldObj && this.newFieldObj.fieldName.length){
+  validateFilelds() {
+    if (this.newFieldObj && this.newFieldObj.fieldName.length) {
       this.submitted = false;
       return true;
     }
-    else{
+    else {
       return false;
     }
   }
   addField() {
     this.submitted = true;
-    if(this.validateFilelds()){
+    if (this.validateFilelds()) {
       const temppayload: any = {
         fieldName: this.newFieldObj.fieldName,
         fieldDataType: this.newFieldObj.fieldDataType,
@@ -339,29 +339,34 @@ export class FieldManagementComponent implements OnInit {
         this.errorToaster(errRes, 'Failed to create field');
       });
     }
-    else{
+    else {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
-  defaultSort(field,icon,isAscBool){
+  defaultSort(field, icon, isAscBool) {
     this.getSortIconVisibility(field, icon)
     this.isAsc = !isAscBool;
     this.sortBy(field);
-        
+
   }
-  getAllFields(){
-      const quaryparms: any = {
-        searchIndexID: this.serachIndexId,
-        indexPipelineId: this.indexPipelineId,
-      };
-      let serviceId = 'get.allFieldsData';
-      this.service.invoke(serviceId, quaryparms).subscribe(res => {
-        this.fieldAutoSuggestion = res.fields || [];
-      }, errRes => {
-        this.errorToaster(errRes, 'Failed to get fields');
-      });
-    }
-  getFileds(offset?,searchFields?) {
+  getAllFields() {
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+    };
+    let serviceId = 'get.allFieldsData';
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+      this.fieldAutoSuggestion = res.fields || [];
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
+  }
+  getFileds(offset?, searchFields?) {
+    this.fieldDataTypeArr = [];
+    this.isMultiValuedArr = [];
+    this.isRequiredArr = [];
+    this.isStoredArr = [];
+    this.isIndexedArr = [];
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
@@ -369,7 +374,7 @@ export class FieldManagementComponent implements OnInit {
       limit: 10
     };
     let serviceId = 'get.allField';
-    if(searchFields){
+    if (searchFields) {
       quaryparms.search = searchFields;
       serviceId = 'get.allSearchField';
     }
@@ -642,55 +647,55 @@ export class FieldManagementComponent implements OnInit {
       }
     });
 
-  this.filelds = JSON.parse(JSON.stringify(tempFields));
-}
-searchByFields(){
-  if (this.searchFields) {
-    // this.loadingTab = true;
-    this.getFileds(null, this.searchFields);
-  } else {
-    this.getFileds();
-    this.searchFields=''
+    this.filelds = JSON.parse(JSON.stringify(tempFields));
   }
-}
-getFieldAutoComplete(query) {
-  if(!query){
-    query = '';
+  searchByFields() {
+    if (this.searchFields) {
+      // this.loadingTab = true;
+      this.getFileds(null, this.searchFields);
+    } else {
+      this.getFileds();
+      this.searchFields = ''
+    }
   }
-  const quaryparms: any = {
-    searchIndexID: this.serachIndexId,
-    indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-    query
-  };
-  this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
-    this.fieldAutoSuggestion = res || [];
-  }, errRes => {
-    this.errorToaster(errRes, 'Failed to get fields');
-  });
-}
-focusoutSearch(){
-  if(this.activeClose){
-    this.searchFields='';
-    this.activeClose = false;
-    this.getFileds(null,this.searchFields)
-   }
-this.showSearch= !this.showSearch;
-}
-focusinSearch(inputSearch){
-  setTimeout(()=>{
-    document.getElementById(inputSearch).focus();
-  },100)
-}
+  getFieldAutoComplete(query) {
+    if (!query) {
+      query = '';
+    }
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      query
+    };
+    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
+      this.fieldAutoSuggestion = res || [];
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
+  }
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchFields = '';
+      this.activeClose = false;
+      this.getFileds(null, this.searchFields)
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
+  }
 
-paginate(event) {
-  this.getFileds(event.skip,this.searchFields)
-}
+  paginate(event) {
+    this.getFileds(event.skip, this.searchFields)
+  }
   ngOnDestroy() {
     const self = this;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    
+
   }
 
 }

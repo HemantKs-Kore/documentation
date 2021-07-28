@@ -81,6 +81,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   submitted = false;
   showPassword = false;
   url_failed: boolean = false;
+  btnDisabled: boolean = false;
   configurationLink: any = {
     postUrl: '',
     accessToken: '',
@@ -764,18 +765,21 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //form validation
   validateSource() {
+    this.btnDisabled = true;
     if (this.selectedSourceType.resourceType == "web" || this.selectedSourceType.resourceType == "faq") {
       if (this.newSourceObj.name) {
         if (this.newSourceObj.url) {
           this.proceedSource()
         }
         else {
+          this.btnDisabled = false;
           $("#extractUrl").css("border-color", "#DD3646");
           $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
           this.notificationService.notify('Enter the required fields to proceed', 'error');
         }
       }
       else {
+        this.btnDisabled = false;
         $("#addSourceTitleInput").css("border-color", "#DD3646");
         $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
         this.notificationService.notify('Enter the required fields to proceed', 'error');
@@ -788,6 +792,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.proceedSource()
           }
           else {
+            this.btnDisabled = false;
             $(".drag-drop-sec").css("border-color", "#DD3646");
             this.notificationService.notify('Please upload the file to continue', 'error');
           }
@@ -797,6 +802,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.proceedSource()
           }
           else {
+            this.btnDisabled = false;
             $("#extractUrl").css("border-color", "#DD3646");
             $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
             this.notificationService.notify('Enter the required fields to proceed', 'error');
@@ -804,6 +810,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
       else {
+        this.btnDisabled = false;
         $("#addSourceTitleInput").css("border-color", "#DD3646");
         $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
         this.notificationService.notify('Enter the required fields to proceed', 'error');
@@ -955,6 +962,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       if (schdVal) {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
+          this.btnDisabled = false;
           this.openStatusModal();
           this.extract_sourceId = res._id;
           this.appSelectionService.updateTourConfig('addData');
@@ -971,14 +979,20 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessDenied' || errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
               this.upgrade();
               this.errorToaster(errRes, errRes.error.errors[0].msg);
+              setTimeout(() => {
+                this.btnDisabled = false;
+              }, 500)
             } else {
+              this.btnDisabled = false;
               this.notificationService.notify(errRes.error.errors[0].msg, 'error');
             }
           } else {
+            this.btnDisabled = false;
             this.notificationService.notify('Failed to add sources ', 'error');
           }
         });
       } else if (resourceType == 'web') {
+        this.btnDisabled = false;
         this.notificationService.notify('Please fill Date and Time fields', 'error');
       }
       // this.callWebCraller(this.crwalObject,searchIndex)
@@ -1549,7 +1563,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.submitted = false;
     }
   }
-  openBotsConfigurationModalElement(bot) {
+  openBotsConfigurationModalElement(bot,isBotLinked) {
+    if(isBotLinked){
+      return;
+    }
     this.selectedLinkBotConfig = bot;
     const queryParams = {
       searchIndexID: this.searchIndexId
