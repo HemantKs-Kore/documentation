@@ -2404,6 +2404,13 @@ nouislider{
                     transition: 0.4s all ease;
                     position: relative;   
                     margin-bottom: 20px;
+                    &.if-carouse-container{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        min-height: 165px;
+                        flex-wrap: wrap;                        
+                    }  
                     .list_gridview_template{
                         display: flex;
                         flex-wrap: wrap;
@@ -3349,4 +3356,45 @@ app-useronboarding-journey{
         color: #fff;
         border: 0;
     }
+}
+
+
+.result-right-sec{        
+    &.if-carouse-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 165px;
+        flex-wrap: wrap;
+        &.tile-with-headercarousel{
+            .carousel{
+                padding: 0;
+                .slide{
+                    width: 215px;
+                }
+                .purejscarousel-btn-prev{
+                    margin-top: -16px;
+                }
+                .purejscarousel-btn-next{
+                    margin-top: -16px;
+                }
+            }
+            .tile_with_header{
+                background: #FFFFFF;
+                border: 1px solid #E7F1FF;
+                box-sizing: border-box;
+                box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
+                border-radius: 4px;
+                padding: 12px;
+                .tile-title{
+                    text-align: left;
+                    font-weight: 600;
+                    font-size: 14px;
+                    line-height: 17px;
+                    color: #202124;
+                }
+            }
+
+        }
+    }  
 }
