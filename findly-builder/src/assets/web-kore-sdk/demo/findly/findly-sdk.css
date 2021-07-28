@@ -14444,19 +14444,19 @@ padding: 0;
 .searchAssist-kore-chat-window .carousel-search-data-items .purejscarousel-dots-container{
     display: none;
 }
-.searchAssist-kore-chat-window .carousel-search-data-items .purejscarousel-slides-container .slide {
+.searchAssist-kore-chat-window .carousel-search-data-items  .slide {
     text-align: left;
     padding: 0 10px 0 0;
     border: 0;
     width: 178px;
     font-size: 14px;
 }
-.searchAssist-kore-chat-window .carousel-search-data-items .purejscarousel-slides-container .slide .slide-last-child {
+.searchAssist-kore-chat-window .carousel-search-data-items  .slide .slide-last-child {
     background: #FFFFFF !important;
     opacity: 0.8;
     color: #CDD7E5  !important;
 }
-.searchAssist-kore-chat-window .carousel-search-data-items .purejscarousel-slides-container .slide .title-box-data {
+.searchAssist-kore-chat-window .carousel-search-data-items  .slide .title-box-data {
     background: #F3F8FF;
     border: 1px solid #E7F1FF;
     border-radius: 4px;
@@ -14470,21 +14470,21 @@ padding: 0;
     align-items: center;
     cursor: pointer;
 }
-.searchAssist-kore-chat-window .carousel-search-data-items .purejscarousel-slides-container .slide .title-box-data:hover{
+.searchAssist-kore-chat-window .carousel-search-data-items  .slide .title-box-data:hover{
     background: var(--sdk-bg-zumthor-color);
     border: 1px solid var(--sdk-border-blue-ribbon-approx-color);
     color: var(--sdk-catalina-blue-color);
 }
-.searchAssist-kore-chat-window .carousel-search-data-items .purejscarousel-slides-container .slide .title-box-data:hover .child-bot{
+.searchAssist-kore-chat-window .carousel-search-data-items  .slide .title-box-data:hover .child-bot{
     display: none;
 }
-.searchAssist-kore-chat-window .carousel-search-data-items .purejscarousel-slides-container .slide .title-box-data .search-grid-item {
+.searchAssist-kore-chat-window .carousel-search-data-items  .slide .title-box-data .search-grid-item {
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-.searchAssist-kore-chat-window .carousel-search-data-items .purejscarousel-slides-container .slide .title-box-data .child-bot{
+.searchAssist-kore-chat-window .carousel-search-data-items  .slide .title-box-data .child-bot{
     width: auto;
     background: #E7F1FF;
     border-radius: 100px;
