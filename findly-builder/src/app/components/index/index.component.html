@@ -191,7 +191,7 @@
                 </span>
               </span>
             </div>
-            <input type="text" placeholder="{{'workbench.define_condition' | translate}}" maxlength="60" (keyup)="changesDetected = true" autocomplete="off"
+            <input type="text" placeholder="{{'workbench.define_condition' | translate}}" maxlength="500" (keyup)="changesDetected = true" autocomplete="off"
               class="input-text" [(ngModel)]="selectedStage.condition" />
               <!-- <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div> -->
           </div>
