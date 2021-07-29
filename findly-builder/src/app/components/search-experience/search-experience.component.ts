@@ -345,7 +345,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   }
   //dynamically increse input text 
   resize() {
-    setTimeout(() => this.width = Math.max(this.minWidth, this.textEl.nativeElement.offsetWidth));
+    this.width = Math.max(this.minWidth, this.textEl.nativeElement.offsetWidth) + 57;
   }
   //upload search icon image manually from asset folder
   searchIconUpload() {
@@ -654,6 +654,11 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
         this.emojiIcon = this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
       }
+      let fetchInputWidth = document.createElement('span');
+      document.body.appendChild(fetchInputWidth);
+      fetchInputWidth.innerText = this.searchObject.searchWidgetConfig.searchBarPlaceholderText;
+      this.width = fetchInputWidth.offsetWidth + 57;
+      fetchInputWidth.remove();
       this.changeSlider(this.searchObject.searchExperienceConfig.searchBarPosition, this.searchObject.searchInteractionsConfig);
       this.color = this.searchObject.searchWidgetConfig.searchBarFillColor;
       this.color1 = this.searchObject.searchWidgetConfig.searchBarBorderColor;

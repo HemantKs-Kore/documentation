@@ -8,6 +8,8 @@ import { SideBarService } from './header.service';
 import { AuthService } from '@kore.services/auth.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import { NotificationService } from './notification.service';
+import { AppUrlsService } from './app.urls.service';
+import { environment } from '@kore.environment';
 @Injectable()
 export class AppSelectionService {
   queryList: any = [];
@@ -28,15 +30,21 @@ export class AppSelectionService {
   public inlineManualInfo : any = [];
   res_length: number = 0;
   getTourArray: any = [];
+  private storageType = 'localStorage';
   constructor(
     private workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private router: Router,
     private headerService: SideBarService,
     private authService: AuthService,
+    private appUrls: AppUrlsService,
     public localstore: LocalStoreService,
     private notificationService: NotificationService
-  ) { }
+  ) { 
+    if (environment && environment.USE_SESSION_STORE) {
+      this.storageType = 'sessionStorage';
+    }
+  }
   public getIndexPipelineIds(setindex?): ReplaySubject<any> {
     const payload = {
       searchIndexId: this.workflowService.selectedSearchIndex()
@@ -123,11 +131,17 @@ export class AppSelectionService {
     let previOusState: any = null;
     try {
       previOusState = JSON.parse(window.localStorage.getItem('krPreviousState'));
-      this.getCurrentSubscriptionData();
-      //this.getInlineManualcall();
+      if (window[this.storageType].jStorage) {
+        this.getCurrentSubscriptionData();
+      }else{
+        this.redirectToLogin();
+      }
     } catch (e) {
     }
     return previOusState;
+  }
+  private redirectToLogin() {
+    this.appUrls.redirectToLogin();
   }
   setPreviousState(route?) {
     const path: any = {

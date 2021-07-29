@@ -96,10 +96,13 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.headerService.toggle(toogleObj);
   }
   //upgrade plan
-  upgrade() {
-    // var all = document.getElementsByClassName('query-limited-reached');
-    // console.log("all", all)
-    this.plans.openChoosePlanPopup('choosePlans');
+  upgrade(data?) {
+    if (data) {
+      this.plans.openChoosePlanPopup('choosePlans', { show: true, msg: data });
+    }
+    else {
+      this.plans.openChoosePlanPopup('choosePlans');
+    }
   }
   reloadCurrentRoute() {
     let route = '/summary';
@@ -258,7 +261,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
             this.closeIndexModalPopup();
             this.errorToaster(errRes, errRes.error.errors[0].msg);
-            this.upgrade();
+            this.upgrade(errRes.error.errors[0].msg);
           }
           else {
             this.errorToaster(errRes, 'Failed to Create indexPipeline');
@@ -322,7 +325,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
             this.closeModalPopup();
             this.errorToaster(errRes, errRes.error.errors[0].msg);
-            this.upgrade();
+            this.upgrade(errRes.error.errors[0].msg);
           } else {
             this.errorToaster(errRes, 'Failed to Create searchconfig');
           }
