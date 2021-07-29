@@ -499,13 +499,13 @@
                             </div>
                             <div class="col-7 p-0">                            
                                 <div class="border-with-padding">
-                                    <div class="label_text">{{'searchexperience.show_searches' | translate}}</div>
-                                    <label class="kr-sg-toggle">                                       
-                                        <input type="checkbox" [(ngModel)]="searchObject.searchInteractionsConfig.showSearchesEnabled">
-                                        <div class="slider"><span class="enabled">{{'searchexperience.yes' | translate}}</span><span class="disabled">{{'searchexperience.no' | translate}}</span></div>
+                                    <div class="label_text"  [ngClass]="{'enabled':searchObject.searchInteractionsConfig.showSearches == 'recent', 'disabled':searchObject.searchInteractionsConfig.showSearches == 'frequent'}">{{'searchexperience.show_searches' | translate}}</div>
+                                    <label class="kr-sg-toggle" >                                       
+                                        <input type="checkbox"  [(ngModel)]="searchObject.searchInteractionsConfig.showSearchesEnabled" (change)="recentSearches()" >
+                                        <div class="slider" ><span  class="enabled">{{'searchexperience.yes' | translate}}</span><span  class="disabled">{{'searchexperience.no' | translate}}</span></div>
                                     </label>
                                
-                                    <div class="group-radiobutton mt-3">
+                                    <div class="group-radiobutton mt-3 d-none">
                                         <div class="kr-sg-radiobutton">
                                             <input id="radio-22" name="radio" class="radio-custom" type="radio" value="frequent" [checked]="searchObject.searchInteractionsConfig.showSearches=='Frequent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches" [disabled]="!searchObject.searchInteractionsConfig.showSearchesEnabled">
                                             <label for="radio-22" class="radio-custom-label">{{'searchexperience.frequent' | translate}}</label>

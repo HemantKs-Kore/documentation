@@ -77,9 +77,8 @@ export class CredentialsListComponent implements OnInit {
     this.loadingContent1 = true;
     this.loadImageText = true;
   }
-  // viewDetails(){
-  //   this.editCredentialRef = this.editCredentialPop.open();
-  // }
+  
+  
   manageCredential() {
     const queryParams = {
       userId: this.authService.getUserId(),
@@ -109,6 +108,7 @@ export class CredentialsListComponent implements OnInit {
     this.credntial.awt = 'HS256';
     this.addCredentialRef.close();
   }
+  
   editnewCredential(event, data) {
     this.addCredentialRef = this.addCredential.open()
     this.editTitleFlag = true;
@@ -129,27 +129,72 @@ export class CredentialsListComponent implements OnInit {
   closeEditModalPopup() {
     this.editCredentialRef.close();
   }
+  viewDetails(data){
+    console.log(data);
+    this.editCredentialRef = this.editCredentialPop.open();
+    this.editCreden.name = data.appName;
+    this.editCreden.clientSecret = data.clientSecret;
+    this.editCreden.clientId = data.clientId;
+  }
   saveEditCredential() {
-    let scope = [];
-    if (this.editCredential.anonymus && this.editCredential.register) {
-      scope = ['anonymouschat', 'registration'];
-    } else if (this.editCredential.anonymus && !this.editCredential.register) {
-      scope = ['anonymouschat'];
-    } else if (!this.editCredential.anonymus && this.editCredential.register) {
-      scope = ['registration'];
-    } else {
-      scope = [];
+    // let scope = [];
+    // if (this.editCredential.anonymus && this.editCredential.register) {
+    //   scope = ['anonymouschat', 'registration'];
+    // } else if (this.editCredential.anonymus && !this.editCredential.register) {
+    //   scope = ['anonymouschat'];
+    // } else if (!this.editCredential.anonymus && this.editCredential.register) {
+    //   scope = ['registration'];
+    // } else {
+    //   scope = [];
+    // }
+    const queryParams = {
+      userId: this.authService.getUserId(),
+      streamId: this.selectedApp._id,
+      sdkAppId: this.editCreden.clientId
     }
     const payload = {
-      appName: this.editCredential.name,
-      algorithm: this.editCredential.awt,
-      scope,
-      bots: [this.selectedApp._id],
+      appName: this.editCreden.name,
+      algorithm: 'HS256',
       pushNotifications: {
-        enable: this.editCredential.enabled,
+        enable: this.credntial.enabled,
         webhookUrl: ''
-      }
+      },
+      bots: [this.selectedApp._id],
+      scope: [
+        "anonymouschat",
+        "registration",
+        {
+          bot: this.selectedApp._id,
+            scopes: [
+              "ingest_data",
+              "train",
+              "live_search",
+              "full_search",
+              "Live Search",
+              "Update Permission",
+              "view_faqs",
+              "structured_data:get",
+              "structured_data:update",
+              "structured_data:delete",
+              "create_fields",
+              "get_fields"
+
+       ]
+        }
+    ]
     }
+    this.service.invoke('edit.credential', queryParams,payload).subscribe(
+      res => {
+    
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      }
+    );
   }
   validateSource() {
     if (this.credntial.awt != 'Select Signing Algorithm' && this.credntial.name != "") {
@@ -245,6 +290,12 @@ export class CredentialsListComponent implements OnInit {
       res => {
         this.channnelConguired = res.apps;
         this.firstlistData = res.apps[0];
+        // this.channnelConguired.forEach(channel => {
+
+
+          
+        // });
+
         // this.firstlistData.lastModifiedOn = moment(this.firstlistData.lastModifiedOn).format('MM/DD/YYYY - hh:mmA');
 
 

@@ -864,7 +864,7 @@
             <!-- Conf Configuration-->
 
           </div>
-          <div class="accordion-content-info text-left" *ngIf="page && sourceStatus == 'success'">
+          <div class="accordion-content-info text-left" *ngIf="page && (sourceStatus == 'success' || (sourceStatus == 'running' && totalRecord != 0))">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
               <div class="col-3 label_text m-0">Last Updated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
@@ -875,7 +875,7 @@
                 <div class="card_content" *ngFor="let page of pagingData | filter: [ pagesSearch, 'url_display'];let i = index">
                   <div class="card_header">
                     <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
-                      <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
+                      <div class="row m-0 content" (click)="viewPageDetails(page);selectedPage=page">
                         <div class="col-8 link-name p-0" title="{{page._source.page_url|| selectedSource.url}}">
                           {{page._source.page_url|| selectedSource.url}}</div>
                         <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
@@ -948,8 +948,8 @@
             </div>
 
           </div>
-          <div class="empty-page-data-container" *ngIf="page && sourceStatus == 'failed' ">
-            <img src="assets\images\emptyList.svg">
+          <div class="empty-page-data-container" *ngIf="page && (sourceStatus == 'failed'  || (sourceStatus == 'running' && totalRecord == 0) || sourceStatus == 'configured' || sourceStatus == 'stopped')">
+            <img src="assets\images\emptyList.png">
             <div class="title">Sorry! No Pages available yet!! Please <span> crawl</span> the web domain again</div>
           </div>
           <!-- Execution -->
