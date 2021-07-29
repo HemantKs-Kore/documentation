@@ -19,7 +19,7 @@ declare const $: any;
   styleUrls: ['./summary.component.scss'],
   animations: [fadeInOutAnimation]
 })
-export class SummaryComponent implements OnInit, OnDestroy {
+export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   serachIndexId;
   indices: any = [];
   experiments: any = [];
@@ -126,6 +126,19 @@ export class SummaryComponent implements OnInit, OnDestroy {
       this.appSelectionService.getTourConfig();
     })
   }
+  ngAfterViewInit() {
+    setTimeout(() => {
+      if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
+        this.inlineManual.openHelp('APP_WALKTHROUGH');
+        this.inlineManual.visited('APP_WALKTHROUGH');
+        const inline_list = this.appSelectionService.inlineManualInfo;
+        if (inline_list) {
+          this.onboard.openOnBoardingModal();
+        }
+        console.log(inline_list)
+      }
+    }, 1000)
+  }
   //initial ngoninit method call
   initialCall(status?) {
     const toogleObj = {
@@ -141,13 +154,6 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.getAllOverview(status);
     this.getCurrentUsage();
     this.componentType = 'summary';
-    setTimeout(() => {
-      if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
-        this.inlineManual.openHelp('APP_WALKTHROUGH')
-        this.inlineManual.visited('APP_WALKTHROUGH')
-      }
-    }, 1000)
-    //this.onboard.openOnBoardingModal();
   }
 
   getSummary() {
