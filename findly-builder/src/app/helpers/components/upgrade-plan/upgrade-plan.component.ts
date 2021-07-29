@@ -278,9 +278,6 @@ export class UpgradePlanComponent implements OnInit {
   closeContatcusSuccessModel() {
     if (this.contactusSuccessModelPopRef && this.contactusSuccessModelPopRef.close) {
       this.contactusSuccessModelPopRef.close();
-      if (this.componentType == 'experiment') {
-        this.upgradedEvent.emit();
-      }
     }
   }
   //submitEnterpriseRequest method
@@ -382,6 +379,9 @@ export class UpgradePlanComponent implements OnInit {
     if (this.successFailureModelPopRef && this.successFailureModelPopRef.close) {
       this.successFailureModelPopRef.close();
       this.overageData = {};
+      if (this.componentType == 'experiment') {
+        this.upgradedEvent.emit();
+      }
     }
   }
   //select type plan like monthly or yearly

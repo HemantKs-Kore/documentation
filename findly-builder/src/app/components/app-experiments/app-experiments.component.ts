@@ -91,7 +91,7 @@ export class AppExperimentsComponent implements OnInit {
     })
   }
   //when ever upgrade done in experiment page event emitter will call
-  upgradeComplete(event) {
+  upgradeComplete() {
     if (!this.inlineManual.checkVisibility('EXPERIMENTS')) {
       this.inlineManual.openHelp('EXPERIMENTS')
       this.inlineManual.visited('EXPERIMENTS')

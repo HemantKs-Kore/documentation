@@ -131,11 +131,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
         this.inlineManual.openHelp('APP_WALKTHROUGH');
         this.inlineManual.visited('APP_WALKTHROUGH');
-        const inline_list = this.appSelectionService.inlineManualInfo;
-        if (inline_list) {
-          this.onboard.openOnBoardingModal();
-        }
-        console.log(inline_list)
+        this.onboard.openOnBoardingModal();
       }
     }, 1000)
   }
