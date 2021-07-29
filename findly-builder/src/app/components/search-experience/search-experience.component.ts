@@ -746,5 +746,14 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.avatarDropdown.dropdown.close();
     }
   }
+  
+  recentSearches(){
+    if(this.searchObject.searchInteractionsConfig.showSearchesEnabled == true){
+      this.searchObject.searchInteractionsConfig.showSearches = 'recent'
+    }
+    else{
+      this.searchObject.searchInteractionsConfig.showSearches = 'frequent'
+    }
+      }
 
 }

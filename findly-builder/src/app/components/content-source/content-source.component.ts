@@ -38,6 +38,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   editDocObj: any = {};
   isEdittitle;
   contentId
+  content_id;
   edit: any = {};
   editConfObj: any = {};
   editTitleFlag: boolean = false;
@@ -542,7 +543,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       else {
         this.swapSlider('config')
       }
-      this.clicksViews()
+      // this.clicksViews()
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
       //   $('.tabname')[1].classList.remove('active');
       //   $('.tabname')[0].classList.add('active');
@@ -557,10 +558,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     });
   }
+ 
   viewPages() {
     this.sliderStep = 0;
   }
-  viewPageDetails() {
+  viewPageDetails(page) {
+    this.content_id = page._id
     this.sliderStep = 1;
     this.clicksViews();
   }
@@ -1705,7 +1708,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   clicksViews() {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      contentId: this.contentId,
+      contentId: this.content_id,
     };
     this.service.invoke('get.clicksViewsContent', quaryparms).subscribe(res => {
       console.log(res);
