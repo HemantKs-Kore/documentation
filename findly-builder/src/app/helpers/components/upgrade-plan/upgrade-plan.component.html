@@ -91,7 +91,7 @@
       <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Free']).includes(selectedPlan.planName)||selectedPlan?.status=='expired'">{{"plan.you_are_subscribing_to"| translate}} <span> {{orderConfirmData.name}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
       <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Standard']).includes(selectedPlan.planName)&&selectedPlan?.status!='expired'">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan?.planName}} {{selectedPlan?.billingUnit}}  {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{orderConfirmData?.billingUnit=='Yearly'?'Annually':orderConfirmData?.billingUnit}} {{"plan.plan"| translate}}</span>. {{"plan.please_find_the_order"| translate}}.</div>
       <div class="plan-desc" *ngIf="!overageData.overageShow&&selectedPlan&&(['Pro']).includes(selectedPlan.planName)&&orderConfirmData?.name=='Pro'&&selectedPlan?.status!='expired'">{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan?.planName}} {{selectedPlan?.billingUnit}} {{"plan.to"| translate}}</span> <span> {{orderConfirmData.name}} {{orderConfirmData?.billingUnit=='Yearly'?'Annually':orderConfirmData?.billingUnit}} {{"plan.plan"| translate}}</span>.{{"plan.please_find_the_order"| translate}}.</div>
-      <div class="plan-desc" *ngIf="overageData.overageShow">{{"plan.you_have_added_additional"| translate}} <span *ngIf="overageData.docCount>=1">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}} {{"plan.plan_documents"| translate}} </span><span *ngIf="overageData.queryCount>=1">, {{overageData.overageDeatils.searchQueries.limit | valueFormat}} {{"plan.plan_queries"| translate}} </span> {{"plan.to_your_plan"| translate}}. {{"plan.please_find_the_order"| translate}}.</div>
+      <div class="plan-desc" *ngIf="overageData.overageShow">{{"plan.you_have_added_additional"| translate}} <span *ngIf="overageData.docCount!=null">{{overageData.docCount==0?'0k': (overageData.overageDeatils.ingestDocs.limit| valueFormat)}} {{"plan.plan_documents"| translate}} </span>{{(overageData.queryCount!=null&&overageData.docCount!=null)?("plan.and"| translate):''}}<span *ngIf="overageData.queryCount!=null"> {{overageData.queryCount==0?'0k':(overageData.overageDeatils.searchQueries.limit | valueFormat)}} {{"plan.plan_queries"| translate}} </span> {{"plan.to_your_plan"| translate}}. {{"plan.please_find_the_order"| translate}}.</div>
       <ng-container *ngIf="!overageData.overageShow&&selectedPlan?.planName=='Pro'&&orderConfirmData?.name=='Standard'&&selectedPlan?.status!='expired'">
         <ul class="order-plan-details">
           <li>{{"plan.you_are_changing_from"| translate}} <span>{{selectedPlan?.planName}} {{"plan.to"| translate}} {{orderConfirmData?.name}} {{"plan.plan"| translate}}</span>.</li>
@@ -99,7 +99,7 @@
         </ul>
         <div class="s-text">{{"plan.please_find_the_order"| translate}}.</div>
       </ng-container>
-      <div class="order-confirmation-table">
+      <div class="order-confirmation-table" [ngStyle]="{'border-color':(overageData?.overageShow&&showOverageErrorMsg)?'#DD3646':'#EFF0F1','border-bottom':(overageData?.overageShow&&showOverageErrorMsg)?'none':0}">
         <div class="order-confirmation-table-header row col-12 m-0">
           <div class="title col-9">{{"plan.PLAN"| translate}}</div>
           <div class="title col-3">{{"plan.Amount"| translate}}</div>
@@ -119,8 +119,8 @@
 
           <div class="amount col-3">$ {{orderConfirmData.planAmount}}</div>
         </div>
-         <div class="order-confirmation-table-body row col-12 m-0"  *ngIf="overageData&&overageData.overageShow&&overageData.overageDeatils">            
-          <ng-container *ngIf="overageData.docCount>=1">
+         <div class="order-confirmation-table-body row col-12 m-0" *ngIf="overageData?.overageShow&&overageData?.overageDeatils&&overageData?.docCount!=null">            
+          <ng-container>
             <div class="col-9 plan_details">
               <div class="plan-type col-5 p-0 m-0">{{"plan.document_overage"| translate}}</div>
               <div class="add-doc-btn-sec">
@@ -131,8 +131,10 @@
               <div class="amount-increased">{{overageData.overageDeatils.ingestDocs.limit | valueFormat}}</div>
             </div>
             <div class="amount col-3">$ {{overageData.overageDeatils.ingestDocs.amount * overageData.docCount}}</div>
-          </ng-container>
-          <ng-container *ngIf="overageData.queryCount>=1">
+          </ng-container>        
+        </div>
+        <div class="order-confirmation-table-body row col-12 m-0" *ngIf="overageData?.overageShow&&overageData?.overageDeatils&&overageData?.queryCount!=null">            
+          <ng-container>
             <div class="col-9 plan_details">
               <div class="plan-type col-5 p-0 m-0">{{"plan.query_overage"| translate}}</div>
               <div class="add-doc-btn-sec">
@@ -143,7 +145,7 @@
               <div class="amount-increased">{{overageData.overageDeatils.searchQueries.limit | valueFormat}}</div>
             </div>
             <div class="amount col-3">$ {{overageData.overageDeatils.searchQueries.amount * overageData.queryCount}}</div>
-          </ng-container>
+          </ng-container>          
         </div>
         <div class="order-confirmation-table-body row col-12 m-0">
           <div class="col-9 total-amount text-right">{{"plan.total_amount"| translate}}</div>

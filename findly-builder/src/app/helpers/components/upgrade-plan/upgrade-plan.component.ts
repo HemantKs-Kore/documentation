@@ -47,6 +47,7 @@ export class UpgradePlanComponent implements OnInit {
   featuresExceededUsage: any;
   count_info: any = { show: false, msg: '' };
   contact_us_planName: string;
+  showOverageErrorMsg: boolean = false;
   payementResponse: any = {
     hostedPage: {
       transactionId: "",
@@ -424,34 +425,41 @@ export class UpgradePlanComponent implements OnInit {
   //based on count change cost
   count(type, operator) {
     if (type == 'doc') {
-      this.overageData.docCount = operator == 'plus' ? this.overageData.docCount + 1 : this.overageData.docCount > 1 ? this.overageData.docCount - 1 : this.overageData.docCount = 1;
+      this.overageData.docCount = operator == 'plus' ? this.overageData.docCount + 1 : this.overageData.docCount >= 1 ? this.overageData.docCount - 1 : this.overageData.docCount = 0;
     }
     else if (type == 'query') {
-      this.overageData.queryCount = operator == 'plus' ? this.overageData.queryCount + 1 : this.overageData.queryCount > 1 ? this.overageData.queryCount - 1 : this.overageData.queryCount = 1;
+      this.overageData.queryCount = operator == 'plus' ? this.overageData.queryCount + 1 : this.overageData.queryCount >= 1 ? this.overageData.queryCount - 1 : this.overageData.queryCount = 0;;
     }
   }
   //buy overage payment
   buyOveragePayment() {
     this.selectedApp = this.workflowService.selectedApp();
     let overage = [];
-    if (this.overageData.docCount != null) {
+    if (this.overageData.docCount != null && this.overageData.docCount > 0) {
       overage.push({ "feature": "ingestDocs", "quantity": this.overageData.docCount })
     }
-    if (this.overageData.queryCount != null) {
+    if (this.overageData.queryCount != null && this.overageData.queryCount > 0) {
       overage.push({ "feature": "searchQueries", "quantity": this.overageData.queryCount })
     }
-    const queryParams = {
-      "streamId": this.selectedApp._id,
-      "subscriptionId": this.currentSubscriptionPlan.subscription._id
+    if (overage.length) {
+      this.showOverageErrorMsg = false;
+      const queryParams = {
+        "streamId": this.selectedApp._id,
+        "subscriptionId": this.currentSubscriptionPlan.subscription._id
+      }
+      const payload = { "overages": overage };
+      const buyOverage = this.service.invoke('put.buyOverage', queryParams, payload);
+      buyOverage.subscribe(res => {
+        this.invoiceOrderId = res.transactionId;
+        this.poling("overage");
+      }, errRes => {
+        this.errorToaster(errRes, 'failed buy overage');
+      });
     }
-    const payload = { "overages": overage };
-    const buyOverage = this.service.invoke('put.buyOverage', queryParams, payload);
-    buyOverage.subscribe(res => {
-      this.invoiceOrderId = res.transactionId;
-      this.poling("overage");
-    }, errRes => {
-      this.errorToaster(errRes, 'failed buy overage');
-    });
+    else {
+      this.btnDisable = false;
+      this.showOverageErrorMsg = true;
+    }
   }
   //gotoDetails
   gotoDetails(name) {
