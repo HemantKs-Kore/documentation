@@ -191,11 +191,11 @@
                 </span>
               </span>
             </div>
-            <input type="text" placeholder="{{'workbench.define_condition' | translate}}" maxlength="500" (keyup)="changesDetected = true" autocomplete="off"
+            <input type="text" placeholder="{{'workbench.define_condition' | translate}}" maxlength="60" (keyup)="changesDetected = true" autocomplete="off"
               class="input-text" [(ngModel)]="selectedStage.condition" />
               <!-- <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div> -->
           </div>
-          <div class="add-condition-example-text">Eg: ctx.sysContentType=="faq"</div>
+          <div class="add-condition-example-text">Eg: ctx.sys_content_type=="faq"</div>
           <div class="add-condition-info" *ngIf="selectedStage.type === 'exclude_document'">
             <img src="assets/icons/Info_blue.svg">{{'workbench.it_is_mandatory_to_add_conditions_for_defining' | translate}}
           </div>
@@ -779,7 +779,7 @@
           <div class="customScript">
             <div class="kr-sg-input-text-area">
               <div class="label-text">&lt;/&gt;{{'workbench.painless' | translate}}</div>
-              <textarea placeholder="{{'workbench.please_enter_script' | translate}}" class="input-text" maxlength="5000" (keyup)="
+              <textarea placeholder="{{'workbench.please_enter_script' | translate}}" class="input-text" maxlength="250" (keyup)="
                   addCustomScript(
                     newMappingObj.custom_script.defaultValue.script
                   )
