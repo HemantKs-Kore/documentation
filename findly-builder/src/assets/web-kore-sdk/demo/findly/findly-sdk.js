@@ -2727,6 +2727,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var searchQuery = $.trim(needle);
         var searchQueryArr = searchQuery.split(" ");
         if (searchQueryArr.length) {
+          if(searchQueryArr[searchQueryArr.length - 1] && suggestions[0]){
+            suggestions[0] = searchQueryArr[searchQueryArr.length - 1] + suggestions[0].slice(searchQueryArr[searchQueryArr.length-1].length,suggestions[0].length);
+          }
           searchQueryArr[searchQueryArr.length - 1] = suggestions[0];
         }
         searchQuery = searchQueryArr.join(' ');
