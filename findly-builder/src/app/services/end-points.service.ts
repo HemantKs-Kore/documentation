@@ -737,6 +737,11 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/apps/:streamId/channels/rtm',
       method: 'post'
     }
+    this.serviceList['edit.credential'] = {
+      //endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/channels/rtm',
+      endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps/:sdkAppId?streamId=:streamId&rnd=vs4wdk',
+      method: 'post'
+    }
     this.serviceList['get.dialog'] = {
       endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dialogs',
       method: 'get'
@@ -1025,7 +1030,7 @@ export class EndPointsService {
     }
     /** Pricing **/
     this.serviceList['get.pricingPlans'] = {
-      endpoint: this.API_SERVER_URL + '/findly/planss',
+      endpoint: this.API_SERVER_URL + '/findly/plans',
       method: 'get'
     }
     this.serviceList['get.currentPlans'] = {
