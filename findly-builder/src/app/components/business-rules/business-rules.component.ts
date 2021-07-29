@@ -658,7 +658,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
           this.closeModalPopup();
           this.errorToaster(errRes, errRes.error.errors[0].msg);
-          this.plans.openChoosePlanPopup('choosePlans', true);
+          this.plans.openChoosePlanPopup('choosePlans', { show: true, msg: errRes.error.errors[0].msg });
         } else {
           this.errorToaster(errRes, 'Failed to create rules');
         }
