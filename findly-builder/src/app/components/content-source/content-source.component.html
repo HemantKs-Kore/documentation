@@ -875,7 +875,7 @@
                 <div class="card_content" *ngFor="let page of pagingData | filter: [ pagesSearch, 'url_display'];let i = index">
                   <div class="card_header">
                     <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
-                      <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
+                      <div class="row m-0 content" (click)="viewPageDetails(page);selectedPage=page">
                         <div class="col-8 link-name p-0" title="{{page._source.page_url|| selectedSource.url}}">
                           {{page._source.page_url|| selectedSource.url}}</div>
                         <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
