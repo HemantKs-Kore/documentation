@@ -934,7 +934,7 @@ body.top-down .top-down-wrapper{
 .topdown-search-main-container .search-input-box .live_search_result_box::before,.topdown-search-main-container .search-input-box .frequently_searched_box::before{
   content: "";
   position: fixed;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(31, 32, 35, 0.4);
   width: 100%;
   height: 100%;
   left: 0;
@@ -944,12 +944,12 @@ body.top-down .top-down-wrapper{
   .top-down-search-background-div .topdown-search-main-container .search-input-box .live_search_result_box::before, .topdown-search-main-container .search-input-box .frequently_searched_box::before {
     content: "";
     position: fixed;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(31, 32, 35, 0.4);
     width: 100%;
     height: 100%;
     left: 0;
     z-index: -1;
-    top: 156px;
+    top: 130px;
 }
 .topdown-search-main-container .search-input-box .live_search_result_box ,.topdown-search-main-container .search-input-box .frequently_searched_box{
   background: var(--sdk-white-bg);
@@ -1223,6 +1223,7 @@ body.top-down .top-down-wrapper{
 
 .topdown-search-main-container .search-input-box .frequently_searched_box .freq-data-p{
   padding: 15px 26px;
+  background: #fff;
 }
 
 
@@ -1231,6 +1232,7 @@ body.top-down .top-down-wrapper{
   }
   .topdown-search-main-container .search-input-box .live_search_result_box .data-container {
     padding: 5px 26px 0px 37px;
+    background: #fff;
   }
 
 
@@ -1473,7 +1475,7 @@ float: right;
 .sdk-top-down-interface .conversation-container::before {
   content: "";
   position: fixed;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(31, 32, 35, 0.4);
   width: 100%;
   height: 100%;
   left: 0;
@@ -1483,7 +1485,7 @@ float: right;
 .sdk-top-down-interface .top-down-search-background-div .conversation-container::before {
   content: "";
   position: fixed;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(31, 32, 35, 0.4);
   width: 100%;
   height: 100%;
   left: 0;
@@ -2528,8 +2530,9 @@ display: none !important;
 }
 
 .sdk-top-down-interface .topdown-search-main-container .structured-data-outer-wrap{
-  margin-bottom:30px !important;
+  padding-bottom: 30px !important;
   margin-top: 5px;
+  margin-bottom: 0;
 }
 
 
