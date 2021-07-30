@@ -2692,3 +2692,36 @@ display: none !important;
   text-indent: inherit !important;
   top: -2px !important;
 }
+
+.sdk-top-down-interface .task-ended-message{
+  background: #F8F9FA;
+  border: 1px solid #E4E5E7;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 12px;
+  line-height: 14px;
+  margin-bottom: 8px;
+}
+
+.sdk-top-down-interface .task-ended-message .end-message-container{
+display: flex;
+}
+.sdk-top-down-interface .task-ended-message .end-message-container .end-message{
+  color: #5F6368;
+  line-height: 24px;
+}
+.sdk-top-down-interface .task-ended-message .back-to-search a img{
+padding-right: 6px;
+padding-left: 3px;
+}
+.sdk-top-down-interface .task-ended-message .back-to-search a span{
+  line-height: 14px;
+  }
+.sdk-top-down-interface .task-ended-message .back-to-search a {
+  line-height: 2px;
+  display: flex;
+  cursor: pointer;
+  width: 114px;
+  color: #0D6EFD !important;
+  }
