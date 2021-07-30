@@ -1030,7 +1030,7 @@ export class EndPointsService {
     }
     /** Pricing **/
     this.serviceList['get.pricingPlans'] = {
-      endpoint: this.API_SERVER_URL + '/findly/planss',
+      endpoint: this.API_SERVER_URL + '/findly/plans',
       method: 'get'
     }
     this.serviceList['get.currentPlans'] = {

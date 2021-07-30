@@ -580,14 +580,14 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.service.invoke('get.checkInExperiment', queryParms).subscribe(
       res => {
         let text = res.validated ? `Selected ${type == 'index' ? 'Index' : 'Search'} will be deleted from the app.` : `Selected ${type == 'index' ? 'Index' : 'Search'} Configuration is being used in Experiments. Deleting it stop the Experiement.`;
-        this.deleteIndexConfig(config, type, text)
+        this.deleteIndexConfig(config, type, text, res.validated)
       },
       errRes => {
         this.errorToaster(errRes, 'Failed to get API Response');
       }
     );
   }
-  deleteIndexConfig(config, type, text) {
+  deleteIndexConfig(config, type, text, validated) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
@@ -595,7 +595,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       data: {
         newTitle: 'Are you sure you want to delete ?',
         body: text,
-        buttons: [{ key: 'yes', label: 'Delete Anyway', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: `${validated ? 'Delete' : 'Delete Anyway'}`, type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });

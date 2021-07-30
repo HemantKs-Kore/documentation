@@ -58,6 +58,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('tleft') public tooltip: NgbTooltip;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
+  @ViewChild('customScriptCodeMirror') codemirror: any;
   newStage: any = {
     name: 'My Mapping'
   }
@@ -159,6 +160,18 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     matchBrackets: true,
     lint: false,
     readOnly: true,
+  };
+  customScriptCodeMirrorOptions : any = {
+    theme: 'neo',
+    mode: "javascript",
+    lineNumbers: true,
+    lineWrapping: true,
+    foldGutter: true,
+    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
+    autoCloseBrackets: true,
+    matchBrackets: true,
+    lint: false,
+    indentUnit: 2
   };
   simulateJson;
   filteredSimulatorRes:any;
@@ -1319,6 +1332,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       return false;
     }
+  }
+
+  painlessScriptChanged(event){
+    let count = this.codemirror.codeMirror.lineCount();
+    console.log("lines",this.codemirror.codeMirror.lineCount());
   }
   ngOnDestroy() {
     const self = this;
