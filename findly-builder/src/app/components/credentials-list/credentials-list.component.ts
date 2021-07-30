@@ -22,6 +22,8 @@ export class CredentialsListComponent implements OnInit {
   serachIndexId: any;
   firstlistData: any;
   addCredentialRef: any;
+  clipClientId:any;
+  clipclientSecret:any;
   editCredentialRef: any;
   editCredential: any = {};
   listData: any;
