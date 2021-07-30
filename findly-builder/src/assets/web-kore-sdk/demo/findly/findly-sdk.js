@@ -15957,7 +15957,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         <div class="slide tile-with-text-parent slide-parent-tile-with-text {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}">\
                           <a href="${data.url}" target="_blank" class="tile-with-text faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
                             <div class="tile-heading">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                            <div class="tile-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                            <div class="tile-description">{{html data.description}}</div>\
                           </a>\
                         </div>\
                       {{/each}}\
@@ -16019,7 +16019,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                   </div>\
                                   <div class="g-tile-heading">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                               </div>\
-                              <div class="g-dec-text">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                              <div class="g-dec-text">{{html data.description}}</div>\
                           </a>\
                         </div>\
                       {{/each}}\
@@ -16080,7 +16080,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             </div>\
                             <div class="text-content">\
                               <div class="title">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                              <div class="p-text">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                              <div class="p-text">{{html data.description}}</div>\
                             </div>\
                           </a>\
                         </div>\
@@ -16136,7 +16136,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <div class="carousel tile-with-image-parent structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
                       {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                         <div class="slide tile_with_header grid_view_template grid-view-carousel-tile-with-header {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}">\
-                          <a  href="${data.url}" target="_blank" class="tile-title faqs-shadow structured-data-wrp-content" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</a>\
+                          <a  href="${data.url}" target="_blank" class="tile-title faqs-shadow structured-data-wrp-content" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" title="${data.heading}">{{html data.heading}}</a>\
                         </div>\
                       {{/each}}\
                     </div>\

@@ -971,13 +971,13 @@ body.top-down .top-down-wrapper{
   border-bottom: 1px solid var(--sdk-border-porcelain-color);
   padding: 0 25px;
   margin-bottom: 0px;
-  position: relative;
   z-index: 2;
+  position: relative;
   background: #fff;
 }
 .topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box {
-  padding: 10px 0px 10px 11px;
-  margin: 0;
+  padding: 1px 0px 1px 11px;
+  margin: 10px 0;
   position: relative;
   color: var(--sdk-dusty-gray-color);
   cursor: pointer;
@@ -1234,7 +1234,7 @@ body.top-down .top-down-wrapper{
   display: none;
   }
   .topdown-search-main-container .search-input-box .live_search_result_box .data-container {
-    padding: 5px 26px 0px 37px;
+    padding: 10px 26px 0px 37px;
     background: #fff;
   }
 
