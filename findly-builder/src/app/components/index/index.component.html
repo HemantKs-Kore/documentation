@@ -779,11 +779,16 @@
           <div class="customScript">
             <div class="kr-sg-input-text-area">
               <div class="label-text">&lt;/&gt;{{'workbench.painless' | translate}}</div>
-              <textarea placeholder="{{'workbench.please_enter_script' | translate}}" class="input-text" maxlength="250" (keyup)="
+              <textarea placeholder="{{'workbench.please_enter_script' | translate}}" class="input- d-none" maxlength="250" (keyup)="
                   addCustomScript(
                     newMappingObj.custom_script.defaultValue.script
                   )
                 " [(ngModel)]="newMappingObj.custom_script.defaultValue.script"></textarea>
+                <!-- Changed the painless cript editor from Text Area to CodeMirror -->
+                <div class="painless-script-wrapper">
+                  <ngx-codemirror #customScriptCodeMirror [(ngModel)]="newMappingObj.custom_script.defaultValue.script" (ngModelChange)="painlessScriptChanged($event)" [options]="customScriptCodeMirrorOptions">
+                  </ngx-codemirror>
+                </div>
             </div>
           </div>
         </div>

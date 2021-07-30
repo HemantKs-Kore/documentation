@@ -5349,6 +5349,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if (code == '9' || code == '39') {
             if(!$('#suggestion').val()){
+              setTimeout(()=>{
+                if (!$('body').hasClass('top-down')) {
+                  $('.bottom-up-search').focus();
+                } else {
+                  $('.search-top-down').focus();
+                }
+              },100)
               return;
             }
             $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));

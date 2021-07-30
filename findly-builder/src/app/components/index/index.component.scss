@@ -637,6 +637,15 @@
     width: 600px;
     height: 400px;
   }
+  .painless-script-wrapper{
+    background: #FFFFFF;
+    border: 1px dashed #BDC1C6;
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: 100%;
+    margin-right: 8px;
+    // height: calc(100vh - 215px);
+  }
 }
 .empty-list {
   width: 320px;
