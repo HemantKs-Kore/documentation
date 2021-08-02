@@ -324,3 +324,8 @@ img.logo-img{
 .top-down-search-background-div .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .content-data-sec.if-customize-mode {
   max-height: calc(100vh - 364px) !important;
 }
+
+
+/* .top-down-search-background-div .topdown-search-main-container .search-input-box .live_search_result_box::before, .topdown-search-main-container .search-input-box .frequently_searched_box::before{
+  top: 62px !important;
+} */

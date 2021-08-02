@@ -746,11 +746,11 @@
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu >
                                     <li (click)="statusFilter.close();filterTable('all','recentStatus')"><span
-                                        class="list-name">All</span><img   [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
+                                        class="list-name">All</span><img   [ngClass]="{'hide': filterSystem.statusFilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                                     <li *ngFor="let status of statusArr"
                                       (click)="statusFilter.close();filterTable(status,'recentStatus')"><span
                                         class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Failed' : (status == 'queued' ? 'In-Queue' :'In Progress'))}}<img
-                                          class="hide" src="assets/icons/check-blue.svg"></span>
+                                        [ngClass]="{'hide': filterSystem.statusFilter !== status}" src="assets/icons/check-blue.svg"></span>
                                     </li>
                                   </ul>
                               </div>

@@ -934,7 +934,7 @@ body.top-down .top-down-wrapper{
 .topdown-search-main-container .search-input-box .live_search_result_box::before,.topdown-search-main-container .search-input-box .frequently_searched_box::before{
   content: "";
   position: fixed;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(31, 32, 35, 0.4);
   width: 100%;
   height: 100%;
   left: 0;
@@ -944,12 +944,12 @@ body.top-down .top-down-wrapper{
   .top-down-search-background-div .topdown-search-main-container .search-input-box .live_search_result_box::before, .topdown-search-main-container .search-input-box .frequently_searched_box::before {
     content: "";
     position: fixed;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(31, 32, 35, 0.4);
     width: 100%;
     height: 100%;
     left: 0;
     z-index: -1;
-    top: 156px;
+    top: 130px;
 }
 .topdown-search-main-container .search-input-box .live_search_result_box ,.topdown-search-main-container .search-input-box .frequently_searched_box{
   background: var(--sdk-white-bg);
@@ -970,7 +970,10 @@ body.top-down .top-down-wrapper{
 .topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box {
   border-bottom: 1px solid var(--sdk-border-porcelain-color);
   padding: 0 25px;
-  margin-bottom: 2px;
+  margin-bottom: 0px;
+  z-index: 2;
+  position: relative;
+  background: #fff;
 }
 .topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box {
   padding: 1px 0px 1px 11px;
@@ -1223,6 +1226,7 @@ body.top-down .top-down-wrapper{
 
 .topdown-search-main-container .search-input-box .frequently_searched_box .freq-data-p{
   padding: 15px 26px;
+  background: #fff;
 }
 
 
@@ -1230,7 +1234,8 @@ body.top-down .top-down-wrapper{
   display: none;
   }
   .topdown-search-main-container .search-input-box .live_search_result_box .data-container {
-    padding: 5px 26px 0px 37px;
+    padding: 10px 26px 0px 37px;
+    background: #fff;
   }
 
 
@@ -1473,7 +1478,7 @@ float: right;
 .sdk-top-down-interface .conversation-container::before {
   content: "";
   position: fixed;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(31, 32, 35, 0.4);
   width: 100%;
   height: 100%;
   left: 0;
@@ -1483,7 +1488,7 @@ float: right;
 .sdk-top-down-interface .top-down-search-background-div .conversation-container::before {
   content: "";
   position: fixed;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(31, 32, 35, 0.4);
   width: 100%;
   height: 100%;
   left: 0;
@@ -2528,8 +2533,9 @@ display: none !important;
 }
 
 .sdk-top-down-interface .topdown-search-main-container .structured-data-outer-wrap{
-  margin-bottom:30px !important;
+  padding-bottom: 30px !important;
   margin-top: 5px;
+  margin-bottom: 0;
 }
 
 
@@ -2686,3 +2692,36 @@ display: none !important;
   text-indent: inherit !important;
   top: -2px !important;
 }
+
+.sdk-top-down-interface .task-ended-message{
+  background: #F8F9FA;
+  border: 1px solid #E4E5E7;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 12px;
+  line-height: 14px;
+  margin-bottom: 8px;
+}
+
+.sdk-top-down-interface .task-ended-message .end-message-container{
+display: flex;
+}
+.sdk-top-down-interface .task-ended-message .end-message-container .end-message{
+  color: #5F6368;
+  line-height: 24px;
+}
+.sdk-top-down-interface .task-ended-message .back-to-search a img{
+padding-right: 6px;
+padding-left: 3px;
+}
+.sdk-top-down-interface .task-ended-message .back-to-search a span{
+  line-height: 14px;
+  }
+.sdk-top-down-interface .task-ended-message .back-to-search a {
+  line-height: 2px;
+  display: flex;
+  cursor: pointer;
+  width: 114px;
+  color: #0D6EFD !important;
+  }
