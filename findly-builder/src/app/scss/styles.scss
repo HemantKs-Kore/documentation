@@ -2853,6 +2853,23 @@ nouislider{
     }
 }
 
+.split_section_stage_table{
+    .form_sec{
+        .painless-script-wrapper{
+            .CodeMirror {
+                height: auto !important;
+                margin-bottom: .5rem!important;
+            }
+            
+            // .CodeMirror-scroll {
+            //     max-height:220px !important;
+            //     overflow: hidden !important;
+            // }
+        }
+    }
+    
+}
+
 .mat-form-field-appearance-fill {
     .mat-form-field-flex{
         padding: 0 !important;

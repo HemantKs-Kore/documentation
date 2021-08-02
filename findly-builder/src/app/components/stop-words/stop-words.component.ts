@@ -131,9 +131,9 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         this.pipeline.stages.forEach(stage => {
           if (stage && stage.type === 'stopwords') {
             this.stopwords = stage.stopwords || [];
-            // if (stage.options) {
-            //   this.enabled = stage.options.stopWordsRemovalEnabled;
-            // }
+            if (stage.options) {
+              this.enabled = stage.options.stopWordsRemovalEnabled;
+            }
           }
         });
       }

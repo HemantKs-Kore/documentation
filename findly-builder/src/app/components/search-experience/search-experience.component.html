@@ -499,7 +499,7 @@
                             </div>
                             <div class="col-7 p-0">                            
                                 <div class="border-with-padding">
-                                    <div class="label_text"  [ngClass]="{'enabled':searchObject.searchInteractionsConfig.showSearches == 'recent', 'disabled':searchObject.searchInteractionsConfig.showSearches == 'frequent'}">{{'searchexperience.show_searches' | translate}}</div>
+                                    <div class="label_text"  [ngClass]="{'enabled':searchObject.searchInteractionsConfig.showSearches == 'recent', 'disabled':searchObject.searchInteractionsConfig.showSearches == 'frequent'}">{{'searchexperience.show_recent_searches' | translate}}</div>
                                     <label class="kr-sg-toggle" >                                       
                                         <input type="checkbox"  [(ngModel)]="searchObject.searchInteractionsConfig.showSearchesEnabled" (change)="recentSearches()" >
                                         <div class="slider" ><span  class="enabled">{{'searchexperience.yes' | translate}}</span><span  class="disabled">{{'searchexperience.no' | translate}}</span></div>
