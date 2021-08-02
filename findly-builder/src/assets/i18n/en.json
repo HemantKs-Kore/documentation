@@ -1166,7 +1166,7 @@
         "border_color": "Border Color",
         "drag_and_drop_or": "Drag and drop or",
         "browse": "browse",
-        "recommended_file_size": "Recommended icon size : 26X26 pixels",
+        "recommended_file_size": "Recommended icon size : 26X26 pixels, less than 5 kb",
         "text_color": "Text Color",
         "add_button": "Add Button",
         "yes": "Yes",
