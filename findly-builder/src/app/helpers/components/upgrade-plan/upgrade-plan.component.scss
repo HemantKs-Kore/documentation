@@ -482,12 +482,22 @@
                         font-weight: 600;
                     }
                 }
+                .error-text{
+                    font-weight: normal;
+                    font-size: 12px;
+                    line-height: 18px;                    
+                    margin: 12px 0 0 0;
+                    span{
+                        color:#DD3646;
+                        margin-left: 10px;
+                    }
+                }
                 .order-confirmation-table{
                     background: #FFFFFF;
                     border: 1px solid #EFF0F1;
                     box-sizing: border-box;
                     border-radius: 4px;
-                    border-bottom: 0;
+                    //border-bottom: 0;
                     .order-confirmation-table-header{
                         background: #FFFFFF;
                         box-shadow: 0px 1px 0px rgb(32 33 36 / 10%);

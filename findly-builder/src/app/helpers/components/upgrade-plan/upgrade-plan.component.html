@@ -99,7 +99,7 @@
         </ul>
         <div class="s-text">{{"plan.please_find_the_order"| translate}}.</div>
       </ng-container>
-      <div class="order-confirmation-table" [ngStyle]="{'border-color':(overageData?.overageShow&&showOverageErrorMsg)?'#DD3646':'#EFF0F1','border-bottom':(overageData?.overageShow&&showOverageErrorMsg)?'none':0}">
+      <div class="order-confirmation-table" [ngStyle]="{'border-color':(overageData?.overageShow&&showOverageErrorMsg)?'#DD3646':'#EFF0F1'}">
         <div class="order-confirmation-table-header row col-12 m-0">
           <div class="title col-9">{{"plan.PLAN"| translate}}</div>
           <div class="title col-3">{{"plan.Amount"| translate}}</div>
@@ -152,6 +152,7 @@
           <div class="amount col-3">$ {{overageData&&overageData.overageShow?overageData.overageDeatils.ingestDocs.amount * overageData.docCount+overageData.overageDeatils.searchQueries.amount * overageData.queryCount:orderConfirmData.planAmount}}</div>
         </div>
       </div>
+      <div class="error-text" *ngIf="overageData?.overageShow&&showOverageErrorMsg"><img src="assets/icons/warning_escalation.svg"/> <span>Please select valid quantity for document and query overage to pay</span></div>
       <div class="note-text" *ngIf="!overageData?.overageShow&&selectedPlan?.planName!='Free'&&selectedPlan?.status!='expired'"><span>{{"plan.note"| translate}}:</span> {{"plan.same_payment_method"| translate}}.</div>
     </div>
   </perfect-scrollbar>

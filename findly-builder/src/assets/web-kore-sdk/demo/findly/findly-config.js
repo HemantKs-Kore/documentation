@@ -36,7 +36,7 @@
     botOptionsFindly.reWriteSocketURL = {
         protocol: 'wss',
         hostname: 'qa.findly.ai'
-    }; 
+    };
 
     // CVS Caremark configs //
     if (window.location && window.location.href && window.location.href.includes('#cvs')) {
@@ -77,4 +77,8 @@
 
     KoreSDK.findlyConfig = findlyConfig
     window.findlyConfig = findlyConfig
+
+    // KoreSDK.chatConfig = {};
+    // KoreSDK.chatConfig.googleMapsAPIKey = "";
+
 })(window.KoreSDK);
