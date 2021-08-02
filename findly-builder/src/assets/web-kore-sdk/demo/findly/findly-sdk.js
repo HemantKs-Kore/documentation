@@ -255,7 +255,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.locationObject = {};
 
       vars.experimentsObject = {}; // Local Object for Storing Experiments-Related Data (QueryPipelineID, Relay, RequestID)
-      console.log("navigator", navigator)
+
       var IPBasedLocationURL = "http://ip-api.com/json";
       $.ajax({
         url: IPBasedLocationURL,
@@ -2796,7 +2796,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $(evet.target).toggleClass('acc-active');
         var panel = $(evet.target).next();
         //if($(evet.target).next().length){
-        if (panel[0].style.maxHeight) {
+        if (panel[0].style.maxHeight || $(evet.target).hasClass('best-match')) {
+          if($(evet.target).hasClass('best-match')){
+            $(evet.target).removeClass('best-match')
+          }
           panel[0].style.maxHeight = null;
           panel[0].style.overflow = "hidden";
         } else {
@@ -5493,6 +5496,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             }
           }
+          $('#search').trigger({ type: 'keydown', which: 39 });
         })
         var handle = setInterval(function () {
           if (_self.bot.options.accessToken) {
@@ -5963,6 +5967,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
           }
+
           // if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
           //   _self.vars.searchObject.recents.unshift(searchText.toLowerCase());
           // }
@@ -6240,6 +6245,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('#conversation-container').show();
             $('#sa-conversation-box').prop('disabled', false);
             $('#sa-conversation-box').attr('placeholder', 'Type message...');
+          }
+        }
+        if (!$('body').hasClass('top-down')) {
+          if ((res || {}).endOfTask) {
+            return;
           }
         }
         if (res.payload == undefined) {
@@ -8440,7 +8450,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.bot = requireKr('/KoreBot.js').instance();
       // _self.bot.init(_self.config.botOptions, _self.config.messageHistoryLimit)
       _self.bot.init(config, _self.config.messageHistoryLimit);
-      // _self.bot.fetchUserLocation();
       _self.bindSocketEvents();
 
     };
@@ -14788,7 +14797,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           {{/if}}\
                           {{if isClickable == false}}\
                             <div class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
-                              <div class="tile-heading accordion p-0" id="1">\
+                            <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -14869,7 +14878,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-image faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -14955,7 +14964,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -15116,7 +15125,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -15197,7 +15206,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-image faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -15283,7 +15292,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -15433,7 +15442,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -15514,7 +15523,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-image faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -15600,7 +15609,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -16518,6 +16527,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.sys_content_type = obj.sys_content_type;
           item.contentId = obj.contentId;
           item.addedResult = (obj.addedResult || (obj.addedResult == false)) ? obj.addedResult : false;
+          item.bestMatch = (obj.bestMatch || (obj.bestMatch == false)) ? obj.bestMatch : false;
           dataArr.push(item);
         });
         return dataArr;
@@ -17091,6 +17101,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.sys_content_type = faq.sys_content_type;
           item.contentId = faq.contentId;
           item.addedResult = (faq.addedResult || (faq.addedResult == false)) ? faq.addedResult : false;
+          item.bestMatch = (faq.bestMatch || (faq.bestMatch == false)) ? faq.bestMatch : false;
           data.push(item);
         });
         return data;
@@ -17536,6 +17547,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if (_web[mapping.description]) {
             item.description = _web[mapping.description];
+            item.description =  item.description.toString().replaceAll("\n", ". ");
           }
           if (_web[mapping.img]) {
             item.img = _web[mapping.img];
@@ -17561,6 +17573,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.sys_content_type = _web.sys_content_type;
           item.contentId = _web.contentId;
           item.addedResult = (_web.addedResult || (_web.addedResult == false)) ? _web.addedResult : false;
+          item.bestMatch = (_web.bestMatch || (_web.bestMatch == false)) ? _web.bestMatch : false;
           data.push(item);
         });
         return data;
@@ -17989,6 +18002,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.sys_content_type = file.sys_content_type;
           item.contentId = file.contentId;
           item.addedResult = (file.addedResult || (file.addedResult == false)) ? file.addedResult : false;
+          item.bestMatch = (file.bestMatch || (file.bestMatch == false)) ? file.bestMatch : false;
           data.push(item);
         });
         return data;
@@ -20087,6 +20101,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (searchConfigurationCopy.querySuggestionsLimit == 0 && !searchConfigurationCopy.autocompleteOpt) {
         return;
       }
+      if (_self.vars.previousLivesearchData == $('#search').val()) {
+        _self.checkIsPreviousLiveSearchDataExists();
+        return;
+      }
       $.ajax({
         url: url,
         type: type,
@@ -22011,10 +22029,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             txtArr[i] = '\r\n';
             _lineBreakAdded = true;
           } else if (txtArr[i].indexOf('*') === 0) {
-            if (!isEven(txtArr[i].split('*').length - 1)) {
-              txtArr[i] = '\r\n&#9679; ' + txtArr[i].substring(1);
-              _lineBreakAdded = true;
-            }
+            // if (!isEven(txtArr[i].split('*').length - 1)) {
+            //   txtArr[i] = '\r\n&#9679; ' + txtArr[i].substring(1);
+            //   _lineBreakAdded = true;
+            // }
           } else if (txtArr[i].indexOf('>>') === 0) {
             txtArr[i] = '<p class="indent">' + txtArr[i].substring(2) + '</p>';
             _lineBreakAdded = true;
