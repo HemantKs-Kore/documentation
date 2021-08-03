@@ -45,13 +45,13 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   disableDiv = false;
   collectedRecord = [];
   permisionView = false;
-  showSearch=false;
+  showSearch = false;
   activeClose = false;
-  searchSources='';
+  searchSources = '';
   componentType: string = 'optimize';
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
-  fieldData : any;
+  fieldData: any;
   strucDataHeading = '';
   strucDataDec = '';
   strucDataHeadingDis = '';
@@ -61,7 +61,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
-    public inlineManual : InlineManualService,
+    public inlineManual: InlineManualService,
     private headerService: SideBarService,
     private zone: NgZone) { }
   sdk_evenBind() {
@@ -71,7 +71,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     $(document).on('click', '.kore-search-container-close-icon', () => {
       this.selectedApp = this.workflowService.selectedApp();
       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-      this.zone.run( () => {
+      this.zone.run(() => {
         this.loadCustomRankingList();
       });
     })
@@ -103,6 +103,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
+    if (!this.inlineManual.checkVisibility('RESULT_RANKING')) {
+      this.inlineManual.openHelp('RESULT_RANKING')
+      this.inlineManual.visited('RESULT_RANKING')
+    }
   }
   loadCustomRankingList() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -127,14 +131,14 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'Failed to get fields');
     });
   }
-  multiplyAction(value){
-    let count = value/0.25
-    if(count > 4){
+  multiplyAction(value) {
+    let count = value / 0.25
+    if (count > 4) {
       let data = count - 4;
       return data
-    }else {
+    } else {
       let data = 4 - count;
-      return data >= 0 ? data : -1*(data)
+      return data >= 0 ? data : -1 * (data)
     }
   }
   showLogs() {
@@ -149,7 +153,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       interface: interfaceType,
-      indexPipelineId : this.indexPipelineId
+      indexPipelineId: this.indexPipelineId
     };
     this.service.invoke('get.SI_settingInterface', quaryparms).subscribe(res => {
       if (res && res.appearance) {
@@ -174,23 +178,23 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       templateId: templateId,
-      indexPipelineId : this.indexPipelineId
+      indexPipelineId: this.indexPipelineId
     };
     this.service.invoke('get.SI_searchResultTemplate', quaryparms).subscribe(res => {
       let strucDataHeadingId = res.mapping.heading;
-    this.fieldData.forEach(element => {
-      if (element._id == res.mapping.heading) {
-        this.strucDataHeading = element.fieldName;
-      }
-    });
-    let strucDataDecId = res.mapping.description;
-    this.fieldData.forEach(element => {
-      if (element._id == res.mapping.description) {
-        this.strucDataDec = element.fieldName;
-      }
-    });
-    
-    this.getcustomizeList(10, 0);
+      this.fieldData.forEach(element => {
+        if (element._id == res.mapping.heading) {
+          this.strucDataHeading = element.fieldName;
+        }
+      });
+      let strucDataDecId = res.mapping.description;
+      this.fieldData.forEach(element => {
+        if (element._id == res.mapping.description) {
+          this.strucDataDec = element.fieldName;
+        }
+      });
+
+      this.getcustomizeList(10, 0);
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch Template');
     });
@@ -291,14 +295,14 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           // let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
           // texBox.value = this.selectedRecord.searchQuery;
           var link = document.getElementById('search') as HTMLDataElement;
-            link.value = this.selectedRecord.searchQuery;
-            $('#search').addClass('from-result-ranking');
-            link.click();
+          link.value = this.selectedRecord.searchQuery;
+          $('#search').addClass('from-result-ranking');
+          link.click();
           // link.focus();
           // document.getElementsByClassName('search-button')[0].removeAttribute('disabled')
           // let go = document.getElementsByClassName('search-button')[0] as HTMLBaseElement;
           // go.click();
-          
+
           var box = document.getElementById('searchBox') as HTMLDataElement;
           box.style.display = "block"
           var container = document.getElementById('searchChatContainer') as HTMLDataElement;
@@ -443,10 +447,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
         }
         if (this.actionLogData[i].target.contentType == 'faq') {
-          if(this.actionLogData[i].target.contentInfo._source.faq_answer[0].text){
+          if (this.actionLogData[i].target.contentInfo._source.faq_answer[0].text) {
             this.actionLogData[i].target.contentInfo._source['faqDesc'] = this.actionLogData[i].target.contentInfo._source.faq_answer[0].text;
           }
-          
+
           // if (this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.split(/^\r\n/)) {
           //   this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.replace(/\u21b5/g, '');
           // } else {
@@ -455,11 +459,11 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
 
         }
         if (this.actionLogData[i].target.contentType == 'data') {
-          if(this.actionLogData[i].target.contentInfo._source){
+          if (this.actionLogData[i].target.contentInfo._source) {
             this.actionLogData[i].target.contentInfo._source['strucDataHeadingDis'] = this.actionLogData[i].target.contentInfo._source[this.strucDataHeading];
             this.actionLogData[i].target.contentInfo._source['strucDataDecDis'] = this.actionLogData[i].target.contentInfo._source[this.strucDataDec];
           }
-          
+
 
         }
       }
@@ -579,11 +583,11 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         this.customizeLog[i].createdOn = moment(time).fromNow()
         this.customizeLog[i]['selected'] = false;
         if (this.customizeLog[i].target.contentType == 'data') {
-          if(this.customizeLog[i].target.contentInfo._source){
+          if (this.customizeLog[i].target.contentInfo._source) {
             this.customizeLog[i].target.contentInfo._source['strucDataHeadingDis'] = this.customizeLog[i].target.contentInfo._source[this.strucDataHeading];
             this.customizeLog[i].target.contentInfo._source['strucDataDecDis'] = this.customizeLog[i].target.contentInfo._source[this.strucDataDec];
           }
-          
+
 
         }
       }
@@ -688,10 +692,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       }
       else {
         this.loadingContent1 = true;
-        if(!this.inlineManual.checkVisibility('RESULT_RANKING')){
-          this.inlineManual.openHelp('RESULT_RANKING')
-          this.inlineManual.visited('RESULT_RANKING')
-        }
+        // if(!this.inlineManual.checkVisibility('RESULT_RANKING')){
+        //   this.inlineManual.openHelp('RESULT_RANKING')
+        //   this.inlineManual.visited('RESULT_RANKING')
+        // }
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -721,19 +725,19 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   closeLogs() {
     this.resultLogs = false;
   }
-  focusoutSearch(){
+  focusoutSearch() {
     if (this.activeClose) {
       this.searchSources = '';
       this.activeClose = false;
     }
     this.showSearch = !this.showSearch;
   }
-  focusinSearch(inputSearch){
+  focusinSearch(inputSearch) {
     $('#inputSearch').focus();
-    setTimeout(()=>{
+    setTimeout(() => {
       document.getElementById(inputSearch).focus();
       $('#inputSearch').focus();
-    },500)
+    }, 500)
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;

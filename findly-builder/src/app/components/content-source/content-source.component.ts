@@ -199,7 +199,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
-    public inlineManual : InlineManualService,
+    public inlineManual: InlineManualService,
     public dockService: DockStatusService,
     private appSelectionService: AppSelectionService
   ) { }
@@ -220,6 +220,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
+    if (!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')) {
+      this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
+      this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')
+    }
   }
   hoverExecutionLog() {
     this.executionLogStatus = true;
@@ -401,17 +405,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       if (res.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
-        if(!this.inlineManual.checkVisibility('CONTENT_OVERVIEW')){
+        if (!this.inlineManual.checkVisibility('CONTENT_OVERVIEW')) {
           this.inlineManual.openHelp('CONTENT_OVERVIEW')
           this.inlineManual.visited('CONTENT_OVERVIEW')
         }
       }
       else {
         this.loadingContent1 = true;
-        if(!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')){
-          this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
-          this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')
-        }
+        // if(!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')){
+        //   this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
+        //   this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')
+        // }
       }
     }, errRes => {
       console.log(errRes);
@@ -488,7 +492,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if (this.oldQuedJob.length != queuedJobs.length) {
           this.getSourceList();
         }
-      } else { 
+      } else {
         clearInterval(this.polingObj[type]);
         this.getSourceList('clearPoling');
       }
@@ -569,7 +573,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     });
   }
- 
+
   viewPages() {
     this.sliderStep = 0;
   }

@@ -162,7 +162,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     private convertMDtoHTML: ConvertMDtoHTML,
     // public dockService: DockStatusService,
     private headerService: SideBarService,
-    public inlineManual : InlineManualService,
+    public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
@@ -207,10 +207,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   loadingFaqs1: boolean;
   loadImageText: boolean = false;
   imageLoad() {
-    console.log("image loaded now")
     this.loadingFaqs = false;
     this.loadingFaqs1 = true;
     this.loadImageText = true;
+    if (!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')) {
+      this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
+      this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
+    }
   }
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
@@ -452,7 +455,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getStats(source._id);
         this.faqUpdateEvent();
       }
-     
+
     } else {
       this.selectedResource = null;
       this.getfaqsBy(null, this.selectedtab);
@@ -739,11 +742,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       // setTimeout(()=> {
       //   this.selectAll()
       // }, 1)
-    // FAQ Overview
-    if(!this.inlineManual.checkVisibility('FAQ_OVERVIEW')){
-      this.inlineManual.openHelp('FAQ_OVERVIEW')
-      this.inlineManual.visited('FAQ_OVERVIEW')
-    }
+      // FAQ Overview
+      if (!this.inlineManual.checkVisibility('FAQ_OVERVIEW')) {
+        this.inlineManual.openHelp('FAQ_OVERVIEW')
+        this.inlineManual.visited('FAQ_OVERVIEW')
+      }
 
       this.editfaq = null
       this.apiLoading = false;
@@ -880,12 +883,12 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       else {
         this.loadingFaqs1 = true;
-        setTimeout(()=>{
-          if(!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')){
-            this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
-            this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
-          }
-        },1000)
+        // setTimeout(()=>{
+        //   if(!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')){
+        //     this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
+        //     this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
+        //   }
+        // },1000)
       }
     }, errRes => {
     });

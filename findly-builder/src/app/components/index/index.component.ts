@@ -52,7 +52,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedStage;
   changesDetected;
   currentEditIndex: any = -1;
-  selectedStageIndex : any = -1;
+  selectedStageIndex: any = -1;
   pollingSubscriber: any = null;
   showNewStageType: boolean = false;
   subscription: Subscription;
@@ -68,7 +68,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedMapping: any = {};
   actionItmes: any = [{ type: 'set' }, { type: 'rename' }, { type: 'copy' }, { type: 'Delete' }];
   newMappingObj: any = {}
-  sourceType =  'all';
+  sourceType = 'all';
   defaultStageTypesObj: any = {
     field_mapping: {
       name: 'Field Mapping',
@@ -162,7 +162,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     lint: false,
     readOnly: true,
   };
-  customScriptCodeMirrorOptions : any = {
+  customScriptCodeMirrorOptions: any = {
     theme: 'neo',
     mode: "javascript",
     lineNumbers: true,
@@ -175,7 +175,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     indentUnit: 2
   };
   simulateJson;
-  filteredSimulatorRes:any;
+  filteredSimulatorRes: any;
   componentType: string = 'addData';
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
@@ -185,7 +185,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     public dialog: MatDialog,
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
-    public inlineManual : InlineManualService
+    public inlineManual: InlineManualService
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -252,7 +252,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   drop(event: CdkDragDrop<string[]>, list) {
     moveItemInArray(list, event.previousIndex, event.currentIndex);
-    if(event.previousIndex == this.selectedStageIndex){
+    if (event.previousIndex == this.selectedStageIndex) {
       this.currentEditIndex = event.currentIndex;
       this.selectedStageIndex = event.currentIndex;
     }
@@ -776,7 +776,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.currentEditIndex > -1) {
         payload.pipelineConfig = stages.slice(0, this.currentEditIndex + 1);
         //payload.pipelineConfig = [stages[this.currentEditIndex]];
-        
+
       } else {
         payload.pipelineConfig = stages
       }
@@ -791,7 +791,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         searchIndexID: this.serachIndexId,
         indexPipelineId: this.indexPipelineId
       };
-      this.searchSimulator='';
+      this.searchSimulator = '';
       this.service.invoke('post.simulate', quaryparms, payload).subscribe(res => {
         this.simulteObj.simulating = false;
         this.addcode(res);
@@ -842,7 +842,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         if (result === 'yes') {
           this.pipeline.splice(i, 1);
           dialogRef.close();
-          this.notificationService.notify('Deletd Successfully' , 'success')
+          this.notificationService.notify('Deletd Successfully', 'success')
           if (this.pipeline && this.pipeline.length) {
             this.selectStage(this.pipeline[0], 0);
           } else {
@@ -956,7 +956,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         this.selectStage(res.stages[0], 0);
       }
       this.loadingContent = false;
-      if(!this.inlineManual.checkVisibility('WORKBENCH')){
+      if (!this.inlineManual.checkVisibility('WORKBENCH')) {
         this.inlineManual.openHelp('WORKBENCH')
         this.inlineManual.visited('WORKBENCH')
       }
@@ -1152,25 +1152,25 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       map.trait_groups.splice(index, 1);
     }
   }
-  checkFieldsValidOrNot(map){
-    if(this.selectedStage.type == 'field_mapping'){
-      if((map.operation === 'rename' || map.operation === 'copy') ? (!map.target_field || !map.source_field):(map.operation === 'remove'?!map.target_field:(!map.target_field || !map.value)) ){
+  checkFieldsValidOrNot(map) {
+    if (this.selectedStage.type == 'field_mapping') {
+      if ((map.operation === 'rename' || map.operation === 'copy') ? (!map.target_field || !map.source_field) : (map.operation === 'remove' ? !map.target_field : (!map.target_field || !map.value))) {
         return false;
       }
-    } else if(this.selectedStage.type == 'entity_extraction'){
-      if(!map.target_field || !map.source_field || !map.entity_types.length){
+    } else if (this.selectedStage.type == 'entity_extraction') {
+      if (!map.target_field || !map.source_field || !map.entity_types.length) {
         return false;
       }
-    } else if(this.selectedStage.type == 'traits_extraction'){
-      if(!map.target_field || !map.source_field || !map.trait_groups.length){
+    } else if (this.selectedStage.type == 'traits_extraction') {
+      if (!map.target_field || !map.source_field || !map.trait_groups.length) {
         return false;
       }
-    } else if(this.selectedStage.type == 'keyword_extraction' || this.selectedStage.type == 'semantic_meaning'){
-      if(!map.target_field || !map.model || !map.source_field){
+    } else if (this.selectedStage.type == 'keyword_extraction' || this.selectedStage.type == 'semantic_meaning') {
+      if (!map.target_field || !map.model || !map.source_field) {
         return false;
       }
-    } else if(this.selectedStage.type == 'exclude_document'){
-      if(!map.target_field || !map.value){
+    } else if (this.selectedStage.type == 'exclude_document') {
+      if (!map.target_field || !map.value) {
         return false;
       }
     }
@@ -1186,7 +1186,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!this.selectedStage.config.mappings) {
       this.selectedStage.config.mappings = [];
     }
-    if(isNotDefault && !this.checkFieldsValidOrNot(map)){
+    if (isNotDefault && !this.checkFieldsValidOrNot(map)) {
       return
     }
     this.selectedStage.config.mappings.push(map);
@@ -1277,18 +1277,18 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   }
-  focusoutSearch(){
-    if(this.activeClose){
-      this.searchSimulator='';
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchSimulator = '';
       this.activeClose = false;
-     this.searchBySimulator();
-     }
-  this.showSearch= !this.showSearch;
+      this.searchBySimulator();
+    }
+    this.showSearch = !this.showSearch;
   }
-  focusinSearch(inputSearch){
-    setTimeout(()=>{
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    },100)
+    }, 100)
   }
   searchBySimulator() {
     const filtered = this.getKeyByValue(this.simulateJson, this.searchSimulator);
@@ -1296,31 +1296,31 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   getKeyByValue(object, searchSimulator) {
     searchSimulator = searchSimulator.toLowerCase();
-    let filteredObject:any = {};
+    let filteredObject: any = {};
     Object.keys(object).forEach(key => {
-      if(key.toLowerCase().search(searchSimulator) > -1){
+      if (key.toLowerCase().search(searchSimulator) > -1) {
         filteredObject[key] = object[key];
       }
-      else if(object[key].length && this.checkIsArray(object[key])){
-        object[key].forEach((element,index) => {
+      else if (object[key].length && this.checkIsArray(object[key])) {
+        object[key].forEach((element, index) => {
           Object.keys(element).forEach(key1 => {
-            if(key1.toLowerCase().search(searchSimulator) > -1){
-              if(!((filteredObject||{})[key] ||[]).length){
+            if (key1.toLowerCase().search(searchSimulator) > -1) {
+              if (!((filteredObject || {})[key] || []).length) {
                 filteredObject[key] = [];
               }
-              filteredObject[key].push({ [key1] :element[key1]});
-            }else if(this.checkIsArray(element[key1])){
+              filteredObject[key].push({ [key1]: element[key1] });
+            } else if (this.checkIsArray(element[key1])) {
               //
-              element[key1].forEach((ele,index2) => {
+              element[key1].forEach((ele, index2) => {
                 Object.keys(ele).forEach(key2 => {
-                  if(key2.toLowerCase().search(searchSimulator) > -1){
-                    if(!((filteredObject||{})[key]||[]).length){
+                  if (key2.toLowerCase().search(searchSimulator) > -1) {
+                    if (!((filteredObject || {})[key] || []).length) {
                       filteredObject[key] = [];
                     }
-                    if(!((filteredObject[key][index] ||{})[key1]||[]).length){
-                      filteredObject[key][index]={[key1] : []};
+                    if (!((filteredObject[key][index] || {})[key1] || []).length) {
+                      filteredObject[key][index] = { [key1]: [] };
                     }
-                    filteredObject[key][index][key1].push({ [key2] :ele[key2]})
+                    filteredObject[key][index][key1].push({ [key2]: ele[key2] })
                   }
                 });
               });
@@ -1340,9 +1340,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  painlessScriptChanged(event){
+  painlessScriptChanged(event) {
     let count = this.codemirror.codeMirror.lineCount();
-    console.log("lines",this.codemirror.codeMirror.lineCount());
+    console.log("lines", this.codemirror.codeMirror.lineCount());
   }
   ngOnDestroy() {
     const self = this;
@@ -1352,7 +1352,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    
+
   }
 }
 class StageClass {

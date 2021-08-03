@@ -121,7 +121,7 @@ export class StructuredDataComponent implements OnInit {
     private modalService: NgbModal,
     public headerService: SideBarService,
     private router: Router, public dialog: MatDialog,
-    public inlineManual : InlineManualService,
+    public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService) { }
 
   ngOnInit(): void {
@@ -148,10 +148,13 @@ export class StructuredDataComponent implements OnInit {
   isLoading1: boolean;
   loadImageText: boolean = false;
   imageLoad() {
-    console.log("image loaded now")
     this.isLoading = false;
     this.isLoading1 = true;
     this.loadImageText = true;
+    if (!this.inlineManual.checkVisibility('ADD_STRUCTURED_DATA_LANDING')) {
+      this.inlineManual.openHelp('ADD_STRUCTURED_DATA_LANDING')
+      this.inlineManual.visited('ADD_STRUCTURED_DATA_LANDING')
+    }
   }
   getStructuredDataList(skip?) {
     this.isLoading = true;
@@ -198,14 +201,14 @@ export class StructuredDataComponent implements OnInit {
       if (this.structuredDataItemsList.length == 0) {
         this.noItems = true;
         this.enableSearchBlock = false;
-        if(!this.inlineManual.checkVisibility('ADD_STRUCTURED_DATA_LANDING')){
-          this.inlineManual.openHelp('ADD_STRUCTURED_DATA_LANDING')
-          this.inlineManual.visited('ADD_STRUCTURED_DATA_LANDING')
-        }
+        // if(!this.inlineManual.checkVisibility('ADD_STRUCTURED_DATA_LANDING')){
+        //   this.inlineManual.openHelp('ADD_STRUCTURED_DATA_LANDING')
+        //   this.inlineManual.visited('ADD_STRUCTURED_DATA_LANDING')
+        // }
       }
       else {
         this.enableSearchBlock = true;
-        if(!this.inlineManual.checkVisibility('STRUCTURED_DATA_WALKTHROUGH')){
+        if (!this.inlineManual.checkVisibility('STRUCTURED_DATA_WALKTHROUGH')) {
           this.inlineManual.openHelp('STRUCTURED_DATA_WALKTHROUGH')
           this.inlineManual.visited('STRUCTURED_DATA_WALKTHROUGH')
         }
@@ -336,8 +339,8 @@ export class StructuredDataComponent implements OnInit {
     this.selectedSourceType = this.availableSources.find((s) => { if (s.resourceType === key) { return s } });
     console.log("this.selectedSourceType", this.selectedSourceType);
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
-    if(this.selectedSourceType.id == "contentStucturedDataImport"){
-      if(!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')){
+    if (this.selectedSourceType.id == "contentStucturedDataImport") {
+      if (!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')) {
         this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
         this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
       }
