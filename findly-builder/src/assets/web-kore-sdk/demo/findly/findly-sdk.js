@@ -6228,9 +6228,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var dataHTML = $(_self.getEndTaskMsgTopDownTemplate());
             $('#searchChatContainer').append(dataHTML);
             $('.task-ended-message').off('click', '.back-to-search').on('click', '.back-to-search', function (e) {
-              $("#searchChatContainer .task-ended-message").remove();
+              if (_self.isDev == false) {
+                $("#searchChatContainer .task-ended-message").remove();
+              }
               $('#conversation-container').hide();
-              return;
             });
             return;
           }
