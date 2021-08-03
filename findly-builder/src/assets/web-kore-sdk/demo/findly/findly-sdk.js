@@ -6228,8 +6228,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var dataHTML = $(_self.getEndTaskMsgTopDownTemplate());
             $('#searchChatContainer').append(dataHTML);
             $('.task-ended-message').off('click', '.back-to-search').on('click', '.back-to-search', function (e) {
-              $('#conversation-container').hide();
               $("#searchChatContainer .task-ended-message").remove();
+              $('#conversation-container').hide();
+              return;
             });
             return;
           }
@@ -7016,7 +7017,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(messageHtml).find('.messageBubble').addClass('hide')
         }
         $('#searchChatContainer').append(messageHtml);
-       
+        $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top  + 200)},500)
       }
       if (type === 'botAction') {
         messageData.text = _self.vars.searchObject.searchText;
