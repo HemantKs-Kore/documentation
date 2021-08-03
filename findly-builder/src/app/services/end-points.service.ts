@@ -740,7 +740,7 @@ export class EndPointsService {
     this.serviceList['edit.credential'] = {
       //endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/channels/rtm',
       endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps/:sdkAppId?streamId=:streamId&rnd=vs4wdk',
-      method: 'post'
+      method: 'put'
     }
     this.serviceList['get.dialog'] = {
       endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dialogs',
