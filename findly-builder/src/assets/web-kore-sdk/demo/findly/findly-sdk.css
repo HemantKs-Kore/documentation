@@ -8228,7 +8228,10 @@ html , body{
     font-size: 14px;
     font-weight: bold;    
   }
-
+  .searchAssist-kore-chat-window .accordion.best-match ~ .panel {
+    overflow: initial;
+    max-height: 100%;
+  }
   .widget-icon {
     position: absolute;
     bottom: 11px;
