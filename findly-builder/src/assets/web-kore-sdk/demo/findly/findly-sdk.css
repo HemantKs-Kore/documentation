@@ -14594,3 +14594,14 @@ padding: 0;
 .mb-15{
 margin-bottom: 15px !important;
 }
+
+.searchAssist-kore-chat-window .show-all-results-outer-wrap .main-content-title-grid-data.new-grid-search-data.list-view-data-search {
+    margin: 0 0px;
+    width: 445px !important;
+    display: block !important;
+}
+.searchAssist-kore-chat-window .all-product-details .main-content-title-grid-data.new-grid-search-data.list-view-data-search {
+    margin: 0 0px;
+    width: 434px !important;
+    display: block !important;
+}
