@@ -5345,7 +5345,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.enterIsClicked = false;
           }
           if (code == '9' || code == '39') {
-            if (!$('#suggestion').val()) {
+            if (($('body').hasClass('top-down') && !$('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && !$('.bottom-up-suggestion').val())) {
               setTimeout(() => {
                 if (!$('body').hasClass('top-down')) {
                   $('.bottom-up-search').focus();
@@ -5354,14 +5354,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
               }, 100)
               return;
+            }else{
+              $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
             }
-            $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
             $('#search').focus();
             if (!$('body').hasClass('top-down')) {
-              $('.bottom-up-search').val(JSON.parse(JSON.stringify($('.bottom-up-suggestion').val())));
+              if($('.bottom-up-suggestion').val()){
+                $('.bottom-up-search').val(JSON.parse(JSON.stringify($('.bottom-up-suggestion').val())));
+              }
               $('.bottom-up-search').focus();
             } else {
+              if($('.top-down-suggestion').val()){
               $('.search-top-down').val(JSON.parse(JSON.stringify($('.top-down-suggestion').val())));
+              }
               $('.search-top-down').focus();
             }
           }
@@ -5595,13 +5600,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 _self.vars.enterIsClicked = false;
               }
               if (code == '9' || code == '39') {
-                $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
+                if (($('body').hasClass('top-down') && !$('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && !$('.bottom-up-suggestion').val())) {
+                  setTimeout(() => {
+                    if (!$('body').hasClass('top-down')) {
+                      $('.bottom-up-search').focus();
+                    } else {
+                      $('.search-top-down').focus();
+                    }
+                  }, 100)
+                  return;
+                }else{
+                  $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
+                }
                 $('#search').focus();
                 if (!$('body').hasClass('top-down')) {
-                  $('.bottom-up-search').val(JSON.parse(JSON.stringify($('.bottom-up-suggestion').val())));
+                  if($('.bottom-up-suggestion').val()){
+                    $('.bottom-up-search').val(JSON.parse(JSON.stringify($('.bottom-up-suggestion').val())));
+                  }
                   $('.bottom-up-search').focus();
                 } else {
+                  if($('.top-down-suggestion').val()){
                   $('.search-top-down').val(JSON.parse(JSON.stringify($('.top-down-suggestion').val())));
+                  }
                   $('.search-top-down').focus();
                 }
               }
