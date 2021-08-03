@@ -158,7 +158,7 @@ export class SearchInterfaceComponent implements OnInit {
 
     console.log(this.customizeTemplateObj);
     console.log(this.selectedSettingResultsObj);
-    if(!this.inlineManual.checkVisibility('RESULT_TEMPLATE')){
+    if(!this.inlineManual.checkVisibility('RESULT_TEMPLATE') && false){
       this.inlineManual.openHelp('RESULT_TEMPLATE')
       this.inlineManual.visited('RESULT_TEMPLATE')
     }
