@@ -248,6 +248,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.searchFacetFilters = [];
       vars.enterIsClicked = false;
       vars.previousLivesearchData = null;
+      vars.previousAutosuggestionData = '';
       vars.previousDataobj = '';
       vars.customizeView = false;
       vars.showingMatchedResults = false;
@@ -5177,8 +5178,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getRecentSearches = function (url, type) {
       var _self = this;
+      _self.vars.isRecentSearchesLoading = false;
       _self.pubSub.unsubscribe('sa-generate-recent-search');
       _self.pubSub.subscribe('sa-generate-recent-search', data => {
+        if(_self.vars.isRecentSearchesLoading){
+          return;
+        }
+        _self.vars.isRecentSearchesLoading = true;
         var bearer = this.API.jstBarrer;
         var headers = {
           "Authorization": 'bearer ' + this.bot.options.accessToken,
@@ -5239,7 +5245,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.search-body').addClass('hide');
               $('#searchChatContainer').removeClass('bgfocus');
             }
-
+            _self.vars.isRecentSearchesLoading = false;
           },
           error: function (err) {
             console.log(err);
@@ -6774,6 +6780,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#frequently-searched-box').hide();
           $('#live-search-result-box').hide();
         }
+        // out side click for live search and frequent search dropdown close//
+      $('#live-search-result-box').off('click').on('click', function (event) {
+        if ($(event.target).closest('#live-search-result-box').length && !$(event.target).closest('.carousel').length) {
+          if ($('#live-search-result-box').height() < event.offsetY || event.offsetX < 0 || event.offsetX > $('#live-search-result-box').width()) {
+            $('#live-search-result-box').hide();
+          }
+        }
+      });
+      $('#frequently-searched-box').off('click').on('click', function (event) {
+        if ($(event.target).closest('#frequently-searched-box').length) {
+          if ($('#frequently-searched-box').height() < event.offsetY || event.offsetX < 0 || event.offsetX > $('#frequently-searched-box').width()) {
+            $('#frequently-searched-box').hide();
+          }
+        }
+      });
         if (!($(event.target).closest('.dropdown_custom_filter').length)) {
           $('.dropdown-content').hide();
           $('.dropdown_custom_filter').find('.down-arrow').show();
@@ -20100,11 +20121,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           headers.auth = _self.config.botOptions.assertion;
         }
       }
-      if (searchConfigurationCopy.querySuggestionsLimit == 0 && !searchConfigurationCopy.autocompleteOpt) {
+      if (!$('#search').val() || (searchConfigurationCopy.querySuggestionsLimit == 0 && !searchConfigurationCopy.autocompleteOpt)) {
+        _self.vars.previousAutosuggestionData = $('#search').val();
         return;
       }
-      if (_self.vars.previousLivesearchData == $('#search').val()) {
-        _self.checkIsPreviousLiveSearchDataExists();
+      if (_self.vars.previousAutosuggestionData == $('#search').val()) {
         return;
       }
       $.ajax({
@@ -20114,6 +20135,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         headers: headers,
         data: payload,
         success: function (data) {
+          _self.vars.previousAutosuggestionData = $('#search').val();
           if (!data.isBotLocked) {
             if (searchConfigurationCopy.querySuggestionsLimit) {
               var autoSuggestionHTML = $(_self.getAutoSuggestionTemplate()).tmplProxy({
@@ -21317,7 +21339,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }, 600);
       });
       // _self.pubSub.unsubscribe('sa-generate-recent-search');
-      $('#search-box-container').off('focusin', '.search-top-down').on('focusin', '.search-top-down', function (e) {
+      $('#search-box-container').off('focus', '.search-top-down').on('focus', '.search-top-down', function (e) {
         if (!$('.search-top-down').val()) {
           console.log('initialize focus');
           _self.bindFrequentData();
