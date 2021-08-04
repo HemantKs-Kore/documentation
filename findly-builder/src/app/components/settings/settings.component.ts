@@ -541,6 +541,7 @@ export class SettingsComponent implements OnInit {
       
   }
 enableDisableCredential(){
+ 
   const modalData: any = {
     newTitle: 'Are you sure you want to disable?',
     body: 'Search users cannot interact with the app through this channel if it is disabled. ', 
@@ -548,26 +549,30 @@ enableDisableCredential(){
     confirmationPopUp: true
   }
   if (this.enableConfiguration) {
-    modalData.newTitle = 'Are you sure you want to Enable ?'
-    modalData.body = 'Channel will be enabled.';
-    modalData.buttons[0].label = 'Enable' ;
+    this.notificationService.notify('Web SDK channel is enabled.','success')
+    // modalData.newTitle = 'Are you sure you want to Enable ?'
+    // modalData.body = 'Channel will be enabled.';
+    // modalData.buttons[0].label = 'Enable' ;
   }
-  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-    width: '530px',
-    height: 'auto',
-    panelClass: 'delete-popup',
-    data: modalData,
-  });
-  dialogRef.componentInstance.onSelect
-    .subscribe(result => {
-      if (result === 'yes') {
-        this.disableCredential();
-        dialogRef.close();
-      } else if (result === 'no') {
-        this.enableConfiguration=!this.enableConfiguration;
-        dialogRef.close();
-      }
-    })
+  if (!this.enableConfiguration){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: modalData,
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.disableCredential();
+          dialogRef.close();
+        } else if (result === 'no') {
+          this.enableConfiguration=!this.enableConfiguration;
+          dialogRef.close();
+        }
+      })
+  }
+ 
 }
   disableCredential(pageDisable?) { 
     const queryParams = {

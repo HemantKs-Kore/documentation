@@ -20,115 +20,119 @@ import { Subscription } from 'rxjs';
   encapsulation: ViewEncapsulation.None
 })
 export class ResultsRulesComponent implements OnInit, OnDestroy {
-  validationRules:any={
-    condition:'OR',
-    rules:[],
-    then:{
-      resultCategory : 'BoostResults',
-      values:[]
+  validationRules: any = {
+    condition: 'OR',
+    rules: [],
+    then: {
+      resultCategory: 'BoostResults',
+      values: []
     }
   }
-  validationOperators:any ={
-    operatorsObj:{
-       equalTo: {operator:'==',type:'equalTo',valueTypes:['value','field','currentDate'],inputType:'text'},
-       notEqualTo: {operator:'!=',type:'notEqualTo',valueTypes:['value','field','currentDate'],inputType:'text'},
-       contains: {operator:'contains',type:'contains',valueTypes:['value','field','valueType'],inputType:'text'},
-       doesNotContain: {operator:'doesNotContains',type:'doesNotContain',valueTypes:['value','field','valueType'],inputType:'text'},
-       greaterThan: {operator:'>',type:'greaterThan',valueTypes:['value','field','currentDate'],inputType:'number'},
-       lessThan: {operator:'<',type:'lessThan',valueTypes:['value','field','currentDate'],inputType:'number'},
-       greaterThanOrEqualTo: {operator:'>=',type:'greaterThanOrEqualTo',valueTypes:['value','field','currentDate']
-                               ,inputType:'number'},
-       lessThanOrEqualTo: {operator:'<=',type:'lessThanOrEqualTo',valueTypes:['value','field','currentDate']
-                               ,inputType:'number'},
-       // regex: {operator:'regex',type:'regex',valueTypes:['value'],inputType:'text'},
-       // noOfDecimals: {operator:'noOfDecimals',type:'noOfDecimals',valueTypes:['value'],inputType:'text'},
-       partOf: {operator:'partOf',type:'partOf',valueTypes:['value','field'],inputType:'text'},
-       notPartof: {operator:'notPartof',type:'notPartof',valueTypes:['value','field'],inputType:'text'},
-       minLength: {operator:'minLength',type:'minLength',valueTypes:['value'],inputType:'number'},
-       maxLength: {operator:'maxLength',type:'maxLength',valueTypes:['value'],inputType:'number'},
-       futureDates: {operator:'futureDates',type:'futureDates',valueTypes:['value'],inputType:'text'},
-       pastDates: {operator:'pastDates',type:'pastDates',valueTypes:['value'],inputType:'text'},
+  validationOperators: any = {
+    operatorsObj: {
+      equalTo: { operator: '==', type: 'equalTo', valueTypes: ['value', 'field', 'currentDate'], inputType: 'text' },
+      notEqualTo: { operator: '!=', type: 'notEqualTo', valueTypes: ['value', 'field', 'currentDate'], inputType: 'text' },
+      contains: { operator: 'contains', type: 'contains', valueTypes: ['value', 'field', 'valueType'], inputType: 'text' },
+      doesNotContain: { operator: 'doesNotContains', type: 'doesNotContain', valueTypes: ['value', 'field', 'valueType'], inputType: 'text' },
+      greaterThan: { operator: '>', type: 'greaterThan', valueTypes: ['value', 'field', 'currentDate'], inputType: 'number' },
+      lessThan: { operator: '<', type: 'lessThan', valueTypes: ['value', 'field', 'currentDate'], inputType: 'number' },
+      greaterThanOrEqualTo: {
+        operator: '>=', type: 'greaterThanOrEqualTo', valueTypes: ['value', 'field', 'currentDate']
+        , inputType: 'number'
       },
-   valueTypes:[
-       {operator:'onlyNumbers',type:'onlyNumbers',valueTypes:[],inputType:'number'},
-       {operator:'onlyAlphaNumeric',type:'onlyAlphaNumeric',valueTypes:[],inputType:'text'},
-       {operator:'onlyAlphabet',type:'onlyAlphabet',valueTypes:[],inputType:'text'},
-   ],
-   rulesObj:{
-       operator:'',
-       listContextTypes: ['Search Context', 'User Context', 'Page Context'],
-       listContextCategories: ['Customer Type', 'Accounts', 'Recent Searches', 'Device Type', 'Location', 'Page Name', ' Page Id']
-   },
-   ruleConditionOr:{
-       condition:'OR',
-       rules:[]
-     },
-   ruleConditionAnd:{
-       condition:'AND',
-       rules:[]
-   }
-}
+      lessThanOrEqualTo: {
+        operator: '<=', type: 'lessThanOrEqualTo', valueTypes: ['value', 'field', 'currentDate']
+        , inputType: 'number'
+      },
+      // regex: {operator:'regex',type:'regex',valueTypes:['value'],inputType:'text'},
+      // noOfDecimals: {operator:'noOfDecimals',type:'noOfDecimals',valueTypes:['value'],inputType:'text'},
+      partOf: { operator: 'partOf', type: 'partOf', valueTypes: ['value', 'field'], inputType: 'text' },
+      notPartof: { operator: 'notPartof', type: 'notPartof', valueTypes: ['value', 'field'], inputType: 'text' },
+      minLength: { operator: 'minLength', type: 'minLength', valueTypes: ['value'], inputType: 'number' },
+      maxLength: { operator: 'maxLength', type: 'maxLength', valueTypes: ['value'], inputType: 'number' },
+      futureDates: { operator: 'futureDates', type: 'futureDates', valueTypes: ['value'], inputType: 'text' },
+      pastDates: { operator: 'pastDates', type: 'pastDates', valueTypes: ['value'], inputType: 'text' },
+    },
+    valueTypes: [
+      { operator: 'onlyNumbers', type: 'onlyNumbers', valueTypes: [], inputType: 'number' },
+      { operator: 'onlyAlphaNumeric', type: 'onlyAlphaNumeric', valueTypes: [], inputType: 'text' },
+      { operator: 'onlyAlphabet', type: 'onlyAlphabet', valueTypes: [], inputType: 'text' },
+    ],
+    rulesObj: {
+      operator: '',
+      listContextTypes: ['Search Context', 'User Context', 'Page Context'],
+      listContextCategories: ['Customer Type', 'Accounts', 'Recent Searches', 'Device Type', 'Location', 'Page Name', ' Page Id']
+    },
+    ruleConditionOr: {
+      condition: 'OR',
+      rules: []
+    },
+    ruleConditionAnd: {
+      condition: 'AND',
+      rules: []
+    }
+  }
   listContextTypes = ['Search Context', 'User Context', 'Page Context'];
   listContextCategories = ['Customer Type', 'Accounts', 'Recent Searches', 'Device Type', 'Location', 'Page Name', ' Page Id'];
   dispContextCategories = [];
   listResultsCategories = ['Filter Results', 'Hide Results', 'Boost Results', 'Surplus Results', 'Rewrite Query'];
-  rulesObjOO ={
-    then:{
-     resultCategory : '',
-     values:[]
-     }
+  rulesObjOO = {
+    then: {
+      resultCategory: '',
+      values: []
+    }
   }
-selectedTab = 'rules';
-loadingTabDetails
-addAttributesModalPopRef:any;
-addRulesModalPopRef:any;
-addSignalsModalPopRef:any;
-addEditattribute : any = {
-  name:'',
-  attributes:[],
-  type:'',
-  isFacet:''
-};
-name = {
-  na: ''
-};
-ruleEditId: string;
-addEditRule:any= {};
-typedQuery;
-options: MdEditorOption = {
-  showPreviewPanel: false,
-  hideIcons: ['TogglePreview']
-};
-isAdd: boolean;
-isEdit: boolean;
-selectedAttributesObj:any = {};
-attributes:any= [];
-rules:any = [];
-draftRules: any = [];
-inReviewRules: any = [];
-approvedRules: any = [];
-selectedApp
-serachIndexId
-groupsAdded: any = [];
-searchBlock = '';
-loading = true;
-loadingRules = true;
-allGroups: string[] = [];
-allValues: any;
-groupVal: any;
-groupIds: any;
-valueIds: any;
-tabsList: any = [
-  {name: 'Drafts', isSelected: true, count: 0},
-  {name: 'In-review', isSelected: false, count: 0},
-  {name: 'Approved', isSelected: false, count: 0}
-]
-selectAllSub :Subscription;
-openAddRulesModalSub :Subscription;
-deleteRuleSub :Subscription;
-bulkSendSub :Subscription;
-bulkDeleteSub :Subscription;
-readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  selectedTab = 'rules';
+  loadingTabDetails
+  addAttributesModalPopRef: any;
+  addRulesModalPopRef: any;
+  addSignalsModalPopRef: any;
+  addEditattribute: any = {
+    name: '',
+    attributes: [],
+    type: '',
+    isFacet: ''
+  };
+  name = {
+    na: ''
+  };
+  ruleEditId: string;
+  addEditRule: any = {};
+  typedQuery;
+  options: MdEditorOption = {
+    showPreviewPanel: false,
+    hideIcons: ['TogglePreview']
+  };
+  isAdd: boolean;
+  isEdit: boolean;
+  selectedAttributesObj: any = {};
+  attributes: any = [];
+  rules: any = [];
+  draftRules: any = [];
+  inReviewRules: any = [];
+  approvedRules: any = [];
+  selectedApp
+  serachIndexId
+  groupsAdded: any = [];
+  searchBlock = '';
+  loading = true;
+  loadingRules = true;
+  allGroups: string[] = [];
+  allValues: any;
+  groupVal: any;
+  groupIds: any;
+  valueIds: any;
+  tabsList: any = [
+    { name: 'Drafts', isSelected: true, count: 0 },
+    { name: 'In-review', isSelected: false, count: 0 },
+    { name: 'Approved', isSelected: false, count: 0 }
+  ]
+  selectAllSub: Subscription;
+  openAddRulesModalSub: Subscription;
+  deleteRuleSub: Subscription;
+  bulkSendSub: Subscription;
+  bulkDeleteSub: Subscription;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('addRulesModalPop') addRulesModalPop: KRModalComponent;
   @ViewChild('addAttributesModalPop') addAttributesModalPop: KRModalComponent;
   @ViewChild('addSignalsModalPop') addSignalsModalPop: KRModalComponent;
@@ -150,11 +154,11 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   resetRule() {
     this.name.na = '';
-    this.rulesObjOO ={
-      then:{
-       resultCategory : '',
-       values:[]
-       }
+    this.rulesObjOO = {
+      then: {
+        resultCategory: '',
+        values: []
+      }
     }
     this.validationRules.rules = [
       {
@@ -169,7 +173,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     this.validationRules.rules[0].rules[0].listContextTypes = ['Search Context', 'User Context', 'Page Context'];
     this.validationRules.rules[0].rules[0].listContextCategories = ['Customer Type', 'Accounts', 'Recent Searches', 'Device Type', 'Location', 'Page Name', ' Page Id'];
   }
-  selectTab(tab){
+  selectTab(tab) {
     this.selectedTab = tab;
     this.searchBlock = '';
     this.loadingTabDetails = true;
@@ -180,13 +184,13 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   updatedContextType(ruleData, val) {
     ruleData.contextType = val;
     ruleData.contextCategory = null;
-    if(val == 'User Context') {
+    if (val == 'User Context') {
       ruleData.dispContextCategories = ['Customer Type', 'Accounts'];
     }
-    else if(val == 'Search Context') {
+    else if (val == 'Search Context') {
       ruleData.dispContextCategories = ['Recent Searches', 'Device Type', 'Location'];
     }
-    else if(val == 'Page Context') {
+    else if (val == 'Page Context') {
       ruleData.dispContextCategories = ['Page Name', ' Page Id'];
     }
   }
@@ -195,92 +199,92 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     ruleObjData.then.resultCategory = val;
   }
 
-  addSimpleRule(ruleSet,type){
+  addSimpleRule(ruleSet, type) {
     const rule = JSON.parse(JSON.stringify(this.validationOperators.rulesObj));
     ruleSet.rules.push(rule);
   }
-  removeSimpleRule(ruleSet,index,type){
-  if(index>-1 && ruleSet && ruleSet.rules && ruleSet.rules.length > 1){
-    ruleSet.rules.splice(index,1);
+  removeSimpleRule(ruleSet, index, type) {
+    if (index > -1 && ruleSet && ruleSet.rules && ruleSet.rules.length > 1) {
+      ruleSet.rules.splice(index, 1);
+    }
   }
-  }
-  addRuleToRuleSet(ruleSet){
+  addRuleToRuleSet(ruleSet) {
     const rule = JSON.parse(JSON.stringify(this.validationOperators.rulesObj));
     ruleSet.rules.push(rule);
   }
-  addRuleSetToRuleSet(ruleSet){
+  addRuleSetToRuleSet(ruleSet) {
     const tempRuleSet = JSON.parse(JSON.stringify(this.validationOperators.ruleConditionAnd));
     const rule = JSON.parse(JSON.stringify(this.validationOperators.rulesObj));
     tempRuleSet.rules.push(rule);
     ruleSet.rules.push(tempRuleSet);
   }
-  addNewSimpleRuleSet(){
+  addNewSimpleRuleSet() {
     const tempObj = JSON.parse(JSON.stringify(this.validationOperators.ruleConditionOr));
     const tempRuleSet = JSON.parse(JSON.stringify(this.validationOperators.ruleConditionAnd))
     const rule = JSON.parse(JSON.stringify(this.validationOperators.rulesObj));
     tempRuleSet.rules.push(rule);
-    if(!(this.validationRules.rules && this.validationRules.rules.length)){
+    if (!(this.validationRules.rules && this.validationRules.rules.length)) {
       tempObj.rules.push(tempRuleSet);
       this.validationRules = tempObj
-     } else if(this.validationRules.rules && this.validationRules.condition){
+    } else if (this.validationRules.rules && this.validationRules.condition) {
       this.validationRules.rules.push(tempRuleSet);
-     }
+    }
   }
-  getAttributes(){
+  getAttributes() {
     const quaryparamats = {
-      searchIndexId : this.serachIndexId,
-   }
-   this.service.invoke('get.groups', quaryparamats).subscribe(
-    res => {
-      res.groups = _.filter(res.groups, o=>o.action!='delete')
-      this.allGroups = _.pluck(res.groups, 'name');
-      this.allValues = _.map(_.pluck(res.groups, 'attributes'), o=>{ return _.pluck(o, 'value')});
-      this.groupVal = _.object(this.allGroups, this.allValues);
-      this.groupIds = _.map(res.groups, function(o){return _.pick(o, 'name', '_id')});
-      let temp = _.pluck(res.groups, 'attributes').filter(o=>{return o.length !=0});
-      let tempVals = [];
-      temp.forEach(o=>{tempVals.push(...o)});
-      this.valueIds = tempVals;
-      this.attributes = res;
-      this.loading = false;
-    },
-    errRes => {
-      this.loading = false;
+      searchIndexId: this.serachIndexId,
     }
-  );
-    }
-  addedGroupToRule(event,rule,type?){
-    if(type == 'if') {
+    this.service.invoke('get.groups', quaryparamats).subscribe(
+      res => {
+        res.groups = _.filter(res.groups, o => o.action != 'delete')
+        this.allGroups = _.pluck(res.groups, 'name');
+        this.allValues = _.map(_.pluck(res.groups, 'attributes'), o => { return _.pluck(o, 'value') });
+        this.groupVal = _.object(this.allGroups, this.allValues);
+        this.groupIds = _.map(res.groups, function (o) { return _.pick(o, 'name', '_id') });
+        let temp = _.pluck(res.groups, 'attributes').filter(o => { return o.length != 0 });
+        let tempVals = [];
+        temp.forEach(o => { tempVals.push(...o) });
+        this.valueIds = tempVals;
+        this.attributes = res;
+        this.loading = false;
+      },
+      errRes => {
+        this.loading = false;
+      }
+    );
+  }
+  addedGroupToRule(event, rule, type?) {
+    if (type == 'if') {
       rule.values = [];
-      for(var i=0; i<event.length; i++) {
-        if(event[i].indexOf(':') == -1) {
+      for (var i = 0; i < event.length; i++) {
+        if (event[i].indexOf(':') == -1) {
           let temp3 = {
-            "type" : "string",
-            "value" : event[i]
+            "type": "string",
+            "value": event[i]
           }
           rule.values.push(temp3);
         }
         else {
-          let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, value: event[i].split(':')[0]};
-          let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id, value: event[i]};
+          let temp1 = { type: 'group', groupId: _.findWhere(this.groupIds, { name: event[i].split(':')[0] })._id, value: event[i].split(':')[0] };
+          let temp2 = { type: 'groupValue', groupId: _.findWhere(this.groupIds, { name: event[i].split(':')[0] })._id, groupValueId: _.findWhere(this.valueIds, { value: event[i].split(':')[1] })._id, value: event[i] };
           rule.values.push(temp1);
           rule.values.push(temp2);
         }
       }
     }
-    else if(type == 'then') {
+    else if (type == 'then') {
       this.rulesObjOO.then.values = [];
-      for(var i=0; i<event.length; i++) {
-        if(event[i].indexOf(':') == -1) {
+      for (var i = 0; i < event.length; i++) {
+        if (event[i].indexOf(':') == -1) {
           let temp3 = {
-            "type" : "string",
-            "value" : event[i]
+            "type": "string",
+            "value": event[i]
           }
           this.rulesObjOO.then.values.push(temp3);
         }
         else {
-          let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, value: event[i].split(':')[0]};
-          let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id, value: event[i]};
+          let temp1 = { type: 'group', groupId: _.findWhere(this.groupIds, { name: event[i].split(':')[0] })._id, value: event[i].split(':')[0] };
+          let temp2 = { type: 'groupValue', groupId: _.findWhere(this.groupIds, { name: event[i].split(':')[0] })._id, groupValueId: _.findWhere(this.valueIds, { value: event[i].split(':')[1] })._id, value: event[i] };
           this.rulesObjOO.then.values.push(temp1);
           this.rulesObjOO.then.values.push(temp2);
         }
@@ -290,20 +294,20 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   editRules() {
 
-    if(this.name.na.trim() == '') {
+    if (this.name.na.trim() == '') {
       this.notify.notify('Please enter rule name', 'error');
       return;
     }
     let rulesCheck = this.validateRules(this.validationRules.rules[0].rules);
-    if(rulesCheck.length == 0) {
+    if (rulesCheck.length == 0) {
       this.notify.notify('Atleast one rule is mandatory to proceed', 'error');
       return;
     }
-    if(this.rulesObjOO.then.resultCategory == '' || this.rulesObjOO.then.values.length == 0) {
+    if (this.rulesObjOO.then.resultCategory == '' || this.rulesObjOO.then.values.length == 0) {
       this.notify.notify('THEN rule is mandatory to proceed', 'error');
       return;
     }
-    rulesCheck = _.map(rulesCheck, o=> {return _.pick(o, 'contextCategory', 'contextType', 'operator', 'values')});
+    rulesCheck = _.map(rulesCheck, o => { return _.pick(o, 'contextCategory', 'contextType', 'operator', 'values') });
     this.validationRules.rules[0].rules = rulesCheck;
     let params = {
       searchIndexId: this.serachIndexId,
@@ -312,12 +316,12 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     let payload = {
       name: this.name.na,
       type: 'web',
-      definition:{ if: {}, then: {}}
+      definition: { if: {}, then: {} }
     }
     payload.definition.if = this.validationRules;
     payload.definition.then = this.rulesObjOO.then;
 
-    this.service.invoke('update.rule', params, payload).subscribe(res=>{
+    this.service.invoke('update.rule', params, payload).subscribe(res => {
       this.closeAddRulesModal();
       this.notify.notify('Rule has been updated', 'success');
       this.getRules();
@@ -326,81 +330,81 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     })
   }
 
-   addEditRules(rule){
-     if(rule){
+  addEditRules(rule) {
+    if (rule) {
       this.name.na = rule.name;
       this.validationRules.rules = cloneDeep(rule.definition.if.rules);
       this.rulesObjOO.then = cloneDeep(rule.definition.then);
       this.ruleEditId = rule._id;
       this.isEdit = true;
       this.isAdd = false;
-     } else{
-      this.addEditRule= {
-        name:'',
-        definition:[],
+    } else {
+      this.addEditRule = {
+        name: '',
+        definition: [],
       }
       this.resetRule();
       this.isEdit = false;
       this.isAdd = true;
-     }
-     this.addRulesModalPopRef  = this.addRulesModalPop.open();
-     this.searchBlock = '';
     }
-   deleteAttributes(attribute){
+    this.addRulesModalPopRef = this.addRulesModalPop.open();
+    this.searchBlock = '';
+  }
+  deleteAttributes(attribute) {
     const quaryparamats = {
-      searchIndexId : this.serachIndexId,
-      groupId:attribute._id
-   }
-   this.service.invoke('delete.group', quaryparamats).subscribe(
-    res => {
-      console.log(res);
-    },
-    errRes => {
+      searchIndexId: this.serachIndexId,
+      groupId: attribute._id
     }
-  );
-   }
- 
+    this.service.invoke('delete.group', quaryparamats).subscribe(
+      res => {
+        console.log(res);
+      },
+      errRes => {
+      }
+    );
+  }
 
-   tabActive(tab) {
-    this.tabsList.map(o=>{o.isSelected = false; return o;});
-    this.draftRules.map(o=>{o.isChecked = false; return o;});
-    this.inReviewRules.map(o=>{o.isChecked = false; return o;});
-    this.approvedRules.map(o=>{o.isChecked = false; return o;});
+
+  tabActive(tab) {
+    this.tabsList.map(o => { o.isSelected = false; return o; });
+    this.draftRules.map(o => { o.isChecked = false; return o; });
+    this.inReviewRules.map(o => { o.isChecked = false; return o; });
+    this.approvedRules.map(o => { o.isChecked = false; return o; });
     this.searchBlock = '';
     this.rulesService.isCheckAll = false;
     this.rulesService.showReviewFooter = false;
     tab.isSelected = true;
-   }
+  }
 
-   allSubscribe() {
-    this.selectAllSub =  this.rulesService.selectAll.subscribe(res=>{
-      let tabActive = _.findWhere(this.tabsList, {isSelected: true}).name;
-      if(tabActive == 'Drafts') {
-        this.draftRules = _.map(this.draftRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
-        this.rulesService.showReviewFooter = _.where(this.rules, {isChecked: true}).length > 0;
-      } else if(tabActive == 'In-review'){
-        this.inReviewRules = _.map(this.inReviewRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
-        this.rulesService.showReviewFooter = _.where(this.rules, {isChecked: true}).length > 0;
-      } else if(tabActive == 'Approved') {
-        this.approvedRules = _.map(this.approvedRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
-        this.rulesService.showReviewFooter = _.where(this.rules, {isChecked: true}).length > 0;
+  allSubscribe() {
+    this.selectAllSub = this.rulesService.selectAll.subscribe(res => {
+      let tabActive = _.findWhere(this.tabsList, { isSelected: true }).name;
+      if (tabActive == 'Drafts') {
+        this.draftRules = _.map(this.draftRules, o => { o.isChecked = !this.rulesService.isCheckAll; return o; });
+        this.rulesService.showReviewFooter = _.where(this.rules, { isChecked: true }).length > 0;
+      } else if (tabActive == 'In-review') {
+        this.inReviewRules = _.map(this.inReviewRules, o => { o.isChecked = !this.rulesService.isCheckAll; return o; });
+        this.rulesService.showReviewFooter = _.where(this.rules, { isChecked: true }).length > 0;
+      } else if (tabActive == 'Approved') {
+        this.approvedRules = _.map(this.approvedRules, o => { o.isChecked = !this.rulesService.isCheckAll; return o; });
+        this.rulesService.showReviewFooter = _.where(this.rules, { isChecked: true }).length > 0;
       }
-     });
+    });
 
-    this.openAddRulesModalSub = this.rulesService.openAddRulesModal.subscribe(res=>{
+    this.openAddRulesModalSub = this.rulesService.openAddRulesModal.subscribe(res => {
       this.addEditRules(res);
       // this.addRulesModalPopRef  = this.addRulesModalPop.open();
     });
-    this.deleteRuleSub = this.rulesService.deleteRule.subscribe(res=>{
+    this.deleteRuleSub = this.rulesService.deleteRule.subscribe(res => {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         width: '530px',
         height: 'auto',
         panelClass: 'delete-popup',
         data: {
           newTitle: 'Are you sure you want to delete ?',
-          body:'Selected rule will be deleted.',
+          body: 'Selected rule will be deleted.',
           buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-          confirmationPopUp:true
+          confirmationPopUp: true
         }
       });
       dialogRef.componentInstance.onSelect
@@ -412,23 +416,23 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
             };
             this.service.invoke('delete.rule', params).subscribe(
               res => {
-               this.getRules();
+                this.getRules();
               }, err => {
-       
+
               })
             dialogRef.close();
           } else if (result === 'no') { dialogRef.close(); }
         });
     });
-    this.bulkSendSub = this.rulesService.bulkSend.subscribe(res=>{
-      let tabActive = _.findWhere(this.tabsList, {isSelected: true}).name;
+    this.bulkSendSub = this.rulesService.bulkSend.subscribe(res => {
+      let tabActive = _.findWhere(this.tabsList, { isSelected: true }).name;
       let selectedIds = [];
-      if(tabActive == 'Drafts') {
-        selectedIds = _.map(_.where(this.draftRules, {isChecked: true}), o=> _.pick(o, '_id'));
-      } else if(tabActive == 'In-review'){
-        selectedIds = _.map(_.where(this.inReviewRules, {isChecked: true}), o=> _.pick(o, '_id'));
-      } else if(tabActive == 'Approved') {
-        selectedIds = _.map(_.where(this.approvedRules, {isChecked: true}), o=> _.pick(o, '_id'));
+      if (tabActive == 'Drafts') {
+        selectedIds = _.map(_.where(this.draftRules, { isChecked: true }), o => _.pick(o, '_id'));
+      } else if (tabActive == 'In-review') {
+        selectedIds = _.map(_.where(this.inReviewRules, { isChecked: true }), o => _.pick(o, '_id'));
+      } else if (tabActive == 'Approved') {
+        selectedIds = _.map(_.where(this.approvedRules, { isChecked: true }), o => _.pick(o, '_id'));
       }
       let params = {
         searchIndexId: this.serachIndexId
@@ -438,24 +442,24 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
         state: res,
         action: 'edit'
       };
-      this.service.invoke('updateBulk.rule',params,payload).subscribe(res=>{
+      this.service.invoke('updateBulk.rule', params, payload).subscribe(res => {
         this.notify.notify(res.msg, 'success');
         this.rulesService.showReviewFooter = false;
         this.rulesService.isCheckAll = false;
         this.getRules();
-      }, err=>{
-  
+      }, err => {
+
       });
     });
-    this.bulkDeleteSub = this.rulesService.bulkDelete.subscribe(res=>{
-      let tabActive = _.findWhere(this.tabsList, {isSelected: true}).name;
+    this.bulkDeleteSub = this.rulesService.bulkDelete.subscribe(res => {
+      let tabActive = _.findWhere(this.tabsList, { isSelected: true }).name;
       let selectedIds = [];
-      if(tabActive == 'Drafts') {
-        selectedIds = _.map(_.where(this.draftRules, {isChecked: true}), o=> _.pick(o, '_id'));
-      } else if(tabActive == 'In-review'){
-        selectedIds = _.map(_.where(this.inReviewRules, {isChecked: true}), o=> _.pick(o, '_id'));
-      } else if(tabActive == 'Approved') {
-        selectedIds = _.map(_.where(this.approvedRules, {isChecked: true}), o=> _.pick(o, '_id'));
+      if (tabActive == 'Drafts') {
+        selectedIds = _.map(_.where(this.draftRules, { isChecked: true }), o => _.pick(o, '_id'));
+      } else if (tabActive == 'In-review') {
+        selectedIds = _.map(_.where(this.inReviewRules, { isChecked: true }), o => _.pick(o, '_id'));
+      } else if (tabActive == 'Approved') {
+        selectedIds = _.map(_.where(this.approvedRules, { isChecked: true }), o => _.pick(o, '_id'));
       }
       let params = {
         searchIndexId: this.serachIndexId
@@ -464,111 +468,111 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
         rules: selectedIds,
         action: 'delete'
       };
-      this.service.invoke('updateBulk.rule',params,payload).subscribe(res=>{
+      this.service.invoke('updateBulk.rule', params, payload).subscribe(res => {
         this.notify.notify('Rules deleted successfully', 'success');
         this.rulesService.showReviewFooter = false;
         this.rulesService.isCheckAll = false;
         this.getRules();
-      }, err=>{
-  
+      }, err => {
+
       });
     });
 
-   }
+  }
 
-   getRules(){
+  getRules() {
     const quaryparamats = {
-      searchIndexId : this.serachIndexId,
-   }
-   this.service.invoke('get.rules', quaryparamats).subscribe(
-    res => {
-      this.rules = _.map(res.rules, o=>{o.isChecked = false; return o});
-      this.rules = _.filter(res.rules, function(o){ return o.action != "delete"; });
+      searchIndexId: this.serachIndexId,
+    }
+    this.service.invoke('get.rules', quaryparamats).subscribe(
+      res => {
+        this.rules = _.map(res.rules, o => { o.isChecked = false; return o });
+        this.rules = _.filter(res.rules, function (o) { return o.action != "delete"; });
 
-      this.rules.forEach(o=>{
-        o.definition.if.rules.map(oo=>{
-          oo.rules.map(ooo=>{
-            ooo.listContextTypes = ['Search Context', 'User Context', 'Page Context'];
-            ooo.listContextCategories = ['Customer Type', 'Accounts', 'Recent Searches', 'Device Type', 'Location', 'Page Name', ' Page Id'];
-            if(ooo.contextType == 'User Context') {
-              ooo.dispContextCategories = ['Customer Type', 'Accounts'];
-            }
-            else if(ooo.contextType == 'Search Context') {
-              ooo.dispContextCategories = ['Recent Searches', 'Device Type', 'Location'];
-            }
-            else if(ooo.contextType == 'Page Context') {
-              ooo.dispContextCategories = ['Page Name', ' Page Id'];
-            }
-            return ooo;
+        this.rules.forEach(o => {
+          o.definition.if.rules.map(oo => {
+            oo.rules.map(ooo => {
+              ooo.listContextTypes = ['Search Context', 'User Context', 'Page Context'];
+              ooo.listContextCategories = ['Customer Type', 'Accounts', 'Recent Searches', 'Device Type', 'Location', 'Page Name', ' Page Id'];
+              if (ooo.contextType == 'User Context') {
+                ooo.dispContextCategories = ['Customer Type', 'Accounts'];
+              }
+              else if (ooo.contextType == 'Search Context') {
+                ooo.dispContextCategories = ['Recent Searches', 'Device Type', 'Location'];
+              }
+              else if (ooo.contextType == 'Page Context') {
+                ooo.dispContextCategories = ['Page Name', ' Page Id'];
+              }
+              return ooo;
+            })
           })
-        })
+        });
+        this.draftRules = _.where(this.rules, { state: 'draft' });
+        this.inReviewRules = _.where(this.rules, { state: 'in-review' });
+        this.approvedRules = _.where(this.rules, { state: 'approved' });
+        this.tabsList[0].count = this.draftRules.length;
+        this.tabsList[1].count = this.inReviewRules.length;
+        this.tabsList[2].count = this.approvedRules.length;
+        this.loadingRules = false;
+      },
+      errRes => {
+        this.errorToaster(errRes)
+        this.loadingRules = false
       });
-      this.draftRules = _.where(this.rules, {state: 'draft'});
-      this.inReviewRules = _.where(this.rules, {state: 'in-review'});
-      this.approvedRules = _.where(this.rules, {state: 'approved'});
-      this.tabsList[0].count = this.draftRules.length;
-      this.tabsList[1].count = this.inReviewRules.length;
-      this.tabsList[2].count = this.approvedRules.length;
-      this.loadingRules = false;
-    },
-    errRes => {
-      this.errorToaster(errRes)
-      this.loadingRules = false
-    });  
-   }
+  }
 
-   errorToaster(errRes,message?){
-    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
+  errorToaster(errRes, message?) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notify.notify(errRes.error.errors[0].msg, 'error');
-    } else if (message){
+    } else if (message) {
       this.notify.notify(message, 'error');
     } else {
       this.notify.notify('Somthing went worng', 'error');
+    }
   }
- }
 
- validateRules(rulesList) {
-  return _.filter(rulesList, o=>{
-    return o.operator != '' && o.hasOwnProperty('contextType') && o.hasOwnProperty('contextCategory') && o.hasOwnProperty('values') && o.values.length > 0;
-  });
- }
+  validateRules(rulesList) {
+    return _.filter(rulesList, o => {
+      return o.operator != '' && o.hasOwnProperty('contextType') && o.hasOwnProperty('contextCategory') && o.hasOwnProperty('values') && o.values.length > 0;
+    });
+  }
 
-   saveRules(){
+  saveRules() {
     const quaryparamats = {
-      searchIndexId : this.serachIndexId
-   }
-   if(this.name.na.trim() == '') {
-     this.notify.notify('Please enter rule name', 'error');
-     return;
-   }
-   let rulesCheck = this.validateRules(this.validationRules.rules[0].rules);
-   if(rulesCheck.length == 0) {
-     this.notify.notify('Atleast one rule is mandatory to proceed', 'error');
-     return;
-   }
-   if(this.rulesObjOO.then.resultCategory == '' || this.rulesObjOO.then.values.length == 0) {
-     this.notify.notify('THEN rule is mandatory to proceed', 'error');
-     return;
-   }
-   rulesCheck = _.map(rulesCheck, o=> {return _.pick(o, 'contextCategory', 'contextType', 'operator', 'values')});
-   this.validationRules.rules[0].rules = rulesCheck;
-  const params = {
-    searchIndexId : this.serachIndexId
-  }
-  let payload = {
-    name: this.name.na,
-    type: 'web',
-    definition:{ if: {}, then: {}}
-  }
-  payload.definition.if = this.validationRules;
-  payload.definition.then = this.rulesObjOO.then;
+      searchIndexId: this.serachIndexId
+    }
+    if (this.name.na.trim() == '') {
+      this.notify.notify('Please enter rule name', 'error');
+      return;
+    }
+    let rulesCheck = this.validateRules(this.validationRules.rules[0].rules);
+    if (rulesCheck.length == 0) {
+      this.notify.notify('Atleast one rule is mandatory to proceed', 'error');
+      return;
+    }
+    if (this.rulesObjOO.then.resultCategory == '' || this.rulesObjOO.then.values.length == 0) {
+      this.notify.notify('THEN rule is mandatory to proceed', 'error');
+      return;
+    }
+    rulesCheck = _.map(rulesCheck, o => { return _.pick(o, 'contextCategory', 'contextType', 'operator', 'values') });
+    this.validationRules.rules[0].rules = rulesCheck;
+    const params = {
+      searchIndexId: this.serachIndexId
+    }
+    let payload = {
+      name: this.name.na,
+      type: 'web',
+      definition: { if: {}, then: {} }
+    }
+    payload.definition.if = this.validationRules;
+    payload.definition.then = this.rulesObjOO.then;
     this.service.invoke('create.rule', params, payload).subscribe(
-      res=>{
+      res => {
         console.log(res);
         this.closeAddRulesModal();
         this.getRules();
         this.resetRule();
-      }, err=>{
+      }, err => {
         this.errorToaster(err, 'Unable to save the rule');
       });
   }
@@ -586,7 +590,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       if (!this.checkDuplicateTags((value || '').trim())) {
         this.notify.notify('Duplicate tags are not allowed', 'warning');
       } else {
-        this.addEditattribute.attributes.push({ value: value.trim()});
+        this.addEditattribute.attributes.push({ value: value.trim() });
       }
     }
     // Reset the input value
@@ -602,34 +606,34 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     }
   }
 
-   closeAddRulesModal() {
-    if (this.addRulesModalPopRef &&  this.addRulesModalPopRef.close) {
+  closeAddRulesModal() {
+    if (this.addRulesModalPopRef && this.addRulesModalPopRef.close) {
       this.addRulesModalPopRef.close();
     }
-   }
-   openAddAttributesModal() {
-    this.addAttributesModalPopRef  = this.addAttributesModalPop.open();
-   }
-   closeAddAttributesModal() {
-    if (this.addAttributesModalPopRef &&  this.addAttributesModalPopRef.close) {
+  }
+  openAddAttributesModal() {
+    this.addAttributesModalPopRef = this.addAttributesModalPop.open();
+  }
+  closeAddAttributesModal() {
+    if (this.addAttributesModalPopRef && this.addAttributesModalPopRef.close) {
       this.addAttributesModalPopRef.close();
     }
-   }
-   openAddSignalseModal() {
-    this.addSignalsModalPopRef  = this.addSignalsModalPopRef.open();
-   }
-   closeAddSignalseModal() {
-    if (this.addSignalsModalPopRef &&  this.addSignalsModalPopRef.close) {
+  }
+  openAddSignalseModal() {
+    this.addSignalsModalPopRef = this.addSignalsModalPopRef.open();
+  }
+  closeAddSignalseModal() {
+    if (this.addSignalsModalPopRef && this.addSignalsModalPopRef.close) {
       this.addSignalsModalPopRef.close();
     }
-   }
+  }
 
-   ngOnDestroy() {
-    this.selectAllSub?this.selectAllSub.unsubscribe():false;
-    this.openAddRulesModalSub?this.openAddRulesModalSub.unsubscribe():false;
-    this.deleteRuleSub?this.deleteRuleSub.unsubscribe():false;
-    this.bulkSendSub?this.bulkSendSub.unsubscribe():false;
-    this.bulkDeleteSub?this.bulkDeleteSub.unsubscribe():false;
-   }
+  ngOnDestroy() {
+    this.selectAllSub ? this.selectAllSub.unsubscribe() : false;
+    this.openAddRulesModalSub ? this.openAddRulesModalSub.unsubscribe() : false;
+    this.deleteRuleSub ? this.deleteRuleSub.unsubscribe() : false;
+    this.bulkSendSub ? this.bulkSendSub.unsubscribe() : false;
+    this.bulkDeleteSub ? this.bulkDeleteSub.unsubscribe() : false;
+  }
 
 }

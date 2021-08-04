@@ -45,7 +45,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     selectAll: false,
     selectedItems: [],
   };
-  totalRecord:number = 0;
+  totalRecord: number = 0;
   activeClose = false;
   sortObj: any = {}
   showSearch = false;
@@ -113,7 +113,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   componentType: string = 'configure';
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
-  if (content) {
+    if (content) {
       this.contextSuggestedImput = content;
     }
   }
@@ -163,16 +163,16 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
     }
   }
-  searchByRule(){
-    if(this.searchRules){
+  searchByRule() {
+    if (this.searchRules) {
       this.getRules(null, this.searchRules);
     } else {
       this.getRules();
-      this.searchRules=''
+      this.searchRules = ''
     }
   }
   paginate(event) {
-    this.getRules(event.skip,this.searchRules)
+    this.getRules(event.skip, this.searchRules)
   }
   createNewRule() {
     this.addEditRuleObj = {
@@ -188,13 +188,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   openModalPopup() {
     this.addBusinessRulesRef = this.addBusinessRules.open();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(); 
-    },500)
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
-  prepereSliderObj(index,scale?) {
-    return new RangeSlider(0, 5, 1, scale||3, 'outcomeScale' + index)
+  prepereSliderObj(index, scale?) {
+    return new RangeSlider(0, 5, 1, scale || 3, 'outcomeScale' + index)
   }
   valueEvent(val, outcomeObj) {
     outcomeObj.scale = val;
@@ -232,7 +232,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       let ruleObjOutcomes = JSON.parse(JSON.stringify(ruleObj.outcomes));
       ruleObjOutcomes.forEach((outcome, i) => {
         const tempObj: any = outcome
-        tempObj.sliderObj = this.prepereSliderObj(i,(outcome.scale || 3));
+        tempObj.sliderObj = this.prepereSliderObj(i, (outcome.scale || 3));
         _outcoms.push(tempObj);
       });
       this.outcomeArrayforAddEdit = _outcoms;
@@ -452,8 +452,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (input) {
       input.value = '';
     }
-    if ((this.suggestedInput||{}).nativeElement){
-      (this.suggestedInput||{}).nativeElement.value = '';
+    if ((this.suggestedInput || {}).nativeElement) {
+      (this.suggestedInput || {}).nativeElement.value = '';
     }
   }
   addOutcome(event: MatChipInputEvent, ruleObj, index) {
@@ -474,9 +474,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (input) {
       input.value = '';
     }
-    ((this.autoSuggestInputItems._results[index||0] || {}).nativeElement ||{}).value = '';
-    if ((this.suggestedInput||{}).nativeElement){
-      (this.suggestedInput||{}).nativeElement.value = '';
+    ((this.autoSuggestInputItems._results[index || 0] || {}).nativeElement || {}).value = '';
+    if ((this.suggestedInput || {}).nativeElement) {
+      (this.suggestedInput || {}).nativeElement.value = '';
     }
   }
   selectedTag(data: MatAutocompleteSelectedEvent, outcomeObj) {
@@ -484,8 +484,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     outcomeObj.fieldDataType = data.option.value.fieldDataType
     outcomeObj.fieldName = data.option.value.fieldName
     outcomeObj.fieldId = data.option.value._id
-    if ((this.suggestedInput||{}).nativeElement){
-      (this.suggestedInput||{}).nativeElement.value = '';
+    if ((this.suggestedInput || {}).nativeElement) {
+      (this.suggestedInput || {}).nativeElement.value = '';
     }
     this.fieldAutoSuggestion = [];
   }
@@ -501,13 +501,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   ruleSelection(ruleObj, value, key) {
     if (key === 'contextCategory') {
       ruleObj.contextCategory = value;
-      if(ruleObj.contextCategory == 'traits'){
+      if (ruleObj.contextCategory == 'traits') {
         ruleObj.dataType = 'trait';
-      } else if(ruleObj.contextCategory == 'entity'){
+      } else if (ruleObj.contextCategory == 'entity') {
         ruleObj.dataType = 'entity';
-      } else if(ruleObj.contextCategory == 'keywords'){
+      } else if (ruleObj.contextCategory == 'keywords') {
         ruleObj.dataType = 'keyword';
-      }else{
+      } else {
         ruleObj.dataType = 'string';
       }
     }
@@ -639,11 +639,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         return;
       }
       this.service.invoke('create.businessRules', quaryparms, payload).subscribe(res => {
-        if(this.filterSystem.isRuleActiveFilter == 'all'){
+        if (this.filterSystem.isRuleActiveFilter == 'all') {
           this.rules.push(res);
         }
-        if(this.searchRules){
-          this.getRules(null,this.searchRules);
+        if (this.searchRules) {
+          this.getRules(null, this.searchRules);
         }
         this.beforeFilterRules.push(res);
         this.isRuleActiveArr = [];
@@ -651,14 +651,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           this.isRuleActiveArr.push(element.isRuleActive);
         });
         this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
-        this.filterTable(this.filterSystem.isRuleActiveFilter,'isRuleActive');
+        this.filterTable(this.filterSystem.isRuleActiveFilter, 'isRuleActive');
         this.closeModalPopup();
         this.notificationService.notify('Added successfully', 'success');
       }, errRes => {
         if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
           this.closeModalPopup();
           this.errorToaster(errRes, errRes.error.errors[0].msg);
-          this.plans.openChoosePlanPopup('choosePlans', true);
+          this.plans.openChoosePlanPopup('choosePlans', { show: true, msg: errRes.error.errors[0].msg });
         } else {
           this.errorToaster(errRes, 'Failed to create rules');
         }
@@ -679,7 +679,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      category :'rules',
+      category: 'rules',
       query
     };
     this.service.invoke('get.getFieldAutocompleteIndices', quaryparms).subscribe(res => {
@@ -689,7 +689,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'Failed to get fields');
     });
   }
-  getRules(offset?,searchRules?) {
+  getRules(offset?, searchRules?) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
@@ -698,7 +698,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       limit: 10
     };
     let serviceId = 'get.businessRules';
-    if(searchRules){
+    if (searchRules) {
       quaryparms.search = searchRules;
       serviceId = 'get.searchedBusinessRules';
     }
@@ -768,8 +768,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           return pg._id === rule._id;
         })
         this.rules[editRule] = res;
-        if(this.searchRules){
-          this.getRules(null,this.searchRules);
+        if (this.searchRules) {
+          this.getRules(null, this.searchRules);
         }
         this.beforeFilterRules[editRule] = res;
         this.isRuleActiveArr = [];
@@ -777,7 +777,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           this.isRuleActiveArr.push(element.isRuleActive);
         });
         this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
-        this.filterTable(this.filterSystem.isRuleActiveFilter,'isRuleActive');
+        this.filterTable(this.filterSystem.isRuleActiveFilter, 'isRuleActive');
         this.notificationService.notify('Updated Successfully', 'success');
         this.closeModalPopup();
       }, errRes => {
@@ -860,7 +860,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       if (dialogRef && dialogRef.close) {
         dialogRef.close();
       }
-      this.getRules(null,this.searchRules);
+      this.getRules(null, this.searchRules);
       this.notificationService.notify('Deleted Successfully', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete rule');
@@ -879,16 +879,16 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         return pg._id === rule._id;
       })
       this.rules.splice(deleteIndex, 1);
-      const deleteIndex1 = _.findIndex(this.beforeFilterRules,(pg)=>{
+      const deleteIndex1 = _.findIndex(this.beforeFilterRules, (pg) => {
         return pg._id === rule._id;
       })
-      this.beforeFilterRules.splice(deleteIndex1,1);
-      if(!this.rules.length){
+      this.beforeFilterRules.splice(deleteIndex1, 1);
+      if (!this.rules.length) {
         this.isRuleActiveArr = [];
         this.beforeFilterRules.forEach(element => {
           this.isRuleActiveArr.push(element.isRuleActive);
           this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
-          this.filterTable('all','isRuleActive');
+          this.filterTable('all', 'isRuleActive');
         });
       }
       if (dilogRef && dilogRef.close) {
@@ -955,7 +955,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (this.activeClose) {
       this.searchRules = '';
       this.activeClose = false;
-      this.getRules(null,this.searchRules)
+      this.getRules(null, this.searchRules)
     }
     this.showSearch = !this.showSearch;
   }
@@ -964,11 +964,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       document.getElementById(inputSearch).focus();
     }, 100)
   }
-  modifyFieldWarningMsg(warningMessage){
+  modifyFieldWarningMsg(warningMessage) {
     let index = warningMessage.indexOf("changed");
-    if(index > -1){
+    if (index > -1) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }

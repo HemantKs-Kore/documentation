@@ -2,9 +2,8 @@
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
 	<ng-container *ngIf="!settingMainMenu && !sourceMenu || sourceMenu">
 		<div class="upgrade_your_plan_price" [ngClass]="{'d-none':showUpgrade}">
-			<span class="status-type" [ngClass]="{'red':usageDetails?.ingestDocs==100||usageDetails.searchQueries==100}"></span>
-			<div class="upgrade-plan-btn" (click)="upgrade()">Upgrade Your Plan<img src="assets/icons/pricing/carrotright.svg"></div>
-
+			<span [ngClass]="{'status-type':upgradeBannerFlag,'red':usageDetails?.ingestDocs>=80||usageDetails.searchQueries>=80}"></span>
+			<div class="upgrade-plan-btn" (mouseover)="readUpgradeBanner()" (click)="upgrade()">Upgrade Your Plan<img src="assets/icons/pricing/carrotright.svg"></div>
 			<div class="hover-documnet-show-data">
 				<div class="card-data- card1">
 					<div class="img-block">
@@ -21,7 +20,7 @@
 						</div>						
 					</div>
 					<ng-container>
-						<ngb-progressbar height="10px" [type]="usageDetails?.searchQueries<80?'warning':'danger'" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
+						<ngb-progressbar height="10px" [type]="usageDetails?.searchQueries>=80?'danger':'primary'" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
 					</ng-container>						
 				</div>
 				<div class="card-data- card2">
@@ -39,23 +38,10 @@
 						</div>						
 					</div>
 					<ng-container>
-						<ngb-progressbar height="10px" [type]="usageDetails?.ingestDocs<80?'warning':'danger'" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
+						<ngb-progressbar height="10px" [type]="usageDetails?.ingestDocs>=80?'danger':'success'" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
 					</ng-container>		
 				</div>
 			</div>
-
-			<!-- <div class="document-limit" *ngIf="usageDetails?.ingestDocs<80">{{usageDetails.ingestDocs}}%  document limit reached
-				<ngb-progressbar height="10px" type="primary" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
-			</div>		
-			<div class="document-limit" *ngIf="usageDetails?.searchQueries<80">{{usageDetails.searchQueries}}%  query limit reached
-				<ngb-progressbar class="query-limited-reached" height="10px" type="primary" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
-			</div>	
-			<div class="document-limit" *ngIf="usageDetails?.ingestDocs>80">{{usageDetails.ingestDocs}}%  document limit reached
-				<ngb-progressbar class="limit-exceed" height="10px" type="danger" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
-			</div>		
-			<div class="document-limit" *ngIf="usageDetails?.searchQueries>80">{{usageDetails.searchQueries}}%  query limit reached
-				<ngb-progressbar class="limit-exceed" height="10px" type="danger" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
-			</div>		 -->
 		</div>
 	</ng-container>
 	<perfect-scrollbar class="perfect-scroll" [ngClass]='{"if-upgrade-plan":!showUpgrade}'>

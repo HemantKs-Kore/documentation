@@ -252,7 +252,7 @@ export class AppHeaderComponent implements OnInit {
     this.showSourceMenu.emit(this.sourcesFlag);
     let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
     if ((menu == '/content' || menu == "/index") && currentPlan?.subscription?.planId == 'fp_free') {
-      this.appSelectionService.currentDocumentLimit.next('callApi');
+      this.appSelectionService.updateUsageData.next('updatedUsage');
     }
   }
   logoutClick() {
@@ -385,7 +385,7 @@ export class AppHeaderComponent implements OnInit {
         this.dockersList.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
 
-          if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
+          if (record.status === 'SUCCESS' && record.fileId && (record.store && !record.store.toastSeen)) {
             if (record.action === 'EXPORT') {
               this.downloadDockFile(record.fileId, record.store.urlParams, record.streamId, record._id);
             }
@@ -629,7 +629,7 @@ export class AppHeaderComponent implements OnInit {
   //open app
   openApp(app) {
     this.appSelectionService.openApp(app);
-    this.appSelectionService.refreshSummaryPage.next('changed');
+    //this.appSelectionService.refreshSummaryPage.next('changed');
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     setTimeout(() => {
       this.workflowService.mainMenuRouter$.next('');

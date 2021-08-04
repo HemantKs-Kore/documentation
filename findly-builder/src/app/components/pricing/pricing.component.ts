@@ -64,45 +64,23 @@ export class PricingComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService) { }
-  // @ViewChild('addPricingModel1') addPricingModel1: KRModalComponent;
-  // @ViewChild('addPricingModel2') addPricingModel2: KRModalComponent;
   @ViewChild('addPricingModel3') addPricingModel3: KRModalComponent;
   @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
   @ViewChild('cancelSubscriptionModel') cancelSubscriptionModel: KRModalComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
 
   async ngOnInit() {
-    //this.pricingChart()
     this.getPlan();
     await this.appSelectionService.getCurrentSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.currentSubscriptionPlan = res;
       this.updateUsageDetails();
       this.pricingChart()
-      // this.getOverage(overageRes);
       this.showUpgradeBtn = this.currentSubscriptionPlan.subscription.planName != 'Free' ? true : false;
     });
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
   }
-  // currentsubscriptionPlan(app, overageRes?) {
-  //   const payload = {
-  //     streamId: app._id
-  //   };
-  //   const appObserver = this.service.invoke('get.currentPlans', payload);
-  //   appObserver.subscribe(res => {
-  //     this.currentSubscriptionPlan = res;
-  //     this.updateUsageDetails();
-  //     this.getOverage(overageRes);
-  //     this.showUpgradeBtn = this.currentSubscriptionPlan.subscription.planName != 'Free' ? true : false;
-
-  //   }, errRes => {
-  //     this.errorToaster(errRes, 'failed to get plans');
-  //     if (errRes.error.errors[0].code === 'NoActiveSubscription') {
-  //       this.showUpgradeBtn = true;
-  //     }
-  //   });
-  // }
   getPlan() {
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.totalPlansData = res;
@@ -122,12 +100,6 @@ export class PricingComponent implements OnInit, OnDestroy {
           listDataMonthlyFeature.push(Object.entries(data.featureAccess))
         }
       })
-      // let maxArr =[]
-      // listDataMonthlyFeature.forEach((element,index) => {
-      //   maxArr.push(element.length)
-      // });
-      // let maxRecordIndex = maxArr.indexOf(Math.max(...maxArr));
-      //if(listDataMonthlyFeature.length = 4){
       for (let i = 1; i <= listDataMonthlyFeature.length; i++) {
         if (listDataMonthlyFeature[i]) {
           for (let j = 0; j < listDataMonthlyFeature[i].length; j++) {
@@ -138,20 +110,7 @@ export class PricingComponent implements OnInit, OnDestroy {
             }
           }
         }
-        //}
       }
-      console.log(listDataMonthlyFeature);
-      // listDataMonthlyFeature.forEach((parent,i)=> {
-      //   parent.forEach((child,j)=> {
-
-      //   });
-      // });
-      // this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
-      // if (!this.currentSubscriptionPlan) {
-      //   this.currentsubscriptionPlan(this.selectedApp, res);
-      // } else {
-      // }
-
     }, errRes => {
       this.errorToaster(errRes, 'failed to get plans');
     });
@@ -189,37 +148,8 @@ export class PricingComponent implements OnInit, OnDestroy {
       let planData = this.totalPlansData.filter(plan => plan._id == this.currentSubscriptionPlan.subscription.planId);
       let obj = { overageShow: true, docCount: this.addDocOver ? this.numberDoc > 0 ? this.numberDoc : null : null, queryCount: this.addQueOver ? this.numberQuery > 0 ? this.numberQuery : null : null, overageDeatils: this.overageDeatils }
       this.plans.openOrderConfPopup(planData[0], obj);
-      // for (let data of this.totalPlansData) {
-      //   if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.subscription && this.currentSubscriptionPlan.subscription.planName) {
-      //     if (data.name == this.currentSubscriptionPlan.subscription.planName) {
-      //       let obj = { overageShow: true, docCount: this.addDocOver ? this.numberDoc : null, queryCount: this.addQueOver ? this.numberQuery : null, overageDeatils: this.overageDeatils }
-      //       this.plans.openOrderConfPopup(data, obj);
-      //     }
-      //   }
-      // }
     }
   }
-  //open popup1
-  // openPopup1() {
-  //   this.addPricing1ModalPopRef = this.addPricingModel1.open();
-  // }
-  //close popup1
-  // closePopup1() {
-  //   if (this.addPricing1ModalPopRef && this.addPricing1ModalPopRef.close) {
-  //     this.addPricing1ModalPopRef.close();
-  //   }
-  // }
-
-  //open popup1
-  // openPopup2() {
-  //   this.addPricing2ModalPopRef = this.addPricingModel2.open();
-  // }
-  //close popup1
-  // closePopup2() {
-  //   if (this.addPricing2ModalPopRef && this.addPricing2ModalPopRef.close) {
-  //     this.addPricing2ModalPopRef.close();
-  //   }
-  // }
 
   //open popup1
   openPopup3() {
@@ -291,7 +221,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   }
   //enterpriseContactus method
   enterpriseContactus() {
-    this.plans.openContactusModel();
+    this.plans.openContactusModel("Enterprise");
   }
   //close popup1
   cancelSubscription(dialogRef?) {

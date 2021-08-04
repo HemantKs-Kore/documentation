@@ -4,9 +4,9 @@
 
     var botOptionsFindly = {};
     botOptionsFindly.logLevel = 'debug';
-    botOptionsFindly.koreAPIUrl = "https://app.findly.ai/searchassistapi/";
+    botOptionsFindly.koreAPIUrl = "https://qa.findly.ai/searchassistapi/";
 
-    botOptionsFindly.baseAPIServer = "https://app.findly.ai";
+    botOptionsFindly.baseAPIServer = "https://qa.findly.ai";
     function koreGenerateUUID() {
         console.info("generating UUID");
         var d = new Date().getTime();
@@ -24,10 +24,10 @@
     botOptionsFindly.JWTUrl = "https://mk2r2rmj21.execute-api.us-east-1.amazonaws.com/dev/users/sts";
     botOptionsFindly.userIdentity = koreGenerateUUID();// Provide users email id here
 
-    botOptionsFindly.botInfo = { chatBot: "sanity test", "taskBotId": "st-7da736a5-af23-5f9f-9187-3273e378bc38" };
-    botOptionsFindly.clientId = "cs-117a67b4-2aa1-5931-aad4-c60e047c5648";
-    botOptionsFindly.clientSecret = "8QQkkCkYY5Cjxdj7vGjQtCt7THhe+aCoyYHi6HEeCKc=";
-    botOptionsFindly.searchIndexID = "sidx-08904a40-ff8a-5795-aedc-5295a3c8e82b";
+    botOptionsFindly.botInfo = { chatBot: "July16 SB", "taskBotId": "st-7b7ad9da-c7ba-5ac3-a586-738e9cd3ff94" };
+    botOptionsFindly.clientId = "cs-3de4eecb-8ee9-5e8d-af00-c15b89156569";
+    botOptionsFindly.clientSecret = "xYBfkzqBETUUmKnbN8wyC93QuzzpBaDCLn1ZP229fgc=";
+    botOptionsFindly.searchIndexID = "sidx-0ca5560f-ba0d-5b90-9ff2-43d848e255cb";
 
 
     // To modify the web socket url use the following option
@@ -35,8 +35,8 @@
     // For Socket Connection
     botOptionsFindly.reWriteSocketURL = {
         protocol: 'wss',
-        hostname: 'app.findly.ai'
-    }; 
+        hostname: 'qa.findly.ai'
+    };
 
     // CVS Caremark configs //
     if (window.location && window.location.href && window.location.href.includes('#cvs')) {
@@ -77,4 +77,8 @@
 
     KoreSDK.findlyConfig = findlyConfig
     window.findlyConfig = findlyConfig
+
+    // KoreSDK.chatConfig = {};
+    // KoreSDK.chatConfig.googleMapsAPIKey = "";
+
 })(window.KoreSDK);

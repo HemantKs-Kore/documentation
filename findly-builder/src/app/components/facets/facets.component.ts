@@ -492,17 +492,24 @@ export class FacetsComponent implements OnInit, OnDestroy {
     });
   }
   deleteFacets(facet?, bulk?) {
+    const modalData: any = {
+      newTitle: 'Are you sure you want to delete ?',
+      body: 'Selected facet will be deleted.',
+      buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+      confirmationPopUp: true
+    }
+    if(bulk >1 ){
+      modalData.newTitle = 'Are you sure you want to delete ?'
+      modalData.body = 'Selected facets will be deleted.';
+      modalData.buttons[0].label = 'Delete' ;
+    }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
-      data: {
-        newTitle: 'Are you sure you want to delete ?',
-        body: 'Selected facet will be deleted.',
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
-      }
+      data: modalData,
     });
+
 
     dialogRef.componentInstance.onSelect
       .subscribe(result => {

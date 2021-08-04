@@ -109,6 +109,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   linkInfo: any = {}
   responseType: any = 'default'
   isFocused = false;
+  bubblePopUp=true
   synonyms = [];
   uploadImage: any = {};
   newSynonym = ''
@@ -193,11 +194,11 @@ export class AddFaqComponent implements OnInit, OnDestroy {
         this.responseType = this.faqData.templateSettings.responseType
       }
       this.form = this.fb.group({
-        question: [this.faqData._source.faqQuestion, Validators.required],
-        botResponse: [this.faqData._source.faqAnswer, Validators.required],
+        question: [this.faqData._source.faq_question, Validators.required],
+        botResponse: [this.faqData._source.faq_answer, Validators.required],
       });
       this.tags = this.faqData._source.keywords;
-      this.text = this.faqData._source.faqAnswer;
+      this.text = this.faqData._source.faq_answer;
     } else {
       this.form = this.fb.group({
         question: ['', Validators.required],
@@ -420,6 +421,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
       const tempResponseObj = JSON.parse(JSON.stringify(this.defaultAnsInterface))
       this.faqResponse.defaultAnswers.push(tempResponseObj);
       this.currentEditIndex = this.faqResponse.defaultAnswers.length - 1;
+      this.bubblePopUp=true;
     }
     this.initializeEditResponselayoutEvents();
   }
@@ -477,8 +479,8 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   }
   setDataforEditDelete(faqdata) {
     if (faqdata) {
-      if (faqdata && faqdata._source && faqdata._source.faqAnswer && faqdata._source.faqAnswer.length) {
-        $.each(faqdata._source.faqAnswer, (i, answer) => {
+      if (faqdata && faqdata._source && faqdata._source.faq_answer && faqdata._source.faq_answer.length) {
+        $.each(faqdata._source.faq_answer, (i, answer) => {
 
           const answerObj: any = {
             type: "string",
@@ -486,8 +488,8 @@ export class AddFaqComponent implements OnInit, OnDestroy {
             answerType: 'default',
             responseType: 'default',
             conditions: [],
-            image: answer.imgurl,
-            imgurl: (answer||{}).imgurl
+            image: answer.image_url,
+            image_url: (answer||{}).image_url
           }
           if (answer.type === 'javascript' && answer.text) {
             try {
@@ -496,15 +498,15 @@ export class AddFaqComponent implements OnInit, OnDestroy {
               console.log('Bad JSON');
             }
           }
-          if (answer && answer.imgurl && answer.imgurl) {
-            answerObj.imgurl = answer.imgurl;
+          if (answer && answer.image_url && answer.image_url) {
+            answerObj.image_url = answer.image_url;
             // answerObj.responseType = answer.multimedia.position
           }
           this.faqResponse.defaultAnswers.push(answerObj);
         })
       }
-      if (faqdata && faqdata._source && faqdata._source.faqCondAnswers && faqdata._source.faqCondAnswers && faqdata._source.faqCondAnswers.length) {
-        $.each(faqdata._source.faqCondAnswers, (i, answer) => {
+      if (faqdata && faqdata._source && faqdata._source.faq_cond_answers && faqdata._source.faq_cond_answers && faqdata._source.faq_cond_answers.length) {
+        $.each(faqdata._source.faq_cond_answers, (i, answer) => {
           const answerObj: any = {
             type: 'string',
             text: '',
@@ -520,7 +522,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
           if (answer && answer.answers && answer.answers.length) {
             answerObj.type = answer.answers[0].type;
             answerObj.text = answer.answers[0].text;
-            answerObj.imgurl = answer.answers[0].imgurl;
+            answerObj.image_url = answer.answers[0].image_url;
           }
           if (answer.type === 'javascript' && answer.text) {
             try {
@@ -529,8 +531,8 @@ export class AddFaqComponent implements OnInit, OnDestroy {
               console.log('Bad JSON');
             }
           }
-          if (answer && answer.answers.length && answer.answers[0].imgurl) {
-            answerObj.imgurl = answer.answers[0].imgurl;
+          if (answer && answer.answers.length && answer.answers[0].image_url) {
+            answerObj.image_url = answer.answers[0].image_url;
           }
           this.faqResponse.defaultAnswers.push(answerObj);
         })
@@ -553,11 +555,11 @@ export class AddFaqComponent implements OnInit, OnDestroy {
           if (answer.type === 'javascript' && answer.text) {
             answerObj.text = JSON.stringify(answer.text);
           }
-          if (answer.imgurl && answer.imgurl) {
-            answerObj.imgurl = answer.imgurl;
+          if (answer.image_url && answer.image_url) {
+            answerObj.image_url = answer.image_url;
           }
           if(answer && answer.image && answer.image.url){
-            answerObj.imgurl = answer.image.url
+            answerObj.image_url = answer.image.url
           }
           defaultAnswers.push(answerObj);
         }
@@ -569,11 +571,11 @@ export class AddFaqComponent implements OnInit, OnDestroy {
           if (answer.type === 'javascript' && answer.text) {
             answerObj1.text = JSON.stringify(answer.text);
           }
-          if (answer && answer.imgurl) {
-            answerObj1.imgurl =  answer.imgurl;
+          if (answer && answer.image_url) {
+            answerObj1.image_url =  answer.image_url;
           }
           if (answer && answer.image && answer.image.url) {
-            answerObj1.imgurl =  answer.image.url;
+            answerObj1.image_url =  answer.image.url;
           }
           const _conditions = [];
           if (answer.conditions) {
@@ -639,7 +641,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
         tags: this.tags,
         defaultAnswers: this.anwerPayloadObj.defaultAnswers,
         conditionalAnswers: this.anwerPayloadObj.conditionalAnswers,
-        alternateQuestions: (this.faqData && this.faqData._source && this.faqData._source.faqAltQuestions) ? this.faqData._source.faqAltQuestions : [],
+        alternateQuestions: (this.faqData && this.faqData._source && this.faqData._source.faq_alt_questions) ? this.faqData._source.faq_alt_questions : [],
       },
       followupQuestions: (this.faqData && this.faqData.followupQuestions) ? this.faqData.followupQuestions : [],
       response: this.form.get('botResponse').value,
@@ -727,7 +729,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     // this.imgInfo && this.imgInfo.url ? this.defaultAnsInterface.multimedia.url = this.imgInfo.url : ''
     this.faqResponse.defaultAnswers.forEach((element, index) => {
       if (this.faqResponse.defaultAnswers.length - 1 == index) {
-        (element||{})['imgurl'] = this.imgInfo && this.imgInfo.url ? this.imgInfo.url : ''
+        (element||{})['image_url'] = this.imgInfo && this.imgInfo.url ? this.imgInfo.url : ''
       }
     });
     this.image = JSON.parse(JSON.stringify(this.imgInfo));
@@ -1004,7 +1006,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.faqData._source.faqAltQuestions.splice(index, 1);
+          this.faqData._source.faq_alt_questions.splice(index, 1);
           dialogRef.close();
         } else if (result === 'no') {
           dialogRef.close();
@@ -1026,13 +1028,17 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     this.groupAddSub ? this.groupAddSub.unsubscribe() : false;
   }
 
-  openPreviewImgModal(imgurl) {
-    this.image.url = imgurl;
+  openPreviewImgModal(image_url) {
+    this.image.url = image_url;
     this.previewImageModalPopRef = this.previewImageModalPop.open();
   }
   closePreviewImgModal() {
     if (this.previewImageModalPopRef && this.previewImageModalPopRef.close) {
       this.previewImageModalPopRef.close();
     }
+  }
+
+  closebubblePopUp(){
+    this.bubblePopUp= false
   }
 }

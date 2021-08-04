@@ -45,7 +45,9 @@ export class UpgradePlanComponent implements OnInit {
   btnDisable: boolean;
   invoiceOrderId: any;
   featuresExceededUsage: any;
-  count_info: boolean = false;
+  count_info: any = { show: false, msg: '' };
+  contact_us_planName: string;
+  showOverageErrorMsg: boolean = false;
   payementResponse: any = {
     hostedPage: {
       transactionId: "",
@@ -131,7 +133,7 @@ export class UpgradePlanComponent implements OnInit {
         clearInterval(this.paymentStatusInterval);
       }
     }, errRes => {
-      this.errorToaster(errRes, 'failed to get plans');
+      this.errorToaster(errRes, 'failed to payment status');
     });
   }
   //get plans api
@@ -144,7 +146,13 @@ export class UpgradePlanComponent implements OnInit {
         data = Object.assign(data, { "featureData": dat });
       });
     }, errRes => {
-      this.errorToaster(errRes, 'failed to get plans');
+      if (localStorage.jStorage) {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      }
     });
   }
   errorToaster(errRes, message) {
@@ -186,7 +194,8 @@ export class UpgradePlanComponent implements OnInit {
   }
   //open popup1
   openChoosePlanPopup(data?, info?) {
-    this.count_info = info != undefined ? info : false;
+    this.count_info.show = info?.show != undefined ? info?.show : false;
+    this.count_info.msg = info?.msg;
     this.choosePlanModalPopRef = this.choosePlanModel.open();
     if (this.appSelectionService.currentsubscriptionPlanDetails) {
       this.currentSubscriptionPlan = this.appSelectionService.currentsubscriptionPlanDetails;
@@ -205,6 +214,7 @@ export class UpgradePlanComponent implements OnInit {
     if (this.choosePlanModalPopRef && this.choosePlanModalPopRef.close) {
       this.choosePlanModalPopRef.close();
       this.gotoDetails('')
+      this.count_info = { show: false, msg: '' };
     }
   }
 
@@ -233,25 +243,20 @@ export class UpgradePlanComponent implements OnInit {
     const appObserver = this.service.invoke('post.payement', queryParams, payload);
     appObserver.subscribe(res => {
       this.payementResponse = res;
-      // this.payementResponse = {
-      //    "hostedPage" : {
-      //   "transactionId": "faTYYAH3g2GsdmthszR5kDT179I4",
-      //   "url": "https://store.payproglobal.com/checkout?products[1][id]=65066&products[1][qty]=1&page-template=2339&language=en&currency=USD&x-accountId=5ecfbf1407c1bd2347c4f199&x-resourceId=st-7a270f50-338b-5d82-8022-c2ef8e6b46da&x-transactionId=faTYYAH3g2GsdmthszR5kDT179I4&x-streamName=AmazeBot&exfo=742&use-test-mode=true&secret-key=_npaisT4eQ&emailoverride=akshay.gupta%40kore.com&x-isSearchbot=true"
-      //   }
-      // }
       let url = this.payementResponse.hostedPage.url;
       this.invoiceOrderId = this.payementResponse.hostedPage.transactionId;
       this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url);
       this.poling();
     }, errRes => {
-      this.errorToaster(errRes, 'failed to get plans');
+      this.errorToaster(errRes, 'failed');
     });
     // this.closeChoosePlanPopup();
     this.closeOrderConfPopup();
     this.paymentGatewayModelPopRef = this.paymentGatewayModel.open();
   }
   //open contact us popup
-  openContactusModel() {
+  openContactusModel(type) {
+    this.contact_us_planName = type;
     const userInfo = this.localstore.getAuthInfo();
     this.enterpriseForm.name = userInfo.currentAccount.userInfo.fName;
     this.enterpriseForm.email = userInfo.currentAccount.userInfo.emailId;
@@ -276,13 +281,17 @@ export class UpgradePlanComponent implements OnInit {
   }
   //submitEnterpriseRequest method
   submitEnterpriseRequest() {
+    this.btnDisable = true;
     const queryParams = { "streamId": this.selectedApp._id };
     const enterpriseRequest = this.service.invoke('post.enterpriseRequest', queryParams, this.enterpriseForm);
     enterpriseRequest.subscribe(res => {
+      this.btnDisable = false;
       this.closeContatcusModel();
       this.closeChoosePlanPopup();
+      this.closeOrderConfPopup();
       this.openContactusSuccessModel();
     }, errRes => {
+      this.btnDisable = false;
       this.errorToaster(errRes, errRes.error && errRes.error.errors[0].code);
     });
   }
@@ -416,34 +425,41 @@ export class UpgradePlanComponent implements OnInit {
   //based on count change cost
   count(type, operator) {
     if (type == 'doc') {
-      this.overageData.docCount = operator == 'plus' ? this.overageData.docCount + 1 : this.overageData.docCount > 1 ? this.overageData.docCount - 1 : this.overageData.docCount = 1;
+      this.overageData.docCount = operator == 'plus' ? this.overageData.docCount + 1 : this.overageData.docCount >= 1 ? this.overageData.docCount - 1 : this.overageData.docCount = 0;
     }
     else if (type == 'query') {
-      this.overageData.queryCount = operator == 'plus' ? this.overageData.queryCount + 1 : this.overageData.queryCount > 1 ? this.overageData.queryCount - 1 : this.overageData.queryCount = 1;
+      this.overageData.queryCount = operator == 'plus' ? this.overageData.queryCount + 1 : this.overageData.queryCount >= 1 ? this.overageData.queryCount - 1 : this.overageData.queryCount = 0;;
     }
   }
   //buy overage payment
   buyOveragePayment() {
     this.selectedApp = this.workflowService.selectedApp();
     let overage = [];
-    if (this.overageData.docCount != null) {
+    if (this.overageData.docCount != null && this.overageData.docCount > 0) {
       overage.push({ "feature": "ingestDocs", "quantity": this.overageData.docCount })
     }
-    if (this.overageData.queryCount != null) {
+    if (this.overageData.queryCount != null && this.overageData.queryCount > 0) {
       overage.push({ "feature": "searchQueries", "quantity": this.overageData.queryCount })
     }
-    const queryParams = {
-      "streamId": this.selectedApp._id,
-      "subscriptionId": this.currentSubscriptionPlan.subscription._id
+    if (overage.length) {
+      this.showOverageErrorMsg = false;
+      const queryParams = {
+        "streamId": this.selectedApp._id,
+        "subscriptionId": this.currentSubscriptionPlan.subscription._id
+      }
+      const payload = { "overages": overage };
+      const buyOverage = this.service.invoke('put.buyOverage', queryParams, payload);
+      buyOverage.subscribe(res => {
+        this.invoiceOrderId = res.transactionId;
+        this.poling("overage");
+      }, errRes => {
+        this.errorToaster(errRes, 'failed buy overage');
+      });
     }
-    const payload = { "overages": overage };
-    const buyOverage = this.service.invoke('put.buyOverage', queryParams, payload);
-    buyOverage.subscribe(res => {
-      this.invoiceOrderId = res.transactionId;
-      this.poling("overage");
-    }, errRes => {
-      this.errorToaster(errRes, 'failed buy overage');
-    });
+    else {
+      this.btnDisable = false;
+      this.showOverageErrorMsg = true;
+    }
   }
   //gotoDetails
   gotoDetails(name) {

@@ -1235,6 +1235,11 @@ and open the template in the editor.
     &.show{
         .dropdown-open{
             .dropdown-input{
+                &.before-none{
+                    &::before{
+                        display: none !important;
+                    }
+                }
                 &::before{
                     content: "";                  
                     position: absolute;
@@ -1486,12 +1491,11 @@ and open the template in the editor.
             }
         }
     }
-
     .content-menu{
         border: 0;
         border-radius: 2px;
         // box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
-        box-shadow: 0px 10px 30px rgba(32, 33, 36, 0.3);
+       // box-shadow: 0px 10px 30px rgba(32, 33, 36, 0.3);
         width: 100%;
         padding: 0;
         margin: 0;
@@ -2203,7 +2207,7 @@ and open the template in the editor.
         position: absolute;
         left: 11px;
         top: 10px;        
-        cursor: pointer;
+        //cursor: pointer;
     }
 }
 

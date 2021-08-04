@@ -10,6 +10,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 // import * as PureJSCarousel from 'src/assets/web-kore-sdk/libs/purejscarousel.js';
 declare var PureJSCarousel: any;
@@ -26,9 +27,11 @@ export class SearchInterfaceComponent implements OnInit {
   selectedApp: any;
   serachIndexId: any;
   indexPipelineId: any;
+  allFieldData: any;
   heading_fieldData: any;
   desc_fieldData: any;
   img_fieldData: any;
+  showAlignment = false ;
   url_fieldData: any;
   fieldData: any;
   list: any = [];
@@ -311,7 +314,7 @@ export class SearchInterfaceComponent implements OnInit {
     } else {
       this.clickableDisabled = false;
     }
-
+    this.customizeTemplateObj.template.searchResultlayout.textAlignment = res.layout.textAlignment
     this.customizeTemplateObj.template.typeId = res.type;
     this.templateTypeList.forEach(element => {
       if (element.id == res.type) {
@@ -484,7 +487,7 @@ export class SearchInterfaceComponent implements OnInit {
     //this.customizeTemplateObj.template.searchResultlayout = new searchResultlayout();
     //this.customizeTemplateObj.template.resultMapping = new resultMapping();
     this.customizeTemplateObj.template.searchResultlayout.layout = layout;
-    if (layout == 'tileWithHeader') {
+    if (layout == 'tileWithHeader') { 
       this.showDescription = false;
     } else {
       this.showDescription = true;
@@ -499,6 +502,7 @@ export class SearchInterfaceComponent implements OnInit {
         this.buildCarousel();
       }
     }
+  
   }
   resultLayoutclickBehavior(type) {
     this.customizeTemplateObj.template.searchResultlayout.behaviour = type;
@@ -631,17 +635,21 @@ export class SearchInterfaceComponent implements OnInit {
     if (type == 'heading') {
       this.customizeTemplateObj.template.resultMapping.heading = field.fieldName;
       this.customizeTemplateObj.template.resultMapping.headingId = field._id;
-      this.preview_title = field.fieldName
+      this.preview_title = field.fieldName;
+      this.heading_fieldData = [...this.allFieldData];
     } else if (type == 'description') {
       this.customizeTemplateObj.template.resultMapping.description = field.fieldName;
       this.customizeTemplateObj.template.resultMapping.descriptionId = field._id;
-      this.preview_desc = field.fieldName
+      this.preview_desc = field.fieldName;
+      this.desc_fieldData= [...this.allFieldData];
     } else if (type == 'image') {
       this.customizeTemplateObj.template.resultMapping.image = field.fieldName;
       this.customizeTemplateObj.template.resultMapping.imageId = field._id;
+      this.img_fieldData = [...this.allFieldData];
     } else if (type == 'url') {
       this.customizeTemplateObj.template.resultMapping.url = field.fieldName;
       this.customizeTemplateObj.template.resultMapping.urlId = field._id;
+      this.url_fieldData = [...this.allFieldData];
     }
   }
   copyResultSettings(interfaceType){
@@ -651,9 +659,9 @@ export class SearchInterfaceComponent implements OnInit {
     };
     let payload = {
       "interface": this.selectedSetting,
-      "referInterface": this.selectedSettingResultsObj.referInterface
+      "referInterface": interfaceType
   }
-    payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
+    //payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
     this.service.invoke('put.SI_copyResultSettings', queryparams, payload).subscribe(res => {
       this.notificationService.notify('Result copied successfully', 'success');
       this.selectedTemplatedId = "";
@@ -920,6 +928,9 @@ export class SearchInterfaceComponent implements OnInit {
         message = "Template Added Successfully"
       }
       this.service.invoke(url, queryparams, payload).subscribe(res => {
+        if(this.selectedSourceType == 'Structured Data'){
+          this.headerService.updateResultTemplateMapping(true);
+        }
         this.notificationService.notify(message, 'success');
         this.selectedTemplatedId = "";
         this.getSettings(this.selectedSetting);
@@ -940,11 +951,12 @@ export class SearchInterfaceComponent implements OnInit {
       query
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
-      this.heading_fieldData = res;
-      this.desc_fieldData = res;
-      this.img_fieldData = res;
-      this.url_fieldData = res;
-      this.fieldData = res;
+      this.heading_fieldData = [...res];
+      this.desc_fieldData = [...res];
+      this.img_fieldData = [...res];
+      this.url_fieldData = [...res];
+      this.fieldData = [...res];
+      this.allFieldData = [...res];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');
     });
@@ -1007,7 +1019,7 @@ class selectedSettingResults {
   _id = ""
   resultClassification = {
     'isEnabled': true,
-    'sourceType': "dataContentType"
+    'sourceType': "sys_content_type" //dataContentType
   }
   view = "fit"
   maxResultsAllowed = 10

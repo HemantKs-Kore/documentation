@@ -80,8 +80,8 @@
     <div class="question-content">
       <div class="conditionalBlock bot-response-view-mode">
         <div class="split_mode">
-          <div class="img-view-mode" *ngIf="responseObj.imgurl">
-            <img src="{{responseObj.imgurl}}">
+          <div class="img-view-mode" *ngIf="responseObj.image_url">
+            <img src="{{responseObj.image_url}}">
           </div>
           <ng-container>
             <div class="desc-info" 
@@ -167,7 +167,7 @@
         </div>
       </div>   
       <div class="bottom_sec d-flex">
-        <div class="col-6 left_sec">  
+        <div class="col-6 left_sec d-none">  
           <!--          
           <div class="multi-select mb-2">         
             <label class="kr-sg-toggle">                                       
@@ -178,19 +178,19 @@
               </div>
             </label>
           </div> -->
-          <div class="kr-sg-input-text mb-2 mt-3"> 
+          <div class="kr-sg-input-text mb-2 mt-3 "> 
              <!-- image optional preview related changes -->
              <div class="d-flex justify-content-between align-items-center">
               <div class="label-text w-100">{{"addFaq.image_optional" | translate}} </div>
-              <div class="know-more-data" (click)="openPreviewImgModal(faqObj.imgurl);">{{"addFaq.preview" | translate}} </div>
+              <div class="know-more-data" (click)="openPreviewImgModal(faqObj.image_url);">{{"addFaq.preview" | translate}} </div>
             </div>
             <!-- image optional preview related changes -->
-            <input type="text" autocomplete="off" placeholder="http(s)://" class="input-text"  [(ngModel)]="faqObj.imgurl" name="appName">         
+            <input type="text" autocomplete="off" placeholder="http(s)://" class="input-text"  [(ngModel)]="faqObj.image_url" name="appName">         
           </div>
           <!-- <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div> -->
         </div>
-        <div class="col-6 right_sec">        
-          <div class="content-data p-0 bg-transparent mt-4 h-auto">
+        <div class="col-12 right_sec p-0" *ngIf="bubblePopUp">        
+          <div class="content-data p-0 bg-transparent mt-3 h-auto">
             <!-- <ng-container *ngIf="image && image.url">
               <div class="preview-title mt-3 pt-1">IMAGE</div>
               <div class="responsePreviewBlock adjust-height">
@@ -200,14 +200,13 @@
               </div>  
             </ng-container>              -->
               <div class="info-bubble-faq my-0">
-                <div class="w-100 d-flex">
-                  <div class="info_img">
-                    <img src="assets/icons/faq/Info.svg">
-                  </div>
-                  <div class="bubnle-info">
-                    {{"addFaq.template_outlook" | translate}} 
-                  </div>
+                <div class="info_img">
+                  <img src="assets/icons/faq/Info.svg">
                 </div>
+                <div class="bubnle-info" >
+                  {{"addFaq.template_outlook" | translate}} 
+                </div>
+                <img class="close-info"(click)="closebubblePopUp()"src="assets/icons/modal-close.svg">                
                 <!-- <div class="know-more-data">Know more</div> -->
             </div>
           </div>
@@ -221,7 +220,7 @@
     </div>
   </div>
     </div>
-    <div class="d-flex mt-2" *ngIf="(currentEditIndex === index)">
+    <div class="d-flex mt-4 ml-2" *ngIf="(currentEditIndex === index)">
       <label>{{"addFaq.add_conditions" | translate}}</label>
       <div>
         <label class="kr-sg-toggle with-label" >
@@ -435,15 +434,15 @@
   <div class="add-alternative-questions row" *ngIf="!isFollowUp && faqData"> 
     <div class="col-8 pl-0 pr-2">
         <div class="label-text text-truncate">{{"addFaq.alternate_questions" | translate}}
-            <span *ngIf="faqData">{{faqData._source.faqAltQuestions?.length>0?'('+faqData._source.faqAltQuestions?.length+')':''}}</span>
+            <span *ngIf="faqData">{{faqData._source.faq_alt_questions?.length>0?'('+faqData._source.faq_alt_questions?.length+')':''}}</span>
             <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
         </div>
         <div class="added-tags text-truncate">Add alternate forms of the question.</div>
     </div>
-    <div class=" col-4 text-right pr-0 alter-add-btn" *ngIf="faqData._source.faqAltQuestions?.length>0 || isAdd">
+    <div class=" col-4 text-right pr-0 alter-add-btn" *ngIf="faqData._source.faq_alt_questions?.length>0 || isAdd">
         <button class="kr-sg-button-ghost px-0" (click)="addAltQues();" (mouseout)="addSrc = 'assets/icons/add_plus.svg'" (mouseover)="addSrc = 'assets/icons/editor/plus-add.svg'"><img src="{{addSrc}}" class="mr-2" [ngClass]="{'alternate-add-plus-icon':(addSrc === 'assets/icons/editor/plus-add.svg')}">{{"addFaq.alternate_questions" | translate}}</button>
     </div>
-    <div class="col-12 p-0 " *ngIf="!faqData._source.faqAltQuestions?.length && !isAdd">
+    <div class="col-12 p-0 " *ngIf="!faqData._source.faq_alt_questions?.length && !isAdd">
         <button class="kr-sg-button-primary btn_lg" (click)="addAltQues()">{{"addFaq.add" | translate}}</button>
     </div>
   </div>
@@ -451,8 +450,8 @@
       <app-add-alternate-question (cancelAltQuestion)="isAdd=false;" (saveAltQuestion)="addAnotherAlternate($event)" [faqServ]="faqServiceAlt" [isFromFaqsForm]="true"></app-add-alternate-question>
   </div>
   
-  <ng-container *ngIf="faqData && faqData._source && faqData._source.faqAltQuestions?.length">
-  <div class="added-questions-list py-0" *ngFor="let alternateQuestion of faqData._source?.faqAltQuestions; let alterIndex = index" >
+  <ng-container *ngIf="faqData && faqData._source && faqData._source.faq_alt_questions?.length">
+  <div class="added-questions-list py-0" *ngFor="let alternateQuestion of faqData._source?.faq_alt_questions; let alterIndex = index" >
      <div class="pointer content-body-question row" *ngIf="editAltQuestionIndex !== alterIndex" (click)="editAltQuestion(alternateQuestion,alterIndex);">
       
       <div class=" col-10 group-name question-name text-truncate" title="{{alternateQuestion}}">{{alternateQuestion}}</div>

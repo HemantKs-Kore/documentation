@@ -5,7 +5,6 @@
   </div>
   <div *ngIf="loadingContent1">
     <div class="header-sec row"  *ngIf='listOfExperiments.length>0||filterExperiments.length>0'>
-      <!-- <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey> -->
       <div class="col-6 left-sec p-0">
         <div class="tab-sec d-flex">
           <b>{{"experiments.name"| translate}}</b>
@@ -193,13 +192,14 @@
                 <div class="bg-sec">
                   <div class="row m-0 col-12 acc-row-header">
                     <div class="col-2 title">{{"experiments.variant"| translate}}</div>
-                    <div class="col-2 title">{{"experiments.index"| translate}}</div>
+                    <div class="col-1 title">{{"experiments.index"| translate}}</div>
                     <div class="col-2 title">{{"experiments.search_config"| translate}}</div>
                     <div class="col-1 title">{{"experiments.traffic"| translate}}</div>
                     <div class="col-1 title">{{"experiments.users"| translate}}</div>
                     <div class="col-1 title">{{"experiments.searches"| translate}}</div>
                     <div class="col-1 title">{{"experiments.clicks"| translate}}</div>
-                    <div class="col-2 title">{{"experiments.ctr"| translate}}  <span placement="top-center" [ngbTooltip]="ctrTooltip" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span></div>
+                    <div class="col-1 title">{{"experiments.ctr"| translate}}  <span placement="top-center" [ngbTooltip]="ctrTooltip" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span></div>
+                    <div class="col-2 title">{{"experiments.searches_results"| translate}}</div>
                   </div>
                   <div class="row m-0 col-12 acc-row-body align-items-center" *ngFor="let expCol of exp.variants">
                     <div class="col-2 d-flex varient-data align-items-center">
@@ -207,25 +207,26 @@
                         {{ expCol.code }}
                       </div>
                       <div class="name">
-                        {{ expCol.name | titlecase }}</div>
+                        {{ expCol.name }}</div>
+                    </div>
+                    <div class="col-1 title">
+                      {{ expCol.indexPipelineName }}
                     </div>
                     <div class="col-2 title">
-                      {{ expCol.indexPipelineName | titlecase }}
-                    </div>
-                    <div class="col-2 title">
-                      {{ expCol.queryPipelineName | titlecase }}
+                      {{ expCol.queryPipelineName }}
                     </div>
                     <div class="col-1 title">{{ expCol.trafficPct }}%</div>
                     <div class="col-1 title">{{ expCol.users || 0 }}</div>
                     <div class="col-1 title">{{ expCol.searches }}</div>
                     <div class="col-1 title">{{ expCol.clicks }}</div>
-                    <div class="col-2 title" [class.leader_percent]="(expCol.searches > 0) && (expCol.leader)">
+                    <div class="col-1 title" [class.leader_percent]="(expCol.searches > 0) && (expCol.leader)">
                       {{
                       expCol.ctr > 0
                       ? expCol.ctr.toFixed(2) + "%"
                       : expCol.ctr
                       }}
                     </div>
+                    <div class="col-2 title">{{ expCol.searchesWithResults }}</div>
                   </div>
                   <div class="v-search-config">
                     <span (click)="addExperiment('edit', exp)">{{"experiments.view_configuration"| translate}}</span>
@@ -319,7 +320,7 @@
               [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")?"#EFF0F1":"#ffffff","color":(vari.indexPipelineName==undefined)||(exp_status !== "configured" && form_type === "edit")?"#9aa0a6":"#202124","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}'>
               {{
               vari.indexPipelineName === undefined
-              ? varIndex===0? "Default Index Configuration":"Select Index"
+              ? varIndex===0? "Select Index":"Select Index"
               : vari.indexPipelineName
               }}
             </button>
@@ -337,7 +338,7 @@
               [disabled]="(exp_status !== 'configured' && form_type === 'edit')||vari.indexPipelineName==undefined" [ngStyle]='{"background-color":(exp_status !== "configured" && form_type === "edit")||vari.indexPipelineName==undefined?"#EFF0F1":"#ffffff","color":(vari.indexPipelineName==undefined)||(exp_status !== "configured" && form_type === "edit")?"#9aa0a6":"#202124","border-color":(exp_status !== "configured" && form_type === "edit")?"#f3f3f4":"#BDC1C6"}'>
               {{
               vari.queryPipelineName === undefined
-              ? varIndex===0? "Default Search Configuration":"Select Search Configuration"
+              ? varIndex===0? "Select Search Configuration":"Select Search Configuration"
               : vari.queryPipelineName
               }}
             </button>

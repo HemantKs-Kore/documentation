@@ -111,7 +111,7 @@
                     font-size: 12px;
                     line-height: 14px;
                     text-transform: uppercase;
-                    color: #9AA0A6;
+                    color: #9AA0A6;                   
                 }
                 .col_{
                     font-weight: 500;                       
@@ -158,10 +158,13 @@
                         padding: 0px 5px 0px 22px;
                         font-style: normal;
                         font-size: 14px;
-                        line-height: 14px;
+                        line-height: normal;
                         color: #202124;   
                         cursor: default;
                         word-break: break-word;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                         img{
                             cursor: pointer;
                         } 
@@ -178,6 +181,7 @@
             }
         }
     }
+  
 }
 .empty-list{
     width: 320px;
@@ -276,8 +280,6 @@ perfect-scrollbar .ps--active-y{
 }
 
 
-
-
 ::ng-deep .kr-modal{
     &.kr-center{
         &.smallModal{
@@ -287,6 +289,11 @@ perfect-scrollbar .ps--active-y{
                     height: 430px !important;
                     .modal-content{
                         border-radius: 8px !important;
+                    }
+                    .add-fields-checkbox{
+                        .kr-sg-checkbox{
+                            padding-right: 25px !important;
+                        }
                     }
                 }
             }

@@ -158,9 +158,9 @@
                         </div>
                     </div>
                     <perfect-scrollbar class="table_body_content">
-                        <!-- <div class="table_body row m-0" *ngFor="let field of filelds;let i=index"> -->
-                            <div class="table_body row m-0" *ngFor="let field of filelds | fieldsFilter: [ searchFields, 'fieldName'];let i=index">
-                            <div class="col-2 title">{{field.fieldName}}</div>
+                        <div class="table_body row m-0" *ngFor="let field of filelds;let i=index">
+                            <!-- <div class="table_body row m-0" *ngFor="let field of filelds | fieldsFilter: [ searchFields, 'fieldName'];let i=index"> -->
+                            <div class="col-2 title" [title]="field.fieldName">{{field.fieldName}}</div>
                             <div class="col-2 title">{{field.fieldDataType | translate}}</div>
                             <div class="col-2 title">{{field.isMultiValued?'Yes':'No'}}</div>
                             <div class="col-2 title">{{field.isRequired?'Yes':'No'}}</div>
@@ -176,7 +176,7 @@
                         <div class="divBlockEmptylastChild text-center">         
                             <div class="desc">{{'fields.no_search_results_found' | translate}}</div>
                         </div> 
-                        <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
+                       <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination></div>
                     </perfect-scrollbar>  
                 </div>
                
@@ -248,7 +248,7 @@
             </div>
         </div>
         <div class="bottom_sec">
-            <div class="group-checkbox mb-3">
+            <div class="group-checkbox mb-3 add-fields-checkbox">
                 <div class="label-text mb-2">{{'fields.select_ones_that_apply' | translate}}</div>
                 <div class="kr-sg-checkbox">
                     <input id="checkbox_grpfd" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isMultiValued">

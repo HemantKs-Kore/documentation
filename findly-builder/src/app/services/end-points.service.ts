@@ -429,6 +429,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails',
       method: 'put'
     }
+    this.serviceList['put.enableST'] = {
+      endpoint: this.API_SERVER_URL + '/findly/apps/:streamId',
+      method: 'put'
+    }
     this.serviceList['put.disableTask'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails',
       method: 'put'
@@ -632,7 +636,7 @@ export class EndPointsService {
     }
     this.serviceList['get.queryCustomizeList'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/queryCustomisations?limit:limit&skip:skip',
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/queryCustomisations?limit:limit&skip:skip',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/queryCustomisations?limit=:limit&skip=:skip',
       method: 'get'
     }
     this.serviceList['put.restoreQueryCustomize'] = {
@@ -733,6 +737,11 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/apps/:streamId/channels/rtm',
       method: 'post'
     }
+    this.serviceList['edit.credential'] = {
+      //endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/channels/rtm',
+      endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps/:sdkAppId?streamId=:streamId&rnd=vs4wdk',
+      method: 'put'
+    }
     this.serviceList['get.dialog'] = {
       endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dialogs',
       method: 'get'
@@ -795,6 +804,10 @@ export class EndPointsService {
 
     this.serviceList['manage.credentials'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps?getAppsUsage=:true',
+      method: 'get'
+    }
+    this.serviceList['get.apiScopes'] = {
+      endpoint: this.API_SERVER_URL + '/findly/seed_data',
       method: 'get'
     }
     this.serviceList['delete.credential'] = {
@@ -1089,6 +1102,11 @@ export class EndPointsService {
     this.serviceList['post.enterpriseRequest'] = {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/eplead',
       method: 'post'
+    }
+    //request for enterprise plan
+    this.serviceList['put.upgradeBannerRead'] = {
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/readBanner',
+      method: 'put'
     }
   }
 }

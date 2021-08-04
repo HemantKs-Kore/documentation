@@ -260,8 +260,8 @@
                     <div class="col-12 row mb-3 top-sec p-0 ml-0 mr-0"  *ngIf="(selectedSourceType.id==='faqDoc')">
                       <div class="title-data col-6 p-0">Browse File</div>
                     <div class="actions-data col-6 p-0 d-flex align-items-center justify-content-end">
-                        <span class="sample-text pr-2" style="padding-right:10px" (click)='downloadSampleData("json")'><img  class="image mr-2"src="assets/icons/docker/download.svg">Sample JSON</span>
-                        <span class="sample-text pl-2" (click)='downloadSampleData("csv")'><img class="image mr-2" src="assets/icons/docker/download.svg">Sample CSV</span>
+                        <span class="sample-text pr-2"  (click)='downloadSampleData("json")'><img  class="image mr-2"src="assets/icons/docker/download.svg">Sample JSON</span>
+                        <span class="sample-text pl-2"   (click)='downloadSampleData("csv")'><img class="image mr-2" src="assets/icons/docker/download.svg">Sample CSV</span>
                     </div>
                     <div class="data">You can upload either JSON or CSV file here</div>
                     </div>
@@ -294,7 +294,11 @@
                               <div class="uploaded-file-name" [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
                                 <div class="file-close-text">
                                   <div class="d-flex align-items-center">
-                                    <img class="type_img" src="assets/icons/file_type_image.svg">
+                                    <img  *ngIf="fileObj.file_ext === 'pdf'"class="type_img" src="assets/icons/file_type_image.svg">
+                                    <img *ngIf="fileObj.file_ext === 'docx'" class="type_img" src="assets/icons/doc_logo.png">
+                                    <img *ngIf="fileObj.file_ext === 'txt'" class="type_img" src="assets/icons/txt_icon.png">
+                                    <img *ngIf="fileObj.file_ext === 'xlsx'" class="type_img" src="assets/icons/excel_logo.svg">
+                                    <img *ngIf="fileObj.file_ext === 'ppt'" class="type_img" src="assets/icons/ppt_logo.png">
                                     <div class="file-name" [innerHTML]="fileObj.fileName"></div>
                                   </div>
                                   <img src="assets/images/close.svg" class="close-file adjust_z_index" (click)="removeFile()">
@@ -320,7 +324,7 @@
                             <span class="tooltip-text"><img src="assets/icons/help-annotation.svg">
                               <span class="tooltiptext">
                                 <div class="t-text">Use the annotate option to extract only the desired FAQs by marking question & answer pairs</div>
-                                <div class="learn_more">Learn More</div>
+                                <div class="learn_more" ><a href="https://docs.kore.ai/searchassist/source-management/faqs/#Annotate_Extract" target="_blank">Learn More</a></div>
                               </span>
                             </span>
                          
@@ -491,12 +495,12 @@
                     *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.allowedURLs.length && crwalObject.advanceOpts.allowedOpt"
                     class="w-100">
                     <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0" *ngFor="let rec of crwalObject.advanceOpts.allowedURLs;let i = index">
-                      <!-- <div class="col-1 p-0 title"></div> -->
+                      <div class="col-1 p-0 title"></div>
                         <div class="col-11 p-0 d-flex align-items-center">
                           <div class="kr-sg-dropdowns">
                             <div class="dropdown dropdown-open">
                               <button class="dropdown-toggle dropdown-input"
-                                data-toggle="dropdown" disabled>{{rec.condition}}</button>
+                                data-toggle="dropdown" disabled>{{rec.condition | titlecase}}</button>
 
                             </div>
                           </div>
@@ -550,12 +554,12 @@
                       </div> -->
                     <!-- </span> -->
                     <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index">
-                      <!-- <div class="col-1 p-0 title"></div> -->
+                      <div class="col-1 p-0 title"></div>
                         <div class="col-11 p-0 d-flex align-items-center">
                           <div class="kr-sg-dropdowns">
                             <div class="dropdown dropdown-open">
                               <button class="dropdown-toggle dropdown-input"
-                                data-toggle="dropdown" disabled>{{rec.condition}}</button>
+                                data-toggle="dropdown" disabled>{{rec.condition | titlecase}}</button>
 
                             </div>
                           </div>
@@ -788,7 +792,7 @@
       </perfect-scrollbar>
       <div class="modal-footer">
         <!-- [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" -->
-        <button class="kr-sg-button-primary btn_lg mr-3" (click)="validateSource()">Proceed</button>
+        <button class="kr-sg-button-primary btn_lg mr-3" (click)="validateSource()" [disabled]="btnDisabled">Proceed</button>
         <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition()">Cancel</button>
       </div>
     </form>

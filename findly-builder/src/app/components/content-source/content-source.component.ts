@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy, TestabilityRegistry } from '@a
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { AuthService } from '@kore.services/auth.service';
@@ -37,6 +38,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   editDocObj: any = {};
   isEdittitle;
   contentId
+  content_id;
   edit: any = {};
   editConfObj: any = {};
   editTitleFlag: boolean = false;
@@ -220,7 +222,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
-    public dockService: DockStatusService
+    public dockService: DockStatusService,
+    private appSelectionService: AppSelectionService
   ) { }
 
   ngOnInit(): void {
@@ -366,18 +369,19 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           } else {
             let repeatOn = "";
             let schedulePeriod = "";
-            let every = ""
+            let every = "";
+            // let date =""
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod) {
               schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
               repeatOn = " on " + this.convertToDay(element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn);
             }
-            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1) {
-              every = element.advanceSettings.scheduleOpts.interval.intervalValue.every;
-            }
+            // if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn) {
+            //   date = element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate;
+            // }
             element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn
-
+ 
           }
 
         }
@@ -466,7 +470,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           this.resourcesStatusObj[element._id] = element;
         });
       }
-      
+
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
     });
@@ -491,8 +495,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.oldQuedJob = [];
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
-        if(source.status == 'running' || source.status == 'queued'){
-          if(source.numPages == 0 || source.numPages == '' ){
+        if (source.status == 'success') {
+          let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+          if (currentPlan?.subscription?.planId == 'fp_free') {
+            this.appSelectionService.updateUsageData.next('updatedUsage');
+          }
+        }
+        if (source.status == 'running' || source.status == 'queued') {
+          if (source.numPages == 0 || source.numPages == '') {
             this.oldQuedJob.push(source._id);
           }
         }
@@ -512,7 +522,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if (this.oldQuedJob.length != queuedJobs.length) {
           this.getSourceList();
         }
-      } else {
+      } else { 
         clearInterval(this.polingObj[type]);
         this.getSourceList('clearPoling');
       }
@@ -558,7 +568,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       const data = [...res]
       this.pagingData = data.slice(0, this.limitpage);
       this.pagingData.forEach(element => {
-        element['url_display'] = element._source.pageUrl;
+        element['url_display'] = element._source.page_url;
       });
       /** Paging */
       this.sliderStep = 0;
@@ -578,7 +588,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       else {
         this.swapSlider('config')
       }
-      this.clicksViews()
+      // this.clicksViews()
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
       //   $('.tabname')[1].classList.remove('active');
       //   $('.tabname')[0].classList.add('active');
@@ -593,10 +603,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     });
   }
+ 
   viewPages() {
     this.sliderStep = 0;
   }
-  viewPageDetails() {
+  viewPageDetails(page) {
+    this.content_id = page._id
     this.sliderStep = 1;
     this.clicksViews();
   }
@@ -688,9 +700,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             }
           } else if (element.executionStats.executionStatusMessage == 'Execution Stopped') {
             element.executionStats['tooltip'] = "Execution Stopped due to " + element.statusMessage || ' time out';
-          } else if(element.executionStats.executionStatusMessage == 'Execution In Progress'){
+          } else if (element.executionStats.executionStatusMessage == 'Execution In Progress') {
             element.executionStats['tooltip'] = "In Progress";
-          }else {
+          } else {
             element.executionStats['tooltip'] = element.statusMessage;
           }
         });
@@ -979,7 +991,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       contentId: page._id
     }
     const payload: any = {
-      url: page._source.pageUrl
+      url: page._source.page_url
     }
     this.service.invoke('check.forUpdates', quaryparms, payload).subscribe(res => {
       this.loadingcheckForUpdate = false;
@@ -1007,7 +1019,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       jobId: page.jobId
     }
     const payload: any = {
-      url: page._source.pageUrl
+      url: page._source.page_url
     }
     this.service.invoke('reCrwal.website', quaryparms, payload).subscribe(res => {
       this.dockService.trigger(true);
@@ -1054,6 +1066,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.resources.splice(deleteIndex, 1);
       }
       this.closeStatusModal();
+      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+      if (currentPlan?.subscription?.planId == 'fp_free') {
+        this.appSelectionService.updateUsageData.next('updatedUsage');
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete source');
     });
@@ -1297,10 +1313,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
     this.editTitleFlag = false;
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(); 
-    },500)
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
   closeStatusModal() {
     this.swapSlider('page') // Just to redirect to 1st page
@@ -1530,7 +1546,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     } else {
       delete crawler.advanceOpts.maxUrlLimit;
     }
-
+    // if(this.allowUrl.url){
+    //   this.allowUrls(this.urlConditionAllow,  this.allowUrl, this.allowUrl.url);
+    // }
+    // if(this.blockUrl.url){
+    //   this.blockUrls(this.blockUrl);
+    // }
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
@@ -1732,7 +1753,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   clicksViews() {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      contentId: this.contentId,
+      contentId: this.content_id,
     };
     this.service.invoke('get.clicksViewsContent', quaryparms).subscribe(res => {
       console.log(res);

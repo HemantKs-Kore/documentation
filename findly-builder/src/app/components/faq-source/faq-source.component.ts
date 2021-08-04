@@ -43,7 +43,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   pagesSearch = '';
   viewDetails: boolean;
   selectedFaq: any = null;
-  numberOf: any={};
+  numberOf: any = {};
   singleSelectedFaq: any = null;
   showAddFaqSection = false;
   noManulaRecords: boolean = false;
@@ -165,13 +165,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
   ) {
-    window.alert = function() {};
+    window.alert = function () { };
   }
 
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getStats(null, true);  
+    this.getStats(null, true);
     // this.getfaqsBy();
     this.getSourceList(true);
     this.userInfo = this.authService.getUserInfo() || {};
@@ -257,10 +257,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editfaq = null;
     }
     this.addSourceModalPopRef = this.addSourceModalPop.open();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(); 
-    },500)
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
   openAddManualFaqModal() {
 
@@ -439,8 +439,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadingTab = true;
     this.manualFilterSelected = false;
     if (source) {
+      this.selectedResource = null;
       if (this.selectedResource && (this.selectedResource._id === source._id)) {
-        this.selectedResource = null;
         this.getfaqsBy();
         this.getStats();
         // this.faqUpdateEvent();
@@ -451,7 +451,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.faqUpdateEvent();
       }
      
-
     } else {
       this.selectedResource = null;
       this.getfaqsBy(null, this.selectedtab);
@@ -800,9 +799,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedFaq = null
     this.searchFaq = '';
     this.selectedtab = tab;
+    this.getStats((this.selectedResource || {})._id || null);
     // this.getStats();
     this.getFaqsOnSelection();
   }
+
   getFaqsOnSelection() {
     this.addRemoveFaqFromSelection(null, null, true);
     this.getfaqsBy(null, this.selectedtab);
@@ -1085,10 +1086,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   openEditFAQModal(edit?) {
     this.selectedFaqToEdit = JSON.parse(JSON.stringify(this.selectedFaq));
     this.editFAQModalPopRef = this.editFAQModalPop.open();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(); 
-    },500)
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
   closeEditFAQModal() {
     if (this.editFAQModalPopRef && this.editFAQModalPopRef.close) {
@@ -1180,7 +1181,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       // this.getStats();
       if (this.editfaq) {
         this.selectTab('draft');
-        
+
       } else {
         if (action === 'stateUpdate') {
           this.selectTab(params || 'draft');
@@ -1261,6 +1262,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editfaq = null
       if (state != 'in_review' && state != 'approved') {
         this.notificationService.notify(custSucessMsg, 'success');
+        let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+        if (currentPlan?.subscription?.planId == 'fp_free') {
+          this.appSelectionService.updateUsageData.next('updatedUsage');
+        }
       }
       if (state == 'in_review') {
         this.notificationService.notify('Sent for Review', 'success');
@@ -1293,6 +1298,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.extractedResources.splice(deleteIndex, 1);
       }
       this.resetCheckboxSelect();
+      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+      if (currentPlan?.subscription?.planId == 'fp_free') {
+        this.appSelectionService.updateUsageData.next('updatedUsage');
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete faq source');
     });
@@ -1315,6 +1324,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.getStats();
       this.resetCheckboxSelect();
+      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+      if (currentPlan?.subscription?.planId == 'fp_free') {
+        this.appSelectionService.updateUsageData.next('updatedUsage');
+      }
       if (!(this.faqs && this.faqs.length)) {
         this.selectedFaq = null;
       } else {

@@ -65,9 +65,9 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   public dockersList: Array<any> = [];
   showUpgrade: boolean = true;
   currentSubsciptionData: Subscription;
-  subscriptionDocumentLimit: Subscription;
   updateUsageData: Subscription;
   currentPlan: any;
+  upgradeBannerFlag: boolean;
   @Input() show;
   @Input() settingMainMenu;
   @Input() sourceMenu;
@@ -96,10 +96,13 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.headerService.toggle(toogleObj);
   }
   //upgrade plan
-  upgrade() {
-    // var all = document.getElementsByClassName('query-limited-reached');
-    // console.log("all", all)
-    this.plans.openChoosePlanPopup('choosePlans');
+  upgrade(data?) {
+    if (data) {
+      this.plans.openChoosePlanPopup('choosePlans', { show: true, msg: data });
+    }
+    else {
+      this.plans.openChoosePlanPopup('choosePlans');
+    }
   }
   reloadCurrentRoute() {
     let route = '/summary';
@@ -258,7 +261,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
             this.closeIndexModalPopup();
             this.errorToaster(errRes, errRes.error.errors[0].msg);
-            this.upgrade();
+            this.upgrade(errRes.error.errors[0].msg);
           }
           else {
             this.errorToaster(errRes, 'Failed to Create indexPipeline');
@@ -322,7 +325,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
             this.closeModalPopup();
             this.errorToaster(errRes, errRes.error.errors[0].msg);
-            this.upgrade();
+            this.upgrade(errRes.error.errors[0].msg);
           } else {
             this.errorToaster(errRes, 'Failed to Create searchconfig');
           }
@@ -421,9 +424,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       this.showUpgrade = res.subscription.planId == 'fp_free' ? false : true;
       this.currentPlan = res.subscription.planId;
     })
-    this.subscriptionDocumentLimit = this.appSelectionService.currentDocumentLimit.subscribe(res => {
-      this.getCurrentUsage();
-    })
     this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.showUpgrade = true;
       this.appSelectionService.getCurrentSubscriptionData();
@@ -436,6 +436,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
     })
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
+      this.upgradeBannerFlag = (!this.selectedApp?.upgradeBannerRead) ? true : false;
       this.queryConfigs = res;
       res.forEach(element => {
         this.configObj[element._id] = element;
@@ -456,6 +457,26 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         this.getCurrentUsage();
       }
     })
+  }
+  //read flag update in readUpgradeBanner
+  readUpgradeBanner() {
+    this.selectedApp = this.workflowService.selectedApp();
+    if (!this.selectedApp?.upgradeBannerRead && this.upgradeBannerFlag && (this.usageDetails.ingestDocs >= 80 || this.usageDetails.searchQueries >= 80)) {
+      const queryParms = {
+        streamId: this.selectedApp._id
+      }
+      const payload = { "upgradeBannerRead": true };
+      this.service.invoke('put.upgradeBannerRead', queryParms, payload).subscribe(
+        res => {
+          if (res.upgradeBannerRead) {
+            this.upgradeBannerFlag = false;
+          }
+        },
+        errRes => {
+          this.errorToaster(errRes, 'Failed to send upgrade banner flag');
+        }
+      );
+    }
   }
   //get current usage data of search and queries
   getCurrentUsage() {
@@ -559,14 +580,14 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.service.invoke('get.checkInExperiment', queryParms).subscribe(
       res => {
         let text = res.validated ? `Selected ${type == 'index' ? 'Index' : 'Search'} will be deleted from the app.` : `Selected ${type == 'index' ? 'Index' : 'Search'} Configuration is being used in Experiments. Deleting it stop the Experiement.`;
-        this.deleteIndexConfig(config, type, text)
+        this.deleteIndexConfig(config, type, text, res.validated)
       },
       errRes => {
         this.errorToaster(errRes, 'Failed to get API Response');
       }
     );
   }
-  deleteIndexConfig(config, type, text) {
+  deleteIndexConfig(config, type, text, validated) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
@@ -574,7 +595,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       data: {
         newTitle: 'Are you sure you want to delete ?',
         body: text,
-        buttons: [{ key: 'yes', label: 'Delete Anyway', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: `${validated ? 'Delete' : 'Delete Anyway'}`, type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -600,7 +621,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.subscription ? this.subscription.unsubscribe() : false;
     this.indexSub ? this.indexSub.unsubscribe() : false;
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
-    this.subscriptionDocumentLimit ? this.subscriptionDocumentLimit.unsubscribe() : false;
     this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
   }
 }

@@ -13,6 +13,7 @@ export class AppBodyComponent implements OnInit, AfterViewInit {
   @Input() addNewResult;
   @Input() structure;
   @Input() query;
+  @Input() searchRequestId;
   insights = true;
   constructor() { }
   ngOnInit() {

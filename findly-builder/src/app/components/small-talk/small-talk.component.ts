@@ -64,25 +64,27 @@ export class SmallTalkComponent implements OnInit {
   }
  enableST(type) {
    const queryParams: any = {
-     searchIndexID: this.searchIndexId
+    streamId: this.selectedApp._id
    };
-   let payload: any = {
-     stEnabled: type
+   const payload = {
+     smallTalk : {
+      enable: type
+     }
    }
-   this.service.invoke('put.enableTask', queryParams, payload).subscribe(res => {
+   this.service.invoke('put.enableST', queryParams, payload).subscribe(res => {
      if (this.enable) {
-       payload.stEnabled = true
+       payload.smallTalk.enable = true
        this.notificationService.notify('Small Talk Enabled', 'success')
      }
     if (!this.enable){
-       payload.stEnabled = false;
+       payload.smallTalk.enable = false;
        this.notificationService.notify('Small Talk Disabled', 'success')
      }
 
 
      console.log(res);
    },
-     (err) => { this.notificationService.notify("Task Enabling Failedd", 'error') });
+     (err) => { this.notificationService.notify("Task Enabling Failed", 'error') });
 
  }
 

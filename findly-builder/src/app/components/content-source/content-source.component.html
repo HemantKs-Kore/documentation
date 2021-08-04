@@ -208,7 +208,7 @@
                   <span *ngIf="statusObj[source.recentStatus]?.name != 'In Progress'">{{statusObj[source.recentStatus]?.name}}</span> -->
                   <img 
                     src="assets/icons/failed-status.svg" class="failed-img" placement="top"
-                    ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:''}}"
+                    ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:'Execution failed due to timeout'}}"
                     container="body" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'"><img
                     src="assets/icons/ringLoading.svg" class="ml-2 inProgress"
                     *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" placement="top" container='body'
@@ -306,8 +306,13 @@
                       <span *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" class="run-percentageDoneGrid" >{{ (resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].executionStats) ? resourcesStatusObj[source.jobId].executionStats.percentageDone : ''}} </span>
                     <span class="status-title"> {{"contentSource.in_progress" | translate}}</span>
                   </div>
-                  <div class="pages-count text-right" *ngIf="statusObj[source.recentStatus]?.name == 'Success' || statusObj[source.recentStatus].name == 'Stopped'">
-                      <span class="count">{{source.numPages}}</span>{{"contentSource.pages" | translate}}
+                  <div class="pages-count text-right" > <!-- *ngIf="statusObj[source.recentStatus]?.name == 'Success' || statusObj[source.recentStatus].name == 'Stopped'" -->
+                      <span *ngIf="source.numPages">
+                        <span class="count" >{{source.numPages}}</span>{{"contentSource.pages" | translate}}
+                      </span>
+                      <span *ngIf="!source.numPages">
+                        <span class="count"> --  </span>
+                      </span>
                   </div>
                   <div class="status text-right" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'">
                     <span class="img-block"><img src="assets/icons/content/failed-status.svg"></span>
@@ -608,7 +613,7 @@
                           <div class="kr-sg-dropdowns">
                             <div class="dropdown dropdown-open">
                               <button class="dropdown-toggle dropdown-input"
-                                data-toggle="dropdown" disabled>{{allow.condition}}</button>
+                                data-toggle="dropdown" disabled>{{allow.condition|titlecase}}</button>
                               
                             </div>
                           </div>
@@ -659,7 +664,7 @@
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
                           <button class="dropdown-toggle dropdown-input"
-                            data-toggle="dropdown" disabled>{{allow.condition}}</button>
+                            data-toggle="dropdown" disabled>{{allow.condition|titlecase}}</button>
                           
                         </div>
                       </div>
@@ -861,7 +866,7 @@
             <!-- Conf Configuration-->
 
           </div>
-          <div class="accordion-content-info text-left" *ngIf="page && sourceStatus == 'success'">
+          <div class="accordion-content-info text-left" *ngIf="page && (sourceStatus == 'success' || (sourceStatus == 'running' && totalRecord != 0))">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
               <div class="col-3 label_text m-0">Last Updated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
@@ -872,9 +877,9 @@
                 <div class="card_content" *ngFor="let page of pagingData | filter: [ pagesSearch, 'url_display'];let i = index">
                   <div class="card_header">
                     <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
-                      <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
-                        <div class="col-8 link-name p-0" title="{{page._source.pageUrl || selectedSource.url}}">
-                          {{page._source.pageUrl || selectedSource.url}}</div>
+                      <div class="row m-0 content" (click)="viewPageDetails(page);selectedPage=page">
+                        <div class="col-8 link-name p-0" title="{{page._source.page_url|| selectedSource.url}}">
+                          {{page._source.page_url|| selectedSource.url}}</div>
                         <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'D MMMM YYYY'}}</div>
                         <div class="col-2 actions p-0">
                           <img src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' (click)="reCrwalingWeb('pages',page ,$event)" placement="left">
@@ -888,7 +893,7 @@
                   </div>
                   <!-- <div id="collapseOne{{page._id}}" class="collapse pad_adjust" data-parent="#accordion">
                     <div class="card_body" style="padding-left: 30px;">
-                      <div class="info-content pageTitleContainer">
+                      <div class="info-content page_titleContainer">
                         <div class="row m-0 row_content">
                           <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
                           <div class="col-10 right-info-title">{{page.title}}</div>
@@ -945,8 +950,8 @@
             </div>
 
           </div>
-          <div class="empty-page-data-container" *ngIf="page && sourceStatus == 'failed' ">
-            <img src="assets\images\emptyList.svg">
+          <div class="empty-page-data-container" *ngIf="page && (sourceStatus == 'failed'  || (sourceStatus == 'running' && totalRecord == 0) || sourceStatus == 'configured' || sourceStatus == 'stopped')">
+            <img src="assets\images\emptyList.png">
             <div class="title">Sorry! No Pages available yet!! Please <span> crawl</span> the web domain again</div>
           </div>
           <!-- Execution -->
@@ -1065,19 +1070,19 @@
             </div>
           <div class="view-details-data">
             <div class="title">Title</div>
-            <div class="desc-info">{{selectedPage._source.pageTitle}}</div>
+            <div class="desc-info">{{selectedPage._source.page_title}}</div>
           </div>
         
           <div class="view-details-data">
             <div class="title">Body</div>
             <perfect-scrollbar class="scroll-table-sourceContent-pageBody" #perfectScroll
             [scrollIndicators]="true">
-            <div class="desc-info" [innerHtml]="selectedPage._source.pageBody"></div>
+            <div class="desc-info" [innerHtml]="selectedPage._source.page_body"></div>
             </perfect-scrollbar>
           </div>
           <div class="view-details-data">
             <div class="title">URL</div>
-            <div class="desc-info">{{selectedPage._source.pageUrl || selectedPage._source.pageImageUrl }}<img class="external_link"
+            <div class="desc-info">{{selectedPage._source.page_url|| selectedPage._source.page_image_url }}<img class="external_link"
                 (click)="openImageLink(selectedPage.imageUrl)" src="assets/icons/sidemenu/external-link.svg"></div>
           </div>
           <div class="view-details-data">
@@ -1159,21 +1164,21 @@
           <div class="title-text">Title
             <img src="assets/images/edit-pencil.svg">
           </div>
-          <div class="title-desc-text" *ngIf="!isEditDoc && selectedSource.fileMeta"><span>{{docContent.sysSourceName}}</span></div>
+          <div class="title-desc-text" *ngIf="!isEditDoc && selectedSource.fileMeta"><span>{{docContent.sys_source_name}}</span></div>
           <div class="title-text">Description</div>
           <div class="title-desc-text" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div>
         
           <div class="title-text">Document
-            <img class="dwnld-image" src="assets/images/download.svg" (click)="downloadDoc(docContent.fileUrl)">
+            <img class="dwnld-image" src="assets/images/download.svg" (click)="downloadDoc(docContent.file_url)">
           </div>
-          <div class="title-desc-text" *ngIf="selectedSource.fileMeta">{{docContent.fileTitle || '---'}}</div>
+          <div class="title-desc-text" *ngIf="selectedSource.fileMeta">{{docContent.file_title || '---'}}</div>
           <div class="title-text">No. Of. Pages</div>
           <div class="title-desc-text">{{docContentType.pageCount}}</div>
 
           <div class="title-text">Last Updated</div>
           <div class="title-desc-text">{{selectedSource.createdOn | dateFormatPipe: 'D MMMM YYYY , hh:mm A'}}</div>
           <div class="title-text">Results Preview</div>
-          <div class="title-desc-text">{{docContent.filePreview || '---'}}</div>
+          <div class="title-desc-text">{{docContent.file_preview || '---'}}</div>
 
           <!-- <div class="title-text">STATUS</div>
           <div class="title-desc-text" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"

@@ -40,6 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
   structure = 'bottom';
   showInsightFull = false;
   queryText;
+  searchRequestId: string;
   subscription: Subscription;
   SearchConfigurationSubscription: Subscription;
   searchSDKSubscription: Subscription;
@@ -374,7 +375,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.searchInstance = new FindlySDK(findlyConfig);
     this.searchInstance.showSearch(findlyConfig.botOptions, this.searchExperienceConfig, true);
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
-
+    $('body').addClass('sdk-body');
   }
   showHideSearch(show, disabelInstanceDistroy?) {
     const _self = this;
@@ -415,6 +416,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // this.bridgeDataInsights = !parms.data;
     let call = false;
     if (parms.type == 'onboardingjourney') {
+      this.searchRequestId = parms.requestId;
       this.appSelectionService.updateTourConfig(parms.data);
     }
     // if (parms.type == 'fullResult') {
@@ -561,11 +563,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.topDownSearchInstance = new FindlySDK(findlyConfig);
     this.resetFindlyTopDownSearchSDK(this.workflowService.selectedApp());
     this.topDownSearchInstance.initializeTopDown(findlyConfig, 'top-down-search-background-div', this.searchExperienceConfig);
+    $('body').addClass('sdk-body');
   }
 
   distroyTopDownSearch() {
     if (this.topDownSearchInstance && this.topDownSearchInstance.destroy) {
       this.topDownSearchInstance.destroy();
+      $('body').removeClass('sdk-body');
     }
   }
 
@@ -606,6 +610,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if ($('body').hasClass('top-down')) {
       $('body').removeClass('top-down');
       $('body').removeClass('sdk-top-down-interface');
+      $('body').removeClass('sdk-body');
     }
   }
 
@@ -621,6 +626,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     else {
       $('.search-background-div').css('display', 'none');
+      $('body').removeClass('sdk-body');
       if ($('#show-all-results-container').length) {
         if (!$('#show-all-results-container').attr('isCached') || ($('#show-all-results-container').attr('isCached') == 'false')) {
           if ($('#show-all-results-container').attr('isCached') == 'false') {
