@@ -6643,7 +6643,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               // if (scrollBottom > 100) {
               //   scrollBottom = scrollBottom + 200;
               // }
-              $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 15)},500)
+              if($('.messageBubble').last().find('.messageBubble-content').length){
+                $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top -150)},500)
+              }else{
+                $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -50)},500)
+              }
               // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
             }
             else {
@@ -6651,7 +6655,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               // if (scrollBottom > 100) {
               //   scrollBottom = scrollBottom + 200;
               // }
-              $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 15)},500)
+              if($('.messageBubble').last().find('.messageBubble-content').length){
+                $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top -150)},500)
+              }else{
+                $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -50)},500)
+              }
               // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
             }
 
@@ -7059,7 +7067,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(messageHtml).find('.messageBubble').addClass('hide')
         }
         $('#searchChatContainer').append(messageHtml);
-        $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top  + 200)},500)
+        setTimeout(()=>{
+          if($('.messageBubble').last().find('.messageBubble-content').length){
+            $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top -150)},300)
+          }else{
+            $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -50)},300)
+          }
+        },200);
+
       }
       if (type === 'botAction') {
         messageData.text = _self.vars.searchObject.searchText;
@@ -7080,7 +7095,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.isDev == false) {
           // var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
           // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-          $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 15)},500)
+          if($('.messageBubble').last().find('.messageBubble-content').length){
+            $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top -150)},500)
+          }else{
+            $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -50)},500)
+          }
         }
       }, 200);
     }
