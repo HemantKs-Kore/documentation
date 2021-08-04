@@ -5351,6 +5351,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.enterIsClicked = false;
           }
           if (code == '9' || code == '39') {
+            $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
+            $('.search-suggested-title.highlightSuggestion').removeClass('highlightSuggestion');
             if (($('body').hasClass('top-down') && !$('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && !$('.bottom-up-suggestion').val())) {
               setTimeout(() => {
                 if (!$('body').hasClass('top-down')) {
@@ -5360,7 +5362,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
               }, 100)
               return;
-            }else{
+            } else {
               $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
             }
             $('#search').focus();
@@ -5376,6 +5378,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.search-top-down').focus();
             }
           }
+          if(code == '40' || code == '38'){
+          _self.suggestionSelectedByNavigationKeys(e);
+            
+          }
           if ($('body').hasClass('top-down')) {
             $('.top-down-suggestion').val('');
           } else {
@@ -5385,6 +5391,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             e.preventDefault();
           }
           if (code == '13') {
+            $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
+            $('.search-suggested-title.highlightSuggestion').removeClass('highlightSuggestion');
             if (!e.target.value.length) {
               return;
             }
@@ -22298,6 +22306,48 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.bindCarouselActions($(actionContainer));
       }
     }
+    FindlySDK.prototype.suggestionSelectedByNavigationKeys = function(e){
+      if($('body').hasClass('top-down')){
+        var $hlight = $('.suggestion-box.highlightSuggestion'), $div = $('.suggestion-box');
+        if (e.keyCode == 40) {
+            $hlight.removeClass('highlightSuggestion').next().addClass('highlightSuggestion');
+            if ($hlight.next().length == 0) {
+                $div.eq(0).addClass('highlightSuggestion')
+            }
+            var querySuggestionId = $('.suggestion-box.highlightSuggestion .sugg-query-box').attr('id');
+            $('.search-top-down').val(querySuggestionId);
+            $('.top-down-suggestion').val('');
+        } else if (e.keyCode === 38) {
+            $hlight.removeClass('highlightSuggestion').prev().addClass('highlightSuggestion');
+            if ($hlight.prev().length == 0) {
+                $div.eq(-1).addClass('highlightSuggestion');
+            }
+            var querySuggestionId = $('.suggestion-box.highlightSuggestion .sugg-query-box').attr('id');
+            $('.search-top-down').val(querySuggestionId);
+            $('.top-down-suggestion').val('');
+        }
+      }else{
+        var $hlight = $('.search-suggested-title.highlightSuggestion'), $div = $('.search-suggested-title');
+        if (e.keyCode == 40) {
+            $hlight.removeClass('highlightSuggestion').next().addClass('highlightSuggestion');
+            if ($hlight.next().length == 0) {
+                $div.eq(0).addClass('highlightSuggestion');
+            }
+            var querySuggestionId = $('.search-suggested-title.highlightSuggestion').attr('suggestion');
+            $('.bottom-up-search').val(querySuggestionId);
+            $('.bottom-up-suggestion').val('');
+        } else if (e.keyCode === 38) {
+            $hlight.removeClass('highlightSuggestion').prev().addClass('highlightSuggestion');
+            if ($hlight.prev().length == 0) {
+                $div.eq(-1).addClass('highlightSuggestion');
+            }
+            var querySuggestionId = $('.search-suggested-title.highlightSuggestion').attr('suggestion');
+            $('.bottom-up-search').val(querySuggestionId);
+            $('.bottom-up-suggestion').val('');
+        }
+      }
+    }
+
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
 });

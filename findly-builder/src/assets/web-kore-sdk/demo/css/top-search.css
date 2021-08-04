@@ -923,7 +923,7 @@ body.top-down .top-down-wrapper{
   width: 800px;
   margin: 0 auto;
   padding-left: 36px;
-  padding-right: 15px;
+  padding-right: 30px;
   height: 34px;
   padding-bottom: 3px;
 }
@@ -974,6 +974,12 @@ body.top-down .top-down-wrapper{
   z-index: 2;
   position: relative;
   background: #fff;
+}
+.topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box.highlightSuggestion {
+  background: var(--sdk-white-bg);
+  border: 1px solid var(--sdk-border-silver-sand-color);
+  box-sizing: border-box;
+  border-radius: 20px;
 }
 .topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box {
   padding: 1px 0px 1px 11px;
