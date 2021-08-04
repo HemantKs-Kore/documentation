@@ -248,6 +248,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.searchFacetFilters = [];
       vars.enterIsClicked = false;
       vars.previousLivesearchData = null;
+      vars.previousAutosuggestionData = '';
       vars.previousDataobj = '';
       vars.customizeView = false;
       vars.showingMatchedResults = false;
@@ -255,7 +256,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.locationObject = {};
 
       vars.experimentsObject = {}; // Local Object for Storing Experiments-Related Data (QueryPipelineID, Relay, RequestID)
-      console.log("navigator", navigator)
+
       var IPBasedLocationURL = "http://ip-api.com/json";
       $.ajax({
         url: IPBasedLocationURL,
@@ -2491,8 +2492,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             helpers: helpers
           });
           $('#searchChatContainer').append(templateMessageBubble);
-          var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-          $('#searchChatContainer').animate({ scrollTop: scrollBottom });
           _self.sendMessage(_innerText);
         }
       })
@@ -2501,8 +2500,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         msgData: messageBotData
       });
       $('#searchChatContainer').append(templateBotMessageBubble);
-      var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-      $('#searchChatContainer').animate({ scrollTop: scrollBottom });
       return template;
     }
 
@@ -2560,8 +2557,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           });
           $('#searchChatContainer').append(templateMessageBubble);
           _self.sendMessage(_innerText);
-          var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-          $('#searchChatContainer').animate({ scrollTop: scrollBottom });
         }
       })
       return template;
@@ -2796,7 +2791,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $(evet.target).toggleClass('acc-active');
         var panel = $(evet.target).next();
         //if($(evet.target).next().length){
-        if (panel[0].style.maxHeight) {
+        if (panel[0].style.maxHeight || $(evet.target).hasClass('best-match')) {
+          if($(evet.target).hasClass('best-match')){
+            $(evet.target).removeClass('best-match')
+          }
           panel[0].style.maxHeight = null;
           panel[0].style.overflow = "hidden";
         } else {
@@ -5180,8 +5178,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getRecentSearches = function (url, type) {
       var _self = this;
+      _self.vars.isRecentSearchesLoading = false;
       _self.pubSub.unsubscribe('sa-generate-recent-search');
       _self.pubSub.subscribe('sa-generate-recent-search', data => {
+        if(_self.vars.isRecentSearchesLoading){
+          return;
+        }
+        _self.vars.isRecentSearchesLoading = true;
         var bearer = this.API.jstBarrer;
         var headers = {
           "Authorization": 'bearer ' + this.bot.options.accessToken,
@@ -5242,7 +5245,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.search-body').addClass('hide');
               $('#searchChatContainer').removeClass('bgfocus');
             }
-
+            _self.vars.isRecentSearchesLoading = false;
           },
           error: function (err) {
             console.log(err);
@@ -5348,7 +5351,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.enterIsClicked = false;
           }
           if (code == '9' || code == '39') {
-            if (!$('#suggestion').val()) {
+            if (($('body').hasClass('top-down') && !$('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && !$('.bottom-up-suggestion').val())) {
               setTimeout(() => {
                 if (!$('body').hasClass('top-down')) {
                   $('.bottom-up-search').focus();
@@ -5357,14 +5360,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
               }, 100)
               return;
+            }else{
+              $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
             }
-            $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
             $('#search').focus();
             if (!$('body').hasClass('top-down')) {
-              $('.bottom-up-search').val(JSON.parse(JSON.stringify($('.bottom-up-suggestion').val())));
+              if($('.bottom-up-suggestion').val()){
+                $('.bottom-up-search').val(JSON.parse(JSON.stringify($('.bottom-up-suggestion').val())));
+              }
               $('.bottom-up-search').focus();
             } else {
+              if($('.top-down-suggestion').val()){
               $('.search-top-down').val(JSON.parse(JSON.stringify($('.top-down-suggestion').val())));
+              }
               $('.search-top-down').focus();
             }
           }
@@ -5493,6 +5501,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             }
           }
+          $('#search').trigger({ type: 'keydown', which: 39 });
         })
         var handle = setInterval(function () {
           if (_self.bot.options.accessToken) {
@@ -5597,13 +5606,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 _self.vars.enterIsClicked = false;
               }
               if (code == '9' || code == '39') {
-                $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
+                if (($('body').hasClass('top-down') && !$('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && !$('.bottom-up-suggestion').val())) {
+                  setTimeout(() => {
+                    if (!$('body').hasClass('top-down')) {
+                      $('.bottom-up-search').focus();
+                    } else {
+                      $('.search-top-down').focus();
+                    }
+                  }, 100)
+                  return;
+                }else{
+                  $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
+                }
                 $('#search').focus();
                 if (!$('body').hasClass('top-down')) {
-                  $('.bottom-up-search').val(JSON.parse(JSON.stringify($('.bottom-up-suggestion').val())));
+                  if($('.bottom-up-suggestion').val()){
+                    $('.bottom-up-search').val(JSON.parse(JSON.stringify($('.bottom-up-suggestion').val())));
+                  }
                   $('.bottom-up-search').focus();
                 } else {
+                  if($('.top-down-suggestion').val()){
                   $('.search-top-down').val(JSON.parse(JSON.stringify($('.top-down-suggestion').val())));
+                  }
                   $('.search-top-down').focus();
                 }
               }
@@ -5963,6 +5987,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
           }
+
           // if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
           //   _self.vars.searchObject.recents.unshift(searchText.toLowerCase());
           // }
@@ -6229,8 +6254,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var dataHTML = $(_self.getEndTaskMsgTopDownTemplate());
             $('#searchChatContainer').append(dataHTML);
             $('.task-ended-message').off('click', '.back-to-search').on('click', '.back-to-search', function (e) {
+              if (_self.isDev == false) {
+                $("#searchChatContainer .task-ended-message").remove();
+              }
               $('#conversation-container').hide();
-              $("#searchChatContainer .task-ended-message").remove();
             });
             return;
           }
@@ -6240,6 +6267,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('#conversation-container').show();
             $('#sa-conversation-box').prop('disabled', false);
             $('#sa-conversation-box').attr('placeholder', 'Type message...');
+          }
+        }
+        if (!$('body').hasClass('top-down')) {
+          if ((res || {}).endOfTask) {
+            return;
           }
         }
         if (res.payload == undefined) {
@@ -6562,8 +6594,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               // searchData.addClass("hide");
             }
             $('#searchChatContainer').append(searchData);
-            var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-            $('#searchChatContainer').animate({ scrollTop: scrollBottom });
             _self.vars.showingMatchedResults = true;
 
             if (_self.vars.customizeView == true) {
@@ -6609,18 +6639,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           setTimeout(function () {
             if (_self.isDev == false) {
-              var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-              if (scrollBottom > 100) {
-                scrollBottom = scrollBottom + 200;
+              // var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+              // if (scrollBottom > 100) {
+              //   scrollBottom = scrollBottom + 200;
+              // }
+              if($('.messageBubble').last().find('.messageBubble-content').length){
+                $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top -150)},500)
+              }else{
+                $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -50)},500)
               }
-              $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+              // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
             }
             else {
-              var scrollBottom = $('#searchChatContainer').scrollTop() + 100;
-              if (scrollBottom > 100) {
-                scrollBottom = scrollBottom + 200;
+              // var scrollBottom = $('#searchChatContainer').scrollTop() + 100;
+              // if (scrollBottom > 100) {
+              //   scrollBottom = scrollBottom + 200;
+              // }
+              if($('.messageBubble').last().find('.messageBubble-content').length){
+                $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top -150)},500)
+              }else{
+                $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -50)},500)
               }
-              $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+              // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
             }
 
             if (topMatchTask) {
@@ -6748,6 +6788,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#frequently-searched-box').hide();
           $('#live-search-result-box').hide();
         }
+        // out side click for live search and frequent search dropdown close//
+      $('#live-search-result-box').off('click').on('click', function (event) {
+        if ($(event.target).closest('#live-search-result-box').length && !$(event.target).closest('.carousel').length) {
+          if ($('#live-search-result-box').height() < event.offsetY || event.offsetX < 0 || event.offsetX > $('#live-search-result-box').width()) {
+            $('#live-search-result-box').hide();
+          }
+        }
+      });
+      $('#frequently-searched-box').off('click').on('click', function (event) {
+        if ($(event.target).closest('#frequently-searched-box').length) {
+          if ($('#frequently-searched-box').height() < event.offsetY || event.offsetX < 0 || event.offsetX > $('#frequently-searched-box').width()) {
+            $('#frequently-searched-box').hide();
+          }
+        }
+      });
         if (!($(event.target).closest('.dropdown_custom_filter').length)) {
           $('.dropdown-content').hide();
           $('.dropdown_custom_filter').find('.down-arrow').show();
@@ -6789,8 +6844,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             helpers: helpers
           });
           $('#searchChatContainer').append(template);
-          var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-          $('#searchChatContainer').animate({ scrollTop: scrollBottom });
         }
       }
       if (type === 'user-conversation' && ($('#sa-conversation-box').val() !== null) && ($('#sa-conversation-box').val() !== undefined)) {
@@ -6804,8 +6857,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             helpers: helpers
           });
           $('#searchChatContainer').append(template);
-          var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-          $('#searchChatContainer').animate({ scrollTop: scrollBottom });
         }
       }
       if (type === 'bot') {
@@ -6870,8 +6921,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
               });
               $('#searchChatContainer').append(creditCard);
-              var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-              $('#searchChatContainer').animate({ scrollTop: scrollBottom });
             }
             else if (messageData.payload && messageData.payload.template_type === "carousel") {
 
@@ -6884,8 +6933,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               // });
               var template = _self.getCarouselTemplate(defaultMessage, this.helpers);
               $('#searchChatContainer').append(template);
-              var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-              $('#searchChatContainer').animate({ scrollTop: scrollBottom });
               setTimeout(function () {
                 $('.carousel:last').addClass("carousel" + carouselTemplateCount);
                 var count = $(".carousel" + carouselTemplateCount).children().length;
@@ -6948,8 +6995,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
               })
               $('#searchChatContainer').append(template);
-              var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-              $('#searchChatContainer').animate({ scrollTop: scrollBottom });
             }
             else if (messageData.payload && messageData.payload.template_type === "list") {
               var defaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] }
@@ -6982,8 +7027,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     helpers: helpers
                   });
                   $('#searchChatContainer').append(templateMessageBubble);
-                  var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-                  $('#searchChatContainer').animate({ scrollTop: scrollBottom });
                   _self.sendMessage(_innerText);
                 } else if (type == "url" || type == "web_url") {
                   var a_link = $(this).attr('url');
@@ -6994,8 +7037,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
               })
               $('#searchChatContainer').append(template);
-              var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-              $('#searchChatContainer').animate({ scrollTop: scrollBottom });
             }
           }
           else {
@@ -7021,16 +7062,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             },
             helpers: helpers
           });
-          $('#searchChatContainer').append(template);
-          var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-          $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-        }
+          $('#searchChatContainer').append(template);        }
         if ($(messageHtml).find('.barchart').length || $(messageHtml).find('.linechart').length || $(messageHtml).find('.tableChart').length || $(messageHtml).find('.pieChart').length) {
           $(messageHtml).find('.messageBubble').addClass('hide')
         }
         $('#searchChatContainer').append(messageHtml);
-        var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-        $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+        setTimeout(()=>{
+          if($('.messageBubble').last().find('.messageBubble-content').length){
+            $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top -150)},300)
+          }else{
+            $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -50)},300)
+          }
+        },200);
+
       }
       if (type === 'botAction') {
         messageData.text = _self.vars.searchObject.searchText;
@@ -7049,8 +7093,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       setTimeout(function () {
         if (_self.isDev == false) {
-          var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-          $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+          // var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+          // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+          if($('.messageBubble').last().find('.messageBubble-content').length){
+            $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top -150)},500)
+          }else{
+            $('#searchChatContainer').animate({scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -50)},500)
+          }
         }
       }, 200);
     }
@@ -8440,7 +8489,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.bot = requireKr('/KoreBot.js').instance();
       // _self.bot.init(_self.config.botOptions, _self.config.messageHistoryLimit)
       _self.bot.init(config, _self.config.messageHistoryLimit);
-      // _self.bot.fetchUserLocation();
       _self.bindSocketEvents();
 
     };
@@ -13996,6 +14044,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           console.log("test", e);
           _self.vars.customizeView = true;
           $('.show-all-results').click();
+          $("#searchChatContainer").off('scroll').on('scroll', function (event) {
+            $(".query_analytics_content").hide();
+          });
         });
       });
 
@@ -14788,7 +14839,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           {{/if}}\
                           {{if isClickable == false}}\
                             <div class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
-                              <div class="tile-heading accordion p-0" id="1">\
+                            <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -14869,7 +14920,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-image faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -14955,7 +15006,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -15116,7 +15167,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -15197,7 +15248,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-image faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -15283,7 +15334,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -15433,7 +15484,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -15514,7 +15565,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-image faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -15600,7 +15651,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div class="tile-heading accordion p-0" id="1">\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
                                 {{html helpers.convertMDtoHTML(data.heading)}}\
                                   <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
@@ -16518,6 +16569,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.sys_content_type = obj.sys_content_type;
           item.contentId = obj.contentId;
           item.addedResult = (obj.addedResult || (obj.addedResult == false)) ? obj.addedResult : false;
+          item.bestMatch = (obj.bestMatch || (obj.bestMatch == false)) ? obj.bestMatch : false;
           dataArr.push(item);
         });
         return dataArr;
@@ -17091,6 +17143,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.sys_content_type = faq.sys_content_type;
           item.contentId = faq.contentId;
           item.addedResult = (faq.addedResult || (faq.addedResult == false)) ? faq.addedResult : false;
+          item.bestMatch = (faq.bestMatch || (faq.bestMatch == false)) ? faq.bestMatch : false;
           data.push(item);
         });
         return data;
@@ -17536,6 +17589,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if (_web[mapping.description]) {
             item.description = _web[mapping.description];
+            item.description =  item.description.toString().replaceAll("\n", ". ");
           }
           if (_web[mapping.img]) {
             item.img = _web[mapping.img];
@@ -17561,6 +17615,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.sys_content_type = _web.sys_content_type;
           item.contentId = _web.contentId;
           item.addedResult = (_web.addedResult || (_web.addedResult == false)) ? _web.addedResult : false;
+          item.bestMatch = (_web.bestMatch || (_web.bestMatch == false)) ? _web.bestMatch : false;
           data.push(item);
         });
         return data;
@@ -17989,6 +18044,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           item.sys_content_type = file.sys_content_type;
           item.contentId = file.contentId;
           item.addedResult = (file.addedResult || (file.addedResult == false)) ? file.addedResult : false;
+          item.bestMatch = (file.bestMatch || (file.bestMatch == false)) ? file.bestMatch : false;
           data.push(item);
         });
         return data;
@@ -20084,7 +20140,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           headers.auth = _self.config.botOptions.assertion;
         }
       }
-      if (searchConfigurationCopy.querySuggestionsLimit == 0 && !searchConfigurationCopy.autocompleteOpt) {
+      if (!$('#search').val() || (searchConfigurationCopy.querySuggestionsLimit == 0 && !searchConfigurationCopy.autocompleteOpt)) {
+        _self.vars.previousAutosuggestionData = $('#search').val();
+        return;
+      }
+      if (_self.vars.previousAutosuggestionData == $('#search').val()) {
         return;
       }
       $.ajax({
@@ -20094,6 +20154,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         headers: headers,
         data: payload,
         success: function (data) {
+          _self.vars.previousAutosuggestionData = $('#search').val();
           if (!data.isBotLocked) {
             if (searchConfigurationCopy.querySuggestionsLimit) {
               var autoSuggestionHTML = $(_self.getAutoSuggestionTemplate()).tmplProxy({
@@ -21297,7 +21358,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }, 600);
       });
       // _self.pubSub.unsubscribe('sa-generate-recent-search');
-      $('#search-box-container').off('focusin', '.search-top-down').on('focusin', '.search-top-down', function (e) {
+      $('#search-box-container').off('focus', '.search-top-down').on('focus', '.search-top-down', function (e) {
         if (!$('.search-top-down').val()) {
           console.log('initialize focus');
           _self.bindFrequentData();
@@ -22011,10 +22072,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             txtArr[i] = '\r\n';
             _lineBreakAdded = true;
           } else if (txtArr[i].indexOf('*') === 0) {
-            if (!isEven(txtArr[i].split('*').length - 1)) {
-              txtArr[i] = '\r\n&#9679; ' + txtArr[i].substring(1);
-              _lineBreakAdded = true;
-            }
+            // if (!isEven(txtArr[i].split('*').length - 1)) {
+            //   txtArr[i] = '\r\n&#9679; ' + txtArr[i].substring(1);
+            //   _lineBreakAdded = true;
+            // }
           } else if (txtArr[i].indexOf('>>') === 0) {
             txtArr[i] = '<p class="indent">' + txtArr[i].substring(2) + '</p>';
             _lineBreakAdded = true;

@@ -325,18 +325,19 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           } else {
             let repeatOn = "";
             let schedulePeriod = "";
-            let every = ""
+            let every = "";
+            // let date =""
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod) {
               schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
               repeatOn = " on " + this.convertToDay(element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn);
             }
-            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1) {
-              every = element.advanceSettings.scheduleOpts.interval.intervalValue.every;
-            }
+            // if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn) {
+            //   date = element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate;
+            // }
             element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn
-
+ 
           }
 
         }
@@ -1348,12 +1349,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
     crawler.advanceOpts.crawlDepth = this.crawlDepth;
     crawler.advanceOpts.maxUrlLimit = this.maxUrlLimit;
+    crawler.advanceOpts.crawlEverything = false;
     if (option == 'add') {
       type == 'block' ? crawler.advanceOpts.blockedURLs.push(allowUrls) : crawler.advanceOpts.allowedURLs.push(allowUrls);
     } else {
       type == 'block' ? crawler.advanceOpts.blockedURLs.splice(i, 1) : crawler.advanceOpts.allowedURLs.splice(i, 1);
     }
-
+    if(type == 'block'){
+      crawler.advanceOpts.allowedURLs = [];
+    }else{
+      crawler.advanceOpts.blockedURLs = [];
+    }
     // crawler.resourceType = resourceType; 
     payload = crawler;
     console.log(payload);
@@ -1518,6 +1524,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     // else {
     //   delete crawler.resourceType;
     // }
+    if(this.selectedSource.advanceSettings.crawlEverything){
+      crawler.advanceOpts.crawlEverything = true;
+      crawler.advanceOpts.allowedURLs = [];
+      crawler.advanceOpts.blockedURLs = [];
+    }else{
+      crawler.advanceOpts.crawlEverything = false;
+      if(this.selectedSource.advanceSettings.allowedOpt){
+        crawler.advanceOpts.blockedURLs = [];
+      }else if(this.selectedSource.advanceSettings.blockedOpt){
+        crawler.advanceOpts.allowedURLs = [];
+      }
+    }
     payload = crawler;
     //console.log(payload);
     if (crawler.advanceOpts.scheduleOpt) {
