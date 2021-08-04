@@ -332,18 +332,19 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           } else {
             let repeatOn = "";
             let schedulePeriod = "";
-            let every = ""
+            let every = "";
+            // let date =""
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod) {
               schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
               repeatOn = " on " + this.convertToDay(element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn);
             }
-            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1) {
-              every = element.advanceSettings.scheduleOpts.interval.intervalValue.every;
-            }
+            // if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn) {
+            //   date = element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate;
+            // }
             element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn
-
+ 
           }
 
         }
