@@ -13726,7 +13726,12 @@ border: 0;
     box-sizing: border-box;
     border-radius: 20px;
 }
-
+.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion .suggestion-list-item {
+    background: var(--sdk-bg-zumthor-color);
+    border: 1px solid var(--sdk-border-malibu-color);
+    box-sizing: border-box;
+    border-radius: 20px;
+}
 .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title .type-select-suggestion{
     position: absolute;
     top: 13px;
@@ -14604,4 +14609,7 @@ margin-bottom: 15px !important;
     margin: 0 0px;
     width: 434px !important;
     display: block !important;
+}
+.click-to-navigate-url, .click-to-navigate-url div{
+    cursor: pointer !important;
 }
