@@ -14610,3 +14610,6 @@ margin-bottom: 15px !important;
     width: 434px !important;
     display: block !important;
 }
+.click-to-navigate-url, .click-to-navigate-url div{
+    cursor: pointer !important;
+}
