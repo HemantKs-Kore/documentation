@@ -7057,11 +7057,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (messageData.text && typeof (messageData.text) == "object") {
               messageData.text = messageData.text.text;
             }
-            messageHtml = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-              msgData: messageData,
-              helpers: helpers
-            });
-            // $('#searchChatContainer').append(template);
+            if( _typeof(messageData) == 'number'){
+              messageHtml = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                msgData: {
+                  from: "bot",
+                  text: messageData
+                },
+                helpers: helpers
+              });
+              $('#searchChatContainer').append(messageHtml);
+            } else {
+              messageHtml = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                msgData: messageData,
+                helpers: helpers
+              });
+              // $('#searchChatContainer').append(template);
+            }
           }
         }
         if (messageData.payload && messageData.payload.text && !messageHtml) {
