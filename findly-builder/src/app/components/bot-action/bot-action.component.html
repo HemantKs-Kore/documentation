@@ -156,7 +156,7 @@
           <div class="col-3 search-block">
             <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
               <input type="text" autofocus="true" maxlength="60" placeholder="{{'search' | translate}}" class="input-search"
-                autocomplete="off" [ngClass]="{'pl-2':searchTasks}" [(ngModel)]="searchTasks" (focusout)="focusoutSearch();"
+                autocomplete="off" [ngClass]="{'pl-2':searchTasks}" [(ngModel)]="searchTasks" 
                 (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" id="inputSearch"
                 (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
