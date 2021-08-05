@@ -6,8 +6,12 @@ export const environment = {
   production: false,
   tag: 'dev',
   API_SERVER_URL: 'https://app.findly.ai',
+<<<<<<< HEAD
   USE_SESSION_STORE: false,
   INLINE_MANUAL_SITE_KEY: "1ec224ee46620656a9b18a17c80587a3",
+=======
+  USE_SESSION_STORE: false
+>>>>>>> 38c9998a5247c9005fc43315ca5ed9a9ef7e54ca
   // API_SERVER_URL: 'http://192.168.10.101:5000'
 };
 

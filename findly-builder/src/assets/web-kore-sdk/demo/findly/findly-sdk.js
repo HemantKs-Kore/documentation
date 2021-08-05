@@ -5155,6 +5155,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         payload.childBotId = $(event.currentTarget).attr('childBotId');
         payload.childBotName = $(event.currentTarget).attr('childBotName');
         payload.taskId = resultID;
+        payload.name = resultName;
       }
       if ((_self.vars.previousSearchObj || {}).requestId) {
         payload.searchRequestId = _self.vars.previousSearchObj.requestId;
@@ -8505,7 +8506,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.destroy = function (config) {
       this.bot.destroy();
     }
+    FindlySDK.prototype.resetPingMessage = function () {
+      var _self = this;
+      clearTimeout(_pingTimer);
+      _pingTimer = setTimeout(function () {
+          var messageToBot = {};
+          messageToBot["type"] = 'ping';
+          _self.bot.sendMessage(messageToBot, function messageSent() {
 
+          });
+          _self.resetPingMessage();
+      }, _pingTime);
+  }
     FindlySDK.prototype.bindSocketEvents = function () {
       var _self = this;
       _self.bot.on("message", function (message) {
@@ -8745,6 +8757,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }, 350);
         }
       });
+      if(_self.isDev == false){
+      _self.resetPingMessage();
+      }
     };
 
     FindlySDK.prototype.getTemplate = function (type) {
@@ -10673,6 +10688,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       viewMoreCntrScroll = '',
       meetingTimeRef = [];
     var meetingArray = [];
+    var _pingTimer, _pingTime = 30000;
     var mainTemplateBdr,
       localPanelDetail = {},
       makeAPICall = true;
