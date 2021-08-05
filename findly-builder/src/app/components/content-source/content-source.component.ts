@@ -1356,8 +1356,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       type == 'block' ? crawler.advanceOpts.blockedURLs.splice(i, 1) : crawler.advanceOpts.allowedURLs.splice(i, 1);
     }
     if(type == 'block'){
+        crawler.advanceOpts.allowedOpt = false;
+        crawler.advanceOpts.blockedOpt = true;
       crawler.advanceOpts.allowedURLs = [];
     }else{
+        crawler.advanceOpts.allowedOpt = true;
+        crawler.advanceOpts.blockedOpt = false;
       crawler.advanceOpts.blockedURLs = [];
     }
     // crawler.resourceType = resourceType; 
@@ -1526,13 +1530,19 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     // }
     if(this.selectedSource.advanceSettings.crawlEverything){
       crawler.advanceOpts.crawlEverything = true;
+      crawler.advanceOpts.allowedOpt = false;
+      crawler.advanceOpts.blockedOpt = false;
       crawler.advanceOpts.allowedURLs = [];
       crawler.advanceOpts.blockedURLs = [];
     }else{
       crawler.advanceOpts.crawlEverything = false;
       if(this.selectedSource.advanceSettings.allowedOpt){
+        crawler.advanceOpts.allowedOpt = true;
+        crawler.advanceOpts.blockedOpt = false;
         crawler.advanceOpts.blockedURLs = [];
       }else if(this.selectedSource.advanceSettings.blockedOpt){
+        crawler.advanceOpts.allowedOpt = false;
+        crawler.advanceOpts.blockedOpt = true;
         crawler.advanceOpts.allowedURLs = [];
       }
     }
