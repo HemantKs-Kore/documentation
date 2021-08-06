@@ -15026,7 +15026,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                       <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
                           {{if isClickable == true}}\
-                            <a class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
+                            <div class="click-to-navigate-url tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="img-block">\
@@ -15036,7 +15036,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                 <div class="title">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                                 <div class="desc-text">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
-                            </a>\
+                            </div>\
                           {{/if}}\
                           {{if isClickable == false}}\
                             <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
@@ -15354,7 +15354,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                       <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
                           {{if isClickable == true}}\
-                            <a class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
+                            <div class="click-to-navigate-url tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="img-block">\
@@ -15364,7 +15364,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                 <div class="title">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                                 <div class="desc-text">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
-                            </a>\
+                            </div>\
                           {{/if}}\
                           {{if isClickable == false}}\
                             <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
@@ -15671,7 +15671,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                       <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
                           {{if isClickable == true}}\
-                            <a class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
+                            <div class="click-to-navigate-url tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="img-block">\
@@ -15681,7 +15681,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                 <div class="title">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                                 <div class="desc-text">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
-                            </a>\
+                            </div>\
                           {{/if}}\
                           {{if isClickable == false}}\
                             <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
@@ -15939,7 +15939,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent grid_view_template tasks-wrp structured-data-outer-wrap width-100-overflow-initial  mb-15  {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important; overflow : initial !important;{{/if}}">\
                     {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
-                        <a class="tile-with-centered-content faqs-shadow structured-data-wrp-content {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
+                        <div class="click-to-navigate-url tile-with-centered-content faqs-shadow structured-data-wrp-content {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}" href="${data.url}" target="_blank">\
                           <div class="img-block">\
                               <img src="${data.img}">\
                           </div>\
@@ -15947,7 +15947,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="title">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
                             <div class="p-text">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                           </div>\
-                        </a>\
+                        </div>\
                     {{/each}}\
                   </div>\
                   <!-- <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div> -->\

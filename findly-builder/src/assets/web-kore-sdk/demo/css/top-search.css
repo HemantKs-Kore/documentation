@@ -155,7 +155,7 @@ body::-webkit-scrollbar {
   padding: 14px 12px;
 }
 .sdk-top-down-interface .full-results-data-container .tile-with-text-parent.grid_view_template .tile-with-text {
-  width: 19%;
+  /* width: 19%; */
 }
 .sdk-top-down-interface .tile-with-text-parent.grid_view_template .tile-with-text .tile-heading {
   font-weight: 600;
@@ -288,9 +288,9 @@ body::-webkit-scrollbar {
   margin-bottom: 0;
   padding: 11px 10px;
 }
-.sdk-top-down-interface .tile-with-image-parent.template-3 .tile-with-image:last-child {
+/* .sdk-top-down-interface .tile-with-image-parent.template-3 .tile-with-image:last-child {
   border: 0;
-}
+} */
 .sdk-top-down-interface .tile-with-image-parent.template-3.with-accordion .tile-with-image {
   padding: 13px 20px 13px 20px;
 }
@@ -476,7 +476,7 @@ body::-webkit-scrollbar {
   margin: 4px;
 }
 .sdk-top-down-interface .full-results-data-container .tile-with-centered-content-parent.grid_view_template .tile-with-centered-content {
-  /* width: 19%; */
+  width: 24%;
 }
 .sdk-top-down-interface .tile-with-centered-content-parent.grid_view_template .tile-with-centered-content .img-block {
   text-align: center;
@@ -485,6 +485,7 @@ body::-webkit-scrollbar {
 .sdk-top-down-interface .tile-with-centered-content-parent.grid_view_template .tile-with-centered-content .img-block img {
   height: auto;
   width: 100%;
+  height: 120px;
 }
 .sdk-top-down-interface .tile-with-centered-content-parent.grid_view_template .tile-with-centered-content .text-content .title {
   font-weight: bold;
@@ -590,6 +591,9 @@ body::-webkit-scrollbar {
   border-bottom: 1px solid var(--sdk-border-iron-color);
 }
 
+.sdk-top-down-interface .tile_with_header.template-3 .tile-title:last-child{
+border: 0;
+}
 .sdk-top-down-interface .tile_with_header.grid_view_template {
   display: flex;
   flex-wrap: wrap;
@@ -2338,7 +2342,7 @@ display: none !important;
     border: 1px solid var(--sdk-border-mischka-color);
     box-sizing: border-box;
     border-radius: 8px;
-    margin-top: 12px;
+    margin-top: 8px;
     height: auto;
     padding: 14px 12px;
     /* width: 347px; */
@@ -2738,3 +2742,10 @@ padding-left: 3px;
   width: 114px;
   color: #0D6EFD !important;
   }
+  .sdk-top-down-interface .searchAssist-kore-chat-window .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-next {
+    padding: 9px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    cursor: pointer;
+}
