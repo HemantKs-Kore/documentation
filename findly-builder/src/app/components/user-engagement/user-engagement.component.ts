@@ -116,7 +116,7 @@ export class UserEngagementComponent implements OnInit {
   lowValue = 0;
   isyAxismostUsedBrowserdata = false;
   isyAxisGeodata = false;
-  startDate: any = moment().subtract({ days: 7 });
+  startDate: any = moment().subtract({ days: 6 });
   endDate: any = moment();
   minDate: any = moment().subtract({ days: 95 });
   maxDate: any = moment();
