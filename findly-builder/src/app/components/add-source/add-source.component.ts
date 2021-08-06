@@ -1516,8 +1516,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.submitted = false;
     }
   }
-  openBotsConfigurationModalElement(bot,isBotLinked) {
-    if(isBotLinked){
+  openBotsConfigurationModalElement(bot, isBotLinked) {
+    if (isBotLinked) {
       return;
     }
     this.selectedLinkBotConfig = bot;

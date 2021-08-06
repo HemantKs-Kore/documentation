@@ -8651,7 +8651,7 @@ html , body{
 .searchAssist-kore-chat-window .search-greeting-box {
     display: inline-flex;
     align-items: center;
-    margin-bottom: 50px;
+    margin-bottom: 48px;
     background: var(--sdk-bg-athens-gray-color);
     border: 1px solid var(--sdk-border-mischka-color);
     box-sizing: border-box;
@@ -12336,7 +12336,7 @@ border: 0;
     line-height: 18px;
     margin-bottom: 10px;
     overflow: hidden;
-    max-height: 56px;
+    max-height: 52px;
 }
 .searchAssist-kore-chat-window .tile-with-centered-content-parent.grid_view_template .tile-with-centered-content .text-content .p-text {
     font-weight: normal;
@@ -14343,12 +14343,19 @@ border: 0;
         padding-right: 15px;
    }
    .searchAssist-kore-chat-window .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-next {
-        padding: 9px;
+        padding: 6px;
         width: 30px;
         height: 30px;
         text-align: center;
         cursor: pointer;
    }
+   .searchAssist-kore-chat-window .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-next {
+    padding: 9px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    cursor: pointer;
+}
    .searchAssist-kore-chat-window .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-next.disabled {
         cursor: not-allowed;
         /* opacity: 0.5; */
