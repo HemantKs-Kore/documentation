@@ -2788,16 +2788,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
 
       $(document).off('click', '.accordion').on('click', '.accordion', function (evet) {
-        $(evet.target).toggleClass('acc-active');
-        var panel = $(evet.target).next();
+        $(evet.target).closest('.accordion').toggleClass('acc-active');
+        var panel =  $(evet.target).closest('.accordion').next();
         //if($(evet.target).next().length){
         if (panel[0].style.maxHeight || $(evet.target).hasClass('best-match')) {
-          if($(evet.target).hasClass('best-match')){
+          if (panel[0].style.maxHeight && panel[0].style.maxHeight.toString().split('px')[0] == '16') {
+            return;
+          }
+          if ($(evet.target).hasClass('best-match')) {
             $(evet.target).removeClass('best-match')
           }
+
           panel[0].style.maxHeight = null;
           panel[0].style.overflow = "hidden";
+          panel[0].style.dispaly = 'none';
+          setTimeout(() => {
+            $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").show();
+          }, 100);
         } else {
+          $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").hide();
+          setTimeout(() => {
+            panel[0].style.dispaly = 'block';
+          }, 100);
           panel[0].style.maxHeight = panel[0].scrollHeight + "px";
           if (!panel[0].classList.contains('carousel')) {
             panel[0].style.overflow = "initial";
@@ -14875,9 +14887,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           {{/if}}\
                           {{if isClickable == false}}\
                             <div class="tile-with-text faqs-wrp-content structured-data-wrp-content">\
-                            <div title="${data.heading}" class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active best-match{{/if}}\" id="1">\
-                                {{html helpers.convertMDtoHTML(data.heading)}}\
-                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                            <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active best-match{{/if}}\" id="1">\
+                               <div title="${data.heading}" class="text-truncate" >{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description, null,null,true)}}</div>\
                               </div>\
                               <div class="panel">\
                                   <div class="tile-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
@@ -14956,9 +14968,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-image faqs-wrp-content structured-data-wrp-content">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div  title="${data.heading}" class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active best-match{{/if}}\" id="1">\
-                                {{html helpers.convertMDtoHTML(data.heading)}}\
-                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active best-match{{/if}}\" id="1">\
+                               <div title="${data.heading}" class="text-truncate" >{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description, null,null,true)}}</div>\
                               </div>\
                               <div class="panel">\
                                   <div class="inner-tile-with-iamge-panel">\
@@ -15042,9 +15054,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div  title="${data.heading}" class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
-                                {{html helpers.convertMDtoHTML(data.heading)}}\
-                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                              <div  class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
+                               <div title="${data.heading}" class="text-truncate" >{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description, null,null,true)}}</div>\
                               </div>\
                               <div class="panel">\
                                 <div class="inner-tile-with-iamge-panel">\
@@ -15203,9 +15215,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-text faqs-wrp-content structured-data-wrp-content" >\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div title="${data.heading}" class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
-                                {{html helpers.convertMDtoHTML(data.heading)}}\
-                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
+                               <div title="${data.heading}" class="text-truncate" >{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description, null,null,true)}}</div>\
                               </div>\
                               <div class="panel">\
                                   <div class="tile-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
@@ -15284,9 +15296,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-image faqs-wrp-content structured-data-wrp-content" >\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div  title="${data.heading}" class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
-                                {{html helpers.convertMDtoHTML(data.heading)}}\
-                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
+                               <div title="${data.heading}" class="text-truncate" >{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description, null,null,true)}}</div>\
                               </div>\
                               <div class="panel">\
                                   <div class="inner-tile-with-iamge-panel">\
@@ -15370,9 +15382,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" >\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div title="${data.heading}" class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
-                                {{html helpers.convertMDtoHTML(data.heading)}}\
-                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
+                               <div title="${data.heading}" class="text-truncate" >{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description, null,null,true)}}</div>\
                               </div>\
                               <div class="panel">\
                                 <div class="inner-tile-with-iamge-panel">\
@@ -15520,9 +15532,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-text faqs-wrp-content structured-data-wrp-content" >\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div title="${data.heading}" class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
-                                {{html helpers.convertMDtoHTML(data.heading)}}\
-                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
+                               <div title="${data.heading}" class="text-truncate" >{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description, null,null,true)}}</div>\
                               </div>\
                               <div class="panel">\
                                   <div class="tile-description">{{html helpers.convertMDtoHTML(data.description)}}</div>\
@@ -15601,9 +15613,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-image faqs-wrp-content structured-data-wrp-content" >\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div title="${data.heading}" class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
-                                {{html helpers.convertMDtoHTML(data.heading)}}\
-                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
+                               <div title="${data.heading}" class="text-truncate" >{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description, null,null,true)}}</div>\
                               </div>\
                               <div class="panel">\
                                   <div class="inner-tile-with-iamge-panel">\
@@ -15687,9 +15699,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" >\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                              <div title="${data.heading}" class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
-                                {{html helpers.convertMDtoHTML(data.heading)}}\
-                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                              <div class="tile-heading accordion p-0  {{if data.bestMatch && data.bestMatch == true}} acc-active  best-match{{/if}}\" id="1">\
+                               <div title="${data.heading}" class="text-truncate" >{{html helpers.convertMDtoHTML(data.heading)}}</div>\
+                                  <div class="tile-description defalut-show text-truncate">{{html helpers.convertMDtoHTML(data.description, null,null,true)}}</div>\
                               </div>\
                               <div class="panel">\
                                 <div class="inner-tile-with-iamge-panel">\
@@ -17625,7 +17637,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if (_web[mapping.description]) {
             item.description = _web[mapping.description];
-            item.description =  item.description.toString().replaceAll("\n", ". ");
+            // item.description =  item.description.toString().replaceAll("\n", ". ");
           }
           if (_web[mapping.img]) {
             item.img = _web[mapping.img];
@@ -21846,7 +21858,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         return d.toDateString() + " at " + helpers.formatAMPM(d);
       },
-      'convertMDtoHTML': function (val, responseType, msgItem) {
+      'convertMDtoHTML': function (val, responseType, msgItem, isRemoveln) {
+        val = (val && isRemoveln)? val.toString().replaceAll("\n", ". ").replaceAll('<BR>','.'):val;
         var hyperLinksMap = {};
         if (msgItem && msgItem.cInfo && msgItem.cInfo.ignoreCheckMark) {
           var ignoreCheckMark = msgItem.cInfo.ignoreCheckMark;
