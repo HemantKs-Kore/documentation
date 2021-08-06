@@ -7326,19 +7326,21 @@ body{
     border-radius: 8px;
     color: var(--sdk-cinder-black-color);
     position: relative;
-    padding: 15px 15px 15px 34px;
+    padding: 15px 15px 15px 17px;
     max-width: 85%;
     min-height: 48px;      
     float: left;
     position: relative;
     clear: both;
-    margin-bottom: 25px;    
+    margin-bottom: 25px;  
+    margin-left: 40px;  
     font-size: 14px;    
 }
 .searchAssist-kore-chat-window.search-container.conversation #searchChatContainer .messageBubble .botMessage .bot_Img{
     position: absolute;
     left: 11px;
     margin-top: 2px;
+    display: none;
 }
 .searchAssist-kore-chat-window.search-container.conversation #searchChatContainer .messageBubble .messageBubble-content{
     display: inline-block;
@@ -7350,9 +7352,9 @@ body{
     position: absolute;
     /* bottom: 10px; */
     z-index: 1;
-    top: 18px;
-    left: 11px;
-    display: none;
+    top: 11px;
+    left: 0px;
+    /* display: none; */
 }
 .searchAssist-kore-chat-window.search-container.conversation .search-body{
     max-height: calc(100% - 200px);
@@ -8651,7 +8653,7 @@ html , body{
 .searchAssist-kore-chat-window .search-greeting-box {
     display: inline-flex;
     align-items: center;
-    margin-bottom: 48px;
+    margin-bottom: 56px;
     background: var(--sdk-bg-athens-gray-color);
     border: 1px solid var(--sdk-border-mischka-color);
     box-sizing: border-box;
@@ -11860,7 +11862,7 @@ padding-right: 0;
     font-weight: 600;
     font-size: 14px;
     line-height: 20px;
-    margin-bottom: 2px;
+    margin-bottom: 0px;
 }
 .searchAssist-kore-chat-window .tile-with-text-parent .tile-with-text .tile-description {
     color: var(--sdk-gray-color);
