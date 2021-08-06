@@ -27,8 +27,8 @@
         </div>
         <div class="col-6 toggle-check">       
             <label class="kr-sg-toggle">
-                <input type="checkbox" checked>
-                <div class="slider"><span class="enabled" (click)="disableCredential(pageDisable)">{{"settings.channel_enabled" | translate}}</span><span class="disabled" >Channel Disabled</span></div>
+                <input type="checkbox" [checked] = "enableConfiguration" (click)="disableCredential(pageDisable)">
+                <div class="slider"><span class="enabled" >{{"settings.channel_enabled" | translate}}</span><span class="disabled" >Channel Disabled</span></div>
             </label>     
             <!-- <div class="bread-name active-name1"  *ngIf="existingCredential"><img src="assets/icons/viewinstruction.svg"> View Instructions</div>                  -->
         </div>

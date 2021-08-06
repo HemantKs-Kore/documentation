@@ -134,7 +134,6 @@ export class UserEngagementComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     //this.mostClick();
-
     //this.feedback();
     this.getuserCharts('UsersChart');
     this.getuserCharts('UsersBusyChart');
