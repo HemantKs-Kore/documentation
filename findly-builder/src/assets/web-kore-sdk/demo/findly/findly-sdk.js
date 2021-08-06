@@ -6249,6 +6249,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.handleSearchRes = function (res) {
       var _self = this;
+      setTimeout(function () {
+        $('.typingIndicatorContent').css('display', 'none');
+      }, 100);
       try {
 
         _self.vars.searchObject.recents = JSON.parse(window.localStorage.getItem('recents')) ? JSON.parse(window.localStorage.getItem('recents')) : [];
@@ -6707,7 +6710,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if ($('.search-container').hasClass('conversation')) {
             $('.search-body').addClass('hide');
             $('#searchChatContainer').removeClass('bgfocus');
-
+            $('.typingIndicatorContent').css('display', 'none');
             _self.sendMessageToSearch('bot', 'Unable to find results at this moment');
           }
         }
@@ -6868,6 +6871,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             helpers: helpers
           });
           $('#searchChatContainer').append(template);
+          if(!$('body').hasClass('top-down')){
+                setTimeout(function () {
+                  if ($('.searchAssist-kore-chat-window.search-container').hasClass('active')) {
+                    $('.typingIndicatorContent').css('display', 'block');
+                  }else{
+                    _self.showTypingIndicator();
+                  }
+                   }, 500);
+            
+          }
         }
       }
       if (type === 'user-conversation' && ($('#sa-conversation-box').val() !== null) && ($('#sa-conversation-box').val() !== undefined)) {
@@ -6941,7 +6954,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 setTimeout(function () {
                   var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
                   $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-                }, 200);
+                }, 1000);
 
               });
               $('#searchChatContainer').append(creditCard);
@@ -7138,6 +7151,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }, 200);
     }
+    
     FindlySDK.prototype.userLogin = function (clickedAction) {
       _self = this
       var action = clickedAction;
@@ -8636,9 +8650,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.trainWarningDiv').addClass('showMsg');
           }, 2000);
         }
-        setTimeout(function () {
-          $('.typingIndicatorContent').css('display', 'none');
-        }, 300);
+        // setTimeout(function () {
+        //   $('.typingIndicatorContent').css('display', 'none');
+        // }, 300);
       });
 
     };
@@ -8780,7 +8794,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       attachmentInfo = {};
 
       console.log("Message to Bot", messageToBot);
-      $('.typingIndicatorContent').css('display', 'block');
+      // $('.typingIndicatorContent').css('display', 'block');
       _self.bot.sendMessage(messageToBot, function messageSent(err) {
         if (err && err.message) {
           setTimeout(function () {
@@ -10720,6 +10734,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       meetingTimeRef = [];
     var meetingArray = [];
     var _pingTimer, _pingTime = 30000;
+    var indicatorTimer;
     var mainTemplateBdr,
       localPanelDetail = {},
       makeAPICall = true;
@@ -22421,7 +22436,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
       }, 1000);
     }
-
+    FindlySDK.prototype.showTypingIndicator = function () {
+      var _self = this;
+      clearTimeout(indicatorTimer);
+      indicatorTimer = setTimeout(function () {
+        if ($('.searchAssist-kore-chat-window.search-container').hasClass('active')) {
+          $('.typingIndicatorContent').css('display', 'block');
+        } else {
+          _self.showTypingIndicator();
+        }
+      }, 500);
+    }
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
 });
