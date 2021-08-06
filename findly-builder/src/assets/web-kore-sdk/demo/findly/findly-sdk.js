@@ -5236,7 +5236,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 _self.pubSub.publish('sa-freq-data', freqDataTop);
                 if (freqDataTop.recents.length) {
                   $('#live-search-result-box').hide();
-                  $('#frequently-searched-box').show();
+                  if(searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled){
+                    $('#frequently-searched-box').show();
+                  }
                   // _self.frequentlySearchedRecentTextClickEvent();
                 }
               } else {
@@ -7758,18 +7760,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (config.templateId) {
             if (!$('body').hasClass('top-down')) {
               var dataHTML = $('#' + config.templateId).tmplProxy(data);
+              $('#' + config.container).empty().append(dataHTML);
             } else {
               var dataHTML = $(_self.getFrequentlySearchTemplate()).tmplProxy({ ...data, ...{ searchConfig: config.searchConfig } });
               if (data.recents && data.recents.length && !$('.search-top-down').val()) {
-                $('#frequently-searched-box').show();
-                setTimeout(() => {
-                  _self.frequentlySearchedRecentTextClickEvent();
-                }, 150)
+                if(config.searchConfig.showSearchesEnabled){
+                  $('#frequently-searched-box').show();
+                  setTimeout(() => {
+                    _self.frequentlySearchedRecentTextClickEvent();
+                  }, 150)
+                }
               } else {
                 $('#frequently-searched-box').hide();
               }
+              $('#' + config.container).empty().append(dataHTML);
             }
-            $('#' + config.container).empty().append(dataHTML);
+           
           } else if (config.template) {
             var dataHTML = $(config.template).tmplProxy(data);
             $('#' + config.container).empty().append(dataHTML);
