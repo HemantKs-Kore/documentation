@@ -8651,7 +8651,7 @@ html , body{
 .searchAssist-kore-chat-window .search-greeting-box {
     display: inline-flex;
     align-items: center;
-    margin-bottom: 48px;
+    margin-bottom: 56px;
     background: var(--sdk-bg-athens-gray-color);
     border: 1px solid var(--sdk-border-mischka-color);
     box-sizing: border-box;
