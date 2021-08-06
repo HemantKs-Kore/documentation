@@ -20495,7 +20495,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           goBtn[i].disabled = isGoButtonDisabled;
         }
       });
-
+      $('.all-result-container').off('click', '.back-search').on('click', '.back-search', function (e) {
+        $('.all-result-container').hide();
+        $('body').removeClass('showFullResults');
+        $('#search').val('');
+        $('#suggestion').val('');
+        $(".top-down-suggestion").val('');
+          $(".search-top-down").val('');
+      });
     }
     FindlySDK.prototype.showSuggestionbox = function (suggestions) {
       var _self = this;
@@ -21190,6 +21197,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 </div>
                 <div id="loaderDIV" class="loader-container">Loading...</div>
                 <div class="full-results-data-container">
+                <div class="back-search" style="cursor: pointer;position: absolute;right: 26px;z-index: 100000;">
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADeSURBVHgBnZI/C8IwEMUviRUHkdKp0KWgBccu/QAOgrj1k2arbtLZJXtFOpVOpXtoYyKk+CeJ4BtCEt7vuHscwJ8i6timh3gZbvy+vfUuc5Ie01W4XigfVh+Dh/25hy9Jtk9dECKC6vcTrK4FEwA5Ao+aYA2JAeU1O9dTq0pdU7VBlJQICA2iuOyae/sJVaxg2o++qmfSCEAF8By4BybICL7CMAowQUozEwhcDSGnxhLH3GjB4AjCFRixQao9W2BvoC09GzxtjrydbEGY4GlGG6SllgTzccc5ca7lTz0A2yqRYknu6twAAAAASUVORK5CYII="/>
+                  </div> 
                     <div id="filters-left-sec"></div>
                   <div class="all-product-details ">
                     <div class="show_insights_top_down" data-displayInsights="true">\
