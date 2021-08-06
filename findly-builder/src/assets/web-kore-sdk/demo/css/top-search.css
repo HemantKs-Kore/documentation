@@ -953,7 +953,7 @@ body.top-down .top-down-wrapper{
     height: 100%;
     left: 0;
     z-index: -1;
-    top: 130px;
+    top: 128px;
 }
 .topdown-search-main-container .search-input-box .live_search_result_box ,.topdown-search-main-container .search-input-box .frequently_searched_box{
   background: var(--sdk-white-bg);
@@ -964,7 +964,7 @@ body.top-down .top-down-wrapper{
   /* min-height: 125px; */
   left: 0;
   right: 0;
-  top: 66px;
+  top: 67px;
   z-index: 9;
   /* margin: 0 auto; */
   display: none;
