@@ -30,7 +30,7 @@
                     <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchfacet,'pl-2':searchfacet}" autocomplete="off" [(ngModel)]="searchfacet"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                         (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                     <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchfacet">
-                    <img class="close-icon" *ngIf="searchfacet" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchfacet}" (click)="searchfacet='';toggleSearch(false)">
+                    <img class="close-icon" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchfacet}" (click)="focusoutSearch()">
                 </div>
                 <!-- <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
                     <img src="assets/icons/search_gray.svg" class="search-icon">

@@ -15,8 +15,8 @@
                             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                             (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                         <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields">
-                        <img class="close-icon" *ngIf="searchFields" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" 
-                            (click)="searchFields='';showSearch=!showSearch;" placement="top-center" container='body' ngbTooltip="{{'fields.cancel' | translate}}"
+                        <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" 
+                            (click)="focusoutSearch()" placement="top-center" container='body' ngbTooltip="{{'fields.cancel' | translate}}"
                             tooltipClass="ngb_tooltip_custom_class sampleJson">
                     </div>
                     <div class="seach-block" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')">
