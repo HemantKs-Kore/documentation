@@ -161,8 +161,8 @@
                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" id="inputSearch"
                 (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
               <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchTasks">
-              <img class="close-icon" *ngIf="searchTasks" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchTasks}"
-                (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="searchTasks='';toggleSearch(false)">
+              <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchTasks}"
+                (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()">
             </div>
             <div class="seach-block-name" *ngIf="(linkedBotTasks && linkedBotTasks?.length)"
               (click)="showSearch=!showSearch;focusinSearch('inputSearch')" [ngClass]="{'d-none': showSearch}">
