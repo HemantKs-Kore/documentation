@@ -1349,12 +1349,21 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
     crawler.advanceOpts.crawlDepth = this.crawlDepth;
     crawler.advanceOpts.maxUrlLimit = this.maxUrlLimit;
+    crawler.advanceOpts.crawlEverything = false;
     if (option == 'add') {
       type == 'block' ? crawler.advanceOpts.blockedURLs.push(allowUrls) : crawler.advanceOpts.allowedURLs.push(allowUrls);
     } else {
       type == 'block' ? crawler.advanceOpts.blockedURLs.splice(i, 1) : crawler.advanceOpts.allowedURLs.splice(i, 1);
     }
-
+    if(type == 'block'){
+        crawler.advanceOpts.allowedOpt = false;
+        crawler.advanceOpts.blockedOpt = true;
+      crawler.advanceOpts.allowedURLs = [];
+    }else{
+        crawler.advanceOpts.allowedOpt = true;
+        crawler.advanceOpts.blockedOpt = false;
+      crawler.advanceOpts.blockedURLs = [];
+    }
     // crawler.resourceType = resourceType; 
     payload = crawler;
     console.log(payload);
@@ -1519,6 +1528,24 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     // else {
     //   delete crawler.resourceType;
     // }
+    if(this.selectedSource.advanceSettings.crawlEverything){
+      crawler.advanceOpts.crawlEverything = true;
+      crawler.advanceOpts.allowedOpt = false;
+      crawler.advanceOpts.blockedOpt = false;
+      crawler.advanceOpts.allowedURLs = [];
+      crawler.advanceOpts.blockedURLs = [];
+    }else{
+      crawler.advanceOpts.crawlEverything = false;
+      if(this.selectedSource.advanceSettings.allowedOpt){
+        crawler.advanceOpts.allowedOpt = true;
+        crawler.advanceOpts.blockedOpt = false;
+        crawler.advanceOpts.blockedURLs = [];
+      }else if(this.selectedSource.advanceSettings.blockedOpt){
+        crawler.advanceOpts.allowedOpt = false;
+        crawler.advanceOpts.blockedOpt = true;
+        crawler.advanceOpts.allowedURLs = [];
+      }
+    }
     payload = crawler;
     //console.log(payload);
     if (crawler.advanceOpts.scheduleOpt) {

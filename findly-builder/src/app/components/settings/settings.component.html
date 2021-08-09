@@ -6,7 +6,7 @@
         <div class="col-4 lef-sec p-0"><span class="title">{{"settings.channels" | translate}}</span></div>
         <div class="col-8 right-sec p-0">
             <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">                               
-                <input type="text" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchchannel,'pl-2':searchchannel}" autocomplete="off" [(ngModel)]="searchchannel" (focusout)="focusoutSearch();" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                <input type="text" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchchannel,'pl-2':searchchannel}" autocomplete="off" [(ngModel)]="searchchannel"  maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchchannel">
             <img class="close-icon" *ngIf="searchchannel" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchchannel}" (mouseover)="activeClose=true" (mouseout)="activeClose=false"  (click)="searchchannel='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
@@ -27,8 +27,8 @@
         </div>
         <div class="col-6 toggle-check">       
             <label class="kr-sg-toggle">
-                <input type="checkbox" checked>
-                <div class="slider"><span class="enabled" (click)="disableCredential(pageDisable)">{{"settings.channel_enabled" | translate}}</span><span class="disabled" >Channel Disabled</span></div>
+                <input type="checkbox" [checked] = "enableConfiguration" (click)="disableCredential(pageDisable)">
+                <div class="slider"><span class="enabled" >{{"settings.channel_enabled" | translate}}</span><span class="disabled" >Channel Disabled</span></div>
             </label>     
             <!-- <div class="bread-name active-name1"  *ngIf="existingCredential"><img src="assets/icons/viewinstruction.svg"> View Instructions</div>                  -->
         </div>

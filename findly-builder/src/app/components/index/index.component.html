@@ -7,7 +7,7 @@
   </div>
   <div class="header_sec">
     <!-- <div class="title">Index Configuration</div> -->
-    <div class="title" >{{'workbench.index_configuration' | translate}}</div> <!-- (click)="openModalPopup()" -->
+    <div class="title" >{{'workbench.workbench' | translate}}</div> <!-- (click)="openModalPopup()" -->
     <div class="btn_sec">
       <button class="kr-sg-button-secondary btn_lg" [disabled]="savingConfig" (click)="saveConfig()">
         {{ savingConfig ? ('workbench.saving' | translate) : ('workbench.save_configuration' | translate) }}
@@ -810,7 +810,7 @@
       <div class="d-flex">
         <div class="kr-sg-input-search ml-2" [ngClass]="{'d-none': !showSearch}">
             <input type="text" placeholder="{{'search' | translate}}" maxlength="60" class="input-search" (keyup)="searchBySimulator()" [ngClass]="{'pl-33':!searchSimulator,'pl-2':searchSimulator}"
-                autocomplete="off" id="fieldSearchId" [(ngModel)]="searchSimulator" (focusout)="focusoutSearch();"
+                autocomplete="off" id="fieldSearchId" [(ngModel)]="searchSimulator" 
                 (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                 (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
