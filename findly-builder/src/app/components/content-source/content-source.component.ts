@@ -333,18 +333,26 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             let repeatOn = "";
             let schedulePeriod = "";
             let every = "";
-            // let date =""
+            let date =""
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod) {
               schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
               repeatOn = " on " + this.convertToDay(element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn);
             }
-            // if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn) {
-            //   date = element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate;
-            // }
-            element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn
- 
+            if(element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every){
+              every = element.advanceSettings.scheduleOpts.interval.intervalValue.every
+            }
+            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn) {
+              date =  moment(element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate).format('Do MMMM YYYY');
+            }
+            if(date != 'Invalid date'){
+              element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn + ' till' + ' ' + date
+            }
+            else{
+              element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn 
+            }
+            
           }
 
         }

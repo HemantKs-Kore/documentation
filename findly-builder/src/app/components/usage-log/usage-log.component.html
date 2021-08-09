@@ -11,7 +11,7 @@
                 <input type="text" placeholder="Search" class="input-search" id="inputSearch"  [ngClass]="{'pl-33':!searchUsageLog, 'pl-2':searchUsageLog}" autocomplete="off" autofocus [(ngModel)]="searchUsageLog" (keyup)="searchUsageLogs()"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                 <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchUsageLog">
-                <img class="close-icon" *ngIf="searchUsageLog"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchUsageLog}" (click)="searchUsageLog='';searchUsageLogs();toggleSearch();">
+                <img class="close-icon"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchUsageLog}" (click)="focusoutSearch()">
             </div>           
             <div class="seach-block">
                 <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch();focusinSearch('inputSearch')"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>

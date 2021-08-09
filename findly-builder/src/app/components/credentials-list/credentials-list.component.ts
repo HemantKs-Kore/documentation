@@ -833,40 +833,83 @@ export class CredentialsListComponent implements OnInit {
         this.channnelConguired = res.apps;
         this.firstlistData = res.apps[0]; 
         let scopeObj = []
-        this.scopeList.forEach(element => {
-          this.channnelConguired.forEach(scopeData => {
-            if(scopeData.scope[2] && scopeData.scope[2].scopes){
-              // scopeData.scope[2]['scopesObj'] = [];
-              scopeData.scope[2].scopes.forEach(eachScope => {
-                let tooltipObj : any = {}
-                if(element.title == eachScope){
-                  tooltipObj['scopeTitle'] = element.title,
-                  tooltipObj['scopeDesc'] = element.desc
-                  scopeObj.push(tooltipObj)
-                }
-                const newArraySet = new Set()
-                const filteredArray = scopeObj.filter((tooltipObj)=>{
-                  const detectDuplicateScope = newArraySet.has(tooltipObj.scopeTitle);
-                  newArraySet.add(tooltipObj.scopeTitle);
-                  return !detectDuplicateScope
-                });
-                console.log(filteredArray)
-                scopeData.scope[2]['scopesObj'] = [...scopeObj]
-                
-              });      
+        this.channnelConguired['customScopeObj'] =[];  
+        this.channnelConguired.forEach(element => {
+        this.channnelConguired['customScopeObj'].push(element.scope[2].scopes)
+        scopeObj.push(element.scope[2].scopes)
+       });
+       let parentArr = []
+       scopeObj.forEach(element => {
+        //  let arr = [];
+        element['arr']=[]
+         element.forEach(childElement => {
+           this.scopeList.forEach(scopeElement => {
+            let tooltipObj : any = {}
+            if(childElement == scopeElement.title){
+              tooltipObj['scopeTitle'] = scopeElement.title,
+               tooltipObj['scopeDesc'] = scopeElement.desc
+               element['arr'].push(tooltipObj) 
             }
-          });         
-      });
-          // this.showApiScopes  = this.selectedScopes;
-          // this.channnelConguired.forEach(element => {
-          //   if(element.scope && element.scope[2]){
-          //    this.selectedScopes = element.scope[2].scopes
-          //    this.showApiScopes = this.selectedScopes;
+          });
+         });
+        //  parentArr.push() 
+       });
+        this.channnelConguired.forEach((elementChannel, index) => {
+          elementChannel['customScopeObj'] = [];
+          scopeObj.forEach((elementScope , childIndex) => {
+            if(index == childIndex){
+              elementChannel['customScopeObj'].push(elementScope)  
+            }
+           
+          });
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // comment old code
+        const uniqueValuesSet = new Set();
+        // this.scopeList.forEach(element => {
+          // this.channnelConguired.forEach(scopeData => {
+          //   if(scopeData.scope[2] && scopeData.scope[2].scopes){
+          //     // scopeData.scope[2]['scopesObj'] = [];
+          //     scopeData.scope[2].scopes.forEach(eachScope => {
+          //       this.scopeList.forEach(element => {
+          //       let tooltipObj : any = {}
+          //     if(element.title == eachScope){
+          //         tooltipObj['scopeTitle'] = element.title,
+          //         tooltipObj['scopeDesc'] = element.desc
+          //         scopeObj.push(tooltipObj)
+          //       }
+          //       // const filteredArr = scopeObj.filter((obj) => {
+          //       //   const isPresentInSet = uniqueValuesSet.has(obj.scopeTitle);
+          //       //   uniqueValuesSet.add(obj.scopeTitle);
+          //       //   uniqueValuesSet.add(obj.scopeDesc);
+          //       //   return !isPresentInSet;
+          //       // });
+          //       scopeData.scope[2]['scopesObj'] = [...scopeObj]
+          //     });
+          //     });      
           //   }
-          // });
+          // });         
+      // });
+          
         // this.firstlistData.lastModifiedOn = moment(this.firstlistData.lastModifiedOn).format('MM/DD/YYYY - hh:mmA');
-
-
         // var moment = require('moment/moment');
         // if (this.channnelConguired.apps.length > 0) {
         //   this.existingCredential = true;
@@ -951,7 +994,11 @@ export class CredentialsListComponent implements OnInit {
             streamId: this.selectedApp._id,
             appId: data.clientId,
           }
-          this.service.invoke('delete.credential', quaryparms).subscribe(res => {
+          const payload ={
+            "ignoreScopesCheck": true
+            }
+
+          this.service.invoke('delete.credential', quaryparms,payload).subscribe(res => {
             this.getCredential();
             dialogRef.close();
             this.notificationService.notify('Deleted Successfully', 'success');

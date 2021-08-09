@@ -7,7 +7,7 @@
   </div>
   <div class="header_sec">
     <!-- <div class="title">Index Configuration</div> -->
-    <div class="title" >{{'workbench.index_configuration' | translate}}</div> <!-- (click)="openModalPopup()" -->
+    <div class="title" >{{'workbench.workbench' | translate}}</div> <!-- (click)="openModalPopup()" -->
     <div class="btn_sec">
       <button class="kr-sg-button-secondary btn_lg" [disabled]="savingConfig" (click)="saveConfig()">
         {{ savingConfig ? ('workbench.saving' | translate) : ('workbench.save_configuration' | translate) }}
@@ -815,8 +815,8 @@
                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                 (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSimulator">
-            <img class="close-icon" *ngIf="searchSimulator" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSimulator}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" 
-                (click)="searchSimulator='';showSearch=!showSearch;" >
+            <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSimulator}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" 
+                (click)="focusoutSearch()" >
         </div>
     </div>
       <div class="close_icon">
