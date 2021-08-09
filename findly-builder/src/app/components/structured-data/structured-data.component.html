@@ -10,7 +10,7 @@
                     (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                     (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                 <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchText">
-                <img class="close-icon" *ngIf="searchText" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}" (mouseover)="activeClose=true" (mouseout)="activeClose=false"
+                <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}" (mouseover)="activeClose=true" (mouseout)="activeClose=false"
                     (click)="searchText='';searchActive= !searchActive;searchItems()" placement="top-center" container='body' ngbTooltip="Cancel"
                     tooltipClass="ngb_tooltip_custom_class sampleJson">
             </div>
