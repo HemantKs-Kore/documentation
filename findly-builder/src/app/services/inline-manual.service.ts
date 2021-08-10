@@ -168,7 +168,7 @@ export class InlineManualService {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
-
+  if(this.serachIndexId){
     this.service.invoke('put.updateInlineManual', quaryparms, payload).subscribe(res => {
       //this.getInlineSuggestionData();
       this.appSelectionService.getInlineManualcall();
@@ -179,5 +179,7 @@ export class InlineManualService {
         this.notificationService.notify('Failed ', 'error');
       }
     });
+  }
+    
   }
 }
