@@ -7185,8 +7185,8 @@ body{
     display: none  !important;
 }
 .searchAssist-kore-chat-window.search-container.active {
-    max-height: calc(100% - 64px);
-    overflow: hidden;
+    max-height: calc(100% - 37px);
+    /* overflow: hidden; */
     background: var(--sdk-white-bg);
     box-shadow: -7px 4px 30px 6px rgba(18, 61, 101, 0.2), inset -8px -6px 80px rgba(255, 255, 255, 0.18);
     border-radius: 6px;
@@ -7196,7 +7196,7 @@ body{
     height: calc(100vh - 166px);
 }
 .searchAssist-kore-chat-window.search-container.conversation.active{
-   height: calc(100% - 64px);
+   height: calc(100% - 55px);
    background: var(--sdk-white-bg);
    box-shadow: -7px 4px 30px rgba(18, 61, 101, 0.2), inset -8px -6px 80px rgba(255, 255, 255, 0.18);
    border-radius: 6px;
@@ -12763,10 +12763,12 @@ border: 0;
     color: var(--sdk-gray-color);
     font-weight: 600;
     font-size: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 7px;
     display: block;
 }
-
+.searchAssist-kore-chat-window .data-body-sec .quick-actions-full-search-container .structured-data-header .search-heads{
+    margin-bottom: 7px;
+}
 .searchAssist-kore-chat-window .structured-data-header .search-heads.show-all{
     text-align: right;
     cursor: pointer;
@@ -12785,7 +12787,7 @@ border: 0;
 }
 
 .searchAssist-kore-chat-window .data-body-sec .structured-data-header .search-heads{
-    margin-bottom: 10px;
+    margin-bottom: 7px;
 }
 
 .searchAssist-kore-chat-window .show-all-results-container{
@@ -14282,7 +14284,7 @@ border: 0;
    }
 
    .searchAssist-kore-chat-window .structured-data-outer-wrap {
-        margin-bottom: 10px;
+        margin-bottom: 8px;
     }
 
 
@@ -14610,12 +14612,12 @@ margin-bottom: 15px !important;
 }
 
 .searchAssist-kore-chat-window .show-all-results-outer-wrap .main-content-title-grid-data.new-grid-search-data.list-view-data-search {
-    margin: 0 0px;
+    margin: 0 0px 5px;
     width: 445px !important;
     display: block !important;
 }
 .searchAssist-kore-chat-window .all-product-details .main-content-title-grid-data.new-grid-search-data.list-view-data-search {
-    margin: 0 0px;
+    margin: 0 0px 5px;
     width: 434px !important;
     display: block !important;
 }
