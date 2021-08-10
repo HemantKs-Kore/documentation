@@ -240,15 +240,17 @@ export class AppSelectionService {
     const quaryparms: any = {
       searchIndexId: searchIndexId
     };
-    this.service.invoke('get.inlineManual', quaryparms).subscribe(res => {
-     this.inlineManualInfo = res.inlineManualInfo;
-    }, errRes => {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed ', 'error');
-      }
-    });
+    if(searchIndexId){
+      this.service.invoke('get.inlineManual', quaryparms).subscribe(res => {
+        this.inlineManualInfo = res.inlineManualInfo;
+       }, errRes => {
+         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+         } else {
+           this.notificationService.notify('Failed ', 'error');
+         }
+       });
+    }
   }
   //get last active subscription data
   getLastActiveSubscriptionData() {

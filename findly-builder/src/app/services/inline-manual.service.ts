@@ -117,15 +117,17 @@ export class InlineManualService {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
-    this.service.invoke('get.inlineManual', quaryparms).subscribe(res => {
-      this.inlineManualInfo = res.inlineManualInfo;
-    }, errRes => {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed ', 'error');
-      }
-    });
+    if(this.serachIndexId){
+      this.service.invoke('get.inlineManual', quaryparms).subscribe(res => {
+        this.inlineManualInfo = res.inlineManualInfo;
+      }, errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      });
+    }
   }
   checkVisibility(module,moduleName?) {
     let visited = false;
