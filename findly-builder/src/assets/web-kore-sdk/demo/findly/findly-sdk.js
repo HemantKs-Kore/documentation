@@ -5359,7 +5359,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (templateType === "search-container") {
 
         $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
-          _self.pubSub.publish('sa-input-keyup');
+          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+            $('.search-body').css('display', 'block');
+            $('.search-body').removeClass('hide');
+          } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
+            $('.search-body').css('display', 'none');
+            $('.search-body').addClass('hide');
+          }
           _self.pubSub.publish('sa-handel-chat-container-view');
           _self.pubSub.publish('sa-handel-go-button');
           // if (!window.isBotLocked) {
@@ -5372,6 +5378,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var code = e.keyCode || e.which;
           if ($('body').hasClass('top-down') && code !== '13') {
             _self.vars.enterIsClicked = false;
+          }
+          if(code !== 13){
+            _self.pubSub.publish('sa-input-keyup');
           }
           if (code == '9' || code == '39') {
             $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
@@ -5621,6 +5630,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.search-body').removeClass('hide');
             } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
               $('.search-body').css('display', 'none');
+              $('.search-body').addClass('hide');
             }
             _self.appendSuggestions();
             if (!$('#search').val()) {
@@ -5704,6 +5714,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('.search-body').removeClass('hide');
                   } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
                     $('.search-body').css('display', 'none');
+                    $('.search-body').addClass('hide');
                   }
                   if ((searchConfigurationCopy.liveSearchResultsLimit !== 0)) {
                     if (_self.vars.previousLivesearchData == $('#search').val()) {
@@ -5802,6 +5813,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           _self.pubSub.publish('sa-faq-search', { container: '.faqs-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
                           _self.pubSub.publish('sa-web-search', { container: '.web-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
                           _self.pubSub.publish('sa-file-search', { container: '.files-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
+                          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+                            $('.search-body').css('display', 'block');
+                            $('.search-body').removeClass('hide');
+                          } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
+                            $('.search-body').css('display', 'none');
+                            $('.search-body').addClass('hide');
+                          }
                           $(searchData).data(dataObj);
                           $('.search-body').html(searchData);
                           setTimeout(function () {
