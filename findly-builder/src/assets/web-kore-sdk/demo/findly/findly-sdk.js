@@ -5250,6 +5250,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5),
                     showSearches: searchConfigurationCopy ? searchConfigurationCopy.showSearches : 'recent'
                   });
+                  if(_self.vars.searchObject.recents.length){
+                    $('.search-body').css('display', 'block');
+                    $('.search-body').removeClass('hide');
+                  }else{
+                    $('.search-body').css('display', 'none');
+                    $('.search-body').addClass('hide');
+                  }
                   console.log("searchConfigurationCopy", searchConfigurationCopy);
                   $('.search-body').html(freqData);
                 }
@@ -5352,18 +5359,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (templateType === "search-container") {
 
         $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
+          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+            $('.search-body').css('display', 'block');
+            $('.search-body').removeClass('hide');
+          } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
+            $('.search-body').css('display', 'none');
+            $('.search-body').addClass('hide');
+          }
           _self.pubSub.publish('sa-handel-chat-container-view');
           _self.pubSub.publish('sa-handel-go-button');
-          if (!window.isBotLocked) {
-            $('.search-body').removeClass('hide');
-            $('#searchChatContainer').addClass('bgfocus');
-          }
+          // if (!window.isBotLocked) {
+          //   $('.search-body').removeClass('hide');
+          //   $('#searchChatContainer').addClass('bgfocus');
+          // }
           if (!self.customSearchResult) {
             $('.search-chat-container').empty();
           }
           var code = e.keyCode || e.which;
           if ($('body').hasClass('top-down') && code !== '13') {
             _self.vars.enterIsClicked = false;
+          }
+          if(code !== 13){
+            _self.pubSub.publish('sa-input-keyup');
           }
           if (code == '9' || code == '39') {
             $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
@@ -5608,6 +5625,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             } else {
               $('.bottom-up-suggestion').val('');
             }
+            if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+              $('.search-body').css('display', 'block');
+              $('.search-body').removeClass('hide');
+            } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
+              $('.search-body').css('display', 'none');
+              $('.search-body').addClass('hide');
+            }
             _self.appendSuggestions();
             if (!$('#search').val()) {
               if ($("#auto-query-box").find(".suggestion-box").length) {
@@ -5616,6 +5640,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.top-down-suggestion').val('');
               $('#live-search-result-box').hide();
               $('#frequently-searched-box').show();
+              
               // _self.frequentlySearchedRecentTextClickEvent();
               if (((_self.vars.searchObject.recentTasks && !_self.vars.searchObject.recentTasks.length) || (_self.vars.searchObject.recents && !_self.vars.searchObject.recents.length)) && $('.search-container').hasClass('active')) {
                 // $('.search-container').removeClass('active');
@@ -5684,13 +5709,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $(".top-down-suggestion").val($('#search').val());
                     $('#live-search-result-box').hide();
                   }
+                  if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+                    $('.search-body').css('display', 'block');
+                    $('.search-body').removeClass('hide');
+                  } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
+                    $('.search-body').css('display', 'none');
+                    $('.search-body').addClass('hide');
+                  }
                   if ((searchConfigurationCopy.liveSearchResultsLimit !== 0)) {
                     if (_self.vars.previousLivesearchData == $('#search').val()) {
                       _self.checkIsPreviousLiveSearchDataExists();
                       return;
                     }
+                    _self.vars.previousLivesearchData = $('#search').val();
                     _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
-                      _self.vars.previousLivesearchData = $('#search').val();
+                     
                       if (res.queryPipelineId && res.relay) {
                         _self.vars.experimentsObject = {};
                         if (res.relay == "experiment") {
@@ -5780,6 +5813,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           _self.pubSub.publish('sa-faq-search', { container: '.faqs-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
                           _self.pubSub.publish('sa-web-search', { container: '.web-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
                           _self.pubSub.publish('sa-file-search', { container: '.files-live-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: true, isSearch: false, dataObj });
+                          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+                            $('.search-body').css('display', 'block');
+                            $('.search-body').removeClass('hide');
+                          } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
+                            $('.search-body').css('display', 'none');
+                            $('.search-body').addClass('hide');
+                          }
                           $(searchData).data(dataObj);
                           $('.search-body').html(searchData);
                           setTimeout(function () {
@@ -20218,6 +20258,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (_self.vars.previousAutosuggestionData == $('#search').val()) {
         return;
       }
+       _self.vars.previousAutosuggestionData = $('#search').val();
       $.ajax({
         url: url,
         type: type,
@@ -20225,7 +20266,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         headers: headers,
         data: payload,
         success: function (data) {
-          _self.vars.previousAutosuggestionData = $('#search').val();
+         
           if (!data.isBotLocked) {
             if (searchConfigurationCopy.querySuggestionsLimit) {
               var autoSuggestionHTML = $(_self.getAutoSuggestionTemplate()).tmplProxy({
@@ -20236,6 +20277,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
               }
               else if (searchConfigurationCopy.liveSearchResultsLimit == 0) {
+                $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
+              }else{
                 $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
               }
             }
@@ -21551,7 +21594,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                       </div>\
                                     {{/if}}\
                                     {{if selectedFacet !== appearanceType && selectedFacet == "all results"}}\
-                                      <div class="structured-data-header total-structured-data-wrap" appearanceType="task">\
+                                      <div class="structured-data-header total-structured-data-wrap list-view-action-header" appearanceType="task">\
                                         ACTIONS\
                                         <div class="search-heads show-all sdk-show-classification display-block">\
                                           Show All Actions\
