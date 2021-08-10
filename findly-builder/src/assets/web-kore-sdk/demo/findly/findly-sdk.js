@@ -5352,6 +5352,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (templateType === "search-container") {
 
         $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
+          _self.pubSub.publish('sa-handel-go-button');
           _self.pubSub.publish('sa-handel-chat-container-view');
           _self.pubSub.publish('sa-handel-go-button');
           if (!window.isBotLocked) {
@@ -5616,6 +5617,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.top-down-suggestion').val('');
               $('#live-search-result-box').hide();
               $('#frequently-searched-box').show();
+              if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+                $('.search-body').css('display', 'block');
+              } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
+                $('.search-body').css('display', 'none');
+              }
               // _self.frequentlySearchedRecentTextClickEvent();
               if (((_self.vars.searchObject.recentTasks && !_self.vars.searchObject.recentTasks.length) || (_self.vars.searchObject.recents && !_self.vars.searchObject.recents.length)) && $('.search-container').hasClass('active')) {
                 // $('.search-container').removeClass('active');
@@ -5683,6 +5689,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   } else {
                     $(".top-down-suggestion").val($('#search').val());
                     $('#live-search-result-box').hide();
+                  }
+                  if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+                    $('.search-body').css('display', 'block');
+                  } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
+                    $('.search-body').css('display', 'none');
                   }
                   if ((searchConfigurationCopy.liveSearchResultsLimit !== 0)) {
                     if (_self.vars.previousLivesearchData == $('#search').val()) {
