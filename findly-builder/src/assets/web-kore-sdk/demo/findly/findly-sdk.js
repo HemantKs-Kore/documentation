@@ -5360,6 +5360,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
           if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+            _self.closeGreetingMsg();
             $('.search-body').css('display', 'block');
             $('.search-body').removeClass('hide');
           } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
@@ -5379,7 +5380,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if ($('body').hasClass('top-down') && code !== '13') {
             _self.vars.enterIsClicked = false;
           }
-          if(code !== 13){
+          if(code !== 13 && code !== 40 &&  code !== 38){
             _self.pubSub.publish('sa-input-keyup');
           }
           if (code == '9' || code == '39') {
@@ -6824,7 +6825,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           $('.suggestion-search-data-parent').css('visibility', 'visible');
         }
-        if ($(event.target).closest('#searchChatContainer').length) {
+        if ($(event.target).closest('#searchChatContainer').length && !$(event.target).closest('#search').length) {
           event.stopPropagation();
           if ($('.search-container').hasClass('conversation')) {
             $('.search-body').addClass('hide');
@@ -6841,10 +6842,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.search-body').addClass('hide');
           $('.suggestion-search-data-parent').css('visibility', 'hidden');
         } else {
-          if (!$(event.target).closest('.show-all-results-outer-wrap').length) {
+          if (!$(event.target).closest('.show-all-results-outer-wrap').length  && !$(event.target).closest('#search').length) {
             if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
               if (!window.isBotLocked) {
-                $('.search-body').removeClass('hide');
+                $('.search-body').addClass('hide');
                 $('#searchChatContainer').addClass('bgfocus');
               }
             }
