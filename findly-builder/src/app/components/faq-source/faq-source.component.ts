@@ -414,6 +414,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       $('#selectAllFaqs')[0].checked = false;
       this.faqSelectionObj.selectAll = false;
     }
+    if ((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved) || this.searchFaq) {
+      $('#selectAllFaqs')[0].checked = true;
+      this.faqSelectionObj.selectAll = false;
+    } 
     this.singleSelectedFaq = faq;
   }
 
