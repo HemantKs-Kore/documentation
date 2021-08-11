@@ -14210,7 +14210,27 @@ border: 0;
 .searchAssist-kore-chat-window .search-container.conversation #searchChatContainer .messageBubble .userMessage:hover .sdk-query-retry-icon{
     display: flex;
 }
-
+.searchAssist-kore-chat-window .no-templates-defined-full-results-container {
+    text-align: center;
+    padding: 0px 0;
+}
+.searchAssist-kore-chat-window .no-templates-defined-full-results-container .img-block{
+    margin-bottom: 0px;
+}
+.searchAssist-kore-chat-window .no-templates-defined-full-results-container .title{
+    color: var(--sdk-cape-cod-color);
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    padding: 10px;
+}
+.searchAssist-kore-chat-window .no-templates-defined-full-results-container .title-info{
+    color: var(--sdk-shuttle-gray-color);
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    padding: 10px;
+}
 .searchAssist-kore-chat-window .empty-full-results-container{
     text-align: center;
     padding: 60px 0;
