@@ -7180,6 +7180,7 @@ body{
 } */
 .searchAssist-kore-chat-window #searchBox {
     display: none;
+    border-radius: 6px;
 }
 .hide{
     display: none  !important;
@@ -7380,6 +7381,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-radius: 6px;
 }
 .searchAssist-kore-chat-window.search-container .heading .logo-sec-title{
     display: flex;
