@@ -14617,10 +14617,17 @@ margin-bottom: 15px !important;
     display: block !important;
 }
 .searchAssist-kore-chat-window .all-product-details .main-content-title-grid-data.new-grid-search-data.list-view-data-search {
-    margin: 0 0px 5px;
+    margin: 0 0px 15px;
     width: 434px !important;
     display: block !important;
 }
 .click-to-navigate-url, .click-to-navigate-url div{
     cursor: pointer !important;
 }
+.searchAssist-kore-chat-window .tile-with-text-parent.template-3.structured-data-outer-wrap.with-accordion {
+    margin-bottom: 20px !important;
+ }
+
+ .searchAssist-kore-chat-window .tile-with-text-parent.structured-data-outer-wrap.panel.with-accordion {
+    margin-bottom: 18px !important;
+ }
