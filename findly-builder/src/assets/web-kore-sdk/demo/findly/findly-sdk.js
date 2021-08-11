@@ -6846,7 +6846,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
               if (!window.isBotLocked) {
                 $('.search-body').addClass('hide');
-                $('#searchChatContainer').addClass('bgfocus');
+                $('#searchChatContainer').removeClass('bgfocus');
               }
             }
             $('.suggestion-search-data-parent').css('visibility', 'hidden');
