@@ -7180,6 +7180,7 @@ body{
 } */
 .searchAssist-kore-chat-window #searchBox {
     display: none;
+    border-radius: 6px;
 }
 .hide{
     display: none  !important;
@@ -7380,6 +7381,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-radius: 6px;
 }
 .searchAssist-kore-chat-window.search-container .heading .logo-sec-title{
     display: flex;
@@ -14208,7 +14210,27 @@ border: 0;
 .searchAssist-kore-chat-window .search-container.conversation #searchChatContainer .messageBubble .userMessage:hover .sdk-query-retry-icon{
     display: flex;
 }
-
+.searchAssist-kore-chat-window .no-templates-defined-full-results-container {
+    text-align: center;
+    padding: 0px 0;
+}
+.searchAssist-kore-chat-window .no-templates-defined-full-results-container .img-block{
+    margin-bottom: 0px;
+}
+.searchAssist-kore-chat-window .no-templates-defined-full-results-container .title{
+    color: var(--sdk-cape-cod-color);
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    padding: 10px;
+}
+.searchAssist-kore-chat-window .no-templates-defined-full-results-container .title-info{
+    color: var(--sdk-shuttle-gray-color);
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    padding: 10px;
+}
 .searchAssist-kore-chat-window .empty-full-results-container{
     text-align: center;
     padding: 60px 0;
@@ -14617,10 +14639,17 @@ margin-bottom: 15px !important;
     display: block !important;
 }
 .searchAssist-kore-chat-window .all-product-details .main-content-title-grid-data.new-grid-search-data.list-view-data-search {
-    margin: 0 0px 5px;
+    margin: 0 0px 15px;
     width: 434px !important;
     display: block !important;
 }
 .click-to-navigate-url, .click-to-navigate-url div{
     cursor: pointer !important;
 }
+.searchAssist-kore-chat-window .tile-with-text-parent.template-3.structured-data-outer-wrap.with-accordion {
+    margin-bottom: 20px !important;
+ }
+
+ .searchAssist-kore-chat-window .tile-with-text-parent.structured-data-outer-wrap.panel.with-accordion {
+    margin-bottom: 18px !important;
+ }
