@@ -839,7 +839,7 @@
         </div>
       <perfect-scrollbar class="app-add-faq-insidescroll" #perfectScroll>
         <div class="modal-body">
-            <app-add-faq (addFaq)="addNewFollowUp($event)" [faqUpdate]="faqUpdate.asObservable()" [isFollowUp]='true' (cancelfaqEvent)="cancleAddFollowUp()"></app-add-faq>  
+            <app-add-faq (addFaq)="addNewFollowUp($event)" [faqUpdate]="faqUpdate.asObservable()"  (cancelfaqEvent)="cancleAddFollowUp()"></app-add-faq>  
         </div>
       </perfect-scrollbar> 
         <div class="modal-footer">

@@ -42,6 +42,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   searchSources = '';
   pagesSearch = '';
   viewDetails: boolean;
+  // addAltFaq :any;
   selectedFaq: any = null;
   numberOf: any = {};
   singleSelectedFaq: any = null;
@@ -298,6 +299,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   addFaqSource(type) {
     this.showSourceAddition = type;
+    // this.addAltFaq={
+    //   _source :{
+    //     faq_alt_question : []
+    //   }
+    // }
     // this.openAddSourceModal();
   }
   errorToaster(errRes, message) {
@@ -464,7 +470,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       question: event._source.question,
       defaultAnswers: event._source.defaultAnswers || [],
       conditionalAnswers: event._source.conditionalAnswers || [],
-      keywords: event._source.tags
+      keywords: event._source.tags,
+      alternateQuestions : event._source.alternateQuestions || []
     };
     const existingfollowups = [];
     if (this.selectedFaq._meta.followupQuestions && this.selectedFaq._meta.followupQuestions.length) {
