@@ -6916,6 +6916,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 setTimeout(function () {
                   if ($('.searchAssist-kore-chat-window.search-container').hasClass('active')) {
                     $('.typingIndicatorContent').css('display', 'block');
+                    $("#searchChatContainer").off('scroll').on('scroll', function (event) {
+                      $('.typingIndicatorContent').css('display', 'none');
+                    });
                   }else{
                     _self.showTypingIndicator();
                   }
@@ -14158,6 +14161,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.show-all-results').click();
           $("#searchChatContainer").off('scroll').on('scroll', function (event) {
             $(".query_analytics_content").hide();
+            $('.typingIndicatorContent').css('display', 'none');
           });
         });
       });
