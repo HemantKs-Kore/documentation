@@ -40,6 +40,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   contentId
   content_id;
   edit: any = {};
+  Id;
   editConfObj: any = {};
   editTitleFlag: boolean = false;
   isConfig: boolean = false;
@@ -555,7 +556,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       else {
         this.swapSlider('config')
       }
-      // this.clicksViews()
+      this.clicksViews('file')
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
       //   $('.tabname')[1].classList.remove('active');
       //   $('.tabname')[0].classList.add('active');
@@ -577,7 +578,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   viewPageDetails(page) {
     this.content_id = page._id
     this.sliderStep = 1;
-    this.clicksViews();
+    this.clicksViews('web');
   }
   sliderBack() {
     if (this.sliderStep) {
@@ -687,6 +688,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   openStatusSlider(source, page?) {
     console.log("sourec opned", source)
+    
     this.executionHistoryData = [];
     this.pagesSearch = '';
 
@@ -718,6 +720,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.getCrawledPages(this.limitpage, 0);
       this.executionHistory();
       this.sourceStatus = source.recentStatus;
+     
       // if(this.sourceStatus === 'success'){
       //    this.execution = false;
       //    this.isConfig = false;
@@ -730,8 +733,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     else if (source.extractionType === 'file') {
       this.openDocumentModal();
-      this.getCrawledPages(this.limitpage, 0);
-      // this.clicksViews()
+      this.getCrawledPages(this.limitpage, 0);    
     }
     // this.sliderComponent.openSlider('#sourceSlider', 'right500');
     //}
@@ -1744,11 +1746,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.maxUrlLimit = 0;
     }
   }
-  clicksViews() {
+  
+  clicksViews(type) {
+    if(type == 'file'){
+      this.Id = this.contentId;
+    }
+    else if(type == 'web'){
+      this.Id = this.content_id
+    }
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      contentId: this.content_id,
-    };
+      contentId: this.Id,
+    };   
     this.service.invoke('get.clicksViewsContent', quaryparms).subscribe(res => {
       console.log(res);
       this.numberOf = res;
