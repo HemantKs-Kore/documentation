@@ -2766,3 +2766,7 @@ padding-left: 3px;
     text-align: center;
     cursor: pointer;
 }
+
+.sdk-top-down-interface .searchAssist-kore-chat-window .full-results-data-container .tile-with-centered-content-parent.grid_view_template.gride-view-carousel-with-centered-content-parent .tile-with-centered-content {
+  width: 100%;
+}

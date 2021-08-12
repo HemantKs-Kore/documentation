@@ -11884,7 +11884,7 @@ padding-right: 0;
     overflow: hidden;
 }
 .searchAssist-kore-chat-window .tile-with-text-parent.slide-parent-tile-with-text .tile-with-text .tile-description{
-    max-height: 65px;
+    max-height: 62px;
     overflow: hidden;
 }
 
@@ -12192,7 +12192,7 @@ border: 0;
     overflow: hidden;
 }
 .searchAssist-kore-chat-window .tile-with-image-parent.grid_view_template.grid-view-carousel-tile-with-image .tile-with-image .g-dec-text{
-    max-height: 45px;
+    max-height: 42px;
     overflow: hidden;
 }
 
@@ -12349,7 +12349,7 @@ border: 0;
     color: var(--sdk-shark-black-color);
     padding: 10px 0;
     overflow: hidden;
-    max-height: 56px;
+    max-height: 52px;
 }
 
 
@@ -12371,7 +12371,7 @@ border: 0;
 }
 
 .searchAssist-kore-chat-window .tile-with-centered-content-parent.grid_view_template.gride-view-carousel-with-centered-content-parent .tile-with-centered-content .text-content .p-text{
-    max-height: 80px;
+    max-height: 78px;
     overflow: hidden;
 }
 
