@@ -401,6 +401,10 @@ export class FacetsComponent implements OnInit, OnDestroy {
       limit: 100
     };
     this.service.invoke('get.allFacets', quaryparms).subscribe(res => {
+      this.facets = [];
+      this.statusArr = [];
+      this.docTypeArr =[];
+      this.selectTypeArr = [];
       this.facets = res || [];
       this.facets.forEach(element => {
         this.statusArr.push(element.isFacetActive);
@@ -474,7 +478,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.service.invoke('create.facet', quaryparms, payload).subscribe(res => {
       this.notificationService.notify('Added Successfully', 'success');
       if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) }
-      this.facets.push(res);
+      //this.facets.push(res);
+      this.getFacts();
       this.closeModal();
       this.addEditFacetObj = null;
       this.selectedFieldId = null;
