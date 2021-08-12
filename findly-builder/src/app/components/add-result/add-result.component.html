@@ -261,13 +261,19 @@
                             </div>                                                
                         </div>
                         <div class="row-with-checkbox selected" *ngIf="searchType == 'all'">                                                                
-                            <div class="kr-sg-checkbox d-block p-0 m-0" >
+                            <div class="kr-sg-checkbox d-block p-0 m-0">
                                 <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
-                            </div>                                                          
+                            </div>    
+                            <div class="tiltles-sec" *ngIf="result.sys_content_type == 'file'">
+                                <div class="primary-tiitle">{{result.file_title}}</div>
+                            </div>                                                      
                             <div class="tiltles-sec" *ngIf="result.sys_content_type == 'web'">
-                                <div class="primary-tiitle">{{ result.page_title}}</div>
-                                <div class="secondary-title" >{{ result.searchResultPreview}}</div>
+                                <div class="primary-tiitle">{{result.page_title}}</div>
+                                <div class="secondary-title" *ngIf="result.page_preview;else webPre">{{result.page_preview}}</div>
+                                <ng-template #webPre>
+                                    <div class="secondary-title">{{result.searchResultPreview}}</div>
+                                </ng-template>
                             </div>
                             <div class="tiltles-sec" *ngIf="result.sys_content_type == 'faq'">
                                 <div class="primary-tiitle">{{ result.faq_question}}</div>
@@ -287,7 +293,10 @@
                                 <input  [attr.id]="i" [attr.custumId]="result.contentId"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
                             </div>
-                            <div class="tiltles-sec">
+                            <div class="tiltles-sec" *ngIf="result.sys_content_type=='file'">
+                                <div class="primary-tiitle">{{ result.file_title }}</div>                               
+                            </div>   
+                            <div class="tiltles-sec" *ngIf="result.sys_content_type=='web'">
                                 <div class="primary-tiitle">{{ result.page_title }}</div>
                                 <div class="secondary-title" *ngIf="result.page_preview;else body">{{ result.page_preview}}</div>                               
                                 <ng-template #body>
