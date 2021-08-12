@@ -309,7 +309,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
           synonyms.splice(index, 1);
           if (this.showFlag = true) {
             this.addOrUpddate(synonyms, dialogRef, this.showFlag);
-            this.notificationService.notify('Deleted Successfully', 'error')
+            this.notificationService.notify('Deleted Successfully', 'success')
           }
           synonyms.forEach(element => {
             if (element.type === 'oneWaySynonym') {

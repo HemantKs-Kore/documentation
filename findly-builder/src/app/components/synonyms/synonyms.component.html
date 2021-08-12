@@ -66,7 +66,7 @@
         <div class="heading">{{'synonyms.no_synonyms_available_here' | translate}}</div>
         <div class="desc">{{'synonyms.please_add_synonyms'| translate}}</div>
       </div> -->
-      <div class="kr-sg-data-table" *ngIf="(synonymData && synonymData.length) && !loadingContent">
+      <div class="kr-sg-data-table">
         <section class="table-content">
           <!-- <header class="table-header">
             <div class="col-8 title-header"><img src="assets/icons/sort_up_down.svg">{{'synonyms.terms'| translate}}
@@ -88,7 +88,7 @@
               </span>
             </div>
           </header> -->
-          <header class="table-header">
+          <header class="table-header" *ngIf="(synonymData && synonymData.length) && !loadingContent">
             <div class="col-6 title-header">
               <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('name')">
                 <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
@@ -192,7 +192,7 @@
               </div>
             </div>
           </div>
-          <div>
+          <div *ngIf="(synonymData && synonymData.length) && !loadingContent">
             <div class="content-body" *ngFor="let synonym of synonymData | synonymFilter:synonymSearch ;let i = index"
               [ngClass]="{'d-none': ((selectedFilter)  && (selectedFilter !== synonym.type))}">
               <div *ngIf="currentEditIndex === i" class="w-100">
