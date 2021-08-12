@@ -731,7 +731,7 @@ body.top-down .top-down-wrapper{
   border-bottom: none;
    padding: 0px;
    /* max-height: 218px; */
-   overflow: auto;
+   /* overflow: auto; */
    position: relative;
 }
 .sdk-top-down-interface .category-wise-container .heading-title{
