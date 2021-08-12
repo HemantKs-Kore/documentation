@@ -22,7 +22,6 @@ export class InlineManualService {
     private service: ServiceInvokerService,
     public appSelectionService: AppSelectionService,
     private notificationService: NotificationService) {
-    inline_manual_player = {};
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp ? this.selectedApp.searchIndexes[0]._id : "";
   }
