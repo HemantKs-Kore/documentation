@@ -5308,6 +5308,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('#show-all-results-container').hide();
         $('.typingIndicatorContent').css('display', 'none');
         _self.vars.selectedFacetFromSearch = "all results"
+        clearTimeout(_pingTimer);
       })
       //_self.bindSearchActionEvents();
 
@@ -5359,6 +5360,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (templateType === "search-container") {
 
         $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
+          var keyCode = e.keyCode || e.which;
+          keyCode = Number(keyCode);
+          if ($('body').hasClass('top-down') && keyCode !== 13) {
+            _self.vars.enterIsClicked = false;
+          }else if ($('body').hasClass('top-down') && keyCode == 13){
+            _self.vars.enterIsClicked = true;
+            $('#live-search-result-box').hide();
+            $('#frequently-searched-box').hide();
+          }
           if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
             _self.closeGreetingMsg();
             $('.search-body').css('display', 'block');
@@ -5377,13 +5387,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.search-chat-container').empty();
           }
           var code = e.keyCode || e.which;
-          if ($('body').hasClass('top-down') && code !== '13') {
+          code = Number(code);
+          if ($('body').hasClass('top-down') && code !== 13) {
             _self.vars.enterIsClicked = false;
           }
           if (code !== 13 && code !== 40 && code !== 38) {
-            _self.pubSub.publish('sa-input-keyup');
+            // _self.pubSub.publish('sa-input-keyup');
           }
-          if (code == '9' || code == '39') {
+          if (code == 9 || code == 39) {
             $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
             $('.search-suggested-title.highlightSuggestion').removeClass('highlightSuggestion');
             if (($('body').hasClass('top-down') && !$('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && !$('.bottom-up-suggestion').val())) {
@@ -5411,7 +5422,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.search-top-down').focus();
             }
           }
-          if (code == '40' || code == '38') {
+          if (code == 40 || code == 38) {
             _self.suggestionSelectedByNavigationKeys(e);
 
           }
@@ -5420,10 +5431,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           } else {
             $('.bottom-up-suggestion').val('');
           }
-          if (code == '9') {
+          if (code == 9) {
             e.preventDefault();
           }
-          if (code == '13') {
+          if (code == 13) {
             $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
             $('.search-suggested-title.highlightSuggestion').removeClass('highlightSuggestion');
             if (!e.target.value.length) {
@@ -5432,6 +5443,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('#autoSuggestionContainer').addClass('hide');
             if ($('body').hasClass('top-down')) {
               _self.vars.enterIsClicked = true;
+              $('#live-search-result-box').hide();
+              $('#frequently-searched-box').hide();
+
             }
             e.preventDefault();
             _self.hideAutoSuggestion();
@@ -5598,6 +5612,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         function makeAPICall() {
           console.log("published Keyup");
           // $('#search').trigger("keydown");
+          if(_self.vars.enterIsClicked){
+            return;
+          }
           $('#search').trigger("keyup");
           _self.pubSub.publish('sa-input-keyup');
         }
@@ -5617,6 +5634,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
 
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
+          var keyCode = e.keyCode || e.which;
+          keyCode = Number(keyCode);
+          if ($('body').hasClass('top-down') && keyCode !== 13) {
+            _self.vars.enterIsClicked = false;
+          }else if ($('body').hasClass('top-down') && keyCode == 13) {
+            _self.vars.enterIsClicked = true;
+            $('#live-search-result-box').hide();
+            $('#frequently-searched-box').hide();
+            return;
+          }
           _self.pubSub.unsubscribe('sa-input-keyup');
           _self.pubSub.publish('sa-handel-go-button');
           _self.hideBottomUpAllResults();
@@ -5651,10 +5678,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             } else {
               $('#frequently-searched-box').hide();
               var code = e.keyCode || e.which;
-              if ($('body').hasClass('top-down') && code !== '13') {
-                _self.vars.enterIsClicked = false;
+              code = Number(code);
+              if (_self.vars.enterIsClicked) {
+                $('#live-search-result-box').hide();
+                $('#frequently-searched-box').hide();
+                return;
               }
-              if (code == '9' || code == '39') {
+              if (code == 9 || code == 39) {
                 if (($('body').hasClass('top-down') && !$('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && !$('.bottom-up-suggestion').val())) {
                   setTimeout(() => {
                     if (!$('body').hasClass('top-down')) {
@@ -5680,7 +5710,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   $('.search-top-down').focus();
                 }
               }
-              if (code == '9') {
+              if (code == 9) {
                 e.preventDefault();
               }
               if (e.target.value) {
@@ -5694,15 +5724,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
                 var url = _self.API.livesearchUrl; //'https://qa-bots.kore.ai/searchAssistant/liveSearch';
                 var searchData;
-                if (code == '13') {
-                  if (!($('.topdown-search-main-container').length)) {
-                    $('#search').val('');
-                    $('#suggestion').val('');
-                    $('.bottom-up-search').val('');
-                    $('.bottom-up-suggestion').val('');
+                if (code == 13) {
+                  // if (!($('.topdown-search-main-container').length)) {
+                  //   $('#search').val('');
+                  //   $('#suggestion').val('');
+                  //   $('.bottom-up-search').val('');
+                  //   $('.bottom-up-suggestion').val('');
+                  // }
+                  // _self.hideAutoSuggestion();
+                  if($('body').hasClass('top-down')){
+                    _self.vars.enterIsClicked = true
+                    $('#frequently-searched-box').hide();
+                    $('#live-search-result-box').hide();
                   }
-                  _self.hideAutoSuggestion();
                 } else {
+                  if($('body').hasClass('top-down') &&  _self.vars.enterIsClicked){
+                    $('#frequently-searched-box').hide();
+                      $('#live-search-result-box').hide();
+                      return;
+                  }
                   $('#autoSuggestionContainer').removeClass('hide');
                   if (!$('body').hasClass('top-down')) { // bottomUp
                     _self.hideBottomUpAllResults();
@@ -5724,7 +5764,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     }
                     _self.vars.previousLivesearchData = $('#search').val();
                     _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
-
+                      if($('body').hasClass('top-down') &&  _self.vars.enterIsClicked){
+                        $('#frequently-searched-box').hide();
+                        $('#live-search-result-box').hide();
+                        return;
+                      }
                       if (res.queryPipelineId && res.relay) {
                         _self.vars.experimentsObject = {};
                         if (res.relay == "experiment") {
@@ -5745,6 +5789,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         // $('#searchChatContainer').addClass('bgfocus');
                       }
                       if (_self.vars.enterIsClicked) {
+                        if(!$('body').hasClass('top-down')){
+                          $('#frequently-searched-box').hide();
+                          $('#live-search-result-box').hide();
+                          return;
+                        }
                         return;
                       }
                       if (res && res.requestId && res.template && res.template.originalQuery) {
@@ -8595,6 +8644,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.destroy = function (config) {
       this.bot.destroy();
+      clearTimeout(_pingTimer);
     }
     FindlySDK.prototype.resetPingMessage = function () {
       var _self = this;
@@ -20605,7 +20655,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // }
           _self.pubSub.publish('sa-handel-submit-button');
           var code = e.keyCode || e.which;
-          if (code == '13') {
+          code = Number(code);
+          if (code == 13) {
             if (!$('.search-top-down').val()) {
               return;
             }
@@ -20816,6 +20867,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('#suggestion').val('');
         $(".top-down-suggestion").val('');
         $(".search-top-down").val('');
+        clearTimeout(_pingTimer);
       });
     }
     FindlySDK.prototype.showSuggestionbox = function (suggestions) {
@@ -20969,7 +21021,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       <div class="horizantal-filter-sec">\
       {{each(i, searchFacet) searchFacets}}\
       <div class="dropdown_custom_filter">\
-      <div class="openDropdownFacets dropbtn">${searchFacet.facetName}{{if searchFacet.selectedFieldsCount && searchFacet.selectedFieldsCount>0}} <span class="count">${searchFacet.selectedFieldsCount}</span> {{/if}}\ <img class="down-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBbY6xDYMwEEX/yQuc5QUOmfRZIRskEyQjZJyU6VJmBGoqREcHJVT2AsiAhQRGvO7+vdM/JVleMevBe9fgBBF7Z21+itmUIPzZ6N47VyeStU+APgj0WK8uV8lsK5K/99Lc5pbdMtNWIQJSBYi+MQjhhTDeuplETOQobhLOn4/wMZ8As5kn7D+3/a0AAAAASUVORK5CYII=">\<img class="up-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACQSURBVHgBhY7BDYJQDIb/ggM8wgI14llXYBJ1A48e3YAVvHpyBHUC4gCYTmDeAGrpAw48LnxJk+bv16aEEczskKRV6OXdHMazJJJocccfFIqXRd1lAxRJqi+RZt9nqwuINtBvKSKeTGKTbiY9TTrGrxRnkO6gvzJ1WV5D6WrSCRO8/zycyzO7XNnWeosZgtMCupEtrTPwmiYAAAAASUVORK5CYII=">\</div>\
+      <div  class="openDropdownFacets dropbtn">${searchFacet.facetName}{{if searchFacet.selectedFieldsCount && searchFacet.selectedFieldsCount>0}} <span class="count">${searchFacet.selectedFieldsCount}</span> {{/if}}\ <img class="down-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBbY6xDYMwEEX/yQuc5QUOmfRZIRskEyQjZJyU6VJmBGoqREcHJVT2AsiAhQRGvO7+vdM/JVleMevBe9fgBBF7Z21+itmUIPzZ6N47VyeStU+APgj0WK8uV8lsK5K/99Lc5pbdMtNWIQJSBYi+MQjhhTDeuplETOQobhLOn4/wMZ8As5kn7D+3/a0AAAAASUVORK5CYII=">\<img class="up-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACQSURBVHgBhY7BDYJQDIb/ggM8wgI14llXYBJ1A48e3YAVvHpyBHUC4gCYTmDeAGrpAw48LnxJk+bv16aEEczskKRV6OXdHMazJJJocccfFIqXRd1lAxRJqi+RZt9nqwuINtBvKSKeTGKTbiY9TTrGrxRnkO6gvzJ1WV5D6WrSCRO8/zycyzO7XNnWeosZgtMCupEtrTPwmiYAAAAASUVORK5CYII=">\</div>\
       <div id="myDropdown" class="dropdown-content filters-content-top-down myDropdown-${i}" data-facetType="${searchFacet.facetType}" data-facetName="${searchFacet.facetName}" data-fieldName="${searchFacet.fieldName}">\
       {{each(j, bucket) searchFacet.buckets}}\
       <div class="option-text">\
@@ -21708,10 +21760,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       _self.pubSub.subscribe('sa-show-live-search-suggestion', (msg, data) => {
         if (_self.vars.enterIsClicked) {
+          $('#live-search-result-box').hide();
           return;
         }
         if ((data.data || []).length || (data.faqs || []).length || (data.web || []).length || (data.files || []).length) {
-          $('#live-search-result-box').show();
+          if (!_self.vars.enterIsClicked) {
+            $('#live-search-result-box').show();
+          }else{
+            $('#live-search-result-box').hide();
+            return;
+          }
         } else {
           $('#live-search-result-box').hide();
         }
@@ -22662,8 +22720,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
     }
     FindlySDK.prototype.checkIsPreviousLiveSearchDataExists = function () {
+      var _self = this;
       if ($('body').hasClass('top-down')) {
         if ($('.data-container .structured-data-header').length) {
+          if (_self.vars.enterIsClicked) {
+            $('#live-search-result-box').hide();
+            return;
+          }
           $('#live-search-result-box').show();
         } else {
           $('#live-search-result-box').hide();
