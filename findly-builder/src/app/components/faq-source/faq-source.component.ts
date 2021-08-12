@@ -42,6 +42,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   searchSources = '';
   pagesSearch = '';
   viewDetails: boolean;
+  // addAltFaq :any;
   selectedFaq: any = null;
   numberOf: any = {};
   singleSelectedFaq: any = null;
@@ -298,6 +299,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   addFaqSource(type) {
     this.showSourceAddition = type;
+    // this.addAltFaq={
+    //   _source :{
+    //     faq_alt_question : []
+    //   }
+    // }
     // this.openAddSourceModal();
   }
   errorToaster(errRes, message) {
@@ -408,6 +414,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       $('#selectAllFaqs')[0].checked = false;
       this.faqSelectionObj.selectAll = false;
     }
+    if ((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved) || this.searchFaq) {
+      $('#selectAllFaqs')[0].checked = true;
+      this.faqSelectionObj.selectAll = false;
+    } 
     this.singleSelectedFaq = faq;
   }
 
@@ -464,7 +474,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       question: event._source.question,
       defaultAnswers: event._source.defaultAnswers || [],
       conditionalAnswers: event._source.conditionalAnswers || [],
-      keywords: event._source.tags
+      keywords: event._source.tags,
+      alternateQuestions : event._source.alternateQuestions || []
     };
     const existingfollowups = [];
     if (this.selectedFaq._meta.followupQuestions && this.selectedFaq._meta.followupQuestions.length) {

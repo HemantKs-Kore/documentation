@@ -46,6 +46,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   currentEditIndex: any = null;
   showImagePreview = false;
   showResponsePreview = false;
+  addAltFaq:any;
   createLinkPopRef
   createImagePopRef
   externalResponsePopRef
@@ -200,14 +201,34 @@ export class AddFaqComponent implements OnInit, OnDestroy {
       this.tags = this.faqData._source.keywords;
       this.text = this.faqData._source.faq_answer;
     } else {
+      this.addAltFaq={
+        _source :{
+          faq_alt_question : []
+        }
+      }
       this.form = this.fb.group({
         question: ['', Validators.required],
         botResponse: ['', Validators.required]
       });
       this.addAnotherResponse('default');
     }
-    this.altAddSub = this.faqServiceAlt.addAltQues.subscribe(params => {
+    this.altAddSub = this.faqServiceAlt.addAltQues.subscribe((params : any) => {
       this.isAdd = false;
+      if(  !(this.faqData || {})._id){
+        if(!this.faqData){
+          this.faqData = {
+            _source :{
+              faq_alt_questions : params._source.faq_alt_questions
+            }
+          };
+        }
+        
+      else{
+        this.faqData._source.faq_alt_questions.push(params._source.faq_alt_questions[0]);
+      }
+      this.isAdd = true;
+      }
+     
     });
     this.altCancelSub = this.faqServiceAlt.cancel.subscribe(data => { this.isAdd = false; });
     if (this.faqUpdate) {
@@ -633,7 +654,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
       this.notify.notify('Please add atleast question', 'error');
       return;
     }
-    const emmiter = this.faqData ? this.editFaq : this.addFaq;
+    const emmiter = this.faqData && !this.addAltFaq ? this.editFaq : this.addFaq;
     this.loading = true;
     const payload = {
       _source: {
@@ -641,11 +662,11 @@ export class AddFaqComponent implements OnInit, OnDestroy {
         tags: this.tags,
         defaultAnswers: this.anwerPayloadObj.defaultAnswers,
         conditionalAnswers: this.anwerPayloadObj.conditionalAnswers,
-        alternateQuestions: (this.faqData && this.faqData._source && this.faqData._source.faq_alt_questions) ? this.faqData._source.faq_alt_questions : [],
+        alternateQuestions: (this.faqData && this.faqData._source && this.faqData._source.faq_alt_questions) ? this.faqData._source.faq_alt_questions : ((this.addAltFaq && this.addAltFaq._source && this.addAltFaq._source.faq_alt_questions) ? this.addAltFaq._source.faq_alt_questions : []),
       },
       followupQuestions: (this.faqData && this.faqData.followupQuestions) ? this.faqData.followupQuestions : [],
       response: this.form.get('botResponse').value,
-      _id: this.faqData ? this.faqData._id : null,
+      _id: this.faqData && !this.addAltFaq  ? this.faqData._id : null,
       quesList: this.quesList,
       cb: (res => { this.loading = false })
     }

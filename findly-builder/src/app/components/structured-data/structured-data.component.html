@@ -203,7 +203,7 @@
                 </div>
             </div> -->
             <div class="empty-landing-screen" *ngIf="noItems">
-                <div class="img-block"><img class="action_icon"  (load)="imageLoad()" src="assets/images/structured-data-empty.png"></div>
+                <div class="img-block" *ngIf="noItems && !emptySearchResults"><img class="action_icon"  (load)="imageLoad()" src="assets/images/structured-data-empty.png"></div>
                 <ng-container *ngIf="noItems && !emptySearchResults && loadImageText">
                     <div class="empty-title">{{'structuredData.no_structuer_data' | translate}}</div>
                     <div class="desc-text">{{'structuredData.help_text' | translate}}</div>

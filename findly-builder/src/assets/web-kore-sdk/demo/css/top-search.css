@@ -1889,7 +1889,12 @@ float: right;
   margin-bottom: 12px;
   display: block;
 }
-
+.sdk-top-down-interface .all-product-details .structured-data-header.list-view-action-header .search-heads.show-all.sdk-show-classification {
+  margin-bottom: 7px !important;
+}
+.topdown-search-main-container .content-data-sec .structured-data-header.list-view-action-header {
+  margin-bottom: 7px;
+}
 .topdown-search-main-container #live-search-result-box .search-heads.show-all{
   font-size: 10px;
   line-height: 0px;
@@ -2388,6 +2393,12 @@ display: none !important;
   margin: 0 0px;
   width: 100%;
   }
+  .searchAssist-kore-chat-window .action-results-container.btn_block_actions.main-content-title-grid-data{
+    display: flex !important;
+    flex-wrap: wrap;
+    margin: 0 0px 5px;
+    width: 100%;
+  }
   .searchAssist-kore-chat-window .main-content-title-grid-data .title-box-data{
   padding: 5px;
   width: 25%;
@@ -2468,7 +2479,7 @@ display: none !important;
    display: none;
  }
   .searchAssist-kore-chat-window .main-content-title-grid-data.new-grid-search-data.list-view-data-search {
-    margin: 0 0px;
+    margin: 0 0px 13px;
     width: 100%;
  }
   .searchAssist-kore-chat-window .main-content-title-grid-data.new-grid-search-data.list-view-data-search .title-box-data {
@@ -2553,7 +2564,7 @@ display: none !important;
 }
 
 .sdk-top-down-interface .topdown-search-main-container .structured-data-outer-wrap{
-  padding-bottom: 30px !important;
+  padding-bottom: 10px !important;
   margin-top: 5px;
   margin-bottom: 0;
 }
@@ -2563,7 +2574,10 @@ display: none !important;
   width: 380px !important;
   margin-top:5px !important;
 }
-
+.sdk-top-down-interface .topdown-search-main-container .carousel.action-results-container {
+  margin: 0 !important;
+  margin-bottom: 10px !important;
+}
 .sdk-top-down-interface .topdown-search-main-container .carousel{
   margin: 0 !important;
     height: fit-content !important;
@@ -2751,4 +2765,14 @@ padding-left: 3px;
     height: 30px;
     text-align: center;
     cursor: pointer;
+}
+.sdk-top-down-interface .top-down-search-background-div .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-next {
+  padding: 5px !important;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  cursor: pointer;
+}
+.sdk-top-down-interface .searchAssist-kore-chat-window .full-results-data-container .tile-with-centered-content-parent.grid_view_template.gride-view-carousel-with-centered-content-parent .tile-with-centered-content {
+  width: 100%;
 }
