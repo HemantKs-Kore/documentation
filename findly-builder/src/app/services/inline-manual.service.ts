@@ -6,7 +6,7 @@ import { WorkflowService } from './workflow.service';
 import { NotificationService } from './notification.service';
 import { AppSelectionService } from './app.selection.service';
 declare const $: any;
-declare const inline_manual_player: any;
+declare let inline_manual_player: any;
 declare let inlineManualTracking: any
 declare let inlineManualPlayerData: any;
 declare let createInlineManualPlayer: any;
@@ -22,6 +22,7 @@ export class InlineManualService {
     private service: ServiceInvokerService,
     public appSelectionService: AppSelectionService,
     private notificationService: NotificationService) {
+    inline_manual_player = {};
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp ? this.selectedApp.searchIndexes[0]._id : "";
   }
