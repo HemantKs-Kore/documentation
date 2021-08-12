@@ -197,7 +197,7 @@
                     <div class="col-1 title">{{"experiments.users"| translate}}</div>
                     <div class="col-1 title">{{"experiments.searches"| translate}}</div>
                     <div class="col-1 title">{{"experiments.clicks"| translate}}</div>
-                    <div class="col-1 title">{{"experiments.ctr"| translate}}  <span placement="top-center" [ngbTooltip]="ctrTooltip" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span></div>
+                    <div class="col-1 title d-flex align-items-center"><span class="d-inline-block text-truncate" style="max-width: 70px;" title="{{'experiments.ctr' | translate}}">{{"experiments.ctr"| translate}}</span>  <span placement="top-center" [ngbTooltip]="ctrTooltip" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span></div>
                     <div class="col-2 title">{{"experiments.searches_results"| translate}}</div>
                   </div>
                   <div class="row m-0 col-12 acc-row-body align-items-center" *ngFor="let expCol of exp.variants">
