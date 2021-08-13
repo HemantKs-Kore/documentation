@@ -19,6 +19,7 @@ declare const $: any;
   animations: [fadeInOutAnimation]
 })
 export class SummaryComponent implements OnInit, OnDestroy {
+  math = Math;
   serachIndexId;
   indices: any = [];
   experiments: any = [];
