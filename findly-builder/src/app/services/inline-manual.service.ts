@@ -131,7 +131,10 @@ export class InlineManualService {
   }
   checkVisibility(module,moduleName?) {
     let visited = false;
-    let data = [...this.appSelectionService?.inlineManualInfo];
+    let data = [];
+    if(this.appSelectionService && this.appSelectionService.inlineManualInfo){
+       data = [...this.appSelectionService.inlineManualInfo];
+    }
     // if(this.inlineManualInfo){
     //    data = [...this.inlineManualInfo]
     // }else{
@@ -150,7 +153,10 @@ export class InlineManualService {
   }
   visited(module) {
     let payload = {};
-    let data = [...this.appSelectionService.inlineManualInfo];
+    let data = [];
+    if(this.appSelectionService && this.appSelectionService.inlineManualInfo){
+       data = [...this.appSelectionService.inlineManualInfo];
+    }
     data.forEach(element => {
       if (element[module]) {
         payload[module] = {
