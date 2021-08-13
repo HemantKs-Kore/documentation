@@ -2790,6 +2790,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $(document).off('click', '.accordion').on('click', '.accordion', function (evet) {
         $(evet.target).closest('.accordion').toggleClass('acc-active');
         var panel = $(evet.target).closest('.accordion').next();
+        if(panel[0].scrollHeight == '16'){
+          $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").show();
+          return;
+        }
+       
         //if($(evet.target).next().length){
         if (panel[0].style.maxHeight || $(evet.target).hasClass('best-match')) {
           if (panel[0].style.maxHeight && panel[0].style.maxHeight.toString().split('px')[0] == '16') {
@@ -2798,23 +2803,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if ($(evet.target).hasClass('best-match')) {
             $(evet.target).removeClass('best-match')
           }
-
-          panel[0].style.maxHeight = null;
-          panel[0].style.overflow = "hidden";
           panel[0].style.dispaly = 'none';
-          setTimeout(() => {
-            $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").show();
-          }, 100);
+          
+            panel[0].style.overflow = "hidden";
+          setTimeout(()=>{
+          $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").show();
+          panel[0].style.maxHeight = null;
+          },150)
         } else {
+          
           $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").hide();
-          setTimeout(() => {
-            panel[0].style.dispaly = 'block';
-          }, 100);
+          panel[0].style.dispaly = 'block';
           panel[0].style.maxHeight = panel[0].scrollHeight + "px";
           if (!panel[0].classList.contains('carousel')) {
             panel[0].style.overflow = "initial";
           }
         }
+        
         //}
         if ($(evet.target).hasClass('acc-active')) {
           $(evet.target).next().parent().next().hide();
