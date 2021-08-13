@@ -4926,7 +4926,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       console.log(_self.vars.filterObject, isChecked);
       var slectionType = "";
-      if (typeof(key)=='string' && key.split('-').length == 2) {
+      if (typeof (key) == 'string' && key.split('-').length == 2) {
         if (key.split('-')[0] == "radio") {
           slectionType = "radio"
         }
@@ -5020,7 +5020,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       } else {
         let filters = payload.filters;
         for (let i = (filters || []).length - 1; i >= 0; i--) {
-          if(filters[i].facetType !== 'range'){
+          if (filters[i].facetType !== 'range') {
             if (filters[i].facetValue[0] == 'faq' || filters[i].facetValue[0] == 'task' || filters[i].facetValue[0] == 'web' || filters[i].facetValue[0] == 'file' || filters[i].facetValue[0] == 'data') {
               payload.filters.splice(i, 1);
             }
@@ -5066,7 +5066,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             tasks: tasks,
             facets: facets,
             files: files,
-            data:data,
+            data: data,
             originalQuery: response.template.originalQuery || '',
             customSearchResult: _self.customSearchResult
             // searchFacets: searchFacets,
@@ -5095,7 +5095,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.pubSub.publish('sa-faq-search', { container: '.faqs-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
             _self.pubSub.publish('sa-web-search', { container: '.web-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
             _self.pubSub.publish('sa-file-search', { container: '.files-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            _self.pubSub.publish('sa-st-data-search', { container: 'structured-data-full-search-container', isFullResults: true, selectedFacet: 'all results',isLiveSearch: false, isSearch: false, dataObj });
+            _self.pubSub.publish('sa-st-data-search', { container: 'structured-data-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
             // Sea all Results 
             $('#loaderDIV').show();
             var container = $('#show-all-results-container');
@@ -5375,7 +5375,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           keyCode = Number(keyCode);
           if ($('body').hasClass('top-down') && keyCode !== 13) {
             _self.vars.enterIsClicked = false;
-          }else if ($('body').hasClass('top-down') && keyCode == 13){
+          } else if ($('body').hasClass('top-down') && keyCode == 13) {
             _self.vars.enterIsClicked = true;
             $('#live-search-result-box').hide();
             $('#frequently-searched-box').hide();
@@ -5623,7 +5623,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         function makeAPICall() {
           console.log("published Keyup");
           // $('#search').trigger("keydown");
-          if(_self.vars.enterIsClicked){
+          if (_self.vars.enterIsClicked) {
             return;
           }
           $('#search').trigger("keyup");
@@ -5649,7 +5649,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           keyCode = Number(keyCode);
           if ($('body').hasClass('top-down') && keyCode !== 13) {
             _self.vars.enterIsClicked = false;
-          }else if ($('body').hasClass('top-down') && keyCode == 13) {
+          } else if ($('body').hasClass('top-down') && keyCode == 13) {
             _self.vars.enterIsClicked = true;
             $('#live-search-result-box').hide();
             $('#frequently-searched-box').hide();
@@ -5743,16 +5743,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   //   $('.bottom-up-suggestion').val('');
                   // }
                   // _self.hideAutoSuggestion();
-                  if($('body').hasClass('top-down')){
+                  if ($('body').hasClass('top-down')) {
                     _self.vars.enterIsClicked = true
                     $('#frequently-searched-box').hide();
                     $('#live-search-result-box').hide();
                   }
                 } else {
-                  if($('body').hasClass('top-down') &&  _self.vars.enterIsClicked){
+                  if ($('body').hasClass('top-down') && _self.vars.enterIsClicked) {
                     $('#frequently-searched-box').hide();
-                      $('#live-search-result-box').hide();
-                      return;
+                    $('#live-search-result-box').hide();
+                    return;
                   }
                   $('#autoSuggestionContainer').removeClass('hide');
                   if (!$('body').hasClass('top-down')) { // bottomUp
@@ -5775,7 +5775,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     }
                     _self.vars.previousLivesearchData = $('#search').val();
                     _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
-                      if($('body').hasClass('top-down') &&  _self.vars.enterIsClicked){
+                      if ($('body').hasClass('top-down') && _self.vars.enterIsClicked) {
                         $('#frequently-searched-box').hide();
                         $('#live-search-result-box').hide();
                         return;
@@ -5800,7 +5800,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         // $('#searchChatContainer').addClass('bgfocus');
                       }
                       if (_self.vars.enterIsClicked) {
-                        if(!$('body').hasClass('top-down')){
+                        if (!$('body').hasClass('top-down')) {
                           $('#frequently-searched-box').hide();
                           $('#live-search-result-box').hide();
                           return;
@@ -16873,7 +16873,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           isTopDown = true;
         }
         var isMapped = true;
-        if ((data.dataObj.data||[]).length && !isMapping) {
+        if ((data.dataObj.data || []).length && !isMapping) {
           isMapped = false;
         }
         var dataHTML = $(finalTemplate).tmplProxy({
@@ -21763,7 +21763,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if ((data.data || []).length || (data.faqs || []).length || (data.web || []).length || (data.files || []).length) {
           if (!_self.vars.enterIsClicked) {
             $('#live-search-result-box').show();
-          }else{
+          } else {
             $('#live-search-result-box').hide();
             return;
           }
@@ -22246,17 +22246,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return d.toDateString() + " at " + helpers.formatAMPM(d);
       },
       'convertMDtoHTML': function (val, responseType, msgItem, isRemoveln) {
-        val = val?val.toString().replaceAll(/[\r\n]+/g, ''):val;
+        val = val ? val.toString().replaceAll(/[\r\n]+/g, '') : val;
         val = (val && isRemoveln) ? val.toString().replaceAll(/[\r\n]+/g, '.').replaceAll('<BR>', '.') : val;
         var hyperLinksMap = {};
-        if (msgItem && msgItem.cInfo && msgItem.cInfo.ignoreCheckMark) {
-          var ignoreCheckMark = msgItem.cInfo.ignoreCheckMark;
-        }
         var mdre = {};
-        //mdre.date = new RegExp(/\\d\(\s*(.{10})\s*\)/g);
+        // mdre.date = new RegExp(/\\d\(\s*(.{10})\s*\)/g);
         mdre.date = new RegExp(/\\d\(\s*(.{10})\s*(?:,\s*["'](.+?)["']\s*)?\)/g);
         mdre.time = new RegExp(/\\t\(\s*(.{8}\.\d{0,3})\s*\)/g);
-        //mdre.datetime = new RegExp(/\\dt\(\s*(.{10})[T](.{12})([z]|[Z]|[+-]\d{4})\s*\)/g);
+        // mdre.datetime = new RegExp(/\\dt\(\s*(.{10})[T](.{12})([z]|[Z]|[+-]\d{4})\s*\)/g);
         mdre.datetime = new RegExp(/\\(d|dt|t)\(\s*([-0-9]{10}[T][0-9:.]{12})([z]|[Z]|[+-]\d{4})[\s]*,[\s]*["']([a-zA-Z\W]+)["']\s*\)/g);
         mdre.num = new RegExp(/\\#\(\s*(\d*.\d*)\s*\)/g);
         mdre.curr = new RegExp(/\\\$\((\d*.\d*)[,](\s*[\"\']\s*\w{3}\s*[\"\']\s*)\)|\\\$\((\d*.\d*)[,](\s*\w{3}\s*)\)/g);
@@ -22275,17 +22272,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         mmntns.sd = new RegExp(/^(d{1})[^d]|[^d](d{1})[^d]/g);
         mmntns.dd = new RegExp(/^(d{2})[^d]|[^d](d{2})[^d]/g);
         mmntns.fy = new RegExp(/(y{4})|y{2}/g);
-        var regexkeys = Object.keys(mdre);
+        const regexkeys = Object.keys(mdre);
         function matchmap(regexval, stringval) {
-          var da;
+          var da = [];
           var matches = [];
+          // tslint:disable-next-line:no-conditional-assignment
           while ((da = regexval.exec(stringval)) !== null) {
             var keypair = {};
             keypair.index = da.index;
             keypair.matchexp = da[0];
             if (da.length > 1) {
               for (var n = 1; n < da.length; n++) {
-                var mstr = "matchval" + n.toString();
+                var mstr = 'matchval' + n.toString();
                 keypair[mstr] = da[n];
               }
             }
@@ -22296,6 +22294,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         function ucreplacer(match) {
           return match.toUpperCase();
         }
+        // tslint:disable-next-line:prefer-for-of
         for (var j = 0; j < regexkeys.length; j++) {
           var k;
           switch (regexkeys[j]) {
@@ -22304,7 +22303,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               var datematcharray = matchmap(mdre.date, strvald);
               if (datematcharray.length) {
                 for (k = 0; k < datematcharray.length; k++) {
-                  //var fdate = moment(datematcharray[k].matchval).format('DD,dd,MM,YYY');
+                  // var fdate = moment(datematcharray[k].matchval).format('DD,dd,MM,YYY');
                   var fdate = new Date(datematcharray[k].matchval1).toLocaleDateString();
                   fdate = ' ' + fdate.toString() + ' ';
                   str = str.replace(datematcharray[k].matchexp.toString(), fdate);
@@ -22328,17 +22327,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if (dtimematcharray.length) {
                 for (k = 0; k < dtimematcharray.length; k++) {
                   var ms = '';
-                  var mergekeylength = Object.keys(dtimematcharray[k]).length - 2;
+                  const mergekeylength = Object.keys(dtimematcharray[k]).length - 2;
                   for (var l = 2; l < mergekeylength; l++) {
-                    var keystr = "matchval" + l.toString();
+                    var keystr = 'matchval' + l.toString();
                     ms += dtimematcharray[k][keystr];
                   }
-                  var foptionstring = "matchval" + mergekeylength.toString();
+                  var foptionstring = 'matchval' + mergekeylength.toString();
                   var fmtstr = dtimematcharray[k][foptionstring];
                   fmtstr = fmtstr.replace(mmntns.fy, ucreplacer);
                   fmtstr = fmtstr.replace(mmntns.dd, ucreplacer);
                   fmtstr = fmtstr.replace(mmntns.sd, ucreplacer);
-                  //var fdtime = new Date(dtimematcharray[k].matchval).toLocaleString();
+                  // var fdtime = new Date(dtimematcharray[k].matchval).toLocaleString();
                   var fdtime = moment(ms).format(fmtstr);
                   fdtime = ' ' + fdtime.toString() + ' ';
                   str = str.replace(dtimematcharray[k].matchexp.toString(), fdtime);
@@ -22359,18 +22358,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             case 'curr':
               var strcurval = str;
               var currmatcharray = matchmap(mdre.curr, strcurval);
-              var browserLang = window.navigator.language || window.navigator.browserLanguage;
+              var browserLang = 'en';
+              if (window.navigator) {
+                browserLang = window.navigator.language;
+              }
               var curcode = new RegExp(/\w{3}/);
               if (currmatcharray.length) {
                 for (k = 0; k < currmatcharray.length; k++) {
-                  var currops = {}, fcode;
+                  // tslint:disable-next-line:one-variable-per-declaration
+                  var currops = {};
+                  var fcode;
                   currops.style = 'currency';
                   if (currmatcharray[k].matchval2) {
                     fcode = curcode.exec(currmatcharray[k].matchval2);
                   }
                   currops.currency = fcode[0].toString();
                   var fcurr = Number(currmatcharray[k].matchval1).toLocaleString(browserLang, currops);
-                  //check for browser support if browser doesnot suppor we get the same value back and we append the currency Code
+                  // check for browser support if browser doesnot suppor we get the same value back and we append the currency Code
                   if (currmatcharray[k].matchval1.toString() === fcurr.toString()) {
                     fcurr = ' ' + fcurr.toString() + ' ' + currops.currency;
                   } else {
@@ -22382,41 +22386,44 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               break;
           }
         }
-        function nextLnReplacer(match, p1, offset, string) {
-          return "<br/>";
+        function nextLnReplacer(match, p1, offset) {
+          return '<br/>';
         }
-        function ignoreWords(str) {
+        function ignoreWords(stri) {
           var _words = ['onclick', 'onmouse', 'onblur', 'onscroll', 'onStart'];
-          _words.forEach(function (word) {
-            var regEx = new RegExp(word, "ig");
-            str = str.replace(regEx, "");
+          _words.forEach((word) => {
+            var regEx1 = new RegExp(word, 'ig');
+            stri = stri.replace(regEx1, '');
           });
-          return str;
+          return stri;
         }
         var nextln = regEx.NEWLINE;
+        // tslint:disable-next-line:variable-name
         function linkreplacer(match, p1, offset, string) {
           var dummyString = string.replace(_regExForMarkdownLink, '[]');
           dummyString = ignoreWords(dummyString);
           if (dummyString.indexOf(match) !== -1) {
+            // tslint:disable-next-line:one-variable-per-declaration
             var _link = p1.indexOf('http') < 0 ? 'http://' + match : match, _target;
-            //_link = encodeURIComponent(_link);
-            _target = "target='_blank'";
+            // _link = encodeURIComponent(_link);
+            _target = 'target=\'underscoreblank\'';
             if (hyperLinksMap) {
-              var _randomKey = "korerandom://" + Object.keys(hyperLinksMap).length;
+              var _randomKey = 'korerandom://' + Object.keys(hyperLinksMap).length;
               hyperLinksMap[_randomKey] = _link;
               _link = _randomKey;
             }
-            return "<span class='isLink'><a " + _target + " href=\"" + _link + "\">" + match + "</a></span>";
+            return '<span class=\'isLink\'><a ' + _target + ' href="' + _link + '">' + match + '</a></span>';
           } else {
             return match;
           }
         }
-        //check for whether to linkify or not
+        // check for whether to linkify or not
         try {
           str = decodeURIComponent(str);
         } catch (e) {
           str = str || '';
         }
+        // tslint:disable-next-line:one-variable-per-declaration
         var newStr = '', wrapper1;
         if (responseType === 'user') {
           str = str.replace(/onerror=/gi, 'abc-error=');
@@ -22431,20 +22438,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         } else {
           wrapper1 = document.createElement('div');
-          //str = str.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+          // str = str.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
           wrapper1.innerHTML = xssAttack(str);
           if ($(wrapper1).find('a').attr('href')) {
             var linkArray = str.match(/<a[^>]*>([^<]+)<\/a>/g);
+            // tslint:disable-next-line:prefer-for-of
             for (var x = 0; x < linkArray.length; x++) {
-              var _newLA = document.createElement('div');
+              const _newLA = document.createElement('div');
               var _detectedLink = linkArray[x];
-              _newLA.innerHTML = linkArray[x];
-              //for mailto: links, new line character need to be repaced with %0A 
-              if (_detectedLink.indexOf("href='mailto:") > -1 || _detectedLink.indexOf('href="mailto:') > -1) {
-                _detectedLink = _detectedLink.split('\n').join("%0A")
+
+              // for mailto: links, new line character need to be repaced with %0A
+              if (_detectedLink.indexOf('href=\'mailto:') > -1 || _detectedLink.indexOf('href="mailto:') > -1) {
+                _detectedLink = _detectedLink.split('\n').join('%0A')
 
               }
-              var _randomKey = "korerandom://" + Object.keys(hyperLinksMap).length;
+              var _randomKey = 'korerandom://' + Object.keys(hyperLinksMap).length;
               _newLA.innerHTML = _detectedLink;
 
               var _aEle = _newLA.getElementsByTagName('a');
@@ -22452,38 +22460,31 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 hyperLinksMap[_randomKey] = _aEle[0].href;
                 _aEle[0].href = _randomKey;
               }
-              $(_newLA).find('a').attr('target', '_blank');
+              $(_newLA).find('a').attr('target', 'underscoreblank');
               str = str.replace(linkArray[x], _newLA.innerHTML);
             }
           } else {
             str = wrapper1.innerHTML.replace(_regExForLink, linkreplacer);
           }
         }
-        if (ignoreCheckMark) {
-          str = val;
-        } else {
-          str = helpers.checkMarkdowns(str, hyperLinksMap);
-        }
+        str = this.checkMarkdowns(str, hyperLinksMap);
         var hrefRefs = Object.keys(hyperLinksMap);
         if (hrefRefs && hrefRefs.length) {
-          hrefRefs.forEach(function (hrefRef) {
-            function customStrReplacer() { //custom replacer is used as by default replace() replaces with '$' in place of '$$'
+          hrefRefs.forEach((hrefRef) => {
+            function customStrReplacer() { // custom replacer is used as by default replace() replaces with '$' in place of '$$'
               return hyperLinksMap[hrefRef];
             }
             str = str.replace(hrefRef, customStrReplacer);
           });
         }
-        str = str.replaceAll('target="underscoreblank"', 'target="_blank"');
-        str = str.replaceAll("target='underscoreblank'", 'target="_blank"');
+        str = str.replaceAll('target="underscoreblank"', 'target="_blank"', str);
+        str = str.replaceAll('target=\'underscoreblank\'', 'target="_blank"', str);
         if (responseType === 'user') {
           str = str.replace(/abc-error=/gi, 'onerror=');
         }
-        return helpers.nl2br(str, true);
+        return this.nl2br(str, true);
       },
-      'checkMarkdowns': function (val, hyperLinksMap) {
-        if (val === '') {
-          return val;
-        }
+      checkMarkdowns(val, hyperLinksMap) {
         var txtArr = val.split(/\r?\n/);
         for (var i = 0; i < txtArr.length; i++) {
           var _lineBreakAdded = false;
@@ -22509,10 +22510,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             txtArr[i] = '\r\n';
             _lineBreakAdded = true;
           } else if (txtArr[i].indexOf('*') === 0) {
-            // if (!isEven(txtArr[i].split('*').length - 1)) {
-            //   txtArr[i] = '\r\n&#9679; ' + txtArr[i].substring(1);
-            //   _lineBreakAdded = true;
-            // }
+            if (!this.isEven(txtArr[i].split('*').length - 1)) {
+              txtArr[i] = '\r\n&#9679; ' + txtArr[i].substring(1);
+              _lineBreakAdded = true;
+            }
           } else if (txtArr[i].indexOf('>>') === 0) {
             txtArr[i] = '<p class="indent">' + txtArr[i].substring(2) + '</p>';
             _lineBreakAdded = true;
@@ -22535,7 +22536,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               var remainingString = _matchImage[j].substring(_matchImage[j].indexOf(']') + 1).trim();
               var _imgLink = remainingString.substring(1, remainingString.indexOf(')'));
               if (hyperLinksMap) {
-                var _randomKey = "korerandom://" + Object.keys(hyperLinksMap).length;
+                var _randomKey = 'korerandom://' + Object.keys(hyperLinksMap).length;
                 hyperLinksMap[_randomKey] = _imgLink;
                 _imgLink = _randomKey;
               }
@@ -22551,35 +22552,35 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }
           // Matches link markup [test](http://google.com/)
-          //var _matchLink = txtArr[i].match(/\[([^\]]+)\](|\s)+\(([^\)])+\)/g);
-          var _matchLink = txtArr[i].match(/\[([^\]]+)\](|\s)\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)/g);
+          /// var _matchLink = txtArr[i].match(/\[([^\]]+)\](|\s)+\(([^\)])+\)/g);
+          var _matchLink = txtArr[i].match(/\[([^\]]+)\](|\s)\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)?/g);
           if (_matchLink && _matchLink.length > 0) {
             for (j = 0; j < _matchLink.length; j++) {
               var _linkTxt = _matchLink[j].substring(1, _matchLink[j].indexOf(']'));
               var remainingString = _matchLink[j].substring(_matchLink[j].indexOf(']') + 1).trim();
-              var _linkLink = remainingString.substring(1, remainingString.lastIndexOf(')'));
-              _linkLink = _linkLink.replace(/\\n/g, "%0A");
+              var _linkLink = remainingString.substring(1, remainingString.indexOf(')'));
+              _linkLink = _linkLink.replace(/\\n/g, '%0A');
               if (hyperLinksMap) {
-                var _randomKey = "korerandom://" + Object.keys(hyperLinksMap).length;
+                var _randomKey = 'korerandom://' + Object.keys(hyperLinksMap).length;
                 hyperLinksMap[_randomKey] = _linkLink;
                 _linkLink = _randomKey;
               }
-              _linkLink = '<span class="isLink"><a href="' + _linkLink + '" target="_blank">' + helpers.checkMarkdowns(_linkTxt) + '</a></span>';
+              _linkLink = '<span class="isLink"><a href="' + _linkLink + '" target="underscoreblank">' + this.checkMarkdowns(_linkTxt, null) + '</a></span>';
               txtArr[i] = txtArr[i].replace(_matchLink[j], _linkLink);
             }
           }
-          // Matches bold markup *test*,* test *, * test*.
-          var _matchAstrik = txtArr[i].match(/(\*+)(\s*\b)([^\*]*)(\b\s*)(\*+)/g);
+          // Matches bold markup *test* doesnot match * test *, * test*. If all these are required then replace \S with \s
+          var _matchAstrik = txtArr[i].match(/\*\S([^*]*?)\*/g);
           if (_matchAstrik && _matchAstrik.length > 0) {
             for (j = 0; j < _matchAstrik.length; j++) {
-              var _boldTxt = _matchAstrik[j];
+              let _boldTxt = _matchAstrik[j];
               _boldTxt = _boldTxt.substring(1, _boldTxt.length - 1);
               _boldTxt = '<b>' + _boldTxt.trim() + '</b>';
               txtArr[i] = txtArr[i].replace(_matchAstrik[j], _boldTxt);
             }
           }
-          //For backward compatability who used ~ for Italics
-          //Matches italic markup ~test~ doesnot match ~ test ~, ~test ~, ~ test~. If all these are required then replace \S with \s
+          // For backward compatability who used ~ for Italics
+          // Matches italic markup ~test~ doesnot match ~ test ~, ~test ~, ~ test~. If all these are required then replace \S with \s
           var _matchItalic = txtArr[i].match(/\~\S([^*]*?)\S\~/g);
           if (_matchItalic && _matchItalic.length > 0) {
             for (j = 0; j < _matchItalic.length; j++) {
@@ -22592,26 +22593,26 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }
           // Matches italic markup _test_ doesnot match _ test _, _test _, _ test_. If all these are required then replace \S with \s
-          var _matchItalic = txtArr[i].match(/\_\S([^*]*?)\S\_/g);
-          if (_matchItalic && _matchItalic.length > 0) {
-            for (j = 0; j < _matchItalic.length; j++) {
-              var _italicTxt = _matchItalic[j];
+          var _matchItalic1 = txtArr[i].match(/\_\S([^*]*?)\S\_/g);
+          if (_matchItalic1 && _matchItalic1.length > 0) {
+            for (j = 0; j < _matchItalic1.length; j++) {
+              var _italicTxt = _matchItalic1[j];
               if (txtArr[i].indexOf(_italicTxt) === 0 || txtArr[i][txtArr[i].indexOf(_italicTxt) - 1] === ' ' || txtArr[i].indexOf(_italicTxt) !== -1) {
                 _italicTxt = _italicTxt.substring(1, _italicTxt.length - 1);
                 _italicTxt = '<i class="markdownItalic">' + _italicTxt + '</i>';
-                txtArr[i] = txtArr[i].replace(_matchItalic[j], _italicTxt);
+                txtArr[i] = txtArr[i].replace(_matchItalic1[j], _italicTxt);
               }
             }
           }
           // Matches bold markup ~test~ doesnot match ~ test ~, ~test ~, ~ test~. If all these are required then replace \S with \s
-          var _matchItalic = txtArr[i].match(/\~\S([^*]*?)\S\~/g);
-          if (_matchItalic && _matchItalic.length > 0) {
-            for (j = 0; j < _matchItalic.length; j++) {
-              var _italicTxt = _matchItalic[j];
+          var _matchItalic13 = txtArr[i].match(/\~\S([^*]*?)\S\~/g);
+          if (_matchItalic13 && _matchItalic13.length > 0) {
+            for (j = 0; j < _matchItalic13.length; j++) {
+              var _italicTxt = _matchItalic13[j];
               if (txtArr[i].indexOf(_italicTxt) === 0 || txtArr[i][txtArr[i].indexOf(_italicTxt) - 1] === ' ' || txtArr[i].indexOf(_italicTxt) !== -1) {
                 _italicTxt = _italicTxt.substring(1, _italicTxt.length - 1);
                 _italicTxt = '<i class="markdownItalic">' + _italicTxt + '</i>';
-                txtArr[i] = txtArr[i].replace(_matchItalic[j], _italicTxt);
+                txtArr[i] = txtArr[i].replace(_matchItalic13[j], _italicTxt);
               }
             }
           }
