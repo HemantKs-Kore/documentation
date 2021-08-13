@@ -201,7 +201,7 @@
             <div class="upgrade-btn" (click)="redirectToPricing()">{{currentPlan?.changesScheduledFor=='none'||currentPlan?.changesScheduledFor=='downgrade'||currentPlan?.planName!='Free'?("plan.upgrade_btn"| translate):(currentPlan?.changesScheduledFor=='cancel'&&currentPlan?.status!='expired')?("plan.revert_cancellation_btn"| translate):("plan.reactivate_btn"| translate)}}</div>
             <div class="free-status-title">
               <div class="type-plan">{{currentPlan?.planName}}</div>
-              <div class="started-on">{{'plan.started_on' | translate}} : <span>{{(currentPlan.createdAt| dateFormatPipe:'D MMMM YYYY')}}</span></div>
+              <div class="started-on">{{'plan.started_on' | translate}} : <span>{{(currentPlan?.createdAt| dateFormatPipe:'D MMMM YYYY')}}</span></div>
             </div>
             <div class="queries-documents">
               <div class="query-type border-">
