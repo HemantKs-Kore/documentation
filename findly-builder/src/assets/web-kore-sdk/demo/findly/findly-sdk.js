@@ -5865,6 +5865,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             web: web.slice(0, 2),
                             tasks: tasks.slice(0, 2),
                             files: files.slice(0, 2),
+                            data: data.slice(0, 2),
                             showAllResults: true,
                             noResults: false,
                             taskPrefix: 'SUGGESTED',
@@ -5949,6 +5950,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               web: web,
                               tasks: tasks,
                               files: files,
+                              data: data,
                               showAllResults: false,
                               noResults: true,
                               taskPrefix: 'MATCHED',
@@ -5964,7 +5966,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               $('.search-body').scrollTop(2);
                             }, 100);
                             if ($('body').hasClass('top-down')) {
+                              _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
                               _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch | 'all results' } });
+                             
                             } else {
                               _self.pubSub.publish('sa-search-result', dataObj);
                               _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
@@ -20928,7 +20932,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           maxCount: searchConfigurationCopy.querySuggestionsLimit ? searchConfigurationCopy.querySuggestionsLimit : 4
         });
         $('#auto-query-box').append(template);
-        if (_self.vars.enterIsClicked) {
+        if (_self.vars.enterIsClicked || !$(".search-top-down").val()) {
           $('#live-search-result-box').hide();
           return
         } else {
@@ -21798,14 +21802,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           return;
         }
         if ((data.data || []).length || (data.faqs || []).length || (data.web || []).length || (data.files || []).length) {
-          if (!_self.vars.enterIsClicked) {
+          if (!_self.vars.enterIsClicked  && $(".search-top-down").val()) {
             $('#live-search-result-box').show();
           } else {
             $('#live-search-result-box').hide();
             return;
           }
         } else {
-          $('#live-search-result-box').hide();
+          $('.data-container .faqs-live-data-container').empty();
+          $('.data-container .web-live-data-container').empty();
+          $('.data-container .files-live-data-container').empty();
+          $('.data-container .structured-live-data-container').empty();
+          if ($('#auto-query-box').find('.suggestion-box').length && $(".search-top-down").val()) {
+            $('#live-search-result-box').show();
+          } else {
+            $('#live-search-result-box').hide();
+          }
         }
       });
 
@@ -22758,7 +22770,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       if ($('body').hasClass('top-down')) {
         if ($('.data-container .structured-data-header').length) {
-          if (_self.vars.enterIsClicked) {
+          if (_self.vars.enterIsClicked || !$(".search-top-down").val()) {
             $('#live-search-result-box').hide();
             return;
           }
