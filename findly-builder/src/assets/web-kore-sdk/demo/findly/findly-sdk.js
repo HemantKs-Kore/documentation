@@ -5143,7 +5143,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (_self.isDev) {
         payload['customize'] = _self.vars.customizeView;
       }
-
+      if(!resultName){
+        resultName = $(event.currentTarget).find('[title]').attr('title');
+      }
       if (resultType == "web" || resultType == "faq" || resultType == "data" || resultType == "file") {
         var experimentObjectProps = Object.getOwnPropertyNames(_self.vars.experimentsObject);
         payload.answerInfo = {};
