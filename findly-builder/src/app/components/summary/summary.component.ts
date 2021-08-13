@@ -27,7 +27,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
   activities: any = [];
   channels: any = [];
   channelsName = '';
-  // searchIndexes: any = [];
+  //searchIndexes: any = [];
   channelExist = false;
   totalUsersStats: any = {};
   totalSearchesStats: any = {};
