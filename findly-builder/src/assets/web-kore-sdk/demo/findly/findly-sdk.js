@@ -1106,13 +1106,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{each(j, bucket) searchFacet.buckets}}\
                 {{if searchFacet.facetType == "value"}}\
                   <div class="kr-sg-checkbox d-block custom_checkbox">\
-                    <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
+                    <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
                     <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                   </div>\
                 {{/if}}\
                 {{if searchFacet.facetType == "range"}}\
                   <div class="kr-sg-checkbox d-block custom_checkbox">\
-                    <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
+                    <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
                     <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                   </div>\
                 {{/if}}\
@@ -4921,7 +4921,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       console.log(_self.vars.filterObject, isChecked);
       var slectionType = "";
-      if (key.split('-').length == 2) {
+      if (typeof(key)=='string' && key.split('-').length == 2) {
         if (key.split('-')[0] == "radio") {
           slectionType = "radio"
         }
@@ -5015,8 +5015,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       } else {
         let filters = payload.filters;
         for (let i = (filters || []).length - 1; i >= 0; i--) {
-          if (filters[i].facetValue[0] == 'faq' || filters[i].facetValue[0] == 'task' || filters[i].facetValue[0] == 'web' || filters[i].facetValue[0] == 'file' || filters[i].facetValue[0] == 'data') {
-            payload.filters.splice(i, 1);
+          if(filters[i].facetType !== 'range'){
+            if (filters[i].facetValue[0] == 'faq' || filters[i].facetValue[0] == 'task' || filters[i].facetValue[0] == 'web' || filters[i].facetValue[0] == 'file' || filters[i].facetValue[0] == 'data') {
+              payload.filters.splice(i, 1);
+            }
           }
         }
       }
@@ -5048,6 +5050,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           web = response.template.results.web;
           tasks = response.template.results.task;
           files = response.template.results.file;
+          data = response.template.results.data;
           facets = response.template.facets;
           facets["all results"] = response.template.totalNumOfResults;
           _self.vars.totalNumOfResults = response.template.totalNumOfResults
@@ -5058,6 +5061,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             tasks: tasks,
             facets: facets,
             files: files,
+            data:data,
             originalQuery: response.template.originalQuery || '',
             customSearchResult: _self.customSearchResult
             // searchFacets: searchFacets,
@@ -5086,7 +5090,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.pubSub.publish('sa-faq-search', { container: '.faqs-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
             _self.pubSub.publish('sa-web-search', { container: '.web-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
             _self.pubSub.publish('sa-file-search', { container: '.files-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-            _self.pubSub.publish('sa-st-data-search', { container: 'structured-data-full-search-container', isFullResults: true, selectedFacet: 'all results', isSearch: false, dataObj });
+            _self.pubSub.publish('sa-st-data-search', { container: 'structured-data-full-search-container', isFullResults: true, selectedFacet: 'all results',isLiveSearch: false, isSearch: false, dataObj });
             // Sea all Results 
             $('#loaderDIV').show();
             var container = $('#show-all-results-container');
@@ -16862,7 +16866,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           isTopDown = true;
         }
         var isMapped = true;
-        if (data.dataObj.data.length && !isMapping) {
+        if ((data.dataObj.data||[]).length && !isMapping) {
           isMapped = false;
         }
         var dataHTML = $(finalTemplate).tmplProxy({
@@ -19672,13 +19676,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if searchFacet.isMultiSelect}}\
                     {{if searchFacet.facetType == "value"}}\
                       <div class="custom_checkbox kr-sg-checkbox d-block">\
-                          <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
+                          <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
                           <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                       </div>\
                     {{/if}}\
                     {{if searchFacet.facetType == "range"}}\
                         <div class="kr-sg-checkbox d-block custom_checkbox">\
-                          <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
+                          <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
                           <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                         </div>\
                     {{/if}}\
@@ -19686,13 +19690,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if !searchFacet.isMultiSelect}}\
                     {{if searchFacet.facetType == "value"}}\
                       <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                          <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true">\
+                          <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
                           <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                       </div>\
                     {{/if}}\
                     {{if searchFacet.facetType == "range"}}\
                         <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                          <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true">\
+                          <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
                           <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                         </div>\
                     {{/if}}\
@@ -19724,28 +19728,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       <div class="option-text">\
       {{if searchFacet.facetType == "value"&& searchFacet.isMultiSelect }}\
       <div class="kr-sg-checkbox d-block">\
-      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
+      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}" data-from="${bucket.from}" data-to="${bucket.to}">\
       <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
           <span class="count">\(${bucket.doc_count})</span>\
         </div>\
         {{/if}}\
         {{if searchFacet.facetType == "range" && searchFacet.isMultiSelect}}\
         <div class="kr-sg-checkbox d-block">\
-        <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
+        <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}" data-from="${bucket.from}" data-to="${bucket.to}">\
         <label  id="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">\${bucket.key}</label>\
             <span class="count">\(${bucket.doc_count})</span>\
           </div>\
           {{/if}}\
           {{if searchFacet.facetType == "value" && !searchFacet.isMultiSelect}}\
           <div class="kr-sg-checkbox d-block">\
-            <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
+            <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}" data-from="${bucket.from}" data-to="${bucket.to}">\
               <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
             {{if searchFacet.facetType == "range" && !searchFacet.isMultiSelect }}\
             <div class="kr-sg-checkbox d-block">\
-              <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
+              <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}" data-from="${bucket.from}" data-to="${bucket.to}">\
                 <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                 <span class="count">\(${bucket.doc_count})</span>\
               </div>\
@@ -19797,13 +19801,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         {{if searchFacet.isMultiSelect}}\
                         {{if searchFacet.facetType == "value"}}\
                           <div class="custom_checkbox kr-sg-checkbox d-block">\
-                              <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
+                              <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
                               <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                           </div>\
                         {{/if}}\
                         {{if searchFacet.facetType == "range"}}\
                             <div class="kr-sg-checkbox d-block custom_checkbox">\
-                              <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
+                              <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
                               <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                             </div>\
                         {{/if}}\
@@ -19811,13 +19815,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       {{if !searchFacet.isMultiSelect}}\
                         {{if searchFacet.facetType == "value"}}\
                           <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                              <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true">\
+                              <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
                               <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                           </div>\
                         {{/if}}\
                         {{if searchFacet.facetType == "range"}}\
                             <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                              <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true">\
+                              <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
                               <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                             </div>\
                         {{/if}}\
@@ -20977,30 +20981,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 			<div class="heading-title {{if searchFacet.showSearch == true}}d-none{{/if}}"">\${searchFacet.facetName}<span class="float-right d-none  {{if searchFacet.maxCount && searchFacet.buckets.length > searchFacet.maxCount}}d-block{{/if}}"><img class="facet-search-icon display-none" facetFacetName="${searchFacet.facetName}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFYSURBVHgBrVNLUsJAEO2eiLoTbhBuQE6g3gC3UJSZhViUi8gJ9AaWCyuFLhqLApbiCcQbcAM5QtiJMmk7VsoKDPFT8jZdk+735r3MDMA/gXmNkMgF2HJ3YTHRWke/Fri97wfAcJm2E6IrQ+MFz3VL6+nqvFoid4cEjL7h+Kjp10tNv1Yu8LwUMz87uPPSoUE110FIfd9BvBCCt85ySL0DB50H6Zez/S8HCdmw0Xl5W7oxljJ+g+1zK0JIQ1dKMR3KhWF+ZFAVS8CB16KUCH5EPHWQ9yyBAsBUiktExe/oCrBiGGeWQJrbyrcKRBUoiEeWQIJ35jYiBjfUr6wj33UHV1Kipq53l0Sziw71qrILie6I5YfFYKLEtnw7TgZZYspGh2e6PrEcJDjVjZFh5QHzTCEEcu4k5H1ZX5/4NU9OoV1AfMq6zH0LeUgvHIkTL+vkjyKf92Yz+ADa8Y5Ak9HPCwAAAABJRU5ErkJggg==">\<span>\</div>\
       <div class="input-div {{if searchFacet.showSearch !== true}}d-none{{/if}}"><input type="text" class="searchFacetInput" id="${searchFacet.facetName}">\ <span class="float-right d-none" id="${searchFacet.facetName}-close">\<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACGSURBVHgB3ZK9DYAgEIURjY2RWVzFEWgtYBvXcBTcwClsFIg5osmZgEjoeNVxx/v4ySOkLDFpVTcdQ2gOMyaswj2KF+bUnDb14oNAD2ZGa06+BBt7YTYM8fUeVSEInGa1Gd0173qf2/UXAEOgDpkdnGQq+wlec8onRs1JEAhJNEjyHaQCdAGUc1yB6RityQAAAABJRU5ErkJggg==">\</span>\</div>\
       {{each(j, bucket) searchFacet.buckets.slice(0, (searchFacet.maxCount?searchFacet.maxCount:searchFacet.buckets.length))}}\
-          {{if searchFacet.facetType == "value" && searchFacet.isMultiSelect }}\
+          {{if (searchFacet.facetType == "value" || searchFacet.facetType == "range") && searchFacet.isMultiSelect }}\
           <div class="kr-sg-checkbox d-block">\
-          <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
+          <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down c-1" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}" data-from="${bucket.from}" data-to="${bucket.to}">\
 					<label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
-            {{if searchFacet.facetType == "range" && searchFacet.isMultiSelect }}\
-            <div class="kr-sg-checkbox d-block">\
-            <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-						<label  id="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">\${bucket.key}</label>\
-                <span class="count">\(${bucket.doc_count})</span>\
-              </div>\
-              {{/if}}\
               {{if searchFacet.facetType == "value" && !searchFacet.isMultiSelect}}\
               <div class="kr-sg-radiobutton d-block">\
-                <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
+                <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}" data-from="${bucket.from}" data-to="${bucket.to}">\
                   <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
                   <span class="count">\(${bucket.doc_count})</span>\
                 </div>\
                 {{/if}}\
                 {{if searchFacet.facetType == "range" &&  !searchFacet.isMultiSelect}}\
                 <div class="kr-sg-radiobutton d-block">\
-                  <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
+                  <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}" data-from="${bucket.from}" data-to="${bucket.to}">\
                     <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                     <span class="count">\(${bucket.doc_count})</span>\
                   </div>\
@@ -21025,20 +21022,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       <div id="myDropdown" class="dropdown-content filters-content-top-down myDropdown-${i}" data-facetType="${searchFacet.facetType}" data-facetName="${searchFacet.facetName}" data-fieldName="${searchFacet.fieldName}">\
       {{each(j, bucket) searchFacet.buckets}}\
       <div class="option-text">\
-      {{if searchFacet.facetType == "value"&& searchFacet.isMultiSelect }}\
+      {{if (searchFacet.facetType == "value" || searchFacet.facetType == "range" ) && searchFacet.isMultiSelect }}\
       <div class="kr-sg-checkbox d-block">\
-      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
+      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}" data-from="${bucket.from}" data-to="${bucket.to}">\
       <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
           <span class="count">\(${bucket.doc_count})</span>\
         </div>\
         {{/if}}\
-        {{if searchFacet.facetType == "range" && searchFacet.isMultiSelect}}\
-        <div class="kr-sg-checkbox d-block">\
-        <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
-        <label  id="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">\${bucket.key}</label>\
-            <span class="count">\(${bucket.doc_count})</span>\
-          </div>\
-          {{/if}}\
           {{if searchFacet.facetType == "value" && !searchFacet.isMultiSelect}}\
           <div class="kr-sg-radiobutton d-block">\
             <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}">\
@@ -22249,7 +22239,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return d.toDateString() + " at " + helpers.formatAMPM(d);
       },
       'convertMDtoHTML': function (val, responseType, msgItem, isRemoveln) {
-        val = val.replace(/[\r\n]+/g, '');
+        val = val?val.toString().replaceAll(/[\r\n]+/g, ''):val;
         val = (val && isRemoveln) ? val.toString().replaceAll(/[\r\n]+/g, '.').replaceAll('<BR>', '.') : val;
         var hyperLinksMap = {};
         if (msgItem && msgItem.cInfo && msgItem.cInfo.ignoreCheckMark) {
