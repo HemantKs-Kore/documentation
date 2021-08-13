@@ -252,8 +252,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.previousDataobj = '';
       vars.customizeView = false;
       vars.showingMatchedResults = false;
-
+      vars.isSocketInitialize = false;
       vars.locationObject = {};
+      vars.botConfig ={};
 
       vars.experimentsObject = {}; // Local Object for Storing Experiments-Related Data (QueryPipelineID, Relay, RequestID)
 
@@ -4176,6 +4177,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         if ($('body').hasClass('top-down')) {
           _self.sendMessageToSearch('user', null, null, (_self.isDev == true) ? true : false);
+          _self.resetPingMessage();
+          _self.resetSocketDisconnection();
         }
         if (_self.isDev || _self.vars.loggedInUser) {
           _self.vars.searchObject.searchText = e.currentTarget.title.toLowerCase();
@@ -5319,7 +5322,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('#show-all-results-container').hide();
         $('.typingIndicatorContent').css('display', 'none');
         _self.vars.selectedFacetFromSearch = "all results"
-        clearTimeout(_pingTimer);
+        _self.destroy();
       })
       //_self.bindSearchActionEvents();
 
@@ -5502,6 +5505,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var searchText = $('#search').val() || (_self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : "") || null;
             _self.closeGreetingMsg();
             // if (!$('body').hasClass('top-down')) {
+            _self.resetPingMessage();
+            _self.resetSocketDisconnection();
             _self.sendMessageToSearch('user', null, null, (_self.isDev == true) ? true : false);
             if (_self.isDev) {
               setTimeout(() => {
@@ -6012,6 +6017,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
 
         $(dataHTML).off('focus', '#search').on('focus', '#search', function (e) {
+          if(!_self.vars.isSocketInitialize){
+            _self.bot.init(_self.vars.botConfig, _self.config.messageHistoryLimit);
+            _self.bindSocketEvents();
+            _self.vars.isSocketInitialize = true;
+            _self.resetSocketDisconnection();
+          }
           _self.pubSub.publish('sa-search-focus', {});
           _self.pubSub.publish('sa-handel-chat-container-view');
           if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
@@ -6702,7 +6713,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             //   container : '.structured-data-container', /*  start with '.' if class or '#' if id of the element*/ isFullResults : false, selectedFacet : 'all results', isSearch : true, dataObj
             // });
             $(searchData).data(dataObj);
-            if (!topMatchTask && !_self.customSearchResult) {
+            if (!_self.customSearchResult) {
+              // if (!topMatchTask && !_self.customSearchResult) {
               _self.sendMessageToSearch('bot', _botMessage, null, (_self.isDev == true) ? true : false);
               if (_self.isDev) {
                 setTimeout(() => {
@@ -8647,26 +8659,49 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       config = config || _self.config.botOptions
       _self.bot = requireKr('/KoreBot.js').instance();
-      // _self.bot.init(_self.config.botOptions, _self.config.messageHistoryLimit)
+      _self.vars.botConfig  = config || _self.config.botOptions;
       _self.bot.init(config, _self.config.messageHistoryLimit);
+      _self.vars.isSocketInitialize = true;
       _self.bindSocketEvents();
-
+      _self.resetSocketDisconnection();
     };
 
     FindlySDK.prototype.destroy = function (config) {
+      var _self = this;
       this.bot.destroy();
+     _self.clearAllTimeoutTimer();
+    }
+    FindlySDK.prototype.clearAllTimeoutTimer = function (config) {
+      var _self = this;
       clearTimeout(_pingTimer);
+      clearTimeout(_disconnectBotTimer);
+      _self.vars.isSocketInitialize = false;
+      $('.typingIndicatorContent').css('display', 'none');
+    }
+    FindlySDK.prototype.resetSocketDisconnection = function () {
+      var _self = this;
+      clearTimeout(_disconnectBotTimer);
+      _disconnectBotTimer = setTimeout(function () {
+        if(_self.vars.isSocketInitialize){
+          _self.destroy();
+          _self.vars.isSocketInitialize = false;
+          $('.typingIndicatorContent').css('display', 'none');
+        }
+       
+      }, _disconnectTime);
     }
     FindlySDK.prototype.resetPingMessage = function () {
       var _self = this;
       clearTimeout(_pingTimer);
       _pingTimer = setTimeout(function () {
-        var messageToBot = {};
+        if(_self.vars.isSocketInitialize){
+          var messageToBot = {};
         messageToBot["type"] = 'ping';
         _self.bot.sendMessage(messageToBot, function messageSent() {
 
         });
         _self.resetPingMessage();
+        }
       }, _pingTime);
     }
     FindlySDK.prototype.bindSocketEvents = function () {
@@ -8908,9 +8943,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }, 350);
         }
       });
-      if (_self.isDev == false) {
+      // if (_self.isDev == false) {
         _self.resetPingMessage();
-      }
+        _self.resetSocketDisconnection();
+      // }
     };
 
     FindlySDK.prototype.getTemplate = function (type) {
@@ -10840,6 +10876,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       meetingTimeRef = [];
     var meetingArray = [];
     var _pingTimer, _pingTime = 30000;
+    var _disconnectBotTimer,_disconnectTime = 900000;
     var indicatorTimer;
     var mainTemplateBdr,
       localPanelDetail = {},
@@ -20878,7 +20915,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('#suggestion').val('');
         $(".top-down-suggestion").val('');
         $(".search-top-down").val('');
-        clearTimeout(_pingTimer);
+        _self.destroy();
       });
     }
     FindlySDK.prototype.showSuggestionbox = function (suggestions) {
