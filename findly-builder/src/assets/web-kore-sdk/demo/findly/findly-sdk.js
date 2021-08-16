@@ -5376,12 +5376,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
           var keyCode = e.keyCode || e.which;
           keyCode = Number(keyCode);
-          if ($('body').hasClass('top-down') && keyCode !== 13) {
+          if ( keyCode !== 13) {
             _self.vars.enterIsClicked = false;
           } else if ($('body').hasClass('top-down') && keyCode == 13) {
             _self.vars.enterIsClicked = true;
             $('#live-search-result-box').hide();
             $('#frequently-searched-box').hide();
+          }else if(!$('body').hasClass('top-down') && keyCode == 13){
+            _self.vars.enterIsClicked = true;
+            $('.search-body').css('display', 'none');
+            $('.search-body').addClass('hide');
           }
           if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
             _self.closeGreetingMsg();
@@ -5397,6 +5401,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           //   $('.search-body').removeClass('hide');
           //   $('#searchChatContainer').addClass('bgfocus');
           // }
+          if (window.isBotLocked) {
+            $('.search-body').css('display', 'none');
+            $('.search-body').addClass('hide');
+          }
           if (!self.customSearchResult) {
             $('.search-chat-container').empty();
           }
@@ -5664,6 +5672,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('sa-handel-go-button');
           _self.hideBottomUpAllResults();
           _self.pubSub.subscribe('sa-input-keyup', (msg, data) => {
+            if (!$('body').hasClass('top-down') &&  _self.vars.enterIsClicked) {
+              $('.search-body').css('display', 'none');
+              $('.search-body').addClass('hide');
+              return;
+            }
             if ($('body').hasClass('top-down')) {
               $('.top-down-suggestion').val('');
             } else {
