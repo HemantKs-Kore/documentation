@@ -5392,7 +5392,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.enterIsClicked = true;
             $('#live-search-result-box').hide();
             $('#frequently-searched-box').hide();
-          }else if(!$('body').hasClass('top-down') && keyCode == 13){
+          } else if(!$('body').hasClass('top-down') && keyCode == 13){
             _self.vars.enterIsClicked = true;
             $('.search-body').css('display', 'none');
             $('.search-body').addClass('hide');
@@ -5401,7 +5401,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.closeGreetingMsg();
             $('.search-body').css('display', 'block');
             $('.search-body').removeClass('hide');
-          } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
+          } else if ((!$('body').hasClass('top-down') && (!$('.bottom-up-search').val() || window.isBotLocked))) {
             $('.search-body').css('display', 'none');
             $('.search-body').addClass('hide');
           }
@@ -5424,7 +5424,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.enterIsClicked = false;
           }
           if (code !== 13 && code !== 40 && code !== 38) {
-            // _self.pubSub.publish('sa-input-keyup');
+            _self.pubSub.publish('sa-input-keyup');
           }
           if (code == 9 || code == 39) {
             $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
@@ -5852,10 +5852,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         }
                         // if (res && res.results && res.results.length) {
                         if (res && res.results && (res.results.file.length || res.results.faq.length || res.results.data.length || res.results.web.length || res.results.task.length)) {
-                          
-                          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val()) && ((res||{}).facets['all results'] !== (res||{}).facets['task']) ) {
-                            $('.search-body').css('display', 'block');
-                            $('.search-body').removeClass('hide');
+                          var liveSearchStructuredDataMapping = _self.structuredDataConfig.liveSearchInterface.mapping;
+                          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val()) && ((res||{}).facets['all results'] !== (res||{}).facets['task'])) {
+                            if((!liveSearchStructuredDataMapping && (((res||{}).facets['all results'] == (res||{}).facets['data']) || ((res||{}).facets['all results'] == ((res||{}).facets['data'] + (res||{}).facets['task']))))){
+                              $('.search-body').css('display', 'none');
+                              $('.search-body').addClass('hide');
+                            }else{
+                              $('.search-body').css('display', 'block');
+                              $('.search-body').removeClass('hide');
+                            }
                           } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
                             $('.search-body').css('display', 'none');
                             $('.search-body').addClass('hide');
@@ -5988,8 +5993,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               viewType: viewType,
                               customSearchResult: _self.customSearchResult
                             }
-                            $('.search-body').css('display', 'none');
-                            $('.search-body').addClass('hide');
+                           
                             searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
                             $(searchData).data(dataObj);
                             console.log("no results found");
@@ -6002,6 +6006,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch | 'all results' } });
                              
                             } else {
+                              $('.search-body').css('display', 'none');
+                              $('.search-body').addClass('hide');
                               _self.pubSub.publish('sa-search-result', dataObj);
                               _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
                             }
