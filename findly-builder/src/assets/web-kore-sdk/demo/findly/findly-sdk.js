@@ -1182,9 +1182,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="actions-link">Context</div>\
               </div>\
             <div id="searchChatContainer"></div>\
-              <div class="search-body">\
+            <div class="live-seach-auto-suggestion-parent">\
+              <div class="search-body">\</div>\
+              <div id="autoSuggestionContainer"></div>\
             </div>\
-            <div id="autoSuggestionContainer"></div>\
           </div>\
           <div class="search-modal-body hide">\
           </div>\
@@ -3983,7 +3984,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $('.suggestions-close-icon').off('click').on('click', function (e) {
         $('#autoSuggestionContainer').empty();
-        $('.suggestion-search-data-parent').css('visibility', 'hidden');
+        $('.suggestion-search-data-parent').css('display', 'none');
         e.stopPropagation();
         e.stopImmediatePropagation();
       });
@@ -5658,6 +5659,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
 
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
+          $('#autoSuggestionContainer').empty();
+          $('.suggestion-search-data-parent').css('display', 'none');
           var keyCode = e.keyCode || e.which;
           keyCode = Number(keyCode);
           if ($('body').hasClass('top-down') && keyCode !== 13) {
@@ -6046,6 +6049,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (!window.isBotLocked) {
               $('.search-body').removeClass('hide');
               $('#searchChatContainer').addClass('bgfocus');
+            } else {
+              $('.search-body').addClass('hide');
+              $('.search-body').css('display','none');
             }
           }
           else {
@@ -6912,7 +6918,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('#searchChatContainer').addClass('bgfocus');
             }
           }
-          $('.suggestion-search-data-parent').css('visibility', 'visible');
+          $('.suggestion-search-data-parent').css('display', 'block');
         }
         if ($(event.target).closest('#searchChatContainer').length && !$(event.target).closest('#search').length) {
           event.stopPropagation();
@@ -6922,14 +6928,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.search-body').removeClass('h-100');
 
             $('.custom-header-container-center').css('visibility', 'visible');
-            $('.suggestion-search-data-parent').css('visibility', 'hidden');
+            $('.suggestion-search-data-parent').css('display', 'none');
           };
         }
         else if ($(event.target).closest('.heading').length) {
           event.stopPropagation();
           $('#searchChatContainer').removeClass('bgfocus');
           $('.search-body').addClass('hide');
-          $('.suggestion-search-data-parent').css('visibility', 'hidden');
+          $('.suggestion-search-data-parent').css('display', 'none');
         } else {
           if (!$(event.target).closest('.show-all-results-outer-wrap').length && !$(event.target).closest('#search').length) {
             if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
@@ -6938,7 +6944,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('#searchChatContainer').removeClass('bgfocus');
               }
             }
-            $('.suggestion-search-data-parent').css('visibility', 'hidden');
+            $('.suggestion-search-data-parent').css('display', 'none');
           }
         }
         if (!($(event.target).closest('#search-box-container').length || $(event.target).closest('#frequently-searched-box').length || $(event.target).closest('#live-search-result-box').length)) {
@@ -8518,6 +8524,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // $('.search-modal-body').html(searchModal);
       // $('#search-modal').css('display', 'block');
       _self.searchEventBinding(dataHTML, 'search-container', {}, {});
+      var livesearchAutoSuggestionHtml = $('.live-seach-auto-suggestion-parent');
+      _self.bindPerfectScroll(livesearchAutoSuggestionHtml, '.search-body', null, 'searchBody');
+      _self.bindPerfectScroll(livesearchAutoSuggestionHtml, '.suggestion-search-data-parent', null, 'suggestionContainer');
     };
     FindlySDK.prototype.initSearchAssistSDK = function (findlyConfig) {
       var _self = this;
@@ -20581,6 +20590,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       <div>\
         {{if suggestions && suggestions.length > 0}}\
           <div class="suggestion-search-data-parent">\
+          <div class="title-suggestion">Suggestions</div>\
             <!--<img class="suggestions-close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">-->\
             {{each(i, suggestion) suggestions.slice(0, querySuggestionsLimit)}}\
               <div class="search-suggested-title" suggestion="${suggestion}" id="${i}">\
@@ -20675,6 +20685,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('.bottom-up-suggestion').hide();
               }
             }
+          }else{
+            $('#autoSuggestionContainer').empty();
           }
         },
         error: function (err) {
@@ -20702,11 +20714,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.hideAutoSuggestion = function () {
       $('#autoSuggestionContainer').empty();
-      $('.suggestion-search-data-parent').css('visibility', 'hidden');
+      $('.suggestion-search-data-parent').css('display', 'none');
     }
 
     FindlySDK.prototype.showAutoSuggestion = function () {
-      $('.suggestion-search-data-parent').css('visibility', 'visible');
+      $('.suggestion-search-data-parent').css('display', 'block');
     }
 
     // top-search-template --start///
