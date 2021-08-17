@@ -1160,7 +1160,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         return false;
       }
     } else if(this.selectedStage.type == 'keyword_extraction' || this.selectedStage.type == 'semantic_meaning'){
-      if(!map.target_field || !map.model || !map.source_field){
+      if(!map.target_field || !map.source_field){ // removing this ' || !map.model ' parameter to exectute the removal of choose model
         return false;
       }
     } else if(this.selectedStage.type == 'exclude_document'){

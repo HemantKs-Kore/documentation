@@ -502,7 +502,8 @@
                     </ul>
                   </div>
                 </div>
-                <div class="kr-sg-dropdowns col-4 input-box" *ngIf="selectedStage.type === 'semantic_meaning'">
+                <!-- adding d-none class to hide the Choose Model -->
+                <div class="kr-sg-dropdowns col-4 input-box d-none" *ngIf="selectedStage.type === 'semantic_meaning'">
                   <div class="label-text">{{'workbench.choose_model' | translate}}</div>
                   <div class="dropup dropdown-open">
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
@@ -521,7 +522,7 @@
                     </ul>
                   </div>
                 </div>
-                <div class="kr-sg-dropdowns col-4 input-box" *ngIf="selectedStage.type === 'keyword_extraction'">
+                <div class="kr-sg-dropdowns col-4 input-box d-none" *ngIf="selectedStage.type === 'keyword_extraction'">
                   <div class="label-text">{{'workbench.choose_model' | translate}}</div>
                   <div class="dropup dropdown-open">
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
@@ -637,7 +638,8 @@
                 </ul>
               </div>
             </div>
-            <div class="kr-sg-dropdowns col-4 input-box" *ngIf="selectedStage.type === 'semantic_meaning'">
+            <!-- adding d-none class to hide the Choose Model -->
+            <div class="kr-sg-dropdowns col-4 input-box d-none" *ngIf="selectedStage.type === 'semantic_meaning'">
               <div class="label-text">{{'workbench.choose_model' | translate}}</div>
               <div class="dropup dropdown-open">
                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{newMappingObj[selectedStage.type].defaultValue.model? newMappingObj[selectedStage.type].defaultValue.model: ('workbench.choose_model' | translate)}}</button>
@@ -648,7 +650,8 @@
                 </ul>
               </div>
             </div>
-            <div class="kr-sg-dropdowns col-4 input-box" *ngIf="selectedStage.type === 'keyword_extraction'">
+            <!-- adding d-none class to hide the Choose Model -->
+            <div class="kr-sg-dropdowns col-4 input-box d-none" *ngIf="selectedStage.type === 'keyword_extraction'">
               <div class="label-text">{{'workbench.choose_model' | translate}}</div>
               <div class="dropup dropdown-open">
                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">

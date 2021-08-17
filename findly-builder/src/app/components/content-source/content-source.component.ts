@@ -897,7 +897,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       data: {
         title: 'Delete Document',
         newTitle: 'Are you sure you want to delete?',
-        body: 'All the Pages associated with this source will be deleted.',
+        body: 'All the Docs associated with this source will be deleted.',
         buttons: [{ key: 'yes', label: 'delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
