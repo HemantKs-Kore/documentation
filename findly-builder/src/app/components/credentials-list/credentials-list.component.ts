@@ -832,90 +832,48 @@ export class CredentialsListComponent implements OnInit {
       res => {
         this.channnelConguired = res.apps;
         this.firstlistData = res.apps[0]; 
-        let scopeObj = []
-        this.channnelConguired['customScopeObj'] =[];  
-        this.channnelConguired.forEach(element => {
-        this.channnelConguired['customScopeObj'].push(element.scope[2].scopes)
-        scopeObj.push(element.scope[2].scopes)
-       });
-       let parentArr = []
-       scopeObj.forEach(element => {
-        //  let arr = [];
-        element['arr']=[]
-         element.forEach(childElement => {
-           this.scopeList.forEach(scopeElement => {
-            let tooltipObj : any = {}
-            if(childElement == scopeElement.title){
-              tooltipObj['scopeTitle'] = scopeElement.title,
-               tooltipObj['scopeDesc'] = scopeElement.desc
-               element['arr'].push(tooltipObj) 
-            }
-          });
-         });
-        //  parentArr.push() 
-       });
-        this.channnelConguired.forEach((elementChannel, index) => {
-          elementChannel['customScopeObj'] = [];
-          scopeObj.forEach((elementScope , childIndex) => {
-            if(index == childIndex){
-              elementChannel['customScopeObj'].push(elementScope)  
-            }
-           
-          });
-        });
 
+         // Scopes code for API Scopes initial //
+      //   let scopeObj = []
+      //   this.channnelConguired['customScopeObj'] =[];  
+      //   this.channnelConguired.forEach(element => {
+      //   this.channnelConguired['customScopeObj'].push(element.scope[2].scopes)
+      //   scopeObj.push(element.scope[2].scopes)
+      //  });
+      //  let parentArr = []
+      //  scopeObj.forEach(element => {
+      //   //  let arr = [];
+      //   element['arr']=[]
+      //    element.forEach(childElement => {
+      //      this.scopeList.forEach(scopeElement => {
+      //       let tooltipObj : any = {}
+      //       if(childElement == scopeElement.title){
+      //         tooltipObj['scopeTitle'] = scopeElement.title,
+      //          tooltipObj['scopeDesc'] = scopeElement.desc
+      //          element['arr'].push(tooltipObj) 
+      //       }
+      //     });
+      //    });
+      //   //  parentArr.push() 
+      //  });
+      //   this.channnelConguired.forEach((elementChannel, index) => {
+      //     elementChannel['customScopeObj'] = [];
+      //     scopeObj.forEach((elementScope , childIndex) => {
+      //       if(index == childIndex){
+      //         elementChannel['customScopeObj'].push(elementScope)  
+      //       }
 
+      //     });
+      //   });
+    // Scopes code for API Scopes end //
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // comment old code
-        const uniqueValuesSet = new Set();
-        // this.scopeList.forEach(element => {
-          // this.channnelConguired.forEach(scopeData => {
-          //   if(scopeData.scope[2] && scopeData.scope[2].scopes){
-          //     // scopeData.scope[2]['scopesObj'] = [];
-          //     scopeData.scope[2].scopes.forEach(eachScope => {
-          //       this.scopeList.forEach(element => {
-          //       let tooltipObj : any = {}
-          //     if(element.title == eachScope){
-          //         tooltipObj['scopeTitle'] = element.title,
-          //         tooltipObj['scopeDesc'] = element.desc
-          //         scopeObj.push(tooltipObj)
-          //       }
-          //       // const filteredArr = scopeObj.filter((obj) => {
-          //       //   const isPresentInSet = uniqueValuesSet.has(obj.scopeTitle);
-          //       //   uniqueValuesSet.add(obj.scopeTitle);
-          //       //   uniqueValuesSet.add(obj.scopeDesc);
-          //       //   return !isPresentInSet;
-          //       // });
-          //       scopeData.scope[2]['scopesObj'] = [...scopeObj]
-          //     });
-          //     });      
-          //   }
-          // });         
-      // });
-          
         // this.firstlistData.lastModifiedOn = moment(this.firstlistData.lastModifiedOn).format('MM/DD/YYYY - hh:mmA');
         // var moment = require('moment/moment');
         // if (this.channnelConguired.apps.length > 0) {
         //   this.existingCredential = true;
         // }
 
-        console.log('$$$$$$$$$',this.channnelConguired)
+        // console.log('$$$$$$$$$',this.channnelConguired)
         if (res.length > 0) {
           this.loadingContent = false;
           this.loadingContent1 = true;

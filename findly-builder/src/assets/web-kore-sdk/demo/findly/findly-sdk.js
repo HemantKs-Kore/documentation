@@ -252,8 +252,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.previousDataobj = '';
       vars.customizeView = false;
       vars.showingMatchedResults = false;
-
+      vars.isSocketInitialize = false;
       vars.locationObject = {};
+      vars.botConfig ={};
 
       vars.experimentsObject = {}; // Local Object for Storing Experiments-Related Data (QueryPipelineID, Relay, RequestID)
 
@@ -2790,6 +2791,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $(document).off('click', '.accordion').on('click', '.accordion', function (evet) {
         $(evet.target).closest('.accordion').toggleClass('acc-active');
         var panel = $(evet.target).closest('.accordion').next();
+        if(panel[0].scrollHeight == '16'){
+          $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").show();
+          return;
+        }
+       
         //if($(evet.target).next().length){
         if (panel[0].style.maxHeight || $(evet.target).hasClass('best-match')) {
           if (panel[0].style.maxHeight && panel[0].style.maxHeight.toString().split('px')[0] == '16') {
@@ -2798,23 +2804,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if ($(evet.target).hasClass('best-match')) {
             $(evet.target).removeClass('best-match')
           }
-
-          panel[0].style.maxHeight = null;
-          panel[0].style.overflow = "hidden";
           panel[0].style.dispaly = 'none';
-          setTimeout(() => {
-            $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").show();
-          }, 100);
+          
+            panel[0].style.overflow = "hidden";
+          setTimeout(()=>{
+          $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").show();
+          panel[0].style.maxHeight = null;
+          },150)
         } else {
+          
           $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").hide();
-          setTimeout(() => {
-            panel[0].style.dispaly = 'block';
-          }, 100);
+          panel[0].style.dispaly = 'block';
           panel[0].style.maxHeight = panel[0].scrollHeight + "px";
           if (!panel[0].classList.contains('carousel')) {
             panel[0].style.overflow = "initial";
           }
         }
+        
         //}
         if ($(evet.target).hasClass('acc-active')) {
           $(evet.target).next().parent().next().hide();
@@ -4171,6 +4177,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         if ($('body').hasClass('top-down')) {
           _self.sendMessageToSearch('user', null, null, (_self.isDev == true) ? true : false);
+          _self.resetPingMessage();
+          _self.resetSocketDisconnection();
         }
         if (_self.isDev || _self.vars.loggedInUser) {
           _self.vars.searchObject.searchText = e.currentTarget.title.toLowerCase();
@@ -5314,7 +5322,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('#show-all-results-container').hide();
         $('.typingIndicatorContent').css('display', 'none');
         _self.vars.selectedFacetFromSearch = "all results"
-        clearTimeout(_pingTimer);
+        _self.destroy();
       })
       //_self.bindSearchActionEvents();
 
@@ -5368,12 +5376,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
           var keyCode = e.keyCode || e.which;
           keyCode = Number(keyCode);
-          if ($('body').hasClass('top-down') && keyCode !== 13) {
+          if ( keyCode !== 13) {
             _self.vars.enterIsClicked = false;
           } else if ($('body').hasClass('top-down') && keyCode == 13) {
             _self.vars.enterIsClicked = true;
             $('#live-search-result-box').hide();
             $('#frequently-searched-box').hide();
+          }else if(!$('body').hasClass('top-down') && keyCode == 13){
+            _self.vars.enterIsClicked = true;
+            $('.search-body').css('display', 'none');
+            $('.search-body').addClass('hide');
           }
           if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
             _self.closeGreetingMsg();
@@ -5389,6 +5401,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           //   $('.search-body').removeClass('hide');
           //   $('#searchChatContainer').addClass('bgfocus');
           // }
+          if (window.isBotLocked) {
+            $('.search-body').css('display', 'none');
+            $('.search-body').addClass('hide');
+          }
           if (!self.customSearchResult) {
             $('.search-chat-container').empty();
           }
@@ -5497,6 +5513,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var searchText = $('#search').val() || (_self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : "") || null;
             _self.closeGreetingMsg();
             // if (!$('body').hasClass('top-down')) {
+            _self.resetPingMessage();
+            _self.resetSocketDisconnection();
             _self.sendMessageToSearch('user', null, null, (_self.isDev == true) ? true : false);
             if (_self.isDev) {
               setTimeout(() => {
@@ -5654,6 +5672,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('sa-handel-go-button');
           _self.hideBottomUpAllResults();
           _self.pubSub.subscribe('sa-input-keyup', (msg, data) => {
+            if (!$('body').hasClass('top-down') &&  _self.vars.enterIsClicked) {
+              $('.search-body').css('display', 'none');
+              $('.search-body').addClass('hide');
+              return;
+            }
             if ($('body').hasClass('top-down')) {
               $('.top-down-suggestion').val('');
             } else {
@@ -5855,6 +5878,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             web: web.slice(0, 2),
                             tasks: tasks.slice(0, 2),
                             files: files.slice(0, 2),
+                            data: data.slice(0, 2),
                             showAllResults: true,
                             noResults: false,
                             taskPrefix: 'SUGGESTED',
@@ -5939,6 +5963,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               web: web,
                               tasks: tasks,
                               files: files,
+                              data: data,
                               showAllResults: false,
                               noResults: true,
                               taskPrefix: 'MATCHED',
@@ -5954,7 +5979,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               $('.search-body').scrollTop(2);
                             }, 100);
                             if ($('body').hasClass('top-down')) {
+                              _self.pubSub.publish('sa-show-live-search-suggestion', dataObj);
                               _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch | 'all results' } });
+                             
                             } else {
                               _self.pubSub.publish('sa-search-result', dataObj);
                               _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
@@ -6007,6 +6034,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
 
         $(dataHTML).off('focus', '#search').on('focus', '#search', function (e) {
+          if(!_self.vars.isSocketInitialize){
+            _self.bot.init(_self.vars.botConfig, _self.config.messageHistoryLimit);
+            _self.bindSocketEvents();
+            _self.vars.isSocketInitialize = true;
+            _self.resetSocketDisconnection();
+          }
           _self.pubSub.publish('sa-search-focus', {});
           _self.pubSub.publish('sa-handel-chat-container-view');
           if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
@@ -6697,7 +6730,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             //   container : '.structured-data-container', /*  start with '.' if class or '#' if id of the element*/ isFullResults : false, selectedFacet : 'all results', isSearch : true, dataObj
             // });
             $(searchData).data(dataObj);
-            if (!topMatchTask && !_self.customSearchResult) {
+            if (!_self.customSearchResult) {
+              // if (!topMatchTask && !_self.customSearchResult) {
               _self.sendMessageToSearch('bot', _botMessage, null, (_self.isDev == true) ? true : false);
               if (_self.isDev) {
                 setTimeout(() => {
@@ -8642,26 +8676,49 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       config = config || _self.config.botOptions
       _self.bot = requireKr('/KoreBot.js').instance();
-      // _self.bot.init(_self.config.botOptions, _self.config.messageHistoryLimit)
+      _self.vars.botConfig  = config || _self.config.botOptions;
       _self.bot.init(config, _self.config.messageHistoryLimit);
+      _self.vars.isSocketInitialize = true;
       _self.bindSocketEvents();
-
+      _self.resetSocketDisconnection();
     };
 
     FindlySDK.prototype.destroy = function (config) {
+      var _self = this;
       this.bot.destroy();
+     _self.clearAllTimeoutTimer();
+    }
+    FindlySDK.prototype.clearAllTimeoutTimer = function (config) {
+      var _self = this;
       clearTimeout(_pingTimer);
+      clearTimeout(_disconnectBotTimer);
+      _self.vars.isSocketInitialize = false;
+      $('.typingIndicatorContent').css('display', 'none');
+    }
+    FindlySDK.prototype.resetSocketDisconnection = function () {
+      var _self = this;
+      clearTimeout(_disconnectBotTimer);
+      _disconnectBotTimer = setTimeout(function () {
+        if(_self.vars.isSocketInitialize){
+          _self.destroy();
+          _self.vars.isSocketInitialize = false;
+          $('.typingIndicatorContent').css('display', 'none');
+        }
+       
+      }, _disconnectTime);
     }
     FindlySDK.prototype.resetPingMessage = function () {
       var _self = this;
       clearTimeout(_pingTimer);
       _pingTimer = setTimeout(function () {
-        var messageToBot = {};
+        if(_self.vars.isSocketInitialize){
+          var messageToBot = {};
         messageToBot["type"] = 'ping';
         _self.bot.sendMessage(messageToBot, function messageSent() {
 
         });
         _self.resetPingMessage();
+        }
       }, _pingTime);
     }
     FindlySDK.prototype.bindSocketEvents = function () {
@@ -8903,9 +8960,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }, 350);
         }
       });
-      if (_self.isDev == false) {
+      // if (_self.isDev == false) {
         _self.resetPingMessage();
-      }
+        _self.resetSocketDisconnection();
+      // }
     };
 
     FindlySDK.prototype.getTemplate = function (type) {
@@ -10835,6 +10893,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       meetingTimeRef = [];
     var meetingArray = [];
     var _pingTimer, _pingTime = 30000;
+    var _disconnectBotTimer,_disconnectTime = 900000;
     var indicatorTimer;
     var mainTemplateBdr,
       localPanelDetail = {},
@@ -20873,7 +20932,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('#suggestion').val('');
         $(".top-down-suggestion").val('');
         $(".search-top-down").val('');
-        clearTimeout(_pingTimer);
+        _self.destroy();
       });
     }
     FindlySDK.prototype.showSuggestionbox = function (suggestions) {
@@ -20886,7 +20945,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           maxCount: searchConfigurationCopy.querySuggestionsLimit ? searchConfigurationCopy.querySuggestionsLimit : 4
         });
         $('#auto-query-box').append(template);
-        if (_self.vars.enterIsClicked) {
+        if (_self.vars.enterIsClicked || !$(".search-top-down").val()) {
           $('#live-search-result-box').hide();
           return
         } else {
@@ -21756,14 +21815,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           return;
         }
         if ((data.data || []).length || (data.faqs || []).length || (data.web || []).length || (data.files || []).length) {
-          if (!_self.vars.enterIsClicked) {
+          if (!_self.vars.enterIsClicked  && $(".search-top-down").val()) {
             $('#live-search-result-box').show();
           } else {
             $('#live-search-result-box').hide();
             return;
           }
         } else {
-          $('#live-search-result-box').hide();
+          $('.data-container .faqs-live-data-container').empty();
+          $('.data-container .web-live-data-container').empty();
+          $('.data-container .files-live-data-container').empty();
+          $('.data-container .structured-live-data-container').empty();
+          if ($('#auto-query-box').find('.suggestion-box').length && $(".search-top-down").val()) {
+            $('#live-search-result-box').show();
+          } else {
+            $('#live-search-result-box').hide();
+          }
         }
       });
 
@@ -22716,7 +22783,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       if ($('body').hasClass('top-down')) {
         if ($('.data-container .structured-data-header').length) {
-          if (_self.vars.enterIsClicked) {
+          if (_self.vars.enterIsClicked || !$(".search-top-down").val()) {
             $('#live-search-result-box').hide();
             return;
           }
