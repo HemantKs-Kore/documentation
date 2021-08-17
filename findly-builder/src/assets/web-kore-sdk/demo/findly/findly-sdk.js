@@ -5659,8 +5659,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
 
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
-          $('#autoSuggestionContainer').empty();
-          $('.suggestion-search-data-parent').css('display', 'none');
+          if(!$('#search').val()){
+            $('#autoSuggestionContainer').empty();
+            $('.suggestion-search-data-parent').css('display', 'none');
+          }
           var keyCode = e.keyCode || e.which;
           keyCode = Number(keyCode);
           if ($('body').hasClass('top-down') && keyCode !== 13) {
