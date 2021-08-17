@@ -4088,7 +4088,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         };
         if (!_self.customSearchResult) {
           var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
-          $('.search-body').html(freqData);
+          $('.search-body .finalResults').hide();
+          $('.searchBox.Search-BG-Copy').remove();
+          $('.search-body').append(freqData);
         } else {
           _self.pubSub.publish('sa-freq-data', tmplData);
           _self.pubSub.publish('sa-show-freq-data', tmplData);
@@ -5278,7 +5280,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('.search-body').addClass('hide');
                   }
                   console.log("searchConfigurationCopy", searchConfigurationCopy);
-                  $('.search-body').html(freqData);
+                  $('.search-body .finalResults').hide();
+                  $('.searchBox.Search-BG-Copy').remove();
+                  $('.search-body').append(freqData);
                 }
               }
             }
@@ -5626,7 +5630,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             };
             if (!_self.customSearchResult) {
               var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
-              $('.search-body').html(freqData);
+              $('.search-body .finalResults').hide();
+              $('.searchBox.Search-BG-Copy').remove();
+              $('.search-body').append(freqData);
               // _self.pubSub.publish('sa-generate-recent-search');
             } else {
               _self.pubSub.publish('sa-freq-data', tmplData);
@@ -22813,6 +22819,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         } else {
           $('#live-search-result-box').hide();
         }
+      }else{
+        $('.searchBox.Search-BG-Copy').remove();
+        $('.search-body .finalResults').show();
       }
     }
     FindlySDK.prototype.bindCarouselForActionsTemplate = function (actionContainer) {
