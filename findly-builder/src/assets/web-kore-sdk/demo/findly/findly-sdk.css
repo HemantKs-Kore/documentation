@@ -7360,6 +7360,9 @@ body{
     left: 0px;
     /* display: none; */
 }
+.searchAssist-kore-chat-window.search-container.conversation .search-body .finalResults,.searchAssist-kore-chat-window.search-container.conversation .search-body .searchBox{
+    margin: 20px;
+}
 .searchAssist-kore-chat-window.search-container.conversation .search-body{
     border-radius: 6px;
     background: #FFFFFF;
@@ -7368,7 +7371,8 @@ body{
     bottom: 0;
     position: relative;
     width: auto !important;
-    padding: 20px;
+    /* padding: 20px; */
+    padding: 0px;
     height: auto;
     box-shadow: 0px 2px 5px rgba(32, 33, 36, 0.2);
 

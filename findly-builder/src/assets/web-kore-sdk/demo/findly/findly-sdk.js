@@ -7029,6 +7029,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             helpers: helpers
           });
           $('#searchChatContainer').append(template);
+          var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+          $('#searchChatContainer').animate({ scrollTop: scrollBottom });
           if (!$('body').hasClass('top-down')) {
             setTimeout(function () {
               if ($('.searchAssist-kore-chat-window.search-container').hasClass('active')) {
