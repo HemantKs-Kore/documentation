@@ -289,6 +289,15 @@
             width: 16px;
             height: 16px;
             top: -7px;
+            outline: 0 !important;
+            &::after{
+                background-color: #fff !important;
+            }
+            &:hover{
+                &::after{
+                    background-color: #fff !important;
+                }
+            }
         }
         .ng5-slider-selection {
             z-index: 2;
