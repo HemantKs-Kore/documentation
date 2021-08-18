@@ -1422,15 +1422,18 @@ and open the template in the editor.
                 padding: 9.5px 10px 9.05px 10px;
             }
             .search-box{
-                padding: 0 10px;
                 position: relative;
+                margin: 0 10px;
+                position: relative;
+                padding: 0;
+                border-radius: 0;
                 &::before{
                     content: "";                  
                     position: absolute;
                     line-height: 34px;
                     font-size: 12px;
                     height: 100%;
-                    left: 10px;
+                    left: 0px;
                     color: $secondaryColor;  
                     background-image: url('^assets/icons/search.svg');                
                     background-size: 14px;
@@ -1448,6 +1451,7 @@ and open the template in the editor.
                     font-size: 14px;
                     padding-left: 20px;
                     outline: 0 !important;
+                    border-radius: 0;
                     &::placeholder{
                         color:$secondaryColor;
                     }
@@ -1505,15 +1509,18 @@ and open the template in the editor.
             padding: 9.5px 10px 9.05px 10px;
         }
         .search-box{
-            padding: 0 10px;
             position: relative;
+            margin: 0 10px;
+            position: relative;
+            padding: 0;
+            border-radius: 0;
             &::before{
                 content: "";                  
                 position: absolute;
                 line-height: 34px;
                 font-size: 12px;
                 height: 100%;
-                left: 10px;
+                left: 0px;
                 color: $secondaryColor;  
                 background-image: url('^assets/icons/search.svg');                
                 background-size: 14px;
@@ -1531,6 +1538,7 @@ and open the template in the editor.
                 font-size: 14px;
                 padding-left: 20px;
                 outline: 0 !important;
+                border-radius: 0;
                 &::placeholder{
                     color:$secondaryColor;
                 }
