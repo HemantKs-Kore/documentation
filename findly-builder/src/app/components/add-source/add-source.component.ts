@@ -1409,7 +1409,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.importFaqInprogress = true;
       this.openStatusModal();
       this.addSourceModalPopRef.close();
-      this.dockService.trigger(true)
+      //this.dockService.trigger(true)
     },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1419,9 +1419,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
       });
-    this.service.invoke('get.dockStatus', quaryparms, payload).subscribe(res1 => {
+    // this.service.invoke('get.dockStatus', quaryparms, payload).subscribe(res1 => {
 
-    });
+    // });
 
   }
   //popup for crawling confirmation

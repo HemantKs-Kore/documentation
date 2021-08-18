@@ -206,7 +206,7 @@
                   <span *ngIf="statusObj[source.recentStatus]?.name != 'In Progress'">{{statusObj[source.recentStatus]?.name}}</span> -->
                   <img 
                     src="assets/icons/failed-status.svg" class="failed-img" placement="top"
-                    ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:'Execution failed due to timeout'}}"
+                    ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:source.vailadtionTootlip}}"
                     container="body" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'"><img
                     src="assets/icons/ringLoading.svg" class="ml-2 inProgress"
                     *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" placement="top" container='body'

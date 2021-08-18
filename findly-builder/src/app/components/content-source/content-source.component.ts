@@ -360,7 +360,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00";
           element['schedule_duration'] = this.duration(element['schedule_duration']);
         }
-
+        if(element && element.validations && element.validations.url && !element.validations.url.validated){
+          element['vailadtionTootlip'] = element.validations.url.msg
+        }
         // let hr = element['schedule_duration'].split(":")[0];
         // let min = element['schedule_duration'].split(":")[1];
         // let sec = element['schedule_duration'].split(":")[2];
