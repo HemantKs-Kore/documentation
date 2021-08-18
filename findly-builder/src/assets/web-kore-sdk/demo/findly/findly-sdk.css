@@ -14444,10 +14444,10 @@ border: 0;
     border-radius: 2px !important;
     border: 0;
     z-index: 1;
-    color: var(--sdk-primary-font-color) !important;
+    color: var(--sdk-bg-gary-white-color) !important;
     font-size: 18px !important;
     padding-top: 8px;
-    background: var(--sdk-bg-gary-white-color);
+    background: var(--sdk-bg-shark-black-color);
 }
 
 /* .searchAssist-kore-chat-window .total-structured-data-wrap .purejscarousel-btn:hover {
@@ -14477,7 +14477,7 @@ border: 0;
     transform: none !important;
 padding: 0;
     border: 0;
-    right: -10px;
+    right: 0px;
 }
 
 .searchAssist-kore-chat-window .total-structured-data-wrap  .purejscarousel-btn.purejscarousel-btn-next::before {
