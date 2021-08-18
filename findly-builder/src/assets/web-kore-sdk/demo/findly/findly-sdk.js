@@ -6868,6 +6868,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if ($('.search-container').hasClass('conversation')) {
             $('.search-body').addClass('hide');
             $('#searchChatContainer').removeClass('bgfocus');
+            clearTimeout(indicatorTimer);
             $('.typingIndicatorContent').css('display', 'none');
             _self.sendMessageToSearch('bot', 'Unable to find results at this moment');
           }
@@ -7041,7 +7042,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               } else {
                 _self.showTypingIndicator();
               }
-            }, 500);
+            }, 200);
 
           }
         }
@@ -7060,6 +7061,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
       if (type === 'bot') {
+        clearTimeout(indicatorTimer);
+        $('.typingIndicatorContent').css('display', 'none');
         try {
           messageData = JSON.parse(mesageData);
         } catch (error) {
