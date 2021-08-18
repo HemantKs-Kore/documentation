@@ -22344,8 +22344,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return d.toDateString() + " at " + helpers.formatAMPM(d);
       },
       'convertMDtoHTML': function (val, responseType, msgItem, isRemoveln) {
-        val = val ? val.toString().replaceAll(/[\r\n]+/g, '') : val;
-        val = (val && isRemoveln) ? val.toString().replaceAll(/[\r\n]+/g, '.').replaceAll('<BR>', '.') : val;
+        val = val ? val.toString().replaceAll(/[\r\n]+/g, ' ') : val;
+        val = val? val.toString().replaceAll('•', '• ') : val;
+        val = (val && isRemoveln) ? val.toString().replaceAll(/[\r\n]+/g, ' ').replaceAll('<BR>', ' ') : val;
         var hyperLinksMap = {};
         var mdre = {};
         // mdre.date = new RegExp(/\\d\(\s*(.{10})\s*\)/g);
