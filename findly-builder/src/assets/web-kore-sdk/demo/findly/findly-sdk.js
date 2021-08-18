@@ -1182,9 +1182,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="actions-link">Context</div>\
               </div>\
             <div id="searchChatContainer"></div>\
-              <div class="search-body">\
+            <div class="live-seach-auto-suggestion-parent">\
+              <div class="search-body">\</div>\
+              <div id="autoSuggestionContainer"></div>\
             </div>\
-            <div id="autoSuggestionContainer"></div>\
           </div>\
           <div class="search-modal-body hide">\
           </div>\
@@ -3983,7 +3984,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $('.suggestions-close-icon').off('click').on('click', function (e) {
         $('#autoSuggestionContainer').empty();
-        $('.suggestion-search-data-parent').css('visibility', 'hidden');
+        $('.suggestion-search-data-parent').css('display', 'none');
         e.stopPropagation();
         e.stopImmediatePropagation();
       });
@@ -4087,7 +4088,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         };
         if (!_self.customSearchResult) {
           var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
-          $('.search-body').html(freqData);
+          $('.search-body .finalResults').hide();
+          $('.searchBox.Search-BG-Copy').remove();
+          $('.search-body').append(freqData);
         } else {
           _self.pubSub.publish('sa-freq-data', tmplData);
           _self.pubSub.publish('sa-show-freq-data', tmplData);
@@ -5145,8 +5148,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "streamId": _self.API.streamId,
         "isDev": _self.isDev,
       }
+
       if (!payload.query || (payload.query && !payload.query.length)) {
-        payload.query = $('#search').val();
+        payload.query = $('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val();
       }
       if (_self.isDev) {
         payload['customize'] = _self.vars.customizeView;
@@ -5208,7 +5212,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.vars.isRecentSearchesLoading = false;
       _self.pubSub.unsubscribe('sa-generate-recent-search');
       _self.pubSub.subscribe('sa-generate-recent-search', data => {
-        if (_self.vars.isRecentSearchesLoading) {
+        if (_self.vars.isRecentSearchesLoading || ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) || (($('body').hasClass('top-down') && $('.search-top-down').val()))) {
+          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+            $('.search-body').css('display', 'none');
+            $('.search-body').addClass('hide');
+          }
           return;
         }
         _self.vars.isRecentSearchesLoading = true;
@@ -5272,7 +5280,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('.search-body').addClass('hide');
                   }
                   console.log("searchConfigurationCopy", searchConfigurationCopy);
-                  $('.search-body').html(freqData);
+                  $('.search-body .finalResults').hide();
+                  $('.searchBox.Search-BG-Copy').remove();
+                  $('.search-body').append(freqData);
                 }
               }
             }
@@ -5391,7 +5401,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.closeGreetingMsg();
             $('.search-body').css('display', 'block');
             $('.search-body').removeClass('hide');
-          } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
+          } else if ((!$('body').hasClass('top-down') && (!$('.bottom-up-search').val() || window.isBotLocked))) {
             $('.search-body').css('display', 'none');
             $('.search-body').addClass('hide');
           }
@@ -5414,7 +5424,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.enterIsClicked = false;
           }
           if (code !== 13 && code !== 40 && code !== 38) {
-            // _self.pubSub.publish('sa-input-keyup');
+            _self.pubSub.publish('sa-input-keyup');
           }
           if (code == 9 || code == 39) {
             $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
@@ -5492,7 +5502,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             }
 
-            _self.vars.searchObject.searchText = $('#search').val();
+            _self.vars.searchObject.searchText = $('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val();
 
             if ($('body').hasClass('top-down')) {
               $('.top-down-suggestion').val($('.search-top-down').val());
@@ -5510,7 +5520,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.searchFacetsList([]);
             }
             // debugger;
-            var searchText = $('#search').val() || (_self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : "") || null;
+            var searchText = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) || (_self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : "") || null;
             _self.closeGreetingMsg();
             // if (!$('body').hasClass('top-down')) {
             _self.resetPingMessage();
@@ -5575,7 +5585,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }, 1000);
 
             } else {
-              if (!$('#search').val()) {
+              if (!($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
                 _self.bindFrequentData();
               }
             }
@@ -5620,7 +5630,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             };
             if (!_self.customSearchResult) {
               var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
-              $('.search-body').html(freqData);
+              $('.search-body .finalResults').hide();
+              $('.searchBox.Search-BG-Copy').remove();
+              $('.search-body').append(freqData);
               // _self.pubSub.publish('sa-generate-recent-search');
             } else {
               _self.pubSub.publish('sa-freq-data', tmplData);
@@ -5658,6 +5670,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
 
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
+          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+            $('#autoSuggestionContainer').empty();
+            $('.suggestion-search-data-parent').css('display', 'none');
+          }
           var keyCode = e.keyCode || e.which;
           keyCode = Number(keyCode);
           if ($('body').hasClass('top-down') && keyCode !== 13) {
@@ -5690,7 +5706,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.search-body').addClass('hide');
             }
             _self.appendSuggestions();
-            if (!$('#search').val()) {
+            if (!($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
               if ($("#auto-query-box").find(".suggestion-box").length) {
                 $('.suggestion-box').remove();
               }
@@ -5776,22 +5792,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   if (!$('body').hasClass('top-down')) { // bottomUp
                     _self.hideBottomUpAllResults();
                   } else {
-                    $(".top-down-suggestion").val($('#search').val());
+                    $(".top-down-suggestion").val(($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()));
                     $('#live-search-result-box').hide();
                   }
-                  if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
-                    $('.search-body').css('display', 'block');
-                    $('.search-body').removeClass('hide');
-                  } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
-                    $('.search-body').css('display', 'none');
-                    $('.search-body').addClass('hide');
-                  }
+
                   if ((searchConfigurationCopy.liveSearchResultsLimit !== 0)) {
-                    if (_self.vars.previousLivesearchData == $('#search').val()) {
+                    if (_self.vars.previousLivesearchData == ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
                       _self.checkIsPreviousLiveSearchDataExists();
                       return;
                     }
-                    _self.vars.previousLivesearchData = $('#search').val();
+                    _self.vars.previousLivesearchData = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
                     _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
                       if ($('body').hasClass('top-down') && _self.vars.enterIsClicked) {
                         $('#frequently-searched-box').hide();
@@ -5842,6 +5852,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         }
                         // if (res && res.results && res.results.length) {
                         if (res && res.results && (res.results.file.length || res.results.faq.length || res.results.data.length || res.results.web.length || res.results.task.length)) {
+                          var liveSearchStructuredDataMapping = _self.structuredDataConfig.liveSearchInterface.mapping;
+                          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val()) && ((res || {}).facets['all results'] !== (res || {}).facets['task'])) {
+                            if ((!liveSearchStructuredDataMapping && (((res || {}).facets['all results'] == (res || {}).facets['data']) || ((res || {}).facets['all results'] == ((res || {}).facets['data'] + (res || {}).facets['task']))))) {
+                              $('.search-body').css('display', 'none');
+                              $('.search-body').addClass('hide');
+                            } else {
+                              $('.search-body').css('display', 'block');
+                              $('.search-body').removeClass('hide');
+                            }
+                          } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
+                            $('.search-body').css('display', 'none');
+                            $('.search-body').addClass('hide');
+                          }
                           _self.closeGreetingMsg();
                           // var liveResult = res.results;
 
@@ -5948,7 +5971,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
                           }
                         } else {
-                          if ($('#search').val()) {
+                          if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
                             var dataObj = {
                               faqs: faqs,
                               web: web,
@@ -5983,6 +6006,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch | 'all results' } });
 
                             } else {
+                              $('.search-body').css('display', 'none');
+                              $('.search-body').addClass('hide');
                               _self.pubSub.publish('sa-search-result', dataObj);
                               _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
                             }
@@ -6046,6 +6071,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (!window.isBotLocked) {
               $('.search-body').removeClass('hide');
               $('#searchChatContainer').addClass('bgfocus');
+            } else {
+              $('.search-body').addClass('hide');
+              $('.search-body').css('display', 'none');
             }
           }
           else {
@@ -6067,7 +6095,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
             e.stopPropagation();
           }
-          if ((_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recents || []).length || (_self.vars.searchObject.popularSearches && _self.vars.searchObject.popularSearches.length)) && !$('#search').val()) {
+          if ((_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recents || []).length || (_self.vars.searchObject.popularSearches && _self.vars.searchObject.popularSearches.length)) && !($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
             $('.search-container').addClass('active');
             if (_self.showGreetingMsg) {
               _self.showGreetingMsg = false;
@@ -6101,13 +6129,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.deleteRecents();
             _self.bindSearchActionEvents();
             _self.recentClick();
-          } else if ((_self.vars.searchObject.recentTasks.length || _self.vars.searchObject.recents.length || (_self.vars.searchObject.popularSearches && _self.vars.searchObject.popularSearches.length)) && $('#search').val()) {
+          } else if ((_self.vars.searchObject.recentTasks.length || _self.vars.searchObject.recents.length || (_self.vars.searchObject.popularSearches && _self.vars.searchObject.popularSearches.length)) && ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
             _self.closeGreetingMsg();
             if (!$('.search-container').hasClass('active')) {
               $('.search-container').addClass('active');
               e.stopPropagation();
             }
-          } else if ($('#search').val()) {
+          } else if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
             $('#search').trigger("keyup");
             _self.pubSub.publish('sa-input-keyup');
             if (!$('body').hasClass('top-down')) {
@@ -6121,12 +6149,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.search-container').addClass('active');
           e.stopPropagation();
         }
-        var searchText = $('#search').val() || _self.vars.searchObject.liveData.originalQuery;
+        var searchText = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) || _self.vars.searchObject.liveData.originalQuery;
         if (e.keyCode == 13) {
           if ($('.search-container').hasClass('conversation')) {
             $('.search-body').addClass('hide');
             $('#searchChatContainer').removeClass('bgfocus');
-            var searchText = $('#search').val() || _self.vars.searchObject.searchText;
+            var searchText = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) || _self.vars.searchObject.searchText;
             if (!($('.topdown-search-main-container').length)) {
               $('#search').val('');
               $('.bottom-up-search').val('');
@@ -6631,7 +6659,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           data: data
         }
         if ($('body').hasClass('top-down')) {
-          _self.previousDataobj = $('#search').val();
+          _self.previousDataobj = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
           _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true } });
         } else {
           _self.pubSub.publish('sa-search-result', dataObj);
@@ -6912,7 +6940,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('#searchChatContainer').addClass('bgfocus');
             }
           }
-          $('.suggestion-search-data-parent').css('visibility', 'visible');
+          $('.suggestion-search-data-parent').css('display', 'block');
         }
         if ($(event.target).closest('#searchChatContainer').length && !$(event.target).closest('#search').length) {
           event.stopPropagation();
@@ -6922,14 +6950,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.search-body').removeClass('h-100');
 
             $('.custom-header-container-center').css('visibility', 'visible');
-            $('.suggestion-search-data-parent').css('visibility', 'hidden');
+            $('.suggestion-search-data-parent').css('display', 'none');
           };
         }
         else if ($(event.target).closest('.heading').length) {
           event.stopPropagation();
           $('#searchChatContainer').removeClass('bgfocus');
           $('.search-body').addClass('hide');
-          $('.suggestion-search-data-parent').css('visibility', 'hidden');
+          $('.suggestion-search-data-parent').css('display', 'none');
         } else {
           if (!$(event.target).closest('.show-all-results-outer-wrap').length && !$(event.target).closest('#search').length) {
             if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
@@ -6938,7 +6966,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('#searchChatContainer').removeClass('bgfocus');
               }
             }
-            $('.suggestion-search-data-parent').css('visibility', 'hidden');
+            $('.suggestion-search-data-parent').css('display', 'none');
           }
         }
         if (!($(event.target).closest('#search-box-container').length || $(event.target).closest('#frequently-searched-box').length || $(event.target).closest('#live-search-result-box').length)) {
@@ -6988,8 +7016,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var devMode = _self.isDev ? 'true' : 'false';
       var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
 
-      if (type === 'user' && ($('#search').val() !== null) && ($('#search').val() !== undefined)) {
-        messageData.text = $('#search').val();
+      if (type === 'user' && (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) !== null) && (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) !== undefined)) {
+        messageData.text = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
         if (messageData.text && messageData.text.trim() && !_self.customSearchResult) {
           if (isSearchResultsMessage) {
             messageData.isSearchResultsMessage = true;
@@ -7001,6 +7029,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             helpers: helpers
           });
           $('#searchChatContainer').append(template);
+          var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+          $('#searchChatContainer').animate({ scrollTop: scrollBottom });
           if (!$('body').hasClass('top-down')) {
             setTimeout(function () {
               if ($('.searchAssist-kore-chat-window.search-container').hasClass('active')) {
@@ -8518,6 +8548,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // $('.search-modal-body').html(searchModal);
       // $('#search-modal').css('display', 'block');
       _self.searchEventBinding(dataHTML, 'search-container', {}, {});
+      var livesearchAutoSuggestionHtml = $('.live-seach-auto-suggestion-parent');
+      _self.bindPerfectScroll(livesearchAutoSuggestionHtml, '.search-body', null, 'searchBody');
+      _self.bindPerfectScroll(livesearchAutoSuggestionHtml, '#autoSuggestionContainer', null, 'suggestionContainer');
     };
     FindlySDK.prototype.initSearchAssistSDK = function (findlyConfig) {
       var _self = this;
@@ -8767,7 +8800,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 if ($('#conversation-container').is(':visible')) {
                   $('#search').val(((tempData.message[0].component.payload || {}).template || {}).originalQuery);
                 } else {
-                  $(".top-down-suggestion").val($('#search').val());
+                  $(".top-down-suggestion").val($('.searcj-top-down').val());
                   $('#live-search-result-box').hide();
                 }
                 $('#conversation-container').hide();
@@ -14250,7 +14283,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       _self.pubSub.subscribe('sa-handel-go-button', (msg, data) => {
         var isGoButtonDisabled = false;
-        if (!$('#search').val()) {
+        if (!($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
           isGoButtonDisabled = true;
         }
         else {
@@ -17087,8 +17120,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       $('.show-all').off('click').on('click', function (e) {
         if ($('.topdown-search-main-container').length) {
-          _self.vars.searchObject.searchText = $('#search').val();
-          $("#suggestion").val($('#search').val());
+          _self.vars.searchObject.searchText = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
+          $("#suggestion").val(($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()));
           _self.vars.showingMatchedResults = true;
           _self.searchFacetsList([]);
           _self.invokeSearch();
@@ -20246,8 +20279,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var structure = 'bottom';
         if ($('body').hasClass('top-down')) {
           structure = 'top';
-          if ($('#search').val()) {
-            _self.vars.searchObject.searchText = $('#search').val();
+          if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
+            _self.vars.searchObject.searchText = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
           }
         } else {
           structure = 'bottom';
@@ -20581,6 +20614,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       <div>\
         {{if suggestions && suggestions.length > 0}}\
           <div class="suggestion-search-data-parent">\
+          <div class="title-suggestion">Suggestions</div>\
             <!--<img class="suggestions-close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">-->\
             {{each(i, suggestion) suggestions.slice(0, querySuggestionsLimit)}}\
               <div class="search-suggested-title" suggestion="${suggestion}" id="${i}">\
@@ -20602,7 +20636,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var url = this.API.autoSuggestionsURL;
       var type = 'POST';
       var payload = {
-        "query": $('#search').val(),
+        "query": ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()),
         // "maxNumOfResults": 9,
         "maxNumOfResults": 5,
         "userId": _self.API.uuid,
@@ -20622,14 +20656,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           headers.auth = _self.config.botOptions.assertion;
         }
       }
-      if (!$('#search').val() || (searchConfigurationCopy.querySuggestionsLimit == 0 && !searchConfigurationCopy.autocompleteOpt)) {
-        _self.vars.previousAutosuggestionData = $('#search').val();
+      if (!($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) || (searchConfigurationCopy.querySuggestionsLimit == 0 && !searchConfigurationCopy.autocompleteOpt)) {
+        _self.vars.previousAutosuggestionData = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
         return;
       }
-      if (_self.vars.previousAutosuggestionData == $('#search').val()) {
+      if (_self.vars.previousAutosuggestionData == ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
         return;
       }
-      _self.vars.previousAutosuggestionData = $('#search').val();
+      _self.vars.previousAutosuggestionData = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
       $.ajax({
         url: url,
         type: type,
@@ -20675,6 +20709,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('.bottom-up-suggestion').hide();
               }
             }
+          } else {
+            $('#autoSuggestionContainer').empty();
           }
         },
         error: function (err) {
@@ -20702,11 +20738,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.hideAutoSuggestion = function () {
       $('#autoSuggestionContainer').empty();
-      $('.suggestion-search-data-parent').css('visibility', 'hidden');
+      $('.suggestion-search-data-parent').css('display', 'none');
     }
 
     FindlySDK.prototype.showAutoSuggestion = function () {
-      $('.suggestion-search-data-parent').css('visibility', 'visible');
+      $('.suggestion-search-data-parent').css('display', 'block');
     }
 
     // top-search-template --start///
@@ -20734,7 +20770,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('.top-down-wrapper').addClass('top-down-wrapper-height');;
               }
             }
-            _self.vars.searchObject.searchText = $('#search').val();
+            _self.vars.searchObject.searchText = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
             _self.vars.showingMatchedResults = true;
             _self.searchFacetsList([]);
             // $('#loaderDIV').show();
@@ -20750,7 +20786,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               //top-down-search-facets active -end//
             }, 500);
           }
-          if ($('#search').val()) {
+          if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
             $('.cancel-search').show();
           } else {
             $('.cancel-search').hide();
@@ -20761,7 +20797,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // if ($('body').hasClass('top-down')) {
           //   _self.vars.enterIsClicked = false;
           // }
-          if ($('#search').val()) {
+          if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
             $('.cancel-search').show();
           } else {
             $('.cancel-search').hide();
@@ -20804,7 +20840,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('#loaderDIV').hide();
 
           }, 600);
-          if ($('#search').val()) {
+          if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
             $('.cancel-search').show();
           } else {
             $('.cancel-search').hide();
@@ -20825,7 +20861,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('.top-down-wrapper').addClass('top-down-wrapper-height');
               }
             }
-            _self.vars.searchObject.searchText = $('#search').val();
+            _self.vars.searchObject.searchText = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
             _self.vars.showingMatchedResults = true;
             _self.searchFacetsList([]);
             $('#loaderDIV').show();
@@ -20843,7 +20879,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               //top-down-search-facets active -end//
             }, 1000);
           }
-          if ($('#search').val()) {
+          if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
             $('.cancel-search').show();
           } else {
             $('.cancel-search').hide();
@@ -20906,7 +20942,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
         $('#search-box-container').off('click', '.submit-button').on('click', '.submit-button', function (e) {
-          if ($('#search').val()) {
+          if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
             var e1 = $.Event("keydown", { which: 13 });
             $('#search').trigger(e1);
           }
@@ -20914,7 +20950,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       _self.pubSub.subscribe('sa-handel-submit-button', (msg, data) => {
         var isGoButtonDisabled = false;
-        if (!$('#search').val()) {
+        if (!($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
           isGoButtonDisabled = true;
         }
         else {
@@ -20941,7 +20977,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (suggestions.length) {
         var template = $(_self.getSuggestionTemplate('suggestionTemplate')).tmplProxy({
           suggestions: suggestions,
-          queryText: $('#search').val(),
+          queryText: ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()),
           maxCount: searchConfigurationCopy.querySuggestionsLimit ? searchConfigurationCopy.querySuggestionsLimit : 4
         });
         $('#auto-query-box').append(template);
@@ -22099,9 +22135,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.showAllClickEventTopDown = function (e) {
       var _self = this;
       if ($('.topdown-search-main-container').length) {
-        _self.vars.searchObject.searchText = $('#search').val();
-        $("#suggestion").val($('#search').val());
-        $(".top-down-suggestion").val($('#search').val());
+        _self.vars.searchObject.searchText = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
+        $("#suggestion").val(($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()));
+        $(".top-down-suggestion").val(($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()));
         _self.vars.scrollPageNumber = 0;
         _self.vars.showingMatchedResults = true;
         _self.searchFacetsList([]);
@@ -22252,7 +22288,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#loaderDIV').hide();
 
         }, 600);
-        if ($('#search').val()) {
+        if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
           $('.cancel-search').show();
         } else {
           $('.cancel-search').hide();
@@ -22791,6 +22827,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         } else {
           $('#live-search-result-box').hide();
         }
+      } else {
+        $('.searchBox.Search-BG-Copy').remove();
+        $('.search-body .finalResults').show();
       }
     }
     FindlySDK.prototype.bindCarouselForActionsTemplate = function (actionContainer) {
