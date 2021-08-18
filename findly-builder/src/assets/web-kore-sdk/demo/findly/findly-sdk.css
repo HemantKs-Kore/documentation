@@ -7360,18 +7360,31 @@ body{
     left: 0px;
     /* display: none; */
 }
+.searchAssist-kore-chat-window.search-container.conversation .search-body .finalResults,.searchAssist-kore-chat-window.search-container.conversation .search-body .searchBox{
+    margin: 20px;
+}
 .searchAssist-kore-chat-window.search-container.conversation .search-body{
-    max-height: calc(100% - 200px);
+    border-radius: 6px;
+    background: #FFFFFF;
+    margin: 5px;
+    max-height: 250px;
+    bottom: 0;
+    position: relative;
+    width: auto !important;
+    /* padding: 20px; */
+    padding: 0px;
+    height: auto;
+    box-shadow: 0px 2px 5px rgba(32, 33, 36, 0.2);
+
+    /* max-height: calc(100% - 200px);
     width: 485px;
     padding: 30px 20px 50px 20px;
-    height: auto;
     position: absolute;
-    bottom: 41px;
-    /* z-index: auto; */
+    bottom: 41px; */
     z-index: 1;
-    background: var(--sdk-white-bg);
-    border-radius: 15px 15px 0 0; 
-    box-shadow: -7px 4px 30px rgba(18, 61, 101, 0.2), inset -8px -6px 80px rgba(255, 255, 255, 0.18);
+    /* background: var(--sdk-white-bg); */
+    /* border-radius: 15px 15px 0 0;  */
+    /* box-shadow: -7px 4px 30px rgba(18, 61, 101, 0.2), inset -8px -6px 80px rgba(255, 255, 255, 0.18); */
 }
 .searchAssist-kore-chat-window.search-container.active #searchBox {
     display: block;
@@ -13685,18 +13698,30 @@ border: 0;
 }
 
 .searchAssist-kore-chat-window .suggestion-search-data-parent {
-    border: 1px solid var(--sdk-border-iron-color);
-    border-radius: 8px 8px 0px 0px;
-    position: absolute;
-    width: 100%;
-    bottom: 40px;
-    padding: 8px 30px;
-    background: var(--sdk-bg-athens-gray-color);
+    /* border: 1px solid var(--sdk-border-iron-color); */
+    position: relative;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin: 0px 5px;
+
+    border: 0;
+    padding: 20px;
+    max-height: 200px;
+    overflow: auto;
+    border-radius: 6px;
+    background: #FFFFFF;
     box-shadow: 0px 2px 5px rgba(32, 33, 36, 0.2);
-    /* box-shadow: 0px -1px 0px rgba(32, 33, 36, 0.15); */
-    /* box-shadow: 0px -50px 0px rgba(255, 255, 255, 0.9); */
-    /* 0px -5px 6px 5px rgb(251 251 251) */
+    border-radius: 6px;
     z-index: 2;
+}
+.searchAssist-kore-chat-window .suggestion-search-data-parent .title-suggestion{
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    text-transform: uppercase;
+    color: #9AA0A6;
+    margin-bottom: 8px;
 }
 .searchAssist-kore-chat-window .suggestion-search-data-parent::before {
     content: "";
@@ -13719,28 +13744,24 @@ border: 0;
 }
 
 .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title .suggestion-list-item{    
-    padding: 8px 15px;
-    border-bottom: 1px solid var(--sdk-border-porcelain-color);
+    padding: 7px 0px;
     cursor: pointer;
-    background: var(--sdk-white-bg);
-    border: 1px solid var(--sdk-border-porcelain-color);
     box-sizing: border-box;
-    border-radius: 20px;
-    margin: 4px 0;
     display: inline-block;
-    /* color: var(--sdk-gray-color); */
-    color: var(--sdk-cape-cod-color);
     font-weight: normal;
-    font-size: 12px;
-    line-height: 16px;
+    font-size: 14px;
+    line-height: 20px;
     max-width: 100%;
+    color: #3C4043;
+    margin: 0;
+    border: 0;
 }
-.searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title .suggestion-list-item:hover {
+/* .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title .suggestion-list-item:hover {
     background: var(--sdk-bg-zumthor-color);
     border: 1px solid var(--sdk-border-malibu-color);
     box-sizing: border-box;
     border-radius: 20px;
-}
+} */
 .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title.highlightSuggestion .suggestion-list-item {
     background: var(--sdk-bg-zumthor-color);
     border: 1px solid var(--sdk-border-malibu-color);
@@ -14668,4 +14689,13 @@ margin-bottom: 15px !important;
 
  .searchAssist-kore-chat-window .tile-with-text-parent.structured-data-outer-wrap.panel.with-accordion {
     margin-bottom: 18px !important;
+ }
+
+ .live-seach-auto-suggestion-parent{
+    position: absolute;
+    width: 100%;
+    height: auto;
+    bottom: 40px;
+    background: #F8F9FA;
+    border-radius: 6px;
  }
