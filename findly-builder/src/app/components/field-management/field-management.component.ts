@@ -31,6 +31,7 @@ export class FieldManagementComponent implements OnInit {
   loadingContent = true;
   currentfieldUsage: any
   fetchingFieldUsage = false;
+  value = 1/-1;
   indexedWarningMessage = '';
   selectedSort = 'fieldName';
   isAsc = true;
@@ -78,6 +79,7 @@ export class FieldManagementComponent implements OnInit {
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadFileds();
     })
+    // this.fieldsFilter();
   }
   ngAfterViewInit() {
 
@@ -371,12 +373,29 @@ export class FieldManagementComponent implements OnInit {
       offset: offset || 0,
       limit: 10
     };
+    
+    const payload ={
+      "search": this.searchFields,
+      "fieldDataType": this.isMultiValuedArr.source,
+      "isMultiValued": false,
+      "isRequired": true,
+      "isStored": true,
+      "isIndexed": true,
+      "sort": {
+          "fieldName": this.value,
+          // "fieldDataType": 1/-1,
+          // "isMultiValued": 1/-1,
+          // "isRequired": 1/-1,
+          // "isStored": 1/-1,
+          // "isIndexed": 1/-1
+      } 
+    }
     let serviceId = 'get.allField';
     if (searchFields) {
       quaryparms.search = searchFields;
       serviceId = 'get.allSearchField';
     }
-    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+    this.service.invoke(serviceId, quaryparms,payload).subscribe(res => {
       this.filelds = res.fields || [];
       this.totalRecord = res.totalCount || 0;
       this.loadingContent = false;
@@ -400,6 +419,7 @@ export class FieldManagementComponent implements OnInit {
       this.errorToaster(errRes, 'Failed to get index  stages');
     });
   }
+  
   deleteIndField(record, dialogRef) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
@@ -594,7 +614,7 @@ export class FieldManagementComponent implements OnInit {
     this.filterSystem.isStoredFilter = 'all';
     this.filterSystem.isIndexedFilter = 'all';
 
-    this.filterFields(source, headerOption);
+    this.fieldsFilter(source, headerOption);
     switch (headerOption) {
       case 'fieldDataType': { this.filterSystem.typefilter = source; return; };
       case 'isMultiValued': { this.filterSystem.isMultiValuedFilter = source; return; };
@@ -603,45 +623,98 @@ export class FieldManagementComponent implements OnInit {
       case 'isIndexed': { this.filterSystem.isIndexedFilter = source; return; };
     };
   }
-  filterFields(source, headerOption) {
-    if (!this.beforeFilterFields.length) {
-      this.beforeFilterFields = JSON.parse(JSON.stringify(this.filelds));
+  fieldsFilter(source, headerOption){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+    };
+    const payload = {
+      moduleName: "fields",
+      indexPipelineId: this.indexPipelineId,
+      search: this.searchFields
     }
-    let tempFields = this.beforeFilterFields.filter((field: any) => {
-      if (source !== 'all') {
-        if (headerOption === 'fieldDataType') {
-          if (field.fieldDataType === source) {
-            return field;
-          }
-        }
-        if (headerOption === 'isMultiValued') {
-          if (field.isMultiValued === source) {
-            return field;
-          }
-        }
-        if (headerOption === 'isRequired') {
-          if (field.isRequired === source) {
-            return field;
-          }
-        }
-        if (headerOption === 'isStored') {
-          if (field.isStored === source) {
-            return field;
-          }
-        }
-        if (headerOption === 'isIndexed') {
-          if (field.isIndexed === source) {
-            return field;
-          }
-        }
+    let serviceId = 'post.filterFields'
+    this.service.invoke(serviceId,quaryparms,payload).subscribe(res => {
+      if (!this.beforeFilterFields.length) {
+        this.beforeFilterFields = JSON.parse(JSON.stringify(this.filelds));
       }
-      else {
-        return field;
-      }
-    });
+      let tempFields = this.beforeFilterFields.filter((field: any) => {
+        if (source !== 'all') {
+          if (headerOption === 'fieldDataType') {
+            if (field.fieldDataType === source) {
+              return field;
+            }
+          }
+          if (headerOption === 'isMultiValued') {
+            if (field.isMultiValued === source) {
+              return field;
+            }
+          }
+          if (headerOption === 'isRequired') {
+            if (field.isRequired === source) {
+              return field;
+            }
+          }
+          if (headerOption === 'isStored') {
+            if (field.isStored === source) {
+              return field;
+            }
+          }
+          if (headerOption === 'isIndexed') {
+            if (field.isIndexed === source) {
+              return field;
+            }
+          }
+        }
+        else {
+          return field;
+        }
+      });
+  
+      this.filelds = JSON.parse(JSON.stringify(tempFields));
+      console.log('filter' , res);
 
-    this.filelds = JSON.parse(JSON.stringify(tempFields));
+    })
+
   }
+  // filterFields(source, headerOption) {
+  //   if (!this.beforeFilterFields.length) {
+  //     this.beforeFilterFields = JSON.parse(JSON.stringify(this.filelds));
+  //   }
+  //   let tempFields = this.beforeFilterFields.filter((field: any) => {
+  //     if (source !== 'all') {
+  //       if (headerOption === 'fieldDataType') {
+  //         if (field.fieldDataType === source) {
+  //           return field;
+  //         }
+  //       }
+  //       if (headerOption === 'isMultiValued') {
+  //         if (field.isMultiValued === source) {
+  //           return field;
+  //         }
+  //       }
+  //       if (headerOption === 'isRequired') {
+  //         if (field.isRequired === source) {
+  //           return field;
+  //         }
+  //       }
+  //       if (headerOption === 'isStored') {
+  //         if (field.isStored === source) {
+  //           return field;
+  //         }
+  //       }
+  //       if (headerOption === 'isIndexed') {
+  //         if (field.isIndexed === source) {
+  //           return field;
+  //         }
+  //       }
+  //     }
+  //     else {
+  //       return field;
+  //     }
+  //   });
+
+  //   this.filelds = JSON.parse(JSON.stringify(tempFields));
+  // }
   searchByFields() {
     if (this.searchFields) {
       // this.loadingTab = true;

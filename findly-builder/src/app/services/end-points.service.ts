@@ -22,10 +22,10 @@ export class EndPointsService {
     } else {
       this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX;
       this.API_SERVER_URL_PLATFORM = environment.API_SERVER_URL + this.API_URL_PREFIX //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
-      // this.API_SERVER_URL_PLATFORM = "https://50b6e8fd7c49.ngrok.io" + "/api/1.1"
+      // this.API_SERVER_URL_PLATFORM = "http://60c30ad26069.ngrok.io" + '/searchassistapi'
       // this.API_SERVER_URL = "https://50b6e8fd7c49.ngrok.io" + "/api/1.1"
       // this.API_SERVER_URL_PLATFORM = "https://bca0530495c7.ngrok.io" + this.API_URL_PREFIX
-      // this.API_SERVER_URL = "https://bca0530495c7.ngrok.io" + this.API_URL_PREFIX
+      // this.API_SERVER_URL = "http://60c30ad26069.ngrok.io" + this.API_URL_PREFIX
     }
     this.init();
   }
@@ -537,8 +537,12 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['get.allField'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields?offset=:offset&limit=:limit',
-      method: 'get'
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/getFields',
+      method: 'post'
+    }
+    this.serviceList['post.filterFields'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/getFilters',
+      method: 'post'
     }
     this.serviceList['get.allFieldsData'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields',
