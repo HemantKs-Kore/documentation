@@ -27,6 +27,7 @@ export class AppSelectionService {
   public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
   public resumingApp = false;
   public currentsubscriptionPlanDetails: any;
+  public inlineManualInfo : any = [];
   res_length: number = 0;
   getTourArray: any = [];
   private storageType = 'localStorage';
@@ -198,6 +199,7 @@ export class AppSelectionService {
     //this.headerService.closeSdk();
     // this.headerService.updateSearchConfiguration();
     this.router.navigate(['/summary'], { skipLocationChange: true });
+    this.getInlineManualcall();
     //this.routeChanged.next({ name: undefined, path: '' });
   }
   // currentsubscriptionPlan(id) {
@@ -230,6 +232,24 @@ export class AppSelectionService {
           //this.errorToaster(errRes, 'failed to get current subscription data');
         }
       });
+    }
+  }
+  getInlineManualcall(){
+    let selectedApp = this.workflowService.selectedApp();
+      let searchIndexId = selectedApp ? selectedApp.searchIndexes[0]._id : "";
+    const quaryparms: any = {
+      searchIndexId: searchIndexId
+    };
+    if(searchIndexId){
+      this.service.invoke('get.inlineManual', quaryparms).subscribe(res => {
+        this.inlineManualInfo = res.inlineManualInfo;
+       }, errRes => {
+         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+         } else {
+           this.notificationService.notify('Failed ', 'error');
+         }
+       });
     }
   }
   //get last active subscription data

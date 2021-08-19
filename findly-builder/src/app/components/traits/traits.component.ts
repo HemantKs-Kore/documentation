@@ -32,7 +32,7 @@ export class TraitsComponent implements OnInit {
   selcectionObj: any = {
     selectAll: false,
     selectedItems: [],
-    selectedCount : 0
+    selectedCount: 0
   };
   utteranceList = [];
   showUtteranceInput = false;
@@ -116,7 +116,6 @@ export class TraitsComponent implements OnInit {
   loadingTraits1: boolean;
   loadImageText: boolean = false;
   imageLoad() {
-    console.log("image loaded now")
     this.loadingTraits = false;
     this.loadingTraits1 = true;
     this.loadImageText = true;
@@ -382,12 +381,12 @@ export class TraitsComponent implements OnInit {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          if (bulk && this.selcectionObj.selectedCount>1) {
+          if (bulk && this.selcectionObj.selectedCount > 1) {
             this.deleteBulkTrait(dialogRef);
           } else if (this.selcectionObj.selectedCount == 1) {
             let selectedIds = Object.keys(this.selcectionObj.selectedItems);
-            let index = this.traits.traitGroups.findIndex((d)=>{d._id == selectedIds[0]})
-            this.deleteTrait(index,{_id:selectedIds[0]},dialogRef);
+            let index = this.traits.traitGroups.findIndex((d) => { d._id == selectedIds[0] })
+            this.deleteTrait(index, { _id: selectedIds[0] }, dialogRef);
           }
         } else if (result === 'no') {
           dialogRef.close();
@@ -395,21 +394,21 @@ export class TraitsComponent implements OnInit {
         }
       })
   }
-  resetCheckBox(){
-        this.selcectionObj.selectedItems = {};
-        this.selcectionObj.selectedCount = 0;
-        this.selcectionObj.selectAll = false;
-      let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
-      if (partialElement.length) {
-        partialElement[0].classList.add('d-none');
-      }
-      let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
-      if (selectAllElement.length) {
-        selectAllElement[0].classList.remove('d-none');
-      }
-      $('#selectAllTraits')[0].checked = false;
+  resetCheckBox() {
+    this.selcectionObj.selectedItems = {};
+    this.selcectionObj.selectedCount = 0;
+    this.selcectionObj.selectAll = false;
+    let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+    if (partialElement.length) {
+      partialElement[0].classList.add('d-none');
     }
-  deleteTrait(index, traitsGroup,dialogRef){
+    let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+    if (selectAllElement.length) {
+      selectAllElement[0].classList.remove('d-none');
+    }
+    $('#selectAllTraits')[0].checked = false;
+  }
+  deleteTrait(index, traitsGroup, dialogRef) {
     if (!traitsGroup._id) {
       this.traits.traitGroups.splice(index, 1);
     } else {
@@ -737,10 +736,10 @@ export class TraitsComponent implements OnInit {
   openStatusModal() {
     this.currentTraitEditIndex = null;
     this.statusModalPopRef = this.statusModalPop.open();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(); 
-    },400)
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 400)
   }
   closeStatusModal() {
     this.submitted = false;
@@ -760,10 +759,10 @@ export class TraitsComponent implements OnInit {
     this.currentUtteranceIndex = index;
     this.currentTraitKey = key;
     this.addUtteranceModalPopRef = this.addUtteranceModalPop.open();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.perfectScroll2.directiveRef.update();
-      this.perfectScroll2.directiveRef.scrollToTop(); 
-    },400)
+      this.perfectScroll2.directiveRef.scrollToTop();
+    }, 400)
   }
   closeUtteranceModal() {
     this.currentUtteranceIndex = null;

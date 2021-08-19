@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -66,6 +66,8 @@ export class UpgradePlanComponent implements OnInit {
   enterpriseForm: any = {
     name: '', email: '', message: '', phone: ''
   }
+  @Input() componentType: string;
+  @Output() upgradedEvent = new EventEmitter();
   constructor(public dialog: MatDialog,
     private service: ServiceInvokerService,
     private appSelectionService: AppSelectionService,
@@ -378,6 +380,9 @@ export class UpgradePlanComponent implements OnInit {
     if (this.successFailureModelPopRef && this.successFailureModelPopRef.close) {
       this.successFailureModelPopRef.close();
       this.overageData = {};
+      if (this.componentType == 'experiment') {
+        this.upgradedEvent.emit();
+      }
     }
   }
   //select type plan like monthly or yearly

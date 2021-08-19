@@ -291,7 +291,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     this.checkAnnotationPolling();
-    this.inlineManual.openHelp('SOURCES')
+    if(!this.inlineManual.checkVisibility('SOURCES')){
+      this.inlineManual.openHelp('SOURCES')
+      this.inlineManual.visited('SOURCES')
+    }
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -538,7 +541,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     else if (selectedCrawlMethod && (selectedCrawlMethod.resourceType === 'structuredData' || selectedCrawlMethod.resourceType === 'structuredDataManual')) {
       this.selectedSourceType = selectedCrawlMethod;
       this.openAddStructuredData();
-      this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
+      if(!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')){
+        this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
+        this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
+      }
     }
     else {
       this.selectedSourceType = selectedCrawlMethod;
@@ -546,19 +552,40 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentWeb'){
-      this.inlineManual.openHelp('CONTENT_SUB_TOPIC')
+      if(!this.inlineManual.checkVisibility('CONTENT_SUB_TOPIC')){
+        this.inlineManual.openHelp('CONTENT_SUB_TOPIC')
+        this.inlineManual.visited('CONTENT_SUB_TOPIC')
+      }
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentDoc'){
-      this.inlineManual.openHelp('CONTENT_SUB_TOPIC')
+      if(!this.inlineManual.checkVisibility('UPLOAD_FILE_SUB_TOPIC')){
+        this.inlineManual.openHelp('UPLOAD_FILE_SUB_TOPIC')
+        this.inlineManual.visited('UPLOAD_FILE_SUB_TOPIC')
+      }
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'faqWeb'){
-      this.inlineManual.openHelp('EXTRACT_FAQ_SUBTOPIC')
+      if(!this.inlineManual.checkVisibility('EXTRACT_FAQ_SUB_TOPIC')){
+        this.inlineManual.openHelp('EXTRACT_FAQ_SUB_TOPIC')
+        this.inlineManual.visited('EXTRACT_FAQ_SUB_TOPIC')
+      }
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'faqDoc'){
-      this.inlineManual.openHelp('IMPORT_FAQ_SUBTOPIC')
+      if(!this.inlineManual.checkVisibility('IMPORT_FAQ_SUB_TOPIC')){
+        this.inlineManual.openHelp('IMPORT_FAQ_SUB_TOPIC')
+        this.inlineManual.visited('IMPORT_FAQ_SUB_TOPIC')
+      }
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'manual'){
-      this.inlineManual.openHelp('ADD_FAQ_MAUALY_SUBTOPIC')
+      if(!this.inlineManual.checkVisibility('ADD_FAQ_MAUALY_SUB_TOPIC')){
+        this.inlineManual.openHelp('ADD_FAQ_MAUALY_SUB_TOPIC')
+        this.inlineManual.visited('ADD_FAQ_MAUALY_SUB_TOPIC')
+      }
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentStucturedDataImport'){
-      this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
+      if(!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')){
+        this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
+        this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
+      }
     }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentStucturedDataAdd'){
-      this.inlineManual.openHelp('ADD_STRUCTURED_DATA_MANUALY')
+      if(!this.inlineManual.checkVisibility('ADD_STRUCTURED_DATA_MANUALY')){
+        this.inlineManual.openHelp('ADD_STRUCTURED_DATA_MANUALY')
+        this.inlineManual.visited('ADD_STRUCTURED_DATA_MANUALY')
+      }
     }
     setTimeout(() => {
       $('#addSourceTitleInput').focus();

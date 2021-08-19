@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, OnChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './useronboarding-journey.component.html',
   styleUrls: ['./useronboarding-journey.component.scss']
 })
-export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDestroy {
+export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
   onBoardingModalPopRef: any;
   @Input() componentType;
   tourData: any;
@@ -52,14 +52,6 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
   initialCall() {
     this.userInfo = this.authService.getUserInfo() || {};
     this.appSelectionService.getTourConfig();
-  }
-  ngOnChanges() {
-    if (this.componentType != '' && this.componentType != undefined && this.tourConfigData && this.componentType != 'summary') {
-      if (this.componentType == 'overview') {
-        this.appSelectionService.updateTourConfig('overview')
-        this.openOnBoardingModal();
-      }
-    }
   }
   //open useronboard popup
   openOnBoardingModal() {

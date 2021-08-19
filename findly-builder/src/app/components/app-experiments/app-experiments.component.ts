@@ -18,7 +18,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./app-experiments.component.scss']
 })
 export class AppExperimentsComponent implements OnInit {
-  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog, private appSelectionService: AppSelectionService , public inlineManual : InlineManualService) { }
+  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog, private appSelectionService: AppSelectionService, public inlineManual: InlineManualService) { }
   addExperimentsRef: any;
   selectedApp: any;
   serachIndexId: any;
@@ -71,6 +71,7 @@ export class AppExperimentsComponent implements OnInit {
   loadingContent1: boolean;
   currentSubscriptionPlan: any;
   currentSubsciptionData: Subscription;
+  componentType: string = "experiment";
   ctrTooltip: string = 'Click Through Rate is the percentage of searches which got at least one click of all the searches performed';
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
@@ -88,6 +89,13 @@ export class AppExperimentsComponent implements OnInit {
         this.loadingContent1 = true;
       }
     })
+  }
+  //when ever upgrade done in experiment page event emitter will call
+  upgradeComplete() {
+    if (!this.inlineManual.checkVisibility('EXPERIMENTS')) {
+      this.inlineManual.openHelp('EXPERIMENTS')
+      this.inlineManual.visited('EXPERIMENTS')
+    }
   }
   loadImageText: boolean = false;
   imageLoaded() {
@@ -411,7 +419,11 @@ export class AppExperimentsComponent implements OnInit {
       else {
         this.loadingContent = false;
         this.loadingContent1 = true;
-        this.inlineManual.openHelp('EXPERIMENTS')
+        //this.inlineManual.getInlineSuggestionData();
+        if (!this.inlineManual.checkVisibility('EXPERIMENTS')) {
+          this.inlineManual.openHelp('EXPERIMENTS')
+          this.inlineManual.visited('EXPERIMENTS')
+        }
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

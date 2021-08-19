@@ -23,7 +23,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   activeClose = false;
-  checkStopwords =false;
+  checkStopwords = false;
   enabled = true;
   validation: any = {
     duplicate: false,
@@ -40,13 +40,13 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   showAddStopWordsContainer: boolean = false;
   subscription: Subscription;
   componentType: string = 'configure';
-  submitted : boolean = false;
+  submitted: boolean = false;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    public inlineManual : InlineManualService,
+    public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService
   ) { }
   ngOnInit(): void {
@@ -63,6 +63,10 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
+    if (!this.inlineManual.checkVisibility('STOP_WORDS')) {
+      this.inlineManual.openHelp('STOP_WORDS')
+      this.inlineManual.visited('STOP_WORDS')
+    }
   }
   loadStopwords() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -143,10 +147,13 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       }
       else {
         this.loadingContent1 = true;
-        this.inlineManual.openHelp('STOP_WORDS')
+        // if(!this.inlineManual.checkVisibility('STOP_WORDS')){
+        //   this.inlineManual.openHelp('STOP_WORDS')
+        //   this.inlineManual.visited('STOP_WORDS')
+        // }
       }
       this.loadingContent = false;
-      res.pipeline.stages[2].options.stopWordsRemovalEnabled = this.enabled ;
+      res.pipeline.stages[2].options.stopWordsRemovalEnabled = this.enabled;
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get stop words');
@@ -204,7 +211,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
             }
             if (!(this.stopwords && this.stopwords.length) && !dialogRef) {
               this.notificationService.notify('No default stop words available', 'error');
-            } else  {
+            } else {
               if (this.stopwords.length === 0) this.appSelectionService.updateTourConfig(this.componentType);
             }
           }
@@ -229,10 +236,10 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       data: {
         title: 'Restore Stop Words',
         text: 'Are you sure you want to reset Stop Words?',
-        newTitle:'Are you sure you want to reset ?',
-        body:'Stop words will be reset to system-defined values.',
-        buttons: [{ key: 'yes', label: 'Reset'}, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp:true
+        newTitle: 'Are you sure you want to reset ?',
+        body: 'Stop words will be reset to system-defined values.',
+        buttons: [{ key: 'yes', label: 'Reset' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
       }
     });
 
@@ -261,8 +268,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       data: {
         title: 'Delete Stop Word',
         text: 'Are you sure you want to delete selected Stop Word?',
-        newTitle:'Are you sure you want to delete ?',
-        body: word  +  ' will be removed from stopword list',
+        newTitle: 'Are you sure you want to delete ?',
+        body: word + ' will be removed from stopword list',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -376,11 +383,11 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     }
   }
 
-  validateAddStopWord(){
-    if(!this.newStopWord || !this.newStopWord.length){
+  validateAddStopWord() {
+    if (!this.newStopWord || !this.newStopWord.length) {
       return false;
     }
-    else{
+    else {
       this.submitted = false;
       return true;
     }
@@ -388,7 +395,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
 
   addStopWord(event) {
     this.submitted = true;
-    if(this.validateAddStopWord()){
+    if (this.validateAddStopWord()) {
       const stopwords = (this.newStopWord || '').split(',');
       this.stopwords = _.uniq(this.stopwords.concat(stopwords)).sort();
       this.stopwords = _.filter(this.stopwords, (stopword) => {
@@ -397,23 +404,23 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.updateStopWords();
       this.submitted = false;
     }
-    else{
+    else {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
   }
-  focusoutSearch(){
-    if(this.activeClose){
-      this.searchStopwords='';
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchStopwords = '';
       this.activeClose = false;
-     }
- this.showSearch= !this.showSearch;
-}
-  focusinSearch(inputSearch){
-    setTimeout(()=>{
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    },100)
+    }, 100)
   }
 }

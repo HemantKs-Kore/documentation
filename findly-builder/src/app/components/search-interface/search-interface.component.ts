@@ -10,8 +10,8 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 // import * as PureJSCarousel from 'src/assets/web-kore-sdk/libs/purejscarousel.js';
 declare var PureJSCarousel: any;
@@ -158,7 +158,10 @@ export class SearchInterfaceComponent implements OnInit {
 
     console.log(this.customizeTemplateObj);
     console.log(this.selectedSettingResultsObj);
-    this.inlineManual.openHelp('RESULT_TEMPLATE')
+    if(!this.inlineManual.checkVisibility('RESULT_TEMPLATE') && false){
+      this.inlineManual.openHelp('RESULT_TEMPLATE')
+      this.inlineManual.visited('RESULT_TEMPLATE')
+    }
     //TEST
     // this.service.invoke('get.SI_allResultSettings', {searchIndexId : this.serachIndexId}).subscribe(res => {
     //   this.notificationService.notify('Result setting saved successfully', 'success');

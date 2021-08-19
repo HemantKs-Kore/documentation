@@ -136,7 +136,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     public dialog: MatDialog,
     private sortPipe: SortPipe,
-    public inlineManual : InlineManualService,
+    public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService
   ) { }
   // ngAfterViewInit(){
@@ -156,6 +156,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
+    if (!this.inlineManual.checkVisibility('RULES')) {
+      this.inlineManual.openHelp('RULES')
+      this.inlineManual.visited('RULES')
+    }
   }
   loadRules() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -724,7 +728,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
       else {
         this.loadingContent1 = true;
-        this.inlineManual.openHelp('RULES')
+        //if(!this.inlineManual.checkVisibility('RULES')){
+        //  this.inlineManual.openHelp('RULES')
+        //  this.inlineManual.visited('RULES')
+        //}
       }
     }, errRes => {
       this.loadingContent = false;

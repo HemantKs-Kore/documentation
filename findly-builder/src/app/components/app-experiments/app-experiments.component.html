@@ -417,4 +417,4 @@
 </kr-modal>
 
 <!-- upgrade plan component-->
-<app-upgrade-plan #plans></app-upgrade-plan>
+<app-upgrade-plan #plans [componentType]="componentType" (upgradedEvent)="upgradeComplete()"></app-upgrade-plan>
