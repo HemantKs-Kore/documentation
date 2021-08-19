@@ -928,10 +928,63 @@
                                 }
                             }
                         }
-                    }                    
+                    }     
+                    .default-status{
+                        padding: 20px 0;
+                        margin: 10px 0;
+                        border: 1px solid #EFF0F1;
+                        border-left: 0;
+                        border-right: 0;
+                        .default-status-title{
+                            font-weight: 500;
+                            font-size: 14px;
+                            line-height: 20px;
+                            color: #202124;
+                            margin-bottom: 17px;
+                        }
+                        .avatar-with-greeting-text{
+                            padding: 11px 0 8px 28px;
+                            max-width: 473px;
+                            display: inline-flex;
+                            flex-wrap: wrap;
+                            flex-direction: column;
+                            .greeting-message-avatar{
+                                background: #F8F9FA;
+                                border: 1px solid #E0E1E9;
+                                box-sizing: border-box;
+                                border-radius: 6px;
+                                padding: 10px 20px;
+                                display: inline-block;
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 20px;
+                                color: #3C4043;
+                                position: relative;
+                                &::after{
+                                    content: "";
+                                    position: absolute;
+                                    width: 14px;
+                                    height: 14px;
+                                    background: #F8F9FA;
+                                    transform: rotate(45deg);
+                                    bottom: -8px;
+                                    right: 20px;
+                                    border: 1px solid #E0E1E9;
+                                    border-top: 0;
+                                    border-left: 0;
+                                    z-index: 0;
+                                }
+                            }
+                            .avatar-img{
+                                text-align: right;
+                                margin: 15px 6px 0px 0px;
+                            }
+                        }
+                    }               
                     .preview-search-ex{
-                        border-bottom: 1px solid #EFF0F1;  
-                        padding: 0 0 35px 0;
+                        border-bottom: 0px solid #EFF0F1;  
+                        padding: 0px 28px 28px 28px;
+                        border: 0;
                         .greeting-block{
                             background: #F8F9FA;
                             border: 1px solid #E0E1E9;

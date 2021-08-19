@@ -30,8 +30,8 @@
                         </div>   
                     </div>
                     <div class="right-sec">                       
-                        <img src="assets/icons/search-experience/top-down-mini.jpg" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">
-                        <img src="assets/icons/search-experience/bottum-up-mini.jpg" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
+                        <img src="assets/icons/search-experience/top-down-mini.jpg" class="w-100" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">
+                        <img src="assets/icons/search-experience/bottum-up-mini.jpg" class="w-100" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
                     </div>
                 </div>
             </div>
@@ -439,53 +439,77 @@
                             </div>
                         </div>
 
-                        <div class="col-12 preview-search-ex pb-2" style="pointer-events: none;">
-                            <div class="search-widget-if-bottom-up" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">                               
-                                <div class="greeting-block">
-                                    <img [src]="emojiIcon">
-                                    <span class="greeting-title" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
-                                </div>
-                                <div class="d-flex search-customization-input">
-                                    <div class="kr-sg-input-search">                               
-                                        <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
-                                        <img [src]="searchIcon" class="search-icon" height="15" width="15">
-                                        <span class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
-                                        <ng-container *ngIf="searchObject.searchWidgetConfig.searchButtonEnabled">
-                                            <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="(searchObject.searchExperienceConfig.searchBarPosition==='top' && searchObject.searchWidgetConfig.buttonPlacementPosition==='inside') || searchObject.searchExperienceConfig.searchBarPosition === 'bottom'">
-                                                <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
-                                            </button>
-                                        </ng-container>
+
+                        <div class="default-status">
+                            <div class="default-status-title">Default Status</div>
+                            <div class="kr-sg-radiobutton w-100">
+                                <input id="radio-01" name="radio" class="radio-custom" type="radio" checked>
+                                <label for="radio-01" class="radio-custom-label">Search Bar</label>
+                            </div> 
+
+                            <ng-container>
+                                <div class="col-12 preview-search-ex" style="pointer-events: none;">
+                                    <div class="search-widget-if-bottom-up" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">                               
+                                        <div class="greeting-block">
+                                            <img [src]="emojiIcon">
+                                            <span class="greeting-title" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
+                                        </div>
+                                        <div class="d-flex search-customization-input">
+                                            <div class="kr-sg-input-search">                               
+                                                <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
+                                                <img [src]="searchIcon" class="search-icon" height="15" width="15">
+                                                <span class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
+                                                <ng-container *ngIf="searchObject.searchWidgetConfig.searchButtonEnabled">
+                                                    <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="(searchObject.searchExperienceConfig.searchBarPosition==='top' && searchObject.searchWidgetConfig.buttonPlacementPosition==='inside') || searchObject.searchExperienceConfig.searchBarPosition === 'bottom'">
+                                                        <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
+                                                    </button>
+                                                </ng-container>
+                                            </div>
+                                            <ng-container *ngIf="searchObject.searchWidgetConfig.searchButtonEnabled">
+                                                <button class="btn-customize kr-sg-button-primary read-mode btn_lg" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="searchObject.searchExperienceConfig.searchBarPosition==='top' && searchObject.searchWidgetConfig.buttonPlacementPosition === 'outside'">
+                                                    <span>{{searchObject.searchWidgetConfig.buttonText}}</span>                                       
+                                                </button>
+                                            </ng-container>
+                                        </div>
                                     </div>
-                                    <ng-container *ngIf="searchObject.searchWidgetConfig.searchButtonEnabled">
-                                        <button class="btn-customize kr-sg-button-primary read-mode btn_lg" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="searchObject.searchExperienceConfig.searchBarPosition==='top' && searchObject.searchWidgetConfig.buttonPlacementPosition === 'outside'">
-                                            <span>{{searchObject.searchWidgetConfig.buttonText}}</span>                                       
-                                        </button>
-                                    </ng-container>
-                                </div>
-                            </div>
-                            <div class="search-widget" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">                               
-                                <div class="d-flex search-customization-input">
-                                    <div class="kr-sg-input-search">                               
-                                        <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
-                                        <img [src]="searchIcon" class="search-icon" height="15" width="15">
-                                        <span class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
-                                        <ng-container *ngIf="searchObject.searchWidgetConfig.searchButtonEnabled">
-                                            <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="(searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='inside')||searchObject.searchExperienceConfig.searchBarPosition==='bottom'">
-                                                <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
-                                            </button>
-                                        </ng-container>
+                                    <div class="search-widget" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">                               
+                                        <div class="d-flex search-customization-input">
+                                            <div class="kr-sg-input-search">                               
+                                                <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
+                                                <img [src]="searchIcon" class="search-icon" height="15" width="15">
+                                                <span class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
+                                                <ng-container *ngIf="searchObject.searchWidgetConfig.searchButtonEnabled">
+                                                    <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="(searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='inside')||searchObject.searchExperienceConfig.searchBarPosition==='bottom'">
+                                                        <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
+                                                    </button>
+                                                </ng-container>
+                                            </div>
+                                            <ng-container *ngIf="searchObject.searchWidgetConfig.searchButtonEnabled">
+                                                <button class="btn-customize kr-sg-button-primary read-mode btn_lg" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='outside'">
+                                                    <span>{{searchObject.searchWidgetConfig.buttonText}}</span>                                       
+                                                </button>
+                                            </ng-container>
+                                        </div>
+                                        <div class="greeting-block">
+                                            <img [src]="emojiIcon">
+                                            <span class="greeting-title" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
+                                        </div>
                                     </div>
-                                    <ng-container *ngIf="searchObject.searchWidgetConfig.searchButtonEnabled">
-                                        <button class="btn-customize kr-sg-button-primary read-mode btn_lg" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" *ngIf="searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='outside'">
-                                            <span>{{searchObject.searchWidgetConfig.buttonText}}</span>                                       
-                                        </button>
-                                    </ng-container>
                                 </div>
-                                <div class="greeting-block">
-                                    <img [src]="emojiIcon">
-                                    <span class="greeting-title" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
+                            </ng-container>
+                            <div class="kr-sg-radiobutton w-100 mt-2">
+                                <input id="radio-211" name="radio" class="radio-custom" type="radio">
+                                <label for="radio-211" class="radio-custom-label">Avatar</label>
+                            </div> 
+
+                            <ng-container>
+                                <div class="avatar-with-greeting-text">
+                                    <div class="greeting-message-avatar">Good morning! How can I help you today?</div>
+                                    <div class="avatar-img">
+                                        <img src="assets/icons/search-interface/avatar-sdk.svg">
+                                    </div>
                                 </div>
-                            </div>
+                            </ng-container>
                         </div>
 
 

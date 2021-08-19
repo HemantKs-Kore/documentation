@@ -1916,7 +1916,7 @@ and open the template in the editor.
                 + .radio-custom-label{
                     color: $primaryColor; 
                     &::before{
-                        border: solid 1px $secondaryColor;
+                        border: solid 1px $hoverBlue;
                     }
                 }
             }  
