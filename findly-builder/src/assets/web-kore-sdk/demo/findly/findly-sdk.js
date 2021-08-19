@@ -6917,6 +6917,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // });
         // $('.search-body').html(freqData);
         setTimeout(function () {
+          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').is(':visible')) || ($('body').hasClass('top-down') && $('#frequently-searched-box').is(':visible'))) {
+            return;
+          }
           _self.pubSub.publish('sa-generate-recent-search');
         }, 150);
       }
@@ -20891,6 +20894,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           } else {
             $('.cancel-search').hide();
             $('#live-search-result-box').hide();
+            $('#frequently-searched-box').hide();
           }
         });
         var resultsContainerHtml = $('.all-product-details');
