@@ -673,22 +673,15 @@
                     }
                     .greeting-message{
                         display: flex;
-                        align-items: center;      
+                        // align-items: center;
+                        margin-bottom: 20px;      
                         .kr-sg-input-text-area{
-                            textarea{                                                        
-                                box-sizing: border-box;
-                                border-radius: 4px;
-                                min-height: 58px;
-                            }
-                        }
-                        .emojis-block{
-                            display: flex;
-                            flex-wrap: wrap;
-                            margin-top: 15px;
-                            width: 90px;
-                            flex-shrink: 0;
+                            position: relative;
                             .emoji-img{
-                                margin: 0 22px;
+                                margin: 0;
+                                position: absolute;
+                                top: 43px;
+                                right: 22px;
                                 .kr-sg-dropdowns {
                                     .dropdown-open {
                                         .dropdown-input{
@@ -792,23 +785,45 @@
                                     }
                                 }
                             }
+                            .count-length{
+                                font-weight: normal;
+                                font-size: 12px;
+                                line-height: 16px;
+                                color: #9AA0A6
+                            }
+                            textarea{                                                        
+                                box-sizing: border-box;
+                                border-radius: 4px;
+                                min-height: 58px;
+                                width: 540px;
+                                height: 60px;
+                                padding: 20px;
+                            }
+                        }
+                        .emojis-block{
+                            display: flex;
+                            flex-wrap: wrap;
+                            margin-top: 22px;
+                            flex-shrink: 0;
+                           
                             
                             .fill-colors-block{                               
                                 .fill-color{                                    
                                     .label-color{
                                         color: #202124;
                                         font-weight: 500;
-                                        font-size: 12px;
-                                        line-height: 15px;
+                                        font-size: 14px;
+                                        line-height: 20px;
                                         margin-bottom: 8px;
                                     }
                                     .box-color{
                                         background: #5F6368;
+                                        border: 1px solid #E4E5E7;
                                         border-radius: 2px;
                                         width: 22px;
                                         height: 22px;
                                         cursor: pointer;
-                                        border: 1px solid #E4E5E7;
+                                        margin: 0 auto;
                                         input{
                                             width: 100%;
                                             border: 0 !important;
