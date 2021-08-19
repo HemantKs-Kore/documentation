@@ -19,6 +19,7 @@ declare const $: any;
   animations: [fadeInOutAnimation]
 })
 export class SummaryComponent implements OnInit, OnDestroy {
+  math = Math;
   serachIndexId;
   indices: any = [];
   experiments: any = [];
@@ -26,7 +27,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
   activities: any = [];
   channels: any = [];
   channelsName = '';
-  // searchIndexes: any = [];
+  //searchIndexes: any = [];
   channelExist = false;
   totalUsersStats: any = {};
   totalSearchesStats: any = {};

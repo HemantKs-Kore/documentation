@@ -1071,6 +1071,7 @@
         "indices": "Indices"
     },
     "workbench": {
+        "workbench": "Workbench",
         "index_configuration": "Index Configuration",
         "saving": "Saving.",
         "save_configuration": "Save Configuration",

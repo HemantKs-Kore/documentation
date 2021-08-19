@@ -46,10 +46,10 @@
             </div>          -->
          <div class="col-8 right-sec p-0 row justify-content-end align-items-center text-right m-0">
             <div class="kr-sg-input-search m-0" role="searchbox" [ngClass]="{'d-none': !showSearch}">                               
-              <input type="text" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchApp,'pl-2':searchApp}" autocomplete="off" [(ngModel)]="searchApp" (focusout)="focusoutSearch();" maxlength="60" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+              <input type="text" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchApp,'pl-2':searchApp}" autocomplete="off" [(ngModel)]="searchApp"  maxlength="60" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
               (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
           <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchApp">
-          <img class="close-icon" (mouseover)="activeClose=true" (mouseout)="activeClose=false" *ngIf="searchApp" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchApp}" (click)="searchApp='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+          <img class="close-icon" (mouseover)="activeClose=true" (mouseout)="activeClose=false" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchApp}" (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
           </div> 
             <div class="seach-block"  (click)="showSearch=!showSearch;focusinSearch('inputSearch')">
               <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>

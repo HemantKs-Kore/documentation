@@ -276,6 +276,7 @@ export class AppHeaderComponent implements OnInit {
   }
   focusoutSearch() {
     this.searchText = '';
+    this.searchActive = false;
     if (this.activeSearch) {
       this.activeClose = true;
     }

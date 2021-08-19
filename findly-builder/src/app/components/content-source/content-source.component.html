@@ -73,10 +73,10 @@
           <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">
             <input type="text" maxlength="60" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" [ngClass]="{'pl-2':searchSources}"
               id="searchContentSources" [(ngModel)]="searchSources" 
-              autocomplete="off"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')" (focusout)="focusoutSearch(true);"
+              autocomplete="off"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
               (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
               <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
-              <img class="close-icon" *ngIf="searchSources" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="searchSources='';showSearch = !showSearch">
+              <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch(true);">
               <!-- <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
             <img *ngIf="!searchSources" class="search-icon" src="assets/images/search_gray.svg"> -->
           </div>
@@ -208,7 +208,7 @@
                   <span *ngIf="statusObj[source.recentStatus]?.name != 'In Progress'">{{statusObj[source.recentStatus]?.name}}</span> -->
                   <img 
                     src="assets/icons/failed-status.svg" class="failed-img" placement="top"
-                    ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:'Execution failed due to timeout'}}"
+                    ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:source.vailadtionTootlip}}"
                     container="body" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'"><img
                     src="assets/icons/ringLoading.svg" class="ml-2 inProgress"
                     *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" placement="top" container='body'
@@ -401,10 +401,10 @@
                 <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">
                   <input type="text" maxlength="60" placeholder="Search" class="input-search" name='pagesSearch' placeholder="Search" [ngClass]="{'pl-2':pagesSearch}"
                     id="searchInput" [(ngModel)]="pagesSearch" 
-                    autocomplete="off"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')" (focusout)="focusoutSearch();"
+                    autocomplete="off"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')" 
                     (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                     <img [src]="searchImgSrc" class="search-icon" *ngIf="!pagesSearch">
-                    <img class="close-icon" *ngIf="pagesSearch" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':pagesSearch}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="pagesSearch='';showSearch = !showSearch">
+                    <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':pagesSearch}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="pagesSearch='';showSearch = !showSearch">
                 </div>
       
                 <div class="search-block" *ngIf="!(sourceStatus == 'failed' && page)">

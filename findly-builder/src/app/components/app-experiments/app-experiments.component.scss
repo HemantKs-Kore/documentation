@@ -412,7 +412,7 @@
                 font-size: 14px;
                 line-height: 17px;
                 margin-left: 10px;
-                word-break: break-all;
+                word-break: break-word;
               }
             }
             .title {
@@ -420,7 +420,7 @@
               font-weight: normal;
               font-size: 14px;
               line-height: 17px;
-              word-break: break-all;
+              word-break: break-word;
               &.leader_percent{
                 color: #0D6EFD !important;
               }

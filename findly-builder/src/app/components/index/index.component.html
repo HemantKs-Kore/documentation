@@ -7,7 +7,7 @@
   </div>
   <div class="header_sec">
     <!-- <div class="title">Index Configuration</div> -->
-    <div class="title" >{{'workbench.index_configuration' | translate}}</div> <!-- (click)="openModalPopup()" -->
+    <div class="title" >{{'workbench.workbench' | translate}}</div> <!-- (click)="openModalPopup()" -->
     <div class="btn_sec">
       <button class="kr-sg-button-secondary btn_lg" [disabled]="savingConfig" (click)="saveConfig()">
         {{ savingConfig ? ('workbench.saving' | translate) : ('workbench.save_configuration' | translate) }}
@@ -502,7 +502,8 @@
                     </ul>
                   </div>
                 </div>
-                <div class="kr-sg-dropdowns col-4 input-box" *ngIf="selectedStage.type === 'semantic_meaning'">
+                <!-- adding d-none class to hide the Choose Model -->
+                <div class="kr-sg-dropdowns col-4 input-box d-none" *ngIf="selectedStage.type === 'semantic_meaning'">
                   <div class="label-text">{{'workbench.choose_model' | translate}}</div>
                   <div class="dropup dropdown-open">
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
@@ -521,7 +522,7 @@
                     </ul>
                   </div>
                 </div>
-                <div class="kr-sg-dropdowns col-4 input-box" *ngIf="selectedStage.type === 'keyword_extraction'">
+                <div class="kr-sg-dropdowns col-4 input-box d-none" *ngIf="selectedStage.type === 'keyword_extraction'">
                   <div class="label-text">{{'workbench.choose_model' | translate}}</div>
                   <div class="dropup dropdown-open">
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
@@ -637,7 +638,8 @@
                 </ul>
               </div>
             </div>
-            <div class="kr-sg-dropdowns col-4 input-box" *ngIf="selectedStage.type === 'semantic_meaning'">
+            <!-- adding d-none class to hide the Choose Model -->
+            <div class="kr-sg-dropdowns col-4 input-box d-none" *ngIf="selectedStage.type === 'semantic_meaning'">
               <div class="label-text">{{'workbench.choose_model' | translate}}</div>
               <div class="dropup dropdown-open">
                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{newMappingObj[selectedStage.type].defaultValue.model? newMappingObj[selectedStage.type].defaultValue.model: ('workbench.choose_model' | translate)}}</button>
@@ -648,7 +650,8 @@
                 </ul>
               </div>
             </div>
-            <div class="kr-sg-dropdowns col-4 input-box" *ngIf="selectedStage.type === 'keyword_extraction'">
+            <!-- adding d-none class to hide the Choose Model -->
+            <div class="kr-sg-dropdowns col-4 input-box d-none" *ngIf="selectedStage.type === 'keyword_extraction'">
               <div class="label-text">{{'workbench.choose_model' | translate}}</div>
               <div class="dropup dropdown-open">
                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
@@ -810,13 +813,13 @@
       <div class="d-flex">
         <div class="kr-sg-input-search ml-2" [ngClass]="{'d-none': !showSearch}">
             <input type="text" placeholder="{{'search' | translate}}" maxlength="60" class="input-search" (keyup)="searchBySimulator()" [ngClass]="{'pl-33':!searchSimulator,'pl-2':searchSimulator}"
-                autocomplete="off" id="fieldSearchId" [(ngModel)]="searchSimulator" (focusout)="focusoutSearch();"
+                autocomplete="off" id="fieldSearchId" [(ngModel)]="searchSimulator" 
                 (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                 (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSimulator">
-            <img class="close-icon" *ngIf="searchSimulator" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSimulator}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" 
-                (click)="searchSimulator='';showSearch=!showSearch;" >
+            <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSimulator}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" 
+                (click)="focusoutSearch()" >
         </div>
     </div>
       <div class="close_icon">

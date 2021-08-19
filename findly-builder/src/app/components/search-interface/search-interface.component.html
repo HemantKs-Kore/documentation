@@ -163,7 +163,7 @@
                           <input id="radio-24" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'left')" [checked] ="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'left'">
                           <label for="radio-24" class="radio-custom-label">{{'resultTemplate.leftAligned' | translate}}</label>
                       </div>
-                      <div class="kr-sg-radiobutton">
+                      <div class="kr-sg-radiobutton" *ngIf="searchExperienceConfig.experienceConfig.searchBarPosition === 'bottom'">
                           <input id="radio-25" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'right')" [checked] ="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'right'">
                           <label for="radio-25" class="radio-custom-label">{{'resultTemplate.rightAligned' | translate}}</label>
                       </div>
@@ -172,7 +172,7 @@
                           <label for="radio-26" class="radio-custom-label">{{'resultTemplate.topAligned' | translate}}</label>
                       </div>
                     </div>
-
+                   <div *ngIf="searchExperienceConfig && searchExperienceConfig.experienceConfig && searchExperienceConfig.experienceConfig.searchBarPosition === 'bottom'">
                     <div class="left-aligned mt-3"  *ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets && selectedSettingResultsObj.facets.isEnabled">
                       <img src="assets/icons/search-interface/Left_Facet.png"*ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'left'">
                     </div>
@@ -182,6 +182,16 @@
                     <div class="left-aligned mt-3">
                       <img src="assets/icons/search-interface/Top_Facet.png" *ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'top'" >
                     </div>
+                  </div>
+                  
+                  <div *ngIf="searchExperienceConfig && searchExperienceConfig.experienceConfig && searchExperienceConfig.experienceConfig.searchBarPosition === 'top'">
+                    <div class="left-aligned mt-3"  *ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets && selectedSettingResultsObj.facets.isEnabled">
+                      <img src="assets/icons/search-interface/Facet_Left.png"*ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'left'">
+                    </div>
+                    <div class="left-aligned mt-3">
+                      <img src="assets/icons/search-interface/Facet_Top.png" *ngIf="selectedSettingResultsObj && selectedSettingResultsObj.facets &&  selectedSettingResultsObj.facets.aligned == 'top'" >
+                    </div>
+                  </div>
                 </div>
             </ng-container>   
           <!-- Full results Facet-->
@@ -253,7 +263,7 @@
                       <div class="label-text">{{'resultTemplate.URL' | translate}}</div>
                       <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                        <input type="text" maxlength="60" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <input type="text" maxlength="60" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" (focus)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
                         <img *ngIf="(!customizeTemplateObj.template.resultMapping.url.length) && submitted" id="headingFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
                         <ul class="dropdown-menu content-menu scroll-max-250">
@@ -308,7 +318,7 @@
                       <div class="label-text">{{'resultTemplate.URL' | translate}}</div>
                       <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                        <input type="text" maxlength="60" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <input type="text" maxlength="60" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" (focus)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
                         <img *ngIf="(!customizeTemplateObj.template.resultMapping.url.length) && submitted" id="headingFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
                         <ul class="dropdown-menu content-menu scroll-max-250">
@@ -363,7 +373,7 @@
                       <div class="label-text">{{'resultTemplate.URL' | translate}}</div>
                       <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                        <input type="text" maxlength="60" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <input type="text" maxlength="60" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!customizeTemplateObj.template.resultMapping.url.length) && submitted)" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" (focus)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
                         <img src="assets/icons/search-interface/search.svg" class="search-icon">
                         <img *ngIf="(!customizeTemplateObj.template.resultMapping.url.length) && submitted" id="headingFieldWarning" src="assets/icons/warning_escalation.svg" style="top: 32%; position: absolute; right: 2.5%; display: block;" height="12" width="12" />
                         <ul class="dropdown-menu content-menu scroll-max-250">
