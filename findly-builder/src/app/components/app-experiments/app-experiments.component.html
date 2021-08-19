@@ -13,10 +13,10 @@
       <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
        
         <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}" style="float: left">                               
-          <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}" autocomplete="off" [(ngModel)]="searchFields" (focusout)="focusoutSearch();" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+          <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}" autocomplete="off" [(ngModel)]="searchFields"  maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
           (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
       <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields">
-      <img class="close-icon" *ngIf="searchFields" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="searchFields='';showSearch=!showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+      <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
       </div> 
         <div class="searchBlock" (click)="showSearch=!showSearch;focusinSearch('inputSearch')" *ngIf="listOfExperiments.length>0||filterExperiments.length>0">
           <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
@@ -198,7 +198,8 @@
                     <div class="col-1 title">{{"experiments.users"| translate}}</div>
                     <div class="col-1 title">{{"experiments.searches"| translate}}</div>
                     <div class="col-1 title">{{"experiments.clicks"| translate}}</div>
-                    <div class="col-1 title">{{"experiments.ctr"| translate}}  <span placement="top-center" [ngbTooltip]="ctrTooltip" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span></div>
+                    <div class="col-1 title d-flex align-items-center">
+                      <span class="d-inline-block text-truncate" style="max-width: 70px;" title="{{'experiments.ctr' | translate}}">{{"experiments.ctr"| translate}}</span>  <span placement="top-center" [ngbTooltip]="ctrTooltip" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span></div>
                     <div class="col-2 title">{{"experiments.searches_results"| translate}}</div>
                   </div>
                   <div class="row m-0 col-12 acc-row-body align-items-center" *ngFor="let expCol of exp.variants">
@@ -416,4 +417,4 @@
 </kr-modal>
 
 <!-- upgrade plan component-->
-<app-upgrade-plan #plans></app-upgrade-plan>
+<app-upgrade-plan #plans [componentType]="componentType" (upgradedEvent)="upgradeComplete()"></app-upgrade-plan>

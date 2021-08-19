@@ -18,8 +18,10 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import * as moment from 'moment';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { FixedSizeVirtualScrollStrategy } from '@angular/cdk/scrolling';
 declare const $: any;
 @Component({
   selector: 'app-business-rules',
@@ -112,6 +114,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   autoSuggestInputItems: any;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   componentType: string = 'configure';
+  loadImageText: boolean = false;
+  loadingContent1: boolean = false;
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -132,6 +136,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     public dialog: MatDialog,
     private sortPipe: SortPipe,
+    public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService
   ) { }
   // ngAfterViewInit(){
@@ -146,12 +151,15 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     })
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
   }
-  loadImageText: boolean = false;
-  loadingContent1: boolean
+  
   imageLoad() {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
+    if (!this.inlineManual.checkVisibility('RULES')) {
+      this.inlineManual.openHelp('RULES')
+      this.inlineManual.visited('RULES')
+    }
   }
   loadRules() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -714,15 +722,20 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
       }
       this.addRemoveRuleFromSelection(null, null, true);
-      if (res.length > 0) {
+      if (res && res.rules && res.rules.length > 0) {
         this.loadingContent = false;
-        this.loadingContent1 = true;
+        this.loadingContent1 = false;
       }
       else {
         this.loadingContent1 = true;
+        //if(!this.inlineManual.checkVisibility('RULES')){
+        //  this.inlineManual.openHelp('RULES')
+        //  this.inlineManual.visited('RULES')
+        //}
       }
     }, errRes => {
       this.loadingContent = false;
+      this.loadingContent1 = false;
       this.errorToaster(errRes, 'Failed to get rules');
     });
   }

@@ -1107,6 +1107,16 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/eplead',
       method: 'post'
     }
+    /** Inline Manual API */
+    this.serviceList['get.inlineManual'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/inlineManual',
+      method: 'get'
+    }
+    this.serviceList['put.updateInlineManual'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/inlineManual',
+      method: 'put'
+    }
+    /** Inline Manual API */
     //request for enterprise plan
     this.serviceList['put.upgradeBannerRead'] = {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/readBanner',

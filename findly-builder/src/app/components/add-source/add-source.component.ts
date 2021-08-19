@@ -23,6 +23,7 @@ import { RangySelectionService } from '../annotool/services/rangy-selection.serv
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
@@ -235,6 +236,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     //private dock: DockStatusService,
     public dialog: MatDialog,
     private rangyService: RangySelectionService,
+    public inlineManual : InlineManualService,
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
   ) { }
@@ -289,6 +291,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     this.checkAnnotationPolling();
+    if(!this.inlineManual.checkVisibility('SOURCES')){
+      this.inlineManual.openHelp('SOURCES')
+      this.inlineManual.visited('SOURCES')
+    }
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -535,10 +541,51 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     else if (selectedCrawlMethod && (selectedCrawlMethod.resourceType === 'structuredData' || selectedCrawlMethod.resourceType === 'structuredDataManual')) {
       this.selectedSourceType = selectedCrawlMethod;
       this.openAddStructuredData();
+      if(!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')){
+        this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
+        this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
+      }
     }
     else {
       this.selectedSourceType = selectedCrawlMethod;
       this.openAddSourceModal();
+    }
+
+    if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentWeb'){
+      if(!this.inlineManual.checkVisibility('CONTENT_SUB_TOPIC')){
+        this.inlineManual.openHelp('CONTENT_SUB_TOPIC')
+        this.inlineManual.visited('CONTENT_SUB_TOPIC')
+      }
+    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentDoc'){
+      if(!this.inlineManual.checkVisibility('UPLOAD_FILE_SUB_TOPIC')){
+        this.inlineManual.openHelp('UPLOAD_FILE_SUB_TOPIC')
+        this.inlineManual.visited('UPLOAD_FILE_SUB_TOPIC')
+      }
+    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'faqWeb'){
+      if(!this.inlineManual.checkVisibility('EXTRACT_FAQ_SUB_TOPIC')){
+        this.inlineManual.openHelp('EXTRACT_FAQ_SUB_TOPIC')
+        this.inlineManual.visited('EXTRACT_FAQ_SUB_TOPIC')
+      }
+    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'faqDoc'){
+      if(!this.inlineManual.checkVisibility('IMPORT_FAQ_SUB_TOPIC')){
+        this.inlineManual.openHelp('IMPORT_FAQ_SUB_TOPIC')
+        this.inlineManual.visited('IMPORT_FAQ_SUB_TOPIC')
+      }
+    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'manual'){
+      if(!this.inlineManual.checkVisibility('ADD_FAQ_MAUALY_SUB_TOPIC')){
+        this.inlineManual.openHelp('ADD_FAQ_MAUALY_SUB_TOPIC')
+        this.inlineManual.visited('ADD_FAQ_MAUALY_SUB_TOPIC')
+      }
+    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentStucturedDataImport'){
+      if(!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')){
+        this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
+        this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
+      }
+    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentStucturedDataAdd'){
+      if(!this.inlineManual.checkVisibility('ADD_STRUCTURED_DATA_MANUALY')){
+        this.inlineManual.openHelp('ADD_STRUCTURED_DATA_MANUALY')
+        this.inlineManual.visited('ADD_STRUCTURED_DATA_MANUALY')
+      }
     }
     setTimeout(() => {
       $('#addSourceTitleInput').focus();
@@ -1003,8 +1050,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       // answer: event.response,
       defaultAnswers: event._source.defaultAnswers || [],
       conditionalAnswers: event._source.conditionalAnswers || [],
-      keywords: event._source.tags
+      keywords: event._source.tags,
+      alternateQuestions: event._source.alternateQuestions || []
     };
+    event.quesList.alternateQuestions = event._source.alternateQuestions || []
     payload = _.extend(payload, event.quesList);
 
     this.service.invoke('add.sourceMaterialManualFaq', quaryparms, payload).subscribe(res => {
@@ -1407,7 +1456,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.importFaqInprogress = true;
       this.openStatusModal();
       this.addSourceModalPopRef.close();
-      this.dockService.trigger(true)
+      //this.dockService.trigger(true)
     },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1417,9 +1466,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
       });
-    this.service.invoke('get.dockStatus', quaryparms, payload).subscribe(res1 => {
+    // this.service.invoke('get.dockStatus', quaryparms, payload).subscribe(res1 => {
 
-    });
+    // });
 
   }
   //popup for crawling confirmation
@@ -1516,8 +1565,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.submitted = false;
     }
   }
-  openBotsConfigurationModalElement(bot,isBotLinked) {
-    if(isBotLinked){
+  openBotsConfigurationModalElement(bot, isBotLinked) {
+    if (isBotLinked) {
       return;
     }
     this.selectedLinkBotConfig = bot;

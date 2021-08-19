@@ -180,7 +180,7 @@
          }         
           
      .add-synonyms-inputs{
-        margin: 0 10px;
+        margin: 10px 0;
         .input-group-items{            
             box-sizing: border-box;           
             justify-content: space-between;
@@ -379,7 +379,7 @@
 }
 .table-scroll-perfect-synonyms{
     padding: 0 45px;
-    height: calc(100vh - 160px);
+    height: calc(100vh - 145px);
     .kr-sg-data-table{
         margin: 0;
         section{
@@ -481,9 +481,9 @@
             }
         }
     }
-    &.newRecoredActive{
-        height: calc(100vh - 385px);
-    }
+    // &.newRecoredActive{
+    //     height: calc(100vh - 385px);
+    // }
     .empty-questions-selected{
         width: 320px;
         margin: 0 auto;

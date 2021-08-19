@@ -12,6 +12,7 @@ import { Observable, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 @Component({
   selector: 'app-weights',
   templateUrl: './weights.component.html',
@@ -47,7 +48,8 @@ export class WeightsComponent implements OnInit, OnDestroy {
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    public inlineManual : InlineManualService
   ) { }
   selectedApp: any = {};
   serachIndexId;
@@ -117,6 +119,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
         }
         this.weights.push(obj);
         console.log("weight noe ", this.weights);
+       
       });
     }
     this.loadingContent = false;
@@ -175,6 +178,10 @@ export class WeightsComponent implements OnInit, OnDestroy {
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
       this.pipeline = res.pipeline || {};
       this.prepereWeights();
+      if(!this.inlineManual.checkVisibility('WEIGHTS')){
+        this.inlineManual.openHelp('WEIGHTS')
+        this.inlineManual.visited('WEIGHTS')
+      }
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get weights');

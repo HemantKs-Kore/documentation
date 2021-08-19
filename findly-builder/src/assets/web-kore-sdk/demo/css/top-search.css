@@ -155,7 +155,7 @@ body::-webkit-scrollbar {
   padding: 14px 12px;
 }
 .sdk-top-down-interface .full-results-data-container .tile-with-text-parent.grid_view_template .tile-with-text {
-  width: 19%;
+  /* width: 19%; */
 }
 .sdk-top-down-interface .tile-with-text-parent.grid_view_template .tile-with-text .tile-heading {
   font-weight: 600;
@@ -288,9 +288,9 @@ body::-webkit-scrollbar {
   margin-bottom: 0;
   padding: 11px 10px;
 }
-.sdk-top-down-interface .tile-with-image-parent.template-3 .tile-with-image:last-child {
+/* .sdk-top-down-interface .tile-with-image-parent.template-3 .tile-with-image:last-child {
   border: 0;
-}
+} */
 .sdk-top-down-interface .tile-with-image-parent.template-3.with-accordion .tile-with-image {
   padding: 13px 20px 13px 20px;
 }
@@ -476,7 +476,7 @@ body::-webkit-scrollbar {
   margin: 4px;
 }
 .sdk-top-down-interface .full-results-data-container .tile-with-centered-content-parent.grid_view_template .tile-with-centered-content {
-  /* width: 19%; */
+  width: 24%;
 }
 .sdk-top-down-interface .tile-with-centered-content-parent.grid_view_template .tile-with-centered-content .img-block {
   text-align: center;
@@ -485,6 +485,7 @@ body::-webkit-scrollbar {
 .sdk-top-down-interface .tile-with-centered-content-parent.grid_view_template .tile-with-centered-content .img-block img {
   height: auto;
   width: 100%;
+  height: 120px;
 }
 .sdk-top-down-interface .tile-with-centered-content-parent.grid_view_template .tile-with-centered-content .text-content .title {
   font-weight: bold;
@@ -590,6 +591,9 @@ body::-webkit-scrollbar {
   border-bottom: 1px solid var(--sdk-border-iron-color);
 }
 
+.sdk-top-down-interface .tile_with_header.template-3 .tile-title:last-child{
+border: 0;
+}
 .sdk-top-down-interface .tile_with_header.grid_view_template {
   display: flex;
   flex-wrap: wrap;
@@ -727,7 +731,7 @@ body.top-down .top-down-wrapper{
   border-bottom: none;
    padding: 0px;
    /* max-height: 218px; */
-   overflow: auto;
+   /* overflow: auto; */
    position: relative;
 }
 .sdk-top-down-interface .category-wise-container .heading-title{
@@ -923,7 +927,7 @@ body.top-down .top-down-wrapper{
   width: 800px;
   margin: 0 auto;
   padding-left: 36px;
-  padding-right: 15px;
+  padding-right: 30px;
   height: 34px;
   padding-bottom: 3px;
 }
@@ -939,7 +943,7 @@ body.top-down .top-down-wrapper{
   height: 100%;
   left: 0;
   z-index: -1;
-  top: 130px;
+  top: 128px;
   }
   .top-down-search-background-div .topdown-search-main-container .search-input-box .live_search_result_box::before, .topdown-search-main-container .search-input-box .frequently_searched_box::before {
     content: "";
@@ -960,7 +964,7 @@ body.top-down .top-down-wrapper{
   /* min-height: 125px; */
   left: 0;
   right: 0;
-  top: 66px;
+  top: 67px;
   z-index: 9;
   /* margin: 0 auto; */
   display: none;
@@ -969,11 +973,23 @@ body.top-down .top-down-wrapper{
 }
 .topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box {
   border-bottom: 1px solid var(--sdk-border-porcelain-color);
-  padding: 0 25px;
+  padding: 1px 25px;
   margin-bottom: 0px;
   z-index: 2;
   position: relative;
   background: #fff;
+}
+.topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box.highlightSuggestion {
+  background: var(--sdk-white-bg);
+  border: 1px solid var(--sdk-border-silver-sand-color);
+  box-sizing: border-box;
+  border-radius: 20px;
+}
+.topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box:hover {
+  background: var(--sdk-white-bg);
+  border: 1px solid var(--sdk-border-silver-sand-color);
+  box-sizing: border-box;
+  border-radius: 20px;
 }
 .topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box {
   padding: 1px 0px 1px 11px;
@@ -981,6 +997,7 @@ body.top-down .top-down-wrapper{
   position: relative;
   color: var(--sdk-dusty-gray-color);
   cursor: pointer;
+  border: 1px solid var(--sdk-white-bg);
 }
 .topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box .suggestion-box .sugg-query-box {
   color: var(--sdk-shark-black-color);
@@ -1510,7 +1527,7 @@ float: right;
   position: absolute;
   cursor: pointer;
   right: 15px;
-  top: 9px;
+  top: 14px;
 }
 .sdk-top-down-interface .conversation-container .conversations{
   position: relative;
@@ -1575,7 +1592,9 @@ float: right;
   z-index:-1 !important;
 }
 
-
+.sdk-top-down-interface .searchAssist-kore-chat-window.search-container.conversation #searchChatContainer .messageBubble .messageBubble-content .botImg {
+  display: none !important;
+}
 .sdk-top-down-interface .conversation-container .conversations .search-container.conversation #searchChatContainer .messageBubble .botMessage{
   background: var(--sdk-bg-athens-gray-color);
   box-shadow: 0px 1px 3px rgb(0 0 0 / 25%);
@@ -1588,6 +1607,7 @@ float: right;
   line-height: 14px;
   min-height: auto;
   margin-bottom: 8px;
+  margin-left: 0px !important;
 }
 
 .sdk-top-down-interface .conversation-container .conversations .search-container.conversation #searchChatContainer .messageBubble .botMessage span{
@@ -1869,7 +1889,12 @@ float: right;
   margin-bottom: 12px;
   display: block;
 }
-
+.sdk-top-down-interface .all-product-details .structured-data-header.list-view-action-header .search-heads.show-all.sdk-show-classification {
+  margin-bottom: 7px !important;
+}
+.topdown-search-main-container .content-data-sec .structured-data-header.list-view-action-header {
+  margin-bottom: 7px;
+}
 .topdown-search-main-container #live-search-result-box .search-heads.show-all{
   font-size: 10px;
   line-height: 0px;
@@ -2325,7 +2350,7 @@ display: none !important;
     border: 1px solid var(--sdk-border-mischka-color);
     box-sizing: border-box;
     border-radius: 8px;
-    margin-top: 12px;
+    margin-top: 8px;
     height: auto;
     padding: 14px 12px;
     /* width: 347px; */
@@ -2367,6 +2392,12 @@ display: none !important;
   flex-wrap: wrap;
   margin: 0 0px;
   width: 100%;
+  }
+  .searchAssist-kore-chat-window .action-results-container.btn_block_actions.main-content-title-grid-data{
+    display: flex !important;
+    flex-wrap: wrap;
+    margin: 0 0px 5px;
+    width: 100%;
   }
   .searchAssist-kore-chat-window .main-content-title-grid-data .title-box-data{
   padding: 5px;
@@ -2448,7 +2479,7 @@ display: none !important;
    display: none;
  }
   .searchAssist-kore-chat-window .main-content-title-grid-data.new-grid-search-data.list-view-data-search {
-    margin: 0 0px;
+    margin: 0 0px 13px;
     width: 100%;
  }
   .searchAssist-kore-chat-window .main-content-title-grid-data.new-grid-search-data.list-view-data-search .title-box-data {
@@ -2533,7 +2564,7 @@ display: none !important;
 }
 
 .sdk-top-down-interface .topdown-search-main-container .structured-data-outer-wrap{
-  padding-bottom: 30px !important;
+  padding-bottom: 10px !important;
   margin-top: 5px;
   margin-bottom: 0;
 }
@@ -2543,7 +2574,10 @@ display: none !important;
   width: 380px !important;
   margin-top:5px !important;
 }
-
+.sdk-top-down-interface .topdown-search-main-container .carousel.action-results-container {
+  margin: 0 !important;
+  margin-bottom: 10px !important;
+}
 .sdk-top-down-interface .topdown-search-main-container .carousel{
   margin: 0 !important;
     height: fit-content !important;
@@ -2725,3 +2759,23 @@ padding-left: 3px;
   width: 114px;
   color: #0D6EFD !important;
   }
+  .sdk-top-down-interface .searchAssist-kore-chat-window .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-next {
+    padding: 9px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+.sdk-top-down-interface .top-down-search-background-div .kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-next {
+  padding: 5px !important;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  cursor: pointer;
+}
+.sdk-top-down-interface .searchAssist-kore-chat-window .full-results-data-container .tile-with-centered-content-parent.grid_view_template.gride-view-carousel-with-centered-content-parent .tile-with-centered-content {
+  width: 100%;
+}
+.sdk-top-down-interface .top-down-search-background-div .all-result-container .back-search{
+display: none !important;
+}

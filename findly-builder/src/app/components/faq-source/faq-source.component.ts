@@ -25,6 +25,7 @@ import * as moment from 'moment';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { D, F } from '@angular/cdk/keycodes';
 import { SideBarService } from './../../services/header.service';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 import { ThrowStmt } from '@angular/compiler';
 
 @Component({
@@ -42,6 +43,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   searchSources = '';
   pagesSearch = '';
   viewDetails: boolean;
+  // addAltFaq :any;
   selectedFaq: any = null;
   numberOf: any = {};
   singleSelectedFaq: any = null;
@@ -161,6 +163,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     private convertMDtoHTML: ConvertMDtoHTML,
     // public dockService: DockStatusService,
     private headerService: SideBarService,
+    public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
@@ -205,10 +208,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   loadingFaqs1: boolean;
   loadImageText: boolean = false;
   imageLoad() {
-    console.log("image loaded now")
     this.loadingFaqs = false;
     this.loadingFaqs1 = true;
     this.loadImageText = true;
+    if (!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')) {
+      this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
+      this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
+    }
   }
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
@@ -298,6 +304,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   addFaqSource(type) {
     this.showSourceAddition = type;
+    // this.addAltFaq={
+    //   _source :{
+    //     faq_alt_question : []
+    //   }
+    // }
     // this.openAddSourceModal();
   }
   errorToaster(errRes, message) {
@@ -408,6 +419,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       $('#selectAllFaqs')[0].checked = false;
       this.faqSelectionObj.selectAll = false;
     }
+    if ((this.selectedtab === 'draft' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.draft) || (this.selectedtab === 'in_review' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.in_review) || (this.selectedtab === 'approved' && this.faqSelectionObj.selectedCount == this.faqSelectionObj.stats.approved) || this.searchFaq) {
+      $('#selectAllFaqs')[0].checked = true;
+      this.faqSelectionObj.selectAll = false;
+    } 
     this.singleSelectedFaq = faq;
   }
 
@@ -450,7 +465,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getStats(source._id);
         this.faqUpdateEvent();
       }
-     
+
     } else {
       this.selectedResource = null;
       this.getfaqsBy(null, this.selectedtab);
@@ -464,7 +479,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       question: event._source.question,
       defaultAnswers: event._source.defaultAnswers || [],
       conditionalAnswers: event._source.conditionalAnswers || [],
-      keywords: event._source.tags
+      keywords: event._source.tags,
+      alternateQuestions : event._source.alternateQuestions || []
     };
     const existingfollowups = [];
     if (this.selectedFaq._meta.followupQuestions && this.selectedFaq._meta.followupQuestions.length) {
@@ -737,6 +753,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       // setTimeout(()=> {
       //   this.selectAll()
       // }, 1)
+      // FAQ Overview
+      if (!this.inlineManual.checkVisibility('FAQ_OVERVIEW')) {
+        this.inlineManual.openHelp('FAQ_OVERVIEW')
+        this.inlineManual.visited('FAQ_OVERVIEW')
+      }
 
       this.editfaq = null
       this.apiLoading = false;
@@ -873,6 +894,12 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       else {
         this.loadingFaqs1 = true;
+        // setTimeout(()=>{
+        //   if(!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')){
+        //     this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
+        //     this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
+        //   }
+        // },1000)
       }
     }, errRes => {
     });

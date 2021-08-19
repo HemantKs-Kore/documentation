@@ -94,10 +94,10 @@
                         </div> 
                         <!-- <div class="seach_add_feild"> -->
                             <div class="kr-sg-input-search"  *ngIf="showSearch">                               
-                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="searchFaqs()" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"  (focusout)="focusoutSearch();" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="searchFaqs()" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"   (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFaq">
-                            <img class="close-icon" *ngIf="searchFaq" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchFaq}" (click)="searchFaq='';searchFaqs();showSearch= !showSearch;"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            <img class="close-icon" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchFaq}" (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
                             </div>
                             <div class="seach-block" (click)="showSearch=!showSearch;cdRef.detectChanges();focusinSearch('inputSearch')">
                                 <span *ngIf="!showSearch" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
@@ -661,10 +661,10 @@
                         <img *ngIf="showSearch" src="assets/images/close.svg">Search
                     </div> -->
                     <div class="kr-sg-input-search m-0"  *ngIf="showSearch">                               
-                        <input type="text" placeholder="Search" id="inputSearch1" class="input-search"  [ngClass]="{'pl-33':!searchSources,'pl-2':searchSources}" autocomplete="off" [(ngModel)]="searchSources" (focusout)="focusoutSearch(true);" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                        <input type="text" placeholder="Search" id="inputSearch1" class="input-search"  [ngClass]="{'pl-33':!searchSources,'pl-2':searchSources}" autocomplete="off" [(ngModel)]="searchSources" maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                         (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                     <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
-                    <img class="close-icon" *ngIf="searchSources" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="searchSources='';showSearch=!showSearch;cdRef.detectChanges();"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                    <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch(true)"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
                     </div> 
                       <div class="searchBlock" (click)="showSearch=!showSearch;cdRef.detectChanges();;focusinSearch('inputSearch1')">
                         <span *ngIf="!showSearch" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
@@ -839,7 +839,7 @@
         </div>
       <perfect-scrollbar class="app-add-faq-insidescroll" #perfectScroll>
         <div class="modal-body">
-            <app-add-faq (addFaq)="addNewFollowUp($event)" [faqUpdate]="faqUpdate.asObservable()" [isFollowUp]='true' (cancelfaqEvent)="cancleAddFollowUp()"></app-add-faq>  
+            <app-add-faq (addFaq)="addNewFollowUp($event)" [faqUpdate]="faqUpdate.asObservable()"  (cancelfaqEvent)="cancleAddFollowUp()"></app-add-faq>  
         </div>
       </perfect-scrollbar> 
         <div class="modal-footer">

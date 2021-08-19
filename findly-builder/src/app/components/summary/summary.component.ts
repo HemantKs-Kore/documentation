@@ -1,4 +1,4 @@
-import { Component, ModuleWithComponentFactories, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ModuleWithComponentFactories, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { SideBarService } from '@kore.services/header.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -11,6 +11,7 @@ import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { UseronboardingJourneyComponent } from '../../helpers/components/useronboarding-journey/useronboarding-journey.component';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 declare const $: any;
 @Component({
   selector: 'app-summary',
@@ -18,7 +19,8 @@ declare const $: any;
   styleUrls: ['./summary.component.scss'],
   animations: [fadeInOutAnimation]
 })
-export class SummaryComponent implements OnInit, OnDestroy {
+export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
+  math = Math;
   serachIndexId;
   indices: any = [];
   experiments: any = [];
@@ -26,7 +28,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
   activities: any = [];
   channels: any = [];
   channelsName = '';
-  // searchIndexes: any = [];
+  //searchIndexes: any = [];
   channelExist = false;
   totalUsersStats: any = {};
   totalSearchesStats: any = {};
@@ -100,7 +102,6 @@ export class SummaryComponent implements OnInit, OnDestroy {
   };
   subscription: Subscription;
   showActivity: boolean;
-  //routeRefresh: Subscription;
   currentUsageSubscription: Subscription;
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
   @ViewChild('onboard') onboard: UseronboardingJourneyComponent;
@@ -111,22 +112,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private authService: AuthService,
     private router: Router,
+    public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService
   ) { }
 
 
   ngOnInit() {
     this.initialCall();
-    this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
-      this.showOverview = res.findlyOverviewVisited;
-    })
-    // this.routeRefresh = this.appSelectionService.refreshSummaryPage.subscribe(res => {
-    //   if (res == 'changed') {
-    //     this.initialCall('changed');
-    //     this.onboard?.initialCall();
-    //     this.appSelectionService.getTourConfig();
-    //   }
-    // })
     this.currentUsageSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
       let subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
       this.currentPlan = subscription_data.subscription;
@@ -135,10 +127,17 @@ export class SummaryComponent implements OnInit, OnDestroy {
       this.appSelectionService.getTourConfig();
     })
   }
-  // closeOverview() {
-  //   this.subscription.unsubscribe();
-  //   this.showOverview = true
-  // }
+  ngAfterViewInit() {
+    if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
+      this.onboard.openOnBoardingModal();
+    }
+    setTimeout(() => {
+      if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
+        this.inlineManual.openHelp('APP_WALKTHROUGH');
+        this.inlineManual.visited('APP_WALKTHROUGH');
+      }
+    }, 1000)
+  }
   //initial ngoninit method call
   initialCall(status?) {
     const toogleObj = {
@@ -149,13 +148,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
-    // this.getSummary();
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
     this.getAllOverview(status);
     this.getCurrentUsage();
     this.componentType = 'summary';
   }
+
   getSummary() {
     this.loading = false;
     // this.loading = true;
@@ -269,24 +268,6 @@ export class SummaryComponent implements OnInit, OnDestroy {
           let subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
           this.currentPlan = subscription_data.subscription;
         }
-        // this.activities = res.activities;
-        // this.indexPipeLineCount = this.indices[0].indexPipeLineCount;
-        // this.showActivity = this.activities.length > 0 ? this.activities.some(act => act.faqInReviewCount > 0) ? true : false : false;
-        // this.activities = this.activities.map(item => {
-        //   let hours = moment().diff(moment(item.time), 'hours');
-        //   let days = moment().diff(moment(item.time), 'days');
-        //   let result = hours > 24 ? days + ' days' : hours + ' hrs';
-        //   return { ...item, time_format: result };
-        // })
-        // this.experiments = this.experiments.slice(0, 3).map(data => {
-        //   let hours = moment().diff(moment(data.end), 'hours');
-        //   let days = moment().diff(moment(data.end), 'days');
-        //   let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
-        //   return { ...data, total_days: days_result + ' more to go', time_result: hours };
-        // })
-        //  if(this.selectedApp.channels.length){
-        //   this.channelExist =true;
-        // }
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -352,25 +333,17 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
   openSource() {
     this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/source' });
-    // $('#sourceTab').trigger('click');
   }
   redirectToPricing() {
     this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/pricing' });
   }
   openOnBoardingModal() {
-    this.showOverview = true;
-    this.subscription.unsubscribe();
-    setTimeout(() => {
-      this.componentType = 'overview';
-      //this.onboard.openOnBoardingModal();
-    }, 1000)
+    this.onboard.openOnBoardingModal();
   }
   closeOnBoardingModal() {
     this.onboard.closeOnBoardingModal();
   }
   ngOnDestroy() {
-    this.subscription ? this.subscription.unsubscribe() : null;
-    //this.routeRefresh ? this.routeRefresh.unsubscribe() : null;
     this.currentUsageSubscription ? this.currentUsageSubscription.unsubscribe() : null;
   }
 }

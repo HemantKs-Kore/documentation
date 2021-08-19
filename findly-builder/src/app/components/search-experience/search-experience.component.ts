@@ -11,6 +11,7 @@ import { SideBarService } from './../../services/header.service';
 import { Subscription } from 'rxjs';
 import { LocalStoreService } from './../../services/localstore.service';
 import { NgbDropdown, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 declare const $: any;
 @Component({
   selector: 'app-search-experience',
@@ -254,7 +255,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   @ViewChild('guideModalPop') guideModalPop: KRModalComponent;
   @ViewChild(NgbDropdownMenu) avatarDropdown: NgbDropdownMenu;
   constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService, public headerService: SideBarService,
-    public localstore: LocalStoreService) {
+    public localstore: LocalStoreService, public inlineManual : InlineManualService) {
   }
 
   ngOnInit(): void {
@@ -267,7 +268,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     })
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourData = res;
-      this.tourGuide = res.searchExperienceVisited ? '' : 'step1';
+      //this.tourGuide = res.searchExperienceVisited ? '' : 'step1';
     });
     this.userName = this.localstore.getAuthInfo() ? this.localstore.getAuthInfo().currentAccount.userInfo.fName : '';
     this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
@@ -632,7 +633,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
       //this.appSelectionService.updateTourConfig(this.componentType);
       this.notificationService.notify('Updated successfully', 'success');
-      this.tourGuide = '';
+      //this.tourGuide = '';
     }, errRes => {
       console.log(errRes);
     });
@@ -665,7 +666,12 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.color3 = this.searchObject.searchWidgetConfig.buttonTextColor;
       this.color4 = this.searchObject.searchWidgetConfig.buttonFillColor;
       this.color5 = this.searchObject.searchWidgetConfig.buttonBorderColor;
-      this.color6 = this.searchObject.searchInteractionsConfig.welcomeMsgColor;
+      this.color6 = this.searchObject.searchWidgetConfig.welcomeMsgColor;
+
+      if(!this.inlineManual.checkVisibility('SEARCH_INTERFACE')){
+        this.inlineManual.openHelp('SEARCH_INTERFACE')
+        this.inlineManual.visited('SEARCH_INTERFACE')
+      }
     }, errRes => {
       console.log(errRes);
     });

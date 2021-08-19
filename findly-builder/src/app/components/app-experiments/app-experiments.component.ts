@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
+import { InlineManualService } from '@kore.services/inline-manual.service'
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,8 +17,8 @@ import { Subscription } from 'rxjs';
   templateUrl: './app-experiments.component.html',
   styleUrls: ['./app-experiments.component.scss']
 })
-export class AppExperimentsComponent implements OnInit, OnDestroy {
-  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog, private appSelectionService: AppSelectionService) { }
+export class AppExperimentsComponent implements OnInit {
+  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog, private appSelectionService: AppSelectionService, public inlineManual: InlineManualService) { }
   addExperimentsRef: any;
   selectedApp: any;
   serachIndexId: any;
@@ -70,6 +71,7 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
   loadingContent1: boolean;
   currentSubscriptionPlan: any;
   currentSubsciptionData: Subscription;
+  componentType: string = "experiment";
   ctrTooltip: string = 'Click Through Rate is the percentage of searches which got at least one click of all the searches performed';
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
@@ -87,6 +89,13 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
         this.loadingContent1 = true;
       }
     })
+  }
+  //when ever upgrade done in experiment page event emitter will call
+  upgradeComplete() {
+    if (!this.inlineManual.checkVisibility('EXPERIMENTS')) {
+      this.inlineManual.openHelp('EXPERIMENTS')
+      this.inlineManual.visited('EXPERIMENTS')
+    }
   }
   loadImageText: boolean = false;
   imageLoaded() {
@@ -410,6 +419,11 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
       else {
         this.loadingContent = false;
         this.loadingContent1 = true;
+        //this.inlineManual.getInlineSuggestionData();
+        if (!this.inlineManual.checkVisibility('EXPERIMENTS')) {
+          this.inlineManual.openHelp('EXPERIMENTS')
+          this.inlineManual.visited('EXPERIMENTS')
+        }
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

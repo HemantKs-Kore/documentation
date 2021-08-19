@@ -18,6 +18,8 @@ import { fromEvent } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
+import { InlineManualService } from '@kore.services/inline-manual.service';
+
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 declare var require: any
 const FileSaver = require('file-saver');
@@ -40,6 +42,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   contentId
   content_id;
   edit: any = {};
+  Id;
   editConfObj: any = {};
   editTitleFlag: boolean = false;
   isConfig: boolean = false;
@@ -222,6 +225,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
+    public inlineManual: InlineManualService,
     public dockService: DockStatusService,
     private appSelectionService: AppSelectionService
   ) { }
@@ -242,6 +246,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
+    if (!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')) {
+      this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
+      this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')
+    }
   }
   hoverExecutionLog() {
     this.executionLogStatus = true;
@@ -361,8 +369,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.resources.forEach(element => {
         if (element.advanceSettings && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time) {
           if (element.advanceSettings.scheduleOpts.interval.intervalType != "Custom") {
+            let minute = ''
             let hour = (element.advanceSettings.scheduleOpts.time.hour).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.hour : '0' + element.advanceSettings.scheduleOpts.time.hour;
-            let minute = (element.advanceSettings.scheduleOpts.time.minute).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.minute : '0' + element.advanceSettings.scheduleOpts.time.minute;
+            if(element.advanceSettings.scheduleOpts.time.minute){
+               minute = (element.advanceSettings.scheduleOpts.time.minute).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.minute : '0' + element.advanceSettings.scheduleOpts.time.minute;
+            }
             element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' ' + 'at ' +
               hour + ':' + minute + ' ' +
               element.advanceSettings.scheduleOpts.time.timeOpt + ' ' + element.advanceSettings.scheduleOpts.time.timezone;
@@ -370,18 +381,26 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             let repeatOn = "";
             let schedulePeriod = "";
             let every = "";
-            // let date =""
+            let date =""
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod) {
               schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
               repeatOn = " on " + this.convertToDay(element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn);
             }
-            // if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn) {
-            //   date = element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate;
-            // }
-            element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn
- 
+            if(element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every){
+              every = element.advanceSettings.scheduleOpts.interval.intervalValue.every
+            }
+            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn) {
+              date =  moment(element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate).format('Do MMMM YYYY');
+            }
+            if(date != 'Invalid date'){
+              element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn + ' till' + ' ' + date
+            }
+            else{
+              element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn 
+            }
+            
           }
 
         }
@@ -392,7 +411,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00";
           element['schedule_duration'] = this.duration(element['schedule_duration']);
         }
-
+        if(element && element.validations && element.validations.url && !element.validations.url.validated){
+          element['vailadtionTootlip'] = element.validations.url.msg
+        }
         // let hr = element['schedule_duration'].split(":")[0];
         // let min = element['schedule_duration'].split(":")[1];
         // let sec = element['schedule_duration'].split(":")[2];
@@ -443,9 +464,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       if (res.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
+        if (!this.inlineManual.checkVisibility('CONTENT_OVERVIEW')) {
+          this.inlineManual.openHelp('CONTENT_OVERVIEW')
+          this.inlineManual.visited('CONTENT_OVERVIEW')
+        }
       }
       else {
         this.loadingContent1 = true;
+        // if(!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')){
+        //   this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
+        //   this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')
+        // }
       }
     }, errRes => {
       console.log(errRes);
@@ -522,7 +551,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if (this.oldQuedJob.length != queuedJobs.length) {
           this.getSourceList();
         }
-      } else { 
+      } else {
         clearInterval(this.polingObj[type]);
         this.getSourceList('clearPoling');
       }
@@ -588,7 +617,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       else {
         this.swapSlider('config')
       }
-      // this.clicksViews()
+      this.clicksViews('file')
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
       //   $('.tabname')[1].classList.remove('active');
       //   $('.tabname')[0].classList.add('active');
@@ -603,14 +632,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     });
   }
- 
+
   viewPages() {
     this.sliderStep = 0;
   }
   viewPageDetails(page) {
     this.content_id = page._id
     this.sliderStep = 1;
-    this.clicksViews();
+    this.clicksViews('web');
   }
   sliderBack() {
     if (this.sliderStep) {
@@ -720,6 +749,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   openStatusSlider(source, page?) {
     console.log("sourec opned", source)
+    
     this.executionHistoryData = [];
     this.pagesSearch = '';
 
@@ -751,6 +781,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.getCrawledPages(this.limitpage, 0);
       this.executionHistory();
       this.sourceStatus = source.recentStatus;
+     
       // if(this.sourceStatus === 'success'){
       //    this.execution = false;
       //    this.isConfig = false;
@@ -763,8 +794,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     else if (source.extractionType === 'file') {
       this.openDocumentModal();
-      this.getCrawledPages(this.limitpage, 0);
-      // this.clicksViews()
+      this.getCrawledPages(this.limitpage, 0);    
     }
     // this.sliderComponent.openSlider('#sourceSlider', 'right500');
     //}
@@ -928,7 +958,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       data: {
         title: 'Delete Document',
         newTitle: 'Are you sure you want to delete?',
-        body: 'All the Pages associated with this source will be deleted.',
+        body: 'All the Docs associated with this source will be deleted.',
         buttons: [{ key: 'yes', label: 'delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -1393,12 +1423,21 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
     crawler.advanceOpts.crawlDepth = this.crawlDepth;
     crawler.advanceOpts.maxUrlLimit = this.maxUrlLimit;
+    crawler.advanceOpts.crawlEverything = false;
     if (option == 'add') {
       type == 'block' ? crawler.advanceOpts.blockedURLs.push(allowUrls) : crawler.advanceOpts.allowedURLs.push(allowUrls);
     } else {
       type == 'block' ? crawler.advanceOpts.blockedURLs.splice(i, 1) : crawler.advanceOpts.allowedURLs.splice(i, 1);
     }
-
+    if(type == 'block'){
+        crawler.advanceOpts.allowedOpt = false;
+        crawler.advanceOpts.blockedOpt = true;
+      crawler.advanceOpts.allowedURLs = [];
+    }else{
+        crawler.advanceOpts.allowedOpt = true;
+        crawler.advanceOpts.blockedOpt = false;
+      crawler.advanceOpts.blockedURLs = [];
+    }
     // crawler.resourceType = resourceType; 
     payload = crawler;
     console.log(payload);
@@ -1563,6 +1602,24 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     // else {
     //   delete crawler.resourceType;
     // }
+    if(this.selectedSource.advanceSettings.crawlEverything){
+      crawler.advanceOpts.crawlEverything = true;
+      crawler.advanceOpts.allowedOpt = false;
+      crawler.advanceOpts.blockedOpt = false;
+      crawler.advanceOpts.allowedURLs = [];
+      crawler.advanceOpts.blockedURLs = [];
+    }else{
+      crawler.advanceOpts.crawlEverything = false;
+      if(this.selectedSource.advanceSettings.allowedOpt){
+        crawler.advanceOpts.allowedOpt = true;
+        crawler.advanceOpts.blockedOpt = false;
+        crawler.advanceOpts.blockedURLs = [];
+      }else if(this.selectedSource.advanceSettings.blockedOpt){
+        crawler.advanceOpts.allowedOpt = false;
+        crawler.advanceOpts.blockedOpt = true;
+        crawler.advanceOpts.allowedURLs = [];
+      }
+    }
     payload = crawler;
     //console.log(payload);
     if (crawler.advanceOpts.scheduleOpt) {
@@ -1750,11 +1807,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.maxUrlLimit = 0;
     }
   }
-  clicksViews() {
+  
+  clicksViews(type) {
+    if(type == 'file'){
+      this.Id = this.contentId;
+    }
+    else if(type == 'web'){
+      this.Id = this.content_id
+    }
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      contentId: this.content_id,
-    };
+      contentId: this.Id,
+    };   
     this.service.invoke('get.clicksViewsContent', quaryparms).subscribe(res => {
       console.log(res);
       this.numberOf = res;

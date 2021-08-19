@@ -3,6 +3,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { scheduleOpts ,InterVal , Time , IntervalValue, EndsOn} from 'src/app/helpers/models/Crwal-advance.model';
 import { NotificationService } from '@kore.services/notification.service';
+import { EventListenerFocusTrapInertStrategy } from '@angular/cdk/a11y';
 declare const $: any;
 
 @Component({
@@ -227,10 +228,16 @@ export class SchedulerComponent implements OnInit {
     if(this.meridiem == 'PM' && timeHH != '' && (Number(timeHH) > 0) && Number(timeHH) <= 24){
         timeHH = this.timeHH + 12;
         if(Number(timeHH) == 24) {
-          timeHH = (Number(this.timeHH) - 12).toLocaleString();
+          timeHH = (Number(this.timeHH)).toLocaleString();
         }
     }
-    !this.timeMM ? this.timeMM = null :  this.timeMM  = this.timeMM;
+    else if(this.meridiem == 'AM' && Number(timeHH) == 12 ){
+      timeHH = '0'
+    }
+    if(this.meridiem == 'PM' && Number(timeHH) == 12 ){
+      timeHH = '12'
+    }
+    !this.timeMM ? this.timeMM = 0 :  this.timeMM  = this.timeMM;
     if(Number(this.timeMM) > 59 && this.timeMM.toString().length == 2){
       this.timeMM = '59';
       $('#scheduleMn').val('59');

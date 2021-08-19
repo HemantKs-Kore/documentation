@@ -13,6 +13,8 @@ export class RecordPaginationComponent implements OnInit {
   endPage = 0;
   startpage = 1;
   inputPage = 1;
+  previousDisable = false;
+  nextDisable = false;
   @Input() limitpage: any;
   @Input() totalRecord: any;
   @Output() pageChanged = new EventEmitter();
@@ -36,7 +38,8 @@ export class RecordPaginationComponent implements OnInit {
     if (this.inputPage > this.endPage) {
       this.inputPage = this.inputPage - 1;
     }
-
+    
+    this.previousDisable = true;
 
   }
 
@@ -63,6 +66,16 @@ export class RecordPaginationComponent implements OnInit {
     const eventObj = {
       limit: limit,
       skip: skip
+    }
+    if(inputPage == this.endPage){
+      this.nextDisable= true;
+    }else{
+      this.nextDisable= false;
+    }
+    if(inputPage == 1){
+      this.previousDisable= true;
+    }else{
+      this.previousDisable= false;
     }
     this.pageChanged.emit(eventObj);
   }

@@ -158,7 +158,7 @@ export class SettingsComponent implements OnInit {
   }
 
   validateSource() {
-    if (this.credntial.awt != 'Signing algorithm') {
+    if (this.credntial.awt != 'HS256') {
       this.createCredential()
     }
     else if (this.credntial.awt == 'Signing algorithm') {
@@ -549,6 +549,7 @@ enableDisableCredential(){
     confirmationPopUp: true
   }
   if (this.enableConfiguration) {
+    this.disableCredential();
     this.notificationService.notify('Web SDK channel is enabled.','success')
     // modalData.newTitle = 'Are you sure you want to Enable ?'
     // modalData.body = 'Channel will be enabled.';
@@ -616,7 +617,7 @@ enableDisableCredential(){
       this.addCredentialRef.close();
     }
     this.credntial.name = [];
-    this.credntial.awt = 'Select Signing Algorithm';
+    this.credntial.awt = 'HS256';
   }
   toggleSearch() {
     if (this.showSearch && this.searchchannel) {
