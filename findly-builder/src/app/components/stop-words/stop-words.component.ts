@@ -7,6 +7,7 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import * as _ from 'underscore';
 import { Subscription } from 'rxjs';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 declare const $: any;
 @Component({
   selector: 'app-stop-words',
@@ -45,6 +46,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
+    public inlineManual : InlineManualService,
     private appSelectionService: AppSelectionService
   ) { }
   ngOnInit(): void {
@@ -141,6 +143,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       }
       else {
         this.loadingContent1 = true;
+        this.inlineManual.openHelp('STOP_WORDS')
       }
       this.loadingContent = false;
       res.pipeline.stages[2].options.stopWordsRemovalEnabled = this.enabled ;

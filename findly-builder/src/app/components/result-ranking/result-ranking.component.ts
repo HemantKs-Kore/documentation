@@ -9,6 +9,7 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { SideBarService } from '@kore.services/header.service';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 declare const $: any;
 
 @Component({
@@ -60,6 +61,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
+    public inlineManual : InlineManualService,
     private headerService: SideBarService,
     private zone: NgZone) { }
   sdk_evenBind() {
@@ -686,6 +688,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       }
       else {
         this.loadingContent1 = true;
+        this.inlineManual.openHelp('RESULT_RANKING')
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

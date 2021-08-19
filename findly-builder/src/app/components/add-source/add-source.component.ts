@@ -23,6 +23,7 @@ import { RangySelectionService } from '../annotool/services/rangy-selection.serv
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
@@ -235,6 +236,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     //private dock: DockStatusService,
     public dialog: MatDialog,
     private rangyService: RangySelectionService,
+    public inlineManual : InlineManualService,
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
   ) { }
@@ -289,6 +291,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     this.checkAnnotationPolling();
+    this.inlineManual.openHelp('SOURCES')
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -535,10 +538,27 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     else if (selectedCrawlMethod && (selectedCrawlMethod.resourceType === 'structuredData' || selectedCrawlMethod.resourceType === 'structuredDataManual')) {
       this.selectedSourceType = selectedCrawlMethod;
       this.openAddStructuredData();
+      this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
     }
     else {
       this.selectedSourceType = selectedCrawlMethod;
       this.openAddSourceModal();
+    }
+
+    if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentWeb'){
+      this.inlineManual.openHelp('CONTENT_SUB_TOPIC')
+    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentDoc'){
+      this.inlineManual.openHelp('CONTENT_SUB_TOPIC')
+    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'faqWeb'){
+      this.inlineManual.openHelp('EXTRACT_FAQ_SUBTOPIC')
+    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'faqDoc'){
+      this.inlineManual.openHelp('IMPORT_FAQ_SUBTOPIC')
+    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'manual'){
+      this.inlineManual.openHelp('ADD_FAQ_MAUALY_SUBTOPIC')
+    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentStucturedDataImport'){
+      this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
+    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentStucturedDataAdd'){
+      this.inlineManual.openHelp('ADD_STRUCTURED_DATA_MANUALY')
     }
     setTimeout(() => {
       $('#addSourceTitleInput').focus();

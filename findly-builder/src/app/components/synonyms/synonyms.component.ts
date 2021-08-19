@@ -12,6 +12,7 @@ import * as _ from 'underscore';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { Subscriber, Subscription } from 'rxjs';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 import { TmplAstRecursiveVisitor } from '@angular/compiler';
 declare const $: any;
 
@@ -69,7 +70,8 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
-    private appSelectionService: AppSelectionService) {
+    private appSelectionService: AppSelectionService,
+    public inlineManual : InlineManualService) {
     this.synonymObj = new SynonymClass();
   }
 
@@ -128,6 +130,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       }
       else {
         this.loadingContent1 = true;
+        this.inlineManual.openHelp('SYNONYMS')
       }
    
         this.pipeline.stages[3].synonyms.forEach(element => {

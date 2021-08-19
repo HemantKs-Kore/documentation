@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 
 // import * as PureJSCarousel from 'src/assets/web-kore-sdk/libs/purejscarousel.js';
 declare var PureJSCarousel: any;
@@ -125,7 +126,8 @@ export class SearchInterfaceComponent implements OnInit {
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
-    public headerService : SideBarService
+    public headerService : SideBarService,
+    public inlineManual : InlineManualService,
   ) { }
 
   ngOnInit(): void {
@@ -156,6 +158,7 @@ export class SearchInterfaceComponent implements OnInit {
 
     console.log(this.customizeTemplateObj);
     console.log(this.selectedSettingResultsObj);
+    this.inlineManual.openHelp('RESULT_TEMPLATE')
     //TEST
     // this.service.invoke('get.SI_allResultSettings', {searchIndexId : this.serachIndexId}).subscribe(res => {
     //   this.notificationService.notify('Result setting saved successfully', 'success');

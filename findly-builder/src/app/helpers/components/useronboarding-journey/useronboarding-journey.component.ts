@@ -67,6 +67,9 @@ export class UseronboardingJourneyComponent implements OnInit, OnChanges, OnDest
   }
   //open useronboard popup
   closeOnBoardingModal() {
+    if (!this.tourConfigData.findlyOverviewVisited) {
+      this.appSelectionService.updateTourConfig('overview');
+    }
     if (this.onBoardingModalPopRef && this.onBoardingModalPopRef.close) {
       this.onBoardingModalPopRef.close();
     }

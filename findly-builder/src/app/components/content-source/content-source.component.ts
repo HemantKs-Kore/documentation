@@ -18,6 +18,8 @@ import { fromEvent } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
+import { InlineManualService } from '@kore.services/inline-manual.service';
+
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 declare var require: any
 const FileSaver = require('file-saver');
@@ -224,7 +226,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     private router: Router,
     public dialog: MatDialog,
     public dockService: DockStatusService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    public inlineManual : InlineManualService
   ) { }
 
   ngOnInit(): void {
@@ -457,9 +460,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       if (res.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
+        this.inlineManual.openHelp('CONTENT_OVERVIEW')
       }
       else {
         this.loadingContent1 = true;
+        this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
       }
     }, errRes => {
       console.log(errRes);

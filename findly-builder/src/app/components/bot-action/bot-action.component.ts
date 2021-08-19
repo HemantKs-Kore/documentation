@@ -10,6 +10,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service'
 import { environment } from '@kore.environment';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 declare const $: any;
 @Component({
@@ -83,6 +84,7 @@ export class BotActionComponent implements OnInit {
     selectedItems: [],
   };
   isEnabledAll = "disable";
+
   loading: boolean = true;
   componentType: string = 'addData';
   botBulilderUrl = '';
@@ -93,6 +95,7 @@ export class BotActionComponent implements OnInit {
     private authService: AuthService,
     private appSelectionService: AppSelectionService,
     private router: Router,
+    public inlineManual: InlineManualService,
     public dialog: MatDialog,
   ) {}
   checkUncheckTasks(task) {
@@ -422,6 +425,7 @@ export class BotActionComponent implements OnInit {
 
   openBotsModalElement() {
     this.botsModalRef = this.botsModalElement.open();
+    this.inlineManual.openHelp('ACTION_SUBTOPIC')
     setTimeout(()=>{
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop(); 
@@ -1142,6 +1146,13 @@ export class BotActionComponent implements OnInit {
               element.type = element.type ?? "Dialog";
               this.linkedBotTasks.push(element);
             }
+            let index = requestBody['tasks'].findIndex((d) => d._id == element._id)
+            if (index > -1) {
+              const ele = $('#cx' + element._id);
+              const addition = ele[0].checked
+            }
+
+
           });
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
           this.notificationService.notify(this.linkedBotTasks.length == requestBody['tasks'].length ? "All the tasks are enabled" : (requestBody['tasks'].length + " tasks are enabled"), 'success');

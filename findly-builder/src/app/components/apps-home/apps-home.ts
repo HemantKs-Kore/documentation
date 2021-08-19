@@ -9,6 +9,7 @@ import { SideBarService } from '@kore.services/header.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AuthService } from '@kore.services/auth.service';
 import { NONE_TYPE } from '@angular/compiler';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 declare const $: any;
 @Component({
   // tslint:disable-next-line:component-selector
@@ -50,6 +51,7 @@ export class AppsListingComponent implements OnInit {
     private headerService: SideBarService,
     private appSelectionService: AppSelectionService,
     public authService: AuthService,
+    public inlineManual : InlineManualService,
     private route: ActivatedRoute
   ) {
     this.authInfo = localstore.getAuthInfo();
@@ -132,6 +134,7 @@ export class AppsListingComponent implements OnInit {
       }
       else {
         this.emptyApp = true;
+        this.inlineManual.openHelp('CREATE_APP')
         this.showBoarding = true;
         this.openBoradingJourney()
       }

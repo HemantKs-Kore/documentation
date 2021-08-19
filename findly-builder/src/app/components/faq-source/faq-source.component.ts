@@ -25,6 +25,7 @@ import * as moment from 'moment';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { D, F } from '@angular/cdk/keycodes';
 import { SideBarService } from './../../services/header.service';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 import { ThrowStmt } from '@angular/compiler';
 
 @Component({
@@ -162,6 +163,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     private convertMDtoHTML: ConvertMDtoHTML,
     // public dockService: DockStatusService,
     private headerService: SideBarService,
+    public inlineManual : InlineManualService,
     private appSelectionService: AppSelectionService,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
@@ -748,6 +750,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       // setTimeout(()=> {
       //   this.selectAll()
       // }, 1)
+    // FAQ Overview
+      this.inlineManual.openHelp('FAQ_OVERVIEW')
 
       this.editfaq = null
       this.apiLoading = false;
@@ -884,6 +888,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       else {
         this.loadingFaqs1 = true;
+        this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
       }
     }, errRes => {
     });
