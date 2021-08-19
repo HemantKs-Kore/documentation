@@ -5384,6 +5384,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (templateType === "search-container") {
 
         $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
+          _self.trimSearchQuery();
           var keyCode = e.keyCode || e.which;
           keyCode = Number(keyCode);
           if (keyCode !== 13) {
@@ -5424,7 +5425,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.enterIsClicked = false;
           }
           if (code !== 13 && code !== 40 && code !== 38) {
+            if (($('body').hasClass('top-down') && $('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && $('.bottom-up-suggestion').val())) {
             _self.pubSub.publish('sa-input-keyup');
+            }
           }
           if (code == 9 || code == 39) {
             $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
@@ -5670,6 +5673,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
 
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
+          _self.trimSearchQuery();
           if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
             $('#autoSuggestionContainer').empty();
             $('.suggestion-search-data-parent').css('display', 'none');
@@ -22913,6 +22917,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }, 500);
     }
+    FindlySDK.prototype.trimSearchQuery = function () {
+      if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+        $('.bottom-up-search').val($('.bottom-up-search').val().trim());
+      }
+      if (($('body').hasClass('top-down') && $('.search-top-down').val())) {
+        $('.search-top-down').val($('.search-top-down').val().trim());
+      }
+    }
+
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
 });
