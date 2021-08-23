@@ -11906,8 +11906,11 @@ padding-right: 0;
     display: block;
     margin: auto;
 }
-.searchAssist-kore-chat-window  .tile-description {
-height: 16px;
+.searchAssist-kore-chat-window .tile-description  {
+    height: 16px;
+}
+.searchAssist-kore-chat-window .tile-description.defalut-show {
+height: 16px !important;
 }
 .searchAssist-kore-chat-window .panel .tile-description {
 height: inherit;
