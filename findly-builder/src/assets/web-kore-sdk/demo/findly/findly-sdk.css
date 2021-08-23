@@ -8248,6 +8248,9 @@ html , body{
     font-size: 14px;
     font-weight: bold;    
   }
+  .searchAssist-kore-chat-window .accordion.acc-active .tile-description{
+      display: none;
+  }
   .searchAssist-kore-chat-window .accordion.best-match ~ .panel {
     overflow: initial;
     max-height: 100%;
@@ -11894,6 +11897,9 @@ padding-right: 0;
     line-height: 16px;
     cursor: default;
 }
+.searchAssist-kore-chat-window .tile-with-text-parent .tile-with-text .tile-description img{
+    width: 100%;
+}
 
 .searchAssist-kore-chat-window .tile-with-text-parent.slide-parent-tile-with-text .tile-with-text .tile-heading{
     max-height: 40px;
@@ -14475,7 +14481,7 @@ border: 0;
 .searchAssist-kore-chat-window .total-structured-data-wrap  .purejscarousel-btn.purejscarousel-btn-next {
     -webkit-transform: none !important;
     transform: none !important;
-padding: 0;
+    padding: 0;
     border: 0;
     right: 0px;
 }
