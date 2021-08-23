@@ -11896,11 +11896,19 @@ padding-right: 0;
     font-size: 12px;
     line-height: 16px;
     cursor: default;
+    word-wrap: break-word;
 }
 .searchAssist-kore-chat-window .tile-with-text-parent .tile-with-text .tile-description img{
     width: 100%;
 }
-
+.searchAssist-kore-chat-window .tile-description img{
+    width: 100%;
+    display: block;
+    margin: auto;
+}
+.searchAssist-kore-chat-window #searchChatContainer .piechart .piechartDiv .lineChartChildDiv{
+    position: relative;
+}
 .searchAssist-kore-chat-window .tile-with-text-parent.slide-parent-tile-with-text .tile-with-text .tile-heading{
     max-height: 40px;
     overflow: hidden;
