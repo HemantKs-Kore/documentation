@@ -62,6 +62,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   buttonBorder: boolean = false;
   buttonTextColor: boolean = false;
   msgColor: boolean = false;
+  bgColor: boolean = false;
   toggle: boolean = false;
   toggle1: boolean = false;
   toggle2: boolean = false;
@@ -69,6 +70,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   toggle4: boolean = false;
   toggle5: boolean = false;
   toggle6: boolean = false;
+  toggle7: boolean = false;
   searchIcon: any = 'assets/images/search_gray.png';
   emojiIcon: any = 'assets/icons/search-experience/emojis/hand.png';
   //search button disabled
@@ -80,6 +82,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   public color4: string = '';
   public color5: string = '';
   public color6: string = '';
+  public color7: string = '';
   statusModalPopRef: any = [];
   guideModalPopRef: any;
   userInfo: any = {};
@@ -95,6 +98,19 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   tourData: any = [];
   userName: any = '';
   selectedColor: string = '';
+  configEmoji = {
+    categories: {
+      people: ''
+    },
+    skintones: {
+      1: 'Default Skin Tone',
+      2: 'Light Skin Tone',
+      3: 'Medium-Light Skin Tone',
+      4: 'Medium Skin Tone',
+      5: 'Medium-Dark Skin Tone',
+      6: 'Dark Skin Tone',
+    }
+  }
   emojiList = [
     { img_src: 'assets/icons/search-experience/emojis/smile.png', value: "smile" },
     { img_src: 'assets/icons/search-experience/emojis/smile-2.png', value: 'smile-2' },
@@ -255,7 +271,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   @ViewChild('guideModalPop') guideModalPop: KRModalComponent;
   @ViewChild(NgbDropdownMenu) avatarDropdown: NgbDropdownMenu;
   constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService, public headerService: SideBarService,
-    public localstore: LocalStoreService, public inlineManual : InlineManualService) {
+    public localstore: LocalStoreService, public inlineManual: InlineManualService) {
   }
 
   ngOnInit(): void {
@@ -336,6 +352,14 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.buttonFill = false;
       this.buttonTextColor = false;
     }
+    if (type == "toggle6") {
+      this.toggle7 = false;
+      this.bgColor = false;
+    }
+    if (type == "toggle7") {
+      this.toggle6 = false;
+      this.msgColor = false;
+    }
   }
   loadSearchExperience() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -376,6 +400,11 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.selectIcon(file, 'emoji', 'manual', update ? update : null)
     }
     xhr.send();
+  }
+  //add emoji based on selection
+  addEmoji(event) {
+    const emoji = event.emoji.native;
+    this.searchObject.searchInteractionsConfig.welcomeMsg = this.searchObject.searchInteractionsConfig.welcomeMsg + emoji;
   }
   //sequential tabs method
   nextTab(type) {
@@ -591,6 +620,11 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
         this.toggle6 = false;
         this.msgColor = false;
       }
+      else if (type == 'bgColor') {
+        this.searchObject.searchInteractionsConfig.welcomeMsgFillColor = this.selectedColor;
+        this.toggle7 = false;
+        this.bgColor = false;
+      }
       this.selectedColor = '';
     }
   }
@@ -616,6 +650,9 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     }
     else if (type == "msgColor") {
       this.toggle6 = false; this.msgColor = false; this.color6 = this.searchObject.searchInteractionsConfig.welcomeMsgColor;
+    }
+    else if (type == "bgColor") {
+      this.toggle7 = false; this.bgColor = false; this.color7 = this.searchObject.searchInteractionsConfig.welcomeMsgFillColor;
     }
   }
   //select search box widget
@@ -668,7 +705,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.color5 = this.searchObject.searchWidgetConfig.buttonBorderColor;
       this.color6 = this.searchObject.searchWidgetConfig.welcomeMsgColor;
 
-      if(!this.inlineManual.checkVisibility('SEARCH_INTERFACE')){
+      if (!this.inlineManual.checkVisibility('SEARCH_INTERFACE')) {
         this.inlineManual.openHelp('SEARCH_INTERFACE')
         this.inlineManual.visited('SEARCH_INTERFACE')
       }
@@ -752,14 +789,14 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.avatarDropdown.dropdown.close();
     }
   }
-  
-  recentSearches(){
-    if(this.searchObject.searchInteractionsConfig.showSearchesEnabled == true){
+
+  recentSearches() {
+    if (this.searchObject.searchInteractionsConfig.showSearchesEnabled == true) {
       this.searchObject.searchInteractionsConfig.showSearches = 'recent'
     }
-    else{
+    else {
       this.searchObject.searchInteractionsConfig.showSearches = 'frequent'
     }
-      }
+  }
 
 }
