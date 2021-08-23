@@ -11912,6 +11912,9 @@ height: 16px;
 .searchAssist-kore-chat-window .panel .tile-description {
 height: inherit;
 }
+.searchAssist-kore-chat-window .panel .desc-text-img, .searchAssist-kore-chat-window .panel .desc-text{
+word-break: break-word;
+}
 .searchAssist-kore-chat-window .panel .desc-text-img img, .searchAssist-kore-chat-window .panel .desc-text img{
     width: 90%;
     display: block;
