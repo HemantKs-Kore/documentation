@@ -11899,10 +11899,21 @@ padding-right: 0;
     word-wrap: break-word;
 }
 .searchAssist-kore-chat-window .tile-with-text-parent .tile-with-text .tile-description img{
-    width: 100%;
+    width: 90%;
 }
 .searchAssist-kore-chat-window .tile-description img{
-    width: 100%;
+    width: 90%;
+    display: block;
+    margin: auto;
+}
+.searchAssist-kore-chat-window  .tile-description {
+height: 16px;
+}
+.searchAssist-kore-chat-window .panel .tile-description {
+height: inherit;
+}
+.searchAssist-kore-chat-window .panel .desc-text-img img, .searchAssist-kore-chat-window .panel .desc-text img{
+    width: 90%;
     display: block;
     margin: auto;
 }
