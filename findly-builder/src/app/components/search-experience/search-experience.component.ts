@@ -703,8 +703,8 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.color3 = this.searchObject.searchWidgetConfig.buttonTextColor;
       this.color4 = this.searchObject.searchWidgetConfig.buttonFillColor;
       this.color5 = this.searchObject.searchWidgetConfig.buttonBorderColor;
-      this.color6 = this.searchObject.searchWidgetConfig.welcomeMsgColor;
-
+      this.color6 = this.searchObject.searchInteractionsConfig.welcomeMsgColor;
+      this.color7 = this.searchObject.searchInteractionsConfig?.welcomeMsgFillColor;
       if (!this.inlineManual.checkVisibility('SEARCH_INTERFACE')) {
         this.inlineManual.openHelp('SEARCH_INTERFACE')
         this.inlineManual.visited('SEARCH_INTERFACE')
