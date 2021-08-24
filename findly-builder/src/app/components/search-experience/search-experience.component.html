@@ -384,7 +384,10 @@
                                                    <div class="close-btn" (click)="closeEmojiPicker()">
                                                        <img src="assets/icons/search-experience/emojis/close.svg">
                                                    </div>
-                                                   <emoji-mart set="apple" [showPreview]="false" [enableSearch]="false" [totalFrequentLines]="19" include=[people] [showSingleCategory]="false" (emojiClick)="addEmoji($event)" [i18n]="configEmoji"></emoji-mart>      
+                                                   <perfect-scrollbar>
+                                                    <emoji-mart set="apple" [showPreview]="false" [enableSearch]="false" [totalFrequentLines]="19" include=[people] [showSingleCategory]="false" (emojiClick)="addEmoji($event)" [i18n]="configEmoji"></emoji-mart>      
+                                                   </perfect-scrollbar>
+                                                   
                                                     <!-- <li class="emoji-type" *ngFor="let emoji of emojiList">
                                                         <img [src]="emoji.img_src" *ngIf="!emoji.multiple" [alt]="emoji.value" (click)="emojiIcon = emoji.img_src; emojiIconUpload('update')">
                                                         <img [src]="emoji.selected" *ngIf="emoji.multiple" [alt]="emoji.value" (click)="emojiIcon = emoji.selected; emojiIconUpload('update')">

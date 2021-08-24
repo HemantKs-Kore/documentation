@@ -3442,3 +3442,26 @@ app-useronboarding-journey{
         }
     }  
 }
+emoji-mart{
+    .emoji-mart{
+        width: 100% !important;
+        padding: 0 !important;
+        border: 0;
+        .emoji-mart-emoji{
+            cursor: pointer;
+            span{
+                cursor: pointer;
+            }
+        }
+        .emoji-mart-bar{
+            border: 0;
+        }
+        .emoji-mart-scroll{
+            height: 100%;
+            padding: 0;
+        }
+    }
+    .emoji-mart-category-label{
+        display: none;
+    }
+}
