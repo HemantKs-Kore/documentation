@@ -2792,8 +2792,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $(document).off('click', '.accordion').on('click', '.accordion', function (evet) {
         $(evet.target).closest('.accordion').toggleClass('acc-active');
         var panel = $(evet.target).closest('.accordion').next();
-        if (panel[0].scrollHeight == '16') {
-          $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").show();
+        if (panel[0].scrollHeight == '16' && $(evet.target).closest('.accordion').hasClass('best-match')) {
+          $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").hide();
+          panel[0].style.dispaly = 'block';
+          if (!panel[0].classList.contains('carousel')) {
+            panel[0].style.overflow = "initial";
+          }
+          return;
+        }
+        if (panel[0].scrollHeight == '16' && !$(evet.target).closest('.accordion').hasClass('best-match')) {
+            $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").show();
           return;
         }
 
@@ -3334,7 +3342,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (Object.values(selectedTopFacet).length) {
             if (!payload.filters || !payload.filters.length) {
               payload.filters = [];
-            }
+            } 
             payload.filters.push(selectedTopFacet);
           }
         } else {
@@ -5405,6 +5413,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           } else if ((!$('body').hasClass('top-down') && (!$('.bottom-up-search').val() || window.isBotLocked))) {
             $('.search-body').css('display', 'none');
             $('.search-body').addClass('hide');
+            $('#autoSuggestionContainer').empty();
+            $('.suggestion-search-data-parent').css('display', 'none');
           }
           _self.pubSub.publish('sa-handel-chat-container-view');
           _self.pubSub.publish('sa-handel-go-button');
@@ -5425,9 +5435,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.enterIsClicked = false;
           }
           if (code !== 13 && code !== 40 && code !== 38) {
-            if (($('body').hasClass('top-down') && $('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && $('.bottom-up-suggestion').val())) {
+            // if (($('body').hasClass('top-down') && $('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && $('.bottom-up-suggestion').val())) {
             _self.pubSub.publish('sa-input-keyup');
-            }
+            // }
           }
           if (code == 9 || code == 39) {
             $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
@@ -5708,6 +5718,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
               $('.search-body').css('display', 'none');
               $('.search-body').addClass('hide');
+              $('#autoSuggestionContainer').empty();
+              $('.suggestion-search-data-parent').css('display', 'none');
             }
             _self.appendSuggestions();
             if (!($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
@@ -6917,9 +6929,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // });
         // $('.search-body').html(freqData);
         setTimeout(function () {
-          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').is(':visible')) || ($('body').hasClass('top-down') && $('#frequently-searched-box').is(':visible'))) {
-            return;
-          }
+          // if ((!$('body').hasClass('top-down') && $('.bottom-up-search').is(':visible')) || ($('body').hasClass('top-down') && $('#frequently-searched-box').is(':visible'))) {
+          //   return;
+          // }
           _self.pubSub.publish('sa-generate-recent-search');
         }, 150);
       }
@@ -17123,7 +17135,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           window.dispatchEvent(evt);
           newCarouselTemplateCount += 1;
         }
-      }, 200);
+      });
     }
 
     FindlySDK.prototype.bindStructuredDataTriggeringOptions = function () {
@@ -22922,10 +22934,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }, 500);
     }
     FindlySDK.prototype.trimSearchQuery = function () {
-      if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+      if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val() && $('.bottom-up-search').val().length==1)) {
         $('.bottom-up-search').val($('.bottom-up-search').val().trim());
       }
-      if (($('body').hasClass('top-down') && $('.search-top-down').val())) {
+      if (($('body').hasClass('top-down') && $('.search-top-down').val() && $('.search-top-down').val().length==1)) {
         $('.search-top-down').val($('.search-top-down').val().trim());
       }
     }

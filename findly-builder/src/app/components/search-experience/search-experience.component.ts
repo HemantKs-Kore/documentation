@@ -47,12 +47,13 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       "feedbackExperience": { resultLevel: true, queryLevel: false },
       "welcomeMsg": "Hi, How can I help you",
       "welcomeMsgColor": "#000080",
+      "welcomeMsgFillColor": "#EFF0F1",
       "showSearchesEnabled": false,
       "showSearches": "frequent",
       "autocompleteOpt": false,
-      "welcomeMsgEmoji": "6038e58234b5352faa7773b0",
       "querySuggestionsLimit": 2,
-      "liveSearchResultsLimit": 4
+      "liveSearchResultsLimit": 4,
+      "defaultStatus": "searchBar"
     }
   };
   inputBox1: boolean = false;
@@ -62,6 +63,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   buttonBorder: boolean = false;
   buttonTextColor: boolean = false;
   msgColor: boolean = false;
+  bgColor: boolean = false;
   toggle: boolean = false;
   toggle1: boolean = false;
   toggle2: boolean = false;
@@ -69,6 +71,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   toggle4: boolean = false;
   toggle5: boolean = false;
   toggle6: boolean = false;
+  toggle7: boolean = false;
   searchIcon: any = 'assets/images/search_gray.png';
   emojiIcon: any = 'assets/icons/search-experience/emojis/hand.png';
   //search button disabled
@@ -80,6 +83,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   public color4: string = '';
   public color5: string = '';
   public color6: string = '';
+  public color7: string = '';
   statusModalPopRef: any = [];
   guideModalPopRef: any;
   userInfo: any = {};
@@ -95,6 +99,19 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   tourData: any = [];
   userName: any = '';
   selectedColor: string = '';
+  configEmoji = {
+    categories: {
+      people: ''
+    },
+    skintones: {
+      1: 'Default Skin Tone',
+      2: 'Light Skin Tone',
+      3: 'Medium-Light Skin Tone',
+      4: 'Medium Skin Tone',
+      5: 'Medium-Dark Skin Tone',
+      6: 'Dark Skin Tone',
+    }
+  }
   emojiList = [
     { img_src: 'assets/icons/search-experience/emojis/smile.png', value: "smile" },
     { img_src: 'assets/icons/search-experience/emojis/smile-2.png', value: 'smile-2' },
@@ -255,7 +272,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   @ViewChild('guideModalPop') guideModalPop: KRModalComponent;
   @ViewChild(NgbDropdownMenu) avatarDropdown: NgbDropdownMenu;
   constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService, public headerService: SideBarService,
-    public localstore: LocalStoreService, public inlineManual : InlineManualService) {
+    public localstore: LocalStoreService, public inlineManual: InlineManualService) {
   }
 
   ngOnInit(): void {
@@ -336,6 +353,14 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.buttonFill = false;
       this.buttonTextColor = false;
     }
+    if (type == "toggle6") {
+      this.toggle7 = false;
+      this.bgColor = false;
+    }
+    if (type == "toggle7") {
+      this.toggle6 = false;
+      this.msgColor = false;
+    }
   }
   loadSearchExperience() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -376,6 +401,11 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.selectIcon(file, 'emoji', 'manual', update ? update : null)
     }
     xhr.send();
+  }
+  //add emoji based on selection
+  addEmoji(event) {
+    const emoji = event.emoji.native;
+    this.searchObject.searchInteractionsConfig.welcomeMsg = this.searchObject.searchInteractionsConfig.welcomeMsg + emoji;
   }
   //sequential tabs method
   nextTab(type) {
@@ -591,6 +621,11 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
         this.toggle6 = false;
         this.msgColor = false;
       }
+      else if (type == 'bgColor') {
+        this.searchObject.searchInteractionsConfig.welcomeMsgFillColor = this.selectedColor;
+        this.toggle7 = false;
+        this.bgColor = false;
+      }
       this.selectedColor = '';
     }
   }
@@ -616,6 +651,9 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     }
     else if (type == "msgColor") {
       this.toggle6 = false; this.msgColor = false; this.color6 = this.searchObject.searchInteractionsConfig.welcomeMsgColor;
+    }
+    else if (type == "bgColor") {
+      this.toggle7 = false; this.bgColor = false; this.color7 = this.searchObject.searchInteractionsConfig.welcomeMsgFillColor;
     }
   }
   //select search box widget
@@ -646,7 +684,6 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       indexPipelineId: this.indexPipelineId
     };
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
-      console.log("search experience data", res);
       this.searchObject = { searchExperienceConfig: res.experienceConfig, searchWidgetConfig: res.widgetConfig, searchInteractionsConfig: res.interactionsConfig }
       if (this.searchObject.searchWidgetConfig.searchBarIcon !== '') {
         this.searchIcon = this.searchObject.searchWidgetConfig.searchBarIcon;
@@ -666,9 +703,9 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.color3 = this.searchObject.searchWidgetConfig.buttonTextColor;
       this.color4 = this.searchObject.searchWidgetConfig.buttonFillColor;
       this.color5 = this.searchObject.searchWidgetConfig.buttonBorderColor;
-      this.color6 = this.searchObject.searchWidgetConfig.welcomeMsgColor;
-
-      if(!this.inlineManual.checkVisibility('SEARCH_INTERFACE')){
+      this.color6 = this.searchObject.searchInteractionsConfig.welcomeMsgColor;
+      this.color7 = this.searchObject.searchInteractionsConfig?.welcomeMsgFillColor;
+      if (!this.inlineManual.checkVisibility('SEARCH_INTERFACE')) {
         this.inlineManual.openHelp('SEARCH_INTERFACE')
         this.inlineManual.visited('SEARCH_INTERFACE')
       }
@@ -701,6 +738,18 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   addSearchExperience() {
     this.closeAllBoxs('all');
     this.show_tab_color2 = true;
+    if (this.searchObject.searchExperienceConfig.searchBarPosition == 'top') {
+      delete this.searchObject.searchInteractionsConfig.defaultStatus;
+      delete this.searchObject.searchInteractionsConfig.welcomeMsgFillColor;
+    }
+    else if (this.searchObject.searchExperienceConfig.searchBarPosition == 'bottom') {
+      if (this.searchObject.searchInteractionsConfig.defaultStatus === undefined) {
+        this.searchObject.searchInteractionsConfig.defaultStatus = "searchBar";
+      }
+      if (this.searchObject.searchInteractionsConfig.welcomeMsgFillColor === undefined) {
+        this.searchObject.searchInteractionsConfig.welcomeMsgFillColor = "#EFF0F1";
+      }
+    }
     let obj = { "experienceConfig": this.searchObject.searchExperienceConfig, "widgetConfig": this.searchObject.searchWidgetConfig, "interactionsConfig": this.searchObject.searchInteractionsConfig };
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -752,14 +801,14 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.avatarDropdown.dropdown.close();
     }
   }
-  
-  recentSearches(){
-    if(this.searchObject.searchInteractionsConfig.showSearchesEnabled == true){
+
+  recentSearches() {
+    if (this.searchObject.searchInteractionsConfig.showSearchesEnabled == true) {
       this.searchObject.searchInteractionsConfig.showSearches = 'recent'
     }
-    else{
+    else {
       this.searchObject.searchInteractionsConfig.showSearches = 'frequent'
     }
-      }
+  }
 
 }
