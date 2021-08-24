@@ -384,7 +384,10 @@
                                                    <div class="close-btn" (click)="closeEmojiPicker()">
                                                        <img src="assets/icons/search-experience/emojis/close.svg">
                                                    </div>
-                                                   <emoji-mart set="apple" [showPreview]="false" [enableSearch]="false" [totalFrequentLines]="19" include=[people] [showSingleCategory]="false" (emojiClick)="addEmoji($event)" [i18n]="configEmoji"></emoji-mart>      
+                                                   <perfect-scrollbar>
+                                                    <emoji-mart set="apple" [showPreview]="false" [enableSearch]="false" [totalFrequentLines]="19" include=[people] [showSingleCategory]="false" (emojiClick)="addEmoji($event)" [i18n]="configEmoji"></emoji-mart>      
+                                                   </perfect-scrollbar>
+                                                   
                                                     <!-- <li class="emoji-type" *ngFor="let emoji of emojiList">
                                                         <img [src]="emoji.img_src" *ngIf="!emoji.multiple" [alt]="emoji.value" (click)="emojiIcon = emoji.img_src; emojiIconUpload('update')">
                                                         <img [src]="emoji.selected" *ngIf="emoji.multiple" [alt]="emoji.value" (click)="emojiIcon = emoji.selected; emojiIconUpload('update')">
@@ -409,7 +412,7 @@
                                     <div class="fill-colors-block mr-4 ml-4">
                                         <div class="fill-color">
                                             <div class="label-color">Text Color</div>
-                                            <div class="box-color" [ngClass]="{'color-pallet-container interaction-color': msgColor}" (mouseover)="toggle6=true;msgColor=true;closeAllBoxs('toggle6');">
+                                            <div class="box-color adjust-left" [ngClass]="{'color-pallet-container interaction-color': msgColor}" (mouseover)="toggle6=true;msgColor=true;closeAllBoxs('toggle6');">
                                                 <input
                                                     [style.background]="color6"
                                                     [(colorPicker)]="color6"
@@ -442,7 +445,7 @@
                                     <div class="fill-colors-block" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
                                         <div class="fill-color">
                                             <div class="label-color">Fill Color</div>
-                                            <div class="box-color" [ngClass]="{'color-pallet-container interaction-color': bgColor}" (mouseover)="toggle7=true;bgColor=true;closeAllBoxs('toggle7');">
+                                            <div class="box-color adjust-right" [ngClass]="{'color-pallet-container interaction-color': bgColor}" (mouseover)="toggle7=true;bgColor=true;closeAllBoxs('toggle7');">
                                                 <input
                                                     [style.background]="color7"
                                                     [(colorPicker)]="color7"

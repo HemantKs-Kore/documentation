@@ -17135,7 +17135,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           window.dispatchEvent(evt);
           newCarouselTemplateCount += 1;
         }
-      }, 200);
+      });
     }
 
     FindlySDK.prototype.bindStructuredDataTriggeringOptions = function () {
