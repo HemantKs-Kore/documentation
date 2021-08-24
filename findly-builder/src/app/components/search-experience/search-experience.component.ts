@@ -742,6 +742,14 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       delete this.searchObject.searchInteractionsConfig.defaultStatus;
       delete this.searchObject.searchInteractionsConfig.welcomeMsgFillColor;
     }
+    else if (this.searchObject.searchExperienceConfig.searchBarPosition == 'bottom') {
+      if (this.searchObject.searchInteractionsConfig.defaultStatus === undefined) {
+        this.searchObject.searchInteractionsConfig.defaultStatus = "searchBar";
+      }
+      if (this.searchObject.searchInteractionsConfig.welcomeMsgFillColor === undefined) {
+        this.searchObject.searchInteractionsConfig.welcomeMsgFillColor = "#EFF0F1";
+      }
+    }
     let obj = { "experienceConfig": this.searchObject.searchExperienceConfig, "widgetConfig": this.searchObject.searchWidgetConfig, "interactionsConfig": this.searchObject.searchInteractionsConfig };
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
