@@ -20,12 +20,15 @@ export class EndPointsService {
       this.API_SERVER_URL_PLATFORM = this.SERVER_URL + this.API_URL_PREFIX  //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
       window.appConfig.API_SERVER_URL = this.SERVER_URL;
     } else {
-      this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX;
-      this.API_SERVER_URL_PLATFORM = environment.API_SERVER_URL + this.API_URL_PREFIX //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
+      //this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX;
+      //this.API_SERVER_URL_PLATFORM = environment.API_SERVER_URL + this.API_URL_PREFIX //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
       // this.API_SERVER_URL_PLATFORM = "https://50b6e8fd7c49.ngrok.io" + "/api/1.1"
       // this.API_SERVER_URL = "https://50b6e8fd7c49.ngrok.io" + "/api/1.1"
       // this.API_SERVER_URL_PLATFORM = "https://bca0530495c7.ngrok.io" + this.API_URL_PREFIX
       // this.API_SERVER_URL = "https://bca0530495c7.ngrok.io" + this.API_URL_PREFIX
+      this.API_SERVER_URL = "http://b0b6-2409-4043-2d8b-6fc1-3f5e-f908-cd34-9496.ngrok.io" + this.API_URL_PREFIX;
+      this.API_SERVER_URL_PLATFORM = "http://b0b6-2409-4043-2d8b-6fc1-3f5e-f908-cd34-9496.ngrok.io" + this.API_URL_PREFIX //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
+
     }
     this.init();
   }

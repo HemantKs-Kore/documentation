@@ -47,12 +47,13 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       "feedbackExperience": { resultLevel: true, queryLevel: false },
       "welcomeMsg": "Hi, How can I help you",
       "welcomeMsgColor": "#000080",
+      "welcomeMsgFillColor": "#EFF0F1",
       "showSearchesEnabled": false,
       "showSearches": "frequent",
       "autocompleteOpt": false,
-      "welcomeMsgEmoji": "6038e58234b5352faa7773b0",
       "querySuggestionsLimit": 2,
-      "liveSearchResultsLimit": 4
+      "liveSearchResultsLimit": 4,
+      "defaultStatus": "searchBar"
     }
   };
   inputBox1: boolean = false;
@@ -683,7 +684,6 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       indexPipelineId: this.indexPipelineId
     };
     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
-      console.log("search experience data", res);
       this.searchObject = { searchExperienceConfig: res.experienceConfig, searchWidgetConfig: res.widgetConfig, searchInteractionsConfig: res.interactionsConfig }
       if (this.searchObject.searchWidgetConfig.searchBarIcon !== '') {
         this.searchIcon = this.searchObject.searchWidgetConfig.searchBarIcon;
@@ -738,6 +738,10 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   addSearchExperience() {
     this.closeAllBoxs('all');
     this.show_tab_color2 = true;
+    if (this.searchObject.searchExperienceConfig.searchBarPosition == 'top') {
+      delete this.searchObject.searchInteractionsConfig.defaultStatus;
+      delete this.searchObject.searchInteractionsConfig.welcomeMsgFillColor;
+    }
     let obj = { "experienceConfig": this.searchObject.searchExperienceConfig, "widgetConfig": this.searchObject.searchWidgetConfig, "interactionsConfig": this.searchObject.searchInteractionsConfig };
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
