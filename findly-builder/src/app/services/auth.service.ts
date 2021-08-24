@@ -6,6 +6,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { Observer, from, Subject } from 'rxjs';
 import { Observable } from 'rxjs';
 import { ReplaySubject } from 'rxjs';
+import { MixpanelServiceService } from './mixpanel-service.service';
 declare let window: any;
 
 
@@ -25,7 +26,8 @@ export class AuthService {
     private localstore: LocalStoreService,
     private service: ServiceInvokerService,
     private appUrls: AppUrlsService,
-    public workflowService: WorkflowService
+    public workflowService: WorkflowService,
+    public mixpanel : MixpanelServiceService
   ) {
     this.authInfo = localstore.getAuthInfo();
   }
@@ -142,16 +144,19 @@ export class AuthService {
 
     const subject = new ReplaySubject(1);
     // subscriber 1
-    subject.subscribe(res => {
+    subject.subscribe((res : any) => {
       this.appControlList = res;
+      if(res && res.domain){
+        this.mixpanel.setUserInfo(res.domain ,{})
+      }
     }, errRes => {
       this.appControlList = null;
     });
-    subject.subscribe(res => {
-      this.appControlList = res;
-    }, errRes => {
-      this.appControlList = null;
-    });
+    // subject.subscribe(res => {
+    //   this.appControlList = res;
+    // }, errRes => {
+    //   this.appControlList = null;
+    // });
     appObserver.subscribe(subject);
     return subject;
   }

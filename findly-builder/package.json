@@ -36,7 +36,7 @@
     "file-saver": "^2.0.5",
     "jquery": "^3.5.1",
     "lodash": "^4.17.20",
-    "mixpanel": "^0.13.0",
+    "mixpanel-browser": "^2.41.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.28",
     "ng2-file-upload": "^1.4.0",

@@ -42,7 +42,6 @@
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "src/app/helpers/lib/assets/highlight.js/highlight.min.js",
               "src/app/helpers/lib/assets/marked.min.js",
-              "src/app/helpers/lib/assets/mixpanel.js",
               "src/assets/js/bootstrap-slider.js",
               "src/assets/web-kore-sdk/libs/purejscarousel.js",
               "node_modules/rangy/lib/rangy-core.js",
