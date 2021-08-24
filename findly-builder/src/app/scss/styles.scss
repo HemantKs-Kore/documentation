@@ -2962,6 +2962,32 @@ nouislider{
                                 font-size: 14px !important;
                             }
                         }
+                        &.adjust-left{
+                            .box-color-content{
+                                left: -195px !important;
+                                &::before{
+                                    left: 194px !important;
+                                }
+                            }
+                            &.interaction-color{
+                                .color-picker{
+                                    left: -175px !important;
+                                }
+                            }
+                        }
+                        &.adjust-right{                           
+                            .box-color-content{
+                                left: -260px !important;
+                                &::before{
+                                    left: 258px !important;
+                                }
+                            }     
+                            &.interaction-color{
+                                .color-picker{
+                                    left: -240px !important;
+                                }
+                            }                       
+                        }
                         .color-picker{
                             top: -12px !important;
                             left: 80px !important;
