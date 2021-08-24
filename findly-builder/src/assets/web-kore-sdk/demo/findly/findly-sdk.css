@@ -14533,7 +14533,7 @@ border: 0;
 .searchAssist-kore-chat-window .typingIndicatorContent {
     position: absolute;
     width: 100px;
-    bottom: 72px;
+    bottom: 55px;
     left: -10px;
     display: none;
 }
