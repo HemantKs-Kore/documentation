@@ -75,6 +75,7 @@ import { SortPipe } from './helpers/sortPipe/sort-pipe';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NouisliderModule } from 'ng2-nouislider';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import * as echarts from 'echarts';
 import { StopWordsComponent } from './components/stop-words/stop-words.component';
 import { WeightsComponent } from './components/weights/weights.component';
@@ -224,6 +225,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     Ng5SliderModule,
     NouisliderModule,
     ColorPickerModule,
+    PickerModule,
     NgxEchartsModule.forRoot({
       echarts: { init: echarts.init }
     }),

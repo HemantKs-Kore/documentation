@@ -8248,6 +8248,9 @@ html , body{
     font-size: 14px;
     font-weight: bold;    
   }
+  .searchAssist-kore-chat-window .accordion.acc-active .tile-description{
+      display: none;
+  }
   .searchAssist-kore-chat-window .accordion.best-match ~ .panel {
     overflow: initial;
     max-height: 100%;
@@ -11893,8 +11896,36 @@ padding-right: 0;
     font-size: 12px;
     line-height: 16px;
     cursor: default;
+    word-wrap: break-word;
 }
-
+.searchAssist-kore-chat-window .tile-with-text-parent .tile-with-text .tile-description img{
+    width: 90%;
+}
+.searchAssist-kore-chat-window .tile-description img{
+    width: 90%;
+    display: block;
+    margin: auto;
+}
+.searchAssist-kore-chat-window .tile-description  {
+    height: 16px;
+}
+.searchAssist-kore-chat-window .tile-description.defalut-show {
+height: 16px !important;
+}
+.searchAssist-kore-chat-window .panel .tile-description {
+height: inherit;
+}
+.searchAssist-kore-chat-window .panel .desc-text-img, .searchAssist-kore-chat-window .panel .desc-text{
+word-break: break-word;
+}
+.searchAssist-kore-chat-window .panel .desc-text-img img, .searchAssist-kore-chat-window .panel .desc-text img{
+    width: 90%;
+    display: block;
+    margin: auto;
+}
+.searchAssist-kore-chat-window #searchChatContainer .piechart .piechartDiv .lineChartChildDiv{
+    position: relative;
+}
 .searchAssist-kore-chat-window .tile-with-text-parent.slide-parent-tile-with-text .tile-with-text .tile-heading{
     max-height: 40px;
     overflow: hidden;
@@ -14475,7 +14506,7 @@ border: 0;
 .searchAssist-kore-chat-window .total-structured-data-wrap  .purejscarousel-btn.purejscarousel-btn-next {
     -webkit-transform: none !important;
     transform: none !important;
-padding: 0;
+    padding: 0;
     border: 0;
     right: 0px;
 }
@@ -14502,7 +14533,7 @@ padding: 0;
 .searchAssist-kore-chat-window .typingIndicatorContent {
     position: absolute;
     width: 100px;
-    bottom: 72px;
+    bottom: 55px;
     left: -10px;
     display: none;
 }
