@@ -385,7 +385,7 @@
                                                        <img src="assets/icons/search-experience/emojis/close.svg">
                                                    </div>
                                                    <perfect-scrollbar>
-                                                    <emoji-mart set="apple" [showPreview]="false" [enableSearch]="false" [totalFrequentLines]="19" include=[people] [showSingleCategory]="false" (emojiClick)="addEmoji($event)" [i18n]="configEmoji"></emoji-mart>      
+                                                    <emoji-mart [isNative]="false" set="google" [virtualize]="false" [showPreview]="false" [enableSearch]="false" [totalFrequentLines]="19" include=[people] [showSingleCategory]="false" (emojiClick)="addEmoji($event)" [i18n]="configEmoji"></emoji-mart>      
                                                    </perfect-scrollbar>
                                                    
                                                     <!-- <li class="emoji-type" *ngFor="let emoji of emojiList">
@@ -483,7 +483,7 @@
                         <div class="default-status" [ngStyle]="{'padding':searchObject.searchExperienceConfig.searchBarPosition == 'bottom'?'20':0,'border-top':searchObject.searchExperienceConfig.searchBarPosition == 'bottom'?'1':'0'}">
                             <div class="default-status-title" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">Default Status</div>
                             <div class="kr-sg-radiobutton w-100" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
-                                <input id="radio-01" name="radio" class="radio-custom" type="radio" [(ngModel)]="searchObject.searchInteractionsConfig.defaultStatus" value="searchBar" [checked]="searchObject.searchInteractionsConfig.defaultStatus">
+                                <input id="radio-01" name="searchBar" class="radio-custom" type="radio" [(ngModel)]="searchObject.searchInteractionsConfig.defaultStatus" value="searchBar">
                                 <label for="radio-01" class="radio-custom-label">Search Bar</label>
                             </div> 
 
@@ -531,14 +531,14 @@
                                             </ng-container>
                                         </div>
                                         <div class="greeting-block">
-                                            <img [src]="emojiIcon">
+                                            <!-- <img [src]="emojiIcon"> -->
                                             <span class="greeting-title" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
                                         </div>
                                     </div>
                                 </div>
                             </ng-container>
                             <div class="kr-sg-radiobutton w-100 mt-2" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
-                                <input id="radio-211" name="radio" class="radio-custom" type="radio" [(ngModel)]="searchObject.searchInteractionsConfig.defaultStatus" value="avatar" [checked]="searchObject.searchInteractionsConfig.defaultStatus">
+                                <input id="radio-211" name="avatar" class="radio-custom" type="radio" [(ngModel)]="searchObject.searchInteractionsConfig.defaultStatus" value="avatar">
                                 <label for="radio-211" class="radio-custom-label">Avatar</label>
                             </div> 
 
