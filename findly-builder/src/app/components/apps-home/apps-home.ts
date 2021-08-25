@@ -11,6 +11,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { NONE_TYPE } from '@angular/compiler';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 declare const $: any;
+declare var PureJSCarousel: any;
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'apps-home',
@@ -30,6 +31,8 @@ export class AppsListingComponent implements OnInit {
   showSearch = false;
   activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
+  carousel: any = [];
+  carouselTemplateCount = 0;
   searchFocusIn = false;
   newApp: any = {
     name: '',
@@ -66,6 +69,7 @@ export class AppsListingComponent implements OnInit {
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
+    this.buildCarousel();
   }
   prepareApps(apps) {
     this.recentApps = apps.slice(0, 4);
@@ -148,6 +152,22 @@ export class AppsListingComponent implements OnInit {
   imageLoad() {
     console.log("image loaded now")
     this.emptyApp = true;
+  }
+  buildCarousel(){
+    setTimeout(() => {
+      $('.carousel:last').addClass("carousel" + this.carouselTemplateCount);
+      var count = $(".carousel" + this.carouselTemplateCount).children().length;
+      if (count > 1) {
+        var carousel = new PureJSCarousel({
+          carousel: '.carousel' + this.carouselTemplateCount,
+          slide: '.slide',
+          oneByOne: true,
+          jq: $,
+        });
+        this.carousel.push(carousel);
+      }
+      this.carouselTemplateCount += 1;
+    }, 400);
   }
   //create app
   createFindlyApp() {

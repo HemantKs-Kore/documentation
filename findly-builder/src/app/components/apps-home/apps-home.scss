@@ -568,3 +568,31 @@
         margin: 20px 0;
     }
 }
+
+    .carousel{
+        .slide{
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -4px;
+            .box1{
+                background-color: lightgrey;
+              width: 300px;
+              padding: 50px;
+              margin: 20px;
+            }
+            .box2{
+                background-color: rgb(233, 12, 148);
+              width: 300px;
+              padding: 50px;
+              margin: 20px;
+            }
+            .box3{
+                background-color: rgb(27, 173, 231);
+              width: 300px;
+              padding: 50px;
+              margin: 20px;
+            }
+        }
+    }
+
+
