@@ -705,7 +705,7 @@
                         addEntityList(
                           $event,
                           newMappingObj[selectedStage.type].defaultValue
-                        )
+                        ) 
                       " #suggestedInput />
                   </mat-chip-list>
                   <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="
@@ -715,7 +715,7 @@
                           .entity_types
                       )
                     ">
-                    <ng-container *ngFor="let suggestion of entityNlp">
+                    <ng-container *ngFor="let suggestion of entityNlp | filter : [entityName, 'value']" (click)="entityName = suggesition.value">
                       <mat-option [value]="suggestion.value">
                         {{ suggestion.title }}
                       </mat-option>
