@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { LocalStoreService } from './../../services/localstore.service';
 import { NgbDropdown, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { Emoji } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 declare const $: any;
 @Component({
   selector: 'app-search-experience',
@@ -294,6 +295,12 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       }
     });
   }
+  //validate max length in textarea
+  testInputLength(event) {
+    if (event.value.length > 60) {
+      event.value = event.value.substring(0, 60);
+    }
+  }
   //select tab on number
   selectTab(type) {
     if (this.selectedTab === 'searchwidget') {
@@ -405,7 +412,9 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   //add emoji based on selection
   addEmoji(event) {
     const emoji = event.emoji.native;
-    this.searchObject.searchInteractionsConfig.welcomeMsg = this.searchObject.searchInteractionsConfig.welcomeMsg + emoji;
+    if (this.searchObject.searchInteractionsConfig.welcomeMsg.length <= 58) {
+      this.searchObject.searchInteractionsConfig.welcomeMsg = this.searchObject.searchInteractionsConfig.welcomeMsg + emoji;
+    }
   }
   //sequential tabs method
   nextTab(type) {
