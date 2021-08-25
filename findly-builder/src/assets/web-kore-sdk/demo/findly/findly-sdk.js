@@ -8626,7 +8626,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         if (searchConfig.interactionsConfig) {
           searchConfiguration.welcomeMsg = searchConfig.interactionsConfig.welcomeMsg;
-          searchConfiguration.welcomeMsgColor = searchConfig.interactionsConfig.welcomeMsgColor;
+          searchConfiguration.welcomeMsgColor = searchConfig.interactionsConfig.welcomeMsgColor || '#3C4043';
+          searchConfiguration.welcomeMsgFillColor = searchConfig.interactionsConfig.welcomeMsgFillColor || '#F8F9FA';
+          searchConfiguration.defaultStatus = searchConfig.interactionsConfig.defaultStatus || "searchBar";
           searchConfiguration.showSearchesEnabled = searchConfig.interactionsConfig.showSearchesEnabled;
           searchConfiguration.showSearches = searchConfig.interactionsConfig.showSearches;
           searchConfiguration.autocompleteOpt = searchConfig.interactionsConfig.autocompleteOpt;
@@ -8636,6 +8638,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else {
           searchConfiguration.welcomeMsg = 'Hello! How can I help you today?';
+          searchConfiguration.welcomeMsgFillColor = '#3C4043';
+          searchConfiguration.defaultStatus || "searchBar";
+          searchConfiguration.welcomeMsgFillColor = '#F8F9FA';
           searchConfiguration.showSearchesEnabled = '#161928';
           searchConfiguration.showSearches = 'recent';
           searchConfiguration.autocompleteOpt = true;
@@ -8685,7 +8690,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getGreetingMsgTemplate = function () {
       var greetingMsg = '<script type="text/x-jqury-tmpl">\
-        <div class="search-greeting-box">\
+        <div class="search-greeting-box" style="background:${searchConfig.welcomeMsgFillColor};">\
           <span class="greeting-img"><img src="${searchConfig.welcomeMsgEmoji}"></span>\
           <span class="search-greeting-text" style="color : ${searchConfig.welcomeMsgColor}">\
           {{if searchConfig.welcomeMsg}}\
@@ -8989,7 +8994,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       if (_self.bot.options) {
-        _self.bot.options.botInfo.linkedBotCustomData = { "linkedBot": {} };
+        _self.bot.options.botInfo.linkedBotCustomData = _self.bot.options.botInfo.linkedBotCustomData ? _self.bot.options.botInfo.linkedBotCustomData : { "linkedBot": {} };
         var contextObj = $("#contextjsonfield").val();
         if (contextObj) {
           contextObj.trim();
