@@ -600,13 +600,14 @@
         position: relative;
         overflow: initial;
         width: 100%;
+        padding: 0 10px;
         .purejscarousel-slides-container{
             display: none !important;
         }
         .carousel-inner{
             .carousel-item{
                 .row-carousels{
-                    padding: 0 10px;
+                    padding: 0px;
                     .coursel-cards-data{
                         .inner-c-data{
                             height: 100%;
