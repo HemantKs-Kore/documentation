@@ -236,7 +236,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     //private dock: DockStatusService,
     public dialog: MatDialog,
     private rangyService: RangySelectionService,
-    public inlineManual : InlineManualService,
+    public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
   ) { }
@@ -291,7 +291,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     this.checkAnnotationPolling();
-    if(!this.inlineManual.checkVisibility('SOURCES')){
+    if (!this.inlineManual.checkVisibility('SOURCES')) {
       this.inlineManual.openHelp('SOURCES')
       this.inlineManual.visited('SOURCES')
     }
@@ -541,7 +541,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     else if (selectedCrawlMethod && (selectedCrawlMethod.resourceType === 'structuredData' || selectedCrawlMethod.resourceType === 'structuredDataManual')) {
       this.selectedSourceType = selectedCrawlMethod;
       this.openAddStructuredData();
-      if(!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')){
+      if (!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')) {
         this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
         this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
       }
@@ -551,38 +551,38 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.openAddSourceModal();
     }
 
-    if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentWeb'){
-      if(!this.inlineManual.checkVisibility('CONTENT_SUB_TOPIC')){
+    if (selectedCrawlMethod && selectedCrawlMethod.id === 'contentWeb') {
+      if (!this.inlineManual.checkVisibility('CONTENT_SUB_TOPIC')) {
         this.inlineManual.openHelp('CONTENT_SUB_TOPIC')
         this.inlineManual.visited('CONTENT_SUB_TOPIC')
       }
-    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentDoc'){
-      if(!this.inlineManual.checkVisibility('UPLOAD_FILE_SUB_TOPIC')){
+    } else if (selectedCrawlMethod && selectedCrawlMethod.id === 'contentDoc') {
+      if (!this.inlineManual.checkVisibility('UPLOAD_FILE_SUB_TOPIC')) {
         this.inlineManual.openHelp('UPLOAD_FILE_SUB_TOPIC')
         this.inlineManual.visited('UPLOAD_FILE_SUB_TOPIC')
       }
-    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'faqWeb'){
-      if(!this.inlineManual.checkVisibility('EXTRACT_FAQ_SUB_TOPIC')){
+    } else if (selectedCrawlMethod && selectedCrawlMethod.id === 'faqWeb') {
+      if (!this.inlineManual.checkVisibility('EXTRACT_FAQ_SUB_TOPIC')) {
         this.inlineManual.openHelp('EXTRACT_FAQ_SUB_TOPIC')
         this.inlineManual.visited('EXTRACT_FAQ_SUB_TOPIC')
       }
-    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'faqDoc'){
-      if(!this.inlineManual.checkVisibility('IMPORT_FAQ_SUB_TOPIC')){
+    } else if (selectedCrawlMethod && selectedCrawlMethod.id === 'faqDoc') {
+      if (!this.inlineManual.checkVisibility('IMPORT_FAQ_SUB_TOPIC')) {
         this.inlineManual.openHelp('IMPORT_FAQ_SUB_TOPIC')
         this.inlineManual.visited('IMPORT_FAQ_SUB_TOPIC')
       }
-    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'manual'){
-      if(!this.inlineManual.checkVisibility('ADD_FAQ_MAUALY_SUB_TOPIC')){
+    } else if (selectedCrawlMethod && selectedCrawlMethod.id === 'manual') {
+      if (!this.inlineManual.checkVisibility('ADD_FAQ_MAUALY_SUB_TOPIC')) {
         this.inlineManual.openHelp('ADD_FAQ_MAUALY_SUB_TOPIC')
         this.inlineManual.visited('ADD_FAQ_MAUALY_SUB_TOPIC')
       }
-    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentStucturedDataImport'){
-      if(!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')){
+    } else if (selectedCrawlMethod && selectedCrawlMethod.id === 'contentStucturedDataImport') {
+      if (!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')) {
         this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
         this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
       }
-    }else if(selectedCrawlMethod && selectedCrawlMethod.id === 'contentStucturedDataAdd'){
-      if(!this.inlineManual.checkVisibility('ADD_STRUCTURED_DATA_MANUALY')){
+    } else if (selectedCrawlMethod && selectedCrawlMethod.id === 'contentStucturedDataAdd') {
+      if (!this.inlineManual.checkVisibility('ADD_STRUCTURED_DATA_MANUALY')) {
         this.inlineManual.openHelp('ADD_STRUCTURED_DATA_MANUALY')
         this.inlineManual.visited('ADD_STRUCTURED_DATA_MANUALY')
       }
