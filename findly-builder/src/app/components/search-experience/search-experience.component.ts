@@ -475,7 +475,9 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 3, 1, queryValue, 'suggestion', 'bottom-up-suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 5, 1, recentValue, 'live', 'bottom-up-live') });
       this.searchObject.searchInteractionsConfig.querySuggestionsLimit = data === undefined ? 3 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
       this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = data === undefined ? 5 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
-
+      if (this.searchObject.searchInteractionsConfig.defaultStatus === undefined) {
+        this.searchObject.searchInteractionsConfig.defaultStatus = "searchBar";
+      }
     }
     else {
       this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 5, 1, queryValue, 'suggestion', 'top-down-suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 10, 1, recentValue, 'live', 'top-down-live') });
@@ -551,18 +553,18 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
         if (type == 'searchIcon') {
           this.searchObject.searchWidgetConfig.searchBarIcon = res.fileId;
           this.selectSearchBox('');
-          if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '' && icon === 'manual') {
-            this.emojiIconUpload();
-          }
+          // if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '' && icon === 'manual') {
+          //   this.emojiIconUpload();
+          // }
         }
         else if (type == 'emoji') {
-          this.searchObject.searchInteractionsConfig.welcomeMsgEmoji = res.fileId;
+          //this.searchObject.searchInteractionsConfig.welcomeMsgEmoji = res.fileId;
           if (this.searchObject.searchWidgetConfig.searchBarIcon === '' && icon === 'manual') {
             this.searchIconUpload();
           }
         }
         if (icon === 'manual' && !update) {
-          if (this.searchObject.searchWidgetConfig.searchBarIcon !== '' && this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
+          if (this.searchObject.searchWidgetConfig.searchBarIcon !== '') {
             this.addSearchExperience();
           }
         }
@@ -697,9 +699,9 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       if (this.searchObject.searchWidgetConfig.searchBarIcon !== '') {
         this.searchIcon = this.searchObject.searchWidgetConfig.searchBarIcon;
       }
-      if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
-        this.emojiIcon = this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
-      }
+      // if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
+      //   this.emojiIcon = this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
+      // }
       let fetchInputWidth = document.createElement('span');
       document.body.appendChild(fetchInputWidth);
       fetchInputWidth.innerText = this.searchObject.searchWidgetConfig.searchBarPlaceholderText;
@@ -758,6 +760,9 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       if (this.searchObject.searchInteractionsConfig.welcomeMsgFillColor === undefined) {
         this.searchObject.searchInteractionsConfig.welcomeMsgFillColor = "#EFF0F1";
       }
+    }
+    if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji || this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === "") {
+      delete this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
     }
     let obj = { "experienceConfig": this.searchObject.searchExperienceConfig, "widgetConfig": this.searchObject.searchWidgetConfig, "interactionsConfig": this.searchObject.searchInteractionsConfig };
     const searchIndex = this.selectedApp.searchIndexes[0]._id;

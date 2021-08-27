@@ -83,7 +83,7 @@ export class PricingComponent implements OnInit, OnDestroy {
   }
   getPlan() {
     this.service.invoke('get.pricingPlans').subscribe(res => {
-      this.totalPlansData = res;
+      this.totalPlansData = res.sort((a, b) => { return a.displayOrder - b.displayOrder });
       this.typeOfPlan("Monthly");
       this.totalPlansData.forEach(data => {
         let dat = Object.values(data.featureAccess);
