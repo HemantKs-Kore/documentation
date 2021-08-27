@@ -1228,7 +1228,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // <p>{{html getHTMLForSearch(faq.answer)}}</p>\  
       var greetingMsg = '<script type="text/x-jqury-tmpl">\
         <div class="search-greeting-box">\
-          <span class="greeting-img"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJmSURBVHgBtVJLS5RhFH7O+10cZ2jmM5sgUfg0BAkq3VqhRrhx0biQ2ql7w7atnF2rsD8Q02XZQluGhhVBdIHGS4Q7JSOi0hk/57t/7+l1umCouzqr9+Wc5znP83CA/10rKyvmzcfexcFbbttBfdr78V7adiqFs+r5DHpjCazfm88sLTx4sd2ba9TFBaTnRvLt6VrgT2uJX2wcqqyLvQSGoXWzSM/CtCYhMjbM/MyluK/QdST7+sqZ9POeEVCU0Qp6Sh9L0FDYxYi925UeizTzNoy2IvT8GkR2DfqJuzdOD02c7yKnkyjQTbqspXTWGrTuvwh2twsjVQI0C5BPYeQLysYayNwCZYu8OjhV96wJW+gCrInufRnw8qkijJYpkFGGblnQsrYiK3Pw2SYEOSTeIyTfCzIMOHCiarr/Y9MfAn57chSGfh3G0UXox0chjAq0TC5xqyRMDYh3QOyoQY9l4FNY3Wa4sr1ugZlFJJPFenAk+iCrs+DISpwNEoYaSDzI0FV61T49T2Q0MyeC/DDsEfMfuPn+E6dpYvXNF8T+ACQssCxId2NLaDFIOpDepiKpMWSkWgTJJslEpcXIiaXlDXduHeeqntn68Nj71ST8Oo54Uw37yl9NAatKlKfk7yj8jhLmIXbVW+WQEK3XM7h6p9bS20HiWn/jJyJiftc5xoJKP0/NrEvn0EfkBsqvjsjxkYR+2Rre7CEcUtGrjqIimyLzKJga1PYAcVW5dF2WsVxUEgeahiuVQwl2y11onSQ2pmHmiJXn2PmGJHLL+AXedwcH1daMZZNmlCDJrt8Ex+O/wf+kfgAhFxenJ2BlUQAAAABJRU5ErkJggg=="></span>\
           <span class="search-greeting-text">Hello! How can I help you today?</span>\
         </div>\
         <div class="search-greeting-close-container pointer" >\
@@ -8691,7 +8690,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.getGreetingMsgTemplate = function () {
       var greetingMsg = '<script type="text/x-jqury-tmpl">\
         <div class="search-greeting-box" style="background:${searchConfig.welcomeMsgFillColor};">\
-          <span class="greeting-img"><img src="${searchConfig.welcomeMsgEmoji}"></span>\
           <span class="search-greeting-text" style="color : ${searchConfig.welcomeMsgColor}">\
           {{if searchConfig.welcomeMsg}}\
             ${searchConfig.welcomeMsg}\
@@ -22140,7 +22138,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var greetingMsgTemplate = '<script id="greeting-msg-top-down-template" type="text/x-jqury-tmpl">\
                                       {{if searchConfig.welcomeMsg}}\
                                         <div class="search-greeting-box-top-down">\
-                                          <span class="greeting-img"><img src="${searchConfig.welcomeMsgEmoji}"></span>\
                                           <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">${searchConfig.welcomeMsg}</span>\
                                         </div>\
                                       {{/if}}\
