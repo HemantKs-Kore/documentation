@@ -371,7 +371,7 @@
                         <div class="greeting-message border-with-padding border-0 pb-0 pt-0">
                             <div class="kr-sg-input-text-area w-auto">
                                 <div class="label-text">{{'searchexperience.customize_launch' | translate}}</div>
-                                <textarea class="input-text" maxlength="60" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}" (change)="testInputLength($event)" (keyup)="testLength($event)" (paste)="testLength($event)"></textarea>
+                                <textarea class="input-text" maxlength="60" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}" (change)="testInputLength($event)" (keyup)="findIndex($event)" (click)="findIndex($event)"></textarea>
                                 <div class="count-length">{{box.value.length}} / {{'searchexperience.60' | translate}} characters</div>
                                 <div class="emoji-img">
                                     <div class="kr-sg-dropdowns" ngbDropdown [placement]="'right-top'" id="avatarDropdown">

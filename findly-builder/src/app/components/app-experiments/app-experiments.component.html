@@ -386,7 +386,7 @@
           <img src="assets/icons/minus.svg" class="minus" [hidden]="exp_status !== 'configured' && form_type === 'edit'"
             (click)="
               experimentObj?.duration.days =
-                experimentObj?.duration.days >= 1
+                experimentObj?.duration.days > 1
                   ? experimentObj?.duration.days - 1
                   : 30
             " />

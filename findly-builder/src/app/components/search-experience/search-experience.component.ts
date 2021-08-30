@@ -100,6 +100,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   tourData: any = [];
   userName: any = '';
   selectedColor: string = '';
+  greeting_msg_index: number;
   configEmoji = {
     categories: {
       people: ''
@@ -409,11 +410,16 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     }
     xhr.send();
   }
+  //find index based on keyup or click in input textarea
+  findIndex(event) {
+    this.greeting_msg_index = event.target.selectionStart;
+  }
   //add emoji based on selection
   addEmoji(event) {
     const emoji = event.emoji.native;
     if (this.searchObject.searchInteractionsConfig.welcomeMsg.length <= 58) {
-      this.searchObject.searchInteractionsConfig.welcomeMsg = this.searchObject.searchInteractionsConfig.welcomeMsg + emoji;
+      //this.searchObject.searchInteractionsConfig.welcomeMsg = this.searchObject.searchInteractionsConfig.welcomeMsg.splice(this.greeting_msg_index, 0, emoji);
+      this.searchObject.searchInteractionsConfig.welcomeMsg = [this.searchObject.searchInteractionsConfig.welcomeMsg.slice(0, this.greeting_msg_index), emoji, this.searchObject.searchInteractionsConfig.welcomeMsg.slice(this.greeting_msg_index)].join('');
     }
   }
   //sequential tabs method
@@ -810,7 +816,6 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   }
 
   closeEmojiPicker() {
-    console.log("avatarDropdown", this.avatarDropdown);
     if (this.avatarDropdown) {
       this.avatarDropdown.dropdown.close();
     }
