@@ -69,7 +69,7 @@ export class AppsListingComponent implements OnInit {
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
-    this.buildCarousel();
+    // this.buildCarousel();
   }
   prepareApps(apps) {
     this.recentApps = apps.slice(0, 4);
@@ -152,22 +152,6 @@ export class AppsListingComponent implements OnInit {
   imageLoad() {
     console.log("image loaded now")
     this.emptyApp = true;
-  }
-  buildCarousel(){
-    setTimeout(() => {
-      $('.carousel:last').addClass("carousel" + this.carouselTemplateCount);
-      var count = $(".carousel" + this.carouselTemplateCount).children().length;
-      if (count > 1) {
-        var carousel = new PureJSCarousel({
-          carousel: '.carousel' + this.carouselTemplateCount,
-          slide: '.slide',
-          oneByOne: true,
-          jq: $,
-        });
-        this.carousel.push(carousel);
-      }
-      this.carouselTemplateCount += 1;
-    }, 400);
   }
   //create app
   createFindlyApp() {
