@@ -831,13 +831,11 @@ export class AppExperimentsComponent implements OnInit {
     }, 100)
   }
   checkDuration(value) {
-    // if(parseInt(event.target.value) > 90){
-    //   event.target.value = ''
-    //   // event.preventDefault();
-    // }
     if (value > 90) {
-      console.log(value, this.experimentObj.duration.days)
       this.experimentObj.duration.days = 90
+    }
+    else if (value <= 0) {
+      this.experimentObj.duration.days = 1;
     }
   }
   ngOnDestroy() {
