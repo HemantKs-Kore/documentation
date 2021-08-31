@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import * as _ from 'underscore';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',
@@ -82,7 +83,8 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     private notify: NotificationService,
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public mixpanel: MixpanelServiceService
   ) {
   }
   goHome() {
@@ -250,8 +252,10 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           if (res && res._id) {
             if (this.newIndexConfigObj.method === 'clone') {
               this.notify.notify('New Index config cloned successfully', 'success');
+              this.mixpanel.postEvent('Index Created - Cloned', {});
             } else {
               this.notify.notify('New Index config created successfully', 'success');
+              this.mixpanel.postEvent('Index Created - New', {});
             }
             this.selectIndexPipelineId(res);
           }
@@ -316,9 +320,11 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           this.closeModalPopup();
           if (this.newConfigObj.method === 'clone') {
             this.notify.notify('New Search config cloned successfully', 'success');
+            this.mixpanel.postEvent('Search Config Created - Cloned', {});
           }
           else {
             this.notify.notify('New Search config created successfully', 'success');
+            this.mixpanel.postEvent('Search Config Created - New', {});
           }
         },
         errRes => {
