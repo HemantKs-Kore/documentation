@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "baseHref" : "/home/",
+            "baseHref": "/home/",
             "outputPath": "dist/src",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -34,7 +34,8 @@
               "src/assets/fonts/inter/inter-font.css",
               "src/assets/web-kore-sdk/libs/purejscarousel.css",
               "src/assets/css/bootstrap-slider.css",
-              "node_modules/nouislider/distribute/nouislider.min.css"
+              "node_modules/nouislider/distribute/nouislider.min.css",
+              "node_modules/@ctrl/ngx-emoji-mart/picker.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -73,7 +74,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                 "maximumError": "12mb"
+                  "maximumError": "15mb"
                 }
               ]
             },
@@ -97,7 +98,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                  "maximumError": "12mb"
+                  "maximumError": "15mb"
                 }
               ]
             },
@@ -121,7 +122,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                 "maximumError": "12mb"
+                  "maximumError": "15mb"
                 }
               ]
             },
@@ -145,7 +146,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                 "maximumError": "12mb"
+                  "maximumError": "15mb"
                 }
               ]
             },
@@ -169,7 +170,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                 "maximumError": "12mb"
+                  "maximumError": "15mb"
                 }
               ]
             },
@@ -193,7 +194,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                 "maximumError": "12mb"
+                  "maximumError": "15mb"
                 }
               ]
             },
@@ -217,7 +218,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                 "maximumError": "12mb"
+                  "maximumError": "15mb"
                 }
               ]
             },
@@ -241,7 +242,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                 "maximumError": "12mb"
+                  "maximumError": "15mb"
                 }
               ]
             },
@@ -265,7 +266,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                 "maximumError": "12mb"
+                  "maximumError": "15mb"
                 }
               ]
             },
@@ -289,7 +290,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                 "maximumError": "12mb"
+                  "maximumError": "15mb"
                 }
               ]
             }

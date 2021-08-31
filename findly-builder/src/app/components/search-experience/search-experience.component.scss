@@ -707,8 +707,8 @@
                                             box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
                                             border-radius: 6px;
                                             width: 258px;
-                                            height: 142px;
-                                            padding: 12px 16px;
+                                            height: 250px;
+                                            padding: 0px;
                                             position: relative;
                                             margin-top: -20px;
                                             &::before{
@@ -722,9 +722,14 @@
                                                 left: -12px;
                                                 top: 18px;
                                             }
+                                            perfect-scrollbar{
+                                                height: 215px;
+                                                padding: 0 10px;
+                                            }                                          
                                             .close-btn{
                                                 text-align: right;
                                                 line-height: normal;
+                                                padding: 12px 15px 0 15px;
                                                 img{
                                                     cursor: pointer;    
                                                     vertical-align: top;
@@ -824,6 +829,7 @@
                                         height: 22px;
                                         cursor: pointer;
                                         margin: 0 auto;
+                                        display: block;
                                         input{
                                             width: 100%;
                                             border: 0 !important;
@@ -979,7 +985,7 @@
                                     content: "";
                                     position: absolute;
                                     width: 14px;
-                                    height: 14px;
+                                    //height: 14px;
                                     background: #F8F9FA;
                                     transform: rotate(45deg);
                                     bottom: -8px;
@@ -1003,7 +1009,7 @@
                         .greeting-block{
                             background: #F8F9FA;
                             border: 1px solid #E0E1E9;
-                            filter: drop-shadow(0px 0px 11px rgba(0, 0, 0, 0.11));
+                            //filter: drop-shadow(0px 0px 11px rgba(0, 0, 0, 0.11));
                             box-sizing: border-box;
                             border-radius: 8px;
                             padding: 11px;
@@ -1558,6 +1564,9 @@
     border-bottom: 11px solid #202124 !important;
 }
 ::ng-deep .joyride-step__close{
+    display: none;
+}
+::ng-deep .emoji-mart-anchors{
     display: none;
 }
 .kr-sg-input-text{

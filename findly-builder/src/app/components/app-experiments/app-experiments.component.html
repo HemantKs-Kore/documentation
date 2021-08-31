@@ -3,6 +3,7 @@
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">{{'please_wait'| translate}}</span>
   </div>
+  
   <div *ngIf="loadingContent1">
     <div class="header-sec row"  *ngIf='listOfExperiments.length>0||filterExperiments.length>0'>
       <div class="col-6 left-sec p-0">
@@ -385,7 +386,7 @@
           <img src="assets/icons/minus.svg" class="minus" [hidden]="exp_status !== 'configured' && form_type === 'edit'"
             (click)="
               experimentObj?.duration.days =
-                experimentObj?.duration.days >= 1
+                experimentObj?.duration.days > 1
                   ? experimentObj?.duration.days - 1
                   : 30
             " />

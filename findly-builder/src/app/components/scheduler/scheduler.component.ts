@@ -133,7 +133,7 @@ export class SchedulerComponent implements OnInit {
   ngOnChanges(changes) {
     console.log("ngOnChanges", this.scheduleFlag);
     this.schedulerFlag = this.scheduleFlag;
-    if(!this.scheduleFlag){
+    if(!this.scheduleFlag && !this.crwalObject.advanceSettings.scheduleOpts.date){
       var emptyData  = new scheduleOpts();
       this.scheduleData.emit(emptyData);
       this.istStratDate = '';
