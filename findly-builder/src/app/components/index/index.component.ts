@@ -17,6 +17,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { JsonPipe } from '@angular/common';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 declare const $: any;
 @Component({
   selector: 'app-index',
@@ -177,6 +178,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   simulateJson;
   filteredSimulatorRes: any;
   componentType: string = 'addData';
+  modifiedStages = {
+    createdStages: [],
+    deletedStages: []
+  }
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     public workflowService: WorkflowService,
@@ -185,7 +190,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     public dialog: MatDialog,
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
-    public inlineManual: InlineManualService
+    public inlineManual: InlineManualService,
+    public mixpanel : MixpanelServiceService
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -597,6 +603,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           for (let i = 0; i < indexArrayLength; i++) {
             let index = this.pipeline.findIndex((p) => !p.condition);
             if (index > -1) {
+              let index2 = this.modifiedStages.createdStages.findIndex((d)=>d.type == this.pipeline[index].type);
+              if(index2>-1){
+                this.modifiedStages.createdStages.splice(index2,1);
+              }
               this.pipeline.splice(index, 1);
             }
           }
@@ -619,6 +629,37 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       })
   }
+  mixpanelForStages(){
+    if(this.modifiedStages.createdStages.length){
+      this.mixpanel.postEvent('Workbench - Rule Created', {});
+      this.modifiedStages.createdStages.forEach((s)=>{
+        if(s.type === 'field_mapping'){
+          this.mixpanel.postEvent('Workbench - Rule Created - Field Mapping', {});
+        } else if(s.type === 'entity_extraction'){
+          this.mixpanel.postEvent('Workbench - Rule Created - Entity Extraction', {});
+        } else if(s.type === 'traits_extraction'){
+          this.mixpanel.postEvent('Workbench - Rule Created - Traits Extraction', {});
+        } else if(s.type === 'custom_script'){
+          this.mixpanel.postEvent('Workbench - Rule Created - Custom Script', {});
+        } else if(s.type === 'position'){
+        } else if(s.type === 'cluster'){
+        } else if(s.type === 'indexer'){
+        } else if(s.type === 'keyword_extraction'){
+          this.mixpanel.postEvent('Workbench - Rule Created - Keyword Extraction', {});
+        } else if(s.type === 'exclude_document'){
+          this.mixpanel.postEvent('Workbench - Rule Created - Exclude Document', {});
+        } else if(s.type === 'semantic_meaning'){
+          this.mixpanel.postEvent('Workbench - Rule Created - Semantic Meaning', {});
+        } 
+      })
+    }
+    if(this.modifiedStages.deletedStages.length){
+      this.mixpanel.postEvent('Workbench - Rule Deleted', {});
+    }
+    if(!this.modifiedStages.createdStages.length && !this.modifiedStages.deletedStages.length){
+      this.mixpanel.postEvent('Workbench - Rule Updated', {});
+    }
+  }
   saveConfig(index?, dialogRef?) {
     let indexArrayLength: any = this.validateConditionForRD();
     if (indexArrayLength) {
@@ -635,7 +676,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         this.pipeline = res.stages || [];
         this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
         // this.appSelectionService.updateTourConfig('addData');
+        this.mixpanelForStages();
         this.notificationService.notify('Configurations Saved Successfully', 'success');
+        this.modifiedStages = {
+          createdStages: [],
+          deletedStages: []
+        }
         this.savingConfig = false;
         if (dialogRef && dialogRef.close) {
           dialogRef.close();
@@ -795,6 +841,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.service.invoke('post.simulate', quaryparms, payload).subscribe(res => {
         this.simulteObj.simulating = false;
         this.addcode(res);
+        this.mixpanel.postEvent('Initiated Simulator', {});
         this.notificationService.notify('Simulated Successfully', 'success')
         this.simulating = false;
         if (this.pollingSubscriber) {
@@ -840,6 +887,17 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
+          if(this.pipeline[i]._id){
+            this.modifiedStages.deletedStages.push(this.pipeline[i]);
+          }else{
+            if(this.modifiedStages.createdStages.length){
+              let index = this.modifiedStages.createdStages.findIndex((d)=>d.type == this.pipeline[i].type);
+              if(index>-1){
+                this.modifiedStages.createdStages.splice(index,1);
+              }
+            }
+            
+          }
           this.pipeline.splice(i, 1);
           dialogRef.close();
           this.notificationService.notify('Deletd Successfully', 'success')
@@ -1211,6 +1269,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.pipeline = newArray.concat(this.pipeline || []);
       this.selectedStage = this.pipeline[0];
       this.showNewStageType = false;
+      this.modifiedStages.createdStages.push(this.pipeline[0]);
     }
     this.selectedStage.type = this.defaultStageTypes[i].type;
     this.selectedStage.category = this.defaultStageTypes[i].category;
