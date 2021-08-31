@@ -1228,7 +1228,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // <p>{{html getHTMLForSearch(faq.answer)}}</p>\  
       var greetingMsg = '<script type="text/x-jqury-tmpl">\
         <div class="search-greeting-box">\
-          <span class="greeting-img"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJmSURBVHgBtVJLS5RhFH7O+10cZ2jmM5sgUfg0BAkq3VqhRrhx0biQ2ql7w7atnF2rsD8Q02XZQluGhhVBdIHGS4Q7JSOi0hk/57t/7+l1umCouzqr9+Wc5znP83CA/10rKyvmzcfexcFbbttBfdr78V7adiqFs+r5DHpjCazfm88sLTx4sd2ba9TFBaTnRvLt6VrgT2uJX2wcqqyLvQSGoXWzSM/CtCYhMjbM/MyluK/QdST7+sqZ9POeEVCU0Qp6Sh9L0FDYxYi925UeizTzNoy2IvT8GkR2DfqJuzdOD02c7yKnkyjQTbqspXTWGrTuvwh2twsjVQI0C5BPYeQLysYayNwCZYu8OjhV96wJW+gCrInufRnw8qkijJYpkFGGblnQsrYiK3Pw2SYEOSTeIyTfCzIMOHCiarr/Y9MfAn57chSGfh3G0UXox0chjAq0TC5xqyRMDYh3QOyoQY9l4FNY3Wa4sr1ugZlFJJPFenAk+iCrs+DISpwNEoYaSDzI0FV61T49T2Q0MyeC/DDsEfMfuPn+E6dpYvXNF8T+ACQssCxId2NLaDFIOpDepiKpMWSkWgTJJslEpcXIiaXlDXduHeeqntn68Nj71ST8Oo54Uw37yl9NAatKlKfk7yj8jhLmIXbVW+WQEK3XM7h6p9bS20HiWn/jJyJiftc5xoJKP0/NrEvn0EfkBsqvjsjxkYR+2Rre7CEcUtGrjqIimyLzKJga1PYAcVW5dF2WsVxUEgeahiuVQwl2y11onSQ2pmHmiJXn2PmGJHLL+AXedwcH1daMZZNmlCDJrt8Ex+O/wf+kfgAhFxenJ2BlUQAAAABJRU5ErkJggg=="></span>\
           <span class="search-greeting-text">Hello! How can I help you today?</span>\
         </div>\
         <div class="search-greeting-close-container pointer" >\
@@ -2798,16 +2797,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (!panel[0].classList.contains('carousel')) {
             panel[0].style.overflow = "initial";
           }
+          _self.captureClickAnalytics(evet, $(evet.currentTarget).closest('.faqs-shadow').attr('contenttype'), 'click', $(evet.currentTarget).closest('.faqs-shadow').attr('contentId'), $(evet.currentTarget).closest('.faqs-shadow').attr('id'), $(evet.currentTarget).closest('.accordion').text());
           return;
         }
         if (panel[0].scrollHeight == '16' && !$(evet.target).closest('.accordion').hasClass('best-match')) {
             $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").show();
+            _self.captureClickAnalytics(evet, $(evet.currentTarget).closest('.faqs-shadow').attr('contenttype'), 'click', $(evet.currentTarget).closest('.faqs-shadow').attr('contentId'), $(evet.currentTarget).closest('.faqs-shadow').attr('id'), $(evet.currentTarget).closest('.accordion').text());
           return;
         }
 
         //if($(evet.target).next().length){
         if (panel[0].style.maxHeight || $(evet.target).hasClass('best-match')) {
           if (panel[0].style.maxHeight && panel[0].style.maxHeight.toString().split('px')[0] == '16') {
+            _self.captureClickAnalytics(evet, $(evet.currentTarget).closest('.faqs-shadow').attr('contenttype'), 'click', $(evet.currentTarget).closest('.faqs-shadow').attr('contentId'), $(evet.currentTarget).closest('.faqs-shadow').attr('id'), $(evet.currentTarget).closest('.accordion').text());
             return;
           }
           if ($(evet.target).hasClass('best-match')) {
@@ -2821,13 +2823,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             panel[0].style.maxHeight = null;
           }, 150)
         } else {
-
+          
           $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").hide();
           panel[0].style.dispaly = 'block';
           panel[0].style.maxHeight = panel[0].scrollHeight + "px";
           if (!panel[0].classList.contains('carousel')) {
             panel[0].style.overflow = "initial";
           }
+          _self.captureClickAnalytics(evet, $(evet.currentTarget).closest('.faqs-shadow').attr('contenttype'), 'click', $(evet.currentTarget).closest('.faqs-shadow').attr('contentId'), $(evet.currentTarget).closest('.faqs-shadow').attr('id'), $(evet.currentTarget).closest('.accordion').text());
         }
 
         //}
@@ -5434,11 +5437,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if ($('body').hasClass('top-down') && code !== 13) {
             _self.vars.enterIsClicked = false;
           }
-          if (code !== 13 && code !== 40 && code !== 38) {
-            // if (($('body').hasClass('top-down') && $('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && $('.bottom-up-suggestion').val())) {
-            _self.pubSub.publish('sa-input-keyup');
-            // }
-          }
+          // if (code !== 13 && code !== 40 && code !== 38 && code !== 39) {
+          //   // if (($('body').hasClass('top-down') && $('.top-down-suggestion').val()) || (!$('body').hasClass('top-down') && $('.bottom-up-suggestion').val())) {
+          //   _self.pubSub.publish('sa-input-keyup');
+          //   // }
+          // }
           if (code == 9 || code == 39) {
             $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
             $('.search-suggested-title.highlightSuggestion').removeClass('highlightSuggestion');
@@ -5684,10 +5687,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
           _self.trimSearchQuery();
-          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
-            $('#autoSuggestionContainer').empty();
-            $('.suggestion-search-data-parent').css('display', 'none');
-          }
+          // if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+          //   $('#autoSuggestionContainer').empty();
+          //   $('.suggestion-search-data-parent').css('display', 'none');
+          // }
           var keyCode = e.keyCode || e.which;
           keyCode = Number(keyCode);
           if ($('body').hasClass('top-down') && keyCode !== 13) {
@@ -8626,7 +8629,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         if (searchConfig.interactionsConfig) {
           searchConfiguration.welcomeMsg = searchConfig.interactionsConfig.welcomeMsg;
-          searchConfiguration.welcomeMsgColor = searchConfig.interactionsConfig.welcomeMsgColor;
+          searchConfiguration.welcomeMsgColor = searchConfig.interactionsConfig.welcomeMsgColor || '#3C4043';
+          searchConfiguration.welcomeMsgFillColor = searchConfig.interactionsConfig.welcomeMsgFillColor || '#F8F9FA';
+          searchConfiguration.defaultStatus = searchConfig.interactionsConfig.defaultStatus || "searchBar";
           searchConfiguration.showSearchesEnabled = searchConfig.interactionsConfig.showSearchesEnabled;
           searchConfiguration.showSearches = searchConfig.interactionsConfig.showSearches;
           searchConfiguration.autocompleteOpt = searchConfig.interactionsConfig.autocompleteOpt;
@@ -8636,6 +8641,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else {
           searchConfiguration.welcomeMsg = 'Hello! How can I help you today?';
+          searchConfiguration.welcomeMsgFillColor = '#3C4043';
+          searchConfiguration.defaultStatus || "searchBar";
+          searchConfiguration.welcomeMsgFillColor = '#F8F9FA';
           searchConfiguration.showSearchesEnabled = '#161928';
           searchConfiguration.showSearches = 'recent';
           searchConfiguration.autocompleteOpt = true;
@@ -8685,8 +8693,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getGreetingMsgTemplate = function () {
       var greetingMsg = '<script type="text/x-jqury-tmpl">\
-        <div class="search-greeting-box">\
-          <span class="greeting-img"><img src="${searchConfig.welcomeMsgEmoji}"></span>\
+        <div class="search-greeting-box" style="background:${searchConfig.welcomeMsgFillColor};">\
           <span class="search-greeting-text" style="color : ${searchConfig.welcomeMsgColor}">\
           {{if searchConfig.welcomeMsg}}\
             ${searchConfig.welcomeMsg}\
@@ -8989,7 +8996,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       if (_self.bot.options) {
-        _self.bot.options.botInfo.linkedBotCustomData = { "linkedBot": {} };
+        _self.bot.options.botInfo.linkedBotCustomData = _self.bot.options.botInfo.linkedBotCustomData ? _self.bot.options.botInfo.linkedBotCustomData : { "linkedBot": {} };
         var contextObj = $("#contextjsonfield").val();
         if (contextObj) {
           contextObj.trim();
@@ -22135,7 +22142,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var greetingMsgTemplate = '<script id="greeting-msg-top-down-template" type="text/x-jqury-tmpl">\
                                       {{if searchConfig.welcomeMsg}}\
                                         <div class="search-greeting-box-top-down">\
-                                          <span class="greeting-img"><img src="${searchConfig.welcomeMsgEmoji}"></span>\
                                           <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">${searchConfig.welcomeMsg}</span>\
                                         </div>\
                                       {{/if}}\
@@ -22889,7 +22895,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       } else {
         var $hlight = $('.search-suggested-title.highlightSuggestion'), $div = $('.search-suggested-title');
         if (e.keyCode == 40) {
-          $hlight.removeClass('highlightSuggestion').next().addClass('highlightSuggestion');
+          $hlight.removeClass('highlightSuggestion');
+          if($hlight.hasClass('search-suggested-title')){
+            $hlight.next().addClass('highlightSuggestion');
+          } else{
+            $hlight.next().next().addClass('highlightSuggestion');
+          }
+         
           if ($hlight.next().length == 0) {
             $div.eq(0).addClass('highlightSuggestion');
           }
@@ -22897,8 +22909,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.bottom-up-search').val(querySuggestionId);
           $('.bottom-up-suggestion').val('');
         } else if (e.keyCode === 38) {
-          $hlight.removeClass('highlightSuggestion').prev().addClass('highlightSuggestion');
-          if ($hlight.prev().length == 0) {
+          $hlight.removeClass('highlightSuggestion');
+          if($hlight.prev().hasClass('search-suggested-title')){
+            $hlight.prev().addClass('highlightSuggestion');
+          }
+          if ($hlight.prev().prev().length == 0) {
             $div.eq(-1).addClass('highlightSuggestion');
           }
           var querySuggestionId = $('.search-suggested-title.highlightSuggestion').attr('suggestion');

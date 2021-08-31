@@ -266,7 +266,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
         this.show_indices = (this.indices.botActions.tasks > 0 || this.indices.connectors > 0 || this.indices.files > 0 || this.indices.structuredDataCount > 0 || this.indices.web.domains > 0 || this.indices.web.numOfDocs > 0 || this.indices.faqs.in_review > 0 || this.indices.faqs.draft > 0 || this.indices.faqs.approved > 0) ? true : false;
         if (status == undefined) {
           let subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
-          this.currentPlan = subscription_data.subscription;
+          this.currentPlan = subscription_data?.subscription;
         }
       },
       errRes => {

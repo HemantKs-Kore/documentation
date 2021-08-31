@@ -13798,6 +13798,8 @@ border: 0;
     border: 1px solid var(--sdk-border-malibu-color);
     box-sizing: border-box;
     border-radius: 20px;
+    padding: 7px 7px;
+    margin: 0px -7px;
 }
 .searchAssist-kore-chat-window .suggestion-search-data-parent .search-suggested-title .type-select-suggestion{
     position: absolute;

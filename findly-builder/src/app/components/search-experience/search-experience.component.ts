@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { LocalStoreService } from './../../services/localstore.service';
 import { NgbDropdown, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { Emoji } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 declare const $: any;
 @Component({
   selector: 'app-search-experience',
@@ -99,6 +100,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   tourData: any = [];
   userName: any = '';
   selectedColor: string = '';
+  greeting_msg_index: number;
   configEmoji = {
     categories: {
       people: ''
@@ -294,6 +296,12 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       }
     });
   }
+  //validate max length in textarea
+  testInputLength(event) {
+    if (event.value.length > 60) {
+      event.value = event.value.substring(0, 60);
+    }
+  }
   //select tab on number
   selectTab(type) {
     if (this.selectedTab === 'searchwidget') {
@@ -402,10 +410,17 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     }
     xhr.send();
   }
+  //find index based on keyup or click in input textarea
+  findIndex(event) {
+    this.greeting_msg_index = event.target.selectionStart;
+  }
   //add emoji based on selection
   addEmoji(event) {
     const emoji = event.emoji.native;
-    this.searchObject.searchInteractionsConfig.welcomeMsg = this.searchObject.searchInteractionsConfig.welcomeMsg + emoji;
+    if (this.searchObject.searchInteractionsConfig.welcomeMsg.length <= 58) {
+      //this.searchObject.searchInteractionsConfig.welcomeMsg = this.searchObject.searchInteractionsConfig.welcomeMsg.splice(this.greeting_msg_index, 0, emoji);
+      this.searchObject.searchInteractionsConfig.welcomeMsg = [this.searchObject.searchInteractionsConfig.welcomeMsg.slice(0, this.greeting_msg_index), emoji, this.searchObject.searchInteractionsConfig.welcomeMsg.slice(this.greeting_msg_index)].join('');
+    }
   }
   //sequential tabs method
   nextTab(type) {
@@ -466,7 +481,9 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 3, 1, queryValue, 'suggestion', 'bottom-up-suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 5, 1, recentValue, 'live', 'bottom-up-live') });
       this.searchObject.searchInteractionsConfig.querySuggestionsLimit = data === undefined ? 3 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
       this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = data === undefined ? 5 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
-
+      if (this.searchObject.searchInteractionsConfig.defaultStatus === undefined) {
+        this.searchObject.searchInteractionsConfig.defaultStatus = "searchBar";
+      }
     }
     else {
       this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 5, 1, queryValue, 'suggestion', 'top-down-suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 10, 1, recentValue, 'live', 'top-down-live') });
@@ -542,18 +559,18 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
         if (type == 'searchIcon') {
           this.searchObject.searchWidgetConfig.searchBarIcon = res.fileId;
           this.selectSearchBox('');
-          if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '' && icon === 'manual') {
-            this.emojiIconUpload();
-          }
+          // if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '' && icon === 'manual') {
+          //   this.emojiIconUpload();
+          // }
         }
         else if (type == 'emoji') {
-          this.searchObject.searchInteractionsConfig.welcomeMsgEmoji = res.fileId;
+          //this.searchObject.searchInteractionsConfig.welcomeMsgEmoji = res.fileId;
           if (this.searchObject.searchWidgetConfig.searchBarIcon === '' && icon === 'manual') {
             this.searchIconUpload();
           }
         }
         if (icon === 'manual' && !update) {
-          if (this.searchObject.searchWidgetConfig.searchBarIcon !== '' && this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
+          if (this.searchObject.searchWidgetConfig.searchBarIcon !== '') {
             this.addSearchExperience();
           }
         }
@@ -688,9 +705,9 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       if (this.searchObject.searchWidgetConfig.searchBarIcon !== '') {
         this.searchIcon = this.searchObject.searchWidgetConfig.searchBarIcon;
       }
-      if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
-        this.emojiIcon = this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
-      }
+      // if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
+      //   this.emojiIcon = this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
+      // }
       let fetchInputWidth = document.createElement('span');
       document.body.appendChild(fetchInputWidth);
       fetchInputWidth.innerText = this.searchObject.searchWidgetConfig.searchBarPlaceholderText;
@@ -750,6 +767,9 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
         this.searchObject.searchInteractionsConfig.welcomeMsgFillColor = "#EFF0F1";
       }
     }
+    if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji || this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === "") {
+      delete this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
+    }
     let obj = { "experienceConfig": this.searchObject.searchExperienceConfig, "widgetConfig": this.searchObject.searchWidgetConfig, "interactionsConfig": this.searchObject.searchInteractionsConfig };
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -796,7 +816,6 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   }
 
   closeEmojiPicker() {
-    console.log("avatarDropdown", this.avatarDropdown);
     if (this.avatarDropdown) {
       this.avatarDropdown.dropdown.close();
     }
