@@ -392,6 +392,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }, errRes => {
     });
   }
+  //list of facets method
   getFacts(offset?) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
@@ -403,7 +404,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.service.invoke('get.allFacets', quaryparms).subscribe(res => {
       this.facets = [];
       this.statusArr = [];
-      this.docTypeArr =[];
+      this.docTypeArr = [];
       this.selectTypeArr = [];
       this.facets = res || [];
       this.facets.forEach(element => {
