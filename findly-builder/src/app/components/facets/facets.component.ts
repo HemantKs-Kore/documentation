@@ -19,6 +19,7 @@ declare const $: any;
 })
 export class FacetsComponent implements OnInit, OnDestroy {
   facetModalRef: any;
+  facetModalRef1: any;
   facets: any = [];
   fieldAutoSuggestion: any = [];
   selectedApp;
@@ -91,6 +92,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     public inlineManual: InlineManualService
   ) { }
   @ViewChild('facetModalPouup') facetModalPouup: KRModalComponent;
+  @ViewChild('facetModalPopupNew') facetModalPopupNew: KRModalComponent;
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -647,6 +649,16 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.resetDefaults();
     this.addEditFacetObj = null;
     this.selectedFieldId = null;
+  }
+  //new modal open
+  openModal1() {
+    this.facetModalRef1 = this.facetModalPopupNew.open();
+  }
+  //new modal close
+  closeModal1() {
+    if (this.facetModalRef1 && this.facetModalRef1.close) {
+      this.facetModalRef1.close();
+    }
   }
   getAllFields() {
     const quaryparms: any = {
