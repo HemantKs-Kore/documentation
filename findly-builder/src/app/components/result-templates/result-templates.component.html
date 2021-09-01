@@ -1,0 +1,18 @@
+<button class="kr-sg-button-primary btn_lg" (click)="openCustomModal()">Open</button>
+
+<kr-modal modalType="center" #customModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
+    <div class="modal-header">
+      <div class="title breadcrum">Title <img src="assets/icons/search-interface/carrot_right.svg"> <span> </span> </div>
+      <div class="close_icon" (click)="closeCustomModal()"><img src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar class="customize-scroll-left">
+    <div class="modal-body">
+      
+   
+    </div>
+  </perfect-scrollbar>
+    <div class="modal-footer">
+        <button class="kr-sg-button-primary btn_lg">save</button>
+        <button class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">Cancel</button>
+    </div>
+  </kr-modal> 
