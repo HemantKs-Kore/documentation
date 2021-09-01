@@ -396,14 +396,12 @@ export class FacetsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId: this.queryPipelineId,
-      offset: offset || 0,
-      limit: 100
+      queryPipelineId: this.queryPipelineId
     };
-    this.service.invoke('get.allFacets', quaryparms).subscribe(res => {
+    this.service.invoke('post.allFacets', quaryparms).subscribe(res => {
       this.facets = [];
       this.statusArr = [];
-      this.docTypeArr =[];
+      this.docTypeArr = [];
       this.selectTypeArr = [];
       this.facets = res || [];
       this.facets.forEach(element => {
