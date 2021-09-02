@@ -253,6 +253,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.customizeView = false;
       vars.showingMatchedResults = false;
       vars.isSocketInitialize = false;
+      vars.isSocketReInitialize =false;
       vars.locationObject = {};
       vars.botConfig = {};
 
@@ -6083,6 +6084,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.bindSocketEvents();
             _self.vars.isSocketInitialize = true;
             _self.resetSocketDisconnection();
+            _self.vars.isSocketReInitialize = true;
           }
           _self.pubSub.publish('sa-search-focus', {});
           _self.pubSub.publish('sa-handel-chat-container-view');
@@ -8755,6 +8757,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       clearTimeout(_pingTimer);
       clearTimeout(_disconnectBotTimer);
       _self.vars.isSocketInitialize = false;
+      _self.vars.isSocketReInitialize =false;
       $('.typingIndicatorContent').css('display', 'none');
     }
     FindlySDK.prototype.resetSocketDisconnection = function () {
@@ -8764,6 +8767,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.vars.isSocketInitialize) {
           _self.destroy();
           _self.vars.isSocketInitialize = false;
+          _self.vars.isSocketReInitialize =false;
           $('.typingIndicatorContent').css('display', 'none');
         }
 
@@ -8785,7 +8789,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.bindSocketEvents = function () {
       var _self = this;
-      _self.bot.on("message", function (message) {
+        _self.bot.on("message", function (message) {
         // debugger;
         // if (me.popupOpened === true) {
         //     $('.kore-auth-popup .close-popup').trigger("click");
@@ -9015,6 +9019,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       console.log("Message to Bot", messageToBot);
       // $('.typingIndicatorContent').css('display', 'block');
+      var sendMsgTimeOut = _self.vars.isSocketReInitialize?2000:0
+      _self.vars.isSocketReInitialize = false;
+      setTimeout(()=>{
       _self.bot.sendMessage(messageToBot, function messageSent(err) {
         if (err && err.message) {
           setTimeout(function () {
@@ -9022,10 +9029,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }, 350);
         }
       });
+    },sendMsgTimeOut)
       // if (_self.isDev == false) {
       _self.resetPingMessage();
       _self.resetSocketDisconnection();
       // }
+    
     };
 
     FindlySDK.prototype.getTemplate = function (type) {
