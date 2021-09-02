@@ -7233,7 +7233,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 'helpers': helpers,
                 'extension': {}
               });
-              $(template).off('click', '.listItemPath, .listRightContent').on('click', '.listItemPath, .listRightContent', function (event) {
+              $(template).off('click', '.listItemPath, .listRightContent,.buyBtn').on('click', '.listItemPath, .listRightContent,.buyBtn', function (event) {
                 event.preventDefault();
                 event.stopPropagation();
                 var type = $(this).attr('type');
