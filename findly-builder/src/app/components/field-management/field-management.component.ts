@@ -81,7 +81,7 @@ export class FieldManagementComponent implements OnInit {
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadFileds();
     })
-    // this.fieldsFilter();
+    this.fieldsFilter();
   }
   ngAfterViewInit() {
 
@@ -373,16 +373,15 @@ export class FieldManagementComponent implements OnInit {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
       offset: offset || 0,
-      limit: 10
+      limit: 100
     };
     
     const payload ={
-      "search": this.searchFields,
       "fieldDataType": this.isMultiValuedArr.source,
-      "isMultiValued": false,
-      "isRequired": true,
-      "isStored": true,
-      "isIndexed": true,
+      // "isMultiValued":this.filterSystem.isMultiValuedFilter,
+      // "isRequired": this.filterSystem.isRequiredFilter,
+      // "isStored": this.filterSystem.isStoredFilter,
+      // "isIndexed": this.filterSystem.isIndexedFilter,
       "sort": {
           "fieldName": this.value,
           // "fieldDataType": 1/-1,
@@ -392,10 +391,14 @@ export class FieldManagementComponent implements OnInit {
           // "isIndexed": 1/-1
       } 
     }
+    // if(this.searchFields){
+    //   payload.search = this.searchFields
+    // }   
     let serviceId = 'get.allField';
     if (searchFields) {
       quaryparms.search = searchFields;
-      serviceId = 'get.allSearchField';
+      serviceId = 'get.allField';
+      this.fieldsFilter();
     }
     this.service.invoke(serviceId, quaryparms,payload).subscribe(res => {
       this.filelds = res.fields || [];
@@ -630,15 +633,17 @@ export class FieldManagementComponent implements OnInit {
       case 'isIndexed': { this.filterSystem.isIndexedFilter = source; return; };
     };
   }
-  fieldsFilter(source, headerOption){
+  fieldsFilter(source?, headerOption?){
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
     };
-    const payload = {
+    const payload:any = {
       moduleName: "fields",
-      indexPipelineId: this.indexPipelineId,
-      search: this.searchFields
+      indexPipelineId: this.indexPipelineId
     }
+    if(this.searchFields){
+      payload.search = this.searchFields
+    }   
     let serviceId = 'post.filterFields'
     this.service.invoke(serviceId,quaryparms,payload).subscribe(res => {
       if (!this.beforeFilterFields.length) {
