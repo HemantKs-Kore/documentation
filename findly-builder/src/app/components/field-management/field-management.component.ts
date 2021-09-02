@@ -25,6 +25,7 @@ export class FieldManagementComponent implements OnInit {
   selectedApp;
   serachIndexId;
   indexPipelineId;
+  fields : any= [];
   searchFields: any = '';
   newFieldObj: any = null
   addFieldModalPopRef: any;
@@ -32,7 +33,7 @@ export class FieldManagementComponent implements OnInit {
   loadingContent = true;
   currentfieldUsage: any
   fetchingFieldUsage = false;
-  value = 1/-1;
+  value = 1 || -1 ;
   indexedWarningMessage = '';
   selectedSort = 'fieldName';
   isAsc = true;
@@ -81,7 +82,7 @@ export class FieldManagementComponent implements OnInit {
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadFileds();
     })
-    this.fieldsFilter();
+   
   }
   ngAfterViewInit() {
 
@@ -377,7 +378,7 @@ export class FieldManagementComponent implements OnInit {
     };
     
     const payload ={
-      "fieldDataType": this.isMultiValuedArr.source,
+      // "fieldDataType": this.isMultiValuedArr.source,
       // "isMultiValued":this.filterSystem.isMultiValuedFilter,
       // "isRequired": this.filterSystem.isRequiredFilter,
       // "isStored": this.filterSystem.isStoredFilter,
@@ -398,7 +399,7 @@ export class FieldManagementComponent implements OnInit {
     if (searchFields) {
       quaryparms.search = searchFields;
       serviceId = 'get.allField';
-      this.fieldsFilter();
+      this.getDyanmicFilterData();
     }
     this.service.invoke(serviceId, quaryparms,payload).subscribe(res => {
       this.filelds = res.fields || [];
@@ -418,6 +419,7 @@ export class FieldManagementComponent implements OnInit {
         this.isRequiredArr = [...new Set(this.isRequiredArr)];
         this.isStoredArr = [...new Set(this.isStoredArr)];
         this.isIndexedArr = [...new Set(this.isIndexedArr)];
+        this.getDyanmicFilterData();
         if(!this.inlineManual.checkVisibility('FIEDS_TABLE')){
           this.inlineManual.openHelp('FIEDS_TABLE')
           this.inlineManual.visited('FIEDS_TABLE')
@@ -556,6 +558,7 @@ export class FieldManagementComponent implements OnInit {
     this.filelds = sortedData;
   }
 
+
   // filterTable(source, headerOption) {
   //   console.log(this.filelds, source)
   //   this.filterTableSource = source;
@@ -634,59 +637,66 @@ export class FieldManagementComponent implements OnInit {
     };
   }
   fieldsFilter(source?, headerOption?){
+    this.fields= [];
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
     };
+    
     const payload:any = {
-      moduleName: "fields",
-      indexPipelineId: this.indexPipelineId
+      
+      fieldDataType: source,
+      // isMultiValued: headerOption,
+      // isRequired: source,
+      // isStored: source,
+      // isIndexed: source,
+      "sort":{
+      fieldName : this.value
+      }
     }
     if(this.searchFields){
       payload.search = this.searchFields
     }   
-    let serviceId = 'post.filterFields'
+    let serviceId = 'get.allField'
     this.service.invoke(serviceId,quaryparms,payload).subscribe(res => {
-      if (!this.beforeFilterFields.length) {
-        this.beforeFilterFields = JSON.parse(JSON.stringify(this.filelds));
-      }
-      let tempFields = this.beforeFilterFields.filter((field: any) => {
-        if (source !== 'all') {
-          if (headerOption === 'fieldDataType') {
-            if (field.fieldDataType === source) {
-              return field;
-            }
-          }
-          if (headerOption === 'isMultiValued') {
-            if (field.isMultiValued === source) {
-              return field;
-            }
-          }
-          if (headerOption === 'isRequired') {
-            if (field.isRequired === source) {
-              return field;
-            }
-          }
-          if (headerOption === 'isStored') {
-            if (field.isStored === source) {
-              return field;
-            }
-          }
-          if (headerOption === 'isIndexed') {
-            if (field.isIndexed === source) {
-              return field;
-            }
-          }
-        }
-        else {
-          return field;
-        }
-      });
-  
-      this.filelds = JSON.parse(JSON.stringify(tempFields));
-      console.log('filter' , res);
-
+      this.filelds = res;     
     })
 
+  }
+  sortByValue(type){
+    if(type == 'down'){
+      this.value= -1
+    }
+    else if(type == 'up'){
+      this.value = 1
+    }
+    this.fieldsFilter();
+  }
+  getDyanmicFilterData() {
+    this.fieldDataTypeArr = [];
+    this.isMultiValuedArr = [];
+    this.isRequiredArr = [];
+    this.isStoredArr = [];
+    this.isIndexedArr = [];
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId
+    };
+    const request = {
+      moduleName: "fields",
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+    };
+    this.service.invoke('post.filterFields', quaryparms, request).subscribe(res => {
+      console.log(res, 'Filters')
+      this.fieldDataTypeArr = [...res.fieldDataType];
+      this.isMultiValuedArr = [...res.isMultiValued];
+      this.isRequiredArr = [...res.isRequired];
+      this.isStoredArr = [...res.isStored];
+      this.isIndexedArr = [...res.isIndexed];
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get filters');
+    });
+    
   }
   // filterFields(source, headerOption) {
   //   if (!this.beforeFilterFields.length) {
