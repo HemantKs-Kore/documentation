@@ -428,18 +428,21 @@ export class FacetsComponent implements OnInit, OnDestroy {
     });
   }
   //get filters dynamic data
-  getDyanmicFilterData() {
+  getDyanmicFilterData(search?) {
     this.docTypeArr = [];
     this.selectTypeArr = [];
     this.statusArr = [];
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
-    const request = {
+    const request: any = {
       moduleName: "facets",
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       queryPipelineId: this.queryPipelineId
     };
+    if (search) {
+      request.search = search
+    }
     this.service.invoke('post.filterFields', quaryparms, request).subscribe(res => {
       this.docTypeArr = [...res.facetType];
       this.selectTypeArr = [...res.isMultiSelect];
@@ -772,44 +775,31 @@ export class FacetsComponent implements OnInit, OnDestroy {
     };
   }
 
-  filterFacets(source, headerOption?) {
-    // if (!this.beforeFilterFacets.length) {
-    //   this.beforeFilterFacets = JSON.parse(JSON.stringify(this.facets));
-    // }
-    // let tempFacets = this.beforeFilterFacets.filter((facet: any) => {
-    //   if (source !== 'all') {
-    //     if (headerOption === 'facetType') {
-    //       if (facet.facetType === source) {
-    //         return facet;
-    //       }
-    //     }
-    //     if (headerOption === 'isMultiSelect') {
-    //       if (facet.isMultiSelect === source) {
-    //         return facet;
-    //       }
-    //     }
-    //     if (headerOption === 'statusType') {
-    //       if (facet.isFacetActive === source) {
-    //         return facet;
-    //       }
-    //     }
-    //   }
-    //   else {
-    //     return facet;
-    //   }
-    // });
-    // this.facets = JSON.parse(JSON.stringify(tempFacets));
-    this.facets = [];
+  filterFacets(source, headerOption) {
+    let request: any = {};
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       queryPipelineId: this.queryPipelineId
     };
-    const request: any = {
-      facetType: source
+    if (headerOption === 'facetType' && source !== 'all') {
+      request.facetType = source
+    }
+    else if (headerOption === 'isMultiSelect' && source !== 'all') {
+      request.isMultiSelect = source
+    }
+    else if (headerOption === 'statusType' && source !== 'all') {
+      request.isFacetActive = source
+    }
+    else if (headerOption === 'search') {
+      request.search = source
     }
     this.service.invoke('post.allFacets', quaryparms, request).subscribe(res => {
+      this.facets = [];
       this.facets = res;
+      if (headerOption === 'search') {
+        this.getDyanmicFilterData(source);
+      }
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get facets');
