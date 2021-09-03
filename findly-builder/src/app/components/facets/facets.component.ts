@@ -440,7 +440,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       queryPipelineId: this.queryPipelineId
     };
-    this.service.invoke('post.filterFields', quaryparms, request).subscribe(res => {
+    this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
       this.docTypeArr = [...res.facetType];
       this.selectTypeArr = [...res.isMultiSelect];
       this.statusArr = [...res.isFacetActive];

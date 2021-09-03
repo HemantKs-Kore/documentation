@@ -382,23 +382,65 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     };
   }
   filterRules(source, headerOption) {
-    if (!this.beforeFilterRules.length) {
-      this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
+    this.rules= [];
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+    };
+    
+    const payload:any = {   
+      isRuleActive : source,
+      // isMultiValued: headerOption,
+      // isRequired: source,
+      // isStored: source,
+      // isIndexed: source,
+      "sort":{
+        ruleName : 1,
+      }
     }
-    let tempRules = this.beforeFilterRules.filter((field: any) => {
-      if (source !== 'all') {
-        if (headerOption === 'isRuleActive') {
-          if (field.isRuleActive === source) {
-            return field;
-          }
-        }
-      }
-      else {
-        return field;
-      }
-    });
+    if(this.searchRules){
+      payload.search = this.searchRules
+    }   
+    let serviceId = 'post.businessRules'
+    this.service.invoke(serviceId,quaryparms,payload).subscribe(res => {
+      this.rules = res;     
+    })
+    // if (!this.beforeFilterRules.length) {
+    //   this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
+    // }
+    // let tempRules = this.beforeFilterRules.filter((field: any) => {
+    //   if (source !== 'all') {
+    //     if (headerOption === 'isRuleActive') {
+    //       if (field.isRuleActive === source) {
+    //         return field;
+    //       }
+    //     }
+    //   }
+    //   else {
+    //     return field;
+    //   }
+    // });
 
-    this.rules = JSON.parse(JSON.stringify(tempRules));
+    // this.rules = JSON.parse(JSON.stringify(tempRules));
+  }
+  getDyanmicFilterData() {
+    this.isRuleActiveArr = [];
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId
+    };
+    const request = {
+      moduleName: "rules",
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      queryPipelineId: this.workflowService.selectedQueryPipeline()._id
+    };
+    this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
+      console.log(res, 'Filters')
+      this.isRuleActiveArr = [...res.isRuleActive];
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get filters');
+    });
+    
   }
   selected(event: MatAutocompleteSelectedEvent, ruleObj, index): void {
     const newSelectedValue = event.option.viewValue;
@@ -705,7 +747,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       offset: offset || 0,
       limit: 10
     };
-    let serviceId = 'get.businessRules';
+    const payload : any ={
+      sort : {
+        ruleName : 1,
+      }
+    }
+    let serviceId = 'post.businessRules';
     if (searchRules) {
       quaryparms.search = searchRules;
       serviceId = 'get.searchedBusinessRules';

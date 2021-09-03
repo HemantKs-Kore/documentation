@@ -82,7 +82,8 @@ export class FieldManagementComponent implements OnInit {
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadFileds();
     })
-   
+   this.fieldsFilter();
+   this.getDyanmicFilterData();
   }
   ngAfterViewInit() {
 
@@ -644,8 +645,7 @@ export class FieldManagementComponent implements OnInit {
       queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
     };
     
-    const payload:any = {
-      
+    const payload:any = {  
       fieldDataType: source,
       // isMultiValued: headerOption,
       // isRequired: source,
@@ -686,7 +686,7 @@ export class FieldManagementComponent implements OnInit {
       moduleName: "fields",
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
     };
-    this.service.invoke('post.filterFields', quaryparms, request).subscribe(res => {
+    this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
       console.log(res, 'Filters')
       this.fieldDataTypeArr = [...res.fieldDataType];
       this.isMultiValuedArr = [...res.isMultiValued];
