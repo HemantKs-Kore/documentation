@@ -354,7 +354,7 @@
 		  'helpers': helpers || this.helpers,
 		  'extension': {}
 		});
-		$(template).off('click', '.buttonTmplContentBox li').on('click', '.buttonTmplContentBox li', function (event) {
+		$(template).off('click', '.buttonTmplContentBox li,.buttonTmplContentBox a li').on('click', '.buttonTmplContentBox li,.buttonTmplContentBox a li', function (event) {
 		  event.preventDefault();
 		  event.stopPropagation();
 		  var type = $(this).attr('type');
@@ -375,6 +375,12 @@
 				eData.payloadData = payloadData;
 			}
 			_self.triggerEvent('onPostback', eData);
+		  } else if (type == "url" || type == "web_url") {
+			var a_link = $(this).attr('url');
+			if (a_link.indexOf("http:") < 0 && a_link.indexOf("https:") < 0) {
+			  a_link = "http:////" + a_link;
+			}
+			var _tempWin = window.open(a_link, "_blank");
 		  }
 		})
 		return template;
