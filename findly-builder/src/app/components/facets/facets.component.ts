@@ -443,7 +443,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     if (search) {
       request.search = search
     }
-    this.service.invoke('post.filterFields', quaryparms, request).subscribe(res => {
+    this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
       this.docTypeArr = [...res.facetType];
       this.selectTypeArr = [...res.isMultiSelect];
       this.statusArr = [...res.isFacetActive];
