@@ -1,3 +1,4 @@
+<!-- <div class="title">{{'facets.facets'| translate}}  <button (click)="openModal1()">New model</button></div> -->
 <div class="facets-main-container">
     <div class="mainLoadingSpinner" *ngIf="loadingContent">
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
@@ -211,6 +212,8 @@
 </div>
 
 
+
+<!-- Old Modal -->
 <kr-modal modalType="center" modalClass="modal_popups_ facetModalPouup" #facetModalPouup>
     <div class="modal-header">
         <div class="title">{{((addEditFacetObj && addEditFacetObj._id)? 'facets.edit_facet':'facets.add_facet') | translate}}</div>
@@ -395,15 +398,409 @@
 <!--new modal-->
 <kr-modal modalType="center" modalClass="modal_popups_ facetModalPouup" #facetModalPopupNew>
     <div class="modal-header">
-        <div class="title">New Model</div>
-        <!-- <div class="title">{{'facets.add_facet'| translate}}</div> -->
+        <ng-container *ngIf="false">
+            <div class="title">Add Facet</div>
+        </ng-container>
+        <ng-container *ngIf="true">
+            <div class="title">Configure Facets</div>
+        </ng-container>
         <div class="close_icon" (click)="closeModal1()"><img id='btn_close_tab' src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
-       <h1>New model</h1>
+        <div class="modal-body scroll-data-content-tabs">
+            <ng-container *ngIf="true">
+                <ul class="nav nav-tabs">
+                    <li>
+                        <a class="active" data-toggle="tab" href="#filterfacet">
+                            <img src="assets/icons/facets/filter.svg">Filter facet
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#sortablefacet">
+                            <img src="assets/icons/facets/sort.svg">Sortable facet
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#tabfacet">
+                            <img src="assets/icons/facets/tab.svg">Tab facet
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="filterfacet" class="tab-pane fade in show active">
+                        <div class="filterfacet-content">
+                            <div class="group-radiobutton">
+                                <div class="heading-title">Facet Type</div>
+                                <div class="kr-sg-radiobutton">
+                                    <input id="radio-1" name="radio" class="radio-custom" type="radio">
+                                    <label for="radio-1" class="radio-custom-label">Value</label>
+                                </div>
+                                <div class="kr-sg-radiobutton">
+                                    <input id="radio-12" name="radio" class="radio-custom" type="radio">
+                                    <label for="radio-12" class="radio-custom-label">Range</label>
+                                </div>
+                            </div>
+                            <div class="search_block mb-20">
+                                <div class="label-text">Field</div>
+                                <div class="kr-sg-dropdowns">
+                                    <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                                        <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
+                                        <input type="text" maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown">
+                                        <img src="assets/images/search_gray.svg" class="search-icon">
+                                        <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                                            <perfect-scrollbar class="scroll-search-field h-200">
+                                                <li>
+                                                    <a>Option1</a>
+                                                </li>
+                                                <li>
+                                                    <a>Option1</a>
+                                                </li>
+                                                <li>
+                                                    <a>Option1</a>
+                                                </li>
+                                                <li>
+                                                    <a>Option1</a>
+                                                </li>
+                                            </perfect-scrollbar>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kr-sg-input-text mb-20">
+                                <div class="label-text">Facet Name</div>
+                                <input type="text" placeholder="Enter name" class="input-text">
+                            </div>
+                            <ng-container>
+                                <div class="box-input-data col-12 row">
+                                    <div class="col-8 sort-section">
+                                        <div class="inner-sort-inputs">
+                                            <div class="label-text">Sort by</div>
+                                            <div class="d-flex">
+                                                <div class="kr-sg-dropdowns">
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select</button>                                            
+                                                        <ul class="dropdown-menu content-menu"> 
+                                                            <perfect-scrollbar class="scroll-search-field h-200">
+                                                                <li><a>Option 1</a></li>
+                                                                <li><a>Option 2</a></li>
+                                                                <li><a>Option 3</a></li>
+                                                            </perfect-scrollbar>                                             
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="kr-sg-dropdowns">
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select order</button>                                            
+                                                        <ul class="dropdown-menu content-menu"> 
+                                                            <perfect-scrollbar class="scroll-search-field h-200">
+                                                                <li><a>Option 1</a></li>
+                                                                <li><a>Option 2</a></li>
+                                                                <li><a>Option 3</a></li>
+                                                            </perfect-scrollbar>                                             
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 facet-size">
+                                        <div class="kr-sg-input-text">
+                                            <div class="label-text">Facet Size <img class="cursor-pointer" src="assets/icons/facets/info.svg" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Info text' placement="top-center"></div>
+                                            <input type="text" placeholder="0" class="input-text">
+                                            <div class="minus">
+                                                <img src="assets/icons/facets/minus.svg">
+                                            </div>
+                                            <div class="plus">
+                                                <img src="assets/icons/facets/plus.svg">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <ng-container>
+                                <div class="range-data-rows-content">
+                                    <div class="range-data-box-inputs row col-12">
+                                        <div class="kr-sg-input-text col-6 pr-2 pl-2">
+                                            <div class="label-text">Range Name (Optional)</div>
+                                            <input type="text" placeholder="Enter name" class="input-text">
+                                        </div>
+                                        <div class="kr-sg-input-text col-3 pr-2 pl-2">
+                                            <div class="label-text">From</div>
+                                            <input type="text" placeholder="Enter value" class="input-text">
+                                        </div>
+                                        <div class="kr-sg-input-text col-3 pr-2 pl-2">
+                                            <div class="label-text">To</div>
+                                            <input type="text" placeholder="Enter value" class="input-text">
+                                        </div>
+                                        <div class="delete-row" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Remove range' placement="top-center">
+                                            <img src="assets/icons/facets/close.svg">
+                                        </div>
+                                    </div>
+                                    <div class="range-data-box-inputs row col-12">
+                                        <div class="kr-sg-input-text col-6 pr-2 pl-2">
+                                            <div class="label-text">Range Name (Optional)</div>
+                                            <input type="text" placeholder="Enter name" class="input-text">
+                                        </div>
+                                        <div class="kr-sg-input-text col-3 pr-2 pl-2">
+                                            <div class="label-text">From</div>
+                                            <input type="text" placeholder="Enter value" class="input-text">
+                                        </div>
+                                        <div class="kr-sg-input-text col-3 pr-2 pl-2">
+                                            <div class="label-text">To</div>
+                                            <input type="text" placeholder="Enter value" class="input-text">
+                                        </div>
+                                        <div class="delete-row" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Remove range' placement="top-center">
+                                            <img src="assets/icons/facets/close.svg">
+                                        </div>
+                                    </div>
+                                    <div class="add-range-btn">
+                                        <img src="assets/icons/facets/add-blue.svg">Add Range
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <div class="toggle-switch">
+                                <label class="kr-sg-toggle with-label m-0">                                       
+                                    <input type="checkbox" checked>
+                                    <div class="slider"></div>
+                                </label>
+                                <div class="text-toggle">Allow to select muliple facets values</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="sortablefacet" class="tab-pane fade">
+                        <div class="filterfacet-content">
+                            <div class="search_block mb-20">
+                                <div class="label-text">Field</div>
+                                <div class="kr-sg-dropdowns">
+                                    <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                                        <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
+                                        <input type="text" maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown">
+                                        <img src="assets/images/search_gray.svg" class="search-icon">
+                                        <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                                            <perfect-scrollbar class="scroll-search-field h-200">
+                                                <li>
+                                                    <a>Option1</a>
+                                                </li>
+                                                <li>
+                                                    <a>Option1</a>
+                                                </li>
+                                                <li>
+                                                    <a>Option1</a>
+                                                </li>
+                                                <li>
+                                                    <a>Option1</a>
+                                                </li>
+                                            </perfect-scrollbar>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kr-sg-input-text mb-20">
+                                <div class="label-text">Facet Name</div>
+                                <input type="text" placeholder="Enter name" class="input-text">
+                            </div>
+                            <ng-container>
+                                <div class="box-input-data col-12 row">
+                                    <div class="col-12 sort-section">
+                                        <div class="inner-sort-inputs">
+                                            <div class="label-text">Sort by</div>
+                                            <div class="d-flex">
+                                                <div class="kr-sg-dropdowns">
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select</button>                                            
+                                                        <ul class="dropdown-menu content-menu"> 
+                                                            <perfect-scrollbar class="scroll-search-field h-200">
+                                                                <li><a>Option 1</a></li>
+                                                                <li><a>Option 2</a></li>
+                                                                <li><a>Option 3</a></li>
+                                                            </perfect-scrollbar>                                             
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="kr-sg-dropdowns">
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select order</button>                                            
+                                                        <ul class="dropdown-menu content-menu"> 
+                                                            <perfect-scrollbar class="scroll-search-field h-200">
+                                                                <li><a>Option 1</a></li>
+                                                                <li><a>Option 2</a></li>
+                                                                <li><a>Option 3</a></li>
+                                                            </perfect-scrollbar>                                             
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div id="tabfacet" class="tab-pane fade">
+                        <div class="tabfacet-data">
+                            <div class="label-text">Field</div>
+                            <div class="search-filter-btn mb-20">
+                                <div class="search_block w-100">
+                                    <div class="kr-sg-dropdowns">
+                                        <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                                            <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
+                                            <input type="text" maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown">
+                                            <img src="assets/images/search_gray.svg" class="search-icon">
+                                            <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                                                <perfect-scrollbar class="scroll-search-field h-200">
+                                                    <li>
+                                                        <a>Option1</a>
+                                                    </li>
+                                                    <li>
+                                                        <a>Option1</a>
+                                                    </li>
+                                                    <li>
+                                                        <a>Option1</a>
+                                                    </li>
+                                                    <li>
+                                                        <a>Option1</a>
+                                                    </li>
+                                                </perfect-scrollbar>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="filter-btn">
+                                    <img src="assets/icons/facets/rangeslider.svg">
+                                </div>
+                            </div>
+                            <div class="configured-facets">
+                                <div class="main-heading-title">Configured Facets</div>
+                                <div class="header-sec-config-facet col-12 row">
+                                    <div class="col-6 title values-data">Values</div>
+                                    <div class="col-6 title">Display Name</div>
+                                </div>
+                                <ng-container>
+                                    <div class="body-sec-config-facet col-12 row">
+                                        <div class="col-6 title values-data">
+                                            <img src="assets/icons/facets/move.svg">
+                                            <span class="title-value">Actions</span>
+                                        </div>
+                                        <div class="col-6 title">Link 1</div>
+                                    </div>
+                                    <div class="body-sec-config-facet col-12 row">
+                                        <div class="col-6 title values-data">
+                                            <img src="assets/icons/facets/move.svg">
+                                            <span class="title-value">Actions</span>
+                                        </div>
+                                        <div class="col-6 title">Link 1</div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="false">
+                <div class="search_block mb-20">
+                    <div class="label-text">Field <img class="cursor-pointer" src="assets/icons/facets/info.svg" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Only search results for the values configured here will be displayed, other results will be discarded' placement="right-center"></div>
+                    <div class="kr-sg-dropdowns">
+                        <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                            <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
+                            <input type="text" maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown">
+                            <img src="assets/images/search_gray.svg" class="search-icon">
+                            <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                                <perfect-scrollbar class="scroll-search-field h-200">
+                                    <li>
+                                        <a>Option1</a>
+                                    </li>
+                                    <li>
+                                        <a>Option1</a>
+                                    </li>
+                                    <li>
+                                        <a>Option1</a>
+                                    </li>
+                                    <li>
+                                        <a>Option1</a>
+                                    </li>
+                                </perfect-scrollbar>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-facet-table">
+                    <div class="table-header-facet col-12 row">
+                        <div class="checkbox-with-label col-6">
+                            <div class="kr-sg-checkbox">
+                                <input id="checkbox-1" class="checkbox-custom" type="checkbox">
+                                <label for="checkbox-1" class="checkbox-custom-label"></label>
+                            </div>
+                            <div class="title-checkbox">Values</div>
+                        </div>  
+                        <div class="display-name col-6">Display Name (Optional)</div>
+                    </div>
+                    <ng-container>
+                        <div class="col-12 row table-body-facet selected">
+                            <div class="checkbox-with-label col-6">
+                                <div class="kr-sg-checkbox">
+                                    <input id="checkbox-114" class="checkbox-custom" type="checkbox" checked>
+                                    <label for="checkbox-114" class="checkbox-custom-label"></label>
+                                </div>
+                                <div class="title-checkbox">Values</div>
+                            </div>
+                            <div class="display-name col-6">
+                                <div class="kr-sg-input-text">
+                                    <input type="text" placeholder="Enter display name" class="input-text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 row table-body-facet selected">
+                            <div class="checkbox-with-label col-6">
+                                <div class="kr-sg-checkbox">
+                                    <input id="checkbox-113" class="checkbox-custom" type="checkbox" checked>
+                                    <label for="checkbox-113" class="checkbox-custom-label"></label>
+                                </div>
+                                <div class="title-checkbox">Actions</div>
+                            </div>
+                            <div class="display-name col-6">
+                                <div class="kr-sg-input-text">
+                                    <input type="text" placeholder="Enter display name" class="input-text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 row table-body-facet">
+                            <div class="checkbox-with-label col-6">
+                                <div class="kr-sg-checkbox">
+                                    <input id="checkbox-112" class="checkbox-custom" type="checkbox">
+                                    <label for="checkbox-112" class="checkbox-custom-label"></label>
+                                </div>
+                                <div class="title-checkbox">Web</div>
+                            </div>
+                            <div class="display-name col-6">
+                                <div class="kr-sg-input-text">
+                                    <input type="text" placeholder="Enter display name" class="input-text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 row table-body-facet">
+                            <div class="checkbox-with-label col-6">
+                                <div class="kr-sg-checkbox">
+                                    <input id="checkbox-111" class="checkbox-custom" type="checkbox">
+                                    <label for="checkbox-111" class="checkbox-custom-label"></label>
+                                </div>
+                                <div class="title-checkbox">Pages</div>
+                            </div>
+                            <div class="display-name col-6">
+                                <div class="kr-sg-input-text">
+                                    <input type="text" placeholder="Enter display name" class="input-text">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </div>
     </perfect-scrollbar>
     <div class="modal-footer">
-        <button type="button" class="kr-sg-button-primary btn_lg float-right">Save</button> <!-- [disabled]='(!addEditFacetObj._id && !selectedField) || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldId !== selectedField.fieldId))' -->
+        <button type="button" class="kr-sg-button-primary btn_lg float-right">Save</button>
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModal1()">Cancel</button>
     </div>
 </kr-modal>
