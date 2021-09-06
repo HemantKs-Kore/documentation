@@ -17,6 +17,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { JsonPipe } from '@angular/common';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { FormControl } from '@angular/forms';
 declare const $: any;
 @Component({
   selector: 'app-index',
@@ -60,6 +61,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('customScriptCodeMirror') codemirror: any;
+  @ViewChild('containInput') containInput: ElementRef<HTMLInputElement>;
   newStage: any = {
     name: 'My Mapping'
   }
@@ -177,6 +179,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   simulateJson;
   filteredSimulatorRes: any;
   componentType: string = 'addData';
+  containCondition: any[] = [];
+  selectable = true;
+  removable = true;
+  containCtrl = new FormControl();
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     public workflowService: WorkflowService,
@@ -1165,8 +1171,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       if (!map.target_field || !map.source_field || !map.trait_groups.length) {
         return false;
       }
-    } else if(this.selectedStage.type == 'keyword_extraction' || this.selectedStage.type == 'semantic_meaning'){
-      if(!map.target_field || !map.source_field){ // removing this ' || !map.model ' parameter to exectute the removal of choose model
+    } else if (this.selectedStage.type == 'keyword_extraction' || this.selectedStage.type == 'semantic_meaning') {
+      if (!map.target_field || !map.source_field) { // removing this ' || !map.model ' parameter to exectute the removal of choose model
         return false;
       }
     } else if (this.selectedStage.type == 'exclude_document') {
@@ -1343,6 +1349,26 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   painlessScriptChanged(event) {
     let count = this.codemirror.codeMirror.lineCount();
     console.log("lines", this.codemirror.codeMirror.lineCount());
+  }
+  //matchip method
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+    if ((value || '').trim()) this.containCondition.push(value.trim());
+    if (input) {
+      input.value = '';
+    }
+    this.containCtrl.setValue(null);
+  }
+  //remove matchip data
+  remove(member: string): void {
+    const index = this.containCondition.indexOf(member);
+    if (index >= 0) this.containCondition.splice(index, 1);
+  }
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.containCondition.push(event.option.viewValue);
+    this.containInput.nativeElement.value = '';
+    this.containCtrl.setValue(null);
   }
   ngOnDestroy() {
     const self = this;

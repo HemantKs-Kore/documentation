@@ -16,7 +16,7 @@
                     </div>
                     <div class="kr-sg-input-text-area mb-0 mt-3">
                         <div class="kr-sg-file-drag-drop">
-                            <div class="drag-drop-sec" [class.err-block]="(!selectedSourceType.resourceAdded && submitted)">
+                            <div class="drag-drop-sec" [class.err-block]="(!selectedSourceType?.resourceAdded && submitted)">
                                 <input type="file" id="sourceFileUploader_add_structured_data" class="custom-file-input " (change)="fileChangeJsonListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.json">
                                 <ng-container *ngIf="!fileObj.fileName">
                                     <div class="imageDiv mb-3">
@@ -72,7 +72,7 @@
                             <div class="indent" placement="top-center" container='body' ngbTooltip="Indent" tooltipClass="ngb_tooltip_custom_class sampleJson" id="btn_indent_add_structured_data" (click)="indentObj()"><img src="assets/icons/content/indent.svg"></div>                        
                         </div>
                         <div class="editor">
-                            <div class="left-sec" [class.err-block]="(!selectedSourceType.resourceAdded && submitted)" [class.err-block]="isInvalidJSON">
+                            <div class="left-sec" [class.err-block]="(!selectedSourceType?.resourceAdded && submitted)" [class.err-block]="isInvalidJSON">
                                 <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" (dblclick)="doubleClick($event)" [(ngModel)]="structuredData.payload" (ngModelChange)="setEditorContent($event)" id="ngx_codemirror_add_structured_data"></ngx-codemirror>
                             </div>                                                     
                             <div class="sample-json" *ngIf="!selectedJsonForEdit">                              
