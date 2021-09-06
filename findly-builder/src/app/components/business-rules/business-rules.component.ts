@@ -441,7 +441,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const sort :any ={}
       const request:any = {
         sort    
-    }     
+    }   
+    this.selectedSort = type;
+    if (this.selectedSort !== type) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }  
     if(type === 'ruleName' ){
       request.sort.ruleName = value
     }
@@ -1006,6 +1012,33 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       $('#searchInput').focus();
     }
   };
+  getSortIconVisibility(sortingField: string, type: string) {
+    switch (this.selectedSort) {
+      case "ruleName": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "isRuleActive": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      
+    }
+  }
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }

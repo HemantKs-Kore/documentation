@@ -76,8 +76,8 @@
                 </div> -->
                 <div class=" d-flex align-items-center title cursor-pointer" >
                     <span class="d-flex align-items-center flex-column mr-1">
-                        <img  (click)="sortRules('ruleName', 'down',1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                        <img (click)="sortRules('ruleName', 'up',-1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                        <img [ngClass]="getSortIconVisibility('ruleName', 'down')" (click)="sortRules('ruleName', 'down',1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                        <img [ngClass]="getSortIconVisibility('ruleName', 'up')"(click)="sortRules('ruleName', 'up',-1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                       </span>
                     
                     <!-- <img  src="assets/icons/sort_up_down.svg" class="pr-1" />
@@ -93,8 +93,8 @@
             </div>
             <div class="col-3 content cursor-pointer d-flex align-items-center" (click)="sortBy('isRuleActive')">
                 <span class="d-flex align-items-center flex-column mr-1">
-                    <img  (click)="sortRules('isRuleActive', 'down',1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                    <img (click)="sortRules('isRuleActive', 'up',-1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                    <img [ngClass]="getSortIconVisibility('isRuleActive', 'down')" (click)="sortRules('isRuleActive', 'down',1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                    <img [ngClass]="getSortIconVisibility('isRuleActive', 'up')"(click)="sortRules('isRuleActive', 'up',-1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                   </span>
                 {{ "businessRules.status_caps" | translate }}
                 <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isRuleActiveFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
