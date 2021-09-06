@@ -37,7 +37,6 @@ export class FieldManagementComponent implements OnInit {
   value = 1 || -1 ;
   indexedWarningMessage = '';
   selectedSort = 'fieldName';
-  showUpArrow :boolean;
   isAsc = true;
   fieldAutoSuggestion: any = [];
   fieldDataTypeArr: any = [];
@@ -395,7 +394,6 @@ export class FieldManagementComponent implements OnInit {
     this.service.invoke(serviceId, quaryparms,payload).subscribe(res => {
       this.filelds = res.fields || [];
       this.totalRecord = res.totalCount || 0;
-      this.showUpArrow = true;
       this.loadingContent = false;
       if (this.filelds.length) {
 
