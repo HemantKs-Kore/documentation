@@ -764,15 +764,15 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
 
   filterTable(source, headerOption) {
-    this.filterSystem.typefilter = 'all';
-    this.filterSystem.selectFilter = 'all';
-    this.filterSystem.statusFilter = 'all';
-    this.filterFacets(source, headerOption);
+    // this.filterSystem.typefilter = 'all';
+    // this.filterSystem.selectFilter = 'all';
+    // this.filterSystem.statusFilter = 'all';
     switch (headerOption) {
-      case 'facetType': { this.filterSystem.typefilter = source; return; };
-      case 'isMultiSelect': { this.filterSystem.selectFilter = source; return; };
-      case 'statusType': { this.filterSystem.statusFilter = source; return; };
+      case 'facetType': { this.filterSystem.typefilter = source;break; };
+      case 'isMultiSelect': { this.filterSystem.selectFilter = source; break; };
+      case 'statusType': { this.filterSystem.statusFilter = source; break; };
     };
+    this.filterFacets(source, headerOption);
   }
 
   filterFacets(source, headerOption) {
@@ -782,17 +782,21 @@ export class FacetsComponent implements OnInit, OnDestroy {
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       queryPipelineId: this.queryPipelineId
     };
-    if (headerOption === 'facetType' && source !== 'all') {
-      request.facetType = source
+    request.facetType = this.filterSystem.typefilter;
+    request.isMultiSelect = this.filterSystem.selectFilter;
+    request.isFacetActive = this.filterSystem.statusFilter;
+    request.search= this.searchfacet;
+    if (request.facetType == 'all') {
+     delete request.facetType;
     }
-    else if (headerOption === 'isMultiSelect' && source !== 'all') {
-      request.isMultiSelect = source
+    if ( request.isMultiSelect== 'all') {
+     delete request.isMultiSelect;
     }
-    else if (headerOption === 'statusType' && source !== 'all') {
-      request.isFacetActive = source
+     if (request.isFacetActive == 'all') {
+      delete request.isFacetActive 
     }
-    else if (headerOption === 'search') {
-      request.search = source
+    if (this.searchfacet === '') {
+     delete request.search 
     }
     this.service.invoke('post.allFacets', quaryparms, request).subscribe(res => {
       this.facets = [];
