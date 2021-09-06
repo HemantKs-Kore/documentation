@@ -26,6 +26,7 @@ export class FieldManagementComponent implements OnInit {
   serachIndexId;
   indexPipelineId;
   fields : any= [];
+  skip = 0;
   searchFields: any = '';
   newFieldObj: any = null
   addFieldModalPopRef: any;
@@ -36,6 +37,7 @@ export class FieldManagementComponent implements OnInit {
   value = 1 || -1 ;
   indexedWarningMessage = '';
   selectedSort = 'fieldName';
+  showUpArrow :boolean;
   isAsc = true;
   fieldAutoSuggestion: any = [];
   fieldDataTypeArr: any = [];
@@ -82,8 +84,6 @@ export class FieldManagementComponent implements OnInit {
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadFileds();
     })
-   this.fieldsFilter();
-   this.getDyanmicFilterData();
   }
   ngAfterViewInit() {
 
@@ -374,37 +374,28 @@ export class FieldManagementComponent implements OnInit {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
-      offset: offset || 0,
-      limit: 100
+      offset: this.skip || 0,
+      limit: 10
     };
     
     const payload ={
-      // "fieldDataType": this.isMultiValuedArr.source,
-      // "isMultiValued":this.filterSystem.isMultiValuedFilter,
-      // "isRequired": this.filterSystem.isRequiredFilter,
-      // "isStored": this.filterSystem.isStoredFilter,
-      // "isIndexed": this.filterSystem.isIndexedFilter,
       "sort": {
           "fieldName": this.value,
-          // "fieldDataType": 1/-1,
-          // "isMultiValued": 1/-1,
-          // "isRequired": 1/-1,
-          // "isStored": 1/-1,
-          // "isIndexed": 1/-1
       } 
     }
     // if(this.searchFields){
     //   payload.search = this.searchFields
     // }   
-    let serviceId = 'get.allField';
-    if (searchFields) {
-      quaryparms.search = searchFields;
-      serviceId = 'get.allField';
-      this.getDyanmicFilterData();
-    }
+    let serviceId = 'post.allField';
+    // if (searchFields) {
+    //   quaryparms.search = searchFields;
+    //   serviceId = 'post.allField';
+    //   this.getDyanmicFilterData();
+    // }
     this.service.invoke(serviceId, quaryparms,payload).subscribe(res => {
       this.filelds = res.fields || [];
       this.totalRecord = res.totalCount || 0;
+      this.showUpArrow = true;
       this.loadingContent = false;
       if (this.filelds.length) {
 
@@ -420,7 +411,6 @@ export class FieldManagementComponent implements OnInit {
         this.isRequiredArr = [...new Set(this.isRequiredArr)];
         this.isStoredArr = [...new Set(this.isStoredArr)];
         this.isIndexedArr = [...new Set(this.isIndexedArr)];
-        this.getDyanmicFilterData();
         if(!this.inlineManual.checkVisibility('FIEDS_TABLE')){
           this.inlineManual.openHelp('FIEDS_TABLE')
           this.inlineManual.visited('FIEDS_TABLE')
@@ -622,58 +612,145 @@ export class FieldManagementComponent implements OnInit {
   // }
   filterTable(source, headerOption) {
     console.log(this.filelds, source, headerOption);
-    this.filterSystem.typefilter = 'all';
-    this.filterSystem.isMultiValuedFilter = 'all';
-    this.filterSystem.isRequiredFilter = 'all';
-    this.filterSystem.isStoredFilter = 'all';
-    this.filterSystem.isIndexedFilter = 'all';
-
-    this.fieldsFilter(source, headerOption);
+    // this.filterSystem.typefilter = 'all';
+    // this.filterSystem.isMultiValuedFilter = 'all';
+    // this.filterSystem.isRequiredFilter = 'all';
+    // this.filterSystem.isStoredFilter = 'all';
+    // this.filterSystem.isIndexedFilter = 'all';  
     switch (headerOption) {
-      case 'fieldDataType': { this.filterSystem.typefilter = source; return; };
-      case 'isMultiValued': { this.filterSystem.isMultiValuedFilter = source; return; };
-      case 'isRequired': { this.filterSystem.isRequiredFilter = source; return; };
-      case 'isStored': { this.filterSystem.isStoredFilter = source; return; };
-      case 'isIndexed': { this.filterSystem.isIndexedFilter = source; return; };
+      case 'fieldDataType': { this.filterSystem.typefilter = source; break; };
+      case 'isMultiValued': { this.filterSystem.isMultiValuedFilter = source; break; };
+      case 'isRequired': { this.filterSystem.isRequiredFilter = source; break; };
+      case 'isStored': { this.filterSystem.isStoredFilter = source; break; };
+      case 'isIndexed': { this.filterSystem.isIndexedFilter = source; break; };
     };
+    this.fieldsFilter(source, headerOption);
   }
-  fieldsFilter(source?, headerOption?){
-    this.fields= [];
+
+  fieldsFilter(source?, headerOption? ,type?,navigate?, value?){  
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      offset: 0,
+      limit: 10
     };
-    
-    const payload:any = {  
-      fieldDataType: source,
-      // isMultiValued: headerOption,
-      // isRequired: source,
-      // isStored: source,
-      // isIndexed: source,
-      "sort":{
-      fieldName : this.value
-      }
-    }
-    if(this.searchFields){
-      payload.search = this.searchFields
+      const request:any = {
+        "sort":{
+          'fieldName':1
+        }    
     }   
-    let serviceId = 'get.allField'
-    this.service.invoke(serviceId,quaryparms,payload).subscribe(res => {
-      this.filelds = res;     
-    })
-
-  }
-  sortByValue(type){
-    if(type == 'down'){
-      this.value= -1
+    request.fieldDataType = this.filterSystem.typefilter;
+    request.isMultiValued = this.filterSystem.isMultiValuedFilter;
+    request.isStored = this.filterSystem.isRequiredFilter;
+    request.isIndexed = this.filterSystem.isStoredFilter;
+    request.isRequired = this.filterSystem.isIndexedFilter;
+    request.search= this.searchFields;
+    if (request.fieldDataType == 'all') {
+     delete  request.fieldDataType;
     }
-    else if(type == 'up'){
-      this.value = 1
+     if ( request.isMultiValued == 'all') {
+      delete request.isMultiValued; 
     }
-    this.fieldsFilter();
+     if (request.isStored == 'all') {
+     delete request.isStored; 
+    }
+     if (request.isIndexed == 'all') {
+     delete  request.isIndexed;
+    }
+    if (request.isRequired == 'all') { 
+     delete request.isRequired;
+    }
+    if (this.searchFields === '') {
+     delete request.search;
+    }
+    let serviceId = 'post.allField'
+    this.service.invoke(serviceId,quaryparms,request).subscribe(res => {
+      this.filelds = res.fields;     
+      this.totalRecord = res.totalCount
+      if (headerOption === 'search') {
+        this.getDyanmicFilterData(source);
+      }
+    },
+    errRes => {
+      this.loadingContent = false;
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
   }
-  getDyanmicFilterData() {
+  sortField(type?,navigate?, value?){  
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      offset: this.skip || 0 ,
+      limit: 10
+    };
+    const sort :any ={}
+      const request:any = {
+        sort    
+    }     
+    this.selectedSort = type;
+    if (this.selectedSort !== type) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    // filter along with sort start 
+    request.fieldDataType = this.filterSystem.typefilter;
+    request.isMultiValued = this.filterSystem.isMultiValuedFilter;
+    request.isStored = this.filterSystem.isRequiredFilter;
+    request.isIndexed = this.filterSystem.isStoredFilter;
+    request.isRequired = this.filterSystem.isIndexedFilter;
+    request.search= this.searchFields;
+    if (request.fieldDataType == 'all') {
+     delete  request.fieldDataType;
+    }
+     if ( request.isMultiValued == 'all') {
+      delete request.isMultiValued; 
+    }
+     if (request.isStored == 'all') {
+     delete request.isStored; 
+    }
+     if (request.isIndexed == 'all') {
+     delete  request.isIndexed;
+    }
+    if (request.isRequired == 'all') { 
+     delete request.isRequired;
+    }
+    if (this.searchFields === '') {
+     delete request.search;
+    }
+    // end 
+    //Sort start
+    if(type === 'fieldName' ){
+      request.sort.fieldName = value
+    }
+    if(type === 'fieldDataType' ){
+      request.sort.fieldDataType = value
+    }
+    if(type === 'isMultiValued' ){
+      request.sort.isMultiValued = value
+    }
+    if(type === 'isStored' ){
+      request.sort.isStored = value
+    }
+    if(type === 'isRequired' ){
+      request.sort.isRequired = value
+    }
+    if(type === 'isIndexed' ){
+      request.sort.isIndexed = value
+    }
+    // end
+    let serviceId = 'post.allField'
+    this.service.invoke(serviceId,quaryparms,request).subscribe(res => {
+      this.filelds = res.fields;     
+    },
+    errRes => {
+      this.loadingContent = false;
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
+  }
+  getDyanmicFilterData(search?) {
     this.fieldDataTypeArr = [];
     this.isMultiValuedArr = [];
     this.isRequiredArr = [];
@@ -682,10 +759,13 @@ export class FieldManagementComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
-    const request = {
+    const request :any = {
       moduleName: "fields",
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
     };
+    if (search) {
+      request.search = search
+    }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
       console.log(res, 'Filters')
       this.fieldDataTypeArr = [...res.fieldDataType];
@@ -776,6 +856,7 @@ export class FieldManagementComponent implements OnInit {
   }
 
   paginate(event) {
+    this.skip= event.skip
     this.getFileds(event.skip, this.searchFields)
   }
   ngOnDestroy() {

@@ -382,29 +382,35 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     };
   }
   filterRules(source, headerOption) {
-    this.rules= [];
+
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
     };
     
-    const payload:any = {   
-      isRuleActive : source,
-      // isMultiValued: headerOption,
-      // isRequired: source,
-      // isStored: source,
-      // isIndexed: source,
+    const request:any = {   
       "sort":{
         ruleName : 1,
       }
     }
-    if(this.searchRules){
-      payload.search = this.searchRules
-    }   
+    if (headerOption === 'isRuleActive' && source !== 'all') {
+      request.isRuleActive = source
+    }
+
+    else if (headerOption === 'search') {
+      request.search = source
+    }
+    // if(this.searchRules){
+    //   payload.search = this.searchRules
+    // }   
     let serviceId = 'post.businessRules'
-    this.service.invoke(serviceId,quaryparms,payload).subscribe(res => {
-      this.rules = res;     
+    this.service.invoke(serviceId,quaryparms,request).subscribe(res => {
+      this.rules = [];
+      this.rules = res.rules;     
+      if (headerOption === 'search') {
+        this.getDyanmicFilterData(source);
+      }
     })
     // if (!this.beforeFilterRules.length) {
     //   this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
@@ -424,16 +430,48 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
     // this.rules = JSON.parse(JSON.stringify(tempRules));
   }
-  getDyanmicFilterData() {
+  sortRules(type?,navigate?, value?){  
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      offset: 0,
+      limit: 100
+    };
+    const sort :any ={}
+      const request:any = {
+        sort    
+    }     
+    if(type === 'ruleName' ){
+      request.sort.ruleName = value
+    }
+    if(type === 'isRuleActive' ){
+      request.sort.isRuleActive = value
+    }
+   
+    
+    let serviceId = 'post.businessRules'
+    this.service.invoke(serviceId,quaryparms,request).subscribe(res => {
+      this.rules = res.rules;        
+    },
+    errRes => {
+      this.loadingContent = false;
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
+  }
+  getDyanmicFilterData(search?) {
     this.isRuleActiveArr = [];
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
-    const request = {
+    const request :any = {
       moduleName: "rules",
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       queryPipelineId: this.workflowService.selectedQueryPipeline()._id
     };
+    if (search) {
+      request.search = search
+    }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
       console.log(res, 'Filters')
       this.isRuleActiveArr = [...res.isRuleActive];
@@ -745,7 +783,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       offset: offset || 0,
-      limit: 10
+      limit: 2
     };
     const payload : any ={
       sort : {
@@ -757,7 +795,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       quaryparms.search = searchRules;
       serviceId = 'get.searchedBusinessRules';
     }
-    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+    this.service.invoke(serviceId, quaryparms,payload).subscribe(res => {
       this.rules = res.rules || [];
       this.totalRecord = res.totalCount || 0;
       this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));

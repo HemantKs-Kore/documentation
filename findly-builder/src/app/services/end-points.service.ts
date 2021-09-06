@@ -20,14 +20,12 @@ export class EndPointsService {
       this.API_SERVER_URL_PLATFORM = this.SERVER_URL + this.API_URL_PREFIX  //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
       window.appConfig.API_SERVER_URL = this.SERVER_URL;
     } else {
-      // this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX;
-      // this.API_SERVER_URL_PLATFORM = environment.API_SERVER_URL + this.API_URL_PREFIX //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
-      // this.API_SERVER_URL_PLATFORM = "http://60c30ad26069.ngrok.io" + '/searchassistapi'
+      this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX;
+      this.API_SERVER_URL_PLATFORM = environment.API_SERVER_URL + this.API_URL_PREFIX //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
+      // this.API_SERVER_URL_PLATFORM = "https://50b6e8fd7c49.ngrok.io" + "/api/1.1"
       // this.API_SERVER_URL = "https://50b6e8fd7c49.ngrok.io" + "/api/1.1"
       // this.API_SERVER_URL_PLATFORM = "https://bca0530495c7.ngrok.io" + this.API_URL_PREFIX
-      // this.API_SERVER_URL = "http://60c30ad26069.ngrok.io" + this.API_URL_PREFIX
-      this.API_SERVER_URL = "http://f8b5-2409-4043-2d8c-bfeb-b416-4e0d-b9ac-ece3.ngrok.io" + "/searchassistapi"
-      this.API_SERVER_URL_PLATFORM = "http://f8b5-2409-4043-2d8c-bfeb-b416-4e0d-b9ac-ece3.ngrok.io" + this.API_URL_PREFIX
+      // this.API_SERVER_URL = "https://bca0530495c7.ngrok.io" + this.API_URL_PREFIX
     }
     this.init();
   }
@@ -538,12 +536,8 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields',
       method: 'post'
     }
-    this.serviceList['get.allField'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/getFields',
-      method: 'post'
-    }
-    this.serviceList['post.filterFields'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/getFilters',
+    this.serviceList['post.allField'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/getFields?offset=:offset&limit=:limit',
       method: 'post'
     }
     this.serviceList['get.allFieldsData'] = {
@@ -688,10 +682,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit',
       method: 'get'
     },
-      this.serviceList['get.searchedBusinessRules'] = {
+      this.serviceList['post.businessRules'] = {
         //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit',
-        endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit&search=:search',
-        method: 'get'
+        endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/getRules?offset=:offset&limit=:limit',
+        method: 'post'
       },
       this.serviceList['create.businessRules'] = {
         //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp',
@@ -1097,6 +1091,12 @@ export class EndPointsService {
     }
     this.serviceList['post.downgradeCancellation'] = {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/subscription/cancel/downgrade',
+      method: 'post'
+    }
+    // Filters API
+    this.serviceList['post.filters'] = {
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/?offset=:offset&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/getFilters',
       method: 'post'
     }
     //download invoice for paid plans
