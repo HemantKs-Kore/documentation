@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import  mixpanel  from 'mixpanel-browser';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,20 @@ export class MixpanelServiceService {
     });
   this.enabled = valid;
   };
+
+  checkForKey(){
+    const mixpanelEnv: any = environment;
+    if (mixpanelEnv.hasOwnProperty('MIXPANEL_KEY') && mixpanelEnv['MIXPANEL_KEY']) {
+        this.enabled = true; 
+    }else{
+        this.enabled = false; 
+    }
+  }
   init(){
-    mixpanel.init('b8cca4172b544f41f2dde97189667d81');
+    const mixpanelEnv: any = environment;
+    if (mixpanelEnv.hasOwnProperty('MIXPANEL_KEY') && mixpanelEnv['MIXPANEL_KEY']) {
+        mixpanel.init(mixpanelEnv['MIXPANEL_KEY']);
+    }
   }
   reset =  function(){
     this.enabled = false;
@@ -35,6 +48,7 @@ export class MixpanelServiceService {
   };
   setUserInfo = function (email,userInfo) {
     this.checkForEmailDomains(email);
+    this.checkForKey();
     if(!this.enabled){
         return;
     }
@@ -62,6 +76,7 @@ export class MixpanelServiceService {
 
   };
   postEvent = function (event,eventPayload) {
+    this.checkForKey();
     if(!this.enabled){
        return;
     }
