@@ -146,8 +146,12 @@ export class AuthService {
     // subscriber 1
     subject.subscribe((res : any) => {
       this.appControlList = res;
+      this.mixpanel.reset();
+      var userInfo = {
+      "$email":res.domain,
+      };
       if(res && res.domain){
-        this.mixpanel.setUserInfo(res.domain ,{})
+        this.mixpanel.setUserInfo(res.domain ,userInfo)
       }
     }, errRes => {
       this.appControlList = null;
