@@ -9,8 +9,8 @@
                 <div class="title">{{'fields.fields' | translate}}</div>
                 <div class="d-flex align-items-center">
                     <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
-                        <input type="text" placeholder="{{'search' | translate}}" maxlength="60" class="input-search" (keyup)="searchByFields()" [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}"
-                            autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (change)="fieldsFilter(searchFields,'search')"
+                        <input type="text" placeholder="{{'search' | translate}}" maxlength="60" class="input-search"  [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}"
+                            autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (keyup)="fieldsFilter(searchFields,'search')"
                             (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                             (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
@@ -32,18 +32,18 @@
                 </ng-container>
             </div>     
             <div>
-                <div class="table_data_content" *ngIf="filelds && filelds.length">
-                    <div class="table_header row m-0">
-                        <div class="col_ col-2 title d-flex align-items-center"  >
+                <div class="table_data_content" *ngIf="filelds && filelds.length" >
+                    <div class="table_header row m-0" *ngIf="!(filelds && filelds.length)">
+                        <div class="col_ col-2 title d-flex align-items-center" (click)="sortByApi('fieldName')" > <!--(click)="sortByApi('fieldName')"-->
                             <span class="d-flex align-items-center flex-column mr-1">
-                                <img  [ngClass]="getSortIconVisibility('fieldName', 'down')" (click)="sortField('fieldName', 'down',1)"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img [ngClass]="getSortIconVisibility('fieldName', 'up')" (click)="sortField('fieldName', 'up',-1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                                <img  [ngClass]="getSortIconVisibility('fieldName', 'down')"   src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('fieldName', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
                               {{'fields.field_name' | translate}}</div>
-                        <div class="col_  col-2 title d-flex align-items-center" >
+                        <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('fieldDataType')">
                             <span class="d-flex align-items-center flex-column mr-1">
-                                <img  [ngClass]="getSortIconVisibility('fieldDataType', 'down')"(click)="sortField('fieldDataType', 'down',1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img [ngClass]="getSortIconVisibility('fieldDataType', 'up')" (click)="sortField('fieldDataType', 'up',-1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                                <img  [ngClass]="getSortIconVisibility('fieldDataType', 'down')"   src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('fieldDataType', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
                               {{'fields.type' | translate}} 
                             <div class=" ml-2 kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
@@ -64,10 +64,10 @@
                             </div>
                         </div>
                         </div>
-                        <div class="col_  col-2 title d-flex align-items-center"  >
+                        <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('isMultiValued')" >
                             <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('isMultiValued', 'down')" (click)="sortField('isMultiValued', 'down',1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img  [ngClass]="getSortIconVisibility('isMultiValued', 'up')" (click)="sortField('isMultiValued', 'up',-1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                                <img [ngClass]="getSortIconVisibility('isMultiValued', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img  [ngClass]="getSortIconVisibility('isMultiValued', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
                               {{'fields.multi_value' | translate}}
                             <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #selectFilter="ngbDropdown" ngbDropdown [container]="'body'"
@@ -87,10 +87,10 @@
                             </div>
                         </div>
                         </div>
-                        <div class="col_  col-2 title d-flex align-items-center">
+                        <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('isRequired')">
                             <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('isRequired', 'down')" (click)="sortField('isRequired', 'down',1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img [ngClass]="getSortIconVisibility('isRequired', 'up')" (click)="sortField('isRequired', 'up',-1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                                <img [ngClass]="getSortIconVisibility('isRequired', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('isRequired', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
                               {{'fields.required' | translate}}
                             <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isRequiredFilter="ngbDropdown" ngbDropdown [container]="'body'"
@@ -110,10 +110,10 @@
                             </div>
                         </div>
                         </div>
-                        <div class="col_  col-2 title d-flex align-items-center" >
+                        <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('isStored')">
                             <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('isStored', 'down')" (click)="sortField('isStored', 'down',1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img [ngClass]="getSortIconVisibility('isStored', 'up')" (click)="sortField('isStored', 'up',-1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                                <img [ngClass]="getSortIconVisibility('isStored', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('isStored', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
                               {{'fields.stored' | translate}}
                             <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isStoredFilter="ngbDropdown" ngbDropdown [container]="'body'"
@@ -133,10 +133,10 @@
                             </div>
                         </div>
                         </div>
-                        <div class="col_  col-2 title d-flex align-items-center"  >
+                        <div class="col_  col-2 title d-flex align-items-center"  (click)="sortByApi('isIndexed')">
                             <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('isIndexed', 'down')" (click)="sortField('isIndexed', 'down',1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img [ngClass]="getSortIconVisibility('isIndexed', 'up')" (click)="sortField('isIndexed', 'up',-1)" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                                <img [ngClass]="getSortIconVisibility('isIndexed', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('isIndexed', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
                               {{'fields.indexed' | translate}}
                             <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isIndexedFilter="ngbDropdown" ngbDropdown [container]="'body'"

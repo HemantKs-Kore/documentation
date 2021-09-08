@@ -38,6 +38,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   indexPipelineId;
   currentEditInex;
   submitted = false;
+  skip=0
   rules = [];
   currentSugg: any = [];
   selectedSort = '';
@@ -116,6 +117,15 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   componentType: string = 'configure';
   loadImageText: boolean = false;
   loadingContent1: boolean = false;
+  sortedObject = {
+    'type': 'fieldName',
+    'position':'up',
+    "value": 1,
+  }
+  filterObject={
+    'type': '',
+    'header':''
+  }
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -166,6 +176,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (this.indexPipelineId) {
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       if (this.queryPipelineId) {
+        this.getDyanmicFilterData()
         this.getRules();
         this.getFieldAutoComplete(null, null);
       }
@@ -180,7 +191,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
   }
   paginate(event) {
-    this.getRules(event.skip, this.searchRules)
+    this.skip= event.skip
+    this.filterRules(this.searchRules,'search',this.filterObject.type,this.filterObject.header,this.sortedObject.type,this.sortedObject.value,this.sortedObject.position)
+    // this.getRules(event.skip, this.searchRules)
   }
   createNewRule() {
     this.addEditRuleObj = {
@@ -374,68 +387,131 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   filterTable(source, headerOption) {
     console.log(this.rules, source, headerOption);
-    this.filterSystem.isRuleActiveFilter = 'all';
+    // this.filterSystem.isRuleActiveFilter = 'all';
 
-    this.filterRules(source, headerOption);
+   
     switch (headerOption) {
-      case 'isRuleActive': { this.filterSystem.isRuleActiveFilter = source; return; };
+      case 'isRuleActive': { this.filterSystem.isRuleActiveFilter = source; break; };
     };
+    this.filterObject = {
+      type: source,
+      header: headerOption
+    }
+    this.filterRules(null,null,source, headerOption);
   }
-  filterRules(source, headerOption) {
-
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
-    };
-    
-    const request:any = {   
-      "sort":{
-        ruleName : 1,
+  filterRules(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){  
+    // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)  
+    // this.loadingContent = true;
+    if(sortValue){
+      this.sortedObject = {
+        type : sortHeaderOption,
+        value : sortValue,
+        position: navigate
       }
     }
-    if (headerOption === 'isRuleActive' && source !== 'all') {
-      request.isRuleActive = source
-    }
 
-    else if (headerOption === 'search') {
-      request.search = source
-    }
-    // if(this.searchRules){
-    //   payload.search = this.searchRules
-    // }   
-    let serviceId = 'post.businessRules'
-    this.service.invoke(serviceId,quaryparms,request).subscribe(res => {
-      this.rules = [];
-      this.rules = res.rules;     
-      if (headerOption === 'search') {
-        this.getDyanmicFilterData(source);
-      }
-    })
-    // if (!this.beforeFilterRules.length) {
-    //   this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
-    // }
-    // let tempRules = this.beforeFilterRules.filter((field: any) => {
-    //   if (source !== 'all') {
-    //     if (headerOption === 'isRuleActive') {
-    //       if (field.isRuleActive === source) {
-    //         return field;
-    //       }
-    //     }
-    //   }
-    //   else {
-    //     return field;
-    //   }
-    // });
-
-    // this.rules = JSON.parse(JSON.stringify(tempRules));
-  }
-  sortRules(type?,navigate?, value?){  
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
       offset: 0,
+      limit: 10
+    };
+    let request:any={}
+    if(!sortValue){
+      request = {
+        "sort":{
+          "ruleName" : 1,
+        }    
+    }   
+    }
+    else if(sortValue){
+      const sort :any ={}
+      request= {
+        sort
+      }
+    }
+    else {
+    request={}
+    }
+      
+    request.isRuleActive = this.filterSystem.isRuleActiveFilter;
+    request.search = this.searchRules;
+    if (request.isRuleActive == 'all') {
+     delete  request.isRuleActive;
+    }
+    if (this.searchRules === '') {
+     delete request.search;
+    }
+    if(sortValue){  
+      this.getSortIconVisibility(sortHeaderOption,navigate);
+       //Sort start
+       if(sortHeaderOption === 'ruleName' ){
+        request.sort.ruleName = sortValue
+      }
+      if(sortHeaderOption === 'isRuleActive' ){
+        request.sort.isRuleActive = sortValue
+      }
+    // end
+    }
+    this.getRules(searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
+    this.getDyanmicFilterData()
+  }
+  // filterRules(source, headerOption) {
+
+  //   const quaryparms: any = {
+  //     searchIndexID: this.serachIndexId,
+  //     indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+  //     queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+  //   };
+    
+  //   const request:any = {   
+  //     "sort":{
+  //       ruleName : 1,
+  //     }
+  //   }
+  //   if (headerOption === 'isRuleActive' && source !== 'all') {
+  //     request.isRuleActive = source
+  //   }
+
+  //   else if (headerOption === 'search') {
+  //     request.search = source
+  //   }
+  //   // if(this.searchRules){
+  //   //   payload.search = this.searchRules
+  //   // }   
+  //   let serviceId = 'post.businessRules'
+  //   this.service.invoke(serviceId,quaryparms,request).subscribe(res => {
+  //     this.rules = [];
+  //     this.rules = res.rules;     
+  //     if (headerOption === 'search') {
+  //       this.getDyanmicFilterData(source);
+  //     }
+  //   })
+  //   // if (!this.beforeFilterRules.length) {
+  //   //   this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
+  //   // }
+  //   // let tempRules = this.beforeFilterRules.filter((field: any) => {
+  //   //   if (source !== 'all') {
+  //   //     if (headerOption === 'isRuleActive') {
+  //   //       if (field.isRuleActive === source) {
+  //   //         return field;
+  //   //       }
+  //   //     }
+  //   //   }
+  //   //   else {
+  //   //     return field;
+  //   //   }
+  //   // });
+
+  //   // this.rules = JSON.parse(JSON.stringify(tempRules));
+  // }
+  sortRules(type?,navigate?, value?){  
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      offset:  this.skip || 0,
       limit: 100
     };
     const sort :any ={}
@@ -783,35 +859,42 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'Failed to get fields');
     });
   }
-  getRules(offset?, searchRules?) {
+  getRules(searchValue?,searchSource?,source?,headerOption?,sortHeaderOption?,sortValue?,navigate?,request?) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      offset: offset || 0,
-      limit: 2
+      offset:  this.skip || 0,
+      limit: 10
     };
-    const payload : any ={
-      sort : {
-        ruleName : 1,
+    let payload:any = {}
+    if(!sortHeaderOption && !headerOption){
+       payload ={
+        "sort": {
+            "ruleName": 1,
+        } 
       }
     }
+    else{
+      payload = request
+    }
+   
     let serviceId = 'post.businessRules';
-    if (searchRules) {
-      quaryparms.search = searchRules;
-      serviceId = 'get.searchedBusinessRules';
+    if (this.searchRules) {
+     payload.search = this.searchRules;
+      
     }
     this.service.invoke(serviceId, quaryparms,payload).subscribe(res => {
       this.rules = res.rules || [];
       this.totalRecord = res.totalCount || 0;
       this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
       this.loadingContent = false;
-      if (this.rules.length) {
-        this.rules.forEach(element => {
-          this.isRuleActiveArr.push(element.isRuleActive);
-        });
-        this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
-      }
+      // if (this.rules.length) {
+      //   this.rules.forEach(element => {
+      //     this.isRuleActiveArr.push(element.isRuleActive);
+      //   });
+      //   this.isRuleActiveArr = [...new Set(this.isRuleActiveArr)];
+      // }
       this.addRemoveRuleFromSelection(null, null, true);
       if (res && res.rules && res.rules.length > 0) {
         this.loadingContent = false;
@@ -1042,24 +1125,43 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-  sortBy(sort) {
-    const data = this.rules.slice();
+  sortByApi(sort){
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {
       this.isAsc = true;
     } else {
       this.isAsc = !this.isAsc;
     }
-    const sortedData = data.sort((a, b) => {
-      const isAsc = this.isAsc;
-      switch (sort) {
-        case 'ruleName': return this.compare(a.ruleName, b.ruleName, isAsc);
-        case 'isRuleActive': return this.compare(a.isRuleActive, b.isRuleActive, isAsc);
-        default: return 0;
-      }
-    });
-    this.rules = sortedData;
+    var checkSortValue= 1;
+    var naviagtionArrow ='';
+    if(this.isAsc){
+      naviagtionArrow ='up';
+      checkSortValue = 1;
+    }
+    else{
+      naviagtionArrow ='down';
+      checkSortValue = -1;
+    }
+    this.filterRules(null,null,null,null,sort,checkSortValue,naviagtionArrow)
   }
+  // sortBy(sort) {
+  //   const data = this.rules.slice();
+  //   this.selectedSort = sort;
+  //   if (this.selectedSort !== sort) {
+  //     this.isAsc = true;
+  //   } else {
+  //     this.isAsc = !this.isAsc;
+  //   }
+  //   const sortedData = data.sort((a, b) => {
+  //     const isAsc = this.isAsc;
+  //     switch (sort) {
+  //       case 'ruleName': return this.compare(a.ruleName, b.ruleName, isAsc);
+  //       case 'isRuleActive': return this.compare(a.isRuleActive, b.isRuleActive, isAsc);
+  //       default: return 0;
+  //     }
+  //   });
+  //   this.rules = sortedData;
+  // }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');

@@ -99,6 +99,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
       this.loadfacets();
     })
+    this.getDyanmicFilterData();
     // this.getFieldAutoComplete('');
   }
   loadImageText: boolean = false;
