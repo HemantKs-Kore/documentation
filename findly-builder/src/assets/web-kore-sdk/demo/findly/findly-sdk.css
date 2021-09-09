@@ -12732,6 +12732,10 @@ border: 0;
     width: 25%;
     float: left;
   }
+  #searchChatContainer .messageBubble .fromOtherUsers .carousel .slide .carouselImageContent img{
+    width: 100%;
+    float: left;
+  }
   #searchChatContainer .messageBubble .fromOtherUsers .purejscarousel-slides-container .slide .carouselImageContent img{
     width: 100%;
     float: left;
@@ -12801,6 +12805,11 @@ border: 0;
     text-transform: uppercase;
     margin: 15px 0;
 }
+#searchChatContainer .messageBubble .fromOtherUsers .purejscarousel-slides-container .slide .carouselImageContent img{
+    width: 100%;
+    float: left;
+  }
+  
 .searchAssist-kore-chat-window .structured-data-full-search-container{
     clear: both;
     /* margin-bottom: 30px; */

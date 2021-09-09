@@ -1187,7 +1187,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="search-body">\</div>\
               <div id="autoSuggestionContainer"></div>\
             </div>\
-            <div class="more-results"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNS4zNjQzNyA1LjE0OTQ5QzUuMTc0OTcgNS4zMzgzNyA0Ljg3NDgxIDUuMzQ5NDggNC42NzIzOSA1LjE4MjgyTDQuNjM1NjMgNS4xNDk0OUwwLjE1MDkyNyAwLjg3NzI2NUMtMC4wNTAzMDkxIDAuNjc2NTc5IC0wLjA1MDMwOTEgMC4zNTEyMDIgMC4xNTA5MjcgMC4xNTA1MTVDMC4zNDAzMjYgLTAuMDM4MzY2NCAwLjY0MDQ4IC0wLjA0OTQ3NzMgMC44NDI5MDkgMC4xMTcxODNMMC44Nzk2NjggMC4xNTA1MTVMNSA0LjA1OTI4TDkuMTIwMzMgMC4xNTA1MTVDOS4zMDk3MyAtMC4wMzgzNjY0IDkuNjA5ODggLTAuMDQ5NDc3MyA5LjgxMjMxIDAuMTE3MTgzTDkuODQ5MDcgMC4xNTA1MTVDMTAuMDM4NSAwLjMzOTM5NyAxMC4wNDk2IDAuNjM4NzMxIDkuODgyNSAwLjg0MDYwN0w5Ljg0OTA3IDAuODc3MjY1TDUuMzY0MzcgNS4xNDk0OVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo="> More Results</div> \
+            <div class="more-results"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNS4zNjQzNyA1LjE0OTQ5QzUuMTc0OTcgNS4zMzgzNyA0Ljg3NDgxIDUuMzQ5NDggNC42NzIzOSA1LjE4MjgyTDQuNjM1NjMgNS4xNDk0OUwwLjE1MDkyNyAwLjg3NzI2NUMtMC4wNTAzMDkxIDAuNjc2NTc5IC0wLjA1MDMwOTEgMC4zNTEyMDIgMC4xNTA5MjcgMC4xNTA1MTVDMC4zNDAzMjYgLTAuMDM4MzY2NCAwLjY0MDQ4IC0wLjA0OTQ3NzMgMC44NDI5MDkgMC4xMTcxODNMMC44Nzk2NjggMC4xNTA1MTVMNSA0LjA1OTI4TDkuMTIwMzMgMC4xNTA1MTVDOS4zMDk3MyAtMC4wMzgzNjY0IDkuNjA5ODggLTAuMDQ5NDc3MyA5LjgxMjMxIDAuMTE3MTgzTDkuODQ5MDcgMC4xNTA1MTVDMTAuMDM4NSAwLjMzOTM5NyAxMC4wNDk2IDAuNjM4NzMxIDkuODgyNSAwLjg0MDYwN0w5Ljg0OTA3IDAuODc3MjY1TDUuMzY0MzcgNS4xNDk0OVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=">More Results</div> \
           </div>\
           <div class="search-modal-body hide">\
           </div>\
@@ -2845,13 +2845,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         } else {
           $(evet.target).next().parent().next().show();
         }
-        setTimeout(()=>{
-        if($(evet.target).closest('#searchChatContainer')){
-          if($('#searchChatContainer').prop('offsetHeight')>=$('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top){
-            $('.more-results').css('display','none');
+        setTimeout(() => {
+          if ($(evet.target).closest('#searchChatContainer')) {
+            if ($('#searchChatContainer').prop('offsetHeight') >= $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
+              $('.more-results').css('display', 'none');
+            }
           }
-        }
-      },500);
+        }, 500);
       });
       // var acc = document.getElementsByClassName("accordion");
       // var i;
@@ -5504,7 +5504,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('#frequently-searched-box').hide();
 
             } else {
-              if (!$('.search-container').hasClass('active')){
+              if (!$('.search-container').hasClass('active')) {
                 $('.search-container').addClass('active');
               }
             }
@@ -5697,7 +5697,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // Debounces makeAPICall method
           debounceFunction(makeAPICall, 300, event);
         })
-        
+
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
           _self.trimSearchQuery();
           // if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
@@ -6705,14 +6705,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('sa-web-search', { container: '.web-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
           _self.pubSub.publish('sa-st-data-search', { container: '.structured-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
           _self.pubSub.publish('sa-file-search', { container: '.files-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-          setTimeout(()=>{
-            if($('.messageBubble .userMessage span').last().text()==_self.vars.searchObject.searchText && $('.messageBubble .messageBubble-content .botMessage span:nth-child(2)').last().text()==='Sure, please find the matched results below'){
-              if($('#searchChatContainer').prop('offsetHeight')<$('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top){
-                $('.more-results').css('display','block');
+          setTimeout(() => {
+            if ($('.messageBubble .userMessage span').last().text() == _self.vars.searchObject.searchText && $('.messageBubble .messageBubble-content .botMessage span:nth-child(2)').last().text() === 'Sure, please find the matched results below') {
+              if ($('#searchChatContainer').prop('offsetHeight') < $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
+                $('.more-results').css('display', 'block');
               }
-              
+
             }
-          },500)
+          }, 500)
         }
         else {
           $('#loaderDIV').hide();
@@ -8550,7 +8550,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $(container).append(dataHTML);
       _self.bindSearchContainerViewHadler();
       $('.search-container').off('click', '.more-results').on('click', '.more-results', function (e) {
-        $('.more-results').css('display','none');
+        $('.more-results').css('display', 'none');
         var scrollHeight = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').prop("scrollHeight");
         $('#searchChatContainer').animate({ scrollTop: scrollHeight }, 500);
       })
@@ -17173,10 +17173,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev').hide();
             $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next').hide();
           }
-          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev::after').css('height',$('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height()+'px');
-          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next::after').css('height',$('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height()+'px');
-          $("body").append("<style>.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-next::after,.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-prev::after {height:" + ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container').height()-8) + "px !important; top:-"+($('.carouselTemplate'+newCarouselTemplateCount+' .purejscarousel-btn-next').position().top-27.5)+"px !important;}</style>");
-         
+          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev::after').css('height', $('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height() + 'px');
+          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next::after').css('height', $('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height() + 'px');
+          $("body").append("<style>.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-next::after,.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-prev::after {height:" + ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container').height() - 8) + "px !important; top:-" + ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next').position().top - 27.5) + "px !important;}</style>");
+
           var evt = document.createEvent("HTMLEvents");
           evt.initEvent('resize', true, false);
           window.dispatchEvent(evt);
@@ -23012,7 +23012,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.search-top-down').val($('.search-top-down').val().trim());
       }
     }
-    
+
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
 });
