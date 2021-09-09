@@ -755,21 +755,21 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   addSearchExperience() {
     this.closeAllBoxs('all');
     this.show_tab_color2 = true;
-    if (this.searchObject.searchExperienceConfig.searchBarPosition == 'top') {
-      delete this.searchObject.searchInteractionsConfig.defaultStatus;
-      delete this.searchObject.searchInteractionsConfig.welcomeMsgFillColor;
-    }
-    else if (this.searchObject.searchExperienceConfig.searchBarPosition == 'bottom') {
-      if (this.searchObject.searchInteractionsConfig.defaultStatus === undefined) {
-        this.searchObject.searchInteractionsConfig.defaultStatus = "searchBar";
-      }
-      if (this.searchObject.searchInteractionsConfig.welcomeMsgFillColor === undefined) {
-        this.searchObject.searchInteractionsConfig.welcomeMsgFillColor = "#EFF0F1";
-      }
-    }
-    if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji || this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === "") {
-      delete this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
-    }
+    // if (this.searchObject.searchExperienceConfig.searchBarPosition == 'top') {
+    //   delete this.searchObject.searchInteractionsConfig.defaultStatus;
+    //   delete this.searchObject.searchInteractionsConfig.welcomeMsgFillColor;
+    // }
+    // else if (this.searchObject.searchExperienceConfig.searchBarPosition == 'bottom') {
+    //   if (this.searchObject.searchInteractionsConfig.defaultStatus === undefined) {
+    //     this.searchObject.searchInteractionsConfig.defaultStatus = "searchBar";
+    //   }
+    //   if (this.searchObject.searchInteractionsConfig.welcomeMsgFillColor === undefined) {
+    //     this.searchObject.searchInteractionsConfig.welcomeMsgFillColor = "#EFF0F1";
+    //   }
+    // }
+    // if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji || this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === "") {
+    //   delete this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
+    // }
     let obj = { "experienceConfig": this.searchObject.searchExperienceConfig, "widgetConfig": this.searchObject.searchWidgetConfig, "interactionsConfig": this.searchObject.searchInteractionsConfig };
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
