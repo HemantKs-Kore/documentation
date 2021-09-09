@@ -1509,7 +1509,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="structured-live-data-container">\
                 </div>\
               {{/if}}\
-              {{if noResults}} <span class="text-center">No results found</span> {{/if}}\
+              <!--{{if noResults}} <span class="text-center">No results found</span> {{/if}}-->\
               {{if showAllResults && !customSearchResult}}\
                 {{if taskPrefix !== "SUGGESTED"}}\
                   <div class="bottom-search-show-all-results">\
@@ -6984,7 +6984,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.search-body').addClass('hide');
           $('.suggestion-search-data-parent').css('display', 'none');
         } else {
-          if (!$(event.target).closest('.show-all-results-outer-wrap').length && !$(event.target).closest('#search').length) {
+          if (!$(event.target).closest('.search-body').length && !$(event.target).closest('.show-all-results-outer-wrap').length && !$(event.target).closest('#search').length) {
             if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
               if (!window.isBotLocked) {
                 $('.search-body').addClass('hide');
@@ -17146,6 +17146,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev').hide();
             $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next').hide();
           }
+          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev::after').css('height',$('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height()+'px');
+          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next::after').css('height',$('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height()+'px');
+          $("body").append("<style>.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-next::after,.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-prev::after {height:" + ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container').height()-8) + "px !important; top:-"+($('.carouselTemplate'+newCarouselTemplateCount+' .purejscarousel-btn-next').position().top-27.5)+"px !important;}</style>");
+         
           var evt = document.createEvent("HTMLEvents");
           evt.initEvent('resize', true, false);
           window.dispatchEvent(evt);
@@ -22936,11 +22940,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.click-to-navigate-url').off('click').on('click', function (e) {
           if ($(e.target).is('a')) {
             if ($(e.target).attr('href')) {
-              window.open($(e.target).attr('href'), '_blank');
+              // window.open($(e.target).attr('href'), '_blank');
+              var link = document.createElement('a');
+              link.href = $(e.target).attr('href');
+              link.target = "_blank",
+                link.click();
+              link.remove();
             }
           } else {
             if ($(e.target).closest('.click-to-navigate-url').attr('href')) {
-              window.open($(e.target).closest('.click-to-navigate-url').attr('href'), '_blank');
+              // window.open($(e.target).closest('.click-to-navigate-url').attr('href'), '_blank');
+              var link = document.createElement('a');
+              link.href = $(e.target).closest('.click-to-navigate-url').attr('href');
+              link.target = "_blank",
+                link.click();
+              link.remove();
             }
           }
         })
