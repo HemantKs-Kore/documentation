@@ -435,6 +435,11 @@
                     font-weight: normal;
                     font-size: 12px;
                     line-height: 15px;
+                    // Text overflow
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    display: block;
+                    width: 150px;
                 }
             }            
         }
