@@ -559,12 +559,12 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
         if (type == 'searchIcon') {
           this.searchObject.searchWidgetConfig.searchBarIcon = res.fileId;
           this.selectSearchBox('');
-          // if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '' && icon === 'manual') {
-          //   this.emojiIconUpload();
-          // }
+          if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '' && icon === 'manual') {
+            this.emojiIconUpload();
+          }
         }
         else if (type == 'emoji') {
-          //this.searchObject.searchInteractionsConfig.welcomeMsgEmoji = res.fileId;
+          this.searchObject.searchInteractionsConfig.welcomeMsgEmoji = res.fileId;
           if (this.searchObject.searchWidgetConfig.searchBarIcon === '' && icon === 'manual') {
             this.searchIconUpload();
           }
@@ -742,9 +742,9 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     if (this.searchObject.searchWidgetConfig.searchBarIcon === '') {
       this.searchIconUpload();
     }
-    // if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '') {
-    //   this.emojiIconUpload();
-    // }
+    if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji === '') {
+      this.emojiIconUpload();
+    }
     if (this.searchObject.searchWidgetConfig.searchBarIcon !== '' && this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
       // delete this.searchObject.searchWidgetConfig.searchBarIcon;
       // delete this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
