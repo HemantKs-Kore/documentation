@@ -12732,7 +12732,10 @@ border: 0;
     width: 25%;
     float: left;
   }
-
+  #searchChatContainer .messageBubble .fromOtherUsers .purejscarousel-slides-container .slide .carouselImageContent img{
+    width: 100%;
+    float: left;
+  }
   body.demo .finalResults .task-wrp.structure-data-wrp:nth-child(n+3) {
     display: block;
 }

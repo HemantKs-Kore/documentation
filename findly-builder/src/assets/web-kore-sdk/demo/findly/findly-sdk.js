@@ -7908,7 +7908,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
         var devMode = _self.isDev ? true : false;
         var messageData = {};
-        messageData.text = data.payload;
+        messageData.text = data.title;
         messageData.from = 'user';
         var templateBotMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
           msgData: messageData,
