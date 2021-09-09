@@ -7,7 +7,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   //    define(factory);
   //} else if (typeof module !== 'undefined') {      // CommonJS
   //    module.exports = factory();
-  //} else {                                         // browser globals
+  //} else {                            // browser globals
   window.FindlySDK = factory(); //}
 })(function () {
   var koreJquery;
@@ -253,7 +253,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.customizeView = false;
       vars.showingMatchedResults = false;
       vars.isSocketInitialize = false;
-      vars.isSocketReInitialize =false;
+      vars.isSocketReInitialize = true;
       vars.locationObject = {};
       vars.botConfig = {};
 
@@ -1197,6 +1197,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div class="greetingMsg">\
           </div>\
           <div class="typingIndicatorContent"><div class="typingIndicator"></div><div class="movingDots"></div></div> \
+          <div class="more-results"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNS4zNjQzNyA1LjE0OTQ5QzUuMTc0OTcgNS4zMzgzNyA0Ljg3NDgxIDUuMzQ5NDggNC42NzIzOSA1LjE4MjgyTDQuNjM1NjMgNS4xNDk0OUwwLjE1MDkyNyAwLjg3NzI2NUMtMC4wNTAzMDkxIDAuNjc2NTc5IC0wLjA1MDMwOTEgMC4zNTEyMDIgMC4xNTA5MjcgMC4xNTA1MTVDMC4zNDAzMjYgLTAuMDM4MzY2NCAwLjY0MDQ4IC0wLjA0OTQ3NzMgMC44NDI5MDkgMC4xMTcxODNMMC44Nzk2NjggMC4xNTA1MTVMNSA0LjA1OTI4TDkuMTIwMzMgMC4xNTA1MTVDOS4zMDk3MyAtMC4wMzgzNjY0IDkuNjA5ODggLTAuMDQ5NDc3MyA5LjgxMjMxIDAuMTE3MTgzTDkuODQ5MDcgMC4xNTA1MTVDMTAuMDM4NSAwLjMzOTM5NyAxMC4wNDk2IDAuNjM4NzMxIDkuODgyNSAwLjg0MDYwN0w5Ljg0OTA3IDAuODc3MjY1TDUuMzY0MzcgNS4xNDk0OVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo="> More Results</div> \
           <div class="search-bar">\
             <div class="widget-icon"><img src="${searchConfig.searchBarIcon}"> </div>\
             {{if searchConfig.autocompleteOpt == true}}\
@@ -2802,8 +2803,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           return;
         }
         if (panel[0].scrollHeight == '16' && !$(evet.target).closest('.accordion').hasClass('best-match')) {
-            $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").show();
-            _self.captureClickAnalytics(evet, $(evet.currentTarget).closest('.faqs-shadow').attr('contenttype'), 'click', $(evet.currentTarget).closest('.faqs-shadow').attr('contentId'), $(evet.currentTarget).closest('.faqs-shadow').attr('id'), $(evet.currentTarget).closest('.accordion').text());
+          $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").show();
+          _self.captureClickAnalytics(evet, $(evet.currentTarget).closest('.faqs-shadow').attr('contenttype'), 'click', $(evet.currentTarget).closest('.faqs-shadow').attr('contentId'), $(evet.currentTarget).closest('.faqs-shadow').attr('id'), $(evet.currentTarget).closest('.accordion').text());
           return;
         }
 
@@ -2824,7 +2825,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             panel[0].style.maxHeight = null;
           }, 150)
         } else {
-          
+
           $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").hide();
           panel[0].style.dispaly = 'block';
           panel[0].style.maxHeight = panel[0].scrollHeight + "px";
@@ -2844,6 +2845,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         } else {
           $(evet.target).next().parent().next().show();
         }
+        setTimeout(()=>{
+        if($(evet.target).closest('#searchChatContainer')){
+          if($('#searchChatContainer').prop('offsetHeight')>=$('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top){
+            $('.more-results').css('display','none');
+          }
+        }
+      },500);
       });
       // var acc = document.getElementsByClassName("accordion");
       // var i;
@@ -5495,6 +5503,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('#live-search-result-box').hide();
               $('#frequently-searched-box').hide();
 
+            } else {
+              if (!$('.search-container').hasClass('active')){
+                $('.search-container').addClass('active');
+              }
             }
             e.preventDefault();
             _self.hideAutoSuggestion();
@@ -5685,7 +5697,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // Debounces makeAPICall method
           debounceFunction(makeAPICall, 300, event);
         })
-
+        
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
           _self.trimSearchQuery();
           // if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
@@ -6692,6 +6704,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('sa-web-search', { container: '.web-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
           _self.pubSub.publish('sa-st-data-search', { container: '.structured-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
           _self.pubSub.publish('sa-file-search', { container: '.files-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
+          setTimeout(()=>{
+            if($('.messageBubble .userMessage span').last().text()==_self.vars.searchObject.searchText && $('.messageBubble .messageBubble-content .botMessage span:nth-child(2)').last().text()==='Sure, please find the matched results below'){
+              if($('#searchChatContainer').prop('offsetHeight')<$('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top){
+                $('.more-results').css('display','block');
+              }
+              
+            }
+          },500)
         }
         else {
           $('#loaderDIV').hide();
@@ -7040,7 +7060,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       var devMode = _self.isDev ? 'true' : 'false';
       var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
-
+      $('.more-results').css('display', 'none');
       if (type === 'user' && (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) !== null) && (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()) !== undefined)) {
         messageData.text = ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val());
         if (messageData.text && messageData.text.trim() && !_self.customSearchResult) {
@@ -8528,7 +8548,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       $(container).append(dataHTML);
       _self.bindSearchContainerViewHadler();
-
+      $('.search-container').off('click', '.more-results').on('click', '.more-results', function (e) {
+        $('.more-results').css('display','none');
+        var scrollHeight = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').prop("scrollHeight");
+        $('#searchChatContainer').animate({ scrollTop: scrollHeight }, 500);
+      })
       _self.bindPerfectScroll(dataHTML, '.search-body', null, 'searchBody');
       _self.bindPerfectScroll(dataHTML, '#searchChatContainer', null, 'searchChatContainer');
       $(window).off('resize').on('resize', function () {
@@ -8757,7 +8781,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       clearTimeout(_pingTimer);
       clearTimeout(_disconnectBotTimer);
       _self.vars.isSocketInitialize = false;
-      _self.vars.isSocketReInitialize =false;
+      _self.vars.isSocketReInitialize = false;
       $('.typingIndicatorContent').css('display', 'none');
     }
     FindlySDK.prototype.resetSocketDisconnection = function () {
@@ -8767,7 +8791,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.vars.isSocketInitialize) {
           _self.destroy();
           _self.vars.isSocketInitialize = false;
-          _self.vars.isSocketReInitialize =false;
+          _self.vars.isSocketReInitialize = false;
           $('.typingIndicatorContent').css('display', 'none');
         }
 
@@ -8789,7 +8813,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.bindSocketEvents = function () {
       var _self = this;
-        _self.bot.on("message", function (message) {
+      _self.bot.on("message", function (message) {
         // debugger;
         // if (me.popupOpened === true) {
         //     $('.kore-auth-popup .close-popup').trigger("click");
@@ -9019,22 +9043,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       console.log("Message to Bot", messageToBot);
       // $('.typingIndicatorContent').css('display', 'block');
-      var sendMsgTimeOut = _self.vars.isSocketReInitialize?2000:0
+      var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 2000 : 0
       _self.vars.isSocketReInitialize = false;
-      setTimeout(()=>{
-      _self.bot.sendMessage(messageToBot, function messageSent(err) {
-        if (err && err.message) {
-          setTimeout(function () {
-            $('#msg_' + clientMessageId).find('.messageBubble').append('<div class="errorMsg">Send Failed. Please resend.</div>');
-          }, 350);
-        }
-      });
-    },sendMsgTimeOut)
+      setTimeout(() => {
+        _self.bot.sendMessage(messageToBot, function messageSent(err) {
+          if (err && err.message) {
+            setTimeout(function () {
+              $('#msg_' + clientMessageId).find('.messageBubble').append('<div class="errorMsg">Send Failed. Please resend.</div>');
+            }, 350);
+          }
+        });
+      }, sendMsgTimeOut)
       // if (_self.isDev == false) {
       _self.resetPingMessage();
       _self.resetSocketDisconnection();
       // }
-    
+
     };
 
     FindlySDK.prototype.getTemplate = function (type) {
@@ -17056,6 +17080,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           } else {
             $(container).empty().append(dataHTML);
           }
+        } else if (data.isSearch) {
+          $(container).last().append(dataHTML);
         } else {
           $(container).last().empty().append(dataHTML);
         }
@@ -17634,6 +17660,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           } else {
             $(container).empty().append(dataHTML);
           }
+        } else if (data.isSearch) {
+          $(container).last().append(dataHTML);
         } else {
           $(container).last().empty().append(dataHTML);
         }
@@ -18074,6 +18102,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           } else {
             $(container).empty().append(dataHTML);
           }
+        } else if (data.isSearch) {
+          $(container).last().append(dataHTML);
         } else {
           $(container).last().empty().append(dataHTML);
         }
@@ -18542,6 +18572,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           } else {
             $(container).empty().append(dataHTML);
           }
+        } else if (data.isSearch) {
+          $(container).last().append(dataHTML);
         } else {
           $(container).last().empty().append(dataHTML);
         }
@@ -22387,7 +22419,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       },
       'convertMDtoHTML': function (val, responseType, msgItem, isRemoveln) {
         val = val ? val.toString().replaceAll(/[\r\n]+/g, ' ') : val;
-        val = val? val.toString().replaceAll('•', '• ') : val;
+        val = val ? val.toString().replaceAll('•', '• ') : val;
         val = (val && isRemoveln) ? val.toString().replaceAll(/[\r\n]+/g, ' ').replaceAll('<BR>', ' ') : val;
         var hyperLinksMap = {};
         var mdre = {};
@@ -22909,12 +22941,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var $hlight = $('.search-suggested-title.highlightSuggestion'), $div = $('.search-suggested-title');
         if (e.keyCode == 40) {
           $hlight.removeClass('highlightSuggestion');
-          if($hlight.hasClass('search-suggested-title')){
+          if ($hlight.hasClass('search-suggested-title')) {
             $hlight.next().addClass('highlightSuggestion');
-          } else{
+          } else {
             $hlight.next().next().addClass('highlightSuggestion');
           }
-         
+
           if ($hlight.next().length == 0) {
             $div.eq(0).addClass('highlightSuggestion');
           }
@@ -22923,7 +22955,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.bottom-up-suggestion').val('');
         } else if (e.keyCode === 38) {
           $hlight.removeClass('highlightSuggestion');
-          if($hlight.prev().hasClass('search-suggested-title')){
+          if ($hlight.prev().hasClass('search-suggested-title')) {
             $hlight.prev().addClass('highlightSuggestion');
           }
           if ($hlight.prev().prev().length == 0) {
@@ -22972,10 +23004,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }, 500);
     }
     FindlySDK.prototype.trimSearchQuery = function () {
-      if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val() && $('.bottom-up-search').val().length==1)) {
+      if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val() && $('.bottom-up-search').val().length == 1)) {
         $('.bottom-up-search').val($('.bottom-up-search').val().trim());
       }
-      if (($('body').hasClass('top-down') && $('.search-top-down').val() && $('.search-top-down').val().length==1)) {
+      if (($('body').hasClass('top-down') && $('.search-top-down').val() && $('.search-top-down').val().length == 1)) {
         $('.search-top-down').val($('.search-top-down').val().trim());
       }
     }
