@@ -37,6 +37,7 @@ export class AuthService {
         this.authInfo = false;
         this.localstore.removeAuthInfo();
         this.appUrls.redirectToLoginBotStore();
+        this.mixpanel.reset();
       },
       errRes => {
         console.error('Failed in singing out');

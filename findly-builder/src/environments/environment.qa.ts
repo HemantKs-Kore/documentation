@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   tag:"qa",
   API_SERVER_URL:'https://qa.findly.ai',
   USE_SESSION_STORE:false,
