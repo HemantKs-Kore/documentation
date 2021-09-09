@@ -14789,3 +14789,29 @@ margin-bottom: 15px !important;
     background: #F8F9FA;
     border-radius: 6px;
  }
+
+ .searchAssist-kore-chat-window .more-results {
+    position: absolute;
+    width: 125px;
+    height: 26px;
+    bottom: 51px;
+    left: 180px;
+    display: none;
+    align-items: center;
+    padding: 5px 15px;
+    background: #202124;
+    opacity: 0.7;
+    border-radius: 4px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    color:#FFFFFF;
+    cursor: pointer;
+    ;
+}
+.searchAssist-kore-chat-window .more-results img {
+    margin-right: 8px;
+    line-height: 16px;
+}
