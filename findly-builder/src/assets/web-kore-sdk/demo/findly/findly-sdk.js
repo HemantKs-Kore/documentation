@@ -2382,7 +2382,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var quickReplyTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
                     {{if msgData.message}} \
                       <div class="messageBubble">\
-                        <li {{if msgData.type !== "bot_response"}} id="msg_${msgItem.clientMessageId}"{{/if}} class="{{if msgData.type === "bot_response"}}fromOtherUsers{{else}}fromCurrentUser{{/if}} with-icon quickReplies" style="margin-top: -20px"> \
+                        <li {{if msgData.type !== "bot_response"}} id="msg_${msgItem.clientMessageId}"{{/if}} class="{{if msgData.type === "bot_response"}}fromOtherUsers{{else}}fromCurrentUser{{/if}} with-icon quickReplies" style="margin-top: 20px"> \
                             <div class="buttonTmplContent">\
                                 {{if msgData.createdOn}}<div aria-live="off" class="extra-info">${helpers.formatDate(msgData.createdOn)}</div>{{/if}} \
                                 {{if msgData.icon}}<div aria-live="off" class="profile-photo"> <div class="user-account avtar marginT50" style="background-image:url(${msgData.icon})"></div> </div> {{/if}} \
