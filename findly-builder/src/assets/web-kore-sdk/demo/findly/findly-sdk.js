@@ -253,7 +253,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.customizeView = false;
       vars.showingMatchedResults = false;
       vars.isSocketInitialize = false;
-      vars.isSocketReInitialize = false;
+      vars.isSocketReInitialize = true;
       vars.locationObject = {};
       vars.botConfig = {};
 
@@ -5503,6 +5503,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('#live-search-result-box').hide();
               $('#frequently-searched-box').hide();
 
+            } else {
+              if (!$('.search-container').hasClass('active')){
+                $('.search-container').addClass('active');
+              }
             }
             e.preventDefault();
             _self.hideAutoSuggestion();
