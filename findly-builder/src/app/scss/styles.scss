@@ -3403,6 +3403,9 @@ app-useronboarding-journey{
 }
 .tooltip-global-{    
     opacity: 1 !important;
+    &.ml-14{
+        margin-left: -14px;
+    }
     .tooltip-inner{
         background: #202124;
         box-shadow: 0px -4px 4px rgba(32, 33, 36, 0.2);
