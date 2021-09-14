@@ -215,34 +215,43 @@
           <div class="condition-block">
             <div class="group-radiobutton">
               <div class="heading-title">Condition</div>
-              <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod </div>
+              <div class="desc-text"></div>
               <div class="kr-sg-radiobutton">
-                  <input id="radio-22" name="radio" class="radio-custom" type="radio">
-                  <label for="radio-22" class="radio-custom-label">Basic</label>
+                <input id="radio-22" name="radio" class="radio-custom" type="radio">
+                <label for="radio-22" class="radio-custom-label">Basic</label>
               </div>
               <div class="kr-sg-radiobutton">
-                  <input id="radio-23" name="radio" class="radio-custom" type="radio">
-                  <label for="radio-23" class="radio-custom-label">Script</label>
+                <input id="radio-23" name="radio" class="radio-custom" type="radio">
+                <label for="radio-23" class="radio-custom-label">Script</label>
               </div>
-            </div> 
-            <div class="conditions-input-sec">
+            </div>
+            <div class="conditions-input-sec" *ngFor="let basic of conditionArray;let i=index;">
               <div class="conditions-types">
-                <div class="and-seperator">And</div>
+                <div class="and-seperator" *ngIf="conditionArray.length>1&&i>0">And</div>
                 <div class="kr-sg-input-text">
-                  <input type="text" placeholder="Enter field" class="input-text">
+                  <div class="position-relative">
+                    <input type="text" placeholder="Enter Field" maxlength="60" (keyup)="changesDetected = true"
+                      class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown"
+                      [(ngModel)]="basic.field" />
+                    <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu">
+                      <perfect-scrollbar class="scroll-search-field">
+                        <li *ngFor="let suggesition of fields" (click)="basic.field=suggesition.fieldName"><a
+                            *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
+                      </perfect-scrollbar>
+                    </ul>
+                  </div>
                 </div>
                 <div class="kr-sg-dropdowns">
                   <div class="dropdown dropdown-open">
-                      <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Operator</button>                                            
-                      <ul class="dropdown-menu content-menu">                                              
-                        <li><a>Option 1</a></li>
-                        <li><a>Option 2</a></li>
-                        <li><a>Option 3</a></li>
-                      </ul>
+                    <button class="dropdown-toggle dropdown-input"
+                      data-toggle="dropdown">{{basic.operator==''?'Operator':basic.operator}}</button>
+                    <ul class="dropdown-menu content-menu">
+                      <li *ngFor="let operator of operators" (click)="basic.operator=operator"><a>{{operator}}</a></li>
+                    </ul>
                   </div>
                 </div>
-                <div class="delete-condition">
-                  <img src="assets/icons/delete-table.svg">
+                <div class="delete-condition" *ngIf="i>0">
+                  <img src="assets/icons/delete-table.svg" (click)="addCondition('remove',index)">
                 </div>
               </div>
               <div class="kr-sg-input-text col-12 input-box">
@@ -253,15 +262,15 @@
                       <span class="mat-val">{{contain}}</span>
                       <mat-icon matChipRemove><img src="assets/icons/Workbench/close-mat.svg"></mat-icon>
                     </mat-chip>
-                    <input type="text" placeholder="Type value and press enter" #containInput [formControl]="containCtrl"
-                      [matChipInputFor]="chipList" [matChipInputAddOnBlur]="addOnBlur"
+                    <input type="text" placeholder="Type value and press enter" #containInput
+                      [formControl]="containCtrl" [matChipInputFor]="chipList" [matChipInputAddOnBlur]="addOnBlur"
                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)"
                       [(ngModel)]="autocomplete_text" maxlength="60" autocomplete="off">
                   </mat-chip-list>
                 </mat-form-field>
               </div>
             </div>
-            <div class="add-condition-btn">
+            <div class="add-condition-btn" (click)="addCondition('add')">
               <img src="assets/icons/Workbench/add-blue.svg" class="blue-add">
               <img src="assets/icons/Workbench/add-grey.svg" class="grey-add">
               Add Condition
@@ -300,7 +309,7 @@
         <ng-container>
           <div class="form_inputs_data" *ngIf="selectedStage.type === 'field_mapping'">
             <div class="main-heading">Stage Definition</div>
-            <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod </div>
+            <!-- <div class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod </div> -->
             <ng-container *ngIf="
                 selectedStage &&
                 selectedStage.config &&
@@ -420,12 +429,12 @@
                   <div class="kr-sg-dropdowns col-4 input-box">
                     <div class="label-text">Label</div>
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
-                        <ul class="dropdown-menu content-menu">                                              
-                          <li><a>Option 1</a></li>
-                          <li><a>Option 2</a></li>
-                          <li><a>Option 3</a></li>
-                        </ul>
+                      <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>
+                      <ul class="dropdown-menu content-menu">
+                        <li><a>Option 1</a></li>
+                        <li><a>Option 2</a></li>
+                        <li><a>Option 3</a></li>
+                      </ul>
                     </div>
                   </div>
                   <div class="delete_icon" (click)="removeConfig(i, selectedStage.config.mappings)">
@@ -660,7 +669,8 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="kr-sg-dropdowns col-4 input-box d-none" *ngIf="selectedStage.type === 'keyword_extraction'">
+                  <div class="kr-sg-dropdowns col-4 input-box d-none"
+                    *ngIf="selectedStage.type === 'keyword_extraction'">
                     <div class="label-text">{{'workbench.choose_model' | translate}}</div>
                     <div class="dropup dropdown-open">
                       <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
@@ -755,12 +765,12 @@
                   <div class="kr-sg-dropdowns col-4 input-box">
                     <div class="label-text">Label</div>
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
-                        <ul class="dropdown-menu content-menu">                                              
-                          <li><a>Option 1</a></li>
-                          <li><a>Option 2</a></li>
-                          <li><a>Option 3</a></li>
-                        </ul>
+                      <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>
+                      <ul class="dropdown-menu content-menu">
+                        <li><a>Option 1</a></li>
+                        <li><a>Option 2</a></li>
+                        <li><a>Option 3</a></li>
+                      </ul>
                     </div>
                   </div>
                   <div class="delete_icon" (click)="removeConfig(i, selectedStage.config.mappings)">

@@ -183,6 +183,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectable = true;
   removable = true;
   containCtrl = new FormControl();
+  operators = ['Exists', 'Does Not Exist', 'Equals to', 'Not Equals to', 'Contains', 'Doesnot Contain'];
+  conditionArray: any = [];
+  conditionObj: any = { field: '', operator: '' };
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     public workflowService: WorkflowService,
@@ -239,6 +242,15 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     });
+  }
+  //add condition dynamically
+  addCondition(type, index?) {
+    if (type === 'add') {
+      this.conditionArray.push(this.conditionObj);
+    }
+    else if (type === 'remove') {
+      this.conditionArray.splice(index, 1);
+    }
   }
   getTraitGroups(initial?) {
     const quaryparms: any = {
@@ -626,6 +638,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       })
   }
   saveConfig(index?, dialogRef?) {
+    console.log("conditionArray", this.conditionArray)
     let indexArrayLength: any = this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, true);
