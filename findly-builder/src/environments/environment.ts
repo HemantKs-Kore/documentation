@@ -5,7 +5,11 @@
 export const environment = {
   production: false,
   tag: 'dev',
+<<<<<<< HEAD
   API_SERVER_URL: 'https://qa.searchassist.ai',
+=======
+  API_SERVER_URL: 'https://pilot.searchassist.ai',
+>>>>>>> b03743ca3fee49bcf74af03ee7666aaa93b277cc
   USE_SESSION_STORE: false,
   INLINE_MANUAL_SITE_KEY: "1ec224ee46620656a9b18a17c80587a3",
   // API_SERVER_URL: 'http://192.168.10.101:5000'
