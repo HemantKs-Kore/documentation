@@ -22969,29 +22969,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
     FindlySDK.prototype.clickNavigateToUrl = function (e) {
-      setTimeout(function () {
-        $('.click-to-navigate-url').off('click').on('click', function (e) {
-          if ($(e.target).is('a')) {
-            if ($(e.target).attr('href')) {
-              // window.open($(e.target).attr('href'), '_blank');
-              var link = document.createElement('a');
-              link.href = $(e.target).attr('href');
-              link.target = "_blank",
-                link.click();
-              link.remove();
-            }
-          } else {
-            if ($(e.target).closest('.click-to-navigate-url').attr('href')) {
-              // window.open($(e.target).closest('.click-to-navigate-url').attr('href'), '_blank');
-              var link = document.createElement('a');
-              link.href = $(e.target).closest('.click-to-navigate-url').attr('href');
-              link.target = "_blank",
-                link.click();
-              link.remove();
-            }
-          }
-        })
-      }, 1000);
+      // setTimeout(function () {
+      //   $('.click-to-navigate-url').off('click').on('click', function (e) {
+      //     if ($(e.target).is('a')) {
+      //       if ($(e.target).attr('href')) {
+      //         // window.open($(e.target).attr('href'), '_blank');
+      //         var link = document.createElement('a');
+      //         link.href = $(e.target).attr('href');
+      //         link.target = "_blank",
+      //           link.click();
+      //         link.remove();
+      //       }
+      //     } else {
+      //       if ($(e.target).closest('.click-to-navigate-url').attr('href')) {
+      //         // window.open($(e.target).closest('.click-to-navigate-url').attr('href'), '_blank');
+      //         var link = document.createElement('a');
+      //         link.href = $(e.target).closest('.click-to-navigate-url').attr('href');
+      //         link.target = "_blank",
+      //           link.click();
+      //         link.remove();
+      //       }
+      //     }
+      //   })
+      // }, 1000);
     }
     FindlySDK.prototype.showTypingIndicator = function () {
       var _self = this;
