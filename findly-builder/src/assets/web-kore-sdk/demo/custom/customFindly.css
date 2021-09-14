@@ -20,13 +20,13 @@
     background-size: auto;
     background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==');
 }
-.search-container{
+.searchAssist-kore-chat-window.search-container{
     left: 63px !important;  
     left: -245px !important;
     right: 0 !important;
     width: calc(70% - 245px);
 }
-.search-container .search-bar, .search-container .search, .search-container.conversation .search-body{
+.searchAssist-kore-chat-window.search-container .search-bar, .searchAssist-kore-chat-window.search-container .search, .searchAssist-kore-chat-window.search-container.conversation .search-body{
   width: 100%;
 }
 /* .search-container.conversation .search-body, .search-container .search-bar, .search-container .search-body, .search-container .search, .ksa-searchContainer .ksa-searchdiv input{
@@ -35,13 +35,13 @@
 .faqs-bottom-actions {   
     display: table;
 }
-.search-container.conversation .search-body .faqs-bottom-actions{
+.searchAssist-kore-chat-window.search-container.conversation .search-body .faqs-bottom-actions{
     display: none;
 }
-.search-container.conversation.advanced-mode .faqs-bottom-actions{
+.searchAssist-kore-chat-window.search-container.conversation.advanced-mode .faqs-bottom-actions{
     display: none;
 }
-.search-container.conversation.full-page .faqs-bottom-actions{
+.searchAssist-kore-chat-window.search-container.conversation.full-page .faqs-bottom-actions{
     display: none;
 }
 .search-background-div{
@@ -113,13 +113,13 @@
 }
 
 /*---- SEARCH RESULTS ----*/
-.search-container #searchChatContainer{
+.searchAssist-kore-chat-window.search-container #searchChatContainer{
   height: calc(100vh - 185px);
 }
 #searchChatContainer .action-wrp{
     /* display: block !important; */
 }
-.search-container.conversation.active{
+.searchAssist-kore-chat-window.search-container.conversation.active{
     box-shadow: -3px 0px 30px rgba(18, 61, 101, 0.2), inset -2px -4px 80px rgba(255, 255, 255, 0.18) !important;
 }
 
@@ -130,18 +130,18 @@ img.logo-img{
     margin-right: 10px;
 }
 
-.search-container.conversation #searchChatContainer .messageBubble .botMessage .bot_Img{
+.searchAssist-kore-chat-window.search-container.conversation #searchChatContainer .messageBubble .botMessage .bot_Img{
     margin-top: -2px;
 }
 
-.search-container.conversation .search-body .resultsButtons .suggestion_actions_container, .search-container.advanced-mode .suggestion_actions_container{
+.searchAssist-kore-chat-window.search-container.conversation .search-body .resultsButtons .suggestion_actions_container, .search-container.advanced-mode .suggestion_actions_container{
     display: block;
     width: 100%;
   }
-  .search-container.conversation .search-body .resultsButtons .suggestion_actions_container .btn_block_actions, .search-container.advanced-mode .suggestion_actions_container .btn_block_actions{
+  .searchAssist-kore-chat-window.search-container.conversation .search-body .resultsButtons .suggestion_actions_container .btn_block_actions, .search-container.advanced-mode .suggestion_actions_container .btn_block_actions{
     display: block;
   }
-  .search-container.conversation .search-body .resultsButtons .suggestion_actions_container .btn_block_actions .action-wrp, .search-container.advanced-mode .suggestion_actions_container .btn_block_actions .action-wrp {
+  .searchAssist-kore-chat-window.search-container.conversation .search-body .resultsButtons .suggestion_actions_container .btn_block_actions .action-wrp, .search-container.advanced-mode .suggestion_actions_container .btn_block_actions .action-wrp {
     display: inline;
     background: transparent;
     box-shadow: none;
@@ -149,7 +149,7 @@ img.logo-img{
     padding: 0;
     margin-bottom: 0px;
   }
-  .search-container.conversation .search-body .resultsButtons .suggestion_actions_container .btn_block_actions .action-wrp .search-task, .search-container.advanced-mode .suggestion_actions_container .btn_block_actions .action-wrp .search-task  {
+  .searchAssist-kore-chat-window.search-container.conversation .search-body .resultsButtons .suggestion_actions_container .btn_block_actions .action-wrp .search-task, .search-container.advanced-mode .suggestion_actions_container .btn_block_actions .action-wrp .search-task  {
     margin: 0 10px 10px 0;
   }
 
@@ -181,7 +181,7 @@ img.logo-img{
     padding-right: 18px;
   }
 
-  .search-container.conversation.full-page {
+  .searchAssist-kore-chat-window.search-container.conversation.full-page {
     position: fixed;
     left: 0 !important;
     top: 0;
@@ -191,11 +191,11 @@ img.logo-img{
     height: 100%;
     width: 100% !important;
   }
-  .search-container.conversation.full-page .ksa-resultsContainer {
+  .searchAssist-kore-chat-window.search-container.conversation.full-page .ksa-resultsContainer {
     height: calc(100vh - 120px);
     padding: 0 15px;
   }
-  .search-container.conversation.full-page .ksa-results-tabesHeader .title-backbutton {
+  .searchAssist-kore-chat-window.search-container.conversation.full-page .ksa-results-tabesHeader .title-backbutton {
     padding-right: 60px;
   }
   
@@ -224,10 +224,10 @@ img.logo-img{
     box-shadow: 0 0 1px #8BB7F0;
     border: 1px solid #4E7AB5;
   }
-  .search-container{
+  .searchAssist-kore-chat-window.search-container{
     bottom: 60px;
   }
-  .search-container .heading .right-side-icons img.close-icon{
+  .searchAssist-kore-chat-window.search-container .heading .right-side-icons img.close-icon{
     display: none !important;
   }
   
@@ -238,7 +238,7 @@ img.logo-img{
     right: 0 !important;
   } */
   
-  .search-background-div .search-container{
+  .search-background-div .searchAssist-kore-chat-window.search-container{
     /* border-radius: 0px 6px !important; */
     width: 550px !important;
     margin: 0;
@@ -269,14 +269,14 @@ img.logo-img{
   padding: 3px 0px;
 }
 .show-all-results-outer-wrap .data-body-sec{
-  padding: 10px 20px;
+  padding: 16px 20px 10px 20px;
   overflow: auto;
   height: calc(100vh - 200px);
   z-index: 1;
   position: relative;
 }
 
-.search-container .sdkFooterIcon.microphoneBtn {
+.searchAssist-kore-chat-window.search-container .sdkFooterIcon.microphoneBtn {
   position: absolute;
   right: 45px;
   bottom: 6px;
@@ -287,10 +287,10 @@ img.logo-img{
   /* /* max-height: calc(100vh - 380px) !important; if added filter */
 }
 .top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec{
-  max-height: calc(100vh - 280px) !important;
+  max-height: calc(100vh - 254px) !important;
 }
 .top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec.filter-added{
-   max-height: calc(100vh - 318px) !important; 
+   max-height: calc(100vh - 294px) !important; 
 }
 .top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec.filter-added.content-data-sec.if-customize-mode{
   max-height: calc(100vh - 393px) !important; 
@@ -302,3 +302,30 @@ img.logo-img{
   position: fixed;
   bottom: 30px;
 }
+
+.kore-sdk-pagination-div .kore-sdk-custom-pagination .kore-sdk-bottom-up-next {
+  padding: 4px;
+}
+
+.top-down-search-background-div .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .content-data-sec.filter-added.facets-height-isMore {
+  max-height: calc(100vh - 370px) !important;
+}
+
+.top-down-search-background-div .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .content-data-sec.filter-added.facets-height-isMore.if-customize-mode {
+  max-height: calc(100vh - 447px) !important;
+}
+
+.top-down-search-background-div .topdown-search-main-container .all-result-container .full-results-data-container .all-product-details .content-data-sec.filter-added.facets-height-isMore {
+  max-height: calc(100vh - 336px) !important;
+}
+.top-down-search-background-div .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .content-data-sec.facets-disabled.if-customize-mode {
+  max-height: calc(100vh - 311px) !important;
+}
+.top-down-search-background-div .topdown-search-main-container .all-result-container.center-align-filter .full-results-data-container .all-product-details .content-data-sec.if-customize-mode {
+  max-height: calc(100vh - 364px) !important;
+}
+
+
+/* .top-down-search-background-div .topdown-search-main-container .search-input-box .live_search_result_box::before, .topdown-search-main-container .search-input-box .frequently_searched_box::before{
+  top: 62px !important;
+} */

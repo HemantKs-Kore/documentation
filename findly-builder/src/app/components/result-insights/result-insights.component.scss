@@ -43,7 +43,7 @@
             box-sizing: border-box;
             border-radius: 8px;
             padding: 3px 4px;
-            margin-right: 16px;
+            // margin-right: 16px;
             .time{
                 background: #fff;
                 border-radius: 4px;
@@ -115,8 +115,28 @@
             .search-filter-block{
                 .kr-sg-input-search{
                     width: 252px;
+                    position: relative;
                     input{
                         padding-left: 30px;
+                    }
+                    .close-icon{
+                        position: absolute;
+                        right: 11px;
+                        top: 12px;
+                        cursor: pointer;
+                    }
+                    .input-search{
+                        border: 1px solid #E4E5E7;                            
+                        border-radius: 4px;
+                        padding-left: 36px;
+                        padding-right: 15px;
+                        font-size: 14px;
+                        &:focus{
+                            border: 1px solid #1372ff;
+                        }
+                        &::placeholder{
+                            color: #BDC1C6;
+                        }
                     }
                 }
             }
@@ -151,25 +171,6 @@
             }                                                                     
         }                
     }
-}
-
-.table_header{
-    &.no-scroll{
-        padding: 16px 15px;   
-        align-items: center;
-        box-shadow: inset 0px -1px 0px #E4E5E7;  
-        margin: 0 30px;               
-        .title{
-            padding: 0 5px;
-            font-style: normal;
-            font-weight: 500;
-            font-size: 12px;
-            line-height: 14px;
-            text-transform: capitalize;
-            color: #9AA0A6;
-            word-break: break-word;
-        }
-    }                        
 }
 
 .table_data_content{
@@ -226,13 +227,13 @@
             color: #202124;   
             cursor: default;
             &.search-results{
-                padding:0 15px 0 0;
+                padding: 0 50px 5px 0px;
             }
             img{
                 cursor: pointer;
             } 
             .img-sec{
-                margin-right: 20px//25px;
+                margin-right: 10px//25px;
             }
             .results{
                 line-height: 18px;
@@ -266,6 +267,22 @@
 
 ::ng-deep .modal_popups_{
     &.view-query-modal{
+        .table_header{
+            padding: 16px 15px;   
+            align-items: center;
+            box-shadow: inset 0px -1px 0px #E4E5E7;       
+            margin: 0 30px !important;          
+            .title{
+                padding: 0 5px;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 14px;
+                text-transform: capitalize;
+                color: #9AA0A6;
+                word-break: break-word;
+            }                    
+        }
         .modal-header{
             padding: 25px 30px 15px 30px;
             position: relative;

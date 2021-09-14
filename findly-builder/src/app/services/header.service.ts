@@ -15,6 +15,7 @@ export class SideBarService {
   @Output() headerMainMenuUpdate : EventEmitter<any> = new EventEmitter();
   @Output() hideSDK : EventEmitter<any> = new EventEmitter();
   @Output() savedSearchConfiguration : EventEmitter<any> = new EventEmitter();
+  @Output() updatedResultTemplateMapping : EventEmitter<any> = new EventEmitter();
   isOnboardingPage = false;
   searchConfiguration: any;
   isSDKCached: boolean = false;
@@ -61,6 +62,10 @@ export class SideBarService {
 
   updateSearchConfigurationValue(data){
     this.savedSearchConfiguration.next(data);
+  }
+
+  updateResultTemplateMapping(data){
+    this.updatedResultTemplateMapping.next(data);
   }
 
   closeSdk(){

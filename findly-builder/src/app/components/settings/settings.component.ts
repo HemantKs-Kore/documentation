@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationService } from '@kore.services/notification.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
@@ -15,15 +17,19 @@ export class SettingsComponent implements OnInit {
   slider = 0;
   refId = "";
   botID = '';
-  enableConfiguration=true;
-  showPassword:boolean;
+  enableConfiguration = true;
+  showPassword: boolean;
+  pageDisable = true;
   configuredBot_streamId = "";
   selectedApp: any;
   serachIndexId: any;
   addCredentialRef: any;
   listData: any;
   firstlistData;
-  showSearch;
+  showSearch = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
+  activeClose = false;
   searchchannel: any = '';
   isAlertsEnabled: boolean;
   showError: boolean = false;
@@ -38,6 +44,8 @@ export class SettingsComponent implements OnInit {
     awt: 'HS256',
     enabled: false
   };
+  delChannel = false;
+  componentType: string = 'addData';
   channels = [
     {
       id: 'rtm',
@@ -65,6 +73,7 @@ export class SettingsComponent implements OnInit {
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
+    public dialog: MatDialog,
     private notificationService: NotificationService,
     public authService: AuthService) { }
 
@@ -73,7 +82,7 @@ export class SettingsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
 
     // this.getCredential();
-    this.getdialog();
+    // this.getdialog();
     this.getLinkedBot();
     this.prepareChannelData();
 
@@ -149,7 +158,7 @@ export class SettingsComponent implements OnInit {
   }
 
   validateSource() {
-    if (this.credntial.awt != 'Signing algorithm') {
+    if (this.credntial.awt != 'HS256') {
       this.createCredential()
     }
     else if (this.credntial.awt == 'Signing algorithm') {
@@ -269,9 +278,12 @@ export class SettingsComponent implements OnInit {
     );
   }
   proceedChannel(channel) {
-    if (channel && channel.id === 'rtm') {
+    if (channel && channel.id === 'rtm' ) {
       this.getCredential()
     }
+    // if(this.enableConfiguration){
+    //   event.stopPropagation();
+    // }
     else (this.notificationService.notify('Channel not available ', 'error'))
 
   }
@@ -316,28 +328,32 @@ export class SettingsComponent implements OnInit {
       streamId: this.selectedApp._id
     }
 
-    this.service.invoke('get.linkedBot', queryParams).subscribe(
+    this.service.invoke('get.streamData', queryParams).subscribe(
       res => {
         if (res.configuredBots.length) this.configuredBot_streamId = res.configuredBots[0]._id
         console.log(res);
-        res.configuredBots.forEach(element => {
-          let obj = {
-            "_id": element._id,
-            "state": "new"
-          }
-          this.allBotArray.push(obj);
-        });
-        res.unpublishedBots.forEach(element => {
-          let obj = {
-            "_id": element._id,
-            "state": "delete"
-          }
-          this.allBotArray.push(obj);
-        });
+        if (res && res.configuredBots) {
+          res.configuredBots.forEach(element => {
+            let obj = {
+              "_id": element._id,
+              "state": "new"
+            }
+            this.allBotArray.push(obj);
+          });
+        }
+        if (res && res.unpublishedBots) {
+          res.unpublishedBots.forEach(element => {
+            let obj = {
+              "_id": element._id,
+              "state": "delete"
+            }
+            this.allBotArray.push(obj);
+          });
+        }
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+          // this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed to get LInked BOT', 'error');
         }
@@ -430,12 +446,18 @@ export class SettingsComponent implements OnInit {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
-          this.notificationService.notify('Failed get DialogID', 'error');
+          // this.notificationService.notify('Failed get DialogID', 'error');
         }
       }
     );
   }
-  configureCredential() {
+  configureCredential(event) {
+    if(event){
+    if(this.enableConfiguration){
+      event.stopPropagation();
+        event.preventDefault();
+      }
+    }
     const queryParams = {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id
@@ -460,9 +482,9 @@ export class SettingsComponent implements OnInit {
         this.workflowService.selectedApp(this.selectedApp);
         this.notificationService.notify('Credential Configured', 'success');
         this.prepareChannelData();
-        this.standardPublish();
+        //this.standardPublish();
         this.configFlag = true;
-
+        this.delChannel = false;
         console.log(res);
       },
       errRes => {
@@ -474,13 +496,128 @@ export class SettingsComponent implements OnInit {
       }
     );
   }
+  deleteChannel(){
+    const modalData: any = {
+      newTitle: 'Are you sure you want to delete?',
+      body: 'Search users cannot interact with the app through this channel if it is delete. ', 
+      buttons: [{ key: 'yes', label:'Delete' }, { key: 'no', label: 'Cancel' }],
+      confirmationPopUp: true
+    }
+    
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: modalData,
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          const queryParams = {
+            streamId: this.selectedApp._id
+          }
+          let payload = {"channels":[]}
+          this.service.invoke('delete.credentialData', queryParams, payload).subscribe(
+            res => {
+              this.delChannel = true;
+              this.getLinkedBot();
+              this.prepareChannelData();
+            },
+            errRes => {
+              this.delChannel = false;
+              if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+                this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+              } else {
+                this.notificationService.notify('Failed ', 'error');
+              }
+            }
+          );
+          dialogRef.close();
+        } else if (result === 'no') {
+          this.delChannel = false;
+          dialogRef.close();
+        }
+      })
+      
+  }
+enableDisableCredential(){
+ 
+  const modalData: any = {
+    newTitle: 'Are you sure you want to disable?',
+    body: 'Search users cannot interact with the app through this channel if it is disabled. ', 
+    buttons: [{ key: 'yes', label:'Disable' }, { key: 'no', label: 'Cancel' }],
+    confirmationPopUp: true
+  }
+  if (this.enableConfiguration) {
+    this.disableCredential();
+    this.notificationService.notify('Web SDK channel is enabled.','success')
+    // modalData.newTitle = 'Are you sure you want to Enable ?'
+    // modalData.body = 'Channel will be enabled.';
+    // modalData.buttons[0].label = 'Enable' ;
+  }
+  if (!this.enableConfiguration){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: modalData,
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.disableCredential();
+          dialogRef.close();
+        } else if (result === 'no') {
+          this.enableConfiguration=!this.enableConfiguration;
+          dialogRef.close();
+        }
+      })
+  }
+ 
+}
+  disableCredential(pageDisable?) { 
+    const queryParams = {
+      userId: this.authService.getUserId(),
+      streamId: this.selectedApp._id
+    }
+    let payload = {
+      type: "rtm",
+      name: 'Web / Mobile Client',
+      app: {
+        clientId: this.selectedApp.channels.length ? this.selectedApp.channels[0].app.clientId : "",
+        appName: this.selectedApp.channels.length ? this.selectedApp.channels[0].app.appName : "",
+      },
+      isAlertsEnabled: this.isAlertsEnabled,
+      enable: this.enableConfiguration,
+      sttEnabled: false,
+      sttEngine: "kore"
+    } 
+    this.service.invoke('configure.credential', queryParams, payload).subscribe(
+      res => {
+        console.log(res);
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      }
+    );
+    if(pageDisable == true){
+      this.enableConfiguration = !this.enableConfiguration;
+    }
+  }
+
   newCredential() {
     this.addCredentialRef = this.addCredential.open();
   }
   closeModalPopup() {
-    this.addCredentialRef.close();
+    if(this.addCredentialRef){
+      this.addCredentialRef.close();
+    }
     this.credntial.name = [];
-    this.credntial.awt = 'Select Signing Algorithm';
+    this.credntial.awt = 'HS256';
   }
   toggleSearch() {
     if (this.showSearch && this.searchchannel) {
@@ -490,17 +627,27 @@ export class SettingsComponent implements OnInit {
   };
 
   showPasword() {
-    var show: any = document.getElementById("password");;
+    var show: any = document.getElementById("password");
     if (show.type === "password") {
-      this.showPassword=true;
+      this.showPassword = true;
       show.type = "text";
 
     } else {
-      this.showPassword= false;
+      this.showPassword = false;
       show.type = "password";
     }
   }
-
-
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchchannel = '';
+      this.activeClose = false;
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
+  }
 }
 

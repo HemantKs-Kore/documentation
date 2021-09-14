@@ -54,7 +54,7 @@
                 font-size: 18px;
                 line-height: 22px;
                 color: #000000;
-                padding: 15px 30px;
+                padding: 15px 45px;
               }
             .right-sec{
                 display: flex;
@@ -70,14 +70,36 @@
                 //         border-radius: 4px;
                 // }
                 .kr-sg-input-text{
-                    width: 300px;
+                    width: 215px;
                     right: 10px;
-                    width: 0px;
-                    display: none; 
                     position: relative;
                     &.active{
                         display: block;
-                        width: 300px;
+                        width: 215px;
+                    }
+                    .close-icon{
+                        position: absolute;
+                        right: 11px;
+                        top: 12px;
+                        cursor: pointer;
+                    }
+                    .input-search{
+                        border: 1px solid #E4E5E7;                            
+                        border-radius: 4px;
+                        padding-left: 36px;
+                        padding-right: 15px;
+                        font-size: 14px;
+                        &:focus{
+                            border: 1px solid #1372ff;
+                        }
+                        &::placeholder{
+                            color: #BDC1C6;
+                        }
+                    }
+                    .search-icon{
+                        left: 12px;
+                        top: 10px;
+                        position: absolute;
                     }
                 }
                 .seach-block{
@@ -158,7 +180,7 @@
          }         
           
      .add-synonyms-inputs{
-        margin: 0 10px;
+        margin: 10px 0;
         .input-group-items{            
             box-sizing: border-box;           
             justify-content: space-between;
@@ -356,8 +378,8 @@
     }
 }
 .table-scroll-perfect-synonyms{
-    padding: 0 10px;
-    height: calc(100vh - 160px);
+    padding: 0 45px;
+    height: calc(100vh - 145px);
     .kr-sg-data-table{
         margin: 0;
         section{
@@ -459,9 +481,9 @@
             }
         }
     }
-    &.newRecoredActive{
-        height: calc(100vh - 385px);
-    }
+    // &.newRecoredActive{
+    //     height: calc(100vh - 385px);
+    // }
     .empty-questions-selected{
         width: 320px;
         margin: 0 auto;

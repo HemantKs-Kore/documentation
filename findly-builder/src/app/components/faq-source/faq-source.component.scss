@@ -193,7 +193,14 @@
                         background: #F8F9FA;
                         padding: 8px 20px;                    
                         .kr-sg-input-search{
-                            width:56%;
+                            width: 215px;
+                            position: relative;
+                            .close-icon{
+                                position: absolute;
+                                right: 11px;
+                                top: 12px;
+                                cursor: pointer;
+                            }
                             .input-search{
                                 border: 1px solid #E4E5E7;                            
                                 border-radius: 4px;
@@ -212,6 +219,19 @@
                                 top: 10px;
                             }
                         }
+                        .seach-block {
+                            color: #202124;
+                            font-style: normal;
+                            font-weight: 500;
+                            font-size: 12px;
+                            // margin-right: 30px;
+                            img {
+                                margin-right: 7px;
+                                cursor: pointer;
+                                position: relative;
+                                top: -1px;
+                            }
+                        } 
                         .kr-sg-dropdowns{
                             width: auto;
                             margin-left: 10px;
@@ -243,8 +263,6 @@
                                         height: 24px;
                                         left: 1322px;
                                         top: 74px;
-
-
                                         background: #EFF0F1;
                                         border-radius: 2px;
                                         background: #EFF0F1;
@@ -350,6 +368,12 @@
                                         img{
                                             margin-right: 7px;
                                         }
+                                    }
+                                    &.is-selected{
+                                        background: #E7F1FF;
+                                        // .follow_up{
+                                        //     display: flex;
+                                        // }
                                     }
                                     &.is-checked{
                                         background: #E7F1FF;
@@ -649,6 +673,8 @@
                                         text-align: center;
                                         border-radius: 4px;
                                         border: 1px solid #BDC1C6;
+                                        background: transparent !important;       
+                                        width: 34px;                                 
                                         &::before{
                                             display: none;
                                         }
@@ -981,7 +1007,7 @@
                             }
                         }
                         .add-alternative-questions{
-                            padding: 14px 30px;
+                            padding: 14px 30px 10px;
                             align-items: center;
                             background:transparent;
                             margin: 40px 0 0 0;
@@ -1124,9 +1150,30 @@
         align-items: center;     
         .kr-sg-input-search{
             margin-right: 12px;
+            width: 300px;
+            position: relative;
             &.active{
                 display: block;
                 width: 300px;
+            }
+            .close-icon{
+                position: absolute;
+                right: 11px;
+                top: 12px;
+                cursor: pointer;
+            }
+            .input-search{
+                border: 1px solid #E4E5E7;                            
+                border-radius: 4px;
+                padding-left: 36px;
+                padding-right: 15px;
+                font-size: 14px;
+                &:focus{
+                    border: 1px solid #1372ff;
+                }
+                &::placeholder{
+                    color: #BDC1C6;
+                }
             }
         }  
         .seach-block{
@@ -1399,7 +1446,7 @@
                 }
             }
             .added-questions-list{
-                padding: 12px 0px !important;
+                // padding: 12px 0px !important;
                 background: #FFFFFF !important;
                 // box-shadow: inset 0px -1px 0px #E4E5E7;
                 position: relative !important;
@@ -1653,6 +1700,10 @@
                         color: #DD3646;
                     }
                 }
+                .failed {
+                    width: 16px;
+                    height: 16px;
+                }
                 .inProgress{
                     width: 20px;
                     height: 20px;
@@ -1703,8 +1754,8 @@
     .content-body-question {
         padding: 5px 0;
         min-height: 50px;
-        background: #fff;
-        box-shadow: 0 1px 0 rgb(0 0 0 / 20%);
+        background: #FFFFFF;
+        box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
         align-items: center;
         transition: all .3s ease-in;
         margin: 0 0 1px;
@@ -1715,4 +1766,8 @@
             line-height: 17px;
         }
     }
+}
+.px-12px{
+    padding-left:12px !important;
+    padding-right:12px !important;
 }

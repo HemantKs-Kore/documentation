@@ -1,35 +1,50 @@
 import { Injectable, Output, EventEmitter } from '@angular/core'
 import { WorkflowService } from './workflow.service';
 import { ServiceInvokerService } from './service-invoker.service';
-import { BehaviorSubject, pipe, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, pipe, ReplaySubject, Subject, Subscription } from 'rxjs';
 import * as _ from 'underscore';
 import { Router } from '@angular/router';
 import { SideBarService } from './header.service';
 import { AuthService } from '@kore.services/auth.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
+import { NotificationService } from './notification.service';
+import { AppUrlsService } from './app.urls.service';
+import { environment } from '@kore.environment';
 @Injectable()
 export class AppSelectionService {
   queryList: any = [];
   indexList: any = [];
-  configSelected : any = {}
+  configSelected: any = {}
   public queryConfigs = new Subject<any>();
   public appSelectedConfigs = new Subject<any>();
   public queryConfigSelected = new Subject<any>();
   public appSelected = new Subject<any>();
   public getTourConfigData = new Subject<any>();
+  public currentSubscription = new Subject<any>();
+  // public refreshSummaryPage = new Subject<any>();
+  public updateUsageData = new Subject<any>();
   public routeChanged = new BehaviorSubject<any>({ name: undefined, path: '' });
   public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
   public resumingApp = false;
+  public currentsubscriptionPlanDetails: any;
+  public inlineManualInfo : any = [];
   res_length: number = 0;
   getTourArray: any = [];
+  private storageType = 'localStorage';
   constructor(
     private workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private router: Router,
     private headerService: SideBarService,
     private authService: AuthService,
+    private appUrls: AppUrlsService,
     public localstore: LocalStoreService,
-  ) { }
+    private notificationService: NotificationService
+  ) { 
+    if (environment && environment.USE_SESSION_STORE) {
+      this.storageType = 'sessionStorage';
+    }
+  }
   public getIndexPipelineIds(setindex?): ReplaySubject<any> {
     const payload = {
       searchIndexId: this.workflowService.selectedSearchIndex()
@@ -70,7 +85,7 @@ export class AppSelectionService {
     };
     const appObserver = this.service.invoke('get.queryPipelines', payload);
     const subject = new ReplaySubject(1);
-    subject.subscribe((res : any)=> {
+    subject.subscribe((res: any) => {
       this.queryList = res || [];
       let length = this.queryList.length;
       if (this.queryList) {
@@ -89,17 +104,17 @@ export class AppSelectionService {
             this.selectQueryConfig(data[0]);
           }
           else {
-            if(this.configSelected && this.configSelected['_id']){
+            if (this.configSelected && this.configSelected['_id']) {
               const data = res.filter(element => element._id == this.configSelected['_id']);
-              if(data.length){
+              if (data.length) {
                 this.selectQueryConfig(data[0]);
-              }else{
+              } else {
                 this.selectQueryConfig(res[length - 1]);
               }
-            }else{
+            } else {
               this.selectQueryConfig(res[length - 1]);
             }
-            
+
           }
         } else {
           this.selectQueryConfig({});
@@ -116,9 +131,17 @@ export class AppSelectionService {
     let previOusState: any = null;
     try {
       previOusState = JSON.parse(window.localStorage.getItem('krPreviousState'));
+      if (window[this.storageType].jStorage) {
+        this.getCurrentSubscriptionData();
+      }else{
+        this.redirectToLogin();
+      }
     } catch (e) {
     }
     return previOusState;
+  }
+  private redirectToLogin() {
+    this.appUrls.redirectToLogin();
   }
   setPreviousState(route?) {
     const path: any = {
@@ -164,6 +187,7 @@ export class AppSelectionService {
     });
   }
   openApp(app) {
+    //this.currentsubscriptionPlan(app._id)
     this.workflowService.selectedQueryPipeline([]);
     this.workflowService.appQueryPipelines({});
     this.setAppWorkFlowData(app);
@@ -172,18 +196,94 @@ export class AppSelectionService {
       title: '',
     };
     this.headerService.toggle(toogleObj);
-    this.headerService.closeSdk();
-    this.headerService.updateSearchConfiguration();
+    //this.headerService.closeSdk();
+    // this.headerService.updateSearchConfiguration();
     this.router.navigate(['/summary'], { skipLocationChange: true });
+    this.getInlineManualcall();
     //this.routeChanged.next({ name: undefined, path: '' });
   }
-  setAppWorkFlowData(app, queryPipeline?) {
+  // currentsubscriptionPlan(id) {
+  //   const payload = {
+  //     streamId: id
+  //   };
+  //   const appObserver = this.service.invoke('get.currentPlans', payload);
+  //   appObserver.subscribe(res => {
+  //     this.currentsubscriptionPlanDetails = res;
+  //     this.currentSubscription.next(res);
+  //   }, errRes => {
+  //     this.errorToaster(errRes, 'failed to get plans');
+  //   });
+  // }
+  //get current subscription data
+  getCurrentSubscriptionData() {
+    const data = this.workflowService.selectedApp();
+    if (data != undefined) {
+      const payload = {
+        streamId: data._id
+      };
+      const appObserver = this.service.invoke('get.currentPlans', payload);
+      appObserver.subscribe(res => {
+        this.currentsubscriptionPlanDetails = res;
+        this.currentSubscription.next(res);
+      }, errRes => {
+        if (errRes && errRes.error && errRes.error.errors[0].code == 'NoActiveSubscription') {
+          this.getLastActiveSubscriptionData();
+          this.currentsubscriptionPlanDetails = undefined;
+          //this.errorToaster(errRes, 'failed to get current subscription data');
+        }
+      });
+    }
+  }
+  getInlineManualcall(){
+    let selectedApp = this.workflowService.selectedApp();
+      let searchIndexId = selectedApp ? selectedApp.searchIndexes[0]._id : "";
+    const quaryparms: any = {
+      searchIndexId: searchIndexId
+    };
+    if(searchIndexId){
+      this.service.invoke('get.inlineManual', quaryparms).subscribe(res => {
+        this.inlineManualInfo = res.inlineManualInfo;
+       }, errRes => {
+         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+         } else {
+           this.notificationService.notify('Failed ', 'error');
+         }
+       });
+    }
+  }
+  //get last active subscription data
+  getLastActiveSubscriptionData() {
+    const data = this.workflowService.selectedApp();
+    if (data != undefined) {
+      const payload = {
+        streamId: data._id
+      };
+      const appObserver = this.service.invoke('get.lastActiveSubscription', payload);
+      appObserver.subscribe(res => {
+        this.currentSubscription.next(res);
+      }, errRes => {
+        this.errorToaster(errRes, 'failed to get last active subscription data');
+      });
+    }
+  }
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message) {
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+    }
+  }
+  async setAppWorkFlowData(app, queryPipeline?) {
     // this.getStreamData(app);
     this.workflowService.selectedApp(app);
     const searchIndex = app.searchIndexes[0]._id;
     this.workflowService.selectedSearchIndex(searchIndex);
     //this.getQureryPipelineIds(queryPipeline);
-    this.getIndexPipelineIds();
+    await this.getIndexPipelineIds();
+    this.headerService.updateSearchConfiguration();
   }
   getStreamData(app) {
     const queryParams = {

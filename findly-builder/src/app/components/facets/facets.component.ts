@@ -9,6 +9,8 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { InlineManualService } from '@kore.services/inline-manual.service';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 declare const $: any;
 @Component({
   selector: 'app-facets',
@@ -27,7 +29,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   indexPipelineId;
   loadingContent = true;
   addEditFacetObj: any = null;
-  showSearch;
+  showSearch = false;
+  activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   // serachTraits: any = '';
@@ -76,13 +79,16 @@ export class FacetsComponent implements OnInit, OnDestroy {
   statusArr: any = [];
   selectTypeArr: any = [];
   componentType: string = 'configure';
-  submitted : boolean = false;
+  submitted: boolean = false;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    public inlineManual: InlineManualService
   ) { }
   @ViewChild('facetModalPouup') facetModalPouup: KRModalComponent;
   ngOnInit() {
@@ -101,6 +107,10 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
+    if (!this.inlineManual.checkVisibility('FACETS')) {
+      this.inlineManual.openHelp('FACETS')
+      this.inlineManual.visited('FACETS')
+    }
   }
 
   loadfacets() {
@@ -254,6 +264,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.selectedField.fieldDataType = null;
     }
     this.openModal();
+    this.getFieldAutoComplete('');
   }
   editFacetModal(facet) {
     this.getRecordDetails(facet)
@@ -262,17 +273,21 @@ export class FacetsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      offset: 0,
-      limit: 100
+      // offset: 0,
+      // limit: 100
     };
-    this.service.invoke('get.allField', quaryparms).subscribe(res => {
+    // let serviceId = 'get.allField';
+    let serviceId = 'get.allFieldsData';
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+      this.fieldAutoSuggestion = res.fields || [];
       res.fields.forEach(element => {
         if (element._id === data.fieldId) {
           console.log(element)
           this.addEditFacetObj = JSON.parse(JSON.stringify(data));
           this.selectedFieldId = element._id;
+          // this.getFieldAutoComplete(element.fieldName);
           this.selectField(element);
-          this.openModal();
+          this.openModal(true);
         }
       });
     }, errRes => {
@@ -303,16 +318,22 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }
   }
   getFieldAutoComplete(query) {
-    if(!query){
+    if (!query) {
       query = '';
     }
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      category: 'facets',
       query
     };
-    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
-      this.fieldAutoSuggestion = res || [];
+    this.service.invoke('get.getFieldAutocompleteIndices', quaryparms).subscribe(res => {
+      this.fieldAutoSuggestion = JSON.parse(JSON.stringify(res)) || [];
+      if (this.fieldAutoSuggestion.length) {
+        if (!$('#facets-search-with-dropdown-menu').hasClass('show') && $('#facets-search-input').is(':focus')) {
+          $('#facets-search-with-dropdown-menu').addClass('show')
+        }
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');
     });
@@ -380,6 +401,10 @@ export class FacetsComponent implements OnInit, OnDestroy {
       limit: 100
     };
     this.service.invoke('get.allFacets', quaryparms).subscribe(res => {
+      this.facets = [];
+      this.statusArr = [];
+      this.docTypeArr =[];
+      this.selectTypeArr = [];
       this.facets = res || [];
       this.facets.forEach(element => {
         this.statusArr.push(element.isFacetActive);
@@ -394,9 +419,17 @@ export class FacetsComponent implements OnInit, OnDestroy {
       if (res.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
+        if (!this.inlineManual.checkVisibility('FACETS_OVERVIEW')) {
+          this.inlineManual.openHelp('FACETS_OVERVIEW')
+          this.inlineManual.visited('FACETS_OVERVIEW')
+        }
       }
       else {
         this.loadingContent1 = true;
+        // if(!this.inlineManual.checkVisibility('FACETS')){
+        //   this.inlineManual.openHelp('FACETS')
+        //   this.inlineManual.visited('FACETS')
+        // }
       }
     }, errRes => {
       this.loadingContent = false;
@@ -445,11 +478,13 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.service.invoke('create.facet', quaryparms, payload).subscribe(res => {
       this.notificationService.notify('Added Successfully', 'success');
       if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) }
-      this.facets.push(res);
+      //this.facets.push(res);
+      this.getFacts();
       this.closeModal();
       this.addEditFacetObj = null;
       this.selectedFieldId = null;
     }, errRes => {
+      this.getFieldAutoComplete('');
       this.errorToaster(errRes, 'Failed to create facet');
     });
   }
@@ -471,21 +506,29 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.addEditFacetObj = null;
       this.selectedFieldId = null;
     }, errRes => {
+      this.getFieldAutoComplete('');
       this.errorToaster(errRes, 'Failed to update facet');
     });
   }
   deleteFacets(facet?, bulk?) {
+    const modalData: any = {
+      newTitle: 'Are you sure you want to delete ?',
+      body: 'Selected facet will be deleted.',
+      buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+      confirmationPopUp: true
+    }
+    if (bulk > 1) {
+      modalData.newTitle = 'Are you sure you want to delete ?'
+      modalData.body = 'Selected facets will be deleted.';
+      modalData.buttons[0].label = 'Delete';
+    }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
-      data: {
-        newTitle: 'Are you sure you want to delete ?',
-        body: 'Selected facet will be deleted.',
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
-      }
+      data: modalData,
     });
+
 
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
@@ -561,18 +604,18 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }
   }
 
-  validateAddEditFacet(){
-    if(this.addEditFacetObj.fieldId.length && this.addEditFacetObj.facetName){
+  validateAddEditFacet() {
+    if (this.addEditFacetObj.fieldId.length && this.addEditFacetObj.facetName) {
       this.submitted;
       return true;
     }
-    else{
+    else {
       return false;
     }
   }
   addOrUpdate() {
     this.submitted = true;
-    if(this.validateAddEditFacet()){
+    if (this.validateAddEditFacet()) {
       this.addFiled();
       if (this.addEditFacetObj && this.addEditFacetObj._id) {
         this.editFacet();
@@ -580,13 +623,20 @@ export class FacetsComponent implements OnInit, OnDestroy {
         this.createFacet();
       }
     }
-    else{
+    else {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
-  openModal() {
+  openModal(isFields?) {
     this.submitted = false;
+    if (!isFields) {
+      this.getAllFields();
+    }
     this.facetModalRef = this.facetModalPouup.open();
+    setTimeout(() => {
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
   closeModal() {
     if (this.facetModalRef && this.facetModalRef.close) {
@@ -596,6 +646,23 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.resetDefaults();
     this.addEditFacetObj = null;
     this.selectedFieldId = null;
+  }
+  getAllFields() {
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+    };
+    let serviceId = 'get.allFieldsData';
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+      this.fieldAutoSuggestion = res.fields || [];
+      if (this.fieldAutoSuggestion.length) {
+        if (!$('#facets-search-with-dropdown-menu').hasClass('show') && $('#facets-search-input').is(':focus')) {
+          $('#facets-search-with-dropdown-menu').addClass('show')
+        }
+      }
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
   }
   toggleSearch() {
     if (this.showSearch && this.searchfacet) {
@@ -724,9 +791,41 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.facets = JSON.parse(JSON.stringify(tempFacets));
   }
 
+  validateFacetSize(event) {
+    if (event.target.value && event.target.value > 0) {
+      // if(event.target.value > 20){
+      //   this.addEditFacetObj.facetValue.size = 20;
+      // }
+    }
+    else {
+      this.addEditFacetObj.facetValue.size = 1;
+      return;
+    }
+  }
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchfacet = '';
+      this.activeClose = false;
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
+  }
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+  }
+
+  modifyFieldWarningMsg(warningMessage) {
+    let index = warningMessage.indexOf("changed");
+    if (index > -1) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

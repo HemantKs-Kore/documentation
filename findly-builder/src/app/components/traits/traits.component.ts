@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
@@ -7,6 +7,10 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { AuthService } from '@kore.services/auth.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as _ from 'underscore';
+import { AppSelectionService } from '@kore.services/app.selection.service';
+import { of, interval, Subject, Subscription } from 'rxjs';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+
 declare const $: any;
 @Component({
   selector: 'app-traits',
@@ -17,16 +21,23 @@ declare const $: any;
 export class TraitsComponent implements OnInit {
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('addUtteranceModalPop') addUtteranceModalPop: KRModalComponent;
-  currentUtteranceIndex:number;
-  currentTraitKey:string;
-  newUtterance:any;
-  tempUtterance:string;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  @ViewChild('perfectScroll2') perfectScroll2: PerfectScrollbarComponent;
+  currentUtteranceIndex: number;
+  currentTraitKey: string;
+  newUtterance: any;
+  tempUtterance: string;
   statusModalPopRef: any = [];
   addUtteranceModalPopRef: any = [];
+  selcectionObj: any = {
+    selectAll: false,
+    selectedItems: [],
+    selectedCount: 0
+  };
   utteranceList = [];
   showUtteranceInput = false;
-  showEditUtteranceInput:any;
-  showEditTraitInput:any;
+  showEditUtteranceInput: any;
+  showEditTraitInput: any;
   traitsObj: any = [];
   traitType: string;
   traitsTableData: any = [];
@@ -36,6 +47,7 @@ export class TraitsComponent implements OnInit {
   traitCounts;
   showSearch;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
+  activeClose = false;
   searchFocusIn = false;
   serachTraits: any = '';
   traits: any = {
@@ -73,13 +85,19 @@ export class TraitsComponent implements OnInit {
   currentTraitEditIndex;
   editedContent;
   traitsCount = false;
+  indexPipelineId;
+  subscription: Subscription;
+
   submitted = false;
+  uttSubmitted = false;
+  componentType: string = 'indexing';
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    public authService: AuthService
+    public authService: AuthService,
+    private appSelectionService: AppSelectionService
   ) { }
 
   ngOnInit(): void {
@@ -87,47 +105,58 @@ export class TraitsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
     this.groupConfigs = JSON.parse(JSON.stringify(this.defaultGroupConfigs));
-    this.getTraitsGroupsApi(true);
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    this.loadFileds();
+    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
+      this.loadFileds();
+    })
+
+
   }
   loadingTraits1: boolean;
   loadImageText: boolean = false;
-  imageLoad(){
-    console.log("image loaded now")
-    this.loadingTraits=false;
+  imageLoad() {
+    this.loadingTraits = false;
     this.loadingTraits1 = true;
     this.loadImageText = true;
   }
-  trainIndex(){
+  loadFileds() {
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if (this.indexPipelineId) {
+      this.getTraitsGroupsApi(true);
+    }
+  }
+  trainIndex() {
     $('#trainId').click();
   }
-getTraitsSliceValue(traits){
-  let sliceValue = 0;
-  if(traits.length){
-  let columnWidth =document.getElementsByClassName('traits-groups')[0].clientWidth-65;
-    let traitsLength = 0;
-    traits.forEach((t)=>{
-      var canvas = document.createElement('canvas');
-var ctx = canvas.getContext("2d");
-ctx.font = "400 14px Roboto";        
-var width = ctx.measureText(t.traitName +', ').width;
-      traitsLength = width+ traitsLength;
-      if(columnWidth<traitsLength){
-        return sliceValue;
-      }else{
-        sliceValue = sliceValue +1;
-      }
-    })
-  }
+  getTraitsSliceValue(traits) {
+    let sliceValue = 0;
+    if (traits.length) {
+      let columnWidth = document.getElementsByClassName('traits-groups')[0].clientWidth - 65;
+      let traitsLength = 0;
+      traits.forEach((t) => {
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext("2d");
+        ctx.font = "400 14px Roboto";
+        var width = ctx.measureText(t.traitName + ', ').width;
+        traitsLength = width + traitsLength;
+        if (columnWidth < traitsLength) {
+          return sliceValue;
+        } else {
+          sliceValue = sliceValue + 1;
+        }
+      })
+    }
 
-  return sliceValue;
-}
+    return sliceValue;
+  }
   getTraitsGroupsApi(initial?) {
     if (initial) {
       this.loadingTraits = true;
     }
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
     }
     this.service.invoke('get.traits', quaryparms).subscribe(res => {
       this.traits.traitGroups = res;
@@ -208,7 +237,7 @@ var width = ctx.measureText(t.traitName +', ').width;
   };
   saveTraits(traitsGroup?, byTraitId?) {
     this.submitted = true;
-    if ( !this.traits.addEditTraits.groupName || !this.traits.addEditTraits.groupName.trim()) {
+    if (!this.traits.addEditTraits.groupName || !this.traits.addEditTraits.groupName.trim()) {
       this.notificationService.notify('Please provide a valid trait group', 'error');
       return;
     }
@@ -226,6 +255,13 @@ var width = ctx.measureText(t.traitName +', ').width;
       if (traitsGroup && traitsGroup._id && !byTraitId) {
         this.updateTraitsApi(traitsGroup._id, payload);
       } else if (!byTraitId) {
+        if (this.traits.traitGroups && this.traits.traitGroups.length) {
+          let index = this.traits.traitGroups.findIndex((d) => d.groupName == payload.groupName);
+          if (index > -1) {
+            this.notificationService.notify('Trait group name is already added', 'error');
+            return;
+          }
+        }
         this.createTraitsApi(payload);
       } else if (byTraitId) {
         this.updateTraitsById(this.traits.addEditTraits.traits[this.traits.selectedtrait].traitId, traitsGroup._id, payload);
@@ -329,6 +365,175 @@ var width = ctx.measureText(t.traitName +', ').width;
     }
 
   };
+  deleteTraits(traits?, bulk?) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        newTitle: 'Are you sure you want to delete ?',
+        body: 'Selected trait group will be deleted.',
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          if (bulk && this.selcectionObj.selectedCount > 1) {
+            this.deleteBulkTrait(dialogRef);
+          } else if (this.selcectionObj.selectedCount == 1) {
+            let selectedIds = Object.keys(this.selcectionObj.selectedItems);
+            let index = this.traits.traitGroups.findIndex((d) => { d._id == selectedIds[0] })
+            this.deleteTrait(index, { _id: selectedIds[0] }, dialogRef);
+          }
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
+  resetCheckBox() {
+    this.selcectionObj.selectedItems = {};
+    this.selcectionObj.selectedCount = 0;
+    this.selcectionObj.selectAll = false;
+    let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+    if (partialElement.length) {
+      partialElement[0].classList.add('d-none');
+    }
+    let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+    if (selectAllElement.length) {
+      selectAllElement[0].classList.remove('d-none');
+    }
+    $('#selectAllTraits')[0].checked = false;
+  }
+  deleteTrait(index, traitsGroup, dialogRef) {
+    if (!traitsGroup._id) {
+      this.traits.traitGroups.splice(index, 1);
+    } else {
+      const traitslist = JSON.parse(JSON.stringify(this.traits.traitGroups));
+      traitslist.splice(index, 1);
+      const payload = traitslist;
+      const quaryparms: any = {
+        searchIndexId: this.serachIndexId,
+        indexPipelineId: this.indexPipelineId,
+        traitGroupId: traitsGroup._id
+      }
+      this.service.invoke('delete.traitGroup', quaryparms, payload).subscribe(res => {
+        this.traitDeleted = false;
+        this.resetCheckBox();
+        this.getTraitsGroupsApi();
+        dialogRef.close();
+        this.notificationService.notify('Deleted Successfully', 'success');
+      }, (err) => {
+        if (err && err.data && err.data.errors && err.data.errors[0]) {
+          this.notificationService.notify(err.data.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to delete trait group', 'error');
+        }
+      });
+    }
+  }
+  deleteBulkTrait(dialogRef) {
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      queryPipelineId: this.queryPipelineId
+    };
+    const triats = Object.keys(this.selcectionObj.selectedItems);
+    const delateitems = {
+      traitGroups: []
+    };
+    if (triats && triats.length) {
+      triats.forEach(ele => {
+        const obj = {
+          _id: ele,
+        }
+        delateitems.traitGroups.push(obj);
+      });
+    }
+    const payload = delateitems;
+    this.service.invoke('delete.bulkTraits', quaryparms, payload).subscribe(res => {
+      this.resetCheckBox();
+      this.getTraitsGroupsApi();
+      dialogRef.close();
+      // this.closeModal();
+      this.notificationService.notify('Trait Groups Deleted Successfully', 'success');
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to delete trait group');
+    });
+  }
+
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message) {
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+    }
+  }
+  checkUncheckTraits(trait) {
+    const selectedElements = $('.selectEachTraitInput:checkbox:checked');
+    const allElements = $('.selectEachTraitInput');
+    if (selectedElements.length === allElements.length) {
+      let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+      if (partialElement.length) {
+        partialElement[0].classList.add('d-none');
+      }
+      let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+      if (selectAllElement.length) {
+        selectAllElement[0].classList.remove('d-none');
+      }
+      $('#selectAllTraits')[0].checked = true;
+    } else {
+      let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+      let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+
+      if (partialElement && (selectedElements.length != 0)) {
+        partialElement[0].classList.remove('d-none');
+        if (selectAllElement.length) {
+          selectAllElement[0].classList.add('d-none');
+        }
+      }
+      else {
+        partialElement[0].classList.add('d-none');
+        if (selectAllElement.length) {
+          selectAllElement[0].classList.remove('d-none');
+        }
+      }
+      $('#selectAllTraits')[0].checked = false;
+    }
+    const element = $('#' + trait._id);
+    const addition = element[0].checked
+    this.addRemoveTraitFromSelection(trait._id, addition);
+  }
+  addRemoveTraitFromSelection(TraitId?, addtion?, clear?) {
+    if (clear) {
+      this.resetPartial();
+      const allTraits = $('.selectEachTraitInput');
+      $.each(allTraits, (index, element) => {
+        if ($(element) && $(element).length) {
+          $(element)[0].checked = false;
+        }
+      });
+      this.selcectionObj.selectedItems = {};
+      this.selcectionObj.selectedCount = 0;
+      this.selcectionObj.selectAll = false;
+    } else {
+      if (TraitId) {
+        if (addtion) {
+          this.selcectionObj.selectedItems[TraitId] = {};
+        } else {
+          if (this.selcectionObj.selectedItems[TraitId]) {
+            delete this.selcectionObj.selectedItems[TraitId]
+          }
+        }
+      }
+      this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
+    }
+  }
   deleteTraitsGroup(index, traitsGroup, event?) {
     if (event) {
       event.stopImmediatePropagation();
@@ -356,13 +561,16 @@ var width = ctx.measureText(t.traitName +', ').width;
             traitslist.splice(index, 1);
             const payload = traitslist;
             const quaryparms: any = {
-              userId: this.authService.getUserId(),
-              streamId: this.selectedApp._id,
+              // userId: this.authService.getUserId(),
+              // streamId: this.selectedApp._id,
+              searchIndexId: this.serachIndexId,
+              indexPipelineId: this.indexPipelineId,
               traitGroupId: traitsGroup._id
             }
             this.service.invoke('delete.traitGroup', quaryparms, payload).subscribe(res => {
               this.getTraitsGroupsApi();
               this.traitDeleted = false;
+              this.resetCheckBox();
               dialogRef.close();
               this.notificationService.notify('Deleted Successfully', 'success');
             }, (err) => {
@@ -388,8 +596,10 @@ var width = ctx.measureText(t.traitName +', ').width;
   };
   updateTraitsApi(traitGroupId, payload) {
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      // userId: this.authService.getUserId(),
+      // streamId: this.selectedApp._id,
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
       traitGroupId
     }
     this.service.invoke('update.traitGroup', quaryparms, payload).subscribe(res => {
@@ -407,8 +617,10 @@ var width = ctx.measureText(t.traitName +', ').width;
   };
   createTraitsApi(payload) {
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId
+      // userId: this.authService.getUserId(),
+      // streamId: this.selectedApp._id,
     }
     this.service.invoke('create.traitGroup', quaryparms, payload).subscribe(res => {
       this.getTraitsGroupsApi();
@@ -427,8 +639,10 @@ var width = ctx.measureText(t.traitName +', ').width;
   getTraitGroupById(groupId, traitKey) {
     const self = this
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      // userId: this.authService.getUserId(),
+      // streamId: this.selectedApp._id,
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
       traitGroupId: groupId,
     }
     this.service.invoke('get.traitGroupById', quaryparms).subscribe(res => {
@@ -522,18 +736,22 @@ var width = ctx.measureText(t.traitName +', ').width;
   openStatusModal() {
     this.currentTraitEditIndex = null;
     this.statusModalPopRef = this.statusModalPop.open();
+    setTimeout(() => {
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 400)
   }
   closeStatusModal() {
-    this.submitted=false;
+    this.submitted = false;
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
   }
-  openAddUtteranceModel(index,key,utteranceList,isView=false) {
-    if(isView && !utteranceList.length){
+  openAddUtteranceModel(index, key, utteranceList, isView = false) {
+    if (isView && !utteranceList.length) {
       return;
     }
-    this.showUtteranceInput = isView?false:true;
+    this.showUtteranceInput = isView ? false : true;
     this.showEditUtteranceInput = null;
     this.newUtterance = '';
     this.utteranceList = [];
@@ -541,11 +759,17 @@ var width = ctx.measureText(t.traitName +', ').width;
     this.currentUtteranceIndex = index;
     this.currentTraitKey = key;
     this.addUtteranceModalPopRef = this.addUtteranceModalPop.open();
+    setTimeout(() => {
+      this.perfectScroll2.directiveRef.update();
+      this.perfectScroll2.directiveRef.scrollToTop();
+    }, 400)
   }
   closeUtteranceModal() {
     this.currentUtteranceIndex = null;
     this.currentTraitKey = null;
     this.utteranceList = [];
+    this.newUtterance = '';
+    this.uttSubmitted = false;
     if (this.addUtteranceModalPopRef && this.addUtteranceModalPopRef.close) {
       this.addUtteranceModalPopRef.close();
     }
@@ -600,7 +824,7 @@ var width = ctx.measureText(t.traitName +', ').width;
   };
   addNewUtter(utter, event) {
     const utteranceData = [];
-    if (event && (event.keyCode === 13 || event.type=='click') && utter !== '') {
+    if (event && (event.keyCode === 13 || event.type == 'click') && utter) {
       let utternaceIndex = -1;
       const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
         if (utter === utterance) {
@@ -614,7 +838,7 @@ var width = ctx.measureText(t.traitName +', ').width;
       }
       this.utteranceList = [utter].concat(this.utteranceList);
       this.newUtterance = '';
-      this.showUtteranceInput = false;
+      this.showUtteranceInput = true;
     }
   }
   addUtterance(utter, key, event, traitsGroup, index) {
@@ -657,7 +881,7 @@ var width = ctx.measureText(t.traitName +', ').width;
         title: 'Delete Trait',
         text: 'Are you sure you want to delete Trait ?',
         newTitle: 'Are you sure you want to delete ?',
-        body: 'Selected trait will be deleted. ',
+        body: 'Selected trait and utterances will be deleted. ',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -749,8 +973,13 @@ var width = ctx.measureText(t.traitName +', ').width;
     this.showSearch = !this.showSearch
   };
 
-  addNewUtterance( key, traitsGroup, index){
+  addNewUtterance(key, traitsGroup, index) {
     const utteranceData = [];
+    this.uttSubmitted = true;
+    if (!this.utteranceList || !this.utteranceList.length) {
+      this.notificationService.notify('Please provide a valid utterance', 'error');
+      return
+    }
     if (traitsGroup && this.utteranceList.length) {
       this.traits.addEditTraits.traits[key].data = this.utteranceList;
       if (index > -1) {
@@ -761,7 +990,7 @@ var width = ctx.measureText(t.traitName +', ').width;
     this.closeUtteranceModal();
   }
 
-  deleteUtterance = function (deletedutternace,event) {
+  deleteUtterance = function (deletedutternace, event) {
     if (event) {
       event.preventDefault();
       event.stopImmediatePropagation();
@@ -799,9 +1028,9 @@ var width = ctx.measureText(t.traitName +', ').width;
         }
       });
   }
- 
-  editUtter(event,utter,index){
-    if(event && (event.keyCode === 13  || event.type=='click') && utter !== ''){
+
+  editUtter(event, utter, index) {
+    if (event && (event.keyCode === 13 || event.type == 'click') && utter !== '') {
       let utternaceIndex = -1;
       const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
         if (utter === utterance && index !== i) {
@@ -815,18 +1044,18 @@ var width = ctx.measureText(t.traitName +', ').width;
       }
       this.showEditUtteranceInput = null;
       this.showUtteranceInput = false;
-      this.utteranceList[index]=utter;
+      this.utteranceList[index] = utter;
     }
   }
 
   editTraits(trait, event, displayName) {
-    if (event && (event.keyCode === 13 || event.type=='click') && trait !== '') {
+    if (event && (event.keyCode === 13 || event.type == 'click') && trait !== '') {
       if (!this.traits.addEditTraits.traits[trait]) {
         this.showEditTraitInput = null;
         this.traits.addEditTraits.traits[displayName].displayName = trait;
         this.traits.addEditTraits.traits[trait] = this.traits.addEditTraits.traits[displayName];
         delete this.traits.addEditTraits.traits[displayName];
-      } else if(this.traits.addEditTraits.traits[trait] && displayName == trait){
+      } else if (this.traits.addEditTraits.traits[trait] && displayName == trait) {
         this.showEditTraitInput = null;
       } else {
         this.notificationService.notify(trait + ' is already added', 'error');
@@ -834,11 +1063,73 @@ var width = ctx.measureText(t.traitName +', ').width;
     }
   }
 
-  showEditTrait(index, event){
+  showEditTrait(index, event) {
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
-    this.showEditTraitInput=index;
+    this.showEditTraitInput = index;
+  }
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.serachTraits = '';
+      this.activeClose = false;
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
+  }
+  selectAll(unselectAll?) {
+    const allTraits = $('.selectEachTraitInput');
+    if (allTraits && allTraits.length) {
+      $.each(allTraits, (index, element) => {
+        if ($(element) && $(element).length) {
+          $(element)[0].checked = unselectAll ? false : this.selcectionObj.selectAll;
+          const traitId = $(element)[0].id
+          this.addRemoveTraitFromSelection(traitId, $(element)[0].checked);
+        }
+      });
+    };
+    let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+    if (partialElement.length) {
+      partialElement[0].classList.add('d-none');
+    }
+    let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+    if (selectAllElement.length) {
+      selectAllElement[0].classList.remove('d-none');
+    }
+    if (unselectAll) {
+      $('#selectAllTraits')[0].checked = false;
+    }
+  }
+  resetPartial() {
+    this.selcectionObj.selectAll = false;
+    if ($('#selectAllTraits').length) {
+      $('#selectAllTraits')[0].checked = false;
+    }
+    let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+    if (partialElement.length) {
+      partialElement[0].classList.add('d-none');
+    }
+    let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+    if (selectAllElement.length) {
+      selectAllElement[0].classList.remove('d-none');
+    }
+  }
+  selectAllFromPartial() {
+    this.selcectionObj.selectAll = true;
+    $('#selectAllTraits')[0].checked = true;
+    this.selectAll();
+  }
+
+  ngOnDestroy() {
+    const self = this;
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
   }
 }

@@ -10,6 +10,8 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { InlineManualService } from '@kore.services/inline-manual.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 // import * as PureJSCarousel from 'src/assets/web-kore-sdk/libs/purejscarousel.js';
 declare var PureJSCarousel: any;
@@ -26,9 +28,11 @@ export class SearchInterfaceComponent implements OnInit {
   selectedApp: any;
   serachIndexId: any;
   indexPipelineId: any;
+  allFieldData: any;
   heading_fieldData: any;
   desc_fieldData: any;
   img_fieldData: any;
+  showAlignment = false ;
   url_fieldData: any;
   fieldData: any;
   list: any = [];
@@ -51,7 +55,8 @@ export class SearchInterfaceComponent implements OnInit {
   //   },
   // ]
   selectedSetting = 'search';
-  selectedSourceType = "Structured Data"
+  selectedSettingText = 'Conversational Search'
+  selectedSourceType = "File"
   preview_title = "Field Mapped for heading will appear here"
   preview_desc = "Field mapped for Description will appear here";
   selectedTemplatedId: any;
@@ -60,6 +65,9 @@ export class SearchInterfaceComponent implements OnInit {
   subscription: Subscription;
   searchConfigurationSubscription : Subscription;
   searchExperienceConfig : any = {};
+  liveSearchResultObj : any = {};
+  conversationalSearchResultObj : any = {};
+  fullSearchResultObj : any = {}
   searchTemplatesDisabled : boolean = false;
   settingList: any = [
     //   {
@@ -106,9 +114,10 @@ export class SearchInterfaceComponent implements OnInit {
   switchActive: boolean = true;
   customizeTemplateObj: customizeTemplate = new customizeTemplate();
   customizeTemplate: templateResponse = new templateResponse();
-  carousel: any;
+  carousel: any = [];
   componentType: string = 'designing';
   submitted : boolean = false;
+  carouselTemplateCount = 0;
   @ViewChild('customModal') customModal: KRModalComponent;
   @ViewChild('previewModal') previewModal: KRModalComponent;
 
@@ -117,7 +126,8 @@ export class SearchInterfaceComponent implements OnInit {
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
-    public headerService : SideBarService
+    public headerService : SideBarService,
+    public inlineManual : InlineManualService,
   ) { }
 
   ngOnInit(): void {
@@ -148,6 +158,10 @@ export class SearchInterfaceComponent implements OnInit {
 
     console.log(this.customizeTemplateObj);
     console.log(this.selectedSettingResultsObj);
+    if(!this.inlineManual.checkVisibility('RESULT_TEMPLATE') && false){
+      this.inlineManual.openHelp('RESULT_TEMPLATE')
+      this.inlineManual.visited('RESULT_TEMPLATE')
+    }
     //TEST
     // this.service.invoke('get.SI_allResultSettings', {searchIndexId : this.serachIndexId}).subscribe(res => {
     //   this.notificationService.notify('Result setting saved successfully', 'success');
@@ -162,11 +176,11 @@ export class SearchInterfaceComponent implements OnInit {
     if (this.indexPipelineId) {
       this.getFieldAutoComplete();
       this.defaultTemplate();
-      this.getSettings('search');
+      //this.getSettings('search');
       this.getAllSettings();
     }
   }
-  defaultTemplate() {
+  defaultTemplate(appearencType?) {
     this.customizeTemplateObj.template.type = "List Template 1";
     this.customizeTemplateObj.template.typeId = "listTemplate1"
     this.customizeTemplateObj.template.searchResultlayout.layout = "tileWithText";
@@ -176,32 +190,39 @@ export class SearchInterfaceComponent implements OnInit {
     this.customizeTemplateObj.template.searchResultlayout.textAlignment = "left";
     this.preview_title = "Field Mapped for heading will appear here"
     this.preview_desc = "Field mapped for Description will appear here";
+    this.selectedSourceType = "File";
+    if(appearencType){
+      this.selectedSourceType = appearencType;
+    }
   }
   copyConfiguration(interfaceType) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '530px',
-      height: 'auto',
-      panelClass: 'delete-popup',
-      data: {
-        title: 'Restore Customization',
-        text: 'Are you sure you want to copy?',
-        newTitle: 'Are you sure you want to copy?',
-        body: 'Copying will overwrite the existing configuration.',
-        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true,
-      }
-    });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          this.selectedSettingResultsObj.referInterface = interfaceType;
-          // this.saveResultSettings(); Inorder to reflect the configuretion, we need to save the current interface with reference
-          dialogRef.close();
-        } else if (result === 'no') {
-          dialogRef.close();
+    if(interfaceType){
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '530px',
+        height: 'auto',
+        panelClass: 'delete-popup',
+        data: {
+          title: 'Restore Customization',
+          text: 'Are you sure you want to copy?',
+          newTitle: 'Are you sure you want to copy?',
+          body: 'Copying will overwrite the existing configuration.',
+          buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+          confirmationPopUp: true,
         }
-      })
-    
+      });
+      dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes') {
+            this.selectedSettingResultsObj.referInterface = interfaceType;
+            this.copyResultSettings(interfaceType)
+            //this.saveResultSettings(interfaceType);
+            // this.saveResultSettings(); Inorder to reflect the configuretion, we need to save the current interface with reference
+            dialogRef.close();
+          } else if (result === 'no') {
+            dialogRef.close();
+          }
+        })
+    }
   }
   getSettings(interfaceType) {
     const quaryparms: any = {
@@ -212,6 +233,7 @@ export class SearchInterfaceComponent implements OnInit {
     this.service.invoke('get.SI_settingInterface', quaryparms).subscribe(res => {
       if (res) {
         this.selectedSettingResultsObj = res;
+        this.sourceElementlist(res)
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch Setting Informations');
@@ -219,10 +241,12 @@ export class SearchInterfaceComponent implements OnInit {
     });
   }
   getAllSettings(setting?) {
+    this.selectedSourceType = "File";
     if((setting && setting.id == 'search') && this.searchTemplatesDisabled){
       return false;
     }
     this.selectedSetting = setting ? setting.id : 'search';
+    this.selectedSettingText = setting ? setting.text : 'Conversational Search';
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId : this.indexPipelineId
@@ -235,6 +259,13 @@ export class SearchInterfaceComponent implements OnInit {
         if (element.interface == this.selectedSetting) {
           this.selectedSettingResultsObj = element;
           this.sourcelist(element)
+        }
+        if(element.interface == 'liveSearch'){
+          this.liveSearchResultObj = element;
+        }else if(element.interface == 'search'){
+          this.conversationalSearchResultObj = element;
+        }else if(element.interface == 'fullSearch') {
+          this.fullSearchResultObj = element;
         }
       });
     }, errRes => {
@@ -289,7 +320,7 @@ export class SearchInterfaceComponent implements OnInit {
     } else {
       this.clickableDisabled = false;
     }
-
+    this.customizeTemplateObj.template.searchResultlayout.textAlignment = res.layout.textAlignment
     this.customizeTemplateObj.template.typeId = res.type;
     this.templateTypeList.forEach(element => {
       if (element.id == res.type) {
@@ -324,45 +355,82 @@ export class SearchInterfaceComponent implements OnInit {
         this.customizeTemplateObj.template.resultMapping.url = element.fieldName;
       }
     });
-
+    this.resultLayoutChange(res.layout.layoutType)
     if(modal == 'openModal'){
       this.submitted = false;
       this.customModalRef = this.customModal.open();
     }
   }
+  sourceElementlist(settingObj){
+    settingObj.appearance.forEach(element => {
+      if(element.type == 'action' || element.type == 'Action'){
+        element.type = "Action"
+      }else if(element.type == 'faq' || element.type == 'FAQs'){
+        element.type = "FAQs"
+      }else if(element.type == 'page' || element.type == 'Web'){
+        element.type = "Web"
+      }else if(element.type == 'structuredData' || element.type == 'Structured Data'){
+        element.type = "Structured Data"
+      }else if(element.type == 'document' || element.type == 'File'){
+        element.type = "File"
+      }
+      this.list.forEach(listElement => {
+        if (element.type == listElement.type && element.templateId != listElement.id) {
+          listElement.id = element.templateId;
+
+          // let obj = {
+          //   type: "Action",
+          //   id: element.templateId ? element.templateId : ""
+          // }
+          // this.list.push(obj)
+          // this.customList.push(obj)
+        }
+      });
+    });
+    this.list.forEach(element => {
+      if(element.type === this.selectedSourceType){
+        if(element.id){
+          this.selectedTemplatedId = element.id;
+          if (this.selectedTemplatedId) {
+            this.getTemplate(this.selectedTemplatedId);
+          }
+        }
+      }
+    });
+  }
   sourcelist(settingObj) {
     settingObj.appearance.forEach(element => {
-      if (element.type == 'action') {
+      if (element.type == 'action' || element.type == 'Action') {
         let obj = {
           type: "Action",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
-      } else if (element.type == 'faq') {
+      } else if (element.type == 'faq' || element.type == 'FAQs') {
         let obj = {
           type: "FAQs",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
-      } else if (element.type == 'page') {
+      } else if (element.type == 'page' || element.type == 'Web') {
         let obj = {
-          type: "Pages",
+          type: "Web",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
-      } else if (element.type == 'structuredData') {
+      } else if (element.type == 'structuredData' || element.type == 'Structured Data') {
         let obj = {
           type: "Structured Data",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
-      } else if (element.type == 'document') {
+      } else if (element.type == 'document' || element.type == 'File') {
         let obj = {
-          type: "Document",
+          type: "File",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
@@ -394,16 +462,38 @@ export class SearchInterfaceComponent implements OnInit {
       this.customizeTemplateObj.template.searchResultlayout.textAlignment = "left"
     }
 
+    if (this.customizeTemplateObj.template.type === 'Carousel') {
+      this.buildCarousel();
+    }
+
     //this.
   }
+
+  buildCarousel(){
+    setTimeout(() => {
+      $('.carousel:last').addClass("carousel" + this.carouselTemplateCount);
+      var count = $(".carousel" + this.carouselTemplateCount).children().length;
+      if (count > 1) {
+        var carousel = new PureJSCarousel({
+          carousel: '.carousel' + this.carouselTemplateCount,
+          slide: '.slide',
+          oneByOne: true,
+          jq: $,
+        });
+        this.carousel.push(carousel);
+      }
+      this.carouselTemplateCount += 1;
+    }, 400);
+  }
+
   resultLayoutChange(layout) {
     //this.customizeTemplate.
     this.submitted = false;
 
-    this.customizeTemplateObj.template.searchResultlayout = new searchResultlayout();
+    //this.customizeTemplateObj.template.searchResultlayout = new searchResultlayout();
     //this.customizeTemplateObj.template.resultMapping = new resultMapping();
     this.customizeTemplateObj.template.searchResultlayout.layout = layout;
-    if (layout == 'titleWithHeader') {
+    if (layout == 'tileWithHeader') { 
       this.showDescription = false;
     } else {
       this.showDescription = true;
@@ -413,19 +503,12 @@ export class SearchInterfaceComponent implements OnInit {
     } else {
       this.showImage = true;
     }
-    if (layout == 'tileWithHeader' || layout == 'tileWithText' || layout == 'tileWithImage') {
+    if (layout == 'tileWithHeader' || layout == 'tileWithText' || layout == 'tileWithImage' || layout == 'tileWithCenteredContent') {
       if (this.customizeTemplateObj.template.type === 'Carousel') {
-        // setTimeout(() => {
-        //   this.carousel = new PureJSCarousel({
-        //     carousel: '.carousel',
-        //     slide: '.slide',
-        //     oneByOne: true,
-        //     jq: $,
-        //   });
-        // }, 100);
-        //console.log("PureJSCarousel", this.carousel);
+        this.buildCarousel();
       }
     }
+  
   }
   resultLayoutclickBehavior(type) {
     this.customizeTemplateObj.template.searchResultlayout.behaviour = type;
@@ -445,12 +528,17 @@ export class SearchInterfaceComponent implements OnInit {
       this.selectedSettingResultsObj.facets.isEnabled = event.target.checked;
       if (!event.target.checked) {
         this.selectedSettingResultsObj.facets.aligned = "left";
+        this.saveResultSettings();
+      }else{
+        this.selectedSettingResultsObj.facets.aligned ? this.selectedSettingResultsObj.facets.aligned  : "left";
+        this.saveResultSettings();
       }
     }
   }
   facetTypeChange(event, value) {
     if (event && value) {
       this.selectedSettingResultsObj.facets.aligned = value;
+      this.saveResultSettings();
     }
   }
   selectResultAppearnceList(list,type){
@@ -472,9 +560,14 @@ export class SearchInterfaceComponent implements OnInit {
     this.selectedTemplatedId = templateId;
     if (templateId) {
       this.getTemplate(templateId);
+    }else{
+      this.defaultTemplate('Structured Data')
     }
   }
   openCustomModal() {
+    this.customModel('openModal');
+  }
+  customModel(modalSwitch?){
     let templateId;
     this.list.forEach(element => {
       if (element.type == this.selectedSourceType) {
@@ -482,17 +575,23 @@ export class SearchInterfaceComponent implements OnInit {
       }
     });
     this.selectedTemplatedId = templateId;
+    this.customizeTemplateObj = new customizeTemplate();
     if (templateId) {
-      this.getTemplate(templateId,'openModal');
+      this.getTemplate(templateId,modalSwitch);
     } else {
-      this.customizeTemplateObj = new customizeTemplate();
-      this.defaultTemplate();
+      //this.customizeTemplateObj = new customizeTemplate();
+      this.defaultTemplate(this.selectedSourceType);
       this.submitted = false;
-      this.customModalRef = this.customModal.open();
+      if(modalSwitch != 'closeModal'){
+        this.customModalRef = this.customModal.open();
+        this.resultLayoutChange('tileWithText')
+      }
+      
     }
   }
   closeCustomModal() {
     if (this.customModalRef && this.customModalRef.close) {
+      this.customModel('closeModal')
       this.customModalRef.close();
       this.submitted = false;
     }
@@ -542,62 +641,137 @@ export class SearchInterfaceComponent implements OnInit {
     if (type == 'heading') {
       this.customizeTemplateObj.template.resultMapping.heading = field.fieldName;
       this.customizeTemplateObj.template.resultMapping.headingId = field._id;
-      this.preview_title = field.fieldName
+      this.preview_title = field.fieldName;
+      this.heading_fieldData = [...this.allFieldData];
     } else if (type == 'description') {
       this.customizeTemplateObj.template.resultMapping.description = field.fieldName;
       this.customizeTemplateObj.template.resultMapping.descriptionId = field._id;
-      this.preview_desc = field.fieldName
+      this.preview_desc = field.fieldName;
+      this.desc_fieldData= [...this.allFieldData];
     } else if (type == 'image') {
       this.customizeTemplateObj.template.resultMapping.image = field.fieldName;
       this.customizeTemplateObj.template.resultMapping.imageId = field._id;
+      this.img_fieldData = [...this.allFieldData];
     } else if (type == 'url') {
       this.customizeTemplateObj.template.resultMapping.url = field.fieldName;
       this.customizeTemplateObj.template.resultMapping.urlId = field._id;
+      this.url_fieldData = [...this.allFieldData];
     }
   }
-  saveResultSettings() {
+  copyResultSettings(interfaceType){
     let queryparams = {
       searchIndexId: this.serachIndexId,
       indexPipelineId : this.indexPipelineId
     };
     let payload = {
-      "_id": this.selectedSettingResultsObj._id,
-      "resultClassification": {
-        "isEnabled": this.selectedSettingResultsObj.resultClassification.isEnabled,
-        "sourceType": this.selectedSettingResultsObj.resultClassification.sourceType
-      },
-      "view": this.selectedSettingResultsObj.view,
-      "maxResultsAllowed": this.selectedSettingResultsObj.maxResultsAllowed,
-      "facets": {
-        "aligned": this.selectedSettingResultsObj.facets.aligned,
-        "isEnabled": this.selectedSettingResultsObj.facets.isEnabled
-      },
       "interface": this.selectedSetting,
-      "appearance": this.selectedSettingResultsObj.appearance //this.list
-      // [
-      //       {
-      //           "type": "action"
-      //       },
-      //       {
-      //           "type": "faq"
-      //       },
-      //       {
-      //           "type": "pages"
-      //       },
-      //       {
-      //           "type": "structuredData"
-      //       }
-      //   ],  
+      "referInterface": interfaceType
+  }
+    //payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
+    this.service.invoke('put.SI_copyResultSettings', queryparams, payload).subscribe(res => {
+      this.notificationService.notify('Result copied successfully', 'success');
+      this.selectedTemplatedId = "";
+      this.selectedSettingResultsObj.referInterface = "";
+      this.getAllSettings({id:this.selectedSetting,text: this.selectedSettingText});
+      this.getSettings(this.selectedSetting);
+      this.closeCustomModal();
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to copy settings');
+    });
+    
+  }
+  saveResultSettings(interfaceType?) {
+    let payload = {};
+    let _self = this;
+    let setPayload = function(copedInterfaceResultsObj){
+      copedInterfaceResultsObj.appearance.forEach(element => {
+        if (element.type == 'Action') {
+          element.type= 'action';
+        } else if (element.type == 'FAQs') {
+          element.type = 'faq';
+        } else if (element.type == 'Pages' || element.type == 'Web') {
+          element.type = 'page';
+        } else if (element.type == 'Structured Data') {
+          element.type = 'structuredData';
+        }else if (element.type == 'Document' || element.type == 'File') {
+          element.type = 'document';
+        }
+      });
+      let payloadBody = {
+        "_id": _self.selectedSettingResultsObj._id, // Binding the Selected Setting Id
+        "resultClassification": {
+          "isEnabled": copedInterfaceResultsObj.resultClassification.isEnabled,
+          "sourceType": copedInterfaceResultsObj.resultClassification.sourceType
+        },
+        "view": copedInterfaceResultsObj.view,
+        "maxResultsAllowed": copedInterfaceResultsObj.maxResultsAllowed,
+        "facets": {
+          "aligned": copedInterfaceResultsObj.facets.aligned,
+          "isEnabled": copedInterfaceResultsObj.facets.isEnabled
+        },
+        "interface": _self.selectedSetting, // Binding the Selected Setting interface
+        "appearance": copedInterfaceResultsObj.appearance //this.list ,  Binding the Selected appearance
+      }
+      payloadBody['referInterface'] = _self.selectedSettingResultsObj.referInterface; // Binding the Selected Setting referInterface
+  
+      return payloadBody;
     }
-    payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
-    //  if(this.selectedSettingResultsObj.referInterface == 'search'){
-    //   payload['referInterface'] = 'search';
-    //  }else{
-    //    delete payload['referInterface']; 
-    //  }
+    let queryparams = {
+      searchIndexId: this.serachIndexId,
+      indexPipelineId : this.indexPipelineId
+    };
+    
+    this.selectedSettingResultsObj.appearance.forEach(element => {
+      if (element.type == 'Action') {
+        element.type= 'action';
+      } else if (element.type == 'FAQs') {
+        element.type = 'faq';
+      } else if (element.type == 'Pages' || element.type == 'Web') {
+        element.type = 'page';
+      } else if (element.type == 'Structured Data') {
+        element.type = 'structuredData';
+      }else if (element.type == 'Document' || element.type == 'File') {
+        element.type = 'document';
+      }
+    });
+    if(interfaceType){
+      if(interfaceType == 'livesearch'){
+        payload = setPayload(this.liveSearchResultObj)
+      }else if(interfaceType == 'search'){
+        payload = setPayload(this.conversationalSearchResultObj)
+      }else if(interfaceType == 'fullsearch') {
+        payload = setPayload(this.fullSearchResultObj)
+      }
+      
+    }else{
+       payload = {
+        "_id": this.selectedSettingResultsObj._id,
+        "resultClassification": {
+          "isEnabled": this.selectedSettingResultsObj.resultClassification.isEnabled,
+          "sourceType": this.selectedSettingResultsObj.resultClassification.sourceType
+        },
+        "view": this.selectedSettingResultsObj.view,
+        "maxResultsAllowed": this.selectedSettingResultsObj.maxResultsAllowed,
+        "facets": {
+          "aligned": this.selectedSettingResultsObj.facets.aligned,
+          "isEnabled": this.selectedSettingResultsObj.facets.isEnabled
+        },
+        "interface": this.selectedSetting,
+        "appearance": this.selectedSettingResultsObj.appearance //this.list
+      }
+      payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
+      //  if(this.selectedSettingResultsObj.referInterface == 'search'){
+      //   payload['referInterface'] = 'search';
+      //  }else{
+      //    delete payload['referInterface']; 
+      //  }
+    }
     this.service.invoke('put.SI_saveResultSettings', queryparams, payload).subscribe(res => {
       this.notificationService.notify('Result setting saved successfully', 'success');
       this.selectedTemplatedId = "";
+      this.selectedSettingResultsObj.referInterface = "";
+      this.getAllSettings({id:this.selectedSetting,text: this.selectedSettingText});
+      this.getSettings(this.selectedSetting);
       this.closeCustomModal();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to save result settings');
@@ -605,9 +779,25 @@ export class SearchInterfaceComponent implements OnInit {
   }
   validateTemplate(){
     if(this.selectedSourceType == 'Structured Data'){
-      if(this.customizeTemplateObj.template.resultMapping.headingId.length && this.customizeTemplateObj.template.resultMapping.descriptionId.length){
-        if(this.customizeTemplateObj.template.searchResultlayout.clickable && this.customizeTemplateObj.template.resultMapping.urlId.length){
-          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.imageId.length)){
+      if(this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader'){
+        if(this.customizeTemplateObj.template.resultMapping.heading.length){
+          if(this.customizeTemplateObj.template.searchResultlayout.clickable && this.customizeTemplateObj.template.resultMapping.url.length){
+            return true;
+          }
+          else if(!this.customizeTemplateObj.template.searchResultlayout.clickable){
+            return true;
+          }
+          else{
+            return false;
+          }
+        }
+        else{
+          return false;
+        }
+      }
+      else if(this.customizeTemplateObj.template.resultMapping.heading.length && this.customizeTemplateObj.template.resultMapping.description.length){
+        if(this.customizeTemplateObj.template.searchResultlayout.clickable && this.customizeTemplateObj.template.resultMapping.url.length){
+          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)){
             return true;
           }
           else if ((this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText') || (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader')){
@@ -617,11 +807,11 @@ export class SearchInterfaceComponent implements OnInit {
             return false;
           }
         }
-        else if (this.customizeTemplateObj.template.searchResultlayout.clickable && !this.customizeTemplateObj.template.resultMapping.urlId.length){
+        else if (this.customizeTemplateObj.template.searchResultlayout.clickable && !this.customizeTemplateObj.template.resultMapping.url.length){
           return false;
         }
         else{
-          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.imageId.length)){
+          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)){
             return true;
           }
           else if ((this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText') || (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader')){
@@ -632,15 +822,60 @@ export class SearchInterfaceComponent implements OnInit {
           }
         }
       }
+      else {
+        return false;
+      }
     }
-    else if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.imageId.length)){
-      return true;
+    else if (this.customizeTemplateObj.template.searchResultlayout.clickable && this.customizeTemplateObj.template.resultMapping.url.length){
+      if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && this.customizeTemplateObj.template.resultMapping.heading.length){
+        return true;
+      }
+      else if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && !this.customizeTemplateObj.template.resultMapping.heading.length){
+        return false;
+      }
+      else{
+        if(this.customizeTemplateObj.template.resultMapping.heading.length && this.customizeTemplateObj.template.resultMapping.description.length){
+          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)){
+            return true;
+          }
+          else if((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (!this.customizeTemplateObj.template.resultMapping.image.length)){
+            return false;
+          }
+          else{
+            return true;
+          }
+        }
+        else {
+          return false;
+        }
+      }
     }
-    else if((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (!this.customizeTemplateObj.template.resultMapping.imageId.length)){
+    else if(!this.customizeTemplateObj.template.searchResultlayout.clickable){
+      if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && this.customizeTemplateObj.template.resultMapping.heading.length){
+        return true;
+      }
+      else if (this.customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && !this.customizeTemplateObj.template.resultMapping.heading.length){
+        return false;
+      }
+      else{
+        if(this.customizeTemplateObj.template.resultMapping.heading.length && this.customizeTemplateObj.template.resultMapping.description.length){
+          if ((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (this.customizeTemplateObj.template.resultMapping.image.length)){
+            return true;
+          }
+          else if((this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithImage' || this.customizeTemplateObj.template.searchResultlayout.layout === 'tileWithCenteredContent') && (!this.customizeTemplateObj.template.resultMapping.image.length)){
+            return false;
+          }
+          else{
+            return true;
+          }
+        }
+        else {
+          return false;
+        }
+      }
+    }
+    else if (this.customizeTemplateObj.template.searchResultlayout.clickable && !this.customizeTemplateObj.template.resultMapping.url.length){
       return false;
-    }
-    else {
-      return true;
     }
   }
 
@@ -656,10 +891,12 @@ export class SearchInterfaceComponent implements OnInit {
         appearnce = 'action';
       } else if (this.selectedSourceType == 'FAQs') {
         appearnce = 'faq';
-      } else if (this.selectedSourceType == 'Pages') {
+      } else if (this.selectedSourceType == 'Pages' || this.selectedSourceType == 'Web') {
         appearnce = 'page';
       } else if (this.selectedSourceType == 'Structured Data') {
         appearnce = 'structuredData';
+      }else if (this.selectedSourceType == 'Document' || this.selectedSourceType == 'File') {
+        appearnce = 'document';
       }
       payload = {
         "type": this.customizeTemplateObj.template.typeId,
@@ -697,6 +934,9 @@ export class SearchInterfaceComponent implements OnInit {
         message = "Template Added Successfully"
       }
       this.service.invoke(url, queryparams, payload).subscribe(res => {
+        if(this.selectedSourceType == 'Structured Data'){
+          this.headerService.updateResultTemplateMapping(true);
+        }
         this.notificationService.notify(message, 'success');
         this.selectedTemplatedId = "";
         this.getSettings(this.selectedSetting);
@@ -717,11 +957,12 @@ export class SearchInterfaceComponent implements OnInit {
       query
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
-      this.heading_fieldData = res;
-      this.desc_fieldData = res;
-      this.img_fieldData = res;
-      this.url_fieldData = res;
-      this.fieldData = res;
+      this.heading_fieldData = [...res];
+      this.desc_fieldData = [...res];
+      this.img_fieldData = [...res];
+      this.url_fieldData = [...res];
+      this.fieldData = [...res];
+      this.allFieldData = [...res];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');
     });
@@ -773,7 +1014,7 @@ export class SearchInterfaceComponent implements OnInit {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe : false;
+    this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe() : false;
   }
 
 }
@@ -784,7 +1025,7 @@ class selectedSettingResults {
   _id = ""
   resultClassification = {
     'isEnabled': true,
-    'sourceType': "dataContentType"
+    'sourceType': "sys_content_type" //dataContentType
   }
   view = "fit"
   maxResultsAllowed = 10
@@ -815,7 +1056,7 @@ class selectedSettingResults {
   streamId = ""
   searchIndexId = ""
   createdOn = ""
-  orderBasedOnRelevance = false
+  orderBasedOnRelevance = true
 }
 
 

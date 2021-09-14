@@ -10,6 +10,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import * as _ from 'underscore';
 declare const $: any;
 @Component({
@@ -47,7 +48,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   }
   searchIndexId;
   selectedApp;
-
+  usageDetails: any = {};
   configObj: any = {};
   selectedConfig: any = {};
   indexConfigObj: any = {};
@@ -62,13 +63,18 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   public showStatusDocker: boolean = false;
   public statusDockerLoading: boolean = false;
   public dockersList: Array<any> = [];
+  showUpgrade: boolean = true;
+  currentSubsciptionData: Subscription;
+  updateUsageData: Subscription;
+  currentPlan: any;
+  upgradeBannerFlag: boolean;
   @Input() show;
   @Input() settingMainMenu;
   @Input() sourceMenu;
   @ViewChild('addIndexFieldModalPop') addIndexFieldModalPop: KRModalComponent;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('statusDockerModalPop') statusDockerModalPop: KRModalComponent;
-
+  @ViewChild('plans') plans: UpgradePlanComponent;
   constructor(private service: ServiceInvokerService,
     private headerService: SideBarService,
     private workflowService: WorkflowService,
@@ -77,7 +83,8 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
     public dialog: MatDialog
-  ) { }
+  ) {
+  }
   goHome() {
     this.workflowService.selectedApp(null);
     this.router.navigate(['/apps'], { skipLocationChange: true });
@@ -87,6 +94,15 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       title: selection,
     };
     this.headerService.toggle(toogleObj);
+  }
+  //upgrade plan
+  upgrade(data?) {
+    if (data) {
+      this.plans.openChoosePlanPopup('choosePlans', { show: true, msg: data });
+    }
+    else {
+      this.plans.openChoosePlanPopup('choosePlans');
+    }
   }
   reloadCurrentRoute() {
     let route = '/summary';
@@ -216,7 +232,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       return false;
     }
   }
-
   createIndexConfig() {
     this.submitted = true;
     if (this.validateIndexConfig()) {
@@ -243,7 +258,14 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           this.closeIndexModalPopup();
         },
         errRes => {
-          this.errorToaster(errRes, 'Failed to Create indexPipeline');
+          if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
+            this.closeIndexModalPopup();
+            this.errorToaster(errRes, errRes.error.errors[0].msg);
+            this.upgrade(errRes.error.errors[0].msg);
+          }
+          else {
+            this.errorToaster(errRes, 'Failed to Create indexPipeline');
+          }
         }
       );
     }
@@ -270,7 +292,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       return false;
     }
   }
-
   createConfig() {
     this.submitted = true;
     if (this.validateSearchConfig()) {
@@ -301,7 +322,13 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           }
         },
         errRes => {
-          this.errorToaster(errRes, 'Failed to Create searchconfig');
+          if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
+            this.closeModalPopup();
+            this.errorToaster(errRes, errRes.error.errors[0].msg);
+            this.upgrade(errRes.error.errors[0].msg);
+          } else {
+            this.errorToaster(errRes, 'Failed to Create searchconfig');
+          }
         }
       );
     }
@@ -325,7 +352,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.reloadCurrentRoute()
   }
   deleteIndexPipeLine(indexConfigs, dialogRef, type) {
-    console.log("index query", indexConfigs)
     let queryParms = {
       searchIndexId: this.searchIndexId,
       indexPipelineId: type == 'index' ? indexConfigs._id : this.workflowService.selectedIndexPipeline()
@@ -342,9 +368,12 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         })
         if (type == 'index') {
           this.indexConfigs.splice(deleteIndex, 1);
+          let default_index = this.indexConfigs.filter(item => item.default == true);
+          this.appSelectionService.getIndexPipelineIds(default_index);
         }
         else {
           this.queryConfigs.splice(deleteIndex, 1);
+          this.appSelectionService.getQureryPipelineIds();
         }
         this.notify.notify('deleted successfully', 'success');
       },
@@ -386,11 +415,19 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       return false;
     }
   }
-  ngOnInit() {
+  async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     // this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     // Multiple INdex hardcoded
+    await this.appSelectionService.getCurrentSubscriptionData();
+    this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
+      this.showUpgrade = res.subscription.planId == 'fp_free' ? false : true;
+      this.currentPlan = res.subscription.planId;
+    })
     this.appSelectionService.appSelectedConfigs.subscribe(res => {
+      this.showUpgrade = true;
+      this.appSelectionService.getCurrentSubscriptionData();
+      this.getCurrentUsage();
       this.indexConfigs = res;
       this.indexConfigs.forEach(element => {
         this.indexConfigObj[element._id] = element;
@@ -399,6 +436,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
         this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
     })
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
+      this.upgradeBannerFlag = (!this.selectedApp?.upgradeBannerRead) ? true : false;
       this.queryConfigs = res;
       res.forEach(element => {
         this.configObj[element._id] = element;
@@ -406,19 +444,57 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       this.selectedConfig = this.workflowService.selectedQueryPipeline()._id;
       setTimeout(() => {
         this.selectedApp = this.workflowService.selectedApp();
-        if (this.selectedApp.searchIndexes.length) {
-          this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-          console.log('SI - ', this.selectedApp.searchIndexes[0]._id);
+        if (this.selectedApp?.searchIndexes?.length) {
+          this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
         }
       }, 1000)
     })
-    if (this.selectedApp.searchIndexes.length) {
+    if (this.selectedApp?.searchIndexes?.length) {
       this.searchIndexId = this.selectedApp.searchIndexes[0]._id
     }
-    // this.indexConfigs.forEach(element => {
-    //   this.indexConfigObj[element._id] = element;
-    // });
-    // this.selectedConfig = 'fip-29dee24c-0be2-5ca3-9340-b3fcb9ea965a';
+    this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(res => {
+      if (res == 'updatedUsage') {
+        this.getCurrentUsage();
+      }
+    })
+  }
+  //read flag update in readUpgradeBanner
+  readUpgradeBanner() {
+    this.selectedApp = this.workflowService.selectedApp();
+    if (!this.selectedApp?.upgradeBannerRead && this.upgradeBannerFlag && (this.usageDetails.ingestDocs >= 80 || this.usageDetails.searchQueries >= 80)) {
+      const queryParms = {
+        streamId: this.selectedApp._id
+      }
+      const payload = { "upgradeBannerRead": true };
+      this.service.invoke('put.upgradeBannerRead', queryParms, payload).subscribe(
+        res => {
+          if (res.upgradeBannerRead) {
+            this.upgradeBannerFlag = false;
+          }
+        },
+        errRes => {
+          this.errorToaster(errRes, 'Failed to send upgrade banner flag');
+        }
+      );
+    }
+  }
+  //get current usage data of search and queries
+  getCurrentUsage() {
+    this.selectedApp = this.workflowService.selectedApp();
+    const queryParms = {
+      streamId: this.selectedApp._id
+    }
+    const payload = { "features": ["ingestDocs", "searchQueries"] };
+    this.service.invoke('post.usageData', queryParms, payload).subscribe(
+      res => {
+        let docs = Number.isInteger(res.ingestDocs.percentageUsed) ? (res.ingestDocs.percentageUsed) : parseFloat(res.ingestDocs.percentageUsed).toFixed(2);
+        let queries = Number.isInteger(res.searchQueries.percentageUsed) ? (res.searchQueries.percentageUsed) : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
+        this.usageDetails = { ingestCount: res.ingestDocs.used, ingestLimit: res.ingestDocs.limit, ingestDocs: docs, searchQueries: queries, searchCount: res.searchQueries.used, searchLimit: res.searchQueries.limit };
+      },
+      errRes => {
+        // this.errorToaster(errRes, 'Failed to get current data.');
+      }
+    );
   }
   // toggle sub-menu
   switchToTerminal() {
@@ -496,15 +572,30 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       }
     );
   }
-  deleteIndexConfig(config, type) {
+  checkExistInExperiment(config, type) {
+    const queryParms = {
+      searchIndexId: this.searchIndexId,
+      indexPipelineId: type == 'index' ? config._id : this.workflowService.selectedIndexPipeline()
+    }
+    this.service.invoke('get.checkInExperiment', queryParms).subscribe(
+      res => {
+        let text = res.validated ? `Selected ${type == 'index' ? 'Index' : 'Search'} will be deleted from the app.` : `Selected ${type == 'index' ? 'Index' : 'Search'} Configuration is being used in Experiments. Deleting it stop the Experiement.`;
+        this.deleteIndexConfig(config, type, text, res.validated)
+      },
+      errRes => {
+        this.errorToaster(errRes, 'Failed to get API Response');
+      }
+    );
+  }
+  deleteIndexConfig(config, type, text, validated) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
         newTitle: 'Are you sure you want to delete ?',
-        body: `Selected ${type == 'index' ? 'Index' : 'Search'} will be deleted from the app.`,
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        body: text,
+        buttons: [{ key: 'yes', label: `${validated ? 'Delete' : 'Delete Anyway'}`, type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -529,5 +620,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
     this.indexSub ? this.indexSub.unsubscribe() : false;
+    this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
+    this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
   }
 }

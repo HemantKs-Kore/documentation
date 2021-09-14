@@ -2,6 +2,7 @@
     <div class="modal_content">
       <div class="modal-header">{{'structuredData.structuredDataImport' | translate}} <img src="assets/images/close.svg"
           (click)="closeModal()"></div>
+          <perfect-scrollbar #perfectScroll>
       <div class="modal-body">
         <div class="success-check pb-4" [ngClass]="{'in-progress' : (docStatusObject.status==='IN_PROGRESS')}" *ngIf="(docStatusObject.status==='SUCCESS' || docStatusObject.status==='IN_PROGRESS')">
           <img src="assets/icons/successCheck.svg">
@@ -9,11 +10,14 @@
         <div class="error-check" *ngIf="(docStatusObject.status==='FAILURE')">
           <img src="assets/images/exclamationCircle-Red.svg">
         </div>
-        <div class="message-success text-center" *ngIf="(docStatusObject.status==='IN_PROGRESS')">
+        <div class="message-success text-center" *ngIf="(docStatusObject.status==='IN_PROGRESS' && (docStatusObject.validation && !docStatusObject.validation.fileValidation))">
             {{'structuredData.validation_progress' | translate}}
         </div>
-        <div class="message-success text-center" *ngIf="(docStatusObject.status==='SUCCESS')">
+        <div class="message-success text-center" *ngIf="(docStatusObject.status==='IN_PROGRESS' && (docStatusObject.validation && docStatusObject.validation.fileValidation))">
           {{'structuredData.validation_success' | translate}}
+        </div>
+        <div class="message-success text-center" *ngIf="(docStatusObject.status==='SUCCESS')">
+          {{'structuredData.imported_success' | translate}}
         </div>
         <div class="message-success text-center" *ngIf="(docStatusObject.status==='FAILURE' && (docStatusObject.validation && docStatusObject.validation.fileValidation))">
           {{'structuredData.configuration_failed' | translate}}
@@ -23,7 +27,7 @@
         </div>
         <ng-container *ngIf="docStatusObject && (docStatusObject.validation && docStatusObject.validation.fileValidation) && !(docStatusObject.status==='FAILURE')">
           <div class="status-identification-content"
-            *ngIf="!(docStatusObject.status==='FAILURE')">
+            *ngIf="!(docStatusObject.status==='FAILURE') && !(docStatusObject.status==='SUCCESS')">
             <div class="content-title text-center">
               <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
               <span>{{'structuredData.initial_file_validation' | translate}} </span> <!--  <span >done</span> -->
@@ -47,6 +51,7 @@
           <div class="relaxNote">{{docStatusObject.store.statusMessage}}</div>
         </div>
       </div>
+    </perfect-scrollbar>
       <div class="modal-footer text-right">
         <!-- <button type="button" (click)="abortDoc()" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': ((docStatusObject.status==='SUCCESS') || (docStatusObject.status === 'FAILURE'))}" data-dismiss="modal">{{'structuredData.abort' | translate}}</button> -->
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="(docStatusObject.status==='IN_PROGRESS' && !(docStatusObject.validation))"

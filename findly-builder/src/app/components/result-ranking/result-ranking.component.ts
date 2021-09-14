@@ -9,6 +9,7 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { SideBarService } from '@kore.services/header.service';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 declare const $: any;
 
 @Component({
@@ -44,12 +45,23 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   disableDiv = false;
   collectedRecord = [];
   permisionView = false;
+  showSearch = false;
+  activeClose = false;
+  searchSources = '';
   componentType: string = 'optimize';
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
+  fieldData: any;
+  strucDataHeading = '';
+  strucDataDec = '';
+  strucDataHeadingDis = '';
+  strucDataDecDis = '';
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
+    public inlineManual: InlineManualService,
     private headerService: SideBarService,
     private zone: NgZone) { }
   sdk_evenBind() {
@@ -59,7 +71,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     $(document).on('click', '.kore-search-container-close-icon', () => {
       this.selectedApp = this.workflowService.selectedApp();
       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-      this.zone.run( () => {
+      this.zone.run(() => {
         this.loadCustomRankingList();
       });
     })
@@ -78,117 +90,6 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.sdk_evenBind();
-
-
-    //   this.actionLogData = [{
-    //     "header" : "Can I make credit card payament via savings account", // and get notifiaction once done?
-    //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-    //     "option": "doc",
-    //     "status": "New",
-    //     "time" : "3h ago",
-    //     "selected" : false,
-    //     "drop":false
-    //   },{
-    //     "header" : "Can I make credit card payament via savings account",
-    //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-    //     "option": "help",
-    //     "status": "Boosted",
-    //     "time" : "3h ago",
-    //     "selected" : false,
-    //     "drop":false
-    //   },
-    //   {
-    //     "header" : "Can I make credit card payament via savings account",
-    //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-    //     "option": "bot",
-    //     "status": "Hidden",
-    //     "time" : "3h ago",
-    //     "selected" : false,
-    //     "drop":false
-    //   },
-    //   {
-    //     "header" : "Can I make credit card payament via savings account",
-    //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-    //     "option": "doc",
-    //     "status": "Pinned",
-    //     "time" : "3h ago",
-    //     "selected" : false,
-    //     "drop":false
-    //   },
-    //   {
-    //     "header" : "Can I make credit card payament via savings account",
-    //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-    //     "option": "doc",
-    //     "status": "Pinned",
-    //     "time" : "3h ago",
-    //     "selected" : false,
-    //     "drop":false
-    //   },{
-    //     "header" : "Can I make credit card payament via savings account",
-    //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-    //     "option": "doc",
-    //     "status": "Pinned",
-    //     "time" : "3h ago",
-    //     "selected" : false,
-    //     "drop":false
-    //   },
-    //   {
-    //     "header" : "Can I make credit card payament via savings account",
-    //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-    //     "option": "doc",
-    //     "status": "Pinned",
-    //     "time" : "3h ago",
-    //     "selected" : false,
-    //     "drop":false
-    //   },{
-    //     "header" : "Can I make credit card payament via savings account",
-    //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-    //     "option": "doc",
-    //     "status": "Pinned",
-    //     "time" : "3h ago",
-    //     "selected" : false,
-    //     "drop":false
-    //   },
-    //   {
-    //     "header" : "Can I make credit card payament via savings account",
-    //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-    //     "option": "doc",
-    //     "status": "Pinned",
-    //     "time" : "3h ago",
-    //     "selected" : false,
-    //     "drop":false
-    //   },{
-    //     "header" : "Can I make credit card payament via savings account",
-    //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-    //     "option": "doc",
-    //     "status": "Pinned",
-    //     "time" : "3h ago",
-    //     "selected" : false,
-    //     "drop":false
-    //   },{
-    //     "header" : "Can I make credit card payament via savings account",
-    //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-    //     "option": "doc",
-    //     "status": "Pinned",
-    //     "time" : "3h ago",
-    //     "selected" : false,
-    //     "drop":false
-    //   }
-    // ]
-    // this.customizeLog = [{
-    //     "header" : "Credit card payament",
-    //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-    //     "name": "Sunil Singh",
-    //     "time" : "3h ago",
-    //     "selected" : false,
-    //   },
-    //   {
-    //     "header" : "Pay Bill",
-    //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-    //     "name": "Sunil Singh",
-    //     "time" : "3h ago",
-    //     "selected" : false,
-    //   }]
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.loadCustomRankingList();
@@ -202,33 +103,110 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
+    if (!this.inlineManual.checkVisibility('RESULT_RANKING')) {
+      this.inlineManual.openHelp('RESULT_RANKING')
+      this.inlineManual.visited('RESULT_RANKING')
+    }
   }
   loadCustomRankingList() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       if (this.queryPipelineId) {
-        this.getcustomizeList(20, 0);
+        this.getFieldAutoComplete();
       }
     }
   }
-  multiplyAction(value){
-    let count = value/0.25
-    if(count > 4){
+  getFieldAutoComplete() {
+    let query: any = '';
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      query
+    };
+    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
+      this.fieldData = res;
+      this.getSettings('fullSearch');
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
+  }
+  multiplyAction(value) {
+    let count = value / 0.25
+    if (count > 4) {
       let data = count - 4;
       return data
-    }else {
+    } else {
       let data = 4 - count;
-      return data >= 0 ? data : -1*(data)
+      return data >= 0 ? data : -1 * (data)
     }
   }
   showLogs() {
     this.resultLogs = true;
   }
   paginate(event) {
-    this.getcustomizeList(event.limit, event.skip);
+    this.getcustomizeList(10, event.skip);
     //event.limit;
     //event.skip;
+  }
+  getSettings(interfaceType) {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      interface: interfaceType,
+      indexPipelineId: this.indexPipelineId
+    };
+    this.service.invoke('get.SI_settingInterface', quaryparms).subscribe(res => {
+      if (res && res.appearance) {
+        let isStructured = '';
+        res.appearance.forEach(element => {
+          if (element.type == 'structuredData' && element.templateId) {
+            isStructured = element.templateId;
+          }
+        });
+        if (isStructured) {
+          this.getTemplate(isStructured);
+        } else {
+          this.getcustomizeList(10, 0);
+        }
+      }
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to fetch Setting Informations');
+      //this.selectedSettingResultsObj = new selectedSettingResults()
+    });
+  }
+  getTemplate(templateId) {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      templateId: templateId,
+      indexPipelineId: this.indexPipelineId
+    };
+    this.service.invoke('get.SI_searchResultTemplate', quaryparms).subscribe(res => {
+      let strucDataHeadingId = res.mapping.heading;
+      this.fieldData.forEach(element => {
+        if (element._id == res.mapping.heading) {
+          this.strucDataHeading = element.fieldName;
+        }
+      });
+      let strucDataDecId = res.mapping.description;
+      this.fieldData.forEach(element => {
+        if (element._id == res.mapping.description) {
+          this.strucDataDec = element.fieldName;
+        }
+      });
+
+      this.getcustomizeList(10, 0);
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to fetch Template');
+    });
+  }
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message) {
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+    }
   }
   resetCustomization() {
     const quaryparms: any = {
@@ -251,7 +229,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         title: 'Restore Customization',
         text: 'Are you sure you want to Reset',
         newTitle: 'Are you sure you want to Reset?',
-        body: 'Selected customizations will be Reset once you proceed.',
+        body: 'All the customizations done on the selected queries will be removed.',
         buttons: [{ key: 'yes', label: 'Reset', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true,
       }
@@ -317,14 +295,14 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           // let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
           // texBox.value = this.selectedRecord.searchQuery;
           var link = document.getElementById('search') as HTMLDataElement;
-            link.value = this.selectedRecord.searchQuery;
-            $('#search').addClass('from-result-ranking');
-            link.click();
+          link.value = this.selectedRecord.searchQuery;
+          $('#search').addClass('from-result-ranking');
+          link.click();
           // link.focus();
           // document.getElementsByClassName('search-button')[0].removeAttribute('disabled')
           // let go = document.getElementsByClassName('search-button')[0] as HTMLBaseElement;
           // go.click();
-          
+
           var box = document.getElementById('searchBox') as HTMLDataElement;
           box.style.display = "block"
           var container = document.getElementById('searchChatContainer') as HTMLDataElement;
@@ -358,7 +336,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     this.collectedRecord = [];
     this.resultSelected = false;
     this.disableDiv = false;
-    this.getcustomizeList(20, 0);
+    this.getcustomizeList(10, 0);
   }
   selectAll() {
     //this.collectedRecord = [];
@@ -469,11 +447,23 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
         }
         if (this.actionLogData[i].target.contentType == 'faq') {
-          if (this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.split(/^\r\n/)) {
-            this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.replace(/\u21b5/g, '');
-          } else {
-            this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload
+          if (this.actionLogData[i].target.contentInfo._source.faq_answer[0].text) {
+            this.actionLogData[i].target.contentInfo._source['faqDesc'] = this.actionLogData[i].target.contentInfo._source.faq_answer[0].text;
           }
+
+          // if (this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.split(/^\r\n/)) {
+          //   this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.replace(/\u21b5/g, '');
+          // } else {
+          //   this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload
+          // }
+
+        }
+        if (this.actionLogData[i].target.contentType == 'data') {
+          if (this.actionLogData[i].target.contentInfo._source) {
+            this.actionLogData[i].target.contentInfo._source['strucDataHeadingDis'] = this.actionLogData[i].target.contentInfo._source[this.strucDataHeading];
+            this.actionLogData[i].target.contentInfo._source['strucDataDecDis'] = this.actionLogData[i].target.contentInfo._source[this.strucDataDec];
+          }
+
 
         }
       }
@@ -541,7 +531,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           this.service.invoke('delete.CustomizatioLog', quaryparms).subscribe(res => {
             dialogRef.close();
             this.notificationService.notify('Removed Successfully', 'success');
-            this.getcustomizeList(20, 0);
+            this.getcustomizeList(10, 0);
             this.actionLogData = [];
             this.customizeList = [];
             //console.log(res);
@@ -592,6 +582,14 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         let time = this.customizeLog[i].createdOn
         this.customizeLog[i].createdOn = moment(time).fromNow()
         this.customizeLog[i]['selected'] = false;
+        if (this.customizeLog[i].target.contentType == 'data') {
+          if (this.customizeLog[i].target.contentInfo._source) {
+            this.customizeLog[i].target.contentInfo._source['strucDataHeadingDis'] = this.customizeLog[i].target.contentInfo._source[this.strucDataHeading];
+            this.customizeLog[i].target.contentInfo._source['strucDataDecDis'] = this.customizeLog[i].target.contentInfo._source[this.strucDataDec];
+          }
+
+
+        }
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -626,7 +624,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           this.service.invoke('put.restoreQueryCustomize', quaryparms).subscribe(res => {
             //this.customizeList = res;
             this.selectedRecord = {};
-            this.getcustomizeList(20, 0);
+            this.getcustomizeList(10, 0);
             this.actionLogData = [];
             this.customizeList = [];
             this.notificationService.notify('Reset Successful', 'success');
@@ -646,7 +644,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
 
   }
   getcustomizeList(limit?, skip?) {
-    limit ? limit : 20;
+    limit ? limit : 10;
     skip ? skip : 0;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -694,6 +692,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       }
       else {
         this.loadingContent1 = true;
+        // if(!this.inlineManual.checkVisibility('RESULT_RANKING')){
+        //   this.inlineManual.openHelp('RESULT_RANKING')
+        //   this.inlineManual.visited('RESULT_RANKING')
+        // }
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -722,6 +724,20 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   closeLogs() {
     this.resultLogs = false;
+  }
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchSources = '';
+      this.activeClose = false;
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    $('#inputSearch').focus();
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+      $('#inputSearch').focus();
+    }, 500)
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;

@@ -13,6 +13,7 @@ export class AppUrlsService {
   }
   marketURL() {
     return  this.WINDOW.location.protocol + '//' + this.WINDOW.location.host + '/accounts';
+    //return 'http://localhost:8000';
   }
   completeAppPath() {
     return this.WINDOW.location.href;
@@ -20,7 +21,7 @@ export class AppUrlsService {
   public getLoginRedirectURL(): string {
     const redirectedUrl = this.completeAppPath();
     // tslint:disable-next-line:max-line-length
-    return this.marketURL() + '/?return_to=' + redirectedUrl + '&showLogin=true&hideSSOButtons=true&hideResourcesPageLink=true';
+    return this.marketURL() + '/?return_to=' + redirectedUrl + '&showLogin=true&hideSSOButtons=true&hideResourcesPageLink=true&comingFromKey=isSearchAssist';
   }
   public redirectToLogin() {
     const redirectUrl = this.getLoginRedirectURL();

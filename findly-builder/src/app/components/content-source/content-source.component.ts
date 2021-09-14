@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy, TestabilityRegistry } from '@a
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { AuthService } from '@kore.services/auth.service';
@@ -17,7 +18,11 @@ import { fromEvent } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 
+import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
+declare var require: any
+const FileSaver = require('file-saver');
 @Component({
   selector: 'app-content-source',
   templateUrl: './content-source.component.html',
@@ -33,13 +38,21 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingcheckForUpdate = false;
   isEditDoc: boolean = false;
   editDocObj: any = {};
+  isEdittitle;
+  contentId
+  content_id;
+  edit: any = {};
+  Id;
   editConfObj: any = {};
   editTitleFlag: boolean = false;
   isConfig: boolean = false;
+  numberOf: any = {};
   allowUrl: AllowUrl = new AllowUrl()
   blockUrl: BlockUrl = new BlockUrl();
   allowUrlArr: AllowUrl[] = [];
-  blockUrlArr: BlockUrl[] = []
+  blockUrlArr: BlockUrl[] = [];
+  activeClose = false;
+  oldQuedJob = [];
   filterSystem: any = {
     'typeHeader': 'type',
     'statusHeader': 'status',
@@ -61,8 +74,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   btnCount;
   btnAllCount;
   pagingData: any[] = [];
-  statusArr = [];
-  docTypeArr = [];
+  statusArr;
+  docTypeArr;
   selectedFilter: any = ''
   executionLogStatus = false;
   componentType: string = 'addData';
@@ -74,11 +87,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     failed: { name: 'Failed', color: '#DD3646' },
     successfull: { name: 'Successfull', color: '#28A745' },
     success: { name: 'Success', color: '#28A745' },
-    queued: { name: 'Queued', color: '#0D6EFD' },
+    queued: { name: 'In-Queue', color: '#0D6EFD' },
     running: { name: 'In Progress', color: '#0D6EFD' },
     inprogress: { name: 'In Progress', color: '#0D6EFD' },
-    validation: { name: 'Queued', color: '#0D6EFD' },
-    scheduled: { name: 'Queued', color: '#0D6EFD' },
+    validation: { name: 'In-Queue', color: '#0D6EFD' },
+    scheduled: { name: 'Validated', color: '#0D6EFD' },
     halted: { name: 'Stopped', color: '#DD3646' },
     configured: { name: 'Validated', color: '#202124' }
   };
@@ -88,6 +101,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       icon: "assets/icons/content/success.svg"
     },
     'Execution Failed': {
+      tooltip: "",
+      icon: "assets/icons/content/failed.svg"
+    },
+    'Execution failed': {
       tooltip: "",
       icon: "assets/icons/content/failed.svg"
     },
@@ -132,6 +149,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   sliderStep = 0;
   selectedPage: any = {};
   selectedSource: any = {};
+  docContent: any = {};
+  docContentType: any = {};
+  resourcesDoc: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
   contentModaltype: any;
@@ -145,10 +165,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isAsc = true;
   selectedSort = '';
   recordStr: number = 1;
-  recordEnd: number = 25;
+  recordEnd: number = 10;
   totalRecord: number = 0;
-  limitpage: number = 25;
-  limitAllpage: number = 25;
+  limitpage: number = 10;
+  limitAllpage: number = 10;
   allInOne: boolean = false;
   urlConditionAllow = "is";
   urlConditionBlock = "is";
@@ -156,8 +176,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   filterTableheaderOption = "";
   filterTableSource = "all";
   execution = false;
-  page = true;
-  executionHistoryData: any;
+  page = false;
+  executionHistoryData: any = [];
   sourceStatus = 'success';
   useCookies = false;
   respectRobotTxtDirectives = false;
@@ -180,6 +200,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
+    public inlineManual: InlineManualService,
+    public dockService: DockStatusService,
+    private appSelectionService: AppSelectionService
   ) { }
 
   ngOnInit(): void {
@@ -198,6 +221,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
+    if (!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')) {
+      this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
+      this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')
+    }
   }
   hoverExecutionLog() {
     this.executionLogStatus = true;
@@ -243,10 +270,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if (min > 0 && sec <= 0) return duration = hr + "h " + min + "m";
         if (min <= 0 && sec <= 0) return duration = hr + "h ";
       } else if (min > 0) {
-        if (sec > 0) return duration = min + "m " + sec + "s" ;
+        if (sec > 0) return duration = min + "m " + sec + "s";
         if (sec <= 0) return duration = min + "m";
       } else if (sec > 0) {
-         return duration = sec + "s";
+        return duration = sec + "s";
       } else if (milisec > 0) {
         return duration = milisec + 'ms';
       } else {
@@ -254,7 +281,36 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     }
   }
-  getSourceList() {
+  convertToDay(repeatOn) {
+    switch (repeatOn) {
+      case 'SUN':
+        return "Sunday";
+
+      case 'MON':
+        return "Monday";
+
+      case 'TUE':
+        return "Tuesday";
+
+      case 'WED':
+        return "Wednesday";
+
+      case 'THU':
+        return "Thursday";
+
+      case 'FRI':
+        return "Friday";
+
+      case 'SAT':
+        return "Saturday";
+
+      default:
+        return '';
+    }
+  }
+  getSourceList(nxt?) {
+    this.statusArr = [];
+    this.docTypeArr = [];
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -264,29 +320,45 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = res;
+      //  this.resourcesDoc=this.resources[0].fileMeta;
+      //element.advanceSettings.scheduleOpts.interval.intervalType
       this.resources.forEach(element => {
         if (element.advanceSettings && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time) {
-          if(element.advanceSettings.scheduleOpts.interval.intervalType !="Custom"){
-            element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' at ' +
-            element.advanceSettings.scheduleOpts.time.hour + ':' + element.advanceSettings.scheduleOpts.time.minute + ' ' +
-            element.advanceSettings.scheduleOpts.time.timeOpt + ' ' + element.advanceSettings.scheduleOpts.time.timezone;
-          }else{
+          if (element.advanceSettings.scheduleOpts.interval.intervalType != "Custom") {
+            let minute = ''
+            let hour = (element.advanceSettings.scheduleOpts.time.hour).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.hour : '0' + element.advanceSettings.scheduleOpts.time.hour;
+            if(element.advanceSettings.scheduleOpts.time.minute){
+               minute = (element.advanceSettings.scheduleOpts.time.minute).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.minute : '0' + element.advanceSettings.scheduleOpts.time.minute;
+            }
+            element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' ' + 'at ' +
+              hour + ':' + minute + ' ' +
+              element.advanceSettings.scheduleOpts.time.timeOpt + ' ' + element.advanceSettings.scheduleOpts.time.timezone;
+          } else {
             let repeatOn = "";
             let schedulePeriod = "";
-            let every = ""
-            if(element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod){
+            let every = "";
+            let date =""
+            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod) {
               schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
-            if(element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn){
-              repeatOn = "on " + element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
+            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
+              repeatOn = " on " + this.convertToDay(element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn);
             }
-            if(element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every > 1){
-              every = element.advanceSettings.scheduleOpts.interval.intervalValue.every;
+            if(element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every){
+              every = element.advanceSettings.scheduleOpts.interval.intervalValue.every
             }
-            element['schedule_title'] = 'Runs once every' + every + schedulePeriod + repeatOn
-           
+            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn) {
+              date =  moment(element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate).format('Do MMMM YYYY');
+            }
+            if(date != 'Invalid date'){
+              element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn + ' till' + ' ' + date
+            }
+            else{
+              element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn 
+            }
+            
           }
-          
+
         }
         if (element.jobInfo.createdOn && element.jobInfo.createdOn != "--") {
           element['schedule_createdOn'] = moment(element.jobInfo.createdOn).fromNow();
@@ -295,7 +367,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00";
           element['schedule_duration'] = this.duration(element['schedule_duration']);
         }
-
+        if(element && element.validations && element.validations.url && !element.validations.url.validated){
+          element['vailadtionTootlip'] = element.validations.url.msg
+        }
         // let hr = element['schedule_duration'].split(":")[0];
         // let min = element['schedule_duration'].split(":")[1];
         // let sec = element['schedule_duration'].split(":")[2];
@@ -335,7 +409,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         source.name = source.name || source.title;
       });
       this.resources = this.resources.reverse();
-      if (this.resources && this.resources.length) {
+      if (this.resources && this.resources.length && !nxt) {
         this.poling('content')
       }
       this.loadingContent = false;
@@ -346,9 +420,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       if (res.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
+        if (!this.inlineManual.checkVisibility('CONTENT_OVERVIEW')) {
+          this.inlineManual.openHelp('CONTENT_OVERVIEW')
+          this.inlineManual.visited('CONTENT_OVERVIEW')
+        }
       }
       else {
         this.loadingContent1 = true;
+        // if(!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')){
+        //   this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
+        //   this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')
+        // }
       }
     }, errRes => {
       console.log(errRes);
@@ -373,6 +455,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           this.resourcesStatusObj[element._id] = element;
         });
       }
+
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
     });
@@ -394,29 +477,43 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       type
     };
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
+      this.oldQuedJob = [];
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
-
+        if (source.status == 'success') {
+          let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+          if (currentPlan?.subscription?.planId == 'fp_free') {
+            this.appSelectionService.updateUsageData.next('updatedUsage');
+          }
+        }
+        if (source.status == 'running' || source.status == 'queued') {
+          if (source.numPages == 0 || source.numPages == '') {
+            this.oldQuedJob.push(source._id);
+          }
+        }
         if (this.resourcesStatusObj[source._id]) {
           if (this.resourcesStatusObj[source._id].status == 'running' || this.resourcesStatusObj[source._id].status == 'queued') {
             if (source.executionStats.percentageDone && source.executionStats.percentageDone == 100) {
-              this.getJobDetails(source._id)
+              // this.getJobDetails(source._id)
               this.getSourceList();
             }
           }
         }
-
         this.resourcesStatusObj[source._id] = source;
 
         return ((source.status === 'running') || (source.status === 'queued'));
       });
       if (queuedJobs && queuedJobs.length) {
-        console.log(queuedJobs);
+        if (this.oldQuedJob.length != queuedJobs.length) {
+          this.getSourceList();
+        }
       } else {
         clearInterval(this.polingObj[type]);
+        this.getSourceList('clearPoling');
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
+      this.oldQuedJob = [];
       clearInterval(this.polingObj[type]);
     });
   }
@@ -438,27 +535,28 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       skip,
       sourceType: this.selectedSource.type
     };
-    if (quaryparms.sourceType === 'webdomain') {
+    if (quaryparms.sourceType === 'web') {
       quaryparms.contentType = 'pages'
     }
-    if (quaryparms.sourceType === 'document') {
+    if (quaryparms.sourceType === 'file') {
       quaryparms.contentType = 'docContent'
     }
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
+      this.loadingSliderContent = false;
       this.selectedSource.pages = res;
+      if (this.selectedSource.pages.length > 0) {
+        this.docContent = this.selectedSource.pages[0]._source;
+        this.docContentType = this.selectedSource.pages[0]._meta;
+        this.contentId = this.selectedSource.pages[0]._id;
+      }
       /** Paging */
-
       const data = [...res]
       this.pagingData = data.slice(0, this.limitpage);
       this.pagingData.forEach(element => {
-        element['url_display'] = element._source.url;
+        element['url_display'] = element._source.page_url;
       });
-
       /** Paging */
       this.sliderStep = 0;
-
-
-      this.loadingSliderContent = false;
       //this.selectedSource.advanceSettings.scheduleOpts = new scheduleOpts();
       this.allowUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.allowedURLs : [];
       this.blockUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.blockedURLs : [];
@@ -469,26 +567,35 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       } else {
         this.crwalOptionLabel = 'Crawl Everything'
       }
-      this.swapSlider('page')
+      if (data.length) {
+        this.swapSlider('page');
+      }
+      else {
+        this.swapSlider('config')
+      }
+      this.clicksViews('file')
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
       //   $('.tabname')[1].classList.remove('active');
       //   $('.tabname')[0].classList.add('active');
       // }
       // this.isConfig = false;
     }, errRes => {
-      this.loadingSliderContent = false;
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.loadingSliderContent = false;
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
       } else {
         this.notificationService.notify('Failed to crawl web page', 'error');
       }
     });
   }
+
   viewPages() {
     this.sliderStep = 0;
   }
-  viewPageDetails() {
+  viewPageDetails(page) {
+    this.content_id = page._id
     this.sliderStep = 1;
+    this.clicksViews('web');
   }
   sliderBack() {
     if (this.sliderStep) {
@@ -512,21 +619,33 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.isConfig = true;
         this.page = false;
       } else if (tabName == 'page') {
+        // if(this.selectedSource.recentStatus == 'success'){
+        this.page = true;
+        this.isConfig = false;
+        this.execution = false;
+        // }
+        // else{
+        //   this.page = false;
+        //   this.isConfig = true;
+        //   this.execution = false;
+        // }
+
         // $('.tabname')[0].classList.add('active');
         // $('.tabname')[1].classList.remove('active');
         // $('.tabname')[2].classList.remove('active');
-        if (this.selectedSource.recentStatus == 'success') {
-          this.execution = false;
-          this.isConfig = false;
-          this.page = true;
-        } else {
-          this.execution = false;
-          this.isConfig = true;
-          this.page = false;
-        }
+        // if (this.selectedSource.recentStatus == 'success' || (this.selectedSource.recentStatus == 'running' && this.selectedSource.numPages > 0) || (this.selectedSource.recentStatus == 'inprogress' && this.selectedSource.numPages > 0)) {
+        //   this.execution = false;
+        //   this.isConfig = false;
+        //   this.page = true;
+        // } else {
+        //   this.execution = false;
+        //   this.isConfig = true;
+        //   this.page = false;
+        // }
 
       }
     }
+    this.editTitleFlag = false;
     // $('.tabname').toggleClass("active");
     // if (this.isConfig) {
     //   this.isConfig = false;
@@ -566,6 +685,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             }
           } else if (element.executionStats.executionStatusMessage == 'Execution Stopped') {
             element.executionStats['tooltip'] = "Execution Stopped due to " + element.statusMessage || ' time out';
+          } else if (element.executionStats.executionStatusMessage == 'Execution In Progress') {
+            element.executionStats['tooltip'] = "In Progress";
+          } else {
+            element.executionStats['tooltip'] = element.statusMessage;
           }
         });
       }
@@ -580,8 +703,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
 
   }
-  openStatusSlider(source) {
+  openStatusSlider(source, page?) {
     console.log("sourec opned", source)
+    
+    this.executionHistoryData = [];
+    this.pagesSearch = '';
+
     // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
     //   this.notificationService.notify('Source extraction is still in progress', 'error');
     //   return;
@@ -592,7 +719,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.selectedSource = source;
     this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
     //this.pageination(source.numPages, 10)
-    if (source.extractionType === 'webdomain') {
+    if (source.extractionType === 'web') {
       if (source.advanceSettings) {
         this.useCookies = source.advanceSettings.useCookies;
         this.respectRobotTxtDirectives = source.advanceSettings.respectRobotTxtDirectives;
@@ -610,6 +737,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.getCrawledPages(this.limitpage, 0);
       this.executionHistory();
       this.sourceStatus = source.recentStatus;
+     
       // if(this.sourceStatus === 'success'){
       //    this.execution = false;
       //    this.isConfig = false;
@@ -620,9 +748,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       //   this.page = false;
       // }
     }
-    else if (source.extractionType === 'document') {
+    else if (source.extractionType === 'file') {
       this.openDocumentModal();
-      this.getCrawledPages(this.limitpage, 0);
+      this.getCrawledPages(this.limitpage, 0);    
     }
     // this.sliderComponent.openSlider('#sourceSlider', 'right500');
     //}
@@ -681,7 +809,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     if (type == 'history') {
       this.executionHistory()
     } else {
-      this.getCrawledPages(event.limit, event.skip);
+      this.getCrawledPages(10, event.skip);
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop(2, 1000);
     }
@@ -786,7 +914,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       data: {
         title: 'Delete Document',
         newTitle: 'Are you sure you want to delete?',
-        body: 'The selected document will be deleted.',
+        body: 'All the Docs associated with this source will be deleted.',
         buttons: [{ key: 'yes', label: 'delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -814,7 +942,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         title: from == 'source' ? 'Delete Source ' : ' Delete Page',
         text: 'Are you sure you want to delete?',
         newTitle: 'Are you sure you want to delete?',
-        body: 'All the Pages associated with this source will be deleted.',
+        body: from == 'source' ? 'All the Pages associated with this source will be deleted.' : 'Selected Page will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -849,10 +977,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       contentId: page._id
     }
     const payload: any = {
-      url: page._source.url
+      url: page._source.page_url
     }
     this.service.invoke('check.forUpdates', quaryparms, payload).subscribe(res => {
       this.loadingcheckForUpdate = false;
+      this.dockService.trigger(true);
       if (res._meta.updateAvailable) {
         this.notificationService.notify('A new version of this page is available', 'success');
       } else {
@@ -876,9 +1005,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       jobId: page.jobId
     }
     const payload: any = {
-      url: page._source.url
+      url: page._source.page_url
     }
     this.service.invoke('reCrwal.website', quaryparms, payload).subscribe(res => {
+      this.dockService.trigger(true);
       this.notificationService.notify('Re-Crawling Initiated', 'success');
     }, errRes => {
       this.errorToaster(errRes, 'Failed to Re-Crawl');
@@ -922,6 +1052,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.resources.splice(deleteIndex, 1);
       }
       this.closeStatusModal();
+      let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
+      if (currentPlan?.subscription?.planId == 'fp_free') {
+        this.appSelectionService.updateUsageData.next('updatedUsage');
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete source');
     });
@@ -937,10 +1071,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       contentId: page._id,
       sourceType: this.selectedSource.type
     }
-    if (quaryparms.sourceType === 'webdomain') {
+    if (quaryparms.sourceType === 'web') {
       quaryparms.contentType = 'pages'
     }
-    if (quaryparms.sourceType === 'document') {
+    if (quaryparms.sourceType === 'file') {
       quaryparms.contentType = 'docContent'
     }
     this.service.invoke('delete.content.page', quaryparms).subscribe(res => {
@@ -1164,12 +1298,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   };
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
+    this.editTitleFlag = false;
+    setTimeout(() => {
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
   closeStatusModal() {
     this.swapSlider('page') // Just to redirect to 1st page
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
+    this.editTitleFlag = false;
   }
   openAddSourceModal() {
     this.addSourceModalPopRef = this.addSourceModalPop.open();
@@ -1220,7 +1360,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   updateRecord(i, allowUrls, option, type) {
     //selectedSource.advanceSettings.allowedURLs
     let payload = {}
-    let resourceType = this.selectedSource.extractionType;
+    // let resourceType = this.selectedSource.extractionType;
     let crawler = new CrwalObj()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -1239,13 +1379,22 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
     crawler.advanceOpts.crawlDepth = this.crawlDepth;
     crawler.advanceOpts.maxUrlLimit = this.maxUrlLimit;
+    crawler.advanceOpts.crawlEverything = false;
     if (option == 'add') {
       type == 'block' ? crawler.advanceOpts.blockedURLs.push(allowUrls) : crawler.advanceOpts.allowedURLs.push(allowUrls);
     } else {
       type == 'block' ? crawler.advanceOpts.blockedURLs.splice(i, 1) : crawler.advanceOpts.allowedURLs.splice(i, 1);
     }
-
-    crawler.resourceType = resourceType;
+    if(type == 'block'){
+        crawler.advanceOpts.allowedOpt = false;
+        crawler.advanceOpts.blockedOpt = true;
+      crawler.advanceOpts.allowedURLs = [];
+    }else{
+        crawler.advanceOpts.allowedOpt = true;
+        crawler.advanceOpts.blockedOpt = false;
+      crawler.advanceOpts.blockedURLs = [];
+    }
+    // crawler.resourceType = resourceType; 
     payload = crawler;
     console.log(payload);
 
@@ -1281,8 +1430,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       sourceType: record.type,
     };
     this.service.invoke('recrwal', quaryparms).subscribe(res => {
-      this.getSourceList();
+      this.dockService.trigger(true);
       this.notificationService.notify('Re-Crawling Initiated', 'success');
+      this.getSourceList();
       this.closeStatusModal();
       //this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
     }, errRes => {
@@ -1391,17 +1541,40 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     } else {
       delete crawler.advanceOpts.maxUrlLimit;
     }
-
+    // if(this.allowUrl.url){
+    //   this.allowUrls(this.urlConditionAllow,  this.allowUrl, this.allowUrl.url);
+    // }
+    // if(this.blockUrl.url){
+    //   this.blockUrls(this.blockUrl);
+    // }
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
     crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
     crawler.advanceOpts.allowedURLs.length > 0 || crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.crawlEverything = false : crawler.advanceOpts.crawlEverything = true;
-    if (resourceType != 'webdomain') {
-      crawler.resourceType = resourceType;
-    }
-    else {
-      delete crawler.resourceType;
+    // if (resourceType != 'web') {
+    //   crawler.resourceType = resourceType;
+    // }
+    // else {
+    //   delete crawler.resourceType;
+    // }
+    if(this.selectedSource.advanceSettings.crawlEverything){
+      crawler.advanceOpts.crawlEverything = true;
+      crawler.advanceOpts.allowedOpt = false;
+      crawler.advanceOpts.blockedOpt = false;
+      crawler.advanceOpts.allowedURLs = [];
+      crawler.advanceOpts.blockedURLs = [];
+    }else{
+      crawler.advanceOpts.crawlEverything = false;
+      if(this.selectedSource.advanceSettings.allowedOpt){
+        crawler.advanceOpts.allowedOpt = true;
+        crawler.advanceOpts.blockedOpt = false;
+        crawler.advanceOpts.blockedURLs = [];
+      }else if(this.selectedSource.advanceSettings.blockedOpt){
+        crawler.advanceOpts.allowedOpt = false;
+        crawler.advanceOpts.blockedOpt = true;
+        crawler.advanceOpts.allowedURLs = [];
+      }
     }
     payload = crawler;
     //console.log(payload);
@@ -1425,6 +1598,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.editTitleFlag = false;
         this.getSourceList();
         this.closeStatusModal();
+        this.dockService.trigger(true);
       }, errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -1501,20 +1675,45 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.selectedSource.advanceSettings.crawlEverything = true;
     }
   }
-  //crawl job ondemand
-  jobOndemand(source, event) {
-    console.log("jobOndemand", source)
+  //retry failed url validation
+  retryValidation(source, event) {
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
+    this.closeStatusModal()
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      sourceId: source._id
+    };
+    const payload = {
+      url: source.url
+    }
+    this.service.invoke('put.retryValidation', quaryparms, payload).subscribe(res => {
+      this.getSourceList();
+      this.dockService.trigger(true);
+    }, errRes => {
+      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed retry validation', 'error');
+      }
+    });
+  }
+  //crawl job ondemand
+  jobOndemand(source, event) {
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    this.closeStatusModal()
     const queryParams: any = {
       searchIndexID: this.serachIndexId,
       sourceId: source._id
     };
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
-      console.log(res);
       this.getSourceList();
+      this.dockService.trigger(true);
       //this.notificationService.notify('Bot linked, successfully', 'success');
     },
       (err) => {
@@ -1538,7 +1737,50 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.showSearch = !this.showSearch
   }
- 
+  focusoutSearch(isSearchSource?) {
+    if (this.activeClose) {
+      if (isSearchSource) {
+        this.searchSources = '';
+      } else {
+        this.pagesSearch = '';
+      }
+      this.activeClose = false;
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
+  }
+  downloadDoc(url) {
+    FileSaver.saveAs(url + '&DownloadPdf=true');
+  }
+  checkValue(value) {
+    console.log()
+    if (value <= -1) {
+      this.crawlDepth = 0;
+      this.maxUrlLimit = 0;
+    }
+  }
+  
+  clicksViews(type) {
+    if(type == 'file'){
+      this.Id = this.contentId;
+    }
+    else if(type == 'web'){
+      this.Id = this.content_id
+    }
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      contentId: this.Id,
+    };   
+    this.service.invoke('get.clicksViewsContent', quaryparms).subscribe(res => {
+      console.log(res);
+      this.numberOf = res;
+    }, errRes => {
+    });
+  }
 }
 
 // class CrwalObj{  

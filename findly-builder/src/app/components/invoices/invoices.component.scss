@@ -1,4 +1,23 @@
 .invoice-container{
+    .mainLoadingSpinner{
+        position: absolute;
+        top: 45%;
+        left: 45%;  
+        background:  transparent;
+        width: 180px;
+        height: 40px;
+        padding-top: 10px;
+        border-radius: 4px;
+        opacity: 0.95;
+        padding-left: 5px;
+        .please-wait-message {
+            position: relative;
+            color: #29293b;
+            top: -16px;
+            left: 25px;
+            font-size: 12px;
+        }  
+    }
     .header-sec {       
         display: flex;
         align-items: center;
@@ -56,7 +75,7 @@
         border: 1px solid #E7F1FF;
         box-sizing: border-box;
         border-radius: 4px;
-        width: 181px;
+        // width: 181px;
         height: 56px;
         align-items: center;
         padding: 10px 15px;
@@ -98,6 +117,27 @@
                 line-height: 14px;
                 padding: 0 10px;
             }
+
+            .col_{               
+                cursor: pointer;         
+                .sortImg{                                                       
+                    position: static;
+                    &.upArrow {
+                        transform: none !important;
+                    }
+                    &.downArrow {
+                        transform: rotate(180deg) !important;
+                        top: -1px !important;
+                        position: relative;
+                    }
+                    &.assending{
+                        transform: rotate(180deg);
+                    }
+                    &.decending{
+                        transform: rotate(0deg);
+                    }
+                }            
+            }
         }
         .invoice-table-body{
             margin: 0;            
@@ -134,6 +174,26 @@
                     padding: 0 10px;
                 }
             }
+        }
+    }
+    .empty-invoice{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: calc(100vh - 140px);
+        width: 410px;
+        margin: 0 auto;
+        text-align: center;
+        .img-block img{
+            width: 405px;
+        }
+        .empty-text{
+            color: #3C4043;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 22px;
+            margin-top: 20px;
         }
     }
 }

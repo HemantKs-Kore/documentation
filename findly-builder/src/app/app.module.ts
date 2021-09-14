@@ -75,6 +75,7 @@ import { SortPipe } from './helpers/sortPipe/sort-pipe';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NouisliderModule } from 'ng2-nouislider';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import * as echarts from 'echarts';
 import { StopWordsComponent } from './components/stop-words/stop-words.component';
 import { WeightsComponent } from './components/weights/weights.component';
@@ -113,6 +114,7 @@ import { InvoicesComponent } from './components/invoices/invoices.component';
 import { UsageLogComponent } from './components/usage-log/usage-log.component';
 import { RangeSliderSearchExperienceComponent } from './helpers/components/range-slider-search-experience/range-slider-search-experience.component';
 import { UpgradePlanComponent } from './helpers/components/upgrade-plan/upgrade-plan.component';
+import { valueFormatPipe } from './helpers/filters/number-format.pipe';
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
@@ -196,6 +198,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     UsageLogComponent,
     RangeSliderSearchExperienceComponent,
     UpgradePlanComponent,
+    valueFormatPipe,
     GeneralSettingsComponent
   ],
   imports: [
@@ -222,6 +225,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     Ng5SliderModule,
     NouisliderModule,
     ColorPickerModule,
+    PickerModule,
     NgxEchartsModule.forRoot({
       echarts: { init: echarts.init }
     }),

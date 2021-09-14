@@ -43,7 +43,7 @@
             box-sizing: border-box;
             border-radius: 8px;
             padding: 3px 4px;
-            margin-right: 16px;
+            // margin-right: 16px;
             .time {
                 background: #fff;
                 border-radius: 4px;
@@ -170,24 +170,6 @@
     }
 }
 
-.table_header{
-    &.no-scroll{
-        padding: 16px 15px;   
-        align-items: center;
-        box-shadow: inset 0px -1px 0px #E4E5E7;  
-        margin: 0 30px;               
-        .title{
-            padding: 0 5px;
-            font-style: normal;
-            font-weight: 500;
-            font-size: 12px;
-            line-height: 14px;
-            text-transform: capitalize;
-            color: #9AA0A6;
-            word-break: break-word;
-        }
-    }                        
-}
 .table_data_content {
     padding: 0;
     .table_header {
@@ -234,7 +216,7 @@
             }
         }
         .title {
-            padding: 0 5px;
+            padding: 0 5px 0 16px;
             font-style: normal;
             font-size: 14px;
             line-height: 14px;
@@ -274,6 +256,21 @@
 
 ::ng-deep .modal_popups_ {
     &.view-query-modal {
+        .table_header {
+            padding: 16px 15px;
+            align-items: center;
+            box-shadow: inset 0px -1px 0px #E4E5E7;
+            margin: 0 30px !important;
+            .title {
+                padding: 0 5px;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 14px;
+                text-transform: capitalize;
+                color: #9AA0A6;
+            }
+        }
         .modal-header {
             padding: 25px 30px 15px 30px;
             position: relative;

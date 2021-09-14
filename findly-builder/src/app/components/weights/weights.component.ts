@@ -11,6 +11,8 @@ import * as _ from 'underscore';
 import { Observable, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 @Component({
   selector: 'app-weights',
   templateUrl: './weights.component.html',
@@ -40,12 +42,14 @@ export class WeightsComponent implements OnInit, OnDestroy {
   submitted : boolean = false;
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef<HTMLInputElement>;
   @ViewChild('addDditWeightPop') addDditWeightPop: KRModalComponent;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   constructor(
     public dialog: MatDialog,
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    public inlineManual : InlineManualService
   ) { }
   selectedApp: any = {};
   serachIndexId;
@@ -115,6 +119,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
         }
         this.weights.push(obj);
         console.log("weight noe ", this.weights);
+       
       });
     }
     this.loadingContent = false;
@@ -173,6 +178,10 @@ export class WeightsComponent implements OnInit, OnDestroy {
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
       this.pipeline = res.pipeline || {};
       this.prepereWeights();
+      if(!this.inlineManual.checkVisibility('WEIGHTS')){
+        this.inlineManual.openHelp('WEIGHTS')
+        this.inlineManual.visited('WEIGHTS')
+      }
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get weights');
@@ -192,11 +201,28 @@ export class WeightsComponent implements OnInit, OnDestroy {
     // this.addEditWeighObj = editWeight;
     // this.openAddEditWeight();
   }
+  getAllFields(){
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+    };
+    let serviceId = 'get.allFieldsData';
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+      this.fields = res.fields || [];
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
+  }
   openAddEditWeight() {
     this.searchModel = {};
     this.sliderOpen = true;
     this.submitted = false;
+    this.getAllFields();
     this.addDditWeightPopRef = this.addDditWeightPop.open();
+    setTimeout(()=>{
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(); 
+    },500)
   }
   openAddNewWeight() {
     this.addEditWeighObj = {
@@ -205,7 +231,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
       isField: true,
       sliderObj: new RangeSlider(0, 10, 1, 2, 'editSlider')
     };
-    this. getFieldAutoComplete(''); 
+    // this. getFieldAutoComplete(''); 
     this.openAddEditWeight();
   }
   closeAddEditWeight() {
@@ -334,6 +360,14 @@ export class WeightsComponent implements OnInit, OnDestroy {
           console.log('deleted')
         }
       })
+  }
+  modifyFieldWarningMsg(warningMessage){
+    let index = warningMessage.indexOf("changed");
+    if(index > -1){
+      return true;
+    }else{
+      return false;
+    }
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;

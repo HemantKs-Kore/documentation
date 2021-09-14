@@ -1,13 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
+import { InlineManualService } from '@kore.services/inline-manual.service'
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
 import * as moment from 'moment';
 declare const $: any;
+import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { Subscription } from 'rxjs';
 @Component({
@@ -16,11 +18,13 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./app-experiments.component.scss']
 })
 export class AppExperimentsComponent implements OnInit {
-  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog, private appSelectionService: AppSelectionService) { }
+  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog, private appSelectionService: AppSelectionService, public inlineManual: InlineManualService) { }
   addExperimentsRef: any;
   selectedApp: any;
   serachIndexId: any;
-  showSearch;
+  showSearch = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   select_config: any;
   searchFields: any = '';
   variantsArray: any = [];
@@ -29,6 +33,7 @@ export class AppExperimentsComponent implements OnInit {
     variants: this.variantsArray,
     duration: { days: 30 }
   }
+  activeClose = false;
   conn: any = [true, true];
   tool: any = [true];
   star: any = [100];
@@ -37,6 +42,8 @@ export class AppExperimentsComponent implements OnInit {
   someRangeconfig: any = null;
   @ViewChild('addExperiments') addExperiments: KRModalComponent;
   @ViewChild('sliderref') sliderref;
+  @ViewChild('plans') plans: UpgradePlanComponent;
+  // variantList = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }];
   variantList = [{ color: '#7027E5', code: 'A' }, { color: '#28A745', code: 'B' }, { color: '#EF9AA3', code: 'C' }, { color: '#0D6EFD', code: 'D' }];
   // add Experiment
   form_type;
@@ -62,21 +69,33 @@ export class AppExperimentsComponent implements OnInit {
   exp_skipPage: number = 0;
   test = 33.33;
   loadingContent1: boolean;
-  indexSubscription: Subscription;
-  searchSubscription: Subscription;
+  currentSubscriptionPlan: any;
+  currentSubsciptionData: Subscription;
+  componentType: string = "experiment";
   ctrTooltip: string = 'Click Through Rate is the percentage of searches which got at least one click of all the searches performed';
-  ngOnInit(): void {
+  async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getExperiments();
-    this.setSliderDefaults();
-    this.getIndexPipeline();
-    // this.indexSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
-    //   this.indexConfig = res;
-    // })
-    // this.searchSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
-    //   this.queryPipeline = res;
-    // })
+    //this.currentsubscriptionPlan(this.selectedApp)
+    await this.appSelectionService.getCurrentSubscriptionData();
+    this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
+      this.currentSubscriptionPlan = res.subscription;
+      if (this.currentSubscriptionPlan.planId != 'fp_free') {
+        this.getExperiments();
+        this.setSliderDefaults();
+        this.getIndexPipeline();
+      }
+      else if (this.currentSubscriptionPlan.planId == 'fp_free') {
+        this.loadingContent1 = true;
+      }
+    })
+  }
+  //when ever upgrade done in experiment page event emitter will call
+  upgradeComplete() {
+    if (!this.inlineManual.checkVisibility('EXPERIMENTS')) {
+      this.inlineManual.openHelp('EXPERIMENTS')
+      this.inlineManual.visited('EXPERIMENTS')
+    }
   }
   loadImageText: boolean = false;
   imageLoaded() {
@@ -173,7 +192,6 @@ export class AppExperimentsComponent implements OnInit {
       this.experimentObj.duration.days = data.duration.days;
       this.setSliderDefaults();
       this.showTraffic(this.variantsArray.length, 'add');
-
     }
     else {
       this.showSlider = false;
@@ -377,7 +395,7 @@ export class AppExperimentsComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       offset: this.exp_skipPage,
-      limit: this.exp_limitPage,
+      limit: 10,
       state: 'all'
     };
     this.service.invoke('get.experiment', quaryparms, header).subscribe(res => {
@@ -388,7 +406,7 @@ export class AppExperimentsComponent implements OnInit {
         let days = moment().diff(moment(data.end), 'days');
         let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
         let res_obj = data.variants.reduce((p, c) => p.ctr > c.ctr ? p : c);
-        return { ...data, total_days: days_result, time_result: Math.abs(hours), top_leader: res_obj.code };
+        return { ...data, total_days: days_result, time_result: Math.abs(hours), top_leader: res_obj.ctr > 0 ? res_obj.code : null };
       });
       this.listOfExperiments = result;
       this.filterExperiments = result;
@@ -399,7 +417,13 @@ export class AppExperimentsComponent implements OnInit {
         this.loadingContent1 = true;
       }
       else {
+        this.loadingContent = false;
         this.loadingContent1 = true;
+        //this.inlineManual.getInlineSuggestionData();
+        if (!this.inlineManual.checkVisibility('EXPERIMENTS')) {
+          this.inlineManual.openHelp('EXPERIMENTS')
+          this.inlineManual.visited('EXPERIMENTS')
+        }
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -430,7 +454,9 @@ export class AppExperimentsComponent implements OnInit {
   // add new experiment method
   async createExperiment() {
     if (this.variantsArray[0].indexPipelineId === undefined) {
-      this.variantsArray[0] = { ...this.variantsArray[0], indexPipelineId: this.indexConfig[0]._id, queryPipelineId: this.queryPipeline[0]._id };
+      let index = this.indexConfig.filter(index => index.default == true);
+      let query = this.queryPipeline.filter(query => query.default == true);
+      this.variantsArray[0] = { ...this.variantsArray[0], indexPipelineId: index[0]._id, queryPipelineId: query[0]._id };
     }
     if (this.someRange !== undefined) {
       await this.sliderPercentage();
@@ -482,7 +508,6 @@ export class AppExperimentsComponent implements OnInit {
   }
   validateSource() {
     let validField = true;
-
     if (!this.experimentObj.name) {
       $("#enterName").css("border-color", "#DD3646");
       $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
@@ -497,15 +522,17 @@ export class AppExperimentsComponent implements OnInit {
         // this.notificationService.notify('Enter the required fields to proceed', 'error');
         validField = false
       }
-      if (!element.indexPipelineName) {
-        $("#indexPipelineName" + i).css("border-color", "#DD3646");
-        // this.notificationService.notify('Enter the required fields to proceed', 'error');
-        validField = false
-      }
-      if (!element.queryPipelineName) {
-        $("#queryPipelineName" + i).css("border-color", "#DD3646");
-        // this.notificationService.notify('Enter the required fields to proceed', 'error');
-        validField = false
+      if (i != 0) {
+        if (!element.indexPipelineName) {
+          $("#indexPipelineName" + i).css("border-color", "#DD3646");
+          // this.notificationService.notify('Enter the required fields to proceed', 'error');
+          validField = false
+        }
+        if (!element.queryPipelineName) {
+          $("#queryPipelineName" + i).css("border-color", "#DD3646");
+          // this.notificationService.notify('Enter the required fields to proceed', 'error');
+          validField = false
+        }
       }
 
     });
@@ -722,7 +749,7 @@ export class AppExperimentsComponent implements OnInit {
   }
   //pagination for list
   paginate(event) {
-    this.exp_limitPage = event.limit;
+    // this.exp_limitPage = event.limit;
     this.exp_skipPage = event.skip;
     this.getExperiments();
   }
@@ -787,18 +814,31 @@ export class AppExperimentsComponent implements OnInit {
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
+  //upgrade plan
+  upgrade() {
+    this.plans.openChoosePlanPopup('choosePlans');
+  }
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchFields = '';
+      this.activeClose = false;
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
+  }
   checkDuration(value) {
-    // if(parseInt(event.target.value) > 90){
-    //   event.target.value = ''
-    //   // event.preventDefault();
-    // }
     if (value > 90) {
-      console.log(value, this.experimentObj.duration.days)
       this.experimentObj.duration.days = 90
     }
+    else if (value <= 0) {
+      this.experimentObj.duration.days = 1;
+    }
   }
-  // ngOnDestroy() {
-  //   this.indexSubscription.unsubscribe();
-  //   this.searchSubscription.unsubscribe();
-  // }
+  ngOnDestroy() {
+    this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : null;
+  }
 }

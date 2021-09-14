@@ -43,7 +43,7 @@
             box-sizing: border-box;
             border-radius: 8px;
             padding: 3px 4px;
-            margin-right: 16px;
+            // margin-right: 16px;
             .time{
                 background: #fff;
                 border-radius: 4px;
@@ -68,9 +68,10 @@
         }
     }  
     .top-cards-section{
-        padding: 30px 16px 20px 16px;
+        padding: 30px 25px 20px 25px;
         .cards-data{
-            padding: 0 14px;
+            // padding: 0 14px;
+            padding: 0 5px;
             .content{
                 background: #FFFFFF;
                 border: 1px solid #F3F8FF;
@@ -91,6 +92,58 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+                    &.if-ctr-value-available{
+                        justify-content: flex-start;
+                        &.view-clicks{    
+                            .count-data{
+                                display: flex;
+                                align-items: center;
+                                .count{
+                                    max-width: 120px;
+                                }
+                            }                        
+                            .ctr{
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 17px;
+                                color: #9AA0A6;
+                                border-left: 1px solid #9AA0A6;
+                                padding-left: 10px;
+                                margin-left: 10px;
+                                .ctr-count{
+                                    font-weight: bold;
+                                }
+                            }                            
+                        }
+                        .left-sec{
+                            width: auto;
+                            .count{
+                                max-width: 90px;
+                            }
+                        }
+                        .right-sec{
+                            width: auto;
+                            text-align: left;
+                            .ctr{
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 17px;
+                                color: #9AA0A6;
+                                border-left: 1px solid #9AA0A6;
+                                padding-left: 10px;
+                                margin-left: 0;
+                                .ctr-count{
+                                    font-weight: bold;
+                                }
+                            }
+                            .graph-img{
+                                position: relative;
+                                top: 13px;
+                                padding-left: 30px;
+                            }
+                        }
+
+                    }
                     .left-sec{
                         width: 50%;
                         .count{
@@ -271,10 +324,11 @@
                     padding: 15px 0;
                     box-shadow: inset 0px -1px 0px #E4E5E7;
                     .header-title{
-                        padding: 0;
+                        padding: 0 10px;
                         color: #9AA0A6;
                         font-weight: 500;
                         font-size: 14px;
+                        text-align: left;
                         img{
                             cursor: pointer;  
                             vertical-align: baseline;                          
@@ -285,7 +339,7 @@
                     padding: 15px 0;
                     box-shadow: inset 0px -1px 0px #E4E5E7;
                     .body-title{
-                        padding: 0;
+                        padding: 0 10px 0 20px;
                         overflow: hidden;
                         white-space: nowrap;
                         text-overflow: ellipsis;     

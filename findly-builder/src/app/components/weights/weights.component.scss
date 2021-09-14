@@ -90,11 +90,14 @@
     .scroll-table-allowRow {
         height: calc(100vh - 222px);
         padding: 0 25px;
-        margin-top: 24px;
+        margin-top: 0px;
         .content-body {
             box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.05);
             border: 0;
             padding: 14px 0;
+            &:first-child{
+                margin-top: 24px;
+            }
             .desc {
                 font-size: 12px;
                 color: #979797;
@@ -343,9 +346,9 @@
                             border: 0;
                         }
                     }
-                    .tooltip {
-                        display: none !important;
-                    }
+                    // .tooltip {
+                    //     display: none !important;
+                    // }
                 }
             }
         }
@@ -417,3 +420,12 @@
         }
     }
 }
+
+::ng-deep .my-custom-warning-class .tooltip-inner {
+    max-width: 235px !important;
+    text-align: left !important;
+  }
+
+  ::ng-deep .text-left-warning .tooltip-inner {
+    text-align: left !important;
+  }

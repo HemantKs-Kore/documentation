@@ -83,6 +83,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   streamId: string = null;
   pdfSize: string = "0 KB";
   fileId: string = null;
+  sourceId: string = null;
   fileName: string = null;
   togglePage: boolean = false;
   removeAnnotationFlag: boolean = false;
@@ -95,7 +96,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   form: FormGroup;
   private themeWrapper = document.querySelector('body');
   removeProgressBar: boolean = false;
-  selectedApp: any= {};
+  selectedApp: any = {};
   searchIndexId: string = "";
 
   constructor(private _formBuilder: FormBuilder,
@@ -133,8 +134,8 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     window.removeEventListener('scroll', this.onScrollEvent, true);
     this.pdfComponent.clear();
   }
-  closeModal() {
-    this.dialogRef.close();
+  closeModal(msg) {
+    this.dialogRef.close(msg);
   }
   // Init data for pdf-viwer
   initPdfViewer() {
@@ -142,12 +143,20 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.pdfPayload.streamId = this.selectedApp._id;
     this.streamId = this.selectedApp._id;
-    if(this.dialogData && this.dialogData.type && this.dialogData.type === 'reannotate' && this.dialogData.source) {
+    if (this.dialogData && this.dialogData.type && this.dialogData.type === 'reannotate' && this.dialogData.source) {
       this.reAnnotateDocument(this.dialogData.source);
+    } else if (this.dialogData && this.dialogData.type && this.dialogData.type === 'resumeAnnotate') {
+      if (this.dialogData.pdfResponse) {
+        this.fileId = this.dialogData.pdfResponse.fileId;
+        this.fileName = this.dialogData.pdfResponse.sourceTitle;
+        this.sourceId = this.dialogData.pdfResponse.sourceId;
+      }
+      this.reAnnotateDocument(this.dialogData.pdfResponse);
     } else {
       if (this.dialogData.pdfResponse) {
         this.fileId = this.dialogData.pdfResponse.fileId;
         this.fileName = this.dialogData.pdfResponse.sourceTitle;
+        this.sourceId = this.dialogData.pdfResponse.sourceId;
       }
       this.getAttachmentFile(this.fileId);
     }
@@ -170,8 +179,10 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       });
       dialogRef.afterClosed().subscribe(res => {
         console.log(payload);
-        if(payload && payload.backToSource) {
-          this.closeModal();          
+        if (payload && payload.backToSource) {
+          if (res) {
+            this.closeModal(res);
+          }
         }
       });
     }, 1000);
@@ -376,13 +387,13 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // text layer render - rewriting span's with div elements
   textLayerRendered(e: CustomEvent) {
     // console.log(e);
-    var divs = document.querySelectorAll(".textLayer > span"); 
-    for (var i = 0; i < divs.length; i++) { 
+    var divs = document.querySelectorAll(".textLayer > span");
+    for (var i = 0; i < divs.length; i++) {
       var s: any = document.createElement("div");
-      s.style = divs[i].getAttribute("style"); 
+      s.style = divs[i].getAttribute("style");
       s.innerHTML = divs[i].innerHTML;
-       divs[i].outerHTML = s.outerHTML; 
-      }
+      divs[i].outerHTML = s.outerHTML;
+    }
   }
   // After PDF load completes
   afterLoadComplete(pdfData: any) {
@@ -521,10 +532,12 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.pdfConfig.pdfUrl = res.fileUrl;
       this.service.invoke(
         'PdfAnno.get.reAnnotateData',
-        { searchIndexId: this.searchIndexId, fileId: listData.fileId }
+        { searchIndexId: this.searchIndexId, fileId: listData.fileId, sourceId: listData.sourceId }
       ).subscribe((res: any) => {
         if (res && res.Response) {
-          this.notificationService.notify(res.Response, "success");
+          if (res && res.Response !== "Annotated Data not available for this bot with this file Id") {
+            this.notificationService.notify(res.Response, "success");
+          }
         } else if (res.serialization) {
           let sPayload = {
             "title": res.title,
@@ -565,7 +578,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       'PdfAnno.get.userguide',
       { streamId: this.pdfPayload.streamId }
     ).subscribe((res: any) => {
-      if (res && !res.userHasAnnotated) {
+      if ((res && !res.userHasAnnotated && !this.dialogData.type) || (res && !res.userHasAnnotated && this.dialogData.type && this.dialogData.type !== 'resumeAnnotate')) {
         this.userGuide();
       }
     }, (error: any) => {
@@ -577,8 +590,8 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // extract pdf
   extractPDF() {
     let payloadResponse = {
-      "streamId": this.pdfPayload.streamId,
-      "fileId": this.fileId,
+      // "streamId": this.pdfPayload.streamId,
+      // "fileId": this.fileId,
       "title": this.pdfPayload.title,
       "header": this.pdfPayload.header,
       "footer": this.pdfPayload.footer,
@@ -588,21 +601,21 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       "footerPageno": this.pdfPayload.footer_pageno,
       "ignoreTextPageno": this.pdfPayload.ignoreTextPageno,
       "ignorePages": this.pdfPayload.ignorePages,
-      'name': this.fileName,
-      'extractionType': 'annotation'
+      // 'name': this.fileName,
+      // 'extractionType': 'annotation'
     };
     this.extractionLoader = true;
     this.service.invoke(
-      'PdfAnno.faq.annotate',
-      { searchIndexId: this.searchIndexId, sourceType: "document" },
+      'PdfAnno.faq.annotateExtract',
+      { searchIndexId: this.searchIndexId, sourceType: "file", sourceId: this.sourceId },
       payloadResponse
     ).subscribe((res: any) => {
       this.extractionLoader = false;
-      this.dialogData.annotation.resourceId = res.resourceId;
+      this.dialogData.annotation.resourceId = res?.resourceId;
       this.dialogData.annotation._id = res._id;
       this.dialogData.annotation.status = "Inprogress";
       this.dialogData.annotation.annotationType = true;
-      this.closeModal();
+      this.closeModal('pdf extracted');
       this.rangeService.setPolling(true); // status progress
     }, (error: any) => {
       this.extractionLoader = false;
@@ -628,8 +641,8 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       console.log(this.fileName, 'File name not found');
     }
     let payloadResponse = {
-      "streamId": this.pdfPayload.streamId,
-      "fileId": this.fileId,
+      // "streamId": this.pdfPayload.streamId,
+      // "fileId": this.fileId,
       "title": this.pdfPayload.title,
       "header": this.pdfPayload.header,
       "footer": this.pdfPayload.footer,
@@ -639,14 +652,14 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       "footerPageno": this.pdfPayload.footer_pageno,
       "ignoreTextPageno": this.pdfPayload.ignoreTextPageno,
       "ignorePages": this.pdfPayload.ignorePages,
-      'name': this.fileName,
-      'extractionType': 'annotation',
+      // 'name': this.fileName,
+      // 'extractionType': 'annotation',
       "serialization": this.pdfPayload.serialization,
-      "autoSave": true
+      // "autoSave": true
     };
     this.service.invoke(
       'PdfAnno.faq.annotate',
-      { searchIndexId: this.searchIndexId, sourceType: "document" },
+      { searchIndexId: this.searchIndexId, sourceType: "file", sourceId: this.sourceId },
       payloadResponse
     ).subscribe((res: any) => {
       // console.log(res);
@@ -762,13 +775,13 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   searchPage(event) {
     this.togglePage = false;
     let number = Number(event.target.value) || this.pdfConfig.currentPage || 1;
-      if (number <= this.pdfConfig.totalPages) {
-        this.pdfConfig.currentPage = number;
-        this.pdfConfig.totalPages = this.pdfConfig.totalPages;
-        this.pdfComponent.page = number;
-      } else {
-        this.notificationService.notify("Please enter a valid page number", "error");
-      }
+    if (number <= this.pdfConfig.totalPages) {
+      this.pdfConfig.currentPage = number;
+      this.pdfConfig.totalPages = this.pdfConfig.totalPages;
+      this.pdfComponent.page = number;
+    } else {
+      this.notificationService.notify("Please enter a valid page number", "error");
+    }
   }
   // Search text in PDF component
   searchText(text) {

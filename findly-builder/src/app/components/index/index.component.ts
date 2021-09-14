@@ -16,6 +16,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { JsonPipe } from '@angular/common';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { InlineManualService } from '@kore.services/inline-manual.service';
 declare const $: any;
 @Component({
   selector: 'app-index',
@@ -24,6 +25,11 @@ declare const $: any;
 })
 export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedApp: any = {};
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
+  activeClose = false;
+  showSearch = false;
+  searchSimulator: any = '';
   savingConfig;
   reIndexing;
   simulating;
@@ -37,6 +43,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   newStageObj: any = {
     addNew: false,
   }
+  isHoverd = false;
   fields: any = [];
   newfieldsData: any = [];
   loadingFields = true;
@@ -45,12 +52,14 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedStage;
   changesDetected;
   currentEditIndex: any = -1;
+  selectedStageIndex: any = -1;
   pollingSubscriber: any = null;
   showNewStageType: boolean = false;
   subscription: Subscription;
   @ViewChild('tleft') public tooltip: NgbTooltip;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
+  @ViewChild('customScriptCodeMirror') codemirror: any;
   newStage: any = {
     name: 'My Mapping'
   }
@@ -59,7 +68,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedMapping: any = {};
   actionItmes: any = [{ type: 'set' }, { type: 'rename' }, { type: 'copy' }, { type: 'Delete' }];
   newMappingObj: any = {}
-  sourceType =  'faq';
+  sourceType = 'all';
   defaultStageTypesObj: any = {
     field_mapping: {
       name: 'Field Mapping',
@@ -138,7 +147,6 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   entitySuggestionTags: any = ['Entity 1', 'Entity 2', 'Entity 3', 'Entity 4', 'Entity 5'];
   traitsSuggesitions: any = [];
-  showSearch;
   searchFields: any = '';
   pipelineCopy;
   fieldAutoSuggestion: any = [];
@@ -154,7 +162,20 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     lint: false,
     readOnly: true,
   };
+  customScriptCodeMirrorOptions: any = {
+    theme: 'neo',
+    mode: "javascript",
+    lineNumbers: true,
+    lineWrapping: true,
+    foldGutter: true,
+    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
+    autoCloseBrackets: true,
+    matchBrackets: true,
+    lint: false,
+    indentUnit: 2
+  };
   simulateJson;
+  filteredSimulatorRes: any;
   componentType: string = 'addData';
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
@@ -163,7 +184,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     private notificationService: NotificationService,
     public dialog: MatDialog,
     public authService: AuthService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    public inlineManual: InlineManualService
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -214,8 +236,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   getTraitGroups(initial?) {
     const quaryparms: any = {
-      userId: this.authService.getUserId(),
-      streamId: (this.selectedApp || {})._id
+      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId
     }
     this.service.invoke('get.traits', quaryparms).subscribe(res => {
       const allTraitskeys: any = [];
@@ -230,6 +252,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   drop(event: CdkDragDrop<string[]>, list) {
     moveItemInArray(list, event.previousIndex, event.currentIndex);
+    if (event.previousIndex == this.selectedStageIndex) {
+      this.currentEditIndex = event.currentIndex;
+      this.selectedStageIndex = event.currentIndex;
+    }
   }
   setRuleObj(configObj, key, value, type) {
     this.changesDetected = true;
@@ -701,13 +727,22 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.sourceType = value
       this.simulteObj.sourceType = this.sourceType;
     } else {
+      if (value == null) {
+        return;
+      } else if (value < 1) {
+        this.simulateJson.docCount = 1;
+        value = 1;
+      } else if (value > 20) {
+        this.simulateJson.docCount = 20;
+        value = 20;
+      }
       this.simulteObj.docCount = value
     }
     this.simulate();
   }
   closeSimulator() {
     this.simulteObj = {
-      sourceType: this.sourceType,
+      sourceType: 'all',//this.sourceType,
       docCount: 5,
       showSimulation: false,
     }
@@ -718,7 +753,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   addcode(data?) {
     data = data || {};
-    this.simulateJson = JSON.stringify(data, null, ' ');
+    this.simulateJson = data;
+    // this.simulateJson = JSON.stringify(data, null, ' ');
+    this.filteredSimulatorRes = JSON.stringify(data, null, ' ');
   }
   simulate() {
     let indexArrayLength: any = this.validateConditionForRD();
@@ -738,6 +775,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       const stages = this.preparepayload();
       if (this.currentEditIndex > -1) {
         payload.pipelineConfig = stages.slice(0, this.currentEditIndex + 1);
+        //payload.pipelineConfig = [stages[this.currentEditIndex]];
+
       } else {
         payload.pipelineConfig = stages
       }
@@ -752,6 +791,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         searchIndexID: this.serachIndexId,
         indexPipelineId: this.indexPipelineId
       };
+      this.searchSimulator = '';
       this.service.invoke('post.simulate', quaryparms, payload).subscribe(res => {
         this.simulteObj.simulating = false;
         this.addcode(res);
@@ -786,9 +826,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Stage',
-        text: 'Are you sure you want to delete selected stage?',
-        newTitle: 'Are you sure you want to delete selected stage?',
-        body: 'Selected stage will be deleted.',
+        text: 'Are you sure you want to delete ?',
+        newTitle: 'Are you sure you want to delete ?',
+        body: 'Selected stage will be deleted from workbench.',
         // text: 'Do you want to discard this stage?',
         // newTitle: 'Do you want to discard this stage?',
         // body:'The '+stageType+' stage will be discarded as it does not contain any conditions.',
@@ -802,7 +842,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         if (result === 'yes') {
           this.pipeline.splice(i, 1);
           dialogRef.close();
-          this.notificationService.notify('Deletd Successfully' , 'success')
+          this.notificationService.notify('Deletd Successfully', 'success')
           if (this.pipeline && this.pipeline.length) {
             this.selectStage(this.pipeline[0], 0);
           } else {
@@ -841,7 +881,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.service.invoke(api, quaryparms, payload).subscribe(res => {
       //this.notificationService.notify('Fields added successfully','success');
-      this.notificationService.notify('New Fields have been added. Please train to re-index the configuration', 'info');
+      this.notificationService.notify('New Fields have been added. Please train to re-index the configuration', 'success');
       this.closeModalPopup();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to create field');
@@ -852,10 +892,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
-      offset: offset || 0,
-      limit: 200
     };
-    this.service.invoke('get.allField', quaryparms).subscribe(res => {
+    let serviceId = 'get.allFieldsData';
+    // let serviceId ='get.allField';
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
       this.fields = res.fields || [];
       this.loadingFields = false;
     }, errRes => {
@@ -916,6 +956,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         this.selectStage(res.stages[0], 0);
       }
       this.loadingContent = false;
+      if (!this.inlineManual.checkVisibility('WORKBENCH')) {
+        this.inlineManual.openHelp('WORKBENCH')
+        this.inlineManual.visited('WORKBENCH')
+      }
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get index  stages');
@@ -1003,6 +1047,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.confirmChangeDiscard(stage, i);
     } else {
       this.currentEditIndex = i;
+      this.selectedStageIndex = i;
       this.checkNewAddition();
       if (stage && stage.type === 'custom_script' && stage.config && stage.config.mappings && stage.config.mappings.length) {
         if (!this.newMappingObj.custom_script) {
@@ -1107,7 +1152,31 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       map.trait_groups.splice(index, 1);
     }
   }
-  addFiledmappings(map) {
+  checkFieldsValidOrNot(map) {
+    if (this.selectedStage.type == 'field_mapping') {
+      if ((map.operation === 'rename' || map.operation === 'copy') ? (!map.target_field || !map.source_field) : (map.operation === 'remove' ? !map.target_field : (!map.target_field || !map.value))) {
+        return false;
+      }
+    } else if (this.selectedStage.type == 'entity_extraction') {
+      if (!map.target_field || !map.source_field || !map.entity_types.length) {
+        return false;
+      }
+    } else if (this.selectedStage.type == 'traits_extraction') {
+      if (!map.target_field || !map.source_field || !map.trait_groups.length) {
+        return false;
+      }
+    } else if(this.selectedStage.type == 'keyword_extraction' || this.selectedStage.type == 'semantic_meaning'){
+      if(!map.target_field || !map.source_field){ // removing this ' || !map.model ' parameter to exectute the removal of choose model
+        return false;
+      }
+    } else if (this.selectedStage.type == 'exclude_document') {
+      if (!map.target_field || !map.value) {
+        return false;
+      }
+    }
+    return true;
+  }
+  addFiledmappings(map, isNotDefault?) {
     this.changesDetected = true;
     if (!this.selectedStage.config) {
       this.selectedStage.config = {
@@ -1116,6 +1185,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (!this.selectedStage.config.mappings) {
       this.selectedStage.config.mappings = [];
+    }
+    if (isNotDefault && !this.checkFieldsValidOrNot(map)) {
+      return
     }
     this.selectedStage.config.mappings.push(map);
     this.setResetNewMappingsObj(true, true);
@@ -1205,7 +1277,73 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   }
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchSimulator = '';
+      this.activeClose = false;
+      this.searchBySimulator();
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
+  }
+  searchBySimulator() {
+    const filtered = this.getKeyByValue(this.simulateJson, this.searchSimulator);
+    this.filteredSimulatorRes = JSON.stringify(filtered, null, ' ');
+  }
+  getKeyByValue(object, searchSimulator) {
+    searchSimulator = searchSimulator.toLowerCase();
+    let filteredObject: any = {};
+    Object.keys(object).forEach(key => {
+      if (key.toLowerCase().search(searchSimulator) > -1) {
+        filteredObject[key] = object[key];
+      }
+      else if (object[key].length && this.checkIsArray(object[key])) {
+        object[key].forEach((element, index) => {
+          Object.keys(element).forEach(key1 => {
+            if (key1.toLowerCase().search(searchSimulator) > -1) {
+              if (!((filteredObject || {})[key] || []).length) {
+                filteredObject[key] = [];
+              }
+              filteredObject[key].push({ [key1]: element[key1] });
+            } else if (this.checkIsArray(element[key1])) {
+              //
+              element[key1].forEach((ele, index2) => {
+                Object.keys(ele).forEach(key2 => {
+                  if (key2.toLowerCase().search(searchSimulator) > -1) {
+                    if (!((filteredObject || {})[key] || []).length) {
+                      filteredObject[key] = [];
+                    }
+                    if (!((filteredObject[key][index] || {})[key1] || []).length) {
+                      filteredObject[key][index] = { [key1]: [] };
+                    }
+                    filteredObject[key][index][key1].push({ [key2]: ele[key2] })
+                  }
+                });
+              });
+              //
+            }
+          });
+        });
+      }
+    });
+    return filteredObject;
+  }
+  checkIsArray(value) {
+    if (Array.isArray(value)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
+  painlessScriptChanged(event) {
+    let count = this.codemirror.codeMirror.lineCount();
+    console.log("lines", this.codemirror.codeMirror.lineCount());
+  }
   ngOnDestroy() {
     const self = this;
     if (this.pollingSubscriber) {
@@ -1214,7 +1352,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    
+
   }
 }
 class StageClass {

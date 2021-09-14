@@ -1,5 +1,6 @@
 <div class="main-metrics-container">
     <div class="header-sec row m-0 col-12">
+        <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <div class="bread-cum-sec col-3 p-0 d-flex align-items-center">
             <div class="bread-name">{{'metrics.analytics'| translate}}</div>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
@@ -16,7 +17,7 @@
                 <span class="week time"  (click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">7 Days</span>
                 <span class="custom time"  (click)="getDateRange(-1)" [ngClass]="{'selected': defaultSelectedDay === -1}">Custom</span>
             </div>
-            <div class="export"><img src="assets/icons/share.svg"></div>
+            <div class="export d-none"><img src="assets/icons/share.svg"></div>
         </div>
     </div>
     <perfect-scrollbar class="scroll_content">             
@@ -27,8 +28,10 @@
                     <div class="title-card col-4 p-0">{{'metrics.result_insights.Top_Search_Results'| translate}}</div>
                     <div class="col-8 d-flex justify-content-end p-0 search-filter-block">
                         <div class="kr-sg-input-search">                               
-                            <input type="text" placeholder="Search" class="input-search"  name="searchSources" [(ngModel)]="searchSources">
-                            <img src="assets/icons/search_gray.svg" class="search-icon">
+                            <input type="text" placeholder="Search" class="input-search" [ngClass]="{'pl-2':searchSources}"  name="searchSources" [(ngModel)]="searchSources"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                            (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+                            <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
+                            <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (click)="searchSources='';"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
                         </div>
                         <!-- <div class="kr-sg-dropdowns filter-dropdown" ngbDropdown [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
@@ -67,10 +70,12 @@
                         <!-- <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Positive_Feedback'| translate}}</span></div>-->
                         <!-- <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Negative_Feedback'| translate}}</span></div>  -->
                     </div>
-                    <div class="table_body row m-0" *ngFor="let result of resultsData | filter: [ searchSources , 'answer'];let i = index">
+                    <div class="table_body row m-0" *ngFor="let result of resultsData | filter: [ searchSources , 'answer']">
                         <div class="col-4 title d-flex align-items-center search-results">
                             <span class="img-sec" *ngIf="result.answerType =='faq'"><img src="assets/icons/question-box.svg" ></span>
-                            <span class="img-sec" *ngIf="result.answerType =='page'"><img src="assets/icons/sidemenu/new-icons/page.svg" ></span>
+                            <span class="img-sec" *ngIf="result.answerType =='web'"><img src="assets/icons/page.svg"></span>
+                            <span class="img-sec" *ngIf="result.answerType =='file'"><img src="assets/icons/resultranking/file-icon.svg"></span>
+                            <span class="img-sec" *ngIf="result.answerType =='data'"><img src="assets/icons/resultranking/data-icon.svg"></span>
                             <span class="img-sec" *ngIf="result.answerType =='task'"><img src="assets/icons/sidemenu/new-icons/actions.svg" ></span>
                             <span class="results">{{result.answer}}</span>
                         </div>
@@ -94,7 +99,7 @@
                     </div>    
                     
                 </div>
-                <span *ngIf='totalRecord'><app-record-pagination [totalRecord]='totalRecord' [limitpage]='limitPage' (pageChanged)="paginate($event,'Results')"></app-record-pagination></span>
+                <span *ngIf='totalRecord && totalRecord > 10'><app-record-pagination [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event,'Results')"></app-record-pagination></span>
             </div>
         </div>
     </perfect-scrollbar>  
@@ -110,20 +115,20 @@
     </div>
     <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
   </div>
-  <div class="table_header no-scroll row">
-    <div class="col-3 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Search_Results'| translate}}</div>
+    <div class="table_header row m-0">
+    <div class="col-4 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Search_Results'| translate}}</div>
     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Appearances'| translate}}</div>
     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.No_of_Clicks'| translate}}</div>
     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Click-Through_Rate'| translate}}</div>
     <div class="col-2 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Avg_Position'| translate}}</span></div>
     <!-- <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Positive_Feedback'| translate}}</span></div>
     <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Negative_Feedback'| translate}}</span></div> -->
-</div>
+    </div>
   <perfect-scrollbar class="perfect-scroll-modal-body">
     <div class="modal-body">
         <div class="table_data_content">            
             <div class="table_body row m-0" *ngFor="let result of resultsSearchData">
-                <div class="col-3 title d-flex align-items-center search-results">
+                <div class="col-4 title d-flex align-items-center search-results">
                     <!-- <span class="img-sec"><img src="assets/icons/question-box.svg"></span> -->
                     <span class="results pl-3">{{result.query}}</span>
                 </div>
@@ -135,7 +140,7 @@
                 <div class="col-1 title">{{result.negativeFeedback}}</div> -->
             </div>                   
         </div>
-        <span *ngIf='Q_totalRecord && (limitPage < Q_totalRecord)'><app-record-pagination [totalRecord]='Q_totalRecord' [limitpage]='Q_limitPage' (pageChanged)="paginate($event,'QRESULT')"></app-record-pagination></span>
+        <span *ngIf='Q_totalRecord && (10 < Q_totalRecord)'><app-record-pagination [totalRecord]='Q_totalRecord' [limitpage]='10' (pageChanged)="paginate($event,'QRESULT')"></app-record-pagination></span>
     </div>
   </perfect-scrollbar>
   <!-- <div class="modal-footer">

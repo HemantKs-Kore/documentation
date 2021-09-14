@@ -412,7 +412,7 @@
                 font-size: 14px;
                 line-height: 17px;
                 margin-left: 10px;
-                word-break: break-all;
+                word-break: break-word;
               }
             }
             .title {
@@ -420,6 +420,7 @@
               font-weight: normal;
               font-size: 14px;
               line-height: 17px;
+              word-break: break-word;
               &.leader_percent{
                 color: #0D6EFD !important;
               }
@@ -627,8 +628,6 @@
 }
 .kr-sg-input-search {
   display: inline-block;
-  width: 0px;
-  display: none;
   width: 300px;
   height: 20px;
   position: relative;
@@ -638,6 +637,25 @@
     display: block;
     width: 300px;
   }
+  .close-icon{
+    position: absolute;
+    right: 11px;
+    top: 12px;
+    cursor: pointer;
+}
+  .input-search{
+    border: 1px solid #E4E5E7;                            
+    border-radius: 4px;
+    padding-left: 36px;
+    padding-right: 15px;
+    font-size: 14px;
+    &:focus{
+        border: 1px solid #1372ff;
+    }
+    &::placeholder{
+        color: #BDC1C6;
+    }
+}
 }
 .seach-block {
   color: #202124;
@@ -655,6 +673,9 @@
 .dropdown-menu li {
   padding: 7px;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;                     
 }
 .disable_edit {
   background-color: #eff0f1;
@@ -687,3 +708,17 @@
   }
 }
 
+
+
+.upgrade-experience{
+  width: 586px;
+  margin: 0 auto;
+  text-align: center;
+  .title{
+    color: #202124;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 20px;
+    margin: 30px 0;
+  }
+}

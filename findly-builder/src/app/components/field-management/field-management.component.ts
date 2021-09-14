@@ -11,6 +11,9 @@ import { of, interval, Subject, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { InlineManualService } from '@kore.services/inline-manual.service';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+
 declare const $: any;
 @Component({
   selector: 'app-field-management',
@@ -18,7 +21,7 @@ declare const $: any;
   styleUrls: ['./field-management.component.scss']
 })
 export class FieldManagementComponent implements OnInit {
-  showSearch;
+  showSearch = false;
   selectedApp;
   serachIndexId;
   indexPipelineId;
@@ -28,8 +31,9 @@ export class FieldManagementComponent implements OnInit {
   filelds: any = [];
   loadingContent = true;
   currentfieldUsage: any
-  fetchingFieldUsage = false
-  selectedSort = '';
+  fetchingFieldUsage = false;
+  indexedWarningMessage = '';
+  selectedSort = 'fieldName';
   isAsc = true;
   fieldAutoSuggestion: any = [];
   fieldDataTypeArr: any = [];
@@ -37,6 +41,7 @@ export class FieldManagementComponent implements OnInit {
   isRequiredArr: any = [];
   isStoredArr: any = [];
   isIndexedArr: any = [];
+  totalRecord: number = 0;
   filterSystem: any = {
     'typefilter': 'all',
     'isMultiValuedFilter': 'all',
@@ -44,6 +49,7 @@ export class FieldManagementComponent implements OnInit {
     'isStoredFilter': 'all',
     'isIndexedFilter': 'all'
   }
+  activeClose = false
   beforeFilterFields: any = [];
   filterTableheaderOption = "";
   filterResourcesBack: any;
@@ -51,15 +57,19 @@ export class FieldManagementComponent implements OnInit {
   filterTableSource = "all";
   firstFilter: any = { 'header': '', 'source': '' };
   componentType: string = 'indexing';
-  submitted : boolean = false;
+  submitted: boolean = false;
+  searchImgSrc: any = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
     public authService: AuthService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    public inlineManual : InlineManualService
   ) { }
 
   ngOnInit(): void {
@@ -70,6 +80,9 @@ export class FieldManagementComponent implements OnInit {
     this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.loadFileds();
     })
+  }
+  ngAfterViewInit() {
+
   }
   loadFileds() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -85,6 +98,10 @@ export class FieldManagementComponent implements OnInit {
   }
   openModalPopup() {
     this.addFieldModalPopRef = this.addFieldModalPop.open();
+    setTimeout(() => {
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500)
   }
   selectFieldType(type) {
     // if(type === 'number'){
@@ -99,6 +116,7 @@ export class FieldManagementComponent implements OnInit {
       this.newFieldObj = JSON.parse(JSON.stringify(field));
       this.newFieldObj.previousFieldDataType = field.fieldDataType;
       this.getFieldAutoComplete(field.fieldName);
+      this.getFieldUsageData(field)
     } else {
       this.newFieldObj = {
         fieldName: '',
@@ -110,12 +128,85 @@ export class FieldManagementComponent implements OnInit {
         isIndexed: true
       }
     }
+    this.getAllFields();
     this.submitted = false;
     this.openModalPopup();
   }
   closeModalPopup() {
     this.submitted = false;
     this.addFieldModalPopRef.close();
+  }
+  getFieldUsageData(record) {
+    this.indexedWarningMessage = '';
+    if (this.fetchingFieldUsage) {
+      return;
+    }
+    this.fetchingFieldUsage = true;
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      fieldId: record._id,
+    };
+    this.service.invoke('get.getFieldUsage', quaryparms).subscribe(res => {
+      this.currentfieldUsage = res;
+      this.fetchingFieldUsage = false;
+      const deps: any = {
+        facets: false,
+        rules: false,
+        weights: false,
+        resultTemplate: false
+      }
+      let usageText = '';
+      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplates && res.resultTemplates.used)) {
+        usageText = usageText + ' This will impact'
+        if (res && res.facets && res.facets.used) {
+          deps.facets = true;
+          usageText = usageText + ' facet'
+        }
+        if (res && res.weights && res.weights.used) {
+          deps.weights = true;
+          if (deps.facets) {
+            usageText = usageText + ', ' + 'Weights'
+          } else {
+            usageText = usageText + ' Weights'
+          }
+        }
+        if (res && res.rules && res.rules.used) {
+          deps.rules = true;
+          if (deps.facets || deps.weights) {
+            usageText = usageText + ' , ' + res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '')
+          } else {
+            usageText = usageText + ' ' + res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '')
+          }
+        }
+
+        if (res && res.resultTemplates && res.resultTemplates.used) {
+          deps.resultTemplate = true;
+          if (deps.facets || deps.weights || deps.rules) {
+            usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
+          } else {
+            usageText = usageText + ' will impact ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
+          }
+        }
+      }
+      usageText = this.replaceLast(",", " and", usageText);
+      this.indexedWarningMessage = usageText;
+    }, errRes => {
+      this.fetchingFieldUsage = false;
+    });
+  }
+  replaceLast(find, replace, string) {
+    var lastIndex = string.lastIndexOf(find);
+
+    if (lastIndex === -1) {
+      return string;
+    }
+
+    var beginString = string.substring(0, lastIndex);
+    var endString = string.substring(lastIndex + find.length);
+
+    return beginString + replace + endString;
   }
   getFieldUsage(record) {
     if (this.fetchingFieldUsage) {
@@ -128,6 +219,7 @@ export class FieldManagementComponent implements OnInit {
       queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
       fieldId: record._id,
     };
+    let isDisableDeleteBtn = false;
     this.service.invoke('get.getFieldUsage', quaryparms).subscribe(res => {
       this.currentfieldUsage = res
       this.fetchingFieldUsage = false;
@@ -135,29 +227,45 @@ export class FieldManagementComponent implements OnInit {
       const deps: any = {
         facets: false,
         rules: false,
-        weights: false
+        weights: false,
+        resultTemplate: false
       }
-      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used)) {
-        usageText = 'Deleting ' + record.fieldName + ' field will impact the associated '
+      // let usageText1 = "This field is being used in Facets, Weights, and Rules (Dynamic). Deleting it will remove the associated Facets, Weights, and Rules.";
+      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplate && res.resultTemplate.used)) {
+        isDisableDeleteBtn = true;
+        let usageText1 = "";
+        usageText1 = "This field is being used in";
+        usageText = '';
+        let usageText2 = 'Deleting it will remove the associated';
         if (res && res.facets && res.facets.used) {
           deps.facets = true;
-          usageText = usageText + 'Facets '
+          usageText = usageText + ' Facets'
         }
         if (res && res.weights && res.weights.used) {
           deps.weights = true;
           if (deps.facets) {
-            usageText = usageText + '& ' + 'Weights '
+            usageText = usageText + ', ' + 'Weights'
           } else {
-            usageText = usageText + 'Weights '
+            usageText = usageText + ' Weights'
           }
         }
         if (res && res.rules && res.rules.used) {
           if (deps.facets || deps.weights) {
-            usageText = usageText + 'and will impact ' + res.rules.records.length + ' Business Rules.'
+            usageText = usageText + ' , ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
           } else {
-            usageText = usageText + 'and will impact ' + res.rules.records.length + ' Business Rules.'
+            usageText = usageText + ' ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
           }
         }
+        if (res && res.resultTemplates && res.resultTemplates.used) {
+          deps.resultTemplate = true;
+          if (deps.facets || deps.weights || deps.rules) {
+            usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
+          } else {
+            usageText = usageText + ' ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
+          }
+        }
+        usageText = this.replaceLast(",", " and", usageText);
+        usageText = usageText1 + usageText + '. ' + usageText2 + usageText + '.';
       }
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         width: '446px',
@@ -184,18 +292,18 @@ export class FieldManagementComponent implements OnInit {
       this.fetchingFieldUsage = false;
     });
   }
-  validateFilelds(){
-    if(this.newFieldObj && this.newFieldObj.fieldName.length){
+  validateFilelds() {
+    if (this.newFieldObj && this.newFieldObj.fieldName.length) {
       this.submitted = false;
       return true;
     }
-    else{
+    else {
       return false;
     }
   }
   addField() {
     this.submitted = true;
-    if(this.validateFilelds()){
+    if (this.validateFilelds()) {
       const temppayload: any = {
         fieldName: this.newFieldObj.fieldName,
         fieldDataType: this.newFieldObj.fieldDataType,
@@ -225,27 +333,57 @@ export class FieldManagementComponent implements OnInit {
         } else {
           this.notificationService.notify('Added Successfully', 'success');
         }
-        this.getFileds();
+        this.getFileds(null, this.searchFields);
         this.closeModalPopup();
       }, errRes => {
         this.errorToaster(errRes, 'Failed to create field');
       });
     }
-    else{
+    else {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
-  getFileds(offset?) {
+  defaultSort(field, icon, isAscBool) {
+    this.getSortIconVisibility(field, icon)
+    this.isAsc = !isAscBool;
+    this.sortBy(field);
+
+  }
+  getAllFields() {
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+    };
+    let serviceId = 'get.allFieldsData';
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
+      this.fieldAutoSuggestion = res.fields || [];
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
+  }
+  getFileds(offset?, searchFields?) {
+    this.fieldDataTypeArr = [];
+    this.isMultiValuedArr = [];
+    this.isRequiredArr = [];
+    this.isStoredArr = [];
+    this.isIndexedArr = [];
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
       offset: offset || 0,
-      limit: 100
+      limit: 10
     };
-    this.service.invoke('get.allField', quaryparms).subscribe(res => {
+    let serviceId = 'get.allField';
+    if (searchFields) {
+      quaryparms.search = searchFields;
+      serviceId = 'get.allSearchField';
+    }
+    this.service.invoke(serviceId, quaryparms).subscribe(res => {
       this.filelds = res.fields || [];
+      this.totalRecord = res.totalCount || 0;
       this.loadingContent = false;
       if (this.filelds.length) {
+
         this.filelds.forEach(element => {
           this.fieldDataTypeArr.push(element.fieldDataType);
           this.isMultiValuedArr.push(element.isMultiValued);
@@ -258,7 +396,11 @@ export class FieldManagementComponent implements OnInit {
         this.isRequiredArr = [...new Set(this.isRequiredArr)];
         this.isStoredArr = [...new Set(this.isStoredArr)];
         this.isIndexedArr = [...new Set(this.isIndexedArr)];
-
+        if(!this.inlineManual.checkVisibility('FIEDS_TABLE')){
+          this.inlineManual.openHelp('FIEDS_TABLE')
+          this.inlineManual.visited('FIEDS_TABLE')
+        }
+        this.defaultSort('fieldName','up',true)
       }
     }, errRes => {
       this.loadingContent = false;
@@ -505,29 +647,55 @@ export class FieldManagementComponent implements OnInit {
       }
     });
 
-  this.filelds = JSON.parse(JSON.stringify(tempFields));
-}
-
-getFieldAutoComplete(query) {
-  if(!query){
-    query = '';
+    this.filelds = JSON.parse(JSON.stringify(tempFields));
   }
-  const quaryparms: any = {
-    searchIndexID: this.serachIndexId,
-    indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-    query
-  };
-  this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
-    this.fieldAutoSuggestion = res || [];
-  }, errRes => {
-    this.errorToaster(errRes, 'Failed to get fields');
-  });
-}
+  searchByFields() {
+    if (this.searchFields) {
+      // this.loadingTab = true;
+      this.getFileds(null, this.searchFields);
+    } else {
+      this.getFileds();
+      this.searchFields = ''
+    }
+  }
+  getFieldAutoComplete(query) {
+    if (!query) {
+      query = '';
+    }
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      query
+    };
+    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
+      this.fieldAutoSuggestion = res || [];
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
+  }
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchFields = '';
+      this.activeClose = false;
+      this.getFileds(null, this.searchFields)
+    }
+    this.showSearch = !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() => {
+      document.getElementById(inputSearch).focus();
+    }, 100)
+  }
+
+  paginate(event) {
+    this.getFileds(event.skip, this.searchFields)
+  }
   ngOnDestroy() {
     const self = this;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    
+
   }
+
 }

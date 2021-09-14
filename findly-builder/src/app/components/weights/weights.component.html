@@ -8,8 +8,8 @@
         <div class="header-sec-stopwords">
             <div class="title">{{'weights.Weights'| translate}}</div>
             <div class="restore_text" *ngIf="weights.length">
-                <span class="lable_text mr-5" id="btn_openWeight" (click)="openAddNewWeight()"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{'weights.add_searchable_field'| translate}}</span>
-                <span class="lable_text mr-5" id="btn_restoreWeight" (click)="restoreWeights();"><img src="assets/icons/return_black.svg">{{'weights.reset_to_default' | translate}}</span>
+                <span class="lable_text mr-4" id="btn_openWeight" (click)="openAddNewWeight()"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{'weights.add_searchable_field'| translate}}</span>
+                <span class="lable_text mr-2" id="btn_restoreWeight" (click)="restoreWeights();"><img src="assets/icons/return_black.svg">{{'weights.reset_to_default' | translate}}</span>
                 <span class="clock_img d-none"><img src="assets/icons/clock.svg"></span>
 
             </div>
@@ -26,7 +26,7 @@
                     <div class="content-body" *ngFor="let weightModal of weights; let i = index">
                         <div class="col-2 name">
                             <div>
-                                <img class="pr-1" *ngIf="weightModal.showFieldWarning && (weightModal.showFieldWarning !== 'false')" src="assets/icons/info-blue.svg" [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip='{{fieldWarnings[weightModal.showFieldWarning] || weightModal.showFieldWarning}}'>                                {{weightModal.name}}
+                                <img class="pr-1" *ngIf="weightModal.showFieldWarning && (weightModal.showFieldWarning !== 'false')" src="assets/icons/info-blue.svg" placement="left" tooltipClass="{{modifyFieldWarningMsg(weightModal.showFieldWarning)?'my-custom-warning-class':'text-left-warning'}}" container="body" ngbTooltip='{{fieldWarnings[weightModal.showFieldWarning] || weightModal.showFieldWarning}}'>                                {{weightModal.name}}
                             </div>
                             <div class="pre_defined d-none" *ngIf="!weightModal.isField">{{'weights.SYSTEM-DEFINED'| translate}}</div>
                             <!-- <div class="pre_defined" *ngIf="!weightModal.isField">{{'weights.PRE-DEFINED'| translate}}</div> -->
@@ -34,7 +34,7 @@
                         <div class="col-6 desc text-truncate">
                             <span *ngIf="currentEditIndex !== i">{{weightModal.desc}}</span>
                             <div class="kr-sg-input-text-area" *ngIf="currentEditIndex === i">
-                                <textarea [(ngModel)]="weightModal.desc" (keyup)="disableCancle = false" placeholder="Short Description" class="input-text weighDesc"></textarea>
+                                <textarea [(ngModel)]="weightModal.desc" (keyup)="disableCancle = false" placeholder="Short Description" class="input-text weighDesc" maxlength="250"></textarea>
                             </div>
                         </div>
                         <div class="col-4 sliderContainer">
@@ -71,14 +71,15 @@
         <div class="title">{{currentEditIndex>-1?'Edit':'Add'}} Searchable Field</div>
         <div class="close_icon"><img id="btn_closeWeightModal" (click)="closeAddEditWeight()" src="assets/icons/modal-close.svg"></div>
     </div>
-    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll> 
         <div class="modal-body textAlignLeft" *ngIf="addEditWeighObj">
             <div class="search_block" *ngIf="!addEditWeighObj._id">
                 <div class="row m-0 align-items-center">
                     <div class="kr-sg-dropdowns col-12 p-0" [ngClass]="{'disabled': addEditWeighObj._id}">
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                             <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
-                            <input [class.err-block]="((!addEditWeighObj.fieldName || !addEditWeighObj.fieldName.length) && submitted)" type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" [ngClass]="{'pl-33':!addEditWeighObj.fieldName}" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName">
+                            <input [class.err-block]="((!addEditWeighObj.fieldName || !addEditWeighObj.fieldName.length) && submitted)" type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" [ngClass]="{'pl-33':!addEditWeighObj.fieldName}"  [(ngModel)]="addEditWeighObj.fieldName" maxlength="60">
+                            <!-- <input [class.err-block]="((!addEditWeighObj.fieldName || !addEditWeighObj.fieldName.length) && submitted)" type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" [ngClass]="{'pl-33':!addEditWeighObj.fieldName}" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName" maxlength="60"> -->
                             <img *ngIf="(!addEditWeighObj.fieldName || !addEditWeighObj.fieldName.length) && submitted" id="weightNameWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
                             <!-- <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" [ngClass]="{'pl-33':!addEditWeighObj.fieldName}" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'"> -->
@@ -89,7 +90,7 @@
                             <ul class="dropdown-menu content-menu scroll-max-250">
                                 <perfect-scrollbar class="scroll-max-250">
                                     <div class="scroll-max-250">
-                                        <li *ngFor="let suggesition of fields" id="btn_selectWeightsField" (click)="selectedField(suggesition)">
+                                        <li *ngFor="let suggesition of fields | filter : [addEditWeighObj.fieldName, 'fieldName'] " id="btn_selectWeightsField" (click)="selectedField(suggesition)">
                                             <a>{{suggesition.fieldName}}</a>
                                         </li>
                                     </div>
@@ -103,17 +104,17 @@
             </div>
             <div class="kr-sg-input-text mb-25" *ngIf="addEditWeighObj._id" [ngClass]="{'disabled': addEditWeighObj._id}">
                 <div class="label-text">{{'weights.weight_name'| translate}}</div>
-                <input type="text" id="input_weightsName" [(ngModel)]="addEditWeighObj.name" placeholder="Placeholder text" class="input-text">
+                <input type="text" id="input_weightsName" maxlength="60" [(ngModel)]="addEditWeighObj.name" placeholder="Placeholder text" class="input-text">
             </div>
             <div class="kr-sg-input-text-area mb-25">
                 <div class="label-text">{{'weights.description'| translate}}</div>
-                <textarea id="input_weightsDesc" [(ngModel)]="addEditWeighObj.desc" placeholder="Short Description" class="input-text"></textarea>
+                <textarea id="input_weightsDesc" [(ngModel)]="addEditWeighObj.desc" maxlength="250" placeholder="Short Description" class="input-text"></textarea>
             </div>
             <div class="kr-sg-input-text">
                 <div class="label-text">{{'weights.set_weight'| translate}}</div>
                 <div class="d-flex m-0 slider_sec">
-                    <div class="range_slider">
-                        <app-range-slider [customClass]='"weightsSlider"'  placement="top-center" container='body' ngbTooltip="{{addEditWeighObj.sliderObj.default}}" [allData]='addEditWeighObj.sliderObj' (valueEvent)="valueEvent($event,addEditWeighObj)"></app-range-slider>
+                    <div class="range_slider add-searchable-feild-range-slider">
+                        <app-range-slider [customClass]='"weightsSlider"'  [allData]='addEditWeighObj.sliderObj' (valueEvent)="valueEvent($event,addEditWeighObj)"></app-range-slider>
                     </div>
                     <div class="sliderVal" >{{addEditWeighObj.sliderObj.default}}</div>
                 </div>

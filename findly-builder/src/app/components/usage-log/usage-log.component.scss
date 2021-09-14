@@ -1,9 +1,28 @@
-.usage-log-container{
+.invoice-container{
+    .mainLoadingSpinner{
+        position: absolute;
+        top: 45%;
+        left: 45%;  
+        background:  transparent;
+        width: 180px;
+        height: 40px;
+        padding-top: 10px;
+        border-radius: 4px;
+        opacity: 0.95;
+        padding-left: 5px;
+        .please-wait-message {
+            position: relative;
+            color: #29293b;
+            top: -16px;
+            left: 25px;
+            font-size: 12px;
+        }  
+    }
     .header-sec {       
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding:6px 45px;
+        padding:6px 30px;
         margin: 0px 0px 25px 0px;
         background: #F5F8FA;
         border-radius: 4px;
@@ -46,7 +65,133 @@
             position: relative;
             margin-left: 40px;
             cursor: pointer;
-            padding: 0 10px;
+            padding: 6px;
        }
+    }
+    .plan-type{
+        display: inline-flex;
+        margin: 0 30px 10px 30px;
+        background: #FFFFFF;
+        border: 1px solid #E7F1FF;
+        box-sizing: border-box;
+        border-radius: 4px;
+        width: auto !important;
+        height: 56px;
+        align-items: center;
+        padding: 10px 15px;
+        .current-plan{
+            color: #202124;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 20px;
+            margin-right: 7px;
+        }
+        .type{
+            padding-left: 7px;
+            border-left: 1px solid #85B7FE;
+            color: #202124;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 20px;
+        }
+    }
+    .scroll-invoice-content{
+        height: calc(100vh - 210px);
+        &.if-pagination{
+            height: calc(100vh - 280px);
+        }
+    }
+    .table_data_content{
+        padding: 0 30px;
+        text-align: left;
+        .table_header{
+            padding: 17px 0px;
+            border-bottom: 1px solid #E4E5E7;
+            .title{
+                padding: 0 5px;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 14px;
+                text-transform: uppercase;
+                color: #9AA0A6;
+                padding: 0 10px;
+            }
+            .col_{               
+                cursor: pointer;         
+                .sortImg{                                                       
+                    position: static;
+                    &.upArrow {
+                        transform: none !important;
+                    }
+                    &.downArrow {
+                        transform: rotate(180deg) !important;
+                        top: -1px !important;
+                        position: relative;
+                    }
+                    &.assending{
+                        transform: rotate(180deg);
+                    }
+                    &.decending{
+                        transform: rotate(0deg);
+                    }
+                }            
+            }
+        }
+        .table_body{
+            padding: 12px 0;
+            align-items: center;
+            box-shadow: inset 0px -1px 0px #E4E5E7;                        
+            transition: 0.3s all ease-in;  
+            margin: 0 0 1px 0;                     
+            .title{                
+                padding: 0 10px;
+                font-style: normal;
+                font-size: 14px;
+                line-height: 14px;
+                color: #202124;   
+                cursor: default;
+                word-break: break-word;
+                img{
+                    cursor: pointer;
+                } 
+            }
+            .search-query-data{
+                display: flex;
+                align-items: center;
+                .img-block{
+                    width: 35px;
+                    flex-shrink: 0;
+                }
+                .content-sec{
+                    padding-left: 2px;
+                    color: #202124;
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 19px;
+                }
+            }
+            
+        }       
+    }
+    .empty-usage-log{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: calc(100vh - 140px);
+        .img-block img{
+            width: 408px;
+        }
+        .empty-text{
+            color: #3C4043;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 20px;
+            margin-top: 20px;
+        }
+    }
+    .pl-33 {
+        padding-left: 33px;
     }
 }

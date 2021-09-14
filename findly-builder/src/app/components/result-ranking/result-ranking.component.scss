@@ -110,6 +110,8 @@
                         background: #F8F9FA;
                         padding: 23px 20px;                    
                         .kr-sg-input-search{
+                            width: 215px;
+                            position: relative;
                             .input-search{
                                 border: 1px solid #E4E5E7;                            
                                 border-radius: 4px;
@@ -127,7 +129,27 @@
                                 left: 12px;
                                 top: 10px;
                             }
+                            .close-icon{
+                                position: absolute;
+                                right: 11px;
+                                top: 12px;
+                                cursor: pointer;
+                            }
                         }
+                        .search-block {
+                            color: #202124;
+                            font-style: normal;
+                            font-weight: 500;
+                            font-size: 12px;
+                            line-height: 34px;
+                            // margin-right: 30px;
+                            img {
+                                margin-right: 7px;
+                                cursor: pointer;
+                                position: relative;
+                                top: -1px;
+                            }
+                        } 
                         .kr-sg-dropdowns{
                             width: auto;
                             margin-left: 10px;
@@ -241,6 +263,9 @@
                                         .kr-sg-checkbox{
                                             visibility: visible;
                                         }
+                                    }
+                                    &.is-selected-list{
+                                        background: #E7F1FF;
                                     }
                                     &[aria-expanded="true"]{
                                         background: #E7F1FF;
@@ -494,8 +519,8 @@
                                 &.show{
                                     .dropdown{
                                         .dropdown-input{
-                                            background:#fff;
-                                            border: 1px solid #BDC1C6;
+                                            // background:#fff;
+                                            // border: 1px solid #BDC1C6;
                                         }  
                                     }
                                 }
@@ -1132,29 +1157,24 @@
                         display: flex;
                         align-items: center;
                         flex-wrap: wrap;
-                        padding-left: 18px;
-                        margin-top: 12px;
-                        width: 100%;
+                        padding-left: 25px;
+                        margin-top: 12px;                        
                         .pinned{
                             background: #E7F1FF;
                             border-radius: 4px;
                             height: 22px;
-                            padding: 5px 10px;
+                            padding: 5px;
                             display: flex;
                             align-items: center;
                             color: #0D6EFD;
                             font-weight: normal;
                             font-size: 10px;
                             line-height: 14px;
-                            margin: 0 10px;
-                            position: relative;
-                            &::before{
-                                content: "";
-                                position: absolute;
-                                width: 1px;
-                                height: 100%;
+                            margin: 0 5px;
+                            position: relative;                            
+                            &.manual{
                                 background: #EFF0F1;
-                                right: -10px;
+                                color: #5F6368;
                             }
                             img{
                                 margin-right: 4px;
@@ -1166,17 +1186,28 @@
                             font-weight: 500;
                             font-size: 12px;
                             line-height: 15px;
+                            position: relative;
+                            margin-left: 5px;
+                            &::before{
+                                content: "";
+                                position: absolute;
+                                width: 1px;
+                                height: 22px;
+                                background: #EFF0F1;
+                                left: 0px;
+                                top: -4px;
+                            }
                         }                        
                    }
                    .remove-btn-sec{
                         position: absolute;
-                        right: -11px;                        
+                        right: 0;                        
                         height: 100%;
-                        top: 0px;
+                        top: -8px;
                         width: 181px;                   
                         visibility: visible;
                         text-align: right;
-                        padding: 15px 20px;
+                        padding: 15px 10px;
                         background: transparent;
                         .remove-btn{
                             background: #FFFFFF;
@@ -1184,7 +1215,7 @@
                             box-sizing: border-box;
                             border-radius: 4px;
                             color: #DD3646;
-                            padding: 4px 10px;
+                            padding: 4px 12px;
                             font-weight: normal;
                             font-size: 14px;
                             line-height: 20px;

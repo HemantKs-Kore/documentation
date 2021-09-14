@@ -17,7 +17,8 @@ export class KRModalComponent implements OnInit, AfterViewInit {
     FULL: 'full',
     SLIDE: 'slide',
     CENTER: 'center',
-    NOBACKDROP:"nodrop"
+    NOBACKDROP:"nodrop",
+    BACKDROPMODALTOP:"above-modal-drop"
   };
   constructor(private modalService: NgbModal, public activeModal: NgbActiveModal) {
 
@@ -67,6 +68,14 @@ export class KRModalComponent implements OnInit, AfterViewInit {
     if (this.modalType === this.modalTypes.NOBACKDROP) {
       _.extend(config, {
         backdropClass: 'kr-back-drop no-back-drop',
+        windowClass: 'kr-modal kr-center ' + (this.modalClass || ''),
+        backdrop: 'static'
+      });
+    }
+
+    if (this.modalType === this.modalTypes.BACKDROPMODALTOP) {
+      _.extend(config, {
+        backdropClass: 'kr-back-drop above-modal-drop-class',
         windowClass: 'kr-modal kr-center ' + (this.modalClass || ''),
         backdrop: 'static'
       });
