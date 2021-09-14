@@ -11956,7 +11956,8 @@ padding-right: 0;
     margin-bottom: 0px;
 }
 .searchAssist-kore-chat-window .tile-with-text-parent .tile-with-text .tile-description {
-    color: var(--sdk-gray-color);
+    /* color: var(--sdk-gray-color); */
+    color: #494a4b;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
@@ -11974,6 +11975,11 @@ padding-right: 0;
 .searchAssist-kore-chat-window .tile-description  {
     height: 16px;
 }
+/* .searchAssist-kore-chat-window .tile-description.twolines-tile-description {
+    min-height: 16px !important;
+    max-height: 32px !important;
+    height: auto;
+} */
 .searchAssist-kore-chat-window .tile-description.defalut-show {
 height: 16px !important;
 }
@@ -12029,7 +12035,8 @@ word-break: break-word;
 }
 .searchAssist-kore-chat-window .tile-with-text-parent.with-accordion .panel {
     padding: 0;
-    color: var(--sdk-gray-color);
+    /* color: var(--sdk-gray-color); */
+    color: #494a4b;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
@@ -12091,7 +12098,8 @@ border: 0;
     line-height: 17px;
 }
 .searchAssist-kore-chat-window .tile-with-text-parent.grid_view_template .tile-with-text .tile-description {
-    color: var(--sdk-gray-color);
+    /* color: var(--sdk-gray-color); */
+    color: #494a4b;
     font-weight: normal;
     font-size: 12px;
     line-height: 15px;
@@ -12110,7 +12118,8 @@ border: 0;
     margin-bottom: 2px;
 }
 .searchAssist-kore-chat-window .tile-with-image-parent .tile-description {
-    color: var(--sdk-gray-color);
+    /* color: var(--sdk-gray-color); */
+    color: #494a4b;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
@@ -12166,7 +12175,8 @@ border: 0;
 }
 .searchAssist-kore-chat-window .tile-with-image-parent.with-accordion .panel {
     padding: 0;
-    color: var(--sdk-gray-color);
+    /* color: var(--sdk-gray-color); */
+    color: #494a4b;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
@@ -12188,7 +12198,8 @@ border: 0;
     padding-left: 13px;
     float: left;
     max-width: 66%;
-    color: var(--sdk-gray-color);
+    /* color: var(--sdk-gray-color); */
+    color: #494a4b;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
@@ -12275,7 +12286,8 @@ border: 0;
     max-height: 50px;
 }
 .searchAssist-kore-chat-window .tile-with-image-parent.grid_view_template .tile-with-image .g-dec-text {
-    color: var(--sdk-gray-color);
+    /* color: var(--sdk-gray-color); */
+    color: #494a4b;
     font-weight: normal;
     font-size: 12px;
     line-height: 15px;
@@ -12350,7 +12362,8 @@ border: 0;
     margin-bottom: 20px;
 }
 .searchAssist-kore-chat-window .tile-with-centered-content-parent .tile-with-centered-content .text-content .desc-text {
-    color: var(--sdk-gray-color);
+    /* color: var(--sdk-gray-color); */
+    color: #494a4b;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
@@ -12363,7 +12376,8 @@ border: 0;
     margin-bottom: 2px;
 }
 .searchAssist-kore-chat-window .tile-with-centered-content-parent .tile-with-centered-content .tile-description {
-    color: var(--sdk-gray-color);
+    /* color: var(--sdk-gray-color); */
+    color: #494a4b;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
@@ -12398,7 +12412,8 @@ border: 0;
 }
 .searchAssist-kore-chat-window .tile-with-centered-content-parent.with-accordion .panel {
     padding: 0;
-    color: var(--sdk-gray-color);
+    /* color: var(--sdk-gray-color); */
+    color: #494a4b;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
@@ -12415,7 +12430,8 @@ border: 0;
     width: 100%;
 }
 .searchAssist-kore-chat-window .tile-with-centered-content-parent.with-accordion .panel .inner-tile-with-iamge-panel .desc-text-img {
-    color: var(--sdk-gray-color);
+    /* color: var(--sdk-gray-color); */
+    color: #494a4b;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
@@ -13324,7 +13340,8 @@ border: 0;
     line-height: 17px;
 }
 .searchAssist-kore-chat-window .show-all-results-outer-wrap .customization .customization-tile .desc_text {
-    color: var(--sdk-gray-color);
+    /* color: var(--sdk-gray-color); */
+    color: #494a4b;
     font-weight: normal;
     font-size: 12px;
     line-height: 24px;
