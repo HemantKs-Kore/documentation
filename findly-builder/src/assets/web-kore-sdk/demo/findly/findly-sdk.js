@@ -6708,9 +6708,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           setTimeout(() => {
             if ($('.messageBubble .userMessage span').last().text() == _self.vars.searchObject.searchText && $('.messageBubble .messageBubble-content .botMessage span:nth-child(2)').last().text() === 'Sure, please find the matched results below') {
               if ($('#searchChatContainer').prop('offsetHeight') < $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
+                $("#searchChatContainer").off('scroll').on('scroll', function () {
+                  if ($('#searchChatContainer').prop('offsetHeight') >= $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
+                    $('.more-results').css('display', 'none');
+                  }else{
+                    $('.more-results').css('display', 'block');
+                  }
+                });
                 $('.more-results').css('display', 'block');
               }
-
             }
           }, 500)
         }
@@ -7083,7 +7089,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('.typingIndicatorContent').css('display', 'block');
                 $("#searchChatContainer").off('scroll').on('scroll', function (event) {
                   $('.typingIndicatorContent').css('display', 'none');
-                });
+              });
               } else {
                 _self.showTypingIndicator();
               }
