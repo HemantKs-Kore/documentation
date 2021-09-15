@@ -14860,20 +14860,20 @@ margin-bottom: 15px !important;
     --lh: 1rem;
    --max-lines: 2;
    position: relative;
-   max-height: calc(var(--lh) * var(--max-lines));
+   max-height: calc(var(--lh) * var(--max-lines)) !important;
    overflow: hidden;
-   padding-right: 3px;
+   padding-right: 10px;
  }
  .text-truncate-overflow::before {
    position: absolute;
    content: "...";
    bottom: 0;
-   right: 0;
+   right: 0px;
  }
  .text-truncate-overflow::after {
    content: "";
    position: absolute;
-   right: 0;
+   right: -7px;
    width: 1rem;
    height: 1rem;
    background: white;
