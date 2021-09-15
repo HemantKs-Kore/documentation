@@ -176,7 +176,7 @@
               </label>
             </div>
           </div>
-          <div class="kr-sg-input-text mb-20">
+          <div class="kr-sg-input-text mb-20 pr-4 pl-0">
             <div class="label-text">
               {{'workbench.stage_name' | translate}}
               <img container="body" placement="right-center"
@@ -186,7 +186,7 @@
             <input type="text" placeholder="{{'workbench.please_enter_stage_name' | translate}}" maxlength="60"
               (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name" />
           </div>
-          <div class="kr-sg-input-text mb-2">
+          <!-- <div class="kr-sg-input-text mb-2">
             <div class="label-text">
               {{'workbench.add_condition' | translate}}
               <span class="tooltip-custom-data">
@@ -203,13 +203,13 @@
             <input type="text" placeholder="{{'workbench.define_condition' | translate}}" maxlength="60"
               (keyup)="changesDetected = true" autocomplete="off" class="input-text"
               [(ngModel)]="selectedStage.condition" />
-            <!-- <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div> -->
-          </div>
-          <div class="add-condition-example-text">Eg: ctx.sys_content_type=="faq"</div>
-          <div class="add-condition-info" *ngIf="selectedStage.type === 'exclude_document'">
+             <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div>
+          </div> -->
+          <!-- <div class="add-condition-example-text">Eg: ctx.sys_content_type=="faq"</div> -->
+          <!-- <div class="add-condition-info" *ngIf="selectedStage.type === 'exclude_document'">
             <img src="assets/icons/Info_blue.svg">{{'workbench.it_is_mandatory_to_add_conditions_for_defining' |
             translate}}
-          </div>
+          </div> -->
 
 
           <div class="condition-block">
@@ -217,15 +217,18 @@
               <div class="heading-title">Condition</div>
               <div class="desc-text"></div>
               <div class="kr-sg-radiobutton">
-                <input id="radio-22" name="radio" class="radio-custom" type="radio">
+                <input id="radio-22" name="radio" class="radio-custom" type="radio" value="basic"
+                  [(ngModel)]="selectedConditionType">
                 <label for="radio-22" class="radio-custom-label">Basic</label>
               </div>
               <div class="kr-sg-radiobutton">
-                <input id="radio-23" name="radio" class="radio-custom" type="radio">
+                <input id="radio-23" name="radio" class="radio-custom" type="radio" value="script"
+                  [(ngModel)]="selectedConditionType">
                 <label for="radio-23" class="radio-custom-label">Script</label>
               </div>
             </div>
-            <div class="conditions-input-sec" *ngFor="let basic of conditionArray;let i=index;">
+            <div class="conditions-input-sec" *ngFor="let basic of conditionArray;let i=index;"
+              [hidden]="selectedConditionType=='script'">
               <div class="conditions-types">
                 <div class="and-seperator" *ngIf="conditionArray.length>1&&i>0">And</div>
                 <div class="kr-sg-input-text">
@@ -233,10 +236,13 @@
                     <input type="text" placeholder="Enter Field" maxlength="60" (keyup)="changesDetected = true"
                       class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown"
                       [(ngModel)]="basic.field" />
-                    <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu">
+                    <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
+                      [ngClass]="{'no-data-match-border-0':!(fields | filter : [basic.source_field, 'fieldName']).length}">
                       <perfect-scrollbar class="scroll-search-field">
-                        <li *ngFor="let suggesition of fields" (click)="basic.field=suggesition.fieldName"><a
-                            *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
+                        <li *ngFor="let suggesition of fields| filter : [basic.field, 'fieldName']"
+                          (click)="basic.field=suggesition.fieldName;addCondition('update',i,'field',basic.field);"><a
+                            *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a>
+                        </li>
                       </perfect-scrollbar>
                     </ul>
                   </div>
@@ -246,7 +252,10 @@
                     <button class="dropdown-toggle dropdown-input"
                       data-toggle="dropdown">{{basic.operator==''?'Operator':basic.operator}}</button>
                     <ul class="dropdown-menu content-menu">
-                      <li *ngFor="let operator of operators" (click)="basic.operator=operator"><a>{{operator}}</a></li>
+                      <li *ngFor="let operator of operators"
+                        (click)="basic.operator=operator;addCondition('update',i,'operator',basic.operator);">
+                        <a>{{operator}}</a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -254,26 +263,38 @@
                   <img src="assets/icons/delete-table.svg" (click)="addCondition('remove',index)">
                 </div>
               </div>
-              <div class="kr-sg-input-text col-12 input-box">
+              <div class="kr-sg-input-text col-12 input-box" *ngIf="basic.operator==='Contains'">
                 <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                   <mat-chip-list #chipList [attr.aria-label]="'contain selection'">
-                    <mat-chip *ngFor="let contain of containCondition" [selectable]="selectable" [removable]="removable"
-                      (removed)="remove(contain)">
+                    <mat-chip *ngFor="let contain of basic.containCondition" [selectable]="selectable"
+                      [removable]="removable" (removed)="remove(contain,i)">
                       <span class="mat-val">{{contain}}</span>
                       <mat-icon matChipRemove><img src="assets/icons/Workbench/close-mat.svg"></mat-icon>
                     </mat-chip>
                     <input type="text" placeholder="Type value and press enter" #containInput
                       [formControl]="containCtrl" [matChipInputFor]="chipList" [matChipInputAddOnBlur]="addOnBlur"
-                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)"
-                      [(ngModel)]="autocomplete_text" maxlength="60" autocomplete="off">
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event,i)"
+                      [(ngModel)]="basic.autocomplete_text" maxlength="60" autocomplete="off">
                   </mat-chip-list>
                 </mat-form-field>
               </div>
             </div>
-            <div class="add-condition-btn" (click)="addCondition('add')">
+            <div class="add-condition-btn" (click)="addCondition('add')" *ngIf="selectedConditionType=='basic'">
               <img src="assets/icons/Workbench/add-blue.svg" class="blue-add">
               <img src="assets/icons/Workbench/add-grey.svg" class="grey-add">
               Add Condition
+            </div>
+            <div>
+              <div *ngIf="selectedConditionType=='script'">
+                <div class="clear">
+                  <span (click)="selectedScript=''">Clear</span>
+                </div>
+                <div class="painless-script-wrapper col-12">
+                  <ngx-codemirror #customScriptCodeMirror [(ngModel)]="selectedScript"
+                    (ngModelChange)="painlessScriptChanged($event)" [options]="customScriptCodeMirrorOptions">
+                  </ngx-codemirror>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -324,7 +345,7 @@
                   <div class="drag_drop">
                     <img src="assets/icons/drag_drop_move_icon.svg" />
                   </div>
-                  <div class="kr-sg-dropdowns col-4 input-box">
+                  <div class="kr-sg-dropdowns col-6 input-box">
                     <div class="label-text">{{'workbench.action' | translate}}</div>
                     <div class="dropup dropdown-open">
                       <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
@@ -367,7 +388,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="kr-sg-input-text col-4 input-box"
+                  <div class="kr-sg-input-text col-6 input-box"
                     *ngIf="map.operation === 'copy' || map.operation === 'rename'">
                     <div class="label-text" *ngIf="map.operation === 'copy'">
                       {{'workbench.source_field' | translate}}
@@ -389,7 +410,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="kr-sg-input-text col-4 input-box">
+                  <div class="kr-sg-input-text 6 input-box">
                     <div class="label-text" *ngIf="map.operation === 'copy'">
                       {{'workbench.target_field' | translate}}
                     </div>
@@ -417,7 +438,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="kr-sg-input-text col-4 input-box" (keyup)="changesDetected = true" *ngIf="
+                  <div class="kr-sg-input-text col-6 input-box" (keyup)="changesDetected = true" *ngIf="
                       map.operation !== 'remove' &&
                       map.operation !== 'copy' &&
                       map.operation !== 'rename'
@@ -426,7 +447,7 @@
                     <input type="text" placeholder="{{'workbench.value' | translate}}" maxlength="60" class="input-text"
                       [(ngModel)]="map.value" />
                   </div>
-                  <div class="kr-sg-dropdowns col-4 input-box">
+                  <!-- <div class="kr-sg-dropdowns col-4 input-box">
                     <div class="label-text">Label</div>
                     <div class="dropdown dropdown-open">
                       <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>
@@ -436,7 +457,7 @@
                         <li><a>Option 3</a></li>
                       </ul>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="delete_icon" (click)="removeConfig(i, selectedStage.config.mappings)">
                     <img src="assets/icons/delete-table.svg" />
                   </div>
@@ -448,7 +469,7 @@
                 newMappingObj.field_mapping &&
                 newMappingObj.field_mapping.defaultValue
               ">
-              <div class="kr-sg-dropdowns col-4 input-box">
+              <div class="kr-sg-dropdowns col-6 input-box">
                 <div class="label-text">{{'workbench.action' | translate}}</div>
                 <div class="dropup dropdown-open">
                   <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
@@ -503,7 +524,7 @@
                   </ul>
                 </div>
               </div>
-              <div class="kr-sg-input-text col-4 input-box" *ngIf="
+              <div class="kr-sg-input-text col-6 input-box" *ngIf="
                   newMappingObj.field_mapping.defaultValue.operation === 'copy' ||
                   newMappingObj.field_mapping.defaultValue.operation === 'rename'
                 ">
@@ -535,7 +556,7 @@
                   </ul>
                 </div>
               </div>
-              <div class="kr-sg-input-text col-4 input-box">
+              <div class="kr-sg-input-text col-6 input-box">
                 <div class="label-text" *ngIf="
                     newMappingObj.field_mapping.defaultValue.operation === 'copy'
                   ">
@@ -578,7 +599,7 @@
 
 
               </div>
-              <div class="kr-sg-input-text col-4 input-box" *ngIf="
+              <div class="kr-sg-input-text col-6 input-box" *ngIf="
                   newMappingObj.field_mapping.defaultValue.operation !==
                     'remove' &&
                   newMappingObj.field_mapping.defaultValue.operation !== 'copy' &&
@@ -630,7 +651,7 @@
                   <div class="drag_drop">
                     <img src="assets/icons/drag_drop_move_icon.svg" />
                   </div>
-                  <div class="kr-sg-input-text col-4 input-box">
+                  <div class="kr-sg-input-text col-6 input-box">
                     <div class="label-text">{{'workbench.source_field' | translate}}</div>
                     <div class="position-relative ">
                       <input type="text" placeholder="{{'workbench.value' | translate}}" maxlength="60"
@@ -669,7 +690,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="kr-sg-dropdowns col-4 input-box d-none"
+                  <div class="kr-sg-dropdowns col-6 input-box d-none"
                     *ngIf="selectedStage.type === 'keyword_extraction'">
                     <div class="label-text">{{'workbench.choose_model' | translate}}</div>
                     <div class="dropup dropdown-open">
@@ -689,7 +710,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="kr-sg-input-text col-4 input-box" *ngIf="
+                  <div class="kr-sg-input-text col-6 input-box" *ngIf="
                       !(selectedStage.type === 'keyword_extraction') &&
                       !(selectedStage.type === 'semantic_meaning')
                     ">
@@ -757,12 +778,12 @@
                       </mat-form-field>
                     </ng-container>
                   </div>
-                  <div class="kr-sg-input-text col-4 input-box">
+                  <div class="kr-sg-input-text col-6 input-box">
                     <div class="label-text">{{'workbench.target_field' | translate}}</div>
                     <input type="text" placeholder="{{'workbench.value' | translate}}" maxlength="60"
                       (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field" />
                   </div>
-                  <div class="kr-sg-dropdowns col-4 input-box">
+                  <!-- <div class="kr-sg-dropdowns col-4 input-box">
                     <div class="label-text">Label</div>
                     <div class="dropdown dropdown-open">
                       <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>
@@ -772,7 +793,7 @@
                         <li><a>Option 3</a></li>
                       </ul>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="delete_icon" (click)="removeConfig(i, selectedStage.config.mappings)">
                     <img src="assets/icons/delete-table.svg" />
                   </div>
@@ -784,7 +805,7 @@
                 newMappingObj[selectedStage.type] &&
                 newMappingObj[selectedStage.type].defaultValue
               ">
-              <div class="kr-sg-input-text col-4 input-box">
+              <div class="kr-sg-input-text col-6 input-box">
                 <div class="label-text">{{'workbench.source_field' | translate}}</div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench.value' | translate}}"
@@ -844,7 +865,7 @@
                   </ul>
                 </div>
               </div>
-              <div class="kr-sg-input-text col-4 input-box" *ngIf="
+              <div class="kr-sg-input-text col-6 input-box" *ngIf="
                   !(selectedStage.type === 'keyword_extraction') &&
                   !(selectedStage.type === 'semantic_meaning')
                 ">
@@ -943,7 +964,7 @@
                   </mat-form-field>
                 </ng-container>
               </div>
-              <div class="kr-sg-input-text col-4 input-box">
+              <div class="kr-sg-input-text col-6 input-box">
                 <div class="label-text">{{'workbench.target_field' | translate}}</div>
                 <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" maxlength="60"
                   [(ngModel)]="
