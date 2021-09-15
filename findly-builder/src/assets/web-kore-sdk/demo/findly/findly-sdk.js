@@ -15252,7 +15252,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <div class="tile-img-block"><img src="${data.img}"></div>\
                               <div class="tile-with-text-content">\
                                 <div class="tile-heading text-truncate" title="${data.heading}">${data.heading}</div>\
-                                <div class="tile-description text-truncate twolines-tile-description">${data.description}</div>\
+                                <div class="tile-description text-truncate-overflow twolines-tile-description">${data.description}</div>\
                               </div>\
                             </a>\
                           {{/if}}\
@@ -15628,7 +15628,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <div class="tile-img-block"><img src="${data.img}"></div>\
                               <div class="tile-with-text-content">\
                                 <div class="tile-heading text-truncate" title="${data.heading}">${data.heading}</div>\
-                                <div class="tile-description text-truncate">${data.description}</div>\
+                                <div class="tile-description text-truncate-overflow twolines-tile-description">${data.description}</div>\
                               </div>\
                             </a>\
                           {{/if}}\
@@ -15993,7 +15993,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <div class="tile-img-block"><img src="${data.img}"></div>\
                               <div class="tile-with-text-content">\
                                 <div class="tile-heading text-truncate" title="${data.heading}">${data.heading}</div>\
-                                <div class="tile-description text-truncate">${data.description}</div>\
+                                <div class="tile-description text-truncate-overflow twolines-tile-description">${data.description}</div>\
                               </div>\
                             </a>\
                           {{/if}}\
