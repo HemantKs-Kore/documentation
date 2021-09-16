@@ -16945,6 +16945,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // From now, the container and data will be managed.
 
       // Search call back
+      _self.pubSub.unsubscribe('sa-st-data-search');
       _self.pubSub.subscribe('sa-st-data-search', (msg, data) => {
         var _self = this;
         var container;
@@ -17533,6 +17534,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // From now, the container and data will be managed.
 
       // Search call back
+      _self.pubSub.unsubscribe('sa-faq-search');
       _self.pubSub.subscribe('sa-faq-search', (msg, data) => {
         var _self = this;
         var container;
@@ -18443,6 +18445,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // From now, the container and data will be managed.
 
       // Search call back
+      _self.pubSub.unsubscribe('sa-file-search')
       _self.pubSub.subscribe('sa-file-search', (msg, data) => {
         var _self = this;
         var container;
