@@ -94,7 +94,7 @@
                         </div> 
                         <!-- <div class="seach_add_feild"> -->
                             <div class="kr-sg-input-search"  *ngIf="showSearch">                               
-                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="searchFaqs()" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"   (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                                <input type="text" placeholder="Search" id="inputSearch" class="input-search" (keyup)="getSourceList(searchFaq,'search')" [ngClass]="{'pl-33':!searchFaq,'pl-2':searchFaq}" autocomplete="off" [(ngModel)]="searchFaq"   (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                                 (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFaq">
                             <img class="close-icon" src="assets/icons/close_icon.svg"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" [ngClass]="{'pr-22':searchFaq}" (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
@@ -700,13 +700,13 @@
                 <div class="kr-sg-data-table with-checkbox"  *ngIf=" extractedResources &&  extractedResources.length">
                 <section class="table-content">
                     <header class="table-header">
-                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('name')">
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('name')">
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span> SOURCE TITLE
                             </div>
-                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('type')">
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortByApi('contentSource')">
                             <span class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
@@ -731,7 +731,7 @@
                               </div>
                               </div>
                             </div>
-                        <div class="col_ col-3 d-flex align-items-center" (click)="sortBy('recentStatus')">
+                        <div class="col_ col-3 d-flex align-items-center" (click)="sortByApi('recentStatus')">
                             <span class="selected-length-doc-web hide">({{this.filterSystem.statusFilter}})</span>
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
@@ -793,6 +793,7 @@
             </div>
             <div class="divBlockEmptylastChild">{{searchSources?'No Data Found': 'No search results'}}</div>
             </div>
+           <div style="margin-right: 10px;"> <app-record-pagination *ngIf="!isNotSearching && !loadingTab && faqSelectionObj.stats[selectedtab] && faqSelectionObj.stats[selectedtab]>0" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' (pageChanged)="paginate($event)"></app-record-pagination></div> PAGINATION
         </ng-container>
         <ng-container  *ngIf="currentView === 'grid'">
             <perfect-scrollbar class="faqScurceListScroll">
@@ -826,6 +827,7 @@
                 </div> 
             </perfect-scrollbar>            
         </ng-container>
+        PAGINATION
     </div>
 </kr-modal>
 <ng-container *ngIf="showSourceAddition">

@@ -29,6 +29,11 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   loading = false;
   isAsc = true;
   current_plan_name;
+ sortedObject = {
+    type : '',
+    value : '',
+    position: ''
+  }
   componentType: string = 'addData';
   constructor(
     public workflowService: WorkflowService,
@@ -63,13 +68,14 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     }
   }
   searchItems() { }
-  getInvoices(offset?) {
+  getInvoices(offset?,sortHeaderOption?,sortValue?,navigate?,request?) {
     this.loading = true;
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       skip: offset || 0,
-      limit: 10
+      limit: 10,
     };
+    quaryparms.sortByInvoiceDate = sortValue;
     this.service.invoke('get.allInvoices', quaryparms).subscribe(res => {
       this.invoices = res.data || [];
       this.totalRecord = res.total;
@@ -78,6 +84,70 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       this.loading = false;
       this.errorToaster(errRes, 'Failed to get invoices');
     });
+  }
+  sortInvoices(sortHeaderOption?,sortValue?,navigate?){  
+    // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)  
+    // this.loadingContent = true;
+    if(sortValue){
+      this.sortedObject = {
+        type : sortHeaderOption,
+        value : sortValue,
+        position: navigate
+      }
+    }
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      offset: 0,
+      limit: 10
+    };
+    let request:any={}
+    if(!sortValue){
+      request = {
+        "sort":{
+          'fieldName':1
+        }    
+    }   
+    }
+    else if(sortValue){
+      const sort :any ={}
+      request= {
+        sort
+      }
+    }
+    else {
+    request={}
+    }
+      
+    if(sortValue){  
+      this.getSortIconVisibility(sortHeaderOption,navigate);
+       //Sort start
+    if(sortHeaderOption === 'sortByInvoiceDate' ){
+      request.sort.sortByInvoiceDate = sortValue
+    }
+    // end
+    }
+    this.getInvoices(null,sortHeaderOption,sortValue,navigate,request);
+  }
+  sortByApi(sort){
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    var naviagtionArrow ='';
+    var checkSortValue= 1;
+    if(this.isAsc){
+      naviagtionArrow= 'up';
+      checkSortValue = 1;
+    }
+    else{
+      naviagtionArrow ='down';
+      checkSortValue = -1;
+    }
+    this.getInvoices(null,sort,checkSortValue,naviagtionArrow)
   }
 
   errorToaster(errRes, message) {

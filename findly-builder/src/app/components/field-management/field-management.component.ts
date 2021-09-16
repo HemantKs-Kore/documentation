@@ -854,11 +854,11 @@ export class FieldManagementComponent implements OnInit {
     // });
   }
   getDyanmicFilterData(search?) {
-    this.fieldDataTypeArr = [];
-    this.isMultiValuedArr = [];
-    this.isRequiredArr = [];
-    this.isStoredArr = [];
-    this.isIndexedArr = [];
+    // this.fieldDataTypeArr = [];
+    // this.isMultiValuedArr = [];
+    // this.isRequiredArr = [];
+    // this.isStoredArr = [];
+    // this.isIndexedArr = [];
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
@@ -866,9 +866,30 @@ export class FieldManagementComponent implements OnInit {
       moduleName: "fields",
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
     };
-    if (search) {
-      request.search = search
+    request.fieldDataType = this.filterSystem.typefilter;
+    request.isMultiValued = this.filterSystem.isMultiValuedFilter;
+    request.isStored = this.filterSystem.isStoredFilter;
+    request.isIndexed = this.filterSystem.isIndexedFilter;
+    request.isRequired = this.filterSystem.isRequiredFilter;
+    request.search= this.searchFields;
+    if (request.fieldDataType == 'all') {
+     delete  request.fieldDataType;
     }
+     if ( request.isMultiValued == 'all') {
+      delete request.isMultiValued; 
+    }
+     if (request.isStored == 'all') {
+     delete request.isStored; 
+    }
+     if (request.isIndexed == 'all') {
+     delete  request.isIndexed;
+    }
+    if (request.isRequired == 'all') { 
+     delete request.isRequired;
+    }
+    if (this.searchFields === '') {
+      delete request.search;
+     }
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
       console.log(res, 'Filters')
       this.fieldDataTypeArr = [...res.fieldDataType];

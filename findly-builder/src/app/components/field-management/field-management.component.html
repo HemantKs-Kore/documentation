@@ -33,7 +33,7 @@
             </div>     
             <div>
                 <div class="table_data_content" *ngIf="filelds && filelds.length" >
-                    <div class="table_header row m-0" *ngIf="!(filelds && filelds.length)">
+                    <div class="table_header row m-0" *ngIf="!(filelds && filelds.length) || filelds && filelds.length" >
                         <div class="col_ col-2 title d-flex align-items-center" (click)="sortByApi('fieldName')" > <!--(click)="sortByApi('fieldName')"-->
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img  [ngClass]="getSortIconVisibility('fieldName', 'down')"   src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">

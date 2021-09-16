@@ -41,6 +41,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isEdittitle;
   contentId
   content_id;
+  skip=0;
   edit: any = {};
   Id;
   editConfObj: any = {};
@@ -74,8 +75,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   btnCount;
   btnAllCount;
   pagingData: any[] = [];
-  statusArr;
-  docTypeArr;
+  statusArr=[];
+  docTypeArr =[];
   selectedFilter: any = ''
   executionLogStatus = false;
   componentType: string = 'addData';
@@ -211,6 +212,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   addStructuredDataModalPopRef: any;
   selectedSourceType : any;
   isStructuredDataAdd : boolean = false;
+  sortedObject = {
+    'type': 'fieldName',
+    'position':'up',
+    "value": 1,
+  }
+  filterObject={
+    'type': '',
+    'header':''
+  }
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -233,6 +243,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.getDyanmicFilterData()
     this.getSourceList();
     this.getJobStatusForMessages();
     this.userInfo = this.authService.getUserInfo() || {};
@@ -352,18 +363,34 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         return '';
     }
   }
-  getSourceList(nxt?) {
-    this.statusArr = [];
-    this.docTypeArr = [];
+  getSourceList(nxt?,searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?,request?) {
+    // this.statusArr = [];
+    // this.docTypeArr = [];
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       type: 'content',
-      limit: 50,
-      skip: 0
+      offset: this.skip || 0,
+      limit: 3
     };
-    this.service.invoke('get.source.list', quaryparms).subscribe(res => {
-      this.resources = res;
+    let payload:any = {}
+    if(!sortHeaderOption && !headerOption){
+       payload ={
+        "extractionType": "content",
+        "sort":{
+          "name" : -1
+        } 
+      }
+    }
+    else{
+      payload = request
+    }
+    if(this.searchSources){
+      payload.search = this.searchSources;
+    }
+    this.service.invoke('get.source.list', quaryparms,payload).subscribe(res => {
+      this.resources = res.sources;
+      this.totalRecord = res.totalCount || 0;
       //  this.resourcesDoc=this.resources[0].fileMeta;
       //element.advanceSettings.scheduleOpts.interval.intervalType
       this.resources.forEach(element => {
@@ -460,7 +487,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         $('#searchContentSources').focus();
       }, 100);
-      this.filterTable(this.filterTableSource, this.filterTableheaderOption)
+      // this.filterTable(this.filterTableSource, this.filterTableheaderOption)
       if (res.length > 0) {
         this.loadingContent = false;
         this.loadingContent1 = true;
@@ -468,7 +495,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           this.inlineManual.openHelp('CONTENT_OVERVIEW')
           this.inlineManual.visited('CONTENT_OVERVIEW')
         }
+       
       }
+      
       else {
         this.loadingContent1 = true;
         // if(!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')){
@@ -476,6 +505,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         //   this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')
         // }
       }
+      this.getDyanmicFilterData(searchValue);
+      
     }, errRes => {
       console.log(errRes);
       this.loadingContent = false;
@@ -585,16 +616,25 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     if (quaryparms.sourceType === 'file') {
       quaryparms.contentType = 'docContent'
     }
-    this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
+    const payload : any={
+      sort :{
+        lMod: -1,
+      }
+    };
+    if(this.searchSources){
+      payload.search = this.searchSources;
+    }
+    // payload.sort.lMod = -1;
+    this.service.invoke('get.extracted.pags', quaryparms,payload).subscribe(res => {
       this.loadingSliderContent = false;
-      this.selectedSource.pages = res;
+      this.selectedSource.pages = res.content;
       if (this.selectedSource.pages.length > 0) {
         this.docContent = this.selectedSource.pages[0]._source;
         this.docContentType = this.selectedSource.pages[0]._meta;
         this.contentId = this.selectedSource.pages[0]._id;
       }
       /** Paging */
-      const data = [...res]
+      const data = [...res.content]
       this.pagingData = data.slice(0, this.limitpage);
       this.pagingData.forEach(element => {
         element['url_display'] = element._source.page_url;
@@ -1136,113 +1176,259 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }, errRes => {
     });
   }
-  filterTableType() {
-
-  }
   filterTable(source, headerOption) {
-    console.log(this.resources, source)
-    this.filterTableSource = source;
-    this.filterTableheaderOption = headerOption;
-    let firstFilterDataBack = [];
-    //this.resources = [...this.filterResourcesBack]; // For new Filter..
-    if (headerOption == "extractionType") {
-      this.filterSystem.typeHeader = headerOption;
-      this.filterSystem.typefilter = source;
-    } else {
-      this.filterSystem.statusHeader = headerOption;
-      this.filterSystem.statusFilter = source;
+    switch (headerOption) {
+      case 'contentSource': {this.filterSystem.typefilter = source; break; };
+      case 'recentStatus': {this.filterSystem.statusFilter = source; break; };
+    };
+    this.filterObject = {
+      type: source,
+      header: headerOption
     }
-
-    //this.filterText  = source;
-    /** TYpe */
-    // if(this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all"){
-    //   this.resources = [...this.filterResourcesBack];
-    //   this.firstFilter = {'header': '' , 'source' : ''};
-    // } else {
-    //  if(this.filterSystem.typefilter == "all" || this.filterSystem.statusFilter == "all"){
-    //   if(!this.firstFilter['header'])this.firstFilter = {'header': headerOption , 'source' : source};
-    //   if(source == "all") {
-    //     firstFilterDataBack = [...this.filterResourcesBack];
-    //     const resourceData =  firstFilterDataBack.filter((data)=>{
-    //       return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
-    //       })
-    //     if(resourceData.length)this.resources = [...resourceData];
-    //   }else{
-    //     firstFilterDataBack = [...this.filterResourcesBack];
-    //     const resourceData =  firstFilterDataBack.filter((data)=>{
-
-    //       return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
-    //       })
-    //     if(resourceData.length)this.resources = [...resourceData];
-    //   }
-
-    //  }else {
-    //   this.resources = [...this.filterResourcesBack];
-    //   //firstFilter
-    //   const firstResourceData =  this.resources.filter((data)=>{
-    //     console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
-    //     return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
-    //     })
-    //     const secondResourceData =  firstResourceData.filter((data)=>{
-    //       console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
-    //       return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
-    //       })
-    //   if(secondResourceData.length)this.resources = [...secondResourceData];
-    //  }
-
-    // }
-
-    //a/
-    if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all") {
-      this.resources = [...this.filterResourcesBack];
-      this.firstFilter = { 'header': '', 'source': '' };
+    if(headerOption) {
+      this.filterContent(null, null, source, headerOption);
     }
-    else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter == "all") {
-      if (!this.firstFilter['header']) {
-        this.firstFilter = { 'header': headerOption, 'source': source };
-      }
-      firstFilterDataBack = [...this.filterResourcesBack];
-      const resourceData = firstFilterDataBack.filter((data) => {
-        return data[this.filterSystem.typeHeader].toLocaleLowerCase() === this.filterSystem.typefilter.toLocaleLowerCase();
-      })
-      if (resourceData.length) this.resources = [...resourceData];
-    }
-    else if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter != "all") {
-      if (!this.firstFilter['header']) {
-        this.firstFilter = { 'header': headerOption, 'source': source };
-      }
-      firstFilterDataBack = [...this.filterResourcesBack];
-      const resourceData = firstFilterDataBack.filter((data) => {
-        return data[this.filterSystem.statusHeader].toLocaleLowerCase() === this.filterSystem.statusFilter.toLocaleLowerCase();
-      })
-      if (resourceData.length) this.resources = [...resourceData];
-
-    }
-    else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter != "all") {
-      this.resources = [...this.filterResourcesBack];
-      //firstFilter
-      // if (this.firstFilter['header'] == headerOption) {
-      if (headerOption == "extractionType") {
-        this.firstFilter = { 'header': this.filterSystem.statusHeader, 'source': this.filterSystem.statusFilter };
-      } else {
-        this.firstFilter = { 'header': this.filterSystem.typeHeader, 'source': this.filterSystem.typefilter };
-      }
-      const firstResourceData = this.resources.filter((data) => {
-        console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
-        return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
-      })
-      const secondResourceData = firstResourceData.filter((data) => {
-        console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
-        return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
-      })
-      if (secondResourceData.length) this.resources = [...secondResourceData];
-      //}
-    }
-
-
-
-    //this.getSourceList();
   }
+
+  // filterTable(source, headerOption) {
+  //   console.log(this.resources, source)
+  //   this.filterTableSource = source;
+  //   this.filterTableheaderOption = headerOption;
+  //   let firstFilterDataBack = [];
+  //   //this.resources = [...this.filterResourcesBack]; // For new Filter..
+  //   if (headerOption == "extractionType") {
+  //     this.filterSystem.typeHeader = headerOption;
+  //     this.filterSystem.typefilter = source;
+  //   } else {
+  //     this.filterSystem.statusHeader = headerOption;
+  //     this.filterSystem.statusFilter = source;
+  //   }
+
+  //   //this.filterText  = source;
+  //   /** TYpe */
+  //   // if(this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all"){
+  //   //   this.resources = [...this.filterResourcesBack];
+  //   //   this.firstFilter = {'header': '' , 'source' : ''};
+  //   // } else {
+  //   //  if(this.filterSystem.typefilter == "all" || this.filterSystem.statusFilter == "all"){
+  //   //   if(!this.firstFilter['header'])this.firstFilter = {'header': headerOption , 'source' : source};
+  //   //   if(source == "all") {
+  //   //     firstFilterDataBack = [...this.filterResourcesBack];
+  //   //     const resourceData =  firstFilterDataBack.filter((data)=>{
+  //   //       return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
+  //   //       })
+  //   //     if(resourceData.length)this.resources = [...resourceData];
+  //   //   }else{
+  //   //     firstFilterDataBack = [...this.filterResourcesBack];
+  //   //     const resourceData =  firstFilterDataBack.filter((data)=>{
+
+  //   //       return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+  //   //       })
+  //   //     if(resourceData.length)this.resources = [...resourceData];
+  //   //   }
+
+  //   //  }else {
+  //   //   this.resources = [...this.filterResourcesBack];
+  //   //   //firstFilter
+  //   //   const firstResourceData =  this.resources.filter((data)=>{
+  //   //     console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
+  //   //     return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
+  //   //     })
+  //   //     const secondResourceData =  firstResourceData.filter((data)=>{
+  //   //       console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
+  //   //       return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+  //   //       })
+  //   //   if(secondResourceData.length)this.resources = [...secondResourceData];
+  //   //  }
+
+  //   // }
+
+  //   //a/
+  //   if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all") {
+  //     this.resources = [...this.filterResourcesBack];
+  //     this.firstFilter = { 'header': '', 'source': '' };
+  //   }
+  //   else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter == "all") {
+  //     if (!this.firstFilter['header']) {
+  //       this.firstFilter = { 'header': headerOption, 'source': source };
+  //     }
+  //     firstFilterDataBack = [...this.filterResourcesBack];
+  //     const resourceData = firstFilterDataBack.filter((data) => {
+  //       return data[this.filterSystem.typeHeader].toLocaleLowerCase() === this.filterSystem.typefilter.toLocaleLowerCase();
+  //     })
+  //     if (resourceData.length) this.resources = [...resourceData];
+  //   }
+  //   else if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter != "all") {
+  //     if (!this.firstFilter['header']) {
+  //       this.firstFilter = { 'header': headerOption, 'source': source };
+  //     }
+  //     firstFilterDataBack = [...this.filterResourcesBack];
+  //     const resourceData = firstFilterDataBack.filter((data) => {
+  //       return data[this.filterSystem.statusHeader].toLocaleLowerCase() === this.filterSystem.statusFilter.toLocaleLowerCase();
+  //     })
+  //     if (resourceData.length) this.resources = [...resourceData];
+
+  //   }
+  //   else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter != "all") {
+  //     this.resources = [...this.filterResourcesBack];
+  //     //firstFilter
+  //     // if (this.firstFilter['header'] == headerOption) {
+  //     if (headerOption == "extractionType") {
+  //       this.firstFilter = { 'header': this.filterSystem.statusHeader, 'source': this.filterSystem.statusFilter };
+  //     } else {
+  //       this.firstFilter = { 'header': this.filterSystem.typeHeader, 'source': this.filterSystem.typefilter };
+  //     }
+  //     const firstResourceData = this.resources.filter((data) => {
+  //       console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
+  //       return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
+  //     })
+  //     const secondResourceData = firstResourceData.filter((data) => {
+  //       console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
+  //       return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+  //     })
+  //     if (secondResourceData.length) this.resources = [...secondResourceData];
+  //     //}
+  //      this.filterObject = {
+  //     type: source,
+  //     header: headerOption
+  //   }
+
+  //   this.filterContent(null,null,source, headerOption);
+  //   }
+   
+  //   //this.getSourceList();
+  // }
+ 
+  filterContent(searchValue?,searchSource?,source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){
+    if(sortValue){
+      this.sortedObject = {
+        type : sortHeaderOption,
+        value : sortValue,
+        position: navigate
+      }
+    }
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      offset: 0,
+      limit: 3
+    };
+    let request:any={}
+    if(!sortValue){
+      request = {
+        "extractionType": "content",
+        "sort":{
+          "name":1
+        }    
+    }   
+    }
+    else if(sortValue){
+      const sort :any ={}
+      request= {
+        sort
+      }
+    }
+    else {
+    request={}
+    }
+    request.extractionType = "content",
+    request.contentSource = this.filterSystem.typefilter;
+    request.recentStatus = this.filterSystem.statusFilter;
+    request.search= this.searchSources;
+    if (request.contentSource == 'all') {
+     delete request.contentSource;
+    }
+     if (request.recentStatus == 'all') {
+      delete request.recentStatus; 
+    }
+    if (this.searchSources === '') {
+      delete request.search;
+     }
+    if(sortValue){  
+      this.getSortIconVisibility(sortHeaderOption,navigate);
+       //Sort start
+    if(sortHeaderOption === 'contentSource' ){
+      request.sort.contentSource = sortValue
+    }
+    if(sortHeaderOption === 'recentStatus' ){
+      request.sort.recentStatus = sortValue
+    }
+    if(sortHeaderOption === 'name' ){
+      request.sort.name = sortValue
+    }
+    if(sortHeaderOption === 'numOfDocs' ){
+      request.sort.numOfDocs = sortValue
+    }
+    if(sortHeaderOption === 'triggeredBy' ){
+      request.sort.triggeredBy = sortValue
+    }
+    // end
+    }
+    
+    this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
+  }
+  getDyanmicFilterData(search?) {
+    // this.fieldDataTypeArr = [];
+    // this.isMultiValuedArr = [];
+    // this.isRequiredArr = [];
+    // this.isStoredArr = [];
+    // this.isIndexedArr = [];
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId
+    };
+    const request :any = {
+      moduleName: "content"
+    };
+    request.contentSource = this.filterSystem.typefilter;
+    request.recentStatus = this.filterSystem.statusFilter;
+    // request.isStored = this.filterSystem.isStoredFilter;
+    // request.isIndexed = this.filterSystem.isIndexedFilter;
+    // request.isRequired = this.filterSystem.isRequiredFilter;
+    request.search= this.searchSources;
+    if (request.contentSource == 'all') {
+     delete  request.contentSource;
+    }
+     if (request.recentStatus == 'all') {
+      delete request.recentStatus; 
+    }
+    if (this.searchSources === '') {
+      delete request.search;
+     }
+    this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
+      console.log(res, 'Filters')
+      this.statusArr = [...res.recentStatus];
+      this.docTypeArr = [...res.contentSource];
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get filters');
+    });
+    
+  }
+  sortByApi(sort){
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    var naviagtionArrow ='';
+    var checkSortValue= 1;
+    if(this.isAsc){
+      naviagtionArrow= 'up';
+      checkSortValue = 1;
+    }
+    else{
+      naviagtionArrow ='down';
+      checkSortValue = -1;
+  }
+  this.filterContent(null,null,null,null,sort,checkSortValue,naviagtionArrow)
+}
+paginateContent(event) {
+  this.skip= event.skip
+   this.filterContent(this.searchSources,'search',this.filterObject.type,this.filterObject.header,this.sortedObject.type,this.sortedObject.value,this.sortedObject.position)
+  // this.getFileds(event.skip, this.searchFields)
+
+}
   transform(date: string): any {
     const _date = new Date(date);
     if (_date.toString() === 'Invalid Date') {
@@ -1691,7 +1877,29 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           return "display-none"
         }
       }
-      case "createdOn": {
+      case "triggeredBy": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "numOfDocs": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "lastUpdated": {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
             return "display-block";
