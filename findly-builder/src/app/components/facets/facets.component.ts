@@ -81,6 +81,38 @@ export class FacetsComponent implements OnInit, OnDestroy {
   selectTypeArr: any = [];
   componentType: string = 'configure';
   submitted: boolean = false;
+  //new code from here
+  filterFacetObj: any = {
+    fieldId: "",
+    name: "",
+    type: "filter",
+    subtype: "value",
+    multiselect: false,
+    size: 0,
+    sortConfig: {
+      sortBy: "",
+      order: ""
+    },
+    ranges: [
+      {
+        name: "",
+        from: 0,
+        to: 0
+      }]
+  };
+  sortableFacetObj: any = {
+    fieldId: "",
+    name: "",
+    type: "sortable",
+    sortConfig: {
+      sortBy: "",
+      order: ""
+    }
+  }
+  tabFacetObj: any = {}
+  currentFacetObj: any = null;
+  currentFacetTab: string = 'filter';
+  facetType: any = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
   constructor(
@@ -346,20 +378,20 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.filedTypeShow = true;
     }
   }
-  switchType(type) {
-    if (type === 'value') {
-      if (this.addEditFacetObj.facetRange) {
-        delete this.addEditFacetObj.facetRange;
-      }
-      this.addEditFacetObj.facetValue = {};
-    } else {
-      if (this.addEditFacetObj.facetValue) {
-        delete this.addEditFacetObj.facetValue;
-      }
-      this.addEditFacetObj.facetRange = [];
-    }
-    this.addEditFacetObj.facetType = type;
-  }
+  // switchType(type) {
+  //   if (type === 'value') {
+  //     if (this.addEditFacetObj.facetRange) {
+  //       delete this.addEditFacetObj.facetRange;
+  //     }
+  //     this.addEditFacetObj.facetValue = {};
+  //   } else {
+  //     if (this.addEditFacetObj.facetValue) {
+  //       delete this.addEditFacetObj.facetValue;
+  //     }
+  //     this.addEditFacetObj.facetRange = [];
+  //   }
+  //   this.addEditFacetObj.facetType = type;
+  // }
   removeRange(index) {
     this.addEditFacetObj.facetRange.splice(index, 1);
   }
@@ -652,6 +684,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
   //new modal open
   openModal1() {
+    this.currentFacetObj = this.filterFacetObj;
     this.facetModalRef1 = this.facetModalPopupNew.open();
   }
   //new modal close
@@ -840,5 +873,31 @@ export class FacetsComponent implements OnInit, OnDestroy {
     } else {
       return false;
     }
+  }
+  //new code from here
+  addNewRange(type, index?) {
+    if (type === 'add') {
+      this.currentFacetObj.ranges.push({ name: "", from: 0, to: 0 });
+    }
+    else if (type === 'remove') {
+      this.currentFacetObj.ranges.splice(index, 1);
+    }
+  }
+  //current tab
+  currentTab(type) {
+    this.currentFacetTab = type;
+    if (type === 'filter') {
+      this.currentFacetObj = this.filterFacetObj;
+    }
+    else if (type === 'sortable') {
+      this.currentFacetObj = this.sortableFacetObj;
+    }
+    else if (type === 'tab') {
+      this.currentFacetObj = this.tabFacetObj;
+    }
+  }
+  //save facet
+  saveFacet() {
+    console.log("saved data", this.currentFacetObj)
   }
 }
