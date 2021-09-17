@@ -7501,7 +7501,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               contextObj = {};
             }
           }
-          this.bot.options.botInfo.customData[userContext] =  contextObj ;
+          this.bot.options.botInfo.customData['userContext'] =  contextObj ;
           payload.messagePayload["botInfo"].customData = this.bot.options.botInfo.customData;
         } else {
           payload.messagePayload["botInfo"].customData = _self.bot.options.botInfo.customData || {};
@@ -9042,7 +9042,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               contextObj = {};
             }
           }
-          _self.bot.options.botInfo.customData[userContext] =  contextObj ;
+          _self.bot.options.botInfo.customData['userContext'] =  contextObj ;
         }
       }
 
