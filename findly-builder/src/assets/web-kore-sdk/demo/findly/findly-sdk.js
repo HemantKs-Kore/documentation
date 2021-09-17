@@ -17231,6 +17231,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         console.log($(event.currentTarget).parent().attr('contentType'), $(event.currentTarget).parent().attr('contentId'));
         _self.captureClickAnalytics(event, $(event.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).attr('title'));
       })
+
+      $('div.structured-data-wrp-content').off('click').on('click', function (event) {
+        console.log($(event.currentTarget).parent().attr('contentType'), $(event.currentTarget).parent().attr('contentId'));
+        _self.captureClickAnalytics(event, $(event.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).attr('title'));
+      })
+      _self.clickNavigateToUrl();
       // }
 
       // $('.moreStructredData').off('click').on('click', function (e) {
@@ -22978,8 +22984,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
     FindlySDK.prototype.clickNavigateToUrl = function (e) {
+      var _self = this;
       setTimeout(function () {
         $('.click-to-navigate-url').off('click').on('click', function (e) {
+            // console.log($(e.currentTarget).parent().attr('contentType'), $(e.currentTarget).parent().attr('contentId'));
+            _self.captureClickAnalytics(e, $(e.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(e.currentTarget).closest('.faqs-shadow').attr('contentId'), $(e.currentTarget).closest('.faqs-shadow').attr('id'), $(e.currentTarget).attr('title'));
           if ($(e.target).is('a')) {
             if ($(e.target).attr('href')) {
               // window.open($(e.target).attr('href'), '_blank');
