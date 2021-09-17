@@ -80,8 +80,14 @@ export class ResultTemplatesComponent implements OnInit {
     }
   }
   /** Call for All Setting Templates */
-  getAllSettings(obj){
-
+  getAllSettings(Setting){
+    //get.settingsByInterface
+    //get.settingsById
+    // update.settings
+    // copy.settings
+    // new.template
+    // get.templateById
+    // update.template
   }
   openCustomModal(){
     this.customModalRef = this.customModal.open();
@@ -93,6 +99,16 @@ export class ResultTemplatesComponent implements OnInit {
     }
   }
 
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message) {
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+    }
+  }
+  
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();

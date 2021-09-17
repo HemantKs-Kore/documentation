@@ -951,7 +951,7 @@ export class EndPointsService {
     //   method: 'get'      
     //  }
 
-    /** APIs for Search Interface */
+    /** APIs for Search Interface Old API*/
     this.serviceList['get.SI_setting'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/resultviewsettings',
       method: 'get'
@@ -984,7 +984,38 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/resultviewsettings/copyConfig',
       method: 'put'
     }
-    /** APIs for Search Interface */
+    /** APIs for Search Interface Old API*/
+
+    /** APIs for Result Template New */
+    this.serviceList['get.settingsByInterface'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/resultTemplateSettings?interface=:interface',
+      method: 'get'
+    }
+    this.serviceList['get.settingsById'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/resultTemplateSettings/:settingsId',
+      method: 'get'
+    }
+    this.serviceList['update.settings'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/resultTemplateSettings/:settingsId',
+      method: 'put'
+    }
+    this.serviceList['copy.settings'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/resultTemplateSettings/:settingsId/copy?fromInterface=:fromInterface',
+      method: 'post'
+    }
+    this.serviceList['new.template'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/templates',
+      method: 'post'
+    }
+    this.serviceList['get.templateById'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/templates/:templateId',
+      method: 'get'
+    }
+    this.serviceList['update.template'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/templates/:templateId',
+      method: 'put'
+    }
+    /** APIs for Result Template New */
 
     /** APIs for multiple Index */
     this.serviceList['get.indexPipeline'] = {
