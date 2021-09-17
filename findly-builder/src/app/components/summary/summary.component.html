@@ -15,26 +15,31 @@
       <div class="col-3 card-data">
         <div class="inner-content">
           <ng-container *ngIf="!loading_skelton">
-            <div class="title">{{'overview.totalUsers' | translate}} <span>({{'overview.last_24hrs' | translate}})</span></div>
+            <div class="title">{{'overview.totalUsers' | translate}} <span>({{'overview.last_24hrs' |
+                translate}})</span></div>
             <div class="count-graph-data">
               <div class="count-sec">
-                 <div class="count">{{totalUsersStats?.totalUsers}}</div> <!--*ngIf="totalUsersStats?.percentageIncrease!=0" -->
+                <div class="count">{{totalUsersStats?.totalUsers}}</div>
+                <!--*ngIf="totalUsersStats?.percentageIncrease!=0" -->
                 <div class="cont-up-down">
-                  <span class="bg-type" [ngClass]="{'fail':totalUsersStats?.percentageIncrease<0}"><img [src]="totalUsersStats?.percentageIncrease<0?'assets/icons/arrow-decrease.svg':'assets/icons/overview/arrow-increase.svg'"></span>{{ math.abs(totalUsersStats?.percentageIncrease) }}%
+                  <span class="bg-type" [ngClass]="{'fail':totalUsersStats?.percentageIncrease<0}"><img
+                      [src]="totalUsersStats?.percentageIncrease<0?'assets/icons/arrow-decrease.svg':'assets/icons/overview/arrow-increase.svg'"></span>{{
+                  math.abs(totalUsersStats?.percentageIncrease) }}%
                 </div>
               </div>
               <div class="graph-sec">
-                <img [src]="totalUsersStats?.percentageIncrease>=0?'assets/icons/overview/graph-1.svg':'assets/icons/overview/graph-3.svg'">
+                <img
+                  [src]="totalUsersStats?.percentageIncrease>=0?'assets/icons/overview/graph-1.svg':'assets/icons/overview/graph-3.svg'">
               </div>
             </div>
             <div class="view-insights" (click)="userViewAll()">View Insights</div>
           </ng-container>
           <ng-container *ngIf="loading_skelton">
             <div class="skelton-img">
-              <img src="assets/icons/overview/skelton-1.svg">            
+              <img src="assets/icons/overview/skelton-1.svg">
             </div>
             <div class="skelton-img">
-              <img src="assets/icons/overview/skelton-2.svg">           
+              <img src="assets/icons/overview/skelton-2.svg">
             </div>
           </ng-container>
         </div>
@@ -42,26 +47,31 @@
       <div class="col-3 card-data">
         <div class="inner-content">
           <ng-container *ngIf="!loading_skelton">
-            <div class="title">{{'overview.totalSearches'| translate}} <span>({{'overview.last_24hrs' | translate}})</span></div>
+            <div class="title">{{'overview.totalSearches'| translate}} <span>({{'overview.last_24hrs' |
+                translate}})</span></div>
             <div class="count-graph-data">
               <div class="count-sec">
                 <div class="count">{{totalSearchesStats?.totalSearches}}</div>
-                 <div class="cont-up-down"> <!--*ngIf="totalSearchesStats?.searchRate!=0" -->
-                  <span class="bg-type" [ngClass]="{'fail':totalSearchesStats?.searchRate<0}"><img  [src]="totalSearchesStats?.searchRate<0?'assets/icons/arrow-decrease.svg':'assets/icons/overview/arrow-increase.svg'"></span>{{ math.abs(totalSearchesStats.searchRate) }}%
+                <div class="cont-up-down">
+                  <!--*ngIf="totalSearchesStats?.searchRate!=0" -->
+                  <span class="bg-type" [ngClass]="{'fail':totalSearchesStats?.searchRate<0}"><img
+                      [src]="totalSearchesStats?.searchRate<0?'assets/icons/arrow-decrease.svg':'assets/icons/overview/arrow-increase.svg'"></span>{{
+                  math.abs(totalSearchesStats.searchRate) }}%
                 </div>
               </div>
               <div class="graph-sec">
-                <img [src]="totalSearchesStats?.searchRate>=0?'assets/icons/overview/graph-1.svg':'assets/icons/overview/graph-3.svg'">
+                <img
+                  [src]="totalSearchesStats?.searchRate>=0?'assets/icons/overview/graph-1.svg':'assets/icons/overview/graph-3.svg'">
               </div>
             </div>
             <div class="view-insights" (click)="searchViewAll()">{{'overview.viewInsights' | translate}}</div>
           </ng-container>
           <ng-container *ngIf="loading_skelton">
             <div class="skelton-img">
-              <img src="assets/icons/overview/skelton-1.svg">            
+              <img src="assets/icons/overview/skelton-1.svg">
             </div>
             <div class="skelton-img">
-              <img src="assets/icons/overview/skelton-2.svg">           
+              <img src="assets/icons/overview/skelton-2.svg">
             </div>
           </ng-container>
         </div>
@@ -69,58 +79,67 @@
       <div class="col-3 card-data">
         <div class="inner-content">
           <ng-container *ngIf="!loading_skelton">
-            <div class="title">{{'overview.resultRate' | translate}} <span>({{'overview.last_24hrs' | translate}})</span></div>
+            <div class="title">{{'overview.resultRate' | translate}} <span>({{'overview.last_24hrs' |
+                translate}})</span></div>
             <div class="count-graph-data">
               <div class="count-sec">
                 <div class="count">
-                  <span class="d-inline-block text-truncate" title="{{totalSearchesStats?.searchesWithResults}}">{{totalSearchesStats?.searchesWithResults}}</span>
-                  <span class="ctr-data">| {{'overview.Result_rate' | translate}}: <b>{{totalSearchesStats?.searchesWithResults!=null?totalSearchesStats?.searchesWithResults:0}}%</b></span>
-                </div>                
+                  <span class="d-inline-block text-truncate"
+                    title="{{totalSearchesStats?.searchesWithResults}}">{{totalSearchesStats?.resultRate==null?0:totalSearchesStats.resultRate}}</span>
+                  <span class="ctr-data">| {{'overview.Result_rate' | translate}}:
+                    <b>{{totalSearchesStats?.searchesWithResults!=null?totalSearchesStats?.searchesWithResults:0}}%</b></span>
+                </div>
                 <div class="d-flex align-items-center">
                   <!-- *ngIf="![0,null].includes(totalSearchesStats.resultRate)" -->
                   <div class="cont-up-down">
-                    <span class="bg-type" [ngClass]="{'fail':totalSearchesStats?.increasedResultRate<0}"><img [src]="totalSearchesStats?.increasedResultRate<0?'assets/icons/arrow-decrease.svg':'assets/icons/overview/arrow-increase.svg'"></span>{{math.abs(totalSearchesStats?.increasedResultRate)}}%
+                    <span class="bg-type" [ngClass]="{'fail':totalSearchesStats?.increasedResultRate<0}"><img
+                        [src]="totalSearchesStats?.increasedResultRate<0?'assets/icons/arrow-decrease.svg':'assets/icons/overview/arrow-increase.svg'"></span>{{math.abs(totalSearchesStats?.increasedResultRate)}}%
                   </div>
                   <div class="graph-sec pl-4 pt-0">
-                    <img [src]="totalSearchesStats?.increasedResultRate>=0?'assets/icons/overview/graph-1.svg':'assets/icons/overview/graph-3.svg'">
+                    <img
+                      [src]="totalSearchesStats?.increasedResultRate>=0?'assets/icons/overview/graph-1.svg':'assets/icons/overview/graph-3.svg'">
                   </div>
                 </div>
-              </div>                
+              </div>
             </div>
             <div class="view-insights" (click)="resultViewAll()">{{'overview.viewInsights' | translate}}</div>
           </ng-container>
           <ng-container *ngIf="loading_skelton">
             <div class="skelton-img">
-              <img src="assets/icons/overview/skelton-1.svg">            
+              <img src="assets/icons/overview/skelton-1.svg">
             </div>
             <div class="skelton-img">
-              <img src="assets/icons/overview/skelton-2.svg">           
+              <img src="assets/icons/overview/skelton-2.svg">
             </div>
           </ng-container>
         </div>
-        </div>
+      </div>
       <div class="col-3 card-data">
         <div class="inner-content">
           <ng-container *ngIf="!loading_skelton">
-            <div class="title">{{'overview.clicks' | translate}} <span>({{'overview.last_24hrs' | translate}})</span></div>
+            <div class="title">{{'overview.clicks' | translate}} <span>({{'overview.last_24hrs' | translate}})</span>
+            </div>
             <div class="count-graph-data">
               <div class="count-sec">
                 <div class="count">
-                  <span class="d-inline-block text-truncate" title="{{totalSearchesStats?.clicks }}">{{totalSearchesStats?.clicks }}</span>
-                  <span class="ctr-data">| {{'overview.CTR' | translate}}: <b>{{totalSearchesStats?.ctr}}%</b></span></div>
-                <div class="cont-up-down" *ngIf="totalSearchesStats?.clicks!=0">
-                  <span class="bg-type" [ngClass]="{'fail':totalSearchesStats?.clickRate<0}"><img [src]="totalSearchesStats?.clickRate<0?'assets/icons/arrow-decrease.svg':'assets/icons/overview/arrow-increase.svg'"></span>{{math.abs(totalSearchesStats?.clickRate)}}%
+                  <span class="d-inline-block text-truncate"
+                    title="{{totalSearchesStats?.clicks }}">{{totalSearchesStats?.clicks }}</span>
+                  <span class="ctr-data">| {{'overview.CTR' | translate}}: <b>{{totalSearchesStats?.ctr}}%</b></span>
                 </div>
-              </div>              
+                <div class="cont-up-down" *ngIf="totalSearchesStats?.clicks!=0">
+                  <span class="bg-type" [ngClass]="{'fail':totalSearchesStats?.clickRate<0}"><img
+                      [src]="totalSearchesStats?.clickRate<0?'assets/icons/arrow-decrease.svg':'assets/icons/overview/arrow-increase.svg'"></span>{{math.abs(totalSearchesStats?.clickRate)}}%
+                </div>
+              </div>
             </div>
             <!-- <div class="view-insights">View Insights</div> -->
           </ng-container>
           <ng-container *ngIf="loading_skelton">
             <div class="skelton-img">
-              <img src="assets/icons/overview/skelton-1.svg">            
+              <img src="assets/icons/overview/skelton-1.svg">
             </div>
             <div class="skelton-img">
-              <img src="assets/icons/overview/skelton-2.svg">           
+              <img src="assets/icons/overview/skelton-2.svg">
             </div>
           </ng-container>
         </div>
@@ -130,16 +149,19 @@
     <div class="body-cards-data row col-12">
       <div class="col-6 cards-data lef-sec-data">
         <div class="inner-content">
-          <div class="title-heading">{{'overview.Sources' | translate}} <span *ngIf="!loading_skelton&&show_indices"> | {{indices?.indexPipeLineCount}} {{'overview.indices' | translate}}</span></div>
+          <div class="title-heading">{{'overview.Sources' | translate}} <span *ngIf="!loading_skelton&&show_indices"> |
+              {{indices?.indexPipeLineCount}} {{'overview.indices' | translate}}</span></div>
           <ng-container *ngIf="!loading_skelton&&show_indices">
-            <div class="add-more" (click)="openSource()"><img src="assets/icons/overview/add.svg">{{'overview.add_more' | translate}}</div>
+            <div class="add-more" (click)="openSource()"><img src="assets/icons/overview/add.svg">{{'overview.add_more'
+              | translate}}</div>
             <ng-container>
               <div class="table-data col-12 row">
                 <div class="col-5 image-with-title">
                   <img src="assets/icons/overview/data.svg">
                   <span class="title">{{'overview.data' | translate}}</span>
                 </div>
-                <div class="col-7 data-count">{{indices?.structuredDataCount}} {{'overview.documents' | translate}}</div>
+                <div class="col-7 data-count">{{indices?.structuredDataCount}} {{'overview.documents' | translate}}
+                </div>
               </div>
               <div class="table-data col-12 row">
                 <div class="col-5 image-with-title">
@@ -153,7 +175,8 @@
                   <img src="assets/icons/overview/web.svg">
                   <span class="title">{{'overview.web' | translate}}</span>
                 </div>
-                <div class="col-7 data-count">{{indices?.web?.domains}} {{'overview.domains' | translate}}  |  {{indices?.web?.numOfDocs}} {{'overview.documents' | translate}}  </div>
+                <div class="col-7 data-count">{{indices?.web?.domains}} {{'overview.domains' | translate}} |
+                  {{indices?.web?.numOfDocs}} {{'overview.documents' | translate}} </div>
               </div>
               <div class="table-data col-12 row">
                 <div class="col-5 image-with-title">
@@ -167,15 +190,22 @@
                   <img src="assets/icons/overview/faqs.svg">
                   <span class="title">{{'overview.FAQS' | translate}}</span>
                 </div>
-                <div class="col-7 data-count">{{'overview.in_draft' | translate}} - {{indices?.faqs?.draft}}  | {{'overview.in_review' | translate}} - {{indices?.faqs?.in_review}}  | {{'overview.approved' | translate}} - {{indices?.faqs?.approved}} </div>
+                <div class="col-7 data-count">{{'overview.in_draft' | translate}} - {{indices?.faqs?.draft}} |
+                  {{'overview.in_review' | translate}} - {{indices?.faqs?.in_review}} | {{'overview.approved' |
+                  translate}} - {{indices?.faqs?.approved}} </div>
               </div>
               <div class="table-data col-12 row">
                 <div class="col-5 image-with-title">
                   <img src="assets/icons/overview/actions.svg">
                   <span class="title">{{'overview.ACTIONS' | translate}}</span>
                 </div>
-                <div class="col-7 data-count" *ngIf="indices?.botActions?.linked_bot_name!=null&&indices?.botActions?.tasks!=0">{{indices?.botActions?.linked_bot_name}}  |  {{indices?.botActions?.tasks}} {{'overview.Tasks' | translate}}</div>
-                <div class="col-7 data-count" *ngIf="indices?.botActions?.linked_bot_name==null&&indices?.botActions?.tasks==0">{{'overview.link_bot' | translate}}</div>
+                <div class="col-7 data-count"
+                  *ngIf="indices?.botActions?.linked_bot_name!=null&&indices?.botActions?.tasks!=0">
+                  {{indices?.botActions?.linked_bot_name}} | {{indices?.botActions?.tasks}} {{'overview.Tasks' |
+                  translate}}</div>
+                <div class="col-7 data-count"
+                  *ngIf="indices?.botActions?.linked_bot_name==null&&indices?.botActions?.tasks==0">
+                  {{'overview.link_bot' | translate}}</div>
               </div>
             </ng-container>
             <div class="goto-sources" (click)="openSource()">{{'overview.go_to_sources' | translate}}</div>
@@ -198,47 +228,62 @@
         <div class="col-12 inner-content mb-20 right-sec-cards h-auto">
           <div class="title-heading">{{'plan.current_subscription_plan' | translate}}</div>
           <ng-container *ngIf="!loading_skelton">
-            <div class="upgrade-btn" (click)="redirectToPricing()">{{currentPlan?.changesScheduledFor=='none'||currentPlan?.changesScheduledFor=='downgrade'||currentPlan?.planName!='Free'?("plan.upgrade_btn"| translate):(currentPlan?.changesScheduledFor=='cancel'&&currentPlan?.status!='expired')?("plan.revert_cancellation_btn"| translate):("plan.reactivate_btn"| translate)}}</div>
+            <div class="upgrade-btn" (click)="redirectToPricing()">
+              {{currentPlan?.changesScheduledFor=='none'||currentPlan?.changesScheduledFor=='downgrade'||currentPlan?.planName!='Free'?("plan.upgrade_btn"|
+              translate):(currentPlan?.changesScheduledFor=='cancel'&&currentPlan?.status!='expired')?("plan.revert_cancellation_btn"|
+              translate):("plan.reactivate_btn"| translate)}}</div>
             <div class="free-status-title">
               <div class="type-plan">{{currentPlan?.planName}}</div>
-              <div class="started-on">{{'plan.started_on' | translate}} : <span>{{(currentPlan?.createdAt| dateFormatPipe:'D MMMM YYYY')}}</span></div>
+              <div class="started-on">{{'plan.started_on' | translate}} : <span>{{(currentPlan?.createdAt|
+                  dateFormatPipe:'D MMMM YYYY')}}</span></div>
             </div>
             <div class="queries-documents">
               <div class="query-type border-">
-                <div class="title-query"><img src="assets/icons/overview/question.svg">{{'plan.queries' | translate}}</div>
+                <div class="title-query"><img src="assets/icons/overview/question.svg">{{'plan.queries' | translate}}
+                </div>
                 <div class="range-data">
-                  <div class="count-type">{{usageDetails?.searchCount | valueFormat}} / <span>{{usageDetails?.searchLimit| valueFormat}}</span></div>
-                  <div style="margin-top: 6px;"><ngb-progressbar height="6px" [type]="usageDetails?.searchQueries<80?'primary':'danger'" [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar></div>
+                  <div class="count-type">{{usageDetails?.searchCount | valueFormat}} /
+                    <span>{{usageDetails?.searchLimit| valueFormat}}</span></div>
+                  <div style="margin-top: 6px;">
+                    <ngb-progressbar height="6px" [type]="usageDetails?.searchQueries<80?'primary':'danger'"
+                      [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
+                  </div>
                 </div>
               </div>
               <div class="query-type">
-                <div class="title-query"><img src="assets/icons/overview/document.svg">{{'plan.documents' | translate}}</div>
+                <div class="title-query"><img src="assets/icons/overview/document.svg">{{'plan.documents' | translate}}
+                </div>
                 <div class="range-data">
-                  <div class="count-type">{{usageDetails?.ingestCount| valueFormat}} / <span>{{usageDetails?.ingestLimit| valueFormat}}</span></div>
-                  <div style="margin-top: 6px;"><ngb-progressbar height="6px" [type]="usageDetails?.ingestDocs<80?'success':'danger'" [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar></div>
+                  <div class="count-type">{{usageDetails?.ingestCount| valueFormat}} /
+                    <span>{{usageDetails?.ingestLimit| valueFormat}}</span></div>
+                  <div style="margin-top: 6px;">
+                    <ngb-progressbar height="6px" [type]="usageDetails?.ingestDocs<80?'success':'danger'"
+                      [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
+                  </div>
                 </div>
               </div>
             </div>
           </ng-container>
-            <ng-container *ngIf="loading_skelton">
-              <div class="skelton-img">
-                <img src="assets/icons/overview/group-skelton.svg">
-                <!-- <div class="empty-title">{{'overview.no_experiments_created_yet' | translate}}</div>
+          <ng-container *ngIf="loading_skelton">
+            <div class="skelton-img">
+              <img src="assets/icons/overview/group-skelton.svg">
+              <!-- <div class="empty-title">{{'overview.no_experiments_created_yet' | translate}}</div>
                 <div class="create-exp-btn">{{'overview.create_experiment' | translate}}</div> -->
-              </div>
-            </ng-container>
-        </div>   
+            </div>
+          </ng-container>
+        </div>
         <div class="col-12 inner-content right-sec-cards h-auto">
           <div class="title-heading mb-1">{{'overview.experiments' |translate}}</div>
           <ng-container *ngIf="!loading_skelton&&experiments.length>0">
-            <div class="add-more" (click)="openExp()"><img src="assets/icons/overview/add.svg">{{'overview.create_New' |translate}}</div>
+            <div class="add-more" (click)="openExp()"><img src="assets/icons/overview/add.svg">{{'overview.create_New'
+              |translate}}</div>
             <ng-container>
-                <div class="table-experiments col-12 row" *ngFor="let experiment of experiments">
-                  <div class="col-9 title">{{experiment.name |titlecase}}</div>
-                  <div class="col-3 status">
-                    <span class="status-type" [ngClass]="experiment.state">{{experiment.state |titlecase }}</span>
-                  </div>
+              <div class="table-experiments col-12 row" *ngFor="let experiment of experiments">
+                <div class="col-9 title">{{experiment.name |titlecase}}</div>
+                <div class="col-3 status">
+                  <span class="status-type" [ngClass]="experiment.state">{{experiment.state |titlecase }}</span>
                 </div>
+              </div>
             </ng-container>
             <div class="goto-sources" (click)="openExp()">{{'overview.go_to_experiments' | translate}}</div>
           </ng-container>
@@ -249,12 +294,12 @@
               <div class="create-exp-btn" (click)="openExp()">{{'overview.create_experiment' | translate}}</div>
             </div>
           </ng-container>
-            <ng-container *ngIf="loading_skelton">
-              <div class="skelton-img">
-                <img src="assets/icons/overview/group-skelton.svg">
-              </div>
-            </ng-container>
-        </div>     
+          <ng-container *ngIf="loading_skelton">
+            <div class="skelton-img">
+              <img src="assets/icons/overview/group-skelton.svg">
+            </div>
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>

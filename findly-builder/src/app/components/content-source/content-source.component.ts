@@ -327,8 +327,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           if (element.advanceSettings.scheduleOpts.interval.intervalType != "Custom") {
             let minute = ''
             let hour = (element.advanceSettings.scheduleOpts.time.hour).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.hour : '0' + element.advanceSettings.scheduleOpts.time.hour;
-            if(element.advanceSettings.scheduleOpts.time.minute){
-               minute = (element.advanceSettings.scheduleOpts.time.minute).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.minute : '0' + element.advanceSettings.scheduleOpts.time.minute;
+            if (element.advanceSettings.scheduleOpts.time.minute) {
+              minute = (element.advanceSettings.scheduleOpts.time.minute).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.minute : '0' + element.advanceSettings.scheduleOpts.time.minute;
             }
             element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' ' + 'at ' +
               hour + ':' + minute + ' ' +
@@ -337,26 +337,26 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             let repeatOn = "";
             let schedulePeriod = "";
             let every = "";
-            let date =""
+            let date = ""
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod) {
               schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
               repeatOn = " on " + this.convertToDay(element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn);
             }
-            if(element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every){
+            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every) {
               every = element.advanceSettings.scheduleOpts.interval.intervalValue.every
             }
             if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn) {
-              date =  moment(element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate).format('Do MMMM YYYY');
+              date = moment(element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate).format('Do MMMM YYYY');
             }
-            if(date != 'Invalid date'){
+            if (date != 'Invalid date') {
               element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn + ' till' + ' ' + date
             }
-            else{
-              element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn 
+            else {
+              element['schedule_title'] = 'Runs once every' + ' ' + every + ' ' + schedulePeriod + repeatOn
             }
-            
+
           }
 
         }
@@ -367,7 +367,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00";
           element['schedule_duration'] = this.duration(element['schedule_duration']);
         }
-        if(element && element.validations && element.validations.url && !element.validations.url.validated){
+        if (element && element.validations && element.validations.url && !element.validations.url.validated) {
           element['vailadtionTootlip'] = element.validations.url.msg
         }
         // let hr = element['schedule_duration'].split(":")[0];
@@ -705,7 +705,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   openStatusSlider(source, page?) {
     console.log("sourec opned", source)
-    
+
     this.executionHistoryData = [];
     this.pagesSearch = '';
 
@@ -737,7 +737,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.getCrawledPages(this.limitpage, 0);
       this.executionHistory();
       this.sourceStatus = source.recentStatus;
-     
+
       // if(this.sourceStatus === 'success'){
       //    this.execution = false;
       //    this.isConfig = false;
@@ -750,7 +750,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     else if (source.extractionType === 'file') {
       this.openDocumentModal();
-      this.getCrawledPages(this.limitpage, 0);    
+      this.getCrawledPages(this.limitpage, 0);
     }
     // this.sliderComponent.openSlider('#sourceSlider', 'right500');
     //}
@@ -942,7 +942,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         title: from == 'source' ? 'Delete Source ' : ' Delete Page',
         text: 'Are you sure you want to delete?',
         newTitle: 'Are you sure you want to delete?',
-        body: from == 'source' ? 'All the Pages associated with this source will be deleted.' : 'Selected Page will be deleted.',
+        body: from == 'source' ? 'All the Docs associated with this source will be deleted.' : 'Selected Page will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -1385,13 +1385,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     } else {
       type == 'block' ? crawler.advanceOpts.blockedURLs.splice(i, 1) : crawler.advanceOpts.allowedURLs.splice(i, 1);
     }
-    if(type == 'block'){
-        crawler.advanceOpts.allowedOpt = false;
-        crawler.advanceOpts.blockedOpt = true;
+    if (type == 'block') {
+      crawler.advanceOpts.allowedOpt = false;
+      crawler.advanceOpts.blockedOpt = true;
       crawler.advanceOpts.allowedURLs = [];
-    }else{
-        crawler.advanceOpts.allowedOpt = true;
-        crawler.advanceOpts.blockedOpt = false;
+    } else {
+      crawler.advanceOpts.allowedOpt = true;
+      crawler.advanceOpts.blockedOpt = false;
       crawler.advanceOpts.blockedURLs = [];
     }
     // crawler.resourceType = resourceType; 
@@ -1558,19 +1558,19 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     // else {
     //   delete crawler.resourceType;
     // }
-    if(this.selectedSource.advanceSettings.crawlEverything){
+    if (this.selectedSource.advanceSettings.crawlEverything) {
       crawler.advanceOpts.crawlEverything = true;
       crawler.advanceOpts.allowedOpt = false;
       crawler.advanceOpts.blockedOpt = false;
       crawler.advanceOpts.allowedURLs = [];
       crawler.advanceOpts.blockedURLs = [];
-    }else{
+    } else {
       crawler.advanceOpts.crawlEverything = false;
-      if(this.selectedSource.advanceSettings.allowedOpt){
+      if (this.selectedSource.advanceSettings.allowedOpt) {
         crawler.advanceOpts.allowedOpt = true;
         crawler.advanceOpts.blockedOpt = false;
         crawler.advanceOpts.blockedURLs = [];
-      }else if(this.selectedSource.advanceSettings.blockedOpt){
+      } else if (this.selectedSource.advanceSettings.blockedOpt) {
         crawler.advanceOpts.allowedOpt = false;
         crawler.advanceOpts.blockedOpt = true;
         crawler.advanceOpts.allowedURLs = [];
@@ -1763,18 +1763,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.maxUrlLimit = 0;
     }
   }
-  
+
   clicksViews(type) {
-    if(type == 'file'){
+    if (type == 'file') {
       this.Id = this.contentId;
     }
-    else if(type == 'web'){
+    else if (type == 'web') {
       this.Id = this.content_id
     }
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       contentId: this.Id,
-    };   
+    };
     this.service.invoke('get.clicksViewsContent', quaryparms).subscribe(res => {
       console.log(res);
       this.numberOf = res;
