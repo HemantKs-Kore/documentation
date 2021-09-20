@@ -669,10 +669,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.executionHistoryData = res.contentExecutions;
         this.executionHistoryData.forEach(element => {
           element.executionStats.duration = this.duration(element.executionStats.duration);
+          console.log("element.executionStats.duration", element.executionStats.duration)
           element.createdOn = moment(element.createdOn).fromNow();
           if (element.executionStats.statusLogs) {
             element.executionStats.statusLogs.forEach(status_log => {
-              status_log.timeTaken = this.duration(status_log.timeTaken);
+              if (status_log?.timeTaken) {
+                status_log.timeTaken = this.duration(status_log?.timeTaken);
+              }
             });
           }
           if (element.executionStats.executionStatusMessage == 'Execution Stopped' && element.executionStats.isTimedOut) {

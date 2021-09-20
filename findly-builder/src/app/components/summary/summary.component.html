@@ -115,7 +115,7 @@
         </div>
       </div>
       <div class="col-3 card-data">
-        <div class="inner-content">
+        <div class="inner-content" style="min-height: 123px;">
           <ng-container *ngIf="!loading_skelton">
             <div class="title">{{'overview.clicks' | translate}} <span>({{'overview.last_24hrs' | translate}})</span>
             </div>
@@ -243,7 +243,8 @@
                 </div>
                 <div class="range-data">
                   <div class="count-type">{{usageDetails?.searchCount | valueFormat}} /
-                    <span>{{usageDetails?.searchLimit| valueFormat}}</span></div>
+                    <span>{{usageDetails?.searchLimit| valueFormat}}</span>
+                  </div>
                   <div style="margin-top: 6px;">
                     <ngb-progressbar height="6px" [type]="usageDetails?.searchQueries<80?'primary':'danger'"
                       [value]="usageDetails?.searchQueries" max="100"></ngb-progressbar>
@@ -255,7 +256,8 @@
                 </div>
                 <div class="range-data">
                   <div class="count-type">{{usageDetails?.ingestCount| valueFormat}} /
-                    <span>{{usageDetails?.ingestLimit| valueFormat}}</span></div>
+                    <span>{{usageDetails?.ingestLimit| valueFormat}}</span>
+                  </div>
                   <div style="margin-top: 6px;">
                     <ngb-progressbar height="6px" [type]="usageDetails?.ingestDocs<80?'success':'danger'"
                       [value]="usageDetails?.ingestDocs" max="100"></ngb-progressbar>
