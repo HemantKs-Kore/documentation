@@ -25,7 +25,7 @@
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
             <div class="bread-name active-name" >{{"settings.web_mobile_client" | translate}}</div>            
         </div>
-        <div class="col-6 toggle-check">       
+        <div class="col-6 toggle-check">        
             <label class="kr-sg-toggle">
                 <input type="checkbox" [checked] = "enableConfiguration" (click)="disableCredential(pageDisable)">
                 <div class="slider"><span class="enabled" >{{"settings.channel_enabled" | translate}}</span><span class="disabled" >Channel Disabled</span></div>
@@ -174,12 +174,14 @@
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><span
                                     class="select-placeholder">{{listData?listData.appName:'Select or Add Credential'}}</span></button>
                             <ul class="dropdown-menu content-menu">
+                                <!-- <li  *ngIf="channnelConguired.apps.length > 1"><a>Select Credential</a>
+                                </li> -->
                                 <li *ngFor="let channel of channnelConguired.apps" (click)="selctedChannel(channel)">
                                     <a>{{channel.appName}}</a>
                                 </li>
                                 <li class="add-custom" (click)="newCredential()"><a>{{"settings.add_new_credential" | translate}} </a>
                                 </li>
-                            </ul>
+                            </ul>S
                         </div>
                     </div>
                 </div>
