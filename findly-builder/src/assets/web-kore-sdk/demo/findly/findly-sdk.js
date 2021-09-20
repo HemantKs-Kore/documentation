@@ -1187,6 +1187,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="search-body">\</div>\
               <div id="autoSuggestionContainer"></div>\
             </div>\
+            <div class="more-results"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNS4zNjQzNyA1LjE0OTQ5QzUuMTc0OTcgNS4zMzgzNyA0Ljg3NDgxIDUuMzQ5NDggNC42NzIzOSA1LjE4MjgyTDQuNjM1NjMgNS4xNDk0OUwwLjE1MDkyNyAwLjg3NzI2NUMtMC4wNTAzMDkxIDAuNjc2NTc5IC0wLjA1MDMwOTEgMC4zNTEyMDIgMC4xNTA5MjcgMC4xNTA1MTVDMC4zNDAzMjYgLTAuMDM4MzY2NCAwLjY0MDQ4IC0wLjA0OTQ3NzMgMC44NDI5MDkgMC4xMTcxODNMMC44Nzk2NjggMC4xNTA1MTVMNSA0LjA1OTI4TDkuMTIwMzMgMC4xNTA1MTVDOS4zMDk3MyAtMC4wMzgzNjY0IDkuNjA5ODggLTAuMDQ5NDc3MyA5LjgxMjMxIDAuMTE3MTgzTDkuODQ5MDcgMC4xNTA1MTVDMTAuMDM4NSAwLjMzOTM5NyAxMC4wNDk2IDAuNjM4NzMxIDkuODgyNSAwLjg0MDYwN0w5Ljg0OTA3IDAuODc3MjY1TDUuMzY0MzcgNS4xNDk0OVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=">More Results</div> \
           </div>\
           <div class="search-modal-body hide">\
           </div>\
@@ -1197,7 +1198,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div class="greetingMsg">\
           </div>\
           <div class="typingIndicatorContent"><div class="typingIndicator"></div><div class="movingDots"></div></div> \
-          <div class="more-results"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNS4zNjQzNyA1LjE0OTQ5QzUuMTc0OTcgNS4zMzgzNyA0Ljg3NDgxIDUuMzQ5NDggNC42NzIzOSA1LjE4MjgyTDQuNjM1NjMgNS4xNDk0OUwwLjE1MDkyNyAwLjg3NzI2NUMtMC4wNTAzMDkxIDAuNjc2NTc5IC0wLjA1MDMwOTEgMC4zNTEyMDIgMC4xNTA5MjcgMC4xNTA1MTVDMC4zNDAzMjYgLTAuMDM4MzY2NCAwLjY0MDQ4IC0wLjA0OTQ3NzMgMC44NDI5MDkgMC4xMTcxODNMMC44Nzk2NjggMC4xNTA1MTVMNSA0LjA1OTI4TDkuMTIwMzMgMC4xNTA1MTVDOS4zMDk3MyAtMC4wMzgzNjY0IDkuNjA5ODggLTAuMDQ5NDc3MyA5LjgxMjMxIDAuMTE3MTgzTDkuODQ5MDcgMC4xNTA1MTVDMTAuMDM4NSAwLjMzOTM5NyAxMC4wNDk2IDAuNjM4NzMxIDkuODgyNSAwLjg0MDYwN0w5Ljg0OTA3IDAuODc3MjY1TDUuMzY0MzcgNS4xNDk0OVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo="> More Results</div> \
           <div class="search-bar">\
             <div class="widget-icon"><img src="${searchConfig.searchBarIcon}"> </div>\
             {{if searchConfig.autocompleteOpt == true}}\
@@ -2382,7 +2382,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var quickReplyTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
                     {{if msgData.message}} \
                       <div class="messageBubble">\
-                        <li {{if msgData.type !== "bot_response"}} id="msg_${msgItem.clientMessageId}"{{/if}} class="{{if msgData.type === "bot_response"}}fromOtherUsers{{else}}fromCurrentUser{{/if}} with-icon quickReplies" style="margin-top: -20px"> \
+                        <li {{if msgData.type !== "bot_response"}} id="msg_${msgItem.clientMessageId}"{{/if}} class="{{if msgData.type === "bot_response"}}fromOtherUsers{{else}}fromCurrentUser{{/if}} with-icon quickReplies" style="margin-top: 20px"> \
                             <div class="buttonTmplContent">\
                                 {{if msgData.createdOn}}<div aria-live="off" class="extra-info">${helpers.formatDate(msgData.createdOn)}</div>{{/if}} \
                                 {{if msgData.icon}}<div aria-live="off" class="profile-photo"> <div class="user-account avtar marginT50" style="background-image:url(${msgData.icon})"></div> </div> {{/if}} \
@@ -2845,13 +2845,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         } else {
           $(evet.target).next().parent().next().show();
         }
-        setTimeout(()=>{
-        if($(evet.target).closest('#searchChatContainer')){
-          if($('#searchChatContainer').prop('offsetHeight')>=$('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top){
-            $('.more-results').css('display','none');
+        setTimeout(() => {
+          if ($(evet.target).closest('#searchChatContainer')) {
+            if ($('#searchChatContainer').prop('offsetHeight') >= $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
+              $('.more-results').css('display', 'none');
+            }
           }
-        }
-      },500);
+        }, 500);
       });
       // var acc = document.getElementsByClassName("accordion");
       // var i;
@@ -5504,7 +5504,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('#frequently-searched-box').hide();
 
             } else {
-              if (!$('.search-container').hasClass('active')){
+              if (!$('.search-container').hasClass('active')) {
                 $('.search-container').addClass('active');
               }
             }
@@ -5697,7 +5697,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // Debounces makeAPICall method
           debounceFunction(makeAPICall, 300, event);
         })
-        
+
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
           _self.trimSearchQuery();
           // if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
@@ -6030,6 +6030,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             $(searchData).data(dataObj);
                             console.log("no results found");
                             $('.search-body').html(searchData);
+                            // $('.search-body').empty().append('<div class="livesearchResultsNotFound">No Results Found</div>');
                             setTimeout(function () {
                               $('.search-body').scrollTop(2);
                             }, 100);
@@ -6704,14 +6705,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('sa-web-search', { container: '.web-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
           _self.pubSub.publish('sa-st-data-search', { container: '.structured-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
           _self.pubSub.publish('sa-file-search', { container: '.files-data-container', isFullResults: false, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
-          setTimeout(()=>{
-            if($('.messageBubble .userMessage span').last().text()==_self.vars.searchObject.searchText && $('.messageBubble .messageBubble-content .botMessage span:nth-child(2)').last().text()==='Sure, please find the matched results below'){
-              if($('#searchChatContainer').prop('offsetHeight')<$('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top){
-                $('.more-results').css('display','block');
+          setTimeout(() => {
+            if ($('.messageBubble .userMessage span').last().text() == _self.vars.searchObject.searchText && $('.messageBubble .messageBubble-content .botMessage span:nth-child(2)').last().text() === 'Sure, please find the matched results below') {
+              if ($('#searchChatContainer').prop('offsetHeight') < $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
+                $("#searchChatContainer").off('scroll').on('scroll', function () {
+                  if ($('#searchChatContainer').prop('offsetHeight') >= $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
+                    $('.more-results').css('display', 'none');
+                  }else{
+                    $('.more-results').css('display', 'block');
+                  }
+                });
+                $('.more-results').css('display', 'block');
               }
-              
             }
-          },500)
+          }, 500)
         }
         else {
           $('#loaderDIV').hide();
@@ -7082,7 +7089,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('.typingIndicatorContent').css('display', 'block');
                 $("#searchChatContainer").off('scroll').on('scroll', function (event) {
                   $('.typingIndicatorContent').css('display', 'none');
-                });
+              });
               } else {
                 _self.showTypingIndicator();
               }
@@ -7494,7 +7501,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               contextObj = {};
             }
           }
-          this.bot.options.botInfo.customData = { 'userContext': contextObj }
+          this.bot.options.botInfo.customData['userContext'] =  contextObj ;
           payload.messagePayload["botInfo"].customData = this.bot.options.botInfo.customData;
         } else {
           payload.messagePayload["botInfo"].customData = _self.bot.options.botInfo.customData || {};
@@ -7907,7 +7914,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
         var devMode = _self.isDev ? true : false;
         var messageData = {};
-        messageData.text = data.payload;
+        messageData.text = data.title;
         messageData.from = 'user';
         var templateBotMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
           msgData: messageData,
@@ -8549,7 +8556,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $(container).append(dataHTML);
       _self.bindSearchContainerViewHadler();
       $('.search-container').off('click', '.more-results').on('click', '.more-results', function (e) {
-        $('.more-results').css('display','none');
+        $('.more-results').css('display', 'none');
         var scrollHeight = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').prop("scrollHeight");
         $('#searchChatContainer').animate({ scrollTop: scrollHeight }, 500);
       })
@@ -9035,7 +9042,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               contextObj = {};
             }
           }
-          _self.bot.options.botInfo.customData = { 'userContext': contextObj }
+          _self.bot.options.botInfo.customData['userContext'] =  contextObj ;
         }
       }
 
@@ -15251,7 +15258,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <div class="tile-img-block"><img src="${data.img}"></div>\
                               <div class="tile-with-text-content">\
                                 <div class="tile-heading text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                                <div class="tile-description text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                                <div class="tile-description text-truncate twolines">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
                             </div>\
                           {{/if}}\
@@ -15627,7 +15634,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <div class="tile-img-block"><img src="${data.img}"></div>\
                               <div class="tile-with-text-content">\
                                 <div class="tile-heading text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                                <div class="tile-description text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                                <div class="tile-description text-truncate twolines">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
                             </div>\
                           {{/if}}\
@@ -15992,7 +15999,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <div class="tile-img-block"><img src="${data.img}"></div>\
                               <div class="tile-with-text-content">\
                                 <div class="tile-heading text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                                <div class="tile-description text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                                <div class="tile-description text-truncate twolines">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
                             </div>\
                           {{/if}}\
@@ -16938,6 +16945,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // From now, the container and data will be managed.
 
       // Search call back
+      _self.pubSub.unsubscribe('sa-st-data-search');
       _self.pubSub.subscribe('sa-st-data-search', (msg, data) => {
         var _self = this;
         var container;
@@ -17172,10 +17180,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev').hide();
             $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next').hide();
           }
-          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev::after').css('height',$('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height()+'px');
-          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next::after').css('height',$('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height()+'px');
-          $("body").append("<style>.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-next::after,.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-prev::after {height:" + ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container').height()-8) + "px !important; top:-"+($('.carouselTemplate'+newCarouselTemplateCount+' .purejscarousel-btn-next').position().top-27.5)+"px !important;}</style>");
-         
+          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-prev::after').css('height', $('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height() + 'px');
+          $('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next::after').css('height', $('.carouselTemplate' + newCarouselTemplateCount + '.purejscarousel-slides-container').height() + 'px');
+          $("body").append("<style>.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-next::after,.carouselTemplate" + newCarouselTemplateCount + " .purejscarousel-btn-prev::after {height:" + ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-slides-container').height() - 8) + "px !important; top:-" + ($('.carouselTemplate' + newCarouselTemplateCount + ' .purejscarousel-btn-next').position().top - 27.5) + "px !important;}</style>");
+
           var evt = document.createEvent("HTMLEvents");
           evt.initEvent('resize', true, false);
           window.dispatchEvent(evt);
@@ -17223,6 +17231,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         console.log($(event.currentTarget).parent().attr('contentType'), $(event.currentTarget).parent().attr('contentId'));
         _self.captureClickAnalytics(event, $(event.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).attr('title'));
       })
+
+      $('div.structured-data-wrp-content').off('click').on('click', function (event) {
+        console.log($(event.currentTarget).parent().attr('contentType'), $(event.currentTarget).parent().attr('contentId'));
+        _self.captureClickAnalytics(event, $(event.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).attr('title'));
+      })
+      _self.clickNavigateToUrl();
       // }
 
       // $('.moreStructredData').off('click').on('click', function (e) {
@@ -17526,6 +17540,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // From now, the container and data will be managed.
 
       // Search call back
+      _self.pubSub.unsubscribe('sa-faq-search');
       _self.pubSub.subscribe('sa-faq-search', (msg, data) => {
         var _self = this;
         var container;
@@ -18436,6 +18451,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // From now, the container and data will be managed.
 
       // Search call back
+      _self.pubSub.unsubscribe('sa-file-search')
       _self.pubSub.subscribe('sa-file-search', (msg, data) => {
         var _self = this;
         var container;
@@ -22968,8 +22984,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
     FindlySDK.prototype.clickNavigateToUrl = function (e) {
+      var _self = this;
       setTimeout(function () {
         $('.click-to-navigate-url').off('click').on('click', function (e) {
+            // console.log($(e.currentTarget).parent().attr('contentType'), $(e.currentTarget).parent().attr('contentId'));
+            _self.captureClickAnalytics(e, $(e.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(e.currentTarget).closest('.faqs-shadow').attr('contentId'), $(e.currentTarget).closest('.faqs-shadow').attr('id'), $(e.currentTarget).attr('title'));
           if ($(e.target).is('a')) {
             if ($(e.target).attr('href')) {
               // window.open($(e.target).attr('href'), '_blank');
