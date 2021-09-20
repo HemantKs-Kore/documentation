@@ -71,7 +71,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private endpointservice: EndPointsService,
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
-    public inlineManual : InlineManualService
+    public inlineManual: InlineManualService
     // private translate: TranslateService
   ) {
 
@@ -176,6 +176,7 @@ export class AppComponent implements OnInit, OnDestroy {
           try {
             if (this.workflowService.selectedApp() && this.workflowService.selectedApp().searchIndexes && this.workflowService.selectedApp().searchIndexes.length) {
               this.router.navigate([route], { skipLocationChange: true });
+              this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {}, queryParamsHandling: '' });
             }
             if (route && this.pathsObj && this.pathsObj[route]) {
               setTimeout(() => {
@@ -192,7 +193,13 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
     } else {
+      let paramsExist: any;
+      this.activatedRoute.queryParams.subscribe(params => {
+        console.log("params", params);
+        paramsExist = params;
+      });
       this.router.navigate(['/apps'], { skipLocationChange: true });
+      this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {}, queryParamsHandling: '' });
     }
   }
 
