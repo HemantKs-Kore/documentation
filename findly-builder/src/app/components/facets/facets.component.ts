@@ -109,9 +109,17 @@ export class FacetsComponent implements OnInit, OnDestroy {
       order: ""
     }
   }
-  tabFacetObj: any = {}
+  tabFacetObj: any = {
+    fieldId: "",
+    type: 'tab',
+    multiselect: false,
+    tabs: []
+  };
+  configuredTabValues: any = [{ bucketName: '', fieldValue: 'faq', name: 'FAQs', selected: false }, { bucketName: '', fieldValue: 'web', name: 'Web', selected: false }, { bucketName: '', fieldValue: 'actions', name: 'Actions', selected: false }, { bucketName: '', fieldValue: 'data', name: 'Structured Data', selected: false }, { bucketName: '', fieldValue: 'file', name: 'Files', selected: false }]
+  showConfiguredFacet: boolean = false;
   currentFacetObj: any = null;
   currentFacetTab: string = 'filter';
+  selectAllConfigure: boolean = false;
   facetType: any = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
@@ -292,14 +300,14 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
     }
   }
-  createNewFacet() {
-    this.addEditFacetObj = JSON.parse(JSON.stringify(this.facetDefaultValueObj.facet));
-    if (this.selectedField && this.selectedField.fieldDataType) {
-      this.selectedField.fieldDataType = null;
-    }
-    this.openModal();
-    this.getFieldAutoComplete('');
-  }
+  // createNewFacet() {
+  //   this.addEditFacetObj = JSON.parse(JSON.stringify(this.facetDefaultValueObj.facet));
+  //   if (this.selectedField && this.selectedField.fieldDataType) {
+  //     this.selectedField.fieldDataType = null;
+  //   }
+  //   this.openModal();
+  //   this.getFieldAutoComplete('');
+  // }
   editFacetModal(facet) {
     this.getRecordDetails(facet)
   }
@@ -489,40 +497,40 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.addEditFacetObj.facetName = suggesition.fieldName;
   }
 
-  createFacet() {
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId: this.queryPipelineId
-    };
-    const payload = this.addEditFacetObj;
-    if (this.addEditFacetObj.fieldName) {
-      delete payload.fieldName;
-    }
-    if (!this.selectField) {
-      this.notificationService.notify('Please select the valid Field', 'erroe');
-      return
-    }
-    // if(this.selectedField.fieldDataType === 'number'){
-    //   payload.fieldName = parseInt(this.selectedField.fieldName,10);
-    // } else {
-    //   payload.fieldName = this.selectedField.fieldName;
-    // }
-    payload.fieldId = this.selectedField._id;
-    payload.isFacetActive = this.addEditFacetObj.isFacetActive || false;
-    this.service.invoke('create.facet', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Added Successfully', 'success');
-      if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) }
-      //this.facets.push(res);
-      this.getFacts();
-      this.closeModal();
-      this.addEditFacetObj = null;
-      this.selectedFieldId = null;
-    }, errRes => {
-      this.getFieldAutoComplete('');
-      this.errorToaster(errRes, 'Failed to create facet');
-    });
-  }
+  // createFacet() {
+  //   const quaryparms: any = {
+  //     searchIndexID: this.serachIndexId,
+  //     indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+  //     queryPipelineId: this.queryPipelineId
+  //   };
+  //   const payload = this.addEditFacetObj;
+  //   if (this.addEditFacetObj.fieldName) {
+  //     delete payload.fieldName;
+  //   }
+  //   if (!this.selectField) {
+  //     this.notificationService.notify('Please select the valid Field', 'erroe');
+  //     return
+  //   }
+  //   // if(this.selectedField.fieldDataType === 'number'){
+  //   //   payload.fieldName = parseInt(this.selectedField.fieldName,10);
+  //   // } else {
+  //   //   payload.fieldName = this.selectedField.fieldName;
+  //   // }
+  //   payload.fieldId = this.selectedField._id;
+  //   payload.isFacetActive = this.addEditFacetObj.isFacetActive || false;
+  //   this.service.invoke('create.facet', quaryparms, payload).subscribe(res => {
+  //     this.notificationService.notify('Added Successfully', 'success');
+  //     if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) }
+  //     //this.facets.push(res);
+  //     this.getFacts();
+  //     this.closeModal();
+  //     this.addEditFacetObj = null;
+  //     this.selectedFieldId = null;
+  //   }, errRes => {
+  //     this.getFieldAutoComplete('');
+  //     this.errorToaster(errRes, 'Failed to create facet');
+  //   });
+  // }
   editFacet() {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
@@ -655,7 +663,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       if (this.addEditFacetObj && this.addEditFacetObj._id) {
         this.editFacet();
       } else {
-        this.createFacet();
+        //this.createFacet();
       }
     }
     else {
@@ -681,17 +689,6 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.resetDefaults();
     this.addEditFacetObj = null;
     this.selectedFieldId = null;
-  }
-  //new modal open
-  openModal1() {
-    this.currentFacetObj = this.filterFacetObj;
-    this.facetModalRef1 = this.facetModalPopupNew.open();
-  }
-  //new modal close
-  closeModal1() {
-    if (this.facetModalRef1 && this.facetModalRef1.close) {
-      this.facetModalRef1.close();
-    }
   }
   getAllFields() {
     const quaryparms: any = {
@@ -883,9 +880,27 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.currentFacetObj.ranges.splice(index, 1);
     }
   }
+  //new modal open
+  createNewFacet() {
+    this.currentTab('filter');
+    this.facetModalRef1 = this.facetModalPopupNew.open();
+  }
+  //new modal close
+  closeFacetDialog() {
+    if (this.showConfiguredFacet) {
+      this.showConfiguredFacet = false;
+    }
+    else {
+      if (this.facetModalRef1 && this.facetModalRef1.close) {
+        this.facetModalRef1.close();
+        this.currentFacetObj = null;
+      }
+    }
+  }
   //current tab
   currentTab(type) {
     this.currentFacetTab = type;
+    this.currentFacetObj = null;
     if (type === 'filter') {
       this.currentFacetObj = this.filterFacetObj;
     }
@@ -896,8 +911,55 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.currentFacetObj = this.tabFacetObj;
     }
   }
+  //selectAll ConfiguredFacets checkbox
+  selectAllConfiguredFacets(type) {
+    if (type === 'all') {
+      setTimeout(() => {
+        this.configuredTabValues.forEach(element => {
+          return element.selected = this.selectAllConfigure ? true : false
+        });
+      }, 100)
+    }
+    else if (type === 'individual') {
+      setTimeout(() => {
+        const all_checked = this.configuredTabValues.every(element => element.selected === true);
+        this.selectAllConfigure = all_checked ? true : false;
+      }, 100)
+    }
+  }
+  //sort configured facets array in tabs
+  sortConfiguredFacets(event: CdkDragDrop<string[]>, list) {
+    if (event.previousIndex !== event.currentIndex) {
+      moveItemInArray(list, event.previousIndex, event.currentIndex);
+    }
+  }
   //save facet
   saveFacet() {
-    console.log("saved data", this.currentFacetObj)
+    if (this.showConfiguredFacet) {
+      this.showConfiguredFacet = false;
+      this.currentFacetObj.tabs = [];
+      this.configuredTabValues.forEach(element => {
+        if (element.selected) {
+          this.currentFacetObj.tabs.push({ fieldValue: element.fieldValue, bucketName: element.bucketName });
+        }
+      });
+    } else {
+      console.log("saved data", this.currentFacetObj);
+      delete this.currentFacetObj.fieldName;
+      const quaryparms: any = {
+        searchIndexID: this.serachIndexId,
+        indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+        queryPipelineId: this.queryPipelineId
+      };
+      const payload = this.currentFacetObj;
+      this.service.invoke('create.facet', quaryparms, payload).subscribe(res => {
+        this.notificationService.notify('Added Successfully', 'success');
+        if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) }
+        this.getFacts();
+        this.closeFacetDialog();
+      }, errRes => {
+        this.errorToaster(errRes, 'Failed to create facet');
+      });
+    }
   }
 }

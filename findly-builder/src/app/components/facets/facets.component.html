@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="header-sec m-0" [ngClass]="{ 'd-none' : selcectionObj.selectedCount}">
-            <div class="title">{{'facets.facets'| translate}} <button (click)="openModal1()">New model</button></div>
+            <div class="title">{{'facets.facets'| translate}}</div>
             <div class="d-flex align-items-center" *ngIf="!noItems || emptySearchResults">
                 <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
                     <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"
@@ -242,15 +242,22 @@
                                         tooltipClass="{{modifyFieldWarningMsg(facet.showFieldWarning)?'my-custom-warning-class':'text-left-warning'}}"
                                         container="body"
                                         ngbTooltip='{{fieldWarnings[facet.showFieldWarning] || facet.showFieldWarning}}'><span
-                                        title="{{facet.facetName}}"> {{facet.facetName}} </span>
+                                        title="{{facet.facetName}}"> {{facet.name|titlecase}} </span>
                                 </div>
                             </div>
-                            <div class="col-2 content pl-pr-17">{{facet.facetType | translate}}</div>
+                            <div class="col-2 content pl-pr-17">{{(facet.type|titlecase) | translate}}</div>
                             <div class="col-2 content pl-pr-17">{{facet.isMultiSelect?'Yes':'No' | translate}}</div>
                             <div class="col-3 content pl-pr-17">
-                                <span [class.inActive]="!facet.isFacetActive"
+                                <!-- <span [class.inActive]="!facet.isFacetActive"
                                     [class.active]="facet.isFacetActive">{{(facet.isFacetActive?'facets.active':'facets.inactive')
-                                    | translate}}</span>
+                                    | translate}}</span> -->
+                                <div class="toggle_switch">
+                                    <label class="kr-sg-toggle">
+                                        <input id='input_facetActive' type="checkbox" checked
+                                            [(ngModel)]="facet.active">
+                                        <div class="slider"></div>
+                                    </label>
+                                </div>
                             </div>
                             <div class="col-1 p-0 content actions">
                                 <img id='btn_edit_facet_tab' class="action_icon" [container]="'body'" ngbTooltip='Edit'
@@ -522,14 +529,15 @@
 <kr-modal modalType="center" modalClass="modal_popups_ facetModalPouup" #facetModalPopupNew>
     <div class="modal-header">
         <ng-container>
-            <div class="title">{{((currentFacetObj?._id)? 'facets.edit_facet':'facets.add_facet')|translate}}</div>
+            <div class="title">{{(showConfiguredFacet?'configure_facets':(currentFacetObj?._id)?
+                'facets.edit_facet':'facets.add_facet')|translate}}</div>
         </ng-container>
-        <div class="close_icon" (click)="closeModal1()"><img id='btn_close_tab' src="assets/icons/modal-close.svg">
+        <div class="close_icon" (click)="closeFacetDialog()"><img id='btn_close_tab' src="assets/icons/modal-close.svg">
         </div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
         <div class="modal-body scroll-data-content-tabs">
-            <ng-container>
+            <ng-container *ngIf="!showConfiguredFacet">
                 <ul class="nav nav-tabs">
                     <li *ngFor="let nav of facetType" (click)="currentTab(nav.type)">
                         <a [ngClass]="{'active':nav.type===currentFacetTab}">
@@ -757,7 +765,8 @@
                             </ng-container>
                         </div>
                     </div>
-                    <div id="tabfacet" class="tab-pane fade in show active" *ngIf="currentFacetTab==='tab'">
+                    <div id="tabfacet" class="tab-pane fade in show active"
+                        *ngIf="currentFacetTab==='tab'&&!showConfiguredFacet">
                         <div class="tabfacet-data">
                             <div class="label-text">Field</div>
                             <div class="search-filter-btn mb-20">
@@ -770,52 +779,41 @@
                                             <input type="text" maxlength="60" placeholder="Search For Field"
                                                 id="facets-search-input"
                                                 class="input-search dropdown-toggle dropdown-input"
-                                                data-toggle="dropdown">
+                                                data-toggle="dropdown" [(ngModel)]="currentFacetObj.fieldName">
                                             <img src="assets/images/search_gray.svg" class="search-icon">
                                             <ul class="dropdown-menu content-menu"
                                                 id="facets-search-with-dropdown-menu">
                                                 <perfect-scrollbar class="scroll-search-field h-200">
-                                                    <li>
-                                                        <a>Option1</a>
-                                                    </li>
-                                                    <li>
-                                                        <a>Option1</a>
-                                                    </li>
-                                                    <li>
-                                                        <a>Option1</a>
-                                                    </li>
-                                                    <li>
-                                                        <a>Option1</a>
+                                                    <li *ngFor="let field of fieldAutoSuggestion | filter : [currentFacetObj.fieldName, 'fieldName']"
+                                                        (click)="currentFacetObj.fieldId=field._id;currentFacetObj.fieldName=field.fieldName">
+                                                        <a>{{field.fieldName}}</a>
                                                     </li>
                                                 </perfect-scrollbar>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="filter-btn">
+                                <div class="filter-btn" (click)="showConfiguredFacet=true">
                                     <img src="assets/icons/facets/rangeslider.svg">
                                 </div>
                             </div>
-                            <div class="configured-facets">
+                            <div class="configured-facets" *ngIf="currentFacetObj?.tabs?.length">
                                 <div class="main-heading-title">Configured Facets</div>
                                 <div class="header-sec-config-facet col-12 row">
                                     <div class="col-6 title values-data">Values</div>
                                     <div class="col-6 title">Display Name</div>
                                 </div>
                                 <ng-container>
-                                    <div class="body-sec-config-facet col-12 row">
-                                        <div class="col-6 title values-data">
-                                            <img src="assets/icons/facets/move.svg">
-                                            <span class="title-value">Actions</span>
+                                    <div cdkDropList
+                                        (cdkDropListDropped)="sortConfiguredFacets($event,currentFacetObj.tabs)">
+                                        <div class="body-sec-config-facet col-12 row" cdkDrag
+                                            *ngFor="let tab of currentFacetObj?.tabs">
+                                            <div class="col-6 title values-data">
+                                                <img src="assets/icons/facets/move.svg">
+                                                <span class="title-value">{{tab.fieldValue}}</span>
+                                            </div>
+                                            <div class="col-6 title">{{tab.bucketName}}</div>
                                         </div>
-                                        <div class="col-6 title">Link 1</div>
-                                    </div>
-                                    <div class="body-sec-config-facet col-12 row">
-                                        <div class="col-6 title values-data">
-                                            <img src="assets/icons/facets/move.svg">
-                                            <span class="title-value">Actions</span>
-                                        </div>
-                                        <div class="col-6 title">Link 1</div>
                                     </div>
                                 </ng-container>
                             </div>
@@ -823,9 +821,9 @@
                     </div>
                 </div>
             </ng-container>
-            <ng-container *ngIf="false">
+            <ng-container *ngIf="showConfiguredFacet">
                 <div class="search_block mb-20">
-                    <div class="label-text">Field <img class="cursor-pointer" src="assets/icons/facets/info.svg"
+                    <div class="label-text">Field Name <img class="cursor-pointer" src="assets/icons/facets/info.svg"
                             tooltipClass="tooltip-global-" [container]="'body'"
                             ngbTooltip='Only search results for the values configured here will be displayed, other results will be discarded'
                             placement="right-center"></div>
@@ -835,24 +833,16 @@
                                 class="dropdown-toggle dropdown-input search-with-dropdown"
                                 data-toggle="dropdown"></button>
                             <input type="text" maxlength="60" placeholder="Search For Field" id="facets-search-input"
-                                class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown">
-                            <img src="assets/images/search_gray.svg" class="search-icon">
-                            <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                                class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown"
+                                [(ngModel)]="currentFacetObj.fieldName" disabled>
+                            <!-- <img src="assets/images/search_gray.svg" class="search-icon"> -->
+                            <!-- <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
                                 <perfect-scrollbar class="scroll-search-field h-200">
                                     <li>
                                         <a>Option1</a>
                                     </li>
-                                    <li>
-                                        <a>Option1</a>
-                                    </li>
-                                    <li>
-                                        <a>Option1</a>
-                                    </li>
-                                    <li>
-                                        <a>Option1</a>
-                                    </li>
                                 </perfect-scrollbar>
-                            </ul>
+                            </ul> -->
                         </div>
                     </div>
                 </div>
@@ -860,7 +850,8 @@
                     <div class="table-header-facet col-12 row">
                         <div class="checkbox-with-label col-6">
                             <div class="kr-sg-checkbox">
-                                <input id="checkbox-1" class="checkbox-custom" type="checkbox">
+                                <input id="checkbox-1" class="checkbox-custom" type="checkbox"
+                                    [(ngModel)]="selectAllConfigure" (click)="selectAllConfiguredFacets('all')">
                                 <label for="checkbox-1" class="checkbox-custom-label"></label>
                             </div>
                             <div class="title-checkbox">Values</div>
@@ -868,59 +859,22 @@
                         <div class="display-name col-6">Display Name (Optional)</div>
                     </div>
                     <ng-container>
-                        <div class="col-12 row table-body-facet selected">
+                        <div class="col-12 row table-body-facet"
+                            *ngFor="let configure of configuredTabValues;let i=index;"
+                            [ngClass]="{'selected':configure.selected}">
                             <div class="checkbox-with-label col-6">
                                 <div class="kr-sg-checkbox">
-                                    <input id="checkbox-114" class="checkbox-custom" type="checkbox" checked>
-                                    <label for="checkbox-114" class="checkbox-custom-label"></label>
+                                    <input [id]="configure.name" class="checkbox-custom" type="checkbox"
+                                        [(ngModel)]="configure.selected"
+                                        (click)="selectAllConfiguredFacets('individual')">
+                                    <label [htmlFor]="configure.name" class="checkbox-custom-label"></label>
                                 </div>
-                                <div class="title-checkbox">Values</div>
+                                <div class="title-checkbox">{{configure.name}}</div>
                             </div>
                             <div class="display-name col-6">
                                 <div class="kr-sg-input-text">
-                                    <input type="text" placeholder="Enter display name" class="input-text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 row table-body-facet selected">
-                            <div class="checkbox-with-label col-6">
-                                <div class="kr-sg-checkbox">
-                                    <input id="checkbox-113" class="checkbox-custom" type="checkbox" checked>
-                                    <label for="checkbox-113" class="checkbox-custom-label"></label>
-                                </div>
-                                <div class="title-checkbox">Actions</div>
-                            </div>
-                            <div class="display-name col-6">
-                                <div class="kr-sg-input-text">
-                                    <input type="text" placeholder="Enter display name" class="input-text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 row table-body-facet">
-                            <div class="checkbox-with-label col-6">
-                                <div class="kr-sg-checkbox">
-                                    <input id="checkbox-112" class="checkbox-custom" type="checkbox">
-                                    <label for="checkbox-112" class="checkbox-custom-label"></label>
-                                </div>
-                                <div class="title-checkbox">Web</div>
-                            </div>
-                            <div class="display-name col-6">
-                                <div class="kr-sg-input-text">
-                                    <input type="text" placeholder="Enter display name" class="input-text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 row table-body-facet">
-                            <div class="checkbox-with-label col-6">
-                                <div class="kr-sg-checkbox">
-                                    <input id="checkbox-111" class="checkbox-custom" type="checkbox">
-                                    <label for="checkbox-111" class="checkbox-custom-label"></label>
-                                </div>
-                                <div class="title-checkbox">Pages</div>
-                            </div>
-                            <div class="display-name col-6">
-                                <div class="kr-sg-input-text">
-                                    <input type="text" placeholder="Enter display name" class="input-text">
+                                    <input type="text" placeholder="Enter display name" class="input-text"
+                                        [(ngModel)]="configure.bucketName">
                                 </div>
                             </div>
                         </div>
@@ -930,7 +884,9 @@
         </div>
     </perfect-scrollbar>
     <div class="modal-footer">
-        <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="saveFacet()">Add</button>
-        <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModal1()">Cancel</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-right"
+            (click)="saveFacet()">{{showConfiguredFacet?'Save':'Add'}}</button>
+        <button type="button" class="kr-sg-button-secondary btn_lg float-right"
+            (click)="closeFacetDialog()">Cancel</button>
     </div>
 </kr-modal>
