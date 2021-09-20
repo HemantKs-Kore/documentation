@@ -6708,9 +6708,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           setTimeout(() => {
             if ($('.messageBubble .userMessage span').last().text() == _self.vars.searchObject.searchText && $('.messageBubble .messageBubble-content .botMessage span:nth-child(2)').last().text() === 'Sure, please find the matched results below') {
               if ($('#searchChatContainer').prop('offsetHeight') < $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
+                $("#searchChatContainer").off('scroll').on('scroll', function () {
+                  if ($('#searchChatContainer').prop('offsetHeight') >= $('.finalResults .resultsOfSearch .bottom-search-show-all-results').last().position().top) {
+                    $('.more-results').css('display', 'none');
+                  }else{
+                    $('.more-results').css('display', 'block');
+                  }
+                });
                 $('.more-results').css('display', 'block');
               }
-
             }
           }, 500)
         }
@@ -7083,7 +7089,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $('.typingIndicatorContent').css('display', 'block');
                 $("#searchChatContainer").off('scroll').on('scroll', function (event) {
                   $('.typingIndicatorContent').css('display', 'none');
-                });
+              });
               } else {
                 _self.showTypingIndicator();
               }
@@ -7495,7 +7501,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               contextObj = {};
             }
           }
-          this.bot.options.botInfo.customData = { 'userContext': contextObj }
+          this.bot.options.botInfo.customData['userContext'] =  contextObj ;
           payload.messagePayload["botInfo"].customData = this.bot.options.botInfo.customData;
         } else {
           payload.messagePayload["botInfo"].customData = _self.bot.options.botInfo.customData || {};
@@ -9036,7 +9042,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               contextObj = {};
             }
           }
-          _self.bot.options.botInfo.customData = { 'userContext': contextObj }
+          _self.bot.options.botInfo.customData['userContext'] =  contextObj ;
         }
       }
 
@@ -15252,7 +15258,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <div class="tile-img-block"><img src="${data.img}"></div>\
                               <div class="tile-with-text-content">\
                                 <div class="tile-heading text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                                <div class="tile-description text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                                <div class="tile-description text-truncate twolines">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
                             </div>\
                           {{/if}}\
@@ -15628,7 +15634,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <div class="tile-img-block"><img src="${data.img}"></div>\
                               <div class="tile-with-text-content">\
                                 <div class="tile-heading text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                                <div class="tile-description text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                                <div class="tile-description text-truncate twolines">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
                             </div>\
                           {{/if}}\
@@ -15993,7 +15999,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <div class="tile-img-block"><img src="${data.img}"></div>\
                               <div class="tile-with-text-content">\
                                 <div class="tile-heading text-truncate" title="${data.heading}">{{html helpers.convertMDtoHTML(data.heading)}}</div>\
-                                <div class="tile-description text-truncate">{{html helpers.convertMDtoHTML(data.description)}}</div>\
+                                <div class="tile-description text-truncate twolines">{{html helpers.convertMDtoHTML(data.description)}}</div>\
                               </div>\
                             </div>\
                           {{/if}}\
@@ -16939,6 +16945,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // From now, the container and data will be managed.
 
       // Search call back
+      _self.pubSub.unsubscribe('sa-st-data-search');
       _self.pubSub.subscribe('sa-st-data-search', (msg, data) => {
         var _self = this;
         var container;
@@ -17224,6 +17231,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         console.log($(event.currentTarget).parent().attr('contentType'), $(event.currentTarget).parent().attr('contentId'));
         _self.captureClickAnalytics(event, $(event.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).attr('title'));
       })
+
+      $('div.structured-data-wrp-content').off('click').on('click', function (event) {
+        console.log($(event.currentTarget).parent().attr('contentType'), $(event.currentTarget).parent().attr('contentId'));
+        _self.captureClickAnalytics(event, $(event.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).attr('title'));
+      })
+      _self.clickNavigateToUrl();
       // }
 
       // $('.moreStructredData').off('click').on('click', function (e) {
@@ -17527,6 +17540,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // From now, the container and data will be managed.
 
       // Search call back
+      _self.pubSub.unsubscribe('sa-faq-search');
       _self.pubSub.subscribe('sa-faq-search', (msg, data) => {
         var _self = this;
         var container;
@@ -18437,6 +18451,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // From now, the container and data will be managed.
 
       // Search call back
+      _self.pubSub.unsubscribe('sa-file-search')
       _self.pubSub.subscribe('sa-file-search', (msg, data) => {
         var _self = this;
         var container;
@@ -22969,8 +22984,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
     FindlySDK.prototype.clickNavigateToUrl = function (e) {
+      var _self = this;
       setTimeout(function () {
         $('.click-to-navigate-url').off('click').on('click', function (e) {
+            // console.log($(e.currentTarget).parent().attr('contentType'), $(e.currentTarget).parent().attr('contentId'));
+            _self.captureClickAnalytics(e, $(e.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(e.currentTarget).closest('.faqs-shadow').attr('contentId'), $(e.currentTarget).closest('.faqs-shadow').attr('id'), $(e.currentTarget).attr('title'));
           if ($(e.target).is('a')) {
             if ($(e.target).attr('href')) {
               // window.open($(e.target).attr('href'), '_blank');
