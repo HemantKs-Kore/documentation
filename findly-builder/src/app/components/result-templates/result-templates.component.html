@@ -6,6 +6,27 @@
 <div class="search-interface-container">
   <div class="header_sec">
     <div class="title">Templates</div>
+    <div class="right-side-copy-configs">
+      <div class="kr-sg-dropdowns copy-config-dropdown" ngbDropdown [placement]="'bottom-right'">
+        <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
+                <img src="assets/icons/resultTemplate/copy.svg">
+                <span class="title">Copy Configuration</span>
+            </button>
+            <ul class="dropdown-menu content-menu copy-config-dropdown-content" ngbDropdownMenu>
+              <div class="overlay-div"></div>
+              <div class="info-copy">Choose whether to apply the same configurations as per previous settings or configure the templates separately here</div>  
+              <div class="main-title">Apply configurations from</div>
+              <div class="btnactions">
+                <button class="kr-sg-button-secondary btn_lg mr-3">Live search</button>
+                <button class="kr-sg-button-secondary btn_lg ml-1">Conversational search</button>
+              </div>
+              <div class="apply-config-text">Applying configurations from Live Search <span class="loading-spin-progress ml-2"></span></div>
+            </ul>
+        </div>
+      </div>
+      <button class="kr-sg-button-primary btn_lg">Preview</button>
+    </div>
   </div>
   <div class="body_content">
     <div class="search-interface-left-sec">
