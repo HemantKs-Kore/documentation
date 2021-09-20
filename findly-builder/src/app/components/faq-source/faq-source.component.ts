@@ -251,12 +251,20 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.statusModalPopRef.close();
       this.extractedFaqs
     }
+    if((this.extractedResources && this.extractedResources.length )){
+      this.loadingFaqs = false;
+        this.loadingFaqs1 = true;
+    }
+    else{
+      this.loadingFaqs1 = true;
+    }
     if (extractedFaqs) {
       this.getStats(null, true);
       this.getSourceList();
     } else {
       this.getStats(null, true);
     }
+    
   }
   openAddSourceModal(edit?) {
     if (!edit) {
@@ -843,8 +851,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           this.viewDetails = true;
           this.extractedFaqs = true;
           this.getStats(null, true);
-
-        }
+                }
       });
       if (res && res.length) {
         res.forEach((d: any) => {
@@ -888,19 +895,28 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       else if (!initializePoling) {
         this.poling()
       }
-      if (res.length > 0) {
+      if((this.extractedResources && this.extractedResources.length )){
         this.loadingFaqs = false;
+          this.loadingFaqs1 = true;
+      }
+      else{
         this.loadingFaqs1 = true;
       }
-      else {
-        this.loadingFaqs1 = true;
-        // setTimeout(()=>{
-        //   if(!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')){
-        //     this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
-        //     this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
-        //   }
-        // },1000)
-      }
+
+      // if (res.length > 0) {
+      //   this.loadingFaqs = false;
+      //   this.loadingFaqs1 = true;
+      // }
+      // else {
+      //   this.loadingFaqs1 = true;
+      //   // setTimeout(()=>{
+      //   //   if(!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')){
+      //   //     this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
+      //   //     this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
+      //   //   }
+      //   // },1000)
+      // }
+
     }, errRes => {
     });
   }
@@ -1324,7 +1340,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       if (deleteIndex > -1) {
         this.extractedResources.splice(deleteIndex, 1);
       }
+      if(!(this.extractedResources && this.extractedResources.length)){
+        this.viewDetails = false;
+        this.extractedFaqs = false;
+        // this.getSourceList();
+      }
       this.resetCheckboxSelect();
+
       let currentPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
       if (currentPlan?.subscription?.planId == 'fp_free') {
         this.appSelectionService.updateUsageData.next('updatedUsage');
@@ -1415,7 +1437,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.deleteSrcAQ(record, dialogRef);
+          this.deleteSrcAQ(record, dialogRef);   
         } else if (result === 'no') {
           dialogRef.close();
           console.log('deleted')
