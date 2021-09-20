@@ -19,6 +19,12 @@ export class ResultTemplatesComponent implements OnInit {
   selectedApp: any;
   serachIndexId: any;
   indexPipelineId: any;
+  allFieldData: any;
+  heading_fieldData: any;
+  desc_fieldData: any;
+  img_fieldData: any;
+  url_fieldData: any;
+  fieldData: any;
   subscription: Subscription;
   searchConfigurationSubscription : Subscription;
   searchExperienceConfig : any = {};
@@ -59,7 +65,28 @@ export class ResultTemplatesComponent implements OnInit {
   loadFiledsData() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
+      this.getFieldAutoComplete();
+      this.getAllSettings({id: "fullSearch",text: "Full Page Result"})
     }
+  }
+   /** Fields Data for options  */
+  getFieldAutoComplete() {
+    let query: any = '';
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      query
+    };
+    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
+      this.heading_fieldData = [...res];
+      this.desc_fieldData = [...res];
+      this.img_fieldData = [...res];
+      this.url_fieldData = [...res];
+      this.fieldData = [...res];
+      this.allFieldData = [...res];
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
   }
   /** Chat SDK approach and by-default Data */
   updateResultTemplateTabsAccess(){
@@ -80,14 +107,34 @@ export class ResultTemplatesComponent implements OnInit {
     }
   }
   /** Call for All Setting Templates */
-  getAllSettings(Setting){
-    //get.settingsByInterface
+  getAllSettings(setting){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      indexPipelineId : this.indexPipelineId,
+      interface : setting ? setting.id : "fullSearch"
+    };
+    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
+     
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to fetch all Setting Informations');
+    });
     //get.settingsById
     // update.settings
     // copy.settings
     // new.template
     // get.templateById
     // update.template
+  }
+  getTemplate(templateId){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      templateId: templateId,
+      indexPipelineId : this.indexPipelineId
+    };
+    this.service.invoke('get.templateById', quaryparms).subscribe(res => {
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to fetch Template');
+    });
   }
   openCustomModal(){
     this.customModalRef = this.customModal.open();
