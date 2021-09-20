@@ -7027,7 +7027,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         // out side click for live search and frequent search dropdown close//
         $('#live-search-result-box').off('click').on('click', function (event) {
-          if ($(event.target).closest('#live-search-result-box').length && !$(event.target).closest('.carousel').length) {
+          if ($(event.target).closest('#live-search-result-box').length && !$(event.target).closest('.carousel').length && !$(event.target).closest('.data-container').length && !$(event.target).closest('.accordion').length) {
             if ($('#live-search-result-box').height() < event.offsetY || event.offsetX < 0 || event.offsetX > $('#live-search-result-box').width()) {
               $('#live-search-result-box').hide();
             }
@@ -7501,7 +7501,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               contextObj = {};
             }
           }
-          this.bot.options.botInfo.customData = { 'userContext': contextObj }
+          this.bot.options.botInfo.customData['userContext'] =  contextObj ;
           payload.messagePayload["botInfo"].customData = this.bot.options.botInfo.customData;
         } else {
           payload.messagePayload["botInfo"].customData = _self.bot.options.botInfo.customData || {};
@@ -9042,7 +9042,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               contextObj = {};
             }
           }
-          _self.bot.options.botInfo.customData = { 'userContext': contextObj }
+          _self.bot.options.botInfo.customData['userContext'] =  contextObj ;
         }
       }
 
