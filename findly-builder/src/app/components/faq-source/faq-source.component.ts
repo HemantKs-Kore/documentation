@@ -904,8 +904,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         // },1000)
       }
       // console.log('MIXPANNEL')
-      this.mixpanel.postEvent('FAQ-created',{})
-      this.mixpanel.postEvent('FAQ-created-Conditional response',{})
+      this.mixpanel.postEvent('FAQ-created',{}) 
     }, errRes => {
     });
   }
