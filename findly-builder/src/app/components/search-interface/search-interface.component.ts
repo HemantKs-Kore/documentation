@@ -775,12 +775,12 @@ export class SearchInterfaceComponent implements OnInit {
       this.getAllSettings({id:this.selectedSetting,text: this.selectedSettingText});
       this.getSettings(this.selectedSetting);
       this.closeCustomModal();
-      if(interfaceType){
-        if(interfaceType == 'livesearch'){
+      if(this.selectedSetting){
+        if(this.selectedSetting == 'liveSearch'){
           this.mixpanel.postEvent('Result Templates - Updates to Live Search',{})
-        }else if(interfaceType == 'search'){
+        }else if(this.selectedSetting == 'search'){
           this.mixpanel.postEvent('Result Templates -  Updates to Conversational Search',{})
-        }else if(interfaceType == 'fullsearch') {
+        }else if(this.selectedSetting == 'fullSearch') {
           this.mixpanel.postEvent('Result Templates - Updates to Full Page Results',{})
         }
       }
@@ -952,6 +952,15 @@ export class SearchInterfaceComponent implements OnInit {
         this.selectedTemplatedId = "";
         this.getSettings(this.selectedSetting);
         this.closeCustomModal();
+        if(this.selectedSetting){
+          if(this.selectedSetting == 'liveSearch'){
+            this.mixpanel.postEvent('Result Templates - Updates to Live Search',{})
+          }else if(this.selectedSetting == 'search'){
+            this.mixpanel.postEvent('Result Templates -  Updates to Conversational Search',{})
+          }else if(this.selectedSetting == 'fullSearch') {
+            this.mixpanel.postEvent('Result Templates - Updates to Full Page Results',{})
+          }
+        }
       }, errRes => {
         this.errorToaster(errRes, 'Failed to get fields');
       });
