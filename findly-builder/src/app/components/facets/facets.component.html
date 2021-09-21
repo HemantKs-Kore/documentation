@@ -253,15 +253,15 @@
                                     | translate}}</span> -->
                                 <div class="toggle_switch">
                                     <label class="kr-sg-toggle">
-                                        <input id='input_facetActive' type="checkbox" checked
-                                            [(ngModel)]="facet.active">
+                                        <input id='input_facetActive' type="checkbox" checked [(ngModel)]="facet.active"
+                                            (click)="editFacet(facet,$event)">
                                         <div class="slider"></div>
                                     </label>
                                 </div>
                             </div>
                             <div class="col-1 p-0 content actions">
                                 <img id='btn_edit_facet_tab' class="action_icon" [container]="'body'" ngbTooltip='Edit'
-                                    (click)="editFacetModal(facet)" src="assets/images/edit-pencil.svg">
+                                    (click)="createNewFacet(facet)" src="assets/images/edit-pencil.svg">
                                 <img id='btn_delete_facet_tab' class="action_icon" ngbTooltip='Delete'
                                     [container]="'body'" (click)="deleteFacets(facet)"
                                     src="assets/icons/delete-table.svg">
@@ -293,11 +293,11 @@
 
 
 <!-- Old Modal -->
-<kr-modal modalType="center" modalClass="modal_popups_ facetModalPouup" #facetModalPouup>
+<!-- <kr-modal modalType="center" modalClass="modal_popups_ facetModalPouup" #facetModalPouup>
     <div class="modal-header">
         <div class="title">{{((addEditFacetObj && addEditFacetObj._id)? 'facets.edit_facet':'facets.add_facet') |
             translate}}</div>
-        <!-- <div class="title">{{'facets.add_facet'| translate}}</div> -->
+       <div class="title">{{'facets.add_facet'| translate}}</div>
         <div class="close_icon" (click)="closeModal()"><img id='btn_close_tab' src="assets/icons/modal-close.svg"></div>
         <div class="toggle_switch">
             <label class="kr-sg-toggle" *ngIf="addEditFacetObj">
@@ -313,12 +313,12 @@
                 <div class="label-text">{{'facets.field_name'| translate}}</div>
                 <div class="row m-0 align-items-center">
                     <div class="kr-sg-dropdowns col-8 pl-0">
-                        <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
+                        [ngClass]="{'disabled': addEditFacetObj._id}"
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                             <button id="btn_select_facet_field"
                                 class="dropdown-toggle dropdown-input search-with-dropdown"
                                 data-toggle="dropdown"></button>
-                            <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
+                            <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
                             <input type="text" maxlength="60" placeholder="Search For Field" id="facets-search-input"
                                 class="input-search dropdown-toggle dropdown-input"
                                 [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)"
@@ -379,7 +379,7 @@
                     <div class="label-text">{{'facets.facet_type'| translate}}</div>
                     <div class="dropdown dropdown-open"
                         [ngClass]="{'disabled': (selectedField && selectedField.fieldDataType == 'string')}">
-                        <!-- -->
+                      
                         <button class="dropdown-toggle dropdown-input"
                             data-toggle="dropdown">{{(addEditFacetObj.facetType?addEditFacetObj.facetType:'Choose an
                             option') | translate}}</button>
@@ -390,10 +390,10 @@
                         </ul>
                     </div>
                 </div>
-                <!-- <div class="kr-sg-checkbox d-block col-2 checkbox-content pr-0 pl-2 m-0">
+                <div class="kr-sg-checkbox d-block col-2 checkbox-content pr-0 pl-2 m-0">
                 <input id="checkbox_drp1" class="checkbox-custom" type="checkbox" [(ngModel)]="addEditFacetObj.isMultiSelect">
                 <label for="checkbox_drp1" class="checkbox-custom-label" >{{'facets.multi_select'| translate}}</label>
-            </div> -->
+            </div>
             </div>
             <div class="box-content" *ngIf="addEditFacetObj.facetType === 'range'">
                 <div class="row row_inputs" *ngFor="let range of addEditFacetObj.facetRange; let i = index">
@@ -439,10 +439,10 @@
                 <div class="row m-0">
                     <div class="box-content adjust_padding col-8">
                         <div class="row row_inputs m-0">
-                            <!-- <div class="kr-sg-input-text col-6 pl-0">
+                            <div class="kr-sg-input-text col-6 pl-0">
                         <div class="label-text">{{'facets.size'| translate}}</div>
                         <input type="number" placeholder="Please enter" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">                   
-                    </div> -->
+                    </div>
                             <div class="label-text col-12 pl-2">{{'facets.sort_by'| translate}}</div>
                             <div class="kr-sg-dropdowns col-4 pl-2">
                                 <div class="dropdown dropdown-open">
@@ -458,14 +458,14 @@
                                 </div>
                             </div>
                             <div class="kr-sg-dropdowns col-8 pl-2 pr-0">
-                                <!-- <div class="label-text">{{'facets.sort'| translate}}</div>
+                                <div class="label-text">{{'facets.sort'| translate}}</div>
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{addEditFacetObj.facetValue.asc?'Ascending':'Descending'}}</button>                                        
                             <ul class="dropdown-menu content-menu">                                                                   
                               <li (click)="addEditFacetObj.facetValue.asc = true"><a>{{'facets.ascending'| translate}} </a></li>
                               <li (click)="addEditFacetObj.facetValue.asc = false"><a>{{'facets.descending'| translate}}</a></li>
                             </ul>
-                        </div> -->
+                        </div>
                                 <div class="group-radiobutton">
                                     <div class="kr-sg-radiobutton">
                                         <input id="sortby-radio-asc" name="sortBy" class="radio-custom" type="radio"
@@ -514,16 +514,15 @@
         </div>
     </perfect-scrollbar>
     <div class="modal-footer" *ngIf="addEditFacetObj">
-        <!-- [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldId === selectedField.fieldId)' Removed Tooltip -->
+         [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldId === selectedField.fieldId)' Removed Tooltip 
         <button type="button" class="kr-sg-button-primary btn_lg float-right"
             (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button>
-        <!-- [disabled]='(!addEditFacetObj._id && !selectedField) || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldId !== selectedField.fieldId))' -->
+         [disabled]='(!addEditFacetObj._id && !selectedField) || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldId !== selectedField.fieldId))'
         <button type="button" class="kr-sg-button-secondary btn_lg float-right"
             (click)="closeModal()">{{'facets.cancel'| translate}}</button>
-        <!-- <button type="button" class="kr-sg-button-danger btn_lg float-left" *ngIf="addEditFacetObj._id" (click)="deleteFacets(addEditFacetObj)">{{'facets.delete'| translate}}</button> -->
-
+         <button type="button" class="kr-sg-button-danger btn_lg float-left" *ngIf="addEditFacetObj._id" (click)="deleteFacets(addEditFacetObj)">{{'facets.delete'| translate}}</button>
     </div>
-</kr-modal>
+</kr-modal> -->
 
 <!--new modal-->
 <kr-modal modalType="center" modalClass="modal_popups_ facetModalPouup" #facetModalPopupNew>
@@ -539,7 +538,7 @@
         <div class="modal-body scroll-data-content-tabs">
             <ng-container *ngIf="!showConfiguredFacet">
                 <ul class="nav nav-tabs">
-                    <li *ngFor="let nav of facetType" (click)="currentTab(nav.type)">
+                    <li *ngFor="let nav of facetType" (click)="(currentFacetObj?._id)?null:currentTab(nav.type)">
                         <a [ngClass]="{'active':nav.type===currentFacetTab}">
                             <img src="assets/icons/facets/{{nav.type==='sortable'?'sort':nav.type}}.svg">{{nav.name}}
                         </a>
@@ -572,8 +571,13 @@
                                             data-toggle="dropdown"></button>
                                         <input type="text" maxlength="60" placeholder="Search For Field"
                                             id="facets-search-input" class="input-search dropdown-toggle dropdown-input"
+                                            [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)"
                                             data-toggle="dropdown" [(ngModel)]="currentFacetObj.fieldName">
                                         <img src="assets/images/search_gray.svg" class="search-icon">
+                                        <img *ngIf="(!currentFacetObj?.fieldName?.length) && submitted"
+                                            id="fieldWarning" src="assets/icons/warning_escalation.svg"
+                                            style="top: 29%; position: absolute; right: 1.5%; display: block;"
+                                            height="12" width="12" />
                                         <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
                                             <perfect-scrollbar class="scroll-search-field h-200">
                                                 <li *ngFor="let field of fieldAutoSuggestion | filter : [currentFacetObj.fieldName, 'fieldName']"
@@ -588,7 +592,12 @@
                             <div class="kr-sg-input-text mb-20">
                                 <div class="label-text">Facet Name</div>
                                 <input type="text" placeholder="Enter name" class="input-text"
-                                    [(ngModel)]="currentFacetObj.name">
+                                    [(ngModel)]="currentFacetObj.name"
+                                    [class.err-block]="((!currentFacetObj?.name?.length) && submitted)">
+                                <img *ngIf="(!currentFacetObj?.name?.length) && submitted" id="fieldWarning"
+                                    src="assets/icons/warning_escalation.svg"
+                                    style="top: 57%; position: absolute; right: 1.5%; display: block;" height="12"
+                                    width="12" />
                             </div>
                             <ng-container *ngIf="currentFacetObj?.subtype==='value'">
                                 <div class="box-input-data col-12 row">
@@ -599,7 +608,8 @@
                                                 <div class="kr-sg-dropdowns">
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown">{{currentFacetObj.sortConfig.sortBy==''?'Select':currentFacetObj.sortConfig.sortBy}}</button>
+                                                            data-toggle="dropdown"
+                                                            [class.err-block]="((!currentFacetObj?.sortConfig?.sortBy?.length) && submitted)">{{currentFacetObj.sortConfig.sortBy==''?'Select':currentFacetObj.sortConfig.sortBy}}</button>
                                                         <ul class="dropdown-menu content-menu">
                                                             <perfect-scrollbar class="scroll-search-field h-200">
                                                                 <li (click)="currentFacetObj.sortConfig.sortBy='value'">
@@ -615,7 +625,8 @@
                                                 <div class="kr-sg-dropdowns">
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown">{{currentFacetObj.sortConfig.order==''?'Select
+                                                            data-toggle="dropdown"
+                                                            [class.err-block]="((!currentFacetObj?.sortConfig?.order?.length) && submitted)">{{currentFacetObj.sortConfig.order==''?'Select
                                                             order':(currentFacetObj.sortConfig.order=='asc'?'ascending':'descending')}}</button>
                                                         <ul class="dropdown-menu content-menu">
                                                             <perfect-scrollbar class="scroll-search-field h-200">
@@ -701,8 +712,13 @@
                                             data-toggle="dropdown"></button>
                                         <input type="text" maxlength="60" placeholder="Search For Field"
                                             id="facets-search-input" class="input-search dropdown-toggle dropdown-input"
-                                            data-toggle="dropdown" [(ngModel)]="currentFacetObj.fieldName">
+                                            data-toggle="dropdown" [(ngModel)]="currentFacetObj.fieldName"
+                                            [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)">
                                         <img src="assets/images/search_gray.svg" class="search-icon">
+                                        <img *ngIf="(!currentFacetObj?.fieldName?.length) && submitted"
+                                            id="fieldWarning" src="assets/icons/warning_escalation.svg"
+                                            style="top: 29%; position: absolute; right: 1.5%; display: block;"
+                                            height="12" width="12" />
                                         <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
                                             <perfect-scrollbar class="scroll-search-field h-200">
                                                 <li *ngFor="let field of fieldAutoSuggestion | filter : [currentFacetObj.fieldName, 'fieldName']"
@@ -717,7 +733,12 @@
                             <div class="kr-sg-input-text mb-20">
                                 <div class="label-text">Facet Name</div>
                                 <input type="text" placeholder="Enter name" class="input-text"
-                                    [(ngModel)]="currentFacetObj.name">
+                                    [(ngModel)]="currentFacetObj.name"
+                                    [class.err-block]="((!currentFacetObj?.name?.length) && submitted)">
+                                <img *ngIf="(!currentFacetObj?.name?.length) && submitted" id="fieldWarning"
+                                    src="assets/icons/warning_escalation.svg"
+                                    style="top: 57%; position: absolute; right: 1.5%; display: block;" height="12"
+                                    width="12" />
                             </div>
                             <ng-container>
                                 <div class="box-input-data col-12 row">
@@ -728,7 +749,8 @@
                                                 <div class="kr-sg-dropdowns">
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown">{{currentFacetObj.sortConfig.sortBy==''?'Select':currentFacetObj.sortConfig.sortBy}}</button>
+                                                            data-toggle="dropdown"
+                                                            [class.err-block]="((!currentFacetObj?.sortConfig?.sortBy?.length) && submitted)">{{currentFacetObj.sortConfig.sortBy==''?'Select':currentFacetObj.sortConfig.sortBy}}</button>
                                                         <ul class="dropdown-menu content-menu">
                                                             <perfect-scrollbar class="scroll-search-field h-200">
                                                                 <li (click)="currentFacetObj.sortConfig.sortBy='value'">
@@ -744,7 +766,8 @@
                                                 <div class="kr-sg-dropdowns">
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown">{{currentFacetObj.sortConfig.order==''?'Selectorder':(currentFacetObj.sortConfig.order=='asc'?'Ascending
+                                                            data-toggle="dropdown"
+                                                            [class.err-block]="((!currentFacetObj?.sortConfig?.order?.length) && submitted)">{{currentFacetObj.sortConfig.order==''?'Selectorder':(currentFacetObj.sortConfig.order=='asc'?'Ascending
                                                             Order':'Descending Order')}}</button>
                                                         <ul class="dropdown-menu content-menu">
                                                             <perfect-scrollbar class="scroll-search-field h-200">
@@ -779,8 +802,13 @@
                                             <input type="text" maxlength="60" placeholder="Search For Field"
                                                 id="facets-search-input"
                                                 class="input-search dropdown-toggle dropdown-input"
-                                                data-toggle="dropdown" [(ngModel)]="currentFacetObj.fieldName">
+                                                data-toggle="dropdown" [(ngModel)]="currentFacetObj.fieldName"
+                                                [class.err-block]="((!currentFacetObj?.fieldName?.length) && submitted)">
                                             <img src="assets/images/search_gray.svg" class="search-icon">
+                                            <img *ngIf="(!currentFacetObj?.fieldName?.length) && submitted"
+                                                id="fieldWarning" src="assets/icons/warning_escalation.svg"
+                                                style="top: 29%; position: absolute; right: 1.5%; display: block;"
+                                                height="12" width="12" />
                                             <ul class="dropdown-menu content-menu"
                                                 id="facets-search-with-dropdown-menu">
                                                 <perfect-scrollbar class="scroll-search-field h-200">
@@ -885,7 +913,7 @@
     </perfect-scrollbar>
     <div class="modal-footer">
         <button type="button" class="kr-sg-button-primary btn_lg float-right"
-            (click)="saveFacet()">{{showConfiguredFacet?'Save':'Add'}}</button>
+            (click)="saveFacet()">{{(showConfiguredFacet||currentFacetObj?._id)?'Save':'Add'}}</button>
         <button type="button" class="kr-sg-button-secondary btn_lg float-right"
             (click)="closeFacetDialog()">Cancel</button>
     </div>
