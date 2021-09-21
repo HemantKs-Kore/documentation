@@ -618,7 +618,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.faqSelectionObj.stats = res.countByState;
       // this.faqSelectionObj.stats = res.countBySource; 
       this.faqSelectionObj.loadingStats = false;
-      if (resourceId === undefined) {
+      if (resourceId === undefined || resourceId === null) {
         if (res.countBySource && res.countBySource.manual) {
           this.noManulaRecords = true;
         }
