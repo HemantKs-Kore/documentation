@@ -588,12 +588,12 @@ enableDisableCredential(){
         appName: this.selectedApp.channels.length ? this.selectedApp.channels[0].app.appName : "",
       },
       isAlertsEnabled: this.isAlertsEnabled,
-      enable: this.enableConfiguration,
+      enable: !this.enableConfiguration,
       sttEnabled: false,
       sttEngine: "kore"
     } 
     this.service.invoke('configure.credential', queryParams, payload).subscribe(
-      res => {
+      res => { 
         console.log(res);
       },
       errRes => {

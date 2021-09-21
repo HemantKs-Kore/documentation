@@ -490,7 +490,7 @@
                 <div class="drag_drop">
                   <img src="assets/icons/drag_drop_move_icon.svg" />
                 </div>
-                <div class="kr-sg-input-text col-4 input-box">
+                <div class="kr-sg-input-text col-4 input-box" [ngClass]="{'col-6': selectedStage.type == 'keyword_extraction' || selectedStage.type === 'semantic_meaning'}">
                   <div class="label-text">{{'workbench.source_field' | translate}}</div>
                   <div class="position-relative ">
                     <input type="text" placeholder="{{'workbench.value' | translate}}" maxlength="60" (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"  data-toggle="dropdown"
@@ -609,7 +609,7 @@
                     </mat-form-field>
                   </ng-container>
                 </div>
-                <div class="kr-sg-input-text col-4 input-box">
+                <div class="kr-sg-input-text col-4 input-box" [ngClass]="{'col-6': selectedStage.type == 'keyword_extraction' || selectedStage.type === 'semantic_meaning'}">
                   <div class="label-text">{{'workbench.target_field' | translate}}</div>
                   <input type="text" placeholder="{{'workbench.value' | translate}}" maxlength="60" (keyup)="changesDetected = true" class="input-text"
                     [(ngModel)]="map.target_field" />
@@ -625,7 +625,7 @@
               newMappingObj[selectedStage.type] &&
               newMappingObj[selectedStage.type].defaultValue
             ">
-            <div class="kr-sg-input-text col-4 input-box">
+            <div class="kr-sg-input-text col-4 input-box" [ngClass]="{'col-6': selectedStage.type == 'keyword_extraction' || selectedStage.type === 'semantic_meaning'}">
               <div class="label-text">{{'workbench.source_field' | translate}}</div>
               <div class="position-relative ">
                 <input type="text" placeholder="{{'workbench.value' | translate}}"class="input-text dropdown-toggle dropdown-input"  data-toggle="dropdown" maxlength="60" [(ngModel)]="
@@ -762,7 +762,7 @@
                 </mat-form-field>
               </ng-container>
             </div>
-            <div class="kr-sg-input-text col-4 input-box">
+            <div class="kr-sg-input-text col-4 input-box" [ngClass]="{'col-6': selectedStage.type == 'keyword_extraction' || selectedStage.type === 'semantic_meaning'}">
               <div class="label-text">{{'workbench.target_field' | translate}}</div>
               <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" maxlength="60" [(ngModel)]="
                   newMappingObj[selectedStage.type].defaultValue.target_field

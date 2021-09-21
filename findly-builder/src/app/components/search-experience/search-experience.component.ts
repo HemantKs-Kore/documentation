@@ -564,7 +564,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
           // }
         }
         else if (type == 'emoji') {
-          //this.searchObject.searchInteractionsConfig.welcomeMsgEmoji = res.fileId;
+          // this.searchObject.searchInteractionsConfig.welcomeMsgEmoji = res.fileId;
           if (this.searchObject.searchWidgetConfig.searchBarIcon === '' && icon === 'manual') {
             this.searchIconUpload();
           }
