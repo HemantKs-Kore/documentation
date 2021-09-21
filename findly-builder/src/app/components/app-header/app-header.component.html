@@ -3,17 +3,23 @@
         <div id="open-chat-window-no-clicks" class="open-chat-window-no-clicks"></div>
         <div class="container-fluid p-0">
             <div class="logoTabsContainer align-items-center">
-                <img src="assets/images/logos/findly-logo.svg" class="logoKoreIcon landing-screen" [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange (click)="analyticsClick('apps',true)">
-                <img src="assets/images/logos/findly-logo-small.svg" class="logoKoreIcon no-landing-screen" [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange (click)="analyticsClick('apps',true)">
+                <img src="assets/images/logos/findly-logo.svg" class="logoKoreIcon landing-screen"
+                    [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange
+                    (click)="analyticsClick('apps',true)">
+                <img src="assets/images/logos/findly-logo-small.svg" class="logoKoreIcon no-landing-screen"
+                    [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange
+                    (click)="analyticsClick('apps',true)">
                 <!-- <div class="myappname" *ngIf="appName">
                     <div container="body" ngbTooltip="{{appName}}" class="name">{{appName}}</div>
                 </div> -->
                 <div class="headerTabsContainer">
-                    <div class="headerMenuTab" [ngClass]="{'active' : mainMenu == '/summary'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/summary')">
+                    <div class="headerMenuTab" [ngClass]="{'active' : mainMenu == '/summary'}" skipLocationChange
+                        routerLinkActive="active" (click)="analyticsClick('/summary')">
                         <span>{{ 'header.overview' | translate }}</span>
                         <span routerLink="/summary" class="d-none"></span>
                     </div>
-                    <div class="headerMenuTab" [ngClass]="{'active' : mainMenu == '/content'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/content')">
+                    <div class="headerMenuTab" [ngClass]="{'active' : mainMenu == '/content'}" skipLocationChange
+                        routerLinkActive="active" (click)="analyticsClick('/content')">
                         <span>{{ 'header.sources' | translate }}</span>
                         <span routerLink="/source" class="d-none"></span>
                         <span routerLink="/content" class="d-none"></span>
@@ -21,7 +27,9 @@
                         <span routerLink="/botActions" class="d-none"></span>
                         <span routerLink="/structuredData" class="d-none"></span>
                     </div>
-                    <div class="headerMenuTab" id="sourceTab" [ngClass]="{'active' : mainMenu == '/index'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/FieldManagementComponent')">
+                    <div class="headerMenuTab" id="sourceTab" [ngClass]="{'active' : mainMenu == '/index'}"
+                        skipLocationChange routerLinkActive="active"
+                        (click)="analyticsClick('/FieldManagementComponent')">
                         <span>{{ 'header.indices' | translate }}</span>
                         <span routerLink="/searchInterface" class="d-none"></span>
                         <span routerLink="/search-experience" class="d-none"></span>
@@ -40,22 +48,34 @@
                         <span routerLink="/FieldManagementComponent" class="d-none"></span>
                     </div>
                     <!-- <div class="headerMenuTab" id='experimentsTab' [ngClass]="{'active' : mainMenu == '/experiments'}" (click)="analyticsClick('/experiments')">Experiments</div> -->
-                    <div class="kr-sg-dropdowns headerMenuTab" [ngClass]="{'active' : (mainMenu == '/dashboard'
+                    <div class="kr-sg-dropdowns headerMenuTab"
+                        [ngClass]="{'active' : (mainMenu == '/dashboard'
                      || mainMenu == '/userEngagement' || mainMenu == '/searchInsights' || mainMenu == '/resultInsights' || mainMenu == '/experiments')}">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"> {{ 'header.analytics' | translate }}</button>
+                            <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"> {{
+                                'header.analytics' | translate }}</button>
                             <ul class="dropdown-menu content-menu content-width">
-                                <li class="experment-link" (click)="analyticsClick('/experiments')" id="experimentsTab" [ngClass]="{'active' : mainMenu == '/experiments'}"><a>Experiments</a></li>
-                                <li (click)="analyticsClick('/dashboard')" id="dashboardTab" [ngClass]="{'active' : mainMenu == '/dashboard'}"><a>{{ 'header.dashboard' | translate }}</a></li>
-                                <li (click)="analyticsClick('/userEngagement')" [ngClass]="{'active' : mainMenu == '/userEngagement'}"><a>{{ 'header.userEngagement' | translate }}</a></li>
-                                <li (click)="analyticsClick('/searchInsights')" [ngClass]="{'active' : mainMenu == '/searchInsights'}"><a>{{ 'header.searchInsights' | translate }}</a></li>
-                                <li (click)="analyticsClick('/resultInsights')" [ngClass]="{'active' : mainMenu == '/resultInsights'}"><a>{{ 'header.resultInsights' | translate }}</a></li>
+                                <li class="experment-link" (click)="analyticsClick('/experiments')" id="experimentsTab"
+                                    [ngClass]="{'active' : mainMenu == '/experiments'}"><a>Experiments</a></li>
+                                <li (click)="analyticsClick('/dashboard')" id="dashboardTab"
+                                    [ngClass]="{'active' : mainMenu == '/dashboard'}"><a>{{ 'header.dashboard' |
+                                        translate }}</a></li>
+                                <li (click)="analyticsClick('/userEngagement')"
+                                    [ngClass]="{'active' : mainMenu == '/userEngagement'}"><a>{{ 'header.userEngagement'
+                                        | translate }}</a></li>
+                                <li (click)="analyticsClick('/searchInsights')"
+                                    [ngClass]="{'active' : mainMenu == '/searchInsights'}"><a>{{ 'header.searchInsights'
+                                        | translate }}</a></li>
+                                <li (click)="analyticsClick('/resultInsights')"
+                                    [ngClass]="{'active' : mainMenu == '/resultInsights'}"><a>{{ 'header.resultInsights'
+                                        | translate }}</a></li>
                             </ul>
                         </div>
                     </div>
                     <!-- <div class="headerMenuTab" [routerLink]="['/dashboard']" skipLocationChange routerLinkActive="active" (click)="analyticsClick('metrics')">Analytics</div> -->
                     <!-- <div class="headerMenuTab" id='experimentsTab' [ngClass]="{'active' : mainMenu == '/experiments'}" (click)="analyticsClick('/experiments')">Experiments</div> -->
-                    <div class="headerMenuTab" id='channelsTab' [ngClass]="{'active' : mainMenu == '/generalSettings'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/generalSettings')">
+                    <div class="headerMenuTab" id='channelsTab' [ngClass]="{'active' : mainMenu == '/generalSettings'}"
+                        skipLocationChange routerLinkActive="active" (click)="analyticsClick('/generalSettings')">
                         <span>{{ 'header.manage' | translate }}</span>
                         <span routerLink="/actions" class="d-none"></span>
                         <span routerLink="/smallTalk" class="d-none"></span>
@@ -72,77 +92,113 @@
             <ul class="navbar-nav nav-flex-icons align-items-center right-menu-content flex-row justify-content-end">
                 <ng-template #rt let-r="result" let-t="term">
                     <ngb-highlight (click)="triggerRoute(null,r)" [result]="r.displayName" [term]="t"></ngb-highlight>
-                </ng-template> 
+                </ng-template>
                 <li class="nav-item autoSearchTools d-none">
-                    <img src="assets/icons/sidemenu/search.svg" (click)="toggleSearch(true)" [ngClass]="{'d-none': searchActive}">                   
+                    <img src="assets/icons/sidemenu/search.svg" (click)="toggleSearch(true)"
+                        [ngClass]="{'d-none': searchActive}">
                     <div class="kr-sg-input-search" [ngClass]="{'d-none': !searchActive}">
-                        <input type="text" placeholder="{{ 'header.search' | translate }}" id="inputSearch" class="input-search" (keyup.enter)="triggerRoute(searchText)" [ngClass]="{'pl-33':!searchText}" autocomplete="off" [(ngModel)]="searchText"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
-                            (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
+                        <input type="text" placeholder="{{ 'header.search' | translate }}" id="inputSearch"
+                            class="input-search" (keyup.enter)="triggerRoute(searchText)"
+                            [ngClass]="{'pl-33':!searchText}" autocomplete="off" [(ngModel)]="searchText"
+                            (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                            (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
+                            (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'"
+                            [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
                         <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchText">
-                        <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}"  (click)="focusoutSearch()">
+                        <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}"
+                            (click)="focusoutSearch()">
                     </div>
                 </li>
                 <!-- <div class="text-right nav-item trainBlock d-none">
                     <button class="kr-sg-button-primary btn_lg" [disabled]='training' (click)="train()">{{(training)?'Training...':'Train'}}</button>
                 </div> -->
                 <li class="nav-item app-dropdown">
-                    <div class="kr-sg-dropdowns"  ngbDropdown #myDrop="ngbDropdown" [placement]="'bottom-center'">
+                    <div class="kr-sg-dropdowns" ngbDropdown #myDrop="ngbDropdown" [placement]="'bottom-center'">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle (click)="getAllApps()">{{appName}}</button>
+                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle
+                                (click)="getAllApps()">{{appName}}</button>
                             <ul class="dropdown-menu content-menu" ngbDropdownMenu>
                                 <div class="search-assist-apps">
                                     <div class="main-title">{{ 'header.searchAssistApps' | translate }}</div>
                                     <div class="apps-block">
                                         <div class="title-secondary">{{ 'header.recentApps' | translate }}</div>
-                                        <div class="app-name-block" *ngFor='let app of recentApps' (click)="app.disabled?null:[openApp(app),myDrop.close()]" [ngStyle]="app.disabled&&{'opacity':'0.4','cursor':'default'}" placement="top-center" [ngbTooltip]="app.disableReason" [container]='"body"' tooltipClass="metrics_tooltips m-0">
+                                        <div class="app-name-block" *ngFor='let app of recentApps'
+                                            (click)="app.disabled?null:[openApp(app),myDrop.close()]"
+                                            [ngStyle]="app.disabled&&{'opacity':'0.4','cursor':'default'}"
+                                            placement="top-center" [ngbTooltip]="app.disableReason" [container]='"body"'
+                                            tooltipClass="metrics_tooltips m-0">
                                             <div class="app-name">{{app.name}}</div>
-                                            <div class="shared-name d-none">{{app.createdBy===userId?'My App':'Shared by '+app.userDetails.fullName}}</div>
-                                        </div>                                                       
+                                            <div class="shared-name d-none">{{app.createdBy===userId?'My App':'Shared by
+                                                '+app.userDetails.fullName}}</div>
+                                        </div>
                                     </div>
-                                    <div class="view-app-apps"  [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange (click)="analyticsClick('apps',true)">{{ 'header.viewAllApps' | translate }}</div>
-                                    <div class="create-new-app" (click)="openCreateApp()">{{ 'header.createNewApp' | translate }}</div>
+                                    <div class="view-app-apps" [routerLink]="['/apps']" routerLinkActive="active"
+                                        skipLocationChange (click)="analyticsClick('apps',true)">{{ 'header.viewAllApps'
+                                        | translate }}</div>
+                                    <div class="create-new-app" (click)="openCreateApp()">{{ 'header.createNewApp' |
+                                        translate }}</div>
                                 </div>
                             </ul>
-                        </div>                                            
+                        </div>
                     </div>
                 </li>
                 <li class="nav-item test-button">
-                    <button placement="bottom" triggers="hover" #testButtonTooltip="ngbTooltip" ngbTooltip="{{ 'header.previewAndCustomize' | translate }}" container='body' tooltipClass="test-icon-tooltip" class="kr-sg-button-secondary btn_lg rr-tour-test-btn" id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()">{{ 'header.test' | translate }}</button>
+                    <button placement="bottom" triggers="hover" #testButtonTooltip="ngbTooltip"
+                        ngbTooltip="{{ 'header.previewAndCustomize' | translate }}" container='body'
+                        tooltipClass="test-icon-tooltip" class="kr-sg-button-secondary btn_lg rr-tour-test-btn"
+                        id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()">{{ 'header.test' | translate
+                        }}</button>
                 </li>
-                <li (click)="train()" class="nav-item train-btn" ngbTooltip="{{ 'header.trainYourApp' | translate }}" container='body' tooltipClass="train-icon-tooltip" [ngClass]='{"active-train":training}'>
+                <li (click)="train()" class="nav-item train-btn" ngbTooltip="{{ 'header.trainYourApp' | translate }}"
+                    container='body' tooltipClass="train-icon-tooltip" [ngClass]='{"active-train":training}'>
                     <div class="loader-train"></div>
                     <img src="assets/icons/train.svg" class="defaultIcon">
                 </li>
                 <li class="nav-item search-block show-search1">
                     <div class="search_icon" [ngClass]="{'active-search-top' : showSearch}">
-                        <img src="assets/icons/sidemenu/search.svg" (click)="focusinSearch()" (mouseover)="activeSearch=true" (mouseout)="activeSearch=false">
+                        <img src="assets/icons/sidemenu/search.svg" (click)="focusinSearch()"
+                            (mouseover)="activeSearch=true" (mouseout)="activeSearch=false">
                     </div>
                     <div class="global-searc-container" *ngIf='showSearch'>
-                        <div class="kr-sg-input-search">  
-    
-                            <input type="text" class="input-search" id="globalSearch"  searchImgSrc='assets/icons/search.svg' placeholder="{{ 'header.search' | translate }}" [ngClass]="{'pl-2':searchText}"   (keyup.enter)="triggerRoute(searchText)" autocomplete="off" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')" (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'" autofocus>
+                        <div class="kr-sg-input-search">
+
+                            <input type="text" class="input-search" id="globalSearch"
+                                searchImgSrc='assets/icons/search.svg' placeholder="{{ 'header.search' | translate }}"
+                                [ngClass]="{'pl-2':searchText}" (keyup.enter)="triggerRoute(searchText)"
+                                autocomplete="off" [(ngModel)]="searchText" [ngbTypeahead]="search"
+                                [resultTemplate]="rt" [inputFormatter]="formatter"
+                                (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                                (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
+                                (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'" autofocus>
                             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchText">
-                            <img class="close-icon" src="assets/icons/close_icon.svg"  [ngClass]="{'pr-22':searchText}" (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="{{ 'header.cancel' | translate }}" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}"
+                                (click)="focusoutSearch()" placement="top-center" container='body'
+                                ngbTooltip="{{ 'header.cancel' | translate }}"
+                                tooltipClass="ngb_tooltip_custom_class sampleJson">
                         </div>
                     </div>
                 </li>
-                <li class="nav-item notification-block">                                      
+                <li class="nav-item notification-block">
                     <div class="kr-sg-dropdowns" ngbDropdown>
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input notification" id="dropdownBasic1" ngbDropdownToggle (mouseup)="notificationIconClick()">
+                            <button class="dropdown-toggle dropdown-input notification" id="dropdownBasic1"
+                                ngbDropdownToggle (mouseup)="notificationIconClick()">
                                 <img src="assets/icons/sidemenu/notification.svg">
                                 <sup *ngIf="isAnyRecordFailed" class="red-notification"></sup>
                                 <sup *ngIf="isAnyRecordCompleted" class="completed-notification"></sup>
-                                <img src="assets/icons/notification-ring.svg" class="inProgress notification-icon" *ngIf="isAnyRecordInprogress" placement="top" container='body'>
+                                <img src="assets/icons/notification-ring.svg" class="inProgress notification-icon"
+                                    *ngIf="isAnyRecordInprogress" placement="top" container='body'>
                             </button>
-                            <ul class="dropdown-menu content-menu notification-dropdown" ngbDropdownMenu id="notification-dropdown">
+                            <ul class="dropdown-menu content-menu notification-dropdown" ngbDropdownMenu
+                                id="notification-dropdown">
                                 <div class="notification-dropdown-status">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item">
-                                          <a class="nav-link active" data-toggle="tab" href="#statusupdates">{{ 'header.statusUpdates' | translate }}
-                                            <sup *ngIf="isAnyRecordFailed" class="red-notification"></sup>
-                                            <sup *ngIf="isAnyRecordCompleted" class="completed-notification"></sup>
-                                          </a>
+                                            <a class="nav-link active" data-toggle="tab" href="#statusupdates">{{
+                                                'header.statusUpdates' | translate }}
+                                                <sup *ngIf="isAnyRecordFailed" class="red-notification"></sup>
+                                                <sup *ngIf="isAnyRecordCompleted" class="completed-notification"></sup>
+                                            </a>
                                         </li>
                                         <!-- <li class="nav-item">
                                           <a class="nav-link disabled" data-toggle="tab" href="#activities">Activities</a>
@@ -154,47 +210,83 @@
                                                 <div class="statusDockerBody">
                                                     <perfect-scrollbar class="perfect-scroll-modal-body docker">
                                                         <div class="docker-list" *ngIf="!statusDockerLoading">
-                                                            <div class="row ml-0 mr-0 col-12 row-content" *ngFor="let task of dockersList; let index = index" [class.docUnRead]="checkRecordInDocs('unread', task)">
+                                                            <div class="row ml-0 mr-0 col-12 row-content"
+                                                                *ngFor="let task of dockersList; let index = index"
+                                                                [class.docUnRead]="checkRecordInDocs('unread', task)">
                                                                 <div class="col-9 pl-0 task_content">
-                                                                    <div class="heading text-truncate" [class.external_link]="(task.jobType == 'web' || task.jobType == 'faq' || task.jobType == 'STRUCTURED_DATA_INGESTION' || task.jobType == 'file' || task.jobType == 'FINDLY_FAQS_IMPORT')" (click)="(task.jobType == 'web' || task.jobType == 'faq' || task.jobType == 'STRUCTURED_DATA_INGESTION' || task.jobType == 'file' || task.jobType == 'FINDLY_FAQS_IMPORT') && navigateTo(task)" [title]="task.name">{{task.name}}</div>
-                                                                    <div class="desc" *ngIf="getStatusView(task.status)">{{task.status | titlecase}} <span class="tooltip-data" ngbTooltip='{{task.createdOn}}' tooltipClass="date-tooltip" placement="right-center" [container]="'body'"><img src="assets/icons/docker/clock.svg"></span></div>
-                                                                    <div class="desc" *ngIf="!getStatusView(task.status)">{{getStatusView(task.status, 'other')}} <span class="tooltip-data" ngbTooltip='{{task.createdOn}}' tooltipClass="date-tooltip" placement="right-center" [container]="'body'"><img src="assets/icons/docker/clock.svg"></span></div>
+                                                                    <div class="heading text-truncate"
+                                                                        [class.external_link]="(task.jobType == 'web' || task.jobType == 'faq' || task.jobType == 'STRUCTURED_DATA_INGESTION' || task.jobType == 'file' || task.jobType == 'FINDLY_FAQS_IMPORT')"
+                                                                        (click)="(task.jobType == 'web' || task.jobType == 'faq' || task.jobType == 'STRUCTURED_DATA_INGESTION' || task.jobType == 'file' || task.jobType == 'FINDLY_FAQS_IMPORT') && navigateTo(task)"
+                                                                        [title]="task.name">{{task.name}}</div>
+                                                                    <div class="desc"
+                                                                        *ngIf="getStatusView(task.status)">{{task.status
+                                                                        | titlecase}} <span class="tooltip-data"
+                                                                            ngbTooltip='{{task.createdOn}}'
+                                                                            tooltipClass="date-tooltip"
+                                                                            placement="right-center"
+                                                                            [container]="'body'"><img
+                                                                                src="assets/icons/docker/clock.svg"></span>
+                                                                    </div>
+                                                                    <div class="desc"
+                                                                        *ngIf="!getStatusView(task.status)">
+                                                                        {{getStatusView(task.status, 'other')}} <span
+                                                                            class="tooltip-data"
+                                                                            ngbTooltip='{{task.createdOn}}'
+                                                                            tooltipClass="date-tooltip"
+                                                                            placement="right-center"
+                                                                            [container]="'body'"><img
+                                                                                src="assets/icons/docker/clock.svg"></span>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-3 d-flex p-0 align-items-center justify-content-end">
+                                                                <div
+                                                                    class="col-3 d-flex p-0 align-items-center justify-content-end">
                                                                     <div class="img-block">
-                                                                        <img src="assets/icons/docker/info.svg" *ngIf="task.status === 'FAILURE'">
-                                                                        <img src="assets/icons/docker/return.svg" *ngIf="task.status === 'HALTED'" (click)="recrawl(task)">
+                                                                        <img src="assets/icons/docker/info.svg"
+                                                                            *ngIf="task.status === 'FAILURE'">
+                                                                        <img src="assets/icons/docker/return.svg"
+                                                                            *ngIf="task.status === 'HALTED'"
+                                                                            (click)="recrawl(task)">
                                                                         <!-- <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')"> -->
-                                                                        <img src="assets/icons/docker/check.svg" *ngIf="(task.status === 'SUCCESS')">
+                                                                        <img src="assets/icons/docker/check.svg"
+                                                                            *ngIf="(task.status === 'SUCCESS')">
                                                                         <!-- <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType == 'web' || task.jobType == 'faq')) || (task.jobType == 'STRUCTURED_DATA_INGESTION')">                         -->
                                                                     </div>
-                                                                    <div class="status-blcok">                        
-                                                                        <img src="assets/icons/ringLoading.svg" class="inProgress" *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED'" placement="top" container='body'>
+                                                                    <div class="status-blcok">
+                                                                        <img src="assets/icons/ringLoading.svg"
+                                                                            class="inProgress"
+                                                                            *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED'"
+                                                                            placement="top" container='body'>
                                                                         <!-- <span *ngIf="(task.status == 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}%</span> -->
-                                                                        <img src="assets/icons/docker/close.svg" (click)="removeRecord(task, index)" *ngIf="(task.status !== 'IN_PROGRESS' && task.status !== 'validation' && task.status !== 'QUEUED')">
+                                                                        <img src="assets/icons/docker/close.svg"
+                                                                            (click)="removeRecord(task, index)"
+                                                                            *ngIf="(task.status !== 'IN_PROGRESS' && task.status !== 'validation' && task.status !== 'QUEUED')">
                                                                     </div>
                                                                 </div>
-                                                            </div>         
+                                                            </div>
                                                             <div *ngIf="!dockersList.length" class="recordsEmpty">
                                                                 {{ 'header.emptyStatusRecords' | translate }}
                                                             </div>
                                                         </div>
-                                                        <div class="statusDockerLoadingSpinner row m-0" *ngIf="statusDockerLoading" >
+                                                        <div class="statusDockerLoadingSpinner row m-0"
+                                                            *ngIf="statusDockerLoading">
                                                             <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-                                                            <span class="please-wait-message ml-3">{{'please_wait' | translate}}</span>
+                                                            <span class="please-wait-message ml-3">{{'please_wait' |
+                                                                translate}}</span>
                                                         </div>
                                                     </perfect-scrollbar>
-                                                    <div class="clear_icon text-right" [class.disabled]="!dockersList.length" (click)="clearAllRecords()">{{'clear_all' | translate}}</div>
+                                                    <div class="clear_icon text-right"
+                                                        [class.disabled]="!dockersList.length"
+                                                        (click)="clearAllRecords()">{{'clear_all' | translate}}</div>
                                                 </div>
-                                            </div>                                        
+                                            </div>
                                         </div>
                                         <div id="activities" class="tab-pane fade">
-                                          <h3>{{ 'header.activities' | translate }}</h3>                                          
-                                        </div>                                        
+                                            <h3>{{ 'header.activities' | translate }}</h3>
+                                        </div>
                                     </div>
                                 </div>
                             </ul>
-                        </div>                                            
+                        </div>
                     </div>
                 </li>
                 <!-- <li class="nav-item search-block show-search2">
@@ -211,30 +303,42 @@
                 <!-- <li class="nav-item help-icon">
                     <img src="assets/icons/sidemenu/help.svg">
                 </li> -->
-                <li class="nav-item user_icon d-none">
-                    <button mat-button [matMenuTriggerFor]="menu" class="headerIcons p-0"><img src="assets/images/avatar.svg"></button>
+                <li class="nav-item user_icon">
+                    <button mat-button [matMenuTriggerFor]="menu" class="headerIcons p-0"><img
+                            src="assets/images/avatar.svg"></button>
                     <mat-menu #menu="matMenu" class="headerDropDown">
                         <div class="accountsSwitchDiv">
                             <div class="titleaccounts">{{ 'header.accounts' | translate }}</div>
-                            <button mat-menu-item class="accountName"><img src="assets/images/tick-icon-green.svg" class="tick-icon-green">{{ 'header.accountOne' | translate }}</button>
-                            <button mat-menu-item class="accountName"><img src="assets/images/tick-icon-green.svg" class="tick-icon-green">{{ 'header.accountsTwo' | translate }}</button>
+                            <button mat-menu-item class="accountName"><img src="assets/images/tick-icon-green.svg"
+                                    class="tick-icon-green">{{ 'header.accountOne' | translate }}</button>
+                            <button mat-menu-item class="accountName"><img src="assets/images/tick-icon-green.svg"
+                                    class="tick-icon-green">{{ 'header.accountsTwo' | translate }}</button>
                         </div>
-                        <button mat-menu-item (click)="switchAccount()" class="switchAccount" *ngIf="showSwichAccountOption">{{ 'header.switchAccount' | translate }}</button>
-                        <button mat-menu-item (click)="logoutClick()" class="logOut"><img src="assets/images/poweroffIcon.svg" class="poweroffIcon">{{ 'header.logout' | translate }}</button>
+                        <button mat-menu-item (click)="switchAccount()" class="switchAccount"
+                            *ngIf="showSwichAccountOption">{{ 'header.switchAccount' | translate }}</button>
+                        <button mat-menu-item (click)="logoutClick()" class="logOut"><img
+                                src="assets/images/poweroffIcon.svg" class="poweroffIcon">{{ 'header.logout' | translate
+                            }}</button>
                     </mat-menu>
                 </li>
-                <li class="nav-item user_icon mr-0">
-                    <div class="kr-sg-dropdowns top-dropdown-user" ngbDropdown #myDrop="ngbDropdown" [placement]="'bottom-left'">
+                <li class="nav-item user_icon mr-0  d-none">
+                    <div class="kr-sg-dropdowns top-dropdown-user" ngbDropdown #myDrop="ngbDropdown"
+                        [placement]="'bottom-left'">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
                                 <img src="assets/images/avatar.svg">
                             </button>
                             <ul class="dropdown-menu content-menu" ngbDropdownMenu>
-                                <div class="kr-sg-dropdowns inside-top-dropdown-user" *ngIf="showSwichAccountOption" ngbDropdown #myDrop="ngbDropdown" [placement]="'left-top'">
+                                <div class="kr-sg-dropdowns inside-top-dropdown-user" *ngIf="showSwichAccountOption"
+                                    ngbDropdown #myDrop="ngbDropdown" [placement]="'left-top'">
                                     <div class="dropdown dropdown-open">
-                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle ngbTooltip="Deepaknathan@gmail.com" container='body' tooltipClass="switch-account-tooltips" placement="bottom-left">
-                                            <img src="data:image/png;base64,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" />
-                                            <span class="u-name text-truncate">{{selectAccountDetails?.accountName}}</span>
+                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1"
+                                            ngbDropdownToggle ngbTooltip="Deepaknathan@gmail.com" container='body'
+                                            tooltipClass="switch-account-tooltips" placement="bottom-left">
+                                            <img
+                                                src="data:image/png;base64,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" />
+                                            <span
+                                                class="u-name text-truncate">{{selectAccountDetails?.accountName}}</span>
                                             <span class="arrow-">
                                                 <img src="assets/icons/carrot_right.svg">
                                             </span>
@@ -242,10 +346,13 @@
                                         <ul class="dropdown-menu content-menu" ngbDropdownMenu>
                                             <perfect-scrollbar>
                                                 <div class="scroll-content-data-users">
-                                                    <li *ngFor="let account of associatedAccounts" class="switch-account-users" (click)="switchAccountInternal(account)">
+                                                    <li *ngFor="let account of associatedAccounts"
+                                                        class="switch-account-users"
+                                                        (click)="switchAccountInternal(account)">
                                                         <span class="alphabet-name">K</span>
                                                         <span class="switch-user-name">{{account?.accountName}}</span>
-                                                        <span class="selected_items" *ngIf="account?.accountId == selectAccountDetails?.accountId">
+                                                        <span class="selected_items"
+                                                            *ngIf="account?.accountId == selectAccountDetails?.accountId">
                                                             <img src="assets/icons/check-selected.svg">
                                                         </span>
                                                     </li>
@@ -277,14 +384,14 @@
                                                 </div>
                                             </perfect-scrollbar>
                                         </ul>
-                                    </div>                                            
+                                    </div>
                                 </div>
                                 <li class="email-name text-truncate">{{domain}}</li>
                                 <li class="logout-title" (click)="logoutClick()">Sign Out</li>
                             </ul>
-                        </div>                                            
+                        </div>
                     </div>
-                </li>   
+                </li>
             </ul>
         </div>
     </nav>
@@ -329,33 +436,40 @@
   
   </kr-modal> -->
 
-  <kr-modal modalType="default" #createAppPop modalClass="creating-new-app-modal">
+<kr-modal modalType="default" #createAppPop modalClass="creating-new-app-modal">
     <div class="modal-header">
         <div class="modal-title">{{ 'header.createApp' | translate }}</div>
         <div class="close_modal" (click)="closeCreateApp()"><img src="assets/icons/close.svg"></div>
     </div>
     <div class="modal-body">
-      <div class="kr-sg-input-text mb-3">
-        <div class="label-text">{{ 'header.appName' | translate }}</div>
-        <input maxlength="128" type="text" autocomplete="off" placeholder="{{ 'header.enterAppName' | translate }}"  [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')">
-        <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
-      </div>
-      <div class="kr-sg-input-text">
-        <div class="label-text">{{ 'header.description' | translate }}</div>
-        <input class="input-text" maxlength="512" placeholder="{{ 'header.enterAppDescription' | translate }}" autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
-      </div>
-      <div class="kr-sg-dropdowns w-100">
-        <div class="label-text">{{ 'header.language' | translate }}</div>
-        <div class="dropdown dropdown-open">
-            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>{{ 'header.english' | translate }}</button>                                            
-            <ul class="dropdown-menu content-menu">
-              <li><a>{{ 'header.english' | translate }}</a></li>
-            </ul>
+        <div class="kr-sg-input-text mb-3">
+            <div class="label-text">{{ 'header.appName' | translate }}</div>
+            <input maxlength="128" type="text" autocomplete="off" placeholder="{{ 'header.enterAppName' | translate }}"
+                [(ngModel)]="newApp.name" name="appName" id="enterAppName" (blur)="inputChanged('enterName')"
+                (change)="inputChanged('enterName')">
+            <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
+                width="12" />
         </div>
-      </div>
+        <div class="kr-sg-input-text">
+            <div class="label-text">{{ 'header.description' | translate }}</div>
+            <input class="input-text" maxlength="512" placeholder="{{ 'header.enterAppDescription' | translate }}"
+                autocomplete="off" [(ngModel)]="newApp.description" name="appDesc">
+        </div>
+        <div class="kr-sg-dropdowns w-100">
+            <div class="label-text">{{ 'header.language' | translate }}</div>
+            <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>{{ 'header.english' |
+                    translate }}</button>
+                <ul class="dropdown-menu content-menu">
+                    <li><a>{{ 'header.english' | translate }}</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
-        <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closeCreateApp()">{{ 'header.cancel' | translate }}</button>
-        <button   type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='validateSource()'>{{ 'header.create' | translate }}</button>
+        <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closeCreateApp()">{{
+            'header.cancel' | translate }}</button>
+        <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal" (click)='validateSource()'>{{
+            'header.create' | translate }}</button>
     </div>
-  </kr-modal>
+</kr-modal>

@@ -368,6 +368,22 @@
         }
         .condition-block{
           margin: 20px 0 8px 0;
+          .clear{
+            text-align: right;
+            color: #0D6EFD;
+            font-size: 14px;
+            line-height: 20px;
+            cursor: pointer;
+          }
+          .painless-script-wrapper{
+            background: #FFFFFF;
+            border: 1px solid #BDC1C6;
+            box-sizing: border-box;
+            border-radius: 4px;
+            width: 100%;
+            // margin-right: 8px;
+            // height: calc(100vh - 215px);
+          }
           .group-radiobutton{
             margin-bottom: 10px;
             .heading-title{
