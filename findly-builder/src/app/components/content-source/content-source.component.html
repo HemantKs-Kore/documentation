@@ -1004,12 +1004,15 @@
             *ngIf="page && (sourceStatus == 'success' || (sourceStatus == 'running' && totalRecord != 0))">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
-              <span class="d-flex align-items-center flex-column mr-1" (click)="sortByApi('lastUpdated')">
-                <img [ngClass]="getSortIconVisibility('lastUpdated', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                <img [ngClass]="getSortIconVisibility('lastUpdated', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-              </span>
+              
               <!-- <img src="assets/icons/caretDown.svg" class="ml-1"> -->
-              <div class="col-3 label_text m-0">Last Updated </div>
+              <div class="col-4 label_text m-0 last-update"  (click)="sortByApi('lastUpdated')">
+                <span class="sort-up-down-icons">
+                  <img [ngClass]="getSortIconVisibility('lastUpdated', 'up')" src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                  <img [ngClass]="getSortIconVisibility('lastUpdated', 'down')" src="assets/icons/caretDown.svg" class="sortImg">
+                </span>
+                <div class="title">Last Updated</div> 
+              </div>
             </div>
             <div id="accordion" class="accordion-section">
               <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table" #perfectScroll
