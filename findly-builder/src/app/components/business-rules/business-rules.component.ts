@@ -1132,7 +1132,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     } else {
       this.isAsc = !this.isAsc;
     }
-    var checkSortValue= 1;
+    var checkSortValue = 1;
     var naviagtionArrow ='';
     if(this.isAsc){
       naviagtionArrow ='up';

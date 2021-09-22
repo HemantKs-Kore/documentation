@@ -80,7 +80,7 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources?extractionType=:type',
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:extractionSourceId/executionHistory?extractionType=:type',
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?limit=:limit&skip=:skip',
-      method: 'get'
+      method: 'post'
     };
     this.serviceList['train.app'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/train',
@@ -89,7 +89,7 @@ export class EndPointsService {
     this.serviceList['get.extracted.pags'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType?limit=:limit&skip=:skip',
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:webDomainId/content?skip=:skip&limit=:limit',
-      method: 'get'
+      method: 'post'
     };
     this.serviceList['delete.content.page'] = {
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType/:pageId',
@@ -1123,6 +1123,10 @@ export class EndPointsService {
     this.serviceList['put.upgradeBannerRead'] = {
       endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/readBanner',
       method: 'put'
+    }
+    this.serviceList['get.synonyms'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/getSynonyms',
+      method: 'post'
     }
   }
 }
