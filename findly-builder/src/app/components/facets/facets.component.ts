@@ -948,7 +948,12 @@ export class FacetsComponent implements OnInit, OnDestroy {
   //validate fields
   validateAddEditFacet() {
     if (this.currentFacetTab === 'filter') {
-      this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.name && this.currentFacetObj?.sortConfig?.sortBy && this.currentFacetObj?.sortConfig?.order) ? false : true;
+      if (this.currentFacetObj?.subtype === 'value') {
+        this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.name && this.currentFacetObj?.sortConfig?.sortBy && this.currentFacetObj?.sortConfig?.order) ? false : true;
+      }
+      else if (this.currentFacetObj?.subtype === 'range') {
+        this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.name) ? false : true;
+      }
     }
     else if (this.currentFacetTab === 'sortable') {
       this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.name && this.currentFacetObj?.sortConfig?.sortBy && this.currentFacetObj?.sortConfig?.order) ? false : true;

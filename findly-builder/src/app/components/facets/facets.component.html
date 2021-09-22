@@ -832,16 +832,13 @@
                                     <div class="col-6 title">Display Name</div>
                                 </div>
                                 <ng-container>
-                                    <div cdkDropList
-                                        (cdkDropListDropped)="sortConfiguredFacets($event,currentFacetObj.tabs)">
-                                        <div class="body-sec-config-facet col-12 row" cdkDrag
-                                            *ngFor="let tab of currentFacetObj?.tabs">
-                                            <div class="col-6 title values-data">
-                                                <img src="assets/icons/facets/move.svg">
-                                                <span class="title-value">{{tab.fieldValue}}</span>
-                                            </div>
-                                            <div class="col-6 title">{{tab.bucketName}}</div>
+                                    <div class="body-sec-config-facet col-12 row"
+                                        *ngFor="let tab of currentFacetObj?.tabs">
+                                        <div class="col-6 title values-data">
+                                            <!-- <img src="assets/icons/facets/move.svg"> -->
+                                            <span class="title-value">{{tab.fieldValue}}</span>
                                         </div>
+                                        <div class="col-6 title">{{tab.bucketName}}</div>
                                     </div>
                                 </ng-container>
                             </div>
