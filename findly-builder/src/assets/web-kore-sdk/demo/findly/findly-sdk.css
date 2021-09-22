@@ -12009,6 +12009,7 @@ word-break: break-word;
 .searchAssist-kore-chat-window .tile-with-text-parent.slide-parent-tile-with-text .tile-with-text .tile-description{
     max-height: 62px;
     overflow: hidden;
+    height: auto;
 }
 
 
@@ -14879,3 +14880,4 @@ margin-bottom: 15px !important;
    height: 1rem;
    background: white;
  }
+ 
