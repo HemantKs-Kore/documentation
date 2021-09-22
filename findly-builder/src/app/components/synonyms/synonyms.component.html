@@ -39,7 +39,7 @@
   </div>
   <ng-container *ngIf="!loadingContent">
     <perfect-scrollbar class="table-scroll-perfect-synonyms">
-      <div  class="empty-landing-screen"
+      <div class="empty-landing-screen"
       *ngIf="!(synonymData && synonymData.length) && !newSynonymObj.addNew && !loadingContent">
       <!-- <img src="assets/images/icons/empty_ill.svg">
       <div class="heading">{{'synonyms.no_synonyms_available_here' | translate}}</div>
@@ -107,11 +107,11 @@
                 <div class="dropdown dropdown-open">
                   <img src="assets/icons/synonyms_sort_dropdown.svg" ngbDropdownToggle>
                   <ul class="dropdown-menu content-menu synonyms_sort_dropdown" ngbDropdownMenu>
-                    <li (click)="filterTable('all','type');t.close();">{{'synonyms.All' | translate}}<img
-                      [ngClass]="{'hide': filterSystem.typefilter !== 'all'}"  src="assets/icons/check-blue.svg"></li>
-                    <li *ngFor="let type of synonymTypeArr" (click)="filterTable(type,'type');t.close();">
+                    <li [ngClass]="{'selected-list': filterSystem.typefilter == 'all'}" (click)="filterTable('all','type');t.close();">{{'synonyms.All' | translate}}<img
+                      [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" class="check-icon"  src="assets/icons/check-blue.svg"></li>
+                    <li [ngClass]="{'selected-list': filterSystem.typefilter == type}" *ngFor="let type of synonymTypeArr" (click)="filterTable(type,'type');t.close();">
                       <span class="list-name">{{type}}</span>
-                      <img [ngClass]="{'hide': filterSystem.typefilter !== type}" src="assets/icons/check-blue.svg"></li>
+                      <img [ngClass]="{'hide': filterSystem.typefilter !== type}" class="check-icon" src="assets/icons/check-blue.svg"></li>
                       <!-- {{'synonyms.one_way_synonym' | translate}} -->
                       <!-- <img class="pl-2"
                         *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg"></li> -->
@@ -289,8 +289,9 @@
           </div>
         </section>
       </div>
+      <div style="margin: 10px 10px 0px 0px;">
+        <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
+      </div>
     </perfect-scrollbar>
-  </ng-container>
-  <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination></div> 
-  pagination
+  </ng-container> 
 </div>
