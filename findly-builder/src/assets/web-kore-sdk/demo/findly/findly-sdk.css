@@ -14842,7 +14842,7 @@ margin-bottom: 15px !important;
     align-items: center;
     padding: 5px 15px;
     background: #202124;
-    opacity: 0.7;
+    /* opacity: 0.7; */
     border-radius: 4px;
     font-family: Inter;
     font-style: normal;
