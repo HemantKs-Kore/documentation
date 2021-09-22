@@ -17,6 +17,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { JsonPipe } from '@angular/common';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { FormControl } from '@angular/forms';
 declare const $: any;
 @Component({
   selector: 'app-index',
@@ -60,6 +61,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('customScriptCodeMirror') codemirror: any;
+  @ViewChild('containInput') containInput: ElementRef<HTMLInputElement>;
   newStage: any = {
     name: 'My Mapping'
   }
@@ -177,7 +179,17 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   simulateJson;
   filteredSimulatorRes: any;
   componentType: string = 'addData';
+  // containCondition: any[] = [];
+  selectable = true;
+  removable = true;
+  containCtrl = new FormControl();
+  operators = ['Exists', 'Does Not Exist', 'Equals to', 'Not Equals to', 'Contains', 'Doesnot Contain'];
+  conditionArray: any = [];
+  conditionObj: any = { field: '', operator: '', containCondition: [] };
+  selectedConditionType = 'basic';
+  selectedScript: any = '';
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -233,6 +245,27 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     });
+  }
+  //add condition dynamically
+  addCondition(type, index, field?, data?) {
+    if (type === 'add') {
+      this.conditionObj = { field: '', operator: '', containCondition: [] };
+      this.conditionArray.push(this.conditionObj);
+    }
+    else if (type === 'remove') {
+      this.conditionArray.splice(index, 1);
+    }
+    else if (type === 'update') {
+      if (field === 'field') {
+        this.conditionArray[index] = { ...this.conditionArray[index], field: data };
+      }
+      else if (field === 'operator') {
+        this.conditionArray[index] = { ...this.conditionArray[index], operator: data };
+        if (data !== 'Contains') {
+          delete this.conditionArray[index].containCondition;
+        }
+      }
+    }
   }
   getTraitGroups(initial?) {
     const quaryparms: any = {
@@ -620,6 +653,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       })
   }
   saveConfig(index?, dialogRef?) {
+    console.log("conditionArray", this.conditionArray, this.selectedConditionType)
+    console.log("selectedScript", this.selectedScript)
     let indexArrayLength: any = this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, true);
@@ -1165,8 +1200,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       if (!map.target_field || !map.source_field || !map.trait_groups.length) {
         return false;
       }
-    } else if(this.selectedStage.type == 'keyword_extraction' || this.selectedStage.type == 'semantic_meaning'){
-      if(!map.target_field || !map.source_field){ // removing this ' || !map.model ' parameter to exectute the removal of choose model
+    } else if (this.selectedStage.type == 'keyword_extraction' || this.selectedStage.type == 'semantic_meaning') {
+      if (!map.target_field || !map.source_field) { // removing this ' || !map.model ' parameter to exectute the removal of choose model
         return false;
       }
     } else if (this.selectedStage.type == 'exclude_document') {
@@ -1344,6 +1379,28 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     let count = this.codemirror.codeMirror.lineCount();
     console.log("lines", this.codemirror.codeMirror.lineCount());
   }
+  //matchip method
+  add(event: MatChipInputEvent, index): void {
+    const input = event.input;
+    const value = event.value;
+    if ((value || '').trim()) {
+      this.conditionArray[index].containCondition.push(value.trim());
+    }
+    if (input) {
+      input.value = '';
+    }
+    this.containCtrl.setValue(null);
+  }
+  //remove matchip data
+  remove(member: string, i): void {
+    const index = this.conditionArray[i].containCondition.indexOf(member);
+    if (index >= 0) this.conditionArray[i].containCondition.splice(index, 1);
+  }
+  // selected(event: MatAutocompleteSelectedEvent): void {
+  //   this.containCondition.push(event.option.viewValue);
+  //   this.containInput.nativeElement.value = '';
+  //   this.containCtrl.setValue(null);
+  // }
   ngOnDestroy() {
     const self = this;
     if (this.pollingSubscriber) {

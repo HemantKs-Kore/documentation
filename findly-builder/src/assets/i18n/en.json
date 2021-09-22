@@ -1085,7 +1085,7 @@
         "stage_active": "Stage Active",
         "stage_inactive": "Stage Inactive",
         "stage_name": "Stage Name",
-        "add_condition": "Add Condition",
+        "add_condition": "Condition",
         "documents_that_satisfy_the_condition_will": "Documents that satisfy the condition will be executed as part of the stage. You can define condition in Painless Script",
         "it_is_mandatory_to_add_conditions_for_defining": "It is mandatory to add conditions for defining the Exclude Document stage.",
         "action": "Action",
