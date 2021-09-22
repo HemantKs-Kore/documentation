@@ -1027,4 +1027,17 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'Failed to update facet');
     });
   }
+  //get values based on field
+  getFieldValues(id) {
+    const quaryparms: any = {
+      sidx: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      fieldId: id
+    };
+    this.service.invoke('get.facetValues', quaryparms).subscribe(res => {
+      console.log("getFieldValues res", res)
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get field values');
+    });
+  }
 }

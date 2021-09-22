@@ -602,6 +602,11 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/facets/:facetId',
       method: 'delete'
     }
+    this.serviceList['get.facetValues'] = {
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/:facetId',
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/indexPipeline/:indexPipelineId/fields/:fieldId/values',
+      method: 'get'
+    }
     this.serviceList['delete.bulkFacet'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/bulk',
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/facets/bulk',

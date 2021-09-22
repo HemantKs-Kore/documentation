@@ -813,7 +813,7 @@
                                                 id="facets-search-with-dropdown-menu">
                                                 <perfect-scrollbar class="scroll-search-field h-200">
                                                     <li *ngFor="let field of fieldAutoSuggestion | filter : [currentFacetObj.fieldName, 'fieldName']"
-                                                        (click)="currentFacetObj.fieldId=field._id;currentFacetObj.fieldName=field.fieldName">
+                                                        (click)="currentFacetObj.fieldId=field._id;currentFacetObj.fieldName=field.fieldName;getFieldValues(field._id);">
                                                         <a>{{field.fieldName}}</a>
                                                     </li>
                                                 </perfect-scrollbar>
