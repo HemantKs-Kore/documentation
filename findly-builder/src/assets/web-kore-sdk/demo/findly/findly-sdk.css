@@ -7365,12 +7365,12 @@ body{
 }
 .searchAssist-kore-chat-window.search-container.conversation .search-body .livesearchResultsNotFound{
     text-align: center;
-    padding:112px 0px;
+    padding:116px 0px;
     color: #9aa0a6;
 }
 .searchAssist-kore-chat-window.search-container.conversation #autoSuggestionContainer .suggestion-search-data-parent .noquerySuggestionsFound{
 text-align: center;
-padding:70px 0px;
+padding:53px 0px;
 color: #9aa0a6;
 }
 .searchAssist-kore-chat-window.search-container.conversation .search-body{
@@ -7378,7 +7378,7 @@ color: #9aa0a6;
     background: #FFFFFF;
     margin: 5px;
     max-height: 250px;
-    /* min-height: 250px; */
+    min-height: 250px;
     bottom: 0;
     position: relative;
     width: auto !important;
@@ -12009,6 +12009,7 @@ word-break: break-word;
 .searchAssist-kore-chat-window .tile-with-text-parent.slide-parent-tile-with-text .tile-with-text .tile-description{
     max-height: 62px;
     overflow: hidden;
+    height: auto;
 }
 
 
@@ -12104,6 +12105,7 @@ border: 0;
     font-size: 12px;
     line-height: 15px;
     margin-top: 10px;
+    height: auto;
 }
 
 /* Tile with text styles End*/
@@ -13833,7 +13835,7 @@ border: 0;
     border: 0;
     padding: 20px;
     max-height: 200px;
-    /* min-height: 200px; */
+    min-height: 200px;
     overflow: auto;
     border-radius: 6px;
     background: #FFFFFF;
@@ -14841,7 +14843,7 @@ margin-bottom: 15px !important;
     align-items: center;
     padding: 5px 15px;
     background: #202124;
-    opacity: 0.7;
+    /* opacity: 0.7; */
     border-radius: 4px;
     font-family: Inter;
     font-style: normal;
