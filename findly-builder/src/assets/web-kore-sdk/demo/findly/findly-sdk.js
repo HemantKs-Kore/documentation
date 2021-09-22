@@ -6026,11 +6026,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               customSearchResult: _self.customSearchResult
                             }
 
-                            searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
-                            $(searchData).data(dataObj);
-                            console.log("no results found");
-                            $('.search-body').html(searchData);
-                            // $('.search-body').empty().append('<div class="livesearchResultsNotFound">No Results Found</div>');
+                            // searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
+                            // $(searchData).data(dataObj);
+                            // console.log("no results found");
+                            // $('.search-body').html(searchData);
+                            $('.search-body').empty().append('<div class="livesearchResultsNotFound">No live search results found</div>');
                             setTimeout(function () {
                               $('.search-body').scrollTop(2);
                             }, 100);
@@ -6039,8 +6039,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch | 'all results' } });
 
                             } else {
-                              $('.search-body').css('display', 'none');
-                              $('.search-body').addClass('hide');
+                              $('.search-body').css('display', 'block');
+                              $('.search-body').removeClass('hide');
                               _self.pubSub.publish('sa-search-result', dataObj);
                               _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
                             }
@@ -20776,13 +20776,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 suggestions: data.autoComplete.querySuggestions,
                 querySuggestionsLimit: (searchConfigurationCopy.querySuggestionsLimit || (searchConfigurationCopy.querySuggestionsLimit == 0)) ? searchConfigurationCopy.querySuggestionsLimit : 2
               });
-              if ($('.search-body').find('.resultsOfSearch').length) {
-                $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
-              }
-              else if (searchConfigurationCopy.liveSearchResultsLimit == 0) {
+              // if ($('.search-body').find('.resultsOfSearch').length) {
+              //   $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
+              // }
+              // else if (searchConfigurationCopy.liveSearchResultsLimit == 0) {
+              //   $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
+              // } else {
+              //   $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
+              // }
+              if(data.autoComplete.querySuggestions.length){
                 $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
               } else {
-                $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
+                $('#autoSuggestionContainer').empty().append('<div class="suggestion-search-data-parent"><div class="noquerySuggestionsFound">No suggestions found</div></div>')
               }
             }
             if (searchConfigurationCopy.autocompleteOpt) {

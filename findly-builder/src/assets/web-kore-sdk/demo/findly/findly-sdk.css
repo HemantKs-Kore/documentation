@@ -13835,7 +13835,7 @@ border: 0;
     border: 0;
     padding: 20px;
     max-height: 200px;
-    /* min-height: 200px; */
+    min-height: 200px;
     overflow: auto;
     border-radius: 6px;
     background: #FFFFFF;
@@ -14880,4 +14880,3 @@ margin-bottom: 15px !important;
    height: 1rem;
    background: white;
  }
- 
