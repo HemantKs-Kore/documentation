@@ -317,7 +317,6 @@ export class AppMenuComponent implements OnInit, OnDestroy {
           if (res && res._id) {
             this.selectQueryPipelineId(res);
           }
-          this.closeModalPopup();
           if (this.newConfigObj.method === 'clone') {
             this.notify.notify('New Search config cloned successfully', 'success');
             this.mixpanel.postEvent('Search Config Created - Cloned', {});
@@ -326,6 +325,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
             this.notify.notify('New Search config created successfully', 'success');
             this.mixpanel.postEvent('Search Config Created - New', {});
           }
+          this.closeModalPopup();
         },
         errRes => {
           if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
