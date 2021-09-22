@@ -77,7 +77,7 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['get.source.list'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources?extractionType=:type',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/list?extractionType=:type',
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:extractionSourceId/executionHistory?extractionType=:type',
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?limit=:limit&skip=:skip',
       method: 'post'
@@ -88,7 +88,7 @@ export class EndPointsService {
     };
     this.serviceList['get.extracted.pags'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType?limit=:limit&skip=:skip',
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:webDomainId/content?skip=:skip&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:webDomainId/content/list?skip=:skip&limit=:limit',
       method: 'post'
     };
     this.serviceList['delete.content.page'] = {
@@ -537,7 +537,7 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['post.allField'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/getFields?offset=:offset&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/list?offset=:offset&limit=:limit',
       method: 'post'
     }
     this.serviceList['get.allFieldsData'] = {
@@ -574,7 +574,7 @@ export class EndPointsService {
     }
     this.serviceList['post.allFacets'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/?offset=:offset&limit=:limit',
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/getFacets',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId//facets/list',
       method: 'post'
     }
     this.serviceList['create.facet'] = {
@@ -684,7 +684,7 @@ export class EndPointsService {
     },
       this.serviceList['post.businessRules'] = {
         //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit',
-        endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/getRules?offset=:offset&limit=:limit',
+        endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp/list?offset=:offset&limit=:limit',
         method: 'post'
       },
       this.serviceList['create.businessRules'] = {
@@ -1125,7 +1125,7 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['get.synonyms'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/getSynonyms',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms/list',
       method: 'post'
     }
   }
