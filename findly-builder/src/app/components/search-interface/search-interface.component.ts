@@ -259,6 +259,10 @@ export class SearchInterfaceComponent implements OnInit {
       this.customList = [];
       res.settings.forEach(element => {
         if (element.interface == this.selectedSetting) {
+          if(this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top' && this.selectedSetting == "fullSearch"){
+            if(element.facets.aligned == "right")
+            element.facets.aligned = "left"
+          }
           this.selectedSettingResultsObj = element;
           this.sourcelist(element)
         }

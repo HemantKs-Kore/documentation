@@ -1456,7 +1456,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.importFaqInprogress = true;
       this.openStatusModal();
       this.addSourceModalPopRef.close();
-      this.closeStatusModal();
+      // this.closeStatusModal();
       //this.dockService.trigger(true)
     },
       errRes => {
