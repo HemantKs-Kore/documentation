@@ -371,7 +371,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       searchIndexId: searchIndex,
       type: 'content',
       offset: this.skip || 0,
-      limit: 3
+      limit: 10
     };
     let payload:any = {}
     if(!sortHeaderOption && !headerOption){
@@ -387,6 +387,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     if(this.searchSources){
       payload.search = this.searchSources;
+    }
+    if(this.pagesSearch){
+      payload.search = this.pagesSearch;
     }
     this.service.invoke('get.source.list', quaryparms,payload).subscribe(res => {
       this.resources = res.sources;
@@ -601,7 +604,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-  getCrawledPages(limit, skip) {
+  getCrawledPages(limit?, skip?) {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -616,6 +619,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     if (quaryparms.sourceType === 'file') {
       quaryparms.contentType = 'docContent'
     }
+    //  const payload = request;
     const payload : any={
       sort :{
         lMod: -1,
@@ -1315,7 +1319,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
       offset: 0,
-      limit: 3
+      limit: 10
     };
     let request:any={}
     if(!sortValue){
@@ -1366,10 +1370,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     if(sortHeaderOption === 'triggeredBy' ){
       request.sort.triggeredBy = sortValue
     }
+    if(sortHeaderOption === 'lastUpdated' ){
+      this.getCrawledPages();
+    }
+    
     // end
     }
     
     this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
+    // if(sortHeaderOption === 'lastUpdated'){
+    //   this.getCrawledPages()
+    // }
+    
   }
   getDyanmicFilterData(search?) {
     // this.fieldDataTypeArr = [];
@@ -1858,7 +1870,7 @@ paginateContent(event) {
           return "display-none"
         }
       }
-      case "type": {
+      case "contentSource": {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
             return "display-block";

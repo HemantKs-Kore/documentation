@@ -90,10 +90,11 @@
           </header> -->
           <header class="table-header" *ngIf="(synonymData && synonymData.length) && !loadingContent">
             <div class="col-6 title-header">
-              <span class="d-flex align-items-center flex-column mr-1" (click)="sortByApi('name')">
+              <!-- <span class="d-flex align-items-center flex-column mr-1 d-none" (click)="sortByApi('name')">
                 <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                 <img  [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-              <!-- <img src="assets/icons/sort_up_down.svg"> --></span>
+            <img src="assets/icons/sort_up_down.svg"> -->
+          <!-- </span>  -->
               {{'synonyms.terms'| translate}}
             </div>
             <div class="col-6 title-header">
@@ -292,5 +293,4 @@
     </perfect-scrollbar>
   </ng-container>
   <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination></div> 
-  pagination
 </div>

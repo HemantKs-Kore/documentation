@@ -77,7 +77,7 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['get.source.list'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/list?extractionType=:type',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/list?extractionType=:type&skip=:offset&limit=:limit',
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:extractionSourceId/executionHistory?extractionType=:type',
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?limit=:limit&skip=:skip',
       method: 'post'

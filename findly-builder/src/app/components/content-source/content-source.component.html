@@ -127,9 +127,9 @@
           <div class="col_ col-2 d-flex align-items-center pr-0" (click)="sortByApi('contentSource')"><span
               class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
             <span class="d-flex align-items-center flex-column mr-1">
-              <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg"
+              <img [ngClass]="getSortIconVisibility('contentSource', 'down')" src="assets/icons/caretDown.svg"
                 class="ml-1 sortImg downArrow">
-              <img [ngClass]="getSortIconVisibility('type', 'up')" src="assets/icons/caretDown.svg"
+              <img [ngClass]="getSortIconVisibility('contentSource', 'up')" src="assets/icons/caretDown.svg"
                 class="ml-1 sortImg upArrow">
             </span>
             {{"contentSource.type_caps" | translate}}
@@ -284,7 +284,7 @@
               </div>
             </div>
           </ng-container>
-          <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord && totalRecord > 3" [totalRecord]='totalRecord' [limitpage]='3' (pageChanged)="paginateContent($event)"></app-record-pagination></div>
+          <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord && totalRecord > 10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginateContent($event)"></app-record-pagination></div>
           <div class="empty">{{"contentSource.no_results_found" | translate}}</div>
         </perfect-scrollbar>
       </section>
@@ -472,7 +472,7 @@
               <div *ngIf="page">
                 <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
                   <input type="text" maxlength="60" placeholder="Search" class="input-search" name='pagesSearch'
-                    placeholder="Search" [ngClass]="{'pl-2':pagesSearch}" id="searchInput" [(ngModel)]="pagesSearch"
+                    placeholder="Search" [ngClass]="{'pl-2':pagesSearch}" id="searchInput" [(ngModel)]="pagesSearch" (keyup)="getSourceList(null,pagesSearch,'search')"
                     autocomplete="off"
                     (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                     (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
@@ -1004,7 +1004,7 @@
             *ngIf="page && (sourceStatus == 'success' || (sourceStatus == 'running' && totalRecord != 0))">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
-              <span class="d-flex align-items-center flex-column mr-1">
+              <span class="d-flex align-items-center flex-column mr-1" (click)="sortByApi('lastUpdated')">
                 <img [ngClass]="getSortIconVisibility('lastUpdated', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                 <img [ngClass]="getSortIconVisibility('lastUpdated', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
               </span>

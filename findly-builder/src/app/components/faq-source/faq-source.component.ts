@@ -27,6 +27,7 @@ import { D, F } from '@angular/cdk/keycodes';
 import { SideBarService } from './../../services/header.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { ThrowStmt } from '@angular/compiler';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-faq-source',
@@ -866,13 +867,18 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         "sort":{
           "name" : -1
         } 
+        
       }
     }
     else{
       payload = request
     }
+   
     if(this.searchFaq){
       payload.search = this.searchFaq;
+    }
+    if(this.searchSources){
+      payload.search = this.searchSources;
     }
     this.service.invoke('get.source.list', quaryparms,payload).subscribe(res => {
       this.resources = [...res.sources];
@@ -1021,10 +1027,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     let request:any={}
     if(!sortValue){
       request = {
-        "extractionType": "content",
+        "extractionType": "faq",
         "sort":{
           "name":1
-        }    
+        }
     }   
     }
     else if(sortValue){
@@ -1036,7 +1042,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     else {
     request={}
     }
-    request.extractionType = "content",
+    request.extractionType = "faq",
     request.contentSource = this.filterSystem.typefilter;
     request.recentStatus = this.filterSystem.statusFilter;
     request.search= this.searchSources;
@@ -1084,6 +1090,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     const request :any = {
       moduleName: "faq"
     };
+    if(this.selectedtab){
+      request.state = this.selectedtab || 'draft'
+    }
     request.contentSource = this.filterSystem.typefilter;
     request.recentStatus = this.filterSystem.statusFilter;
     request.search= this.searchSources;
