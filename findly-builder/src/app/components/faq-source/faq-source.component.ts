@@ -183,8 +183,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getStats(null, true);
     // this.getfaqsBy();
-    this.getDyanmicFilterData();
     this.getSourceList(true);
+    this.getDyanmicFilterData(null,'landingPage');
     this.userInfo = this.authService.getUserInfo() || {};
     this.altAddSub = this.faqServiceAlt.addAltQues.subscribe(params => {
       this.selectedFaq.isAlt = false;
@@ -294,13 +294,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showSourceAddition = null;
     this.openStatusModal();
     this.extractedFaqs = true
-    this.getJobStatusForMessages();
+    // this.getJobStatusForMessages();
   }
   onSourceAdditionSave() {
     this.manualFilterSelected = false;
     this.selectedResource = null;
     this.closeAddsourceModal();
-    this.getSourceList();
+    // this.getSourceList();
     this.closeStatusModal();
     if (this.faqs && this.faqs.length === 0) {
       if (this.showSourceAddition !== 'manual')
@@ -687,6 +687,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     if(this.searchFaq){
       payload.search = this.searchFaq;
     }
+    if(this.searchSources){
+      payload.search = this.searchSources;
+    }
     this.service.invoke('get.source.list', quaryparms,payload).subscribe(res => { //get.job.status
       this.resources = [...res.sources];
       this.extractedResources = [...res.sources];
@@ -702,7 +705,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
 
       }
       this.filterResourcesBack = [...this.extractedResources];
-      this.getDyanmicFilterData(searchValue);
+      this.getDyanmicFilterData(searchValue,'manageExract');
       // this.filterTable(this.filterTableSource, this.filterTableheaderOption)
 
 
@@ -945,6 +948,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         //   }
         // },1000)
       }
+      this.getDyanmicFilterData(searchValue,'landingPage');
     }, errRes => {
     });
   }
@@ -961,7 +965,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
           return "display-none"
         }
       }
-      case "type": {
+      case "contentSource": {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
             return "display-block";
@@ -1075,10 +1079,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     // }
     // end
     }
-    
-    this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
+     this.getJobStatusForMessages(searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
+
+    // this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
   }
-  getDyanmicFilterData(search?) {
+  getDyanmicFilterData(search?,from?) {
     // this.fieldDataTypeArr = [];
     // this.isMultiValuedArr = [];
     // this.isRequiredArr = [];
@@ -1090,9 +1095,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     const request :any = {
       moduleName: "faq"
     };
-    if(this.selectedtab){
-      request.state = this.selectedtab || 'draft'
+    if(from == 'landingPage'){
+      request.state = this.selectedtab || 'draft';
     }
+    if(from == 'manageExract'){
+      request.display = true;
+    }
+    
+    
     request.contentSource = this.filterSystem.typefilter;
     request.recentStatus = this.filterSystem.statusFilter;
     request.search= this.searchSources;
