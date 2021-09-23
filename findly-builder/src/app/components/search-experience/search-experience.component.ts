@@ -417,10 +417,15 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   //add emoji based on selection
   addEmoji(event) {
     const emoji = event.emoji.native;
-    if (this.searchObject.searchInteractionsConfig.welcomeMsg.length <= 58) {
-      //this.searchObject.searchInteractionsConfig.welcomeMsg = this.searchObject.searchInteractionsConfig.welcomeMsg.splice(this.greeting_msg_index, 0, emoji);
-      this.searchObject.searchInteractionsConfig.welcomeMsg = [this.searchObject.searchInteractionsConfig.welcomeMsg.slice(0, this.greeting_msg_index), emoji, this.searchObject.searchInteractionsConfig.welcomeMsg.slice(this.greeting_msg_index)].join('');
+    if (this.searchObject.searchInteractionsConfig.welcomeMsg.length <= 58 && !(["☺️", "🥲"].includes(emoji))) {
+      if (this.greeting_msg_index) {
+        this.searchObject.searchInteractionsConfig.welcomeMsg = [this.searchObject.searchInteractionsConfig.welcomeMsg.slice(0, this.greeting_msg_index), emoji, this.searchObject.searchInteractionsConfig.welcomeMsg.slice(this.greeting_msg_index)].join('');
+      }
+      else {
+        this.searchObject.searchInteractionsConfig.welcomeMsg = this.searchObject.searchInteractionsConfig.welcomeMsg + emoji
+      }
     }
+
   }
   //sequential tabs method
   nextTab(type) {
