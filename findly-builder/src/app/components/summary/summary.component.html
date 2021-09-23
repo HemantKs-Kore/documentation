@@ -85,9 +85,9 @@
               <div class="count-sec">
                 <div class="count">
                   <span class="d-inline-block text-truncate"
-                    title="{{totalSearchesStats?.searchesWithResults}}">{{totalSearchesStats?.resultRate==null?0:totalSearchesStats.resultRate}}</span>
+                    title="{{totalSearchesStats?.searchesWithResults}}">{{totalSearchesStats?.searchesWithResults==null?0:totalSearchesStats.searchesWithResults}}</span>
                   <span class="ctr-data">| {{'overview.Result_rate' | translate}}:
-                    <b>{{totalSearchesStats?.searchesWithResults!=null?totalSearchesStats?.searchesWithResults:0}}%</b></span>
+                    <b>{{totalSearchesStats?.resultRate!=null?totalSearchesStats?.resultRate:0}}%</b></span>
                 </div>
                 <div class="d-flex align-items-center">
                   <!-- *ngIf="![0,null].includes(totalSearchesStats.resultRate)" -->
