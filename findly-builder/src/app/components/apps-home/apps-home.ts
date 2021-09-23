@@ -10,6 +10,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AuthService } from '@kore.services/auth.service';
 import { NONE_TYPE } from '@angular/compiler';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 declare const $: any;
 @Component({
   // tslint:disable-next-line:component-selector
@@ -51,8 +52,9 @@ export class AppsListingComponent implements OnInit {
     private headerService: SideBarService,
     private appSelectionService: AppSelectionService,
     public authService: AuthService,
-    public inlineManual : InlineManualService,
-    private route: ActivatedRoute
+    public inlineManual: InlineManualService,
+    private route: ActivatedRoute,
+    public mixpanel: MixpanelServiceService
   ) {
     this.authInfo = localstore.getAuthInfo();
     this.userId = this.authService.getUserId();
@@ -66,6 +68,10 @@ export class AppsListingComponent implements OnInit {
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
+  }
+  //call mixpanel api for tellmemore button
+  callMixPanel() {
+    this.mixpanel.postEvent('User Onboarding - Journey Started', {});
   }
   prepareApps(apps) {
     this.recentApps = apps.slice(0, 4);
@@ -82,10 +88,12 @@ export class AppsListingComponent implements OnInit {
   }
   openBoradingJourney() {
     this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
+    this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
   }
   closeBoradingJourney() {
     if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
       this.onboardingpopupjourneyRef.close();
+      this.mixpanel.postEvent('User Onboarding - Journey Cancelled', {});
     }
     this.showBoarding = false;
   }
@@ -172,6 +180,7 @@ export class AppsListingComponent implements OnInit {
     this.service.invoke('create.app', {}, payload).subscribe(
       res => {
         this.notificationService.notify('App created successfully', 'success');
+        this.mixpanel.postEvent('New App Created', {});
         self.apps.push(res);
         this.prepareApps(self.apps);
         this.openApp(res)

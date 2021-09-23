@@ -9,6 +9,8 @@ import { EndPointsService } from '@kore.services/end-points.service';
 import { environment } from '@kore.environment';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AppHeaderComponent } from './components/app-header/app-header.component';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service'; 
+
 // import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
 // declare const KoreWidgetSDK: any;
@@ -71,10 +73,11 @@ export class AppComponent implements OnInit, OnDestroy {
     private endpointservice: EndPointsService,
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
-    public inlineManual : InlineManualService
+    public inlineManual : InlineManualService,
+    public mixpanel : MixpanelServiceService
     // private translate: TranslateService
   ) {
-
+    this.mixpanel.init();
     router.events.subscribe((event: RouterEvent) => {
       this.navigationInterceptor(event);
     });
