@@ -217,6 +217,15 @@ export class SearchInterfaceComponent implements OnInit {
           if (result === 'yes') {
             this.selectedSettingResultsObj.referInterface = interfaceType;
             this.copyResultSettings(interfaceType)
+            if(this.selectedSetting){
+              if(this.selectedSetting == 'liveSearch'){
+                this.mixpanel.postEvent('Result Templates - Updates to Live Search',{})
+              }else if(this.selectedSetting == 'search'){
+                this.mixpanel.postEvent('Result Templates -  Updates to Conversational Search',{})
+              }else if(this.selectedSetting == 'fullSearch') {
+                this.mixpanel.postEvent('Result Templates - Updates to Full Page Results',{})
+              }
+            }
             //this.saveResultSettings(interfaceType);
             // this.saveResultSettings(); Inorder to reflect the configuretion, we need to save the current interface with reference
             dialogRef.close();
