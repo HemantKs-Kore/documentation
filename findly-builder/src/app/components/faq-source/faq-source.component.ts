@@ -618,7 +618,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.faqSelectionObj.stats = res.countByState;
       // this.faqSelectionObj.stats = res.countBySource; 
       this.faqSelectionObj.loadingStats = false;
-      if (resourceId === undefined) {
+      if (resourceId === undefined || resourceId === null) {
         if (res.countBySource && res.countBySource.manual) {
           this.noManulaRecords = true;
         }
@@ -1261,7 +1261,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.pollingSubscriber = interval(5000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.job.status', quaryparms).subscribe(res => {
         this.updateSourceStatus(res);
-        this.getJobStatusForMessages();
+        // this.getJobStatusForMessages();
         const queuedJobs = _.filter(res, (source) => {
           return ((source.status === 'running') || (source.status === 'queued'));
         });

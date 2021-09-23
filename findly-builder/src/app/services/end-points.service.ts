@@ -820,7 +820,7 @@ export class EndPointsService {
     }
     //APIs for experiments
     this.serviceList['get.experiment'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments?state=:state&offset=:offset&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments?state=:state&offset=:offset&limit=:limit&sortByState=:sortByState',
       method: 'get'
     }
     this.serviceList['create.experiment'] = {
@@ -1050,7 +1050,7 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['get.allInvoices'] = {
-      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/invoices?skip=:skip&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/invoices?skip=:skip&limit=:limit&sortByInvoiceDate=:sortByInvoiceDate',
       method: 'get'
     }
     this.serviceList['get.allUsageLogs'] = {

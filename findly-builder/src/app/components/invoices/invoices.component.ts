@@ -74,8 +74,12 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       streamId: this.selectedApp._id,
       skip: offset || 0,
       limit: 10,
+      sortByInvoiceDate: 1
     };
-    quaryparms.sortByInvoiceDate = sortValue;
+    if(sortHeaderOption && sortValue && navigate){
+      quaryparms.sortByInvoiceDate = sortValue;
+    }
+   
     this.service.invoke('get.allInvoices', quaryparms).subscribe(res => {
       this.invoices = res.data || [];
       this.totalRecord = res.total;

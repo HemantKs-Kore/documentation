@@ -81,7 +81,7 @@
                         <div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom'">                                        
                             <div class="dropdown dropdown-open">
                                 <!-- <span class="filter-count"  placement="top" ngbTooltip="{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}">{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}</span> -->
-                                <button class="dropdown-toggle dropdown-input pl-0 mr-2" (click)="getJobStatusForMessages()" ngbDropdownToggle><img src="assets/icons/filter.svg">{{'faqSource.filter' | translate}}</button>                                            
+                                <button class="dropdown-toggle dropdown-input pl-0 mr-2" (click)="getSourceList()" ngbDropdownToggle><img src="assets/icons/filter.svg">{{'faqSource.filter' | translate}}</button>                                            
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                     <li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">{{'faqSource.all' | translate}} </span><img *ngIf="!(selectedResource && selectedResource._id) && !manualFilterSelected" src="assets/icons/check-blue.svg"></li>
                                     <li  (click)="selectResourceDrop.close();manualFaqsFilter()" *ngIf="noManulaRecords"><span class="list-name"> {{'faqSource.manual' | translate}}</span><img *ngIf="!(selectedResource && selectedResource._id) && manualFilterSelected" src="assets/icons/check-blue.svg"></li>
