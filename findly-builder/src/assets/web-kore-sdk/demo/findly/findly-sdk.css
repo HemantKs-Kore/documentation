@@ -14903,3 +14903,10 @@ margin-bottom: 15px !important;
     border-radius: 6px;
     z-index: 1;
     }
+    .searchAssist-kore-chat-window.search-container.conversation.active.no-history .parent-search-live-auto-suggesition {
+        height: calc(100% - 16px);
+}
+.searchAssist-kore-chat-window.search-container.conversation.active.no-history #searchChatContainer {
+    height: auto;
+    padding: 0px;
+}
