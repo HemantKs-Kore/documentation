@@ -176,7 +176,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getStats(null, true);
     // this.getfaqsBy();
-    this.getSourceList(true);
+    if((this.resources && this.resources.length === 0)){
+      this.getJobStatusForMessages();
+      this.getSourceList(true);
+    }
+    else{
+      this.getSourceList(true);
+    }
+   
     this.userInfo = this.authService.getUserInfo() || {};
     this.altAddSub = this.faqServiceAlt.addAltQues.subscribe(params => {
       this.selectedFaq.isAlt = false;
@@ -897,7 +904,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       if((this.extractedResources && this.extractedResources.length )){
         this.loadingFaqs = false;
-          this.loadingFaqs1 = true;
+        this.loadingFaqs1 = true;
+        this.viewDetails = true;
+        this.extractedFaqs = true;
       }
       else{
         this.loadingFaqs1 = true;
