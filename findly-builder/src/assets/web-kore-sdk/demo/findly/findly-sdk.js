@@ -16619,16 +16619,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <div class="carousel tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isDropdownEnabled == true && isFullResults == false}}panel p-0{{/if}}"  id="carousel-default" style="{{if isDropdownEnabled == true && isFullResults == false}}max-height: 100% !important;{{/if}}">\
                       {{each(key, data) structuredData.slice(0, maxSearchResultsAllowed)}}\
                         <div class="slide tile-with-image-parent grid_view_template grid-view-carousel-tile-with-image {{if viewType != "Customize" && config.visible == false}}display-none{{/if}}">\
-                          <a href="${data.url}" target="_blank" class="click-to-navigate-url  tile-with-image faqs-shadow structured-data-wrp-content"  boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
-                              <div class="img-with-content">\
+                          <div  class="click-to-navigate-url  tile-with-image faqs-shadow structured-data-wrp-content"  boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.sys_content_type}" id="${key}">\
+                          <a href="${data.url}" target="_blank"><div class="img-with-content">\
                                   <div class="g-img-block">\
                                     <img src="${data.img}">\
                                   </div>\
                                   <div class="g-tile-heading" title="${data.heading}">${data.heading}</div>\
                               </div>\
                               <div class="g-dec-text">${data.description}</div>\
+                              </a>\
                           </div>\
-                        </a>\
+                        </div>\
                       {{/each}}\
                     </div>\
                     <!-- <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div> -->\
