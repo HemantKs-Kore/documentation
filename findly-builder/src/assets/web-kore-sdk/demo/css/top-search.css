@@ -824,7 +824,8 @@ body.top-down .top-down-wrapper{
   margin-right: 12px;
   text-align: center;
   border-radius: 2px;
-  border: solid 1px var(--sdk-border--dusty-gray-color);
+  /* border: solid 1px var(--sdk-border--dusty-gray-color); */
+  border: solid 1px var(--sdk-border-silver-sand-color);
   background-color: var(--sdk-white-bg);
   margin-top: -3px;
   border-radius: 100px;
