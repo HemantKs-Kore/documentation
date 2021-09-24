@@ -5309,6 +5309,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   if (_self.vars.searchObject.recents.length) {
                     $('.search-body').css('display', 'block');
                     $('.search-body').removeClass('hide');
+                    $('.livesearchResultsNotFound').css('display', 'none');
+                    $('#autoSuggestionContainer').empty();
                     $('.parent-search-live-auto-suggesition').show();
                   } else {
                     $('.search-body').css('display', 'none');
