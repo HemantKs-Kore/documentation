@@ -9,20 +9,22 @@
     <div class="right-side-copy-configs">
       <div class="kr-sg-dropdowns copy-config-dropdown" ngbDropdown [placement]="'bottom-right'">
         <div class="dropdown dropdown-open">
-            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
-                <img src="assets/icons/resultTemplate/copy.svg">
-                <span class="title">Copy Configuration</span>
-            </button>
-            <ul class="dropdown-menu content-menu copy-config-dropdown-content" ngbDropdownMenu>
-              <div class="overlay-div"></div>
-              <div class="info-copy">Choose whether to apply the same configurations as per previous settings or configure the templates separately here</div>  
-              <div class="main-title">Apply configurations from</div>
-              <div class="btnactions">
-                <button class="kr-sg-button-secondary btn_lg mr-3">Live search</button>
-                <button class="kr-sg-button-secondary btn_lg ml-1">Conversational search</button>
-              </div>
-              <div class="apply-config-text">Applying configurations from Live Search <span class="loading-spin-progress ml-2"></span></div>
-            </ul>
+          <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
+            <img src="assets/icons/resultTemplate/copy.svg">
+            <span class="title">Copy Configuration</span>
+          </button>
+          <ul class="dropdown-menu content-menu copy-config-dropdown-content" ngbDropdownMenu>
+            <div class="overlay-div"></div>
+            <div class="info-copy">Choose whether to apply the same configurations as per previous settings or configure
+              the templates separately here</div>
+            <div class="main-title">Apply configurations from</div>
+            <div class="btnactions">
+              <button class="kr-sg-button-secondary btn_lg mr-3">Live search</button>
+              <button class="kr-sg-button-secondary btn_lg ml-1">Conversational search</button>
+            </div>
+            <div class="apply-config-text">Applying configurations from Live Search <span
+                class="loading-spin-progress ml-2"></span></div>
+          </ul>
         </div>
       </div>
       <button class="kr-sg-button-primary btn_lg">Preview</button>
@@ -30,135 +32,153 @@
   </div>
   <div class="body_content">
     <div class="search-interface-left-sec">
-      <div class="left-tabs">
-        <div class="tab-name">Live Search</div>
-        <div class="tab-name">Conversational Search</div>
-        <div class="tab-name active-tab">Full Page Result</div>
+      <div class="left-tabs" *ngFor="let tab of tabList">
+        <div class="tab-name" [ngClass]="{'active-tab':tab.id === selectedTab}"
+          (click)="getAllSettings(tab.id);selectedTab=tab.id">
+          {{tab.name}}</div>
       </div>
     </div>
     <perfect-scrollbar class="scroll-interface w-100">
-      <div class="search-interface-right-sec">  
+      <div class="search-interface-right-sec">
         <div class="main-title">Results Classification</div>
         <div class="desc-text mb-3">Customize the result templates which should be displayed to the end-user</div>
         <div class="label-text">Result Groups</div>
-        <div class="desc-text mb-2">Result Group will dispaly the results in a grouped format as per the templates you choose</div>
+        <div class="desc-text mb-2">Result Group will dispaly the results in a grouped format as per the templates you
+          choose</div>
         <div class="mb-3">
           <label class="kr-sg-toggle">
-            <input type="checkbox">
+            <input type="checkbox" [(ngModel)]="resultListObj.groupResults">
             <div class="slider"></div>
           </label>
         </div>
 
-        <ng-container *ngIf="true">
+        <ng-container *ngIf="resultListObj.groupResults">
           <div class="result-group-">
-            <div class="label_text">Field Name <img src="assets/icons/result-template/info.svg" tooltipClass="tooltip-global- ml-14 text-left" [container]="'body'" ngbTooltip='Enter the field name on which the result groups are to be created' placement="top-left"></div>
+            <div class="label_text" *ngIf="(resultListObj?.groupSetting?.fieldId)">Field Name <img
+                src="assets/icons/result-template/info.svg" tooltipClass="tooltip-global- ml-14 text-left"
+                [container]="'body'" ngbTooltip='Enter the field name on which the result groups are to be created'
+                placement="top-left">
+            </div>
             <ng-container>
-              <div class="field-name-with-edit">
+              <div class="field-name-with-edit" [ngClass]="{'d-none':resultListObj.groupSetting.fieldName===''}">
                 <div class="kr-sg-input-text">
-                  <input type="text" placeholder="Field Name" class="input-text">
+                  <input type="text" placeholder="Field Name" class="input-text"
+                    [(ngModel)]="resultListObj.groupSetting.fieldName"
+                    [disabled]="resultListObj.groupSetting.fieldName">
                 </div>
-                <div class="edit-field-name" (click)="openCustomModal()">
+                <div class="edit-field-name" (click)="openCustomModal('edit')">
                   <img src="assets/icons/result-template/editpencil.svg">
                 </div>
               </div>
-              <div class="values-templates-table">
+              <div class="values-templates-table" *ngIf="(resultListObj?.groupSetting?.conditions.length)">
                 <div class="table-header-sec row col-12">
                   <div class="title col-5">Values</div>
                   <div class="title col-7">TEMPLATE</div>
                 </div>
                 <ng-container>
-                  <div class="table-body-templates col-12 row">
+                  <div class="table-body-templates col-12 row"
+                    *ngFor="let value of resultListObj?.groupSetting?.conditions;let i=index;">
                     <div class="value-sec col-5">
-                      <div class="kr-sg-dropdowns">                        
+                      <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
-                            <ul class="dropdown-menu content-menu">                                               
-                              <li><a>Option 1</a></li>
-                              <li><a>Option 2</a></li>
-                              <li><a>Option 3</a></li>
-                            </ul>
+                          <button class="dropdown-toggle dropdown-input"
+                            data-toggle="dropdown">{{value.fieldValue===''?'Select Value':value.fieldValue}}</button>
+                          <ul class="dropdown-menu content-menu">
+                            <li *ngFor="let value of fieldValues"><a>{{value}}</a>
+                            </li>
+                          </ul>
                         </div>
                       </div>
                     </div>
                     <div class="template-sec col-7">
-                      <div class="kr-sg-dropdowns">                        
+                      <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
-                            <ul class="dropdown-menu content-menu">                                               
-                              <li><a>Option 1</a></li>
-                              <li><a>Option 2</a></li>
-                              <li><a>Option 3</a></li>
-                            </ul>
+                          <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
+                            [disabled]="value.fieldValue===''">{{value.templateType===''?'Select
+                            Template':value.templateType}}</button>
+                          <ul class="dropdown-menu content-menu">
+                            <li *ngFor="let template of templateNames"
+                              (click)="value.templateType=template;getTemplateData(template)">
+                              <a>{{template|titlecase}}</a>
+                            </li>
+                          </ul>
                         </div>
                       </div>
-                      <div class="customize-btn" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Customize Template' placement="top-center">
+                      <div class="customize-btn" tooltipClass="tooltip-global-" [container]="'body'"
+                        ngbTooltip='Customize Template' placement="top-center">
                         <img src="assets/icons/result-template/rangeslider.svg">
                       </div>
 
                       <div class="kr-sg-dropdowns see-templates" ngbDropdown [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input eye-btn" data-toggle="dropdown" ngbDropdownToggle>
-                              <img src="assets/icons/result-template/eye.svg" [container]="'body'" tooltipClass="tooltip-global-" ngbTooltip='Preview Template' placement="top-center">
-                            </button>                                            
-                            <ul class="dropdown-menu content-menu" ngbDropdownMenu>                                               
-                              <h1>Test</h1>
-                            </ul>
+                          <button class="dropdown-toggle dropdown-input eye-btn" data-toggle="dropdown"
+                            ngbDropdownToggle>
+                            <img src="assets/icons/result-template/eye.svg" [container]="'body'"
+                              tooltipClass="tooltip-global-" ngbTooltip='Preview Template' placement="top-center">
+                          </button>
+                          <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+                            <h1>Test</h1>
+                          </ul>
                         </div>
                       </div>
-                      <div class="delete-template">
+                      <div class="delete-template" (click)="addNewTemplateValues('delete',i)">
                         <img src="assets/icons/delete-table.svg">
                       </div>
                     </div>
                   </div>
-                  <div class="table-body-templates col-12 row">
+                  <!-- <div class="table-body-templates col-12 row">
                     <div class="value-sec col-5">
-                      <div class="kr-sg-dropdowns">                        
+                      <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
-                            <ul class="dropdown-menu content-menu">                                               
-                              <li><a>Option 1</a></li>
-                              <li><a>Option 2</a></li>
-                              <li><a>Option 3</a></li>
-                            </ul>
+                          <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an
+                            option</button>
+                          <ul class="dropdown-menu content-menu">
+                            <li><a>Option 1</a></li>
+                          </ul>
                         </div>
                       </div>
                     </div>
                     <div class="template-sec col-7">
-                      <div class="kr-sg-dropdowns">                        
+                      <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
-                            <ul class="dropdown-menu content-menu">                                               
-                              <li><a>Option 1</a></li>
-                              <li><a>Option 2</a></li>
-                              <li><a>Option 3</a></li>
-                            </ul>
+                          <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an
+                            option</button>
+                          <ul class="dropdown-menu content-menu">
+                            <li><a>Option 1</a></li>
+                            <li><a>Option 2</a></li>
+                            <li><a>Option 3</a></li>
+                          </ul>
                         </div>
                       </div>
-                      <div class="customize-btn" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Customize Template' placement="top-center">
+                      <div class="customize-btn" tooltipClass="tooltip-global-" [container]="'body'"
+                        ngbTooltip='Customize Template' placement="top-center">
                         <img src="assets/icons/result-template/rangeslider.svg">
                       </div>
                       <div class="kr-sg-dropdowns see-templates" ngbDropdown [placement]="'bottom-right'">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input eye-btn" data-toggle="dropdown" ngbDropdownToggle [container]="'body'" tooltipClass="tooltip-global-" ngbTooltip='Preview Template' placement="top-center">
-                              <img src="assets/icons/result-template/eye.svg">
-                            </button>                                            
-                            <ul class="dropdown-menu content-menu" ngbDropdownMenu>                                               
-                              <h1>Test</h1>
-                            </ul>
+                          <button class="dropdown-toggle dropdown-input eye-btn" data-toggle="dropdown"
+                            ngbDropdownToggle [container]="'body'" tooltipClass="tooltip-global-"
+                            ngbTooltip='Preview Template' placement="top-center">
+                            <img src="assets/icons/result-template/eye.svg">
+                          </button>
+                          <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+                            <h1>Test</h1>
+                          </ul>
                         </div>
                       </div>
                       <div class="delete-template">
                         <img src="assets/icons/delete-table.svg">
                       </div>
                     </div>
-                  </div>
-                  <div class="add_filed_btn">
+                  </div> -->
+                  <div class="add_filed_btn" (click)="addNewTemplateValues('add')">
                     <img src="assets/icons/result-template/add.svg">Add
                   </div>
                 </ng-container>
               </div>
             </ng-container>
-            <div class="add-filed-btn mb-3 d-none" (click)="openCustomModal()">
+            <div class="add-filed-btn mb-3" (click)="openCustomModal('add')"
+              *ngIf="(resultListObj?.groupSetting?.conditions.length===0)">
               <img src="assets/icons/result-template/add.svg">Add Field
             </div>
           </div>
@@ -166,139 +186,136 @@
 
         <ng-container *ngIf="true">
           <div class="label-text">Default Template</div>
-          <div class="desc-text mb-2">Default Template will display the results individually as per the default template you choose</div>
+          <div class="desc-text mb-2">Default Template will display the results individually as per the default template
+            you choose</div>
           <div class="default-template-sec mb-3">
             <div class="kr-sg-dropdowns">
               <div class="dropdown dropdown-open">
-                  <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Plain List</button>                                            
-                  <ul class="dropdown-menu content-menu">                                               
-                    <li><a>Option 1</a></li>
-                    <li><a>Option 2</a></li>
-                    <li><a>Option 3</a></li>
-                  </ul>
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">List</button>
+                <ul class="dropdown-menu content-menu">
+                  <li *ngFor="let template of templateNames" (click)="getTemplateData(template)"><a>{{template}}</a>
+                  </li>
+                </ul>
               </div>
             </div>
-            <div class="customize-btn" (click)="openCustomModal()" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Customize Template' placement="top-center">
+            <div class="customize-btn" tooltipClass="tooltip-global-" [container]="'body'"
+              ngbTooltip='Customize Template' placement="top-center">
               <img src="assets/icons/result-template/rangeslider.svg">
             </div>
             <div class="kr-sg-dropdowns see-templates" ngbDropdown [placement]="'bottom-center'">
               <div class="dropdown dropdown-open">
-                  <button class="dropdown-toggle dropdown-input eye-btn" data-toggle="dropdown" ngbDropdownToggle [container]="'body'" tooltipClass="tooltip-global-" ngbTooltip='Preview Template' placement="top-center">
-                    <img src="assets/icons/result-template/eye.svg">
-                  </button>                                            
-                  <ul class="dropdown-menu content-menu" ngbDropdownMenu>                                               
-                    <h1>Test</h1>
-                  </ul>
+                <button class="dropdown-toggle dropdown-input eye-btn" data-toggle="dropdown" ngbDropdownToggle
+                  [container]="'body'" tooltipClass="tooltip-global-" ngbTooltip='Preview Template'
+                  placement="top-center">
+                  <img src="assets/icons/result-template/eye.svg">
+                </button>
+                <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+                  <h1>Test</h1>
+                </ul>
               </div>
             </div>
           </div>
-          <div class="label-text">Exception</div>
-          <div class="desc-text">Exceptions are for results which you need to display in different template than default template</div>
+          <!-- <div class="label-text">Exception</div>
+          <div class="desc-text">Exceptions are for results which you need to display in different template than default
+            template</div>
           <div class="add-filed-btn mb-3 mt-2">
             <img src="assets/icons/result-template/add.svg">Exception
-          </div>
+          </div> -->
         </ng-container>
 
         <div class="filter-facets-block">
           <div class="label-text">Filter Facets</div>
           <div class="desc-text mb-2">Customize the placement of filter facets for the full page result page</div>
-          <label class="kr-sg-toggle">                                       
-            <input type="checkbox" checked>
+          <label class="kr-sg-toggle">
+            <input type="checkbox" [(ngModel)]="resultListObj.facetsSetting.enabled">
             <div class="slider"><span class="enabled">Enabled</span><span class="disabled">Disabled</span></div>
           </label>
-          <ng-container>
-              <div class="filter-facets-info-images mt-3">
-                <div class="group-radiobutton mb-3">
-                  <div class="kr-sg-radiobutton">
-                    <input id="radio-1" name="radio" class="radio-custom" type="radio">
-                    <label for="radio-1" class="radio-custom-label">Left Aligned </label>
-                  </div>
-                  <div class="kr-sg-radiobutton">
-                    <input id="radio-1" name="radio" class="radio-custom" type="radio">
-                    <label for="radio-1" class="radio-custom-label">Right Aligned </label>
-                  </div>
-                  <div class="kr-sg-radiobutton">
-                    <input id="radio-1" name="radio" class="radio-custom" type="radio">
-                    <label for="radio-1" class="radio-custom-label">Top Aligned </label>
-                  </div>
-                </div>
-                <div class="img-info">
-                  <img src="assets/icons/resultTemplate/top-aligned.png">
-                  <img src="assets/icons/resultTemplate/lef-aligned.png">
-                  <img src="assets/icons/resultTemplate/right-aligned.png">
-                  <img src="assets/icons/resultTemplate/top-down-left-aligned.png">
-                  <img src="assets/icons/resultTemplate/top-down-top-aligned.png">
+          <ng-container *ngIf="resultListObj.facetsSetting.enabled">
+            <div class="filter-facets-info-images mt-3">
+              <div class="group-radiobutton mb-3">
+                <div class="kr-sg-radiobutton" *ngFor="let facet of filterFacets">
+                  <input [id]="facet.type" name="radio" class="radio-custom" type="radio"
+                    (click)="resultListObj.facetsSetting.aligned=facet.type"
+                    [checked]="resultListObj.facetsSetting.aligned===facet.type">
+                  <label [for]="facet.type" class="radio-custom-label">{{facet.name}}</label>
                 </div>
               </div>
+              <div class="img-info">
+                <img src="assets/icons/resultTemplate/top-aligned.png"
+                  *ngIf="resultListObj.facetsSetting.aligned==='top'">
+                <img src="assets/icons/resultTemplate/lef-aligned.png"
+                  *ngIf="resultListObj.facetsSetting.aligned==='left'">
+                <img src="assets/icons/resultTemplate/right-aligned.png"
+                  *ngIf="resultListObj.facetsSetting.aligned==='right'">
+                <!-- <img src="assets/icons/resultTemplate/top-down-left-aligned.png">
+                <img src="assets/icons/resultTemplate/top-down-top-aligned.png"> -->
+              </div>
+            </div>
           </ng-container>
         </div>
       </div>
-  </perfect-scrollbar>
+    </perfect-scrollbar>
   </div>
 </div>
 
 <ng-container *ngIf="true">
   <kr-modal modalType="center" #customModal id="sourceSlider" modalClass="modal_popups_ add-field-name-modal">
-      <div class="modal-header">
-        <div class="title breadcrum">Add Field Name</div>
-        <div class="close_icon" (click)="closeCustomModal()">
-          <img src="assets/icons/modal-close.svg">
-        </div>
+    <div class="modal-header">
+      <div class="title breadcrum">{{fieldPopupType==='add'?'Add':'Edit'}} Field Name</div>
+      <div class="close_icon" (click)="closeCustomModal()">
+        <img src="assets/icons/modal-close.svg">
       </div>
-      <perfect-scrollbar class="customize-scroll-left">
-        <div class="modal-body">
-          <div class="search_block">
-            <div class="label-text mb-1">Field Name</div>
-            <div class="row m-0 align-items-center">
-                <div class="kr-sg-dropdowns">
-                    <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
-                    <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                        <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
-                        <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
-                        <input type="text"  maxlength="60" placeholder="Enter Field Name" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown">
-                        <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
-                            <perfect-scrollbar class="scroll-search-field">
-                                <li>
-                                    <a>Option 1</a>
-                                </li>
-                                <li>
-                                    <a>Option 2</a>
-                                </li>
-                                <li>
-                                    <a>Option 3</a>
-                                </li>
-                                <li>
-                                    <a>Option 4</a>
-                                </li>
-                            </perfect-scrollbar>
-                        </ul>
-                    </div>
-                </div>
+    </div>
+    <perfect-scrollbar class="customize-scroll-left">
+      <div class="modal-body">
+        <div class="search_block">
+          <div class="label-text mb-1">Field Name</div>
+          <div class="row m-0 align-items-center">
+            <div class="kr-sg-dropdowns">
+              <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
+              <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
+                  data-toggle="dropdown"></button>
+                <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
+                <input type="text" maxlength="60" placeholder="Enter Field Name" id="facets-search-input"
+                  class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown"
+                  [(ngModel)]="resultListObj.groupSetting.fieldName">
+                <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                  <perfect-scrollbar class="scroll-search-field">
+                    <li
+                      *ngFor="let field of allFieldsData | filter : [resultListObj.groupSetting.fieldName, 'fieldName'] "
+                      (click)="getFieldValues(field)">
+                      <a *ngIf="field.fieldName">{{field.fieldName}}</a>
+                    </li>
+                  </perfect-scrollbar>
+                </ul>
+              </div>
             </div>
           </div>
-          <ng-container>
-            <div class="valuse-available-fileds">
-              <div class="col-12 heading">Values Available</div>
-              <ng-container>
-                <div class="col-12 title-values">FAQs</div>
-                <div class="col-12 title-values">Actions</div>
-                <div class="col-12 title-values">Pages</div>
-              </ng-container>
-            </div>
-          </ng-container>
         </div>
-      </perfect-scrollbar>
-      <div class="modal-footer">
-          <button class="kr-sg-button-primary btn_lg">save</button>
-          <button class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">Cancel</button>
+        <ng-container *ngIf="resultListObj.groupSetting.conditions.length">
+          <div class="valuse-available-fileds">
+            <div class="col-12 heading">Values Available</div>
+            <ng-container>
+              <div class="col-12 title-values" *ngFor="let value of fieldValues">
+                {{value}}</div>
+            </ng-container>
+          </div>
+        </ng-container>
       </div>
+    </perfect-scrollbar>
+    <div class="modal-footer">
+      <button class="kr-sg-button-primary btn_lg" [disabled]="resultListObj.groupSetting.fieldName===''">save</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">Cancel</button>
+    </div>
   </kr-modal>
 </ng-container>
 
 <ng-container *ngIf="false">
   <kr-modal modalType="center" #customModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
     <div class="modal-header">
-      <div class="title breadcrum">Customize <img src="assets/icons/search-interface/carrot_right.svg"> <span>Products  |  Full page Result</span> </div>
+      <div class="title breadcrum">Customize <img src="assets/icons/search-interface/carrot_right.svg"> <span>Products |
+          Full page Result</span> </div>
       <div class="close_icon" (click)="closeCustomModal()"><img src="assets/icons/modal-close.svg"></div>
     </div>
     <div class="modal-body">
@@ -343,29 +360,29 @@
               <div class="kr-sg-dropdowns col-6 p-0 mb-3">
                 <div class="label-text">List Type</div>
                 <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
-                    <ul class="dropdown-menu content-menu">                                               
-                      <li><a href="#">Option 1</a></li>
-                      <li><a href="#">Option 2</a></li>
-                      <li><a href="#">Option 3</a></li>
-                    </ul>
+                  <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>
+                  <ul class="dropdown-menu content-menu">
+                    <li><a href="#">Option 1</a></li>
+                    <li><a href="#">Option 2</a></li>
+                    <li><a href="#">Option 3</a></li>
+                  </ul>
                 </div>
               </div>
-    
+
               <ng-container>
                 <div class="group-radiobutton mb-3">
                   <div class="label-text">Text alignment for template</div>
                   <div class="kr-sg-radiobutton">
-                      <input id="radio-1" name="radio" class="radio-custom" type="radio">
-                      <label for="radio-1" class="radio-custom-label">Left</label>
+                    <input id="radio-1" name="radio" class="radio-custom" type="radio">
+                    <label for="radio-1" class="radio-custom-label">Left</label>
                   </div>
                   <div class="kr-sg-radiobutton">
-                      <input id="radio-12" name="radio" class="radio-custom" type="radio">
-                      <label for="radio-12" class="radio-custom-label">Center</label>
+                    <input id="radio-12" name="radio" class="radio-custom" type="radio">
+                    <label for="radio-12" class="radio-custom-label">Center</label>
                   </div>
                 </div>
               </ng-container>
-              
+
               <div class="template-preview-content">
                 <div class="label_text mb-1">Template Preview</div>
                 <div class="desc-text">Preview of the chosen template with the mapped fields will be shown here</div>
@@ -375,9 +392,9 @@
                 <ng-container *ngIf="false">
                   <div class="template-preview-box">
                     <div class="template-1-classic-list mb-3">
-                        <div class="classic-list-item col-6">Heading comes here</div>
-                        <div class="classic-list-item col-6">Heading comes here</div>
-                        <div class="classic-list-item col-6">Heading comes here</div>
+                      <div class="classic-list-item col-6">Heading comes here</div>
+                      <div class="classic-list-item col-6">Heading comes here</div>
+                      <div class="classic-list-item col-6">Heading comes here</div>
                     </div>
                     <div class="template-1-classic-list text-center mb-3">
                       <div class="classic-list-item col-6">Heading comes here</div>
@@ -421,12 +438,12 @@
 
                     <!-- Result Group Template 1 -->
                     <div class="template-1-classic-list-result-group mb-3 col-6">
-                        <div class="classic-list-result-item">The All Rounder</div>
-                        <div class="classic-list-result-item">The All Rounder</div>
-                        <div class="classic-list-result-item">The All Rounder</div>
-                        <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                        </div>
+                      <div class="classic-list-result-item">The All Rounder</div>
+                      <div class="classic-list-result-item">The All Rounder</div>
+                      <div class="classic-list-result-item">The All Rounder</div>
+                      <div class="show-more-list">
+                        Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                      </div>
                     </div>
                     <div class="template-1-classic-list-result-group text-center mb-3 col-6">
                       <div class="classic-list-result-item">The All Rounder</div>
@@ -492,7 +509,7 @@
                         Show more <img src="assets/icons/resultTemplate/carrotup.svg">
                       </div>
                     </div>
-                </div>
+                  </div>
                 </ng-container>
 
                 <!-- Template 2 -->
@@ -501,40 +518,63 @@
                   <div class="template-preview-box">
                     <div class="template-2-classic-list col-11 mb-3 p-0">
                       <div class="classic-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes here, description comes here, desc ription comes here, description comes here, description comes here, description comes here, description comes here, descript...</span>  
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
                       </div>
                       <div class="classic-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes here, description comes here, desc ription comes here, description comes here, description comes here, description comes here, description comes here, descript...</span>  
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
                       </div>
                     </div>
 
                     <div class="template-2-classic-list-collapse col-11 mb-3 p-0">
                       <div class="collapse-item-list">
-                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descri...</div>
+                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, descri...</div>
                         <div id="demo" class="collapse"></div>
                       </div>
                       <div class="collapse-item-list">
-                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo1">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descri...</div>
+                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo1">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, descri...</div>
                         <div id="demo1" class="collapse"></div>
                       </div>
                     </div>
 
                     <div class="template-2-plain-list col-11 mb-3 p-0">
                       <div class="plain-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes here, description comes here, desc ription comes here, description comes here, description comes here, description comes here, description comes here, descript...</span>  
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
                       </div>
                       <div class="plain-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes here, description comes here, desc ription comes here, description comes here, description comes here, description comes here, description comes here, descript...</span>  
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
                       </div>
                     </div>
 
                     <div class="template-2-plain-list-collapse col-11 mb-3 p-0">
                       <div class="collapse-item-list">
-                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo3">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descri...</div>
+                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo3">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, descri...</div>
                         <div id="demo3" class="collapse"></div>
                       </div>
                       <div class="collapse-item-list">
-                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo4">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description c omes here, description comes here, description comes here, description comes here, description comes here, description com...</div>
+                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo4">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, description comes here, description
+                          comes here, description comes here, description comes here, description comes here,
+                          description c omes here, description comes here, description comes here, description comes
+                          here, description comes here, description com...</div>
                         <div id="demo4" class="collapse"></div>
                       </div>
                     </div>
@@ -545,21 +585,31 @@
                     <div class="template-2-classic-list col-11 mb-3 p-0">
                       <div class="title-text-heading">Template title comes here</div>
                       <div class="classic-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes here, description comes here, desc ription comes here, description comes here, description comes here, description comes here, description comes here, descript...</span>  
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
                       </div>
                       <div class="classic-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes here, description comes here, desc ription comes here, description comes here, description comes here, description comes here, description comes here, descript...</span>  
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
                       </div>
                     </div>
 
                     <div class="title-text-heading">Template title comes here</div>
                     <div class="template-2-classic-list-collapse col-11 mb-3 p-0">
                       <div class="collapse-item-list">
-                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo5">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descri...</div>
+                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo5">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, descri...</div>
                         <div id="demo5" class="collapse"></div>
                       </div>
                       <div class="collapse-item-list">
-                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo6">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descri...</div>
+                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo6">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, descri...</div>
                         <div id="demo6" class="collapse"></div>
                       </div>
                     </div>
@@ -567,21 +617,34 @@
                     <div class="title-text-heading mb-0">Template title comes here</div>
                     <div class="template-2-plain-list col-11 mb-3 p-0">
                       <div class="plain-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes here, description comes here, desc ription comes here, description comes here, description comes here, description comes here, description comes here, descript...</span>  
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
                       </div>
                       <div class="plain-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes here, description comes here, desc ription comes here, description comes here, description comes here, description comes here, description comes here, descript...</span>  
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
                       </div>
                     </div>
 
                     <div class="title-text-heading mb-0">Template title comes here</div>
                     <div class="template-2-plain-list-collapse col-11 mb-3 p-0">
                       <div class="collapse-item-list">
-                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo7">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descri...</div>
+                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo7">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, descri...</div>
                         <div id="demo7" class="collapse"></div>
                       </div>
                       <div class="collapse-item-list">
-                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo8">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description c omes here, description comes here, description comes here, description comes here, description comes here, description com...</div>
+                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo8">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, description comes here, description
+                          comes here, description comes here, description comes here, description comes here,
+                          description c omes here, description comes here, description comes here, description comes
+                          here, description comes here, description com...</div>
                         <div id="demo8" class="collapse"></div>
                       </div>
                     </div>
@@ -589,10 +652,14 @@
                     <!-- Result Group -->
                     <div class="template-2-classic-list-result col-11 mb-3">
                       <div class="classic-list-item-result">
-                        <span>Description comes here, description comes here, description comes here, description comes here, description comes here, desc ription comes here, description comes here, description comes here, description comes here, description comes here, descript...</span>  
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
                       </div>
                       <div class="classic-list-item-result">
-                        <span>Description comes here, description comes here, description comes here, description comes here, description comes here, desc ription comes here, description comes here, description comes here, description comes here, description comes here, descript...</span>  
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
                       </div>
                       <div class="show-more-list">
                         Show more <img src="assets/icons/resultTemplate/carrotup.svg">
@@ -601,11 +668,17 @@
 
                     <div class="template-2-classic-list-collapse-result col-11 mb-3">
                       <div class="collapse-item-list-result">
-                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo11">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descri...</div>
+                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo11">
+                          Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, des cription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descri...</div>
                         <div id="demo11" class="collapse"></div>
                       </div>
                       <div class="collapse-item-list-result">
-                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo10">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descri...</div>
+                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo10">
+                          Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, des cription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descri...</div>
                         <div id="demo10" class="collapse"></div>
                       </div>
                       <div class="show-more-list">
@@ -615,10 +688,14 @@
 
                     <div class="template-2-plain-list-result col-11 mb-3">
                       <div class="plain-list-item-result">
-                        <span>Description comes here, description comes here, description comes here, description comes here, description comes here, desc ription comes here, description comes here, description comes here, description comes here, description comes here, descript...</span>  
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
                       </div>
                       <div class="plain-list-item-result">
-                        <span>Description comes here, description comes here, description comes here, description comes here, description comes here, desc ription comes here, description comes here, description comes here, description comes here, description comes here, descript...</span>  
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
                       </div>
                       <div class="show-more-list">
                         Show more <img src="assets/icons/resultTemplate/carrotup.svg">
@@ -627,11 +704,17 @@
 
                     <div class="template-2-plain-list-collapse-result col-11 mb-3">
                       <div class="collapse-item-list-result">
-                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo12">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descri...</div>
+                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo12">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, descri...</div>
                         <div id="demo12" class="collapse"></div>
                       </div>
                       <div class="collapse-item-list-result">
-                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo13">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descri...</div>
+                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo13">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, descri...</div>
                         <div id="demo13" class="collapse"></div>
                       </div>
                       <div class="show-more-list">
@@ -651,11 +734,13 @@
                       <div class="title-text-heading">Template title comes here</div>
                       <div class="classic-list-item">
                         <div class="heading-text">Heading comes here</div>
-                        <div class="text-desc text-truncate">Description comes here, description comes here, description comes here, description comes here, description comes here, des...</div>
+                        <div class="text-desc text-truncate">Description comes here, description comes here, description
+                          comes here, description comes here, description comes here, des...</div>
                       </div>
                       <div class="classic-list-item">
                         <div class="heading-text">Heading comes here</div>
-                        <div class="text-desc text-truncate">Description comes here, description comes here, description comes here, description comes here, description comes here, des...</div>
+                        <div class="text-desc text-truncate">Description comes here, description comes here, description
+                          comes here, description comes here, description comes here, des...</div>
                       </div>
                     </div>
                     <div class="template-3-classic-list-collapse col-11 mb-3 p-0">
@@ -663,16 +748,22 @@
                       <div class="collapse-item-list">
                         <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo20">
                           <div class="heading-text">Heading comes here</div>
-                          <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descript
-                            ion comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
+                          <div class="text-desc">Description comes here, description comes here, description comes here,
+                            description comes here, description comes here, des cription comes here, description comes
+                            here, description comes here, description comes here, description comes here, descript
+                            ion comes here, description comes here, description comes here, description comes here,
+                            description comes here, description...</div>
                         </div>
                         <div id="demo20" class="collapse"></div>
                       </div>
                       <div class="collapse-item-list">
                         <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo21">
                           <div class="heading-text">Heading comes here</div>
-                          <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descript
-                            ion comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
+                          <div class="text-desc">Description comes here, description comes here, description comes here,
+                            description comes here, description comes here, des cription comes here, description comes
+                            here, description comes here, description comes here, description comes here, descript
+                            ion comes here, description comes here, description comes here, description comes here,
+                            description comes here, description...</div>
                         </div>
                         <div id="demo21" class="collapse"></div>
                       </div>
@@ -682,11 +773,13 @@
                       <div class="title-text-heading mb-1">Template title comes here</div>
                       <div class="plain-list-item">
                         <div class="heading-text">Heading comes here</div>
-                        <div class="text-desc text-truncate">Description comes here, description comes here, description comes here, description comes here, description comes here, des...</div>
+                        <div class="text-desc text-truncate">Description comes here, description comes here, description
+                          comes here, description comes here, description comes here, des...</div>
                       </div>
                       <div class="plain-list-item">
                         <div class="heading-text">Heading comes here</div>
-                        <div class="text-desc text-truncate">Description comes here, description comes here, description comes here, description comes here, description comes here, des...</div>
+                        <div class="text-desc text-truncate">Description comes here, description comes here, description
+                          comes here, description comes here, description comes here, des...</div>
                       </div>
                     </div>
 
@@ -695,16 +788,22 @@
                       <div class="collapse-item-list">
                         <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo22">
                           <div class="heading-text">Heading comes here</div>
-                          <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descript
-                            ion comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
+                          <div class="text-desc">Description comes here, description comes here, description comes here,
+                            description comes here, description comes here, des cription comes here, description comes
+                            here, description comes here, description comes here, description comes here, descript
+                            ion comes here, description comes here, description comes here, description comes here,
+                            description comes here, description...</div>
                         </div>
                         <div id="demo22" class="collapse"></div>
                       </div>
                       <div class="collapse-item-list">
                         <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo23">
                           <div class="heading-text">Heading comes here</div>
-                          <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descript
-                            ion comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
+                          <div class="text-desc">Description comes here, description comes here, description comes here,
+                            description comes here, description comes here, des cription comes here, description comes
+                            here, description comes here, description comes here, description comes here, descript
+                            ion comes here, description comes here, description comes here, description comes here,
+                            description comes here, description...</div>
                         </div>
                         <div id="demo23" class="collapse"></div>
                       </div>
@@ -713,11 +812,13 @@
                     <div class="template-3-classic-list-result col-11 mb-3">
                       <div class="classic-list-item-result">
                         <div class="heading-text">Heading comes here</div>
-                        <div class="text-desc text-truncate">Description comes here, description comes here, description comes here, description comes here, description comes here, des...</div>
+                        <div class="text-desc text-truncate">Description comes here, description comes here, description
+                          comes here, description comes here, description comes here, des...</div>
                       </div>
                       <div class="classic-list-item-result">
                         <div class="heading-text">Heading comes here</div>
-                        <div class="text-desc text-truncate">Description comes here, description comes here, description comes here, description comes here, description comes here, des...</div>
+                        <div class="text-desc text-truncate">Description comes here, description comes here, description
+                          comes here, description comes here, description comes here, des...</div>
                       </div>
                       <div class="show-more-list">
                         Show more <img src="assets/icons/resultTemplate/carrotup.svg">
@@ -728,16 +829,22 @@
                       <div class="collapse-item-list-result">
                         <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo26">
                           <div class="heading-text">Heading comes here</div>
-                          <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descript
-                            ion comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
+                          <div class="text-desc">Description comes here, description comes here, description comes here,
+                            description comes here, description comes here, des cription comes here, description comes
+                            here, description comes here, description comes here, description comes here, descript
+                            ion comes here, description comes here, description comes here, description comes here,
+                            description comes here, description...</div>
                         </div>
                         <div id="demo26" class="collapse"></div>
                       </div>
                       <div class="collapse-item-list-result">
                         <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo27">
                           <div class="heading-text">Heading comes here</div>
-                          <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descript
-                            ion comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
+                          <div class="text-desc">Description comes here, description comes here, description comes here,
+                            description comes here, description comes here, des cription comes here, description comes
+                            here, description comes here, description comes here, description comes here, descript
+                            ion comes here, description comes here, description comes here, description comes here,
+                            description comes here, description...</div>
                         </div>
                         <div id="demo27" class="collapse"></div>
                       </div>
@@ -749,11 +856,13 @@
                     <div class="template-3-plain-list-result col-11 mb-3">
                       <div class="plain-list-item-result">
                         <div class="heading-text">Heading comes here</div>
-                        <div class="text-desc text-truncate">Description comes here, description comes here, description comes here, description comes here, description comes here, des...</div>
+                        <div class="text-desc text-truncate">Description comes here, description comes here, description
+                          comes here, description comes here, description comes here, des...</div>
                       </div>
                       <div class="plain-list-item-result">
                         <div class="heading-text">Heading comes here</div>
-                        <div class="text-desc text-truncate">Description comes here, description comes here, description comes here, description comes here, description comes here, des...</div>
+                        <div class="text-desc text-truncate">Description comes here, description comes here, description
+                          comes here, description comes here, description comes here, des...</div>
                       </div>
                       <div class="show-more-list">
                         Show more <img src="assets/icons/resultTemplate/carrotup.svg">
@@ -764,16 +873,22 @@
                       <div class="collapse-item-list-result">
                         <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo29">
                           <div class="heading-text">Heading comes here</div>
-                          <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descript
-                            ion comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
+                          <div class="text-desc">Description comes here, description comes here, description comes here,
+                            description comes here, description comes here, des cription comes here, description comes
+                            here, description comes here, description comes here, description comes here, descript
+                            ion comes here, description comes here, description comes here, description comes here,
+                            description comes here, description...</div>
                         </div>
                         <div id="demo29" class="collapse"></div>
                       </div>
                       <div class="collapse-item-list-result">
                         <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo30">
                           <div class="heading-text">Heading comes here</div>
-                          <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, descript
-                            ion comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
+                          <div class="text-desc">Description comes here, description comes here, description comes here,
+                            description comes here, description comes here, des cription comes here, description comes
+                            here, description comes here, description comes here, description comes here, descript
+                            ion comes here, description comes here, description comes here, description comes here,
+                            description comes here, description...</div>
                         </div>
                         <div id="demo30" class="collapse"></div>
                       </div>
@@ -796,7 +911,8 @@
                         </div>
                         <div class="content_sec">
                           <div class="heading-">The All Rounder</div>
-                          <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there jackets, same as women love to have small trench coats or c...</div>
+                          <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
+                            jackets, same as women love to have small trench coats or c...</div>
                         </div>
                       </div>
                       <div class="classic-list-item">
@@ -805,7 +921,8 @@
                         </div>
                         <div class="content_sec">
                           <div class="heading-">The All Rounder</div>
-                          <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there jackets, same as women love to have small trench coats or c...</div>
+                          <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
+                            jackets, same as women love to have small trench coats or c...</div>
                         </div>
                       </div>
                     </div>
@@ -817,7 +934,11 @@
                             <div class="img-block">
                               <img src="assets/icons/resultTemplate/dummylarge.svg">
                             </div>
-                            <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here, description comes here, description comes here, des cription comes here, description
+                              comes here, description comes here, description comes here, description comes here,
+                              description comes here, description comes here, description comes here, description comes
+                              here, description comes here, description...</div>
                           </div>
                         </div>
                         <div id="demo31" class="collapse"></div>
@@ -829,7 +950,11 @@
                             <div class="img-block">
                               <img src="assets/icons/resultTemplate/dummylarge.svg">
                             </div>
-                            <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here, description comes here, description comes here, des cription comes here, description
+                              comes here, description comes here, description comes here, description comes here,
+                              description comes here, description comes here, description comes here, description comes
+                              here, description comes here, description...</div>
                           </div>
                         </div>
                         <div id="demo32" class="collapse"></div>
@@ -843,7 +968,8 @@
                         </div>
                         <div class="content_sec">
                           <div class="heading-">The All Rounder</div>
-                          <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there jackets, same as women love to have small trench coats or c...</div>
+                          <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
+                            jackets, same as women love to have small trench coats or c...</div>
                         </div>
                       </div>
                       <div class="plain-list-item">
@@ -852,7 +978,8 @@
                         </div>
                         <div class="content_sec">
                           <div class="heading-">The All Rounder</div>
-                          <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there jackets, same as women love to have small trench coats or c...</div>
+                          <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
+                            jackets, same as women love to have small trench coats or c...</div>
                         </div>
                       </div>
                     </div>
@@ -865,7 +992,11 @@
                             <div class="img-block">
                               <img src="assets/icons/resultTemplate/dummylarge.svg">
                             </div>
-                            <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here, description comes here, description comes here, des cription comes here, description
+                              comes here, description comes here, description comes here, description comes here,
+                              description comes here, description comes here, description comes here, description comes
+                              here, description comes here, description...</div>
                           </div>
                         </div>
                         <div id="demo33" class="collapse"></div>
@@ -877,7 +1008,11 @@
                             <div class="img-block">
                               <img src="assets/icons/resultTemplate/dummylarge.svg">
                             </div>
-                            <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here, description comes here, description comes here, des cription comes here, description
+                              comes here, description comes here, description comes here, description comes here,
+                              description comes here, description comes here, description comes here, description comes
+                              here, description comes here, description...</div>
                           </div>
                         </div>
                         <div id="demo34" class="collapse"></div>
@@ -886,22 +1021,24 @@
 
                     <div class="template-4-classic-list-result col-11 mb-3">
                       <div class="classic-list-item-result">
-                          <div class="img-block">
-                            <img src="assets/icons/resultTemplate/dummyimg.svg">
-                          </div>
-                          <div class="content_sec">
-                            <div class="heading-">The All Rounder</div>
-                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there jackets, same as women love to have small trench coats or c...</div>
-                          </div>
+                        <div class="img-block">
+                          <img src="assets/icons/resultTemplate/dummyimg.svg">
+                        </div>
+                        <div class="content_sec">
+                          <div class="heading-">The All Rounder</div>
+                          <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
+                            jackets, same as women love to have small trench coats or c...</div>
+                        </div>
                       </div>
                       <div class="classic-list-item-result">
-                          <div class="img-block">
-                            <img src="assets/icons/resultTemplate/dummyimg.svg">
-                          </div>
-                          <div class="content_sec">
-                            <div class="heading-">The All Rounder</div>
-                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there jackets, same as women love to have small trench coats or c...</div>
-                          </div>
+                        <div class="img-block">
+                          <img src="assets/icons/resultTemplate/dummyimg.svg">
+                        </div>
+                        <div class="content_sec">
+                          <div class="heading-">The All Rounder</div>
+                          <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
+                            jackets, same as women love to have small trench coats or c...</div>
+                        </div>
                       </div>
                       <div class="show-more-list">
                         Show more <img src="assets/icons/resultTemplate/carrotup.svg">
@@ -910,28 +1047,36 @@
 
                     <div class="template-4-classic-list-collapse-result col-11 mb-3">
                       <div class="collapse-item-list-result">
-                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo41">
-                            <div class="heading-text">Heading comes here</div>
-                            <div class="content_sec">
-                              <div class="img-block">
-                                <img src="assets/icons/resultTemplate/dummylarge.svg">
-                              </div>
-                              <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
-                            </div>
-                          </div>
-                          <div id="demo41" class="collapse"></div>
-                      </div>
-                      <div class="collapse-item-list-result">
-                      <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo42">
+                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo41">
                           <div class="heading-text">Heading comes here</div>
                           <div class="content_sec">
-                          <div class="img-block">
+                            <div class="img-block">
                               <img src="assets/icons/resultTemplate/dummylarge.svg">
+                            </div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here, description comes here, description comes here, des cription comes here, description
+                              comes here, description comes here, description comes here, description comes here,
+                              description comes here, description comes here, description comes here, description comes
+                              here, description comes here, description...</div>
                           </div>
-                          <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
-                          </div>
+                        </div>
+                        <div id="demo41" class="collapse"></div>
                       </div>
-                      <div id="demo42" class="collapse"></div>
+                      <div class="collapse-item-list-result">
+                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo42">
+                          <div class="heading-text">Heading comes here</div>
+                          <div class="content_sec">
+                            <div class="img-block">
+                              <img src="assets/icons/resultTemplate/dummylarge.svg">
+                            </div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here, description comes here, description comes here, des cription comes here, description
+                              comes here, description comes here, description comes here, description comes here,
+                              description comes here, description comes here, description comes here, description comes
+                              here, description comes here, description...</div>
+                          </div>
+                        </div>
+                        <div id="demo42" class="collapse"></div>
                       </div>
                       <div class="show-more-list">
                         Show more <img src="assets/icons/resultTemplate/carrotup.svg">
@@ -940,13 +1085,14 @@
 
                     <div class="template-4-plain-list-result col-11 mb-3">
                       <div class="plain-list-item-result">
-                          <div class="img-block">
-                            <img src="assets/icons/resultTemplate/dummyimg.svg">
-                          </div>
-                          <div class="content_sec">
-                            <div class="heading-">The All Rounder</div>
-                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there jackets, same as women love to have small trench coats or c...</div>
-                          </div>
+                        <div class="img-block">
+                          <img src="assets/icons/resultTemplate/dummyimg.svg">
+                        </div>
+                        <div class="content_sec">
+                          <div class="heading-">The All Rounder</div>
+                          <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
+                            jackets, same as women love to have small trench coats or c...</div>
+                        </div>
                       </div>
                       <div class="plain-list-item-result">
                         <div class="img-block">
@@ -954,41 +1100,50 @@
                         </div>
                         <div class="content_sec">
                           <div class="heading-">The All Rounder</div>
-                          <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there jackets, same as women love to have small trench coats or c...</div>
+                          <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
+                            jackets, same as women love to have small trench coats or c...</div>
                         </div>
                       </div>
                       <div class="show-more-list">
                         Show more <img src="assets/icons/resultTemplate/carrotup.svg">
                       </div>
                     </div>
-                  
+
                     <div class="template-4-plain-list-collapse-result col-11 mb-3">
                       <div class="collapse-item-list-result">
-                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo43">
-                              <div class="heading-text">Heading comes here</div>
-                              <div class="content_sec">
-                              <div class="img-block">
-                                  <img src="assets/icons/resultTemplate/dummylarge.svg">
-                              </div>
-                              <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
-                              </div>
-                          </div>
-                          <div id="demo43" class="collapse"></div>
-                      </div>
-                      <div class="collapse-item-list-result">
-                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo44">
+                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo43">
                           <div class="heading-text">Heading comes here</div>
                           <div class="content_sec">
-                          <div class="img-block">
+                            <div class="img-block">
                               <img src="assets/icons/resultTemplate/dummylarge.svg">
+                            </div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here, description comes here, description comes here, des cription comes here, description
+                              comes here, description comes here, description comes here, description comes here,
+                              description comes here, description comes here, description comes here, description comes
+                              here, description comes here, description...</div>
                           </div>
-                          <div class="text-desc">Description comes here, description comes here, description comes here, description comes here, description comes here, des cription comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description...</div>  
-                          </div>
+                        </div>
+                        <div id="demo43" class="collapse"></div>
                       </div>
-                      <div id="demo44" class="collapse"></div>
+                      <div class="collapse-item-list-result">
+                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo44">
+                          <div class="heading-text">Heading comes here</div>
+                          <div class="content_sec">
+                            <div class="img-block">
+                              <img src="assets/icons/resultTemplate/dummylarge.svg">
+                            </div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here, description comes here, description comes here, des cription comes here, description
+                              comes here, description comes here, description comes here, description comes here,
+                              description comes here, description comes here, description comes here, description comes
+                              here, description comes here, description...</div>
+                          </div>
+                        </div>
+                        <div id="demo44" class="collapse"></div>
                       </div>
                       <div class="show-more-list">
-                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        Show more <img src="assets/icons/resultTemplate/carrotup.svg">
                       </div>
                     </div>
                   </div>
@@ -1004,22 +1159,29 @@
                         <div class="img-block">
                           <img src="assets/icons/resultTemplate/dummyimg.svg">
                         </div>
-                        <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored shapes that suit your body type. Belted coats are a great way to accentuate your waist even if you're wearing a woolly jumper underneath. </div>
+                        <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored
+                          shapes that suit your body type. Belted coats are a great way to accentuate your waist even if
+                          you're wearing a woolly jumper underneath. </div>
                       </div>
                       <div class="img-with-text">
                         <div class="img-block">
                           <img src="assets/icons/resultTemplate/dummyimg.svg">
                         </div>
-                        <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored shapes that suit your body type. Belted coats are a great way to accentuate your waist even if you're wearing a woolly jumper underneath. </div>
+                        <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored
+                          shapes that suit your body type. Belted coats are a great way to accentuate your waist even if
+                          you're wearing a woolly jumper underneath. </div>
                       </div>
                       <div class="img-with-text">
                         <div class="img-block">
                           <img src="assets/icons/resultTemplate/dummyimg.svg">
                         </div>
-                        <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored shapes that suit your body type. Belted coats are a great way to accentuate your waist even if you're wearing a woolly jumper underneath. </div>
+                        <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored
+                          shapes that suit your body type. Belted coats are a great way to accentuate your waist even if
+                          you're wearing a woolly jumper underneath. </div>
                       </div>
                       <div class="author-text-info">About the Author:</div>
-                      <div class="author-text-info">Elisha Burberry is an online, freelance journalist and keen traveller and watersports enthusiast. Originally from Scotland, she now resides in London.</div>
+                      <div class="author-text-info">Elisha Burberry is an online, freelance journalist and keen
+                        traveller and watersports enthusiast. Originally from Scotland, she now resides in London.</div>
                     </div>
                   </div>
                 </ng-container>
@@ -1044,32 +1206,41 @@
                     </div>
                     <div class="template-2-grid-list row col-11 mb-3">
                       <div class="grid-data-item col-4">
-                        <div class="title-item">Description comes here, descrip  tion comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes...</div>
+                        <div class="title-item">Description comes here, descrip tion comes here, description comes here,
+                          description comes here, description comes here, description comes here, description comes
+                          here, description comes here, description comes...</div>
                       </div>
                       <div class="grid-data-item col-4">
-                        <div class="title-item">Description comes here, descrip  tion comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes...</div>
+                        <div class="title-item">Description comes here, descrip tion comes here, description comes here,
+                          description comes here, description comes here, description comes here, description comes
+                          here, description comes here, description comes...</div>
                       </div>
                       <div class="grid-data-item col-4">
-                        <div class="title-item">Description comes here, descrip  tion comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes here, description comes...</div>
+                        <div class="title-item">Description comes here, descrip tion comes here, description comes here,
+                          description comes here, description comes here, description comes here, description comes
+                          here, description comes here, description comes...</div>
                       </div>
                     </div>
                     <div class="template-3-grid-list row col-11 mb-3">
                       <div class="grid-data-item col-4">
                         <div class="inner-content-list">
                           <div class="heading-text">Heading comes here. </div>
-                          <div class="title-item">Description comes here, descrip  tion comes here, description comes here, description comes here, description comes here, description comes here, desc....</div>
+                          <div class="title-item">Description comes here, descrip tion comes here, description comes
+                            here, description comes here, description comes here, description comes here, desc....</div>
                         </div>
                       </div>
                       <div class="grid-data-item col-4">
                         <div class="inner-content-list">
                           <div class="heading-text">Heading comes here. </div>
-                          <div class="title-item">Description comes here, descrip  tion comes here, description comes here, description comes here, description comes here, description comes here, desc....</div>
+                          <div class="title-item">Description comes here, descrip tion comes here, description comes
+                            here, description comes here, description comes here, description comes here, desc....</div>
                         </div>
                       </div>
                       <div class="grid-data-item col-4">
                         <div class="inner-content-list">
                           <div class="heading-text">Heading comes here. </div>
-                          <div class="title-item">Description comes here, descrip  tion comes here, description comes here, description comes here, description comes here, description comes here, desc....</div>
+                          <div class="title-item">Description comes here, descrip tion comes here, description comes
+                            here, description comes here, description comes here, description comes here, desc....</div>
                         </div>
                       </div>
                     </div>
@@ -1082,7 +1253,8 @@
                             </div>
                             <div class="info-title">Heading comes here. </div>
                           </div>
-                          <div class="title-item">Description comes here, descrip  tion comes here, description comes here, description comes here, description comes he....</div>
+                          <div class="title-item">Description comes here, descrip tion comes here, description comes
+                            here, description comes here, description comes he....</div>
                         </div>
                       </div>
                       <div class="grid-data-item col-4">
@@ -1093,7 +1265,8 @@
                             </div>
                             <div class="info-title">Heading comes here. </div>
                           </div>
-                          <div class="title-item">Description comes here, descrip  tion comes here, description comes here, description comes here, description comes he....</div>
+                          <div class="title-item">Description comes here, descrip tion comes here, description comes
+                            here, description comes here, description comes he....</div>
                         </div>
                       </div>
                       <div class="grid-data-item col-4">
@@ -1104,24 +1277,25 @@
                             </div>
                             <div class="info-title">Heading comes here. </div>
                           </div>
-                          <div class="title-item">Description comes here, descrip  tion comes here, description comes here, description comes here, description comes he....</div>
+                          <div class="title-item">Description comes here, descrip tion comes here, description comes
+                            here, description comes here, description comes he....</div>
                         </div>
                       </div>
                     </div>
                     <div class="template-5-grid-list row col-11 mb-3">
                       <div class="grid-data-item col-4">
                         <div class="inner-content-list">
-                            <img src="assets/icons/resultTemplate/skelton-large.svg">
+                          <img src="assets/icons/resultTemplate/skelton-large.svg">
                         </div>
                       </div>
                       <div class="grid-data-item col-4">
                         <div class="inner-content-list">
-                            <img src="assets/icons/resultTemplate/skelton-large.svg">
+                          <img src="assets/icons/resultTemplate/skelton-large.svg">
                         </div>
                       </div>
                       <div class="grid-data-item col-4">
                         <div class="inner-content-list">
-                            <img src="assets/icons/resultTemplate/skelton-large.svg">
+                          <img src="assets/icons/resultTemplate/skelton-large.svg">
                         </div>
                       </div>
                     </div>
@@ -1148,7 +1322,8 @@
                             <div class="image-info">Men wardrobes there most special piecesa...</div>
                           </div>
                           <div class="info-text-bottom">
-                            About the Author: Burberry is an online, freelance journalist and keen traveller and watersports enthusiast. Originally from Scotland, she now resides in London.
+                            About the Author: Burberry is an online, freelance journalist and keen traveller and
+                            watersports enthusiast. Originally from Scotland, she now resides in London.
                           </div>
                         </div>
                       </div>
@@ -1174,7 +1349,8 @@
                             <div class="image-info">Men wardrobes there most special piecesa...</div>
                           </div>
                           <div class="info-text-bottom">
-                            About the Author: Burberry is an online, freelance journalist and keen traveller and watersports enthusiast. Originally from Scotland, she now resides in London.
+                            About the Author: Burberry is an online, freelance journalist and keen traveller and
+                            watersports enthusiast. Originally from Scotland, she now resides in London.
                           </div>
                         </div>
                       </div>
@@ -1200,7 +1376,8 @@
                             <div class="image-info">Men wardrobes there most special piecesa...</div>
                           </div>
                           <div class="info-text-bottom">
-                            About the Author: Burberry is an online, freelance journalist and keen traveller and watersports enthusiast. Originally from Scotland, she now resides in London.
+                            About the Author: Burberry is an online, freelance journalist and keen traveller and
+                            watersports enthusiast. Originally from Scotland, she now resides in London.
                           </div>
                         </div>
                       </div>
@@ -1208,90 +1385,90 @@
                     <div class="template-7-grid-list row col-11 mb-3">
                       <div class="grid-data-item col-4">
                         <div class="inner-content-list">
-                            <div class="main-img-block">
-                              <img src="assets/icons/resultTemplate/skelton-medium.svg">
-                            </div>
-                            <div class="heading">Heading comes here</div>
-                            <div class="desc-text-info">Description text comes here, Description text comes here.</div>
+                          <div class="main-img-block">
+                            <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                          </div>
+                          <div class="heading">Heading comes here</div>
+                          <div class="desc-text-info">Description text comes here, Description text comes here.</div>
                         </div>
                       </div>
                       <div class="grid-data-item col-4">
                         <div class="inner-content-list">
-                            <div class="main-img-block">
-                              <img src="assets/icons/resultTemplate/skelton-medium.svg">
-                            </div>
-                            <div class="heading">Heading comes here</div>
-                            <div class="desc-text-info">Description text comes here, Description text comes here.</div>
+                          <div class="main-img-block">
+                            <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                          </div>
+                          <div class="heading">Heading comes here</div>
+                          <div class="desc-text-info">Description text comes here, Description text comes here.</div>
                         </div>
                       </div>
                       <div class="grid-data-item col-4">
                         <div class="inner-content-list">
-                            <div class="main-img-block">
-                              <img src="assets/icons/resultTemplate/skelton-medium.svg">
-                            </div>
-                            <div class="heading">Heading comes here</div>
-                            <div class="desc-text-info">Description text comes here, Description text comes here.</div>
+                          <div class="main-img-block">
+                            <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                          </div>
+                          <div class="heading">Heading comes here</div>
+                          <div class="desc-text-info">Description text comes here, Description text comes here.</div>
                         </div>
                       </div>
                     </div>
                     <div class="template-8-grid-list row col-11 mb-3">
                       <div class="grid-data-item col-4">
                         <div class="inner-content-list">
-                            <div class="main-img-block">
-                              <img src="assets/icons/resultTemplate/skelton-medium.svg">
-                            </div>
-                            <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                            <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                          <div class="main-img-block">
+                            <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                          </div>
+                          <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                          <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
                         </div>
                       </div>
                       <div class="grid-data-item col-4">
                         <div class="inner-content-list">
-                            <div class="main-img-block">
-                              <img src="assets/icons/resultTemplate/skelton-medium.svg">
-                            </div>
-                            <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                            <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                          <div class="main-img-block">
+                            <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                          </div>
+                          <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                          <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
                         </div>
                       </div>
                       <div class="grid-data-item col-4">
                         <div class="inner-content-list">
-                            <div class="main-img-block">
-                              <img src="assets/icons/resultTemplate/skelton-medium.svg">
-                            </div>
-                            <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                            <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                          <div class="main-img-block">
+                            <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                          </div>
+                          <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                          <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
                         </div>
                       </div>
                     </div>
                     <div class="template-9-grid-list row col-11 mb-3">
                       <div class="grid-data-item col-4">
                         <div class="inner-content-list">
-                            <div class="main-img-block">
-                              <img src="assets/icons/resultTemplate/skelton-medium.svg">
-                            </div>
-                            <div class="heading">Heading comes here</div>
-                            <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                            <div class="price-count">$156</div>
+                          <div class="main-img-block">
+                            <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                          </div>
+                          <div class="heading">Heading comes here</div>
+                          <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                          <div class="price-count">$156</div>
                         </div>
                       </div>
                       <div class="grid-data-item col-4">
                         <div class="inner-content-list">
-                            <div class="main-img-block">
-                              <img src="assets/icons/resultTemplate/skelton-medium.svg">
-                            </div>
-                            <div class="heading">Heading comes here</div>
-                            <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                            <div class="price-count">$156</div>
+                          <div class="main-img-block">
+                            <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                          </div>
+                          <div class="heading">Heading comes here</div>
+                          <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                          <div class="price-count">$156</div>
                         </div>
                       </div>
                       <div class="grid-data-item col-4">
                         <div class="inner-content-list">
-                            <div class="main-img-block">
-                              <img src="assets/icons/resultTemplate/skelton-medium.svg">
-                            </div>
-                            <div class="heading">Heading comes here</div>
-                            <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
-                            <div class="price-count">$156</div>
+                          <div class="main-img-block">
+                            <img src="assets/icons/resultTemplate/skelton-medium.svg">
+                          </div>
+                          <div class="heading">Heading comes here</div>
+                          <div class="desc-text-info">This Jacket Insulates from Cold and Rain</div>
+                          <div class="price-count">$156</div>
                         </div>
                       </div>
                     </div>
@@ -1301,53 +1478,55 @@
                 <div class="kr-sg-checkbox mb-2">
                   <input id="checkbox-1" class="checkbox-custom" type="checkbox">
                   <label for="checkbox-1" class="checkbox-custom-label">Add title to template</label>
-                </div> 
+                </div>
                 <div class="kr-sg-input-text mb-2">
                   <div class="label-text">Template title</div>
                   <input type="text" placeholder="Placeholder text" class="input-text">
                 </div>
               </div>
-    
+
               <div class="search-result-mapping">
                 <div class="label-text">Search Result Mapping</div>
                 <div class="desc-text">Map the existing or custom added fields here</div>
                 <div class="search_block">
                   <div class="label-text mb-1">Heading</div>
                   <div class="row m-0 align-items-center">
-                      <div class="kr-sg-dropdowns">
-                          <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
-                          <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                            <img src="assets/icons/search_gray.svg" class="search-icon">
-                              <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
-                              <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
-                              <input type="text"  maxlength="60" placeholder="Search Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown">
-                              <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
-                                  <perfect-scrollbar class="scroll-search-field">
-                                      <li>
-                                          <a>Option 1</a>
-                                      </li>
-                                      <li>
-                                          <a>Option 2</a>
-                                      </li>
-                                      <li>
-                                          <a>Option 3</a>
-                                      </li>
-                                      <li>
-                                          <a>Option 4</a>
-                                      </li>
-                                  </perfect-scrollbar>
-                              </ul>
-                          </div>
+                    <div class="kr-sg-dropdowns">
+                      <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
+                      <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                        <img src="assets/icons/search_gray.svg" class="search-icon">
+                        <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
+                          data-toggle="dropdown"></button>
+                        <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
+                        <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
+                          class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown">
+                        <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
+                          <perfect-scrollbar class="scroll-search-field">
+                            <li>
+                              <a>Option 1</a>
+                            </li>
+                            <li>
+                              <a>Option 2</a>
+                            </li>
+                            <li>
+                              <a>Option 3</a>
+                            </li>
+                            <li>
+                              <a>Option 4</a>
+                            </li>
+                          </perfect-scrollbar>
+                        </ul>
                       </div>
+                    </div>
                   </div>
                 </div>
               </div>
-    
+
               <div class="search-results-click-settings">
                 <div class="label-text">Search Result click Settings</div>
                 <div class="desc-text mb-3">Define the click behaviour for the search results</div>
                 <div class="label-text">Clickable</div>
-                <label class="kr-sg-toggle">                                       
+                <label class="kr-sg-toggle">
                   <input type="checkbox">
                   <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                 </label>
@@ -1355,12 +1534,12 @@
                 <div class="kr-sg-radiobutton">
                   <input id="radio-31" name="radio" class="radio-custom" type="radio">
                   <label for="radio-31" class="radio-custom-label">Open a Webpage</label>
-                </div> 
-    
+                </div>
+
                 <div class="kr-sg-radiobutton">
                   <input id="radio-14" name="radio" class="radio-custom" type="radio">
                   <label for="radio-14" class="radio-custom-label">Postback</label>
-                </div> 
+                </div>
                 <div class="kr-sg-input-text mt-3">
                   <div class="label-text">URL</div>
                   <input type="text" placeholder="Enter Target URL" class="input-text">
@@ -1372,8 +1551,8 @@
       </div>
     </div>
     <div class="modal-footer">
-        <button class="kr-sg-button-primary btn_lg">Save</button>
-        <button class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">Cancel</button>
+      <button class="kr-sg-button-primary btn_lg">Save</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">Cancel</button>
     </div>
-  </kr-modal> 
+  </kr-modal>
 </ng-container>
