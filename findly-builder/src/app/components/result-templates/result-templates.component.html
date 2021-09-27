@@ -105,7 +105,7 @@
                         </div>
                       </div>
                       <div class="customize-btn" tooltipClass="tooltip-global-" [container]="'body'"
-                        ngbTooltip='Customize Template' placement="top-center">
+                        ngbTooltip='Customize Template' placement="top-center" (click)="openTemplateConatiner(value)">
                         <img src="assets/icons/result-template/rangeslider.svg">
                       </div>
 
@@ -311,12 +311,12 @@
   </kr-modal>
 </ng-container>
 
-<ng-container *ngIf="false">
-  <kr-modal modalType="center" #customModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
+<ng-container *ngIf="templateDataBind">
+  <kr-modal modalType="center" #templateModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
     <div class="modal-header">
       <div class="title breadcrum">Customize <img src="assets/icons/search-interface/carrot_right.svg"> <span>Products |
           Full page Result</span> </div>
-      <div class="close_icon" (click)="closeCustomModal()"><img src="assets/icons/modal-close.svg"></div>
+      <div class="close_icon" (click)="closeTemplateModal()"><img src="assets/icons/modal-close.svg"></div>
     </div>
     <div class="modal-body">
       <div class="customize-templates">
@@ -324,31 +324,31 @@
           <perfect-scrollbar>
             <div class="scroll-data">
               <div class="title">Template Type</div>
-              <div class="template-type-image active-type">
+              <div class="template-type-image active-type" (click) = "templateTypeSelection('l1')">
                 <img src="assets/icons/resultTemplate/type-1.svg">
               </div>
-              <div class="template-type-image">
+              <div class="template-type-image" (click) = "templateTypeSelection('l2')">
                 <img src="assets/icons/resultTemplate/type-2.svg">
               </div>
-              <div class="template-type-image">
+              <div class="template-type-image" (click) = "templateTypeSelection('l3')">
                 <img src="assets/icons/resultTemplate/type-3.svg">
               </div>
-              <div class="template-type-image">
+              <div class="template-type-image" (click) = "templateTypeSelection('l4')">
                 <img src="assets/icons/resultTemplate/type-4.svg">
               </div>
-              <div class="template-type-image">
+              <div class="template-type-image" (click) = "templateTypeSelection('l5')" *ngIf="templateDataBind.type !='list'">
                 <img src="assets/icons/resultTemplate/type-5.svg">
               </div>
-              <div class="template-type-image">
+              <div class="template-type-image" (click) = "templateTypeSelection('l6')">
                 <img src="assets/icons/resultTemplate/type-6.svg">
               </div>
-              <div class="template-type-image">
+              <div class="template-type-image" (click) = "templateTypeSelection('l7')" *ngIf="templateDataBind.type !='list'">
                 <img src="assets/icons/resultTemplate/type-7.svg">
               </div>
-              <div class="template-type-image">
+              <div class="template-type-image" (click) = "templateTypeSelection('l8')" *ngIf="templateDataBind.type !='list'">
                 <img src="assets/icons/resultTemplate/type-8.svg">
               </div>
-              <div class="template-type-image">
+              <div class="template-type-image" (click) = "templateTypeSelection('l9')" *ngIf="templateDataBind.type !='list'">
                 <img src="assets/icons/resultTemplate/type-9.svg">
               </div>
             </div>
@@ -360,11 +360,10 @@
               <div class="kr-sg-dropdowns col-6 p-0 mb-3">
                 <div class="label-text">List Type</div>
                 <div class="dropdown dropdown-open">
-                  <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>
+                  <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{templateDatalistext}}</button>
                   <ul class="dropdown-menu content-menu">
-                    <li><a href="#">Option 1</a></li>
-                    <li><a href="#">Option 2</a></li>
-                    <li><a href="#">Option 3</a></li>
+                    <li><a (click)="templateDatalistDisplay('Plain List');templateDataBind.layout.listType = 'plain'">Plain List</a></li>
+                    <li><a (click)="templateDatalistDisplay('Classic List');templateDataBind.layout.listType = 'classic'">Classic List</a></li>
                   </ul>
                 </div>
               </div>
@@ -373,11 +372,11 @@
                 <div class="group-radiobutton mb-3">
                   <div class="label-text">Text alignment for template</div>
                   <div class="kr-sg-radiobutton">
-                    <input id="radio-1" name="radio" class="radio-custom" type="radio">
+                    <input id="radio-1" name="radio" class="radio-custom" type="radio" (change)= "templateDataBind.layout.textAlignment = 'left'" [checked] = "templateDataBind.layout.textAlignment == 'left'">
                     <label for="radio-1" class="radio-custom-label">Left</label>
                   </div>
                   <div class="kr-sg-radiobutton">
-                    <input id="radio-12" name="radio" class="radio-custom" type="radio">
+                    <input id="radio-12" name="radio" class="radio-custom" type="radio" (change)= "templateDataBind.layout.textAlignment = 'center'" [checked] = "templateDataBind.layout.textAlignment == 'center'">
                     <label for="radio-12" class="radio-custom-label">Center</label>
                   </div>
                 </div>
@@ -435,7 +434,8 @@
                       <div class="plain-list-item col-6">Heading comes here</div>
                       <div class="plain-list-item col-6">Heading comes here</div>
                     </div>
-
+                    <!-- <ng-conatiner *ngIf="resultListObj.groupResults">
+                    </ng-conatiner> -->
                     <!-- Result Group Template 1 -->
                     <div class="template-1-classic-list-result-group mb-3 col-6">
                       <div class="classic-list-result-item">The All Rounder</div>
@@ -1552,7 +1552,7 @@
     </div>
     <div class="modal-footer">
       <button class="kr-sg-button-primary btn_lg">Save</button>
-      <button class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">Cancel</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="closeTemplateModal()">Cancel</button>
     </div>
   </kr-modal>
 </ng-container>

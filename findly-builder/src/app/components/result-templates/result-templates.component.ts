@@ -16,10 +16,32 @@ import { Subscription } from 'rxjs';
 })
 export class ResultTemplatesComponent implements OnInit {
   customModalRef: any;
+  templateModalRef : any;
   selectedApp: any;
   serachIndexId: any;
   indexPipelineId: any;
   allFieldsData: any;
+  templateDataBind : any = {
+    layout : {
+      behaviour: "webpage",
+      isClickable: true,
+      layoutType: "",
+      listType: "classic",
+      renderTitle: true,
+      textAlignment: "left",
+      title: "Web Pages",
+    },
+    mapping : {
+      description: "fld-e2c3b9e8-69a7-5510-a355-d6a8904f33ec",
+      heading: "fld-7f79d838-7230-58cb-bb3c-95f438bb8d3d",
+      img: "fld-1ed42ad4-e565-58ce-8869-7757420bc793",
+      url: "fld-40c5ab74-c5af-5a45-be4e-3859e6f62134",
+      searchIndexId: "sidx-e3de5037-033f-5bc1-95ff-b1e252f2b1eb",
+    },
+    type : ''
+  };
+  templateDatalistext : any;
+  customtemplateBtndisable : boolean = false;
   // heading_fieldData: any;
   // desc_fieldData: any;
   // img_fieldData: any;
@@ -31,6 +53,7 @@ export class ResultTemplatesComponent implements OnInit {
   searchExperienceConfig: any = {};
   searchTemplatesDisabled: boolean = false;
   fieldPopupType: string;
+  fieldPopup : boolean = false;
   selectedTab: string = 'fullSearch';
   tabList: any = [{ id: "liveSearch", name: "Live Search" }, { id: "conversationalSearch", name: "Conversational Search" }, { id: "fullSearch", name: "Full Page Result" }]
   resultListObj: any = {
@@ -48,6 +71,7 @@ export class ResultTemplatesComponent implements OnInit {
   templateNames: any = ['list', 'carousel', 'grid'];
   filterFacets: any = [{ name: 'Left Aligned', type: 'left' }, { name: 'Right Aligned', type: 'right' }, { name: 'Top Aligned', type: 'top' }]
   @ViewChild('customModal') customModal: KRModalComponent;
+  @ViewChild('templateModal') templateModal: KRModalComponent;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -145,23 +169,56 @@ export class ResultTemplatesComponent implements OnInit {
     // get.templateById
     // update.template
   }
-  getTemplate(templateId) {
+  getTemplate(templateData) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      templateId: templateId,
+      templateId: templateData.templateId,
       indexPipelineId: this.indexPipelineId
     };
     this.service.invoke('get.templateById', quaryparms).subscribe(res => {
+      this.templateDataBind = res;
+      let listTypeText = ""
+      res.layout.listType == "classic"? listTypeText = 'Classic List':'Plain List';
+      this.templateDatalistDisplay(listTypeText)
+      this.openTemplateModal();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch Template');
     });
   }
+  //
+  templateDatalistDisplay(type){
+      this.templateDatalistext = type
+  }
+
+  //list typeSelection()
+  templateTypeSelection(){
+
+  }
+  //Open Template Modal
+  openTemplateConatiner(templateData){
+    this.customtemplateBtndisable = true;
+    console.log(templateData)
+    this.getTemplate(templateData)
+  }
+
   //open add/edit fields dialog
   openCustomModal(type) {
     this.fieldPopupType = type;
     this.customModalRef = this.customModal.open();
   }
-  //close 
+
+  //open template Modal
+  openTemplateModal(){
+    this.templateModalRef = this.templateModal.open();
+  }
+
+  //Close templateModal
+  closeTemplateModal(){
+    if (this.templateModalRef && this.templateModalRef.close) {
+      this.templateModalRef.close();
+    }
+  }
+  //close CustomModal
   closeCustomModal() {
     if (this.customModalRef && this.customModalRef.close) {
       this.customModalRef.close();
