@@ -388,55 +388,63 @@
 
                 <!-- Template 1 -->
 
-                <ng-container *ngIf="false">
-                  <div class="template-preview-box">
-                    <div class="template-1-classic-list mb-3">
-                      <div class="classic-list-item col-6">Heading comes here</div>
-                      <div class="classic-list-item col-6">Heading comes here</div>
-                      <div class="classic-list-item col-6">Heading comes here</div>
-                    </div>
-                    <div class="template-1-classic-list text-center mb-3">
-                      <div class="classic-list-item col-6">Heading comes here</div>
-                      <div class="classic-list-item col-6">Heading comes here</div>
-                      <div class="classic-list-item col-6">Heading comes here</div>
-                    </div>
-                    <div class="template-1-classic-list mb-3">
-                      <div class="title">Template title comes here</div>
-                      <div class="classic-list-item col-6">Heading comes here</div>
-                      <div class="classic-list-item col-6">Heading comes here</div>
-                      <div class="classic-list-item col-6">Heading comes here</div>
-                    </div>
-                    <div class="template-1-classic-list text-center mb-3">
-                      <div class="title">Template title comes here</div>
-                      <div class="classic-list-item col-6">Heading comes here</div>
-                      <div class="classic-list-item col-6">Heading comes here</div>
-                      <div class="classic-list-item col-6">Heading comes here</div>
-                    </div>
-                    <div class="template-1-plain-list mb-3">
-                      <div class="plain-list-item col-6">Heading comes here</div>
-                      <div class="plain-list-item col-6">Heading comes here</div>
-                      <div class="plain-list-item col-6">Heading comes here</div>
-                    </div>
-                    <div class="template-1-plain-list text-center mb-3">
-                      <div class="plain-list-item col-6">Heading comes here</div>
-                      <div class="plain-list-item col-6">Heading comes here</div>
-                      <div class="plain-list-item col-6">Heading comes here</div>
-                    </div>
-                    <div class="template-1-plain-list mb-3">
-                      <div class="title">Template title comes here</div>
-                      <div class="plain-list-item col-6">Heading comes here</div>
-                      <div class="plain-list-item col-6">Heading comes here</div>
-                      <div class="plain-list-item col-6">Heading comes here</div>
-                    </div>
-                    <div class="template-1-plain-list text-center mb-3">
-                      <div class="title">Template title comes here</div>
-                      <div class="plain-list-item col-6">Heading comes here</div>
-                      <div class="plain-list-item col-6">Heading comes here</div>
-                      <div class="plain-list-item col-6">Heading comes here</div>
-                    </div>
-                    <!-- <ng-conatiner *ngIf="resultListObj.groupResults">
-                    </ng-conatiner> -->
-                    <!-- Result Group Template 1 -->
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.listType == 'l1'">
+                    <!-- Template 1 Classic --> <!--no Result Group-->
+                    <ng-template *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' && templateDataBind.layout.listType == 'l1'">
+                      <div class="template-1-classic-list mb-3">
+                        <div class="classic-list-item col-6">Heading comes here</div>
+                        <div class="classic-list-item col-6">Heading comes here</div>
+                        <div class="classic-list-item col-6">Heading comes here</div>
+                      </div>
+                      <div class="template-1-classic-list text-center mb-3">
+                        <div class="classic-list-item col-6">Heading comes here</div>
+                        <div class="classic-list-item col-6">Heading comes here</div>
+                        <div class="classic-list-item col-6">Heading comes here</div>
+                      </div>
+                      <div class="template-1-classic-list mb-3">
+                        <div class="title">Template title comes here</div>
+                        <div class="classic-list-item col-6">Heading comes here</div>
+                        <div class="classic-list-item col-6">Heading comes here</div>
+                        <div class="classic-list-item col-6">Heading comes here</div>
+                      </div>
+                      <div class="template-1-classic-list text-center mb-3">
+                        <div class="title">Template title comes here</div>
+                        <div class="classic-list-item col-6">Heading comes here</div>
+                        <div class="classic-list-item col-6">Heading comes here</div>
+                        <div class="classic-list-item col-6">Heading comes here</div>
+                      </div>
+                      <!-- Template 1 Classic -->
+                    </ng-template>
+                    <!-- Template 1 Classic -->
+                    <!-- Template 1 Plain -->
+                    <ng-template *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' && templateDataBind.layout.listType == 'l1'">
+                      <div class="template-1-plain-list mb-3">
+                        <div class="plain-list-item col-6">Heading comes here</div>
+                        <div class="plain-list-item col-6">Heading comes here</div>
+                        <div class="plain-list-item col-6">Heading comes here</div>
+                      </div>
+                      <div class="template-1-plain-list text-center mb-3">
+                        <div class="plain-list-item col-6">Heading comes here</div>
+                        <div class="plain-list-item col-6">Heading comes here</div>
+                        <div class="plain-list-item col-6">Heading comes here</div>
+                      </div>
+                      <div class="template-1-plain-list mb-3">
+                        <div class="title">Template title comes here</div>
+                        <div class="plain-list-item col-6">Heading comes here</div>
+                        <div class="plain-list-item col-6">Heading comes here</div>
+                        <div class="plain-list-item col-6">Heading comes here</div>
+                      </div>
+                      <div class="template-1-plain-list text-center mb-3">
+                        <div class="title">Template title comes here</div>
+                        <div class="plain-list-item col-6">Heading comes here</div>
+                        <div class="plain-list-item col-6">Heading comes here</div>
+                        <div class="plain-list-item col-6">Heading comes here</div>
+                      </div>
+                    </ng-template>
+                    <!-- Template 1 Plain --> <!--no Result Group-->
+                    <!-- Template 1 Classic --> <!--Result Group-->
+                    <ng-template *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' && templateDataBind.layout.listType == 'l1'">
+                       <!-- Result Group Template 1 -->
                     <div class="template-1-classic-list-result-group mb-3 col-6">
                       <div class="classic-list-result-item">The All Rounder</div>
                       <div class="classic-list-result-item">The All Rounder</div>
@@ -471,51 +479,55 @@
                         Show more <img src="assets/icons/resultTemplate/carrotup.svg">
                       </div>
                     </div>
-
-
-                    <div class="template-1-plain-list-result-group mb-3 col-6">
-                      <div class="plain-list-result-item">The All Rounder</div>
-                      <div class="plain-list-result-item">The All Rounder</div>
-                      <div class="plain-list-result-item">The All Rounder</div>
-                      <div class="show-more-list">
-                        Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                    </ng-template>
+                    <!-- Template 1 Classic -->
+                    <!-- Template 1 Plain -->
+                    <ng-template *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' && templateDataBind.layout.listType == 'l1'">
+                      <div class="template-1-plain-list-result-group mb-3 col-6">
+                        <div class="plain-list-result-item">The All Rounder</div>
+                        <div class="plain-list-result-item">The All Rounder</div>
+                        <div class="plain-list-result-item">The All Rounder</div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
                       </div>
-                    </div>
-                    <div class="template-1-plain-list-result-group text-center mb-3 col-6">
-                      <div class="plain-list-result-item">The All Rounder</div>
-                      <div class="plain-list-result-item">The All Rounder</div>
-                      <div class="plain-list-result-item">The All Rounder</div>
-                      <div class="show-more-list">
-                        Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                      <div class="template-1-plain-list-result-group text-center mb-3 col-6">
+                        <div class="plain-list-result-item">The All Rounder</div>
+                        <div class="plain-list-result-item">The All Rounder</div>
+                        <div class="plain-list-result-item">The All Rounder</div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
                       </div>
-                    </div>
-
-                    <div class="title-text-heading">Template title comes here</div>
-                    <div class="template-1-plain-list-result-group mb-3 col-6">
-                      <div class="plain-list-result-item">The All Rounder</div>
-                      <div class="plain-list-result-item">The All Rounder</div>
-                      <div class="plain-list-result-item">The All Rounder</div>
-                      <div class="show-more-list">
-                        Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+  
+                      <div class="title-text-heading">Template title comes here</div>
+                      <div class="template-1-plain-list-result-group mb-3 col-6">
+                        <div class="plain-list-result-item">The All Rounder</div>
+                        <div class="plain-list-result-item">The All Rounder</div>
+                        <div class="plain-list-result-item">The All Rounder</div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
                       </div>
-                    </div>
-
-                    <div class="title-text-heading">Template title comes here</div>
-                    <div class="template-1-plain-list-result-group text-center mb-3 col-6">
-                      <div class="plain-list-result-item">The All Rounder</div>
-                      <div class="plain-list-result-item">The All Rounder</div>
-                      <div class="plain-list-result-item">The All Rounder</div>
-                      <div class="show-more-list">
-                        Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+  
+                      <div class="title-text-heading">Template title comes here</div>
+                      <div class="template-1-plain-list-result-group text-center mb-3 col-6">
+                        <div class="plain-list-result-item">The All Rounder</div>
+                        <div class="plain-list-result-item">The All Rounder</div>
+                        <div class="plain-list-result-item">The All Rounder</div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
                       </div>
-                    </div>
+                    </ng-template>
+                    <!-- Template 1 Plain -->
                   </div>
-                </ng-container>
 
                 <!-- Template 2 -->
-
-                <ng-container *ngIf="false">
-                  <div class="template-preview-box">
+                 <!-- Template 2 Classic --> <!--no Result Group-->
+                 <div class="template-preview-box">
+                  <ng-template *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.listType == 'l2' && templateDataBind.layout.isClickable">
                     <div class="template-2-classic-list col-11 mb-3 p-0">
                       <div class="classic-list-item">
                         <span>Description comes here, description comes here, description comes here, description comes
@@ -528,7 +540,9 @@
                           comes here, description comes here, description comes here, descript...</span>
                       </div>
                     </div>
-
+                  </ng-template>
+                  <ng-template *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                    && templateDataBind.layout.listType == 'l2' && !templateDataBind.layout.isClickable">
                     <div class="template-2-classic-list-collapse col-11 mb-3 p-0">
                       <div class="collapse-item-list">
                         <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo">Description
@@ -545,189 +559,214 @@
                         <div id="demo1" class="collapse"></div>
                       </div>
                     </div>
+                  </ng-template>
 
-                    <div class="template-2-plain-list col-11 mb-3 p-0">
-                      <div class="plain-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
-                      </div>
-                      <div class="plain-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
-                      </div>
+                  <ng-template *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.listType == 'l2' && templateDataBind.layout.isClickable">
+                  <div class="template-2-plain-list col-11 mb-3 p-0">
+                    <div class="plain-list-item">
+                      <span>Description comes here, description comes here, description comes here, description comes
+                        here, description comes here, desc ription comes here, description comes here, description
+                        comes here, description comes here, description comes here, descript...</span>
                     </div>
-
-                    <div class="template-2-plain-list-collapse col-11 mb-3 p-0">
-                      <div class="collapse-item-list">
-                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo3">Description
-                          comes here, description comes here, description comes here, description comes here,
-                          description comes here, des cription comes here, description comes here, description comes
-                          here, description comes here, description comes here, descri...</div>
-                        <div id="demo3" class="collapse"></div>
-                      </div>
-                      <div class="collapse-item-list">
-                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo4">Description
-                          comes here, description comes here, description comes here, description comes here,
-                          description comes here, des cription comes here, description comes here, description comes
-                          here, description comes here, description comes here, description comes here, description
-                          comes here, description comes here, description comes here, description comes here,
-                          description c omes here, description comes here, description comes here, description comes
-                          here, description comes here, description com...</div>
-                        <div id="demo4" class="collapse"></div>
-                      </div>
+                    <div class="plain-list-item">
+                      <span>Description comes here, description comes here, description comes here, description comes
+                        here, description comes here, desc ription comes here, description comes here, description
+                        comes here, description comes here, description comes here, descript...</span>
                     </div>
+                  </div>
+                  </ng-template>
 
+                  <ng-template *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.listType == 'l2' && !templateDataBind.layout.isClickable">
+                  <div class="template-2-plain-list-collapse col-11 mb-3 p-0">
+                    <div class="collapse-item-list">
+                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo3">Description
+                        comes here, description comes here, description comes here, description comes here,
+                        description comes here, des cription comes here, description comes here, description comes
+                        here, description comes here, description comes here, descri...</div>
+                      <div id="demo3" class="collapse"></div>
+                    </div>
+                    <div class="collapse-item-list">
+                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo4">Description
+                        comes here, description comes here, description comes here, description comes here,
+                        description comes here, des cription comes here, description comes here, description comes
+                        here, description comes here, description comes here, description comes here, description
+                        comes here, description comes here, description comes here, description comes here,
+                        description c omes here, description comes here, description comes here, description comes
+                        here, description comes here, description com...</div>
+                      <div id="demo4" class="collapse"></div>
+                    </div>
+                  </div>
+                  </ng-template>
 
+                  <ng-template *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.listType == 'l2' && templateDataBind.layout.isClickable">
+                  <div class="template-2-classic-list-result col-11 mb-3">
+                    <div class="classic-list-item-result">
+                      <span>Description comes here, description comes here, description comes here, description comes
+                        here, description comes here, desc ription comes here, description comes here, description
+                        comes here, description comes here, description comes here, descript...</span>
+                    </div>
+                    <div class="classic-list-item-result">
+                      <span>Description comes here, description comes here, description comes here, description comes
+                        here, description comes here, desc ription comes here, description comes here, description
+                        comes here, description comes here, description comes here, descript...</span>
+                    </div>
+                    <div class="show-more-list">
+                      Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                    </div>
+                  </div>
+                  </ng-template>
+
+                  <ng-template *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.listType == 'l2' && !templateDataBind.layout.isClickable">
+                  <div class="template-2-classic-list-collapse-result col-11 mb-3">
+                    <div class="collapse-item-list-result">
+                      <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo11">
+                        Description comes here, description comes here, description comes here, description comes
+                        here, description comes here, des cription comes here, description comes here, description
+                        comes here, description comes here, description comes here, descri...</div>
+                      <div id="demo11" class="collapse"></div>
+                    </div>
+                    <div class="collapse-item-list-result">
+                      <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo10">
+                        Description comes here, description comes here, description comes here, description comes
+                        here, description comes here, des cription comes here, description comes here, description
+                        comes here, description comes here, description comes here, descri...</div>
+                      <div id="demo10" class="collapse"></div>
+                    </div>
+                    <div class="show-more-list">
+                      Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                    </div>
+                  </div>
+                  </ng-template>
+
+                  <ng-template *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.listType == 'l2' && templateDataBind.layout.isClickable">
+                  <div class="template-2-plain-list-result col-11 mb-3">
+                    <div class="plain-list-item-result">
+                      <span>Description comes here, description comes here, description comes here, description comes
+                        here, description comes here, desc ription comes here, description comes here, description
+                        comes here, description comes here, description comes here, descript...</span>
+                    </div>
+                    <div class="plain-list-item-result">
+                      <span>Description comes here, description comes here, description comes here, description comes
+                        here, description comes here, desc ription comes here, description comes here, description
+                        comes here, description comes here, description comes here, descript...</span>
+                    </div>
+                    <div class="show-more-list">
+                      Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                    </div>
+                  </div>
+                  </ng-template>
+
+                  <ng-template *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.listType == 'l2' && !templateDataBind.layout.isClickable">
+                  <div class="template-2-plain-list-collapse-result col-11 mb-3">
+                    <div class="collapse-item-list-result">
+                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo12">Description
+                        comes here, description comes here, description comes here, description comes here,
+                        description comes here, des cription comes here, description comes here, description comes
+                        here, description comes here, description comes here, descri...</div>
+                      <div id="demo12" class="collapse"></div>
+                    </div>
+                    <div class="collapse-item-list-result">
+                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo13">Description
+                        comes here, description comes here, description comes here, description comes here,
+                        description comes here, des cription comes here, description comes here, description comes
+                        here, description comes here, description comes here, descri...</div>
+                      <div id="demo13" class="collapse"></div>
+                    </div>
+                    <div class="show-more-list">
+                      Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                    </div>
+                  </div>
+                  </ng-template>
+
+                 </div>
                     <!-- Grouping -->
-
-                    <div class="template-2-classic-list col-11 mb-3 p-0">
-                      <div class="title-text-heading">Template title comes here</div>
-                      <div class="classic-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
-                      </div>
-                      <div class="classic-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
-                      </div>
-                    </div>
-
+                    <!-- For List with Title -->
+                 <div class ="d-none">
+                  <div class="template-2-classic-list col-11 mb-3 p-0">
                     <div class="title-text-heading">Template title comes here</div>
-                    <div class="template-2-classic-list-collapse col-11 mb-3 p-0">
-                      <div class="collapse-item-list">
-                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo5">Description
-                          comes here, description comes here, description comes here, description comes here,
-                          description comes here, des cription comes here, description comes here, description comes
-                          here, description comes here, description comes here, descri...</div>
-                        <div id="demo5" class="collapse"></div>
-                      </div>
-                      <div class="collapse-item-list">
-                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo6">Description
-                          comes here, description comes here, description comes here, description comes here,
-                          description comes here, des cription comes here, description comes here, description comes
-                          here, description comes here, description comes here, descri...</div>
-                        <div id="demo6" class="collapse"></div>
-                      </div>
+                    <div class="classic-list-item">
+                      <span>Description comes here, description comes here, description comes here, description comes
+                        here, description comes here, desc ription comes here, description comes here, description
+                        comes here, description comes here, description comes here, descript...</span>
                     </div>
+                    <div class="classic-list-item">
+                      <span>Description comes here, description comes here, description comes here, description comes
+                        here, description comes here, desc ription comes here, description comes here, description
+                        comes here, description comes here, description comes here, descript...</span>
+                    </div>
+                  </div>
 
-                    <div class="title-text-heading mb-0">Template title comes here</div>
-                    <div class="template-2-plain-list col-11 mb-3 p-0">
-                      <div class="plain-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
-                      </div>
-                      <div class="plain-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
-                      </div>
+                  <div class="title-text-heading">Template title comes here</div>
+                  <div class="template-2-classic-list-collapse col-11 mb-3 p-0">
+                    <div class="collapse-item-list">
+                      <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo5">Description
+                        comes here, description comes here, description comes here, description comes here,
+                        description comes here, des cription comes here, description comes here, description comes
+                        here, description comes here, description comes here, descri...</div>
+                      <div id="demo5" class="collapse"></div>
                     </div>
+                    <div class="collapse-item-list">
+                      <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo6">Description
+                        comes here, description comes here, description comes here, description comes here,
+                        description comes here, des cription comes here, description comes here, description comes
+                        here, description comes here, description comes here, descri...</div>
+                      <div id="demo6" class="collapse"></div>
+                    </div>
+                  </div>
 
-                    <div class="title-text-heading mb-0">Template title comes here</div>
-                    <div class="template-2-plain-list-collapse col-11 mb-3 p-0">
-                      <div class="collapse-item-list">
-                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo7">Description
-                          comes here, description comes here, description comes here, description comes here,
-                          description comes here, des cription comes here, description comes here, description comes
-                          here, description comes here, description comes here, descri...</div>
-                        <div id="demo7" class="collapse"></div>
-                      </div>
-                      <div class="collapse-item-list">
-                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo8">Description
-                          comes here, description comes here, description comes here, description comes here,
-                          description comes here, des cription comes here, description comes here, description comes
-                          here, description comes here, description comes here, description comes here, description
-                          comes here, description comes here, description comes here, description comes here,
-                          description c omes here, description comes here, description comes here, description comes
-                          here, description comes here, description com...</div>
-                        <div id="demo8" class="collapse"></div>
-                      </div>
+                  <div class="title-text-heading mb-0">Template title comes here</div>
+                  <div class="template-2-plain-list col-11 mb-3 p-0">
+                    <div class="plain-list-item">
+                      <span>Description comes here, description comes here, description comes here, description comes
+                        here, description comes here, desc ription comes here, description comes here, description
+                        comes here, description comes here, description comes here, descript...</span>
                     </div>
+                    <div class="plain-list-item">
+                      <span>Description comes here, description comes here, description comes here, description comes
+                        here, description comes here, desc ription comes here, description comes here, description
+                        comes here, description comes here, description comes here, descript...</span>
+                    </div>
+                  </div>
+
+                  <div class="title-text-heading mb-0">Template title comes here</div>
+                  <div class="template-2-plain-list-collapse col-11 mb-3 p-0">
+                    <div class="collapse-item-list">
+                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo7">Description
+                        comes here, description comes here, description comes here, description comes here,
+                        description comes here, des cription comes here, description comes here, description comes
+                        here, description comes here, description comes here, descri...</div>
+                      <div id="demo7" class="collapse"></div>
+                    </div>
+                    <div class="collapse-item-list">
+                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo8">Description
+                        comes here, description comes here, description comes here, description comes here,
+                        description comes here, des cription comes here, description comes here, description comes
+                        here, description comes here, description comes here, description comes here, description
+                        comes here, description comes here, description comes here, description comes here,
+                        description c omes here, description comes here, description comes here, description comes
+                        here, description comes here, description com...</div>
+                      <div id="demo8" class="collapse"></div>
+                    </div>
+                  </div>
+                 </div>
+                 <!-- For List with Title -->
 
                     <!-- Result Group -->
-                    <div class="template-2-classic-list-result col-11 mb-3">
-                      <div class="classic-list-item-result">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
-                      </div>
-                      <div class="classic-list-item-result">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
-                      </div>
-                      <div class="show-more-list">
-                        Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                      </div>
-                    </div>
-
-                    <div class="template-2-classic-list-collapse-result col-11 mb-3">
-                      <div class="collapse-item-list-result">
-                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo11">
-                          Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, des cription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descri...</div>
-                        <div id="demo11" class="collapse"></div>
-                      </div>
-                      <div class="collapse-item-list-result">
-                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo10">
-                          Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, des cription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descri...</div>
-                        <div id="demo10" class="collapse"></div>
-                      </div>
-                      <div class="show-more-list">
-                        Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                      </div>
-                    </div>
-
-                    <div class="template-2-plain-list-result col-11 mb-3">
-                      <div class="plain-list-item-result">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
-                      </div>
-                      <div class="plain-list-item-result">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
-                      </div>
-                      <div class="show-more-list">
-                        Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                      </div>
-                    </div>
-
-                    <div class="template-2-plain-list-collapse-result col-11 mb-3">
-                      <div class="collapse-item-list-result">
-                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo12">Description
-                          comes here, description comes here, description comes here, description comes here,
-                          description comes here, des cription comes here, description comes here, description comes
-                          here, description comes here, description comes here, descri...</div>
-                        <div id="demo12" class="collapse"></div>
-                      </div>
-                      <div class="collapse-item-list-result">
-                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo13">Description
-                          comes here, description comes here, description comes here, description comes here,
-                          description comes here, des cription comes here, description comes here, description comes
-                          here, description comes here, description comes here, descri...</div>
-                        <div id="demo13" class="collapse"></div>
-                      </div>
-                      <div class="show-more-list">
-                        Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                      </div>
-                    </div>
-
-
-                  </div>
-                </ng-container>
+                  
 
                 <!-- Template 3 -->
-
+                <div class="template-preview-box">
+                  <ng-template *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.listType == 'l3' && templateDataBind.layout.isClickable">
+                  </ng-template>
+                </div>
+                
                 <ng-container *ngIf="false">
                   <div class="template-preview-box">
                     <div class="template-3-classic-list col-11 mb-3 p-0">

@@ -25,7 +25,7 @@ export class ResultTemplatesComponent implements OnInit {
     layout : {
       behaviour: "webpage",
       isClickable: true,
-      layoutType: "",
+      layoutType: "l1",
       listType: "classic",
       renderTitle: true,
       textAlignment: "left",
