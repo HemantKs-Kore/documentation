@@ -183,9 +183,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectable = true;
   removable = true;
   containCtrl = new FormControl();
-  operators = ['Exists', 'Does Not Exist', 'Equals to', 'Not Equals to', 'Contains', 'Doesnot Contain'];
+  operators = ['Exists', 'Does Not Exist', 'Equals to', 'Not Equals to', 'contains', 'Doesnot Contain'];
   conditionArray: any = [];
-  conditionObj: any = { field: '', operator: '', containCondition: [] };
+  conditionObj: any = { fieldId: '', operator: '', value: [] };
   selectedConditionType = 'basic';
   selectedScript: any = '';
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -249,7 +249,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   //add condition dynamically
   addCondition(type, index, field?, data?) {
     if (type === 'add') {
-      this.conditionObj = { field: '', operator: '', containCondition: [] };
+      this.conditionObj = { fieldId: '', operator: '', value: [] };
       this.conditionArray.push(this.conditionObj);
     }
     else if (type === 'remove') {
@@ -257,12 +257,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     else if (type === 'update') {
       if (field === 'field') {
-        this.conditionArray[index] = { ...this.conditionArray[index], field: data };
+        this.conditionArray[index] = { ...this.conditionArray[index], fieldId: data };
       }
       else if (field === 'operator') {
         this.conditionArray[index] = { ...this.conditionArray[index], operator: data };
-        if (data !== 'Contains') {
-          delete this.conditionArray[index].containCondition;
+        if (data !== 'contains') {
+          delete this.conditionArray[index].value;
         }
       }
     }
@@ -479,6 +479,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.pipeline.forEach(stage => {
       const tempStageObj = JSON.parse(JSON.stringify(stage));
       if (tempStageObj && tempStageObj.type === 'field_mapping') {
+        this.conditionArray.forEach(el => delete el.autocomplete_text)
+        const obj = { type: this.selectedConditionType, mappings: this.conditionArray };
+        tempStageObj.condition = obj;
         if (tempStageObj.config && tempStageObj.config.mappings && tempStageObj.config.mappings.length) {
           const tempConfig: any = [];
           tempStageObj.config.mappings.forEach(config => {
@@ -653,8 +656,6 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       })
   }
   saveConfig(index?, dialogRef?) {
-    console.log("conditionArray", this.conditionArray, this.selectedConditionType)
-    console.log("selectedScript", this.selectedScript)
     let indexArrayLength: any = this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, true);
@@ -1384,7 +1385,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     const input = event.input;
     const value = event.value;
     if ((value || '').trim()) {
-      this.conditionArray[index].containCondition.push(value.trim());
+      this.conditionArray[index].value.push(value.trim());
     }
     if (input) {
       input.value = '';
@@ -1393,8 +1394,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //remove matchip data
   remove(member: string, i): void {
-    const index = this.conditionArray[i].containCondition.indexOf(member);
-    if (index >= 0) this.conditionArray[i].containCondition.splice(index, 1);
+    const index = this.conditionArray[i].value.indexOf(member);
+    if (index >= 0) this.conditionArray[i].value.splice(index, 1);
   }
   // selected(event: MatAutocompleteSelectedEvent): void {
   //   this.containCondition.push(event.option.viewValue);

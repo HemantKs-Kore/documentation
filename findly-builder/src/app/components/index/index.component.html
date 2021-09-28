@@ -235,13 +235,13 @@
                   <div class="position-relative">
                     <input type="text" placeholder="Enter Field" maxlength="60" (keyup)="changesDetected = true"
                       class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown"
-                      [(ngModel)]="basic.field" />
+                      [(ngModel)]="basic.fieldId" />
                     <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                       [ngClass]="{'no-data-match-border-0':!(fields | filter : [basic.source_field, 'fieldName']).length}">
                       <perfect-scrollbar class="scroll-search-field">
-                        <li *ngFor="let suggesition of fields| filter : [basic.field, 'fieldName']"
-                          (click)="basic.field=suggesition.fieldName;addCondition('update',i,'field',basic.field);"><a
-                            *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a>
+                        <li *ngFor="let suggesition of fields| filter : [basic.fieldId, 'fieldName']"
+                          (click)="basic.fieldId=suggesition.fieldName;addCondition('update',i,'field',suggesition._id);">
+                          <a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a>
                         </li>
                       </perfect-scrollbar>
                     </ul>
@@ -263,11 +263,11 @@
                   <img src="assets/icons/delete-table.svg" (click)="addCondition('remove',index)">
                 </div>
               </div>
-              <div class="kr-sg-input-text col-12 input-box" *ngIf="basic.operator==='Contains'">
+              <div class="kr-sg-input-text col-12 input-box" *ngIf="basic.operator==='contains'">
                 <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                   <mat-chip-list #chipList [attr.aria-label]="'contain selection'">
-                    <mat-chip *ngFor="let contain of basic.containCondition" [selectable]="selectable"
-                      [removable]="removable" (removed)="remove(contain,i)">
+                    <mat-chip *ngFor="let contain of basic.value" [selectable]="selectable" [removable]="removable"
+                      (removed)="remove(contain,i)">
                       <span class="mat-val">{{contain}}</span>
                       <mat-icon matChipRemove><img src="assets/icons/Workbench/close-mat.svg"></mat-icon>
                     </mat-chip>
