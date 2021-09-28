@@ -91,7 +91,7 @@
                     <div class="name"><span>{{app.name}}</span></div>
                     <div class="info-text" *ngIf="app.description !==''" title="{{app.description}}">{{app.description}}</div>
                   </div>
-                  <div class="user-name" *ngIf="app.createdBy!==userId">{{app.userDetails.fullName}}</div>
+                  <div class="user-name text-truncate" *ngIf="app.createdBy!==userId"  ngbTooltip="{{app.userDetails.fullName}}">{{app.userDetails.fullName}}</div>
                 </div>             
               </div> 
               
@@ -130,7 +130,7 @@
                     <div class="name"><span>{{filter.name}}</span></div>
                     <div class="info-text" *ngIf="filter.description !==''" title="{{filter.description}}">{{filter.description}}</div>
                   </div>
-                  <div class="user-name" *ngIf="filter.createdBy!==userId">{{filter.userDetails.fullName}}</div>
+                  <div class="user-name text-truncate" *ngIf="filter.createdBy!==userId" ngbTooltip="{{filter.userDetails.fullName}}">{{filter.userDetails.fullName}}</div>
                   <!-- <div class="flag"><img src="assets/icons/dashboard/publish.svg"></div> -->
                 </div>             
               </div>
