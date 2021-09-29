@@ -700,7 +700,7 @@
                       <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                     </mat-chip>
                     <input placeholder="{{'workbench.type_and_enter' | translate}}" [matChipInputFor]="chipList" [matAutocomplete]="suggestedItems"
-                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="false"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="false" [(ngModel)]="entityName"
                       (matChipInputTokenEnd)="
                         addEntityList(
                           $event,
@@ -715,9 +715,9 @@
                           .entity_types
                       )
                     ">
-                    <ng-container *ngFor="let suggestion of entityNlp | filter : [entityName, 'value']" (click)="entityName = suggesition.value">
-                      <mat-option [value]="suggestion.value">
-                        {{ suggestion.title }}
+                    <ng-container *ngFor="let suggestion of entityNlp | filter : [entityName, 'value']" (click)="entityName = suggestion.value"> 
+                      <mat-option  [value]="suggestion.value">
+                        {{ suggestion.title }}    
                       </mat-option>
                     </ng-container>
                   </mat-autocomplete>

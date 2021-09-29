@@ -95,7 +95,6 @@ import { DateRangePickerComponent } from './helpers/components/date-range-picker
 import { RecordPaginationComponent } from './helpers/components/record-pagination/record-pagination.component';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { FieldManagementComponent } from './components/field-management/field-management.component';
-import { ExperimentsComponent } from './components/experiments/experiments.component';
 import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
 import { StructuredDataComponent } from './components/structured-data/structured-data.component';
 import { AddStructuredDataComponent } from './components/add-structured-data/add-structured-data.component';
@@ -179,7 +178,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     DateRangePickerComponent,
     RecordPaginationComponent,
     FieldManagementComponent,
-    ExperimentsComponent,
     FieldManagementComponent,
     AppExperimentsComponent,
     StatusDockerComponent,
