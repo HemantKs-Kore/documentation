@@ -842,6 +842,9 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     } else {
       _self[type](range.text, range);
     }
+    // if(type === 'underline'){
+    //   $(this.container)[0].innerText.style.textdecoration = "underline"
+    // }
   }
   replaceAt(range, replacement, mainText) {
     if (range.startIndex >= mainText.length) {

@@ -386,7 +386,7 @@
                 .content-sec{
                     display: table-cell;
                     vertical-align: middle;
-                    padding: 0 5px;
+                    padding: 0 5px 16px;
                     position: relative;
                     z-index: 0;
                     .name{
@@ -429,8 +429,8 @@
                 }
                 .user-name{
                     position: absolute;
-                    right: 25px;
-                    bottom: 12px;
+                    right: 81px;
+                    bottom: 28px;
                     color: #9AA0A6;
                     font-weight: normal;
                     font-size: 12px;
