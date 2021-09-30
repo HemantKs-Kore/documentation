@@ -20,7 +20,11 @@ export class ResultTemplatesComponent implements OnInit {
   selectedApp: any;
   serachIndexId: any;
   indexPipelineId: any;
-  allFieldsData: any;
+  allFieldData: any;
+  preview_title : any;
+  preview_desc : any;
+  preview_img : any;
+  preview_url : any;
   templateDataBind : any = {
     layout : {
       behaviour: "webpage",
@@ -42,11 +46,11 @@ export class ResultTemplatesComponent implements OnInit {
   };
   templateDatalistext : any;
   customtemplateBtndisable : boolean = false;
-  // heading_fieldData: any;
-  // desc_fieldData: any;
-  // img_fieldData: any;
-  // url_fieldData: any;
-  //fieldData: any;
+  heading_fieldData: any;
+  desc_fieldData: any;
+  img_fieldData: any;
+  url_fieldData: any;
+  fieldData: any;
   templateData: any;
   subscription: Subscription;
   searchConfigurationSubscription: Subscription;
@@ -120,15 +124,68 @@ export class ResultTemplatesComponent implements OnInit {
       query
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
-      // this.heading_fieldData = [...res];
-      // this.desc_fieldData = [...res];
-      // this.img_fieldData = [...res];
-      // this.url_fieldData = [...res];
-      // this.fieldData = [...res];
-      this.allFieldsData = res;
+      this.heading_fieldData = [...res];
+      this.desc_fieldData = [...res];
+      this.img_fieldData = [...res];
+      this.url_fieldData = [...res];
+      this.fieldData = [...res];
+      this.allFieldData = res;
+      console.log('Field Data ....',res)
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');
     });
+  }
+  /** Field Selection */
+  filedSelect(type,field){
+    if (type == 'heading') {
+      this.templateDataBind.mapping.heading = field._id
+      // this.customizeTemplateObj.template.resultMapping.heading = field.fieldName;
+      // this.customizeTemplateObj.template.resultMapping.headingId = field._id;
+      this.preview_title = field.fieldName;
+      this.heading_fieldData = [...this.allFieldData];
+    } else if (type == 'description') {
+      this.templateDataBind.mapping.description = field._id;
+      this.preview_desc = field.fieldName;
+      this.desc_fieldData= [...this.allFieldData];
+    } else if (type == 'image') {
+      this.templateDataBind.mapping.img = field._id;
+      this.preview_img = field.fieldName;
+      this.img_fieldData = [...this.allFieldData];
+    } else if (type == 'url') {
+      this.templateDataBind.mapping.url = field._id;
+      this.preview_url = field.fieldName;
+      this.url_fieldData = [...this.allFieldData];
+    }
+  }
+  searchlist(type, valToSearch, filedData) {
+    let data = []
+    filedData.filter(element => {
+      if (element.fieldName.includes(valToSearch)) {
+        data.push(element)
+      }
+    });
+    if (valToSearch) {
+      if (type == 'heading') {
+        this.heading_fieldData = [...data]
+      } else if (type == 'description') {
+        this.desc_fieldData = [...data]
+      } else if (type == 'image') {
+        this.img_fieldData = [...data]
+      } else if (type == 'url') {
+        this.url_fieldData = [...data]
+      }
+    } else {
+      if (type == 'heading') {
+        this.heading_fieldData = [...filedData]
+      } else if (type == 'description') {
+        this.desc_fieldData = [...filedData]
+      } else if (type == 'image') {
+        this.img_fieldData = [...filedData]
+      } else if (type == 'url') {
+        this.url_fieldData = [...filedData]
+      }
+    }
+
   }
   /** Chat SDK approach and by-default Data */
   updateResultTemplateTabsAccess() {
@@ -175,11 +232,12 @@ export class ResultTemplatesComponent implements OnInit {
       templateId: templateData.templateId,
       indexPipelineId: this.indexPipelineId
     };
-    this.service.invoke('get.templateById', quaryparms).subscribe(res => {
+    this.service.invoke('get.templateById', quaryparms).subscribe((res : any )=> {
       this.templateDataBind = res;
       let listTypeText = ""
       res.layout.listType == "classic"? listTypeText = 'Classic List':'Plain List';
-      this.templateDatalistDisplay(listTypeText)
+      this.templateDatalistDisplay(listTypeText);
+      this.fieldsDisplay(res.mapping);
       this.openTemplateModal();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch Template');
@@ -189,10 +247,40 @@ export class ResultTemplatesComponent implements OnInit {
   templateDatalistDisplay(type){
       this.templateDatalistext = type
   }
-
-  //list typeSelection()
-  templateTypeSelection(){
-
+  fieldsDisplay(mapping){
+    // this.heading_fieldData
+    //   this.desc_fieldData 
+    //   this.img_fieldData 
+    //   this.url_fieldData
+       
+      for (const property in mapping) {
+        console.log(`${property}: ${mapping[property]}`);
+        this.fieldData.forEach(element => {
+          if(`${property}` == 'heading' && element._id == `${mapping[property]}`){
+            this.preview_title = element.fieldName;
+          }else if(`${property}` == 'description' && element._id == `${mapping[property]}`){
+            this.preview_desc = element.fieldName;
+          }else if(`${property}` == 'img' && element._id == `${mapping[property]}`){
+            this.preview_img= element.fieldName;
+          }else if(`${property}` == 'url' && element._id == `${mapping[property]}`){
+            this.preview_url = element.fieldName;
+          }
+        });
+      }
+    
+  }
+  /** type selection */ 
+  templateTypeSelection(layoutType){
+    this.templateDataBind.layout.layoutType = layoutType;
+  }
+  renderTitleChange(){
+    this.templateDataBind.layout.renderTitle = !this.templateDataBind.layout.renderTitle
+  }
+  clickableChange(){
+    this.templateDataBind.layout.isClickable = !this.templateDataBind.layout.isClickable
+  }
+  clickBehaviorChange(behaviour){
+    this.templateDataBind.layout.behaviour = behaviour;
   }
   //Open Template Modal
   openTemplateConatiner(templateData){
@@ -240,6 +328,7 @@ export class ResultTemplatesComponent implements OnInit {
   //     this.errorToaster(errRes, 'Failed to fetch Template');
   //   });
   // }
+
   //get values based on field
   getFieldValues(field) {
     this.fieldValues = [];
