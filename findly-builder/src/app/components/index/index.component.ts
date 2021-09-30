@@ -273,6 +273,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       list.push(data.option.value);
       this.suggestedInput.nativeElement.value = '';
+      this.suggestedInput.nativeElement.blur();
+      setTimeout(() => {
+        this.suggestedInput.nativeElement.focus();
+      }, 100)
     }
   }
   setResetNewMappingsObj(ignoreSimulate?, saveConfig?) {
@@ -1098,6 +1102,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     if (input) {
       input.value = '';
     }
+
   }
   removeEntityList(map, entity) {
     this.changesDetected = true;
@@ -1165,8 +1170,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       if (!map.target_field || !map.source_field || !map.trait_groups.length) {
         return false;
       }
-    } else if(this.selectedStage.type == 'keyword_extraction' || this.selectedStage.type == 'semantic_meaning'){
-      if(!map.target_field || !map.source_field){ // removing this ' || !map.model ' parameter to exectute the removal of choose model
+    } else if (this.selectedStage.type == 'keyword_extraction' || this.selectedStage.type == 'semantic_meaning') {
+      if (!map.target_field || !map.source_field) { // removing this ' || !map.model ' parameter to exectute the removal of choose model
         return false;
       }
     } else if (this.selectedStage.type == 'exclude_document') {
