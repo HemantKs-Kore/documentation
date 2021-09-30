@@ -9,7 +9,8 @@
     <div class="right-side-copy-configs">
       <div class="kr-sg-dropdowns copy-config-dropdown" ngbDropdown [placement]="'bottom-right'">
         <div class="dropdown dropdown-open">
-          <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
+          <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
+            (click)="$event.stopPropagation();copyConfiguration('close');">
             <img src="assets/icons/resultTemplate/copy.svg">
             <span class="title">Copy Configuration</span>
           </button>
@@ -19,11 +20,14 @@
               the templates separately here</div>
             <div class="main-title">Apply configurations from</div>
             <div class="btnactions">
-              <button class="kr-sg-button-secondary btn_lg mr-3">Live search</button>
-              <button class="kr-sg-button-secondary btn_lg ml-1">Conversational search</button>
+              <button class="kr-sg-button-secondary btn_lg mr-3" *ngFor="let tab of tabList"
+                [hidden]="tab.id===selectedTab" (click)="copyConfiguration('open',tab.id)">{{tab.name}}</button>
             </div>
-            <div class="apply-config-text">Applying configurations from Live Search <span
+            <div class="apply-config-text" *ngIf="copyConfigObj.loader">Applying configurations from Live Search <span
                 class="loading-spin-progress ml-2"></span></div>
+            <div class="apply-config-text" [ngStyle]="{'color':copyConfigObj.message!==''?'#28A745':'#202124'}"
+              *ngIf="copyConfigObj.message!==''"><img src="assets/icons/content/success.svg"
+                style="margin-right:3px;" />{{copyConfigObj.message}}</div>
           </ul>
         </div>
       </div>
@@ -324,31 +328,40 @@
           <perfect-scrollbar>
             <div class="scroll-data">
               <div class="title">Template Type</div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l1'}" (click) = "templateTypeSelection('l1')">
+              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l1'}"
+                (click)="templateTypeSelection('l1')">
                 <img src="assets/icons/resultTemplate/type-1.svg">
               </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l2'}" (click) = "templateTypeSelection('l2')">
+              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l2'}"
+                (click)="templateTypeSelection('l2')">
                 <img src="assets/icons/resultTemplate/type-2.svg">
               </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l3'}" (click) = "templateTypeSelection('l3')">
+              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l3'}"
+                (click)="templateTypeSelection('l3')">
                 <img src="assets/icons/resultTemplate/type-3.svg">
               </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l4'}" (click) = "templateTypeSelection('l4')">
+              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l4'}"
+                (click)="templateTypeSelection('l4')">
                 <img src="assets/icons/resultTemplate/type-4.svg">
               </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l5'}" (click) = "templateTypeSelection('l5')" *ngIf="templateDataBind.type !='list'">
+              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l5'}"
+                (click)="templateTypeSelection('l5')" *ngIf="templateDataBind.type !='list'">
                 <img src="assets/icons/resultTemplate/type-5.svg">
               </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l6'}" (click) = "templateTypeSelection('l6')">
+              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l6'}"
+                (click)="templateTypeSelection('l6')">
                 <img src="assets/icons/resultTemplate/type-6.svg">
               </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l7'}" (click) = "templateTypeSelection('l7')" *ngIf="templateDataBind.type !='list'">
+              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l7'}"
+                (click)="templateTypeSelection('l7')" *ngIf="templateDataBind.type !='list'">
                 <img src="assets/icons/resultTemplate/type-7.svg">
               </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l8'}" (click) = "templateTypeSelection('l8')" *ngIf="templateDataBind.type !='list'">
+              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l8'}"
+                (click)="templateTypeSelection('l8')" *ngIf="templateDataBind.type !='list'">
                 <img src="assets/icons/resultTemplate/type-8.svg">
               </div>
-              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l9'}" (click) = "templateTypeSelection('l9')" *ngIf="templateDataBind.type !='list'">
+              <div class="template-type-image" [ngClass]="{'active-type': templateDataBind.layout.layoutType == 'l9'}"
+                (click)="templateTypeSelection('l9')" *ngIf="templateDataBind.type !='list'">
                 <img src="assets/icons/resultTemplate/type-9.svg">
               </div>
             </div>
@@ -362,8 +375,12 @@
                 <div class="dropdown dropdown-open">
                   <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{templateDatalistext}}</button>
                   <ul class="dropdown-menu content-menu">
-                    <li><a (click)="templateDatalistDisplay('Plain List');templateDataBind.layout.listType = 'plain'">Plain List</a></li>
-                    <li><a (click)="templateDatalistDisplay('Classic List');templateDataBind.layout.listType = 'classic'">Classic List</a></li>
+                    <li><a
+                        (click)="templateDatalistDisplay('Plain List');templateDataBind.layout.listType = 'plain'">Plain
+                        List</a></li>
+                    <li><a
+                        (click)="templateDatalistDisplay('Classic List');templateDataBind.layout.listType = 'classic'">Classic
+                        List</a></li>
                   </ul>
                 </div>
               </div>
@@ -372,11 +389,15 @@
                 <div class="group-radiobutton mb-3">
                   <div class="label-text">Text alignment for template</div>
                   <div class="kr-sg-radiobutton">
-                    <input id="radio-text-left" name="radio-text" class="radio-custom" type="radio" (change)= "templateDataBind.layout.textAlignment = 'left'" [checked] = "templateDataBind.layout.textAlignment == 'left'">
+                    <input id="radio-text-left" name="radio-text" class="radio-custom" type="radio"
+                      (change)="templateDataBind.layout.textAlignment = 'left'"
+                      [checked]="templateDataBind.layout.textAlignment == 'left'">
                     <label for="radio-text-left" class="radio-custom-label">Left</label>
                   </div>
                   <div class="kr-sg-radiobutton">
-                    <input id="radio-text-center" name="radio-text" class="radio-custom" type="radio" (change)= "templateDataBind.layout.textAlignment = 'center'" [checked] = "templateDataBind.layout.textAlignment == 'center'">
+                    <input id="radio-text-center" name="radio-text" class="radio-custom" type="radio"
+                      (change)="templateDataBind.layout.textAlignment = 'center'"
+                      [checked]="templateDataBind.layout.textAlignment == 'center'">
                     <label for="radio-text-center" class="radio-custom-label">Center</label>
                   </div>
                 </div>
@@ -389,11 +410,14 @@
                 <!-- Template 1 -->
                 <div *ngIf="templateDataBind.type == 'list'">
                   <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l1'">
-                    <!-- Template 1 Classic --> <!--no Result Group-->
+                    <!-- Template 1 Classic -->
+                    <!--no Result Group-->
                     <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
                     && templateDataBind.layout.layoutType == 'l1'">
-                    <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                      <div class="template-1-classic-list mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-1-classic-list mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="classic-list-item col-6">Heading comes here</div>
                         <div class="classic-list-item col-6">Heading comes here</div>
                         <div class="classic-list-item col-6">Heading comes here</div>
@@ -403,34 +427,42 @@
                     <!-- Template 1 Plain -->
                     <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
                     && templateDataBind.layout.layoutType == 'l1'">
-                    <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                      <div class="template-1-plain-list mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-1-plain-list mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="plain-list-item col-6">Heading comes here</div>
                         <div class="plain-list-item col-6">Heading comes here</div>
                         <div class="plain-list-item col-6">Heading comes here</div>
                       </div>
                     </ng-container>
-                    <!-- Template 1 Plain --> <!--no Result Group-->
-                    <!-- Template 1 Classic --> <!--Result Group-->
+                    <!-- Template 1 Plain -->
+                    <!--no Result Group-->
+                    <!-- Template 1 Classic -->
+                    <!--Result Group-->
                     <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
                     && templateDataBind.layout.layoutType == 'l1'">
-                       <!-- Result Group Template 1 -->
-                    <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                    <div class="template-1-classic-list-result-group mb-3 col-6"  [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                      <div class="classic-list-result-item">The All Rounder</div>
-                      <div class="classic-list-result-item">The All Rounder</div>
-                      <div class="classic-list-result-item">The All Rounder</div>
-                      <div class="show-more-list">
-                        Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                      <!-- Result Group Template 1 -->
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-1-classic-list-result-group mb-3 col-6"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="classic-list-result-item">The All Rounder</div>
+                        <div class="classic-list-result-item">The All Rounder</div>
+                        <div class="classic-list-result-item">The All Rounder</div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
                       </div>
-                    </div>
                     </ng-container>
                     <!-- Template 1 Classic -->
                     <!-- Template 1 Plain -->
                     <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
                     && templateDataBind.layout.layoutType == 'l1'">
-                    <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                      <div class="template-1-plain-list-result-group mb-3 col-6" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-1-plain-list-result-group mb-3 col-6"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="plain-list-result-item">The All Rounder</div>
                         <div class="plain-list-result-item">The All Rounder</div>
                         <div class="plain-list-result-item">The All Rounder</div>
@@ -442,812 +474,919 @@
                     <!-- Template 1 Plain -->
                   </div>
 
-                <!-- Template 2 -->
-                 <!-- Template 2 Classic --> <!--no Result Group-->
-                 <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l2'">
-                  <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  <!-- Template 2 -->
+                  <!-- Template 2 Classic -->
+                  <!--no Result Group-->
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l2'">
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
                   && templateDataBind.layout.layoutType == 'l2' && templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                    <div class="template-2-classic-list col-11 mb-3 p-0" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                      <div class="classic-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-2-classic-list col-11 mb-3 p-0"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="classic-list-item">
+                          <span>Description comes here, description comes here, description comes here, description
+                            comes
+                            here, description comes here, desc ription comes here, description comes here, description
+                            comes here, description comes here, description comes here, descript...</span>
+                        </div>
+                        <div class="classic-list-item">
+                          <span>Description comes here, description comes here, description comes here, description
+                            comes
+                            here, description comes here, desc ription comes here, description comes here, description
+                            comes here, description comes here, description comes here, descript...</span>
+                        </div>
                       </div>
-                      <div class="classic-list-item">
-                        <span>Description comes here, description comes here, description comes here, description comes
-                          here, description comes here, desc ription comes here, description comes here, description
-                          comes here, description comes here, description comes here, descript...</span>
-                      </div>
-                    </div>
-                  </ng-container>
-                  <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                    </ng-container>
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
                     && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
-                    <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                    <div class="template-2-classic-list-collapse col-11 mb-3 p-0" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                      <div class="collapse-item-list">
-                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo">Description
-                          comes here, description comes here, description comes here, description comes here,
-                          description comes here, des cription comes here, description comes here, description comes
-                          here, description comes here, description comes here, descri...</div>
-                        <div id="demo" class="collapse"></div>
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-2-classic-list-collapse col-11 mb-3 p-0"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="collapse-item-list">
+                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo">
+                            Description
+                            comes here, description comes here, description comes here, description comes here,
+                            description comes here, des cription comes here, description comes here, description comes
+                            here, description comes here, description comes here, descri...</div>
+                          <div id="demo" class="collapse"></div>
+                        </div>
+                        <div class="collapse-item-list">
+                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo1">
+                            Description
+                            comes here, description comes here, description comes here, description comes here,
+                            description comes here, des cription comes here, description comes here, description comes
+                            here, description comes here, description comes here, descri...</div>
+                          <div id="demo1" class="collapse"></div>
+                        </div>
                       </div>
-                      <div class="collapse-item-list">
-                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo1">Description
-                          comes here, description comes here, description comes here, description comes here,
-                          description comes here, des cription comes here, description comes here, description comes
-                          here, description comes here, description comes here, descri...</div>
-                        <div id="demo1" class="collapse"></div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l2' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-2-plain-list col-11 mb-3 p-0"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="plain-list-item">
+                          <span>Description comes here, description comes here, description comes here, description
+                            comes
+                            here, description comes here, desc ription comes here, description comes here, description
+                            comes here, description comes here, description comes here, descript...</span>
+                        </div>
+                        <div class="plain-list-item">
+                          <span>Description comes here, description comes here, description comes here, description
+                            comes
+                            here, description comes here, desc ription comes here, description comes here, description
+                            comes here, description comes here, description comes here, descript...</span>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-2-plain-list-collapse col-11 mb-3 p-0"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="collapse-item-list">
+                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo3">Description
+                            comes here, description comes here, description comes here, description comes here,
+                            description comes here, des cription comes here, description comes here, description comes
+                            here, description comes here, description comes here, descri...</div>
+                          <div id="demo3" class="collapse"></div>
+                        </div>
+                        <div class="collapse-item-list">
+                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo4">Description
+                            comes here, description comes here, description comes here, description comes here,
+                            description comes here, des cription comes here, description comes here, description comes
+                            here, description comes here, description comes here, description comes here, description
+                            comes here, description comes here, description comes here, description comes here,
+                            description c omes here, description comes here, description comes here, description comes
+                            here, description comes here, description com...</div>
+                          <div id="demo4" class="collapse"></div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.layoutType == 'l2' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-2-classic-list-result col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="classic-list-item-result">
+                          <span>Description comes here, description comes here, description comes here, description
+                            comes
+                            here, description comes here, desc ription comes here, description comes here, description
+                            comes here, description comes here, description comes here, descript...</span>
+                        </div>
+                        <div class="classic-list-item-result">
+                          <span>Description comes here, description comes here, description comes here, description
+                            comes
+                            here, description comes here, desc ription comes here, description comes here, description
+                            comes here, description comes here, description comes here, descript...</span>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-2-classic-list-collapse-result col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="collapse-item-list-result">
+                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo11">
+                            Description comes here, description comes here, description comes here, description comes
+                            here, description comes here, des cription comes here, description comes here, description
+                            comes here, description comes here, description comes here, descri...</div>
+                          <div id="demo11" class="collapse"></div>
+                        </div>
+                        <div class="collapse-item-list-result">
+                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo10">
+                            Description comes here, description comes here, description comes here, description comes
+                            here, description comes here, des cription comes here, description comes here, description
+                            comes here, description comes here, description comes here, descri...</div>
+                          <div id="demo10" class="collapse"></div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l2' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-2-plain-list-result col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="plain-list-item-result">
+                          <span>Description comes here, description comes here, description comes here, description
+                            comes
+                            here, description comes here, desc ription comes here, description comes here, description
+                            comes here, description comes here, description comes here, descript...</span>
+                        </div>
+                        <div class="plain-list-item-result">
+                          <span>Description comes here, description comes here, description comes here, description
+                            comes
+                            here, description comes here, desc ription comes here, description comes here, description
+                            comes here, description comes here, description comes here, descript...</span>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-2-plain-list-collapse-result col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="collapse-item-list-result">
+                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo12">
+                            Description
+                            comes here, description comes here, description comes here, description comes here,
+                            description comes here, des cription comes here, description comes here, description comes
+                            here, description comes here, description comes here, descri...</div>
+                          <div id="demo12" class="collapse"></div>
+                        </div>
+                        <div class="collapse-item-list-result">
+                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo13">
+                            Description
+                            comes here, description comes here, description comes here, description comes here,
+                            description comes here, des cription comes here, description comes here, description comes
+                            here, description comes here, description comes here, descri...</div>
+                          <div id="demo13" class="collapse"></div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                  </div>
+                  <!-- Grouping -->
+                  <!-- For List with Title -->
+                  <div class="d-none">
+                    <div class="template-2-classic-list col-11 mb-3 p-0">
+                      <div class="title-text-heading">Template title comes here</div>
+                      <div class="classic-list-item">
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
+                      </div>
+                      <div class="classic-list-item">
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
                       </div>
                     </div>
-                  </ng-container>
 
-                  <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                  && templateDataBind.layout.layoutType == 'l2' && templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-2-plain-list col-11 mb-3 p-0" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="plain-list-item">
-                      <span>Description comes here, description comes here, description comes here, description comes
-                        here, description comes here, desc ription comes here, description comes here, description
-                        comes here, description comes here, description comes here, descript...</span>
-                    </div>
-                    <div class="plain-list-item">
-                      <span>Description comes here, description comes here, description comes here, description comes
-                        here, description comes here, desc ription comes here, description comes here, description
-                        comes here, description comes here, description comes here, descript...</span>
-                    </div>
-                  </div>
-                  </ng-container>
-
-                  <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                  && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-2-plain-list-collapse col-11 mb-3 p-0" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="collapse-item-list">
-                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo3">Description
-                        comes here, description comes here, description comes here, description comes here,
-                        description comes here, des cription comes here, description comes here, description comes
-                        here, description comes here, description comes here, descri...</div>
-                      <div id="demo3" class="collapse"></div>
-                    </div>
-                    <div class="collapse-item-list">
-                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo4">Description
-                        comes here, description comes here, description comes here, description comes here,
-                        description comes here, des cription comes here, description comes here, description comes
-                        here, description comes here, description comes here, description comes here, description
-                        comes here, description comes here, description comes here, description comes here,
-                        description c omes here, description comes here, description comes here, description comes
-                        here, description comes here, description com...</div>
-                      <div id="demo4" class="collapse"></div>
-                    </div>
-                  </div>
-                  </ng-container>
-
-                  <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
-                  && templateDataBind.layout.layoutType == 'l2' && templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-2-classic-list-result col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="classic-list-item-result">
-                      <span>Description comes here, description comes here, description comes here, description comes
-                        here, description comes here, desc ription comes here, description comes here, description
-                        comes here, description comes here, description comes here, descript...</span>
-                    </div>
-                    <div class="classic-list-item-result">
-                      <span>Description comes here, description comes here, description comes here, description comes
-                        here, description comes here, desc ription comes here, description comes here, description
-                        comes here, description comes here, description comes here, descript...</span>
-                    </div>
-                    <div class="show-more-list">
-                      Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                    </div>
-                  </div>
-                  </ng-container>
-
-                  <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
-                  && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-2-classic-list-collapse-result col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="collapse-item-list-result">
-                      <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo11">
-                        Description comes here, description comes here, description comes here, description comes
-                        here, description comes here, des cription comes here, description comes here, description
-                        comes here, description comes here, description comes here, descri...</div>
-                      <div id="demo11" class="collapse"></div>
-                    </div>
-                    <div class="collapse-item-list-result">
-                      <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo10">
-                        Description comes here, description comes here, description comes here, description comes
-                        here, description comes here, des cription comes here, description comes here, description
-                        comes here, description comes here, description comes here, descri...</div>
-                      <div id="demo10" class="collapse"></div>
-                    </div>
-                    <div class="show-more-list">
-                      Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                    </div>
-                  </div>
-                  </ng-container>
-
-                  <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                  && templateDataBind.layout.layoutType == 'l2' && templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-2-plain-list-result col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="plain-list-item-result">
-                      <span>Description comes here, description comes here, description comes here, description comes
-                        here, description comes here, desc ription comes here, description comes here, description
-                        comes here, description comes here, description comes here, descript...</span>
-                    </div>
-                    <div class="plain-list-item-result">
-                      <span>Description comes here, description comes here, description comes here, description comes
-                        here, description comes here, desc ription comes here, description comes here, description
-                        comes here, description comes here, description comes here, descript...</span>
-                    </div>
-                    <div class="show-more-list">
-                      Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                    </div>
-                  </div>
-                  </ng-container>
-
-                  <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                  && templateDataBind.layout.layoutType == 'l2' && !templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-2-plain-list-collapse-result col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="collapse-item-list-result">
-                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo12">Description
-                        comes here, description comes here, description comes here, description comes here,
-                        description comes here, des cription comes here, description comes here, description comes
-                        here, description comes here, description comes here, descri...</div>
-                      <div id="demo12" class="collapse"></div>
-                    </div>
-                    <div class="collapse-item-list-result">
-                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo13">Description
-                        comes here, description comes here, description comes here, description comes here,
-                        description comes here, des cription comes here, description comes here, description comes
-                        here, description comes here, description comes here, descri...</div>
-                      <div id="demo13" class="collapse"></div>
-                    </div>
-                    <div class="show-more-list">
-                      Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                    </div>
-                  </div>
-                  </ng-container>
-
-                 </div>
-                    <!-- Grouping -->
-                    <!-- For List with Title -->
-                 <div class ="d-none">
-                  <div class="template-2-classic-list col-11 mb-3 p-0">
                     <div class="title-text-heading">Template title comes here</div>
-                    <div class="classic-list-item">
-                      <span>Description comes here, description comes here, description comes here, description comes
-                        here, description comes here, desc ription comes here, description comes here, description
-                        comes here, description comes here, description comes here, descript...</span>
+                    <div class="template-2-classic-list-collapse col-11 mb-3 p-0">
+                      <div class="collapse-item-list">
+                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo5">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, descri...</div>
+                        <div id="demo5" class="collapse"></div>
+                      </div>
+                      <div class="collapse-item-list">
+                        <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo6">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, descri...</div>
+                        <div id="demo6" class="collapse"></div>
+                      </div>
                     </div>
-                    <div class="classic-list-item">
-                      <span>Description comes here, description comes here, description comes here, description comes
-                        here, description comes here, desc ription comes here, description comes here, description
-                        comes here, description comes here, description comes here, descript...</span>
+
+                    <div class="title-text-heading mb-0">Template title comes here</div>
+                    <div class="template-2-plain-list col-11 mb-3 p-0">
+                      <div class="plain-list-item">
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
+                      </div>
+                      <div class="plain-list-item">
+                        <span>Description comes here, description comes here, description comes here, description comes
+                          here, description comes here, desc ription comes here, description comes here, description
+                          comes here, description comes here, description comes here, descript...</span>
+                      </div>
+                    </div>
+
+                    <div class="title-text-heading mb-0">Template title comes here</div>
+                    <div class="template-2-plain-list-collapse col-11 mb-3 p-0">
+                      <div class="collapse-item-list">
+                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo7">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, descri...</div>
+                        <div id="demo7" class="collapse"></div>
+                      </div>
+                      <div class="collapse-item-list">
+                        <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo8">Description
+                          comes here, description comes here, description comes here, description comes here,
+                          description comes here, des cription comes here, description comes here, description comes
+                          here, description comes here, description comes here, description comes here, description
+                          comes here, description comes here, description comes here, description comes here,
+                          description c omes here, description comes here, description comes here, description comes
+                          here, description comes here, description com...</div>
+                        <div id="demo8" class="collapse"></div>
+                      </div>
                     </div>
                   </div>
+                  <!-- For List with Title -->
 
-                  <div class="title-text-heading">Template title comes here</div>
-                  <div class="template-2-classic-list-collapse col-11 mb-3 p-0">
-                    <div class="collapse-item-list">
-                      <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo5">Description
-                        comes here, description comes here, description comes here, description comes here,
-                        description comes here, des cription comes here, description comes here, description comes
-                        here, description comes here, description comes here, descri...</div>
-                      <div id="demo5" class="collapse"></div>
-                    </div>
-                    <div class="collapse-item-list">
-                      <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo6">Description
-                        comes here, description comes here, description comes here, description comes here,
-                        description comes here, des cription comes here, description comes here, description comes
-                        here, description comes here, description comes here, descri...</div>
-                      <div id="demo6" class="collapse"></div>
-                    </div>
-                  </div>
+                  <!-- Result Group -->
 
-                  <div class="title-text-heading mb-0">Template title comes here</div>
-                  <div class="template-2-plain-list col-11 mb-3 p-0">
-                    <div class="plain-list-item">
-                      <span>Description comes here, description comes here, description comes here, description comes
-                        here, description comes here, desc ription comes here, description comes here, description
-                        comes here, description comes here, description comes here, descript...</span>
-                    </div>
-                    <div class="plain-list-item">
-                      <span>Description comes here, description comes here, description comes here, description comes
-                        here, description comes here, desc ription comes here, description comes here, description
-                        comes here, description comes here, description comes here, descript...</span>
-                    </div>
-                  </div>
 
-                  <div class="title-text-heading mb-0">Template title comes here</div>
-                  <div class="template-2-plain-list-collapse col-11 mb-3 p-0">
-                    <div class="collapse-item-list">
-                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo7">Description
-                        comes here, description comes here, description comes here, description comes here,
-                        description comes here, des cription comes here, description comes here, description comes
-                        here, description comes here, description comes here, descri...</div>
-                      <div id="demo7" class="collapse"></div>
-                    </div>
-                    <div class="collapse-item-list">
-                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo8">Description
-                        comes here, description comes here, description comes here, description comes here,
-                        description comes here, des cription comes here, description comes here, description comes
-                        here, description comes here, description comes here, description comes here, description
-                        comes here, description comes here, description comes here, description comes here,
-                        description c omes here, description comes here, description comes here, description comes
-                        here, description comes here, description com...</div>
-                      <div id="demo8" class="collapse"></div>
-                    </div>
-                  </div>
-                 </div>
-                 <!-- For List with Title -->
-
-                    <!-- Result Group -->
-                  
-
-                <!-- Template 3 -->
-                <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l3'">
-                  <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  <!-- Template 3 -->
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l3'">
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
                   && templateDataBind.layout.layoutType == 'l3' && templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-3-classic-list col-11 mb-3 p-0" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="title-text-heading">Template title comes here</div>
-                    <div class="classic-list-item">
-                      <div class="heading-text">Heading comes here</div>
-                      <div class="text-desc text-truncate">Description comes here, description comes here, description
-                        comes here, description comes here, description comes here, des...</div>
-                    </div>
-                    <div class="classic-list-item">
-                      <div class="heading-text">Heading comes here</div>
-                      <div class="text-desc text-truncate">Description comes here, description comes here, description
-                        comes here, description comes here, description comes here, des...</div>
-                    </div>
-                  </div>
-                  </ng-container>
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-3-classic-list col-11 mb-3 p-0"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="title-text-heading">Template title comes here</div>
+                        <div class="classic-list-item">
+                          <div class="heading-text">Heading comes here</div>
+                          <div class="text-desc text-truncate">Description comes here, description comes here,
+                            description
+                            comes here, description comes here, description comes here, des...</div>
+                        </div>
+                        <div class="classic-list-item">
+                          <div class="heading-text">Heading comes here</div>
+                          <div class="text-desc text-truncate">Description comes here, description comes here,
+                            description
+                            comes here, description comes here, description comes here, des...</div>
+                        </div>
+                      </div>
+                    </ng-container>
 
-                  <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
                   && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-3-classic-list-collapse col-11 mb-3 p-0" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="title-text-heading">Template title comes here</div>
-                    <div class="collapse-item-list">
-                      <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo20">
-                        <div class="heading-text">Heading comes here</div>
-                        <div class="text-desc">Description comes here, description comes here, description comes here,
-                          description comes here, description comes here, des cription comes here, description comes
-                          here, description comes here, description comes here, description comes here, descript
-                          ion comes here, description comes here, description comes here, description comes here,
-                          description comes here, description...</div>
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-3-classic-list-collapse col-11 mb-3 p-0"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="title-text-heading">Template title comes here</div>
+                        <div class="collapse-item-list">
+                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo20">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here,
+                              description comes here, description comes here, des cription comes here, description comes
+                              here, description comes here, description comes here, description comes here, descript
+                              ion comes here, description comes here, description comes here, description comes here,
+                              description comes here, description...</div>
+                          </div>
+                          <div id="demo20" class="collapse"></div>
+                        </div>
+                        <div class="collapse-item-list">
+                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo21">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here,
+                              description comes here, description comes here, des cription comes here, description comes
+                              here, description comes here, description comes here, description comes here, descript
+                              ion comes here, description comes here, description comes here, description comes here,
+                              description comes here, description...</div>
+                          </div>
+                          <div id="demo21" class="collapse"></div>
+                        </div>
                       </div>
-                      <div id="demo20" class="collapse"></div>
-                    </div>
-                    <div class="collapse-item-list">
-                      <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo21">
-                        <div class="heading-text">Heading comes here</div>
-                        <div class="text-desc">Description comes here, description comes here, description comes here,
-                          description comes here, description comes here, des cription comes here, description comes
-                          here, description comes here, description comes here, description comes here, descript
-                          ion comes here, description comes here, description comes here, description comes here,
-                          description comes here, description...</div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                && templateDataBind.layout.layoutType == 'l3' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-3-plain-list col-11 mb-3 p-0"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="title-text-heading mb-1">Template title comes here</div>
+                        <div class="plain-list-item">
+                          <div class="heading-text">Heading comes here</div>
+                          <div class="text-desc text-truncate">Description comes here, description comes here,
+                            description
+                            comes here, description comes here, description comes here, des...</div>
+                        </div>
+                        <div class="plain-list-item">
+                          <div class="heading-text">Heading comes here</div>
+                          <div class="text-desc text-truncate">Description comes here, description comes here,
+                            description
+                            comes here, description comes here, description comes here, des...</div>
+                        </div>
                       </div>
-                      <div id="demo21" class="collapse"></div>
-                    </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-3-plain-list-collapse col-11 mb-3 p-0"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="title-text-heading mb-1">Template title comes here</div>
+                        <div class="collapse-item-list">
+                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo22">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here,
+                              description comes here, description comes here, des cription comes here, description comes
+                              here, description comes here, description comes here, description comes here, descript
+                              ion comes here, description comes here, description comes here, description comes here,
+                              description comes here, description...</div>
+                          </div>
+                          <div id="demo22" class="collapse"></div>
+                        </div>
+                        <div class="collapse-item-list">
+                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo23">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here,
+                              description comes here, description comes here, des cription comes here, description comes
+                              here, description comes here, description comes here, description comes here, descript
+                              ion comes here, description comes here, description comes here, description comes here,
+                              description comes here, description...</div>
+                          </div>
+                          <div id="demo23" class="collapse"></div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <!--Template 3 Result Group-->
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                && templateDataBind.layout.layoutType == 'l3' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-3-classic-list-result col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="classic-list-item-result">
+                          <div class="heading-text">Heading comes here</div>
+                          <div class="text-desc text-truncate">Description comes here, description comes here,
+                            description
+                            comes here, description comes here, description comes here, des...</div>
+                        </div>
+                        <div class="classic-list-item-result">
+                          <div class="heading-text">Heading comes here</div>
+                          <div class="text-desc text-truncate">Description comes here, description comes here,
+                            description
+                            comes here, description comes here, description comes here, des...</div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-3-classic-list-collapse-result col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="collapse-item-list-result">
+                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo26">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here,
+                              description comes here, description comes here, des cription comes here, description comes
+                              here, description comes here, description comes here, description comes here, descript
+                              ion comes here, description comes here, description comes here, description comes here,
+                              description comes here, description...</div>
+                          </div>
+                          <div id="demo26" class="collapse"></div>
+                        </div>
+                        <div class="collapse-item-list-result">
+                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo27">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here,
+                              description comes here, description comes here, des cription comes here, description comes
+                              here, description comes here, description comes here, description comes here, descript
+                              ion comes here, description comes here, description comes here, description comes here,
+                              description comes here, description...</div>
+                          </div>
+                          <div id="demo27" class="collapse"></div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                && templateDataBind.layout.layoutType == 'l3' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-3-plain-list-result col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="plain-list-item-result">
+                          <div class="heading-text">Heading comes here</div>
+                          <div class="text-desc text-truncate">Description comes here, description comes here,
+                            description
+                            comes here, description comes here, description comes here, des...</div>
+                        </div>
+                        <div class="plain-list-item-result">
+                          <div class="heading-text">Heading comes here</div>
+                          <div class="text-desc text-truncate">Description comes here, description comes here,
+                            description
+                            comes here, description comes here, description comes here, des...</div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-3-plain-list-collapse-result col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="collapse-item-list-result">
+                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo29">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here,
+                              description comes here, description comes here, des cription comes here, description comes
+                              here, description comes here, description comes here, description comes here, descript
+                              ion comes here, description comes here, description comes here, description comes here,
+                              description comes here, description...</div>
+                          </div>
+                          <div id="demo29" class="collapse"></div>
+                        </div>
+                        <div class="collapse-item-list-result">
+                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo30">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="text-desc">Description comes here, description comes here, description comes
+                              here,
+                              description comes here, description comes here, des cription comes here, description comes
+                              here, description comes here, description comes here, description comes here, descript
+                              ion comes here, description comes here, description comes here, description comes here,
+                              description comes here, description...</div>
+                          </div>
+                          <div id="demo30" class="collapse"></div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
                   </div>
+                  <!--Template 3 Result Group-->
+
+                  <!-- Template 4 -->
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l4'">
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.layoutType == 'l4' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-4-classic-list col-11 mb-3 p-0"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="classic-list-item">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/dummyimg.svg">
+                          </div>
+                          <div class="content_sec">
+                            <div class="heading-">The All Rounder</div>
+                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
+                              there
+                              jackets, same as women love to have small trench coats or c...</div>
+                          </div>
+                        </div>
+                        <div class="classic-list-item">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/dummyimg.svg">
+                          </div>
+                          <div class="content_sec">
+                            <div class="heading-">The All Rounder</div>
+                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
+                              there
+                              jackets, same as women love to have small trench coats or c...</div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.layoutType == 'l4' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-4-classic-list-collapse col-11 mb-3 p-0"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="collapse-item-list">
+                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo31">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="content_sec">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/dummylarge.svg">
+                              </div>
+                              <div class="text-desc">Description comes here, description comes here, description comes
+                                here, description comes here, description comes here, des cription comes here,
+                                description
+                                comes here, description comes here, description comes here, description comes here,
+                                description comes here, description comes here, description comes here, description
+                                comes
+                                here, description comes here, description...</div>
+                            </div>
+                          </div>
+                          <div id="demo31" class="collapse"></div>
+                        </div>
+                        <div class="collapse-item-list">
+                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo32">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="content_sec">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/dummylarge.svg">
+                              </div>
+                              <div class="text-desc">Description comes here, description comes here, description comes
+                                here, description comes here, description comes here, des cription comes here,
+                                description
+                                comes here, description comes here, description comes here, description comes here,
+                                description comes here, description comes here, description comes here, description
+                                comes
+                                here, description comes here, description...</div>
+                            </div>
+                          </div>
+                          <div id="demo32" class="collapse"></div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l4' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-4-plain-list col-11 mb-3 p-0"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="plain-list-item">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/dummyimg.svg">
+                          </div>
+                          <div class="content_sec">
+                            <div class="heading-">The All Rounder</div>
+                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
+                              there
+                              jackets, same as women love to have small trench coats or c...</div>
+                          </div>
+                        </div>
+                        <div class="plain-list-item">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/dummyimg.svg">
+                          </div>
+                          <div class="content_sec">
+                            <div class="heading-">The All Rounder</div>
+                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
+                              there
+                              jackets, same as women love to have small trench coats or c...</div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l4' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-4-plain-list-collapse col-11 mb-3 p-0"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="collapse-item-list">
+                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo33">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="content_sec">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/dummylarge.svg">
+                              </div>
+                              <div class="text-desc">Description comes here, description comes here, description comes
+                                here, description comes here, description comes here, des cription comes here,
+                                description
+                                comes here, description comes here, description comes here, description comes here,
+                                description comes here, description comes here, description comes here, description
+                                comes
+                                here, description comes here, description...</div>
+                            </div>
+                          </div>
+                          <div id="demo33" class="collapse"></div>
+                        </div>
+                        <div class="collapse-item-list">
+                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo34">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="content_sec">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/dummylarge.svg">
+                              </div>
+                              <div class="text-desc">Description comes here, description comes here, description comes
+                                here, description comes here, description comes here, des cription comes here,
+                                description
+                                comes here, description comes here, description comes here, description comes here,
+                                description comes here, description comes here, description comes here, description
+                                comes
+                                here, description comes here, description...</div>
+                            </div>
+                          </div>
+                          <div id="demo34" class="collapse"></div>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.layoutType == 'l4' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-4-classic-list-result col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="classic-list-item-result">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/dummyimg.svg">
+                          </div>
+                          <div class="content_sec">
+                            <div class="heading-">The All Rounder</div>
+                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
+                              there
+                              jackets, same as women love to have small trench coats or c...</div>
+                          </div>
+                        </div>
+                        <div class="classic-list-item-result">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/dummyimg.svg">
+                          </div>
+                          <div class="content_sec">
+                            <div class="heading-">The All Rounder</div>
+                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
+                              there
+                              jackets, same as women love to have small trench coats or c...</div>
+                          </div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.layoutType == 'l4' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-4-classic-list-collapse-result col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="collapse-item-list-result">
+                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo41">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="content_sec">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/dummylarge.svg">
+                              </div>
+                              <div class="text-desc">Description comes here, description comes here, description comes
+                                here, description comes here, description comes here, des cription comes here,
+                                description
+                                comes here, description comes here, description comes here, description comes here,
+                                description comes here, description comes here, description comes here, description
+                                comes
+                                here, description comes here, description...</div>
+                            </div>
+                          </div>
+                          <div id="demo41" class="collapse"></div>
+                        </div>
+                        <div class="collapse-item-list-result">
+                          <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo42">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="content_sec">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/dummylarge.svg">
+                              </div>
+                              <div class="text-desc">Description comes here, description comes here, description comes
+                                here, description comes here, description comes here, des cription comes here,
+                                description
+                                comes here, description comes here, description comes here, description comes here,
+                                description comes here, description comes here, description comes here, description
+                                comes
+                                here, description comes here, description...</div>
+                            </div>
+                          </div>
+                          <div id="demo42" class="collapse"></div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l4' && templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-4-plain-list-result col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="plain-list-item-result">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/dummyimg.svg">
+                          </div>
+                          <div class="content_sec">
+                            <div class="heading-">The All Rounder</div>
+                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
+                              there
+                              jackets, same as women love to have small trench coats or c...</div>
+                          </div>
+                        </div>
+                        <div class="plain-list-item-result">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/dummyimg.svg">
+                          </div>
+                          <div class="content_sec">
+                            <div class="heading-">The All Rounder</div>
+                            <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are
+                              there
+                              jackets, same as women love to have small trench coats or c...</div>
+                          </div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.layoutType == 'l4' && !templateDataBind.layout.isClickable">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-4-plain-list-collapse-result col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                        <div class="collapse-item-list-result">
+                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo43">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="content_sec">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/dummylarge.svg">
+                              </div>
+                              <div class="text-desc">Description comes here, description comes here, description comes
+                                here, description comes here, description comes here, des cription comes here,
+                                description
+                                comes here, description comes here, description comes here, description comes here,
+                                description comes here, description comes here, description comes here, description
+                                comes
+                                here, description comes here, description...</div>
+                            </div>
+                          </div>
+                          <div id="demo43" class="collapse"></div>
+                        </div>
+                        <div class="collapse-item-list-result">
+                          <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo44">
+                            <div class="heading-text">Heading comes here</div>
+                            <div class="content_sec">
+                              <div class="img-block">
+                                <img src="assets/icons/resultTemplate/dummylarge.svg">
+                              </div>
+                              <div class="text-desc">Description comes here, description comes here, description comes
+                                here, description comes here, description comes here, des cription comes here,
+                                description
+                                comes here, description comes here, description comes here, description comes here,
+                                description comes here, description comes here, description comes here, description
+                                comes
+                                here, description comes here, description...</div>
+                            </div>
+                          </div>
+                          <div id="demo44" class="collapse"></div>
+                        </div>
+                        <div class="show-more-list">
+                          Show more <img src="assets/icons/resultTemplate/carrotup.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+
+
+                  <!-- Template 5 -->
+                  <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l5'">
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.listType == 'l5' && templateDataBind.layout.isClickable">
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.listType == 'l5' && !templateDataBind.layout.isClickable">
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.listType == 'l5' && templateDataBind.layout.isClickable">
+                    </ng-container>
+
+                    <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.listType == 'l5' && !templateDataBind.layout.isClickable">
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.listType == 'l5' && templateDataBind.layout.isClickable">
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
+                  && templateDataBind.layout.listType == 'l5' && !templateDataBind.layout.isClickable">
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.listType == 'l5' && templateDataBind.layout.isClickable">
+                    </ng-container>
+
+                    <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
+                  && templateDataBind.layout.listType == 'l5' && !templateDataBind.layout.isClickable">
+                    </ng-container>
+                  </div>
+                  <!-- Template 6 (Check in Figma for the latest Designs )-->
+                  <ng-container *ngIf="false">
+                    <div class="template-preview-box">
+                      <div class="template-6-classic-list mb-3">
+                        <div class="title-main">Jackets to look for this winter</div>
+                        <div class="img-with-text">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/dummyimg.svg">
+                          </div>
+                          <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored
+                            shapes that suit your body type. Belted coats are a great way to accentuate your waist even
+                            if
+                            you're wearing a woolly jumper underneath. </div>
+                        </div>
+                        <div class="img-with-text">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/dummyimg.svg">
+                          </div>
+                          <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored
+                            shapes that suit your body type. Belted coats are a great way to accentuate your waist even
+                            if
+                            you're wearing a woolly jumper underneath. </div>
+                        </div>
+                        <div class="img-with-text">
+                          <div class="img-block">
+                            <img src="assets/icons/resultTemplate/dummyimg.svg">
+                          </div>
+                          <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored
+                            shapes that suit your body type. Belted coats are a great way to accentuate your waist even
+                            if
+                            you're wearing a woolly jumper underneath. </div>
+                        </div>
+                        <div class="author-text-info">About the Author:</div>
+                        <div class="author-text-info">Elisha Burberry is an online, freelance journalist and keen
+                          traveller and watersports enthusiast. Originally from Scotland, she now resides in London.
+                        </div>
+                      </div>
+                    </div>
                   </ng-container>
-                
-                <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                && templateDataBind.layout.layoutType == 'l3' && templateDataBind.layout.isClickable">
-                <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                <div class="template-3-plain-list col-11 mb-3 p-0" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                  <div class="title-text-heading mb-1">Template title comes here</div>
-                  <div class="plain-list-item">
-                    <div class="heading-text">Heading comes here</div>
-                    <div class="text-desc text-truncate">Description comes here, description comes here, description
-                      comes here, description comes here, description comes here, des...</div>
-                  </div>
-                  <div class="plain-list-item">
-                    <div class="heading-text">Heading comes here</div>
-                    <div class="text-desc text-truncate">Description comes here, description comes here, description
-                      comes here, description comes here, description comes here, des...</div>
-                  </div>
-                </div>
-                </ng-container>
-
-                <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
-                <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                <div class="template-3-plain-list-collapse col-11 mb-3 p-0" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                  <div class="title-text-heading mb-1">Template title comes here</div>
-                  <div class="collapse-item-list">
-                    <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo22">
-                      <div class="heading-text">Heading comes here</div>
-                      <div class="text-desc">Description comes here, description comes here, description comes here,
-                        description comes here, description comes here, des cription comes here, description comes
-                        here, description comes here, description comes here, description comes here, descript
-                        ion comes here, description comes here, description comes here, description comes here,
-                        description comes here, description...</div>
-                    </div>
-                    <div id="demo22" class="collapse"></div>
-                  </div>
-                  <div class="collapse-item-list">
-                    <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo23">
-                      <div class="heading-text">Heading comes here</div>
-                      <div class="text-desc">Description comes here, description comes here, description comes here,
-                        description comes here, description comes here, des cription comes here, description comes
-                        here, description comes here, description comes here, description comes here, descript
-                        ion comes here, description comes here, description comes here, description comes here,
-                        description comes here, description...</div>
-                    </div>
-                    <div id="demo23" class="collapse"></div>
-                  </div>
-                </div>
-                </ng-container>
-
-                <!--Template 3 Result Group-->
-                <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
-                && templateDataBind.layout.layoutType == 'l3' && templateDataBind.layout.isClickable">
-                <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                <div class="template-3-classic-list-result col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                  <div class="classic-list-item-result">
-                    <div class="heading-text">Heading comes here</div>
-                    <div class="text-desc text-truncate">Description comes here, description comes here, description
-                      comes here, description comes here, description comes here, des...</div>
-                  </div>
-                  <div class="classic-list-item-result">
-                    <div class="heading-text">Heading comes here</div>
-                    <div class="text-desc text-truncate">Description comes here, description comes here, description
-                      comes here, description comes here, description comes here, des...</div>
-                  </div>
-                  <div class="show-more-list">
-                    Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                  </div>
-                </div>
-                </ng-container>
-
-                <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
-                && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
-                <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                <div class="template-3-classic-list-collapse-result col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                  <div class="collapse-item-list-result">
-                    <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo26">
-                      <div class="heading-text">Heading comes here</div>
-                      <div class="text-desc">Description comes here, description comes here, description comes here,
-                        description comes here, description comes here, des cription comes here, description comes
-                        here, description comes here, description comes here, description comes here, descript
-                        ion comes here, description comes here, description comes here, description comes here,
-                        description comes here, description...</div>
-                    </div>
-                    <div id="demo26" class="collapse"></div>
-                  </div>
-                  <div class="collapse-item-list-result">
-                    <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo27">
-                      <div class="heading-text">Heading comes here</div>
-                      <div class="text-desc">Description comes here, description comes here, description comes here,
-                        description comes here, description comes here, des cription comes here, description comes
-                        here, description comes here, description comes here, description comes here, descript
-                        ion comes here, description comes here, description comes here, description comes here,
-                        description comes here, description...</div>
-                    </div>
-                    <div id="demo27" class="collapse"></div>
-                  </div>
-                  <div class="show-more-list">
-                    Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                  </div>
-                </div>
-                </ng-container>
-
-                <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                && templateDataBind.layout.layoutType == 'l3' && templateDataBind.layout.isClickable">
-                <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                <div class="template-3-plain-list-result col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                  <div class="plain-list-item-result">
-                    <div class="heading-text">Heading comes here</div>
-                    <div class="text-desc text-truncate">Description comes here, description comes here, description
-                      comes here, description comes here, description comes here, des...</div>
-                  </div>
-                  <div class="plain-list-item-result">
-                    <div class="heading-text">Heading comes here</div>
-                    <div class="text-desc text-truncate">Description comes here, description comes here, description
-                      comes here, description comes here, description comes here, des...</div>
-                  </div>
-                  <div class="show-more-list">
-                    Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                  </div>
-                </div>
-                </ng-container>
-
-                <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                && templateDataBind.layout.layoutType == 'l3' && !templateDataBind.layout.isClickable">
-                <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                <div class="template-3-plain-list-collapse-result col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                  <div class="collapse-item-list-result">
-                    <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo29">
-                      <div class="heading-text">Heading comes here</div>
-                      <div class="text-desc">Description comes here, description comes here, description comes here,
-                        description comes here, description comes here, des cription comes here, description comes
-                        here, description comes here, description comes here, description comes here, descript
-                        ion comes here, description comes here, description comes here, description comes here,
-                        description comes here, description...</div>
-                    </div>
-                    <div id="demo29" class="collapse"></div>
-                  </div>
-                  <div class="collapse-item-list-result">
-                    <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo30">
-                      <div class="heading-text">Heading comes here</div>
-                      <div class="text-desc">Description comes here, description comes here, description comes here,
-                        description comes here, description comes here, des cription comes here, description comes
-                        here, description comes here, description comes here, description comes here, descript
-                        ion comes here, description comes here, description comes here, description comes here,
-                        description comes here, description...</div>
-                    </div>
-                    <div id="demo30" class="collapse"></div>
-                  </div>
-                  <div class="show-more-list">
-                    Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                  </div>
-                </div>
-                </ng-container>
-                </div>
-                <!--Template 3 Result Group-->
-
-                <!-- Template 4 -->
-                <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l4'">
-                <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
-                  && templateDataBind.layout.layoutType == 'l4' && templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-4-classic-list col-11 mb-3 p-0" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="classic-list-item">
-                      <div class="img-block">
-                        <img src="assets/icons/resultTemplate/dummyimg.svg">
-                      </div>
-                      <div class="content_sec">
-                        <div class="heading-">The All Rounder</div>
-                        <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
-                          jackets, same as women love to have small trench coats or c...</div>
-                      </div>
-                    </div>
-                    <div class="classic-list-item">
-                      <div class="img-block">
-                        <img src="assets/icons/resultTemplate/dummyimg.svg">
-                      </div>
-                      <div class="content_sec">
-                        <div class="heading-">The All Rounder</div>
-                        <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
-                          jackets, same as women love to have small trench coats or c...</div>
-                      </div>
-                    </div>
-                  </div>
-                </ng-container>
-
-                <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
-                  && templateDataBind.layout.layoutType == 'l4' && !templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-4-classic-list-collapse col-11 mb-3 p-0" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="collapse-item-list">
-                      <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo31">
-                        <div class="heading-text">Heading comes here</div>
-                        <div class="content_sec">
-                          <div class="img-block">
-                            <img src="assets/icons/resultTemplate/dummylarge.svg">
-                          </div>
-                          <div class="text-desc">Description comes here, description comes here, description comes
-                            here, description comes here, description comes here, des cription comes here, description
-                            comes here, description comes here, description comes here, description comes here,
-                            description comes here, description comes here, description comes here, description comes
-                            here, description comes here, description...</div>
-                        </div>
-                      </div>
-                      <div id="demo31" class="collapse"></div>
-                    </div>
-                    <div class="collapse-item-list">
-                      <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo32">
-                        <div class="heading-text">Heading comes here</div>
-                        <div class="content_sec">
-                          <div class="img-block">
-                            <img src="assets/icons/resultTemplate/dummylarge.svg">
-                          </div>
-                          <div class="text-desc">Description comes here, description comes here, description comes
-                            here, description comes here, description comes here, des cription comes here, description
-                            comes here, description comes here, description comes here, description comes here,
-                            description comes here, description comes here, description comes here, description comes
-                            here, description comes here, description...</div>
-                        </div>
-                      </div>
-                      <div id="demo32" class="collapse"></div>
-                    </div>
-                  </div>
-                </ng-container>
-
-                <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                  && templateDataBind.layout.layoutType == 'l4' && templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-4-plain-list col-11 mb-3 p-0" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="plain-list-item">
-                      <div class="img-block">
-                        <img src="assets/icons/resultTemplate/dummyimg.svg">
-                      </div>
-                      <div class="content_sec">
-                        <div class="heading-">The All Rounder</div>
-                        <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
-                          jackets, same as women love to have small trench coats or c...</div>
-                      </div>
-                    </div>
-                    <div class="plain-list-item">
-                      <div class="img-block">
-                        <img src="assets/icons/resultTemplate/dummyimg.svg">
-                      </div>
-                      <div class="content_sec">
-                        <div class="heading-">The All Rounder</div>
-                        <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
-                          jackets, same as women love to have small trench coats or c...</div>
-                      </div>
-                    </div>
-                  </div>
-                </ng-container>
-
-                <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                  && templateDataBind.layout.layoutType == 'l4' && !templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-4-plain-list-collapse col-11 mb-3 p-0" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="collapse-item-list">
-                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo33">
-                        <div class="heading-text">Heading comes here</div>
-                        <div class="content_sec">
-                          <div class="img-block">
-                            <img src="assets/icons/resultTemplate/dummylarge.svg">
-                          </div>
-                          <div class="text-desc">Description comes here, description comes here, description comes
-                            here, description comes here, description comes here, des cription comes here, description
-                            comes here, description comes here, description comes here, description comes here,
-                            description comes here, description comes here, description comes here, description comes
-                            here, description comes here, description...</div>
-                        </div>
-                      </div>
-                      <div id="demo33" class="collapse"></div>
-                    </div>
-                    <div class="collapse-item-list">
-                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo34">
-                        <div class="heading-text">Heading comes here</div>
-                        <div class="content_sec">
-                          <div class="img-block">
-                            <img src="assets/icons/resultTemplate/dummylarge.svg">
-                          </div>
-                          <div class="text-desc">Description comes here, description comes here, description comes
-                            here, description comes here, description comes here, des cription comes here, description
-                            comes here, description comes here, description comes here, description comes here,
-                            description comes here, description comes here, description comes here, description comes
-                            here, description comes here, description...</div>
-                        </div>
-                      </div>
-                      <div id="demo34" class="collapse"></div>
-                    </div>
-                  </div>
-                </ng-container>
-
-                <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
-                  && templateDataBind.layout.layoutType == 'l4' && templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-4-classic-list-result col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="classic-list-item-result">
-                      <div class="img-block">
-                        <img src="assets/icons/resultTemplate/dummyimg.svg">
-                      </div>
-                      <div class="content_sec">
-                        <div class="heading-">The All Rounder</div>
-                        <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
-                          jackets, same as women love to have small trench coats or c...</div>
-                      </div>
-                    </div>
-                    <div class="classic-list-item-result">
-                      <div class="img-block">
-                        <img src="assets/icons/resultTemplate/dummyimg.svg">
-                      </div>
-                      <div class="content_sec">
-                        <div class="heading-">The All Rounder</div>
-                        <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
-                          jackets, same as women love to have small trench coats or c...</div>
-                      </div>
-                    </div>
-                    <div class="show-more-list">
-                      Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                    </div>
-                  </div>
-                </ng-container>
-
-                <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
-                  && templateDataBind.layout.layoutType == 'l4' && !templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-4-classic-list-collapse-result col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="collapse-item-list-result">
-                      <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo41">
-                        <div class="heading-text">Heading comes here</div>
-                        <div class="content_sec">
-                          <div class="img-block">
-                            <img src="assets/icons/resultTemplate/dummylarge.svg">
-                          </div>
-                          <div class="text-desc">Description comes here, description comes here, description comes
-                            here, description comes here, description comes here, des cription comes here, description
-                            comes here, description comes here, description comes here, description comes here,
-                            description comes here, description comes here, description comes here, description comes
-                            here, description comes here, description...</div>
-                        </div>
-                      </div>
-                      <div id="demo41" class="collapse"></div>
-                    </div>
-                    <div class="collapse-item-list-result">
-                      <div class="classic-list-collapse-title" data-toggle="collapse" data-target="#demo42">
-                        <div class="heading-text">Heading comes here</div>
-                        <div class="content_sec">
-                          <div class="img-block">
-                            <img src="assets/icons/resultTemplate/dummylarge.svg">
-                          </div>
-                          <div class="text-desc">Description comes here, description comes here, description comes
-                            here, description comes here, description comes here, des cription comes here, description
-                            comes here, description comes here, description comes here, description comes here,
-                            description comes here, description comes here, description comes here, description comes
-                            here, description comes here, description...</div>
-                        </div>
-                      </div>
-                      <div id="demo42" class="collapse"></div>
-                    </div>
-                    <div class="show-more-list">
-                      Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                    </div>
-                  </div>
-                </ng-container>
-
-                <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                  && templateDataBind.layout.layoutType == 'l4' && templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-4-plain-list-result col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="plain-list-item-result">
-                      <div class="img-block">
-                        <img src="assets/icons/resultTemplate/dummyimg.svg">
-                      </div>
-                      <div class="content_sec">
-                        <div class="heading-">The All Rounder</div>
-                        <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
-                          jackets, same as women love to have small trench coats or c...</div>
-                      </div>
-                    </div>
-                    <div class="plain-list-item-result">
-                      <div class="img-block">
-                        <img src="assets/icons/resultTemplate/dummyimg.svg">
-                      </div>
-                      <div class="content_sec">
-                        <div class="heading-">The All Rounder</div>
-                        <div class="text_desc text-truncate">Men wardrobes the most special pieces of cloths are there
-                          jackets, same as women love to have small trench coats or c...</div>
-                      </div>
-                    </div>
-                    <div class="show-more-list">
-                      Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                    </div>
-                  </div>
-                </ng-container>
-
-                <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                  && templateDataBind.layout.layoutType == 'l4' && !templateDataBind.layout.isClickable">
-                  <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                  <div class="template-4-plain-list-collapse-result col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
-                    <div class="collapse-item-list-result">
-                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo43">
-                        <div class="heading-text">Heading comes here</div>
-                        <div class="content_sec">
-                          <div class="img-block">
-                            <img src="assets/icons/resultTemplate/dummylarge.svg">
-                          </div>
-                          <div class="text-desc">Description comes here, description comes here, description comes
-                            here, description comes here, description comes here, des cription comes here, description
-                            comes here, description comes here, description comes here, description comes here,
-                            description comes here, description comes here, description comes here, description comes
-                            here, description comes here, description...</div>
-                        </div>
-                      </div>
-                      <div id="demo43" class="collapse"></div>
-                    </div>
-                    <div class="collapse-item-list-result">
-                      <div class="plain-list-collapse-title" data-toggle="collapse" data-target="#demo44">
-                        <div class="heading-text">Heading comes here</div>
-                        <div class="content_sec">
-                          <div class="img-block">
-                            <img src="assets/icons/resultTemplate/dummylarge.svg">
-                          </div>
-                          <div class="text-desc">Description comes here, description comes here, description comes
-                            here, description comes here, description comes here, des cription comes here, description
-                            comes here, description comes here, description comes here, description comes here,
-                            description comes here, description comes here, description comes here, description comes
-                            here, description comes here, description...</div>
-                        </div>
-                      </div>
-                      <div id="demo44" class="collapse"></div>
-                    </div>
-                    <div class="show-more-list">
-                      Show more <img src="assets/icons/resultTemplate/carrotup.svg">
-                    </div>
-                  </div>
-                </ng-container>
-                </div>
-                
-
-                <!-- Template 5 -->
-                <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l5'" >
-                  <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
-                  && templateDataBind.layout.listType == 'l5' && templateDataBind.layout.isClickable">
-                </ng-container>
-
-                <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
-                  && templateDataBind.layout.listType == 'l5' && !templateDataBind.layout.isClickable">
-                </ng-container>
-
-                <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                  && templateDataBind.layout.listType == 'l5' && templateDataBind.layout.isClickable">
-                </ng-container>
-
-                <ng-container *ngIf="!resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                  && templateDataBind.layout.listType == 'l5' && !templateDataBind.layout.isClickable">
-                </ng-container>
-
-                <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
-                  && templateDataBind.layout.listType == 'l5' && templateDataBind.layout.isClickable">
-                </ng-container>
-
-                <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'classic' 
-                  && templateDataBind.layout.listType == 'l5' && !templateDataBind.layout.isClickable">
-                </ng-container>
-
-                <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                  && templateDataBind.layout.listType == 'l5' && templateDataBind.layout.isClickable">
-                </ng-container>
-
-                <ng-container *ngIf="resultListObj.groupResults && templateDataBind.layout.listType == 'plain' 
-                  && templateDataBind.layout.listType == 'l5' && !templateDataBind.layout.isClickable">
-                </ng-container>
-                </div>
-                 <!-- Template 6 (Check in Figma for the latest Designs )-->
-                <ng-container *ngIf="false">
-                  <div class="template-preview-box">
-                    <div class="template-6-classic-list mb-3">
-                      <div class="title-main">Jackets to look for this winter</div>
-                      <div class="img-with-text">
-                        <div class="img-block">
-                          <img src="assets/icons/resultTemplate/dummyimg.svg">
-                        </div>
-                        <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored
-                          shapes that suit your body type. Belted coats are a great way to accentuate your waist even if
-                          you're wearing a woolly jumper underneath. </div>
-                      </div>
-                      <div class="img-with-text">
-                        <div class="img-block">
-                          <img src="assets/icons/resultTemplate/dummyimg.svg">
-                        </div>
-                        <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored
-                          shapes that suit your body type. Belted coats are a great way to accentuate your waist even if
-                          you're wearing a woolly jumper underneath. </div>
-                      </div>
-                      <div class="img-with-text">
-                        <div class="img-block">
-                          <img src="assets/icons/resultTemplate/dummyimg.svg">
-                        </div>
-                        <div class="info-text">Fitted styles are key to coat buying this winter so look for tailored
-                          shapes that suit your body type. Belted coats are a great way to accentuate your waist even if
-                          you're wearing a woolly jumper underneath. </div>
-                      </div>
-                      <div class="author-text-info">About the Author:</div>
-                      <div class="author-text-info">Elisha Burberry is an online, freelance journalist and keen
-                        traveller and watersports enthusiast. Originally from Scotland, she now resides in London.</div>
-                    </div>
-                  </div>
-                </ng-container>
                 </div>
                 <!-- Grid Template start-->
                 <div *ngIf="templateDataBind.type == 'grid'">
                   <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l1'">
-                     <ng-container>
-                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                      <div class="template-1-grid-list row col-7 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                    <ng-container>
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-1-grid-list row col-7 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="grid-data-item col-6">
                           <div class="title-item">Description comes here</div>
                         </div>
@@ -1261,24 +1400,29 @@
                           <div class="title-item">Description comes here</div>
                         </div>
                       </div>
-                     </ng-container>
+                    </ng-container>
                   </div>
                   <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l2'">
                     <ng-container>
-                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                      <div class="template-2-grid-list row col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-2-grid-list row col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="grid-data-item col-4">
-                          <div class="title-item">Description comes here, descrip tion comes here, description comes here,
+                          <div class="title-item">Description comes here, descrip tion comes here, description comes
+                            here,
                             description comes here, description comes here, description comes here, description comes
                             here, description comes here, description comes...</div>
                         </div>
                         <div class="grid-data-item col-4">
-                          <div class="title-item">Description comes here, descrip tion comes here, description comes here,
+                          <div class="title-item">Description comes here, descrip tion comes here, description comes
+                            here,
                             description comes here, description comes here, description comes here, description comes
                             here, description comes here, description comes...</div>
                         </div>
                         <div class="grid-data-item col-4">
-                          <div class="title-item">Description comes here, descrip tion comes here, description comes here,
+                          <div class="title-item">Description comes here, descrip tion comes here, description comes
+                            here,
                             description comes here, description comes here, description comes here, description comes
                             here, description comes here, description comes...</div>
                         </div>
@@ -1287,27 +1431,32 @@
                   </div>
                   <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l3'">
                     <ng-container>
-                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                      <div class="template-3-grid-list row col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-3-grid-list row col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
                             <div class="heading-text">Heading comes here. </div>
                             <div class="title-item">Description comes here, descrip tion comes here, description comes
-                              here, description comes here, description comes here, description comes here, desc....</div>
+                              here, description comes here, description comes here, description comes here, desc....
+                            </div>
                           </div>
                         </div>
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
                             <div class="heading-text">Heading comes here. </div>
                             <div class="title-item">Description comes here, descrip tion comes here, description comes
-                              here, description comes here, description comes here, description comes here, desc....</div>
+                              here, description comes here, description comes here, description comes here, desc....
+                            </div>
                           </div>
                         </div>
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
                             <div class="heading-text">Heading comes here. </div>
                             <div class="title-item">Description comes here, descrip tion comes here, description comes
-                              here, description comes here, description comes here, description comes here, desc....</div>
+                              here, description comes here, description comes here, description comes here, desc....
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1315,8 +1464,10 @@
                   </div>
                   <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l4'">
                     <ng-container>
-                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                      <div class="template-4-grid-list row col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-4-grid-list row col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
                             <div class="image-with-title">
@@ -1358,8 +1509,10 @@
                   </div>
                   <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l5'">
                     <ng-container>
-                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                      <div class="template-5-grid-list row col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-5-grid-list row col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
                             <img src="assets/icons/resultTemplate/skelton-large.svg">
@@ -1380,8 +1533,10 @@
                   </div>
                   <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l6'">
                     <ng-container>
-                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                      <div class="template-6-grid-list row col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-6-grid-list row col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
                             <div class="heading-main">Heading comes here</div>
@@ -1468,8 +1623,10 @@
                   </div>
                   <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l7'">
                     <ng-container>
-                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                      <div class="template-7-grid-list row col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-7-grid-list row col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
                             <div class="main-img-block">
@@ -1502,8 +1659,10 @@
                   </div>
                   <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l8'">
                     <ng-container>
-                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                      <div class="template-8-grid-list row col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-8-grid-list row col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
                             <div class="main-img-block">
@@ -1536,8 +1695,10 @@
                   </div>
                   <div class="template-preview-box" *ngIf="templateDataBind.layout.layoutType == 'l9'">
                     <ng-container>
-                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes here</div>
-                      <div class="template-9-grid-list row col-11 mb-3" [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
+                      <div class="title-text-heading" *ngIf="templateDataBind.layout.renderTitle">Template title comes
+                        here</div>
+                      <div class="template-9-grid-list row col-11 mb-3"
+                        [ngClass]="{'text-center': templateDataBind.layout.textAlignment == 'center'}">
                         <div class="grid-data-item col-4">
                           <div class="inner-content-list">
                             <div class="main-img-block">
@@ -1571,10 +1732,11 @@
                       </div>
                     </ng-container>
                   </div>
-              </div>
-              <!-- Grid Template end-->
+                </div>
+                <!-- Grid Template end-->
                 <div class="kr-sg-checkbox mb-2">
-                  <input id="checkbox-addToTitle" class="checkbox-custom" type="checkbox" (change)= "renderTitleChange()" [checked] = "templateDataBind.layout.renderTitle">
+                  <input id="checkbox-addToTitle" class="checkbox-custom" type="checkbox" (change)="renderTitleChange()"
+                    [checked]="templateDataBind.layout.renderTitle">
                   <label for="checkbox-addToTitle" class="checkbox-custom-label">Add title to template</label>
                 </div>
                 <div class="kr-sg-input-text mb-2">
@@ -1597,11 +1759,13 @@
                           data-toggle="dropdown"></button>
                         <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
                         <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
-                          class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('heading',$event.target.value,fieldData)" 
+                          class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
+                          (keyup)="searchlist('heading',$event.target.value,fieldData)"
                           (focus)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="preview_title">
                         <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
                           <perfect-scrollbar class="scroll-search-field">
-                            <li *ngFor="let field of heading_fieldData" [id] = "field._id" (click)="filedSelect('heading',field)"><a>{{field.fieldName}}</a></li>
+                            <li *ngFor="let field of heading_fieldData" [id]="field._id"
+                              (click)="filedSelect('heading',field)"><a>{{field.fieldName}}</a></li>
                           </perfect-scrollbar>
                         </ul>
                       </div>
@@ -1620,11 +1784,13 @@
                           data-toggle="dropdown"></button>
                         <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
                         <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
-                          class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('description',$event.target.value,fieldData)" 
+                          class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
+                          (keyup)="searchlist('description',$event.target.value,fieldData)"
                           (focus)="searchlist('description',$event.target.value,fieldData)" [(ngModel)]="preview_desc">
                         <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
                           <perfect-scrollbar class="scroll-search-field">
-                            <li *ngFor="let field of desc_fieldData" [id] = "field._id" (click)="filedSelect('description',field)"><a>{{field.fieldName}}</a></li>
+                            <li *ngFor="let field of desc_fieldData" [id]="field._id"
+                              (click)="filedSelect('description',field)"><a>{{field.fieldName}}</a></li>
                           </perfect-scrollbar>
                         </ul>
                       </div>
@@ -1643,11 +1809,13 @@
                           data-toggle="dropdown"></button>
                         <!-- <input type="text"  maxlength="60" placeholder="Search For Field" id="facets-search-input" class="input-search dropdown-toggle dropdown-input" [class.err-block]="((!addEditFacetObj.fieldId.length) && submitted)" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName"> -->
                         <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
-                          class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('image',$event.target.value,fieldData)" 
+                          class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off"
+                          (keyup)="searchlist('image',$event.target.value,fieldData)"
                           (focus)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="preview_img">
                         <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
                           <perfect-scrollbar class="scroll-search-field">
-                            <li *ngFor="let field of img_fieldData" [id] = "field._id" (click)="filedSelect('image',field)"><a>{{field.fieldName}}</a></li>
+                            <li *ngFor="let field of img_fieldData" [id]="field._id"
+                              (click)="filedSelect('image',field)"><a>{{field.fieldName}}</a></li>
                           </perfect-scrollbar>
                         </ul>
                       </div>
@@ -1661,19 +1829,21 @@
                 <div class="desc-text mb-3">Define the click behaviour for the search results</div>
                 <div class="label-text">Clickable</div>
                 <label class="kr-sg-toggle">
-                  <input type="checkbox" (change)= "clickableChange()" [checked] = "templateDataBind.layout.isClickable">
+                  <input type="checkbox" (change)="clickableChange()" [checked]="templateDataBind.layout.isClickable">
                   <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                 </label>
                 <div class="label-text mt-3" *ngIf="templateDataBind.layout.isClickable">Click Behaviour</div>
                 <div class="kr-sg-radiobutton" *ngIf="templateDataBind.layout.isClickable">
-                  <input id="radio-open-webpage" name="radio" class="radio-custom" type="radio" (change)= "clickBehaviorChange('webpage')" 
-                  [checked] = "templateDataBind.layout.behaviour == 'webpage'">
+                  <input id="radio-open-webpage" name="radio" class="radio-custom" type="radio"
+                    (change)="clickBehaviorChange('webpage')"
+                    [checked]="templateDataBind.layout.behaviour == 'webpage'">
                   <label for="radio-open-webpage" class="radio-custom-label">Open a Webpage</label>
                 </div>
 
                 <div class="kr-sg-radiobutton" *ngIf="templateDataBind.layout.isClickable">
-                  <input id="radio-postback" name="radio" class="radio-custom" type="radio" (change)= "clickBehaviorChange('postback')" 
-                  [checked] = "templateDataBind.layout.behaviour != 'webpage'">
+                  <input id="radio-postback" name="radio" class="radio-custom" type="radio"
+                    (change)="clickBehaviorChange('postback')"
+                    [checked]="templateDataBind.layout.behaviour != 'webpage'">
                   <label for="radio-postback" class="radio-custom-label">Postback</label>
                 </div>
                 <!-- <div class="kr-sg-input-text mt-3" *ngIf="templateDataBind.layout.isClickable">

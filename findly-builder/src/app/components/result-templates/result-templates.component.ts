@@ -16,17 +16,18 @@ import { Subscription } from 'rxjs';
 })
 export class ResultTemplatesComponent implements OnInit {
   customModalRef: any;
-  templateModalRef : any;
+  templateModalRef: any;
   selectedApp: any;
+  copyConfigObj: any = { loader: false, message: '' };
   serachIndexId: any;
   indexPipelineId: any;
   allFieldData: any;
-  preview_title : any;
-  preview_desc : any;
-  preview_img : any;
-  preview_url : any;
-  templateDataBind : any = {
-    layout : {
+  preview_title: any;
+  preview_desc: any;
+  preview_img: any;
+  preview_url: any;
+  templateDataBind: any = {
+    layout: {
       behaviour: "webpage",
       isClickable: true,
       layoutType: "l1",
@@ -35,17 +36,17 @@ export class ResultTemplatesComponent implements OnInit {
       textAlignment: "left",
       title: "Web Pages",
     },
-    mapping : {
+    mapping: {
       description: "fld-e2c3b9e8-69a7-5510-a355-d6a8904f33ec",
       heading: "fld-7f79d838-7230-58cb-bb3c-95f438bb8d3d",
       img: "fld-1ed42ad4-e565-58ce-8869-7757420bc793",
       url: "fld-40c5ab74-c5af-5a45-be4e-3859e6f62134",
       searchIndexId: "sidx-e3de5037-033f-5bc1-95ff-b1e252f2b1eb",
     },
-    type : ''
+    type: ''
   };
-  templateDatalistext : any;
-  customtemplateBtndisable : boolean = false;
+  templateDatalistext: any;
+  customtemplateBtndisable: boolean = false;
   heading_fieldData: any;
   desc_fieldData: any;
   img_fieldData: any;
@@ -57,7 +58,7 @@ export class ResultTemplatesComponent implements OnInit {
   searchExperienceConfig: any = {};
   searchTemplatesDisabled: boolean = false;
   fieldPopupType: string;
-  fieldPopup : boolean = false;
+  fieldPopup: boolean = false;
   selectedTab: string = 'fullSearch';
   tabList: any = [{ id: "liveSearch", name: "Live Search" }, { id: "conversationalSearch", name: "Conversational Search" }, { id: "fullSearch", name: "Full Page Result" }]
   resultListObj: any = {
@@ -130,13 +131,13 @@ export class ResultTemplatesComponent implements OnInit {
       this.url_fieldData = [...res];
       this.fieldData = [...res];
       this.allFieldData = res;
-      console.log('Field Data ....',res)
+      console.log('Field Data ....', res)
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');
     });
   }
   /** Field Selection */
-  filedSelect(type,field){
+  filedSelect(type, field) {
     if (type == 'heading') {
       this.templateDataBind.mapping.heading = field._id
       // this.customizeTemplateObj.template.resultMapping.heading = field.fieldName;
@@ -146,7 +147,7 @@ export class ResultTemplatesComponent implements OnInit {
     } else if (type == 'description') {
       this.templateDataBind.mapping.description = field._id;
       this.preview_desc = field.fieldName;
-      this.desc_fieldData= [...this.allFieldData];
+      this.desc_fieldData = [...this.allFieldData];
     } else if (type == 'image') {
       this.templateDataBind.mapping.img = field._id;
       this.preview_img = field.fieldName;
@@ -232,10 +233,10 @@ export class ResultTemplatesComponent implements OnInit {
       templateId: templateData.templateId,
       indexPipelineId: this.indexPipelineId
     };
-    this.service.invoke('get.templateById', quaryparms).subscribe((res : any )=> {
+    this.service.invoke('get.templateById', quaryparms).subscribe((res: any) => {
       this.templateDataBind = res;
       let listTypeText = ""
-      res.layout.listType == "classic"? listTypeText = 'Classic List':'Plain List';
+      res.layout.listType == "classic" ? listTypeText = 'Classic List' : 'Plain List';
       this.templateDatalistDisplay(listTypeText);
       this.fieldsDisplay(res.mapping);
       this.openTemplateModal();
@@ -244,46 +245,46 @@ export class ResultTemplatesComponent implements OnInit {
     });
   }
   //
-  templateDatalistDisplay(type){
-      this.templateDatalistext = type
+  templateDatalistDisplay(type) {
+    this.templateDatalistext = type
   }
-  fieldsDisplay(mapping){
+  fieldsDisplay(mapping) {
     // this.heading_fieldData
     //   this.desc_fieldData 
     //   this.img_fieldData 
     //   this.url_fieldData
-       
-      for (const property in mapping) {
-        console.log(`${property}: ${mapping[property]}`);
-        this.fieldData.forEach(element => {
-          if(`${property}` == 'heading' && element._id == `${mapping[property]}`){
-            this.preview_title = element.fieldName;
-          }else if(`${property}` == 'description' && element._id == `${mapping[property]}`){
-            this.preview_desc = element.fieldName;
-          }else if(`${property}` == 'img' && element._id == `${mapping[property]}`){
-            this.preview_img= element.fieldName;
-          }else if(`${property}` == 'url' && element._id == `${mapping[property]}`){
-            this.preview_url = element.fieldName;
-          }
-        });
-      }
-    
+
+    for (const property in mapping) {
+      console.log(`${property}: ${mapping[property]}`);
+      this.fieldData.forEach(element => {
+        if (`${property}` == 'heading' && element._id == `${mapping[property]}`) {
+          this.preview_title = element.fieldName;
+        } else if (`${property}` == 'description' && element._id == `${mapping[property]}`) {
+          this.preview_desc = element.fieldName;
+        } else if (`${property}` == 'img' && element._id == `${mapping[property]}`) {
+          this.preview_img = element.fieldName;
+        } else if (`${property}` == 'url' && element._id == `${mapping[property]}`) {
+          this.preview_url = element.fieldName;
+        }
+      });
+    }
+
   }
-  /** type selection */ 
-  templateTypeSelection(layoutType){
+  /** type selection */
+  templateTypeSelection(layoutType) {
     this.templateDataBind.layout.layoutType = layoutType;
   }
-  renderTitleChange(){
+  renderTitleChange() {
     this.templateDataBind.layout.renderTitle = !this.templateDataBind.layout.renderTitle
   }
-  clickableChange(){
+  clickableChange() {
     this.templateDataBind.layout.isClickable = !this.templateDataBind.layout.isClickable
   }
-  clickBehaviorChange(behaviour){
+  clickBehaviorChange(behaviour) {
     this.templateDataBind.layout.behaviour = behaviour;
   }
   //Open Template Modal
-  openTemplateConatiner(templateData){
+  openTemplateConatiner(templateData) {
     this.customtemplateBtndisable = true;
     console.log(templateData)
     this.getTemplate(templateData)
@@ -296,12 +297,12 @@ export class ResultTemplatesComponent implements OnInit {
   }
 
   //open template Modal
-  openTemplateModal(){
+  openTemplateModal() {
     this.templateModalRef = this.templateModal.open();
   }
 
   //Close templateModal
-  closeTemplateModal(){
+  closeTemplateModal() {
     if (this.templateModalRef && this.templateModalRef.close) {
       this.templateModalRef.close();
     }
@@ -381,6 +382,31 @@ export class ResultTemplatesComponent implements OnInit {
     }
     else if (type === 'delete') {
       this.resultListObj.groupSetting.conditions.splice(index, 1);
+    }
+  }
+  //copy configuration method
+  copyConfiguration(type, tab) {
+    if (type === 'open') {
+      this.copyConfigObj.loader = true;
+      const quaryparms: any = {
+        searchIndexId: this.serachIndexId,
+        indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+        settingsId: this.resultListObj._id,
+        fromInterface: tab
+      };
+      const payload = this.resultListObj;
+      this.service.invoke('copy.settings', quaryparms, payload).subscribe(res => {
+        this.copyConfigObj.loader = false;
+        this.copyConfigObj.message = 'Configurations applied from Live Search | 10 Jul 2020, 10:00 a.m.'
+        this.notificationService.notify(' Result copied successfully', 'success')
+      }, errRes => {
+        this.copyConfigObj.loader = false;
+        this.copyConfigObj.message = 'Configurations applied from Live Search | 10 Jul 2020, 10:00 a.m.'
+        this.errorToaster(errRes, 'Failed to get field values');
+      });
+    }
+    else if (type === 'close') {
+      this.copyConfigObj = { loader: false, message: '' };
     }
   }
   ngOnDestroy() {
