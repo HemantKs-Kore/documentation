@@ -27,7 +27,7 @@ export class AppSelectionService {
   public tourConfigCancel = new BehaviorSubject<any>({ name: undefined, status: 'pending' });
   public resumingApp = false;
   public currentsubscriptionPlanDetails: any;
-  public inlineManualInfo : any = [];
+  public inlineManualInfo: any = [];
   res_length: number = 0;
   getTourArray: any = [];
   private storageType = 'localStorage';
@@ -40,7 +40,7 @@ export class AppSelectionService {
     private appUrls: AppUrlsService,
     public localstore: LocalStoreService,
     private notificationService: NotificationService
-  ) { 
+  ) {
     if (environment && environment.USE_SESSION_STORE) {
       this.storageType = 'sessionStorage';
     }
@@ -133,7 +133,7 @@ export class AppSelectionService {
       previOusState = JSON.parse(window.localStorage.getItem('krPreviousState'));
       if (window[this.storageType].jStorage) {
         this.getCurrentSubscriptionData();
-      }else{
+      } else {
         this.redirectToLogin();
       }
     } catch (e) {
@@ -234,22 +234,22 @@ export class AppSelectionService {
       });
     }
   }
-  getInlineManualcall(){
+  getInlineManualcall() {
     let selectedApp = this.workflowService.selectedApp();
-      let searchIndexId = selectedApp ? selectedApp.searchIndexes[0]._id : "";
+    let searchIndexId = selectedApp ? selectedApp.searchIndexes[0]._id : "";
     const quaryparms: any = {
       searchIndexId: searchIndexId
     };
-    if(searchIndexId){
+    if (searchIndexId) {
       this.service.invoke('get.inlineManual', quaryparms).subscribe(res => {
         this.inlineManualInfo = res.inlineManualInfo;
-       }, errRes => {
-         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-         } else {
-           this.notificationService.notify('Failed ', 'error');
-         }
-       });
+      }, errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      });
     }
   }
   //get last active subscription data
@@ -316,11 +316,11 @@ export class AppSelectionService {
   public updateTourConfig(component) {
     let callApi: boolean;
     const appInfo: any = this.workflowService.selectedApp();
-    if (component == 'overview' && !this.getTourArray.findlyOverviewVisited) {
-      this.getTourArray.findlyOverviewVisited = true;
-      callApi = true;
-    }
-    else if (component == 'addData' && !this.getTourArray.onBoardingChecklist[0].addData) {
+    // if (component == 'overview' && !this.getTourArray.findlyOverviewVisited) {
+    //   this.getTourArray.findlyOverviewVisited = true;
+    //   callApi = true;
+    // }
+    if (component == 'addData' && !this.getTourArray.onBoardingChecklist[0].addData) {
       this.getTourArray.onBoardingChecklist[0].addData = true;
       callApi = true;
     }
