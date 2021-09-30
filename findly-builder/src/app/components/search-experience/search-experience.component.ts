@@ -683,21 +683,20 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     this.selectSearch = type;
   }
   //put tour config data
-  updateTourConfig() {
-    const appInfo: any = this.workflowService.selectedApp();
-    const quaryparms: any = {
-      streamId: appInfo._id
-    };
-    this.tourData.searchExperienceVisited = true;
-    const payload = { "tourConfigurations": this.tourData };
-    this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
-      //this.appSelectionService.updateTourConfig(this.componentType);
-      this.notificationService.notify('Updated successfully', 'success');
-      //this.tourGuide = '';
-    }, errRes => {
-      console.log(errRes);
-    });
-  }
+  // updateTourConfig() {
+  //   const appInfo: any = this.workflowService.selectedApp();
+  //   const quaryparms: any = {
+  //     streamId: appInfo._id
+  //   };
+  //   this.tourData.searchExperienceVisited = true;
+  //   const payload = { "tourConfigurations": this.tourData };
+  //   this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
+  //     //this.appSelectionService.updateTourConfig(this.componentType);
+  //     //this.tourGuide = '';
+  //   }, errRes => {
+  //     console.log(errRes);
+  //   });
+  // }
   //get default data
   getSearchExperience() {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
