@@ -18235,7 +18235,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var viewType = 'Preview';
           var devMode = false;
           var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy({ 'selectedFacet': _self.vars.selectedFacetFromSearch || 'all results', 'tasks': data.dataObj.tasks, 'isFullResults': data.isFullResults, appearanceType: 'task', 'devMode': devMode, 'viewType': viewType });
-          $(actionContainer).empty().append(dataHTML);
+          $(actionContainer).last().empty().append(dataHTML);
           _self.bindCarouselForActionsTemplate(actionContainer);
         }
       });
