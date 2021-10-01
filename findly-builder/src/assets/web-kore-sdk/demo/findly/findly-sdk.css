@@ -14905,7 +14905,7 @@ margin-bottom: 15px !important;
     height: calc(100% - 101px);
     bottom: 40px;
     background: rgba(32,33,36,0.4);
-    border-radius: 6px;
+    /* border-radius: 6px; */
     z-index: 1;
     }
     .kr-sg-radiobutton .radio-custom {

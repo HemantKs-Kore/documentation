@@ -184,10 +184,13 @@ export class DashboardComponent implements OnInit {
       console.log(days);
       if (days > 28) {
         this.group = "week";
+        // this.dateType = this.group;
       } else if (days == 1) {
         this.group = "hour";
+        this.dateType = this.group;
       } else {
-        this.group = "date";
+        this.group = "date"; // The group indicates the payload value
+        this.dateType = 'week'; // The dateType indicates the graphs rendering condition value
       }
     }
     const header: any = {
