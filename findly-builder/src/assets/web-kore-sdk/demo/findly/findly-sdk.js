@@ -7063,7 +7063,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         } else {
           if (!$(event.target).closest('.search-body').length && !$(event.target).closest('.show-all-results-outer-wrap').length && !$(event.target).closest('#search').length) {
             if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
-              if (!window.isBotLocked && !_self.vars.enterIsClicked) {
+              if (!window.isBotLocked) {
                 $('.search-body').addClass('hide');
                 $('#searchChatContainer').removeClass('bgfocus');
                 $('.parent-search-live-auto-suggesition').show();
@@ -20797,6 +20797,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return autoSuggestion;
     }
     FindlySDK.prototype.changeSearchContainerBackground = function () {
+      var _self = this;
       if ((($('.search-body').find('.resultsOfSearch').length && $('.search-body').is(':visible')) || $('.search-body').find('.recentContainer').length || $('.suggestion-search-data-parent').is(':visible') ) && !_self.vars.enterIsClicked) {
         $('.parent-search-live-auto-suggesition').show();
         $('.search-container').removeClass('no-history');
