@@ -17,6 +17,7 @@ import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
 import { FaqsService } from '../../services/faqsService/faqs.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 // import {  DockStatusService } from '../../services/dock.status.service';
 // import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 
@@ -165,6 +166,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     private headerService: SideBarService,
     public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
+    public mixpanel : MixpanelServiceService,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
   ) {
@@ -176,7 +178,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getStats(null, true);
     // this.getfaqsBy();
-    this.getSourceList(true);
+    if((this.resources && this.resources.length === 0)){
+      this.getJobStatusForMessages();
+      this.getSourceList(true);
+    }
+    else{
+      this.getSourceList(true);
+    }
+   
     this.userInfo = this.authService.getUserInfo() || {};
     this.altAddSub = this.faqServiceAlt.addAltQues.subscribe(params => {
       this.selectedFaq.isAlt = false;
@@ -897,26 +906,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       if((this.extractedResources && this.extractedResources.length )){
         this.loadingFaqs = false;
-          this.loadingFaqs1 = true;
+        this.loadingFaqs1 = true;
+        this.viewDetails = true;
+        this.extractedFaqs = true;
       }
       else{
         this.loadingFaqs1 = true;
       }
-
-      // if (res.length > 0) {
-      //   this.loadingFaqs = false;
-      //   this.loadingFaqs1 = true;
-      // }
-      // else {
-      //   this.loadingFaqs1 = true;
-      //   // setTimeout(()=>{
-      //   //   if(!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')){
-      //   //     this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING')
-      //   //     this.inlineManual.visited('ADD_FAQ_FROM_LANDING')
-      //   //   }
-      //   // },1000)
-      // }
-
+      // console.log('MIXPANNEL')
+      this.mixpanel.postEvent('FAQ-created',{}) 
     }, errRes => {
     });
   }
@@ -1236,6 +1234,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editfaq = false;
       this.closeEditFAQModal();
       this.closeAddsourceModal();
+      this.mixpanel.postEvent('FAQ-updated',{})
+      // console.log('MIXPANNEL FAQ UPDATE')
     }, errRes => {
       this.errorToaster(errRes, 'Somthing went worng');
     });
@@ -1319,6 +1319,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       if (dialogRef) {
         dialogRef.close();
       }
+      this.mixpanel.postEvent('FAQ-deleted',{})
+      // console.log('MIXPANNEL FAQ DEL')
     }, errRes => {
       this.errorToaster(errRes, custerrMsg);
     });
@@ -1334,6 +1336,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
       this.notificationService.notify('Deleted Successfully', 'success');
+       this.mixpanel.postEvent('FAQ-deleted',{})
+      //  console.log('MIXPANNEL FAQ DEL')
       const deleteIndex = _.findIndex(this.extractedResources, (fq) => {
         return fq._id === source._id;
       })

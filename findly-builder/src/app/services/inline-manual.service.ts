@@ -5,6 +5,7 @@ import { ServiceInvokerService } from './service-invoker.service';
 import { WorkflowService } from './workflow.service';
 import { NotificationService } from './notification.service';
 import { AppSelectionService } from './app.selection.service';
+
 declare const $: any;
 declare let inline_manual_player: any;
 declare let inlineManualTracking: any

@@ -18,6 +18,7 @@ import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent, PerfectScro
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as moment from 'moment';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 declare const $: any;
 // import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
@@ -170,6 +171,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     private faqService: FaqsService,
     public convertMDtoHTML: ConvertMDtoHTML,
     public dialog: MatDialog,
+    public mixpanel : MixpanelServiceService,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
   ) {
@@ -616,6 +618,10 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     }
     this.anwerPayloadObj.defaultAnswers = defaultAnswers;
     this.anwerPayloadObj.conditionalAnswers = conditionalAnswers;
+    if(conditionalAnswers.length != 0){
+      this.mixpanel.postEvent('FAQ-created-Conditional response',{})
+    }
+   
   }
   addAnotherAlternate(isHideInput?) {
     $('#addAlternateFaq').click();
@@ -836,6 +842,9 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     } else {
       _self[type](range.text, range);
     }
+    // if(type === 'underline'){
+    //   $(this.container)[0].innerText.style.textdecoration = "underline"
+    // }
   }
   replaceAt(range, replacement, mainText) {
     if (range.startIndex >= mainText.length) {

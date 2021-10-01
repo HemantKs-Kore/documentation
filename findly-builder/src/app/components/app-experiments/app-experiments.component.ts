@@ -12,13 +12,13 @@ declare const $: any;
 import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { Subscription } from 'rxjs';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 @Component({
   selector: 'app-app-experiments',
   templateUrl: './app-experiments.component.html',
   styleUrls: ['./app-experiments.component.scss']
 })
 export class AppExperimentsComponent implements OnInit {
-  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog, private appSelectionService: AppSelectionService, public inlineManual: InlineManualService) { }
   addExperimentsRef: any;
   selectedApp: any;
   serachIndexId: any;
@@ -73,6 +73,7 @@ export class AppExperimentsComponent implements OnInit {
   currentSubsciptionData: Subscription;
   componentType: string = "experiment";
   ctrTooltip: string = 'Click Through Rate is the percentage of searches which got at least one click of all the searches performed';
+  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog, private appSelectionService: AppSelectionService, public inlineManual: InlineManualService, public mixpanel: MixpanelServiceService) { }
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -472,6 +473,7 @@ export class AppExperimentsComponent implements OnInit {
         this.selectedTab(this.setTab);
         this.closeModalPopup();
         this.notificationService.notify('Added Successfully', 'success');
+        this.mixpanel.postEvent('Experiment Created', {});
       }, errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -497,6 +499,7 @@ export class AppExperimentsComponent implements OnInit {
         })
         this.listOfExperiments = this.filterExperiments;
         this.notificationService.notify('Updated Successfully', 'success');
+        this.mixpanel.postEvent('Experiment Updated', {});
       }, errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -717,6 +720,7 @@ export class AppExperimentsComponent implements OnInit {
       this.listOfExperiments.splice(deleteIndex, 1);
       dialogRef.close();
       this.notificationService.notify('Deleted Successfully', 'success');
+      this.mixpanel.postEvent('Experiment Removed', {});
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');

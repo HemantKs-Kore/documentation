@@ -12,6 +12,7 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 
 // import * as PureJSCarousel from 'src/assets/web-kore-sdk/libs/purejscarousel.js';
 declare var PureJSCarousel: any;
@@ -128,6 +129,7 @@ export class SearchInterfaceComponent implements OnInit {
     public dialog: MatDialog,
     public headerService : SideBarService,
     public inlineManual : InlineManualService,
+    public mixpanel : MixpanelServiceService
   ) { }
 
   ngOnInit(): void {
@@ -215,6 +217,15 @@ export class SearchInterfaceComponent implements OnInit {
           if (result === 'yes') {
             this.selectedSettingResultsObj.referInterface = interfaceType;
             this.copyResultSettings(interfaceType)
+            if(this.selectedSetting){
+              if(this.selectedSetting == 'liveSearch'){
+                this.mixpanel.postEvent('Result Templates - Updates to Live Search',{})
+              }else if(this.selectedSetting == 'search'){
+                this.mixpanel.postEvent('Result Templates -  Updates to Conversational Search',{})
+              }else if(this.selectedSetting == 'fullSearch') {
+                this.mixpanel.postEvent('Result Templates - Updates to Full Page Results',{})
+              }
+            }
             //this.saveResultSettings(interfaceType);
             // this.saveResultSettings(); Inorder to reflect the configuretion, we need to save the current interface with reference
             dialogRef.close();
@@ -777,6 +788,15 @@ export class SearchInterfaceComponent implements OnInit {
       this.getAllSettings({id:this.selectedSetting,text: this.selectedSettingText});
       this.getSettings(this.selectedSetting);
       this.closeCustomModal();
+      if(this.selectedSetting){
+        if(this.selectedSetting == 'liveSearch'){
+          this.mixpanel.postEvent('Result Templates - Updates to Live Search',{})
+        }else if(this.selectedSetting == 'search'){
+          this.mixpanel.postEvent('Result Templates -  Updates to Conversational Search',{})
+        }else if(this.selectedSetting == 'fullSearch') {
+          this.mixpanel.postEvent('Result Templates - Updates to Full Page Results',{})
+        }
+      }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to save result settings');
     });
@@ -945,6 +965,15 @@ export class SearchInterfaceComponent implements OnInit {
         this.selectedTemplatedId = "";
         this.getSettings(this.selectedSetting);
         this.closeCustomModal();
+        if(this.selectedSetting){
+          if(this.selectedSetting == 'liveSearch'){
+            this.mixpanel.postEvent('Result Templates - Updates to Live Search',{})
+          }else if(this.selectedSetting == 'search'){
+            this.mixpanel.postEvent('Result Templates -  Updates to Conversational Search',{})
+          }else if(this.selectedSetting == 'fullSearch') {
+            this.mixpanel.postEvent('Result Templates - Updates to Full Page Results',{})
+          }
+        }
       }, errRes => {
         this.errorToaster(errRes, 'Failed to get fields');
       });
