@@ -218,29 +218,29 @@
               <div class="desc-text"></div>
               <div class="kr-sg-radiobutton">
                 <input id="radio-22" name="radio" class="radio-custom" type="radio" value="basic"
-                  [(ngModel)]="selectedConditionType">
+                  [(ngModel)]="selectedStage.condition.type">
                 <label for="radio-22" class="radio-custom-label">Basic</label>
               </div>
               <div class="kr-sg-radiobutton">
                 <input id="radio-23" name="radio" class="radio-custom" type="radio" value="script"
-                  [(ngModel)]="selectedConditionType">
+                  [(ngModel)]="selectedStage.condition.type">
                 <label for="radio-23" class="radio-custom-label">Script</label>
               </div>
             </div>
-            <div class="conditions-input-sec" *ngFor="let basic of conditionArray;let i=index;"
-              [hidden]="selectedConditionType=='script'">
+            <div class="conditions-input-sec" *ngFor="let basic of selectedStage.condition.mappings;let i=index;"
+              [hidden]="selectedStage.condition.type=='script'">
               <div class="conditions-types">
-                <div class="and-seperator" *ngIf="conditionArray.length>1&&i>0">And</div>
+                <div class="and-seperator" *ngIf="selectedStage.condition.mappings.length>1&&i>0">And</div>
                 <div class="kr-sg-input-text">
                   <div class="position-relative">
                     <input type="text" placeholder="Enter Field" maxlength="60" (keyup)="changesDetected = true"
                       class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown"
-                      [(ngModel)]="basic.fieldId" />
+                      [(ngModel)]="basic.fieldName" />
                     <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                       [ngClass]="{'no-data-match-border-0':!(fields | filter : [basic.source_field, 'fieldName']).length}">
                       <perfect-scrollbar class="scroll-search-field">
                         <li *ngFor="let suggesition of fields| filter : [basic.fieldId, 'fieldName']"
-                          (click)="basic.fieldId=suggesition.fieldName;addCondition('update',i,'field',suggesition._id);">
+                          (click)="basic.fieldId=suggesition._id;basic.fieldName=suggesition.fieldName;addCondition('update',i,'field',suggesition._id);">
                           <a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a>
                         </li>
                       </perfect-scrollbar>
@@ -263,7 +263,8 @@
                   <img src="assets/icons/delete-table.svg" (click)="addCondition('remove',index)">
                 </div>
               </div>
-              <div class="kr-sg-input-text col-12 input-box" *ngIf="basic.operator==='contains'">
+              <div class="kr-sg-input-text col-12 input-box"
+                *ngIf="['contains','Doesnot Contain','Equals to','Not Equals to'].includes(basic.operator)">
                 <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                   <mat-chip-list #chipList [attr.aria-label]="'contain selection'">
                     <mat-chip *ngFor="let contain of basic.value" [selectable]="selectable" [removable]="removable"
@@ -279,13 +280,13 @@
                 </mat-form-field>
               </div>
             </div>
-            <div class="add-condition-btn" (click)="addCondition('add')" *ngIf="selectedConditionType=='basic'">
+            <div class="add-condition-btn" (click)="addCondition('add')" *ngIf="selectedStage.condition.type=='basic'">
               <img src="assets/icons/Workbench/add-blue.svg" class="blue-add">
               <img src="assets/icons/Workbench/add-grey.svg" class="grey-add">
               Add Condition
             </div>
             <div>
-              <div *ngIf="selectedConditionType=='script'">
+              <div *ngIf="selectedStage.condition.type=='script'">
                 <div class="clear">
                   <span (click)="selectedScript=''">Clear</span>
                 </div>
