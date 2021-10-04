@@ -6926,8 +6926,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               // if (scrollBottom > 100) {
               //   scrollBottom = scrollBottom + 200;
               // }
-              if ($('.messageBubble').last().find('.messageBubble-content').length) {
-                // $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 190) }, 500)
+              if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && !$('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+              } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").height()) }, 500)
               } else {
                 if ($('.userMessage').last().parent().position()) {
                   $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -25) }, 500)
@@ -6940,8 +6942,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               // if (scrollBottom > 100) {
               //   scrollBottom = scrollBottom + 200;
               // }
-              if ($('.messageBubble').last().find('.messageBubble-content').length) {
-                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 190) }, 500)
+              if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && !$('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+              } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").height()) }, 500)
               } else {
                 if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top > 34 || $('.userMessage').last().parent().position().top < 34)) {
                   $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 300)
@@ -7449,8 +7453,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.isDev == false) {
           // var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
           // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-          if ($('.messageBubble').last().find('.messageBubble-content').length) {
-            // $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 190) }, 500)
+          if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && !$('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+          } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").height()) }, 500)
           } else {
             if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top >34 || $('.userMessage').last().parent().position().top < 34)) {
               $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -25) }, 500)
@@ -9159,7 +9165,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
     FindlySDK.prototype.checkWbInitialized = function (messageToBot, clientMessageId) {
       var _self = this;
-      var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 1000 : 0;
+      var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 2000 : 0;
       $('.typingIndicatorContent').css('display', 'block');
       setTimeout(() => {
         if (_self.bot.initialized) {
