@@ -21,6 +21,7 @@ import * as moment from 'moment';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { FixedSizeVirtualScrollStrategy } from '@angular/cdk/scrolling';
 declare const $: any;
 @Component({
@@ -147,6 +148,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private sortPipe: SortPipe,
     public inlineManual: InlineManualService,
+    public mixpanel : MixpanelServiceService,
     private appSelectionService: AppSelectionService
   ) { }
   // ngAfterViewInit(){
@@ -824,6 +826,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         this.filterTable(this.filterSystem.isRuleActiveFilter, 'isRuleActive');
         this.closeModalPopup();
         this.notificationService.notify('Added successfully', 'success');
+        this.mixpanel.postEvent('Business Rule- Created',{})
+        // console.log('MIXPANNEL BR CREATE')
       }, errRes => {
         if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
           this.closeModalPopup();
@@ -967,6 +971,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         this.filterTable(this.filterSystem.isRuleActiveFilter, 'isRuleActive');
         this.notificationService.notify('Updated Successfully', 'success');
         this.closeModalPopup();
+        this.mixpanel.postEvent('Business Rule- Updated',{})
+        // console.log('MIXPANNEL BR UPDATE')
       }, errRes => {
         this.errorToaster(errRes, 'Failed to update rule');
       });
@@ -1049,6 +1055,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
       this.getRules(null, this.searchRules);
       this.notificationService.notify('Deleted Successfully', 'success');
+      this.mixpanel.postEvent('Business Rule - Deleted',{})
+      // console.log('MIXPANNEL BR DELETE')
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete rule');
     });
@@ -1082,6 +1090,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         dilogRef.close();
       }
       this.notificationService.notify('Deleted Successfully', 'success');
+      this.mixpanel.postEvent('Business Rule - Deleted',{})
+      // console.log('MIXPANNEL BR DELETE')
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete rule');
     });

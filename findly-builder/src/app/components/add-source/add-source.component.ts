@@ -1456,8 +1456,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.importFaqInprogress = true;
       this.openStatusModal();
       this.addSourceModalPopRef.close();
-      this.closeStatusModal();
-      //this.dockService.trigger(true)
+      // this.closeStatusModal();
+      //this.dockService.trigger(true);
+      this.getDocStatus(res._id);
     },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1468,9 +1469,35 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
       });
     // this.service.invoke('get.dockStatus', quaryparms, payload).subscribe(res1 => {
-
     // });
-
+  }
+  getDocStatus(jobId) {
+    if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
+    }
+    const queryParms = {
+      searchIndexId: this.workflowService.selectedSearchIndexId
+    }
+    this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
+      this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
+        console.log("res", res);
+        const response = res;
+        const jobStatus = response.dockStatuses.filter(ele => ele._id === jobId);
+        if (jobStatus[0].status === "SUCCESS") {
+          this.pollingSubscriber.unsubscribe();
+          jobStatus[0] = Object.assign({ ...jobStatus[0], status: 'success' })
+          this.statusObject = jobStatus[0];
+        }
+      }, errRes => {
+        this.pollingSubscriber.unsubscribe();
+        if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to get Status of Docker.', 'error');
+        }
+      });
+    }
+    )
   }
   //popup for crawling confirmation
   // confirmCrawl() {

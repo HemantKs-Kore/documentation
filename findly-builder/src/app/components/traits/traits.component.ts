@@ -802,8 +802,10 @@ export class TraitsComponent implements OnInit {
         this.add = {
           traitName: ''
         };
-        const tempTraitKey = traitName;
-        if (!this.traits.addEditTraits.traits[tempTraitKey]) {
+        const tempTraitKey = traitName.toLowerCase();
+        // const alreadyExist = this.traits.addEditTraits.traits.some(ele => ele === tempTraitKey);
+        // console.log(alreadyExist)
+        if (!this.traits.addEditTraits.traits[(tempTraitKey)]) {
           const dummyTraitsObj = {};
           dummyTraitsObj[tempTraitKey] = {
             data: [],
@@ -834,7 +836,7 @@ export class TraitsComponent implements OnInit {
     if (event && (event.keyCode === 13 || event.type == 'click') && utter) {
       let utternaceIndex = -1;
       const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
-        if (utter === utterance) {
+        if (utter.toLowerCase() === utterance.toLowerCase()) {
           utternaceIndex = i;
           return false;
         }

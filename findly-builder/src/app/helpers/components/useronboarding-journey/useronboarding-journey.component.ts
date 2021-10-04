@@ -6,6 +6,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { AuthService } from '@kore.services/auth.service';
 import { Subscription } from 'rxjs';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 @Component({
   selector: 'app-useronboarding-journey',
   templateUrl: './useronboarding-journey.component.html',
@@ -29,7 +30,7 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
   collapseOpen: number;
   steps: any = [{ name: 'Start by Adding Data', path: '/source' }, { name: 'Index Data', path: '/FieldManagementComponent' }, { name: 'Optimize Search Results', path: '/weights' }, { name: 'Design Search Experience', path: '/searchInterface' }, { name: 'Test the Application', path: '/resultranking' }, { name: 'Fine-Tune Relevance', path: '/resultranking' }];
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
-  constructor(private router: Router, private appSelectionService: AppSelectionService, private service: ServiceInvokerService, private notificationService: NotificationService, private authService: AuthService) { }
+  constructor(private router: Router, private appSelectionService: AppSelectionService, private service: ServiceInvokerService, private notificationService: NotificationService, private authService: AuthService, public mixpanel: MixpanelServiceService) { }
   ngOnInit(): void {
     this.initialCall();
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
@@ -70,7 +71,8 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
   closeChecklist(type?) {
     this.appSelectionService.tourConfigCancel.next({ name: false, status: 'pending' });
     if (type == 'self') {
-      this.closeOnBoardingModal()
+      this.closeOnBoardingModal();
+      this.mixpanel.postEvent('Create App - Checklist Dismissed', {});
     }
   }
   //goto Routes
