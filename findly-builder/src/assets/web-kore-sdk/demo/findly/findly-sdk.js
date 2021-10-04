@@ -7178,7 +7178,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if ($('.searchAssist-kore-chat-window.search-container').hasClass('active')) {
                 $('.typingIndicatorContent').css('display', 'block');
                 $("#searchChatContainer").off('scroll').on('scroll', function (event) {
-                  $('.typingIndicatorContent').css('display', 'none');
+                  if ($('.userMessage').last().parent() && $('.userMessage').last().parent().next().find( ".messageBubble-content").length){
+                    $('.typingIndicatorContent').css('display', 'none');
+                  }
+                  
               });
               } else {
                 _self.showTypingIndicator();
@@ -7424,11 +7427,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         $('#searchChatContainer').append(messageHtml);
         setTimeout(() => {
-          if ($('.messageBubble').last().find('.messageBubble-content').length) {
-            // $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 190) }, 300)
+          if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && !$('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+          } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").height()) }, 500)
           } else {
             if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top >34 || $('.userMessage').last().parent().position().top < 34)) {
-              $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -25) }, 300)
+              $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -25) }, 500)
             }
           }
         }, 200);
@@ -9152,7 +9157,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       attachmentInfo = {};
 
       console.log("Message to Bot", messageToBot);
-      $('.typingIndicatorContent').css('display', 'block');
+      // $('.typingIndicatorContent').css('display', 'block');
       // var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 4000 : 0
       // _self.vars.isSocketReInitialize = false;
       _self.checkWbInitialized(messageToBot,clientMessageId);
@@ -9166,7 +9171,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.checkWbInitialized = function (messageToBot, clientMessageId) {
       var _self = this;
       var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 2000 : 0;
-      $('.typingIndicatorContent').css('display', 'block');
+      // $('.typingIndicatorContent').css('display', 'block');
+      _self.showTypingIndicator();
       setTimeout(() => {
         if (_self.bot.initialized) {
           _self.vars.isSocketReInitialize = false;
@@ -9174,6 +9180,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (err && err.message) {
               setTimeout(function () {
                 $('#msg_' + clientMessageId).find('.messageBubble').append('<div class="errorMsg">Send Failed. Please resend.</div>');
+                $('.typingIndicatorContent').css('display', 'none');
               }, 350);
             }
           });
