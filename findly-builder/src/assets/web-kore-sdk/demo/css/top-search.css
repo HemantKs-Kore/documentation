@@ -794,7 +794,7 @@ body.top-down .top-down-wrapper{
   display: block;
   margin: 0;
   margin-bottom: 8px !important;
-  padding: 0 32px 0 0!important;
+  padding: 0 0px 0 0!important;
 }
 .sdk-top-down-interface .kr-sg-radiobutton .radio-custom {
   opacity: 0;

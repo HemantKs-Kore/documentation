@@ -1109,13 +1109,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if searchFacet.facetType == "value"}}\
                   <div class="kr-sg-checkbox d-block custom_checkbox">\
                     <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                    <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                    <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                   </div>\
                 {{/if}}\
                 {{if searchFacet.facetType == "range"}}\
                   <div class="kr-sg-checkbox d-block custom_checkbox">\
                     <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                    <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                    <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                   </div>\
                 {{/if}}\
               {{/each}}\
@@ -20112,13 +20112,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         {{if searchFacet.facetType == "value"}}\
                           <div class="custom_checkbox kr-sg-checkbox d-block">\
                               <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                              <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                              <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                           </div>\
                         {{/if}}\
                         {{if searchFacet.facetType == "range"}}\
                             <div class="kr-sg-checkbox d-block custom_checkbox">\
                               <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                              <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                              <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                             </div>\
                         {{/if}}\
                       {{/if}}\
@@ -20126,13 +20126,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         {{if searchFacet.facetType == "value"}}\
                           <div class="custom_checkbox kr-sg-radiobutton d-block">\
                               <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                              <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                              <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                           </div>\
                         {{/if}}\
                         {{if searchFacet.facetType == "range"}}\
                             <div class="custom_checkbox kr-sg-radiobutton d-block">\
                               <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                              <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                              <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                             </div>\
                         {{/if}}\
                       {{/if}}\
