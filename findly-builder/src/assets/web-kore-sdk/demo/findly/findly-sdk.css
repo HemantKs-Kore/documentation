@@ -14930,7 +14930,7 @@ margin-bottom: 15px !important;
         white-space: nowrap;
         text-overflow: ellipsis;
         padding-right: 0;
-        max-width: 86%;
+        /* max-width: 86%; */
     }
     .kr-sg-radiobutton .associated-filter-count{
         color: var(--sdk-dusty-gray-color);
