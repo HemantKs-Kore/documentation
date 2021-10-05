@@ -31,6 +31,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   activeClose = false;
   showSearch = false;
   searchSimulator: any = '';
+
   savingConfig;
   reIndexing;
   simulating;
@@ -191,7 +192,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
-    public mixpanel : MixpanelServiceService
+    public mixpanel: MixpanelServiceService
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -607,9 +608,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           for (let i = 0; i < indexArrayLength; i++) {
             let index = this.pipeline.findIndex((p) => !p.condition);
             if (index > -1) {
-              let index2 = this.modifiedStages.createdStages.findIndex((d)=>d.type == this.pipeline[index].type);
-              if(index2>-1){
-                this.modifiedStages.createdStages.splice(index2,1);
+              let index2 = this.modifiedStages.createdStages.findIndex((d) => d.type == this.pipeline[index].type);
+              if (index2 > -1) {
+                this.modifiedStages.createdStages.splice(index2, 1);
               }
               this.pipeline.splice(index, 1);
             }
@@ -633,34 +634,34 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       })
   }
-  mixpanelForStages(){
-    if(this.modifiedStages.createdStages.length){
+  mixpanelForStages() {
+    if (this.modifiedStages.createdStages.length) {
       this.mixpanel.postEvent('Workbench - Rule Created', {});
-      this.modifiedStages.createdStages.forEach((s)=>{
-        if(s.type === 'field_mapping'){
+      this.modifiedStages.createdStages.forEach((s) => {
+        if (s.type === 'field_mapping') {
           this.mixpanel.postEvent('Workbench - Rule Created - Field Mapping', {});
-        } else if(s.type === 'entity_extraction'){
+        } else if (s.type === 'entity_extraction') {
           this.mixpanel.postEvent('Workbench - Rule Created - Entity Extraction', {});
-        } else if(s.type === 'traits_extraction'){
+        } else if (s.type === 'traits_extraction') {
           this.mixpanel.postEvent('Workbench - Rule Created - Traits Extraction', {});
-        } else if(s.type === 'custom_script'){
+        } else if (s.type === 'custom_script') {
           this.mixpanel.postEvent('Workbench - Rule Created - Custom Script', {});
-        } else if(s.type === 'position'){
-        } else if(s.type === 'cluster'){
-        } else if(s.type === 'indexer'){
-        } else if(s.type === 'keyword_extraction'){
+        } else if (s.type === 'position') {
+        } else if (s.type === 'cluster') {
+        } else if (s.type === 'indexer') {
+        } else if (s.type === 'keyword_extraction') {
           this.mixpanel.postEvent('Workbench - Rule Created - Keyword Extraction', {});
-        } else if(s.type === 'exclude_document'){
+        } else if (s.type === 'exclude_document') {
           this.mixpanel.postEvent('Workbench - Rule Created - Exclude Document', {});
-        } else if(s.type === 'semantic_meaning'){
+        } else if (s.type === 'semantic_meaning') {
           this.mixpanel.postEvent('Workbench - Rule Created - Semantic Meaning', {});
-        } 
+        }
       })
     }
-    if(this.modifiedStages.deletedStages.length){
+    if (this.modifiedStages.deletedStages.length) {
       this.mixpanel.postEvent('Workbench - Rule Deleted', {});
     }
-    if(!this.modifiedStages.createdStages.length && !this.modifiedStages.deletedStages.length){
+    if (!this.modifiedStages.createdStages.length && !this.modifiedStages.deletedStages.length) {
       this.mixpanel.postEvent('Workbench - Rule Updated', {});
     }
   }
@@ -891,16 +892,16 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          if(this.pipeline[i]._id){
+          if (this.pipeline[i]._id) {
             this.modifiedStages.deletedStages.push(this.pipeline[i]);
-          }else{
-            if(this.modifiedStages.createdStages.length){
-              let index = this.modifiedStages.createdStages.findIndex((d)=>d.type == this.pipeline[i].type);
-              if(index>-1){
-                this.modifiedStages.createdStages.splice(index,1);
+          } else {
+            if (this.modifiedStages.createdStages.length) {
+              let index = this.modifiedStages.createdStages.findIndex((d) => d.type == this.pipeline[i].type);
+              if (index > -1) {
+                this.modifiedStages.createdStages.splice(index, 1);
               }
             }
-            
+
           }
           this.pipeline.splice(i, 1);
           dialogRef.close();
