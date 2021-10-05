@@ -5306,12 +5306,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5),
                     showSearches: searchConfigurationCopy ? searchConfigurationCopy.showSearches : 'recent'
                   });
-                  if (_self.vars.searchObject.recents.length ) {
+                  if (_self.vars.searchObject.recents.length && !_self.vars.enterIsClicked && !window.isBotLocked) {
                     $('.search-body').css('display', 'block');
                     $('.search-body').removeClass('hide');
                     $('.livesearchResultsNotFound').css('display', 'none');
                     $('#autoSuggestionContainer').empty();
-                    if(!_self.vars.enterIsClicked){
+                    if (!_self.vars.enterIsClicked && !window.isBotLocked) {
                       $('.parent-search-live-auto-suggesition').show();
                     }
                   } else {
@@ -5445,7 +5445,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.closeGreetingMsg();
             $('.search-body').css('display', 'block');
             $('.search-body').removeClass('hide');
-            $('.parent-search-live-auto-suggesition').show();
+            if (!window.isBotLocked) {
+              $('.parent-search-live-auto-suggesition').show();
+            }
           } else if ((!$('body').hasClass('top-down') && (!$('.bottom-up-search').val() || window.isBotLocked))) {
             $('.search-body').css('display', 'none');
             $('.search-body').addClass('hide');
@@ -5757,7 +5759,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val()) && !window.isBotLocked && !_self.vars.enterIsClicked) {
               $('.search-body').css('display', 'block');
               $('.search-body').removeClass('hide');
-              $('.parent-search-live-auto-suggesition').show();
+              if (!window.isBotLocked) {
+                $('.parent-search-live-auto-suggesition').show();
+              }
             } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val()) || window.isBotLocked) {
               $('.search-body').css('display', 'none');
               $('.search-body').addClass('hide');
@@ -5926,8 +5930,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               $('.search-body').css('display', 'none');
                               $('.search-body').addClass('hide');
                             } else {
-                              $('.search-body').css('display', 'block');
-                              $('.search-body').removeClass('hide');
+                              if(!_self.vars.enterIsClicked && !window.isBotLocked){
+                                $('.search-body').css('display', 'block');
+                                $('.search-body').removeClass('hide');
+                              }
+                             
                             }
                           } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
                             $('.search-body').css('display', 'none');
@@ -6075,8 +6082,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch | 'all results' } });
 
                             } else {
-                              $('.search-body').css('display', 'block');
-                              $('.search-body').removeClass('hide');
+                              if(!_self.vars.enterIsClicked && !window.isBotLocked){
+                                $('.search-body').css('display', 'block');
+                                $('.search-body').removeClass('hide');
+                              }
                               _self.pubSub.publish('sa-search-result', dataObj);
                               _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
                             }
@@ -6128,6 +6137,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
 
         $(dataHTML).off('focus', '#search').on('focus', '#search', function (e) {
+          _self.vars.enterIsClicked = false;
           if (!_self.vars.isSocketInitialize) {
             _self.bot.init(_self.vars.botConfig, _self.config.messageHistoryLimit);
             _self.bindSocketEvents();
@@ -6191,7 +6201,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               //   popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
               // });
               // $('.search-body').html(freqData);
-              if (!$('body').hasClass('top-down')) {
+              if (!$('body').hasClass('top-down') && !_self.vars.enterIsClicked && !($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
                 _self.pubSub.publish('sa-generate-recent-search');
               }
             }
@@ -6399,7 +6409,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.search-body').addClass('h-100');
         $('.search-body').append(creditCard);
         $('.search-body').removeClass('hide');
-        $('#searchChatContainer').addClass('bgfocus');
+        // $('#searchChatContainer').addClass('bgfocus');
         $('.search-body').scrollTop(0);
         _self.bindPerfectScroll(creditCard, '.card-container', null, 'x', 'creditcard');
 
@@ -6916,11 +6926,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               // if (scrollBottom > 100) {
               //   scrollBottom = scrollBottom + 200;
               // }
-              if ($('.messageBubble').last().find('.messageBubble-content').length) {
-                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 150) }, 500)
+              if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && !$('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+              } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").height()) }, 500)
               } else {
                 if ($('.userMessage').last().parent().position()) {
-                  $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 50) }, 500)
+                  $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -25) }, 500)
                 }
               }
               // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
@@ -6930,11 +6942,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               // if (scrollBottom > 100) {
               //   scrollBottom = scrollBottom + 200;
               // }
-              if ($('.messageBubble').last().find('.messageBubble-content').length) {
-                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 150) }, 500)
+              if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && !$('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+              } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").height()) }, 500)
               } else {
-                if ($('.userMessage').last().parent().position()) {
-                  $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 50) }, 500)
+                if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top > 34 || $('.userMessage').last().parent().position().top < 34)) {
+                  $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 300)
                 }
               }
               // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
@@ -7008,7 +7022,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // if ((!$('body').hasClass('top-down') && $('.bottom-up-search').is(':visible')) || ($('body').hasClass('top-down') && $('#frequently-searched-box').is(':visible'))) {
           //   return;
           // }
-          _self.pubSub.publish('sa-generate-recent-search');
+          if(!_self.vars.enterIsClicked && !($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())){
+            _self.pubSub.publish('sa-generate-recent-search');
+          }
         }, 150);
       }
 
@@ -7034,7 +7050,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
             if (!window.isBotLocked) {
               $('.search-body').removeClass('hide');
-              $('#searchChatContainer').addClass('bgfocus');
+              // $('#searchChatContainer').addClass('bgfocus');
             }
           }
           $('.suggestion-search-data-parent').css('display', 'block');
@@ -7066,7 +7082,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if (!window.isBotLocked) {
                 $('.search-body').addClass('hide');
                 $('#searchChatContainer').removeClass('bgfocus');
-                $('.parent-search-live-auto-suggesition').show();
+                if(!window.isBotLocked){
+                      $('.parent-search-live-auto-suggesition').show();
+                    }
               }
               if(!$('#search').val()){
                 $('.search-body').addClass('hide');
@@ -7160,7 +7178,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if ($('.searchAssist-kore-chat-window.search-container').hasClass('active')) {
                 $('.typingIndicatorContent').css('display', 'block');
                 $("#searchChatContainer").off('scroll').on('scroll', function (event) {
-                  $('.typingIndicatorContent').css('display', 'none');
+                  if ($('.userMessage').last().parent() && $('.userMessage').last().parent().next().find( ".messageBubble-content").length){
+                    $('.typingIndicatorContent').css('display', 'none');
+                  }
+                  
               });
               } else {
                 _self.showTypingIndicator();
@@ -7406,11 +7427,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         $('#searchChatContainer').append(messageHtml);
         setTimeout(() => {
-          if ($('.messageBubble').last().find('.messageBubble-content').length) {
-            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 150) }, 300)
+          if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && !$('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+          } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").height()) }, 500)
           } else {
-            if ($('.userMessage').last().parent().position()) {
-              $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 50) }, 300)
+            if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top >34 || $('.userMessage').last().parent().position().top < 34)) {
+              $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -25) }, 500)
             }
           }
         }, 200);
@@ -7435,11 +7458,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.isDev == false) {
           // var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
           // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-          if ($('.messageBubble').last().find('.messageBubble-content').length) {
-            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 150) }, 500)
+          if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && !$('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+          } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").height()) }, 500)
           } else {
-            if ($('.userMessage').last().parent().position()) {
-              $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 50) }, 500)
+            if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top >34 || $('.userMessage').last().parent().position().top < 34)) {
+              $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -25) }, 500)
             }
           }
         }
@@ -7497,7 +7522,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.searchBox').addClass('hide');
       $('.search-body').append(userLogin);
       $('.search-body').removeClass('hide');
-      $('#searchChatContainer').addClass('bgfocus');
+      // $('#searchChatContainer').addClass('bgfocus');
     };
     FindlySDK.prototype.getFrequentlySearched = function (url, type, payload) {
       var bearer = "bearer " + this.bot.options.accessToken || this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
@@ -7999,11 +8024,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           helpers: helpers
         });
         $('#searchChatContainer').append(templateBotMessageBubble);
-        var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-        $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-        $('#searchChatContainer').animate({
-          scrollTop: $('#searchChatContainer').prop("scrollHeight")
-        }, 0);
+        var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height() + 34;
+        // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+        // $('#searchChatContainer').animate({
+        //   scrollTop: ($('#searchChatContainer').prop("scrollHeight")- 34)
+        // }, 0);
+        if ($('.messageBubble').last().find('.messageBubble-content').length) {
+          // $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 190) }, 300)
+        } else {
+          if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top >34 || $('.userMessage').last().parent().position().top < 34)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -25) }, 300)
+          }
+        }
         _self.sendMessage(data.payload);
       };
     }
@@ -8633,8 +8665,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.bindSearchContainerViewHadler();
       $('.search-container').off('click', '.more-results').on('click', '.more-results', function (e) {
         $('.more-results').css('display', 'none');
-        var scrollHeight = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').prop("scrollHeight");
-        $('#searchChatContainer').animate({ scrollTop: scrollHeight }, 500);
+        $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').prop("scrollHeight")- (2 * $('#searchChatContainer').prop('offsetHeight'))+40) }, 300)
       })
       _self.bindPerfectScroll(dataHTML, '.search-body', null, 'searchBody');
       _self.bindPerfectScroll(dataHTML, '#searchChatContainer', null, 'searchChatContainer');
@@ -8865,6 +8896,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       clearTimeout(_disconnectBotTimer);
       _self.vars.isSocketInitialize = false;
       _self.vars.isSocketReInitialize = false;
+      _self.bot.initialized = false;
       $('.typingIndicatorContent').css('display', 'none');
     }
     FindlySDK.prototype.resetSocketDisconnection = function () {
@@ -9126,24 +9158,38 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       console.log("Message to Bot", messageToBot);
       // $('.typingIndicatorContent').css('display', 'block');
-      var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 2000 : 0
-      _self.vars.isSocketReInitialize = false;
-      setTimeout(() => {
-        _self.bot.sendMessage(messageToBot, function messageSent(err) {
-          if (err && err.message) {
-            setTimeout(function () {
-              $('#msg_' + clientMessageId).find('.messageBubble').append('<div class="errorMsg">Send Failed. Please resend.</div>');
-            }, 350);
-          }
-        });
-      }, sendMsgTimeOut)
+      // var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 4000 : 0
+      // _self.vars.isSocketReInitialize = false;
+      _self.checkWbInitialized(messageToBot,clientMessageId);
+     
       // if (_self.isDev == false) {
       _self.resetPingMessage();
       _self.resetSocketDisconnection();
       // }
 
     };
-
+    FindlySDK.prototype.checkWbInitialized = function (messageToBot, clientMessageId) {
+      var _self = this;
+      var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 2000 : 0;
+      // $('.typingIndicatorContent').css('display', 'block');
+      _self.showTypingIndicator();
+      setTimeout(() => {
+        if (_self.bot.initialized) {
+          _self.vars.isSocketReInitialize = false;
+          _self.bot.sendMessage(messageToBot, function messageSent(err) {
+            if (err && err.message) {
+              setTimeout(function () {
+                $('#msg_' + clientMessageId).find('.messageBubble').append('<div class="errorMsg">Send Failed. Please resend.</div>');
+                $('.typingIndicatorContent').css('display', 'none');
+              }, 350);
+            }
+          });
+        } else {
+          _self.vars.isSocketReInitialize = true;
+          _self.checkWbInitialized(messageToBot, clientMessageId);
+        }
+      }, sendMsgTimeOut)
+    }
     FindlySDK.prototype.getTemplate = function (type) {
       var menuTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl">\
         <div class="menuItemCntr">\
@@ -20799,7 +20845,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.changeSearchContainerBackground = function () {
       var _self = this;
       if ((($('.search-body').find('.resultsOfSearch').length && $('.search-body').is(':visible')) || $('.search-body').find('.recentContainer').length || $('.suggestion-search-data-parent').is(':visible') ) && !_self.vars.enterIsClicked) {
-        $('.parent-search-live-auto-suggesition').show();
+        if(!window.isBotLocked){
+                      $('.parent-search-live-auto-suggesition').show();
+                    }
         $('.search-container').removeClass('no-history');
       }
       else {
