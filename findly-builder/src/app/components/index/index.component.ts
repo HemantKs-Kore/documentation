@@ -184,7 +184,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectable = true;
   removable = true;
   containCtrl = new FormControl();
-  operators = [{ name: 'Exists', value: 'Exists' }, { name: 'Does Not Exist', value: 'Does Not Exist' }, { name: 'Equals to', value: 'equalsTo' }, { name: 'Not Equals to', value: 'Not Equals to' }, { name: 'Contains', value: 'contains' }, { name: 'Doesnot Contain', value: 'Doesnot Contain' }];
+  operators = [{ name: 'Exists', value: 'exists' }, { name: 'Does Not Exist', value: 'doesNotExist' }, { name: 'Equals to', value: 'equalsTo' }, { name: 'Not Equals to', value: 'notEqualsTo' }, { name: 'Contains', value: 'contains' }, { name: 'Doesnot Contain', value: 'doesNotContain' }];
   conditionArray: any = [];
   conditionObj: any = { fieldId: '', operator: '', value: [] };
   selectedConditionType = 'basic';

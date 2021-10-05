@@ -253,8 +253,8 @@
                       data-toggle="dropdown">{{basic.operator==''?'Operator':basic.operator}}</button>
                     <ul class="dropdown-menu content-menu">
                       <li *ngFor="let operator of operators"
-                        (click)="basic.operator=operator.name;addCondition('update',i,'operator.value',basic.operator);">
-                        <a>{{operator.name}}</a>
+                        (click)="basic.operator=operator.value;addCondition('update',i,'operator.value',basic.operator);">
+                        <a>{{operator.value}}</a>
                       </li>
                     </ul>
                   </div>
@@ -264,7 +264,7 @@
                 </div>
               </div>
               <div class="kr-sg-input-text col-12 input-box"
-                *ngIf="['contains','Doesnot Contain','equalsTo','Not Equals to'].includes(basic.operator)">
+                *ngIf="['contains','doesNotContain','equalsTo','notEqualsTo'].includes(basic.operator)">
                 <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                   <mat-chip-list #chipList [attr.aria-label]="'contain selection'">
                     <mat-chip *ngFor="let contain of basic.value" [selectable]="selectable" [removable]="removable"
