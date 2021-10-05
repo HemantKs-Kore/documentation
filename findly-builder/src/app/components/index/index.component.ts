@@ -184,11 +184,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   selectable = true;
   removable = true;
   containCtrl = new FormControl();
-  operators = ['Exists', 'Does Not Exist', 'Equals to', 'Not Equals to', 'contains', 'Doesnot Contain'];
+  operators = [{ name: 'Exists', value: 'Exists' }, { name: 'Does Not Exist', value: 'Does Not Exist' }, { name: 'Equals to', value: 'equalsTo' }, { name: 'Not Equals to', value: 'Not Equals to' }, { name: 'Contains', value: 'contains' }, { name: 'Doesnot Contain', value: 'Doesnot Contain' }];
   conditionArray: any = [];
   conditionObj: any = { fieldId: '', operator: '', value: [] };
   selectedConditionType = 'basic';
-  selectedScript: any = '';
   modifiedStages = {
     createdStages: [],
     deletedStages: []
@@ -267,9 +266,6 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       else if (field === 'operator') {
         this.selectedStage.condition.mappings[index] = { ...this.selectedStage.condition.mappings[index], operator: data };
-        if (data !== 'contains') {
-          delete this.selectedStage.condition.mappings[index].value;
-        }
       }
     }
   }
@@ -490,19 +486,19 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       const tempStageObj = JSON.parse(JSON.stringify(stage));
       if (tempStageObj.condition.type === 'script') {
         tempStageObj.condition.mappings = [];
-        tempStageObj.condition.value = this.selectedScript;
       }
       else {
+        delete tempStageObj.condition.value;
         tempStageObj.condition.mappings.forEach(el => { delete el.autocomplete_text; delete el.fieldName })
       }
       if (tempStageObj && tempStageObj.type === 'field_mapping') {
-        if (tempStageObj.condition.type === 'script') {
-          tempStageObj.condition.mappings = [];
-          tempStageObj.condition.value = this.selectedScript;
-        }
-        else {
-          tempStageObj.condition.mappings.forEach(el => { delete el.autocomplete_text; delete el.fieldName })
-        }
+        // if (tempStageObj.condition.type === 'script') {
+        //   tempStageObj.condition.mappings = [];
+        //   tempStageObj.condition.value = this.selectedScript;
+        // }
+        // else {
+        //   tempStageObj.condition.mappings.forEach(el => { delete el.autocomplete_text; delete el.fieldName })
+        // }
         // const obj = { type: this.selectedConditionType, mappings: this.conditionArray };
         // tempStageObj.condition = obj;
         if (tempStageObj.config && tempStageObj.config.mappings && tempStageObj.config.mappings.length) {
@@ -1335,8 +1331,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedStage.type = this.defaultStageTypes[i].type;
     this.selectedStage.category = this.defaultStageTypes[i].category;
     this.selectedStage.name = this.defaultStageTypesObj[systemStage.type].name;
-    this.selectedStage.config = {}
-    this.selectedStage.condition = {}
+    this.selectedStage.config = {};
+    this.selectedStage.condition = { type: '', mappings: [] }
     if (systemStage && systemStage.type === 'custom_script') {
       if (!this.newMappingObj.custom_script) {
         this.newMappingObj.custom_script = {

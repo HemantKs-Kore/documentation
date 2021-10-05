@@ -253,18 +253,18 @@
                       data-toggle="dropdown">{{basic.operator==''?'Operator':basic.operator}}</button>
                     <ul class="dropdown-menu content-menu">
                       <li *ngFor="let operator of operators"
-                        (click)="basic.operator=operator;addCondition('update',i,'operator',basic.operator);">
-                        <a>{{operator}}</a>
+                        (click)="basic.operator=operator.name;addCondition('update',i,'operator.value',basic.operator);">
+                        <a>{{operator.name}}</a>
                       </li>
                     </ul>
                   </div>
                 </div>
                 <div class="delete-condition" *ngIf="i>0">
-                  <img src="assets/icons/delete-table.svg" (click)="addCondition('remove',index)">
+                  <img src="assets/icons/delete-table.svg" (click)="addCondition('remove',i)">
                 </div>
               </div>
               <div class="kr-sg-input-text col-12 input-box"
-                *ngIf="['contains','Doesnot Contain','Equals to','Not Equals to'].includes(basic.operator)">
+                *ngIf="['contains','Doesnot Contain','equalsTo','Not Equals to'].includes(basic.operator)">
                 <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                   <mat-chip-list #chipList [attr.aria-label]="'contain selection'">
                     <mat-chip *ngFor="let contain of basic.value" [selectable]="selectable" [removable]="removable"
@@ -288,10 +288,10 @@
             <div>
               <div *ngIf="selectedStage.condition.type=='script'">
                 <div class="clear">
-                  <span (click)="selectedScript=''">Clear</span>
+                  <span (click)="selectedStage.condition.value=''">Clear</span>
                 </div>
                 <div class="painless-script-wrapper col-12">
-                  <ngx-codemirror #customScriptCodeMirror [(ngModel)]="selectedScript"
+                  <ngx-codemirror #customScriptCodeMirror [(ngModel)]="selectedStage.condition.value"
                     (ngModelChange)="painlessScriptChanged($event)" [options]="customScriptCodeMirrorOptions">
                   </ngx-codemirror>
                 </div>
