@@ -32,6 +32,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   activeClose = false;
   showSearch = false;
   searchSimulator: any = '';
+
   savingConfig;
   reIndexing;
   simulating;
@@ -193,7 +194,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     deletedStages: []
   }
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-
+  entityName: string;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -302,17 +303,18 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   selectedTag(data: MatAutocompleteSelectedEvent, list) {
+    this.entityName = '';
     if (!this.checkDuplicateTags((data.option.value || '').trim(), list)) {
       this.notificationService.notify('Duplicate tags are not allowed', 'warning');
       return;
     } else {
       list.push(data.option.value);
       this.suggestedInput.nativeElement.value = '';
-      this.suggestedInput.nativeElement.blur();
-      setTimeout(() => {
-        this.suggestedInput.nativeElement.focus();
-      }, 100)
     }
+    this.suggestedInput.nativeElement.blur();
+    setTimeout(() => {
+      this.suggestedInput.nativeElement.focus();
+    }, 100)
   }
   setResetNewMappingsObj(ignoreSimulate?, saveConfig?) {
     if (!ignoreSimulate) {
