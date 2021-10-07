@@ -239,9 +239,9 @@
                     <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
                       [ngClass]="{'no-data-match-border-0':!(fields | filter : [basic.source_field, 'fieldName']).length}">
                       <perfect-scrollbar class="scroll-search-field">
-                        <li *ngFor="let suggesition of fields| filter : [basic.fieldId, 'fieldName']"
+                        <li *ngFor="let suggesition of fields| filter : [basic.fieldName, 'fieldName']"
                           (click)="basic.fieldId=suggesition._id;basic.fieldName=suggesition.fieldName;addCondition('update',i,'field',suggesition._id);">
-                          <a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a>
+                          <a>{{suggesition.fieldName}}</a>
                         </li>
                       </perfect-scrollbar>
                     </ul>
@@ -253,7 +253,7 @@
                       data-toggle="dropdown">{{basic.operator==''?'Operator':basic.operator}}</button>
                     <ul class="dropdown-menu content-menu">
                       <li *ngFor="let operator of operators"
-                        (click)="basic.operator=operator.value;addCondition('update',i,'operator.value',basic.operator);">
+                        (click)="basic.operator=operator.value;addCondition('update',i,'operator',basic.operator);">
                         <a>{{operator.value}}</a>
                       </li>
                     </ul>

@@ -267,6 +267,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       else if (field === 'operator') {
         this.selectedStage.condition.mappings[index] = { ...this.selectedStage.condition.mappings[index], operator: data };
+        if (['exists', 'doesNotExist'].includes(data)) {
+          this.selectedStage.condition.mappings[index].value = [];
+        }
       }
     }
   }
@@ -1138,6 +1141,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   clearDirtyObj(cancel?) {
     this.pipeline = JSON.parse(JSON.stringify(this.pipelineCopy));
+    this.pipeline.map(data => {
+      return data.condition.mappings.map(data1 => {
+        let obj = this.fields.find(da => da._id === data1.fieldId);
+        data1.fieldName = obj.fieldName
+      })
+    })
     if (this.selectedStage && !this.selectedStage._id) {
       if (this.pipeline && this.pipeline.length) {
         this.selectStage(this.pipeline[0], 0);
