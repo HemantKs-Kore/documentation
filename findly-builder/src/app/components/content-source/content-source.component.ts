@@ -1764,9 +1764,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
     }
-    if(value > 500 && valueFrom == 'maxUrlLimit'){
-      this.maxUrlLimit = 500;
-    }
+    // if(value > 500 && valueFrom == 'maxUrlLimit'){
+    //   this.maxUrlLimit = 500;
+    // }
   }
 
   clicksViews(type) {
