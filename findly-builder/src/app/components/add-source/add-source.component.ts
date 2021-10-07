@@ -72,7 +72,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   useCookies = true;
   respectRobotTxtDirectives = true;
   crawlBeyondSitemaps = false;
-  isJavaScriptRendered = true;
+  isJavaScriptRendered = false;
   blockHttpsMsgs = false;
   crwalOptionLabel = "Crawl Everything";
   crawlDepth: number;
@@ -1553,11 +1553,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     )
   }
-  checkValue(value) {
+  checkValue(value , valueFrom) {
     console.log()
     if (value <= -1) {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
+    }
+    if(value > 500 && valueFrom == 'maxUrlLimit'){
+      this.maxUrlLimit = 500;
     }
   }
   copy(val) {
