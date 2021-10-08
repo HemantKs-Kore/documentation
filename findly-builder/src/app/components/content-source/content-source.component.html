@@ -1000,10 +1000,10 @@
               </div>
             </perfect-scrollbar>
             <!-- Conf Configuration-->
-
+            
           </div>
           <div class="accordion-content-info text-left"
-            *ngIf="page && (sourceStatus == 'success' || (sourceStatus == 'running' && totalRecord != 0))">
+            *ngIf="page && totalRecord > 0">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
               <div class="col-3 label_text m-0">Last Updated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
