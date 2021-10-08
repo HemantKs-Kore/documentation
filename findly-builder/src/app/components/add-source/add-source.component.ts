@@ -76,7 +76,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   blockHttpsMsgs = false;
   crwalOptionLabel = "Crawl Everything";
   crawlDepth: number;
-  maxUrlLimit: number;
+  maxUrlLimit: number = 500;
   botsConfigurationModalRef: any;
   submitted = false;
   showPassword = false;
@@ -1559,9 +1559,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
     }
-    // if(value > 500 && valueFrom == 'maxUrlLimit'){
-    //   this.maxUrlLimit = 500;
-    // }
+    if(value < 500 && valueFrom == 'maxUrlLimit'){
+      this.maxUrlLimit = 500;
+    }
   }
   copy(val) {
     const selBox = document.createElement('textarea');
