@@ -6545,6 +6545,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if ($('body').hasClass('top-down') && res.isAutoTriggeredBotAction || (res.payload || {}).template_type == 'quick_replies' && (res.payload || {}).isAutoTriggeredBotAction) {
           if (!$('#conversation-container').is(':visible')) {
             $('#conversation-container').show();
+            if ($('.search-container').hasClass('no-history')) {
+              $('.search-container').removeClass('no-history');
+            }
             $('#sa-conversation-box').prop('disabled', false);
             $('#sa-conversation-box').attr('placeholder', 'Type message...');
           }
