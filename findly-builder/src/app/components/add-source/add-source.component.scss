@@ -1860,3 +1860,10 @@
         margin: 15px 0;
     }
 }
+
+/* Chrome, Safari, Edge, Opera */
+.maxUrlLimit-class::-webkit-outer-spin-button,
+.maxUrlLimit-class::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

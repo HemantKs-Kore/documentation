@@ -693,7 +693,7 @@
                           </div>
                         </div>
                         <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
-                          (keyup)="checkValue(crawlDepth)" maxlength="60" [(ngModel)]="crawlDepth" class="input-text">
+                          (keyup)="checkValue(crawlDepth , 'crawlDepth')" maxlength="60" [(ngModel)]="crawlDepth" class="input-text">
                       </div>
                     </div>
                     <div class="col-1 p-0"></div>
@@ -708,9 +708,9 @@
                             </span>
                           </div>
                         </div>
-                        <input type="url" autocomplete="off" id="maxUrlLimit" maxlength="60" name="maxUrlLimit"
-                          placeholder="0" (keyup)="checkValue(maxUrlLimit)" [(ngModel)]="maxUrlLimit"
-                          class="input-text">
+                        <input type="number" autocomplete="off" id="maxUrlLimit" maxlength="60" name="maxUrlLimit" min="500"
+                          placeholder="0" (keyup)="checkValue(maxUrlLimit , 'maxUrlLimit')" [(ngModel)]="maxUrlLimit"
+                          class="input-text maxUrlLimit-class">
                       </div>
                     </div>
 
