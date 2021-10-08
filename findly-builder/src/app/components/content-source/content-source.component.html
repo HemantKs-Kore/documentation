@@ -1091,7 +1091,7 @@
 
           </div>
           <div class="empty-page-data-container"
-            *ngIf="page && (sourceStatus == 'failed'  || (sourceStatus == 'running' && totalRecord == 0) || sourceStatus == 'configured' || sourceStatus == 'stopped')">
+            *ngIf="page &&  totalRecord == 0">
             <img src="assets\images\emptyList.png">
             <div class="title">Sorry! No Pages available yet!! Please <span> crawl</span> the web domain again</div>
           </div>
