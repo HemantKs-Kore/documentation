@@ -1496,3 +1496,11 @@ line-height: 15px;
 }
 }
 }
+
+
+/* Chrome, Safari, Edge, Opera */
+.maxUrlLimit-class::-webkit-outer-spin-button,
+.maxUrlLimit-class::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
