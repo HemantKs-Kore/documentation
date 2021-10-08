@@ -7219,7 +7219,7 @@ body{
 .searchAssist-kore-chat-window.search-container.conversation #searchChatContainer{
     display: block !important;
     position: relative;
-    padding: 34px 20px calc(100vh - 200px);
+    padding: 34px 20px;
     overflow: auto;
 }
 .searchAssist-kore-chat-window.search-container.conversation #searchChatContainer.bgfocus{   
@@ -14943,6 +14943,17 @@ margin-bottom: 15px !important;
         text-overflow: ellipsis;
         padding-right: 0;
         max-width: 86%;
+    }
+    .filter-sec-tab .kr-sg-radiobutton .radio-custom+.radio-custom-label{
+        padding: 4px 0px 14px 28px !important;
+        margin-bottom: 0px !important;
+        line-height: 14px;
+    }
+    #topFacetFilterId .horizantal-filter-sec .kr-sg-radiobutton{
+        padding: 7px 12px 0px 10px !important;
+    }
+    #topFacetFilterId .horizantal-filter-sec .kr-sg-radiobutton .radio-custom+.radio-custom-label{
+        padding: 3px 0px 7px 28px !important;
     }
     .kr-sg-radiobutton .associated-filter-count{
         color: var(--sdk-dusty-gray-color);

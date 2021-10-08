@@ -186,7 +186,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isJavaScriptRendered = true;
   blockHttpsMsgs = false;
   crawlDepth: number;
-  maxUrlLimit: number;
+  maxUrlLimit: number = 500;
   crwalOptionLabel = '';
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
@@ -1759,11 +1759,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   downloadDoc(url) {
     FileSaver.saveAs(url + '&DownloadPdf=true');
   }
-  checkValue(value) {
-    console.log()
+  checkValue(value , valueFrom) {
     if (value <= -1) {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
+    }
+    if(value < 500 && valueFrom == 'maxUrlLimit'){
+      this.maxUrlLimit = 500;
     }
   }
 
