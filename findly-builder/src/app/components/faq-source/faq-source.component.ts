@@ -18,6 +18,7 @@ import { FaqsService } from '../../services/faqsService/faqs.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+import { CdkDragDrop, moveItemInArray ,transferArrayItem} from '@angular/cdk/drag-drop';
 // import {  DockStatusService } from '../../services/dock.status.service';
 // import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 
@@ -1768,4 +1769,40 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     }, errRes => {
     });
   }
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+                        event.container.data,
+                        event.previousIndex,
+                        event.currentIndex);
+    }
+    // this.updateFaq(event.container.data, 'updateQA',null);
+    // this.faqUpdateEvent();
+  }
+
+ 
+  saveSortedList() {
+    console.log("faq, action, params",)
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      faqId: this.selectedFaq._id
+    }
+    let payload: any = {};
+    
+    this.selectedFaq.forEach(faq => {
+      payload.push()
+      
+    });
+    
+    this.service.invoke('update.faq', quaryparms, payload).subscribe(res => {
+      this.notificationService.notify('Updated Successfully', 'success');
+    
+    }, errRes => {
+      this.errorToaster(errRes, 'Somthing went worng');
+    });
+  }
+
+ 
 }

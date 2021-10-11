@@ -462,10 +462,15 @@
                                         </div>  -->
                                     </div> 
                                     <div class="pad-div">
-                                        <div class="bot-response-view-mode" >
+                                        <div  cdkDropList #defAnslist="cdkDropList"
+                                        [cdkDropListData]="selectedFaq._source.faq_answer"
+                                        [cdkDropListConnectedTo]="[consdAnsList]"class="bot-response-view-mode"  (cdkDropListDropped)="drop($event)"  >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.faq_answer && selectedFaq._source.faq_answer.length">
-                                                <ng-container *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index;">
-                                                    
+                                                <!-- <ng-container *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index;"> -->
+                                                   
+                                                        <div cdkDrag *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index;">
+                                                            <!-- <div cdkDrag>
+                                                        </div> -->
 
                                                     <div class="response-title-bg row">
                                                         <div class="bot-response-title col-6">{{'faqSource.response' | translate}}<span *ngIf="(selectedFaq._source.faq_answer.length > 1) || (selectedFaq._source.faq_cond_answers && selectedFaq._source.faq_cond_answers.length)">{{ ' ' + (i + 1)}}</span></div>
@@ -491,18 +496,23 @@
                                                     <div class="img-view-mode" *ngIf="answer && answer.imgurl">
                                                         <img src="{{answer.imgurl}}">
                                                     </div>
-                                                    <div class="desc-info" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.text)'></div>
+                                                    <!-- <div> -->
+                                                        <div class="desc-info" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.text)'></div>
+                                                    <!-- </div> -->
                                                     <!-- <div class="desc-info desc-info-javascript-message" *ngIf="answer.type==='javascript'">Javascript message</div> -->
-                                                </ng-container> 
+                                               
+                                                        </div> 
                                             </ng-container>   
                                         </div>
-                                        <div class="conditionalBlock bot-response-view-mode" >
+                                        <div cdkDropList   #consdAnsList="cdkDropList"
+                                        [cdkDropListData]="selectedFaq._source.faq_cond_answers"
+                                        [cdkDropListConnectedTo]="[defAnslist]"  class="conditionalBlock bot-response-view-mode" (cdkDropListDropped)="drop($event)" >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source.faq_cond_answers && selectedFaq._source.faq_cond_answers.length">
-                                            <ng-container *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;">
+                                            <div  cdkDrag *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;">
 
                                                 
                                                 <div class="response-title-bg row">
-                                                    <div class="bot-response-title col-6">{{'faqSource.response' | translate}}<span>{{ ' ' + (i + 1 + (selectedFaq._source.faq_answer?selectedFaq._source.faq_answer.length:0))}}</span></div>
+                                                    <div  class="bot-response-title col-6">{{'faqSource.response' | translate}}<span>{{ ' ' + (i + 1 + (selectedFaq._source.faq_answer?selectedFaq._source.faq_answer.length:0))}}</span></div>
                                                     <div class="response-likes-views-sec d-flex col-6">
                                                         <div class="count-sec" >
                                                             <img src="assets/icons/faq/views.svg" placement="top" container='body' ngbTooltip="Views">{{selectedFaq?.stats?.appearances?selectedFaq?.stats?.appearances[0][0]: 0}}
@@ -562,7 +572,7 @@
                                                         </ng-container> 
                                                     </div>
                                                 </div>
-                                            </ng-container>
+                                            </div>
                                                 </ng-container> 
                                         </div>
                                         <!-- <div class="added-answer" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(selectedFaq.answer)'></div> -->
@@ -796,7 +806,7 @@
             </div>
            <!-- <div style="margin-right: 10px;"> <app-record-pagination *ngIf="!isNotSearching && !loadingTab && faqSelectionObj.stats[selectedtab] && faqSelectionObj.stats[selectedtab]>0" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' (pageChanged)="paginate($event)"></app-record-pagination></div> PAGINATION -->
         </ng-container>
-        <ng-container  *ngIf="currentView === 'grid'">
+        <ng-container  *ngIf="currentView === 'grid'"> 
             <perfect-scrollbar class="faqScurceListScroll">
                 <div class="list-view-data">
                     <div class="row row_list">
