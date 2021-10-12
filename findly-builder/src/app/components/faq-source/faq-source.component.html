@@ -461,14 +461,14 @@
                                             <span class="keys" *ngFor="let keyword of selectedFaq._source.keywords">{{keyword}}</span>
                                         </div>  -->
                                     </div> 
-                                    <div class="pad-div">
-                                        <div  cdkDropList #defAnslist="cdkDropList"
+                                    <div cdkDropListGroup class="pad-div">
+                                        <div  cdkDropList 
                                         [cdkDropListData]="selectedFaq._source.faq_answer"
-                                        [cdkDropListConnectedTo]="[consdAnsList]"class="bot-response-view-mode"  (cdkDropListDropped)="drop($event)"  >
+                                       class="bot-response-view-mode"  (cdkDropListDropped)="drop($event)"  >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.faq_answer && selectedFaq._source.faq_answer.length">
                                                 <!-- <ng-container *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index;"> -->
                                                    
-                                                        <div cdkDrag *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index;">
+                                                        <div  *ngFor="let answer of selectedFaq._source.faq_answer ;let i = index; " cdkDrag>
                                                             <!-- <div cdkDrag>
                                                         </div> -->
 
@@ -504,11 +504,11 @@
                                                         </div> 
                                             </ng-container>   
                                         </div>
-                                        <div cdkDropList   #consdAnsList="cdkDropList"
+                                        <div cdkDropList   
                                         [cdkDropListData]="selectedFaq._source.faq_cond_answers"
-                                        [cdkDropListConnectedTo]="[defAnslist]"  class="conditionalBlock bot-response-view-mode" (cdkDropListDropped)="drop($event)" >
+                                          class="conditionalBlock bot-response-view-mode" (cdkDropListDropped)="drop($event)" >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source.faq_cond_answers && selectedFaq._source.faq_cond_answers.length">
-                                            <div  cdkDrag *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;">
+                                            <div  cdkDrag *ngFor="let consitionalAnswer of selectedFaq._source.faq_cond_answers; let i = index;" >
 
                                                 
                                                 <div class="response-title-bg row">
