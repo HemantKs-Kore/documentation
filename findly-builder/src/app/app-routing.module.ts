@@ -24,7 +24,6 @@ import { BusinessRulesComponent } from './components/business-rules/business-rul
 import { SettingsComponent } from './components/settings/settings.component';
 import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
 import { FieldManagementComponent } from './components/field-management/field-management.component';
-import { ExperimentsComponent } from './components/experiments/experiments.component';
 import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
 import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.resolve';
 import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
@@ -73,7 +72,6 @@ const routes: Routes = [
       { path: 'smallTalk', component: SmallTalkComponent },
       { path: 'generalSettings', component: GeneralSettingsComponent },
       { path: 'FieldManagementComponent', component: FieldManagementComponent },
-      { path: 'experiments', component: ExperimentsComponent },
       { path: 'searchInterface', component: SearchInterfaceComponent }, /* currently in UI Result Templates */
       { path: 'resultTemplate', component: ResultTemplatesComponent }, 
       { path: 'structuredData', component: StructuredDataComponent },

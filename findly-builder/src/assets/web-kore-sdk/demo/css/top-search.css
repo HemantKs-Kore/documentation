@@ -792,7 +792,9 @@ body.top-down .top-down-wrapper{
 }
 .sdk-top-down-interface .kr-sg-radiobutton.d-block {
   display: block;
-  margin-bottom: 10px;
+  margin: 0;
+  margin-bottom: 8px !important;
+  padding: 0 0px 0 0!important;
 }
 .sdk-top-down-interface .kr-sg-radiobutton .radio-custom {
   opacity: 0;
@@ -824,7 +826,7 @@ body.top-down .top-down-wrapper{
   margin-right: 12px;
   text-align: center;
   border-radius: 2px;
-  border: solid 1px var(--sdk-border--dusty-gray-color);
+  border: solid 1px var(--sdk-border-silver-sand-color);
   background-color: var(--sdk-white-bg);
   margin-top: -3px;
   border-radius: 100px;

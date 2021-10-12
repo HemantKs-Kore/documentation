@@ -91,7 +91,7 @@
                     <div class="name"><span>{{app.name}}</span></div>
                     <div class="info-text" *ngIf="app.description !==''" title="{{app.description}}">{{app.description}}</div>
                   </div>
-                  <div class="user-name" *ngIf="app.createdBy!==userId">{{app.userDetails.fullName}}</div>
+                  <div class="user-name text-truncate" *ngIf="app.createdBy!==userId"  ngbTooltip="{{app.userDetails.fullName}}">{{app.userDetails.fullName}}</div>
                 </div>             
               </div> 
               
@@ -130,7 +130,7 @@
                     <div class="name"><span>{{filter.name}}</span></div>
                     <div class="info-text" *ngIf="filter.description !==''" title="{{filter.description}}">{{filter.description}}</div>
                   </div>
-                  <div class="user-name" *ngIf="filter.createdBy!==userId">{{filter.userDetails.fullName}}</div>
+                  <div class="user-name text-truncate" *ngIf="filter.createdBy!==userId" ngbTooltip="{{filter.userDetails.fullName}}">{{filter.userDetails.fullName}}</div>
                   <!-- <div class="flag"><img src="assets/icons/dashboard/publish.svg"></div> -->
                 </div>             
               </div>
@@ -296,7 +296,7 @@
                 <img src="assets/icons/landing/welcome-slider.svg">
               </div>
               <div class="desc-text">SearchAssist helps you build a conversational search assistant that combines cognitive search and virtual assistant competencies. Powered with AI and Coversation UI, the search assistant can not only answer the search users' queries and but also perform tasks for them</div>
-              <button class="kr-sg-button-primary btn_lg" href="#createBoardingJourney" data-slide="next" (click)="currentPage=2">Tell me more</button>              
+              <button class="kr-sg-button-primary btn_lg" href="#createBoardingJourney" data-slide="next" (click)="currentPage=2;callMixPanel()">Tell me more</button>              
             </div>
           </div>
           <div class="carousel-item">

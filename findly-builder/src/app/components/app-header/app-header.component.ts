@@ -328,7 +328,9 @@ export class AppHeaderComponent implements OnInit {
         setTimeout(() => {
           // self.training = false;
           this.trainingInitiated = true;
-          self.notificationService.notify('Training has been Initiated', 'success');
+          if (this.training) {
+            self.notificationService.notify('Training has been Initiated', 'success');
+          }
           this.appSelectionService.updateTourConfig('indexing');
           this.poling();
         }, 5000)
@@ -375,13 +377,17 @@ export class AppHeaderComponent implements OnInit {
         this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
         if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
           this.trainingInitiated = false;
+          if (this.training) {
+            this.notificationService.notify('Training Completed', 'success');
+          }
           this.training = false;
-          this.notificationService.notify('Training Completed', 'success');
         }
         if (this.trainingInitiated && this.dockersList[0].status === 'FAILURE' && this.dockersList[0].action === "TRAIN") {
           this.trainingInitiated = false;
+          if (this.training) {
+            this.notificationService.notify(this.dockersList[0].message, 'error');
+          }
           this.training = false;
-          this.notificationService.notify(this.dockersList[0].message, 'error');
         }
         this.dockersList.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
@@ -629,6 +635,7 @@ export class AppHeaderComponent implements OnInit {
   // }
   //open app
   openApp(app) {
+    this.training = false;
     this.appSelectionService.openApp(app);
     //this.appSelectionService.refreshSummaryPage.next('changed');
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });

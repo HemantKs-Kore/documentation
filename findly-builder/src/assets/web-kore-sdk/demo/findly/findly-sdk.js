@@ -7,7 +7,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   //    define(factory);
   //} else if (typeof module !== 'undefined') {      // CommonJS
   //    module.exports = factory();
-  //} else {                            // browser globals
+  //} else {                                         // browser globals
   window.FindlySDK = factory(); //}
 })(function () {
   var koreJquery;
@@ -34,7 +34,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   }
 
   return function ($, jstz, KRPerfectScrollbar) {
-    //get dependencies as arguments here 
+    //get dependencies as arguments here
 
     /**
     * @param  {Object} FindlySDK Config
@@ -218,7 +218,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //   tmplProxy: function(a,b,c){
       //     return this.tmpl(a,b,c);
       //   }
-      // });     
+      // });
 
 
       $.prototype.tmplProxy = function (a, b, c) {
@@ -860,7 +860,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var _newLA = document.createElement('div');
             var _detectedLink = linkArray[x];
             _newLA.innerHTML = linkArray[x];
-            //for mailto: links, new line character need to be repaced with %0A 
+            //for mailto: links, new line character need to be repaced with %0A
             if (_detectedLink.indexOf("href='mailto:") > -1 || _detectedLink.indexOf('href="mailto:') > -1) {
               _detectedLink = _detectedLink.split('\n').join("%0A")
 
@@ -1109,13 +1109,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if searchFacet.facetType == "value"}}\
                   <div class="kr-sg-checkbox d-block custom_checkbox">\
                     <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                    <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                    <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                   </div>\
                 {{/if}}\
                 {{if searchFacet.facetType == "range"}}\
                   <div class="kr-sg-checkbox d-block custom_checkbox">\
                     <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                    <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                    <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                   </div>\
                 {{/if}}\
               {{/each}}\
@@ -1183,6 +1183,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="actions-link">Context</div>\
               </div>\
             <div id="searchChatContainer"></div>\
+            <div class="parent-search-live-auto-suggesition"></div>\
             <div class="live-seach-auto-suggestion-parent">\
               <div class="search-body">\</div>\
               <div id="autoSuggestionContainer"></div>\
@@ -1227,7 +1228,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           </div>\
         </div>\
         </script>';
-      // <p>{{html getHTMLForSearch(faq.answer)}}</p>\  
+      // <p>{{html getHTMLForSearch(faq.answer)}}</p>\
       var greetingMsg = '<script type="text/x-jqury-tmpl">\
         <div class="search-greeting-box">\
           <span class="search-greeting-text">Hello! How can I help you today?</span>\
@@ -1256,10 +1257,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         </div>\
       </script>';
       var liveSearchData = '<script type="text/x-jqury-tmpl">\
-      {{if taskPrefix === "SUGGESTED"}}\
+     <!-- {{if taskPrefix === "SUGGESTED"}}\
         <img class="live-search-close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
-      {{/if}}\
+      {{/if}}\-->\
       <div class="finalResults">\
+      {{if taskPrefix === "SUGGESTED"}}\
+        <span class="live-search-close-icon">See All Results</span>\
+      {{/if}}\
           <div class="resultsOfSearch">\
           {{if showAllResults && !customSearchResult}}\
                 <div class="display-none">\
@@ -1454,7 +1458,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="resultsButtons asstTask display-none" >\
                   <div class="structured-data-header total-structured-data-wrap" appearanceType="task">\
                     <span class="search-heads">ACTIONS</span>\
-                    <div class="search-heads show-all sdk-show-classification display-block">\
+                    <div class="search-heads show-all sdk-show-classification display-none">\
                       Show All Actions\
                     </div>\
                   </div>\
@@ -1462,7 +1466,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       <div class="tasks-wrp action-wrp btn_block_actions main-content-title-grid-data">\
                         {{each(key, task) tasks}}\
                           <div class="task-wrp action-wrp title-box-data">\
-                          <button id="${key}" class="faq search-task title-name text-truncate " title="${task.taskName}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                          <button id="${key}" class="faq search-task title-name text-truncate " title="${task.taskName}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}" contentId="${task.taskId}">\
                           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
                           ${task.taskName}\
                       </button>\
@@ -1589,7 +1593,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         <div class="creditCardIconDiv">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card">\
                             </div>\
-                            <div class="creditCardDetails search-task"  contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" id="${key}" payload="${task.payload}">\
+                            <div class="creditCardDetails search-task"  contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" id="${key}" payload="${task.payload}" contentId="${task.taskId}">\
                                 <p class="title" title="${task.taskName}">${task.taskName}</p>\
                                 <p class="desc">${task.text}</p>\
                             </div>\
@@ -2864,7 +2868,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //       panel.style.maxHeight = null;
       //     } else {
       //       panel.style.maxHeight = panel.scrollHeight + "px";
-      //     } 
+      //     }
       //   });
       // }
     }
@@ -3431,7 +3435,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
             if (!$('body').hasClass('top-down')) {
-              // Sea all Results 
+              // Sea all Results
               var container = $('#show-all-results-container');
               if (!container.length) {
                 $('body').append('<div class="show-all-results-container searchAssist-kore-chat-window" id="show-all-results-container"></div>');
@@ -3989,17 +3993,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       })
 
-      $('.live-search-close-icon').off('click').on('click', function (event) {
-        console.log("evebt.closest", $(event.target).closest('.search-body'));
-        var searchBody = $(event.target).closest('.search-body');
-        if (searchBody) {
-          $(searchBody).addClass('hide');
-        }
-        if ($('#searchChatContainer').hasClass('bgfocus')) {
-          $('#searchChatContainer').removeClass('bgfocus')
-        }
-        event.stopPropagation();
-        event.stopImmediatePropagation();
+      $('.live-search-close-icon').off('click').on('click', function (e) {
+        // console.log("evebt.closest", $(event.target).closest('.search-body'));
+        // var searchBody = $(event.target).closest('.search-body');
+        // if (searchBody) {
+        //   $(searchBody).addClass('hide');
+        // }
+        // if ($('#searchChatContainer').hasClass('bgfocus')) {
+        //   $('#searchChatContainer').removeClass('bgfocus')
+        // }
+        // event.stopPropagation();
+        // event.stopImmediatePropagation();
+        _self.vars.showingMatchedResults = true;
+        _self.vars.searchObject.searchText = $('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val();
+        _self.vars.scrollPageNumber = 0;
+        _self.vars.selectedFacetFromSearch = "all results"
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        _self.invokeSearch();
+        $('#loaderDIV').show()
       });
 
       $('.suggestions-close-icon').off('click').on('click', function (e) {
@@ -4179,7 +4191,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (!$('body').hasClass('top-down')) {
           _self.bindFrequentData();
         }
-        //_self.saveOrGetDataInStorage(); 
+        //_self.saveOrGetDataInStorage();
 
         // if (_self.vars.loggedInUser) {
         //   _self.searchEventBinding('pay bill', e.target.title.toLowerCase(), e);
@@ -4192,6 +4204,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var nlMeta = {
             linkedBotNLMeta: {
               'intent': $(e.currentTarget).attr('title'),
+              'seqLogId': $(e.currentTarget).attr('seqLogId') || null,
               'childBotName': $(e.currentTarget).attr('childBotName') || null,
               'isRefresh': true
             }
@@ -4823,7 +4836,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.searchByFacetFilters(_self.vars.filterObject, _self.vars.selectedFiltersArr, _self.vars.selectedFacetsList);
       }
     };
-    FindlySDK.prototype.filterResults = function (event, isChecked, radioUncheck = false) {
+    FindlySDK.prototype.filterResults = function (event, isChecked=false, radioUncheck = false) {
       event.preventDefault();
       event.stopPropagation();
 
@@ -4838,7 +4851,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var fieldName = _filterContainer.attr('data-fieldName');
       var facetType = _filterContainer.attr('data-facetType');
       var facetName = _filterContainer.attr('data-facetName');
-      var key = $(event.target).attr('name');
+      var key = $(event.target).attr('type')=='radio'?$(event.target).attr('value'):$(event.target).attr('name');
       if ($('.topdown-search-main-container').length) {
         if ($('.sdk-filter-radio-top-down').length) {
           key = $(event.target).attr('value');
@@ -4896,15 +4909,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
       else {
-        if (_self.vars.filterObject.length > 0) {
+        if (_self.vars.filterObject.length == 0) {
+          _self.vars.filterObject.push(responsePayload);
+          fieldMatches = true;
+        }
+        if (_self.vars.filterObject.length > 0 && fieldMatches == false) {
           _self.vars.filterObject.slice(0).forEach(function (element) {
             if (responsePayload.fieldName == element.fieldName && responsePayload.facetType == element.facetType) {
               // var indexOfMatchedFilter = 0, elementsTraversed = 0;
               if (element.facetType == 'value') {
-                if (element.facetValue.length > 1) {
+                if (element.facetValue.length > 0) {
                   element.facetValue.slice(0).forEach(function (item) {
                     if (item === key) {
                       element.facetValue.splice(element.facetValue.indexOf(item), 1);
+                    } else {
+                        element.facetValue.splice(0, 1, key);
                     }
                     console.log(item);
                   })
@@ -4946,8 +4965,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   }
                 }
               }
+              fieldMatches = true;
             }
           })
+        }
+        if (fieldMatches == false) {
+          _self.vars.filterObject.push(responsePayload);
         }
       }
       console.log(_self.vars.filterObject, isChecked);
@@ -4957,7 +4980,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           slectionType = "radio"
         }
       }
-      if (_self.vars.filterConfiguration.aligned == "top" && slectionType == "radio") {
+      if (_self.vars.filterConfiguration.aligned == "top" && (slectionType == "radio" ||  $(event.target).attr('type') == "radio")) {
         _self.searchByFacetFilters(_self.vars.filterObject)
       }
       //_self.searchByFacetFilters(_self.vars.filterObject);
@@ -5122,7 +5145,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.pubSub.publish('sa-web-search', { container: '.web-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
             _self.pubSub.publish('sa-file-search', { container: '.files-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: true, dataObj });
             _self.pubSub.publish('sa-st-data-search', { container: 'structured-data-full-search-container', isFullResults: true, selectedFacet: 'all results', isLiveSearch: false, isSearch: false, dataObj });
-            // Sea all Results 
+            // Sea all Results
             $('#loaderDIV').show();
             var container = $('#show-all-results-container');
             var dataObj = _self.vars.searchObject.liveData;
@@ -5204,6 +5227,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (resultType == "task") {
         payload.childBotId = $(event.currentTarget).attr('childBotId');
         payload.childBotName = $(event.currentTarget).attr('childBotName');
+        payload.seqLogId = $(event.currentTarget).attr('seqLogId') || null;
         payload.taskId = resultID;
         payload.name = resultName;
       }
@@ -5236,6 +5260,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
             $('.search-body').css('display', 'none');
             $('.search-body').addClass('hide');
+            $('#autoSuggestionContainer').empty();
           }
           return;
         }
@@ -5250,6 +5275,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             headers.auth = _self.config.botOptions.assertion;
           }
         }
+        $('#autoSuggestionContainer').empty();
         $.ajax({
           url: url,
           type: type,
@@ -5258,7 +5284,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           success: function (data) {
             console.log(data);
             if (!data.isBotLocked) {
-              window.isBotLocked = true;
+              window.isBotLocked = false;
               _self.vars.searchObject.recents = data.recentSearches;
               if (!_self.vars.searchObject.recents) {
                 _self.vars.searchObject.recents = [];
@@ -5292,24 +5318,33 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     popularSearches: _self.vars.searchObject.popularSearches.slice(0, 5),
                     showSearches: searchConfigurationCopy ? searchConfigurationCopy.showSearches : 'recent'
                   });
-                  if (_self.vars.searchObject.recents.length) {
+                  if (_self.vars.searchObject.recents.length && !_self.vars.enterIsClicked && !window.isBotLocked) {
                     $('.search-body').css('display', 'block');
                     $('.search-body').removeClass('hide');
+                    $('.livesearchResultsNotFound').css('display', 'none');
+                    $('#autoSuggestionContainer').empty();
+                    if (!_self.vars.enterIsClicked && !window.isBotLocked) {
+                      $('.parent-search-live-auto-suggesition').show();
+                    }
                   } else {
                     $('.search-body').css('display', 'none');
                     $('.search-body').addClass('hide');
+                    $('#autoSuggestionContainer').empty();
                   }
                   console.log("searchConfigurationCopy", searchConfigurationCopy);
                   $('.search-body .finalResults').hide();
                   $('.searchBox.Search-BG-Copy').remove();
                   $('.search-body').append(freqData);
+                  _self.changeSearchContainerBackground();
                 }
               }
             }
             else {
               window.isBotLocked = true;
               $('.search-body').addClass('hide');
+              $('#autoSuggestionContainer').empty();
               $('#searchChatContainer').removeClass('bgfocus');
+              $('.parent-search-live-auto-suggesition').hide();
             }
             _self.vars.isRecentSearchesLoading = false;
           },
@@ -5418,10 +5453,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.search-body').css('display', 'none');
             $('.search-body').addClass('hide');
           }
-          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+          if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val()  && !window.isBotLocked)) {
             _self.closeGreetingMsg();
             $('.search-body').css('display', 'block');
             $('.search-body').removeClass('hide');
+            if (!window.isBotLocked) {
+              $('.parent-search-live-auto-suggesition').show();
+            }
           } else if ((!$('body').hasClass('top-down') && (!$('.bottom-up-search').val() || window.isBotLocked))) {
             $('.search-body').css('display', 'none');
             $('.search-body').addClass('hide');
@@ -5494,6 +5532,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (code == 13) {
             $('.suggestion-box.highlightSuggestion').removeClass('highlightSuggestion');
             $('.search-suggested-title.highlightSuggestion').removeClass('highlightSuggestion');
+            $('.parent-search-live-auto-suggesition').hide();
             if (!e.target.value.length) {
               return;
             }
@@ -5721,6 +5760,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (!$('body').hasClass('top-down') && _self.vars.enterIsClicked) {
               $('.search-body').css('display', 'none');
               $('.search-body').addClass('hide');
+              $('.parent-search-live-auto-suggesition').hide();
               return;
             }
             if ($('body').hasClass('top-down')) {
@@ -5728,10 +5768,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             } else {
               $('.bottom-up-suggestion').val('');
             }
-            if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
+            if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val()) && !window.isBotLocked && !_self.vars.enterIsClicked) {
               $('.search-body').css('display', 'block');
               $('.search-body').removeClass('hide');
-            } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
+              if (!window.isBotLocked) {
+                $('.parent-search-live-auto-suggesition').show();
+              }
+            } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val()) || window.isBotLocked) {
               $('.search-body').css('display', 'none');
               $('.search-body').addClass('hide');
               $('#autoSuggestionContainer').empty();
@@ -5749,6 +5792,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               // _self.frequentlySearchedRecentTextClickEvent();
               if (((_self.vars.searchObject.recentTasks && !_self.vars.searchObject.recentTasks.length) || (_self.vars.searchObject.recents && !_self.vars.searchObject.recents.length)) && $('.search-container').hasClass('active')) {
                 // $('.search-container').removeClass('active');
+              }
+              if(keyCode == 8){
+                if(!$('body').hasClass('top-down')) {
+                  $('.search-body').css('display', 'none');
+                  $('.search-body').addClass('hide');
+                  $('.parent-search-live-auto-suggesition').hide();
+                  $('#autoSuggestionContainer').empty();
+                }
+                return;
               }
               _self.bindFrequentData();
               $('.custom-header-container-center').css('visibility', 'visible');
@@ -5890,8 +5942,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               $('.search-body').css('display', 'none');
                               $('.search-body').addClass('hide');
                             } else {
-                              $('.search-body').css('display', 'block');
-                              $('.search-body').removeClass('hide');
+                              if(!_self.vars.enterIsClicked && !window.isBotLocked){
+                                $('.search-body').css('display', 'block');
+                                $('.search-body').removeClass('hide');
+                              }
+                             
                             }
                           } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val())) {
                             $('.search-body').css('display', 'none');
@@ -6026,11 +6081,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               customSearchResult: _self.customSearchResult
                             }
 
-                            searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
-                            $(searchData).data(dataObj);
-                            console.log("no results found");
-                            $('.search-body').html(searchData);
-                            // $('.search-body').empty().append('<div class="livesearchResultsNotFound">No Results Found</div>');
+                            // searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
+                            // $(searchData).data(dataObj);
+                            // console.log("no results found");
+                            // $('.search-body').html(searchData);
+                            $('.search-body').empty().append('<div class="livesearchResultsNotFound">No live search results found</div>');
                             setTimeout(function () {
                               $('.search-body').scrollTop(2);
                             }, 100);
@@ -6039,8 +6094,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               _self.pubSub.publish('sa-search-result', { ...dataObj, ...{ isLiveSearch: false, isFullResults: true, selectedFacet: _self.vars.selectedFacetFromSearch | 'all results' } });
 
                             } else {
-                              $('.search-body').css('display', 'none');
-                              $('.search-body').addClass('hide');
+                              if(!_self.vars.enterIsClicked && !window.isBotLocked){
+                                $('.search-body').css('display', 'block');
+                                $('.search-body').removeClass('hide');
+                              }
                               _self.pubSub.publish('sa-search-result', dataObj);
                               _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
                             }
@@ -6092,6 +6149,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
 
         $(dataHTML).off('focus', '#search').on('focus', '#search', function (e) {
+          _self.vars.enterIsClicked = false;
           if (!_self.vars.isSocketInitialize) {
             _self.bot.init(_self.vars.botConfig, _self.config.messageHistoryLimit);
             _self.bindSocketEvents();
@@ -6104,15 +6162,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
             if (!window.isBotLocked) {
               $('.search-body').removeClass('hide');
-              $('#searchChatContainer').addClass('bgfocus');
+              // $('#searchChatContainer').addClass('bgfocus');
             } else {
               $('.search-body').addClass('hide');
               $('.search-body').css('display', 'none');
+              $('.parent-search-live-auto-suggesition').hide();
             }
           }
           else {
             $('.search-body').addClass('hide');
             $('#searchChatContainer').removeClass('bgfocus');
+            $('.parent-search-live-auto-suggesition').hide();
           }
           // _self.closeGreetingMsg();
           //clear showing greeting if search bar focused before the greeting msg shown
@@ -6129,6 +6189,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
             e.stopPropagation();
           }
+          _self.changeSearchContainerBackground();
           if ((_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recents || []).length || (_self.vars.searchObject.popularSearches && _self.vars.searchObject.popularSearches.length)) && !($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
             $('.search-container').addClass('active');
             if (_self.showGreetingMsg) {
@@ -6152,7 +6213,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               //   popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
               // });
               // $('.search-body').html(freqData);
-              if (!$('body').hasClass('top-down')) {
+              if (!$('body').hasClass('top-down') && !_self.vars.enterIsClicked && !($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
                 _self.pubSub.publish('sa-generate-recent-search');
               }
             }
@@ -6360,7 +6421,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.search-body').addClass('h-100');
         $('.search-body').append(creditCard);
         $('.search-body').removeClass('hide');
-        $('#searchChatContainer').addClass('bgfocus');
+        // $('#searchChatContainer').addClass('bgfocus');
         $('.search-body').scrollTop(0);
         _self.bindPerfectScroll(creditCard, '.card-container', null, 'x', 'creditcard');
 
@@ -6440,6 +6501,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.handleSearchRes = function (res) {
       var _self = this;
+      $('.parent-search-live-auto-suggesition').hide();
       setTimeout(function () {
         $('.typingIndicatorContent').css('display', 'none');
       }, 100);
@@ -6774,7 +6836,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // }
         // window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
         if (dataObj.faqs.length ||
-          dataObj.web.length ||
+          dataObj.web.length || dataObj.files.length ||
           dataObj.tasks.length || dataObj.smallTalk || dataObj.data.length) {
           if (_self.isDev) {
             var responseObject = { 'type': 'onboardingjourney', data: 'test', query: _self.vars.searchObject.searchText, bottomUp: true, requestId: _self.vars.previousSearchObj.requestId }
@@ -6876,10 +6938,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               // if (scrollBottom > 100) {
               //   scrollBottom = scrollBottom + 200;
               // }
-              if ($('.messageBubble').last().find('.messageBubble-content').length) {
-                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 150) }, 500)
+              if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && !$('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+              } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").height()) }, 500)
               } else {
-                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 50) }, 500)
+                if ($('.userMessage').last().parent().position()) {
+                  $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -25) }, 500)
+                }
               }
               // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
             }
@@ -6888,10 +6954,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               // if (scrollBottom > 100) {
               //   scrollBottom = scrollBottom + 200;
               // }
-              if ($('.messageBubble').last().find('.messageBubble-content').length) {
-                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 150) }, 500)
+              if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && !$('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+              } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").height()) }, 500)
               } else {
-                $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 50) }, 500)
+                if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top > 34 || $('.userMessage').last().parent().position().top < 34)) {
+                  $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 25) }, 300)
+                }
               }
               // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
             }
@@ -6936,7 +7006,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var conversationContainerHtml = $('#conversation-container');
         _self.bindPerfectScroll(conversationContainerHtml, '#searchChatContainer', null, 'y', 'conversationContainer');
       }
-
+      $('.parent-search-live-auto-suggesition').hide();
     }
 
     FindlySDK.prototype.bindFrequentData = function () {
@@ -6964,7 +7034,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // if ((!$('body').hasClass('top-down') && $('.bottom-up-search').is(':visible')) || ($('body').hasClass('top-down') && $('#frequently-searched-box').is(':visible'))) {
           //   return;
           // }
-          _self.pubSub.publish('sa-generate-recent-search');
+          if(!_self.vars.enterIsClicked && !($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())){
+            _self.pubSub.publish('sa-generate-recent-search');
+          }
         }, 150);
       }
 
@@ -6976,6 +7048,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.bindSearchActionEvents();
     }
     FindlySDK.prototype.clickOutsideSearch = function () {
+      setTimeout(()=>{
       var _self = this;
       $(document).on('click', function (event) {
         if (!$(event.target).closest('.search-container').length) {
@@ -6989,7 +7062,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
             if (!window.isBotLocked) {
               $('.search-body').removeClass('hide');
-              $('#searchChatContainer').addClass('bgfocus');
+              // $('#searchChatContainer').addClass('bgfocus');
             }
           }
           $('.suggestion-search-data-parent').css('display', 'block');
@@ -7000,6 +7073,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.search-body').addClass('hide');
             $('#searchChatContainer').removeClass('bgfocus');
             $('.search-body').removeClass('h-100');
+            $('.parent-search-live-auto-suggesition').hide();
 
             $('.custom-header-container-center').css('visibility', 'visible');
             $('.suggestion-search-data-parent').css('display', 'none');
@@ -7010,15 +7084,33 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#searchChatContainer').removeClass('bgfocus');
           $('.search-body').addClass('hide');
           $('.suggestion-search-data-parent').css('display', 'none');
+          $('.parent-search-live-auto-suggesition').hide();
+          if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history')) {
+            $('.search-container').addClass('no-history');
+          }
         } else {
           if (!$(event.target).closest('.search-body').length && !$(event.target).closest('.show-all-results-outer-wrap').length && !$(event.target).closest('#search').length) {
             if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
               if (!window.isBotLocked) {
                 $('.search-body').addClass('hide');
                 $('#searchChatContainer').removeClass('bgfocus');
+                if(!window.isBotLocked){
+                      $('.parent-search-live-auto-suggesition').show();
+                    }
+              }
+              if(!$('#search').val()){
+                $('.search-body').addClass('hide');
+                $('.parent-search-live-auto-suggesition').hide();
+                if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history')) {
+                  $('.search-container').addClass('no-history');
+                }
               }
             }
+            $('.parent-search-live-auto-suggesition').hide();
             $('.suggestion-search-data-parent').css('display', 'none');
+            if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history')) {
+              $('.search-container').addClass('no-history');
+            }
           }
         }
         if (!($(event.target).closest('#search-box-container').length || $(event.target).closest('#frequently-searched-box').length || $(event.target).closest('#live-search-result-box').length)) {
@@ -7027,7 +7119,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         // out side click for live search and frequent search dropdown close//
         $('#live-search-result-box').off('click').on('click', function (event) {
-          if ($(event.target).closest('#live-search-result-box').length && !$(event.target).closest('.carousel').length) {
+          if ($(event.target).closest('#live-search-result-box').length && !$(event.target).closest('.carousel').length && !$(event.target).closest('.data-container').length && !$(event.target).closest('.accordion').length) {
             if ($('#live-search-result-box').height() < event.offsetY || event.offsetX < 0 || event.offsetX > $('#live-search-result-box').width()) {
               $('#live-search-result-box').hide();
             }
@@ -7051,6 +7143,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         }
       });
+      $('.parent-search-live-auto-suggesition').off('click').on('click', function (event) {
+        if ($(event.target).closest('.parent-search-live-auto-suggesition').length && !$('#search').val()) {
+          $('.search-body').addClass('hide');
+        }
+        $('.parent-search-live-auto-suggesition').hide();
+        if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history')) {
+          $('.search-container').addClass('no-history');
+        }
+      });
+    }, 3000)
     }();
     FindlySDK.prototype.setActionTitle = function (title, container) {
       var actionTitleTmpl = '<div><div class="action-chat-title">${title}</div></div>';
@@ -7088,7 +7190,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if ($('.searchAssist-kore-chat-window.search-container').hasClass('active')) {
                 $('.typingIndicatorContent').css('display', 'block');
                 $("#searchChatContainer").off('scroll').on('scroll', function (event) {
-                  $('.typingIndicatorContent').css('display', 'none');
+                  if ($('.userMessage').last().parent() && $('.userMessage').last().parent().next().find( ".messageBubble-content").length){
+                    $('.typingIndicatorContent').css('display', 'none');
+                  }
+                  
               });
               } else {
                 _self.showTypingIndicator();
@@ -7334,10 +7439,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         $('#searchChatContainer').append(messageHtml);
         setTimeout(() => {
-          if ($('.messageBubble').last().find('.messageBubble-content').length) {
-            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 150) }, 300)
+          if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && !$('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+          } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").height()) }, 500)
+          } else if ($('.messageBubble').last().find('.fromOtherUsers').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && $('.fromOtherUsers').last().parent().prev().find( ".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.fromOtherUsers').last().parent().position().top - 25 - $('.fromOtherUsers').last().parent().prev().find( ".messageBubble-content").height()) }, 500)
           } else {
-            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 50) }, 300)
+            if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top >34 || $('.userMessage').last().parent().position().top < 34)) {
+              $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -25) }, 500)
+            }
           }
         }, 200);
 
@@ -7361,10 +7472,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.isDev == false) {
           // var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
           // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-          if ($('.messageBubble').last().find('.messageBubble-content').length) {
-            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 150) }, 500)
+          if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && !$('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25) }, 500)
+          } else if ($('.messageBubble').last().find('.messageBubble-content').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 25 - $('.messageBubble-content').last().parent().prev().find( ".messageBubble-content").height()) }, 500)
+          } else if ($('.messageBubble').last().find('.fromOtherUsers').length && (!$('.messageBubble-content').last().parent().prev().find( ".userMessage").length && $('.fromOtherUsers').last().parent().prev().find( ".messageBubble-content").length)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.fromOtherUsers').last().parent().position().top - 25 - $('.fromOtherUsers').last().parent().prev().find( ".messageBubble-content").height()) }, 500)
           } else {
-            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top - 50) }, 500)
+            if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top >34 || $('.userMessage').last().parent().position().top < 34)) {
+              $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -25) }, 500)
+            }
           }
         }
       }, 200);
@@ -7421,7 +7538,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.searchBox').addClass('hide');
       $('.search-body').append(userLogin);
       $('.search-body').removeClass('hide');
-      $('#searchChatContainer').addClass('bgfocus');
+      // $('#searchChatContainer').addClass('bgfocus');
     };
     FindlySDK.prototype.getFrequentlySearched = function (url, type, payload) {
       var bearer = "bearer " + this.bot.options.accessToken || this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
@@ -7923,11 +8040,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           helpers: helpers
         });
         $('#searchChatContainer').append(templateBotMessageBubble);
-        var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-        $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-        $('#searchChatContainer').animate({
-          scrollTop: $('#searchChatContainer').prop("scrollHeight")
-        }, 0);
+        var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height() + 34;
+        // $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+        // $('#searchChatContainer').animate({
+        //   scrollTop: ($('#searchChatContainer').prop("scrollHeight")- 34)
+        // }, 0);
+        if ($('.messageBubble').last().find('.messageBubble-content').length) {
+          // $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.messageBubble-content').last().parent().position().top - 190) }, 300)
+        } else {
+          if ($('.userMessage').last().parent().position() && ($('.userMessage').last().parent().position().top >34 || $('.userMessage').last().parent().position().top < 34)) {
+            $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').scrollTop() + $('.userMessage').last().parent().position().top -25) }, 300)
+          }
+        }
         _self.sendMessage(data.payload);
       };
     }
@@ -8557,8 +8681,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.bindSearchContainerViewHadler();
       $('.search-container').off('click', '.more-results').on('click', '.more-results', function (e) {
         $('.more-results').css('display', 'none');
-        var scrollHeight = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').prop("scrollHeight");
-        $('#searchChatContainer').animate({ scrollTop: scrollHeight }, 500);
+        $('#searchChatContainer').animate({ scrollTop: ($('#searchChatContainer').prop("scrollHeight")) }, 300)
       })
       _self.bindPerfectScroll(dataHTML, '.search-body', null, 'searchBody');
       _self.bindPerfectScroll(dataHTML, '#searchChatContainer', null, 'searchChatContainer');
@@ -8718,7 +8841,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           feedbackExperience: { resultLevel: true, queryLevel: false }
         };
       }
-      //default showsearches as recent 
+      //default showsearches as recent
       searchConfiguration.showSearches = 'recent';
       searchConfigurationCopy = searchConfiguration;
       return searchConfiguration;
@@ -8789,6 +8912,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       clearTimeout(_disconnectBotTimer);
       _self.vars.isSocketInitialize = false;
       _self.vars.isSocketReInitialize = false;
+      _self.bot.initialized = false;
       $('.typingIndicatorContent').css('display', 'none');
     }
     FindlySDK.prototype.resetSocketDisconnection = function () {
@@ -9050,24 +9174,38 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       console.log("Message to Bot", messageToBot);
       // $('.typingIndicatorContent').css('display', 'block');
-      var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 2000 : 0
-      _self.vars.isSocketReInitialize = false;
-      setTimeout(() => {
-        _self.bot.sendMessage(messageToBot, function messageSent(err) {
-          if (err && err.message) {
-            setTimeout(function () {
-              $('#msg_' + clientMessageId).find('.messageBubble').append('<div class="errorMsg">Send Failed. Please resend.</div>');
-            }, 350);
-          }
-        });
-      }, sendMsgTimeOut)
+      // var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 4000 : 0
+      // _self.vars.isSocketReInitialize = false;
+      _self.checkWbInitialized(messageToBot,clientMessageId);
+     
       // if (_self.isDev == false) {
       _self.resetPingMessage();
       _self.resetSocketDisconnection();
       // }
 
     };
-
+    FindlySDK.prototype.checkWbInitialized = function (messageToBot, clientMessageId) {
+      var _self = this;
+      var sendMsgTimeOut = _self.vars.isSocketReInitialize ? 2000 : 0;
+      // $('.typingIndicatorContent').css('display', 'block');
+      _self.showTypingIndicator();
+      setTimeout(() => {
+        if (_self.bot.initialized) {
+          _self.vars.isSocketReInitialize = false;
+          _self.bot.sendMessage(messageToBot, function messageSent(err) {
+            if (err && err.message) {
+              setTimeout(function () {
+                $('#msg_' + clientMessageId).find('.messageBubble').append('<div class="errorMsg">Send Failed. Please resend.</div>');
+                $('.typingIndicatorContent').css('display', 'none');
+              }, 350);
+            }
+          });
+        } else {
+          _self.vars.isSocketReInitialize = true;
+          _self.checkWbInitialized(messageToBot, clientMessageId);
+        }
+      }, sendMsgTimeOut)
+    }
     FindlySDK.prototype.getTemplate = function (type) {
       var menuTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl">\
         <div class="menuItemCntr">\
@@ -11324,16 +11462,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     /*FindlySDK.prototype.openTab = function (event, tabName) {
       event.preventDefault();
       event.stopImmediatePropagation();
- 
+
       var _self = this;
       console.log(event);
- 
+
       var navLinks = document.getElementsByClassName("custom-header-nav-link-item");
       for (var i = 0; i < navLinks.length; i++) {
         navLinks[i].className = navLinks[i].className.replace(" nav-link-item-active", "");
       }
       event.currentTarget.className += " nav-link-item-active";
- 
+
       if (koreWidgetSDKInstance.vars.showingMatchedResults == true) {
         if (tabName == 'customize') {
           koreWidgetSDKInstance.vars.customizeView = true;
@@ -11342,14 +11480,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(".tasks-wrp").sortable();
           $(".tasks-wrp").sortable("option", "disabled", false);
           $(".tasks-wrp").disableSelection();
- 
+
           $(".faqs-shadow").addClass('custom-faqs-shadow');
           $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
           $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
- 
+
           $(".image-url-sec").css('display', 'none');
           $(".faqs-bottom-actions").css('display', 'table');
- 
+
         }
         else {
           koreWidgetSDKInstance.vars.customizeView = false;
@@ -11357,11 +11495,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(".faqs-shadow").removeClass('custom-faqs-shadow');
           $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
           $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
- 
+
           $(".tasks-wrp").sortable("disable");
           $(".image-url-sec").css('display', 'table-cell');
           $(".faqs-bottom-actions").css('display', 'none');
- 
+
         }
       }
       else {
@@ -11371,7 +11509,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         else {
           koreWidgetSDKInstance.vars.customizeView = false;
         }
- 
+
       }*/
 
     /*
@@ -14345,7 +14483,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else {
           if (!$('.search-container').hasClass('no-history')) {
-            $('.search-container').addClass('no-history');
+            _self.changeSearchContainerBackground();
+            // $('.search-container').addClass('no-history');
           }
         }
       });
@@ -15035,7 +15174,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "file"}}\
                     Files\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                     Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
@@ -15243,7 +15382,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "file"}}\
                     Files\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                     Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
@@ -15339,7 +15478,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "file"}}\
                     Files\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                     Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
@@ -15450,7 +15589,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "file"}}\
                     Files\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                     Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
@@ -15529,7 +15668,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "file"}}\
                     Files\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                     Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
@@ -15619,7 +15758,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "file"}}\
                     Files\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                     Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
@@ -15715,7 +15854,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "file"}}\
                     Files\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                     Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
@@ -15815,7 +15954,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "file"}}\
                     Files\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                     Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
@@ -15894,7 +16033,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "file"}}\
                     Files\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                     Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
@@ -15984,7 +16123,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "file"}}\
                     Files\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                     Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
@@ -16080,7 +16219,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "file"}}\
                     Files\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                     Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
@@ -16180,7 +16319,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "file"}}\
                     Files\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                     Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
@@ -16259,7 +16398,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if appearanceType == "file"}}\
                       Files\
                     {{/if}}\
-                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                       Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     </div>\
                   </div>\
@@ -16326,7 +16465,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "file"}}\
                     Files\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                     Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
@@ -16398,7 +16537,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "file"}}\
                     Files\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                     Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
@@ -16470,7 +16609,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if appearanceType == "file"}}\
                     Files\
                   {{/if}}\
-                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                  <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                     Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
@@ -16534,7 +16673,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if appearanceType == "file"}}\
                       Files\
                     {{/if}}\
-                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                       Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     </div>\
                   </div>\
@@ -16603,7 +16742,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if appearanceType == "file"}}\
                       Files\
                     {{/if}}\
-                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                       Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     </div>\
                   </div>\
@@ -16677,7 +16816,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if appearanceType == "file"}}\
                       Files\
                     {{/if}}\
-                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                       Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     </div>\
                   </div>\
@@ -16751,7 +16890,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if appearanceType == "file"}}\
                       Files\
                     {{/if}}\
-                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false}} display-block{{/if}}">\
+                    <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
                       Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     </div>\
                   </div>\
@@ -18174,7 +18313,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var viewType = 'Preview';
           var devMode = false;
           var dataHTML = $(_self.getTopDownActionTemplate()).tmplProxy({ 'selectedFacet': _self.vars.selectedFacetFromSearch || 'all results', 'tasks': data.dataObj.tasks, 'isFullResults': data.isFullResults, appearanceType: 'task', 'devMode': devMode, 'viewType': viewType });
-          $(actionContainer).empty().append(dataHTML);
+          $(actionContainer).last().empty().append(dataHTML);
           _self.bindCarouselForActionsTemplate(actionContainer);
         }
       });
@@ -19355,7 +19494,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //   var mainArr = [];
         //   if(_self.vars.selectedFiltersArr){
         //     _self.vars.selectedFiltersArr.forEach((element,index) => {
-        //       arr.push(element.split('-')[1].split('')[0]) 
+        //       arr.push(element.split('-')[1].split('')[0])
         //     });
         //     arr = new Set(arr);
         //   }
@@ -19578,7 +19717,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             });
           }
           _self.vars.selectedFiltersArr.forEach((element, index) => {
-            if ($('#' + element).attr('name').split('-')[0] == 'radio') {
+            if ($('#' + element).attr('name') && $('#' + element).attr('name').split('-')[0] == 'radio') {
               if (element.split('-')[1].split('')[0] == latest.split('-')[1].split('')[0]) {
                 _self.vars.selectedFiltersArr.splice(index, 1)
               }
@@ -19595,7 +19734,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           _self.vars.countOfSelectedFilters = _self.vars.selectedFiltersArr.length;
 
-          _self.filterResults(event, true);
+          _self.filterResults(event, false);
           //_self.pubSub.subscribe('sa-search-full-results');
           if (_self.vars.filterConfiguration.aligned == "top") {
             countFunc()
@@ -19616,7 +19755,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(event.target).find('.up-arrow').show();
           $('.dropdown-content').hide();
           $(event.target).siblings('#myDropdown').show();
-          //countFunc()  
+          //countFunc()
         }
         console.log(_self.vars.filterObject);
       });
@@ -19666,7 +19805,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.facetReset(_self.vars['facetObjectGlobal'], facetData);
       }
       //SDK Top Facet
-      //Search facet 
+      //Search facet
       $('.sdk-bottomup-search-facet').off('change').on('change', function (event) {
         var id = event.currentTarget.id
         var bucket = [...facetData];
@@ -19764,6 +19903,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var nlMeta = {
             linkedBotNLMeta: {
               'intent': $(e.currentTarget).attr('title'),
+              'seqLogId': $(e.currentTarget).attr('seqLogId') || null,
               'childBotName': $(e.currentTarget).attr('childBotName') || null,
               'isRefresh': true
             }
@@ -19861,27 +20001,27 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{if searchFacet.facetType == "value"}}\
                       <div class="custom_checkbox kr-sg-checkbox d-block">\
                           <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                          <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                          <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                       </div>\
                     {{/if}}\
                     {{if searchFacet.facetType == "range"}}\
                         <div class="kr-sg-checkbox d-block custom_checkbox">\
                           <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                          <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                          <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                         </div>\
                     {{/if}}\
                   {{/if}}\
                   {{if !searchFacet.isMultiSelect}}\
                     {{if searchFacet.facetType == "value"}}\
                       <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                          <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                          <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                          <input id="radio-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="${bucket.key}" data-from="${bucket.from}" data-to="${bucket.to}">\
+                          <label for="radio-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                       </div>\
                     {{/if}}\
                     {{if searchFacet.facetType == "range"}}\
                         <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                          <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                          <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                          <input id="radio-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="${bucket.key}" data-from="${bucket.from}" data-to="${bucket.to}">\
+                          <label for="radio-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key} </label> <span class="associated-filter-count">(${bucket.doc_count})</span>\
                         </div>\
                     {{/if}}\
                   {{/if}}\
@@ -19986,27 +20126,27 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         {{if searchFacet.facetType == "value"}}\
                           <div class="custom_checkbox kr-sg-checkbox d-block">\
                               <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                              <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                              <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                           </div>\
                         {{/if}}\
                         {{if searchFacet.facetType == "range"}}\
                             <div class="kr-sg-checkbox d-block custom_checkbox">\
                               <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                              <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                              <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                             </div>\
                         {{/if}}\
                       {{/if}}\
                       {{if !searchFacet.isMultiSelect}}\
                         {{if searchFacet.facetType == "value"}}\
                           <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                              <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                              <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                              <input id="radio-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="${bucket.key}" data-from="${bucket.from}" data-to="${bucket.to}">\
+                              <label for="radio-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                           </div>\
                         {{/if}}\
                         {{if searchFacet.facetType == "range"}}\
                             <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                              <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
-                              <label for="checkbox-${i}${j}" class="radio-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                              <input id="radio-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="${bucket.key}" data-from="${bucket.from}" data-to="${bucket.to}">\
+                              <label for="radio-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                             </div>\
                         {{/if}}\
                       {{/if}}\
@@ -20057,33 +20197,33 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <input id="checkbox_grpc" class="checkbox-custom" type="checkbox">
                   <label for="checkbox_grpc" class="checkbox-custom-label">Rewards Cards <span class="count">(3)</span></label>
               </div>
-            </div> 
+            </div>
             <div class="group-checkbox">
                 <div class="heading-title">Benefits</div>
                 <div class="custom_checkbox kr-sg-checkbox d-block">
                   <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">
                   <label for="checkbox_grpb" class="checkbox-custom-label">Accelarated Rewards <span class="count">(2)</span></label>
-                </div>  
+                </div>
                 <div class="custom_checkbox kr-sg-checkbox d-block">
                   <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">
                   <label for="checkbox_grpb" class="checkbox-custom-label">No Joining Fees <span class="count">(2)</span></label>
-                </div>  
+                </div>
                 <div class="custom_checkbox kr-sg-checkbox d-block">
                   <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">
                   <label for="checkbox_grpb" class="checkbox-custom-label">Annual Fee Waiver <span class="count">(1)</span></label>
-                </div>  
+                </div>
                 <div class="custom_checkbox kr-sg-checkbox d-block">
                   <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">
                   <label for="checkbox_grpb" class="checkbox-custom-label">Exclusive Events <span class="count">(1)</span></label>
-                </div>           
-            </div> 
+                </div>
+            </div>
             <div class="group-checkbox">
                 <div class="heading-title">Min. Balance</div>
                 <div class="custom_checkbox kr-sg-checkbox d-block">
                   <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">
                   <label for="checkbox_grpb" class="checkbox-custom-label">0 to 500 <span class="count">(8)</span></label>
-                </div>                    
-            </div> 
+                </div>
+            </div>
           </div>
           <div class="footer-filter">
                 <button class="apply-btn">Apply</button>
@@ -20152,7 +20292,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <a class="tile-with-text">
           <div class="tile-heading">How do I request a refund for my credit card account?</div>
           <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
-        </a> 
+        </a>
         <a class="tile-with-text">
           <div class="tile-heading">How do I request a refund for my credit card account?</div>
           <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
@@ -20160,14 +20300,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <a class="tile-with-text">
           <div class="tile-heading">How do I request a refund for my credit card account?</div>
           <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
-        </a>   
+        </a>
       </div>
       <div class="tile-with-text-parent with-accordion">
         <div class="tile-with-text">
           <div class="tile-heading accordion p-0" id="1">
             How do I request a refund for my credit card account?
               <div class="tile-description defalut-show text-truncate">Contact your customer service representati 7 days a week</div>
-          </div>                     
+          </div>
           <div class="panel">
               <div class="tile-description">Contact your customer service representati 7 days a week oe email us at xtcred@cred.com. You can contact us through our toll free number 1800-9890-9878 too.</div>
           </div>
@@ -20176,7 +20316,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div class="tile-heading accordion p-0" id="1">
             How do I request a refund for my credit card account?
               <div class="tile-description defalut-show text-truncate">Contact your customer service representati 7 days a week</div>
-          </div>                     
+          </div>
           <div class="panel">
               <div class="tile-description">Contact your customer service representati 7 days a week oe email us at xtcred@cred.com. You can contact us through our toll free number 1800-9890-9878 too.</div>
           </div>
@@ -20185,11 +20325,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div class="tile-heading accordion p-0" id="1">
             How do I request a refund for my credit card account?
               <div class="tile-description defalut-show text-truncate">Contact your customer service representati 7 days a week</div>
-          </div>                     
+          </div>
           <div class="panel">
               <div class="tile-description">Contact your customer service representati 7 days a week oe email us at xtcred@cred.com. You can contact us through our toll free number 1800-9890-9878 too.</div>
           </div>
-        </div>                    
+        </div>
       </div>
     </div>
     </div>
@@ -20719,7 +20859,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       return autoSuggestion;
     }
-
+    FindlySDK.prototype.changeSearchContainerBackground = function () {
+      var _self = this;
+      if ((($('.search-body').find('.resultsOfSearch').length && $('.search-body').is(':visible')) || $('.search-body').find('.recentContainer').length || $('.suggestion-search-data-parent').is(':visible') ) && !_self.vars.enterIsClicked) {
+        if(!window.isBotLocked){
+                      $('.parent-search-live-auto-suggesition').show();
+                    }
+        $('.search-container').removeClass('no-history');
+      }
+      else {
+        $('.parent-search-live-auto-suggesition').hide();
+        if (!$('#searchChatContainer').find('.messageBubble').length && !$('.search-container').hasClass('no-history')) {
+          $('.search-container').addClass('no-history');
+        }
+      }
+    }
     FindlySDK.prototype.appendSuggestions = function (autoComplete) {
       var _self = this;
 
@@ -20768,15 +20922,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 suggestions: data.autoComplete.querySuggestions,
                 querySuggestionsLimit: (searchConfigurationCopy.querySuggestionsLimit || (searchConfigurationCopy.querySuggestionsLimit == 0)) ? searchConfigurationCopy.querySuggestionsLimit : 2
               });
-              if ($('.search-body').find('.resultsOfSearch').length) {
-                $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
-              }
-              else if (searchConfigurationCopy.liveSearchResultsLimit == 0) {
+              // if ($('.search-body').find('.resultsOfSearch').length) {
+              //   $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
+              // }
+              // else if (searchConfigurationCopy.liveSearchResultsLimit == 0) {
+              //   $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
+              // } else {
+              //   $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
+              // }
+              if(data.autoComplete.querySuggestions.length){
                 $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
               } else {
-                $('#autoSuggestionContainer').empty().append(autoSuggestionHTML);
+                $('#autoSuggestionContainer').empty().append('<div class="suggestion-search-data-parent"><div class="noquerySuggestionsFound">No suggestions found</div></div>')
               }
             }
+            _self.changeSearchContainerBackground();
             if (searchConfigurationCopy.autocompleteOpt) {
               _self.pubSub.publish('sa-auto-suggest', data.autoComplete.typeAheads);
             }
@@ -20801,6 +20961,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           } else {
             $('#autoSuggestionContainer').empty();
+            $('.parent-search-live-auto-suggesition').hide();
           }
         },
         error: function (err) {
@@ -21171,7 +21332,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       {{each(j, bucket) searchFacet.buckets.slice(0, (searchFacet.maxCount?searchFacet.maxCount:searchFacet.buckets.length))}}\
           {{if (searchFacet.facetType == "value" || searchFacet.facetType == "range") && searchFacet.isMultiSelect }}\
           <div class="kr-sg-checkbox d-block">\
-          <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down c-1" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}" data-from="${bucket.from}" data-to="${bucket.to}">\
+          <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down c-1" type="checkbox" name="${bucket.key}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}" data-from="${bucket.from}" data-to="${bucket.to}">\
 					<label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
@@ -21212,7 +21373,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       <div class="option-text">\
       {{if (searchFacet.facetType == "value" || searchFacet.facetType == "range" ) && searchFacet.isMultiSelect }}\
       <div class="kr-sg-checkbox d-block">\
-      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}" data-from="${bucket.from}" data-to="${bucket.to}">\
+      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.facetType}" data-from="${bucket.from}" data-to="${bucket.to}">\
       <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
           <span class="count">\(${bucket.doc_count})</span>\
         </div>\
@@ -21686,14 +21847,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <!--<div class="logo_img">-->
              <!--   <img src="data:image/png;base64,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">-->
              <!-- </div>-->
-            <div id="heading" class="search-input-box">      
-                <div id="search-box-container" class="search-box-container-data"> 
+            <div id="heading" class="search-input-box">
+                <div id="search-box-container" class="search-box-container-data">
                 <div class="cancel-search">
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADeSURBVHgBnZI/C8IwEMUviRUHkdKp0KWgBccu/QAOgrj1k2arbtLZJXtFOpVOpXtoYyKk+CeJ4BtCEt7vuHscwJ8i6timh3gZbvy+vfUuc5Ie01W4XigfVh+Dh/25hy9Jtk9dECKC6vcTrK4FEwA5Ao+aYA2JAeU1O9dTq0pdU7VBlJQICA2iuOyae/sJVaxg2o++qmfSCEAF8By4BybICL7CMAowQUozEwhcDSGnxhLH3GjB4AjCFRixQao9W2BvoC09GzxtjrydbEGY4GlGG6SllgTzccc5ca7lTz0A2yqRYknu6twAAAAASUVORK5CYII="/>
-                  </div>                
-                </div>  
-                <div id="greeting-msg-top-down"></div> 
-                <div id="frequently-searched-box" class="frequently_searched_box"> </div>          
+                  </div>
+                </div>
+                <div id="greeting-msg-top-down"></div>
+                <div id="frequently-searched-box" class="frequently_searched_box"> </div>
                 <div id="live-search-result-box" class="live_search_result_box">
                     <div id="auto-query-box" class="auto_query_box">
                         <!-- suggestion query result-->
@@ -21710,25 +21871,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         </div>
                         <div class="structured-live-data-container">
                         </div>
-                        
+
                     </div>
-                </div>    
-                
-                
+                </div>
+
+
             </div>
-                
+
 
             <div class="all-result-container">
             <div id="conversation-container" class="conversation-container">
-                    <div class="conversation-title">    
-                        <div class="custom-header-container-left searchAssist" style="padding-left: 20px;">    
+                    <div class="conversation-title">
+                        <div class="custom-header-container-left searchAssist" style="padding-left: 20px;">
                             <!--<img class="searchAssistIcon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAAAOCAYAAADub7QZAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAXjSURBVHgB7VjbUeNYEO0re6r2a0cTwVyD53tNBGNHAESAHQEQAZ4IBiLARDAQASYC/M9LGeD9xrj39EOyLB42W8tjqrYLG1nqe/txu093q0b/06tQjN9aafrnH2MQ/UYU8osYY0pJfRuXLWJK8WRMUz7JsqsBfTAyXT/91B/Tu90sy5Zyeoyr+5Qkn23d9Oy1bEMwdCnwIS7HxJPGsvp9BKrLl0QzDDjVQMiJ8QlhIzaa2zCq88GMSom5KxchhD6J4xcQgiiCGbaw3Qgh4ntAr0o8fonfYmzu4ByQlCHLbi479A6U6LdFM4KBM+LQQzB04LgD52khbrr021N9o3Kj3Wg0vtIrUJZdDJBEX4jv1+hlhDMI0T7vQ3X/39JvDkdqjNEQEIvSEeacVpQWpjapAQKLfFSFX4XNhNfxrCURD/4R0eQAGZPZ8+ZPlCUpT2eUhFvi6Y7Jv+zPy+Bo6x/KKGStNPcMMZ7hs8yTv+Ncd+ZaD//7Fb1bSJNt01vWUVYtnYt44DeUjLDl7J2K3xCYnFZ1NX/whlVxToHMp8/Z/FqUB4TAGg6ft6DYEIcylJtQpvtgRahLaWnN3wttrEuxbl9++gH1texQkL3bsLNNVNuAY9YURoPu0Tb7ua2OSDz45mRomxNVxkrza3Z9+aMsmkNt35xc4ivpojflADWwQFM+wvffemCB1qkUEFZWitJpUC96SOmMq+KPwQIelIirY8/w9ryPaufgi86fqT/UptXv2fVVz/wRonOntj6c0RtT4gq6k6FQoFNE561EqEZ6iTTrFU2ktFAHdS7g/64tpT3JAs0EyUBWnl3wfJHGqtgfQVHRoa3lScrUlA60jhaIxZsGva4fk6FHmSRLtcRpJo5dl615EdOuX+QHNvDfLchrz/hqIttRD82g6g7ZYovqvpBnPlEKv4kMX88BCXHV8LIMZAkt89lkc1amBT3EZ5N9emNShJBswmGPBSGIilJgEdxYRbbfdxTq7bkgwkiy352JUuAIg8N2iCtg0rJTg+gpHUZYs5P/QCAe6gXTiR2e7gMUyMGMKgERejmiIYCPtHGkMM9jSCB6H9uNCXSujws7UR6dcVzIwBQD+47kUGB6v7TZEjxVkjVuf8J7qqc0jtllo8yFvYoGNC+tb03JTIGLgXS2nvUSvUf2JETPCsnGaP8B0UCS4lM5pLjybRuBdAPov0UQnXvT+jhxZUJgzvcazXTLxtJb2Oc5R4UHHf18dnKEbofFyKpLQglNJCMl05W3a/bVHS1jXJ5nnuDbUQnl4LvwS/wiPqqi8HtTXR2WuFN8pveMQ1PZ/AyDYUAiGVZksQVLAbsluh+pU5j3rYEDzxRNI90N4bQbegkl1WY2h/bJiF5EgmrF65Z2MXbOnkfZW2z2EbHhsuAX+sv6E0HLmgR+Yxmex7TwZnlg0w7KXKDvXqIPsVeWo9x7U12zymd6dMFirPYE3jy11JnsGUF0gs+2TB5AkqHz2UuiKcta8H1qOzyOs+uLXrHX8mQymKUB/SGIgCwSRPqlT/kTRrm75d+JBG/uZJqpBnFgQQoZt+VAhzYZyUGhjF1f9E33Zl/6oxxlBP3IepwneapUTCVCnnT+7ufcODilD0J1gTPA3ZA0e2gH1zsGiSHO2PLycY/Mr2ufYSUhGcrBKcwHbSIPCjiFoxWeJVB0nMr7jEVUyEgl46CPrIumBg1V3yUDzLPYeXmALBzMPW80rWeysrGjB8PU1WcrWmrGap/Jtv5jyl9w+I/zhMdQUwgBzP4uJ9QwWXwbFiOr+uV+NLtWYVEae/D08j7qrcinjLzDzQ8zRLtPovhmPgtr/ebJmr1TCNGRJTU+azwV+op6qTW2i8YPUwQvldUPZFg2mgya9OhFxKX+4P6hY/Hew69SLxv7prsG90aBnHrQJlug3+0bP+BB9tOTNmFiyhPN1rTMb6Ez64smg1nvJk1rsk5vTKF6o5R9z7529fEvfYpv0fNl6L/Y49/SMn5Y1leVNQttynneY9L4B8IcafF/DEj3AAAAAElFTkSuQmCC">-->
                             <div class="searchAssistHeader">  Search Assist </div>
-                        </div>            
+                        </div>
                         <div class="close-conv">
                             <img class="close-conv-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBbZHRDcIwDERju+zTSizSCWgl8sFM+Ug26AwsUDIGO9A05AChprV/osjPd2eZLtfbg2gZg3PRKDUMts3SeAaUV5kGa1sVYpkoLaPEeX525+4OGC/+FbSmPgQX6T9dFAETp968jNlC6FNl9YNNLo0NhOIqVFEC9Bk/1Xn5ELwowX6/oGjBtQVpD2mZ4cBZ2GsQCkf4xmj8GzsLeh0gnVcbAAAAAElFTkSuQmCC" />
                         </div>
-                    </div>            
+                    </div>
                     <div id="conversations" class="conversations">
                         <!-- <div id="action-title"></div> -->
                         <div id="conversation-body">
@@ -21743,7 +21904,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="full-results-data-container">
                 <div class="back-search" style="cursor: pointer;position: absolute;right: 26px;z-index: 100000;">
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADeSURBVHgBnZI/C8IwEMUviRUHkdKp0KWgBccu/QAOgrj1k2arbtLZJXtFOpVOpXtoYyKk+CeJ4BtCEt7vuHscwJ8i6timh3gZbvy+vfUuc5Ie01W4XigfVh+Dh/25hy9Jtk9dECKC6vcTrK4FEwA5Ao+aYA2JAeU1O9dTq0pdU7VBlJQICA2iuOyae/sJVaxg2o++qmfSCEAF8By4BybICL7CMAowQUozEwhcDSGnxhLH3GjB4AjCFRixQao9W2BvoC09GzxtjrydbEGY4GlGG6SllgTzccc5ca7lTz0A2yqRYknu6twAAAAASUVORK5CYII="/>
-                  </div> 
+                  </div>
                     <div id="filters-left-sec"></div>
                   <div class="all-product-details ">
                     <div class="show_insights_top_down" data-displayInsights="true">\
@@ -22048,7 +22209,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                       {{if selectedFacet !== appearanceType && selectedFacet == "all results"}}\
                                         <div class="structured-data-header total-structured-data-wrap" appearanceType="task">\
                                           ACTIONS\
-                                          <div class="search-heads show-all sdk-show-classification display-block">\
+                                          <div class="search-heads show-all sdk-show-classification display-none">\
                                             Show All Actions\
                                           </div>\
                                         </div>\
@@ -22057,7 +22218,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         <div class="action-results-container btn_block_actions main-content-title-grid-data new-grid-search-data">\
                                           {{each(key, task) tasks}}\
                                             <div class="title-box-data">\
-                                                <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                                                <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}" seqLogId="${task.seqLogId}">\
                                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
                                                 <div class="name-title">${task.titleText}</div>\
                                                 {{if task.childBotName !=="" && task.childBotName !== undefined}}\
@@ -22096,7 +22257,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                     {{if selectedFacet !== appearanceType && selectedFacet == "all results"}}\
                                       <div class="structured-data-header total-structured-data-wrap list-view-action-header" appearanceType="task">\
                                         ACTIONS\
-                                        <div class="search-heads show-all sdk-show-classification display-block">\
+                                        <div class="search-heads show-all sdk-show-classification display-none">\
                                           Show All Actions\
                                         </div>\
                                       </div>\
@@ -22105,7 +22266,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                       <div class="action-results-container btn_block_actions main-content-title-grid-data new-grid-search-data list-view-data-search">\
                                         {{each(key, task) tasks}}\
                                           <div class="title-box-data">\
-                                              <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                                              <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}" seqLogId="${task.seqLogId}">\
                                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card display-none">\
                                               <div class="name-title">${task.titleText}</div>\
                                               {{if task.childBotName !=="" && task.childBotName !== undefined}}\
@@ -22144,7 +22305,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                       {{if selectedFacet !== appearanceType && selectedFacet == "all results"}}\
                                         <div class="structured-data-header total-structured-data-wrap" appearanceType="task">\
                                           ACTIONS\
-                                          <div class="search-heads show-all sdk-show-classification display-block">\
+                                          <div class="search-heads show-all sdk-show-classification display-none">\
                                             Show All Actions\
                                           </div>\
                                         </div>\
@@ -22154,7 +22315,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                           {{each(key, task) tasks}}\
                                             <div class="slide">\
                                               <div class="title-box-data text-truncate">\
-                                                  <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">${task.titleText}</div>\
+                                                  <div id="${key}" class="search-task search-grid-item text-truncate" title="${task.name}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}" seqLogId="${task.seqLogId}">${task.titleText}</div>\
                                                   {{if task.childBotName !=="" && task.childBotName !== undefined}}\
                                                     <div class="child-bot">${task.childBotName}</div>\
                                                   {{/if}}\

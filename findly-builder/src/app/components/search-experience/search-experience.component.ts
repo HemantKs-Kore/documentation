@@ -13,6 +13,7 @@ import { LocalStoreService } from './../../services/localstore.service';
 import { NgbDropdown, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { Emoji } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 declare const $: any;
 @Component({
   selector: 'app-search-experience',
@@ -274,7 +275,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   @ViewChild('guideModalPop') guideModalPop: KRModalComponent;
   @ViewChild(NgbDropdownMenu) avatarDropdown: NgbDropdownMenu;
   constructor(private http: HttpClient, public workflowService: WorkflowService, private service: ServiceInvokerService, private authService: AuthService, private notificationService: NotificationService, private appSelectionService: AppSelectionService, public headerService: SideBarService,
-    public localstore: LocalStoreService, public inlineManual: InlineManualService) {
+    public localstore: LocalStoreService, public inlineManual: InlineManualService, public mixpanel: MixpanelServiceService) {
   }
 
   ngOnInit(): void {
@@ -417,10 +418,15 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   //add emoji based on selection
   addEmoji(event) {
     const emoji = event.emoji.native;
-    if (this.searchObject.searchInteractionsConfig.welcomeMsg.length <= 58) {
-      //this.searchObject.searchInteractionsConfig.welcomeMsg = this.searchObject.searchInteractionsConfig.welcomeMsg.splice(this.greeting_msg_index, 0, emoji);
-      this.searchObject.searchInteractionsConfig.welcomeMsg = [this.searchObject.searchInteractionsConfig.welcomeMsg.slice(0, this.greeting_msg_index), emoji, this.searchObject.searchInteractionsConfig.welcomeMsg.slice(this.greeting_msg_index)].join('');
+    if (this.searchObject.searchInteractionsConfig.welcomeMsg.length <= 58 && !(["☺️", "🥲"].includes(emoji))) {
+      if (this.greeting_msg_index) {
+        this.searchObject.searchInteractionsConfig.welcomeMsg = [this.searchObject.searchInteractionsConfig.welcomeMsg.slice(0, this.greeting_msg_index), emoji, this.searchObject.searchInteractionsConfig.welcomeMsg.slice(this.greeting_msg_index)].join('');
+      }
+      else {
+        this.searchObject.searchInteractionsConfig.welcomeMsg = this.searchObject.searchInteractionsConfig.welcomeMsg + emoji
+      }
     }
+
   }
   //sequential tabs method
   nextTab(type) {
@@ -484,11 +490,13 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       if (this.searchObject.searchInteractionsConfig.defaultStatus === undefined) {
         this.searchObject.searchInteractionsConfig.defaultStatus = "searchBar";
       }
+      this.mixpanel.postEvent('Search Interface - Experience - Top Down', {});
     }
     else {
       this.suggestions.push({ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 5, 1, queryValue, 'suggestion', 'top-down-suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 10, 1, recentValue, 'live', 'top-down-live') });
       this.searchObject.searchInteractionsConfig.querySuggestionsLimit = data === undefined ? 5 : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
       this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = data === undefined ? 10 : this.searchObject.searchInteractionsConfig.liveSearchResultsLimit;
+      this.mixpanel.postEvent('Search Interface - Experience - Bottom Up', {});
     }
   }
   //slider number method
@@ -678,21 +686,20 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     this.selectSearch = type;
   }
   //put tour config data
-  updateTourConfig() {
-    const appInfo: any = this.workflowService.selectedApp();
-    const quaryparms: any = {
-      streamId: appInfo._id
-    };
-    this.tourData.searchExperienceVisited = true;
-    const payload = { "tourConfigurations": this.tourData };
-    this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
-      //this.appSelectionService.updateTourConfig(this.componentType);
-      this.notificationService.notify('Updated successfully', 'success');
-      //this.tourGuide = '';
-    }, errRes => {
-      console.log(errRes);
-    });
-  }
+  // updateTourConfig() {
+  //   const appInfo: any = this.workflowService.selectedApp();
+  //   const quaryparms: any = {
+  //     streamId: appInfo._id
+  //   };
+  //   this.tourData.searchExperienceVisited = true;
+  //   const payload = { "tourConfigurations": this.tourData };
+  //   this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(res => {
+  //     //this.appSelectionService.updateTourConfig(this.componentType);
+  //     //this.tourGuide = '';
+  //   }, errRes => {
+  //     console.log(errRes);
+  //   });
+  // }
   //get default data
   getSearchExperience() {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
