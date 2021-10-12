@@ -330,6 +330,7 @@ export class AppHeaderComponent implements OnInit {
       return_to: this.appUrlsService.completeAppPath(),
       showLogin: 'true',
       // comingFromKey: 'isFindlyApp',
+      checkSwitchfrom : 'business-app',
       hideSSOButtons: 'true',
       hideResourcesPageLink: 'true'
     }));
