@@ -981,11 +981,25 @@
                                 line-height: 20px;
                                 color: #3C4043;
                                 position: relative;
-                                &::after{
+                                // &::after{
+                                //     content: "";
+                                //     position: absolute;
+                                //     width: 14px;
+                                //     height: 14px;
+                                //     background: #F8F9FA;
+                                //     transform: rotate(45deg);
+                                //     bottom: -8px;
+                                //     right: 20px;
+                                //     border: 1px solid #E0E1E9;
+                                //     border-top: 0;
+                                //     border-left: 0;
+                                //     z-index: 0;
+                                // }
+                                .arrow-bottom-{
                                     content: "";
                                     position: absolute;
                                     width: 14px;
-                                    //height: 14px;
+                                    height: 14px;
                                     background: #F8F9FA;
                                     transform: rotate(45deg);
                                     bottom: -8px;
@@ -1016,6 +1030,8 @@
                             display: inline-flex;
                             align-items: center;
                             margin: 12px 0;
+                            position: relative;
+                         z-index: 1;
                             .greeting-title{
                                 color: #3C4043;
                                 font-weight: normal;
