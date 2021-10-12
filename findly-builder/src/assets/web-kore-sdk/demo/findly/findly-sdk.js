@@ -8114,6 +8114,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       window.koreWidgetSDKInstance = _self;
     }
+    FindlySDK.prototype.initKorePicker = function(findlyConfig){
+      setTimeout(()=>{
+        if (window.KorePickers) {
+          this.config= findlyConfig;
+          this.config.chatContainer = $('.search-container');
+          var pickerConfig={
+          chatWindowInstance: this,
+          chatConfig: this.config,
+          }
+          var korePicker = new KorePickers(pickerConfig);
+          korePicker.init();
+          }
+          function addBottomSlider(){
+            $('.kore-chat-window').remove('.kore-action-sheet');
+            var actionSheetTemplate='<div class="kore-action-sheet hide">\
+            <div class="actionSheetContainer"></div>\
+            </div>';
+            $('.kore-chat-window').append(actionSheetTemplate);
+            }
+            addBottomSlider();
+      },3000)
+    }
     FindlySDK.prototype.enableRecent = function () {
       var _self = this;
       _self.pubSub.unsubscribe('sa-show-freq-data');
@@ -8747,6 +8769,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var livesearchAutoSuggestionHtml = $('.live-seach-auto-suggestion-parent');
       _self.bindPerfectScroll(livesearchAutoSuggestionHtml, '.search-body', null, 'searchBody');
       _self.bindPerfectScroll(livesearchAutoSuggestionHtml, '#autoSuggestionContainer', null, 'suggestionContainer');
+      if(_self.isDev){
+        _self.initKorePicker(config);
+      }
     };
     FindlySDK.prototype.initSearchAssistSDK = function (findlyConfig) {
       var _self = this;
@@ -8760,27 +8785,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.initialize(findlyConfig);
           _self.showSearch(null, response);
         }
-        setTimeout(()=>{
-          if (window.KorePickers) {
-            this.config= findlyConfig;
-            this.config.chatContainer = $('.search-container');
-            var pickerConfig={
-            chatWindowInstance: this,
-            chatConfig: this.config,
-            }
-            var korePicker = new KorePickers(pickerConfig);
-            korePicker.init();
-            }
-            function addBottomSlider(){
-              $('.kore-chat-window').remove('.kore-action-sheet');
-              var actionSheetTemplate='<div class="kore-action-sheet hide">\
-              <div class="actionSheetContainer"></div>\
-              </div>';
-              $('.kore-chat-window').append(actionSheetTemplate);
-              }
-              addBottomSlider();
-        },3000)
-        
+
+        _self.initKorePicker(findlyConfig);
       });
     }
     var searchConfigurationCopy = {};
@@ -22214,6 +22220,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.bindPerfectScroll(conversationContainerHtml, '#conversations', null, 'y', 'conversationContainer');
       if (!$('body').hasClass('searchAssist-defaultTheme-kore')) {
         $('body').addClass('searchAssist-defaultTheme-kore');
+      }
+      if(_self.isDev){
+        _self.initKorePicker(findlyConfig);
       }
     }
     FindlySDK.prototype.getTopDownFacetsTabs = function () {

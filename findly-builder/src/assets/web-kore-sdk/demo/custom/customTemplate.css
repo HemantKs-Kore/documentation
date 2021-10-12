@@ -2900,3 +2900,26 @@ top: -16px;
     color: #202124;
 }
 /* propose template css ends here*/
+
+/*advanced list template css starts here*/
+.kore-chat-window .kore-action-sheet .TaskPickerContainer .taskMenuHeader .closeSheet {
+    cursor: pointer;
+    background: none;
+    border: none;
+    outline: none;
+    position: absolute;
+    top: 21px;
+    right: 20px;
+}
+.kore-chat-window .kore-action-sheet .TaskPickerContainer {
+    height: 462px;
+    overflow-y: auto;
+}
+.kore-chat-window .kore-action-sheet .TaskPickerContainer .taskMenuHeader .taskHeading {
+    line-height: 2.5;
+    margin-left: 17px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+}
+/*advanced list template css ends here*/

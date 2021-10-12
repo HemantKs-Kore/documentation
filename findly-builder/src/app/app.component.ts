@@ -569,7 +569,14 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     const findlyConfig: any = {
       botOptions: botOptionsFindly,
-      viaSocket: true
+      viaSocket: true,
+      pickersConfig: {
+          showDatePickerIcon: false, //set true to show datePicker icon
+          showDateRangePickerIcon: false, //set true to show dateRangePicker icon
+          showClockPickerIcon: false, //set true to show clockPicker icon
+          showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
+          showradioOptionMenuPickerIcon: false //set true to show Radio Option Template icon
+          }
     };
     this.findlyBusinessConfig = this;
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
