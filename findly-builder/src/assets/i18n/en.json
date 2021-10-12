@@ -1148,6 +1148,8 @@
         "top_down": "Top Down",
         "searchBar_at_the_top": "Search Bar at the top",
         "bottom_up": "Bottom Up",
+        "search_bar": "Search Bar",
+        "assistant": "Assistant",
         "search_bar_at_the_bottom": "Search Bar at the bottom",
         "search_box_customization": "Search Box Customization",
         "click_on_searchbox": "Click on search box to customize border and fill color",

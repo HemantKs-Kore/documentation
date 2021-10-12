@@ -851,7 +851,7 @@
                           </div>
                         </div>
                         <input type="text" maxlength="60" autocomplete="off" id="crawlDepth" name="crawlDepth"
-                          placeholder="0" min="0" (keyup)="checkValue(crawlDepth)" [(ngModel)]="crawlDepth"
+                          placeholder="0" min="0" (keyup)="checkValue(crawlDepth,'crawlDepth')" [(ngModel)]="crawlDepth"
                           class="input-text">
                       </div>
                     </div>
@@ -867,8 +867,9 @@
                             </span>
                           </div>
                         </div>
-                        <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0"
-                          (keyup)="checkValue(maxUrlLimit)" [(ngModel)]="maxUrlLimit" class="input-text">
+                          <input type="number" autocomplete="off" id="maxUrlLimit" maxlength="60" name="maxUrlLimit"  min="500"
+                          placeholder="0" (keyup)="checkValue(maxUrlLimit,'maxUrlLimit')" [(ngModel)]="maxUrlLimit"
+                          class="input-text maxUrlLimit-class">
                       </div>
                     </div>
                   </div>
@@ -1001,10 +1002,10 @@
               </div>
             </perfect-scrollbar>
             <!-- Conf Configuration-->
-
+            
           </div>
           <div class="accordion-content-info text-left"
-            *ngIf="page && (sourceStatus == 'success' || (sourceStatus == 'running' && totalRecord != 0))">
+            *ngIf="page && totalRecord > 0">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
               <div class="col-3 label_text m-0">Last Updated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
@@ -1092,7 +1093,7 @@
 
           </div>
           <div class="empty-page-data-container"
-            *ngIf="page && (sourceStatus == 'failed'  || (sourceStatus == 'running' && totalRecord == 0) || sourceStatus == 'configured' || sourceStatus == 'stopped')">
+            *ngIf="page &&  totalRecord == 0">
             <img src="assets\images\emptyList.png">
             <div class="title">Sorry! No Pages available yet!! Please <span> crawl</span> the web domain again</div>
           </div>
@@ -1119,8 +1120,8 @@
                                 <div class="close-log"><img src="assets/images/close.svg"
                                     (click)="executionLogStatus = false"></div>
                               </div>
-                              <ng-container *ngFor="let statlog of history.executionStats.statusLogs; let i = index;">
-                                <div class="log-details" *ngIf="statlog.stageName">
+                              <ng-container *ngFor="let statlog of history?.executionStats?.statusLogs; let i = index;">
+                                <div class="log-details" *ngIf="statlog?.stageName">
                                   <img *ngIf="statlog.stageName == 'failed' && statlog.stageStatus == 'failed'"
                                     src="assets/icons/content/failed-circle.svg">
                                   <img *ngIf="statlog.stageName != 'failed' && statlog.stageStatus == 'failed'"
@@ -1174,13 +1175,13 @@
                           <div class="col_ col-4 d-flex">
                             <span class="execute-success mr-2" ngbTooltip='{{ history.executionStats.tooltip || ""}}'
                               placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class">
-                              <img *ngIf="history.executionStats.executionStatusMessage =='Execution In Progress'"
+                              <img *ngIf="history?.executionStats?.executionStatusMessage =='Execution In Progress'"
                                 class="inProgress" src="assets/icons/ringLoading.svg">
-                              <img *ngIf="history.executionStats.executionStatusMessage !='Execution In Progress'"
+                              <img *ngIf="history?.executionStats?.executionStatusMessage !='Execution In Progress'"
                                 src="{{executionObj[history.executionStats.executionStatusMessage].icon}}">
                               <span
-                                *ngIf="history.executionStats.executionStatusMessage =='Execution In Progress' && history.executionStats.percentageDone"
-                                style="position: absolute;left: 4px;top: 4px;font-size: 10px;font-weight: 600">{{history.executionStats.percentageDone
+                                *ngIf="history?.executionStats.executionStatusMessage =='Execution In Progress' && history.executionStats.percentageDone"
+                                style="position: absolute;left: 4px;top: 4px;font-size: 10px;font-weight: 600">{{history?.executionStats?.percentageDone
                                 || 0}}%</span>
                             </span>
                             <!-- <span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
@@ -1189,7 +1190,7 @@
                               <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Stopped'" src="assets/icons/content/stopped.svg" >
                               <img *ngIf="history.executionStats.executionStatusMessage == 'Execution In Progress'" src="assets/icons/content/failed.svg">
                             </span> -->
-                            <div class="text-truncate w-100 pr-4">{{history.executionStats.executionStatusMessage}}
+                            <div class="text-truncate w-100 pr-4">{{history?.executionStats.executionStatusMessage}}
                             </div>
                             <!-- <div class="eye-img" (mouseenter)="executionHistoryPop(history,i)"><img src="assets/icons/content/eye.svg" >
                             </div>
@@ -1198,9 +1199,9 @@
                               {{executionObj[history.executionStats.executionStatusMessage]}}
                             </div> -->
                           </div>
-                          <div class="col_ col-2">{{history.executionStats.duration}}</div>
-                          <div class="col_ col-3">{{history.executionStats.triggeredBy}}</div>
-                          <div class="col_ col-3">{{history.createdOn}}</div>
+                          <div class="col_ col-2">{{history?.executionStats.duration}}</div>
+                          <div class="col_ col-3">{{history?.executionStats.triggeredBy}}</div>
+                          <div class="col_ col-3">{{history?.createdOn}}</div>
                         </div>
                         <!-- test   (mouseleave) = "mouseleave()" -->
 
@@ -1244,7 +1245,7 @@
           <div class="view-details-data">
             <div class="title">URL</div>
             <div class="desc-info">{{selectedPage._source.page_url|| selectedPage._source.page_image_url }}<img
-                class="external_link" (click)="openImageLink(selectedPage.imageUrl)"
+                class="external_link" (click)="openImageLink(selectedPage.url_display)"
                 src="assets/icons/sidemenu/external-link.svg"></div>
           </div>
           <div class="view-details-data">
