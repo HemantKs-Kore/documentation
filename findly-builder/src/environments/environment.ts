@@ -5,11 +5,7 @@
 export const environment = {
   production: false,
   tag: 'dev',
-<<<<<<< Updated upstream
   API_SERVER_URL: 'https://searchassist-app.kore.ai',
-=======
-  API_SERVER_URL: 'https://app.findly.ai',
->>>>>>> Stashed changes
   USE_SESSION_STORE: false,
   INLINE_MANUAL_SITE_KEY: "1ec224ee46620656a9b18a17c80587a3",
   // API_SERVER_URL: 'http://192.168.10.101:5000'
