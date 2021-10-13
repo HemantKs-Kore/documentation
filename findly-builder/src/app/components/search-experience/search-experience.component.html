@@ -472,6 +472,7 @@
                                                                 [enableSearch]="false" [totalFrequentLines]="19"
                                                                 include=[people] [showSingleCategory]="false"
                                                                 [hideObsolete]="true" (emojiClick)="addEmoji($event)"
+                                                                [emojisToShowFilter]="filterEmojis"
                                                                 [i18n]="configEmoji">
                                                             </emoji-mart>
                                                         </perfect-scrollbar>
@@ -679,7 +680,8 @@
                                         <div class="greeting-message-avatar"
                                             [ngStyle]="{'background':searchObject.searchInteractionsConfig.welcomeMsgFillColor,'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">
                                             {{searchObject.searchInteractionsConfig.welcomeMsg}}
-                                            <div class="arrow-bottom-" [ngStyle]="{'background':searchObject.searchInteractionsConfig.welcomeMsgFillColor,'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">
+                                            <div class="arrow-bottom-"
+                                                [ngStyle]="{'background':searchObject.searchInteractionsConfig.welcomeMsgFillColor,'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">
 
                                             </div>
                                         </div>
@@ -863,7 +865,8 @@
                     <div class="desc-text">{{'searchexperience.enhances_users' | translate}}</div>
                     <div class="info-text">{{'searchexperience.here' | translate}}
                         <span>{{'searchexperience.Query_suggestions' | translate}}</span> {{'searchexperience.are' |
-                        translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span></div>
+                        translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span>
+                    </div>
                 </div>
                 <div class="right-content">
                     <img src="assets/icons/search-experience/guide/livesearch-suggestion.svg">
@@ -886,7 +889,8 @@
                         <span>{{'searchexperience.Query_suggestions' | translate}}</span> {{'searchexperience.and' |
                         translate}} <span>{{'searchexperience.liv_search' | translate}}</span>,
                         {{'searchexperience.both_enabled' | translate}} <span>{{'searchexperience.set_to_three' |
-                            translate}}</span></div>
+                            translate}}</span>
+                    </div>
                 </div>
             </div>
 
@@ -947,7 +951,8 @@
                         {{'searchexperience.are' | translate}} <span>{{'searchexperience.set_to_three' |
                             translate}}</span> {{'searchexperience.and' | translate}}
                         <span>{{'searchexperience.live_search' | translate}}</span> {{'searchexperience.set_to_three' |
-                        translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span></div>
+                        translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span>
+                    </div>
                 </div>
             </div>
 
@@ -962,7 +967,8 @@
                     <div class="desc-text">{{'searchexperience.enhances_users' | translate}}</div>
                     <div class="info-text">{{'searchexperience.here' | translate}}
                         <span>{{'searchexperience.Query_suggestions' | translate}}</span> {{'searchexperience.are' |
-                        translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span></div>
+                        translate}} <span>{{'searchexperience.set_to_zero' | translate}}</span>
+                    </div>
                 </div>
                 <div class="right-content">
                     <img src="assets/icons/search-experience/guide/topdown/liveseach.svg">
@@ -986,7 +992,8 @@
                         translate}} <span>{{'searchexperience.liv_search' | translate}}</span>,
                         {{'searchexperience.both_enabled' | translate}} <span>{{'searchexperience.set_to_three' |
                             translate}}</span> {{'searchexperience.and' | translate}}
-                        <span>{{'searchexperience.five_respectively' | translate}}</span></div>
+                        <span>{{'searchexperience.five_respectively' | translate}}</span>
+                    </div>
                 </div>
             </div>
 
