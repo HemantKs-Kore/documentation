@@ -112,8 +112,8 @@
               <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
                   {{
-                  (selectedStage.type
-                  ? selectedStage.type
+                  (selectedStage?.type
+                  ? selectedStage?.type
                   : "choose_stage_type"
                   ) | translate
                   }}
@@ -124,7 +124,7 @@
                       let index = index
                     " (click)="switchStage(systemStage, index);">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
-                      systemStage.type | translate
+                      systemStage?.type | translate
                       }}</a>
                   </li>
                 </ul>
@@ -148,8 +148,8 @@
               <div class="dropdown dropdown-open" [ngClass]="{ disabled: selectedStage._id }">
                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
                   {{
-                  (selectedStage.type
-                  ? selectedStage.type
+                  (selectedStage?.type
+                  ? selectedStage?.type
                   : "choose_stage_type"
                   ) | translate
                   }}
@@ -160,7 +160,7 @@
                       let index = index
                     " (click)="switchStage(systemStage, index)">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
-                      systemStage.type | translate
+                      systemStage?.type | translate
                       }}</a>
                   </li>
                 </ul>

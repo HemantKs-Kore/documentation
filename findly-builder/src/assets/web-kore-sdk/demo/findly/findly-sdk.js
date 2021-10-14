@@ -32,7 +32,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   if (window.PerfectScrollbar && typeof PerfectScrollbar === 'function') {
     KRPerfectScrollbar = window.PerfectScrollbar;
   }
-
+ 
   return function ($, jstz, KRPerfectScrollbar) {
     //get dependencies as arguments here
 
@@ -928,6 +928,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div id="searchChatContainer" class="search-chat-container"></div>\
               <div class="search-body">\
             </div>\
+            <div id="myPreviewModal" class="modalImagePreview">\
+            <span class="closeElePreview">&times;</span>\
+           <div class="largePreviewContent"></div>\
+         </div>\
           </div>\
           <div class="search-modal-body hide">\
           </div>\
@@ -1005,6 +1009,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           </div>\
           <div class="greetingMsg">\
           </div>\
+          <div id="myPreviewModal" class="modalImagePreview">\
+          <span class="closeElePreview">&times;</span>\
+         <div class="largePreviewContent"></div>\
+       </div>\
         </div>\
         </script>';
         var parentContainer = $('#' + config.container);
@@ -1052,7 +1060,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{else}}\
               placeholder="Search here"\
             {{/if}}\
-            class="search-top-down search \
+            class="search-top-down search chatInputBox\
             {{if classes}}\
               ${classes}"\
             {{/if}}\
@@ -1210,7 +1218,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{else}}\
               background : ${searchConfig.searchBarFillColor} !important;" \
               {{/if}}\
-             id="search" name="search" class="bottom-up-search search" placeholder="${searchConfig.searchBarPlaceholderText}">\
+             id="search" name="search" class="bottom-up-search search chatInputBox" placeholder="${searchConfig.searchBarPlaceholderText}">\
             <div class="ksa-SpeakIcon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAETSURBVHgBxVPbSsNAEN2d3XRVSvqQBwNNQwmpgn3xC/x7/0ETEpG2oGAeTKVJ3HXH3Qch1KQiKfTAsJc5c/YyM4QMBO1zhGEYAYwWdg6gn/I8T7p4rGtzPr/xOWcLKat7rdUzIXw5Hl+W2+1btc+FLgGA2kWUa4PKGmO4FuLT6+SSgTi9AG8voii6OkT+8bczctwnNA3stGYXTTMqzOVmQRCcW1OKzBDx3VBcANj1Cvj+5BWAepR+GBKsOD+7s0apk0spSzO6dV0X7ZhflTidxoEQcG2q79Gc/mL30jSdMCZuHYcmWZatDgpYxHHsSkmWjFFPa5SIpFSKJ5vNQ0H+A/vrf2WG9gWaNtkL/Er6GmoQvgHqBWZkE0i8BAAAAABJRU5ErkJggg=="></div>\
             {{if searchConfig.searchButtonEnabled}}\
               <button class="search-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}"{{/if}} disabled>${searchConfig.buttonText}</button>\
@@ -1226,6 +1234,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div id="textFromServer"></div> \
             </div> \
           </div>\
+          <div id="myPreviewModal" class="modalImagePreview">\
+          <span class="closeElePreview">&times;</span>\
+         <div class="largePreviewContent"></div>\
+       </div>\
         </div>\
         </script>';
       // <p>{{html getHTMLForSearch(faq.answer)}}</p>\
@@ -1944,7 +1956,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <div class="ksa-searchContainer" style="position: relative; width: 100%; height: 100%;">\
           <div class="ksa-searchdiv">\
             <img class="searchIcon" src="./libs/images/search.svg" />\
-            <input id="search" name="search" class="Search" placeholder="How can we help you?">\
+            <input id="search" name="search" class="Search chatInputBox" placeholder="How can we help you?">\
             <button class="search-button">Go</button>\
           </div>\
         </div>\
@@ -8102,6 +8114,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       window.koreWidgetSDKInstance = _self;
     }
+    FindlySDK.prototype.initKorePicker = function(findlyConfig){
+      setTimeout(()=>{
+        if (window.KorePickers) {
+          this.config= findlyConfig;
+          this.config.chatContainer = $('.search-container');
+          var pickerConfig={
+          chatWindowInstance: this,
+          chatConfig: this.config,
+          }
+          var korePicker = new KorePickers(pickerConfig);
+          korePicker.init();
+          }
+          function addBottomSlider(){
+            $('.kore-chat-window').remove('.kore-action-sheet');
+            var actionSheetTemplate='<div class="kore-action-sheet hide">\
+            <div class="actionSheetContainer"></div>\
+            </div>';
+            $('.kore-chat-window').append(actionSheetTemplate);
+            }
+            addBottomSlider();
+      },3000)
+    }
     FindlySDK.prototype.enableRecent = function () {
       var _self = this;
       _self.pubSub.unsubscribe('sa-show-freq-data');
@@ -8735,6 +8769,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var livesearchAutoSuggestionHtml = $('.live-seach-auto-suggestion-parent');
       _self.bindPerfectScroll(livesearchAutoSuggestionHtml, '.search-body', null, 'searchBody');
       _self.bindPerfectScroll(livesearchAutoSuggestionHtml, '#autoSuggestionContainer', null, 'suggestionContainer');
+      if(_self.isDev){
+        _self.initKorePicker(config);
+      }
     };
     FindlySDK.prototype.initSearchAssistSDK = function (findlyConfig) {
       var _self = this;
@@ -8748,6 +8785,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.initialize(findlyConfig);
           _self.showSearch(null, response);
         }
+
+        _self.initKorePicker(findlyConfig);
       });
     }
     var searchConfigurationCopy = {};
@@ -22182,6 +22221,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (!$('body').hasClass('searchAssist-defaultTheme-kore')) {
         $('body').addClass('searchAssist-defaultTheme-kore');
       }
+      if(_self.isDev){
+        _self.initKorePicker(findlyConfig);
+      }
     }
     FindlySDK.prototype.getTopDownFacetsTabs = function () {
       var topDownFacetsTabs = '<script id="top-down-tabs-template" type="text/x-jqury-tmpl">\
@@ -22365,11 +22407,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getGreetingMsgTopDownTemplate = function () {
       var greetingMsgTemplate = '<script id="greeting-msg-top-down-template" type="text/x-jqury-tmpl">\
-                                      {{if searchConfig.welcomeMsg}}\
                                         <div class="search-greeting-box-top-down">\
-                                          <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">${searchConfig.welcomeMsg}</span>\
+                                          <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">\
+                                          {{if searchConfig.welcomeMsg}}\
+                                              ${searchConfig.welcomeMsg}\
+                                            {{else}}\
+                                              Hello! How can I help you today?\
+                                            {{/if}}\
+                                          </span>\
                                         </div>\
-                                      {{/if}}\
                                  </script>'
       return greetingMsgTemplate;
     }

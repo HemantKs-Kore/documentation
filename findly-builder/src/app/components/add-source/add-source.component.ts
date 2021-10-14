@@ -76,7 +76,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   blockHttpsMsgs = false;
   crwalOptionLabel = "Crawl Everything";
   crawlDepth: number;
-  maxUrlLimit: number = 500;
+  maxUrlLimit: number;
   botsConfigurationModalRef: any;
   submitted = false;
   showPassword = false;
