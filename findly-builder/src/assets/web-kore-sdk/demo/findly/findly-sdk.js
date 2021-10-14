@@ -22407,11 +22407,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getGreetingMsgTopDownTemplate = function () {
       var greetingMsgTemplate = '<script id="greeting-msg-top-down-template" type="text/x-jqury-tmpl">\
-                                      {{if searchConfig.welcomeMsg}}\
                                         <div class="search-greeting-box-top-down">\
-                                          <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">${searchConfig.welcomeMsg}</span>\
+                                          <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">\
+                                          {{if searchConfig.welcomeMsg}}\
+                                              ${searchConfig.welcomeMsg}\
+                                            {{else}}\
+                                              Hello! How can I help you today?\
+                                            {{/if}}\
+                                          </span>\
                                         </div>\
-                                      {{/if}}\
                                  </script>'
       return greetingMsgTemplate;
     }
