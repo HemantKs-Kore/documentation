@@ -928,6 +928,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div id="searchChatContainer" class="search-chat-container"></div>\
               <div class="search-body">\
             </div>\
+            <div id="myPreviewModal" class="modalImagePreview">\
+            <span class="closeElePreview">&times;</span>\
+           <div class="largePreviewContent"></div>\
+         </div>\
           </div>\
           <div class="search-modal-body hide">\
           </div>\
@@ -935,10 +939,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           </div>\
           <div class="search-body-full hide">\
           </div>\
-          <div id="myPreviewModal" class="modalImagePreview">\
-              <span class="closeElePreview">&times;</span>\
-             <div class="largePreviewContent"></div>\
-           </div>\
         </div>\
         </script>';
       var parentContainer = $('#' + config.container);
