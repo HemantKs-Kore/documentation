@@ -928,6 +928,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div id="searchChatContainer" class="search-chat-container"></div>\
               <div class="search-body">\
             </div>\
+            <div id="myPreviewModal" class="modalImagePreview">\
+            <span class="closeElePreview">&times;</span>\
+           <div class="largePreviewContent"></div>\
+         </div>\
           </div>\
           <div class="search-modal-body hide">\
           </div>\
@@ -935,10 +939,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           </div>\
           <div class="search-body-full hide">\
           </div>\
-          <div id="myPreviewModal" class="modalImagePreview">\
-              <span class="closeElePreview">&times;</span>\
-             <div class="largePreviewContent"></div>\
-           </div>\
         </div>\
         </script>';
       var parentContainer = $('#' + config.container);
@@ -22407,11 +22407,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getGreetingMsgTopDownTemplate = function () {
       var greetingMsgTemplate = '<script id="greeting-msg-top-down-template" type="text/x-jqury-tmpl">\
-                                      {{if searchConfig.welcomeMsg}}\
                                         <div class="search-greeting-box-top-down">\
-                                          <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">${searchConfig.welcomeMsg}</span>\
+                                          <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">\
+                                          {{if searchConfig.welcomeMsg}}\
+                                              ${searchConfig.welcomeMsg}\
+                                            {{else}}\
+                                              Hello! How can I help you today?\
+                                            {{/if}}\
+                                          </span>\
                                         </div>\
-                                      {{/if}}\
                                  </script>'
       return greetingMsgTemplate;
     }
