@@ -5342,6 +5342,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('.search-body').css('display', 'none');
                     $('.search-body').addClass('hide');
                     $('#autoSuggestionContainer').empty();
+                    $('.parent-search-live-auto-suggesition').hide();
                   }
                   console.log("searchConfigurationCopy", searchConfigurationCopy);
                   $('.search-body .finalResults').hide();
@@ -5780,18 +5781,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             } else {
               $('.bottom-up-suggestion').val('');
             }
-            if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val()) && !window.isBotLocked && !_self.vars.enterIsClicked) {
-              $('.search-body').css('display', 'block');
-              $('.search-body').removeClass('hide');
-              if (!window.isBotLocked) {
-                $('.parent-search-live-auto-suggesition').show();
-              }
-            } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val()) || window.isBotLocked) {
-              $('.search-body').css('display', 'none');
-              $('.search-body').addClass('hide');
-              $('#autoSuggestionContainer').empty();
-              $('.suggestion-search-data-parent').css('display', 'none');
-            }
+            // if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val()) && !window.isBotLocked && !_self.vars.enterIsClicked) {
+            //   $('.search-body').css('display', 'block');
+            //   $('.search-body').removeClass('hide');
+            //   if (!window.isBotLocked) {
+            //     $('.parent-search-live-auto-suggesition').show();
+            //   }
+            // } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val()) || window.isBotLocked) {
+            //   $('.search-body').css('display', 'none');
+            //   $('.search-body').addClass('hide');
+            //   $('#autoSuggestionContainer').empty();
+            //   $('.suggestion-search-data-parent').css('display', 'none');
+            // }
             _self.appendSuggestions();
             if (!($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
               if ($("#auto-query-box").find(".suggestion-box").length) {
@@ -6171,6 +6172,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           _self.pubSub.publish('sa-search-focus', {});
           _self.pubSub.publish('sa-handel-chat-container-view');
+          if ($('.greetingMsg').length) {
+            $('.greetingMsg').hide();
+          }
           if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
             if (!window.isBotLocked) {
               $('.search-body').removeClass('hide');
@@ -8561,6 +8565,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if ($('#greeting-msg-top-down').length) {
                 $('#greeting-msg-top-down').hide();
               }
+
               if ($("#auto-query-box").find(".suggestion-box").length) {
                 $('.suggestion-box').remove();
               }
@@ -20903,7 +20908,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.changeSearchContainerBackground = function () {
       var _self = this;
-      if ((($('.search-body').find('.resultsOfSearch').length && $('.search-body').is(':visible')) || $('.search-body').find('.recentContainer').length || $('.suggestion-search-data-parent').is(':visible') ) && !_self.vars.enterIsClicked) {
+      if (((($('.search-body').find('.resultsOfSearch').length && $('#search').val()) && $('.search-body').is(':visible')) || (_self.vars.searchObject.recents.length && !$('#search').val()) || $('.suggestion-search-data-parent').is(':visible') ) && !_self.vars.enterIsClicked) {
         if(!window.isBotLocked){
                       $('.parent-search-live-auto-suggesition').show();
                     }
