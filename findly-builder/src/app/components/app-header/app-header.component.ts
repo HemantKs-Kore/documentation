@@ -13,6 +13,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { from, interval, Subject, Subscription } from 'rxjs';
+import { environment } from '@kore.environment';
 import { startWith, elementAt, filter } from 'rxjs/operators';
 import * as moment from 'moment';
 
@@ -102,6 +103,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Invoices', routeId: '/invoices', quaryParms: {} },
     { displayName: 'Results Ranking', routeId: '/resultranking', quaryParms: {} }
   ]
+  private storageType = 'localStorage';
   public dockersList: Array<any> = [];
   public pollingSubscriber: any;
   public dockServiceSubscriber: any;
@@ -125,6 +127,9 @@ export class AppHeaderComponent implements OnInit {
     private appSelectionService: AppSelectionService,
   ) {
     this.userId = this.authService.getUserId();
+    if (environment && environment.USE_SESSION_STORE) {
+      this.storageType = 'sessionStorage';
+    }
   }
   ngOnInit() {
     this.routeChanged = this.appSelectionService.routeChanged.subscribe(res => {
@@ -334,6 +339,11 @@ export class AppHeaderComponent implements OnInit {
       hideSSOButtons: 'true',
       hideResourcesPageLink: 'true'
     }));
+    let jStoarge = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')):{}
+    if(jStoarge.currentAccount.accountConf){
+      jStoarge.currentAccount['accountConf'] = false;
+      window[this.storageType].setItem('jStorage',JSON.stringify(jStoarge))
+    }
     window.location.href = this.appUrlsService.marketURL();
   }
 
