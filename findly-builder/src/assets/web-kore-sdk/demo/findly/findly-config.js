@@ -4,9 +4,9 @@
 
     var botOptionsFindly = {};
     botOptionsFindly.logLevel = 'debug';
-    botOptionsFindly.koreAPIUrl = "https://qa.findly.ai/searchassistapi/";
+    botOptionsFindly.koreAPIUrl = "https://searchassist-qa.kore.ai/searchassistapi/";
 
-    botOptionsFindly.baseAPIServer = "https://qa.findly.ai";
+    botOptionsFindly.baseAPIServer = "https://searchassist-qa.kore.ai";
     function koreGenerateUUID() {
         console.info("generating UUID");
         var d = new Date().getTime();
@@ -24,18 +24,17 @@
     botOptionsFindly.JWTUrl = "https://mk2r2rmj21.execute-api.us-east-1.amazonaws.com/dev/users/sts";
     botOptionsFindly.userIdentity = koreGenerateUUID();// Provide users email id here
 
-    botOptionsFindly.botInfo = { chatBot: "July16 SB", "taskBotId": "st-7b7ad9da-c7ba-5ac3-a586-738e9cd3ff94" };
-    botOptionsFindly.clientId = "cs-3de4eecb-8ee9-5e8d-af00-c15b89156569";
-    botOptionsFindly.clientSecret = "xYBfkzqBETUUmKnbN8wyC93QuzzpBaDCLn1ZP229fgc=";
-    botOptionsFindly.searchIndexID = "sidx-0ca5560f-ba0d-5b90-9ff2-43d848e255cb";
-
-
-    // To modify the web socket url use the following option
-
+    botOptionsFindly.botInfo = { chatBot: "Covid Help", "taskBotId": "st-1847ca83-3ea9-519d-bfe4-7c993c8bc477" };
+    botOptionsFindly.clientId = "cs-30d2773b-0131-5e3f-b6d5-ed93cbae67c6";
+    botOptionsFindly.clientSecret = "UdsX+q2hBSNVttzDoARy05zCluj9b0Ns0f2LRjmFwow=";
+    botOptionsFindly.searchIndexID = "sidx-810d6e38-b522-54d3-8f2b-cdee7667fb34";
+    
+    
+ // To modify the web socket url use the following option
     // For Socket Connection
     botOptionsFindly.reWriteSocketURL = {
         protocol: 'wss',
-        hostname: 'qa.findly.ai'
+        hostname: 'searchassist-qa.kore.ai'
     };
 
     // CVS Caremark configs //
@@ -67,18 +66,21 @@
     } else {
         setTimeout(function () {
             $('body').addClass('futureBank');
-        }, 200);
+        }, 500);
     }
     botOptionsFindly.interface = 'top-down';
     var findlyConfig = {
         botOptions: botOptionsFindly,
         viaSocket: true,
+        pickersConfig: {
+            showDatePickerIcon: false, //set true to show datePicker icon
+            showDateRangePickerIcon: false, //set true to show dateRangePicker icon
+            showClockPickerIcon: false, //set true to show clockPicker icon
+            showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
+            showradioOptionMenuPickerIcon: false //set true to show Radio Option Template icon
+            }
     };
-
+    
     KoreSDK.findlyConfig = findlyConfig
     window.findlyConfig = findlyConfig
-
-    // KoreSDK.chatConfig = {};
-    // KoreSDK.chatConfig.googleMapsAPIKey = "";
-
 })(window.KoreSDK);

@@ -814,6 +814,7 @@ body.top-down .top-down-wrapper{
   font-weight: normal;
   padding-left: 26px;
   line-height: 20px;
+  padding-bottom: 2px;
 }
 .sdk-top-down-interface .kr-sg-radiobutton .radio-custom + .radio-custom-label::before {
   content: '';
@@ -1324,7 +1325,9 @@ body.top-down .top-down-wrapper{
   font-weight: initial !important;
   margin-right: 15px !important;
 }
-
+.sdk-top-down-interface .all-product-details .search-heads.show-all.sdk-show-classification:hover{
+  color: var(--sdk-primary-blue-color) !important;
+}
 .sdk-top-down-interface .faqs-search-data-container{
     clear: both;
     /* margin-bottom: 30px; */
