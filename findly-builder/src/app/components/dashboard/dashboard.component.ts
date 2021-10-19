@@ -334,7 +334,7 @@ export class DashboardComponent implements OnInit {
     this.totalSearchSum = 0;
     for (var i = 0; i < this.searchHistogram.length; i++) {
       summaryData.push(Math.max(this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks));
-      if (this.dateType == 'hour') {
+      if (this.dateType == 'hour' && i > 0 && i <= 24) {
         totaldata.push([i + 'hr', this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks,i + 'hr'])
       } else if (this.dateType == 'week' || this.dateType == 'custom') {
         let date = new Date(this.searchHistogram[i].date);
@@ -400,6 +400,7 @@ export class DashboardComponent implements OnInit {
 
       xAxis: [{
         data: dateList,
+        type: 'category',
         // type: 'time',
         minInterval: 8,
         boundaryGap: false,

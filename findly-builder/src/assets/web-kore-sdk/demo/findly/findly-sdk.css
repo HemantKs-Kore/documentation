@@ -13847,7 +13847,7 @@ border: 0;
     background: #FFFFFF;
     box-shadow: 0px 2px 5px rgba(32, 33, 36, 0.2);
     border-radius: 6px;
-    z-index: 2;
+    z-index: 3;
 }
 .searchAssist-kore-chat-window .suggestion-search-data-parent .title-suggestion{
     font-weight: 600;
