@@ -472,6 +472,7 @@
                                                                 [enableSearch]="false" [totalFrequentLines]="19"
                                                                 include=[people] [showSingleCategory]="false"
                                                                 [hideObsolete]="true" (emojiClick)="addEmoji($event)"
+                                                                [emojisToShowFilter]="filterEmojis"
                                                                 [i18n]="configEmoji">
                                                             </emoji-mart>
                                                         </perfect-scrollbar>
@@ -678,7 +679,12 @@
                                     <div class="avatar-with-greeting-text">
                                         <div class="greeting-message-avatar"
                                             [ngStyle]="{'background':searchObject.searchInteractionsConfig.welcomeMsgFillColor,'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">
-                                            {{searchObject.searchInteractionsConfig.welcomeMsg}}</div>
+                                            {{searchObject.searchInteractionsConfig.welcomeMsg}}
+                                            <div class="arrow-bottom-"
+                                                [ngStyle]="{'background':searchObject.searchInteractionsConfig.welcomeMsgFillColor,'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">
+
+                                            </div>
+                                        </div>
                                         <div class="avatar-img">
                                             <img src="assets/icons/search-interface/avatar-sdk.svg">
                                         </div>
