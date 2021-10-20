@@ -928,6 +928,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div id="searchChatContainer" class="search-chat-container"></div>\
               <div class="search-body">\
             </div>\
+            <div id="myPreviewModal" class="modalImagePreview">\
+            <span class="closeElePreview">&times;</span>\
+           <div class="largePreviewContent"></div>\
+         </div>\
           </div>\
           <div class="search-modal-body hide">\
           </div>\
@@ -935,10 +939,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           </div>\
           <div class="search-body-full hide">\
           </div>\
-          <div id="myPreviewModal" class="modalImagePreview">\
-              <span class="closeElePreview">&times;</span>\
-             <div class="largePreviewContent"></div>\
-           </div>\
         </div>\
         </script>';
       var parentContainer = $('#' + config.container);
@@ -5342,6 +5342,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('.search-body').css('display', 'none');
                     $('.search-body').addClass('hide');
                     $('#autoSuggestionContainer').empty();
+                    $('.parent-search-live-auto-suggesition').hide();
                   }
                   console.log("searchConfigurationCopy", searchConfigurationCopy);
                   $('.search-body .finalResults').hide();
@@ -5780,18 +5781,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             } else {
               $('.bottom-up-suggestion').val('');
             }
-            if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val()) && !window.isBotLocked && !_self.vars.enterIsClicked) {
-              $('.search-body').css('display', 'block');
-              $('.search-body').removeClass('hide');
-              if (!window.isBotLocked) {
-                $('.parent-search-live-auto-suggesition').show();
-              }
-            } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val()) || window.isBotLocked) {
-              $('.search-body').css('display', 'none');
-              $('.search-body').addClass('hide');
-              $('#autoSuggestionContainer').empty();
-              $('.suggestion-search-data-parent').css('display', 'none');
-            }
+            // if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val()) && !window.isBotLocked && !_self.vars.enterIsClicked) {
+            //   $('.search-body').css('display', 'block');
+            //   $('.search-body').removeClass('hide');
+            //   if (!window.isBotLocked) {
+            //     $('.parent-search-live-auto-suggesition').show();
+            //   }
+            // } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val()) || window.isBotLocked) {
+            //   $('.search-body').css('display', 'none');
+            //   $('.search-body').addClass('hide');
+            //   $('#autoSuggestionContainer').empty();
+            //   $('.suggestion-search-data-parent').css('display', 'none');
+            // }
             _self.appendSuggestions();
             if (!($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
               if ($("#auto-query-box").find(".suggestion-box").length) {
@@ -6171,6 +6172,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           _self.pubSub.publish('sa-search-focus', {});
           _self.pubSub.publish('sa-handel-chat-container-view');
+          if ($('.greetingMsg').length) {
+            $('.greetingMsg').hide();
+          }
           if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
             if (!window.isBotLocked) {
               $('.search-body').removeClass('hide');
@@ -8561,6 +8565,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if ($('#greeting-msg-top-down').length) {
                 $('#greeting-msg-top-down').hide();
               }
+
               if ($("#auto-query-box").find(".suggestion-box").length) {
                 $('.suggestion-box').remove();
               }
@@ -20903,7 +20908,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.changeSearchContainerBackground = function () {
       var _self = this;
-      if ((($('.search-body').find('.resultsOfSearch').length && $('.search-body').is(':visible')) || $('.search-body').find('.recentContainer').length || $('.suggestion-search-data-parent').is(':visible') ) && !_self.vars.enterIsClicked) {
+      if (((($('.search-body').find('.resultsOfSearch').length && $('#search').val()) && $('.search-body').is(':visible')) || (_self.vars.searchObject.recents.length && !$('#search').val()) || $('.suggestion-search-data-parent').is(':visible') ) && !_self.vars.enterIsClicked) {
         if(!window.isBotLocked){
                       $('.parent-search-live-auto-suggesition').show();
                     }
@@ -22407,11 +22412,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getGreetingMsgTopDownTemplate = function () {
       var greetingMsgTemplate = '<script id="greeting-msg-top-down-template" type="text/x-jqury-tmpl">\
-                                      {{if searchConfig.welcomeMsg}}\
                                         <div class="search-greeting-box-top-down">\
-                                          <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">${searchConfig.welcomeMsg}</span>\
+                                          <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">\
+                                          {{if searchConfig.welcomeMsg}}\
+                                              ${searchConfig.welcomeMsg}\
+                                            {{else}}\
+                                              Hello! How can I help you today?\
+                                            {{/if}}\
+                                          </span>\
                                         </div>\
-                                      {{/if}}\
                                  </script>'
       return greetingMsgTemplate;
     }
