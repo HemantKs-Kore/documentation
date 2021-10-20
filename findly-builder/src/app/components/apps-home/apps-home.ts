@@ -132,8 +132,8 @@ export class AppsListingComponent implements OnInit {
   showBoarding: boolean = true;
   public getAllApps() {
     this.service.invoke('get.apps').subscribe(res => {
-      this.prepareApps(res);
       if (res && res.length) {
+        this.prepareApps(res);
         this.workflowService.showAppCreationHeader(false);
         this.selectedAppType('All');
         this.sortApp('Created Date');
@@ -147,7 +147,7 @@ export class AppsListingComponent implements OnInit {
         //   this.inlineManual.visited('CREATE_APP')
         // }
         this.showBoarding = true;
-        this.openBoradingJourney()
+        this.openBoradingJourney();
       }
     }, errRes => {
       console.log(errRes);
