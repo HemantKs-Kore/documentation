@@ -1846,27 +1846,28 @@
                     [checked]="templateDataBind.layout.behaviour != 'webpage'">
                   <label for="radio-postback" class="radio-custom-label">Postback</label>
                 </div>
-                <!-- <div class="kr-sg-input-text mt-3" *ngIf="templateDataBind.layout.isClickable">
+                <div class="kr-sg-input-text mt-3" *ngIf="templateDataBind.layout.isClickable">
                   <div class="search_block">
                     <div class="label-text mb-1">URL</div>
                     <div class="row m-0 align-items-center">
                       <div class="kr-sg-dropdowns">
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                           <img src="assets/icons/search_gray.svg" class="search-icon">
-                          <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown"
-                            data-toggle="dropdown"></button>
+                          <button id="btn_select_facet_field"
+                            class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
                           <input type="text" maxlength="60" placeholder="Search Field" id="facets-search-input"
                             class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown">
                           <ul class="dropdown-menu content-menu" id="facets-search-with-dropdown-menu">
                             <perfect-scrollbar class="scroll-search-field">
-                              <li *ngFor="let field of img_fieldData" [id] = "field._id" (click)="filedSelect('image',field)"><a>{{field.fieldName}}</a></li>
+                              <li *ngFor="let field of img_fieldData" [id]="field._id"
+                                (click)="filedSelect('image',field)"><a>{{field.fieldName}}</a></li>
                             </perfect-scrollbar>
                           </ul>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div> -->
+                </div>
               </div>
             </div>
           </perfect-scrollbar>
