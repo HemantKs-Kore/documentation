@@ -6163,6 +6163,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         $(dataHTML).off('focus', '#search').on('focus', '#search', function (e) {
           _self.vars.enterIsClicked = false;
+          if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
+            _self.pubSub.publish('sa-input-keyup');
+            }
           if (!_self.vars.isSocketInitialize) {
             _self.bot.init(_self.vars.botConfig, _self.config.messageHistoryLimit);
             _self.bindSocketEvents();
@@ -19295,7 +19298,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (_self.vars.filterObject && _self.vars.filterObject.length) {
         if (!_self.vars.isPriorfiltersApplied) {
-          _self.vars.scrollPageNumber = 0;
+          // _self.vars.scrollPageNumber = 0;
         }
       }
 
@@ -22118,6 +22121,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //     container: "conversation-body"
         // });
         $('#conversation-container').show();
+        if ($('.search-container').hasClass('no-history')) {
+          $('.search-container').removeClass('no-history');
+        }
         $('#sa-conversation-box').prop('disabled', false);
         $('#sa-conversation-box').attr('placeholder', 'Type message...');
         $('#action-title').empty();
