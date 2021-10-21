@@ -15,7 +15,6 @@ import { DockStatusService } from '../../services/dockstatusService/dock-status.
 import { from, interval, Subject, Subscription } from 'rxjs';
 import { environment } from '@kore.environment';
 import { startWith, elementAt, filter } from 'rxjs/operators';
-import { environment } from '@kore.environment';
 import * as moment from 'moment';
 
 declare const $: any;
@@ -108,7 +107,6 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Invoices', routeId: '/invoices', quaryParms: {} },
     { displayName: 'Results Ranking', routeId: '/resultranking', quaryParms: {} }
   ]
-  private storageType = 'localStorage';
   public dockersList: Array<any> = [];
   public pollingSubscriber: any;
   public dockServiceSubscriber: any;
