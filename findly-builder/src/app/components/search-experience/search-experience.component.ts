@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs';
 import { LocalStoreService } from './../../services/localstore.service';
 import { NgbDropdown, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { InlineManualService } from '@kore.services/inline-manual.service';
-import { Emoji } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 declare const $: any;
 @Component({
@@ -104,7 +103,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   greeting_msg_index: number;
   configEmoji = {
     categories: {
-      people: ''
+      people: 'People'
     },
     skintones: {
       1: 'Default Skin Tone',
@@ -415,10 +414,14 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   findIndex(event) {
     this.greeting_msg_index = event.target.selectionStart;
   }
+  //filter emojis
+  filterEmojis(data) {
+    return !(['263A-FE0F', '1F972', '1F978'].includes(data)) && data.length <= 5;
+  }
   //add emoji based on selection
   addEmoji(event) {
     const emoji = event.emoji.native;
-    if (this.searchObject.searchInteractionsConfig.welcomeMsg.length <= 58 && !(["☺️", "🥲"].includes(emoji))) {
+    if (this.searchObject.searchInteractionsConfig.welcomeMsg.length <= 58) {
       if (this.greeting_msg_index) {
         this.searchObject.searchInteractionsConfig.welcomeMsg = [this.searchObject.searchInteractionsConfig.welcomeMsg.slice(0, this.greeting_msg_index), emoji, this.searchObject.searchInteractionsConfig.welcomeMsg.slice(this.greeting_msg_index)].join('');
       }

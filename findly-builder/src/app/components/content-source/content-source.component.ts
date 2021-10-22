@@ -205,7 +205,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isJavaScriptRendered = true;
   blockHttpsMsgs = false;
   crawlDepth: number;
-  maxUrlLimit: number = 500;
+  maxUrlLimit: number;
   crwalOptionLabel = '';
   structuredDataModalRef : any;
   addStructuredDataModalPopRef: any;
@@ -1808,9 +1808,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.crawlDepth = 0;
       this.maxUrlLimit = 0;
     }
-    if(value < 500 && valueFrom == 'maxUrlLimit'){
-      this.maxUrlLimit = 500;
-    }
+    // if(value < 500 && valueFrom == 'maxUrlLimit'){
+    //   this.maxUrlLimit = 500;
+    // }
   }
 
   clicksViews(type) {

@@ -32,7 +32,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   if (window.PerfectScrollbar && typeof PerfectScrollbar === 'function') {
     KRPerfectScrollbar = window.PerfectScrollbar;
   }
-
+ 
   return function ($, jstz, KRPerfectScrollbar) {
     //get dependencies as arguments here
 
@@ -928,6 +928,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div id="searchChatContainer" class="search-chat-container"></div>\
               <div class="search-body">\
             </div>\
+            <div id="myPreviewModal" class="modalImagePreview">\
+            <span class="closeElePreview">&times;</span>\
+           <div class="largePreviewContent"></div>\
+         </div>\
           </div>\
           <div class="search-modal-body hide">\
           </div>\
@@ -1005,6 +1009,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           </div>\
           <div class="greetingMsg">\
           </div>\
+          <div id="myPreviewModal" class="modalImagePreview">\
+          <span class="closeElePreview">&times;</span>\
+         <div class="largePreviewContent"></div>\
+       </div>\
         </div>\
         </script>';
         var parentContainer = $('#' + config.container);
@@ -1052,7 +1060,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{else}}\
               placeholder="Search here"\
             {{/if}}\
-            class="search-top-down search \
+            class="search-top-down search chatInputBox\
             {{if classes}}\
               ${classes}"\
             {{/if}}\
@@ -1210,7 +1218,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{else}}\
               background : ${searchConfig.searchBarFillColor} !important;" \
               {{/if}}\
-             id="search" name="search" class="bottom-up-search search" placeholder="${searchConfig.searchBarPlaceholderText}">\
+             id="search" name="search" class="bottom-up-search search chatInputBox" placeholder="${searchConfig.searchBarPlaceholderText}">\
             <div class="ksa-SpeakIcon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAETSURBVHgBxVPbSsNAEN2d3XRVSvqQBwNNQwmpgn3xC/x7/0ETEpG2oGAeTKVJ3HXH3Qch1KQiKfTAsJc5c/YyM4QMBO1zhGEYAYwWdg6gn/I8T7p4rGtzPr/xOWcLKat7rdUzIXw5Hl+W2+1btc+FLgGA2kWUa4PKGmO4FuLT6+SSgTi9AG8voii6OkT+8bczctwnNA3stGYXTTMqzOVmQRCcW1OKzBDx3VBcANj1Cvj+5BWAepR+GBKsOD+7s0apk0spSzO6dV0X7ZhflTidxoEQcG2q79Gc/mL30jSdMCZuHYcmWZatDgpYxHHsSkmWjFFPa5SIpFSKJ5vNQ0H+A/vrf2WG9gWaNtkL/Er6GmoQvgHqBWZkE0i8BAAAAABJRU5ErkJggg=="></div>\
             {{if searchConfig.searchButtonEnabled}}\
               <button class="search-button" {{if searchConfig}}style="border : solid 1px ${searchConfig.buttonBorderColor}; background : ${searchConfig.buttonFillColor}; color : ${searchConfig.buttonTextColor}"{{/if}} disabled>${searchConfig.buttonText}</button>\
@@ -1226,6 +1234,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div id="textFromServer"></div> \
             </div> \
           </div>\
+          <div id="myPreviewModal" class="modalImagePreview">\
+          <span class="closeElePreview">&times;</span>\
+         <div class="largePreviewContent"></div>\
+       </div>\
         </div>\
         </script>';
       // <p>{{html getHTMLForSearch(faq.answer)}}</p>\
@@ -1459,7 +1471,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="structured-data-header total-structured-data-wrap" appearanceType="task">\
                     <span class="search-heads">ACTIONS</span>\
                     <div class="search-heads show-all sdk-show-classification display-none">\
-                      Show All Actions\
+                      Show all Actions\
                     </div>\
                   </div>\
                   <div class="faqBtnContainer suggestion_actions_container">\
@@ -1944,7 +1956,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <div class="ksa-searchContainer" style="position: relative; width: 100%; height: 100%;">\
           <div class="ksa-searchdiv">\
             <img class="searchIcon" src="./libs/images/search.svg" />\
-            <input id="search" name="search" class="Search" placeholder="How can we help you?">\
+            <input id="search" name="search" class="Search chatInputBox" placeholder="How can we help you?">\
             <button class="search-button">Go</button>\
           </div>\
         </div>\
@@ -5330,6 +5342,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('.search-body').css('display', 'none');
                     $('.search-body').addClass('hide');
                     $('#autoSuggestionContainer').empty();
+                    $('.parent-search-live-auto-suggesition').hide();
                   }
                   console.log("searchConfigurationCopy", searchConfigurationCopy);
                   $('.search-body .finalResults').hide();
@@ -5768,18 +5781,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             } else {
               $('.bottom-up-suggestion').val('');
             }
-            if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val()) && !window.isBotLocked && !_self.vars.enterIsClicked) {
-              $('.search-body').css('display', 'block');
-              $('.search-body').removeClass('hide');
-              if (!window.isBotLocked) {
-                $('.parent-search-live-auto-suggesition').show();
-              }
-            } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val()) || window.isBotLocked) {
-              $('.search-body').css('display', 'none');
-              $('.search-body').addClass('hide');
-              $('#autoSuggestionContainer').empty();
-              $('.suggestion-search-data-parent').css('display', 'none');
-            }
+            // if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val()) && !window.isBotLocked && !_self.vars.enterIsClicked) {
+            //   $('.search-body').css('display', 'block');
+            //   $('.search-body').removeClass('hide');
+            //   if (!window.isBotLocked) {
+            //     $('.parent-search-live-auto-suggesition').show();
+            //   }
+            // } else if ((!$('body').hasClass('top-down') && !$('.bottom-up-search').val()) || window.isBotLocked) {
+            //   $('.search-body').css('display', 'none');
+            //   $('.search-body').addClass('hide');
+            //   $('#autoSuggestionContainer').empty();
+            //   $('.suggestion-search-data-parent').css('display', 'none');
+            // }
             _self.appendSuggestions();
             if (!($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
               if ($("#auto-query-box").find(".suggestion-box").length) {
@@ -5877,7 +5890,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     _self.hideBottomUpAllResults();
                   } else {
                     $(".top-down-suggestion").val(($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()));
-                    $('#live-search-result-box').hide();
+                    // $('#live-search-result-box').hide();
                   }
 
                   if ((searchConfigurationCopy.liveSearchResultsLimit !== 0)) {
@@ -6150,6 +6163,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         $(dataHTML).off('focus', '#search').on('focus', '#search', function (e) {
           _self.vars.enterIsClicked = false;
+          if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
+            _self.pubSub.publish('sa-input-keyup');
+            }
           if (!_self.vars.isSocketInitialize) {
             _self.bot.init(_self.vars.botConfig, _self.config.messageHistoryLimit);
             _self.bindSocketEvents();
@@ -6159,6 +6175,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           _self.pubSub.publish('sa-search-focus', {});
           _self.pubSub.publish('sa-handel-chat-container-view');
+          if ($('.greetingMsg').length) {
+            $('.greetingMsg').hide();
+          }
           if (searchConfigurationCopy && searchConfigurationCopy.showSearchesEnabled) {
             if (!window.isBotLocked) {
               $('.search-body').removeClass('hide');
@@ -6545,6 +6564,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if ($('body').hasClass('top-down') && res.isAutoTriggeredBotAction || (res.payload || {}).template_type == 'quick_replies' && (res.payload || {}).isAutoTriggeredBotAction) {
           if (!$('#conversation-container').is(':visible')) {
             $('#conversation-container').show();
+            if ($('.search-container').hasClass('no-history')) {
+              $('.search-container').removeClass('no-history');
+            }
             $('#sa-conversation-box').prop('disabled', false);
             $('#sa-conversation-box').attr('placeholder', 'Type message...');
           }
@@ -8099,6 +8121,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       window.koreWidgetSDKInstance = _self;
     }
+    FindlySDK.prototype.initKorePicker = function(findlyConfig){
+      setTimeout(()=>{
+        if (window.KorePickers) {
+          this.config= findlyConfig;
+          this.config.chatContainer = $('.search-container');
+          var pickerConfig={
+          chatWindowInstance: this,
+          chatConfig: this.config,
+          }
+          var korePicker = new KorePickers(pickerConfig);
+          korePicker.init();
+          }
+          function addBottomSlider(){
+            $('.kore-chat-window').remove('.kore-action-sheet');
+            var actionSheetTemplate='<div class="kore-action-sheet hide">\
+            <div class="actionSheetContainer"></div>\
+            </div>';
+            $('.kore-chat-window').append(actionSheetTemplate);
+            }
+            addBottomSlider();
+      },3000)
+    }
     FindlySDK.prototype.enableRecent = function () {
       var _self = this;
       _self.pubSub.unsubscribe('sa-show-freq-data');
@@ -8524,6 +8568,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if ($('#greeting-msg-top-down').length) {
                 $('#greeting-msg-top-down').hide();
               }
+
               if ($("#auto-query-box").find(".suggestion-box").length) {
                 $('.suggestion-box').remove();
               }
@@ -8732,6 +8777,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var livesearchAutoSuggestionHtml = $('.live-seach-auto-suggestion-parent');
       _self.bindPerfectScroll(livesearchAutoSuggestionHtml, '.search-body', null, 'searchBody');
       _self.bindPerfectScroll(livesearchAutoSuggestionHtml, '#autoSuggestionContainer', null, 'suggestionContainer');
+      if(_self.isDev){
+        _self.initKorePicker(config);
+      }
     };
     FindlySDK.prototype.initSearchAssistSDK = function (findlyConfig) {
       var _self = this;
@@ -8745,6 +8793,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.initialize(findlyConfig);
           _self.showSearch(null, response);
         }
+
+        _self.initKorePicker(findlyConfig);
       });
     }
     var searchConfigurationCopy = {};
@@ -15175,7 +15225,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                    Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15383,7 +15433,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                    Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15479,7 +15529,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                    Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15590,7 +15640,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                    Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15669,7 +15719,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                    Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15759,7 +15809,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                    Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15855,7 +15905,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                    Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -15955,7 +16005,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                    Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -16034,7 +16084,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                    Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -16124,7 +16174,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                    Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -16220,7 +16270,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                    Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -16320,7 +16370,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                    Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -16399,7 +16449,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       Files\
                     {{/if}}\
                     <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                      Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                      Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -16466,7 +16516,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                    Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -16538,7 +16588,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                    Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -16610,7 +16660,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     Files\
                   {{/if}}\
                   <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                    Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                    Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                   </div>\
                 </div>\
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -16674,7 +16724,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       Files\
                     {{/if}}\
                     <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                      Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                      Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -16743,7 +16793,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       Files\
                     {{/if}}\
                     <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                      Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                      Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -16817,7 +16867,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       Files\
                     {{/if}}\
                     <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                      Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                      Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -16891,7 +16941,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       Files\
                     {{/if}}\
                     <div class="search-heads show-all sdk-show-classification {{if isLiveSearch == false && isSearch == false}} display-block{{/if}}">\
-                      Show All {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
+                      Show all {{if appearanceType == "data"}}Data{{/if}}{{if appearanceType == "faq"}}FAQs{{/if}}{{if appearanceType == "web"}}WebPages{{/if}}{{if appearanceType == "file"}}Files{{/if}}\
                     </div>\
                   </div>\
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
@@ -19248,7 +19298,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (_self.vars.filterObject && _self.vars.filterObject.length) {
         if (!_self.vars.isPriorfiltersApplied) {
-          _self.vars.scrollPageNumber = 0;
+          // _self.vars.scrollPageNumber = 0;
         }
       }
 
@@ -20861,7 +20911,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.changeSearchContainerBackground = function () {
       var _self = this;
-      if ((($('.search-body').find('.resultsOfSearch').length && $('.search-body').is(':visible')) || $('.search-body').find('.recentContainer').length || $('.suggestion-search-data-parent').is(':visible') ) && !_self.vars.enterIsClicked) {
+      if (((($('.search-body').find('.resultsOfSearch').length && $('#search').val()) && $('.search-body').is(':visible')) || (_self.vars.searchObject.recents.length && !$('#search').val()) || $('.suggestion-search-data-parent').is(':visible') ) && !_self.vars.enterIsClicked) {
         if(!window.isBotLocked){
                       $('.parent-search-live-auto-suggesition').show();
                     }
@@ -21041,7 +21091,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.cancel-search').show();
           } else {
             $('.cancel-search').hide();
-            $('#live-search-result-box').hide();
+            // $('#live-search-result-box').hide();
           }
         });
         $('#search-box-container').off('keyup', '#search').on('keyup', '#search', function (e) {
@@ -22071,6 +22121,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //     container: "conversation-body"
         // });
         $('#conversation-container').show();
+        if ($('.search-container').hasClass('no-history')) {
+          $('.search-container').removeClass('no-history');
+        }
         $('#sa-conversation-box').prop('disabled', false);
         $('#sa-conversation-box').attr('placeholder', 'Type message...');
         $('#action-title').empty();
@@ -22179,6 +22232,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (!$('body').hasClass('searchAssist-defaultTheme-kore')) {
         $('body').addClass('searchAssist-defaultTheme-kore');
       }
+      if(_self.isDev){
+        _self.initKorePicker(findlyConfig);
+      }
     }
     FindlySDK.prototype.getTopDownFacetsTabs = function () {
       var topDownFacetsTabs = '<script id="top-down-tabs-template" type="text/x-jqury-tmpl">\
@@ -22210,7 +22266,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         <div class="structured-data-header total-structured-data-wrap" appearanceType="task">\
                                           ACTIONS\
                                           <div class="search-heads show-all sdk-show-classification display-none">\
-                                            Show All Actions\
+                                            Show all Actions\
                                           </div>\
                                         </div>\
                                       {{/if}}\
@@ -22258,7 +22314,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                       <div class="structured-data-header total-structured-data-wrap list-view-action-header" appearanceType="task">\
                                         ACTIONS\
                                         <div class="search-heads show-all sdk-show-classification display-none">\
-                                          Show All Actions\
+                                          Show all Actions\
                                         </div>\
                                       </div>\
                                     {{/if}}\
@@ -22306,7 +22362,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         <div class="structured-data-header total-structured-data-wrap" appearanceType="task">\
                                           ACTIONS\
                                           <div class="search-heads show-all sdk-show-classification display-none">\
-                                            Show All Actions\
+                                            Show all Actions\
                                           </div>\
                                         </div>\
                                       {{/if}}\
@@ -22362,11 +22418,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.getGreetingMsgTopDownTemplate = function () {
       var greetingMsgTemplate = '<script id="greeting-msg-top-down-template" type="text/x-jqury-tmpl">\
-                                      {{if searchConfig.welcomeMsg}}\
                                         <div class="search-greeting-box-top-down">\
-                                          <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">${searchConfig.welcomeMsg}</span>\
+                                          <span class="search-greeting-text" style="color:${searchConfig.welcomeMsgColor}">\
+                                          {{if searchConfig.welcomeMsg}}\
+                                              ${searchConfig.welcomeMsg}\
+                                            {{else}}\
+                                              Hello! How can I help you today?\
+                                            {{/if}}\
+                                          </span>\
                                         </div>\
-                                      {{/if}}\
                                  </script>'
       return greetingMsgTemplate;
     }

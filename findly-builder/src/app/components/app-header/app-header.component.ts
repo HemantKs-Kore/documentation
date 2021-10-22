@@ -13,8 +13,8 @@ import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { from, interval, Subject, Subscription } from 'rxjs';
-import { startWith, elementAt, filter } from 'rxjs/operators';
 import { environment } from '@kore.environment';
+import { startWith, elementAt, filter } from 'rxjs/operators';
 import * as moment from 'moment';
 
 declare const $: any;
@@ -346,9 +346,15 @@ export class AppHeaderComponent implements OnInit {
       return_to: this.appUrlsService.completeAppPath(),
       showLogin: 'true',
       // comingFromKey: 'isFindlyApp',
+      checkSwitchfrom : 'business-app',
       hideSSOButtons: 'true',
       hideResourcesPageLink: 'true'
     }));
+    let jStoarge = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')):{}
+    if(jStoarge.currentAccount.accountConf){
+      jStoarge.currentAccount['accountConf'] = false;
+      window[this.storageType].setItem('jStorage',JSON.stringify(jStoarge))
+    }
     window.location.href = this.appUrlsService.marketURL();
   }
 
