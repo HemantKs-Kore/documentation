@@ -4794,10 +4794,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (responsePayload.fieldName == element.fieldName && responsePayload.facetType == element.facetType) {
               // var indexOfMatchedFilter = 0, elementsTraversed = 0;
               if (element.facetType == 'value') {
-                if (element.facetValue.length > 1) {
+                if (element.facetValue.length > 0) {
                   element.facetValue.slice(0).forEach(function (item) {
                     if (item === key) {
                       element.facetValue.splice(element.facetValue.indexOf(item), 1);
+                      if (!element.facetValue.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
                     }
                     console.log(item);
                   })
@@ -4809,6 +4812,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
                     } else {
                       element.facetValue.splice(0, 1, key);
+                      if (!element.facetValue.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
                     }
                   } else {
                     element.facetValue = [];
@@ -4817,10 +4823,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
               }
               else {
-                if (element.facetRange.length > 1) {
+
+                if (element.facetRange.length > 0) {
                   element.facetRange.slice(0).forEach(function (item) {
                     if (JSON.stringify(item) == JSON.stringify(key)) {
                       element.facetRange.splice(element.facetRange.indexOf(item), 1)
+                      if (!element.facetRange.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
                     }
                     console.log(item);
                   })
@@ -4832,6 +4842,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
                     } else {
                       element.facetRange.splice(0, 1, key);
+                      if (!element.facetRange.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
                     }
                   } else {
                     element.facetRange = [];
@@ -4934,8 +4947,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   element.facetValue.slice(0).forEach(function (item) {
                     if (item === key) {
                       element.facetValue.splice(element.facetValue.indexOf(item), 1);
+                      if (!element.facetValue.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
                     } else {
                         element.facetValue.splice(0, 1, key);
+                        if (!element.facetValue.length) {
+                          _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                        }
                     }
                     console.log(item);
                   })
@@ -4947,6 +4966,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
                     } else {
                       element.facetValue.splice(0, 1, key);
+                      if (!element.facetValue.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
                     }
                   } else {
                     element.facetValue = [];
@@ -4955,10 +4977,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
               }
               else {
-                if (element.facetRange.length > 1) {
+                if (element.facetRange.length > 0) {
                   element.facetRange.slice(0).forEach(function (item) {
                     if (JSON.stringify(item) == JSON.stringify(key)) {
                       element.facetRange.splice(element.facetRange.indexOf(item), 1)
+                      if (!element.facetRange.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
                     }
                     console.log(item);
                   })
@@ -4970,6 +4995,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
                     } else {
                       element.facetRange.splice(0, 1, key);
+                      if (!element.facetRange.length) {
+                        _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                      }
                     }
                   } else {
                     element.facetRange = [];
@@ -6163,6 +6191,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         $(dataHTML).off('focus', '#search').on('focus', '#search', function (e) {
           _self.vars.enterIsClicked = false;
+          if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
+            _self.pubSub.publish('sa-input-keyup');
+            }
           if (!_self.vars.isSocketInitialize) {
             _self.bot.init(_self.vars.botConfig, _self.config.messageHistoryLimit);
             _self.bindSocketEvents();
@@ -19295,7 +19326,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (_self.vars.filterObject && _self.vars.filterObject.length) {
         if (!_self.vars.isPriorfiltersApplied) {
-          _self.vars.scrollPageNumber = 0;
+          // _self.vars.scrollPageNumber = 0;
         }
       }
 
@@ -22118,6 +22149,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //     container: "conversation-body"
         // });
         $('#conversation-container').show();
+        if ($('.search-container').hasClass('no-history')) {
+          $('.search-container').removeClass('no-history');
+        }
         $('#sa-conversation-box').prop('disabled', false);
         $('#sa-conversation-box').attr('placeholder', 'Type message...');
         $('#action-title').empty();

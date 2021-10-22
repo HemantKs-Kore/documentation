@@ -511,7 +511,7 @@
         "copy": "Copy",
         "App_Name": "App Name",
         "App_ID": "App ID",
-        "Client_ID": "Client ID",
+        "client_id": "Client ID",
         "Client_Secret_ID": "Client Secret ID",
         "Search_ID": "Search ID",
         "view_JSON_web_encryption_public_key ": "View JSON Web Encryption Public Key ",
