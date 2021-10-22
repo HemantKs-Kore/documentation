@@ -8,6 +8,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { Subscription } from 'rxjs';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-result-templates',
@@ -22,10 +23,10 @@ export class ResultTemplatesComponent implements OnInit {
   serachIndexId: any;
   indexPipelineId: any;
   allFieldData: any;
-  preview_title: any;
-  preview_desc: any;
-  preview_img: any;
-  preview_url: any;
+  preview_title: any = '';
+  preview_desc: any = '';
+  preview_img: any = '';
+  preview_url: any = '';
   templateDataBind: any = {
     layout: {
       behaviour: "webpage",
@@ -37,11 +38,11 @@ export class ResultTemplatesComponent implements OnInit {
       title: "Web Pages",
     },
     mapping: {
-      description: "fld-e2c3b9e8-69a7-5510-a355-d6a8904f33ec",
-      heading: "fld-7f79d838-7230-58cb-bb3c-95f438bb8d3d",
-      img: "fld-1ed42ad4-e565-58ce-8869-7757420bc793",
-      url: "fld-40c5ab74-c5af-5a45-be4e-3859e6f62134",
-      searchIndexId: "sidx-e3de5037-033f-5bc1-95ff-b1e252f2b1eb",
+      description: "",
+      heading: "",
+      img: "",
+      url: "",
+      searchIndexId: "",
     },
     type: ''
   };
@@ -59,6 +60,7 @@ export class ResultTemplatesComponent implements OnInit {
   searchTemplatesDisabled: boolean = false;
   fieldPopupType: string;
   fieldPopup: boolean = false;
+  submitted: boolean = false;
   selectedTab: string = 'fullSearch';
   tabList: any = [{ id: "liveSearch", name: "Live Search" }, { id: "conversationalSearch", name: "Conversational Search" }, { id: "fullSearch", name: "Full Page Result" }]
   resultListObj: any = {
@@ -73,6 +75,7 @@ export class ResultTemplatesComponent implements OnInit {
     }
   };
   fieldValues: any;
+  settingsId: string;
   templateNames: any = ['list', 'carousel', 'grid'];
   filterFacets: any = [{ name: 'Left Aligned', type: 'left' }, { name: 'Right Aligned', type: 'right' }, { name: 'Top Aligned', type: 'top' }]
   @ViewChild('customModal') customModal: KRModalComponent;
@@ -215,6 +218,7 @@ export class ResultTemplatesComponent implements OnInit {
     };
     this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
       this.resultListObj = res;
+      this.settingsId = res._id;
       const obj = { _id: this.resultListObj.groupSetting.fieldId, fieldName: this.resultListObj.groupSetting.fieldName };
       this.getFieldValues(obj);
     }, errRes => {
@@ -235,12 +239,13 @@ export class ResultTemplatesComponent implements OnInit {
     };
     this.service.invoke('get.templateById', quaryparms).subscribe((res: any) => {
       this.templateDataBind = res;
-      let listTypeText = ""
-      res.layout.listType == "classic" ? listTypeText = 'Classic List' : 'Plain List';
-      this.templateDatalistDisplay(listTypeText);
+      this.templateDatalistext = res.layout.listType == "classic" ? 'Classic List' : 'Plain List';
       this.fieldsDisplay(res.mapping);
       this.openTemplateModal();
+      this.templateTypeSelection(res.layout.layoutType);
+      this.customtemplateBtndisable = false;
     }, errRes => {
+      this.customtemplateBtndisable = false;
       this.errorToaster(errRes, 'Failed to fetch Template');
     });
   }
@@ -275,7 +280,7 @@ export class ResultTemplatesComponent implements OnInit {
     this.templateDataBind.layout.layoutType = layoutType;
   }
   renderTitleChange() {
-    this.templateDataBind.layout.renderTitle = !this.templateDataBind.layout.renderTitle
+    this.templateDataBind.layout.renderTitle = !this.templateDataBind.layout.renderTitle;
   }
   clickableChange() {
     this.templateDataBind.layout.isClickable = !this.templateDataBind.layout.isClickable
@@ -286,7 +291,6 @@ export class ResultTemplatesComponent implements OnInit {
   //Open Template Modal
   openTemplateConatiner(templateData) {
     this.customtemplateBtndisable = true;
-    console.log(templateData)
     this.getTemplate(templateData)
   }
 
@@ -341,7 +345,6 @@ export class ResultTemplatesComponent implements OnInit {
       fieldId: field._id
     };
     this.service.invoke('get.facetValues', quaryparms).subscribe(res => {
-      console.log("getFieldValues res", res);
       this.fieldValues = res.values;
       // if (res.values.length) {
       //   res.values.forEach(ele => {
@@ -363,14 +366,19 @@ export class ResultTemplatesComponent implements OnInit {
     }
   }
   //new result template based on template type
-  getTemplateData(type) {
+  getTemplateData(type, index?) {
+    this.resultListObj.defaultTemplateType = type;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     const payload = { type: type };
     this.service.invoke('post.templates', quaryparms, payload).subscribe(res => {
-      console.log("getFieldValues res", res);
+      if (index) {
+        this.resultListObj.groupSetting.conditions[index].templateId = res._id;
+      }
+      this.resultListObj.defaultTemplateId = res._id;
+      this.updateSettings();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get field values');
     });
@@ -378,10 +386,89 @@ export class ResultTemplatesComponent implements OnInit {
   //add new templates values row dynamically
   addNewTemplateValues(type, index?) {
     if (type === 'add') {
-      this.resultListObj.groupSetting.conditions.push({ fieldValue: '', templateType: '' })
+      this.resultListObj.groupSetting.conditions.push({ fieldValue: '', templateType: '', templateId: '' })
     }
     else if (type === 'delete') {
       this.resultListObj.groupSetting.conditions.splice(index, 1);
+      this.updateSettings();
+    }
+  }
+  //result group configuration popup
+  overwriteConfiguration() {
+    const modalData: any = {
+      newTitle: 'Existing result group configurations will be overwritten with the field you chose.',
+      body: 'Are you sure you want to continue ?',
+      buttons: [{ key: 'yes', label: 'Continue', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+      confirmationPopUp: true
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: modalData,
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.updateSettings(dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+  }
+  //update settings
+  updateSettings(dialogRef?) {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      settingsId: this.settingsId,
+      indexPipelineId: this.indexPipelineId
+    };
+    this.service.invoke('update.settings', quaryparms, this.resultListObj).subscribe((res: any) => {
+      if (res) {
+        this.notificationService.notify('Result setting saved successfully', 'success');
+        if (dialogRef) {
+          dialogRef.close();
+          this.closeCustomModal();
+          this.getAllSettings(this.selectedTab);
+        }
+      }
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to update settings');
+    });
+  }
+  //update template
+  updateTemplate() {
+    this.submitted = true;
+    if (this.validateTemplate()) {
+      const quaryparms: any = {
+        searchIndexId: this.serachIndexId,
+        templateId: this.templateDataBind._id,
+        indexPipelineId: this.indexPipelineId
+      };
+      if (this.templateDataBind.layout.renderTitle === false) {
+        this.templateDataBind.layout.title = '';
+      }
+      this.service.invoke('update.template', quaryparms, this.templateDataBind).subscribe((res: any) => {
+        if (res) {
+          this.closeTemplateModal();
+          this.submitted = false;
+          this.notificationService.notify('Template updated successfully', 'success');
+        }
+      }, errRes => {
+        this.errorToaster(errRes, 'Failed to update template');
+      });
+    }
+    else {
+      this.notificationService.notify('Enter the required fields to proceed', 'error');
+    }
+  }
+  //validate template fields
+  validateTemplate() {
+    if (this.preview_title.length) {
+      return true;
+    }
+    else {
+      return false;
     }
   }
   //copy configuration method
@@ -401,7 +488,6 @@ export class ResultTemplatesComponent implements OnInit {
         this.notificationService.notify(' Result copied successfully', 'success')
       }, errRes => {
         this.copyConfigObj.loader = false;
-        this.copyConfigObj.message = 'Configurations applied from Live Search | 10 Jul 2020, 10:00 a.m.'
         this.errorToaster(errRes, 'Failed to get field values');
       });
     }
@@ -409,6 +495,7 @@ export class ResultTemplatesComponent implements OnInit {
       this.copyConfigObj = { loader: false, message: '' };
     }
   }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();

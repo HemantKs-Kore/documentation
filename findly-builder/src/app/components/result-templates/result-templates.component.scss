@@ -2153,6 +2153,10 @@ padding: 10px 20px 10px 20px;
                         input {
                             padding-left: 10px;
                         }
+                        input.input-search.err-block{
+                            background-color: rgb(255, 255, 255);
+                            border-color: rgb(221, 54, 70);
+                        }
                     }
                 }
                 .valuse-available-fileds{
@@ -2330,16 +2334,16 @@ padding: 10px 20px 10px 20px;
                             }
                             .search-results-click-settings{
                                 padding: 20px 0;
-                                .kr-sg-toggle{
-                                    input{
-                                        &:checked {
-                                            + .slider{
-                                                background-color: #E7F1FF;
-                                                box-shadow: 0 0 1px #E7F1FF;
-                                            }
-                                        }
-                                    }
-                                }
+                                // .kr-sg-toggle{
+                                //     input{
+                                //         &:checked {
+                                //             + .slider{
+                                //                 background-color: #E7F1FF;
+                                //                 box-shadow: 0 0 1px #E7F1FF;
+                                //             }
+                                //         }
+                                //     }
+                                // }
                             }
                         }
                     }

@@ -15,7 +15,6 @@ import { DockStatusService } from '../../services/dockstatusService/dock-status.
 import { from, interval, Subject, Subscription } from 'rxjs';
 import { environment } from '@kore.environment';
 import { startWith, elementAt, filter } from 'rxjs/operators';
-import { environment } from '@kore.environment';
 import * as moment from 'moment';
 
 declare const $: any;
@@ -60,8 +59,8 @@ export class AppHeaderComponent implements OnInit {
   queryPipelineId;
   indexPipelineId;
   domain = '';
-  selectAccountDetails : any = {};
-  associatedAccounts : any = {};
+  selectAccountDetails: any = {};
+  associatedAccounts: any = {};
   private storageType = 'localStorage';
   indexSubscription: Subscription;
   subscription: Subscription;
@@ -108,7 +107,6 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Invoices', routeId: '/invoices', quaryParms: {} },
     { displayName: 'Results Ranking', routeId: '/resultranking', quaryParms: {} }
   ]
-  private storageType = 'localStorage';
   public dockersList: Array<any> = [];
   public pollingSubscriber: any;
   public dockServiceSubscriber: any;
@@ -194,10 +192,10 @@ export class AppHeaderComponent implements OnInit {
     });
     this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
     this.associatedAccounts = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.associatedAccounts : {};
-    this.domain =  window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
+    this.domain = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount.domain : '';
   }
-  switchAccountInternal(account){
-    window[this.storageType].setItem('selectedAccount',JSON.stringify(account))
+  switchAccountInternal(account) {
+    window[this.storageType].setItem('selectedAccount', JSON.stringify(account))
     this.selectAccountDetails = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
     this.router.navigate([''], { skipLocationChange: true })
   }
@@ -348,14 +346,14 @@ export class AppHeaderComponent implements OnInit {
       return_to: this.appUrlsService.completeAppPath(),
       showLogin: 'true',
       // comingFromKey: 'isFindlyApp',
-      checkSwitchfrom : 'business-app',
+      checkSwitchfrom: 'business-app',
       hideSSOButtons: 'true',
       hideResourcesPageLink: 'true'
     }));
-    let jStoarge = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')):{}
-    if(jStoarge.currentAccount.accountConf){
+    let jStoarge = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')) : {}
+    if (jStoarge.currentAccount.accountConf) {
       jStoarge.currentAccount['accountConf'] = false;
-      window[this.storageType].setItem('jStorage',JSON.stringify(jStoarge))
+      window[this.storageType].setItem('jStorage', JSON.stringify(jStoarge))
     }
     window.location.href = this.appUrlsService.marketURL();
   }
