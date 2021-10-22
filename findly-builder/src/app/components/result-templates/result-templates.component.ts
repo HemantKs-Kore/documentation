@@ -464,11 +464,20 @@ export class ResultTemplatesComponent implements OnInit {
   }
   //validate template fields
   validateTemplate() {
-    if (this.preview_title.length) {
-      return true;
+    if (this.templateDataBind.layout.layoutType === 'l1') {
+      return this.preview_title.length ? true : false;
     }
-    else {
-      return false;
+    else if (this.templateDataBind.layout.layoutType === 'l2') {
+      return this.preview_desc.length ? true : false;
+    }
+    else if (this.templateDataBind.layout.layoutType === 'l3') {
+      return (this.preview_title.length && this.preview_desc.length) ? true : false;
+    }
+    else if (['l4', 'l6', 'l7', 'l9'].includes(this.templateDataBind.layout.layoutType)) {
+      return (this.preview_title.length && this.preview_desc.length && this.preview_img.length) ? true : false;
+    }
+    else if (this.templateDataBind.layout.layoutType === 'l8') {
+      return (this.preview_desc.length && this.preview_img.length) ? true : false;
     }
   }
   //copy configuration method
