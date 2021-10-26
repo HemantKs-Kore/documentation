@@ -629,11 +629,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
         else {
-          if (this.extension != '.pdf') {
+          if (this.extension === '.csv' || this.extension === '.json') {
             showProg = true;
           }
           else {
-            this.notificationService.notify('Please select a valid csv and json file', 'error');
+            this.notificationService.notify('Please select a valid csv or json file', 'error');
           }
         }
       }
