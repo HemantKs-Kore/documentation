@@ -7072,9 +7072,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             if (topMatchTask) {
               $(".resultsOfSearch .task-wrp[contentid='" + topMatchTask.contentId + "'] button:last").trigger('click');
-            } else if (topMatchFAQ) {
+            }
+            if (topMatchFAQ) {
               // bestFAQDiv.find(".accordion").trigger('click');//
-              if ($('body').hasClass('top-down')){
+              if ($('body').hasClass('top-down')) {
                 var bestFAQDiv = $(".all-product-details .task-wrp[contentid='" + topMatchFAQ.contentId + "']:last");
                 bestFAQDiv.addClass('faq-highlight');
               } else {
