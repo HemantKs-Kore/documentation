@@ -21940,18 +21940,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.all-result-container').removeClass('left-align-filter');
         $('.all-result-container').removeClass('right-align-filter');
         //center align facets top down//
-      } else if (type === 'left') {
+      } else {
         // left align facets top down//
         $('.all-result-container').addClass('left-align-filter');
         $('.all-result-container').removeClass('center-align-filter');
         $('.all-result-container').removeClass('right-align-filter');
         //left align facets top down//
-      } else {
-        // right align facets top down//
-        $('.all-result-container').addClass('right-align-filter');
-        $('.all-result-container').removeClass('center-align-filter');
-        $('.all-result-container').removeClass('left-align-filter');
-        //right align facets top down//
       }
     }
     // top-search-template --end///
