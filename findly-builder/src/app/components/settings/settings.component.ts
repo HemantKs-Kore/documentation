@@ -80,7 +80,6 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-
     // this.getCredential();
     // this.getdialog();
     this.getLinkedBot();
