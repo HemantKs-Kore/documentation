@@ -280,11 +280,11 @@
                 </mat-form-field>
               </div>
             </div>
-            <div class="add-condition-btn" (click)="addCondition('add')" *ngIf="selectedStage.condition.type=='basic'">
-              <img src="assets/icons/Workbench/add-blue.svg" class="blue-add">
-              <img src="assets/icons/Workbench/add-grey.svg" class="grey-add">
-              Add Condition
-            </div>
+
+            <button class="kr-sg-button-secondary btn_lg" (click)="addCondition('add')">
+              <img src="assets/icons/pricing/plus-small.svg">
+              <span>AND</span>
+            </button>
             <div>
               <div *ngIf="selectedStage.condition.type=='script'">
                 <div class="clear">
