@@ -183,7 +183,7 @@
                 ngbTooltip="{{'workbench.give_stage_name_of_your_choice_to_create_multiple' | translate}}"
                 tooltipClass="workbench_tolltips m-0" class="pl-1" src="assets/icons/help_gray.svg" />
             </div>
-            <input type="text" placeholder="{{'workbench.please_enter_stage_name' | translate}}" maxlength="60"
+            <input type="text" placeholder="{{'workbench.please_enter_stage_name' | translate}}" 
               (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name" />
           </div>
           <div class="kr-sg-input-text mb-2">
@@ -200,7 +200,7 @@
                 </span>
               </span>
             </div>
-            <input type="text" placeholder="{{'workbench.define_condition' | translate}}" maxlength="60"
+            <input type="text" placeholder="{{'workbench.define_condition' | translate}}" 
               (keyup)="changesDetected = true" autocomplete="off" class="input-text"
               [(ngModel)]="selectedStage.condition" />
             <!-- <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div> -->
@@ -279,7 +279,7 @@
                     {{'workbench.field_name' | translate}}
                   </div>
                   <div class="position-relative">
-                    <input type="text" placeholder="{{'workbench.enter_target' | translate}}" maxlength="60"
+                    <input type="text" placeholder="{{'workbench.enter_target' | translate}}" 
                       (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                       data-toggle="dropdown" [(ngModel)]="map.source_field" />
                     <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
@@ -305,7 +305,7 @@
                     {{'workbench.field_name' | translate}}
                   </div>
                   <div class="position-relative ">
-                    <input type="text" placeholder="{{'workbench.enter_target' | translate}}" maxlength="60"
+                    <input type="text" placeholder="{{'workbench.enter_target' | translate}}" 
                       (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                       data-toggle="dropdown" [(ngModel)]="map.target_field" />
                     <ul class="source-field-dropdown dropdown-menu content-menu"
@@ -326,7 +326,7 @@
                     map.operation !== 'rename'
                   ">
                   <div class="label-text">{{'workbench.value' | translate}}</div>
-                  <input type="text" placeholder="{{'workbench.value' | translate}}" maxlength="60" class="input-text"
+                  <input type="text" placeholder="{{'workbench.value' | translate}}"  class="input-text"
                     [(ngModel)]="map.value" />
                 </div>
                 <div class="delete_icon" (click)="removeConfig(i, selectedStage.config.mappings)">
@@ -411,7 +411,7 @@
                 {{'workbench.field_name' | translate}}
               </div>
               <div class="position-relative ">
-                <input type="text" placeholder="{{'workbench.enter_source_field' | translate}}" maxlength="60"
+                <input type="text" placeholder="{{'workbench.enter_source_field' | translate}}" 
                   (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                   data-toggle="dropdown" [(ngModel)]="
                   newMappingObj.field_mapping.defaultValue.source_field
@@ -449,7 +449,7 @@
               </div>
               <div class="position-relative ">
                 <input type="text" placeholder="{{'workbench.enter_name' | translate}}"
-                  class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" maxlength="60" [(ngModel)]="
+                  class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown"  [(ngModel)]="
                   newMappingObj.field_mapping.defaultValue.target_field
                 " />
                 <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
@@ -488,7 +488,7 @@
                 ">
                 {{'workbench.new_name' | translate}}
               </div>
-              <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" maxlength="60"
+              <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" 
                 [(ngModel)]="newMappingObj.field_mapping.defaultValue.value" />
             </div>
             <div class="colse_form">
@@ -526,7 +526,7 @@
                   [ngClass]="{'col-6': selectedStage.type == 'keyword_extraction' || selectedStage.type === 'semantic_meaning'}">
                   <div class="label-text">{{'workbench.source_field' | translate}}</div>
                   <div class="position-relative ">
-                    <input type="text" placeholder="{{'workbench.value' | translate}}" maxlength="60"
+                    <input type="text" placeholder="{{'workbench.value' | translate}}" 
                       (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
                       data-toggle="dropdown" [(ngModel)]="map.source_field" />
                     <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
@@ -652,7 +652,7 @@
                 <div class="kr-sg-input-text col-4 input-box"
                   [ngClass]="{'col-6': selectedStage.type == 'keyword_extraction' || selectedStage.type === 'semantic_meaning'}">
                   <div class="label-text">{{'workbench.target_field' | translate}}</div>
-                  <input type="text" placeholder="{{'workbench.value' | translate}}" maxlength="60"
+                  <input type="text" placeholder="{{'workbench.value' | translate}}" 
                     (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field" />
                 </div>
                 <div class="delete_icon" (click)="removeConfig(i, selectedStage.config.mappings)">
@@ -671,7 +671,7 @@
               <div class="label-text">{{'workbench.source_field' | translate}}</div>
               <div class="position-relative ">
                 <input type="text" placeholder="{{'workbench.value' | translate}}"
-                  class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown" maxlength="60" [(ngModel)]="
+                  class="input-text dropdown-toggle dropdown-input" data-toggle="dropdown"  [(ngModel)]="
                     newMappingObj[selectedStage.type].defaultValue.source_field
                   " />
                 <ul class="source-field-dropdown dropdown-menu content-menu" id="fields-search-with-dropdown-menu"
@@ -829,7 +829,7 @@
             <div class="kr-sg-input-text col-4 input-box"
               [ngClass]="{'col-6': selectedStage.type == 'keyword_extraction' || selectedStage.type === 'semantic_meaning'}">
               <div class="label-text">{{'workbench.target_field' | translate}}</div>
-              <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" maxlength="60"
+              <input type="text" placeholder="{{'workbench.value' | translate}}" class="input-text" 
                 [(ngModel)]="
                   newMappingObj[selectedStage.type].defaultValue.target_field
                 " />
@@ -849,7 +849,7 @@
             <div class="kr-sg-input-text-area">
               <div class="label-text">&lt;/&gt;{{'workbench.painless' | translate}}</div>
               <textarea placeholder="{{'workbench.please_enter_script' | translate}}" class="input- d-none"
-                maxlength="250" (keyup)="
+                 (keyup)="
                   addCustomScript(
                     newMappingObj.custom_script.defaultValue.script
                   )
@@ -881,7 +881,7 @@
       </div>
       <div class="d-flex">
         <div class="kr-sg-input-search ml-2" [ngClass]="{'d-none': !showSearch}">
-          <input type="text" placeholder="{{'search' | translate}}" maxlength="60" class="input-search"
+          <input type="text" placeholder="{{'search' | translate}}"  class="input-search"
             (keyup)="searchBySimulator()" [ngClass]="{'pl-33':!searchSimulator,'pl-2':searchSimulator}"
             autocomplete="off" id="fieldSearchId" [(ngModel)]="searchSimulator"
             (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"

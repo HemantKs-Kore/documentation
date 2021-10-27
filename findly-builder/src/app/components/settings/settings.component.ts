@@ -85,9 +85,15 @@ export class SettingsComponent implements OnInit {
     // this.getdialog();
     this.getLinkedBot();
     this.prepareChannelData();
-    this.enableConfiguration = this.selectedApp.channels[0].enable
+    this.credentialsSelection()
   }
-
+  credentialsSelection(){
+    if(this.selectedApp && this.selectedApp.channels.length){
+      this.selectedApp.channels.forEach(element => {
+          this.enableConfiguration = element.enable;
+      });
+    }
+  }
   prepareChannelData() {
     
     const channels = JSON.parse(JSON.stringify(this.channels))
@@ -258,7 +264,14 @@ export class SettingsComponent implements OnInit {
 
           //   });
           // }
-          this.listData = this.channnelConguired.apps[this.channnelConguired.apps.length - 1];
+          if(this.channnelConguired && this.channnelConguired.apps.length){
+            this.channnelConguired.apps.forEach(element => {
+              if(element.appUsage){
+                this.listData = element;
+              }
+            });
+          }
+          //this.listData = this.channnelConguired.apps[this.channnelConguired.apps.length - 1];
           this.slider = 3
           this.configFlag = true;
         }
